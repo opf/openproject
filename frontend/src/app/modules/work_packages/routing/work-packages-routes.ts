@@ -176,9 +176,10 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     url: '/watchers',
     component: WorkPackageWatchersTabComponent
   },
-  {
-    name: 'work-packages.calendar.**',
-    url: '/calendar',
-    loadChildren: '../calendar/openproject-calendar.module#OpenprojectCalendarModule'
-  },
+  // Avoid lazy-loading the routes for now
+  // {
+  //   name: 'work-packages.calendar.**',
+  //   url: '/calendar',
+  //   loadChildren: '../calendar/openproject-calendar.module#OpenprojectCalendarModule'
+  // },
 ];

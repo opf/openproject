@@ -77,6 +77,8 @@ import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-edito
 import {OpenprojectRouterModule} from "core-app/modules/router/openproject-router.module";
 import {OpenprojectWorkPackageRoutesModule} from "core-app/modules/work_packages/openproject-work-package-routes.module";
 import {BrowserModule} from "@angular/platform-browser";
+import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
+import {FullCalendarModule} from "ng-fullcalendar";
 
 @NgModule({
   imports: [
@@ -99,6 +101,10 @@ import {BrowserModule} from "@angular/platform-browser";
     // Work packages and their routes
     OpenprojectWorkPackagesModule,
     OpenprojectWorkPackageRoutesModule,
+
+    // Calendar module
+    OpenprojectCalendarModule,
+    FullCalendarModule,
 
     // Plugin hooks and modules
     OpenprojectPluginsModule,

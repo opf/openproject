@@ -230,7 +230,7 @@ export class WorkPackagesListService {
    * After the update, the new query is reloaded (e.g. for the work packages)
    */
   public create(query:QueryResource, name:string):Promise<QueryResource> {
-    let form = this.states.query.form.value!;
+    let form = this.tableState.queryForm.value!;
 
     query.name = name;
 
@@ -280,7 +280,7 @@ export class WorkPackagesListService {
   public save(query?:QueryResource) {
     query = query || this.currentQuery;
 
-    let form = this.states.query.form.value!;
+    let form = this.tableState.queryForm.value!;
 
     let promise = this.QueryDm.update(query, form);
 
@@ -302,7 +302,7 @@ export class WorkPackagesListService {
     let promise = this.QueryDm.toggleStarred(query);
 
     promise.then((query:QueryResource) => {
-      this.states.query.resource.putValue(query);
+      this.tableState.query.putValue(query);
 
       this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
@@ -317,7 +317,7 @@ export class WorkPackagesListService {
   }
 
   private conditionallyLoadForm(query:QueryResource):void {
-    let currentForm = this.states.query.form.value;
+    let currentForm = this.tableState.queryForm.value;
 
     if (!currentForm || query.$links.update.$href !== currentForm.$href) {
       setTimeout(() => this.loadForm(query), 0);
@@ -351,7 +351,7 @@ export class WorkPackagesListService {
   }
 
   public get currentQuery() {
-    return this.states.query.resource.value!;
+    return this.tableState.query.value!;
   }
 
   private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:number, projectIdentifier?:string):Promise<QueryResource> {

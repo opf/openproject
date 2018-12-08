@@ -259,8 +259,7 @@ lol:
     label_attachments: crwdns107380:0crwdne107380:0
     label_drop_files: crwdns107382:0crwdne107382:0
     label_drop_files_hint: crwdns107384:0crwdne107384:0
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
-      single files.
+    label_drop_folders_hint: crwdns109280:0crwdne109280:0
     label_add_attachments: crwdns107386:0crwdne107386:0
     label_formattable_attachment_hint: crwdns107388:0crwdne107388:0
     label_remove_file: crwdns107390:0%{fileName}crwdne107390:0
