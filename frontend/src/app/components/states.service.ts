@@ -45,7 +45,7 @@ export class States extends StatesGroup {
   users = multiInput<UserResource>();
 
   // Work Package query states
-  query = new QueryStates();
+  queries = new QueryAvailableDataStates();
 
   // Current focused work package (e.g, row preselected for details button)
   focusedWorkPackage:InputState<WPFocusState> = input<WPFocusState>();
@@ -59,18 +59,6 @@ export class States extends StatesGroup {
   public add(name:string, state:MultiInputState<HalResource>) {
     this[name] = state;
   }
-}
-
-export class QueryStates {
-
-  // the query associated with the table
-  resource = input<QueryResource>();
-
-  // the query form associated with the table
-  form = input<QueryFormResource>();
-
-  // Keep available data
-  available = new QueryAvailableDataStates();
 }
 
 export class QueryAvailableDataStates {

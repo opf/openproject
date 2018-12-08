@@ -58,7 +58,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     let startDate = (calendarView.start as Moment).format('YYYY-MM-DD');
     let endDate = (calendarView.end as Moment).format('YYYY-MM-DD');
 
-    if (!this.wpTableFilters.currentState && this.states.query.resource.value) {
+    if (!this.wpTableFilters.currentState && this.tableState.query.value) {
       // nothing to do
     } else if (!this.wpTableFilters.currentState) {
       let queryProps = this.defaultQueryProps(startDate, endDate);
@@ -107,11 +107,10 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   }
 
   private setCalendarsDate() {
-    if (!this.states.query.resource.value) {
+    const query = this.tableState.query.value;
+    if (!query) {
       return;
     }
-
-    let query = this.states.query.resource.value;
 
     let datesIntervalFilter = _.find(query.filters || [], {'id': 'datesInterval'}) as any;
 

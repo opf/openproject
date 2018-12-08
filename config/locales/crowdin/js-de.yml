@@ -278,8 +278,8 @@ de:
     label_attachments: Dateien
     label_drop_files: Dateien hier ablegen
     label_drop_files_hint: oder klicken Sie um Dateien hinzuzufügen
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
-      single files.
+    label_drop_folders_hint: Ordner können nicht als Anhänge hinzugefügt werden. Bitte
+      wählen Sie einzelne Dateien aus.
     label_add_attachments: Anhänge hinzufügen
     label_formattable_attachment_hint: Ziehen Sie Dateien in dieses Feld hinein oder
       fügen Sie sie aus der Zwischenablage ein, um sie Hinzuzufügen und zu Verlinken.
@@ -302,9 +302,9 @@ de:
       show_modal: Hilfe-Text für dieses Attribut anzeigen
     onboarding:
       steps:
-        welcome: Lernen Sie in drei Minuten die <b>wichtigsten Funktionen</b> kennen.
+        welcome: Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen.
           <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese
-          jederzeit wieder neu starten.
+          jeder Zeit wieder neu starten.
         project_selection: 'Bitte wählen Sie eines der Projekte mit hilfreichen Demodaten
           aus: <br> Das <b>„Demo project“</b> passt für klassisches Projektmanagement,
           das <b>„Scrum project“</b> ist geeignet für agiles Projektmanagement.'
@@ -313,12 +313,12 @@ de:
         members: Sie können hier neue <b>Mitglieder</b> zu Ihrem Projekt hinzufügen.
         wiki: Im <b>Wiki</b> können Sie gemeinsam mit dem Team Informationen dokumentieren
           und eine Wissensdatenbank aufbauen.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
+        backlogs_overview: Sie können Anforderungen in der <b>Backlogs Ansicht</b>
+          verwalten. <br> Rechts befindet sich das Product Backlog oder Bug Backlog,
+          links die jeweiligen Sprints. Hier können Sie <b>Epics, User Stories und
+          Fehler</b> anlegen und mit Drag & Drop priorisieren und einem Sprint zuweisen.
+        backlogs_task_board_arrow: Um das <b>Taskboard</b> zu sehen, öffnen Sie das
+          Sprint Drop-down Menü...
         backlogs_task_board_select: "… und wählen Sie den Menüpunkt <b>Taskboard</b>."
         backlogs_task_board: Im <b>Taskboard</b> sehen Sie die Aufgaben eines Sprints.
           Sie können neue Aufgaben oder Sprint-Hindernisse mit dem + Icon einer User
@@ -328,9 +328,9 @@ de:
         wp_list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt,
           z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr.           <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten.
           Ein Doppelklick auf die Zeile öffnet die Detailansicht.'
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities, dependencies
-          or comments.
+        wp_full_view: In der <b>Arbeitspaket-Detailansicht</b> finden Sie alle wichtigen
+          Informationen, wie Beschreibung, Status und Priorität, Aktivitäten, Abhängigkeiten
+          oder Kommentare.
         wp_back_button: Mit dem Pfeil kommen Sie zurück in die Listenansicht.
         wp_create_button: Mit <b>Anlegen</b> Können Sie neue Arbeitspakete Ihrem Projekt
           hinzufügen.
@@ -368,7 +368,7 @@ de:
       attribute_groups:
         error_duplicate_group_name: Der Name %{group} wird mehr als einmal verwendet.
           Gruppen-Namen müssen eindeutig sein.
-        error_no_table_configured: Please configure a table for %{group}.
+        error_no_table_configured: Bitte konfigurieren Sie eine Tabelle für %{group}.
         reset_title: Formularkonfiguration zurücksetzen
         confirm_reset: 'Achtung: Wollen Sie die Formkonfiguration wirklich zurücksetzen?
           Alle Attribute und Gruppen werden auf ihre Standardwerte zurück gesetzt
@@ -382,18 +382,18 @@ de:
         more_information: Weitere Informationen
         nevermind: Nein danke
         filter_types:
-          parent: being child of
-          precedes: preceding
-          follows: following
-          relates: relating to
-          duplicates: duplicating
+          parent: die Unteraufgaben sind von
+          precedes: die Vörganger sind von
+          follows: die Nachfolger sind von
+          relates: die verwandt sind mit
+          duplicates: die duplizierend sind gegenüber
           duplicated: Dupliziert durch
-          blocks: blocking
+          blocks: die eine Blockierung sind von
           blocked: Blockiert durch
-          partof: being part of
-          includes: including
-          requires: requiring
-          required: required by
+          partof: die enthalten sind in
+          includes: die einschließend sind von
+          requires: die erfordernd sind von
+          required: die benötigt werden von
     watchers:
       label_loading: Lade Beobachter...
       label_error_loading: Beim Laden der Beobachter ist ein Fehler aufgetreten
@@ -421,19 +421,19 @@ de:
       hierarchy_headline: Hierarchie
       children_headline: Untergeordnete Arbeitspakete
     relation_buttons:
-      set_parent: Set parent
+      set_parent: Übergeordnetes Arbeitspaket festlegen
       change_parent: Übergeordnetes Arbeitspaket ändern
       remove_parent: Übergeordnetes Arbeitspaket entfernen
       group_by_wp_type: Nach Arbeitspaket-Typ gruppieren
       group_by_relation_type: Nach Relations-Typ gruppieren
       add_parent: Übergeordnetes Arbeitspaket setzen
       add_new_child: Neue Unteraufgabe
-      create_new: Create new
-      add_existing: Add existing
+      create_new: Neu erstellen
+      add_existing: Bestehende hinzufügen
       add_existing_child: Unteraufgabe zuweisen
       remove_child: Unteraufgabe entfernen
       add_new_relation: Neue Beziehung erstellen
-      add_existing_relation: Add existing relation
+      add_existing_relation: Bestehende Beziehung hinzufügen
       update_description: Beschreibung dieser Beziehung erstellen oder bearbeiten
       toggle_description: Beschreibung der Beziehung ein-/ausklappen
       update_relation: Klicken um den Beziehungstyp zu ändern
@@ -761,8 +761,8 @@ de:
           relation_columns: Möchten Sie Zusammenhänge in der Arbeitspaketliste anzeigen?
           check_out_link: Testen Sie die Enterprise Edition.
         relation_filters:
-          first_part: Show all work packages
-          second_part: the current work package
+          first_part: Alle Arbeitspakete anzeigen
+          second_part: dem aktuellen Arbeitspaket
       tabs:
         overview: Übersicht
         activity: Aktivität

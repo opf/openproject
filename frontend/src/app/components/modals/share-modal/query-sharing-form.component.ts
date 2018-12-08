@@ -2,6 +2,7 @@ import {States} from '../../states.service';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {TableState} from "core-components/wp-table/table-state/table-state";
 
 export interface QuerySharingChange {
   isStarred:boolean;
@@ -24,6 +25,7 @@ export class QuerySharingForm {
   };
 
   constructor(readonly states:States,
+              readonly tableState:TableState,
               readonly authorisationService:AuthorisationService,
               readonly I18n:I18nService) {
   }
@@ -35,7 +37,7 @@ export class QuerySharingForm {
   }
 
   public get canPublish() {
-    const form = this.states.query.form.value!;
+    const form = this.tableState.queryForm.value!;
 
     return this.authorisationService.can('query', 'updateImmediately')
       && form.schema.public.writable;
