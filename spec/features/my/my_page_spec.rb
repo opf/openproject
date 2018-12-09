@@ -83,23 +83,49 @@ describe 'My page', type: :feature, js: true do
     calendar_area = Components::Grids::GridArea.new('.grid--area', text: 'Calendar')
     calendar_area.expect_to_span(1, 1, 2, 2)
 
-    calendar_area.resize_to(1, 4)
+    calendar_area.resize_to(2, 4)
 
     # Resizing leads to the calendar area now spanning a larger area
-    calendar_area.expect_to_span(1, 1, 2, 5)
-    # Because of the added column, the other widgets have moved down
-    assigned_area.expect_to_span(2, 1, 8, 3)
-    created_area.expect_to_span(2, 3, 8, 5)
+    calendar_area.expect_to_span(1, 1, 3, 5)
+    # Because of the added column, and the resizing the other widgets have moved down
+    assigned_area.expect_to_span(3, 1, 9, 3)
+    created_area.expect_to_span(3, 3, 9, 5)
 
-    # Reloading keept the users values
+    my_page.add_column(4, before_or_after: :after)
+    my_page.add_column(5, before_or_after: :after)
+    my_page.add_widget(1, 5, 'Work packages watched by me')
+
+    watched_area = Components::Grids::GridArea.new('.grid--area', text: 'Work packages watched by me')
+    watched_area.expect_to_exist
+
+    watched_area.resize_to(3, 6)
+
+    # Reloading kept the user's values
     visit home_path
     my_page.visit!
 
     assigned_area.expect_to_exist
     created_area.expect_to_exist
     calendar_area.expect_to_exist
-    calendar_area.expect_to_span(1, 1, 2, 5)
-    assigned_area.expect_to_span(2, 1, 8, 3)
-    created_area.expect_to_span(2, 3, 8, 5)
+    watched_area.expect_to_exist
+    calendar_area.expect_to_span(1, 1, 3, 5)
+    assigned_area.expect_to_span(3, 1, 9, 3)
+    created_area.expect_to_span(3, 3, 9, 5)
+    watched_area.expect_to_span(1, 5, 4, 7)
+
+    # dragging makes room for the dragged widget which means
+    # that widgets that have been there are moved down
+    watched_area.drag_to(1, 3)
+    watched_area.expect_to_span(1, 3, 4, 5)
+    calendar_area.expect_to_span(4, 1, 6, 5)
+    assigned_area.expect_to_span(6, 1, 12, 3)
+    created_area.expect_to_span(6, 3, 12, 5)
+
+    calendar_area.drag_to(3, 4)
+    # reduces the size of calendar as the widget would otherwise not fit
+    calendar_area.expect_to_span(3, 4, 5, 7)
+    watched_area.expect_to_span(5, 3, 8, 5)
+    assigned_area.expect_to_span(6, 1, 12, 3)
+    created_area.expect_to_span(8, 3, 14, 5)
   end
 end

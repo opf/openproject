@@ -18,6 +18,24 @@ module Components
         area.find('.grid--widget-remove').click
       end
 
+      def drag_to(row, column)
+        handle = area.find('.cdk-drag-handle')
+        drop_area = find("#grid--area-#{row}-#{column}")
+
+        page.driver.browser.action.click_and_hold(handle.native).perform
+        sleep(0.3)
+        drop_area.hover
+        #page.driver.browser.action.move_to(drop_area.native).perform
+        page.driver.browser.send(:bridge).mouse_move_to(drop_area)
+      rescue Selenium::WebDriver::Error::StaleElementReferenceError
+        sleep(0.3)
+        page.driver.browser.action.release(drop_area.native).perform
+        #drop_area.click
+        #page.driver.browser.action.release.perform
+
+        #area.find('.cdk-drag-handle').drag_to find("#grid--area-#{row}-#{column}")
+      end
+
       def expect_to_exist
         expect(page)
           .to have_selector(*area_selector)

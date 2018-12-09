@@ -48,6 +48,19 @@ module Pages
         find('li .menu-item', text: label).click
       end
 
+      def add_column(column_number, before_or_after: :before)
+        # open grid column menu
+        find("grid-area-column-headers .grid--header:nth-of-type(#{column_number})").click
+
+        label = if before_or_after == :before
+                  I18n.t('js.label_add_column_before')
+                else
+                  I18n.t('js.label_add_column_after')
+                end
+
+        find('li .menu-item', text: label).click
+      end
+
       def add_widget(row_number, column_number, name)
         area = find("#grid--area-#{row_number}-#{column_number}")
         area.hover
