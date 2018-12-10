@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -e
+
+: ${APP_HOME?"Need to set APP_HOME for teardown"}
+
+echo "Cleaning up NODE installation"
+pushd $APP_HOME
+rm -rf .heroku/node node_modules frontend/node_modules || true
