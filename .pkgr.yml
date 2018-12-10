@@ -29,7 +29,7 @@ services:
 installer: https://github.com/pkgr/installer.git
 wizards:
   - https://github.com/pkgr/addon-legacy-installer.git
-  - https://github.com/pkgr/addon-mysql.git
+  - https://github.com/pkgr/addon-postgres
   - https://github.com/pkgr/addon-apache2.git
   - https://github.com/finnlabs/addon-repositories.git
   - https://github.com/pkgr/addon-smtp.git
