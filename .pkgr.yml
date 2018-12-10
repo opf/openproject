@@ -1,23 +1,9 @@
 user: openproject
 group: openproject
 targets:
-  debian-8: &debian8
+  ubuntu-18.04:
     build_dependencies:
       - libsqlite3-dev
-  debian-9:
-    <<: *debian8
-  ubuntu-14.04:
-    <<: *debian8
-  ubuntu-16.04:
-    <<: *debian8
-  ubuntu-18.04:
-    <<: *debian8
-  centos-7:
-   dependencies:
-      - epel-release
-  sles-12:
-    build_dependencies:
-      - sqlite3-devel
 before_precompile: "packaging/setup"
 after_precompile: "packaging/teardown"
 crons:
@@ -35,5 +21,5 @@ wizards:
   - https://github.com/finnlabs/addon-repositories.git
   - https://github.com/pkgr/addon-smtp.git
   - https://github.com/pkgr/addon-memcached.git
-  - https://github.com/pkgr/addon-openproject.git
+  - https://github.com/opf/addon-openproject.git#dynamic-node-dependencies
 buildpack: https://github.com/opf/heroku-buildpack-multi.git
