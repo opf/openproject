@@ -25,7 +25,7 @@
         <ul id="toolbar-items" class="toolbar-items hide-when-print">
           <li class="toolbar-item hidden-for-mobile">
             <wp-create-button
-              [allowed]="!!workPackage.addChild"
+              [allowed]="!!(workPackage.addChild || workPackage.$links.copy)"
               stateName="work-packages.new">
             </wp-create-button>
           </li>
