@@ -241,6 +241,7 @@ i
   flex-wrap: wrap
   align-items: center
   padding-top: 0.5rem
+
   .wp-status-button .button
     padding: 5px
     margin-bottom: 0
@@ -252,13 +253,16 @@ i
     .button--text
       margin: 0 5px
 
-  attribute-help-text .help-text--entry
-    line-height: 25px
-    margin: 0 10px 0 -10px
-    .icon:before
-      padding: 0
+  attribute-help-text
+    flex: 0
+    .help-text--entry
+      line-height: 25px
+      margin: 0 10px 0 -14px
+      .icon:before
+        padding: 0
+
   .work-packages--info-row
-    flex-grow: 2
+    flex: 1 0 50%
 
   attribute-help-text,
   .wp-status-button,
