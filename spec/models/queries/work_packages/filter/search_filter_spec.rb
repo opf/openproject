@@ -35,11 +35,12 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
   let(:operator) { '**' }
   let(:subject) { 'Some subject' }
   let(:work_package) { FactoryBot.create(:work_package, subject: subject) }
+  let(:journal) { work_package.journals.last }
   let(:instance) do
     described_class.create!(name: :search, context: context, operator: operator, values: [value])
   end
 
-  shared_examples "subject and description filter" do
+  shared_examples "subject, description, and comment filter" do
     context '' do
       let!(:work_package) { FactoryBot.create(:work_package, subject: "A bogus subject", description: "And a short description") }
 
@@ -54,6 +55,15 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
         expect(WorkPackage.eager_load(instance.includes).where(instance.where))
           .to match_array [work_package]
       end
+
+      it 'finds in comments' do
+        journal.notes = "bogus comment"
+        journal.save
+
+        instance.values = [journal.notes]
+        expect(WorkPackage.eager_load(instance.includes).where(instance.where))
+          .to match_array [work_package]
+      end
     end
   end
 
@@ -65,7 +75,7 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
           allow(EnterpriseToken).to receive(:allows_to?).with(:attachment_filters).and_return(true)
         end
 
-        it_behaves_like 'subject and description filter'
+        it_behaves_like 'subject, description, and comment filter'
 
         context 'WP with attachment' do
           let(:text) { 'lorem ipsum' }

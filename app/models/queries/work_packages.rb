@@ -72,6 +72,7 @@ module Queries::WorkPackages
   register.filter Query, filters_module::RequiredFilter
   register.filter Query, filters_module::DescriptionFilter
   register.filter Query, filters_module::SearchFilter
+  register.filter Query, filters_module::CommentFilter
 
   columns_module = Queries::WorkPackages::Columns
 

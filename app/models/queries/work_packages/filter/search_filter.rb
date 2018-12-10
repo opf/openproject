@@ -40,7 +40,8 @@ class Queries::WorkPackages::Filter::SearchFilter < Queries::WorkPackages::Filte
     else
       filter_class_list = [
         [Queries::WorkPackages::Filter::SubjectFilter, :subject],
-        [Queries::WorkPackages::Filter::DescriptionFilter, :description]
+        [Queries::WorkPackages::Filter::DescriptionFilter, :description],
+        [Queries::WorkPackages::Filter::CommentFilter, :description]
       ]
 
       if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
