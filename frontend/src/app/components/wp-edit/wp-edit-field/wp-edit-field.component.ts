@@ -93,7 +93,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
 
   // Open the field when its closed and relay drag & drop events to it.
   public startDragOverActivation(event:JQueryEventObject) {
-    if (!this.isDropTarget || this.active) {
+    if (!this.isDropTarget || !this.isEditable || this.active) {
       return true;
     }
 
