@@ -101,13 +101,12 @@ module API
         end
 
         link :copy,
-             cache_if: -> { current_user_allowed_to(:move_work_packages, context: represented.project) } do
+             cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented.project) } do
 
           next if represented.new_record?
 
           {
-            href: new_work_package_move_path(represented, copy: true, ids: [represented.id]),
-            type: 'text/html',
+            href: work_package_path(represented, 'copy'),
             title: "Copy #{represented.subject}"
           }
         end
