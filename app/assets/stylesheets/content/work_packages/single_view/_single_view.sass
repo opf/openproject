@@ -243,12 +243,15 @@ i
   padding-top: 0.5rem
 
   .wp-status-button .button
+    @include text-shortener
     padding: 5px
     margin-bottom: 0
     @include varprop(background-color, status-selector-bg-color)
     border: none
     color: white
     white-space: nowrap
+    // Should not be longer than mobile screen width (margin of 15px left and right)
+    max-width: calc(100vw - 30px)
 
     .button--text
       margin: 0 5px
