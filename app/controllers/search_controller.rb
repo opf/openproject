@@ -85,6 +85,9 @@ class SearchController < ApplicationController
 
       limit = 10
       @scope.each do |s|
+        # The work package search is done differntly, so skipping it here.
+        next if s.to_s == "work_packages"
+
         r, c = s.singularize.camelcase.constantize.search(@tokens, projects_to_search,
                                                           all_words: @all_words,
                                                           titles_only: @titles_only,
