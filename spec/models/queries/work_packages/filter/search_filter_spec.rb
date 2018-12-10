@@ -136,7 +136,7 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
   else
     context 'DB does not support TSV' do
       context 'WP without attachment' do
-        it_behaves_like 'subject and description filter'
+        it_behaves_like 'subject, description, and comment filter'
       end
     end
   end

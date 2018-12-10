@@ -30,11 +30,13 @@
 
 class Queries::WorkPackages::Filter::SearchFilter < Queries::WorkPackages::Filter::WorkPackageFilter
   include Queries::WorkPackages::Filter::FilterOnTsvMixin
+  CONTAINS_OPERATOR = '~'
+
 
   def filters
     if @filters
       @filters.each do |filter|
-        filter.operator = operator
+        filter.operator = CONTAINS_OPERATOR
         filter.values = values
       end
     else
@@ -53,7 +55,7 @@ class Queries::WorkPackages::Filter::SearchFilter < Queries::WorkPackages::Filte
       @filters = filter_class_list.map do |filter_class|
         filter_class.first.create!(name: filter_class.second,
                                    context: context,
-                                   operator: '~',
+                                   operator: CONTAINS_OPERATOR,
                                    values: values)
       end
     end
