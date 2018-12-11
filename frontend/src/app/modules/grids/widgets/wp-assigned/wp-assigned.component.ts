@@ -8,7 +8,7 @@ import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-build
 })
 
 export class WidgetWpAssignedComponent extends AbstractWidgetComponent implements OnInit {
-  public text = { title: this.i18n.t('js.grid.widgets.title.work_packages_assigned') };
+  public text = { title: this.i18n.t('js.grid.widgets.work_packages_assigned.title') };
   public queryProps:any;
   public configuration = { "actionsColumnEnabled": false,
                            "columnMenuEnabled": false,

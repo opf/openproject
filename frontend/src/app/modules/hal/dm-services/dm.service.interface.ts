@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,14 +24,20 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {Component} from '@angular/core';
-import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
+import {Injectable} from '@angular/core';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {ApiV3FilterBuilder, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 
-@Component({
-  templateUrl: './wp-calendar.component.html',
-})
-export class WidgetWpCalendarComponent extends AbstractWidgetComponent {
-  public text = { title: this.i18n.t('js.grid.widgets.work_packages_calendar.title') };
+export interface DmListParameter {
+  filter?:[string, FilterOperator, [string]][];
+  sortBy?:[string, string][];
+  pageSize?:number;
+}
+
+export interface DmServiceInterface {
+  list(params:DmListParameter):Promise<CollectionResource>;
 }

@@ -29,7 +29,7 @@ export class AddGridWidgetModal extends OpModalComponent {
     return this.widgetsService.registered.map((widget) => {
       return {
         identifier: widget.identifier,
-        title: this.i18n.t(`js.grid.widgets.title.${widget.identifier}`),
+        title: this.i18n.t(`js.grid.widgets.${widget.identifier}.title`),
         component: widget.component
       };
     }).sort((a, b) => {

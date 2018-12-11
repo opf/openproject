@@ -15,7 +15,7 @@ import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 
 export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
-    title: this.i18n.t('js.grid.widgets.title.time_entries_current_user'),
+    title: this.i18n.t('js.grid.widgets.time_entries_current_user.title'),
     activity: this.i18n.t('js.time_entry.activity'),
     comment: this.i18n.t('js.time_entry.comment'),
     hour: this.i18n.t('js.time_entry.hours'),

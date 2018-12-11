@@ -51,6 +51,7 @@ import {GridAreaRowHeadersComponent} from "core-app/modules/grids/areas/row-head
 import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
 import {Ng2StateDeclaration, UIRouterModule} from '@uirouter/angular';
 import {WidgetDocumentsComponent} from "core-app/modules/grids/widgets/documents/documents.component";
+import {WidgetNewsComponent} from "core-app/modules/grids/widgets/news/news.component";
 
 export const GRID_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -72,6 +73,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     OpenprojectCalendarModule,
 
     DynamicModule.withComponents([WidgetDocumentsComponent,
+                                  WidgetNewsComponent,
                                   WidgetWpAssignedComponent,
                                   WidgetWpCreatedComponent,
                                   WidgetWpWatchedComponent,
@@ -94,6 +96,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
   declarations: [
     GridComponent,
     WidgetDocumentsComponent,
+    WidgetNewsComponent,
     WidgetWpAssignedComponent,
     WidgetWpCreatedComponent,
     WidgetWpWatchedComponent,
@@ -150,6 +153,10 @@ export function registerWidgets(injector:Injector) {
         {
           identifier: 'documents',
           component: WidgetDocumentsComponent
+        },
+        {
+          identifier: 'news',
+          component: WidgetNewsComponent
         }
       ];
     });

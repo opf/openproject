@@ -176,13 +176,21 @@ en:
       add_modal:
         choose_widget: 'Choose widget'
       widgets:
-        title:
-          documents: 'Documents'
-          time_entries_current_user: 'Spent time (last 7 days)'
-          work_packages_assigned: 'Work packages assigned to me'
-          work_packages_created: 'Work packages created by me'
-          work_packages_watched: 'Work packages watched by me'
-          work_packages_calendar: 'Calendar'
+        documents:
+          title: 'Documents'
+        news:
+          title: 'News'
+          at: 'at'
+        time_entries_current_user:
+          title: 'Spent time (last 7 days)'
+        work_packages_assigned:
+          title: 'Work packages assigned to me'
+        work_packages_created:
+          title: 'Work packages created by me'
+        work_packages_watched:
+          title: 'Work packages watched by me'
+        work_packages_calendar:
+          title: 'Calendar'
 
     label_activate: "Activate"
     label_activity_no: "Activity entry number %{activityNo}"

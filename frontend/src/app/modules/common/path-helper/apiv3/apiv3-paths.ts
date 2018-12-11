@@ -64,6 +64,9 @@ export class ApiV3Paths {
   // /api/v3/time_entries
   public readonly time_entries = new SimpleResourceCollection(this.apiV3Base, 'time_entries');
 
+  // /api/v3/news
+  public readonly news = new SimpleResourceCollection(this.apiV3Base, 'news');
+
   // /api/v3/types
   public readonly types = new Apiv3TypesPaths(this.apiV3Base);
 

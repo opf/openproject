@@ -48,6 +48,7 @@ import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-erro
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {TimeEntryDmService} from './dm-services/time-entry-dm.service';
 import {CommonModule} from "@angular/common";
+import {NewsDmService} from './dm-services/news-dm.service';
 
 @NgModule({
   imports: [
@@ -63,6 +64,7 @@ import {CommonModule} from "@angular/common";
     ConfigurationDmService,
     GridDmService,
     HelpTextDmService,
+    NewsDmService,
     PayloadDmService,
     ProjectDmService,
     QueryDmService,

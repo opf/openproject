@@ -56,6 +56,7 @@ import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
+import {NewsResource} from "core-app/modules/hal/resources/news-resource";
 
 const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {
@@ -168,6 +169,9 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   },
   TimeEntry: {
     cls: TimeEntryResource
+  },
+  News: {
+    cls: NewsResource
   }
 };
 

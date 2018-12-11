@@ -13,7 +13,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 })
 export class WidgetDocumentsComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
-    title: this.i18n.t('js.grid.widgets.title.documents'),
+    title: this.i18n.t('js.grid.widgets.documents.title'),
   };
 
   public entries:DocumentResource[] = [];
