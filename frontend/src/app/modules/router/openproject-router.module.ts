@@ -58,8 +58,6 @@ import {
   ],
   entryComponents: [
     ApplicationBaseComponent
-  ],
-  exports: [
   ]
 })
 export class OpenprojectRouterModule {

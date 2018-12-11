@@ -33,11 +33,7 @@ export const appBaseSelector = 'openproject-base';
 
 @Component({
   selector: appBaseSelector,
-  template: `
-    <div class="openproject-base--ui-view">
-      <ui-view></ui-view>
-    </div>
-  `
+  template: `<ui-view class="openproject-base--ui-view"></ui-view>`
 })
 export class ApplicationBaseComponent {
 }

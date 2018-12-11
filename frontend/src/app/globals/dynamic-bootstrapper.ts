@@ -27,6 +27,7 @@
 
 import {ComponentType} from "@angular/cdk/portal";
 import {ApplicationRef} from "@angular/core";
+import {UIView} from "@uirouter/angular";
 
 /**
  * Optional bootstrap definition to allow selecting all matching
@@ -50,7 +51,10 @@ export interface OptionalBootstrapDefinition {
  * Static lookup table for dynamically bootstrapped components within our application
  */
 export class DynamicBootstrapper {
-  private static optionalBoostrapComponents:OptionalBootstrapDefinition[] = [];
+  private static optionalBoostrapComponents:OptionalBootstrapDefinition[] = [
+    // Look for ui-view for default, the root UI-router entry point
+    { selector: 'ui-view.openproject-root--ui-view', cls: UIView }
+  ];
 
   /**
    * Register an optional bootstrap component to be dynamically bootstrapped

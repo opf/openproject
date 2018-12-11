@@ -39,7 +39,6 @@ export const OPENPROJECT_ROUTES = [
     name: 'root',
     url: '/{projects}/{projectPath}',
     component: ApplicationBaseComponent,
-    abstract: true,
     params: {
       // value: null makes the parameter optional
       // squash: true avoids duplicate slashes when the parameter is not provided

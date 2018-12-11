@@ -34,7 +34,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% end -%>
 
 <%= content_for :content_body do %>
-  <openproject-base></openproject-base>
+  <ui-view class="openproject-root--ui-view"></ui-view>
 <% end -%>
 
 <%= render template: 'layouts/base', locals: local_assigns.merge({ no_action_menu: true }) %>
