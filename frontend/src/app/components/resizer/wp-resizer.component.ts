@@ -50,8 +50,6 @@ export class WpResizerDirective implements OnInit, OnDestroy {
 
   public moving:boolean = false;
 
-  private unregisterTransitionListener:Function;
-
   constructor(readonly toggleService:MainMenuToggleService,
               private elementRef:ElementRef,
               readonly $transitions:TransitionService) {
@@ -100,8 +98,6 @@ export class WpResizerDirective implements OnInit, OnDestroy {
   ngOnDestroy() {
     // Reset the style when killing this directive, otherwise the style remains
     this.resizingElement.style.flexBasis = null;
-
-    this.unregisterTransitionListener();
   }
 
   @HostListener('mousedown', ['$event'])
