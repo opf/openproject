@@ -35,8 +35,10 @@ describe ::API::V3::Documents::DocumentRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
 
   let(:document) do
-    FactoryBot.build_stubbed(:document) do |wp|
-      allow(wp)
+    FactoryBot.build_stubbed(:document,
+                             created_on: Time.now,
+                             description: 'Some description') do |document|
+      allow(document)
         .to receive(:project)
         .and_return(project)
     end
@@ -53,7 +55,7 @@ describe ::API::V3::Documents::DocumentRepresenter, 'rendering' do
 
   before do
     allow(user)
-      .to receive(:allowed_to?) do |permission, project|
+      .to receive(:allowed_to?) do |permission, _|
       permissions.include?(permission)
     end
   end
@@ -95,6 +97,17 @@ describe ::API::V3::Documents::DocumentRepresenter, 'rendering' do
 
     it_behaves_like 'property', :title do
       let(:value) { document.title }
+    end
+
+    it_behaves_like 'has UTC ISO 8601 date and time' do
+      let(:date) { document.created_on }
+      let(:json_path) { 'createdAt' }
+    end
+
+    it_behaves_like 'API V3 formattable', 'description' do
+      let(:format) { 'markdown' }
+      let(:raw) { document.description }
+      let(:html) { '<p>' + document.description + '</p>' }
     end
   end
 

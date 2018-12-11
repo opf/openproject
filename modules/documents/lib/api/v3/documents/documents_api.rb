@@ -33,14 +33,32 @@ module API
   module V3
     module Documents
       class DocumentsAPI < ::API::OpenProjectAPI
+        helpers ::API::Utilities::ParamsHelper
+
         resources :documents do
-          helpers do
-            def document
-              Document.visible.find(params[:id])
+          get do
+            query = ParamsToQueryService
+                    .new(Document, current_user)
+                    .call(params)
+
+            if query.valid?
+              DocumentCollectionRepresenter.new(query.results,
+                                                api_v3_paths.documents,
+                                                page: to_i_or_nil(params[:offset]),
+                                                per_page: resolve_page_size(params[:pageSize]),
+                                                current_user: current_user)
+            else
+              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
             end
           end
 
           route_param :id do
+            helpers do
+              def document
+                Document.visible.find(params[:id])
+              end
+            end
+
             get do
               ::API::V3::Documents::DocumentRepresenter.new(document,
                                                             current_user: current_user,

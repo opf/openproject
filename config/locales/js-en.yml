@@ -177,6 +177,7 @@ en:
         choose_widget: 'Choose widget'
       widgets:
         title:
+          documents: 'Documents'
           time_entries_current_user: 'Spent time (last 7 days)'
           work_packages_assigned: 'Work packages assigned to me'
           work_packages_created: 'Work packages created by me'

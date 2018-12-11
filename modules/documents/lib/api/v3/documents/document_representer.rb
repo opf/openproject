@@ -37,11 +37,29 @@ module API
         include API::Caching::CachedRepresenter
         include ::API::V3::Attachments::AttachableRepresenterMixin
 
+        cached_representer key_parts: %i(project),
+                           disabled: false
+
         self_link title_getter: ->(*) { represented.title }
 
         property :id
 
         property :title
+
+        property :description,
+                 exec_context: :decorator,
+                 getter: ->(*) {
+                   ::API::Decorators::Formattable.new(represented.description, object: represented)
+                 },
+                 uncacheable: true,
+                 render_nil: true
+
+        property :created_at,
+                 exec_context: :decorator,
+                 getter: ->(*) {
+                   next unless represented.created_on
+                   datetime_formatter.format_datetime(represented.created_on)
+                 }
 
         associated_resource :project,
                             link: ->(*) do

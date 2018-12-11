@@ -51,10 +51,10 @@ class Document < ActiveRecord::Base
   validates_presence_of :project, :title, :category
   validates_length_of :title, maximum: 60
 
-  scope :visible, lambda {
+  scope :visible, ->(user = User.current) {
     includes(:project)
       .references(:projects)
-      .merge(Project.allowed_to(User.current, :view_documents))
+      .merge(Project.allowed_to(user, :view_documents))
   }
 
   scope :with_attachments, lambda {

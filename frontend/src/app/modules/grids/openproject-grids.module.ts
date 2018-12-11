@@ -50,6 +50,7 @@ import {GridAreaColumnHeadersComponent} from "core-app/modules/grids/areas/colum
 import {GridAreaRowHeadersComponent} from "core-app/modules/grids/areas/row-headers.component";
 import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
 import {Ng2StateDeclaration, UIRouterModule} from '@uirouter/angular';
+import {WidgetDocumentsComponent} from "core-app/modules/grids/widgets/documents/documents.component";
 
 export const GRID_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -70,7 +71,8 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     OpenprojectWorkPackagesModule,
     OpenprojectCalendarModule,
 
-    DynamicModule.withComponents([WidgetWpAssignedComponent,
+    DynamicModule.withComponents([WidgetDocumentsComponent,
+                                  WidgetWpAssignedComponent,
                                   WidgetWpCreatedComponent,
                                   WidgetWpWatchedComponent,
                                   WidgetWpCalendarComponent,
@@ -91,6 +93,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
   ],
   declarations: [
     GridComponent,
+    WidgetDocumentsComponent,
     WidgetWpAssignedComponent,
     WidgetWpCreatedComponent,
     WidgetWpWatchedComponent,
@@ -108,9 +111,6 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     MyPageComponent,
   ],
   entryComponents: [
-    WidgetWpAssignedComponent,
-    WidgetWpCreatedComponent,
-    WidgetWpWatchedComponent,
     AddGridWidgetModal,
 
     // MyPage
@@ -146,6 +146,10 @@ export function registerWidgets(injector:Injector) {
         {
           identifier: 'time_entries_current_user',
           component: WidgetTimeEntriesCurrentUserComponent
+        },
+        {
+          identifier: 'documents',
+          component: WidgetDocumentsComponent
         }
       ];
     });
