@@ -203,20 +203,17 @@ class ProjectsController < ApplicationController
 
   # Delete @project
   def destroy
-    @project_to_destroy = @project
+    service = ::Projects::DeleteProjectService.new(user: current_user, project: @project)
+    call = service.call(delayed: true)
 
-    OpenProject::Notifications.send('project_deletion_imminent', project: @project_to_destroy)
-    @project_to_destroy.destroy
-    respond_to do |format|
-      format.html do
-        flash[:notice] = l(:notice_successful_delete)
-        redirect_to controller: 'projects', action: 'index'
-      end
+    if call.success?
+      flash[:notice] = I18n.t('projects.delete.scheduled')
+    else
+      flash[:error] = I18n.t('projects.delete.schedule_failed', errors: call.errors.full_messages.join("\n"))
     end
 
-    hide_project_in_layout
-
-    update_demo_project_settings @project_to_destroy, false
+    redirect_to controller: 'projects', action: 'index'
+    update_demo_project_settings @project, false
   end
 
   def destroy_info
