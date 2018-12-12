@@ -1,3 +1,4 @@
 <div class="resizer"
-     (mousedown)="startResize($event)">
+     *ngIf="!customHandler">
 </div>
+<ng-content></ng-content>

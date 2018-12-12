@@ -2,7 +2,9 @@ import {
   Component,
   OnDestroy,
   EventEmitter,
-  Output} from "@angular/core";
+  Output,
+  Input,
+  HostListener} from "@angular/core";
 
 
 export interface ResizeDelta {
@@ -27,10 +29,14 @@ export class ResizerComponent implements OnDestroy {
   @Output() start:EventEmitter<null> = new EventEmitter();
   @Output() move:EventEmitter<ResizeDelta> = new EventEmitter();
 
+  @Input() customHandler = false;
+  @Input() cursorClass = 'nwse-resize';
+
   ngOnDestroy() {
     this.removeEventListener();
   }
 
+  @HostListener('mousedown', ['$event'])
   public startResize(event:MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
@@ -95,7 +101,7 @@ export class ResizerComponent implements OnDestroy {
   }
 
   private setResizeCursor() {
-    this.setCursor('nwse-resize !important');
+    this.setCursor(`${this.cursorClass} !important`);
   }
 
   private setAutoCursor() {

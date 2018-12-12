@@ -32,31 +32,34 @@ import {Subscription} from 'rxjs';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {ResizeDelta} from "core-app/modules/common/resizer/resizer.component";
 
 @Component({
   selector: 'main-menu-resizer',
   template: `
-    <div class="main-menu--resizer">
+    <resizer class="main-menu--resizer"
+             [customHandler]="true"
+             [cursorClass]="'col-resize'"
+             (end)="resizeEnd()"
+             (start)="resizeStart()"
+             (move)="resizeMove($event)">
       <a href="#"
          [attr.title]="toggleTitle"
          class="main-menu--navigation-toggler"
          (accessibleClick)="toggleService.toggleNavigation($event)">
         <i class="icon-resizer-vertical-lines"
-          aria-hidden="true"></i>
+           aria-hidden="true"></i>
       </a>
-    </div>
+    </resizer>
   `
 })
 
-// TODO use generic resizer
 export class MainMenuResizerComponent implements OnInit, OnDestroy {
   public toggleTitle:string;
   private resizeEvent:string;
   private localStorageKey:string;
 
   private elementWidth:number;
-  private oldPosition:number;
-  private mouseMoveHandler:any;
   private mainMenu = jQuery('#main-menu')[0];
 
   public moving:boolean = false;
@@ -87,71 +90,17 @@ export class MainMenuResizerComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  @HostListener('mousedown', ['$event'])
-  private handleMouseDown(e:MouseEvent) {
-    // ignore event if it is a click on the collapse/expand handle
-    var toggler = jQuery('.main-menu--navigation-toggler i')[0];
-    if (e.target === toggler) {
-      return;
-    }
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Only on left mouse click the resizing is started
-    if (e.buttons === 1 || e.which === 1) {
-      // Getting starting position
-      this.oldPosition = e.clientX;
-      this.elementWidth = this.mainMenu.clientWidth;
-      this.moving = true;
-
-      // Necessary to encapsulate this to be able to remove the event listener later
-      this.mouseMoveHandler = this.resizeElement.bind(this, this.mainMenu);
-
-      // Change cursor icon
-      // This is handled via JS to ensure
-      // that the cursor stays the same even when the mouse leaves the actual resizer.
-      document.getElementsByTagName("body")[0].setAttribute('style',
-        'cursor: col-resize !important');
-
-      // Enable mouse move
-      window.addEventListener('mousemove', this.mouseMoveHandler);
-    }
+  public resizeStart() {
+    this.elementWidth = this.mainMenu.clientWidth;
   }
 
-  @HostListener('window:mouseup', ['$event'])
-  private handleMouseUp(e:MouseEvent):boolean {
-    if (!this.moving) {
-      return true;
-    }
+  public resizeMove(deltas:ResizeDelta) {
+    this.toggleService.saveWidth(this.elementWidth + deltas.x);
+  }
 
-    // Disable mouse move
-    window.removeEventListener('mousemove', this.mouseMoveHandler);
-
-    // Change cursor icon back
-    document.body.style.cursor = 'auto';
-
-    this.moving = false;
-
-    // save new width in service
-    this.toggleService.saveWidth();
-
-    // Send a event that we resized this element
+  public resizeEnd() {
     const event = new Event(this.resizeEvent);
     window.dispatchEvent(event);
-
-    return false;
-  }
-
-  private resizeElement(element:HTMLElement, e:MouseEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    let delta = e.clientX - this.oldPosition;
-    this.oldPosition = e.clientX;
-    this.elementWidth = this.elementWidth + delta;
-
-    this.toggleService.saveWidth(this.elementWidth);
   }
 }
 
