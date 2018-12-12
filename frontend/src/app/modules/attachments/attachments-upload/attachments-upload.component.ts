@@ -124,10 +124,10 @@ export class AttachmentsUploadComponent implements OnInit {
     }
   }
 
-  private uploadFiles(files:UploadFile[]):void {
+  protected uploadFiles(files:UploadFile[]):void {
     files = files || [];
     const countBefore = files.length;
-    files = this.filterFolders(files)
+    files = this.filterFolders(files);
 
     if (files.length === 0) {
 
@@ -147,7 +147,7 @@ export class AttachmentsUploadComponent implements OnInit {
    * or empty file sizes.
    * @param files
    */
-  private filterFolders(files:UploadFile[]) {
+  protected filterFolders(files:UploadFile[]) {
     return files.filter((file) => {
 
       // Folders never have a mime type
