@@ -63,4 +63,18 @@ describe Grids::CreateContract do
       end
     end
   end
+
+  describe '#assignable_values' do
+    context 'for page' do
+      it 'returns the array of supported pages' do
+        expect(instance.assignable_values(:page, user))
+          .to match_array [OpenProject::StaticRouting::StaticUrlHelpers.new.my_page_path]
+      end
+
+      it 'returns the nil for something else' do
+        expect(instance.assignable_values(:something, user))
+          .to be_nil
+      end
+    end
+  end
 end

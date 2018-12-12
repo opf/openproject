@@ -59,7 +59,6 @@ module Grids
       Grid
     end
 
-    # TODO tests and check if it should be here
     def assignable_values(_column, _user)
       nil
     end
