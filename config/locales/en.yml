@@ -736,7 +736,6 @@ en:
   button_print: "Print"
   button_quote: "Quote"
   button_remove: Remove
-  button_remove_widget: "Remove widget"
   button_rename: "Rename"
   button_replace: "Replace"
   button_reply: "Reply"
@@ -1649,7 +1648,6 @@ en:
   label_keyboard_shortcut_go_preview: "Go to preview the current edit (on edit pages only)"
   label_keyboard_shortcut_focus_previous_item: "Focus previous list element (on some lists only)"
   label_keyboard_shortcut_focus_next_item: "Focus next list element (on some lists only)"
-  label_visible_elements: Visible elements
 
   auth_source:
     using_abstract_auth_source: "Can't use an abstract authentication source."
