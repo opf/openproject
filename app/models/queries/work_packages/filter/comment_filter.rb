@@ -29,7 +29,6 @@
 #++
 
 class Queries::WorkPackages::Filter::CommentFilter < Queries::WorkPackages::Filter::WorkPackageFilter
-
   def type
     :text
   end

@@ -30,8 +30,7 @@
 
 class Queries::WorkPackages::Filter::SearchFilter < Queries::WorkPackages::Filter::WorkPackageFilter
   include Queries::WorkPackages::Filter::FilterOnTsvMixin
-  CONTAINS_OPERATOR = '~'
-
+  CONTAINS_OPERATOR = '~'.freeze
 
   def filters
     if @filters

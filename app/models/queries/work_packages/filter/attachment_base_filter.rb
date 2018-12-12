@@ -44,7 +44,11 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
   end
 
   def where
-    OpenProject::FullTextSearch.tsv_where(Attachment.table_name, search_column, values.first, concatenation, normalization_type)
+    OpenProject::FullTextSearch.tsv_where(Attachment.table_name,
+                                          search_column,
+                                          values.first,
+                                          concatenation: concatenation,
+                                          normalization: normalization_type)
   end
 
   def search_column
