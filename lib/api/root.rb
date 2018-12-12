@@ -223,7 +223,7 @@ module API
     # hide internal errors behind the same JSON response as all other errors
     # only doing it in production to allow for easier debugging
     if Rails.env.production?
-      error_response StandardError, ::API::Errors::InternalError.new, rescue_subclasses: true
+      error_response StandardError, ::API::Errors::InternalError, rescue_subclasses: true
     end
 
     # run authentication before each request
