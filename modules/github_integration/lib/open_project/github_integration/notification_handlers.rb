@@ -78,7 +78,12 @@ module OpenProject::GithubIntegration
       wp_ids = extract_work_package_ids(text)
       wps = find_visible_work_packages(wp_ids, user)
 
-      attributes = { journal_notes: notes_for_payload(payload) }
+      # We may get events for pull_request type that we don't support
+      # such as review_requested.
+      notes = notes_for_payload(payload)
+      return if notes.nil?
+
+      attributes = { journal_notes: notes }
       wps.each do |wp|
         ::WorkPackages::UpdateService
           .new(user: user, work_package: wp)
@@ -135,9 +140,6 @@ module OpenProject::GithubIntegration
         notes_for_pull_request_payload(payload)
       when 'issue_comment'
         notes_for_issue_comment_payload(payload)
-      else
-        raise "GitHub event not supported: #{payload['github_event']}" +
-              " (#{payload['github_delivery']})"
       end
     end
 
@@ -147,17 +149,14 @@ module OpenProject::GithubIntegration
         'reopened' => 'opened',
         'closed' => 'closed',
         'edited' => 'referenced',
-        'referenced' => 'referenced',
-        # We ignore synchrize actions for now. See pull_request method.
-        'synchronize' => nil
+        'referenced' => 'referenced'
       }[payload['action']]
 
       # a closed pull request which has been merged
       # deserves a different label :)
       key = 'merged' if key == 'closed' && payload['pull_request']['merged']
 
-      raise "Github action #{payload['action']} " +
-            "for event #{payload['github_event']} not supported." unless key
+      return nil unless key
 
       I18n.t("github_integration.pull_request_#{key}_comment",
              :pr_number => payload['number'],
@@ -170,10 +169,7 @@ module OpenProject::GithubIntegration
     end
 
     def self.notes_for_issue_comment_payload(payload)
-      unless payload['action'] == 'created'
-        raise "Github action #{payload['action']} " +
-              "for event #{payload['github_event']} not supported."
-      end
+      return nil unless payload['action'] == 'created'
 
       I18n.t("github_integration.pull_request_referenced_comment",
              :pr_number => payload['issue']['number'],
