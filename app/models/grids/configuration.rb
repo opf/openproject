@@ -103,6 +103,7 @@ end
 
 Grids::Configuration.register_grid('MyPageGrid', 'my_page_path')
 Grids::Configuration.register_widget('work_packages_assigned', 'MyPageGrid')
+Grids::Configuration.register_widget('work_packages_accountable', 'MyPageGrid')
 Grids::Configuration.register_widget('work_packages_watched', 'MyPageGrid')
 Grids::Configuration.register_widget('work_packages_created', 'MyPageGrid')
 Grids::Configuration.register_widget('work_packages_calendar', 'MyPageGrid')

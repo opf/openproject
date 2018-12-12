@@ -52,6 +52,7 @@ import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-c
 import {Ng2StateDeclaration, UIRouterModule} from '@uirouter/angular';
 import {WidgetDocumentsComponent} from "core-app/modules/grids/widgets/documents/documents.component";
 import {WidgetNewsComponent} from "core-app/modules/grids/widgets/news/news.component";
+import {WidgetWpAccountableComponent} from './widgets/wp-accountable/wp-accountable.component';
 
 export const GRID_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -75,6 +76,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     DynamicModule.withComponents([WidgetDocumentsComponent,
                                   WidgetNewsComponent,
                                   WidgetWpAssignedComponent,
+                                  WidgetWpAccountableComponent,
                                   WidgetWpCreatedComponent,
                                   WidgetWpWatchedComponent,
                                   WidgetWpCalendarComponent,
@@ -98,6 +100,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     WidgetDocumentsComponent,
     WidgetNewsComponent,
     WidgetWpAssignedComponent,
+    WidgetWpAccountableComponent,
     WidgetWpCreatedComponent,
     WidgetWpWatchedComponent,
     WidgetWpCalendarComponent,
@@ -133,6 +136,10 @@ export function registerWidgets(injector:Injector) {
         {
           identifier: 'work_packages_assigned',
           component: WidgetWpAssignedComponent
+        },
+        {
+          identifier: 'work_packages_accountable',
+          component: WidgetWpAccountableComponent
         },
         {
           identifier: 'work_packages_created',

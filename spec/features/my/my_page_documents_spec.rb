@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'My page documents widget spec', type: :feature, js: true do
+describe 'My page documents widget', type: :feature, js: true do
   let!(:project) { FactoryBot.create :project }
   let!(:other_project) { FactoryBot.create :project }
   let!(:visible_document) do
@@ -78,7 +78,7 @@ describe 'My page documents widget spec', type: :feature, js: true do
     expect(page)
       .to have_content visible_document.description
     expect(page)
-      .to have_content (visible_document.created_on).strftime('%m/%d/%Y')
+      .to have_content visible_document.created_on.strftime('%m/%d/%Y')
 
     expect(page)
       .to have_no_content invisible_document.title

@@ -1463,7 +1463,6 @@ en:
   label_repository_plural: "Repositories"
   label_required: 'required'
   label_requires: 'requires'
-  label_responsible_for_work_packages: "Work packages I am accountable for"
   label_result_plural: "Results"
   label_reverse_chronological_order: "In reverse chronological order"
   label_revision: "Revision"
