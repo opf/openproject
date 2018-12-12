@@ -35,20 +35,20 @@ module TimelogHelper
   # is active.
   def activity_collection_for_select_options(time_entry = nil, project = nil)
     project ||= @project
-    if project.nil?
-      activities = TimeEntryActivity.shared.active
-    else
-      activities = project.activities
-    end
+    activities =
+      if project.nil?
+        TimeEntryActivity.shared.active
+      else
+        project.activities
+      end
 
-    collection = []
-    if time_entry && time_entry.activity && !time_entry.activity.active?
-      collection << ["--- #{l(:actionview_instancetag_blank_option)} ---", '']
-    else
-      collection << ["--- #{l(:actionview_instancetag_blank_option)} ---", ''] unless activities.detect(&:is_default)
+    activities.map do |a|
+      if a.is_default? && !time_entry&.activity
+        [a.name, a.id, selected: true]
+      else
+        [a.name, a.id]
+      end
     end
-    activities.each do |a| collection << [a.name, a.id] end
-    collection
   end
 
   def select_hours(data, criteria, value)

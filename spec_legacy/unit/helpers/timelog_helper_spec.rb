@@ -34,11 +34,11 @@ describe TimelogHelper, type: :helper do
   include ActionView::Helpers::DateHelper
 
   it 'should activities collection for select options should return array of activity names and ids' do
-    design = TimeEntryActivity.find_by(name: 'Design') || FactoryBot.create(:activity, name: 'Design')
-    development = TimeEntryActivity.find_by(name: 'Development') || FactoryBot.create(:activity, name: 'Development')
+    design = TimeEntryActivity.find_by(name: 'My Design') || FactoryBot.create(:activity, name: 'My Design')
+    development = TimeEntryActivity.find_by(name: 'My Development') || FactoryBot.create(:activity, name: 'My Development')
     activities = activity_collection_for_select_options
-    assert activities.include?(['Design', design.id])
-    assert activities.include?(['Development', development.id])
+    assert activities.include?(['My Design', design.id])
+    assert activities.include?(['My Development', development.id])
   end
 
   it 'should activities collection for select options should not include inactive activities' do
