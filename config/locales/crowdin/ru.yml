@@ -185,8 +185,8 @@ ru:
       projects: Проекты
       enabled_projects: Доступные проекты
       add_group: Добавить группу атрибутов
-      add_table: Add table of related work packages
-      edit_query: Edit table
+      add_table: Добавить таблицу связанных пакетов работ
+      edit_query: Изменить таблицу
       query_group_placeholder: Give the table a name
       reset: Восстановить значения по умолчанию
       type_color_text: 'Щелкните, чтобы задать или изменить цвет этого типа. Выбранный

@@ -10,7 +10,7 @@
     (execute)="open()"
     *ngIf="canModifyParent()"
     [linkTitle]="parent ? text.edit_parent : text.set_parent"
-    linkClass="wp-relation--parent-change">
+    linkClass="wp-relation--parent-change hide-when-print">
     <op-icon icon-classes="icon-small {{ parent ? 'icon-edit icon2' : 'icon-add icon4' }}"></op-icon>
     <span *ngIf="!parent" [textContent]="text.set_parent"></span>
   </accessible-by-keyboard>

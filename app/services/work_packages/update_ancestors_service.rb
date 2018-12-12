@@ -64,9 +64,9 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def update_former_ancestors(attributes)
-    return [] unless (%i(parent_id parent) & attributes).any? && previous_parent_id(work_package)
+    return [] unless (%i(parent_id parent) & attributes).any? && previous_parent_id
 
-    parent = WorkPackage.find(previous_parent_id(work_package))
+    parent = WorkPackage.find(previous_parent_id)
 
     ([parent] + parent.ancestors).each do |ancestor|
       inherit_attributes(ancestor, %i(estimated_hours done_ratio))
@@ -161,7 +161,20 @@ class WorkPackages::UpdateAncestorsService
     work_packages.map(&:estimated_hours).reject { |hours| hours.to_f.zero? }
   end
 
-  def previous_parent_id(work_package)
+  ##
+  # Get the previous parent ID
+  # This could either be +parent_id_was+ if parent was changed
+  # (when work_package was saved/destroyed)
+  # Or the set parent before saving
+  def previous_parent_id
+    if work_package.parent_id.nil? && work_package.parent_id_was
+      work_package.parent_id_was
+    else
+      previous_change_parent_id
+    end
+  end
+
+  def previous_change_parent_id
     previous = work_package.previous_changes
 
     previous_parent_changes = (previous[:parent_id] || previous[:parent])

@@ -144,7 +144,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       .subscribe((orderedRows) => {
         // Remember all visible rows in their order of appearance.
         this.workPackageIdOrder = orderedRows.filter(row => !row.hidden);
-        this.refreshRequest.putValue(undefined);
+        this.refreshView();
       });
 
     // Refresh timeline view when becoming visible

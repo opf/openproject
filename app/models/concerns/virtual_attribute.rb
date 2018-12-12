@@ -51,6 +51,9 @@ module Concerns
           send(attribute)
           super(*args)
         end
+
+        # Ensure the virtual attribute is unset before destroying
+        before_destroy { send(:"#{attribute}=", nil) }
       end
 
       def _define_virtual_attribute_setter(attribute)

@@ -1,4 +1,4 @@
-import {ApplicationRef, Injector} from "@angular/core";
+import {ApplicationRef, Injector, NgZone} from "@angular/core";
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
@@ -76,6 +76,9 @@ export class OpenProjectPluginContext {
   // Hooks
   public readonly hooks:{ [hook:string]:(callback:Function) => void } = {};
 
+  // Angular zone reference
+  public readonly zone:NgZone = this.injector.get(NgZone);
+
   // Angular2 global injector reference
   constructor(public readonly injector:Injector) {
     this
@@ -85,6 +88,20 @@ export class OpenProjectPluginContext {
       });
   }
 
+  /**
+   * Run the given callback in the angular zone,
+   * resulting in triggered change detection that would otherwise not occur.
+   *
+   * @param cb
+   */
+  public runInZone(cb:() => void) {
+    this.zone.run(cb);
+  }
+
+  /**
+   * Bootstrap a dynamically embeddable component
+   * @param element
+   */
   public bootstrap(element:HTMLElement) {
     DynamicBootstrapper.bootstrapOptionalEmbeddable(
       this.injector.get(ApplicationRef),
