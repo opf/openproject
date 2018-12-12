@@ -36,7 +36,7 @@ module OpenProject
     def self.tsv_where(table_name, column_name, value, options = { concatenation: :and, normalization: :text })
       if OpenProject::Database.allows_tsv?
         column = '"' + table_name.to_s + '"."' + column_name.to_s + '_tsv"'
-        query = tokenize(value, concatenation, normalization)
+        query = tokenize(value, options[:concatenation], options[:normalization])
         language = OpenProject::Configuration.main_content_language
 
         ActiveRecord::Base.send(
