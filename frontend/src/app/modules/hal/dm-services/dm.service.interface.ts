@@ -26,14 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from '@angular/core';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {ApiV3FilterBuilder, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
+import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 
 export interface DmListParameter {
-  filter?:[string, FilterOperator, [string]][];
+  filters?:[string, FilterOperator, [string]][];
   sortBy?:[string, string][];
   pageSize?:number;
 }

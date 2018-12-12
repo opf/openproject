@@ -29,7 +29,7 @@ export class MyPageComponent implements OnInit {
   private loadMyPage():Promise<GridResource> {
     return this
              .gridDm
-             .list([['page', '=', [this.pathHelper.myPagePath()]]])
+             .list({ filters: [['page', '=', [this.pathHelper.myPagePath()]]] })
              .then(collection => {
                if (collection.total === 0) {
                  return this.myPageForm();

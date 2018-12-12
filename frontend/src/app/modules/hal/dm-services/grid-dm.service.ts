@@ -36,27 +36,15 @@ import {ApiV3FilterBuilder, FilterOperator} from "core-components/api/api-v3/api
 import {PayloadDmService} from "core-app/modules/hal/dm-services/payload-dm.service";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {AbstractDmService} from "core-app/modules/hal/dm-services/abstract-dm.service";
 
 @Injectable()
-export class GridDmService {
+export class GridDmService extends AbstractDmService<GridResource> {
   constructor(protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService,
               protected payloadDm:PayloadDmService) {
-  }
-
-  public one(id:number):Promise<GridResource> {
-    return this.halResourceService.get<GridResource>(this.pathHelper.api.v3.grids.id(id).toString()).toPromise();
-  }
-
-  public list(filterParams:[string, FilterOperator, [string]][]):Promise<CollectionResource> {
-    let filters = new ApiV3FilterBuilder();
-    filterParams.forEach((filterParam) => {
-      filters.add(...filterParam);
-    });
-
-    let params = `?${filters.toParams()}`;
-
-    return this.halResourceService.get<CollectionResource>(this.pathHelper.api.v3.grids.toString() + params).toPromise();
+    super(halResourceService,
+          pathHelper);
   }
 
   public createForm(resource:GridResource|null|any = null, schema:SchemaResource|null = null) {
@@ -111,5 +99,13 @@ export class GridDmService {
     } else {
       return {};
     }
+  }
+
+  protected listUrl() {
+    return this.pathHelper.api.v3.grids.toString();
+  }
+
+  protected oneUrl(id:number|string) {
+    return this.pathHelper.api.v3.grids.id(id).toString();
   }
 }

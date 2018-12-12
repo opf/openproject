@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,19 +24,19 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-import {Injectable} from '@angular/core';
-import {AbstractDmService} from "core-app/modules/hal/dm-services/abstract-dm.service";
-import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
+import {
+  SimpleResourceCollection
+} from 'core-app/modules/common/path-helper/apiv3/path-resources';
+import {Apiv3NewsPaths} from "core-app/modules/common/path-helper/apiv3/news/apiv3-news-paths";
 
-@Injectable()
-export class TimeEntryDmService extends AbstractDmService<TimeEntryResource> {
-  protected listUrl() {
-    return this.pathHelper.api.v3.time_entries.toString();
+export class Apiv3TimeEntriesPaths extends SimpleResourceCollection {
+  constructor(basePath:string) {
+    super(basePath, 'time_entries');
   }
 
-  protected oneUrl(id:number|string) {
-    return this.pathHelper.api.v3.time_entries.id(id).toString();
+  public id(gridId:string|number) {
+    return new Apiv3NewsPaths(this.path, gridId);
   }
 }

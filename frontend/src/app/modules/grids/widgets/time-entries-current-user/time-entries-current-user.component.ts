@@ -42,7 +42,7 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
     let filters = [['spentOn', '>t-', ['7']] as [string, FilterOperator, [string]],
                    ['user_id', '=', ['me']] as [string, FilterOperator, [string]]];
 
-    this.timeEntryDm.list(filters)
+    this.timeEntryDm.list({ filters: filters })
       .then((collection) => {
         this.buildEntries(collection.elements);
       });
