@@ -4,6 +4,9 @@
 </h3>
 
 <div class="grid--widget-content">
+  <no-results *ngIf="noEntries"
+              [title]="text.noResults">
+  </no-results>
   <ng-container *ngFor="let document of entries">
     <h4 class="document-category-elements--header">
       <a [href]="documentPath(document)"

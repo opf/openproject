@@ -25,9 +25,11 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
     confirmDelete: {
       text: this.i18n.t('js.text_are_you_sure'),
       title: this.i18n.t('js.modals.form_submit.title')
-    }
+    },
+    noResults: this.i18n.t('js.grid.widgets.time_entries_current_user.no_results'),
   };
   public entries:TimeEntryResource[] = [];
+  private entriesLoaded = false;
   public rows:{ date:string, sum?:string, entry?:TimeEntryResource}[] = [];
 
   constructor(readonly timeEntryDm:TimeEntryDmService,
@@ -45,6 +47,7 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
     this.timeEntryDm.list({ filters: filters })
       .then((collection) => {
         this.buildEntries(collection.elements);
+        this.entriesLoaded = true;
       });
   }
 
@@ -151,5 +154,9 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
 
   private formatNumber(value:number) {
     return formatNumber(value, this.i18n.locale, '1.2-2');
+  }
+
+  public get noEntries() {
+    return !this.entries.length && this.entriesLoaded;
   }
 }

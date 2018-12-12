@@ -4,6 +4,9 @@
 </h3>
 
 <div class="grid--widget-content">
+  <no-results *ngIf="noEntries"
+             [title]="text.noResults">
+  </no-results>
   <ul class="widget-box--arrow-links">
     <li class="-widget-box--arrow-multiline" *ngFor="let news of entries">
       <div>

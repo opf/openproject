@@ -70,6 +70,7 @@ import {UIRouterModule} from "@uirouter/angular";
 import {PortalModule} from "@angular/cdk/portal";
 import {CommonModule} from "@angular/common";
 import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
+import {NoResultsComponent} from "core-app/modules/common/no-results/no-results.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -138,6 +139,8 @@ export function bootstrapModule(injector:Injector) {
     ZenModeButtonComponent,
 
     OPContextMenuComponent,
+
+    NoResultsComponent,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -180,6 +183,8 @@ export function bootstrapModule(injector:Injector) {
 
     // Zen mode button
     ZenModeButtonComponent,
+
+    NoResultsComponent
   ],
   entryComponents: [
     OpDateTimeComponent,

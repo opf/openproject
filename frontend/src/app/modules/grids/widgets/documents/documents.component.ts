@@ -14,9 +14,11 @@ import {DomSanitizer} from '@angular/platform-browser';
 export class WidgetDocumentsComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
     title: this.i18n.t('js.grid.widgets.documents.title'),
+    noResults: this.i18n.t('js.grid.widgets.documents.no_results'),
   };
 
   public entries:DocumentResource[] = [];
+  private entriesLoaded = false;
 
   constructor(readonly halResource:HalResourceService,
               readonly pathHelper:PathHelperService,
@@ -30,12 +32,13 @@ export class WidgetDocumentsComponent extends AbstractWidgetComponent implements
     let orders = JSON.stringify([['created_on', 'desc']]);
 
     let url = `${this.pathHelper.api.v3.apiV3Base}/documents?sortBy=${orders}&pageSize=10`;
-      
+
     this.halResource
       .get<CollectionResource>(url)
       .toPromise()
       .then((collection) => {
         this.entries = collection.elements as DocumentResource[];
+        this.entriesLoaded = true;
       });
   }
 
@@ -49,5 +52,9 @@ export class WidgetDocumentsComponent extends AbstractWidgetComponent implements
 
   public documentDescription(document:DocumentResource) {
     return this.domSanitizer.sanitize(SecurityContext.HTML, document.description.html);
+  }
+
+  public get noEntries() {
+    return !this.entries.length && this.entriesLoaded;
   }
 }

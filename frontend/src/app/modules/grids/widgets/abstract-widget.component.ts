@@ -1,4 +1,4 @@
-import {Component, HostBinding, Input, Output, EventEmitter} from "@angular/core";
+import {HostBinding, Input} from "@angular/core";
 import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
@@ -11,12 +11,4 @@ export abstract class AbstractWidgetComponent {
   @Input() resource:GridWidgetResource;
 
   constructor(protected i18n:I18nService) { }
-
-  // TODO: check if still needed
-  public set widgetResource(resource:GridWidgetResource) {
-    this.gridColumnStart = resource.startColumn;
-    this.gridColumnEnd = resource.endColumn;
-    this.gridRowStart = resource.startRow;
-    this.gridRowEnd = resource.endRow;
-  }
 }

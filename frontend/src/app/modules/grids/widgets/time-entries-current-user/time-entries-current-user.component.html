@@ -3,9 +3,14 @@
   <span class="widget-box--header-title" [textContent]="text.title"></span>
 </h3>
 
-<div class="total-hours">
-  <p>Total: <span [textContent]="total"></span></p>
-</div>
+<no-results *ngIf="noEntries"
+            [title]="text.noResults">
+</no-results>
+
+<ng-container *ngIf="!noEntries">
+  <div class="total-hours">
+    <p>Total: <span [textContent]="total"></span></p>
+  </div>
 
   <div class="generic-table--results-container" *ngIf="anyEntries">
     <table class="generic-table time-entries">
@@ -92,3 +97,4 @@
       </tbody>
     </table>
   </div>
+</ng-container>

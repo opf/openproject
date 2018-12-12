@@ -17,9 +17,11 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
     title: this.i18n.t('js.grid.widgets.news.title'),
     createdBy: this.i18n.t('js.label_created_by'),
     at: this.i18n.t('js.grid.widgets.news.at'),
+    noResults: this.i18n.t('js.grid.widgets.news.no_results'),
   };
 
   public entries:NewsResource[] = [];
+  private entriesLoaded = false;
 
   constructor(readonly halResource:HalResourceService,
               readonly pathHelper:PathHelperService,
@@ -31,14 +33,11 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   }
 
   ngOnInit() {
-    //let orders = JSON.stringify([['created_on', 'desc']]);
-
-    //let url = `${this.pathHelper.api.v3.apiV3Base}/news?sortBy=${orders}&pageSize=3`;
-
     this.newsDm
       .list({ sortBy: [['created_on', 'desc']], pageSize: 3 })
       .then((collection) => {
         this.entries = collection.elements as NewsResource[];
+        this.entriesLoaded = true;
 
         this.entries.forEach((entry) => {
           this.userCache
@@ -76,5 +75,9 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
 
   public newsCreated(news:NewsResource) {
     return this.timezone.formattedDatetime(news.createdAt);
+  }
+
+  public get noEntries() {
+    return !this.entries.length && this.entriesLoaded;
   }
 }
