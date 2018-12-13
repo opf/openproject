@@ -29,6 +29,8 @@
 $hamburger-right: -3px
 $hamburger-width: 50px
 
+$search-input-width: 180px
+
 %top-menu-hover-styles
   @include varprop(background, header-item-bg-hover-color)
   @include varprop(color, header-item-font-hover-color)
@@ -206,7 +208,7 @@ input.top-menu-search--input
   display: inline-block
   border: none !important
   border-radius: 25px
-  width: 180px
+  width: $search-input-width
   outline: 0
   font-size: 0.75rem
   &::-ms-clear
@@ -214,6 +216,10 @@ input.top-menu-search--input
     width: 20px
   .top-menu-search.-collapsed &
     display: none
+
+.top-menu-search--loading
+  top: $header-height
+  left: -($search-input-width - $header-height) - 1
 
 #quick-search
   float: right

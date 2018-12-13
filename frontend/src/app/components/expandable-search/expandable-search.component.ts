@@ -26,11 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, HostListener, OnDestroy, Renderer2, ViewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  Renderer2,
+  ViewChild
+} from '@angular/core';
 import {ContainHelpers} from 'core-app/modules/common/focus/contain-helpers';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 
 export const expandableSearchSelector = 'expandable-search';
 
@@ -45,13 +57,54 @@ export class ExpandableSearchComponent implements OnDestroy {
 
   public collapsed:boolean = true;
   public focused:boolean = false;
+  public noResults = false;
+
+  private $element:JQuery;
+  private $input:JQuery;
 
   private unregisterGlobalListener:Function | undefined;
 
   constructor(readonly FocusHelper:FocusHelperService,
               readonly elementRef:ElementRef,
               readonly renderer:Renderer2,
-              readonly I18n:I18nService) {
+              readonly I18n:I18nService,
+              readonly PathHelperService:PathHelperService,
+              readonly loadingIndicatorService:LoadingIndicatorService,
+              readonly halResourceService:HalResourceService) {
+  }
+
+  ngOnInit() {
+    this.$element = jQuery(this.elementRef.nativeElement);
+    this.$input = jQuery(this.input.nativeElement);
+
+    let selected = false;
+
+    this.$input.autocomplete({
+      delay: 250,
+      autoFocus: false, // Accessibility!
+      appendTo: '#top-menu',
+      classes: {
+        'ui-autocomplete': 'search-autocomplete--results'
+      },
+      position: {
+        my: 'left top+10',
+        at: 'left bottom'
+      },
+      source: (request:{ term:string }, response:Function) => {
+        this.autocompleteWorkPackages(request.term).then((values) => {
+          selected = false;
+
+          response(values.map(wp => {
+            return {workPackage: wp, value: ExpandableSearchComponent.getWpIdentifier(wp)};
+          }));
+        });
+      },
+      select: (_evt:any, ui:any) => {
+        selected = true;
+        this.redirectToWp(ui.item.workPackage.id);
+      },
+      minLength: 0
+    });
   }
 
   // detect if click is outside or inside the element
@@ -77,8 +130,8 @@ export class ExpandableSearchComponent implements OnDestroy {
     return false;
   }
 
-  ngOnDestroy() {
-    this.unregister();
+  public redirectToWp(id:string) {
+    window.location = this.PathHelperService.workPackagePath(id) as unknown as Location;
   }
 
   private registerOutsideClick() {
@@ -114,6 +167,37 @@ export class ExpandableSearchComponent implements OnDestroy {
 
   private set searchValue(val:string) {
     this.input.nativeElement.value = val;
+  }
+
+  ngOnDestroy():void {
+    this.$input.autocomplete('destroy');
+    this.unregister();
+  }
+
+  private static getWpIdentifier(workPackage:WorkPackageResource):string {
+    if (workPackage) {
+      return `#${workPackage.id} - ${workPackage.subject}`;
+    } else {
+      return '';
+    }
+  }
+
+  private autocompleteWorkPackages(query:string):Promise<WorkPackageResource[]> {
+    this.$element.find('.ui-autocomplete--loading').show();
+
+    let href = this.PathHelperService.api.v3.wpBySubject(query);
+
+    return this.halResourceService
+      .get<CollectionResource<WorkPackageResource>>(href)
+      .toPromise()
+      .then((collection) => {
+        this.noResults = collection.count === 0;
+        this.$element.find('.ui-autocomplete--loading').hide();
+        return collection.elements || [];
+      }).catch(() => {
+        this.$element.find('.ui-autocomplete--loading').hide();
+        return [];
+      });
   }
 }
 

@@ -122,4 +122,12 @@ export class ApiV3Paths {
     }
     return this.apiV3Base + '/principals' + '?' + filters.toParams() + encodeURI('&sortBy=[["name","asc"]]&offset=1&pageSize=10');
   }
+
+  public wpBySubject(term:string) {
+    let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+
+    filters.add('subject', '~', [term]);
+
+    return this.apiV3Base + '/work_packages' + '?' + filters.toParams() + encodeURI('&sortBy=[["updatedAt","DESC"]]&offset=1&pageSize=10');
+  }
 }
