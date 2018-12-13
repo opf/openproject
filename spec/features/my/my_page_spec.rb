@@ -81,7 +81,7 @@ describe 'My page', type: :feature, js: true do
     my_page.add_widget(1, 1, 'Calendar')
 
     calendar_area = Components::Grids::GridArea.new('.grid--area', text: 'Calendar')
-    calendar_area.expect_to_span(1, 1, 2, 2)
+    calendar_area.expect_to_span(1, 1, 2, 3)
 
     calendar_area.resize_to(2, 4)
 

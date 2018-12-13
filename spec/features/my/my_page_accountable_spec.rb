@@ -81,12 +81,12 @@ describe 'Accountable widget on my page', type: :feature, js: true do
 
     my_page.add_widget(2, 3, "Work packages I am accountable for")
 
-    sleep(0.5)
+    sleep(0.2)
 
     accountable_area = Components::Grids::GridArea.new('.grid--area', text: "Work packages I am accountable for")
     created_area = Components::Grids::GridArea.new('.grid--area', text: "Work packages created by me")
 
-    accountable_area.expect_to_span(2, 3, 3, 4)
+    accountable_area.expect_to_span(2, 3, 5, 4)
     accountable_area.resize_to(6, 4)
 
     accountable_area.expect_to_span(2, 3, 7, 5)

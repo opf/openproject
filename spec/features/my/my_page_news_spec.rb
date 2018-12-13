@@ -69,7 +69,7 @@ describe 'My page news widget spec', type: :feature, js: true do
     my_page.add_widget(1, 3, 'News')
 
     document_area = Components::Grids::GridArea.new('.grid--area', text: 'News')
-    document_area.expect_to_span(1, 3, 2, 4)
+    document_area.expect_to_span(1, 3, 4, 5)
 
     document_area.resize_to(7, 4)
 

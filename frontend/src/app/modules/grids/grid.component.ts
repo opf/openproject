@@ -295,6 +295,72 @@ export class GridComponent implements OnDestroy, OnInit {
       .addService
       .select(area)
       .then((widgetResource) => {
+        // try to set it to a 2 x 3 layout
+        // but shrink if that is outside the grid or
+        // overlaps any other widget
+        //if (widgetResource.endColumn + 1 <= this.numColumns + 1) {
+        widgetResource.endColumn = widgetResource.endColumn + 1;
+        widgetResource.endRow = widgetResource.endRow + 2;
+
+        let maxRow:number = this.numRows + 1;
+        let maxColumn:number = this.numColumns + 1;
+
+        this.widgetResources.forEach((existingWidget) => {
+          // for overlap check
+          //(((widgetResource.startColumn < existingWidget.endColumn &&
+          //  widgetResource.endColumn >= existingWidget.endColumn) ||
+          //  (widgetResource.startColumn <= existingWidget.startColumn &&
+          //    widgetResource.endColumn > existingWidget.startColumn) ||
+          //  (widgetResource.startColumn > existingWidget.startColumn &&
+          //    widgetResource.endColumn < existingWidget.endColumn)) &&
+          //  (widgetResource.startRow < existingWidget.endRow &&
+          //    widgetResource.endRow >= existingWidget.endRow ||
+          //    widgetResource.startRow <= existingWidget.startRow &&
+          //    widgetResource.endRow > existingWidget.startRow)) { // &&
+          if ((widgetResource.startColumn < existingWidget.startColumn &&
+              widgetResource.endColumn > existingWidget.startColumn) &&
+            (widgetResource.startRow < existingWidget.endRow &&
+             widgetResource.endRow >= existingWidget.endRow ||
+             widgetResource.startRow <= existingWidget.startRow &&
+              widgetResource.endRow > existingWidget.startRow ||
+             widgetResource.startRow > existingWidget.startRow &&
+              widgetResource.endRow < existingWidget.endRow)) {
+
+            if (maxColumn > existingWidget.startColumn) {
+              maxColumn = existingWidget.startColumn;
+            }
+          }
+        });
+
+        if (maxColumn < widgetResource.endColumn) {
+          widgetResource.endColumn = maxColumn;
+        }
+
+        this.widgetResources.forEach((existingWidget) => {
+          if (((widgetResource.startRow < existingWidget.endRow &&
+            widgetResource.endRow >= existingWidget.endRow) ||
+            (widgetResource.startRow <= existingWidget.startRow &&
+              widgetResource.endRow > existingWidget.startRow) ||
+            (widgetResource.startRow > existingWidget.startRow &&
+              widgetResource.endRow < existingWidget.endRow)) &&
+            (widgetResource.startColumn < existingWidget.endColumn &&
+              widgetResource.endColumn >= existingWidget.endColumn ||
+              widgetResource.startColumn <= existingWidget.startColumn &&
+              widgetResource.endColumn > existingWidget.startColumn &&
+             widgetResource.startColumn > existingWidget.startColumn &&
+              widgetResource.endColumn < existingWidget.endColumn)) {
+
+            if (maxRow > existingWidget.startRow) {
+              maxRow = existingWidget.startRow;
+            }
+          }
+        });
+
+        if (maxRow < widgetResource.endRow) {
+          widgetResource.endRow = maxRow;
+        }
+
+
         this.widgetResources.push(widgetResource);
 
         this.buildAreas();

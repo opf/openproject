@@ -91,7 +91,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     my_page.add_widget(1, 1, 'Spent time (last 7 days)')
 
     calendar_area = Components::Grids::GridArea.new('.grid--area', text: 'Spent time (last 7 days)')
-    calendar_area.expect_to_span(1, 1, 2, 2)
+    calendar_area.expect_to_span(1, 1, 4, 3)
 
     calendar_area.resize_to(7, 2)
 

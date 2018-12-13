@@ -69,7 +69,7 @@ describe 'My page documents widget', type: :feature, js: true do
     my_page.add_widget(1, 3, 'Documents')
 
     document_area = Components::Grids::GridArea.new('.grid--area', text: 'Documents')
-    document_area.expect_to_span(1, 3, 2, 4)
+    document_area.expect_to_span(1, 3, 4, 5)
 
     document_area.resize_to(7, 4)
 
