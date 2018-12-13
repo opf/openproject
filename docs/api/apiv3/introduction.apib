@@ -46,6 +46,8 @@ Otherwise unauthenticated clients have all the permissions of the anonymous user
 This means you have to login to OpenProject via the Web-Interface to be authenticated in the API.
 This method is well-suited for clients acting within the browser, like the Angular-Client built into OpenProject.
 
+In this case, you always need to pass the HTTP header `X-Requested-With "XMLHttpRequest"` for authentication.
+
 ## API Key through Basic Auth
 
 Users can authenticate towards the API v3 using basic auth with 'apikey' as the user name and their API key as the password. Users can find their API key on their account page.

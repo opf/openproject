@@ -157,7 +157,7 @@ class AccountController < ApplicationController
   def activate
     token = ::Token::Invitation.find_by_plaintext_value(params[:token])
 
-    if token.nil? || token.expired?
+    if token.nil? || token.expired? || token.user.nil?
       handle_expired_token token
     elsif token.user.invited?
       activate_by_invite_token token

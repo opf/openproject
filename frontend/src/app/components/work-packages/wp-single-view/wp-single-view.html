@@ -119,6 +119,8 @@
     </div>
 
     <attachment-list [resource]="workPackage" [selfDestroy]="true"></attachment-list>
-    <attachments-upload [resource]="workPackage" class="hide-when-print"></attachments-upload>
+    <ndc-dynamic [ndcDynamicComponent]="attachmentUploadComponent()"
+                 [ndcDynamicInputs]="{ resource: workPackage }">
+    </ndc-dynamic>
   </div>
 </div>
