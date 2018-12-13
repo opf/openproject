@@ -238,38 +238,39 @@ i
 
 .wp-info-wrapper
   display: flex
+  flex-wrap: wrap
   align-items: center
   padding-top: 0.5rem
+
   .wp-status-button .button
+    @include text-shortener
     padding: 5px
     margin-bottom: 0
     @include varprop(background-color, status-selector-bg-color)
     border: none
     color: white
     white-space: nowrap
+    // Should not be longer than mobile screen width (margin of 15px left and right)
+    max-width: calc(100vw - 30px)
 
     .button--text
       margin: 0 5px
 
-  attribute-help-text .help-text--entry
-    line-height: 25px
-    margin: 0 10px 0 -10px
-    .icon:before
-      padding: 0
+  attribute-help-text
+    flex: 0
+    .help-text--entry
+      line-height: 25px
+      margin: 0 10px 0 -14px
+      .icon:before
+        padding: 0
+
   .work-packages--info-row
-    flex-grow: 2
+    flex: 1 1 200px
 
   attribute-help-text,
   .wp-status-button,
   .work-packages--info-row
     margin-bottom: 0.5rem
-
-  &.-wrapped
-    flex-wrap: wrap
-    .work-packages--info-row,
-    attribute-help-text,
-    wp-custom-action
-      margin-bottom: 0.5rem
 
 .work-packages--new .wp-status-button
   padding: 3px
