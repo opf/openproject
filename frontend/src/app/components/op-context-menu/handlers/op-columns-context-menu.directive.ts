@@ -60,7 +60,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
     super(elementRef, opContextMenu);
   }
 
-  protected open(evt:JQuery.Event) {
+  protected open(evt:JQueryEventObject) {
     if (!this.table.configuration.columnMenuEnabled) {
       return;
     }
@@ -81,7 +81,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
    *
    * @param {Event} openerEvent
    */
-  public positionArgs(evt:JQuery.Event) {
+  public positionArgs(evt:JQueryEventObject) {
     let additionalPositionArgs = {
       of:  this.$element.find('.generic-table--sort-header-outer'),
     };

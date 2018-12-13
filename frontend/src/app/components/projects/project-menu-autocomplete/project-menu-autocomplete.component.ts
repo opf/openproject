@@ -273,7 +273,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
 
       // On iOS the click event doesn't get fired. So we need to listen to touch events and discard them if they they
       // are the beginning of some scrolling.
-      .on('touchend', '.ui-menu-item a', function(evt:JQuery.Event) {
+      .on('touchend', '.ui-menu-item a', function(evt:JQueryEventObject) {
         if (!touchMoved) {
           window.location.href = (evt.target as HTMLAnchorElement).href;
         }

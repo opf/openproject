@@ -19,7 +19,7 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
     this.$element = jQuery(this.elementRef.nativeElement);
 
     // Open by clicking the element
-    this.$element.on('click', (evt:JQuery.Event) => {
+    this.$element.on('click', (evt:JQueryEventObject) => {
       evt.preventDefault();
       evt.stopPropagation();
 
@@ -44,7 +44,7 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
    *
    * @param {Event} openerEvent
    */
-  public positionArgs(openerEvent:JQuery.Event) {
+  public positionArgs(openerEvent:JQueryEventObject) {
     return {
       my: 'left top',
       at: 'left bottom',

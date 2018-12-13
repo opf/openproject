@@ -40,7 +40,7 @@ export class OPContextMenuService {
     $transitions.onStart({}, () => this.close());
 
     // Listen to keyups on window to close context menus
-    jQuery(window).on('keydown', (evt:JQuery.Event) => {
+    jQuery(window).on('keydown', (evt:JQueryEventObject) => {
       if (this.active && evt.which === keyCodes.ESCAPE) {
         this.close();
       }
@@ -49,7 +49,7 @@ export class OPContextMenuService {
     });
 
     // Listen to any click and close the active context menu
-    jQuery(window).on('click', (evt:JQuery.Event) => {
+    jQuery(window).on('click', (evt:JQueryEventObject) => {
       if (this.active && !this.portalHostElement.contains(evt.target as Element)) {
         this.close();
       }
@@ -60,7 +60,7 @@ export class OPContextMenuService {
    * Open a ContextMenu reference and append it to the portal
    * @param contextMenu A reference to a context menu handler
    */
-  public show(menu:OpContextMenuHandler, event:JQuery.Event, component:any = OPContextMenuComponent) {
+  public show(menu:OpContextMenuHandler, event:JQueryEventObject, component:any = OPContextMenuComponent) {
     this.close();
 
     // Create a portal for the given component class and render it
@@ -97,7 +97,7 @@ export class OPContextMenuService {
     this.active = null;
   }
 
-  public reposition(event:JQuery.Event) {
+  public reposition(event:JQueryEventObject) {
     if (!this.active) {
       return;
     }
