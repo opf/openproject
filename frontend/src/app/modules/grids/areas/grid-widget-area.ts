@@ -12,4 +12,40 @@ export class GridWidgetArea extends GridArea {
 
     this.widget = widget;
   }
+
+  public overlaps(otherArea:GridWidgetArea) {
+    return this.rowOverlaps(otherArea) &&
+           this.columnOverlaps(otherArea);
+  }
+
+  public rowOverlaps(otherArea:GridWidgetArea) {
+    return this.startRow < otherArea.endRow &&
+           this.endRow >= otherArea.endRow ||
+           this.startRow <= otherArea.startRow &&
+           this.endRow > otherArea.startRow ||
+           this.startRow > otherArea.startRow &&
+           this.endRow < otherArea.endRow;
+  }
+
+  public columnOverlaps(otherArea:GridWidgetArea) {
+    return this.startColumn < otherArea.endColumn &&
+           this.endColumn >= otherArea.endColumn ||
+           this.startColumn <= otherArea.startColumn &&
+           this.endColumn > otherArea.startColumn ||
+           this.startColumn > otherArea.startColumn &&
+           this.endColumn < otherArea.endColumn;
+  }
+
+  public startColumnOverlaps(otherArea:GridWidgetArea) {
+    return this.startColumn < otherArea.startColumn &&
+           this.endColumn > otherArea.startColumn &&
+           this.rowOverlaps(otherArea);
+  }
+
+  public writeAreaChangeToWidget() {
+    this.widget.startRow = this.startRow;
+    this.widget.endRow = this.endRow;
+    this.widget.startColumn = this.startColumn;
+    this.widget.endColumn = this.endColumn;
+  }
 }

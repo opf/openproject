@@ -157,10 +157,7 @@ export class GridComponent implements OnDestroy, OnInit {
   // to the widget
   private writeAreaChangesToWidgets() {
     this.gridWidgetAreas.forEach((area) => {
-      area.widget.startRow = area.startRow;
-      area.widget.endRow = area.endRow;
-      area.widget.startColumn = area.startColumn;
-      area.widget.endColumn = area.endColumn;
+      area.writeAreaChangeToWidget();
     });
   }
 
@@ -298,70 +295,39 @@ export class GridComponent implements OnDestroy, OnInit {
         // try to set it to a 2 x 3 layout
         // but shrink if that is outside the grid or
         // overlaps any other widget
-        //if (widgetResource.endColumn + 1 <= this.numColumns + 1) {
-        widgetResource.endColumn = widgetResource.endColumn + 1;
-        widgetResource.endRow = widgetResource.endRow + 2;
+        let newArea = new GridWidgetArea(widgetResource);
+
+        newArea.endColumn = newArea.endColumn + 1;
+        newArea.endRow = newArea.endRow + 2;
 
         let maxRow:number = this.numRows + 1;
         let maxColumn:number = this.numColumns + 1;
 
-        this.widgetResources.forEach((existingWidget) => {
-          // for overlap check
-          //(((widgetResource.startColumn < existingWidget.endColumn &&
-          //  widgetResource.endColumn >= existingWidget.endColumn) ||
-          //  (widgetResource.startColumn <= existingWidget.startColumn &&
-          //    widgetResource.endColumn > existingWidget.startColumn) ||
-          //  (widgetResource.startColumn > existingWidget.startColumn &&
-          //    widgetResource.endColumn < existingWidget.endColumn)) &&
-          //  (widgetResource.startRow < existingWidget.endRow &&
-          //    widgetResource.endRow >= existingWidget.endRow ||
-          //    widgetResource.startRow <= existingWidget.startRow &&
-          //    widgetResource.endRow > existingWidget.startRow)) { // &&
-          if ((widgetResource.startColumn < existingWidget.startColumn &&
-              widgetResource.endColumn > existingWidget.startColumn) &&
-            (widgetResource.startRow < existingWidget.endRow &&
-             widgetResource.endRow >= existingWidget.endRow ||
-             widgetResource.startRow <= existingWidget.startRow &&
-              widgetResource.endRow > existingWidget.startRow ||
-             widgetResource.startRow > existingWidget.startRow &&
-              widgetResource.endRow < existingWidget.endRow)) {
-
-            if (maxColumn > existingWidget.startColumn) {
-              maxColumn = existingWidget.startColumn;
-            }
+        this.gridWidgetAreas.forEach((existingArea) => {
+          if (newArea.startColumnOverlaps(existingArea) &&
+              maxColumn > existingArea.startColumn) {
+            maxColumn = existingArea.startColumn;
           }
         });
 
-        if (maxColumn < widgetResource.endColumn) {
-          widgetResource.endColumn = maxColumn;
+        if (maxColumn < newArea.endColumn) {
+          newArea.endColumn = maxColumn;
         }
 
-        this.widgetResources.forEach((existingWidget) => {
-          if (((widgetResource.startRow < existingWidget.endRow &&
-            widgetResource.endRow >= existingWidget.endRow) ||
-            (widgetResource.startRow <= existingWidget.startRow &&
-              widgetResource.endRow > existingWidget.startRow) ||
-            (widgetResource.startRow > existingWidget.startRow &&
-              widgetResource.endRow < existingWidget.endRow)) &&
-            (widgetResource.startColumn < existingWidget.endColumn &&
-              widgetResource.endColumn >= existingWidget.endColumn ||
-              widgetResource.startColumn <= existingWidget.startColumn &&
-              widgetResource.endColumn > existingWidget.startColumn &&
-             widgetResource.startColumn > existingWidget.startColumn &&
-              widgetResource.endColumn < existingWidget.endColumn)) {
-
-            if (maxRow > existingWidget.startRow) {
-              maxRow = existingWidget.startRow;
-            }
+        this.gridWidgetAreas.forEach((existingArea) => {
+          if (newArea.overlaps(existingArea) &&
+              maxRow > existingArea.startRow) {
+            maxRow = existingArea.startRow;
           }
         });
 
-        if (maxRow < widgetResource.endRow) {
-          widgetResource.endRow = maxRow;
+        if (maxRow < newArea.endRow) {
+          newArea.endRow = maxRow;
         }
 
+        newArea.writeAreaChangeToWidget();
 
-        this.widgetResources.push(widgetResource);
+        this.widgetResources.push(newArea.widget);
 
         this.buildAreas();
       })
