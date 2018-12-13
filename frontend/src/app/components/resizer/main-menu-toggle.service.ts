@@ -174,7 +174,7 @@ export class MainMenuToggleService {
   private setupAutocloseMainMenu():void {
     let that = this;
     jQuery('#main-menu').off('focusout.main_menu');
-    jQuery('#main-menu').on('focusout.main_menu', function (event) {
+    jQuery('#main-menu').on('focusout.main_menu', function (event:JQueryEventObject) {
       // Check that main menu is not closed and that the `focusout` event is not a click on an element
       // that tries to close the menu anyways.
       if (!that.showNavigation || document.getElementById('main-menu-toggle') ===  event.relatedTarget) {
