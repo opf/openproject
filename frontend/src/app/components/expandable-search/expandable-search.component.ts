@@ -119,7 +119,7 @@ export class ExpandableSearchComponent implements OnDestroy {
             )
             .append(
               jQuery('<span>')
-                .addClass('subject')
+                .addClass('search-autocomplete--subject')
                 .append(` ${workPackage.subject}`)
             )
         )
