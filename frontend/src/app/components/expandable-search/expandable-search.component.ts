@@ -39,7 +39,6 @@ import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
@@ -69,7 +68,6 @@ export class ExpandableSearchComponent implements OnDestroy {
               readonly renderer:Renderer2,
               readonly I18n:I18nService,
               readonly PathHelperService:PathHelperService,
-              readonly loadingIndicatorService:LoadingIndicatorService,
               readonly halResourceService:HalResourceService) {
   }
 
@@ -93,9 +91,8 @@ export class ExpandableSearchComponent implements OnDestroy {
       source: (request:{ term:string }, response:Function) => {
         this.autocompleteWorkPackages(request.term).then((values) => {
           selected = false;
-
           response(values.map(wp => {
-            return {workPackage: wp, value: ExpandableSearchComponent.getWpIdentifier(wp)};
+            return {workPackage: wp, value: ExpandableSearchComponent.getWpLabel(wp)};
           }));
         });
       },
@@ -174,7 +171,7 @@ export class ExpandableSearchComponent implements OnDestroy {
     this.unregister();
   }
 
-  private static getWpIdentifier(workPackage:WorkPackageResource):string {
+  private static getWpLabel(workPackage:WorkPackageResource):string {
     if (workPackage) {
       return `#${workPackage.id} - ${workPackage.subject}`;
     } else {
