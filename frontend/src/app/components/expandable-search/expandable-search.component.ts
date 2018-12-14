@@ -120,7 +120,7 @@ export class ExpandableSearchComponent implements OnDestroy {
             .append(
               jQuery('<span>')
                 .addClass('subject')
-                .append(` ${workPackage.subject}`)
+                .append(` ${workPackage.subject} ${workPackage.updatedAt}`)
             )
         )
         .appendTo(ul);
@@ -205,10 +205,8 @@ export class ExpandableSearchComponent implements OnDestroy {
       .then((collection) => {
         this.noResults = collection.count === 0;
         this.$element.find('.ui-autocomplete--loading').hide();
-        console.log("collection loaded", collection.elements);
         return collection.elements || [];
       }).catch(() => {
-        console.log("collection loading catch");
         this.$element.find('.ui-autocomplete--loading').hide();
         return [];
       });

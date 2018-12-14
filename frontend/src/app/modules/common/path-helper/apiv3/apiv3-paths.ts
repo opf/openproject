@@ -128,6 +128,6 @@ export class ApiV3Paths {
 
     filters.add('subject', '~', [term]);
 
-    return this.apiV3Base + '/work_packages' + '?' + filters.toParams() + encodeURI('&sortBy=[["updatedAt","DESC"]]&offset=1&pageSize=10');
+    return this.apiV3Base + '/work_packages' + '?' + filters.toParams() + encodeURI('&sortBy=[["updatedAt","desc"]]&offset=1&pageSize=10');
   }
 }

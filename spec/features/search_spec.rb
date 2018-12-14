@@ -28,33 +28,58 @@
 
 require 'spec_helper'
 
-describe 'Search', type: :feature do
+describe 'Search', type: :feature, js: true do
+  let(:project) { FactoryBot.create :project }
+  let(:user) { FactoryBot.create :admin }
+
+  let!(:work_packages) do
+    (1..23).map do |n|
+      subject = "Subject No. #{n}"
+      FactoryBot.create :work_package,
+                        subject: subject,
+                        project: project,
+                        created_at: "2016-11-21 #{n}:00".to_datetime,
+                        updated_at: "2016-11-21 #{n}:00".to_datetime
+    end
+  end
+
+  let(:query) { "Subject" }
+
+  def expect_range(a, b)
+    (a..b).each do |n|
+      expect(page.body).to include("No. #{n}")
+      expect(page.body).to have_selector("a[href*='#{work_package_path(work_packages[n-1].id)}']")
+    end
+  end
+
+  before do
+    login_as user
+
+    visit search_path(project, q: query)
+  end
+
+  describe 'autocomplete' do
+    include ::Components::UIAutocompleteHelpers
+
+    it 'provides suggestions' do
+      page.find('#top-menu-search-button').click
+
+      suggestions = search_autocomplete(page.find('.top-menu-search--input'),
+                                        query: query,
+                                        results_selector: '.search-autocomplete--results')
+      expect(suggestions).to have_text('No. 23')
+      expect(suggestions).to_not have_text('No. 13')
+
+      target_work_package = work_packages.last
+      select_autocomplete(page.find('.top-menu-search--input'),
+                          query: target_work_package.subject,
+                          results_selector: '.search-autocomplete--results')
+      expect(current_path).to match /work_packages\/#{target_work_package.id}\//
+    end
+  end
+
   describe 'pagination' do
-    let(:project) { FactoryBot.create :project }
-    let(:user) { FactoryBot.create :admin }
-
-    let!(:work_packages) do
-      (1..23).map do |n|
-        subject = "Subject No. #{n}"
-        FactoryBot.create :work_package, subject: subject, project: project, created_at: "2016-11-21 #{n}:00".to_datetime
-      end
-    end
-
-    let(:query) { "Subject" }
-
-    def expect_range(a, b)
-      (a..b).each do |n|
-        expect(page.body).to include("No. #{n}")
-        expect(page.body).to have_selector("a[href*='#{work_package_path(work_packages[n-1].id)}']")
-      end
-    end
-
     context 'project search' do
-      before do
-        login_as user
-
-        visit search_path(project, q: query)
-      end
       it "works" do
         expect_range 14, 23
 
