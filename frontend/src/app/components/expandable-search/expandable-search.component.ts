@@ -92,7 +92,7 @@ export class ExpandableSearchComponent implements OnDestroy {
         this.autocompleteWorkPackages(request.term).then((values) => {
           selected = false;
           response(values.map(wp => {
-            return {workPackage: wp, value: ExpandableSearchComponent.getWpLabel(wp)};
+            return { workPackage: wp };
           }));
         });
       },
@@ -101,7 +101,30 @@ export class ExpandableSearchComponent implements OnDestroy {
         this.redirectToWp(ui.item.workPackage.id);
       },
       minLength: 0
-    });
+    })
+    .data('ui-autocomplete')._renderItem = (ul:JQuery, item:{workPackage:WorkPackageResource}) => {
+      let workPackage = item.workPackage;
+      return jQuery("<li>")
+        .attr('data-value', workPackage.id)
+        .attr('tabindex', -1)
+        .append(
+          jQuery('<div>')
+            .addClass( 'ui-menu-item-wrapper')
+            .append(
+              jQuery('<span>')
+                .addClass('search-autocomplete--wp-id')
+                .addClass(`__hl_dot_status_${workPackage.status.idFromLink}`)
+                .attr('title', workPackage.status.name)
+                .append(`#${workPackage.id}`)
+            )
+            .append(
+              jQuery('<span>')
+                .addClass('subject')
+                .append(` ${workPackage.subject}`)
+            )
+        )
+        .appendTo(ul);
+    };
   }
 
   // detect if click is outside or inside the element
@@ -171,14 +194,6 @@ export class ExpandableSearchComponent implements OnDestroy {
     this.unregister();
   }
 
-  private static getWpLabel(workPackage:WorkPackageResource):string {
-    if (workPackage) {
-      return `#${workPackage.id} - ${workPackage.subject}`;
-    } else {
-      return '';
-    }
-  }
-
   private autocompleteWorkPackages(query:string):Promise<WorkPackageResource[]> {
     this.$element.find('.ui-autocomplete--loading').show();
 
@@ -190,8 +205,10 @@ export class ExpandableSearchComponent implements OnDestroy {
       .then((collection) => {
         this.noResults = collection.count === 0;
         this.$element.find('.ui-autocomplete--loading').hide();
+        console.log("collection loaded", collection.elements);
         return collection.elements || [];
       }).catch(() => {
+        console.log("collection loading catch");
         this.$element.find('.ui-autocomplete--loading').hide();
         return [];
       });
