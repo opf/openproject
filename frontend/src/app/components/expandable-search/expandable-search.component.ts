@@ -120,7 +120,7 @@ export class ExpandableSearchComponent implements OnDestroy {
             .append(
               jQuery('<span>')
                 .addClass('subject')
-                .append(` ${workPackage.subject} ${workPackage.updatedAt}`)
+                .append(` ${workPackage.subject}`)
             )
         )
         .appendTo(ul);
