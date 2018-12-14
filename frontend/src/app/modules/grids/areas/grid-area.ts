@@ -12,47 +12,6 @@ export class GridArea {
     this.endColumn = endColumn;
   }
 
-  public moveRight() {
-    this.startColumn++;
-    this.endColumn++;
-  }
-
-  public moveLeft() {
-    this.startColumn--;
-    this.endColumn--;
-  }
-
-  public growColumn() {
-    this.endColumn++;
-  }
-
-  public doesContain(otherArea:GridArea) {
-    return this.isTopLeftInside(otherArea) ||
-      this.isTopRightInside(otherArea) ||
-      this.isBottomLeftInside(otherArea) ||
-      this.isBottomRightInside(otherArea);
-  }
-
-  private isTopLeftInside(otherArea:GridArea) {
-    return this.startRow <= otherArea.startRow && this.endRow > otherArea.startRow &&
-      this.startColumn <= otherArea.startColumn && this.endColumn > otherArea.startColumn;
-  }
-
-  private isTopRightInside(otherArea:GridArea) {
-    return this.startRow <= otherArea.startRow && this.endRow > otherArea.startRow &&
-      this.startColumn < otherArea.endColumn && this.endColumn >= otherArea.endColumn;
-  }
-
-  private isBottomLeftInside(otherArea:GridArea) {
-    return this.startRow <= otherArea.startRow && this.endRow > otherArea.startRow &&
-      this.startColumn < otherArea.endColumn && this.endColumn >= otherArea.endColumn;
-  }
-
-  private isBottomRightInside(otherArea:GridArea) {
-    return this.startRow < otherArea.endRow && this.endRow >= otherArea.endRow &&
-      this.startColumn < otherArea.endColumn && this.endColumn >= otherArea.endColumn;
-  }
-
   public get guid():string {
     if (!this.storedGuid) {
       this.storedGuid = this.newGuid();

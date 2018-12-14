@@ -42,7 +42,7 @@ import {WidgetWpCalendarComponent} from "core-app/modules/grids/widgets/wp-calen
 import {WidgetTimeEntriesCurrentUserComponent} from "core-app/modules/grids/widgets/time-entries-current-user/time-entries-current-user.component";
 import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
 import {AddGridWidgetService} from "core-app/modules/grids/widgets/add/add.service";
-import {GridComponent} from "core-app/modules/grids/grid.component";
+import {GridComponent} from "core-app/modules/grids/grid/grid.component";
 import {AddGridWidgetModal} from "core-app/modules/grids/widgets/add/add.modal";
 import {GridColumnContextMenu} from "core-app/modules/grids/context_menus/column.directive";
 import {GridRowContextMenu} from "core-app/modules/grids/context_menus/row.directive";

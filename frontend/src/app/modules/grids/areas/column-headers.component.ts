@@ -1,7 +1,7 @@
 import {Component,
   Input,
   HostBinding} from "@angular/core";
-import {GridComponent} from "core-app/modules/grids/grid.component";
+import {GridComponent} from "core-app/modules/grids/grid/grid.component";
 
 @Component({
   templateUrl: './column-headers.component.html',

@@ -13,6 +13,20 @@ export class GridWidgetArea extends GridArea {
     this.widget = widget;
   }
 
+  public moveRight() {
+    this.startColumn++;
+    this.endColumn++;
+  }
+
+  public moveLeft() {
+    this.startColumn--;
+    this.endColumn--;
+  }
+
+  public growColumn() {
+    this.endColumn++;
+  }
+
   public overlaps(otherArea:GridWidgetArea) {
     return this.rowOverlaps(otherArea) &&
            this.columnOverlaps(otherArea);

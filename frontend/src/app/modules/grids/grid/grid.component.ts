@@ -10,14 +10,15 @@ import {HookService} from "app/modules/plugins/hook-service";
 import {debugLog} from "app/helpers/debug_output";
 import {DomSanitizer} from "@angular/platform-browser";
 import {CdkDragDrop, CdkDragEnter, CdkDragExit, CdkDragEnd} from "@angular/cdk/drag-drop";
-import {ResizeDelta} from "../common/resizer/resizer.component";
-import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
-import {AddGridWidgetService} from "core-app/modules/grids/widgets/add/add.service";
-import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
-import {GridArea} from "core-app/modules/grids/areas/grid-area";
-import {GridWidgetArea} from "core-app/modules/grids/areas/grid-widget-area";
-import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import {ResizeDelta} from "../../common/resizer/resizer.component";
+import {GridWidgetsService} from "app/modules/grids/widgets/widgets.service";
+import {AddGridWidgetService} from "app/modules/grids/widgets/add/add.service";
+import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
+import {GridArea} from "app/modules/grids/areas/grid-area";
+import {GridWidgetArea} from "app/modules/grids/areas/grid-widget-area";
+import {GridDmService} from "app/modules/hal/dm-services/grid-dm.service";
+import {SchemaResource} from "app/modules/hal/resources/schema-resource";
+import {GridMoveAreasService} from "app/modules/grids/grid/move-areas.service";
 
 export interface WidgetRegistration {
   identifier:string;
@@ -26,7 +27,8 @@ export interface WidgetRegistration {
 
 @Component({
   templateUrl: './grid.component.html',
-  selector: 'grid'
+  selector: 'grid',
+  providers: [GridMoveAreasService]
 })
 export class GridComponent implements OnDestroy, OnInit {
   public uiWidgets:ComponentRef<any>[] = [];
@@ -54,7 +56,10 @@ export class GridComponent implements OnDestroy, OnInit {
               private sanitization:DomSanitizer,
               private widgetsService:GridWidgetsService,
               private addService:AddGridWidgetService,
-              private gridDm:GridDmService) {}
+              private gridDm:GridDmService,
+              private gridMoveAreas:GridMoveAreasService) {
+    this.gridMoveAreas.grid = this;
+  }
 
   ngOnDestroy() {
     this.uiWidgets.forEach((widget) => widget.destroy());
@@ -200,7 +205,7 @@ export class GridComponent implements OnDestroy, OnInit {
       this.dragPlaceholderArea.endColumn = dropArea.startColumn + this.dragPlaceholderArea.widget.width;
     }
 
-    this.moveAreasDown(this.dragPlaceholderArea, widgetArea);
+    this.gridMoveAreas.moveAreasDown(this.dragPlaceholderArea, widgetArea);
   }
 
   private resetAreasOnDragging(ignoredArea:GridWidgetArea|null = null) {
@@ -249,6 +254,7 @@ export class GridComponent implements OnDestroy, OnInit {
 
   public resizeMove(deltas:ResizeDelta) {
     if (!this.resizePlaceholderArea ||
+        !this.resizedArea ||
         !this.mousedOverArea ||
         !this.resizeAreaTargetIds.includes(this.gridAreaId(this.mousedOverArea))) {
       return;
@@ -259,7 +265,7 @@ export class GridComponent implements OnDestroy, OnInit {
     this.resizePlaceholderArea.endRow = this.mousedOverArea.endRow;
     this.resizePlaceholderArea.endColumn = this.mousedOverArea.endColumn;
 
-    this.moveAreasDown(this.resizePlaceholderArea, this.resizedArea);
+    this.gridMoveAreas.moveAreasDown(this.resizePlaceholderArea, this.resizedArea);
   }
 
   public isResizeTarget(area:GridArea) {
@@ -509,102 +515,5 @@ export class GridComponent implements OnDestroy, OnInit {
     });
 
     return ids;
-  }
-
-  private doAreasOverlap(area:GridArea, otherArea:GridArea) {
-    return area.doesContain(otherArea) ||
-             otherArea.doesContain(area);
-  }
-
-  private moveAreasDown(movedArea:GridWidgetArea|null, ignoreArea:GridWidgetArea|null = null) {
-    let movedAreas:GridWidgetArea[] = [];
-    let remainingAreas:GridWidgetArea[] = this.gridWidgetAreas.slice(0);
-
-    if (ignoreArea) {
-      remainingAreas = remainingAreas.filter((area) => {
-        return area.guid !== ignoreArea.guid;
-      });
-    }
-
-    remainingAreas.sort((a, b) => {
-      return b.startRow - a.startRow;
-    });
-
-    while (movedArea !== null) {
-      movedAreas.push(movedArea!);
-
-      remainingAreas = remainingAreas.filter((area) => {
-        return area.guid !== movedArea!.guid;
-      });
-
-      movedArea = this.moveOneAreaDown(movedAreas, remainingAreas);
-    }
-  }
-
-  private moveOneAreaDown(anchorAreas:GridWidgetArea[], movableAreas:GridWidgetArea[]) {
-    let moveSpecification = this.firstAreaToMove(anchorAreas, movableAreas);
-
-    if (moveSpecification) {
-      let toMoveArea = moveSpecification[0] as GridWidgetArea;
-      let anchorArea = moveSpecification[1] as GridWidgetArea;
-
-      let areaHeight = toMoveArea.widget.height;
-
-      toMoveArea.startRow = anchorArea.endRow;
-      toMoveArea.endRow = toMoveArea.startRow + areaHeight;
-
-      if (this.numRows < toMoveArea.endRow - 1) {
-        this.numRows = toMoveArea.endRow - 1;
-      }
-
-      return toMoveArea;
-    } else {
-      return null;
-    }
-  }
-
-  // Return first area that needs to move as it overlaps another area.
-  // There are two groups of areas here. The first (anchorAreas) is considered stable
-  // and as such not fit for being moved. This happens e.g. when the user explicitly
-  // moved a widget or if the area has already been moved in a previous run of this method.
-  // The second group (movableAreas) consists of all areas that are movable.
-  // Once an area out of the second group has been identified that overlaps an area of the first
-  // group, the appropriate reference area for later moving is selected out of the group of all
-  // unmovable areas. The reference area is the bottommost area within the unmovable areas which's
-  // column values (start/end) include the to move area's start column value and which's end row is larger
-  // than the area overlapping the area to move. Unmovable areas which's column values do not include the
-  // start column are to the left or right of the area to move and can thus be ignored.
-  private firstAreaToMove(anchorAreas:GridArea[], movableAreas:GridArea[]) {
-    let overlappingArea:GridArea|null = null;
-    let toMoveArea:GridArea|null = null;
-
-    movableAreas.forEach((movableArea) => {
-      anchorAreas.forEach((anchorArea) => {
-        if (this.doAreasOverlap(anchorArea, movableArea)) {
-          overlappingArea = anchorArea;
-          toMoveArea = movableArea;
-          return;
-        }
-      });
-
-      if (toMoveArea) {
-        return;
-      }
-    });
-
-    if (toMoveArea !== null) {
-      let referenceArea = overlappingArea!;
-
-      anchorAreas.forEach((anchorArea) => {
-        if (anchorArea.endRow > referenceArea.endRow &&
-            toMoveArea!.startColumn >= anchorArea.startColumn && toMoveArea!.startColumn < anchorArea.endColumn) {
-          referenceArea = anchorArea;
-        }
-      });
-
-      return [toMoveArea, referenceArea];
-    } else {
-      return null;
-    }
   }
 }

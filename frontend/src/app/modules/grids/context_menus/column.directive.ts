@@ -31,7 +31,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
-import {GridComponent} from "core-app/modules/grids/grid.component";
+import {GridComponent} from "core-app/modules/grids/grid/grid.component";
 
 @Directive({
   selector: '[gridColumnContextMenu]'
