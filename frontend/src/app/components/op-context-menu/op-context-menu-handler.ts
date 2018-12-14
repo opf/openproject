@@ -28,7 +28,7 @@ export abstract class OpContextMenuHandler {
    *
    * @param {Event} openerEvent
    */
-  public positionArgs(openerEvent:JQuery.Event):any {
+  public positionArgs(openerEvent:JQueryEventObject):any {
     return {
       my: 'left top',
       at: 'right bottom',
@@ -49,7 +49,7 @@ export abstract class OpContextMenuHandler {
   /**
    * Open this context menu
    */
-  protected open(evt:JQuery.Event) {
+  protected open(evt:JQueryEventObject) {
     this.opContextMenu.show(this, evt);
   }
 

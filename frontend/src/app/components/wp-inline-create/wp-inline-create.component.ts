@@ -148,7 +148,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
    * which is dynamically inserted into the action row by the inline create renderer.
    */
   private registerCancelHandler() {
-    this.$element.on('click keydown', `.${inlineCreateCancelClassName}`, (evt:JQuery.Event) => {
+    this.$element.on('click keydown', `.${inlineCreateCancelClassName}`, (evt:JQueryEventObject) => {
       onClickOrEnter(evt, () => {
         this.resetRow();
       });
