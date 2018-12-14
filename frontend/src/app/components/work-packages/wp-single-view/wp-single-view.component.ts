@@ -203,6 +203,12 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     return this.hook.call('attributeGroupComponent', group, this.workPackage).pop() || null;
   }
 
+  public attachmentListComponent() {
+    // we take the last registered group component which means that
+    // plugins will have their say if they register for it.
+    return this.hook.call('workPackageAttachmentListComponent', this.workPackage).pop() || null;
+  }
+
   public attachmentUploadComponent() {
     // we take the last registered group component which means that
     // plugins will have their say if they register for it.
