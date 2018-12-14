@@ -166,10 +166,10 @@ pl:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Zaznacz tę opcję, aby oznaczyć pakiety robocze o tym stanie jako tylko do odczytu.
+        Nie można zmienić żadnych atrybutów z wyjątkiem stanu.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Uwaga</strong>: wartości dziedziczone (np. po elementach podrzędnych lub relacjach) będą nadal stosowane.
       status_color_text: |
         Kliknij, aby przypisać lub zmienić kolor tego stanu.
         Jest on wyświetlany w przycisku stanu i można go używać do wyróżniania pakietów roboczych w tabeli.
@@ -186,9 +186,9 @@ pl:
       projects: Projekty
       enabled_projects: Aktywne projekty
       add_group: Dodaj grupę atrybutów
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Dodaj tabelę powiązanych pakietów roboczych
+      edit_query: Edytuj tabelę
+      query_group_placeholder: Nadaj nazwę tabeli
       reset: Resetuj do ustawień domyślnych
       type_color_text: 'Kliknij, aby przypisać lub zmienić kolor tego typu. Wybrany
         kolor odróżnia pakiety robocze na wykresach Gantta.
@@ -351,7 +351,7 @@ pl:
         to: Powiązanie zadania
       status:
         is_closed: Zadanie zamknięte
-        is_readonly: Work package read-only
+        is_readonly: Pakiet roboczy tylko do odczytu
       journal:
         notes: Notatki
       member:
@@ -1039,7 +1039,7 @@ pl:
   error_journal_attribute_not_present: Dziennik nie zawiera atrybutu %{attribute}.
   error_pdf_export_too_many_columns: Wybrano zbyt dużo kolumn do eksportu PDF. Zmniejsz
     liczbę kolumn.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'Nie można było zapisać eksportu PDF: %{error}'
   error_token_authenticity: Nie można zweryfikować tokenu Cross-Site Request Forgery.
     Czy podjęto próbę przesłania danych w wielu przeglądarkach lub z wielu kart? Zamknij
     wszystkie karty i spróbuj ponownie.
@@ -1076,7 +1076,7 @@ pl:
 '
   error_external_authentication_failed: Wystąpił błąd podczas autoryzacji zewnętrznej.
     Proszę spróbować ponownie.
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: 'Atrybuty, których nie można wyróżnić: %{attributes}'
   events:
     project: Projekt edytowany
     changeset: Komentarze edytowane
@@ -1094,8 +1094,8 @@ pl:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF z opisami
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: Plik PDF z opisami i załącznikami
+      pdf_with_attachments: Plik PDF z załącznikami
   extraction:
     available:
       pdftotext: Dostępny konwerter Pdftotext (opcjonalny)
@@ -1126,7 +1126,7 @@ pl:
       upsale:
         become_hero: Zostań bohaterem!
         title: Aktualizuj do wersji Enterprise
-        description: What are the benefits?
+        description: Jakie są korzyści?
         more_info: Więcej informacji
         additional_features: Potężne dodatkowe funkcje premium
         professional_support: Profesjonalne wsparcie od ekspertów OpenProject
@@ -1207,7 +1207,7 @@ pl:
   label_auth_source_plural: Tryb uwierzytelniania
   label_authentication: Uwierzytelnianie
   label_available_project_work_package_categories: Dostępne kategorie Zadań
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Dostępne typy pakietów roboczych
   label_available_project_boards: Dostępne tablice
   label_available_project_versions: Dostępne wersje
   label_available_project_repositories: Dostępne repozytoria
@@ -1316,7 +1316,7 @@ pl:
   label_enumeration_value: Dodaj nową pozycję
   label_enumerations: Listy
   label_enterprise: Przedsiębiorstwo
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} zarejestrowanych aktywnych użytkowników"
   label_enterprise_edition: Enterprise Edition
   label_environment: Środowisko
   label_estimates_and_time: Szacowany czas
@@ -1378,7 +1378,7 @@ pl:
   label_journal_diff: Opis porównania
   label_language: Język
   label_jump_to_a_project: Skok do projektu...
-  label_keyword_plural: Keywords
+  label_keyword_plural: Słowa kluczowe
   label_language_based: Na podstawie języka użytkownika
   label_last_activity: Ostatnia aktywność
   label_last_change_on: Ostatnia zmiana na
@@ -1926,7 +1926,7 @@ pl:
       i pracą zespołową w OpenProject.
     text_show_again: Możesz zresetować to wideo w menu pomocy
     welcome: Witamy w OpenProject
-    select_language: Please select your language
+    select_language: Wybierz język
   permission_add_work_package_notes: Dodawanie notatek
   permission_add_work_packages: Dodawanie pakietów roboczych
   permission_add_messages: Wysyłanie wiadomości
@@ -2169,7 +2169,7 @@ pl:
   setting_email_delivery_method: Metoda dostarczenia maila
   setting_sendmail_location: Lokalizacja pliku wykonywalnego sendmail
   setting_smtp_enable_starttls_auto: Automatycznie użyj STARTTLS, jeśli jest dostępny
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: Użyj połączenia SSL
   setting_smtp_address: Serwer SMTP
   setting_smtp_port: Port SMTP
   setting_smtp_authentication: Uwierzytelnianie SMTP
@@ -2291,9 +2291,9 @@ pl:
   setting_welcome_on_homescreen: Wyświetl wiadomość powitalną na ekranie głównym
   setting_wiki_compression: Kompresja historii wiki
   setting_work_package_group_assignment: Allow assignment to groups
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighting_mode: Domyślny tryb wyróżniania
+  setting_work_package_list_default_highlighted_attributes: Domyślnie wyróżniane atrybuty
+    wyświetlane w treści
   settings:
     general: Ogólne
     other: Inne
@@ -2305,11 +2305,11 @@ pl:
       deletion: Usunięcie
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
+        inline: Wyróżniaj atrybuty wyświetlane w treści
         none: Bez wyróżniania
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: Cały wiersz wg stanu
+        type: Cały wiersz wg typu
+        priority: Cały wiersz wg priorytetu
   text_formatting:
     markdown: Markdown
     plain: Zwykły tekst
@@ -2772,7 +2772,8 @@ pl:
       code_401_wrong_credentials: Nie wprowadziłeś prawidłowych danych uwierzytelniania.
       code_403: Nie masz uprawnień do tego zasobu.
       code_404: Nie można odnaleźć żądanego zasobu.
-      code_409: Could not update the resource because of conflicting modifications.
+      code_409: Nie można zaktualizować zasobu ze względu na modyfikacje powodujące
+        konflikt.
       code_500: Wystąpił błąd wewnętrzny.
       expected:
         date: RRRR-MM-DD (tylko data ISO 8601)
