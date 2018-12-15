@@ -754,9 +754,9 @@ tr:
     checkbox_label: Yukarıdakilere dikkat ettim ve onay verdim.
     failure_message: Rıza alımı başarısız oldu, işlenemedi.
     title: Kullanıcı Rızası
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
+    decline_warning_message: Onay vermeyi reddettiniz ve çıkış yaptınız.
+    user_has_consented: Kullanıcı, belirtilen zamanda yapılandırılmış ifadenize izin
+      verdi.
     not_yet_consented: User has not consented yet, will be requested upon next login.
     contact_mail_instructions: Define the mail address that users can reach a data
       controller to perform data change or removal requests.
@@ -2130,8 +2130,8 @@ tr:
   setting_commit_logtime_activity_id: Kaydedilen zaman için faaliyet
   setting_commit_logtime_enabled: Zaman kaydını etkinleştir
   setting_commit_ref_keywords: Anahtar kelimeleri referansla
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
+  setting_consent_time: Rıza süresi
+  setting_consent_info: Rıza bilgi metni
   setting_consent_required: Consent required
   setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Projeler arası iş paketi ilişkilerine

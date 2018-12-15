@@ -53,7 +53,7 @@ zh:
     button_export-atom: 下载原子
     calendar:
       title: 日历
-      too_many: 工作包 (%{count}) 比日历 (%{max}) 显示的内容要多。添加过滤器过滤相关内容。
+      too_many: 工作包 (%{count}) 比日历 (%{max}) 显示的内容要多。添加筛选器可筛选相关内容。
     description_available_columns: 可用的列
     description_current_position: 你在这里：
     description_select_work_package: '选择工作包 #%{id}'
@@ -63,7 +63,7 @@ zh:
       preview: 切换预览模式
       source_code: 切换标记源模式
       error_saving_failed: 保存文档失败，出现以下错误：%{error}
-      error_initialization_failed: CKEditor 启动失败！
+      error_initialization_failed: 无法初始化 CKEditor！
       mode:
         manual: 切换到标记源
         wysiwyg: 切换到 WYSIWYG 编辑器
@@ -278,25 +278,25 @@ zh:
       show_modal: 显示属性帮助文本项
     onboarding:
       steps:
-        welcome: 通过三分钟的介绍学习<b>最重要的功能</b> 。<br>我们建议您完成所有步骤。您可以随时重新浏览该介绍。
-        project_selection: 请选择包含有用演示数据的项目开始。<br><b>演示项目</b>最适合经典项目管理，而 <b>Scrum 项目</b>更适合敏捷式项目管理。
-        sidebar_arrow: 该箭头可以导航回项目<b>主菜单</b>。
+        welcome: 通过三分钟的导览了解<b>最重要的功能</b> 。<br>我们建议您完成所有步骤。您可以随时重新浏览介绍。
+        project_selection: 请选择包含有用演示数据的项目开始。<br><b>演示项目</b>最适合经典项目管理，而 <b>Scrum 项目</b>更适合敏捷项目管理。
+        sidebar_arrow: 使用箭头可以导航回项目的<b>主菜单</b>。
         members: 邀请新<b>成员</b>加入您的项目。
         wiki: 在 <b>Wiki</b> 中，您可以记录并与您的团队共享知识。
-        backlogs_overview: 在 <b>Backlogs</b> 视图中管理您的工作。右边是产品 Backlog 或漏洞 Backlog，左边是各自的
-          sprint。<br>在这里，您可以创建<b>长篇故事、用户故事和漏洞</b>，通过拖放来确定优先级，并将它们添加到 sprint 中。
-        backlogs_task_board_arrow: 要查看您的<b>任务面板</b>，打开 Sprint 下拉菜单…
-        backlogs_task_board_select: "...并选择<b>任务面板</b>条目。"
-        backlogs_task_board: "<b>任务面板</b>将 sprint 的进度可视化。使用用户故事旁边的 + 图标添加新任务或障碍。通过拖放可以更新状态。"
-        wp_toggler: 现在我们来讲解<b>工作包</b>的内容，工作包提供更详细的工作视图。
-        wp_list: 这是<b>工作包</b>列表，包含项目中的重要工作，如任务、特征、里程碑、漏洞等。<br>您可以在这个列表中直接创建或编辑工作包。要查看工作包的详细信息，可以双击该行。
-        wp_full_view: 在<b>工作包细节</b>中，您可以找到所有相关信息，如描述、状态和优先级、活动、依赖项或评论。
+        backlogs_overview: 在 <b>Backlogs</b> 视图中管理您的工作。右边是产品 Backlog 或错误 Backlog，左边是各自的
+          sprint。<br>在这里，您可以创建<b>长篇故事、用户故事和错误</b>，通过拖放来确定优先级，以及将它们添加到 sprint 中。
+        backlogs_task_board_arrow: 要查看您的<b>任务面板</b>，请打开 Sprint 下拉菜单…
+        backlogs_task_board_select: "…并选择<b>任务面板</b>条目。"
+        backlogs_task_board: "<b>任务面板</b>将此 sprint 的进度可视化。使用用户故事旁边的 + 图标添加新任务或障碍。通过拖放可以更新状态。"
+        wp_toggler: 现在我们来看一下<b>工作包</b>部分，工作包提供了更详细的工作视图。
+        wp_list: 这是<b>工作包</b>列表，包含项目中的重要工作，例如任务、特征、里程碑和错误等。<br>您可以在这个列表中直接创建或编辑工作包。要查看工作包的详细信息，可以双击该行。
+        wp_full_view: 在<b>工作包详细信息</b>中，您可以找到所有相关信息，如描述、状态与优先级、依赖项或评论。
         wp_back_button: 使用箭头可以导航回工作包列表。
-        wp_create_button: "<b>创建</b>按钮将为您的项目添加新工作包。"
+        wp_create_button: "<b>创建</b>按钮将为您的项目添加一个新工作包。"
         wp_timeline_button: 您可以激活<b>甘特图</b>来为项目创建时间轴。
-        wp_timeline: 在这里您可以编辑您的项目计划。创建新的阶段、里程碑，并添加依赖项。所有团队成员可以随时查看和更新最新计划。
+        wp_timeline: 在这里您可以编辑您的项目计划。创建新的阶段、里程碑，并添加依赖项。所有团队成员都可以随时查看和更新最新计划。
         help_menu: 在<b>帮助</b>菜单中，您可以找到用户指南和其他帮助资源。<br>使用 OpenProject 享受您的工作！
-        got_it: 好
+        got_it: 知道了
     password_confirmation:
       field_description: 输入密码以确认更改
       title: 输入密码以继续
@@ -321,7 +321,7 @@ zh:
     types:
       attribute_groups:
         error_duplicate_group_name: 名称 %{group} 已多次使用。组名不能重复。
-        error_no_table_configured: 请为 %{group} 配置表。
+        error_no_table_configured: 请为 %{group} 配置一个表。
         reset_title: 重置表单配置
         confirm_reset: '警告：确定想要重置表单配置吗？这会将属性重置为它们的默认组，并禁用所有自定义字段。
 
@@ -331,18 +331,18 @@ zh:
         more_information: 更多信息
         nevermind: 我愿意
         filter_types:
-          parent: 属于
-          precedes: 先前的
-          follows: 跟随中
+          parent: 父级
+          precedes: 前导
+          follows: 跟随
           relates: 关于
           duplicates: 复制
           duplicated: 复制于
-          blocks: 拦截
+          blocks: 阻止
           blocked: 阻止于
           partof: 属于
           includes: 包括
           requires: 要求
-          required: 请求
+          required: 要求于
     watchers:
       label_loading: 正在加载关注者...
       label_error_loading: 加载关注者时出错
@@ -370,7 +370,7 @@ zh:
       hierarchy_headline: 层次结构
       children_headline: 子类
     relation_buttons:
-      set_parent: 设置父集
+      set_parent: 设置父级
       change_parent: 更改父级
       remove_parent: 删除上一级
       group_by_wp_type: 按工作包类型分组
@@ -393,7 +393,7 @@ zh:
       abort: 放弃
     relations_autocomplete:
       placeholder: 输入相关的工作包ID
-      parent_placeholder: 选择新父集，按 enter 键取消设置，按 escape 键取消。
+      parent_placeholder: 选择新父级，按 enter 键可取消设置，按 escape 键可取消。
     repositories:
       select_tag: 选择标签
       select_branch: 选择分支
@@ -524,7 +524,7 @@ zh:
       description_options_hide: 隐藏选项
       description_options_show: 显示选项
       error:
-        update_conflict_refresh: 单击此处刷新工作包并更新到最新版本。
+        update_conflict_refresh: 单击此处可刷新工作包并更新到最新版本。
         edit_prohibited: 已阻止对此工作包编辑 %{attribute}。此属性来源于关系（如儿童）或无法配置。
         format:
           date: "%{attribute} 不是有效日期 - 需要 YYYY-MM-DD。"

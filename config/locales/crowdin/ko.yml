@@ -152,10 +152,9 @@ ko:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        이 상태를 읽기 전용으로 작업 패키지에 표시하려면 이 옵션을 선택합니다. 상태를 제외하고 특성은 변경할 수 없습니다.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>참고</strong>: 상속된 값(예: 자식 또는 관계)은 계속 적용됩니다.
       status_color_text: |
         이 상태 색상을 할당하거나 변경하려면 클릭하세요.
         상태 버튼에 표시되고 테이블의 작업 패키지를 강조 표시하는 데 사용할 수 있습니다.
@@ -172,9 +171,9 @@ ko:
       projects: 프로젝트
       enabled_projects: 활성화 된 프로젝트
       add_group: 특성 그룹 추가
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: 관련 작업 패키지의 테이블 추가
+      edit_query: 테이블 편집
+      query_group_placeholder: 테이블에 이름 지정
       reset: 기본값으로 초기화
       type_color_text: |
         이 유형의 색상을 할당하거나 변경하려면 클릭하세요. 선택된 색상은 Gantt 차트에서 작업 패키지를
@@ -313,14 +312,14 @@ ko:
         expires_at: 에서 만료됨
         subscriber: 구독자
         encoded_token: 엔터프라이즈 지원 토큰
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: 최대 활성 사용자
       relation:
         delay: 지연
         from: 작업 패키지
         to: 관련 패키지
       status:
         is_closed: 종료된 작업 패키지
-        is_readonly: Work package read-only
+        is_readonly: 읽기 전용 작업 패키지
       journal:
         notes: 노트
       member:
@@ -365,7 +364,7 @@ ko:
         mail_notification: 이메일 알림
         new_password: 새로운 비밀번호
         password_confirmation: 확인
-        consented_at: Consented at
+        consented_at: '동의함:'
       user_preference:
         comments_sorting: 코멘트 표시
         hide_mail: 이메일 주소 숨김
@@ -663,7 +662,7 @@ ko:
   button_create: 만들기
   button_create_and_continue: 만들고 계속하기
   button_delete: 삭제
-  button_decline: Decline
+  button_decline: 거부
   button_delete_watcher: 주시자 %{name} 삭제
   button_download: 다운로드
   button_duplicate: 복제
@@ -698,7 +697,7 @@ ko:
   button_unlock: 잠금 해제
   button_unwatch: 주시 안 함
   button_update: 업데이트
-  button_upgrade: Upgrade
+  button_upgrade: 업그레이드
   button_upload: 업로드하기
   button_view: 보기
   button_watch: 주시
@@ -707,22 +706,19 @@ ko:
   button_configure_menu_entry: 메뉴 항목 구성
   button_delete_menu_entry: 메뉴 항목 삭제
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    checkbox_label: 위 내용을 확인했으며 이에 동의합니다.
+    failure_message: 동의에 실패했습니다. 계속할 수 없습니다.
+    title: 사용자 동의
+    decline_warning_message: 동의를 거부하고 로그아웃했습니다.
+    user_has_consented: 지정된 시간에 사용자가 해당 구성 내용에 동의했습니다.
+    not_yet_consented: 사용자가 아직 동의하지 않았습니다. 다음에 로그인하면 동의를 요청할 것입니다.
+    contact_mail_instructions: 사용자가 데이터 변경 또는 제거 요청을 수행하기 위해 데이터 컨트롤러에게 연락할 수 있는 메일
+      주소를 정의합니다.
+    contact_your_administrator: 계정을 삭제하려는 경우 관리자에 문의하세요.
+    contact_this_mail_address: 계정을 삭제하려는 경우 %{mail_address}에 문의하세요.
+    text_update_consent_time: 사용자에게 다시 동의하도록 요구하려면 이 확인란을 선택합니다. 위의 동의 정보에 대한 법적 내용을
+      변경하는 경우에 사용합니다.
+    update_consent_last_time: '동의에 대한 마지막 업데이트: %{update_time}'
   copy_project:
     started: 프로젝트 "%{source_project_name}"을(를) "%{target_project_name}"(으)로 복사하기 시작했습니다.
       "%{target_project_name}"이(가) 사용 가능하게 되면 메일로 알림이 전송됩니다.
@@ -964,10 +960,10 @@ ko:
   error_cookie_missing: OpenProject 쿠키가 없습니다. 이 응용 프로그램은 쿠키 없이 제대로 작동하지 않으므로, 쿠키를
     활성화해야 합니다.
   error_custom_option_not_found: 존재하지 않는 옵션입니다.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+  error_dependent_work_package: '종속 작업 패키지 #%{related_id} %{related_subject}의 오류:
     %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_enterprise_activation_user_limit: 사용자 계정을 활성화할 수 없습니다(사용자 제한에 도달함). 액세스하려면
+    관리자에게 문의하세요.
   error_failed_to_delete_entry: 항목 삭제에 실패하였습니다.
   error_invalid_selected_value: 선택된 값이 유효하지 않습니다.
   error_invalid_group_by: '그룹화할 수 없습니다: %{value}'
@@ -975,7 +971,7 @@ ko:
   error_invalid_sort_criterion: '열로 정렬할 수 없습니다: %{value}'
   error_journal_attribute_not_present: 저널에 %{attribute} 특성이 없습니다.
   error_pdf_export_too_many_columns: PDF 내보내기에 대해 너무 많은 열을 선택했습니다. 열 수를 줄이십시오.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'PDF 내보내기를 저장할 수 없습니다: %{error}'
   error_token_authenticity: 교차 사이트 요청 위조 토큰을 확인할 수 없습니다. 여러 브라우저나 탭에서 데이터 제출을 시도하셨습니까?
     모든 탭을 닫고 다시 시도하세요.
   error_work_package_done_ratios_not_updated: 작업 패키지 완료 비율이 업데이트되지 않았습니다.
@@ -1002,7 +998,7 @@ ko:
 
 '
   error_external_authentication_failed: 외부 인증 중에 오류가 발생했습니다. 다시 시도하세요.
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: '강조 표시되지 않는 특성: %{attributes}'
   events:
     project: 프로젝트 편집됨
     changeset: 변경 집합 편집됨
@@ -1020,8 +1016,8 @@ ko:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: 설명이 첨부된 PDF
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF와 설명 및 첨부 파일
+      pdf_with_attachments: PDF와 첨부 파일
   extraction:
     available:
       pdftotext: Pdftotext 사용 가능(선택적)
@@ -1052,7 +1048,7 @@ ko:
       upsale:
         become_hero: 영웅이 되세요!
         title: Enterprise Edition으로 업그레이드 하세요.
-        description: What are the benefits?
+        description: 장점은 무엇입니까?
         more_info: 더보기
         additional_features: 추가적인 강력한 프리미엄 기능들
         professional_support: OpenProject 전문가들의 전문적인 지원
@@ -1069,7 +1065,7 @@ ko:
       boards: 커뮤니티 포럼
       newsletter: 보안 알림/뉴스레터
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: 구성 가이드
   instructions_after_registration: "%{signin}을(를) 클릭하여 계정이 활성화되면 바로 로그인할 수 있습니다."
   instructions_after_logout: "%{signin}을(를) 클릭하면 다시 로그인할 수 있습니다."
   instructions_after_error: "%{signin}을(를) 클릭하여 다시 로그인해 볼 수 있습니다. 오류가 계속되면 관리자에게 도움을
@@ -1129,7 +1125,7 @@ ko:
   label_auth_source_plural: 인증 모드
   label_authentication: 인증
   label_available_project_work_package_categories: 사용 가능한 작업 패키지 카테고리
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: 사용 가능한 작업 패키지 유형
   label_available_project_boards: 사용 가능한 보드
   label_available_project_versions: 사용 가능한 버전
   label_available_project_repositories: 사용 가능한 저장소
@@ -1149,7 +1145,7 @@ ko:
   label_calendar: 달력
   label_calendar_show: 달력 표시
   label_category: 카테고리
-  label_consent_settings: User Consent
+  label_consent_settings: 사용자 동의
   label_wiki_menu_item: 위키 메뉴 항목
   label_select_main_menu_item: 새 기본 메뉴 항목 선택
   label_select_project: 프로젝트를 선택하세요
@@ -1237,7 +1233,7 @@ ko:
   label_enumeration_value: 열거형 값
   label_enumerations: 열거형
   label_enterprise: 엔터프라이즈
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: 예약 활성 사용자 %{current}/%{limit}명
   label_enterprise_edition: Enterprise Edition
   label_environment: 환경
   label_estimates_and_time: 견적 및 시간
@@ -1298,7 +1294,7 @@ ko:
   label_journal_diff: 설명 비교
   label_language: 언어
   label_jump_to_a_project: 프로젝트로 이동...
-  label_keyword_plural: Keywords
+  label_keyword_plural: 키워드
   label_language_based: 사용자 언어에 따름
   label_last_activity: 마지막 활동
   label_last_change_on: 마지막 변경
@@ -1672,11 +1668,10 @@ ko:
         circular_inclusion: 페이지의 순환 포함 관계가 발견되었습니다.
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: 외부 프로젝트 컨텍스트에서 create_work_package_link 매크로를 호출하는 중입니다.
+        invalid_type: 프로젝트 '%{project}'에서 이름이 '%{type}'인 유형을 찾지 못했습니다.
       link_name: 새 작업 패키지
-      link_name_type: New %{type_name}
+      link_name_type: 새로운 %{type_name}
   mail:
     actions: 작업
   mail_body_account_activation_request: 새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는
@@ -1695,14 +1690,14 @@ ko:
   mail_subject_wiki_content_added: "'%{id}' 위키 페이지가 추가되었습니다."
   mail_subject_wiki_content_updated: "'%{id}' 위키 페이지가 업데이트되었습니다."
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
+    subject: 사용자 활성화 제한에 도달함
     message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+      회원님이 관리하는 OpenProject 환경(%{host})에서 새로운 사용자(%{email})가 계정을 만들려고 시도했습니다.
+      사용자 제한에 도달한 후에는 해당 사용자가 계정을 활성화할 수 없습니다.
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: '사용자가 로그인하게 허용하려면 다음 중 하나를 수행할 수 있습니다. '
+      a: 결제 플랜([here](upgrade_url)) 업그레이드
+      b: 기존 사용자([here](users_url)) 잠금 또는 삭제
   more_actions: 추가 기능
   noscript_description: OpenProject를 사용하려면 JavaScript를 활성화해야 합니다!
   noscript_heading: JavaScript 사용 안 함
@@ -1807,7 +1802,7 @@ ko:
       수 있습니다.
     text_show_again: 도움말 메뉴에서 이 비디오를 다시 시작할 수 있습니다.
     welcome: OpenProject에 오신 것을 환영합니다.
-    select_language: Please select your language
+    select_language: 언어를 선택하세요.
   permission_add_work_package_notes: 메모 추가
   permission_add_work_packages: 작업 패키지 추가
   permission_add_messages: 메시지 게시
@@ -2026,7 +2021,7 @@ ko:
   setting_email_delivery_method: 이메일 배달 방법
   setting_sendmail_location: sendmail 실행 파일의 위치
   setting_smtp_enable_starttls_auto: 사용 가능한 경우 자동으로 STARTTLS 사용
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: SSL 연결 사용
   setting_smtp_address: SMTP 서버
   setting_smtp_port: SMTP 포트
   setting_smtp_authentication: SMTP 인증
@@ -2052,10 +2047,10 @@ ko:
   setting_commit_logtime_activity_id: 기록된 시간의 작업
   setting_commit_logtime_enabled: 시간 로깅 사용
   setting_commit_ref_keywords: 키워드 참조
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_time: 동의 시간
+  setting_consent_info: 동의 정보 텍스트
+  setting_consent_required: 동의 필요
+  setting_consent_decline_mail: 동의 연락처 메일 주소
   setting_cross_project_work_package_relations: 교차 프로젝트 작업 패키지 관계 허용
   setting_date_format: 날짜 형식
   setting_default_language: 기본 언어
@@ -2131,9 +2126,8 @@ ko:
   setting_welcome_on_homescreen: 홈 화면에 환영 블록 표시
   setting_wiki_compression: 위키 기록 압축
   setting_work_package_group_assignment: 그룹에 할당 허용
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighting_mode: 기본 강조 표시 모드
+  setting_work_package_list_default_highlighted_attributes: 기본 인라인 강조 표시 특성
   settings:
     general: 일반
     other: 기타
@@ -2145,11 +2139,11 @@ ko:
       deletion: 삭제
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
+        inline: 특성을 인라인으로 강조 표시
         none: 강조 표시 없음
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: 상태별 전체 행
+        type: 유형별 전체 행
+        priority: 우선 순위별 전체 행
   text_formatting:
     markdown: Markdown
     plain: 일반 텍스트
@@ -2455,7 +2449,7 @@ ko:
       quarters: 분기
       years: 년
   title_remove_and_delete_user: 초대받은 사용자를 프로젝트에서 제거하고 해당 사용자를 삭제하세요.
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: 더 많은 사용자를 잠금 해제하려면 업그레이드하세요.
   tooltip_user_default_timezone: '새 사용자에 대한 기본 표준 시간대입니다. 사용자의 설정에서 변경할 수 있습니다.
 
 '
@@ -2519,23 +2513,20 @@ ko:
   note_password_login_disabled: 암호 로그인이 %{configuration}에 의해 비활성화되었습니다.
   warning: 경고
   warning_attachments_not_saved: "%{count}개 파일을 저장할 수 없습니다."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: '현재 플랜으로 지원되는 사용자보다 많은 사용자를 초대했습니다. 초대된 사용자가 OpenProject
+    환경에 참여하지 못할 수 있습니다. 초대된 사용자와 등록된 사용자가 참여할 수 있도록 하려면 <a href="%{upgrade_url}">플랜을
+    업그레이드</a>하세요.
 
 '
   warning_registration_token_expired: |
     활성화 이메일이 만료되었습니다. %{email}(으)로 새로운 이메일이 전송되었습니다.
     이메일 내 링크를 클릭하여 계정을 활성화하세요.
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: '사용자 제한에 도달했습니다. 더 이상 사용자를 활성화할 수 없습니다. <a href="%{upgrade_url}">플랜을
+    업그레이드</a>하거나 멤버를 차단하여 추가 사용자를 허용하세요.
 
 '
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached_instructions: '사용자 제한(활성 사용자 %{current}/%{max}명)에 도달했습니다.
+    sales@openproject.com으로 연락하여 Enterprise Edition 플랜을 업그레이드하고 사용자를 더 추가하세요.
 
 '
   menu_item: 메뉴 항목
@@ -2565,7 +2556,7 @@ ko:
       code_401_wrong_credentials: 올바른 자격 증명을 제공하지 않았습니다.
       code_403: 접근 권한이 없습니다.
       code_404: 요청한 리소스를 찾을 수 없습니다.
-      code_409: Could not update the resource because of conflicting modifications.
+      code_409: 수정 사항이 출동하여 리소스를 업데이트할 수 없습니다.
       code_500: 내부 오류가 발생했습니다.
       expected:
         date: YYYY-MM-DD(ISO 8601 날짜만)
@@ -2584,7 +2575,7 @@ ko:
       missing_or_malformed_parameter: 쿼리 매개 변수 '%{parameter}'는 누락되거나 잘못되었습니다.
       multipart_body_error: 요청 본문에는 필요한 multipart 부분이 포함되어 있지 않습니다.
       multiple_errors: 다중 필드 제약 조건이 위반되었습니다.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: 첨부 파일을 만들 수 없습니다.
       render:
         context_not_parsable: 제공된 컨텍스트는 리소스에 대한 링크가 아닙니다.
         unsupported_context: 지정된 리소스는 컨텍스트로 지원되지 않습니다.

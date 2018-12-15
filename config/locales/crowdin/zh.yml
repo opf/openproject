@@ -148,10 +148,10 @@ zh:
   statuses:
     edit:
       status_readonly_html: |
-        选中此选项，将此状态的工作包标记为只读。
+        选中此选项可将此状态的工作包标记为只读。
         除状态外，不能更改任何属性。
         <br/>
-        <strong>备注</strong>：继承值（例如，来自子集或关联集的值）仍然适用。
+        <strong>注</strong>：继承值（例如，来自子级或关系的值）仍然适用。
       status_color_text: |
         单击可以分配或更改此状态的颜色。
         颜色显示在状态按钮中，可用于突出显示表中的工作包。
@@ -2039,8 +2039,8 @@ zh:
   setting_welcome_on_homescreen: 在主屏幕上显示欢迎信息
   setting_wiki_compression: Wiki 历史压缩
   setting_work_package_group_assignment: 允许分配到组
-  setting_work_package_list_default_highlighting_mode: 默认高亮模式
-  setting_work_package_list_default_highlighted_attributes: 默认内联高亮属性
+  setting_work_package_list_default_highlighting_mode: 默认突出显示模式
+  setting_work_package_list_default_highlighted_attributes: 默认内联突出显示属性
   settings:
     general: 通用
     other: 其他
@@ -2052,11 +2052,11 @@ zh:
       deletion: 删除
     highlighting:
       mode_long:
-        inline: 高亮属性内联
+        inline: 突出显示属性内联
         none: 无突出显示
-        status: 按状态分类的整行
-        type: 按类型分类的整行
-        priority: 按优先级别分类的整行
+        status: 整行按状态
+        type: 整行按类型
+        priority: 整行按优先级
   text_formatting:
     markdown: Markdown
     plain: 纯文本

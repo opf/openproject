@@ -54,8 +54,8 @@ ko:
     button_export-atom: Atom 다운로드
     calendar:
       title: 달력
-      too_many: There are more work packages (%{count}) than can be displayed by the
-        calendar (%{max}). Add filters to focus on the relevant ones.
+      too_many: 달력에서 표시할 수 있는 작업 패키지(%{max}) 보다 더 많은 작업 패키지(%{count})가 있습니다. 관련 작업
+        패키지에 집중하려면 필터를 추가하세요.
     description_available_columns: 사용 가능한 열
     description_current_position: '사용자의 위치:'
     description_select_work_package: '작업 패키지 #%{id} 선택'
@@ -63,12 +63,12 @@ ko:
     description_subwork_package: '작업 패키지 #%{id}의 자식'
     editor:
       preview: 미리 보기 모드 토글
-      source_code: Toggle Markdown source mode
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      error_initialization_failed: Failed to initialize CKEditor!
+      source_code: Markdown 소스 모드 토글
+      error_saving_failed: '다음 오류로 인해 문서를 저장하지 못했습니다: %{error}'
+      error_initialization_failed: CKEditor를 초기화하지 못했습니다.
       mode:
-        manual: Switch to Markdown source
-        wysiwyg: Switch to WYSIWYG editor
+        manual: Markdown 소스로 전환
+        wysiwyg: WYSIWYG 편집기로 전환
       macro:
         child_pages:
           button: 자식 페이지의 링크
@@ -109,11 +109,11 @@ ko:
           button: 작업 패키지 테이블 포함
           text: "[Placeholder] 포함 작업 패키지 테이블"
         embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
+          text: "[Placeholder] 포함 달력"
     custom_actions:
       date:
         specific: 에
-        current_date: Current date
+        current_date: 현재 날짜
     error:
       internal: 내부 오류가 발생하였습니다.
       cannot_save_changes_with_message: '다음 오류로 인해 변경 사항을 저장할 수 없습니다: %{error}'
@@ -146,7 +146,7 @@ ko:
     label_activity_with_comment_no: 활동 항목 번호 %{activityNo}. 사용자 의견 포함.
     label_add_columns: 열 추가
     label_add_comment: 댓글 달기
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: 코멘트를 기입하고 @을 입력하여 다른 사람에게 알려주기
     label_add_selected_columns: 선택된 열 추가
     label_added_by: '추가함 : '
     label_added_time_by: "%{author} %{age}가 추가함"
@@ -263,8 +263,7 @@ ko:
     label_attachments: 파일
     label_drop_files: 여기에 파일을 놓으세요
     label_drop_files_hint: 또는 파일을 추가 하려면 클릭하세요
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
-      single files.
+    label_drop_folders_hint: 폴더를 첨부 파일로 업로드할 수 없습니다. 단일 파일을 선택하세요.
     label_add_attachments: 첨부 파일 추가
     label_formattable_attachment_hint: 이 필드에 놓거나 클립보드에서 붙여넣어 파일을 첨부하고 연결하세요.
     label_remove_file: "%{fileName} 삭제"
@@ -283,9 +282,8 @@ ko:
       show_modal: 특성 도움말 텍스트 항목 표시
     onboarding:
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
+        welcome: 3분 소개 투어를 보고 가장 <b>중요한 기능</b>에 대해 알아보세요. <br> 끝까지 단계를 완료하는 것이 좋습니다.
+          언제든지 투어를 다시 시작할 수 있습니다.
         project_selection: Please select one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
           management, while the <b>Scrum project</b> is better for Agile project management.
@@ -294,36 +292,29 @@ ko:
         members: Invite new <b>Members</b> to join your project.
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
-        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
-        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
-          sprint. Add new tasks or impediments with the + icon next to a user story.
-          Via drag'n'drop you can update the status.
+        backlogs_overview: "<b>백로그</b> 보기에서 작업을 관리하세요. <br> 오른쪽에 제품 백로그 또는 버그 백로그가
+          있고, 왼쪽에 해당 스프린트가 있습니다. 여기에서 <b>에픽, 사용자 이야기 및 버그</b>를 작성하고 드래그 앤 드롭으로 우선
+          순위를 정하고 스프린트에 추가할 수 있습니다."
+        backlogs_task_board_arrow: "<b>작업 보드</b>를 보려면 스프린트 드롭다운을 여세요..."
+        backlogs_task_board_select: "... 그리고 <b>작업보드</b> 항목을 선택하세요."
+        backlogs_task_board: "<b>작업 보드</b>는 이 스프린트의 진행률을 시각화합니다. 사용자 이야기 옆에 있는 + 아이콘을
+          사용하여 새 작업이나 제한을 추가하세요. 드래그 앤 드롭으로 상태를 업데이트할 수 있습니다."
         wp_toggler: Now let's have a look at the <b>Work package</b> section, which
           gives you a more detailed view of your work.
-        wp_list: This is the <b>Work package</b> list with the important work within
-          your project, such as tasks, features, milestones, bugs, and more. <br>
-          You can create or edit a work package directly within this list. To see
-          its details you can double click on a row.
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities, dependencies
-          or comments.
+        wp_list: 작업, 기능, 마일스톤, 버그 등 프로젝트 내 중요 작업이 포함된 <b>작업 패키지</b> 목록입니다. <br> 목록에서
+          바로 작업 패키지를 만들거나 편집할 수 있습니다. 해당 세부 정보를 보려면 행을 두 번 클릭하면 됩니다.
+        wp_full_view: "<b>작업 패키지 세부 정보</b>에서 설명, 상태 및 우선 순위, 활동, 종속성 또는 코멘트 등 모든 관련
+          정보를 찾아볼 수 있습니다."
         wp_back_button: With the arrow you can navigate back to the work package list.
         wp_create_button: The <b>Create</b> button will add a new work package to
           your project.
-        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-          for your project.
+        wp_timeline_button: "<b>Gantt 차트</b>를 활성화하여 프로젝트의 타임라인을 만들 수 있습니다."
         wp_timeline: Here you can edit your project plan. Create new phases, milestones,
           and add dependencies. All team members can see and update the latest plan
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
+        got_it: 확인
     password_confirmation:
       field_description: 이 변경 내용을 확인하려면 계정 암호를 입력해야 합니다.
       title: 계속하려면 암호 확인
@@ -350,7 +341,7 @@ ko:
       attribute_groups:
         error_duplicate_group_name: "%{group} 이라는 그룹 이름은 한 번 이상 사용되었습니다. 그룹 이름은 중복될
           수 없습니다."
-        error_no_table_configured: Please configure a table for %{group}.
+        error_no_table_configured: "%{group}에 대한 테이블을 구성하세요."
         reset_title: 구성 양식 초기화
         confirm_reset: '경고: 양식 구성을 재설정하시겠습니까? 그러면 특성이 기본 그룹으로 재설정되고, 모든 사용자 지정 필드가
           비활성화됩니다.
@@ -362,18 +353,18 @@ ko:
         more_information: 더보기
         nevermind: 신경쓰지 마세요
         filter_types:
-          parent: being child of
-          precedes: preceding
-          follows: following
-          relates: relating to
-          duplicates: duplicating
+          parent: '다음의 자식:'
+          precedes: 이전
+          follows: 다음
+          relates: 관련
+          duplicates: 복제
           duplicated: 복제한 사용자
-          blocks: blocking
+          blocks: 차단
           blocked: 차단한 사용자
-          partof: being part of
-          includes: including
-          requires: requiring
-          required: required by
+          partof: '다음의 일부:'
+          includes: 포함
+          requires: 요구
+          required: '다음에 의해 요구됨:'
     watchers:
       label_loading: 관찰자 로딩 중...
       label_error_loading: 관찰자를 로드하는 동안 오류가 발생 했습니다.
@@ -401,19 +392,19 @@ ko:
       hierarchy_headline: 계층 구조
       children_headline: 하위
     relation_buttons:
-      set_parent: Set parent
+      set_parent: 부모 설정
       change_parent: 부모 변경
       remove_parent: 부모 제거
       group_by_wp_type: 작업 패키지 유형별 그룹화
       group_by_relation_type: 관계 유형별 그룹화
       add_parent: 기존 부모 추가
       add_new_child: 새 자식 만들기
-      create_new: Create new
-      add_existing: Add existing
+      create_new: 새로 만들기
+      add_existing: 기존 추가
       add_existing_child: 기존 자식 추가
       remove_child: 자식 제거
       add_new_relation: 새 관계 만들기
-      add_existing_relation: Add existing relation
+      add_existing_relation: 기존 관계 추가
       update_description: 이 관계의 설명 설정 또는 업데이트
       toggle_description: 토글 관계 설명
       update_relation: 관계 타입을 변경하려면 클릭하세요
@@ -424,7 +415,7 @@ ko:
       abort: 중단
     relations_autocomplete:
       placeholder: 관련된 작업 패키지 ID 입력
-      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
+      parent_placeholder: 새로운 부모를 선택하고, 설정 해제하려면 Enter 키를 누르고, 취소하려면 ESC 키를 누릅니다.
     repositories:
       select_tag: 태그 선택
       select_branch: 브랜치 선택
@@ -557,8 +548,7 @@ ko:
       description_options_hide: 옵션 숨기기
       description_options_show: 옵션 표시
       error:
-        update_conflict_refresh: Click here to refresh the work package and update
-          to the newest version.
+        update_conflict_refresh: 작업 패키지를 새로 고치고 최신 버전으로 업데이트하려면 여기를 클릭하세요.
         edit_prohibited: "%{attribute} 편집은 이 작업 패키지에 대해 차단되었습니다. 이 특성은 관계(예: 자식)에서
           파생되었거나 그렇지 않으면 구성할 수 없습니다."
         format:
@@ -577,8 +567,7 @@ ko:
       message_successful_bulk_delete: 성공적으로 작업 패키지를 삭제했습니다.
       message_successful_show_in_fullscreen: 전체 화면 보기에서 이 작업 패키지를 열려면 여기를 클릭하세요.
       message_view_spent_time: 이 작업 패키지에 대해 소비한 시간 표시
-      message_work_package_read_only: Work package is locked in this status. No attribute
-        other than status can be altered.
+      message_work_package_read_only: 작업 패키지가 이 상태로 잠겨 있습니다. 상태 이외의 특성은 변경할 수 없습니다.
       no_value: 값 없음
       inline_create:
         title: 이 목록에 새 작업 패키지를 추가하려면 여기를 클릭하세요.
@@ -690,8 +679,8 @@ ko:
         highlighting_mode:
           description: 색상으로 강조 표시
           none: 강조 표시 없음
-          inline: Highlighted attribute(s)
-          inline_all: All attributes
+          inline: 강조 표시된 특성
+          inline_all: 모든 특성
           entire_row_by: 전체 행 기준
           status: 상태
           priority: 우선 순위
@@ -702,8 +691,8 @@ ko:
           relation_columns: 작업 패키지 목록에서 관계를 표시해야 합니까?
           check_out_link: Enterprise Edition을 체크아웃하세요.
         relation_filters:
-          first_part: Show all work packages
-          second_part: the current work package
+          first_part: 모든 작업 패키지 표시
+          second_part: 현재 작업 패키지
       tabs:
         overview: 요약
         activity: 활동
