@@ -187,9 +187,9 @@ pt-BR:
       projects: Projetos
       enabled_projects: Projetos habilitados
       add_group: Adicionar grupo de atributo
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Adicionar tabela de pacotes de trabalho relacionados
+      edit_query: Editar tabela
+      query_group_placeholder: Nomear tabela
       reset: Redefinir para os padrões
       type_color_text: 'Clique para atribuir ou alterar a cor deste tipo. A cor selecionada
         diferencia pacotes de trabalho em gráficos de Gantt.

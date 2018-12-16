@@ -187,9 +187,9 @@ fr:
       projects: Projets
       enabled_projects: Projets activés
       add_group: Ajouter un groupe d’attributs
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Ajouter un tableau des lots de travaux associés
+      edit_query: Modifier le tableau
+      query_group_placeholder: Donner un nom au tableau
       reset: Rétablir les valeurs par défaut
       type_color_text: 'Cliquez pour assigner ou modifier la couleur de ce type. La
         couleur sélectionnée distingue les lots de travaux dans les diagrammes de
