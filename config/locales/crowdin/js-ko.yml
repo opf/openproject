@@ -284,14 +284,11 @@ ko:
       steps:
         welcome: 3분 소개 투어를 보고 가장 <b>중요한 기능</b>에 대해 알아보세요. <br> 끝까지 단계를 완료하는 것이 좋습니다.
           언제든지 투어를 다시 시작할 수 있습니다.
-        project_selection: Please select one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
-        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
-          menu</b>.
-        members: Invite new <b>Members</b> to join your project.
-        wiki: Within the <b>Wiki</b> you can document and share knowledge together
-          with your team.
+        project_selection: 시작하려면 유용한 데모 데이터가 포함된 프로젝트 중 하나를 선택하세요. <br> <b>데모 프로젝트</b>는
+          클래식 프로젝트 관리에 최적이지만, 애자일 프로젝트 관리에는 <b>스크럼 프로젝트</b>가 더 적합합니다.
+        sidebar_arrow: 화살표를 사용하여 프로젝트의 <b>기본 메뉴</b>로 다시 돌아갈 수 있습니다.
+        members: 프로젝트에 참여할 새로운 <b>멤버</b>를 초대하세요.
+        wiki: "<b>Wiki</b>에서 문서화하고 팀과 함께 지식을 공유할 수 있습니다."
         backlogs_overview: "<b>백로그</b> 보기에서 작업을 관리하세요. <br> 오른쪽에 제품 백로그 또는 버그 백로그가
           있고, 왼쪽에 해당 스프린트가 있습니다. 여기에서 <b>에픽, 사용자 이야기 및 버그</b>를 작성하고 드래그 앤 드롭으로 우선
           순위를 정하고 스프린트에 추가할 수 있습니다."
@@ -299,21 +296,18 @@ ko:
         backlogs_task_board_select: "... 그리고 <b>작업보드</b> 항목을 선택하세요."
         backlogs_task_board: "<b>작업 보드</b>는 이 스프린트의 진행률을 시각화합니다. 사용자 이야기 옆에 있는 + 아이콘을
           사용하여 새 작업이나 제한을 추가하세요. 드래그 앤 드롭으로 상태를 업데이트할 수 있습니다."
-        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
-          gives you a more detailed view of your work.
+        wp_toggler: 이제 <b>작업 패키지</b> 섹션을 살펴보겠습니다. 이 섹션에서는 작업의 자세한 보기가 제공됩니다.
         wp_list: 작업, 기능, 마일스톤, 버그 등 프로젝트 내 중요 작업이 포함된 <b>작업 패키지</b> 목록입니다. <br> 목록에서
           바로 작업 패키지를 만들거나 편집할 수 있습니다. 해당 세부 정보를 보려면 행을 두 번 클릭하면 됩니다.
         wp_full_view: "<b>작업 패키지 세부 정보</b>에서 설명, 상태 및 우선 순위, 활동, 종속성 또는 코멘트 등 모든 관련
           정보를 찾아볼 수 있습니다."
-        wp_back_button: With the arrow you can navigate back to the work package list.
-        wp_create_button: The <b>Create</b> button will add a new work package to
-          your project.
+        wp_back_button: 화살표를 사용하여 작업 패키지 목록으로 돌아갈 수 있습니다.
+        wp_create_button: "<b>만들기</b> 버튼은 프로젝트에 새로운 작업 패키지를 추가합니다."
         wp_timeline_button: "<b>Gantt 차트</b>를 활성화하여 프로젝트의 타임라인을 만들 수 있습니다."
-        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
-          and add dependencies. All team members can see and update the latest plan
-          at any time.
-        help_menu: In the <b>Help</b> menu you will find a user guide and additional
-          help resources. <br> Enjoy your work with OpenProject!
+        wp_timeline: 여기에서 프로젝트 계획을 편집할 수 있습니다. 새로운 단계, 마일스톤을 만들고 종속성을 추가하세요. 모든 팀원이
+          언제든지 최신 계획을 보고 업데이트할 수 있습니다.
+        help_menu: "<b>도움말</b> 메뉴에서 사용자 가이드 및 추가 도움말 리소스를 찾아볼 수 있습니다. <br> OpenProject에서
+          즐겁게 작업하세요!"
         got_it: 확인
     password_confirmation:
       field_description: 이 변경 내용을 확인하려면 계정 암호를 입력해야 합니다.
