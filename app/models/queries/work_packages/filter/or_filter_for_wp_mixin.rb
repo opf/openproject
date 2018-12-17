@@ -28,32 +28,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::OrBaseFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+module Queries::WorkPackages::Filter::OrFilterForWpMixin
   def filters
     if @filters
-      @filters.each do |filter|
-        filter.operator = CONTAINS_OPERATOR
-        filter.values = values
-      end
+      update_instances
     else
-      @filter = create_instances
+      @filters = create_instances
     end
-  end
 
-  def self.key
-    raise NotImplementedError
-  end
-
-  def name
-    raise NotImplementedError
-  end
-
-  def type
-    raise NotImplementedError
-  end
-
-  def human_name
-    raise NotImplementedError
+    @filters.keep_if(&:validate)
   end
 
   def includes
@@ -69,11 +52,11 @@ class Queries::WorkPackages::Filter::OrBaseFilter < Queries::WorkPackages::Filte
   end
 
   def create_instances
-    filter_configurations.map do |filter_class, filter_name, operator|
-      filter_class.create!(name: filter_name,
-                           context: context,
-                           operator: operator,
-                           values: values)
+    filter_configurations.map do |conf|
+      conf.filter_class.create!(name: conf.filter_name,
+                                context: context,
+                                operator: conf.operator,
+                                values: values)
     end
   end
 
@@ -81,15 +64,9 @@ class Queries::WorkPackages::Filter::OrBaseFilter < Queries::WorkPackages::Filte
     configurations = filter_configurations
 
     @filters.each_with_index do |filter, index|
-      operator_for_instance = configurations[index].third
-
-      filter.operator = operator_for_instance
+      filter.operator = configurations[index].operator
       filter.values = values
     end
-  end
-  
-  def includes
-    filters.map(&:includes).flatten.uniq.reject(&:blank?)
   end
 
   def ar_object_filter?

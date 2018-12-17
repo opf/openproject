@@ -28,19 +28,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::SearchFilter < Queries::WorkPackages::Filter::OrBaseFilter
+class Queries::WorkPackages::Filter::SearchFilter <
+  Queries::WorkPackages::Filter::WorkPackageFilter
+
+  include Queries::WorkPackages::Filter::OrFilterForWpMixin
   include Queries::WorkPackages::Filter::FilterOnTsvMixin
   CONTAINS_OPERATOR = '~'.freeze
 
   CE_FILTERS = [
-    [Queries::WorkPackages::Filter::SubjectFilter, :subject, CONTAINS_OPERATOR],
-    [Queries::WorkPackages::Filter::DescriptionFilter, :description, CONTAINS_OPERATOR],
-    [Queries::WorkPackages::Filter::CommentFilter, :description, CONTAINS_OPERATOR]
+    Queries::WorkPackages::Filter::FilterConfiguration.new(Queries::WorkPackages::Filter::SubjectFilter,
+                                                           :subject,
+                                                           CONTAINS_OPERATOR),
+    Queries::WorkPackages::Filter::FilterConfiguration.new(Queries::WorkPackages::Filter::DescriptionFilter,
+                                                           :subject,
+                                                           CONTAINS_OPERATOR),
+    Queries::WorkPackages::Filter::FilterConfiguration.new(Queries::WorkPackages::Filter::CommentFilter,
+                                                           :subject,
+                                                           CONTAINS_OPERATOR),
   ].freeze
 
   EE_TSV_FILTERS = [
-    [Queries::WorkPackages::Filter::AttachmentContentFilter, :attachment_content, CONTAINS_OPERATOR],
-    [Queries::WorkPackages::Filter::AttachmentFileNameFilter, :attachment_file_name, CONTAINS_OPERATOR]
+    Queries::WorkPackages::Filter::FilterConfiguration.new(Queries::WorkPackages::Filter::AttachmentContentFilter,
+                                                           :subject,
+                                                           CONTAINS_OPERATOR),
+    Queries::WorkPackages::Filter::FilterConfiguration.new(Queries::WorkPackages::Filter::AttachmentFileNameFilter,
+                                                           :subject,
+                                                           CONTAINS_OPERATOR)
   ].freeze
 
   def self.key
