@@ -202,21 +202,12 @@ i
 
 // Implement two column layout for WP full screen view
 @media screen and (min-width: 92rem), print
-  .action-show .attributes-group,
-  .full-create .attributes-group
-    .-columns-2
-      column-count: 2
-      column-gap: 3rem
+  .action-show .-can-have-columns,
+  .full-create .-can-have-columns
 
-      .attributes-key-value
-        -webkit-column-break-inside: avoid
-        page-break-inside: avoid
-        break-inside: avoid
-        overflow: hidden
-        // For some reason chrome seems to treat a two column layout
-        // as if it would result in showing the backside of this element.
-        // This leads to input and select elements not showing their values.
-        backface-visibility: visible
+    .-columns-2
+      @include two-column-layout
+      column-gap: 3rem
 
       @supports (column-span: all)
         // Let some elements still span both columns
