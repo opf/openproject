@@ -896,7 +896,7 @@ th:
   default_status_in_specification: In specification
   default_status_in_testing: In testing
   default_status_new: ใหม่
-  default_status_on_hold: On hold
+  default_status_on_hold: คงค้าง
   default_status_rejected: ถูกปฏิเสธ
   default_status_scheduled: Scheduled
   default_status_specified: Specified

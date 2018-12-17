@@ -95,7 +95,7 @@ By default, the docker container will try to send emails via the local
 end up in the spam inbox of your users. We recommend using an external SMTP
 server to send your emails.
 
-A good choice is [SendGrid](https://sendgrid.net), which offers a free plan
+A good choice is [SendGrid](https://www.sendgrid.com/), which offers a free plan
 with up to 12000 emails per month. Just sign up on the website, and once your
 account is provisioned, generate a new API key and copy it somewhere (it looks
 like `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`).

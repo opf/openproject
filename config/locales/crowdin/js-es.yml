@@ -56,8 +56,8 @@ es:
     button_export-atom: Descargar Atom
     calendar:
       title: Calendario
-      too_many: There are more work packages (%{count}) than can be displayed by the
-        calendar (%{max}). Add filters to focus on the relevant ones.
+      too_many: Hay más paquetes de trabajo (%{count}) de los que pueden mostrarse
+        en en calendario (%{max}). Agregue filtros para centrarse en los relevantes.
     description_available_columns: Columnas disponibles
     description_current_position: 'Usted está aquí:'
     description_select_work_package: 'Seleccione el paquete de trabajo #%{id}'
@@ -65,12 +65,13 @@ es:
     description_subwork_package: 'Hijo del paquete de trabajo #%{id}'
     editor:
       preview: Alternar modo de vista previa
-      source_code: Toggle Markdown source mode
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      error_initialization_failed: Failed to initialize CKEditor!
+      source_code: Alternar modo de visualización de Markdown
+      error_saving_failed: 'No se pudo guardar el documento debido al siguiente error:
+        %{error}'
+      error_initialization_failed: No se pudo inicializar CKEditor.
       mode:
-        manual: Switch to Markdown source
-        wysiwyg: Switch to WYSIWYG editor
+        manual: Cambiar a visualización de Markdown
+        wysiwyg: Cambiar a editor WYSIWYG
       macro:
         child_pages:
           button: Vínculos a páginas secundarias
@@ -115,11 +116,11 @@ es:
           button: Insertar tabla de paquetes de trabajo
           text: "[Placeholder] Tabla de paquetes de trabajo insertada"
         embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
+          text: "[Placeholder] Calendario insertado"
     custom_actions:
       date:
         specific: en
-        current_date: Current date
+        current_date: Fecha actual
     error:
       internal: Ha ocurrido un error interno.
       cannot_save_changes_with_message: 'No se pueden guardar los cambios debido al
@@ -275,8 +276,8 @@ es:
     label_attachments: Archivos
     label_drop_files: Suelta los archivos aquí
     label_drop_files_hint: o haga clic en Agregar archivos
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
-      single files.
+    label_drop_folders_hint: No se pueden cargar carpetas como datos adjuntos. Seleccione
+      archivos individuales.
     label_add_attachments: Añadir adjuntos
     label_formattable_attachment_hint: Para adjuntar y vincular archivos, colóquelos
       en este campo o péguelos desde el Portapapeles.
@@ -299,47 +300,52 @@ es:
       show_modal: Mostrar entrada de texto de ayuda para atributo
     onboarding:
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
-        project_selection: Please select one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
-        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
-          menu</b>.
-        members: Invite new <b>Members</b> to join your project.
-        wiki: Within the <b>Wiki</b> you can document and share knowledge together
-          with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
-        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
-        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
-          sprint. Add new tasks or impediments with the + icon next to a user story.
-          Via drag'n'drop you can update the status.
-        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
-          gives you a more detailed view of your work.
-        wp_list: This is the <b>Work package</b> list with the important work within
-          your project, such as tasks, features, milestones, bugs, and more. <br>
-          You can create or edit a work package directly within this list. To see
-          its details you can double click on a row.
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities, dependencies
-          or comments.
-        wp_back_button: With the arrow you can navigate back to the work package list.
-        wp_create_button: The <b>Create</b> button will add a new work package to
-          your project.
-        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-          for your project.
-        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
-          and add dependencies. All team members can see and update the latest plan
-          at any time.
-        help_menu: In the <b>Help</b> menu you will find a user guide and additional
-          help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
+        welcome: Realice un paseo de introducción de tres minutos para conocer las
+          <b>características más importantes</b>. <br> Le recomendamos que complete
+          todos los pasos. Puede volver a iniciar el paseo en cualquier momento.
+        project_selection: Para empezar, seleccione uno de los proyectos con datos
+          de demostración útiles. <br> El <b>proyecto de demostración</b> es la opción
+          recomendada para la gestión de proyectos clásica, mientras que el <b>proyecto
+          Scrum</b> es el más adecuado para la gestión de proyectos ágil.
+        sidebar_arrow: Con la flecha, puede volver al <b>Menú principal</b> del proyecto.
+        members: Invite a nuevos <b>Miembros</b> a unirse al proyecto.
+        wiki: En la <b>Wiki</b>, puede elaborar documentos y compartir conocimientos
+          con su equipo.
+        backlogs_overview: Administre su trabajo en la vista <b>Trabajos pendientes</b>
+          (Backlogs). <br> En la parte derecha, se muestran los trabajos pendientes
+          de productos o los trabajos pendientes de errores de código, mientras que
+          en la parte izquierda se mostrarán los sprints correspondientes. Aquí puede
+          crear <b>epopeyas, historias de usuario y errores de código</b>, asignar
+          prioridades mediante funciones de arrastrar y colocar, y agregar elementos
+          a un sprint.
+        backlogs_task_board_arrow: Para ver el <b>Panel de tareas</b>, abra el menú
+          desplegable Sprint…
+        backlogs_task_board_select: "… y seleccione la entrada <b>Panel de tareas</b>."
+        backlogs_task_board: En el <b>Panel de tareas</b>, se muestra el progreso
+          de este sprint. Agregue nuevas tareas o impedimentos con el icono de + junto
+          a una historia de usuario. Mediante funciones de arrastrar y colocar, puede
+          actualizar el estado.
+        wp_toggler: Ahora, veamos la sección <b>Paquete de trabajo</b>, que ofrece
+          una vista más detallada de su trabajo.
+        wp_list: Esta es la lista <b>Paquete de trabajo</b>, donde se muestra una
+          lista del trabajo importante en el proyecto, como tareas, características,
+          hitos, errores de código y más. <br> Puede crear o editar un paquete de
+          trabajo directamente con esta lista. Para ver los detalles, haga doble clic
+          en una fila.
+        wp_full_view: En los <b>Detalles del paquete de trabajo</b>, se muestra toda
+          la información relevante, como la descripción, el estado y la prioridad,
+          actividades, dependencias o comentarios.
+        wp_back_button: Con la flecha, puede volver a la lista de paquetes de trabajo.
+        wp_create_button: Use el botón <b>Crear</b> para agregar un nuevo paquete
+          de trabajo al proyecto.
+        wp_timeline_button: Puede activar el <b>diagrama de Gantt</b> para crear una
+          línea de tiempo del proyecto.
+        wp_timeline: Aquí puede editar el plan del proyecto. Cree nuevas fases e hitos,
+          y agregue dependencias. Todos los miembros del equipo pueden ver y actualizar
+          el último plan en cualquier momento.
+        help_menu: En el menú <b>Ayuda</b>, encontrará una guía del usuario y recursos
+          de ayuda adicionales. <br> ¡Disfrute de su trabajo con OpenProject!
+        got_it: Entendido
     password_confirmation:
       field_description: Necesitas introducir la contraseña de tu cuenta para confirmar
         este cambio.
@@ -367,7 +373,7 @@ es:
       attribute_groups:
         error_duplicate_group_name: El nombre %{group} se ha usado más de una vez.
           Los nombres de grupos deben ser únicos.
-        error_no_table_configured: Please configure a table for %{group}.
+        error_no_table_configured: Configure una tabla para %{group}.
         reset_title: Restablecer la configuración del formulario
         confirm_reset: 'Advertencia: ¿Está seguro de que quiere restablecer la configuración
           del formulario? Se restablecerán los atributos al grupo predeterminado y
@@ -381,18 +387,18 @@ es:
         more_information: Más información
         nevermind: No importa
         filter_types:
-          parent: being child of
-          precedes: preceding
-          follows: following
-          relates: relating to
-          duplicates: duplicating
+          parent: es un elemento secundario de
+          precedes: anterior
+          follows: posterior
+          relates: relacionado con
+          duplicates: duplicado
           duplicated: duplicado por
-          blocks: blocking
+          blocks: bloqueo
           blocked: bloqueado por
-          partof: being part of
-          includes: including
-          requires: requiring
-          required: required by
+          partof: pertenece a
+          includes: incluido
+          requires: requiere
+          required: requerido por
     watchers:
       label_loading: cargando observadores...
       label_error_loading: Se ha producido un error al cargar los observadores
@@ -420,19 +426,19 @@ es:
       hierarchy_headline: Jerarquía
       children_headline: Subordinado
     relation_buttons:
-      set_parent: Set parent
+      set_parent: Establecer elemento primario
       change_parent: Cambiar padre
       remove_parent: Eliminar padre
       group_by_wp_type: Agrupar por tipo de paquete de trabajo
       group_by_relation_type: Grupo por tipo de relación
       add_parent: Añadir padre existente
       add_new_child: Crear nuevo hijo
-      create_new: Create new
-      add_existing: Add existing
+      create_new: Crear nuevo
+      add_existing: Agregar existente
       add_existing_child: Añadir hijo existente
       remove_child: Eliminar hijo
       add_new_relation: Crear nueva relación
-      add_existing_relation: Add existing relation
+      add_existing_relation: Agregar relación existente
       update_description: Establecer o actualizar la descripción de esta relación
       toggle_description: Activar descripción de la relación
       update_relation: Haga clic para cambiar el tipo de relación
@@ -443,7 +449,8 @@ es:
       abort: Abandonar
     relations_autocomplete:
       placeholder: Indique el ID del paquete de trabajo relacionado
-      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
+      parent_placeholder: Seleccione un nuevo elemento primario, presione Entrar para
+        anular la configuración y Escape para cancelar.
     repositories:
       select_tag: Seleccionar etiqueta
       select_branch: Seleccione Sucursal
@@ -588,8 +595,8 @@ es:
       description_options_hide: Ocultar opciones
       description_options_show: Mostrar opciones
       error:
-        update_conflict_refresh: Click here to refresh the work package and update
-          to the newest version.
+        update_conflict_refresh: Haga clic aquí para actualizar el paquete de trabajo
+          y cambiar a la versión más reciente.
         edit_prohibited: La edición de %{attribute} está bloqueada para este paquete
           de trabajo. Ya sea que este atributo se derive de las relaciones (por ejemplo,
           niños) o de lo contrario que no sea configurable.
@@ -612,8 +619,8 @@ es:
       message_successful_show_in_fullscreen: Haga clic aquí para abrir este paquete
         de trabajo en la vista de pantalla completa.
       message_view_spent_time: Mostrar el tiempo invertido en este paquete de trabajo
-      message_work_package_read_only: Work package is locked in this status. No attribute
-        other than status can be altered.
+      message_work_package_read_only: El paquete de trabajo está bloqueado en este
+        estado. Excepto el estado, ningún otro atributo se puede modificar.
       no_value: Sin valor
       inline_create:
         title: Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista
@@ -739,8 +746,8 @@ es:
         highlighting_mode:
           description: Resaltar con color
           none: Sin resaltado
-          inline: Highlighted attribute(s)
-          inline_all: All attributes
+          inline: Atributos resaltados
+          inline_all: Todos los atributos
           entire_row_by: Toda la fila por
           status: Estado
           priority: Prioridad
@@ -755,8 +762,8 @@ es:
             de trabajo?"
           check_out_link: Vea la versión Enterprise Edition.
         relation_filters:
-          first_part: Show all work packages
-          second_part: the current work package
+          first_part: Mostrar todos los paquetes de trabajo
+          second_part: el paquete de trabajo actual
       tabs:
         overview: Resumen
         activity: Actividad

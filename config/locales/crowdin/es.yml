@@ -171,10 +171,10 @@ es:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Seleccione esta opción para marcar los paquetes de trabajo que tengan este estado como de solo lectura.
+        Excepto el estado, ningún otro atributo se puede modificar.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Nota</strong>: Los valores heredados (por ejemplo, de elementos secundarios o relaciones) seguirán aplicándose.
       status_color_text: |
         Haga clic para asignar o cambiar el color de este estado.
         Se muestra en el botón de estado y puede usarse para resaltar paquetes de trabajo en la tabla.
@@ -191,9 +191,9 @@ es:
       projects: Proyectos
       enabled_projects: Proyectos habilitados
       add_group: Agregar grupo de atributos
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Agregar tabla de paquetes de trabajo relacionados
+      edit_query: Editar tabla
+      query_group_placeholder: Asigne un nombre a la tabla
       reset: Restablecer valores predeterminados
       type_color_text: 'Haga clic para asignar o cambiar el color de este tipo. El
         color seleccionado permite distinguir los paquetes de trabajo en los diagramas
@@ -368,7 +368,7 @@ es:
         to: Paquete de trabajo relacionado
       status:
         is_closed: Paquete de trabajo cerrado
-        is_readonly: Work package read-only
+        is_readonly: Paquete de trabajo de solo lectura
       journal:
         notes: Notas
       member:
@@ -1073,7 +1073,7 @@ es:
 '
   error_external_authentication_failed: Se ha producido un error durante la autenticación
     externa. Por favor inténtelo nuevamente.
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: 'Atributos que no pueden resaltarse: %{attributes}'
   events:
     project: Proyecto editado
     changeset: Set de cambios editado
@@ -1123,7 +1123,7 @@ es:
       upsale:
         become_hero: "¡Conviértete en héroe!"
         title: Actualizar hasta versión corporativa
-        description: What are the benefits?
+        description: "¿Cuáles son los beneficios?"
         more_info: Más información
         additional_features: Características Premium avanzadas adicionales
         professional_support: Apoyo profesional de los expertos de OpenProject
@@ -1206,7 +1206,7 @@ es:
   label_authentication: Autentificación
   label_available_project_work_package_categories: Categorias de paquetes de trabjo
     disponibles
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Tipos de paquete de trabajo disponibles
   label_available_project_boards: Tablones disponibles
   label_available_project_versions: Versiones disponibles
   label_available_project_repositories: Repositorios disponibles
@@ -1376,7 +1376,7 @@ es:
   label_journal_diff: Comparación de la descripción
   label_language: Idioma
   label_jump_to_a_project: Saltar a un proyecto...
-  label_keyword_plural: Keywords
+  label_keyword_plural: Palabras clave
   label_language_based: Basado en el idioma del usuario
   label_last_activity: Última actividad
   label_last_change_on: Último cambio en
@@ -1919,7 +1919,7 @@ es:
       administración de proyectos y la colaboración en equipo con OpenProject.
     text_show_again: Puede reiniciar este vídeo en el menú ayuda
     welcome: Bienvenido a OpenProject
-    select_language: Please select your language
+    select_language: Seleccione su idioma
   permission_add_work_package_notes: Añadir notas
   permission_add_work_packages: Añadir paquetes de trabajo
   permission_add_messages: Publicar mensajes
@@ -2172,7 +2172,7 @@ es:
   setting_email_delivery_method: Método de envío de correo electrónico
   setting_sendmail_location: Ubicación del ejecutable de sendmail
   setting_smtp_enable_starttls_auto: Usar STARTTLS automáticamente si está disponible
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: Usar conexión SSL
   setting_smtp_address: Servidor SMTP
   setting_smtp_port: Puerto SMTP
   setting_smtp_authentication: Autenticación SMTP
@@ -2300,9 +2300,9 @@ es:
   setting_welcome_on_homescreen: Mostrar bloque de bienvenida en la pagina de inicio
   setting_wiki_compression: Comprensión del historial del Wiki
   setting_work_package_group_assignment: Permite la asignación a grupos
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighting_mode: Modo de resaltado predeterminado
+  setting_work_package_list_default_highlighted_attributes: Atributos resaltados en
+    línea predeterminados
   settings:
     general: General
     other: Otros
@@ -2314,11 +2314,11 @@ es:
       deletion: Eliminación
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
+        inline: Resaltar atributos en línea
         none: Sin resaltado
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: Toda la fila por estado
+        type: Toda la fila por tipo
+        priority: Toda la fila por prioridad
   text_formatting:
     markdown: Markdown
     plain: Texto sin formato
@@ -2792,7 +2792,7 @@ es:
       code_401_wrong_credentials: No se proporcionaron las credenciales correctas.
       code_403: No está autorizado a acceder a este recurso.
       code_404: No se pudo encontrar el recurso solicitado.
-      code_409: Could not update the resource because of conflicting modifications.
+      code_409: No se pudo actualizar el recurso debido a un conflicto de modificaciones.
       code_500: Ha ocurrido un error interno.
       expected:
         date: AAAA-MM-DD (ISO 8601 fecha solamente)

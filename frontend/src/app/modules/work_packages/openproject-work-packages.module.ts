@@ -185,6 +185,7 @@ import {WorkPackagesListComponent} from "core-app/modules/work_packages/routing/
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component";
 import {AttachmentsUploadComponent} from 'core-app/modules/attachments/attachments-upload/attachments-upload.component';
+import {AttachmentListComponent} from 'core-app/modules/attachments/attachment-list/attachment-list.component';
 
 @NgModule({
   imports: [
@@ -528,6 +529,10 @@ export class OpenprojectWorkPackagesModule {
 
       hookService.register('workPackageAttachmentUploadComponent', (workPackage:WorkPackageResource) => {
         return AttachmentsUploadComponent;
+      });
+
+      hookService.register('workPackageAttachmentListComponent', (workPackage:WorkPackageResource) => {
+        return AttachmentListComponent;
       });
     };
   }
