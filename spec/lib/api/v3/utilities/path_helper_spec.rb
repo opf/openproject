@@ -196,6 +196,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/my_preferences'
   end
 
+  describe '#newses' do
+    subject { helper.newses }
+
+    it_behaves_like 'api v3 path', '/news'
+  end
+
   describe '#news' do
     subject { helper.news(42) }
 
