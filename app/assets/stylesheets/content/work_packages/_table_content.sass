@@ -32,6 +32,7 @@
 
 .wp-table--row
   cursor: pointer
+  height: $table-timeline--row-height
 
   // Hide collapsed rows (hierarchies, relations)
   &.-collapsed
@@ -39,13 +40,13 @@
 
 .work-package-table--container table.generic-table tbody td
   padding-left: 0
+  padding-top: 0
+  padding-bottom: 0
+  // To display the input field border correctly (input height is 24px)
   line-height: 24px
-  height: 41px
 
 // Styles for inline editable attributes
 .work-package-table--container td.-editable
-  padding-top: 0
-  padding-bottom: 0
   display: table-cell
   width: auto
 
