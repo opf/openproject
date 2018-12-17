@@ -28,43 +28,67 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::SearchFilter < Queries::WorkPackages::Filter::OrBaseFilter
-  include Queries::WorkPackages::Filter::FilterOnTsvMixin
-  CONTAINS_OPERATOR = '~'.freeze
-
-  CE_FILTERS = [
-    [Queries::WorkPackages::Filter::SubjectFilter, :subject, CONTAINS_OPERATOR],
-    [Queries::WorkPackages::Filter::DescriptionFilter, :description, CONTAINS_OPERATOR],
-    [Queries::WorkPackages::Filter::CommentFilter, :description, CONTAINS_OPERATOR]
-  ].freeze
-
-  EE_TSV_FILTERS = [
-    [Queries::WorkPackages::Filter::AttachmentContentFilter, :attachment_content, CONTAINS_OPERATOR],
-    [Queries::WorkPackages::Filter::AttachmentFileNameFilter, :attachment_file_name, CONTAINS_OPERATOR]
-  ].freeze
+class Queries::WorkPackages::Filter::OrBaseFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def filters
+    if @filters
+      @filters.each do |filter|
+        filter.operator = CONTAINS_OPERATOR
+        filter.values = values
+      end
+    else
+      @filter = create_instances
+    end
+  end
 
   def self.key
-    :search
+    raise NotImplementedError
   end
 
   def name
-    :search
+    raise NotImplementedError
   end
 
   def type
-    :search
+    raise NotImplementedError
   end
 
   def human_name
-    I18n.t('label_search')
+    raise NotImplementedError
   end
 
   def includes
     filters.map(&:includes).flatten.uniq.reject(&:blank?)
   end
 
+  def where
+    filters.map(&:where).join(' OR ')
+  end
+
   def filter_configurations
-    list = CE_FILTERS
-    list + EE_TSV_FILTERS if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
+    raise NotImplementedError
+  end
+
+  def create_instances
+    filter_configurations.map do |filter_class, filter_name, operator|
+      filter_class.create!(name: filter_name,
+                           context: context,
+                           operator: operator,
+                           values: values)
+    end
+  end
+
+  def update_instances
+    configurations = filter_configurations
+
+    @filters.each_with_index do |filter, index|
+      operator_for_instance = configurations[index].third
+
+      filter.operator = operator_for_instance
+      filter.values = values
+    end
+  end
+
+  def ar_object_filter?
+    false
   end
 end

@@ -34,7 +34,7 @@ class Queries::WorkPackages::Filter::CommentFilter < Queries::WorkPackages::Filt
   end
 
   def includes
-    %i{project journals}
+    %i{journals}
   end
 
   def where

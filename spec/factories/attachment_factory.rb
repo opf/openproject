@@ -52,7 +52,5 @@ FactoryBot.define do
     factory :attached_picture do
       content_type { 'image/jpeg' }
     end
-
-
   end
 end
