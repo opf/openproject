@@ -147,8 +147,12 @@ module API
             "#{root}/my_preferences"
           end
 
+          def self.newses
+            "#{root}/news"
+          end
+
           def self.news(id)
-            "#{root}/news/#{id}"
+            "#{newses}/#{id}"
           end
 
           def self.post(id)
