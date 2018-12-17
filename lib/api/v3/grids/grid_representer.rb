@@ -49,6 +49,20 @@ module API
 
         self_link title_getter: ->(*) { nil }
 
+        link :updateImmediately do
+          {
+            href: api_v3_paths.grid(represented.id),
+            method: :patch
+          }
+        end
+
+        link :update do
+          {
+            href: api_v3_paths.grid_form(represented.id),
+            method: :post
+          }
+        end
+
         property :id
 
         property :row_count

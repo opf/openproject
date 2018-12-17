@@ -158,6 +158,22 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
         end
       end
 
+      context 'update link' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'update' }
+          let(:href) { "/api/v3/grids/#{grid.id}/form" }
+          let(:method) { :post }
+        end
+      end
+
+      context 'updateImmediately link' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'updateImmediately' }
+          let(:href) { "/api/v3/grids/#{grid.id}" }
+          let(:method) { :patch }
+        end
+      end
+
       context 'page link' do
         it_behaves_like 'has an untitled link' do
           let(:link) { 'page' }
