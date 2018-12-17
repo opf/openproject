@@ -22,6 +22,7 @@ import {
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
+import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 
 @Injectable()
 export class TableState extends StatesGroup {
@@ -34,6 +35,9 @@ export class TableState extends StatesGroup {
 
   // The query that results in this table state
   query:InputState<QueryResource> = input<QueryResource>();
+
+  // the query form associated with the table
+  queryForm = input<QueryFormResource>();
 
   // the results associated with the table
   results = input<WorkPackageCollectionResource>();

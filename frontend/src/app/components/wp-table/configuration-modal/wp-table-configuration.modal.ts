@@ -3,10 +3,10 @@ import {
   Component,
   ComponentFactoryResolver,
   ElementRef, EventEmitter,
-  Inject,
+  Inject, InjectionToken,
   Injector,
   OnDestroy,
-  OnInit,
+  OnInit, Optional,
   ViewChild
 } from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
@@ -27,6 +27,9 @@ import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
+import {ComponentType} from "@angular/cdk/portal";
+
+export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
 @Component({
   templateUrl: './wp-table-configuration.modal.html'
@@ -65,6 +68,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   public tabPortalHost:TabPortalOutlet;
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+              @Optional() @Inject(WpTableConfigurationModalPrependToken) public prependModalComponent:ComponentType<any>|null,
               readonly I18n:I18nService,
               readonly wpTableConfigurationService:WpTableConfigurationService,
               readonly injector:Injector,

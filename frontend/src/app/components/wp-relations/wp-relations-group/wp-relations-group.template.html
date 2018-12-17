@@ -10,8 +10,9 @@
       <div id="wp-relation-group-by-toggle"
            #wpRelationGroupByToggler
            class="panel-toggler ng-scope ng-isolate-scope hide-when-print">
-        <accessible-by-keyboard linkClass="icon-context icon-small icon-group-by button -transparent"
+        <accessible-by-keyboard linkClass="button -transparent"
                                 (execute)="toggleButton()">
+          <op-icon icon-classes="icon-small icon-group-by icon4"></op-icon>
           <span [textContent]="togglerText"></span>
         </accessible-by-keyboard>
       </div>

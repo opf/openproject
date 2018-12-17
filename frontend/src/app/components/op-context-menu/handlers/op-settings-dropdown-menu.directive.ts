@@ -46,6 +46,7 @@ import {
   selectableTitleIdentifier,
   triggerEditingEvent
 } from "core-components/wp-query-select/wp-query-selectable-title.component";
+import {TableState} from "core-components/wp-table/table-state/table-state";
 
 @Directive({
   selector: '[opSettingsContextMenu]'
@@ -62,6 +63,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
               readonly wpListService:WorkPackagesListService,
               readonly authorisationService:AuthorisationService,
               readonly states:States,
+              readonly tableState:TableState,
               readonly I18n:I18nService) {
 
     super(elementRef, opContextMenu);
@@ -74,7 +76,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
   ngAfterViewInit():void {
     super.ngAfterViewInit();
 
-    this.states.query.resource.values$()
+    this.tableState.query.values$()
       .pipe(
         takeUntil(componentDestroyed(this))
       )
@@ -82,9 +84,9 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         this.query = queryUpdate;
       });
 
-    this.loadingPromise = this.states.query.form.valuesPromise();
+    this.loadingPromise = this.tableState.queryForm.valuesPromise();
 
-    this.states.query.form.values$()
+    this.tableState.queryForm.values$()
       .pipe(
         takeUntil(componentDestroyed(this))
       )
@@ -93,7 +95,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       });
   }
 
-  protected open(evt:Event) {
+  protected open(evt:JQuery.Event) {
     this.loadingPromise.then(() => {
       this.buildItems();
       this.opContextMenu.show(this, evt);
@@ -112,12 +114,16 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
    *
    * @param {Event} openerEvent
    */
-  public positionArgs(openerEvent:Event) {
-    return {
+  public positionArgs(evt:JQueryEventObject) {
+    let additionalPositionArgs = {
       my: 'right top',
-      at: 'right bottom',
-      of: this.$element
+      at: 'right bottom'
     };
+
+    let position = super.positionArgs(evt);
+    _.assign(position, additionalPositionArgs);
+
+    return position;
   }
 
   public onClose() {

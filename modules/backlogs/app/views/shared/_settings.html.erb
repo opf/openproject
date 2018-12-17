@@ -1,0 +1,103 @@
+<%#-- copyright
+OpenProject Backlogs Plugin
+
+Copyright (C)2013-2014 the OpenProject Foundation (OPF)
+Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+Copyright (C)2010-2011 friflaj
+Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+Copyright (C)2009-2010 Mark Maglana
+Copyright (C)2009 Joe Heck, Nate Lowrie
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License version 3.
+
+OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+The copyright follows:
+Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% content_for :header_tags do %>
+  <script type="text/javascript">
+    jQuery(function($) {
+      var enable_apply = function () {
+        var tasktype,
+            submit,
+            disable;
+
+        tasktype = $("#settings_task_type").val();
+        submit = $('input[type=submit]');
+
+        disable = false;
+
+        $("#settings_story_types :selected").each(function(i, selected) {
+          disable = disable || ($(selected).attr('value') === tasktype);
+        });
+
+        if (disable) {
+          submit.attr('disabled', 'disabled');
+        }
+        else {
+          submit.removeAttr('disabled');
+        }
+      };
+
+      $("#settings_task_type").change(enable_apply);
+      $("#settings_story_types").changes(enable_apply);
+
+      enable_apply();
+    });
+  </script>
+<% end %>
+<% html_title l(:label_administration), l(:label_plugins), 'Backlogs' %>
+<div class="form--field">
+  <%= styled_label_tag("settings[story_types]", l(:backlogs_story_type)) %>
+  <div class="form--field-container">
+    <%= styled_select_tag("settings[story_types]",
+                 options_from_collection_for_select(Type.all, :id, :name, Story.types),
+                 :multiple => true,
+                 container_class: '-slim') %>
+  </div>
+</div>
+<div class="form--field">
+  <%= styled_label_tag("settings[task_type]", l(:backlogs_task_type)) %>
+  <div class="form--field-container">
+    <%= styled_select_tag("settings[task_type]",
+                 options_from_collection_for_select(Type.all, :id, :name, Task.type),
+                 container_class: '-slim') %>
+  </div>
+</div>
+<div class="form--field">
+  <%= styled_label_tag("settings[points_burn_direction]", l(:backlogs_points_burn_direction)) %>
+  <div class="form--field-container">
+    <%= styled_select_tag("settings[points_burn_direction]",
+                 options_for_select([[l(:label_points_burn_up), 'up'], [l(:label_points_burn_down), 'down']],
+                                    Setting.plugin_openproject_backlogs["points_burn_direction"]),
+                 container_class: '-slim') %>
+  </div>
+</div>
+<div class="form--field">
+  <%= styled_label_tag("settings[wiki_template]", l(:backlogs_wiki_template)) %>
+  <div class="form--field-container">
+    <%= styled_text_field_tag("settings[wiki_template]",
+                     Setting.plugin_openproject_backlogs["wiki_template"],
+                     container_class: '-slim') %>
+  </div>
+</div>

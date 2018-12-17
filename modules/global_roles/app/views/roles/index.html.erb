@@ -1,0 +1,105 @@
+<%#-- copyright
+OpenProject Global Roles Plugin
+
+Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+++#%>
+<% html_title l(:label_administration), l("label_role_plural") %>
+<%= toolbar title: Role.model_name.human(count: 2) do %>
+  <li class="toolbar-item">
+    <%= link_to({ action: 'new'},
+          { class: 'button -alt-highlight',
+            aria: {label: t(:label_role_new)},
+            title: t(:label_role_new)}) do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= Role.model_name.human %></span>
+    <% end %>
+  </li>
+<% end %>
+
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Role.model_name.human %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%=l(:label_global)%>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%=l(:button_sort)%>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th><div class="generic-table--empty-header"></div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for role in @roles %>
+          <tr>
+            <td>
+              <%= content_tag(role.builtin? ? 'em' : 'span', link_to(role.name, :action => 'edit', :id => role)) %>
+            </td>
+            <td>
+              <%= icon_wrapper('icon-context icon-checkmark', I18n.t(:general_text_Yes)) if role.is_a?(GlobalRole) %>
+            </td>
+            <td>
+              <% unless role.builtin? %>
+                <%= reorder_links('role', {:action => 'update', :id => role}, :method => :put) %>
+              <% end %>
+            </td>
+            <td class="buttons">
+              <%= link_to('', role_path(role),
+                                       method: :delete,
+                                       data: { confirm: l(:text_are_you_sure) },
+                                       class: 'icon icon-delete',
+                                       title: t(:button_delete)) unless role.builtin? %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<%= pagination_links_full @roles %>
+
+<p><%= link_to l(:label_permissions_report), :action => 'report' %></p>

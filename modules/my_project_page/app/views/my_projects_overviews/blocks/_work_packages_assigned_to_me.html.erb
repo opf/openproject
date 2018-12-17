@@ -1,0 +1,49 @@
+<%#-- copyright
+OpenProject My Project Page Plugin
+
+Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++#%>
+
+<% if defined? block_name_id %>
+  <%= content_for block_name_id %>
+<% end %>
+
+<h3 class="widget-box--header">
+  <%= op_icon('icon-context icon-assigned-to-me') %>
+  <span class="widget-box--header-title"><%=l(:label_work_packages_assigned_to_me)%> (<%= WorkPackage.visible.with_status_open.where(assigned_to_id: User.current.id, project_id: @project.id).count %>)</span>
+</h3>
+
+<% assigned_work_packages = WorkPackage.visible.with_status_open
+                            .where(assigned_to_id: User.current.id, project_id: @project.id)
+                            .limit(10)
+                            .includes([:status, :project, :type, :priority])
+                            .order("#{IssuePriority.table_name}.position DESC, #{WorkPackage.table_name}.updated_at DESC") %>
+<%= render partial: 'work_packages/list_simple', :locals => { :work_packages => assigned_work_packages, list_for: :assigned } %>
+<% if assigned_work_packages.length > 0 %>
+  <div class="generic-table--action-buttons">
+    <%= link_to l(:label_work_package_view_all_assigned_to_me),
+                  project_work_packages_assigned_to_me_path(@project),
+                  :class => 'button -highlight-inverted' %>
+  </div>
+<% end %>
+
+<% content_for :header_tags do %>
+    <%= auto_discovery_link_tag(:atom,
+                                project_work_packages_assigned_to_me_path(@project, {:format => 'atom', :key => User.current.rss_key}),
+                                {:title => l(:label_work_packages_assigned_to_me)}) %>
+<% end %>

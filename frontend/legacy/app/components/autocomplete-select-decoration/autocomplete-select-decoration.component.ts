@@ -66,7 +66,7 @@ export class AutocompleteSelectDecorationComponent {
   public remove(item:AutocompleteSelectDecorationItem) {
     _.remove(this.selectedItems, (selected) => selected.id === item.id);
 
-    let val = this.$select!.val();
+    let val = this.$select!.val() as any;
     _.remove(val, (id) => id === item.id);
     this.$select!.val(val);
   }

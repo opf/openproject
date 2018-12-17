@@ -88,7 +88,7 @@ module Components
 
         if impaired
           within_modal do
-            input = find "input[type=checkbox][title='#{name}'"
+            input = find "input[type=checkbox][title='#{name}']"
             input.set true
           end
         else
@@ -104,7 +104,7 @@ module Components
 
         within_modal do
           if impaired
-            input = find "input[type=checkbox][title='#{name}'"
+            input = find "input[type=checkbox][title='#{name}']"
             input.set false
           else
             container = find('.select2-search-choice', text: name)

@@ -62,6 +62,13 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     }
 
     /**
+     *
+     */
+    public get hasAttachments():boolean {
+      return _.get(this.attachments, 'elements.length', 0) > 0;
+    }
+
+    /**
      * Try to find an existing file's download URL given its filename
      * @param file
      */

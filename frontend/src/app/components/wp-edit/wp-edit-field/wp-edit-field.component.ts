@@ -93,7 +93,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
 
   // Open the field when its closed and relay drag & drop events to it.
   public startDragOverActivation(event:JQueryEventObject) {
-    if (!this.isDropTarget || this.active) {
+    if (!this.isDropTarget || !this.isEditable || this.active) {
       return true;
     }
 
@@ -127,7 +127,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
 
   public get isEditable() {
     const fieldSchema = this.resource.schema[this.fieldName] as IFieldSchema;
-    return this.resource.isEditable && fieldSchema && fieldSchema.writable;
+    return this.resource.isAttributeEditable(this.fieldName) && fieldSchema && fieldSchema.writable;
   }
 
   public activateIfEditable(event:JQueryEventObject) {
@@ -172,7 +172,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
 
     this.activateOnForm()
       .then((handler) => {
-        handler.focus(positionOffset);
+        handler && handler.focus(positionOffset);
       });
 
     return false;

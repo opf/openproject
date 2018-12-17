@@ -166,6 +166,11 @@ et:
       no_results_content_text: Add a status reporting
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -182,8 +187,9 @@ et:
       projects: Projektid
       enabled_projects: Enabled projects
       add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -345,6 +351,7 @@ et:
         to: Seotud teema
       status:
         is_closed: Teema on suletud
+        is_readonly: Work package read-only
       journal:
         notes: Märkmed
       member:
@@ -1162,6 +1169,7 @@ et:
   label_auth_source_plural: Autentimise viisid
   label_authentication: Autentimine
   label_available_project_work_package_categories: Available work package categories
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Available boards
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
@@ -1332,6 +1340,7 @@ et:
   label_journal_diff: Kirjelduse võrdlus
   label_language: Keel
   label_jump_to_a_project: Mine projekti...
+  label_keyword_plural: Keywords
   label_language_based: Põhineb kasutaja keelel
   label_last_activity: Last activity
   label_last_change_on: Last change on

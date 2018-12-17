@@ -36,11 +36,13 @@ export class DisplayField extends Field {
   public mode:string | null = null;
   public changeset:WorkPackageChangeset|null = null;
 
+  protected I18n:I18nService
   constructor(public resource:any,
               public name:string,
               public schema:IFieldSchema,
               public context:DisplayFieldContext) {
-    super(resource, name, schema);
+    super();
+    this.I18n = this.$injector.get(I18nService);
   }
 
   public get isFormattable():boolean {

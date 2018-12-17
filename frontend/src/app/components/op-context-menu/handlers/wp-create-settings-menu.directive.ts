@@ -47,7 +47,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
     super(elementRef, opContextMenu);
   }
 
-  protected open(evt:Event) {
+  protected open(evt:JQuery.Event) {
     const wp = this.states.workPackages.get('new').value;
 
     if (wp) {
@@ -66,12 +66,16 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
    *
    * @param {Event} openerEvent
    */
-  public positionArgs(openerEvent:Event) {
-    return {
+  public positionArgs(evt:JQuery.Event) {
+    let additionalPositionArgs = {
       my: 'right top',
-      at: 'right bottom',
-      of: this.$element
+      at: 'right bottom'
     };
+
+    let position = super.positionArgs(evt);
+    _.assign(position, additionalPositionArgs);
+
+    return position;
   }
 
   private buildItems(form:FormResource) {

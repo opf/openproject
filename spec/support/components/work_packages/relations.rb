@@ -119,40 +119,49 @@ module Components
         expect(relation.other_work_package(work_package).id).to eq(to.id)
       end
 
+      def expect_relation(relatable)
+        expect(relations_group).to have_selector('.wp-relations--subject-field', text: relatable.subject)
+        end
+
+      def expect_relation_by_text(text)
+        expect(relations_group).to have_text('.wp-relations--subject-field', text)
+      end
+
       def expect_no_relation(relatable)
         expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
       end
 
       def add_parent(query, work_package)
-        # Locate the create row container
-        container = find('.wp-relations--parent-form')
+        # Open the parent edit
+        find('.wp-relation--parent-change').click
 
         # Enter the query and select the child
-        autocomplete = container.find(".wp-relations--autocomplete")
+        autocomplete = find(".wp-relations--autocomplete")
         select_autocomplete autocomplete,
                             query: query,
-                            results_selector: '.detail-panel--relations .wp-relations-autocomplete--results',
+                            results_selector: '.wp-relations-autocomplete--results',
                             select_text: work_package.id
-
-        container.find('.wp-create-relation--save').click
       end
 
       def expect_parent(work_package)
-        expect(page).to have_selector('.wp-relations-hierarchy-subject',
+        expect(page).to have_selector '.wp-breadcrumb-parent',
                                       text: work_package.subject,
-                                      wait: 10)
+                                      wait: 10
       end
 
-      def remove_parent(work_package)
-        expect(page).to have_selector('.relation-row--parent', text: work_package.subject)
-        container = find('.relation-row--parent')
-        container.hover
-
-        container.find('.wp-relation--remove').click
+      def expect_no_parent
+        expect(page).to have_no_selector '.wp-breadcrumb-parent', wait: 10
       end
 
-      def expect_not_parent(work_package)
-        expect(page).to have_no_selector('.relation-row--parent', text: work_package.subject, wait: 10)
+
+      def remove_parent
+        # Open the parent edit
+        find('.wp-relation--parent-change').click
+
+        # Submit empty autocomplete to remove
+        autocomplete = find(".wp-relations--autocomplete")
+        autocomplete.set ''
+        autocomplete.send_keys :enter
       end
 
       def inline_create_child(subject_text)
@@ -166,7 +175,7 @@ module Components
 
       def add_existing_child(work_package)
         # Locate the create row container
-        container = find('.wp-relations--child-form')
+        container = find('.wp-relations--add-form')
 
         # Enter the query and select the child
         autocomplete = container.find(".wp-relations--autocomplete")
@@ -183,12 +192,12 @@ module Components
 
         within container do
           expect(page)
-            .to have_selector('.wp-table--cell-td.subject', text: work_package.subject)
+            .to have_selector('.wp-table--cell-td.subject', text: work_package.subject, wait: 10)
         end
       end
 
       def expect_not_child(work_package)
-        page.within('.work-packages-embedded-view--container') do
+        page.within('wp-relations-tab .work-packages-embedded-view--container') do
           row = ".wp-row-#{work_package.id}-table"
 
           expect(page).to have_no_selector(row)
@@ -196,7 +205,11 @@ module Components
       end
 
       def children_table
-        ::Pages::EmbeddedWorkPackagesTable.new find('.work-packages-embedded-view--container')
+        ::Pages::EmbeddedWorkPackagesTable.new find('wp-relations-tab .work-packages-embedded-view--container')
+      end
+
+      def relations_group
+        find('wp-relations-tab wp-relations-group')
       end
 
       def remove_child(work_package)

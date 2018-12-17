@@ -1,0 +1,11 @@
+ko:
+  error_can_not_be_assigned: 역할을 이 사용자에게 할당할 수 없습니다.
+  global_roles: 글로벌 역할
+  label_role_type: 유형
+  label_member_role: 프로젝트 역할
+  label_global_role: 글로벌 역할
+  label_not_changeable: (변경할 수 없음)
+  label_no_assignable_role: 할당을 위해 글로벌 역할을 사용할 수 없음
+  label_global: 글로벌
+  seeders:
+    default_role_project_creator: '프로젝트 생성자'

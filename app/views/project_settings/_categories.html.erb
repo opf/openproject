@@ -31,6 +31,16 @@ See docs/COPYRIGHT.rdoc for more details.
     <legend class="form--fieldset-legend">
       <%= l(:label_available_project_work_package_categories) %>
     </legend>
+    <div class="form--fieldset-control">
+      <span class="form--fieldset-control-container">
+        <%= link_to_if_authorized({ controller: '/categories', action: 'new', project_id: @project },
+                                  { aria: { label: t(:label_work_package_category_new) },
+                                    title: t(:label_work_package_category_new) }) do %>
+          <%= op_icon('icon-add icon-small') %>
+            <span><%= t('activerecord.models.category') %></span>
+        <% end %>
+      </span>
+    </div>
     <div class="generic-table--container">
       <div class="generic-table--results-container">
         <table class="generic-table">
@@ -69,15 +79,16 @@ See docs/COPYRIGHT.rdoc for more details.
                   <td><%=h(category.name) %></td>
                   <td><%=h(category.assigned_to.name) if category.assigned_to %></td>
                   <td class="buttons">
-                    <%= link_to_if_authorized l(:button_edit),
+                    <%= link_to_if_authorized '',
                                               { controller: '/categories', action: 'edit', id: category },
-                                              class: 'icon icon-edit' %>
-
-                    <%= link_to_if_authorized l(:button_delete),
+                                              class: 'icon icon-edit',
+                                              title: t(:button_edit) %>
+                    <%= link_to_if_authorized '',
                                               { controller: '/categories', action: 'destroy', id: category },
                                               data: { confirm: l(:text_are_you_sure) },
                                               method: :delete,
-                                              class: 'icon icon-delete' %>
+                                              class: 'icon icon-delete',
+                                              title: t(:button_delete) %>
                   </td>
                 </tr>
               <% end %>

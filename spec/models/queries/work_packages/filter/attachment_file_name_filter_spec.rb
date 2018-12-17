@@ -37,7 +37,6 @@ describe Queries::WorkPackages::Filter::AttachmentFileNameFilter, type: :model d
     end
 
     it_behaves_like 'basic query filter' do
-      let(:order) { 8 }
       let(:type) { :text }
       let(:class_key) { :attachment_file_name }
 

@@ -103,6 +103,10 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
     this.wpFiltersService.toggleVisibility();
   }
 
+  public isHiddenFilter(filter:QueryFilterResource) {
+    return _.includes(this.filters.hidden, filter.id);
+  }
+
   public deactivateFilter(removedFilter:QueryFilterInstanceResource) {
     let index = this.filters.current.indexOf(removedFilter);
 
@@ -116,7 +120,7 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private updateRemainingFilters() {
-    this.remainingFilters = _.sortBy(this.filters.remainingFilters, 'name');
+    this.remainingFilters = _.sortBy(this.filters.remainingVisibleFilters, 'name');
   }
 
   private updateFilterFocus(index:number) {

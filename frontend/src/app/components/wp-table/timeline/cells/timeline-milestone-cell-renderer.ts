@@ -32,7 +32,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   }
 
   public canMoveDates(wp:WorkPackageResource) {
-    return wp.schema.date.writable;
+    return wp.schema.date.writable && wp.isAttributeEditable('date');
   }
 
   public displayPlaceholderUnderCursor(ev:MouseEvent, renderInfo:RenderInfo):HTMLElement {

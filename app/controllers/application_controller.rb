@@ -260,6 +260,8 @@ class ApplicationController < ActionController::Base
                'X-Reason' => 'login needed',
                'WWW-Authenticate' => auth_header
         end
+
+        format.all { head :not_acceptable }
       end
       return false
     end
@@ -506,7 +508,7 @@ class ApplicationController < ActionController::Base
       format.html do
         render template: 'common/error', layout: use_layout, status: @status
       end
-      format.any(:atom, :xml, :js, :json, :pdf, :csv) do
+      format.any do
         head @status
       end
     end
@@ -564,15 +566,6 @@ class ApplicationController < ActionController::Base
     if unsaved_attachments.any?
       flash[:warning] = l(:warning_attachments_not_saved, unsaved_attachments.size)
     end
-  end
-
-  # Rescues an invalid query statement. Just in case...
-  def query_statement_invalid(exception)
-    logger.error "Query::StatementInvalid: #{exception.message}" if logger
-    session.delete(:query)
-    sort_clear if respond_to?(:sort_clear)
-    render_error 'An error occurred while executing the query and has been logged. ' \
-                 'Please report this error to your administrator.'
   end
 
   # Converts the errors on an ActiveRecord object into a common JSON format

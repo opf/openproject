@@ -44,8 +44,4 @@ class Queries::WorkPackages::Filter::AttachmentContentFilter < Queries::WorkPack
   def search_column
     'fulltext'
   end
-
-  def order
-    8
-  end
 end

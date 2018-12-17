@@ -73,7 +73,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
       .then(types => this.buildItems(types));
   }
 
-  protected open(evt:Event) {
+  protected open(evt:JQuery.Event) {
     this.loadingPromise.then(() => {
       this.opContextMenu.show(this, evt);
     });
@@ -83,20 +83,6 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
     return {
       items: this.items,
       contextMenuId: 'types-context-menu'
-    };
-  }
-
-
-  /**
-   * Positioning args for jquery-ui position.
-   *
-   * @param {Event} openerEvent
-   */
-  public positionArgs(openerEvent:Event) {
-    return {
-      my: 'left top',
-      at: 'left bottom',
-      of: this.$element
     };
   }
 

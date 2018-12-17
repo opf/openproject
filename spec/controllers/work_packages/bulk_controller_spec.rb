@@ -378,12 +378,31 @@ describe WorkPackages::BulkController, type: :controller do
         describe '#groups' do
           let(:group) { FactoryBot.create(:group) }
           let(:group_id) { group.id }
-
-          include_context 'update_request'
-
           subject { work_packages.map(&:assigned_to_id).uniq }
 
-          it { is_expected.to match_array [group_id] }
+          context 'allowed' do
+            let!(:member_group_p1) {
+              FactoryBot.create(:member,
+                                project: project_1,
+                                principal: group,
+                                roles: [role])
+            }
+
+            include_context 'update_request'
+            it 'does succeed' do
+              expect(flash[:error]).to be_nil
+              expect(subject).to match_array [group.id]
+            end
+          end
+
+          context 'not allowed' do
+            include_context 'update_request'
+
+            it 'does not succeed' do
+              expect(flash[:error]).to include(work_package_ids.join(', #'))
+              expect(subject).to match_array [user.id]
+            end
+          end
         end
 
         describe '#responsible' do
@@ -563,6 +582,52 @@ describe WorkPackages::BulkController, type: :controller do
         let(:delivery_size) { 0 }
 
         it_behaves_like :delivered
+      end
+    end
+
+    describe 'updating two children with dates to a new parent (Regression #28670)' do
+      let(:task1) do
+        FactoryBot.create :work_package,
+                          project: project_1,
+                          start_date: Date.today - 5.days,
+                          due_date: Date.today
+      end
+
+      let(:task2) do
+        FactoryBot.create :work_package,
+                          project: project_1,
+                          start_date: Date.today - 2.days,
+                          due_date: Date.today + 1.days
+      end
+
+      let(:new_parent) do
+        FactoryBot.create :work_package, project: project_1
+      end
+
+      before do
+        expect(new_parent.start_date).to be_nil
+        expect(new_parent.due_date).to be_nil
+
+        put :update,
+            params: {
+              ids: [task1.id, task2.id],
+              notes: 'Bulk editing',
+              work_package: { parent_id: new_parent.id }
+            }
+      end
+
+      it 'should update the parent dates as well' do
+        expect(response.response_code).to eq(302)
+
+        task1.reload
+        task2.reload
+        new_parent.reload
+
+        expect(task1.parent_id).to eq(new_parent.id)
+        expect(task2.parent_id).to eq(new_parent.id)
+
+        expect(new_parent.start_date).to eq Date.today - 5.days
+        expect(new_parent.due_date).to eq Date.today + 1.days
       end
     end
   end

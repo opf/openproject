@@ -553,6 +553,16 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:href) { api_v3_paths.attachments_by_work_package(work_package.id) }
         end
 
+        context 'when work package blocked' do
+          before do
+            allow(work_package).to receive(:readonly_status?).and_return true
+          end
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'addAttachment' }
+          end
+        end
+
         it 'addAttachments is a post link' do
           is_expected.to be_json_eql('post'.to_json).at_path('_links/addAttachment/method')
         end
@@ -847,8 +857,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'copy' do
         it_behaves_like 'has a titled action link' do
           let(:link) { 'copy' }
-          let(:href) { new_work_package_move_path(work_package, copy: true, ids: [work_package.id]) }
-          let(:permission) { :move_work_packages }
+          let(:href) { work_package_path(work_package, 'copy') }
+          let(:permission) { :add_work_packages }
           let(:title) { "Copy #{work_package.subject}" }
         end
       end

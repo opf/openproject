@@ -187,7 +187,6 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
   end
 
   it_behaves_like 'basic query filter' do
-    let(:order) { 4 }
     let(:type) { :list_optional }
     let(:class_key) { :responsible_id }
 

@@ -60,7 +60,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
     super(elementRef, opContextMenu);
   }
 
-  protected open(evt:Event) {
+  protected open(evt:JQuery.Event) {
     if (!this.table.configuration.columnMenuEnabled) {
       return;
     }
@@ -81,12 +81,15 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
    *
    * @param {Event} openerEvent
    */
-  public positionArgs(openerEvent:Event) {
-    return {
-      my: 'left top',
-      at: 'left bottom',
-      of: this.$element.find('.generic-table--sort-header-outer')
+  public positionArgs(evt:JQuery.Event) {
+    let additionalPositionArgs = {
+      of:  this.$element.find('.generic-table--sort-header-outer'),
     };
+
+    let position = super.positionArgs(evt);
+    _.assign(position, additionalPositionArgs);
+
+    return position;
   }
 
   protected get afterFocusOn():JQuery {
@@ -152,7 +155,6 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         linkText: this.I18n.t('js.work_packages.query.hide_column'),
         icon: 'icon-delete',
         onClick: () => {
-          this.wpTableColumns.shift(c, 1);
           let focusColumn = this.wpTableColumns.previous(c) || this.wpTableColumns.next(c);
           this.wpTableColumns.removeColumn(c);
 

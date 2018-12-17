@@ -29,30 +29,24 @@
 module API
   module V3
     module WorkPackages
-      class ParseParamsService
+      class ParseParamsService < API::V3::ParseResourceParamsService
         def initialize(user)
-          @current_user = user
-        end
-
-        def call(request_body)
-          return {} unless request_body
-
-          parse_attributes(request_body)
+          super(user, WorkPackage, ::API::V3::WorkPackages::WorkPackagePayloadRepresenter)
         end
 
         private
 
-        attr_accessor :current_user
-
         def parse_attributes(request_body)
-          struct = ParsingStruct.new
-
           ::API::V3::WorkPackages::WorkPackagePayloadRepresenter
             .create_class(struct)
             .new(struct, current_user: current_user)
             .from_hash(Hash(request_body))
             .to_h
             .reverse_merge(lock_version: nil)
+        end
+
+        def struct
+          ParsingStruct.new
         end
 
         class ParsingStruct < OpenStruct

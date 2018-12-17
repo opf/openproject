@@ -40,7 +40,8 @@
 </div>
 
 <%= form_tag({ action: :destroy },
-             method: :delete,
-             class: 'confirm-form-submit') do %>
+             method: :delete) do %>
+  <confirm-form-submit></confirm-form-submit>
   <%= styled_button_tag t(:button_delete), type: 'submit', class: '-with-icon icon-delete' %>
 <% end %>
+

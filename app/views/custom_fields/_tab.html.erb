@@ -148,10 +148,15 @@ See docs/COPYRIGHT.rdoc for more details.
                 </td>
               <% end %>
               <% unless tab[:name] == 'WorkPackageCustomField' %>
-                <td><%= reorder_links('custom_field', { action: 'update', id: custom_field, back_url: custom_fields_path }, method: :put) %></td>
+                <td><%= reorder_links('custom_field', { action: 'update', id: custom_field, back_url: custom_fields_path(tab: tab[:name]) }, method: :put) %></td>
               <% end %>
               <td class="buttons">
-                <%= delete_link custom_field_path(custom_field) %>
+                <%= link_to(
+                      op_icon('icon icon-delete'),
+                      (custom_field_path(custom_field)),
+                      method: :delete,
+                      data: { confirm: I18n.t(:text_are_you_sure) },
+                      title: t(:button_delete)) %>
               </td>
             </tr>
           <% end %>

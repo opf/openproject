@@ -171,6 +171,8 @@ class ProjectsController < ApplicationController
 
   def modules
     @project.enabled_module_names = permitted_params.project[:enabled_module_names]
+    # Ensure the project is touched to update its cache key
+    @project.touch
     flash[:notice] = I18n.t(:notice_successful_update)
     redirect_to settings_project_path(@project, tab: 'modules')
   end
@@ -190,8 +192,14 @@ class ProjectsController < ApplicationController
   end
 
   def archive
-    flash[:error] = l(:error_can_not_archive_project) unless @project.archive
-    redirect_to(url_for(controller: '/projects', action: 'index', status: params[:status]))
+    projects_url = url_for(controller: '/projects', action: 'index', status: params[:status])
+    if @project.archive
+      redirect_to projects_url
+    else
+      flash[:error] = I18n.t(:error_can_not_archive_project)
+      redirect_back fallback_location: projects_url
+    end
+    
     update_demo_project_settings @project, false
   end
 

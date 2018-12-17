@@ -57,13 +57,7 @@ describe 'Upload attachment to board message', js: true do
     create_page.set_subject 'A new message'
 
     # adding an image
-    editor.in_editor do |container, editable|
-      attachments.drag_and_drop_file(editable, image_fixture)
-
-      # Besides testing caption functionality this also slows down clicking on the submit button
-      # so that the image is properly embedded
-      editable.find('figure.image figcaption').base.send_keys('Image uploaded on creation')
-    end
+    editor.drag_attachment image_fixture, 'Image uploaded on creation'
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png')
     expect(page).not_to have_selector('notification-upload-progress')
@@ -78,13 +72,7 @@ describe 'Upload attachment to board message', js: true do
       click_on "Edit"
     end
 
-    editor.in_editor do |container, editable|
-      attachments.drag_and_drop_file(editable, image_fixture)
-
-      # Besides testing caption functionality this also slows down clicking on the submit button
-      # so that the image is properly embedded
-      editable.find('figure.image figcaption').base.send_keys('Image uploaded the second time')
-    end
+    editor.drag_attachment image_fixture, 'Image uploaded the second time'
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
     expect(page).not_to have_selector('notification-upload-progress')

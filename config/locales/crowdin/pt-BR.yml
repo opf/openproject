@@ -166,6 +166,11 @@ pt-BR:
       no_results_content_text: Adicionar um relatório de situação
   statuses:
     edit:
+      status_readonly_html: |
+        Use esta opção para marcar pacotes de trabalho com situação como somente leitura.
+        Nenhum atributo pode ser alterado com exceção da situação.
+        <br/>
+        <strong>Nota</strong>: valores herdados (por exemplo, de filhos ou relações) ainda serão aplicados.
       status_color_text: |
         Clique para atribuir ou alterar a cor desta situação.
         É exibido no botão de situação e pode ser usado para destacar pacotes de trabalho na tabela.
@@ -182,8 +187,9 @@ pt-BR:
       projects: Projetos
       enabled_projects: Projetos habilitados
       add_group: Adicionar grupo de atributo
-      add_subelements: Adicionar grupo de subelementos
-      edit_query: Editar consulta embutida
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Redefinir para os padrões
       type_color_text: 'Clique para atribuir ou alterar a cor deste tipo. A cor selecionada
         diferencia pacotes de trabalho em gráficos de Gantt.
@@ -347,6 +353,7 @@ pt-BR:
         to: Pacote de trabalho relacionado
       status:
         is_closed: Pacote de trabalho fechado
+        is_readonly: Pacote de trabalho somente leitura
       journal:
         notes: Anotações
       member:
@@ -1038,7 +1045,7 @@ pt-BR:
 '
   error_external_authentication_failed: Ocorreu um erro durante a autenticação externa.
     Por favor, tente novamente.
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: 'Atributo(s) não destacado(s): %{attributes}'
   events:
     project: Projeto editado
     changeset: Conjunto de alterações editadas
@@ -1169,6 +1176,7 @@ pt-BR:
   label_authentication: Autenticação
   label_available_project_work_package_categories: Categorias de pacote de trabalho
     disponíveis
+  label_available_project_work_package_types: Tipos de pacote de trabalho disponíveis
   label_available_project_boards: Painéis disponíveis
   label_available_project_versions: Versões disponíveis
   label_available_project_repositories: Repositórios disponíveis
@@ -1339,6 +1347,7 @@ pt-BR:
   label_journal_diff: Comparação de Descrição
   label_language: Idioma
   label_jump_to_a_project: Saltar para um projeto...
+  label_keyword_plural: Palavras-chave
   label_language_based: Com base no idioma do usuário
   label_last_activity: Última atividade
   label_last_change_on: Última alteração em
@@ -1872,7 +1881,7 @@ pt-BR:
       e colaboração de equipe com o OpenProject.
     text_show_again: Você pode reiniciar este vídeo através do menu ajuda
     welcome: Bem-vindo ao OpenProject
-    select_language: Please select your language
+    select_language: Por favor, selecione seu idioma
   permission_add_work_package_notes: Adicionar anotações
   permission_add_work_packages: Adicionar pacotes de trabalho
   permission_add_messages: Postar mensagens
@@ -2239,9 +2248,9 @@ pt-BR:
   setting_welcome_on_homescreen: Exibir bloco de boas-vindas na tela inicial
   setting_wiki_compression: Compactação de histórico do wiki
   setting_work_package_group_assignment: Permitir a atribuição de grupos
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighting_mode: Modo de destaque padrão
+  setting_work_package_list_default_highlighted_attributes: Atributos embutidos com
+    destaque padrão
   settings:
     general: Geral
     other: Outro
@@ -2253,11 +2262,11 @@ pt-BR:
       deletion: Exclusão
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
+        inline: Destacar atributo(s) embutido(s)
         none: Sem destaque
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: Toda a linha por Situação
+        type: Toda linha por Tipo
+        priority: Toda linha por Prioridade
   text_formatting:
     markdown: Markdown
     plain: Texto simples

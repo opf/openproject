@@ -55,9 +55,12 @@ export class DynamicContentModal extends OpModalComponent implements OnInit, OnD
       .append(this.locals.modalBody);
 
     // Register click listeners
-    jQuery(document.body).on('click.opdynamicmodal', '.dynamic-content-modal--close-button', (evt) => {
-      this.closeMe(evt);
-    });
+    jQuery(document.body)
+      .on('click.opdynamicmodal',
+        '.dynamic-content-modal--close-button',
+        (evt:JQuery.Event) => {
+        this.closeMe(evt);
+      });
   }
 
   ngOnDestroy() {

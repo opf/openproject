@@ -166,6 +166,11 @@ vi:
       no_results_content_text: Add a status reporting
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -182,8 +187,9 @@ vi:
       projects: Các dự án
       enabled_projects: Enabled projects
       add_group: Thêm 1 nhóm thuộc tính
-      add_subelements: Thêm subelements nhóm
-      edit_query: Chỉnh sửa nhúng truy vấn
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -346,6 +352,7 @@ vi:
         to: Work package liên quan
       status:
         is_closed: Work package đã đóng
+        is_readonly: Work package read-only
       journal:
         notes: Ghi chú
       member:
@@ -1165,6 +1172,7 @@ vi:
   label_auth_source_plural: Chế độ xác thực
   label_authentication: Xác thực
   label_available_project_work_package_categories: Available work package categories
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Available boards
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
@@ -1334,6 +1342,7 @@ vi:
   label_journal_diff: Description Comparison
   label_language: Ngôn ngữ
   label_jump_to_a_project: Jump to a project...
+  label_keyword_plural: Keywords
   label_language_based: Based on user's language
   label_last_activity: Last activity
   label_last_change_on: Thay đổi cuối trên

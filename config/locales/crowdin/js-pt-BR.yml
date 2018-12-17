@@ -54,6 +54,10 @@ pt-BR:
     button_update: Atualizar
     button_export-pdf: Baixar PDF
     button_export-atom: Baixar Atom
+    calendar:
+      title: Calendário
+      too_many: Existem mais pacotes de trabalho (%{count}) do que podem ser exibidos
+        pelo calendário (%{max}). Adicione filtros para exibir os relevantes.
     description_available_columns: Colunas disponíveis
     description_current_position: 'Você está aqui:'
     description_select_work_package: 'Selecionar o pacote de trabalho #%{id}'
@@ -64,6 +68,7 @@ pt-BR:
       source_code: Alternar para código Markdown
       error_saving_failed: 'Não foi possível salvar o documento pelo seguinte erro:
         %{error}'
+      error_initialization_failed: Falha ao inicializar CKEditor!
       mode:
         manual: Alternar para fonte Markdown
         wysiwyg: Alternar para editor WYSIWYG
@@ -112,10 +117,12 @@ pt-BR:
         embedded_table:
           button: Embutir tabela de pacote de trabalho
           text: "[Placeholder] Embutida tabela de pacote de trabalho"
+        embedded_calendar:
+          text: "[Placeholder] Calendário embutido"
     custom_actions:
       date:
         specific: ligado
-        current_date: Current date
+        current_date: Data atual
     error:
       internal: Ocorreu um erro interno.
       cannot_save_changes_with_message: 'Não foi possível salvar as alterações devido
@@ -269,6 +276,8 @@ pt-BR:
     label_attachments: Arquivos
     label_drop_files: Solte os arquivos aqui
     label_drop_files_hint: ou clique para adicionar arquivos
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Adicionar anexos
     label_formattable_attachment_hint: Anexar e vincular arquivos soltando neste campo,
       ou colando da área de transferência.
@@ -289,6 +298,51 @@ pt-BR:
       erros:'
     help_texts:
       show_modal: Mostrar entrada para o texto de ajuda de atributos
+    onboarding:
+      steps:
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
+        project_selection: Por favor, selecione um dos projetos com dados de demonstração
+          útil para começar. <br> O <b>Projeto Demo</b> é o melhor para gerenciamento
+          de projetos clássico, enquanto o <b>projeto Scrum</b> é melhor para gerenciamento
+          ágil de projetos.
+        sidebar_arrow: Com a seta, você pode navegar para o <b>menu principal</b>
+          do projeto.
+        members: Convide novos <b>Membros</b> para participar de seu projeto.
+        wiki: Na <b>Wiki</b> você pode documentar e compartilhar conhecimento com
+          sua equipe.
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
+          drop-down...
+        backlogs_task_board_select: "... e selecione <b>Quadro de tarefas</b>."
+        backlogs_task_board: O <b>Quadro de tarefas</b> visualiza o progresso do sprint.
+          Adicione novas tarefas ou impedimentos com o + ícone ao lado de uma história
+          de usuário. Arrastando e soltando você pode atualizar o status.
+        wp_toggler: Agora vamos dar uma olhada na seção <b>Pacotes de trabalho</b>,
+          que lhe fornece uma visão mais detalhada do seu trabalho.
+        wp_list: Esta é a lista de <b>Pacotes de trabalho</b> com o trabalho importante
+          dentro de seu projeto, tais como tarefas, recursos, marcos, bugs e muito
+          mais. <br>Você pode criar ou editar um pacote de trabalho diretamente dentro
+          desta lista. Para ver seus detalhes você pode clicar duas vezes em uma linha.
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
+        wp_back_button: Com a seta você pode navegar de volta para a lista de pacotes
+          de trabalho.
+        wp_create_button: O botão <b>Criar</b> irá adicionar um novo pacote de trabalho
+          ao seu projeto.
+        wp_timeline_button: Você pode ativar o <b>gráfico de Gantt</b> para criar
+          uma linha do tempo para o seu projeto.
+        wp_timeline: Aqui você pode editar o seu plano de projeto. Criar novas fases,
+          marcos e adicionar dependências. Todos os membros da equipe podem ver e
+          atualizar o plano mais recente a qualquer momento.
+        help_menu: No menu <b>Ajuda</b> você vai encontrar um guia do usuário e recursos
+          adicionais de ajuda. <br> Aprecie o seu trabalho com OpenProject!
+        got_it: Entendi
     password_confirmation:
       field_description: Você precisa digitar sua senha para confirmar essa alteração.
       title: Confirme sua senha para continuar
@@ -315,6 +369,7 @@ pt-BR:
       attribute_groups:
         error_duplicate_group_name: O nome %{group} foi usado mais de uma vez. Nomes
           de Grupos devem ser únicos.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Voltar para a configuração padrão do formulário
         confirm_reset: 'Aviso: Tem certeza de que deseja redefinir a configuração
           de formulário? Isto irá redefinir os atributos para o grupo padrão e desativar
@@ -327,6 +382,19 @@ pt-BR:
           tornando-se um cliente da versão Enterprise Edition?
         more_information: Mais informações
         nevermind: Deixa pra lá
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicado por
+          blocks: blocking
+          blocked: bloqueado por
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: carregando observadores...
       label_error_loading: Ocorreu um erro ao carregar os observadores
@@ -351,17 +419,22 @@ pt-BR:
       relation_type: tipo de relação
     relations_hierarchy:
       parent_headline: Ascendente
+      hierarchy_headline: Hierarquia
       children_headline: Filhos
     relation_buttons:
+      set_parent: Set parent
       change_parent: Alterar pai
       remove_parent: Remover pai
       group_by_wp_type: Agrupar por tipo de pacote de trabalho
       group_by_relation_type: Agrupar por tipo de relação
       add_parent: Adicionar pai existente
       add_new_child: Criar novo filho
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Adicionar ao filho existente
       remove_child: Remover filho
       add_new_relation: Criar nova relação
+      add_existing_relation: Add existing relation
       update_description: Definir ou atualizar a descrição desta relação
       toggle_description: Alternar descrição da relação
       update_relation: Clique para alterar o tipo de relação
@@ -372,6 +445,8 @@ pt-BR:
       abort: Abortar
     relations_autocomplete:
       placeholder: Insira o id do pacote de trabalho relacionado
+      parent_placeholder: Escolher novo pai, pressione enter para desativar, esc para
+        cancelar.
     repositories:
       select_tag: Selecionar marca
       select_branch: Selecionar o branch
@@ -514,6 +589,8 @@ pt-BR:
       description_options_hide: Ocultar opções
       description_options_show: Mostrar opções
       error:
+        update_conflict_refresh: Clique aqui para atualizar o pacote de trabalho para
+          a versão mais recente.
         edit_prohibited: A edição de %{attribute} está bloqueada neste pacote de trabalho.
           Ou este atributo é derivado de relações (por exemplo, filhas) ou não é configurável.
         format:
@@ -535,6 +612,8 @@ pt-BR:
       message_successful_show_in_fullscreen: Clique aqui para abrir este pacote de
         trabalho na visualização de tela cheia.
       message_view_spent_time: Mostrar o tempo gasto para este pacote de trabalho
+      message_work_package_read_only: Pacote de trabalho está bloqueado na presente
+        situação. Nenhum atributo que não seja a situação pode ser alterado.
       no_value: Nenhum valor
       inline_create:
         title: Clique aqui para adicionar um novo pacote de trabalho a esta lista
@@ -660,8 +739,8 @@ pt-BR:
         highlighting_mode:
           description: Destacar com cor
           none: Sem destaque
-          inline: Highlighted attribute(s)
-          inline_all: All attributes
+          inline: Atributo(s) destacado(s)
+          inline_all: Todos atributos
           entire_row_by: Toda linha por
           status: Situação
           priority: Prioridade
@@ -673,6 +752,9 @@ pt-BR:
             da massa?
           relation_columns: Necessário ver as relações na lista de pacote de trabalho?
           check_out_link: Confira a versão Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Visão geral
         activity: Atividade

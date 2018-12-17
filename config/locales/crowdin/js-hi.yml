@@ -25,7 +25,7 @@ hi:
     button_add_watcher: द्रष्टा जोड़ें
     button_back_to_list_view: Back to list view
     button_cancel: निरस्त करें
-    button_close: Close
+    button_close: बंद करें
     button_check_all: Check all
     button_configure-form: Configure form
     button_confirm: Confirm
@@ -53,6 +53,10 @@ hi:
     button_update: अद्यतन करें
     button_export-pdf: Download PDF
     button_export-atom: Download Atom
+    calendar:
+      title: कैलेंडर
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Available Columns
     description_current_position: 'You are here:'
     description_select_work_package: 'Select work package #%{id}'
@@ -62,6 +66,7 @@ hi:
       preview: Toggle preview mode
       source_code: Markdown स्रोत मोड टॉगल करें
       error_saving_failed: 'दस्तावेज़ को सहेजना निम्न त्रुटि के साथ विफल हुआ: %{error}'
+      error_initialization_failed: CKEditor प्रारंभ करने में विफल !
       mode:
         manual: Markdown स्रोत पर स्विच करें
         wysiwyg: WYSIWYG संपादक पर जाएं
@@ -85,7 +90,7 @@ hi:
         dropdown:
           macros: मैक्रो
           chose_macro: मैक्रो चुनें
-        toc: Table of contents
+        toc: विषय सूची
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
         wiki_page_include:
@@ -107,6 +112,8 @@ hi:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: पर
@@ -218,7 +225,7 @@ hi:
     label_previous: पिछला
     label_per_page: प्रति पृष्ठ
     label_please_wait: Please wait
-    label_visibility_settings: Visibility settings
+    label_visibility_settings: दृश्यता settings
     label_quote_comment: Quote this comment
     label_reset: रीसेट करें
     label_remove_columns: Remove selected columns
@@ -241,7 +248,7 @@ hi:
     label_today: आज
     label_up: Up
     label_activity_show_only_comments: Show activities with comments only
-    label_activity_show_all: Show all activities
+    label_activity_show_all: समस्त गतिविधयाँ दिखाएँ
     label_total_progress: "%{percent}% कुल प्रगति"
     label_updated_on: updated on
     label_warning: Warning
@@ -264,6 +271,8 @@ hi:
     label_attachments: फ़ाइलें
     label_drop_files: Drop files here
     label_drop_files_hint: or click to add files
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Add attachments
     label_formattable_attachment_hint: Attach and link files by dropping on this field,
       or pasting from the clipboard.
@@ -284,6 +293,48 @@ hi:
       errors:'
     help_texts:
       show_modal: Show attribute help text entry
+    onboarding:
+      steps:
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
+        project_selection: प्रारंभ करने के लिए कृपया डेमो डेटा सहित २ परियोजनाओं में
+          से किसी एक का चयन करें ।
+        sidebar_arrow: तीर के साथ आप वापस परियोजना के मुख्य मेनु में जा सकते हैं ।
+        members: अपने प्रोजेक्ट में शामिल होने के लिए नए सदस्यों को आमंत्रित करें
+          ।
+        wiki: Within the <b>Wiki</b> you can document and share knowledge together
+          with your team.
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
+          drop-down...
+        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
+        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
+          sprint. Add new tasks or impediments with the + icon next to a user story.
+          Via drag'n'drop you can update the status.
+        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
+          gives you a more detailed view of your work.
+        wp_list: This is the <b>Work package</b> list with the important work within
+          your project, such as tasks, features, milestones, bugs, and more. <br>
+          You can create or edit a work package directly within this list. To see
+          its details you can double click on a row.
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
+        wp_back_button: With the arrow you can navigate back to the work package list.
+        wp_create_button: The <b>Create</b> button will add a new work package to
+          your project.
+        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+          for your project.
+        wp_timeline: यहां आप अपनी परियोजना की योजना को संपादित कर सकते हैं । नए चरण,
+          माइलस्टोन बनाएं और निर्भरताएं जोड़ें । टीम के सभी सदस्य किसी भी समय नवीनतम
+          योजना को देख और अद्यतित कर सकते हैं ।
+        help_menu: In the <b>Help</b> menu you will find a user guide and additional
+          help resources. <br> Enjoy your work with OpenProject!
+        got_it: समझ गया
     password_confirmation:
       field_description: You need to enter your account password to confirm this change.
       title: Confirm your password to continue
@@ -310,6 +361,7 @@ hi:
       attribute_groups:
         error_duplicate_group_name: The name %{group} is used more than once. Group
           names must be unique.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom
@@ -322,6 +374,19 @@ hi:
           client?
         more_information: More information
         nevermind: Nevermind
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: द्वारा अवरुद्ध
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -346,17 +411,22 @@ hi:
       relation_type: relation type
     relations_hierarchy:
       parent_headline: जनक
+      hierarchy_headline: पदानुक्रम
       children_headline: Children
     relation_buttons:
+      set_parent: Set parent
       change_parent: Change parent
       remove_parent: Remove parent
       group_by_wp_type: Group by work package type
       group_by_relation_type: Group by relation type
       add_parent: Add existing parent
       add_new_child: Create new child
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Add existing child
       remove_child: Remove child
       add_new_relation: Create new relation
+      add_existing_relation: Add existing relation
       update_description: Set or update description of this relation
       toggle_description: Toggle relation description
       update_relation: Click to change the relation type
@@ -367,6 +437,7 @@ hi:
       abort: Abort
     relations_autocomplete:
       placeholder: Enter the related work package id
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Select tag
       select_branch: Select branch
@@ -415,7 +486,7 @@ hi:
       button_deactivate: गैन्ट चार्ट छुपाएं
       cancel: निरस्त करें
       change: Change in planning
-      due_date: Finish date
+      due_date: समाप्ति दिनांक
       empty: "(empty)"
       error: An error has occurred.
       errors:
@@ -495,10 +566,10 @@ hi:
       image: Image
     work_packages:
       bulk_actions:
-        move: Bulk move
-        edit: Bulk edit
-        copy: Bulk copy
-        delete: Bulk delete
+        move: एकमुश्त खिसकाएं
+        edit: एकमुश्त सम्पादित करें
+        copy: एकमुश्त प्रतिलिपी बनाएँ
+        delete: एकमुश्त हटाएँ
       button_clear: खाली करें
       comment_added: The comment was successfully added.
       comment_send_failed: An error has occurred. Could not submit the comment.
@@ -509,6 +580,8 @@ hi:
       description_options_hide: Hide options
       description_options_show: Show options
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Editing %{attribute} is blocked for this work package. Either
           this attribute is derived from relations (e.g, children) or otherwise not
           configurable.
@@ -531,6 +604,8 @@ hi:
       message_successful_show_in_fullscreen: Click here to open this work package
         in fullscreen view.
       message_view_spent_time: Show spent time for this work package
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: No value
       inline_create:
         title: Click here to add a new work package to this list
@@ -569,7 +644,7 @@ hi:
         createdAt: Created on
         description: Description
         date: तिथि
-        dueDate: Finish date
+        dueDate: समाप्ति दिनांक
         estimatedTime: Estimated time
         spentTime: समय बिताया
         category: श्रेणी
@@ -669,6 +744,9 @@ hi:
             mass?
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: संक्षिप्त अवलोकन
         activity: गतिविधी

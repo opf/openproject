@@ -32,6 +32,16 @@ See docs/COPYRIGHT.rdoc for more details.
     <legend class="form--fieldset-legend">
       <%= l(:label_available_project_boards) %>
     </legend>
+    <div class="form--fieldset-control">
+      <span class="form--fieldset-control-container">
+        <%= link_to_if_authorized({ controller: '/boards', action: 'new', project_id: @project },
+                                  { aria: { label: t(:label_board_new) },
+                                    title: t(:label_board_new) }) do %>
+          <%= op_icon('icon-add icon-small') %>
+            <span><%= t('activerecord.models.board') %></span>
+        <% end %>
+      </span>
+    </div>
     <div class="generic-table--container">
       <div class="generic-table--results-container">
         <table class="generic-table">
@@ -88,14 +98,16 @@ See docs/COPYRIGHT.rdoc for more details.
                   <% end %>
                 </td>
                 <td class="buttons">
-                  <%= link_to_if_authorized l(:button_edit),
+                  <%= link_to_if_authorized '',
                                             { controller: '/boards', action: 'edit', project_id: @project, id: board },
-                                            class: 'icon icon-edit' %>
-                  <%= link_to_if_authorized l(:button_delete),
+                                            class: 'icon icon-edit',
+                                            title: t(:button_edit) %>
+                  <%= link_to_if_authorized '',
                                             { controller: '/boards', action: 'destroy', project_id: @project, id: board },
                                             data: { confirm: l(:text_are_you_sure) },
                                             method: :delete,
-                                            class: 'icon icon-delete' %>
+                                            class: 'icon icon-delete',
+                                            title: t(:button_delete) %>
                 </td>
               </tr>
             <% end %>
@@ -122,4 +134,3 @@ See docs/COPYRIGHT.rdoc for more details.
                        custom_action_text: t('projects.settings.boards.no_results_content_text') %>
   <% end %>
 </fieldset>
-

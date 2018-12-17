@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
@@ -37,23 +37,28 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
   selector: 'wp-relations-autocomplete-upgraded',
   templateUrl: './wp-relations-autocomplete.upgraded.html'
 })
-export class WpRelationsAutocompleteComponent implements OnInit {
-  @Input() workPackage:WorkPackageResource;
-  @Input() loadingPromiseName:string;
-  @Input() selectedRelationType:string;
-  @Input() filterCandidatesFor:string;
-
-  @Output('onWorkPackageIdSelected') public onSelect = new EventEmitter<string>();
-
+export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
   readonly text = {
     placeholder: this.I18n.t('js.relations_autocomplete.placeholder')
   };
+
+  @Input() workPackage:WorkPackageResource;
+  @Input() selectedRelationType:string;
+  @Input() filterCandidatesFor:string;
+  @Input() initialSelection?:WorkPackageResource;
+  @Input() inputPlaceholder:string = this.text.placeholder;
+  @Input() appendToContainer:string = '#content';
+
+  @Output('onWorkPackageIdSelected') public onSelect = new EventEmitter<string|null>();
+  @Output('onEscape') public onEscapePressed = new EventEmitter<KeyboardEvent>();
+  @Output('onBlur') public onBlur = new EventEmitter<FocusEvent>();
 
   public options:any = [];
   public relatedWps:any = [];
   public noResults = false;
 
   private $element:JQuery;
+  private $input:JQuery;
 
   constructor(readonly elementRef:ElementRef,
               readonly PathHelper:PathHelperService,
@@ -64,19 +69,28 @@ export class WpRelationsAutocompleteComponent implements OnInit {
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
-    let input = this.$element.find('.wp-relations--autocomplete');
+    const input = this.$input = this.$element.find('.wp-relations--autocomplete');
     let selected = false;
+
+    if (this.initialSelection) {
+      input.val(this.getIdentifier(this.initialSelection));
+    }
 
     input.autocomplete({
       delay: 250,
       autoFocus: false, // Accessibility!
-      appendTo: '.detail-panel--autocomplete-target',
+      appendTo: this.appendToContainer,
       classes: {
         'ui-autocomplete': 'wp-relations-autocomplete--results'
       },
       source: (request:{ term:string }, response:Function) => {
         this.autocompleteWorkPackages(request.term).then((values) => {
           selected = false;
+
+          if (this.initialSelection) {
+            values.unshift(this.initialSelection);
+          }
+
           response(values.map(wp => {
             return {workPackage: wp, value: this.getIdentifier(wp)};
           }));
@@ -87,9 +101,27 @@ export class WpRelationsAutocompleteComponent implements OnInit {
         this.onSelect.emit(ui.item.workPackage.id);
       },
       minLength: 0
-    }).focus(() => !selected && input.autocomplete('search', input.val()));
+    })
+    .focus(() => !selected && input.autocomplete('search', input.val() as string));
 
     setTimeout(() => input.focus(), 20);
+  }
+
+  ngOnDestroy():void {
+    this.$input.autocomplete('destroy');
+  }
+
+  public handleEnterPressed($event:KeyboardEvent) {
+    let val = ($event.target as HTMLInputElement).value;
+    if (!val) {
+        this.onSelect.emit(null);
+    }
+
+    // If trying to enter work package ID
+    if (val.match(/^#?\d+$/)) {
+      val = val.replace(/^#/, '');
+      this.onSelect.emit(val);
+    }
   }
 
   private getIdentifier(workPackage:WorkPackageResource):string {
@@ -101,6 +133,9 @@ export class WpRelationsAutocompleteComponent implements OnInit {
   }
 
   private autocompleteWorkPackages(query:string):Promise<WorkPackageResource[]> {
+    // Remove prefix # from search
+    query = query.replace(/^#/, '');
+
     this.$element.find('.ui-autocomplete--loading').show();
 
     return this.workPackage.availableRelationCandidates.$link.$fetch({

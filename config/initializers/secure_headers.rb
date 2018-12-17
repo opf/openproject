@@ -32,6 +32,14 @@ SecureHeaders::Configuration.default do |config|
     assets_src += proxied
   end
 
+  # Allow to extend the script-src in specific situations
+  script_src = assets_src
+
+  # Allow unsafe-eval for rack-mini-profiler
+  if Rails.env.development? && ENV['OPENPROJECT_RACK_PROFILER_ENABLED']
+    script_src += %w('unsafe-eval')
+  end
+
   config.csp = {
     preserve_schemes: true,
 
@@ -50,7 +58,7 @@ SecureHeaders::Configuration.default do |config|
     # Allow images from anywhere including data urls and blobs (used in resizing)
     img_src: %w(* data: blob:),
     # Allow scripts from self
-    script_src: assets_src,
+    script_src: script_src,
     # Allow unsafe-inline styles
     style_src: assets_src + %w('unsafe-inline'),
     # disallow all object-src

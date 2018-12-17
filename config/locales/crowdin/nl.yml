@@ -166,6 +166,11 @@ nl:
       no_results_content_text: Voeg een statusrapport toe
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Klik op toewijzen of wijzigen van de kleur van deze status.
         het wordt weergegeven in de statusknop en kan worden gebruikt voor het benadrukken van de werkpakketten in de tabel.
@@ -182,8 +187,9 @@ nl:
       projects: Projecten
       enabled_projects: Ingeschakelde projecten
       add_group: Toevoegen van nieuwe attribuutgroepen
-      add_subelements: Subelementen groep toevoegen
-      edit_query: Bewerken van ingesloten zoekopdracht
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Standaardinstellingen herstellen
       type_color_text: |
         Klik op toewijzen of wijzigen van de kleur van dit type. De geselecteerde kleur onderscheidt werk pakketten
@@ -352,6 +358,7 @@ nl:
         to: Verwante werkpakket
       status:
         is_closed: Werkpakket gesloten
+        is_readonly: Work package read-only
       journal:
         notes: Notities
       member:
@@ -1182,6 +1189,7 @@ nl:
   label_auth_source_plural: Verificatiemodi
   label_authentication: Verificatie
   label_available_project_work_package_categories: Beschikbare werkpakket categorieën
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Beschikbare borden
   label_available_project_versions: Beschikbare versies
   label_available_project_repositories: Beschikbare opslagplaatsen
@@ -1352,6 +1360,7 @@ nl:
   label_journal_diff: Beschrijving vergelijking
   label_language: Taal
   label_jump_to_a_project: Ga naar een project...
+  label_keyword_plural: Keywords
   label_language_based: Op basis van de taal van gebruiker
   label_last_activity: Laatste activiteit
   label_last_change_on: Laatste wijziging op

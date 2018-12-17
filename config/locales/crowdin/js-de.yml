@@ -54,6 +54,11 @@ de:
     button_update: Bearbeiten
     button_export-pdf: PDF-Download
     button_export-atom: Atom-Download
+    calendar:
+      title: Kalender
+      too_many: Das Ergebnis enthält mehr Arbeitspakete (%{count}) als im Kalender
+        angezeigt werden können (%{max} maximal). Fügen Sie Filter hinzu, um die Ergebnismenge
+        zu reduzieren.
     description_available_columns: Verfügbare Spalten
     description_current_position: 'Sie sind hier:'
     description_select_work_package: 'Arbeitspaket #%{id} auswählen'
@@ -63,6 +68,7 @@ de:
       preview: Vorschau-Modus ein/aus
       source_code: Wechseln zwischen Markdown-Source und WYSIWYG
       error_saving_failed: 'Fehler beim Speichern des Dokuments: %{error}'
+      error_initialization_failed: Fehler bei CKEditor-Initialisierung!
       mode:
         manual: Wechseln zu reinem Markdown-Text
         wysiwyg: Wechseln zu WYSIWYG-Editor
@@ -112,6 +118,8 @@ de:
         embedded_table:
           button: Arbeitspaket-Tabelle einbetten
           text: "[Platzhalter] Eingebette Arbeitspaket-Tabelle"
+        embedded_calendar:
+          text: "[Platzhalter] Eingebetteter Kalender"
     custom_actions:
       date:
         specific: am
@@ -270,6 +278,8 @@ de:
     label_attachments: Dateien
     label_drop_files: Dateien hier ablegen
     label_drop_files_hint: oder klicken Sie um Dateien hinzuzufügen
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Anhänge hinzufügen
     label_formattable_attachment_hint: Ziehen Sie Dateien in dieses Feld hinein oder
       fügen Sie sie aus der Zwischenablage ein, um sie Hinzuzufügen und zu Verlinken.
@@ -290,6 +300,48 @@ de:
       gespeichert werden:'
     help_texts:
       show_modal: Hilfe-Text für dieses Attribut anzeigen
+    onboarding:
+      steps:
+        welcome: Lernen Sie in drei Minuten die <b>wichtigsten Funktionen</b> kennen.
+          <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese
+          jederzeit wieder neu starten.
+        project_selection: 'Bitte wählen Sie eines der Projekte mit hilfreichen Demodaten
+          aus: <br> Das <b>„Demo project“</b> passt für klassisches Projektmanagement,
+          das <b>„Scrum project“</b> ist geeignet für agiles Projektmanagement.'
+        sidebar_arrow: Mit dem Pfeil gelangen Sie zurück zum <b>Hauptmenü</b> des
+          Projektes.
+        members: Sie können hier neue <b>Mitglieder</b> zu Ihrem Projekt hinzufügen.
+        wiki: Im <b>Wiki</b> können Sie gemeinsam mit dem Team Informationen dokumentieren
+          und eine Wissensdatenbank aufbauen.
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
+          drop-down...
+        backlogs_task_board_select: "… und wählen Sie den Menüpunkt <b>Taskboard</b>."
+        backlogs_task_board: Im <b>Taskboard</b> sehen Sie die Aufgaben eines Sprints.
+          Sie können neue Aufgaben oder Sprint-Hindernisse mit dem + Icon einer User
+          Story hinzufügen, einer Person zuweisen und mit Drag & Drop aktualisieren.
+        wp_toggler: Hier sind die <b>Arbeitspakete</b>, die Ihnen eine detailliertere
+          Sicht auf die Arbeit in Ihrem Projekt geben.
+        wp_list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt,
+          z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr.           <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten.
+          Ein Doppelklick auf die Zeile öffnet die Detailansicht.'
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
+        wp_back_button: Mit dem Pfeil kommen Sie zurück in die Listenansicht.
+        wp_create_button: Mit <b>Anlegen</b> Können Sie neue Arbeitspakete Ihrem Projekt
+          hinzufügen.
+        wp_timeline_button: Sie können ein <b>Gantt Diagramm</b> aktivieren um Projektpläne
+          zu erstellen.
+        wp_timeline: Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine
+          sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jeder Zeit
+          die aktuelle Planung und kann diese bei Bedarf aktualisieren.
+        help_menu: 'Im <b>Hilfe</b> Menü finden Sie ein Benutzerhandbuch sowie weitere
+          Hilfematerialien.           <br> Viel Spaß mit OpenProject!'
+        got_it: Verstanden
     password_confirmation:
       field_description: Sie müssen Ihr Kennwort eingeben um diese Änderungen zu speichern.
       title: Geben Sie Ihr Kennwort ein um fortzufahren
@@ -316,6 +368,7 @@ de:
       attribute_groups:
         error_duplicate_group_name: Der Name %{group} wird mehr als einmal verwendet.
           Gruppen-Namen müssen eindeutig sein.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Formularkonfiguration zurücksetzen
         confirm_reset: 'Achtung: Wollen Sie die Formkonfiguration wirklich zurücksetzen?
           Alle Attribute und Gruppen werden auf ihre Standardwerte zurück gesetzt
@@ -328,6 +381,19 @@ de:
           Edition-Kunde wirst?
         more_information: Weitere Informationen
         nevermind: Nein danke
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: Dupliziert durch
+          blocks: blocking
+          blocked: Blockiert durch
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: Lade Beobachter...
       label_error_loading: Beim Laden der Beobachter ist ein Fehler aufgetreten
@@ -352,17 +418,22 @@ de:
       relation_type: Beziehungstyp
     relations_hierarchy:
       parent_headline: Übergeordnete Aufgabe
+      hierarchy_headline: Hierarchie
       children_headline: Untergeordnete Arbeitspakete
     relation_buttons:
+      set_parent: Set parent
       change_parent: Übergeordnetes Arbeitspaket ändern
       remove_parent: Übergeordnetes Arbeitspaket entfernen
       group_by_wp_type: Nach Arbeitspaket-Typ gruppieren
       group_by_relation_type: Nach Relations-Typ gruppieren
       add_parent: Übergeordnetes Arbeitspaket setzen
       add_new_child: Neue Unteraufgabe
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Unteraufgabe zuweisen
       remove_child: Unteraufgabe entfernen
       add_new_relation: Neue Beziehung erstellen
+      add_existing_relation: Add existing relation
       update_description: Beschreibung dieser Beziehung erstellen oder bearbeiten
       toggle_description: Beschreibung der Beziehung ein-/ausklappen
       update_relation: Klicken um den Beziehungstyp zu ändern
@@ -373,6 +444,8 @@ de:
       abort: Abbrechen
     relations_autocomplete:
       placeholder: ID des zugehörigen Arbeitspaketes eingeben
+      parent_placeholder: Neues Elternelement wählen, oder enter zum löschen, escape
+        zum abbrechen drücken.
     repositories:
       select_tag: Tag auswählen
       select_branch: Branch auswählen
@@ -520,6 +593,8 @@ de:
       description_options_hide: Optionen ausblenden
       description_options_show: Optionen anzeigen
       error:
+        update_conflict_refresh: Hier klicken um das Arbeitspaket auf die neueste
+          Version zu aktualisieren.
         edit_prohibited: Bearbeitung von %{attribute} ist für dieses Arbeitspaket
           gesperrt. Entweder wird dieses Attribut von verwandten Arbeitspaketen (z.B.
           Unterelementen) abgeleitet oder es ist anderweitig nicht konfigurierbar.
@@ -541,6 +616,8 @@ de:
       message_successful_show_in_fullscreen: Klicken Sie hier, um dieses Arbeitspaket
         in der Vollbild-Ansicht zu öffnen.
       message_view_spent_time: Aufgewendete Zeit für dieses Arbeitspaket anzeigen
+      message_work_package_read_only: Das Arbeitspaket ist in diesem Status gesperrt.
+        Kein Attribut außer dem Status selbst kann darin verändert werden.
       no_value: Kein Wert
       inline_create:
         title: Klicken Sie hier, um ein neues Arbeitspaket zu dieser Liste hinzufügen
@@ -683,6 +760,9 @@ de:
           attribute_highlighting: Sollen bestimmte Arbeitspakete aus der Menge herausstechen?
           relation_columns: Möchten Sie Zusammenhänge in der Arbeitspaketliste anzeigen?
           check_out_link: Testen Sie die Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Übersicht
         activity: Aktivität

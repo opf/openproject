@@ -39,13 +39,13 @@ function typesFormConfigurationCtrl(
 
   let confirmDialog:any;
   let NotificationsService:any;
-  let externalQueryConfiguration:any;
+  let externalRelationQueryConfiguration:any;
   let I18n:any;
 
   window.OpenProject.getPluginContext().then((context) => {
     confirmDialog = context.services.confirmDialog;
     NotificationsService = context.services.notifications;
-    externalQueryConfiguration = context.services.externalQueryConfiguration;
+    externalRelationQueryConfiguration = context.services.externalRelationQueryConfiguration;
     I18n = context.services.i18n;
   });
 
@@ -55,8 +55,14 @@ function typesFormConfigurationCtrl(
     return !$scope.updateHiddenFields();
   });
 
+  $scope.showNotificationWhileDragging
+
   // Setup autoscroll
-  var scroll = autoScroll(window, {
+  autoScroll(
+    [
+      document.getElementById('content-wrapper')
+    ],
+    {
     margin: 20,
     maxSpeed: 5,
     scrollWhenOutside: true,
@@ -119,8 +125,9 @@ function typesFormConfigurationCtrl(
     $scope.updateHiddenFields();
   };
 
-  $scope.addGroup = (event:any) => {
-    let newGroup:JQuery = angular.element('#type-form-conf-group-template').clone();
+
+  $scope.createGroup = (templateSelector:string, groupName?:string):JQuery => {
+    let newGroup:JQuery = angular.element(templateSelector).clone();
     let draggableGroups:JQuery = angular.element('#draggable-groups');
     let randomId:string = Math.ceil(Math.random() * 10000000).toString();
 
@@ -129,31 +136,40 @@ function typesFormConfigurationCtrl(
     // Every group needs a key and an original-key:
     newGroup.attr('data-key', randomId);
     newGroup.attr('data-original-key', randomId);
-    angular.element('group-edit-in-place', newGroup).attr('key', randomId);
+
+    let groupEditInPlace:JQuery = angular.element('group-edit-in-place', newGroup);
+
+    if (groupName) {
+      groupEditInPlace.attr('name', groupName);
+    }
+
+    groupEditInPlace.attr('key', randomId);
 
     draggableGroups.prepend(newGroup);
     $compile(newGroup)($scope);
+    return newGroup;
   };
 
-  $scope.addQuery = (event:any) => {
-    let newGroup:JQuery = angular.element('#type-form-conf-query-template').clone();
-
-    let draggableGroups:JQuery = angular.element('#draggable-groups');
-    let randomId:string = Math.ceil(Math.random() * 10000000).toString();
-
-    // Remove the id of the template:
-    newGroup.attr('id', null);
-    // Every group needs a key and an original-key:
-    newGroup.attr('data-key', randomId);
-    newGroup.attr('data-original-key', randomId);
-    angular.element('group-edit-in-place', newGroup).attr('key', randomId);
-
-    draggableGroups.prepend(newGroup);
-    $compile(newGroup)($scope);
+  $scope.addGroupAndOpenQuery = ():void => {
+    let newGroup = $scope.addQuery();
+    $scope.editQuery(undefined, newGroup);
   };
 
-  $scope.editQuery = (event:JQueryEventObject) => {
-    const originator = jQuery(event.target).closest('.type-form-query');
+  $scope.addGroup = ():JQuery => {
+    return $scope.createGroup('#type-form-conf-group-template');
+  };
+
+  $scope.addQuery = ():JQuery => {
+    return $scope.createGroup('#type-form-conf-query-template');
+  };
+
+  $scope.editQuery = (event:JQueryEventObject, group?:JQuery) => {
+    let originator:JQuery;
+    if (group) {
+      originator = group.find('.type-form-query');
+    } else {
+      originator = jQuery(event.target).closest('.type-form-query') as JQuery;
+    }
     const currentQuery = $scope.extractQuery(originator);
 
     // Disable display mode and timeline for now since we don't want users to enable it
@@ -162,7 +178,7 @@ function typesFormConfigurationCtrl(
       'timelines': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled')
     };
 
-    externalQueryConfiguration.show(
+    externalRelationQueryConfiguration.show(
       currentQuery,
       (queryProps:any) => originator.data('queryProps', queryProps),
       disabledTabs
@@ -175,7 +191,7 @@ function typesFormConfigurationCtrl(
     // When the user edited the query at least once, the up-to-date query is persisted in queryProps dataset
     let currentQuery = originator.data('queryProps');
 
-    return currentQuery || persistentQuery || {};
+    return currentQuery || persistentQuery || undefined;
   };
 
   $scope.updateHiddenFields = ():boolean => {
@@ -192,8 +208,8 @@ function typesFormConfigurationCtrl(
     // with the active groups.
     groups.forEach((groupEl:HTMLElement) => {
       let group:JQuery = jQuery(groupEl);
-      let groupKey:string = group.attr('data-key');
-      let keyIsSymbol:boolean = JSON.parse(group.attr('data-key-is-symbol'));
+      let groupKey:string = group.attr('data-key') as string;
+      let keyIsSymbol:boolean = JSON.parse(group.attr('data-key-is-symbol') as string);
       let attrKeys:string[] = [];
 
       angular.element(group).removeClass('-error');
@@ -201,7 +217,6 @@ function typesFormConfigurationCtrl(
         // Do not save groups without a name.
         return;
       }
-
 
       if (seenGroupNames[groupKey.toLowerCase()]) {
         NotificationsService.addError(
@@ -227,7 +242,7 @@ function typesFormConfigurationCtrl(
       // For attribute groups, extract the attributes
       group.find('.type-form-conf-attribute').each((i, attribute) => {
         let attr:JQuery = jQuery(attribute);
-        let key:string = attr.attr('data-key');
+        let key:string = attr.attr('data-key') as string;
         attrKeys.push(key);
       });
 

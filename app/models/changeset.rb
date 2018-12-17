@@ -231,25 +231,10 @@ class Changeset < ActiveRecord::Base
   end
 
   def log_time(work_package, hours)
-    time_entry = TimeEntry.new(
-      user: user,
-      hours: hours,
-      work_package: work_package,
-      spent_on: commit_date,
-      comments: l(:text_time_logged_by_changeset, value: text_tag, locale: Setting.default_language)
-    )
-    time_entry.activity = log_time_activity unless log_time_activity.nil?
-
-    unless time_entry.save
-      logger.warn("TimeEntry could not be created by changeset #{id}: #{time_entry.errors.full_messages}") if logger
-    end
-    time_entry
-  end
-
-  def log_time_activity
-    if Setting.commit_logtime_activity_id.to_i > 0
-      TimeEntryActivity.find_by(id: Setting.commit_logtime_activity_id.to_i)
-    end
+    Changesets::LogTimeService
+      .new(user: user, changeset: self)
+      .call(work_package, hours)
+      .result
   end
 
   def split_comments

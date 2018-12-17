@@ -1,8 +1,15 @@
-import {AfterViewInit, Component, Inject, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  ViewChild
+} from '@angular/core';
 import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {RestrictedWpTableConfigurationService} from 'core-components/wp-table/external-configuration/restricted-wp-table-configuration.service';
 import {OpQueryConfigurationLocalsToken} from "core-components/wp-table/external-configuration/external-query-configuration.constants";
+import {WpTableConfigurationRelationSelectorComponent} from "core-components/wp-table/configuration-modal/wp-table-configuration-relation-selector";
+import {WpTableConfigurationModalPrependToken} from "core-components/wp-table/configuration-modal/wp-table-configuration.modal";
 
 export interface QueryConfigurationLocals {
   service:any;
@@ -12,15 +19,8 @@ export interface QueryConfigurationLocals {
 }
 
 @Component({
-  template: `
-  <wp-embedded-table #embeddedTableForConfiguration
-                   [queryProps]="locals.currentQuery || {}"
-                   [configuration]="{ tableVisible: false }">
-  </wp-embedded-table>`,
-  providers: [
-    [{ provide: WpTableConfigurationService, useClass: RestrictedWpTableConfigurationService }]
-
-  ],
+  templateUrl: './external-query-configuration.template.html',
+  providers: [[{ provide: WpTableConfigurationService, useClass: RestrictedWpTableConfigurationService }]]
 })
 export class ExternalQueryConfigurationComponent implements AfterViewInit {
 

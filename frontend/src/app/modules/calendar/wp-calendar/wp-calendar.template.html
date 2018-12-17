@@ -1,0 +1,13 @@
+<!-- position: relative added in order for the loading indicator to be positioned correctly -->
+<div *ngIf="calendarOptions"
+     class="loading-indicator--location"
+     [attr.data-indicator-name]="'table'"
+     style="position: relative">
+    <ng-fullcalendar #ucCalendar
+                     [options]="calendarOptions"
+                     (initialized)="onCalendarInitialized()"
+                     (viewRender)="updateTimeframe($event)"
+                     (eventRender)="addTooltip($event)"
+                     (eventClick)="toWPFullView($event)">
+    </ng-fullcalendar>
+</div>

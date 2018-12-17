@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
   it_behaves_like 'basic query filter' do
-    let(:order) { 13 }
     let(:type) { :list }
     let(:class_key) { :subproject_id }
     let(:name) { I18n.t('query_fields.subproject_id') }
@@ -39,9 +38,11 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
     let(:plucked) { projects.map { |p| [p.id, p.name] } }
 
     before do
-      allow(project)
-      .to receive_message_chain(:descendants, :visible)
-      .and_return relation
+      if project
+        allow(project)
+        .to receive_message_chain(:descendants, :visible)
+        .and_return relation
+      end
 
       allow(relation)
         .to receive(:pluck)

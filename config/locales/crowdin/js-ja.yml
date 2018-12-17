@@ -51,6 +51,9 @@ ja:
     button_update: 更新
     button_export-pdf: PDFファイルをダウンロード
     button_export-atom: Atomをダウンロード
+    calendar:
+      title: カレンダー
+      too_many: カレンダー(%{max}) で表示できるよりも多くの作業項目 (%{count}) があります。 関連するものに焦点を当てるためにフィルタを追加します。
     description_available_columns: 利用できる項目
     description_current_position: ここにいます：
     description_select_work_package: '作業項目を選択 #%{id}'
@@ -60,6 +63,7 @@ ja:
       preview: プレビューモードの切り替え
       source_code: Markdown ソースモードの切り替え
       error_saving_failed: '次のエラーで文書を保存するのに失敗しました: %{error}'
+      error_initialization_failed: CKEditor の初期化に失敗しました！
       mode:
         manual: Markdownソースに切り替える
         wysiwyg: WYSIWYGエディタに切り替えます
@@ -101,6 +105,8 @@ ja:
         embedded_table:
           button: 作業項目表を埋め込む
           text: "[Placeholder] 埋め込まれた作業項目表"
+        embedded_calendar:
+          text: "[Placeholder] 埋め込みカレンダー"
     custom_actions:
       date:
         specific: オン
@@ -137,7 +143,7 @@ ja:
     label_activity_with_comment_no: アクティビティのエントリ番号 %{activityNo}。ユーザー コメントがあります。
     label_add_columns: 列を追加
     label_add_comment: コメントを追加
-    label_add_comment_title: コメントと @ を入力して他の人に通知します
+    label_add_comment_title: コメントで@ を入力して人に通知する
     label_add_selected_columns: 選択した列を追加
     label_added_by: 追加した人
     label_added_time_by: "%{author} %{age}によって追加されました。"
@@ -254,6 +260,8 @@ ja:
     label_attachments: ファイルを添付する
     label_drop_files: ここにファイルをドロップ
     label_drop_files_hint: またはクリックしてファイルを追加する
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: 添付ファイルを追加する
     label_formattable_attachment_hint: このフィールドにドロップ、またはクリップボードから貼り付けて、ファイルを添付およびリンクします。
     label_remove_file: "%{fileName}を削除"
@@ -270,6 +278,36 @@ ja:
     label_validation_error: '次のエラーのために作業項目を保存できませんでした:'
     help_texts:
       show_modal: テキスト入力属性のヘルプを表示
+    onboarding:
+      steps:
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
+        project_selection: 開始するには、便利なデモデータを含むプロジェクトの1つを選択してください。 <br> <b>デモプロジェクト</b>は古典的なプロジェクト管理に最適ですが、<b>スクラムプロジェクト</b>はアジャイルプロジェクト管理に適しています。
+        sidebar_arrow: 矢印を使って、プロジェクトの<b>メインメニュー</b>に戻ることができます。
+        members: 新しい<b>メンバー</b>を招待してプロジェクトに参加してください。
+        wiki: "<b>Wiki</b>内ではチームと一緒に知識を文書化して共有することができます。"
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
+          drop-down...
+        backlogs_task_board_select: "... <b>タスクボード</b>を選択します。"
+        backlogs_task_board: "<b>タスクボード</b>はこのスプリントの進捗状況を視覚化します。ユーザーのストーリーの横にある+アイコンを使用して、新しいタスクや障害を追加します。
+          ドラッグ&ドロップ経由でステータスを更新することができます。"
+        wp_toggler: 次に、<b>作業パッケージ</b>セクションを見て、作業の詳細を確認してください。
+        wp_list: これは、タスク、機能、マイルストーン、バグなど、プロジェクト内の重要な作業をまとめた<b>作業項目</b>リストです。 <br>このリスト内で作業パッケージを直接作成または編集できます。
+          詳細を見るには行をダブルクリックします。
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
+        wp_back_button: 矢印を使用すると作業項目リストに戻ることができます。
+        wp_create_button: "<b>作成</b>ボタンをクリックすると、プロジェクトに新しい作業項目が追加されます。"
+        wp_timeline_button: "<b>ガントチャート</b>をアクティブにして、プロジェクトのタイムラインを作成することができます。"
+        wp_timeline: ここでプロジェクト計画を編集できます。 新しい段階、マイルストーンを作成し、依存関係を追加します。 すべてのチームメンバーは、いつでも最新のプランを見て更新することができます。
+        help_menu: "<b>ヘルプ</b>メニューには、ユーザーガイドとその他のヘルプリソースがあります。 <br> OpenProjectであなたの仕事をお楽しみください！"
+        got_it: 了承
     password_confirmation:
       field_description: この変更を確認するには、アカウントのパスワードを入力する必要があります。
       title: 続行するにはパスワードを確認してください
@@ -289,11 +327,12 @@ ja:
       work_package_belongs_to: このワークパッケージは、プロジェクト %{projectname} に属しています。
       click_to_switch_context: このワークパッケージをそのプロジェクトで開きます。
       autocompleter:
-        label: プロジェクトの自動補完
+        label: プロジェクト名の入力補完
     text_are_you_sure: よろしいですか？
     types:
       attribute_groups:
         error_duplicate_group_name: 名前 %{group} が複数回使用されています。グループ名は一意にする必要があります。
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: フォーム設定をリセット
         confirm_reset: '警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。
             コンテキスト| リクエストコンテキスト
@@ -304,6 +343,19 @@ ja:
           ソース開発者を支援していただけませんか?
         more_information: 詳細情報
         nevermind: 無視
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: 次の項目が重複
+          blocks: blocking
+          blocked: ブロックされている
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: ウォッチャーを読み込み中...
       label_error_loading: ウォッチャーを読み込み中にエラーが発生しました。
@@ -328,17 +380,22 @@ ja:
       relation_type: 関係タイプ
     relations_hierarchy:
       parent_headline: 親項目
+      hierarchy_headline: 階層
       children_headline: 子
     relation_buttons:
+      set_parent: Set parent
       change_parent: 親タスクの変更
       remove_parent: 親関係を削除
       group_by_wp_type: ワークパッケージタイプのグループ
       group_by_relation_type: 関係タイプのグループ
       add_parent: 既存の親関係を追加する
       add_new_child: 子関係を作成
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: 既存の子関係を追加
       remove_child: 子関係を削除
       add_new_relation: 新しい関係を作成
+      add_existing_relation: Add existing relation
       update_description: この関係の説明を設定または更新する
       toggle_description: 関係の説明を切り替え
       update_relation: クリックして関係のタイプを変更
@@ -349,6 +406,7 @@ ja:
       abort: 中止
     relations_autocomplete:
       placeholder: 関係しているワークパッケージ ID を入力してください
+      parent_placeholder: 新しい親を選択し、Enterキーを押して設定を解除し、エスケープしてキャンセルします。
     repositories:
       select_tag: タグを選択する
       select_branch: 分岐を選択する
@@ -479,6 +537,7 @@ ja:
       description_options_hide: オプションを非表示
       description_options_show: オプションを表示
       error:
+        update_conflict_refresh: 作業項目を更新して最新のバージョンに更新するには、ここをクリックしてください。
         edit_prohibited: この作業項目の %{attribute} の編集はブロックされます。この属性が関係から派生している (例えば、子供)
           か、あるいは構成できないため。
         format:
@@ -497,6 +556,7 @@ ja:
       message_successful_bulk_delete: 作業項目が正常に削除されました。
       message_successful_show_in_fullscreen: クリックすると全画面表示でこの作業項目を開きます。
       message_view_spent_time: このワークパッケージに費やした時間を表示する
+      message_work_package_read_only: 作業項目はこの状態でロックされています。 ステータス以外の属性は変更できません。
       no_value: 値なし
       inline_create:
         title: クリックしてこのリストに新しい作業項目を追加します
@@ -618,6 +678,9 @@ ja:
           attribute_highlighting: 全体から目立つように特定の作業項目が必要ですか？
           relation_columns: ワークパッケージリストに関係を表示する必要がありますか?
           check_out_link: エンタープライズ版をチェックしてください。
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: 概要
         activity: 活動

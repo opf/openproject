@@ -30,9 +30,8 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {States} from '../states.service';
 import {WorkPackagesListService} from '../wp-list/wp-list.service';
 import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.service';
-import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {StateService, TransitionService} from '@uirouter/core';
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectorRef} from "@angular/core";
+import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -45,6 +44,7 @@ import {LinkHandling} from "core-app/modules/common/link-handling/link-handling"
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {keyCodes} from "../../../../legacy/app/components/keyCodes.enum";
 import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
+import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 
 export type QueryCategory = 'starred' | 'public' | 'private' | 'default';
 
@@ -71,9 +71,8 @@ interface IQueryAutocompleteJQuery extends JQuery {
 
 
 @Component({
-  providers: [WorkPackagesListComponent],
   selector: 'wp-query-select',
-  templateUrl: './wp-query-select.template.html'
+  templateUrl: './wp-query-select.template.html',
 })
 export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestroy {
   @ViewChild('wpQueryMenuSearchInput') _wpQueryMenuSearchInput:ElementRef;
@@ -120,7 +119,8 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
               readonly loadingIndicator:LoadingIndicatorService,
               readonly pathHelper:PathHelperService,
               readonly wpStaticQueries:WorkPackageStaticQueriesService,
-              readonly toggleService:MainMenuToggleService) {
+              readonly toggleService:MainMenuToggleService,
+              readonly wpStatesInitialization:WorkPackageStatesInitializationService) {
   }
 
   public ngOnInit() {
@@ -267,7 +267,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       focus: (_event:JQueryEventObject, ui:{ item:IAutocompleteItem }) => {
         let sourceEvent:any|null = _event;
 
-        while(sourceEvent && sourceEvent.originalEvent) {
+        while (sourceEvent && sourceEvent.originalEvent) {
           sourceEvent = sourceEvent.originalEvent as any;
         }
 
@@ -410,7 +410,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
           // To search an empty string would expand all categories again every time
           // Remember all previously hidden categories and set them again after updating the menu
           _.each(this.hiddenCategories, category => {
-            let thisCategory:string = jQuery(category).attr("category");
+            let thisCategory:string = jQuery(category).attr("category")!;
             this.expandCollapseCategory(thisCategory);
           });
           // Update view
@@ -437,12 +437,10 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     const isSameItem = params.query_id && params.query_id === currentId.toString();
 
 
-    // Ensure we're loading the query
-    if (isStaticItem || isSameItem) {
-      this.wpListChecksumService.clear();
-    }
-
+    // Ensure we're reloading the query
     if (isSameItem) {
+      this.wpStatesInitialization.clearStates();
+      this.wpListChecksumService.clear();
       opts.reload = true;
     }
 
@@ -518,7 +516,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
           evt.stopImmediatePropagation();
 
           if (evt.type === 'keydown') {
-            window.location.href = target.attr('href');
+            window.location.href = target.attr('href')!;
           }
         } else {
           // If neither clicked with modifier nor static

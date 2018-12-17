@@ -39,6 +39,24 @@ module API
 
         defaults render_nil: true
 
+        link :updateImmediately do
+          next unless update_allowed?
+
+          {
+            href: api_v3_paths.time_entry(represented.id),
+            method: :patch
+          }
+        end
+
+        link :delete do
+          next unless update_allowed?
+
+          {
+            href: api_v3_paths.time_entry(represented.id),
+            method: :delete
+          }
+        end
+
         property :id
 
         property :comments,
@@ -47,13 +65,22 @@ module API
         property :spent_on,
                  exec_context: :decorator,
                  getter: ->(*) do
-                   datetime_formatter.format_date(represented.spent_on, allow_nil: true)
+                   datetime_formatter.format_date(represented.spent_on, allow_nil: false)
+                 end,
+                 setter: ->(fragment:, **) do
+                   represented.spent_on = datetime_formatter.parse_date(fragment,
+                                                                        'spentOn',
+                                                                        allow_nil: false)
                  end
 
         property :hours,
                  exec_context: :decorator,
                  getter: ->(*) do
                    datetime_formatter.format_duration_from_hours(represented.hours)
+                 end,
+                 setter: ->(fragment:, **) do
+                   represented.hours = datetime_formatter.parse_duration_to_hours(fragment,
+                                                                                  'hours')
                  end
 
         property :created_at,
@@ -85,10 +112,29 @@ module API
                                 href: api_v3_paths.time_entries_activity(activity.id),
                                 title: activity.name
                               }
+                            },
+                            setter: ->(fragment:, **) {
+                              ::API::Decorators::LinkObject
+                                .new(represented,
+                                     path: :time_entries_activity,
+                                     property_name: :time_entries_activity,
+                                     namespace: 'time_entries/activities',
+                                     getter: :activity_id,
+                                     setter: :"activity_id=")
+                                .from_hash(fragment)
                             }
 
         def _type
           'TimeEntry'
+        end
+
+        def update_allowed?
+          current_user_allowed_to(:edit_time_entries, context: represented.project) ||
+            represented.user_id == current_user.id && current_user_allowed_to(:edit_own_time_entries, context: represented.project)
+        end
+
+        def current_user_allowed_to(permission, context:)
+          current_user.allowed_to?(permission, context)
         end
       end
     end

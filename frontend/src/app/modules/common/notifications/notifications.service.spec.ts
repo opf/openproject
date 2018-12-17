@@ -30,6 +30,7 @@ import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module'
 import {async, TestBed} from '@angular/core/testing';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 
 describe('NotificationsService', function () {
   var notificationsService:NotificationsService;
@@ -42,6 +43,7 @@ describe('NotificationsService', function () {
       ],
       providers: [
         { provide: ConfigurationService, useValue: { autoHidePopups: () => true } },
+        I18nService,
         NotificationsService,
       ]
     })

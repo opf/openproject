@@ -29,7 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: t(:label_spent_time) %>
 <%= labelled_tabular_form_for [@time_entry.project, @time_entry], as: :time_entry do |f| %>
-  <%= error_messages_for 'time_entry' %>
+  <%= error_messages_for_contract @time_entry, @errors %>
   <%= back_url_hidden_field_tag %>
 
   <div class="form--field">
@@ -54,6 +54,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="form--field -required">
     <%= f.select :activity_id,
                  activity_collection_for_select_options(@time_entry),
+                 prompt: "--- #{t(:actionview_instancetag_blank_option)} ---",
                  required: true,
                  container_class: '-slim' %>
   </div>

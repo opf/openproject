@@ -145,7 +145,7 @@ module DemoData
       Array(attributes[:attachments]).each do |file_name|
         attachment = work_package.attachments.build
         attachment.author = work_package.author
-        attachment.file = File.new("config/locales/media/#{I18n.locale}/#{file_name}")
+        attachment.file = File.new("config/locales/media/en/#{file_name}")
 
         attachment.save!
       end

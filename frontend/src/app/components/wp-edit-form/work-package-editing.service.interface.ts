@@ -28,8 +28,9 @@
 
 import {InjectionToken} from "@angular/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
 
-export const IWorkPackageEditingServiceToken = new InjectionToken<any>('IWorkPackageEditingService');
+export const IWorkPackageEditingServiceToken = new InjectionToken<IWorkPackageEditingService>('IWorkPackageEditingService');
 
 /**
  * Export an interface for changeset and form
@@ -37,5 +38,6 @@ export const IWorkPackageEditingServiceToken = new InjectionToken<any>('IWorkPac
  */
 export interface IWorkPackageEditingService {
   updateValue(id:string, changeset:any):void;
+  changesetFor(wp:WorkPackageResource):WorkPackageChangeset;
 }
 

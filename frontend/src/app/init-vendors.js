@@ -38,6 +38,9 @@
 // ES6 Promise polyfill
 require('expose-loader?Promise!es6-promise');
 
+// Lodash
+require('expose-loader?_!lodash');
+
 // jQuery
 require('expose-loader?jQuery!jquery');
 require('jquery-ujs');
@@ -55,6 +58,7 @@ require('jquery-ui/ui/widgets/datepicker.js');
 require('jquery-ui/ui/widgets/dialog.js');
 require('jquery-ui/ui/widgets/autocomplete.js');
 require('jquery-ui/ui/widgets/sortable.js');
+require('jquery-ui/ui/widgets/tooltip.js');
 require('./misc/datepicker-defaults');
 
 require('jquery-ui/ui/i18n/datepicker-en-GB.js');

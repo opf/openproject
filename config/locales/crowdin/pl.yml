@@ -165,6 +165,11 @@ pl:
       no_results_content_text: Dodaj status zgłoszenia
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Kliknij, aby przypisać lub zmienić kolor tego stanu.
         Jest on wyświetlany w przycisku stanu i można go używać do wyróżniania pakietów roboczych w tabeli.
@@ -181,8 +186,9 @@ pl:
       projects: Projekty
       enabled_projects: Aktywne projekty
       add_group: Dodaj grupę atrybutów
-      add_subelements: Dodaj grupę elementeów składowych
-      edit_query: Edytuj osadzoną kwerendę
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Resetuj do ustawień domyślnych
       type_color_text: 'Kliknij, aby przypisać lub zmienić kolor tego typu. Wybrany
         kolor odróżnia pakiety robocze na wykresach Gantta.
@@ -345,6 +351,7 @@ pl:
         to: Powiązanie zadania
       status:
         is_closed: Zadanie zamknięte
+        is_readonly: Work package read-only
       journal:
         notes: Notatki
       member:
@@ -1200,6 +1207,7 @@ pl:
   label_auth_source_plural: Tryb uwierzytelniania
   label_authentication: Uwierzytelnianie
   label_available_project_work_package_categories: Dostępne kategorie Zadań
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Dostępne tablice
   label_available_project_versions: Dostępne wersje
   label_available_project_repositories: Dostępne repozytoria
@@ -1370,6 +1378,7 @@ pl:
   label_journal_diff: Opis porównania
   label_language: Język
   label_jump_to_a_project: Skok do projektu...
+  label_keyword_plural: Keywords
   label_language_based: Na podstawie języka użytkownika
   label_last_activity: Ostatnia aktywność
   label_last_change_on: Ostatnia zmiana na

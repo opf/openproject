@@ -97,7 +97,7 @@ describe SearchController, type: :controller do
     get :index, params: { project_id: 1, q: 'recipe updating saving', submit: 'Search' }
     results = assigns(:results)
     refute_nil results
-    assert_equal 3, results.size
+    assert_equal 4, results.size
     assert results.include?(WorkPackage.find(3))
   end
 

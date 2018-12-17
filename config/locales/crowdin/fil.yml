@@ -174,6 +174,11 @@ fil:
       no_results_content_text: Magdagdag ng status reporting
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -190,8 +195,9 @@ fil:
       projects: Mga proyekto
       enabled_projects: Paganahin ang mga proyekto
       add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: I-reset sa mga default
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -366,6 +372,7 @@ fil:
         to: Ang kaugnayan sa pakete na ginagawa
       status:
         is_closed: Sarado na ang pagawaan ng pakete
+        is_readonly: Work package read-only
       journal:
         notes: Ang mga tala
       member:
@@ -1201,6 +1208,7 @@ fil:
   label_authentication: Pagpapatunay
   label_available_project_work_package_categories: Ang mga kategorya ng magagamit
     na work package
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Mga magagamit na board
   label_available_project_versions: Ang magagamit na bersyon
   label_available_project_repositories: Magagamit na mga respository
@@ -1371,6 +1379,7 @@ fil:
   label_journal_diff: Paglalarawan ng paghahambing
   label_language: Linggwahe
   label_jump_to_a_project: Tumalon sa isang proyekto...
+  label_keyword_plural: Keywords
   label_language_based: Naka-base sa linggwahe ng gumagamit
   label_last_activity: Huling aktibidad
   label_last_change_on: Hindi binago sa

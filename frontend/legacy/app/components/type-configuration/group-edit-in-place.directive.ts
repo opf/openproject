@@ -41,6 +41,7 @@ interface GroupEditInPlaceScope {
   nameBefore:string|null;
   // The orginal value in case user cancels edition.
   nameOriginal:string|null;
+  placeholder:string|null;
   onvaluechange:Function;
   onupsale:Function;
   saveEdition:Function;
@@ -60,14 +61,16 @@ function groupEditInPlace($timeout:any):any {
       // The name before last change;
       scope.nameOriginal = attributes.name || '';
 
+      scope.placeholder = attributes.placeholder || '';
+
       scope.enterEditingMode = function () {
-        if(attributes.onupsale) {
+        if (attributes.onupsale) {
           scope.onupsale();
           return;
         }
         scope.editing = true;
         scope.nameBefore = scope.name;
-        $timeout(function(){
+        $timeout(function() {
           angular.element('input', element).trigger('focus');
         }, 100);
       };
@@ -85,7 +88,7 @@ function groupEditInPlace($timeout:any):any {
       };
 
       scope.saveEdition = function() {
-        let newValue: string = angular.element("input", element[0]).first().val();
+        let newValue:string = angular.element("input", element[0]).first().val() as string;
         scope.nameOriginal = scope.name;
         scope.name = newValue.trim();
         scope.leaveEditingMode();

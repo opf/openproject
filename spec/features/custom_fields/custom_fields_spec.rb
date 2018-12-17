@@ -168,7 +168,7 @@ describe 'custom fields', js: true do
 
       it "deletes a custom option and all values using it" do
         within all(".custom-option-row")[1] do
-          click_on "Delete"
+          find('.icon-delete').click
 
           cf_page.accept_alert_dialog!
         end

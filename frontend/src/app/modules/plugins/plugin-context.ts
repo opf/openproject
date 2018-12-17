@@ -1,4 +1,4 @@
-import {ApplicationRef, Injector} from "@angular/core";
+import {ApplicationRef, Injector, NgZone} from "@angular/core";
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
@@ -24,6 +24,7 @@ import {PathHelperService} from "../common/path-helper/path-helper.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {States} from 'core-components/states.service';
 import {CKEditorPreviewService} from "core-app/modules/common/ckeditor/ckeditor-preview.service";
+import {ExternalRelationQueryConfigurationService} from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -33,13 +34,15 @@ export class OpenProjectPluginContext {
 
   private _knownHookNames = [
     'workPackageTableContextMenu',
-    'workPackageSingleContextMenu'
+    'workPackageSingleContextMenu',
+    'workPackageNewInitialization'
   ];
 
   // Common services referencable by index
   public readonly services = {
     confirmDialog: this.injector.get<ConfirmDialogService>(ConfirmDialogService),
     externalQueryConfiguration: this.injector.get<ExternalQueryConfigurationService>(ExternalQueryConfigurationService),
+    externalRelationQueryConfiguration: this.injector.get<ExternalRelationQueryConfigurationService>(ExternalRelationQueryConfigurationService),
     halResource: this.injector.get<HalResourceService>(HalResourceService),
     hooks: this.injector.get<HookService>(HookService),
     i18n: this.injector.get<I18nService>(I18nService),
@@ -73,6 +76,9 @@ export class OpenProjectPluginContext {
   // Hooks
   public readonly hooks:{ [hook:string]:(callback:Function) => void } = {};
 
+  // Angular zone reference
+  public readonly zone:NgZone = this.injector.get(NgZone);
+
   // Angular2 global injector reference
   constructor(public readonly injector:Injector) {
     this
@@ -82,10 +88,24 @@ export class OpenProjectPluginContext {
       });
   }
 
+  /**
+   * Run the given callback in the angular zone,
+   * resulting in triggered change detection that would otherwise not occur.
+   *
+   * @param cb
+   */
+  public runInZone(cb:() => void) {
+    this.zone.run(cb);
+  }
+
+  /**
+   * Bootstrap a dynamically embeddable component
+   * @param element
+   */
   public bootstrap(element:HTMLElement) {
     DynamicBootstrapper.bootstrapOptionalEmbeddable(
       this.injector.get(ApplicationRef),
       element
-      )
+    );
   }
 }

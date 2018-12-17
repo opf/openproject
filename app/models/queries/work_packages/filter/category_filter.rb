@@ -43,10 +43,6 @@ class Queries::WorkPackages::Filter::CategoryFilter <
     :list_optional
   end
 
-  def order
-    6
-  end
-
   def self.key
     :category_id
   end

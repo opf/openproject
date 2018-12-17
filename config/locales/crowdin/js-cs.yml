@@ -53,6 +53,10 @@ cs:
     button_update: Aktualizovat
     button_export-pdf: Stáhnout PDF
     button_export-atom: Stáhnout Atom
+    calendar:
+      title: Kalendář
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Dostupné sloupce
     description_current_position: 'Nacházíte se zde:'
     description_select_work_package: 'Vyberte pracovní balíček #%{id}'
@@ -62,6 +66,7 @@ cs:
       preview: Toggle preview mode
       source_code: Toggle Markdown source mode
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      error_initialization_failed: Failed to initialize CKEditor!
       mode:
         manual: Přepněte do Markdown zdroje
         wysiwyg: Switch to WYSIWYG editor
@@ -107,9 +112,11 @@ cs:
         embedded_table:
           button: Vložit tabulku pracovního balíčku
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
-        specific: 'on'
+        specific: zapnuto
         current_date: Current date
     error:
       internal: Došlo k vnitřní chybě.
@@ -180,7 +187,7 @@ cs:
     label_edit_status: Úprava stavu pracovního balíčku
     label_equals: je
     label_expand: Rozbalit
-    label_expanded: expanded
+    label_expanded: rozšířené
     label_expand_all: Rozbalit vše
     label_expand_project_menu: Rozbalit nabídku projektu
     label_export: Export
@@ -194,7 +201,7 @@ cs:
     label_in: v
     label_in_less_than: za méně než
     label_in_more_than: za více než
-    label_latest_activity: Latest activity
+    label_latest_activity: Poslední aktivita
     label_last_updated_on: Naposled aktualizováno
     label_less_or_equal: "<="
     label_less_than_ago: před méně jak (dny)
@@ -210,7 +217,7 @@ cs:
     label_none: žádný
     label_not_contains: neobsahuje
     label_not_equals: není
-    label_on: 'on'
+    label_on: zapnuto
     label_open_menu: Otevřít nabídku
     label_open_context_menu: Otevřít kontextovou nabídku
     label_open_work_packages: otevřít
@@ -242,7 +249,7 @@ cs:
     label_up: Nahoru
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
-    label_total_progress: "%{percent}% Total progress"
+    label_total_progress: Celkový průběh %{percent}%
     label_updated_on: aktualizováno
     label_warning: Varování
     label_work_package: Pracovní balíček
@@ -256,7 +263,7 @@ cs:
     label_unwatch: Přestat sledovat
     label_unwatch_work_package: Přestat sledovat pracovní balíček
     label_uploaded_by: Nahrál
-    label_default_queries: Default views
+    label_default_queries: Výchozí zobrazení
     label_starred_queries: Favorite views
     label_global_queries: Public views
     label_custom_queries: Private views
@@ -264,6 +271,8 @@ cs:
     label_attachments: Soubory
     label_drop_files: Sem přetáhněte soubory
     label_drop_files_hint: or click to add files
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Přidat přílohy
     label_formattable_attachment_hint: Attach and link files by dropping on this field,
       or pasting from the clipboard.
@@ -284,6 +293,49 @@ cs:
       errors:'
     help_texts:
       show_modal: Show attribute help text entry
+    onboarding:
+      steps:
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
+        project_selection: Please select one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
+        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
+          menu</b>.
+        members: Invite new <b>Members</b> to join your project.
+        wiki: Within the <b>Wiki</b> you can document and share knowledge together
+          with your team.
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
+          drop-down...
+        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
+        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
+          sprint. Add new tasks or impediments with the + icon next to a user story.
+          Via drag'n'drop you can update the status.
+        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
+          gives you a more detailed view of your work.
+        wp_list: This is the <b>Work package</b> list with the important work within
+          your project, such as tasks, features, milestones, bugs, and more. <br>
+          You can create or edit a work package directly within this list. To see
+          its details you can double click on a row.
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
+        wp_back_button: With the arrow you can navigate back to the work package list.
+        wp_create_button: The <b>Create</b> button will add a new work package to
+          your project.
+        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+          for your project.
+        wp_timeline: Zde můžete upravit váš projektový plán. Vytvářet nové fáze, milníky
+          a přidat závislosti. Všichni členové týmu mohou kdykoliv zobrazit a aktualizovat
+          aktuální plán.
+        help_menu: In the <b>Help</b> menu you will find a user guide and additional
+          help resources. <br> Enjoy your work with OpenProject!
+        got_it: Got it
     password_confirmation:
       field_description: You need to enter your account password to confirm this change.
       title: Pro pokračování potvrďte vaše heslo
@@ -310,6 +362,7 @@ cs:
       attribute_groups:
         error_duplicate_group_name: Jméno %{group} je již použito. Jména skupin musí
           být jedinečná.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom
@@ -322,6 +375,19 @@ cs:
           client?
         more_information: Více informací
         nevermind: Nevermind
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplikováno
+          blocks: blocking
+          blocked: zablokoval
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -346,17 +412,22 @@ cs:
       relation_type: typ vztahu
     relations_hierarchy:
       parent_headline: Rodič
+      hierarchy_headline: Hierarchie
       children_headline: Potomci
     relation_buttons:
+      set_parent: Set parent
       change_parent: Změnit nadřazený
       remove_parent: Odstranit nadřazený
       group_by_wp_type: Seskupit podle typu pracovního balíčku
       group_by_relation_type: Seskupit podle typu vztahu
       add_parent: Přidat existujícího rodiče
       add_new_child: Vytvořit nového potomka
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Přidat existujícího potomka
       remove_child: Odstranit záznam
       add_new_relation: Vytvořit nový vztah
+      add_existing_relation: Add existing relation
       update_description: Nastavit nebo upravit popis tohoto vztahu
       toggle_description: Toggle relation description
       update_relation: Click to change the relation type
@@ -367,6 +438,7 @@ cs:
       abort: Zrušit
     relations_autocomplete:
       placeholder: Zadejte ID pracovního balíčku
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Select tag
       select_branch: Select branch
@@ -374,19 +446,19 @@ cs:
     select2:
       input_too_short:
         one: Prosím, zadejte jeden nebo více znaků
-        other: Prosím, zadejte {{count}} nebo více znaků
+        other: Prosím, zadejte ještě {{count}} znaků
         zero: Please enter more characters
-        few: Prosím, zadejte {{count}} nebo více znaků
-        many: Please enter {{count}} more characters
+        few: Prosím, zadejte ještě {{count}} znaků
+        many: Prosím, zadejte ještě {{count}} znaků
       load_more: Načíst další výsledky...
       no_matches: Nenalezena žádná shoda
       searching: Vyhledávání ...
       selection_too_big:
-        one: You can only select one item
-        other: You can only select {{limit}} items
+        one: Můžete vybrat pouze jednu položku
+        other: Můžete vybrat pouze {{limit}} položek
         zero: You cannot select any items
-        few: You can only select {{limit}} items
-        many: You can only select {{limit}} items
+        few: Můžete vybrat pouze {{limit}} položek
+        many: Můžete vybrat pouze {{limit}} položek
     project_menu_details: Podrobnosti
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -402,7 +474,7 @@ cs:
       view?
     text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
     timelines:
-      gantt_chart: Gantt chart
+      gantt_chart: Ganttův diagram
       labels:
         title: Konfigurace popisku
         bar: Bar labels
@@ -415,8 +487,8 @@ cs:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Show Gantt chart
-      button_deactivate: Hide Gantt chart
+      button_activate: Zobrazit Ganttův diagram
+      button_deactivate: Skrýt Ganttův diagram
       cancel: Zrušit
       change: Změna v plánování
       due_date: Datum dokončení
@@ -462,16 +534,16 @@ cs:
         months: Měsíce
         quarters: Čtvrtletí
         years: Roky
-        slider: Zoom slider
+        slider: Posuvník přiblížení/oddálení
         description: 'Select the initial zoom level that should be shown when autozoom
           is not available.
 
 '
     tl_toolbar:
-      zooms: Zoom level
-      outlines: Hierarchy level
+      zooms: Úroveň přiblížení/oddálení
+      outlines: Úroveň hierarchie
     unsupported_browser:
-      title: Your browser version is not supported
+      title: Verze vašeho prohlížeče není podporována
       message: Verze prohlížeče, který používáte, již není OpenProject podporována.
       update_message: Aktualizujte svůj prohlížeč prosím.
       update_ie_user: Prosím přepněte do Mozilla Firefox nebo Google Chrome, nebo
@@ -479,11 +551,11 @@ cs:
       learn_more: Více informací
       close_warning: Ignorovat toto upozornění.
     upsale:
-      ee_only: Enterprise Edition only feature
+      ee_only: Pouze funkce Enterprise edice
     wiki_formatting:
       strong: Strong
-      italic: Italic
-      underline: Underline
+      italic: Kurzíva
+      underline: Podtržení
       deleted: Smazáno
       code: Inline Code
       heading1: Nadpis 1
@@ -512,6 +584,8 @@ cs:
       description_options_hide: Skrýt možnosti
       description_options_show: Zobrazit možnosti
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Editing %{attribute} is blocked for this work package. Either
           this attribute is derived from relations (e.g, children) or otherwise not
           configurable.
@@ -534,6 +608,8 @@ cs:
       message_successful_show_in_fullscreen: Click here to open this work package
         in fullscreen view.
       message_view_spent_time: Zobrazit strávený čas pro tento pracovní balíček
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Žádná hodnota
       inline_create:
         title: Click here to add a new work package to this list
@@ -563,8 +639,8 @@ cs:
           out.
       property_groups:
         details: Podrobnosti
-        people: People
-        estimatesAndTime: Estimates & Time
+        people: Lidé
+        estimatesAndTime: Odhady a Čas
         other: Ostatní
       properties:
         assignee: Řešitel
@@ -589,10 +665,10 @@ cs:
         versionName: Verze
         version: Verze
       default_queries:
-        latest_activity: Latest activity
-        created_by_me: Created by me
-        assigned_to_me: Assigned to me
-        recently_created: Recently created
+        latest_activity: Poslední aktivita
+        created_by_me: Vytvořeno mnou
+        assigned_to_me: Přiřazeno mně
+        recently_created: Nedávno vytvořené
         all_open: Všechny otevřené
         summary: Souhrn
       jump_marks:
@@ -612,10 +688,10 @@ cs:
           mode being active.
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
           being grouped by %{column}.
-        sort_ascending: Sort ascending
-        sort_descending: Sort descending
-        move_column_left: Move column left
-        move_column_right: Move column right
+        sort_ascending: Seřadit vzestupně
+        sort_descending: Seřadit sestupně
+        move_column_left: Přesunout sloupec vlevo
+        move_column_right: Přesunout sloupec vpravo
         hide_column: Skrýt sloupec
         insert_columns: Insert columns ...
         filters: Filtry
@@ -640,24 +716,24 @@ cs:
           šipkami.
       table_configuration:
         button: Konfigurovat tabulku tohoto pracovního balíčku
-        choose_display_mode: Display work packages as
+        choose_display_mode: Zobrazit pracovní balíčky jako
         modal_title: Konfigurace tabulky pracovních balíčků
         embedded_tab_disabled: This configuration tab is not available for the embedded
           view you're editing.
         default: výchozí
         display_settings: Zobrazit nastavení
         default_mode: Flat list
-        hierarchy_mode: Hierarchy
+        hierarchy_mode: Hierarchie
         hierarchy_hint: Všechny filtrované výsledky z tabulky budou rozšířeny o jejich
           předky. Hierarchii lze rozbalit a sbalit.
         display_sums_hint: Zobrazit součty všech sčitatelných atributů v řádku pod
           tabulkou výsledků.
         show_timeline_hint: Zobrazit interaktivní Ganttův graf na pravé straně tabulky.
           Šířku můžete změnit přetažením dělící příčky mezi tabulkou a Ganttovým diagramem.
-        highlighting: Highlighting
+        highlighting: Zvýraznění
         highlighting_mode:
-          description: Highlight with color
-          none: No highlighting
+          description: Barevné zvýraznění
+          none: Bez zvýraznění
           inline: Highlighted attribute(s)
           inline_all: All attributes
           entire_row_by: Entire row by
@@ -671,6 +747,9 @@ cs:
             mass?
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Přehled
         activity: Aktivita
@@ -683,11 +762,11 @@ cs:
         months: mesice
     toolbar:
       settings:
-        configure_view: Configure view ...
-        columns: Columns ...
-        sort_by: Sort by ...
-        group_by: Group by ...
-        display_sums: Display sums
+        configure_view: Nastavit zobrazení ...
+        columns: Sloupce ...
+        sort_by: Řadit podle ...
+        group_by: Seskupit podle ...
+        display_sums: Zobrazit součty
         display_hierarchy: Display hierarchy
         hide_hierarchy: Hide hierarchy
         hide_sums: Skrýt součty
@@ -695,17 +774,17 @@ cs:
         save_as: Uložit jako...
         export: Exportovat ...
         visibility_settings: Visibility settings ...
-        page_settings: Rename view ...
+        page_settings: Přejmenovat pohled...
         delete: Odstranit
       filter: Filtr
       unselected_title: Pracovní balíček
-      search_query_label: Search saved views
-      search_query_title: Click to search saved views
+      search_query_label: Vyhledat uložené pohledy
+      search_query_title: Kliknutím zahájíte vyhledávání uložených pohledů
       placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
       label_name: Jméno
-      label_delete_page: Delete current page
+      label_delete_page: Odstranit aktuální stránku
       button_apply: Použít
       button_save: Uložit
       button_submit: Potvrdit
@@ -729,9 +808,9 @@ cs:
       empty: No relation exists
       remove: Odstranit vztah
     inplace:
-      button_edit: "%{attribute}: Edit"
-      button_save: "%{attribute}: Save"
-      button_cancel: "%{attribute}: Cancel"
+      button_edit: "%{attribute}: Upravit"
+      button_save: "%{attribute}: Uložit"
+      button_cancel: "%{attribute}: Zrušit"
       button_save_all: Uložit
       button_cancel_all: Zrušit
       link_formatting_help: Text formatting help
@@ -763,10 +842,10 @@ cs:
         many: "%{count} work package children"
       hour:
         one: 1 hodina
-        other: "%{count} hodiny"
+        other: "%{count} hodin"
         zero: 0 hours
-        few: "%{count} hodiny"
-        many: "%{count} hours"
+        few: "%{count} hodin"
+        many: "%{count} hodin"
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode

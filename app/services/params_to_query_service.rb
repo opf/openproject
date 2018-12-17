@@ -70,7 +70,7 @@ class ParamsToQueryService
     sort = parse_sorting_from_json(params[:sortBy])
 
     hash_sort = sort.each_with_object({}) do |(attribute, direction), hash|
-      hash[attribute.to_sym] = direction.to_sym
+      hash[attribute.to_sym] = direction.downcase.to_sym
     end
 
     query.order(hash_sort)

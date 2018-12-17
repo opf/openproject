@@ -1,0 +1,80 @@
+<%#-- copyright
+OpenProject My Project Page Plugin
+
+Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++#%>
+<% html_title(l(:label_overview)) -%>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "my_project_page/my_projects_overview", media: 'all' %>
+<% end %>
+
+<div id="page-layout">
+  <%= toolbar title: l(:label_overview) do %>
+    <li class="toolbar-item">
+      <%= styled_form_tag({action: "add_block"}, id: "add-block-form") do %>
+        <%= styled_select_tag 'block',
+                       options_for_select(block_options),
+                       id: "block-select",
+                       class: 'form--select',
+                       :'ng-model' => '$ctrl.selectedBlock',
+                       :'ng-change' => '$ctrl.handleBlockSelection()'
+      %>
+      <% end %>
+    </li>
+    <li class="toolbar-item">
+      <%= form_tag({action: "save_changes"}, id: "save-block-form", :'ng-submit' => '$ctrl.handleSaveChanges()') do %>
+        <% blocks.keys.each do |f| %>
+          <input type="hidden" name="<%= f %>" value="" />
+        <% end %>
+        <%= submit_tag t(:button_save), class: 'button -alt-highlight' %>
+      <% end %>
+    </li>
+    <li class="toolbar-item">
+      <%= link_to t(:button_cancel), {action: 'index'}, class: 'button' %>
+    </li>
+  <% end %>
+
+  <div id="my_project_blocks">
+    <h3><%=l(:label_visible_elements) %></h3>
+    <div id="visible-grid" class="widget-boxes">
+      <% top_fields.each do |f| %>
+        <%= grid_field f %>
+      <% end %>
+
+      <div class="grid-block">
+        <% middle_fields.each do |f| %>
+          <%= grid_field f %>
+        <% end %>
+      </div>
+    </div>
+
+    <h3><%=l(:label_hidden_elements) %></h3>
+    <div class="widget-boxes">
+      <% hidden_fields.each do |f| %>
+        <%= grid_field f %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= activate_angular_js do %>
+  <overview-page-layout>
+  </overview-page-layout>
+<% end %>
+

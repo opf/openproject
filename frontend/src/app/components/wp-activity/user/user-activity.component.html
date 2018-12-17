@@ -34,17 +34,18 @@
         <op-icon icon-classes="action-icon icon-quote" [icon-title]="text.quote_comment"></op-icon>
       </accessible-by-keyboard>
       <accessible-by-keyboard *ngIf="userCanEdit"
-                              (execute)="editComment()"
+                              (execute)="activate()"
                               [linkTitle]="text.edit_comment"
                               class="edit-activity--{{activityNo}}">
         <op-icon icon-classes="action-icon icon-edit" [icon-title]="text.edit_comment"></op-icon>
       </accessible-by-keyboard>
     </div>
   </div>
-  <div class="user-comment wiki">
+  <div class="user-comment" [ngClass]="{ 'wiki': !inEdit }">
     <div *ngIf="inEdit" class="inplace-edit">
       <div class="user-comment--form inplace-edit--write-value">
-        <edit-form-portal [editFieldInput]="field"
+        <edit-form-portal [changesetInput]="changeset"
+                          [schemaInput]="schema"
                           [editFieldHandler]="handler">
         </edit-form-portal>
       </div>

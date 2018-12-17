@@ -5,9 +5,9 @@
  * @param evt
  * @param target
  */
-export function performAnchorHijacking(evt:JQueryEventObject, target:JQuery):void {
+export function performAnchorHijacking(evt:JQuery.Event, target:JQuery):void {
   // Avoid defaulting clicks on elements already removed from DOM
-  if (!document.contains(evt.target)) {
+  if (!document.contains(evt.target as Element)) {
     evt.preventDefault();
   }
 

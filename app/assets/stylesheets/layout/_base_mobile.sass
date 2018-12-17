@@ -27,39 +27,16 @@
 //++
 
 @include breakpoint(680px down)
-  html
-    min-width: 0 !important
-
   body
     overflow: auto !important
     overflow-y: scroll /* has to be scroll, not auto */
     -webkit-overflow-scrolling: touch
 
-  #main,
-  #content-wrapper
-    padding-bottom: 0 !important
-    position: relative !important
-    min-height: calc(100vH - #{$header-height-mobile})
+  #main-menu ~ #content-wrapper
+    padding: 15px
 
   #main
-    height: initial !important
-    overflow: auto !important
-    top: 55px !important
-
-  #header
-    min-width: 0 !important
-
-  #wrapper
-    background: #fff !important
-
-  #content-wrapper
-    height: 100% !important
-    margin: 0 !important
-    padding: 20px !important
-    width: 100% !important
-    top: 0 !important
-  #main-menu ~ #content-wrapper
-    padding: 5px 15px 0 15px !important
+    grid-template-columns: auto
 
   #breadcrumb,
   .hidden-for-mobile
@@ -67,9 +44,6 @@
 
   h2
     font-size: 1.4rem
-
-  .jstElements
-    display: none
 
 @include breakpoint(680px up)
   .hidden-for-desktop

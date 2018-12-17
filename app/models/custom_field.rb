@@ -47,7 +47,7 @@ class CustomField < ActiveRecord::Base
 
   validates :field_format, presence: true
   validates :custom_options,
-            presence: { message: I18n.t(:'activerecord.errors.models.custom_field.at_least_one_custom_option') },
+            presence: { message: ->(*) { I18n.t(:'activerecord.errors.models.custom_field.at_least_one_custom_option') } },
             if: ->(*) { field_format == 'list' }
   validates :name, presence: true, length: { maximum: 30 }
 
@@ -259,7 +259,7 @@ class CustomField < ActiveRecord::Base
 
   def possible_version_values_options(obj)
     mapped_with_deduced_project(obj) do |project|
-      if project
+      if project&.persisted?
         project.shared_versions
       else
         Version.systemwide

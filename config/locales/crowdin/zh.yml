@@ -147,6 +147,11 @@ zh:
       no_results_content_text: 添加状态报告
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         单击可以分配或更改此状态的颜色。
         颜色显示在状态按钮中，可用于突出显示表中的工作包。
@@ -163,8 +168,9 @@ zh:
       projects: 项目
       enabled_projects: 已启用的项目
       add_group: 增加属性组
-      add_subelements: 增加子元素组
-      edit_query: 编辑嵌入式查询
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: 重置为默认值
       type_color_text: '单击可以分配或更改此类型的颜色。选定颜色可区分甘特图中的工作包。
 
@@ -301,6 +307,7 @@ zh:
         to: 相关的工作包
       status:
         is_closed: 工作包已关闭
+        is_readonly: Work package read-only
       journal:
         notes: 备注
       member:
@@ -1065,6 +1072,7 @@ zh:
   label_auth_source_plural: 身份验证模式
   label_authentication: 身份验证
   label_available_project_work_package_categories: 可用的工作包类别
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: 可用的公告板
   label_available_project_versions: 可用版本
   label_available_project_repositories: 可用存储库
@@ -1233,6 +1241,7 @@ zh:
   label_journal_diff: 描述的对比
   label_language: 语言
   label_jump_to_a_project: 跳转到一个项目...
+  label_keyword_plural: Keywords
   label_language_based: 基于用户的语言
   label_last_activity: 最近一次活动
   label_last_change_on: 最后一次修改时间

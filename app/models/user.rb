@@ -500,9 +500,34 @@ class User < Principal
     end
   end
 
-  # Makes find_by_mail case-insensitive
+  ##
+  # Finds all users with the mail address matching the given mail
+  # Includes searching for suffixes from +Setting.mail_suffix_separtors+.
+  #
+  # For example:
+  #  - With Setting.mail_suffix_separators = '+'
+  #  - Will find 'foo+bar@example.org' with input of 'foo@example.org'
+  def self.where_mail_with_suffix(mail)
+    skip_suffix_check, regexp = mail_regexp(mail)
+
+    # If the recipient part already contains a suffix, don't expand
+    return where("LOWER(mail) = ?", mail) if skip_suffix_check
+
+    command =
+      if OpenProject::Database.mysql?
+        'REGEXP'
+      else
+        '~*'
+      end
+
+    where("LOWER(mail) #{command} ?", regexp)
+  end
+
+  ##
+  # Finds a user by mail where it checks whether the mail exists
+  # NOTE: This will return the FIRST matching user.
   def self.find_by_mail(mail)
-    where(['LOWER(mail) = ?', mail.to_s.downcase]).first
+    where_mail_with_suffix(mail).first
   end
 
   def rss_key
@@ -745,6 +770,15 @@ class User < Principal
   end
 
   private
+
+  def self.mail_regexp(mail)
+    separators = Regexp.escape(Setting.mail_suffix_separators)
+    recipient, domain = mail.split('@').map { |part| Regexp.escape(part) }
+    skip_suffix_check = Setting.mail_suffix_separators.empty? || recipient.match?(/.+[#{separators}].+/)
+    regexp = "#{recipient}([#{separators}][^@]+)*@#{domain}"
+
+    [skip_suffix_check, regexp]
+  end
 
   def authorization_service
     @authorization_service ||= ::Authorization::UserAllowedService.new(self)

@@ -40,7 +40,7 @@ See docs/COPYRIGHT.rdoc for more details.
   &nbsp;
   <a href="<%= OpenProject::Enterprise.upgrade_path %>" class="display-inline button -tiny -highlight" title="<%= t(:title_enterprise_upgrade) %>"><%= t(:button_upgrade) %></a>
 <% end %>
-<%= toolbar title: t(:label_user_plural), title_class: 'no-padding-bottom', title_extra: users_info do %>
+<%= toolbar title: t(:label_user_plural), title_class: 'no-padding-bottom', subtitle: users_info do %>
   <li class="toolbar-item">
     <%= link_to new_user_path,
         { class: 'button -alt-highlight',

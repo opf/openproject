@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::EstimatedHoursFilter, type: :model do
   it_behaves_like 'basic query filter' do
-    let(:order) { 13 }
     let(:type) { :integer }
     let(:class_key) { :estimated_hours }
 

@@ -52,10 +52,6 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
     :list
   end
 
-  def order
-    13
-  end
-
   def human_name
     I18n.t('query_fields.subproject_id')
   end

@@ -50,8 +50,6 @@ export class WpResizerDirective implements OnInit, OnDestroy {
 
   public moving:boolean = false;
 
-  private unregisterTransitionListener:Function;
-
   constructor(readonly toggleService:MainMenuToggleService,
               private elementRef:ElementRef,
               readonly $transitions:TransitionService) {
@@ -77,7 +75,6 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     // Otherwise function will be executed with empty list
     jQuery(document).ready(() => {
       this.applyColumnLayout(this.resizingElement, this.elementFlex);
-      this.applyInfoRowLayout();
     });
 
     // Add event listener
@@ -90,26 +87,17 @@ export class WpResizerDirective implements OnInit, OnDestroy {
         untilComponentDestroyed(this)
       )
       .subscribe( changeData => {
-        jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width() > 750);
+        jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width()! > 750);
       });
     let that = this;
     jQuery(window).resize(function() {
-      jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width() > 750);
-      that.applyInfoRowLayout();
-    });
-
-    // Listen to changes from a non overview state to the overview state
-    // which requires us to reevaluate the wrapping of the info row.
-    this.unregisterTransitionListener = this.$transitions.onSuccess({ to: 'work-packages.list.details.overview' }, (transition) => {
-      setTimeout(() => this.applyInfoRowLayout());
+      jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width()! > 750);
     });
   }
 
   ngOnDestroy() {
     // Reset the style when killing this directive, otherwise the style remains
     this.resizingElement.style.flexBasis = null;
-
-    this.unregisterTransitionListener();
   }
 
   @HostListener('mousedown', ['$event'])
@@ -135,6 +123,16 @@ export class WpResizerDirective implements OnInit, OnDestroy {
 
       // Enable mouse move
       window.addEventListener('mousemove', this.mouseMoveHandler);
+      window.addEventListener('touchmove', this.mouseMoveHandler, { passive: false });
+    }
+  }
+
+  @HostListener('window:touchend', ['$event'])
+  private handleTouchEnd(e:MouseEvent) {
+    window.removeEventListener('touchmove', this.mouseMoveHandler);
+    let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
+    if (localStorageValue) {
+      this.elementFlex = parseInt(localStorageValue, 10);
     }
   }
 
@@ -150,7 +148,7 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     // Change cursor icon back
     document.body.style.cursor = 'auto';
 
-    // Take care at the end that the elemntFlex-Value is the same as the acutal value
+    // Take care at the end that the elementFlex-Value is the same as the actual value
     // When the mouseup is outside the container these values will differ
     // which will cause problems at the next movement start
     let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
@@ -172,8 +170,8 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     e.stopPropagation();
 
     // Get delta to resize
-    let delta = this.oldPosition - e.clientX;
-    this.oldPosition = e.clientX;
+    let delta = this.oldPosition - (e.clientX || e.pageX);
+    this.oldPosition = (e.clientX || e.pageX);
 
     // Get new value depending on the delta
     // The resizingElement is not allowed to be smaller than 480px
@@ -186,9 +184,6 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     // Apply two column layout
     this.applyColumnLayout(element, newValue);
 
-    // Apply info row Layout
-    this.applyInfoRowLayout();
-
     // Set new width
     element.style.flexBasis = newValue + 'px';
   }
@@ -196,15 +191,11 @@ export class WpResizerDirective implements OnInit, OnDestroy {
   private applyColumnLayout(element:HTMLElement, newWidth:number) {
     // Apply two column layout in fullscreen view of a workpackage
     if (element === jQuery('.work-packages-full-view--split-right')[0]) {
-      jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width() > 750);
+      jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width()! > 750);
     }
     // Apply two column layout when details view of wp is open
     else {
       element.classList.toggle('-columns-2', newWidth > 700);
     }
-  }
-
-  private applyInfoRowLayout() {
-    jQuery('.wp-info-wrapper').toggleClass('-wrapped', jQuery('.wp-info-wrapper').width() - jQuery('wp-custom-actions').width() - jQuery('wp-status-button .button').width() < 475);
   }
 }

@@ -31,10 +31,10 @@
 class TimelogController < ApplicationController
   menu_item :issues
 
-  before_action :disable_api, except: [:index, :destroy]
-  before_action :find_work_package, only: [:new, :create]
-  before_action :find_project, only: [:new, :create]
-  before_action :find_time_entry, only: [:show, :edit, :update, :destroy]
+  before_action :disable_api, except: %i[index destroy]
+  before_action :find_work_package, only: %i[new create]
+  before_action :find_project, only: %i[new create]
+  before_action :find_time_entry, only: %i[show edit update destroy]
   before_action :authorize, except: [:index]
   before_action :find_optional_project, only: [:index]
   accept_key_auth :index, :show, :create, :update, :destroy
@@ -122,9 +122,7 @@ class TimelogController < ApplicationController
                    .includes(:project,
                              :activity,
                              :user,
-                             work_package: [:type,
-                                            :assigned_to,
-                                            :priority])
+                             work_package: %i[type assigned_to priority])
                    .references(:projects)
                    .where(cond.conditions)
                    .distinct(false)
@@ -153,9 +151,19 @@ class TimelogController < ApplicationController
   end
 
   def create
-    @time_entry = new_time_entry(@project, @issue, permitted_params.time_entry.to_h)
+    combined_params = permitted_params
+                      .time_entry
+                      .to_h
+                      .reverse_merge(project: @project,
+                                     work_package_id: @issue)
 
-    save_time_entry_and_respond @time_entry
+    call = TimeEntries::CreateService
+           .new(user: current_user)
+           .call(combined_params)
+
+    @time_entry = call.result
+
+    respond_for_saving call
   end
 
   def edit
@@ -166,8 +174,8 @@ class TimelogController < ApplicationController
 
   def update
     service = TimeEntries::UpdateService.new user: current_user, time_entry: @time_entry
-    result = service.call(attributes: permitted_params.time_entry)
-    respond_for_saving result.success?
+    call = service.call(attributes: permitted_params.time_entry)
+    respond_for_saving call
   end
 
   def destroy
@@ -248,13 +256,10 @@ class TimelogController < ApplicationController
     time_entry
   end
 
-  def save_time_entry_and_respond(time_entry)
-    call_hook(:controller_timelog_edit_before_save, params: params, time_entry: time_entry)
-    respond_for_saving @time_entry.save
-  end
+  def respond_for_saving(call)
+    @errors = call.errors
 
-  def respond_for_saving(success)
-    if success
+    if call.success?
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_update)

@@ -1,7 +1,7 @@
 <%= form_tag({}, method: :get, class: "project-filters #{filter_set? ? '-expanded' : ''}") do %>
   <% operators_without_values = ['*', '!*', 't', 'w'] %>
   <fieldset class="advanced-filters--container">
-    <a id="projects-filter-close-button" title="{{ ::I18n.t('js.close_form_title') }}" class="advanced-filters--close icon-context icon-close"></a>
+    <a id="projects-filter-close-button" title="<%= t('js.close_form_title') %>" class="advanced-filters--close icon-context icon-close"></a>
     <legend><%= t(:label_filter_plural) %></legend>
     <ul class="advanced-filters--filters">
       <% allowed_filters(query).each do |filter| %>
@@ -88,7 +88,7 @@
         <% end %>
       </li>
       <li class="advanced-filters--controls">
-        <%= submit_tag t('button_apply'), class: 'button -highlight', name: nil %>
+        <%= submit_tag t('button_apply'), class: 'button -small -highlight', name: nil %>
       </li>
     </ul>
   </fieldset>

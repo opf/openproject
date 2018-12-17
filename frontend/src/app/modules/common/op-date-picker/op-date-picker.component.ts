@@ -77,8 +77,8 @@ export class OpDatePickerComponent implements OnInit, OnDestroy {
     return this.currentValue().trim() === '';
   }
 
-  private currentValue() {
-    return this.input.val();
+  private currentValue():string {
+    return this.input.val() as string;
   }
 
   private showDatePicker() {

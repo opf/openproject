@@ -166,6 +166,11 @@ lv:
       no_results_content_text: Pievienot statusa ziņojumu
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -182,8 +187,9 @@ lv:
       projects: Projekti
       enabled_projects: Enabled projects
       add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -343,6 +349,7 @@ lv:
         to: Saistītie pieteikuma tipi
       status:
         is_closed: Aizvērtie pieteikuma tipi
+        is_readonly: Work package read-only
       journal:
         notes: Piezīmes
       member:
@@ -1174,6 +1181,7 @@ lv:
   label_auth_source_plural: Authentication modes
   label_authentication: Authentication
   label_available_project_work_package_categories: Pieejamās darbu kompleksu kategorijas
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Available boards
   label_available_project_versions: Pieejamās versijas
   label_available_project_repositories: Pieejamās krātuves
@@ -1343,6 +1351,7 @@ lv:
   label_journal_diff: Description Comparison
   label_language: Valoda
   label_jump_to_a_project: Jump to a project...
+  label_keyword_plural: Keywords
   label_language_based: Based on user's language
   label_last_activity: Pēdējā aktivitāte
   label_last_change_on: Last change on

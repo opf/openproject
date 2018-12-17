@@ -131,14 +131,6 @@ module OpenProject
       'content-form-separator-color'                         => "#DDDDDD",
       'content-form-danger-zone-bg-color'                    => "#CA3F3F",
       'content-form-danger-zone-font-color'                  => "#FFFFFF",
-      'content-calendar-border-width'                        => "1px",
-      'content-calendar-border-color'                        => "#D7D7D7",
-      'content-calendar-head-cell-bg-color'                  => "#EEEEEE",
-      'content-calendar-cell-border-width'                   => "1px",
-      'content-calendar-cell-border-color'                   => "#D7D7D7",
-      'content-calendar-cell-today-bg-color'                 => "#FFFFDD",
-      'content-calendar-inactive-day-font-color'             => "#FFFFFF",
-      'content-calendar-inactive-day-bg-color'               => "#4B4B4B",
       'my-page-edit-box-border-color'                        => "$primary-color-dark",
       'drop-down-unselected-font-color'                      => "$body-font-color",
       'drop-down-selected-font-color'                        => "$primary-color",
@@ -206,7 +198,7 @@ module OpenProject
       'timeline--header-border-color'                        => '#aaaaaa',
       'timeline--grid-color'                                 => '#dddddd',
       'timeline--separator'                                  => '3px solid #E7E7E7',
-      'table-timeline--row-height'                           => '41px',
+      'table-timeline--row-height'                           => '40px',
       'status-selector-bg-color'                             => '#F99601',
       'status-selector-bg-hover-color'                       => '#E08600'
     }.freeze

@@ -1,0 +1,93 @@
+<%#-- copyright
+OpenProject Costs Plugin
+
+Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+++#%>
+
+<%= render partial: 'shared/costs_header' %>
+
+<% html_title t(:label_administration), "#{t(:label_edit)} #{l((@project.nil? ? :caption_default_rate_history_for : :caption_rate_history_for), user: ' ')} #{@user.name}" %>
+
+<%= toolbar title: (@project.nil? ? t(:caption_default_rate_history_for, user: @user.name) :  t(:caption_rate_history_for_project, user: @user.name, project: @project.name) ) %>
+
+<%- default_rate = @user.current_default_rate -%>
+<% if default_rate%>
+<p><strong><%= t(:label_current_default_rate) %>:</strong> <%= number_to_currency(default_rate.rate)%></p>
+<% end %>
+
+<%= activate_angular_js do %>
+<costs-subform item-count="<%= @rates.count %>">
+<%= labelled_tabular_form_for @user, url: {action: 'update', project_id: @project}, method: :put do |f| %>
+  <%= back_url_hidden_field_tag %>
+  <%= error_messages_for 'user' %>
+  <%- @rates.each do |rate| -%>
+    <%- @rate = rate -%>
+    <%= error_messages_for 'rate' %>
+  <%- end -%>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table rates" width="200px">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Rate.human_attribute_name(:valid_from) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th class="currency">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Rate.model_name.human %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th><div class="generic-table--empty-header"></div></th>
+          </tr>
+        </thead>
+        <tbody id="rates_body" class="subform-container">
+          <%= render partial: "hourly_rates/rate", object: HourlyRate.new, locals: { templated: true } %>
+          <%- @rates.each_with_index do |rate, index| -%>
+            <%= render partial: 'rate', object: rate, locals: {index: index} %>
+          <%- end -%>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+  <div class="wp-inline-create-button">
+    <a href="#" class="add-row-button wp-inline-create--add-link">
+      <%= op_icon('icon icon-add') %>
+        <%= t(:button_add_rate) %>
+    </a>
+  </div>
+  <div class="generic-table--action-buttons">
+    <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
+  </div>
+<% end %>
+</costs-subform>
+<% end %>

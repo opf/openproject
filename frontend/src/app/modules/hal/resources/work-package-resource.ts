@@ -121,6 +121,7 @@ export class WorkPackageBaseResource extends HalResource {
   public attachments:AttachmentCollectionResource;
 
   public overriddenSchema?:SchemaResource;
+  public __initialized_at:Number;
 
   readonly I18n:I18nService = this.injector.get(I18nService);
   readonly states:States = this.injector.get(States);
@@ -147,6 +148,10 @@ export class WorkPackageBaseResource extends HalResource {
     return ancestors.map((el:WorkPackageResource) => el.id.toString());
   }
 
+  public get isReadonly():boolean {
+    return this.status && this.status.isReadonly;
+  }
+
   /**
    * Return "<type name>: <subject>" if the type is known.
    */
@@ -171,8 +176,24 @@ export class WorkPackageBaseResource extends HalResource {
     return !(children && children.length > 0);
   }
 
-  public get isEditable():boolean {
-    return !!this.$links.update || this.isNew;
+  /**
+   * Return whether the user in general has permission to edit the work package.
+   * This check is required, but not sufficient to check all attribute restrictions.
+   *
+   * Use +isAttributeEditable(property)+ for this case.
+   */
+  public get isEditable() {
+    return this.isNew || !!this.$links.update;
+  }
+
+  /**
+   * Return whether the work package is editable with the user's permission
+   * on the given work package attribute.
+   *
+   * @param property
+   */
+  public isAttributeEditable(property:string):boolean {
+    return this.isEditable && (!this.isReadonly || property === 'status');
   }
 
   private performUpload(files:UploadFile[]) {
@@ -244,12 +265,27 @@ export class WorkPackageBaseResource extends HalResource {
     this.form = Promise.resolve(form);
     this.$source.id = 'new';
 
+    // Since the ID will change upon saving, keep track of the WP
+    // with the actual creation date
+    this.__initialized_at = Date.now();
+
     // Set update link to form
     this['update'] = this.$links.update = form.$links.self;
     // Use POST /work_packages for saving link
     this['updateImmediately'] = this.$links.updateImmediately = (payload) => {
       return this.apiWorkPackages.createWorkPackage(payload);
     };
+  }
+
+  /**
+   * Retain the internal tracking identifier from the given other work package.
+   * This is due to us needing to identify a work package beyond its actual ID,
+   * because that changes upon saving.
+   *
+   * @param other
+   */
+  public retainFrom(other:WorkPackageResource) {
+    this.__initialized_at = other.__initialized_at;
   }
 
   public $initialize(source:any) {

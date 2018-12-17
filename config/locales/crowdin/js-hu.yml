@@ -53,6 +53,10 @@ hu:
     button_update: Frissítés
     button_export-pdf: PDF-fájl letöltése
     button_export-atom: Atom letöltés
+    calendar:
+      title: Naptár
+      too_many: Több Feladatcsoport (%{count}) van, mint amennyi a naptárban (%{max})
+        megjeleníthető. Adj szűrőket a fontosabb kiemeléséhez.
     description_available_columns: Elérhető oszlopok
     description_current_position: 'Itt vagy:'
     description_select_work_package: 'Munkacsomag kiválasztás #%{id}'
@@ -63,6 +67,7 @@ hu:
       source_code: Váltás Markdown forrás módra
       error_saving_failed: 'A dokumentum mentése a következő hiba miatt nem sikerült:
         %{error}'
+      error_initialization_failed: Failed to initialize CKEditor!
       mode:
         manual: Váltás Markdown forrásra
         wysiwyg: Váltás a WYSIWYG szerkesztőre
@@ -98,20 +103,22 @@ hu:
             Include the content of another wiki page by specifying its title or slug.
             You can include the wiki page of another project by separating them with a colon like the following example.
         work_package_button:
-          button: Munkacsomag létrehozása gomb beszúrása
-          type: Munkacsomag típusok
+          button: Feladatcsoport létrehozása gomb beszúrása
+          type: Feladatcsoport típusok
           button_style: Stílus gomb használata
           button_style_hint: 'Optional: Check to make macro appear as a button, not
             as a link.'
-          without_type: Munkacsomag létrehozása
-          with_type: 'Munkacsomag létrehozása (típus: %{typename})'
+          without_type: Feladatcsoport létrehozása
+          with_type: 'Feladatcsoport létrehozása (típus: %{typename})'
         embedded_table:
-          button: Munkacsomag táblázat beágyazás
-          text: "[Placeholder] Beágyazott munkacsomag táblázat"
+          button: Feladatcsoport táblázat beágyazás
+          text: "[Placeholder] Beágyazott feladatcsoport táblázat"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: be
-        current_date: Current date
+        current_date: Aktuális dátum
     error:
       internal: Belső hiba történt.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -264,6 +271,8 @@ hu:
     label_attachments: Fájlok
     label_drop_files: Húzza a fájlokat ide
     label_drop_files_hint: vagy kattintson a fájlok hozzáadásához
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Melléklet hozzáadása
     label_formattable_attachment_hint: Fájl hozzárendelése mellékletként a fájl "ideejtésével"
       vagy vágólapról beillesztésével.
@@ -273,16 +282,59 @@ hu:
     label_add_description: Adjon meg leírást a %{file} fájlhoz
     label_upload_notification: Fájl feltöltése folyamatban
     label_work_package_upload_notification: 'Fájlok feltöltése a #%{id}: %{subject}
-      munkacsomaghoz'
+      feladatcsoporthoz'
     label_files_to_upload: 'Ezek a fájlok kerülnek feltöltésre:'
     label_rejected_files: 'Ezeket a fájlokat nem lehet felölteni:'
     label_rejected_files_reason: Ezeket a fájlokat nem lehet feltölteni, mert a méretük
       nagyobb, mint %{maximumFilesize}
     label_wait: Kérem, várjon a konfigurációra...
     label_upload_counter: "%{done}/%{count} fájl feltöltve"
-    label_validation_error: 'A munka csomag a következő hibák miatt nem menthető:'
+    label_validation_error: 'A feladatcsoport a következő hibák miatt nem menthető:'
     help_texts:
       show_modal: Attribútum-súgószöveg mutatása
+    onboarding:
+      steps:
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
+        project_selection: Please select one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
+        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
+          menu</b>.
+        members: Invite new <b>Members</b> to join your project.
+        wiki: Within the <b>Wiki</b> you can document and share knowledge together
+          with your team.
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
+          drop-down...
+        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
+        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
+          sprint. Add new tasks or impediments with the + icon next to a user story.
+          Via drag'n'drop you can update the status.
+        wp_toggler: Most vessünk egy pillantást a <b>Feladatcsoport</b> kiválasztására,
+          amely részletesebb képet ad a munkáról.
+        wp_list: Ez a <b>Feladatcsoport</b> a fontos munkát a projektben, mint például
+          a feladatok, szolgáltatások, mérföldkövek, hibák, és több. <br> létrehozása
+          vagy szerkesztése a feladatcsoport közvetlenül a listán belül. Megtekintheti
+          a vonatkozó adatokat is dupla kattintással.
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
+        wp_back_button: With the arrow you can navigate back to the work package list.
+        wp_create_button: A <b>Létrehoz</b> gombbal tudsz új feladatot hozzáadni a
+          projekthez.
+        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+          for your project.
+        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
+          and add dependencies. All team members can see and update the latest plan
+          at any time.
+        help_menu: In the <b>Help</b> menu you will find a user guide and additional
+          help resources. <br> Enjoy your work with OpenProject!
+        got_it: Got it
     password_confirmation:
       field_description: A változás megerősítéséhez adja meg jelszavát.
       title: Adja meg a jelszavát a folytatáshoz
@@ -310,6 +362,7 @@ hu:
       attribute_groups:
         error_duplicate_group_name: A %{group} név már használatban van. A csoport
           névnek egyedinek kell lennie.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Űrlap konfiguráció visszaállítása
         confirm_reset: 'Figyelmeztetés: Biztosan visszaállítja az alap űrlap beállítást?
           Az attribútumok az alapértelmezett csoportba kerülnek, a láthatósági beállítások
@@ -322,6 +375,19 @@ hu:
           legyen?
         more_information: További információ
         nevermind: Mindegy
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplázott
+          blocks: blocking
+          blocked: blokkolta
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: megfigyelők betöltése...
       label_error_loading: Hiba történt a megfigyelők betöltése közben
@@ -346,17 +412,22 @@ hu:
       relation_type: kapcsolat típusa
     relations_hierarchy:
       parent_headline: Szülő
+      hierarchy_headline: Hierarchia
       children_headline: Gyermekek
     relation_buttons:
+      set_parent: Set parent
       change_parent: Szülő módosítása
       remove_parent: Szülő eltávolítása
       group_by_wp_type: Rendezés feladatcsoport típusai szerint
       group_by_relation_type: Rendezés kapcsolati típusok szerint
       add_parent: Meglévő szülő kapcsolat hozzáadása
       add_new_child: Új gyermek kapcsolat hozzáadása
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Meglévő gyermek kapcsolat hozzáadása
       remove_child: Gyermek kapcsolat törlése
       add_new_relation: Új kapcsolat hozzáadása
+      add_existing_relation: Add existing relation
       update_description: Kapcsolat részleteinek beállítása vagy frissítése
       toggle_description: Kapcsolat leírás kapcsolása
       update_relation: Klikk a kapcsolat típus módosításához
@@ -367,6 +438,7 @@ hu:
       abort: Megszakít
     relations_autocomplete:
       placeholder: Adja meg a kapcsolódó feladatcsoport azonosítóját
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Címke kiválasztása
       select_branch: Branch kiválasztása
@@ -446,7 +518,7 @@ hu:
       tooManyProjects: Több mint %{count} projekt. Kérjük, használjon jobb szűrési
         beállításokat!
       selection_mode:
-        notification: Klikkeljen valamelyik munkacsomagra a kapcsolat létrehozásához.
+        notification: Klikkeljen valamelyik feladatcsoportra a kapcsolat létrehozásához.
           Visszavonás az Esc megnyomásával.
       zoom:
         in: Nagyítás
@@ -508,6 +580,8 @@ hu:
       description_options_hide: Beállítások elrejtése
       description_options_show: Beállítások megjelenítése
       error:
+        update_conflict_refresh: Kattintson ide, hogy a Feladatcsoportot legújabb
+          verzióra történő frissítéséhez.
         edit_prohibited: A (z) %{attribute} attribútum nem szerkeszthető. Vagy azért
           mert ez valamelyik kapcsolatból származik (gyerekektől), vagy más okból
           nem módosítható.
@@ -529,6 +603,8 @@ hu:
       message_successful_show_in_fullscreen: Ide kattintva a munkacsomag részletei
         teljes képernyős nézeten jeleníthetőek meg.
       message_view_spent_time: Feladatcsoporttal töltött idő megjelenítése
+      message_work_package_read_only: Ez Feladatcsomag ebben a státuszban zárolt.
+        Nem lehet más attribútum segítségével megváltoztatni.
       no_value: Nincs érték
       inline_create:
         title: Ide kattintva adhatsz új munkacsomagot a listához
@@ -655,7 +731,7 @@ hu:
           description: Kiemelés szinnel
           none: Kiemelés nélkül
           inline: Kiemelt attribútum(ok)
-          inline_all: Attribútumok
+          inline_all: Minden attribútum
           entire_row_by: Egész sor alapján
           status: Állapot
           priority: Fontosság
@@ -667,6 +743,9 @@ hu:
             mass?
           relation_columns: Szeretné látni a munkacsomag kapcsolatait?
           check_out_link: Tekintse meg az Enterprise Edition-t!
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Áttekintő
         activity: Tevékenység

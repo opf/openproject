@@ -1,7 +1,6 @@
-import {AfterContentInit, AfterViewInit, ChangeDetectorRef, ElementRef, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, ElementRef, EventEmitter, OnDestroy, OnInit} from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
-import {EventEmitter} from '@angular/core';
 
 export abstract class OpModalComponent implements OnInit, OnDestroy {
 
@@ -45,7 +44,7 @@ export abstract class OpModalComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  public closeMe(evt:Event) {
+  public closeMe(evt:JQuery.Event) {
     this.service.close(evt);
   }
 

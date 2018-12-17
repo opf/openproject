@@ -30,25 +30,19 @@ $toggler-width: 40px
 $menu-item-line-height: 30px
 
 .main-menu
-  bottom: auto
   @include varprop(width, main-menu-width)
   @include varprop(min-width, main-menu-width)
-  float: left
   overflow-x: hidden
-  left: 0
   border-right-style: solid
   @include varprop(border-right-width, main-menu-border-width)
   @include varprop(border-right-color, main-menu-border-color)
   @include varprop(background-color, main-menu-bg-color)
-  // min-height is full height minus header and footer.
-  min-height: calc(100vh - #{$header-height})
 
   #menu-sidebar
     +allow-vertical-scrolling
-    -ms-overflow-style: -ms-autohiding-scrollbar
     height: calc(100vh - #{$header-height})
     position: relative
-    @include styled-scroll-bar
+    @include styled-scroll-bar-vertical
 
     // Fixed heights to allow inner scrolling
     .menu_root.closed,
@@ -65,7 +59,7 @@ $menu-item-line-height: 30px
     .main-menu--children
       height: calc(100% - (#{$main-menu-item-height} + 10px)) // 10px spacing
       overflow: auto
-      @include styled-scroll-bar
+      @include styled-scroll-bar-vertical
 
   ul
     margin: 0
@@ -194,7 +188,7 @@ $arrow-left-width: 40px
         @include varprop(color, main-menu-selected-font-color)
       &:hover, &:focus , &:active
         @include varprop(color, main-menu-hover-font-color)
-        @include varprop(background, main-menu-bg-hover-color)
+        @include varprop(background, main-menu-bg-hover-background)
 
 .main-menu--children-menu-header
   padding: 10px 10px 0 10px
@@ -325,7 +319,7 @@ a.main-menu--parent-node
   padding-left: 7px
   padding-right: 7px
 
-  @include styled-scroll-bar
+  @include styled-scroll-bar-vertical
 
 .main-menu--segment-header
   @include varprop(color, main-menu-fieldset-header-color)

@@ -30,7 +30,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     super(elementRef, opContextMenuService);
   }
 
-  protected open(evt:Event) {
+  protected open(evt:JQuery.Event) {
     this.workPackage.project.$load().then(() => {
       this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
@@ -64,12 +64,16 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
    *
    * @param {Event} openerEvent
    */
-  public positionArgs(openerEvent:Event) {
-    return {
+  public positionArgs(evt:JQueryEventObject) {
+    let additionalPositionArgs = {
       my: 'right top',
-      at: 'right bottom',
-      of: this.$element
+      at: 'right bottom'
     };
+
+    let position = super.positionArgs(evt);
+    _.assign(position, additionalPositionArgs);
+
+    return position;
   }
 
   private getPermittedActions(authorization:WorkPackageAuthorization) {

@@ -9,8 +9,8 @@
 
   <div class="wp-info-wrapper">
     <wp-status-button *ngIf="!workPackage.isNew"
-                      [workPackage]="workPackage"
-                      [allowed]="workPackage.isEditable"></wp-status-button>
+                      [workPackage]="workPackage">
+    </wp-status-button>
     <attribute-help-text [attribute]="'status'"
                          [attributeScope]="'WorkPackage'"
                          *ngIf="!workPackage.isNew"></attribute-help-text>
@@ -29,7 +29,7 @@
       <op-date-time [dateTimeValue]="workPackage.updatedAt"></op-date-time>.
      </div>
 
-    <wp-custom-actions [workPackage]="workPackage"class="custom-actions"></wp-custom-actions>
+    <wp-custom-actions [workPackage]="workPackage" class="custom-actions"></wp-custom-actions>
   </div>
 
   <div class="attributes-group -project-context"
@@ -101,21 +101,18 @@
       </div>
     </div>
 
-    <wp-attribute-group *ngIf="group.type === 'WorkPackageFormAttributeGroup'"
-                        [workPackage]="workPackage"
-                        [group]="group">
-    </wp-attribute-group>
-    <wp-children-query *ngIf="!workPackage.isNew && group.type === 'WorkPackageFormQueryGroup'"
-                    [workPackage]="workPackage"
-                    [query]="group.query">
-    </wp-children-query>
+    <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
+                 [ndcDynamicInputs]="{ workPackage: workPackage,
+                                       group: group,
+                                       query: group.query }" >
+    </ndc-dynamic>
   </div>
 </div>
 
-<div class="work-packages--attachments attributes-group">
+<div class="work-packages--attachments attributes-group"
+     *ngIf="workPackage.canAddAttachments || workPackage.hasAttachments">
   <div class="work-packages--atachments-container">
-    <div class="attributes-group--header"
-         *ngIf="workPackage.attachments">
+    <div class="attributes-group--header">
       <div class="attributes-group--header-container">
         <h3 class="attributes-group--header-text" [textContent]="text.attachments.label"></h3>
       </div>

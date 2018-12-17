@@ -240,7 +240,7 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
 
   // Get the available state
   protected get availableState() {
-    return this.states.query.available.columns;
+    return this.states.queries.columns;
   }
 
   /**

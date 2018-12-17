@@ -53,6 +53,10 @@ fa:
     button_update: به روز رسانی
     button_export-pdf: Download PDF
     button_export-atom: Download Atom
+    calendar:
+      title: Calendar
+      too_many: بسته های کار بیشتری(%{count}) نسبت به آن‌چه تقویم می‌تواند نمایش دهد
+        وجود دارد(%{max}). برای تمرکز بر موارد مرتیط از فیلتر‌ها استفاده کنید.
     description_available_columns: Available Columns
     description_current_position: 'You are here:'
     description_select_work_package: 'Select work package #%{id}'
@@ -62,6 +66,7 @@ fa:
       preview: Toggle preview mode
       source_code: Toggle Markdown source mode
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      error_initialization_failed: راه اندازی CKEditor انجام نشد!
       mode:
         manual: Switch to Markdown source
         wysiwyg: Switch to WYSIWYG editor
@@ -107,10 +112,12 @@ fa:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] تقویم جاسازی شده"
     custom_actions:
       date:
         specific: برخط
-        current_date: Current date
+        current_date: تاریخ کنونی
     error:
       internal: An internal error has occurred.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -265,6 +272,8 @@ fa:
     label_attachments: Files
     label_drop_files: Drop files here
     label_drop_files_hint: or click to add files
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Add attachments
     label_formattable_attachment_hint: Attach and link files by dropping on this field,
       or pasting from the clipboard.
@@ -285,6 +294,50 @@ fa:
       errors:'
     help_texts:
       show_modal: Show attribute help text entry
+    onboarding:
+      steps:
+        welcome: یک تور معرفی سه دقیقه‌ای را برای یادگیری <b>مهم‌ترین ویژگی ها</b>
+          در پیش گیرید. <br>وصیه می‌کنیم مراحل را تا پایان کامل کنید. شما می توانید
+          تور را در هر زمان دیگری هم دوباره راه اندازی کنید.
+        project_selection: Please select one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
+        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
+          menu</b>.
+        members: Invite new <b>Members</b> to join your project.
+        wiki: Within the <b>Wiki</b> you can document and share knowledge together
+          with your team.
+        backlogs_overview: کار‌های خود را در <b>Backlogs view</b> مدیریت کنید. <br>
+          در سمت راست Product Backlog یا یک Bug Backlog دارید، در سمت چپ چشم‌انداز
+          sprintها را خواهید داشت. در اینجا می‌توانید <b>epicها, کاربر‌ها استوری ها,
+          و باگ‌ها</b> را ایجاد کنید، با Drag'n'drop آن‌ها را اولویت‌بندی نموده و
+          به یک sprint اضافه‌شان کنید.
+        backlogs_task_board_arrow: برای مشاهده‌ی <b>صفحه‌ی کارتان</b>، منوی پایین‌باز‌شونده‌ی
+          sprint را باز کنید...
+        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
+        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
+          sprint. Add new tasks or impediments with the + icon next to a user story.
+          Via drag'n'drop you can update the status.
+        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
+          gives you a more detailed view of your work.
+        wp_list: This is the <b>Work package</b> list with the important work within
+          your project, such as tasks, features, milestones, bugs, and more. <br>
+          You can create or edit a work package directly within this list. To see
+          its details you can double click on a row.
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
+        wp_back_button: With the arrow you can navigate back to the work package list.
+        wp_create_button: The <b>Create</b> button will add a new work package to
+          your project.
+        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+          for your project.
+        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
+          and add dependencies. All team members can see and update the latest plan
+          at any time.
+        help_menu: In the <b>Help</b> menu you will find a user guide and additional
+          help resources. <br> Enjoy your work with OpenProject!
+        got_it: متوجه شدم
     password_confirmation:
       field_description: You need to enter your account password to confirm this change.
       title: Confirm your password to continue
@@ -311,6 +364,7 @@ fa:
       attribute_groups:
         error_duplicate_group_name: The name %{group} is used more than once. Group
           names must be unique.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom
@@ -323,6 +377,19 @@ fa:
           client?
         more_information: More information
         nevermind: Nevermind
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -347,17 +414,22 @@ fa:
       relation_type: relation type
     relations_hierarchy:
       parent_headline: بالادستی
+      hierarchy_headline: Hierarchy
       children_headline: بچه ها
     relation_buttons:
+      set_parent: Set parent
       change_parent: تغییر والدین
       remove_parent: Remove parent
       group_by_wp_type: Group by work package type
       group_by_relation_type: Group by relation type
       add_parent: Add existing parent
       add_new_child: Create new child
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Add existing child
       remove_child: Remove child
       add_new_relation: Create new relation
+      add_existing_relation: Add existing relation
       update_description: Set or update description of this relation
       toggle_description: Toggle relation description
       update_relation: Click to change the relation type
@@ -368,6 +440,7 @@ fa:
       abort: Abort
     relations_autocomplete:
       placeholder: Enter the related work package id
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Select tag
       select_branch: Select branch
@@ -510,6 +583,8 @@ fa:
       description_options_hide: Hide options
       description_options_show: Show options
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Editing %{attribute} is blocked for this work package. Either
           this attribute is derived from relations (e.g, children) or otherwise not
           configurable.
@@ -532,6 +607,8 @@ fa:
       message_successful_show_in_fullscreen: Click here to open this work package
         in fullscreen view.
       message_view_spent_time: Show spent time for this work package
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: No value
       inline_create:
         title: Click here to add a new work package to this list
@@ -656,8 +733,8 @@ fa:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Highlighted attribute(s)
-          inline_all: All attributes
+          inline: بخش(های) هایلایت‌شده
+          inline_all: همه‌ی بخش‌ها
           entire_row_by: Entire row by
           status: Status
           priority: اولويت
@@ -669,6 +746,9 @@ fa:
             mass?
           relation_columns: آیا نیاز به مشاهده روابط در بسته کاری را دارید؟
           check_out_link: نسخه سازمانی را بررسی کنید.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Overview
         activity: فعالیت

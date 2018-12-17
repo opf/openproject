@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
   it_behaves_like 'basic query filter' do
-    let(:order) { 1 }
     let(:type) { :list }
     let(:class_key) { :project_id }
 

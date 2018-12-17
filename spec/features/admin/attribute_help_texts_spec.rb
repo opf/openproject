@@ -102,7 +102,7 @@ describe 'Attribute help texts' do
         visit attribute_help_texts_path
 
         # Destroy
-        page.find('.attribute-help-text--entry a.icon-delete').click
+        page.find('.attribute-help-text--entry .icon-delete').click
         page.driver.browser.switch_to.alert.accept
 
         expect(page).to have_selector('.generic-table--no-results-container')

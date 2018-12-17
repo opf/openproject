@@ -42,8 +42,8 @@ module Components
         page.find 'a', text: I18n.t('types.edit.add_group')
       end
 
-      def add_subelements_button
-        page.find 'a', text: I18n.t('types.edit.add_subelements')
+      def add_table_button
+        page.find 'a', text: I18n.t('types.edit.add_table')
       end
 
       def reset_button
@@ -123,9 +123,36 @@ module Components
           .perform
       end
 
-      def add_query_group(name, expect: true)
+      def add_query_group(name, relation_filter, expect: true)
         add_button_dropdown.click
-        add_subelements_button.click
+        add_table_button.click
+
+        modal = ::Components::WorkPackages::TableConfigurationModal.new
+
+        within find('.relation-filter-selector') do
+          select I18n.t("js.types.attribute_groups.filter_types.#{relation_filter}")
+
+          # While we are here, let's check that all relation filters are present.
+          option_labels = %w[
+            parent
+            precedes
+            follows
+            relates
+            duplicates
+            duplicated
+            blocks
+            blocked
+            partof
+            includes
+            requires
+            required
+          ].map { |filter_name| I18n.t("js.types.attribute_groups.filter_types.#{filter_name}") }
+
+          option_labels.each do |label|
+            expect(page).to have_text(label)
+          end
+        end
+        modal.save
 
         input = find('.group-edit-in-place--input')
         input.set(name)

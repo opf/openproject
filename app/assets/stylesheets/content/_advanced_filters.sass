@@ -28,7 +28,7 @@
 
 .advanced-filters--container
   @extend %filters--container
-  padding: rem-calc(10px)
+  padding: 1rem
   max-height: 50vh
   overflow-y: auto
   position: relative
@@ -43,74 +43,42 @@
     width: 1rem
     z-index: 2
 
-@mixin advanced-filters--sizing()
-  @include grid-block()
-
-  @include breakpoint(medium)
-    @include grid-size(12)
-
-  @include breakpoint(large)
-    @include grid-size(10)
-
-  @include breakpoint(xlarge)
-    @include grid-size(8)
-
-  @include breakpoint(xxlarge)
-    @include grid-size(6)
-
-  @include breakpoint(xxxlarge)
-    @include grid-size(5)
-
 .advanced-filters--filters
   list-style-type:  none
-  margin:           0
+  margin:           20px 0 0 0
 
-.advanced-filters--filter
-  @include advanced-filters--sizing
-  align-items:      center
-  padding:          0.5rem 0
-  // necessary to display tooltips
-  overflow:         visible
+  > li:not(.advanced-filters--controls)
+    display: grid
+    // Filters will not span the whole width,
+    // but have an orientation to the left side
+    grid-template-columns: 20% 20% 25% 50px
+    grid-gap: 10px
+    align-items: center
+    margin-bottom: 10px
+
+  .advanced-filters--filter-name,
+  .advanced-filters--add-filter-label
+    @include text-shortener
+    margin: auto 0
+
+  .advanced-filters--filter-value,
+  .advanced-filters--filter-operator
+    .advanced-filters--select,
+    .advanced-filters--number-field
+      @include form--input-field-mixin--small
+      @include form--input-field-mixin--narrow
+      flex: 0 0 auto
 
 // The type="text" is required to be more specific
 .advanced-filters--text-field[type="text"],
 .advanced-filters--date-field[type="text"]
   @extend .form--text-field
-  @include form--input-field-mixin--small
 
   &:required
     box-shadow: none
 
 .advanced-filters--select
   @extend .form--select
-  @include form--input-field-mixin--small
-  @include form--input-field-mixin--narrow
-  margin-bottom: 0
-
-// The type="number" is required to be more specific
-.advanced-filters--number-field[type="number"]
-  @extend .form--text-field
-  @include form--input-field-mixin--small
-
-.advanced-filters--filter-name
-  @include grid-content(2)
-  @include text-shortener
-  font-size: 0.9rem
-  min-width: 156px
-  padding-right: 0
-
-.advanced-filters--filter-operator
-  @include grid-content()
-  @include grid-visible-overflow
-  min-width: 120px
-  max-width: 200px
-
-.advanced-filters--filter-value
-  @include grid-content()
-  @include grid-visible-overflow
-
-  op-date-picker
-    flex: 1
 
 .advanced-filters--affix
   @extend .form--field-affix
@@ -121,9 +89,7 @@
   @extend .advanced-filters--affix, .tooltip--right
 
 .advanced-filters--remove-filter
-  @include grid-content($size: shrink)
-  @include grid-visible-overflow
-  padding: 0
+  text-align: right
 
   a
     display: block
@@ -133,25 +99,9 @@
 
 .advanced-filters--remove-filter-icon
   @extend .icon-close, .icon4
-  @include grid-content(1)
-  @include grid-visible-overflow
-
-.advanced-filters--add-filter
-  @include advanced-filters--sizing
-  align-items:      center
-  padding:          0.25rem 0
-
-.advanced-filters--add-filter-label
-  @extend .advanced-filters--filter-name
 
 .advanced-filters--add-filter-label-icon
   @extend .icon-add, .icon4
-
-.advanced-filters--add-filter-value
-  @include grid-content()
-  @include grid-visible-overflow
-  min-width: 120px
-  max-width: 200px
 
 .advanced-filters--add-filter-info
   @include grid-content()
@@ -166,9 +116,33 @@
 .advanced-filters--spacer,
 .advanced-filters--filter
   &.hidden
-    display: none
-
+    display: none !important
 
 
 fieldset#date-range p
   margin: 2px 0 2px 0
+
+@include breakpoint(680px down)
+  .advanced-filters--filters
+    .advanced-filters--filter
+      grid-gap: 0 10px
+
+    .advanced-filters--filter-name,
+    .advanced-filters--add-filter-label,
+    .advanced-filters--add-filter-value
+      // Span over entire width
+      grid-column: 1 / -1
+
+    .advanced-filters--remove-filter
+      // Align at the end of the container
+      grid-column: -1
+
+    .advanced-filters--filter-operator,
+    .advanced-filters--filter-value
+      grid-column: span 2
+      order: 2
+
+      .advanced-filters--text-field,
+      .advanced-filters--select,
+      .advanced-filters--number-field
+        width: 100%

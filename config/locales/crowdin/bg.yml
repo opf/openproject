@@ -166,6 +166,11 @@ bg:
       no_results_content_text: Добавете отчет за статус
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -182,8 +187,9 @@ bg:
       projects: Проекти
       enabled_projects: Enabled projects
       add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -349,6 +355,7 @@ bg:
         to: Свързани работени пакети
       status:
         is_closed: Работният пакет е затворен
+        is_readonly: Work package read-only
       journal:
         notes: Бележки
       member:
@@ -1166,6 +1173,7 @@ bg:
   label_auth_source_plural: Начини на оторизация
   label_authentication: Оторизация
   label_available_project_work_package_categories: Налични категории работни пакети
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Налични табла
   label_available_project_versions: Налични версии
   label_available_project_repositories: Достъпни хранилища
@@ -1337,6 +1345,7 @@ bg:
   label_journal_diff: Сравнение на описание
   label_language: Език
   label_jump_to_a_project: Отиди на проект...
+  label_keyword_plural: Keywords
   label_language_based: Въз основа на езика на потребителя
   label_last_activity: Последна активност
   label_last_change_on: 'Последна промяна на:'

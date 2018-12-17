@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe 'filter me value', js: true do
+  let(:status) { FactoryBot.create :default_status}
+  let!(:priority) { FactoryBot.create :default_priority }
   let(:project) { FactoryBot.create :project, is_public: true }
   let(:role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
   let(:admin) { FactoryBot.create :admin }
@@ -43,8 +45,8 @@ describe 'filter me value', js: true do
   end
 
   describe 'assignee' do
-    let(:wp_admin) { FactoryBot.create :work_package, project: project, assigned_to: admin }
-    let(:wp_user) { FactoryBot.create :work_package, project: project, assigned_to: user }
+    let(:wp_admin) { FactoryBot.create :work_package, status: status, project: project, assigned_to: admin }
+    let(:wp_user) { FactoryBot.create :work_package, status: status, project: project, assigned_to: user }
 
     context 'as anonymous', with_settings: { login_required?: false } do
       let(:assignee_query) do
@@ -102,6 +104,17 @@ describe 'filter me value', js: true do
 
         filters.open
         filters.expect_filter_by('Assignee', 'is', 'me')
+
+        # Expect new work packages receive assignee
+        split_screen = wp_table.create_wp_split_screen wp_user.type
+        subject = split_screen.edit_field :subject
+        subject.set_value 'foobar'
+        subject.submit_by_enter
+
+        split_screen.expect_and_dismiss_notification message: 'Successful creation.'
+
+        wp = WorkPackage.last
+        expect(wp.assigned_to_id).to eq(admin.id)
       end
     end
   end

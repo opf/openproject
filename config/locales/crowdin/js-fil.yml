@@ -53,6 +53,10 @@ fil:
     button_update: I-update
     button_export-pdf: I-download ang PDF
     button_export-atom: I-download ang atom
+    calendar:
+      title: Kalendaryo
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Ang mga hanay na magagamit
     description_current_position: 'Nandito ka na:'
     description_select_work_package: 'Piliin ang work package #%{id}'
@@ -62,6 +66,7 @@ fil:
       preview: Toggle preview mode
       source_code: Toggle Markdown source mode
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      error_initialization_failed: Failed to initialize CKEditor!
       mode:
         manual: Switch to Markdown source
         wysiwyg: Switch to WYSIWYG editor
@@ -107,6 +112,8 @@ fil:
         embedded_table:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
         specific: sa
@@ -263,6 +270,8 @@ fil:
     label_attachments: Mga file
     label_drop_files: Ihulog ang mga file dito
     label_drop_files_hint: o pindutin upang magdagdag ng mga file
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
     label_add_attachments: Magdagdag ng mga nakalakip
     label_formattable_attachment_hint: Idijit at i-link ang mga file sa pamamagitan
       ng paghulog sa patlang na ito, o idikit mula sa clipboard.
@@ -283,6 +292,49 @@ fil:
       sumusunod na mali:'
     help_texts:
       show_modal: Magpakita ng katangian tekstong tulong entry
+    onboarding:
+      steps:
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
+        project_selection: Please select one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
+        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
+          menu</b>.
+        members: Invite new <b>Members</b> to join your project.
+        wiki: Within the <b>Wiki</b> you can document and share knowledge together
+          with your team.
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
+          drop-down...
+        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
+        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
+          sprint. Add new tasks or impediments with the + icon next to a user story.
+          Via drag'n'drop you can update the status.
+        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
+          gives you a more detailed view of your work.
+        wp_list: This is the <b>Work package</b> list with the important work within
+          your project, such as tasks, features, milestones, bugs, and more. <br>
+          You can create or edit a work package directly within this list. To see
+          its details you can double click on a row.
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
+        wp_back_button: With the arrow you can navigate back to the work package list.
+        wp_create_button: The <b>Create</b> button will add a new work package to
+          your project.
+        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+          for your project.
+        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
+          and add dependencies. All team members can see and update the latest plan
+          at any time.
+        help_menu: In the <b>Help</b> menu you will find a user guide and additional
+          help resources. <br> Enjoy your work with OpenProject!
+        got_it: Got it
     password_confirmation:
       field_description: Kailangan mong ipasok ang iyong akwant password upang kumpirmahin
         ang pagbabago niito.
@@ -312,6 +364,7 @@ fil:
       attribute_groups:
         error_duplicate_group_name: Ang pangalan ng %{group} ay ginamit higit pa sa
           isang beses. Ang mga pangalan ng grupo ay dapat nakakakatangi.
+        error_no_table_configured: Please configure a table for %{group}.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom
@@ -324,6 +377,19 @@ fil:
           sa pamamagitan ng pagiging isang kliyente ng Enterprise Edition?
         more_information: Karagdagang impornasyon
         nevermind: Hindi bale
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: ginaya sa pamamagitan ng
+          blocks: blocking
+          blocked: hinarangan ni
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
     watchers:
       label_loading: naglo-load ang mga manunuod...
       label_error_loading: Isang mali ang naganap habang naglo-load ng mga manunuod
@@ -348,17 +414,22 @@ fil:
       relation_type: uri ng naguugnay
     relations_hierarchy:
       parent_headline: Magulang
+      hierarchy_headline: Hierarchy
       children_headline: Ang mga bata
     relation_buttons:
+      set_parent: Set parent
       change_parent: Palitan ng magulang
       remove_parent: Alisin ang magulang
       group_by_wp_type: Grupo sa pamamagitan ng uri ng work package
       group_by_relation_type: Grupo sa pamamagitan ng uri ng pakikipag-ugnayan
       add_parent: Magdagdag ng umiiral na magulang
       add_new_child: Maglikha ng bagong bata
+      create_new: Create new
+      add_existing: Add existing
       add_existing_child: Magdagdag ng umiiral na bata
       remove_child: Alisin ang bata
       add_new_relation: Lumikha ng pagkikipag-ugnayan
+      add_existing_relation: Add existing relation
       update_description: Itakda o i-update ang paglalarawan sa kaugnayan ito
       toggle_description: I-toggle ang kaugnayan sa paglalarawan
       update_relation: Pindutin upang baguhin ang uri ng kaugnayan
@@ -369,6 +440,7 @@ fil:
       abort: Huwag ituloy
     relations_autocomplete:
       placeholder: Ipasok ang Id ng kauganay sa work package
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
     repositories:
       select_tag: Pumiling ng tag
       select_branch: Pumili ng sangay
@@ -516,6 +588,8 @@ fil:
       description_options_hide: Itago ang mga opsyon
       description_options_show: Ipakita ang mga opsyon
       error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
         edit_prohibited: Ang pag-iedit ng %{attribute} ay naka-block para sa work
           package na ito. Alinman sa katangian ito ay nagmula sa relasyon (hal. mga
           bata) o kung hindi man hindi ito naka-configure.
@@ -539,6 +613,8 @@ fil:
         na ito sa fullscreen view.
       message_view_spent_time: Magpakita ng oras na nagamit para sa work package na
         ito
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
       no_value: Walang halaga
       inline_create:
         title: Pindutin dito upang magdagdag ng bagong work package sa listahan na
@@ -681,6 +757,9 @@ fil:
           relation_columns: Kailangan tingnan ang mga relasyon sa listahan ng work
             package?
           check_out_link: Suriin ang Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
       tabs:
         overview: Buod
         activity: Aktibidad

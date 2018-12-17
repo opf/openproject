@@ -27,13 +27,10 @@
 // ++
 
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, fromEvent, Observable, Subscription} from 'rxjs';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {Injector} from "@angular/core";
-import {fromEvent} from "rxjs/observable/fromEvent";
-import {Observable} from "rxjs/Observable";
-import {Subscription} from "rxjs/Subscription";
 
 @Injectable()
 export class MainMenuToggleService {
@@ -84,9 +81,6 @@ export class MainMenuToggleService {
     if (this.isMobile) {
       this.closeMenu();
     }
-
-    // Listen on changes of the screen size
-    this.onWindowResize();
   }
 
   // click on arrow or hamburger icon
@@ -120,7 +114,7 @@ export class MainMenuToggleService {
 
   public closeMenu():void {
     if (this.isMobile) {
-      this.saveWidth(0);  // save 0 in localStorage to open menu automatically on onWindowResize
+      this.saveWidth(0);
     } else {
       this.setWidth(0);
     }
@@ -147,6 +141,13 @@ export class MainMenuToggleService {
   }
 
   public saveWidth(width?:number):void {
+    // Leave a minimum amount of space for space fot the content
+    let maxMenuWidth = window.innerWidth - 520;
+
+    if (width != undefined && width > maxMenuWidth) {
+      width = maxMenuWidth;
+    }
+
     this.setWidth(width);
     window.OpenProject.guardedLocalStorage(this.localStorageKey, String(this.elementWidth));
     this.setToggleTitle();
@@ -182,7 +183,7 @@ export class MainMenuToggleService {
       else {
         // There might be a time gap between `focusout` and the focussing of the activeElement, thus we need a timeout.
         setTimeout(function() {
-          if (!jQuery.contains(<Element>document.getElementById('main-menu'), document.activeElement) &&
+          if (!jQuery.contains(document.getElementById('main-menu')!, document.activeElement!) &&
               (document.getElementById('main-menu-toggle') !== document.activeElement)) {
             // activeElement is outside of main menu.
             that.closeMenu();
@@ -199,7 +200,7 @@ export class MainMenuToggleService {
   }
 
   private ensureContentVisibility():void {
-    let viewportWidth = document.documentElement.clientWidth;
+    let viewportWidth = document.documentElement!.clientWidth;
     if (this.elementWidth >= viewportWidth - 150) {
       this.elementWidth = viewportWidth - 150;
     }
@@ -215,24 +216,5 @@ export class MainMenuToggleService {
 
   private get isGlobalPage():boolean {
     return this.currentProject.id? false : true;
-  }
-
-  // Listen on changes of the window size on all global pages
-  // Expand menu automatically on desktop
-  private onWindowResize() {
-    if (!this.isGlobalPage) { // Listen only on global pages
-      return;
-    }
-    this.resizeObservable$ = fromEvent(window, 'resize')
-    this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
-      if (!this.isMobile) {
-        let localStorage = parseInt(window.OpenProject.guardedLocalStorage(this.localStorageKey) as string);
-        if (localStorage > 0 && this.elementWidth > 10) {             // Mobile menu is open and should stay open on desktop
-          this.setWidth(localStorage);
-        } else if (localStorage === 0 && this.elementWidth === 0) {   // Mobile menu is closed and should expand on desktop
-          this.saveWidth(this.defaultWidth);
-        }
-      }
-    });
   }
 }

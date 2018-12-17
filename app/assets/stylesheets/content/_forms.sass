@@ -59,6 +59,10 @@ form
   display: block
   position: relative
 
+  .toolbar-items > &
+    display: flex
+    flex-wrap: wrap
+
   &.-inline
     display: inline
 
@@ -248,6 +252,7 @@ hr
   border:         0
   // Flexbox needs that parents of children with overflow set to have a width:
   min-width: 0
+  word-break: break-word
 
 
 %form--fieldset-legend-or-section-title
@@ -295,6 +300,9 @@ fieldset.form--fieldset
   font-size:      1rem
   font-style:     italic
   line-height:    1.8
+  
+  a:hover
+    text-decoration: none
 
 .form--fieldset-control-container
   padding: 0 0.25rem
@@ -369,6 +377,10 @@ fieldset.form--fieldset
 .form--label
   @include grid-content(2)
   @extend %label-style
+  // override max-width set by including grid-content
+  max-width:    100%
+  min-width:    100px
+  flex-grow:    1
   overflow-x: hidden
   white-space: normal
   overflow-y: visible
@@ -411,9 +423,12 @@ fieldset.form--fieldset
 
 .form--field-container
   @include grid-content(10)
-  @include grid-visible-overflow
+  // override max-width set by including grid-content
+  max-width: 100%
+  overflow: hidden
   padding: 0
   display: flex
+  flex-grow: 2
   align-items: stretch
 
   &.-wrap-around
@@ -704,10 +719,13 @@ input[readonly].-clickable
 
   .form--grouping-row
     @include grid-block(10)
-    align-items: center
+    align-items: baseline
 
     .select2-container
       margin-bottom: 0
+
+    .form--field-instructions
+      margin-left: 0px
 
   .form--grouping-row + .form--grouping-row
     @include grid-offset(2)
@@ -805,6 +823,9 @@ input[readonly].-clickable
   line-height: $base-line-height
   padding:  0 2rem 0 0
 
+  &:not(.-no-ellipsis)
+    @include text-shortener
+
   & > .form--check-box-container
     display:  block
     float:    left
@@ -844,6 +865,14 @@ input[readonly].-clickable
   display: flex
   & > [data-tooltip], & > [class^="tooltip--"]
     padding-top: 0.6rem
+
+.form--field-inline-buttons-container
+  .form--field-inline-button
+    margin-right: 0
+    border-radius: 0px
+    background: transparent
+    height: 30px
+    padding: 0 10px
 
 .form--list
   display: flex

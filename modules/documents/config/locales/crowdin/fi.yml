@@ -1,0 +1,19 @@
+fi:
+  activerecord:
+    models:
+      document: "Asiakirja"
+  default_doc_category_tech: "Tekniset asiakirjat"
+  default_doc_category_user: "Käyttöohjeet"
+  enumeration_doc_categories: "Tiedostoluokat"
+  enumeration:
+    document_category:
+      documentation: Käyttöohjeet
+      specification: Määrittely
+      other: Muut
+  label_document_added: "Asiakirja lisätty"
+  label_document_new: "Uusi asiakirja"
+  label_document_plural: "Asiakirjat"
+  label_documents: "Asiakirjat"
+  permission_manage_documents: "Hallitse asiakirjoja"
+  permission_view_documents: "Näytä asiakirjat"
+  project_module_documents: "Asiakirjat"

@@ -47,7 +47,6 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
 
   /*@ngInject*/
   constructor(private states:States,
-              private wpNotificationsService:WorkPackageNotificationService,
               private schemaCacheService:SchemaCacheService,
               private apiWorkPackages:ApiWorkPackagesService) {
     super();
@@ -85,24 +84,6 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
         this.multiState.get(workPackageId).putValue(wp);
       });
     }
-  }
-
-  saveWorkPackage(workPackage:WorkPackageResource):Promise<WorkPackageResource | null> {
-    if (!(workPackage.dirty || workPackage.isNew)) {
-      return Promise.reject<any>(null);
-    }
-
-    return new Promise<WorkPackageResource | null>((resolve, reject) => {
-      return workPackage.save()
-        .then(() => {
-          this.wpNotificationsService.showSave(workPackage);
-          resolve(workPackage);
-        })
-        .catch((error:any) => {
-          this.wpNotificationsService.handleRawError(error, workPackage);
-          reject(workPackage);
-        });
-    });
   }
 
   /**
@@ -150,7 +131,6 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
     return new Promise<WorkPackageResource>((resolve, reject) => {
 
       const errorAndReject = (error:any) => {
-        this.wpNotificationsService.handleRawError(error);
         reject(error);
       };
 

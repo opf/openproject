@@ -19,7 +19,7 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
     this.$element = jQuery(this.elementRef.nativeElement);
 
     // Open by clicking the element
-    this.$element.click((evt) => {
+    this.$element.on('click', (evt:JQuery.Event) => {
       evt.preventDefault();
       evt.stopPropagation();
 
@@ -34,8 +34,22 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
     });
 
     // Open with keyboard combination as well
-    Mousetrap(this.$element[0]).bind('shift+alt+f10', (evt) => {
+    Mousetrap(this.$element[0]).bind('shift+alt+f10', (evt:any) => {
       this.open(evt);
     });
+  }
+
+  /**
+   * Positioning args for jquery-ui position.
+   *
+   * @param {Event} openerEvent
+   */
+  public positionArgs(openerEvent:JQuery.Event) {
+    return {
+      my: 'left top',
+      at: 'left bottom',
+      of: this.$element,
+      collision: 'flipfit'
+    };
   }
 }

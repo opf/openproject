@@ -55,13 +55,13 @@ describe 'work package reports', type: :feature, js: true do
     end
 
     expect(page)
-      .to have_content 'Type'
+      .to have_content 'TYPE'
     expect(page)
-      .to have_content 'Priority'
+      .to have_content 'PRIORITY'
     expect(page)
-      .to have_content 'Assignee'
+      .to have_content 'ASSIGNEE'
     expect(page)
-      .to have_content 'Accountable'
+      .to have_content 'ACCOUNTABLE'
 
     expect(page)
       .to have_selector 'thead th:nth-of-type(2)', text: type_a.statuses.first.name.upcase
@@ -85,13 +85,13 @@ describe 'work package reports', type: :feature, js: true do
     click_link 'Further analyze: Type'
 
     expect(page)
-      .to have_content 'Type'
+      .to have_content 'TYPE'
     expect(page)
-      .to have_no_content 'Priority'
+      .to have_no_content 'PRIORITY'
     expect(page)
-      .to have_no_content 'Assignee'
+      .to have_no_content 'ASSIGNEE'
     expect(page)
-      .to have_no_content 'Accountable'
+      .to have_no_content 'ACCOUNTABLE'
 
     expect(page)
       .to have_selector 'thead th:nth-of-type(2)', text: type_a.statuses.first.name.upcase

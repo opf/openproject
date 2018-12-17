@@ -41,6 +41,7 @@ table
       &.name
         font-weight: bold
       &.description, &.url
+        @include text-shortener
         display: block
         font-size: 0.9em
 
@@ -57,7 +58,11 @@ table
     .hours-dec
       font-size: 0.9em
 
-  &.workflow-table.generic-table
+#workflow_form
+  .generic-table--results-container
+    position: relative
+
+  .workflow-table.generic-table
     // Let space for the turned header
     margin-left: 30px
     width: calc(100% - 30px)

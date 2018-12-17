@@ -170,6 +170,11 @@ de:
       no_results_content_text: Statusbericht hinzufügen
   statuses:
     edit:
+      status_readonly_html: |
+        Wählen Sie diese Option um Bearbeitung von Arbeitspaketen in diesem Status zu sperren.
+        Außer dem Status selbst können dann keine Attribute verändert werden.
+        <br/>
+        <strong>Hinweis</strong>: Vererbte Attribute (z.B. von Kinderelementen oder Relationen) werden auch auf Arbeitspakete in diesen Status angewandt.
       status_color_text: 'Klicken zum Zuweisen einer Farbe für diesen Status. Diese
         wird für die Hervorhebung von Arbeitspaketen in Tabellen verwendet.
 
@@ -187,8 +192,9 @@ de:
       projects: Projekte
       enabled_projects: Aktivierte Projekte
       add_group: Attributgruppe hinzufügen
-      add_subelements: Kindelemente-Gruppe hinzufügen
-      edit_query: Eingebettete Abfrage bearbeiten
+      add_table: Tabelle mit zugehörigen Arbeitspaketen hinzufügen
+      edit_query: Tabelle bearbeiten
+      query_group_placeholder: Benennen Sie die Tabelle
       reset: Auf Standardwerte zurücksetzen
       type_color_text: 'Klicken zum Zuweisen einer Farbe für diesen Typ. Diese wird
         für die Hervorhebung von Arbeitspaketen in Tabellen und Gantt-Diagrammen verwendet.
@@ -358,6 +364,7 @@ de:
         to: Zugehöriges Arbeitspaket
       status:
         is_closed: Arbeitspaket geschlossen
+        is_readonly: Arbeitspakete schreibgeschützt
       journal:
         notes: Kommentare
       member:
@@ -1200,6 +1207,7 @@ de:
   label_auth_source_plural: Authentifizierungs-Arten
   label_authentication: Authentifizierung
   label_available_project_work_package_categories: Verfügbare Arbeitspaket-Kategorien
+  label_available_project_work_package_types: Verfügbare Arbeitspaket-Typen
   label_available_project_boards: Verfügbare Foren
   label_available_project_versions: Verfügbare Versionen
   label_available_project_repositories: Verfügbare Projektarchive
@@ -1370,6 +1378,7 @@ de:
   label_journal_diff: Beschreibungsvergleich
   label_language: Sprache
   label_jump_to_a_project: Zu einem Projekt springen...
+  label_keyword_plural: Schlüsselwörter
   label_language_based: Sprachabhängig
   label_last_activity: Letzte Aktivität
   label_last_change_on: Letzte Änderung am
@@ -1908,7 +1917,7 @@ de:
       Projekt-Management und Zusammenarbeit in Teams mit OpenProject.
     text_show_again: Sie können dieses Video über das Hilfe-Menü erneut starten
     welcome: Willkommen bei OpenProject
-    select_language: Please select your language
+    select_language: Bitte wählen Sie Ihre Sprache
   permission_add_work_package_notes: Kommentare hinzufügen
   permission_add_work_packages: Arbeitspakete hinzufügen
   permission_add_messages: Forenbeiträge hinzufügen
@@ -2160,7 +2169,7 @@ de:
   setting_email_delivery_method: E-Mail Zustellungsoption
   setting_sendmail_location: Systempfad zu sendmail
   setting_smtp_enable_starttls_auto: Automatisch STARTTLS verwenden, falls vorhanden
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: Benutzen Sie eine SSL-Verbindung
   setting_smtp_address: SMTP-Server
   setting_smtp_port: SMTP-Port
   setting_smtp_authentication: SMTP-Authentifizierung

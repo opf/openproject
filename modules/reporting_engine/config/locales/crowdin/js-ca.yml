@@ -1,0 +1,5 @@
+ca:
+  js:
+    reporting_engine:
+      label_remove: "Esborra"
+      label_response_error: "Hi ha un error manipulant la consulta."

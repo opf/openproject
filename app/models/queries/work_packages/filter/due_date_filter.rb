@@ -31,8 +31,4 @@ class Queries::WorkPackages::Filter::DueDateFilter < Queries::WorkPackages::Filt
   def type
     :date
   end
-
-  def order
-    12
-  end
 end

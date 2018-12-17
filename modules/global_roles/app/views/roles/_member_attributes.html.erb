@@ -1,0 +1,31 @@
+<%#-- copyright
+OpenProject Global Roles Plugin
+
+Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+++#%>
+
+<div class="form--field">
+  <%= f.check_box :assignable %>
+</div>
+<% if role.new_record? && roles.any? %>
+  <div class="form--field">
+    <%= styled_label_tag :copy_workflow_from, l(:label_copy_workflow_from) %>
+    <div class="form--field-container">
+      <%= styled_select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@roles.select{|r| !r.is_a?(GlobalRole)}, :id, :name), container_class: '-slim') %>
+    </div>
+  </div>
+<% end %>

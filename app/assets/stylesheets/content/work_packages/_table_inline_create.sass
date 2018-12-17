@@ -11,14 +11,21 @@
   a
     width: 100%
     padding: 0.5rem 0
-    display: block
+    display: inline-block
     line-height: 1.6
+
+  a.wp-inline-create--split-link
+    width: auto
+
+    &:last-child
+      margin-left: 1rem
 
     &:hover
       background: #e4f7fb
 
 
-.wp-inline-create--add-link
+.wp-inline-create--add-link,
+.wp-inline-create--reference-link
   font-weight: bold
 
   .icon::before

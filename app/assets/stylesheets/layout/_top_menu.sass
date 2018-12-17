@@ -29,6 +29,13 @@
 $hamburger-right: -3px
 $hamburger-width: 50px
 
+%top-menu-hover-styles
+  @include varprop(background, header-item-bg-hover-color)
+  @include varprop(color, header-item-font-hover-color)
+  @include varprop(border-bottom-width, header-border-bottom-width)
+  @include varprop(border-bottom-color, header-border-bottom-color)
+  border-bottom-style: solid
+
 #logo
   width: 230px
   @include varprop(height, header-height)
@@ -46,16 +53,11 @@ $hamburger-width: 50px
 #top-menu
   @include varprop(background-color, header-bg-color)
   height: $header-height
-  width: 100%
   padding: 0
   z-index: 22
-  position: relative
   border-bottom-style: solid
   @include varprop(border-bottom-width, header-border-bottom-width)
   @include varprop(border-bottom-color, header-border-bottom-color)
-
-  %absolute-layout-mode &
-    position: absolute
 
   ::-webkit-input-placeholder
     color: $header-search-field-font-color
@@ -87,8 +89,7 @@ $hamburger-width: 50px
       padding: 0 15px
 
     > a:hover
-      @include varprop(background, header-item-bg-hover-color)
-      @include varprop(color, header-item-font-hover-color)
+      @extend %top-menu-hover-styles
 
     > ul
       min-width: 270px
@@ -96,6 +97,12 @@ $hamburger-width: 50px
       border: 1px solid $header-drop-down-border-color
       border-top: 0
       background-color: $header-drop-down-bg-color
+      max-height: calc(100vh - #{$header-height})
+      overflow-y: auto
+      overflow-x: hidden
+
+      @include styled-scroll-bar-vertical
+
       li
         float: none
     > ul.drop-down--projects
@@ -191,8 +198,7 @@ $hamburger-width: 50px
   .top-menu-search.-collapsed &
     display: block
     &:hover
-      @include varprop(background, header-item-bg-hover-color)
-      @include varprop(color, header-item-font-hover-color)
+      @extend %top-menu-hover-styles
 
 input.top-menu-search--input
   margin: 0
@@ -218,7 +224,6 @@ input.top-menu-search--input
     float: right
 
 #header
-  min-width: 840px
   .chzn-container .chzn-results .highlighted
     background-color:  #24b3e7
 
@@ -255,6 +260,9 @@ input.top-menu-search--input
       position: absolute
       right: 15px
       top: calc(50% - 10px / 2)
+
+#top-menu #account-nav-left .menu-drop-down-container
+  overflow: hidden
 
 #account-nav-right
   .drop-down.last-child
@@ -311,8 +319,7 @@ input.top-menu-search--input
     display: none
     
   &:hover
-    @include varprop(background, header-item-bg-hover-color)
-    @include varprop(color, header-item-font-hover-color)
+    @extend %top-menu-hover-styles
 
 @media only screen and (max-width: 18.75rem)
   #logo

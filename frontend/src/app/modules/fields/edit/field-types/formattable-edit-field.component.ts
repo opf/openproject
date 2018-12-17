@@ -25,49 +25,58 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ViewChild} from "@angular/core";
-import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
-import {FormattableEditField} from "core-app/modules/fields/edit/field-types/formattable-edit-field";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {ICKEditorContext, ICKEditorInstance} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
+import {ICKEditorContext, ICKEditorInstance} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 
-@Component({
-  template: `
+export const formattableFieldTemplate = `
     <div class="textarea-wrapper">
       <div class="op-ckeditor--wrapper op-ckeditor-element">
-        <op-ckeditor [context]="context"
-                     [content]="field.rawValue || ''"
+        <op-ckeditor [context]="ckEditorContext"
+                     [content]="rawValue"
                      (onContentChange)="onContentChange($event)"
+                     (onInitializationFailed)="initializationError = true"
                      (onInitialized)="onCkeditorSetup($event)"
                      [ckEditorType]="editorType">
         </op-ckeditor>
       </div>
-      <edit-field-controls *ngIf="!handler.inEditMode"
-                           [fieldController]="handler"
-                           (onSave)="handleUserSubmit()"
+      <edit-field-controls *ngIf="!(handler.inEditMode || initializationError)"
+                           [fieldController]="field"
+                           (onSave)="handler.handleUserSubmit()"
                            (onCancel)="handler.handleUserCancel()"
-                           [saveTitle]="field.text.save"
-                           [cancelTitle]="field.text.cancel">
+                           [saveTitle]="text.save"
+                           [cancelTitle]="text.cancel">
       </edit-field-controls>
     </div>
-  `
+`
+
+@Component({
+  template: formattableFieldTemplate
 })
-export class FormattableEditFieldComponent extends EditFieldComponent {
-  public field:FormattableEditField;
-  private readonly pathHelper:PathHelperService = this.injector.get(PathHelperService);
-  private readonly Notifications = this.injector.get(NotificationsService);
+export class FormattableEditFieldComponent extends EditFieldComponent implements OnInit {
+  readonly pathHelper:PathHelperService = this.$injector.get(PathHelperService);
+
+  public readonly field = this;
+
+  // Detect when inner component could not be initalized
+  public initializationError = false;
 
   @ViewChild(OpCkeditorComponent) instance:OpCkeditorComponent;
 
-  public initialize() {
-    super.initialize();
-    this.field.instance = this;
-  }
+  // Values used in template
+  public isPreview:boolean = false;
+  public previewHtml:string = '';
+  public text = {
+    attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
+    save: this.I18n.t('js.inplace.button_save', {attribute: this.schema.name}),
+    cancel: this.I18n.t('js.inplace.button_cancel', {attribute: this.schema.name})
+  };
 
-  public onContentChange(value:string) {
-    this.field.rawValue = value;
+  ngOnInit() {
+    this.handler.registerOnSubmit(() => this.getCurrentValue());
   }
 
   public onCkeditorSetup(editor:ICKEditorInstance) {
@@ -76,21 +85,28 @@ export class FormattableEditFieldComponent extends EditFieldComponent {
     }
   }
 
-  public getCurrentValue() {
-    return this.instance.getTransformedContent();
+  public getCurrentValue():Promise<void> {
+    return this.instance
+      .getTransformedContent()
+      .then((val) => {
+        this.rawValue = val;
+      });
+  }
+
+  public onContentChange(value:string) {
+    this.rawValue = value;
   }
 
   public handleUserSubmit() {
     this.getCurrentValue()
-      .then((value:string) => {
-        this.field.rawValue = value;
+      .then(() => {
         this.handler.handleUserSubmit();
       });
 
     return false;
   }
 
-  public get context():ICKEditorContext {
+  public get ckEditorContext():ICKEditorContext {
     return {
       resource: this.resource,
       macros: 'none' as 'none',
@@ -99,18 +115,44 @@ export class FormattableEditFieldComponent extends EditFieldComponent {
   }
 
   public get editorType() {
-    if (this.field.name === 'description') {
+    if (this.name === 'description') {
       return 'full';
     } else {
       return 'constrained';
     }
   }
 
-  public get previewContext() {
+  private get previewContext() {
     if (this.resource.isNew && this.resource.project) {
       return this.resource.project.href;
     } else if (!this.resource.isNew) {
       return this.pathHelper.api.v3.work_packages.id(this.resource.id).path;
     }
+  }
+
+  public reset() {
+    if (this.instance) {
+      this.instance.content = this.rawValue;
+    }
+  }
+
+  public get rawValue() {
+    if (this.value && this.value.raw) {
+      return this.value.raw;
+    } else {
+      return '';
+    }
+  }
+
+  public set rawValue(val:string) {
+    this.value = {raw: val};
+  }
+
+  public isEmpty():boolean {
+    return !(this.value && this.value.raw);
+  }
+
+  public get isFormattable() {
+    return true;
   }
 }

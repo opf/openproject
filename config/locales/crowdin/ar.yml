@@ -166,6 +166,11 @@ ar:
       no_results_content_text: إضافة تقرير حالة
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -182,8 +187,9 @@ ar:
       projects: المشاريع
       enabled_projects: Enabled projects
       add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -346,6 +352,7 @@ ar:
         to: مجموعة عمل ذات صلة
       status:
         is_closed: مجموعة عمل مغلقة
+        is_readonly: Work package read-only
       journal:
         notes: ملاحظات
       member:
@@ -1227,6 +1234,7 @@ ar:
   label_auth_source_plural: أوضاع المصادقة
   label_authentication: المصادقة
   label_available_project_work_package_categories: فئات مجموعة العمل المتاحة
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: الجوانب المتاحة
   label_available_project_versions: الإصدارات المتوفرة
   label_available_project_repositories: مستودعات البيانات المتوفرة
@@ -1398,6 +1406,7 @@ ar:
   label_journal_diff: مقارنة التوصيف
   label_language: اللغة
   label_jump_to_a_project: الانتقال بسرعة إلى مشروع...
+  label_keyword_plural: Keywords
   label_language_based: استناداً إلى لغة المستخدم
   label_last_activity: آخر نشاط
   label_last_change_on: آخر تغيير في

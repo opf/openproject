@@ -1,0 +1,64 @@
+<%#-- copyright
+OpenProject Global Roles Plugin
+
+Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+++#%>
+
+<%= render :partial => 'shared/global_roles_header' %>
+
+<% roles ||= nil %>
+
+<%= error_messages_for :role %>
+<div class="form--field">
+  <%= f.text_field :name, required: true, container_class: '-slim' %>
+</div>
+<div class="form--field">
+  <% if role.new_record? %>
+    <%= styled_label_tag :global_role, l(:label_global_role) %>
+    <div class="form--field-container">
+      <%= styled_check_box_tag("global_role", "1", role.is_a?(GlobalRole))%>
+    </div>
+  <% else %>
+    <%= styled_label_tag :unchangeable, "#{l(:label_role_type)} #{l(:label_not_changeable)}" %>
+    <div class="form--field-container">
+      <%= (role.is_a?(GlobalRole) ? l(:label_global_role) : l(:label_member_role))%>
+    </div>
+  <% end %>
+</div>
+
+<% if role.new_record? || role.is_a?(GlobalRole) %>
+  <div id="global_attributes" style="display:none">
+    <%= render partial: "global_attributes", locals: { f: f, role: role, roles: (roles.present? ? roles.select {|r| r.is_a?(GlobalRole)} : nil) }%>
+  </div>
+<% end %>
+
+<% if role.new_record? || !role.is_a?(GlobalRole) %>
+  <div id="member_attributes">
+    <%= render partial: "member_attributes", locals: { f: f, role: role, roles: (roles.present? ? roles.select {|r| !r.is_a?(GlobalRole)} : nil)}%>
+  </div>
+<% end %>
+
+<% if role.new_record? || role.is_a?(GlobalRole) %>
+  <div id="global_permissions" style=<%= role.new_record? && !role.is_a?(GlobalRole) ? "display:none" : ""%> >
+    <%= render partial: "permissions", locals: {permissions: global_permissions, role: role, globalRole: "true" }%>
+  </div>
+<% end %>
+<% if role.new_record? || !role.is_a?(GlobalRole) %>
+  <div id="member_permissions" style=<%= role.new_record? && role.is_a?(GlobalRole) ? "display:none" : ""%>>
+    <%= render partial: "permissions", locals: {permissions: member_permissions, role: role, globalRole: "false" }%>
+  </div>
+<% end %>

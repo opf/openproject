@@ -32,6 +32,7 @@
 
 .wp-table--row
   cursor: pointer
+  height: $table-timeline--row-height
 
   // Hide collapsed rows (hierarchies, relations)
   &.-collapsed
@@ -39,13 +40,13 @@
 
 .work-package-table--container table.generic-table tbody td
   padding-left: 0
+  padding-top: 0
+  padding-bottom: 0
+  // To display the input field border correctly (input height is 24px)
   line-height: 24px
-  height: 41px
 
 // Styles for inline editable attributes
 .work-package-table--container td.-editable
-  padding-top: 0
-  padding-bottom: 0
   display: table-cell
   width: auto
 
@@ -114,11 +115,18 @@ html:not(.-browser-mobile)
   // the user from using click (to select) or double-click (to open full screen)
   // on the cell. Hence we disable events on this element but have to reenable them
   // for the inplace-edit fields.
+  // The ID field is an exception because there the link needs to capture the pointer-events not the span.
+  // Otherwise there would be a small area where nothing happens on click.
   pointer-events: none
 
   .inplace-edit
     display: initial
     pointer-events: all
+
+  &.id .inplace-edit
+    pointer-events: none
+    a
+      pointer-events: all
 
 // Some padding for the inner cells of the display fields
 .wp-table--cell-span

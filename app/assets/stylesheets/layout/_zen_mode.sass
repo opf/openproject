@@ -4,19 +4,14 @@ body.zen-mode
     display: none
   #content-wrapper
     margin-left: 0px
+    height: 100vh
+    width: 100%
 
-  &.controller-work_packages
-    &.action-index,
-    &.action-show,
-    &.full-create
-      #main
-        top: 0px
-        height: 100%
-
-        #content-wrapper
-          width: 100%
-          margin-left: 0
-
+  #main
+    top: 0px
+    height: 100%
+    grid-template-columns: auto
+    
   &.controller-wiki #content
     margin: 0 auto
 

@@ -193,7 +193,11 @@ export function calculateDaySpan(visibleWorkPackages:RenderedRow[],
       return;
     }
     const workPackageState:InputState<WorkPackageResource> = loadedWorkPackages.get(wpId);
-    const workPackage:WorkPackageResource = workPackageState.value!;
+    const workPackage:WorkPackageResource|undefined = workPackageState.value;
+
+    if (!workPackage) {
+      return;
+    }
 
     const start = workPackage.startDate ? workPackage.startDate : workPackage.date;
     if (start && moment(start).isBefore(earliest)) {

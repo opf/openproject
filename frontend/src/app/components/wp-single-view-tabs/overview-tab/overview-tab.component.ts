@@ -27,7 +27,7 @@
 // ++
 
 import {Component, Inject, OnDestroy} from '@angular/core';
-import {Transition} from '@uirouter/core';
+import {StateService, Transition} from '@uirouter/core';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -44,10 +44,10 @@ export class WorkPackageOverviewTabComponent implements OnDestroy {
   public tabName = this.I18n.t('js.label_latest_activity');
 
   public constructor(readonly I18n:I18nService,
-                     readonly $transition:Transition,
+                     readonly $state:StateService,
                      readonly wpCacheService:WorkPackageCacheService) {
 
-    this.workPackageId = this.$transition.params('to').workPackageId;
+    this.workPackageId = this.$state.params.workPackageId;
     wpCacheService.loadWorkPackage(this.workPackageId)
       .values$()
       .pipe(

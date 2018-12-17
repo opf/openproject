@@ -1,0 +1,144 @@
+<%#-- copyright
+OpenProject PDF Export Plugin
+
+Copyright (C)2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License version 3.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++#%>
+
+<% html_title l(:label_administration), l(:label_export_card_configuration_plural) %>
+
+<h2><%=l(:label_export_card_configuration_plural)%></h2>
+
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Type.human_attribute_name(:name) %>
+                  </span>
+                </div>
+              </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= l(:export_config_page_size) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= l(:export_config_per_page) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= l(:export_config_orientation) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Type.human_attribute_name(:active) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th><div class="generic-table--empty-header"></div></th>
+      </tr>
+      </thead>
+      <tbody>
+        <% for config in @configs %>
+          <tr>
+            <td ><%= link_to config.name, edit_pdf_export_export_card_configuration_path(config) %></td>
+            <td><%= config.page_size %></td>
+            <td><%= config.per_page %></td>
+            <td><%= config.orientation %></td>
+            <td><%= config.active %></td>
+            <td class="buttons">
+              <% if config.can_delete? %>
+                <%= link_to pdf_export_export_card_configuration_path(config),
+                            :method => :delete,
+                            :confirm => t(:text_are_you_sure),
+                            :class => 'icon-context icon-delete',
+                            :title => t(:button_delete) do %>
+                  <span class="hidden-for-sighted"><%=h config.name %></span>
+                <% end %>
+              <% end %>
+              <% if config.can_activate? %>
+                <%= link_to activate_pdf_export_export_card_configuration_path(config),
+                            :method => :post,
+                            :class => 'icon-context icon-unlocked',
+                            :title => t(:label_export_card_activate) do %>
+                  <%= t(:label_export_card_activate) %>
+                  <span class="hidden-for-sighted"><%=h config.name %></span>
+                <% end %>
+              <% end %>
+              <% if config.can_deactivate? %>
+                <%= link_to deactivate_pdf_export_export_card_configuration_path(config),
+                            :method => :post,
+                            :class => 'icon-context icon-locked',
+                            :title => t(:label_export_card_deactivate) do %>
+                  <%= t(:label_export_card_deactivate) %>
+                  <span class="hidden-for-sighted"><%=h config.name %></span>
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+<div class="generic-table--action-buttons">
+  <%= link_to({action: 'new'},
+        { class: 'button -alt-highlight',
+          aria: {label: t(:label_export_card_configuration_new)},
+          title: t(:label_export_card_configuration_new)}) do %>
+    <%= op_icon('button--icon icon-add') %>
+    <span class="button--text"><%= t(:label_export_card_configuration) %></span>
+  <% end %>
+</div>

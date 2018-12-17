@@ -35,6 +35,22 @@ import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resou
 export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilterInstanceResource[]> {
 
   public current:QueryFilterInstanceResource[] = [];
+  public hidden:string[] = [
+    'id',
+    'parent',
+    'datesInterval',
+    'precedes',
+    'follows',
+    'relates',
+    'duplicates',
+    'duplicated',
+    'blocks',
+    'blocked',
+    'partof',
+    'includes',
+    'requires',
+    'required',
+  ];
 
   constructor(filters:QueryFilterInstanceResource[], public availableSchemas:QueryFilterInstanceSchemaResource[]) {
     super();
@@ -66,25 +82,31 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
   }
 
   public get remainingFilters() {
-    var activeFilterHrefs = this.currentFilters.map(filter => filter.href);
+    let activeFilterHrefs = this.currentFilters.map(filter => filter.href);
 
     return _.remove(this.availableFilters, filter => activeFilterHrefs.indexOf(filter.href) === -1);
+  }
+
+  public get remainingVisibleFilters() {
+    return this.remainingFilters
+               .filter((filter) => this.hidden.indexOf(filter.id) === -1);
   }
 
   public isComplete():boolean {
     return _.every(this.current, filter => filter.isCompletelyDefined());
   }
 
+  public get currentVisibleFilters() {
+    return this.currentFilters
+               .filter((filter) => this.hidden.indexOf(filter.id) === -1);
+  }
+
   private get currentFilters() {
     return this.current.map((filter:QueryFilterInstanceResource) => filter.filter);
   }
 
-  private get availableFilters() {
-    let availableFilters = this.availableSchemas
-                               .map(schema => (schema.filter.allowedValues as QueryFilterResource[])[0]);
-
-    // We do not use the filters id and parent as of now as we do not have adequate
-    // means to select the values.
-    return _.filter(availableFilters, filter => filter.id !== 'id' && filter.id !== 'parent');
+  public get availableFilters() {
+    return this.availableSchemas
+      .map(schema => (schema.filter.allowedValues as QueryFilterResource[])[0]);
   }
 }

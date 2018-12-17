@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::StartDateFilter, type: :model do
   it_behaves_like 'basic query filter' do
-    let(:order) { 11 }
     let(:type) { :date }
     let(:class_key) { :start_date }
 

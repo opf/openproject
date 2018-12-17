@@ -30,8 +30,22 @@ require 'spec_helper'
 
 RSpec.feature 'Work package navigation', js: true, selenium: true do
   let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { FactoryBot.create(:project, name: 'Some project') }
   let(:work_package) { FactoryBot.build(:work_package, project: project) }
+  let(:global_html_title) { ::Components::HtmlTitle.new }
+  let(:project_html_title) { ::Components::HtmlTitle.new project }
+  let(:wp_title_segment) do
+    "#{work_package.type.name}: #{work_package.subject} (##{work_package.id})"
+  end
+
+  let!(:query) do
+    query              = FactoryBot.build(:query, user: user, project: project)
+    query.column_names = %w(id subject)
+    query.name = "My fancy query"
+
+    query.save!
+    query
+  end
 
   before do
     login_as(user)
@@ -45,6 +59,7 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     global_work_packages.visit!
 
     global_work_packages.expect_work_package_listed(work_package)
+    global_html_title.expect_first_segment 'All open'
 
     # open details pane for work package
 
@@ -52,12 +67,14 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
 
     split_work_package.expect_subject
     split_work_package.expect_current_path
+    global_html_title.expect_first_segment wp_title_segment
 
     # Go to full screen by double click
     full_work_package = global_work_packages.open_full_screen_by_doubleclick(work_package)
 
     full_work_package.expect_subject
     full_work_package.expect_current_path
+    global_html_title.expect_first_segment wp_title_segment
 
     # deep link work package details pane
 
@@ -77,6 +94,18 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     project_work_packages.visit!
 
     project_work_packages.expect_work_package_listed(work_package)
+    project_html_title.expect_first_segment 'All open'
+
+
+    # Visit query with project wp
+    project_work_packages.visit_query query
+    project_work_packages.expect_work_package_listed(work_package)
+    project_html_title.expect_first_segment 'My fancy query'
+
+    # Go back to work packages without query
+    page.execute_script('window.history.back()')
+    project_work_packages.expect_work_package_listed(work_package)
+    project_html_title.expect_first_segment 'All open'
 
     # open project work package details pane
 
@@ -84,17 +113,20 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
 
     split_project_work_package.expect_subject
     split_project_work_package.expect_current_path
+    project_html_title.expect_first_segment wp_title_segment
 
     # open work package full screen by button
     full_work_package = split_project_work_package.switch_to_fullscreen
 
     full_work_package.expect_subject
     expect(current_path).to eq project_work_package_path(project, work_package, 'activity')
+    project_html_title.expect_first_segment wp_title_segment
 
     # Back to table using the button
     find('.work-packages-list-view-button').click
     global_work_packages.expect_work_package_listed(work_package)
     expect(current_path).to eq project_work_packages_path(project)
+    project_html_title.expect_first_segment 'All open'
 
     # Link to full screen from index
     global_work_packages.open_full_screen_by_link(work_package)

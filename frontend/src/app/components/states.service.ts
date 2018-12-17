@@ -1,7 +1,5 @@
 import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
-import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
 import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
@@ -13,6 +11,7 @@ import {QueryColumn} from './wp-query/query-column';
 import {WikiPageResource} from 'core-app/modules/hal/resources/wiki-page-resource';
 import {PostResource} from 'core-app/modules/hal/resources/post-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 
 export class States extends StatesGroup {
   [key:string]:any;
@@ -37,11 +36,14 @@ export class States extends StatesGroup {
   /* /api/v3/types */
   types = multiInput<TypeResource>();
 
+  /* /api/v3/types */
+  statuses = multiInput<StatusResource>();
+
   /* /api/v3/users */
   users = multiInput<UserResource>();
 
   // Work Package query states
-  query = new QueryStates();
+  queries = new QueryAvailableDataStates();
 
   // Current focused work package (e.g, row preselected for details button)
   focusedWorkPackage:InputState<WPFocusState> = input<WPFocusState>();
@@ -55,18 +57,6 @@ export class States extends StatesGroup {
   public add(name:string, state:MultiInputState<HalResource>) {
     this[name] = state;
   }
-}
-
-export class QueryStates {
-
-  // the query associated with the table
-  resource = input<QueryResource>();
-
-  // the query form associated with the table
-  form = input<QueryFormResource>();
-
-  // Keep available data
-  available = new QueryAvailableDataStates();
 }
 
 export class QueryAvailableDataStates {

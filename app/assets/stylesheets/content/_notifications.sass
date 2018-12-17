@@ -193,11 +193,15 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-info
     color: $nm-color-info-icon
 
-.notification-box--wrapper
+.notification-box--wrapper,
+.flash, #errorExplanation
   position: absolute
-  width: $nm-notification-width
-  margin-left: -($nm-notification-width / 2)
-  left: 50%
+  max-width: $nm-notification-width
+  margin: 0 auto
+  left: 10%
+  right: 10%
+
+.notification-box--wrapper
   z-index: 901 // Higher than loading indicator!
 
   .notification-box--casing
@@ -278,13 +282,8 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-warning
     @extend %warning-placeholder
 
-
 // Use same styles for flash messages
 .flash, #errorExplanation
-  position: absolute
-  width: $nm-notification-width
-  margin-left: -($nm-notification-width / 2)
-  left: 50%
   border-radius: $nm-border-radius
   border-style: solid
   border-width: rem-calc(1)
@@ -377,10 +376,3 @@ a.notification-box--target-link
 #errorExplanation,
 .notification-box--wrapper
   top: 4.25rem
-
-  %absolute-layout-mode &
-    top: rem-calc(12px)
-
-.flash + .notification-box--wrapper
-  %absolute-layout-mode &
-    top: 3.85rem

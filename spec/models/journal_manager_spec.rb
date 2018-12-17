@@ -101,7 +101,7 @@ describe JournalManager, type: :model do
     end
   end
 
-  describe 'self.#update_user_references' do
+  describe '.update_user_references' do
     let!(:work_package) { FactoryBot.create :work_package }
     let!(:doomed_user) { work_package.author }
     let!(:data1) do
@@ -144,6 +144,20 @@ describe JournalManager, type: :model do
 
     it "should not mark an unrelated journal's user as deleted" do
       expect(some_other_journal.reload.user.is_a?(DeletedUser)).to be_falsey
+    end
+  end
+
+  describe '.changes_on_association' do
+    context 'with one of the values having a newline' do
+      let(:current) { { id: 2, value: 'some value', custom_field_id: 123 }.with_indifferent_access }
+      let(:predecessor) { { id: 1, value: "some value\n", custom_field_id: 123 }.with_indifferent_access }
+
+      it 'does not identify a change' do
+        changes = JournalManager.changes_on_association([current], [predecessor], 'custom_fields', :custom_field_id, :value)
+
+        expect(changes)
+          .to be_empty
+      end
     end
   end
 end

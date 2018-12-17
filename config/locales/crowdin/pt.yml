@@ -168,6 +168,11 @@ pt:
       no_results_content_text: Adicionar um relatório de estado
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Clique para atribuir ou alterar a cor deste status.
         É mostrada no botão de status e pode ser usada para destacar os pacotes de trabalho na tabela.
@@ -184,8 +189,9 @@ pt:
       projects: Projetos
       enabled_projects: Projetos ativados
       add_group: Adicionar grupo de atributos
-      add_subelements: Adicionar grupo de subelementos
-      edit_query: Editar consulta incorporada
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Repor predefinições
       type_color_text: |
         Clique para atribuir ou alterar a cor deste tipo. A cor selecionada distingue pacotes de trabalho
@@ -356,6 +362,7 @@ pt:
         to: Tarefas Relacionadas
       status:
         is_closed: Tarefa fechada
+        is_readonly: Work package read-only
       journal:
         notes: Notas
       member:
@@ -1182,6 +1189,7 @@ pt:
   label_authentication: Autenticação
   label_available_project_work_package_categories: Categorias de pacotes de trabalho
     disponíveis
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Quadros disponíveis
   label_available_project_versions: Versões disponíveis
   label_available_project_repositories: Repositórios disponíveis
@@ -1352,6 +1360,7 @@ pt:
   label_journal_diff: Comparação de descrição
   label_language: Idioma
   label_jump_to_a_project: Saltar para um projeto...
+  label_keyword_plural: Keywords
   label_language_based: Com base no idioma do utilizador
   label_last_activity: Última atividade
   label_last_change_on: Última alteração

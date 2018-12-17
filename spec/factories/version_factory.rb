@@ -29,7 +29,7 @@
 FactoryBot.define do
   factory :version do
     sequence(:name) do |i| "Version #{i}" end
-    effective_date Date.today + 14.days
+    effective_date { Date.today + 14.days }
     created_on do Time.now end
     updated_on do Time.now end
     project

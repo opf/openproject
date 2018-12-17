@@ -170,6 +170,11 @@ es:
       no_results_content_text: Añadir un informe de estado
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Haga clic para asignar o cambiar el color de este estado.
         Se muestra en el botón de estado y puede usarse para resaltar paquetes de trabajo en la tabla.
@@ -186,8 +191,9 @@ es:
       projects: Proyectos
       enabled_projects: Proyectos habilitados
       add_group: Agregar grupo de atributos
-      add_subelements: Agregar grupo de subelementos
-      edit_query: Editar consulta insertada
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Restablecer valores predeterminados
       type_color_text: 'Haga clic para asignar o cambiar el color de este tipo. El
         color seleccionado permite distinguir los paquetes de trabajo en los diagramas
@@ -355,13 +361,14 @@ es:
         expires_at: Caduca el
         subscriber: Suscriptor
         encoded_token: Token de apoyo de versión corporativa
-        active_user_count_restriction: Usuarios más activos
+        active_user_count_restriction: Máximo de usuarios activos
       relation:
         delay: Retraso
         from: Paquete de trabajo
         to: Paquete de trabajo relacionado
       status:
         is_closed: Paquete de trabajo cerrado
+        is_readonly: Work package read-only
       journal:
         notes: Notas
       member:
@@ -726,7 +733,7 @@ es:
   button_create: Crear
   button_create_and_continue: Crear y continuar
   button_delete: Borrar
-  button_decline: Rechazar
+  button_decline: Declinar
   button_delete_watcher: Eliminar observador %{name}
   button_download: Descargar
   button_duplicate: Duplicar
@@ -770,22 +777,24 @@ es:
   button_configure_menu_entry: Configurar el menú
   button_delete_menu_entry: Eliminar el elemento del menú
   consent:
-    checkbox_label: He tomado nota y doy mi consentimiento a lo anterior.
-    failure_message: Consento falido, no puede coninuar.
+    checkbox_label: He notado y doy mi consentimiento a lo anterior.
+    failure_message: Consentimiento fallido, no puede continuar.
     title: Consentimiento del usuario
-    decline_warning_message: Han disminuido dar su consentimmiento y han sido registrados.
-    user_has_consented: Usuario haya consentido en su estado de cuento configurada
+    decline_warning_message: Usted ha declinado consentir y ha sido desconectado.
+    user_has_consented: El usuario ha dado el consentimiento a su declaración configurada
       en el momento dado.
     not_yet_consented: El usuario no ha validado todavía, se le solicitará en el próximo
       login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Por favor, contacte con su administrador para eliminar
+    contact_mail_instructions: Defina la dirección de correo a la que los usuarios
+      pueden acceder a un controlador de datos a fin de realizar cambios de datos
+      o solicitudes de eliminación.
+    contact_your_administrator: Por favor, contacte su administrador si desea eliminar
       su cuenta.
     contact_this_mail_address: Por favor, contacte con %{mail_address} para eliminar
       su cuenta.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
+    text_update_consent_time: Marque esta casilla para estimular a los usuarios a
+      dar, nuevamente, su consentimiento. Habilite cuando haya cambiado el aspecto
+      legal de la información relativa al mencionado consentimiento.
     update_consent_last_time: 'Última actualización de consentimiento: %{update_time}'
   copy_project:
     started: Comenzó la copia del proyecto '%{source_project_name}' a "%{target_project_name}".
@@ -1014,10 +1023,10 @@ es:
     de que las cookies están habilitadas, ya que sin ellas esta aplicación no funcionará
     correctamente.
   error_custom_option_not_found: Esta opción no existe.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_dependent_work_package: 'Error en el paquete de trabajo dependiente #%{related_id}
+    %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: Su cuenta no puede ser activada (se alcanzó
+    el límite del usuario). Por favor, contacte su administrador para obtener acceso.
   error_failed_to_delete_entry: No se puede eliminar esta entrada.
   error_invalid_selected_value: El valor seleccionado no es válido.
   error_invalid_group_by: 'No se puede agrupar por: %{value}'
@@ -1082,7 +1091,7 @@ es:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF con descripciones
-      pdf_with_descriptions_and_attachments: PDF con Descripción y archivos adjuntos
+      pdf_with_descriptions_and_attachments: PDF con descripción y archivos adjuntos
       pdf_with_attachments: PDF con adjuntos
   extraction:
     available:
@@ -1197,6 +1206,7 @@ es:
   label_authentication: Autentificación
   label_available_project_work_package_categories: Categorias de paquetes de trabjo
     disponibles
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Tablones disponibles
   label_available_project_versions: Versiones disponibles
   label_available_project_repositories: Repositorios disponibles
@@ -1304,7 +1314,7 @@ es:
   label_enumeration_value: Valor de enumeración
   label_enumerations: Enumeraciones
   label_enterprise: Empresa
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} usuarios activos que han reservado"
   label_enterprise_edition: Versión corporativa
   label_environment: Entorno
   label_estimates_and_time: Valores estimados y tiempo
@@ -1366,6 +1376,7 @@ es:
   label_journal_diff: Comparación de la descripción
   label_language: Idioma
   label_jump_to_a_project: Saltar a un proyecto...
+  label_keyword_plural: Keywords
   label_language_based: Basado en el idioma del usuario
   label_last_activity: Última actividad
   label_last_change_on: Último cambio en
@@ -1748,8 +1759,8 @@ es:
         circular_inclusion: Se detectó una inclusión circular de páginas.
     create_work_package_link:
       errors:
-        no_project_context: Invocando la macro create_work_package_link desde el contexto
-          del proyecto externo.
+        no_project_context: Llamando a la macro create_work_package_link desde el
+          contexto externo del proyecto.
         invalid_type: No se ha encontrado ningún tipo con nombre '%{type}' en el proyecto
           '%{project}'.
       link_name: Nuevo paquete de trabajo
@@ -1776,14 +1787,14 @@ es:
   mail_subject_wiki_content_added: "'%{id}' wiki página ha sido agregada"
   mail_subject_wiki_content_updated: "'%{id}' wiki página ha sido actualizada"
   mail_user_activation_limit_reached:
-    subject: Se ha alcanzado el límite de activaciones para el usuario
+    subject: Se ha alcanzado el límite de activaciones del usuario
     message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+      Un nuevo usuario (%{email}) intento crear una cuenta en el ambiente de Proyecto Abierto que usted administra (%{host}).
+      El usuario no puede activar su cuenta debido a que el límite del usuario ha sido alcanzado.
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Bloquear o eliminar usuario existente ([here](users_url))
+      label: 'Para permitir al usuario ingresar, usted puede: '
+      a: Mejore su plan de pago ([here](upgrade_url))
+      b: Bloquear o eliminar un usuario existente ([here](users_url))
   more_actions: Más funciones
   noscript_description: Necesita activar JavaScript para poder usar OpenProject!
   noscript_heading: JavaScript desactivado
@@ -1815,10 +1826,10 @@ es:
   notice_account_registered_and_logged_in: Bienvenido, tu cuenta ha sido activada.
     Ahora estás logueado.
   notice_activation_failed: No se pudo activar la cuenta.
-  notice_auth_stage_verification_error: No se podría verificar la etapa '%{stage}'.
+  notice_auth_stage_verification_error: No se pudo verificar la etapa '%{stage}'.
   notice_auth_stage_wrong_stage: Se esperaba que finalizara la fase de autenticación
     '%{expected}', pero se devolvió '%{actual}'.
-  notice_auth_stage_error: La fase de autenticación '%{stage}' produjo errores.
+  notice_auth_stage_error: La fase de autenticación '%{stage}' falló.
   notice_can_t_change_password: Esta cuenta utiliza una fuente de autenticación externa.
     Es imposible cambiar la contraseña.
   notice_custom_options_deleted: Se ha eliminado la opción '%{option_value}' y sus
@@ -2729,10 +2740,11 @@ es:
     por %{configuration}.
   warning: Alerta
   warning_attachments_not_saved: "%{count} archivo(s) no podrán ser salvados."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'Usted ha invitado a más usuarios de los que soporta
+    su plan actual. Es posible que los usuarios invitados no puedan unirse a su ambiente
+    de Proyecto Abierto. Por favor<a href="%{upgrade_url}"> actualice su plan </a>
+    o bloquee los usuarios existentes para permitir que los usuarios invitados y registrados
+    se unan.
 
 '
   warning_registration_token_expired: 'El e-mail de activación ha expirado. Le enviaremos

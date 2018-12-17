@@ -164,6 +164,11 @@ tr:
       no_results_content_text: Durum bildirme ekleme
   statuses:
     edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -180,8 +185,9 @@ tr:
       projects: Projeler
       enabled_projects: Etkin projeler
       add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Gömülü sorguyu düzenle
+      add_table: Add table of related work packages
+      edit_query: Edit table
+      query_group_placeholder: Give the table a name
       reset: Varsayılanlara geri yükle
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -335,13 +341,14 @@ tr:
         expires_at: Süre sonu: 
         subscriber: Abone
         encoded_token: Kurumsal Destek anahtarı
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: En çok aktif kullanıcı
       relation:
         delay: Gecikme
         from: İş paketi
         to: İlgili iş paketi
       status:
         is_closed: İş paketi kapalı
+        is_readonly: İş paketleri salt okunur
       journal:
         notes: Notlar
       member:
@@ -388,7 +395,7 @@ tr:
         mail_notification: E-posta bildirimleri
         new_password: Yeni parola
         password_confirmation: Onay
-        consented_at: Consented at
+        consented_at: Rızanın alınması
       user_preference:
         comments_sorting: Yorumları görüntüle
         hide_mail: E-mail adresimi gizle
@@ -415,9 +422,9 @@ tr:
         end_insertion: Ekleme işlemi bitti
         end_deletion: Silme işlemi bitti
         fixed_version: Sürüm
-        parent: Kaynak
-        parent_issue: Kaynak
-        parent_work_package: Kaynak
+        parent: Üst
+        parent_issue: Üst
+        parent_work_package: Üst
         priority: Öncelik
         progress: İlerleme (%)
         spent_hours: Harcanan zaman
@@ -546,8 +553,8 @@ tr:
               status_invalid_in_type: is invalid because the current status does not
                 exist in this type.
             type:
-              cannot_be_milestone_due_to_children: cannot be a milestone because this
-                work package has children.
+              cannot_be_milestone_due_to_children: kilometre taşı olmaz çünkü alt
+                iş paketlerine sahip.
             priority_id:
               only_active_priorities_allowed: etkin olması gerekir.
             category:
@@ -744,8 +751,8 @@ tr:
   button_configure_menu_entry: Menü öğesini düzenle
   button_delete_menu_entry: Menü öğesini sil
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
+    checkbox_label: Yukarıdakilere dikkat ettim ve onay verdim.
+    failure_message: Rıza alımı başarısız oldu, işlenemedi.
     title: Kullanıcı Rızası
     decline_warning_message: You have declined to consent and have been logged out.
     user_has_consented: User has consented to your configured statement at the given
@@ -1161,6 +1168,7 @@ tr:
   label_auth_source_plural: Kimlik doğrulama modları
   label_authentication: Kimlik Doğrulaması
   label_available_project_work_package_categories: Uygun iş paketi kategorileri
+  label_available_project_work_package_types: Available work package types
   label_available_project_boards: Uygun panolar
   label_available_project_versions: Uygun sürümler
   label_available_project_repositories: Uygun depolar
@@ -1291,7 +1299,7 @@ tr:
   label_filters_toggle: Filtreleri göster / gizle
   label_float: Ondalık
   label_folder: Klasör
-  label_follows: şu
+  label_follows: öncesi
   label_force_user_language_to_default: Varsayılan olmayan izin verildi bir dil olan
     kullanıcı dilini ayarlama
   label_form_configuration: Formu yapılandırma
@@ -1332,6 +1340,7 @@ tr:
   label_journal_diff: Açıklama Karşılaştırması
   label_language: Dil
   label_jump_to_a_project: Projeye git...
+  label_keyword_plural: Anahtar kelimeler
   label_language_based: Kullanıcının dili tabanlı
   label_last_activity: Son Aktivite
   label_last_change_on: Son değişiklik
@@ -1369,7 +1378,7 @@ tr:
   label_message_plural: Mesajlar
   label_message_posted: Mesaj eklendi
   label_min_max_length: En az - En çok uzunluk
-  label_minute_plural: dakika
+  label_minute_plural: notlar
   label_missing_api_access_key: Eksik API erişim anahtarı
   label_missing_feeds_access_key: Eksik RSS erişim anahtarı
   label_modification: "%{count} değişim"
@@ -1437,7 +1446,7 @@ tr:
   label_planning: Planlanıyor
   label_please_login: Lütfen giriş yapın
   label_plugins: Eklentiler
-  label_precedes: ilerlettiği
+  label_precedes: sonrası
   label_preferences: Seçenekler
   label_preview: Ön İzleme
   label_previous: Önceki

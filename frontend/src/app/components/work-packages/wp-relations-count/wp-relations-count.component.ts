@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
-import {RelationsStateValue, WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
+import {WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {combineLatest} from 'rxjs';
 
@@ -27,10 +27,9 @@ export class WorkPackageRelationsCountComponent implements OnInit, OnDestroy {
       takeUntil(componentDestroyed(this))
     ).subscribe(([relations, workPackage]) => {
       let relationCount = _.size(relations);
-      let parentCount = workPackage.parent ? 1 : 0;
       let childrenCount = _.size(workPackage.children);
 
-      this.count = relationCount + parentCount + childrenCount;
+      this.count = relationCount + childrenCount;
     });
 }
 

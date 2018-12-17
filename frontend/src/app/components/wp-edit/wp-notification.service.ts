@@ -35,11 +35,13 @@ import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 
 @Injectable()
 export class WorkPackageNotificationService {
   constructor(readonly I18n:I18nService,
               protected $state:StateService,
+              protected wpCacheService:WorkPackageCacheService,
               protected halResourceService:HalResourceService,
               protected NotificationsService:NotificationsService,
               protected loadingIndicator:LoadingIndicatorService) {
@@ -69,6 +71,8 @@ export class WorkPackageNotificationService {
    * @param workPackage
    */
   public handleRawError(response:any, workPackage?:WorkPackageResource) {
+    console.error("Handling error message %O for work package %O", response, workPackage);
+
     // Some transformation may already have returned the error as a HAL resource,
     // which we will forward to handleErrorResponse
     if (response instanceof ErrorResource) {
@@ -81,7 +85,7 @@ export class WorkPackageNotificationService {
 
     // Angular http response have an error body attribute
     if (response instanceof HttpErrorResponse) {
-      errorBody = response.error || response.message;
+      errorBody = response.message || response.error;
     }
 
     // Some older response may have a data attribute
@@ -94,7 +98,7 @@ export class WorkPackageNotificationService {
       return this.handleErrorResponse(resource, workPackage);
     }
 
-    this.showGeneralError(response);
+    this.showGeneralError(errorBody || response);
   }
 
   protected handleErrorResponse(errorResource:any, workPackage?:WorkPackageResource) {
@@ -131,6 +135,21 @@ export class WorkPackageNotificationService {
   }
 
   private showCustomError(errorResource:any, workPackage:WorkPackageResource) {
+    if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:UpdateConflict') {
+      this.NotificationsService.addError({
+        message: errorResource.message,
+        type: 'error',
+        link: {
+          text: this.I18n.t('js.work_packages.error.update_conflict_refresh'),
+          target: () => this.wpCacheService.require(workPackage.id, true)
+        }
+      });
+
+
+      return true;
+    }
+
+
     if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:PropertyFormatError') {
 
       let attributeName = workPackage.schema[errorResource.details.attribute].name;
