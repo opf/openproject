@@ -171,6 +171,8 @@ class ProjectsController < ApplicationController
 
   def modules
     @project.enabled_module_names = permitted_params.project[:enabled_module_names]
+    # Ensure the project is touched to update its cache key
+    @project.touch
     flash[:notice] = I18n.t(:notice_successful_update)
     redirect_to settings_project_path(@project, tab: 'modules')
   end
