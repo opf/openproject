@@ -87,6 +87,10 @@ class Queries::WorkPackages::Filter::OrBaseFilter < Queries::WorkPackages::Filte
       filter.values = values
     end
   end
+  
+  def includes
+    filters.map(&:includes).flatten.uniq.reject(&:blank?)
+  end
 
   def ar_object_filter?
     false

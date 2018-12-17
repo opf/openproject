@@ -59,10 +59,6 @@ class Queries::WorkPackages::Filter::SearchFilter < Queries::WorkPackages::Filte
     I18n.t('label_search')
   end
 
-  def includes
-    filters.map(&:includes).flatten.uniq.reject(&:blank?)
-  end
-
   def filter_configurations
     list = CE_FILTERS
     list + EE_TSV_FILTERS if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
