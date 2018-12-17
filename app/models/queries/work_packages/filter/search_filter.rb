@@ -36,24 +36,34 @@ class Queries::WorkPackages::Filter::SearchFilter <
   CONTAINS_OPERATOR = '~'.freeze
 
   CE_FILTERS = [
-    Queries::WorkPackages::Filter::FilterConfiguration.new(Queries::WorkPackages::Filter::SubjectFilter,
-                                                           :subject,
-                                                           CONTAINS_OPERATOR),
-    Queries::WorkPackages::Filter::FilterConfiguration.new(Queries::WorkPackages::Filter::DescriptionFilter,
-                                                           :subject,
-                                                           CONTAINS_OPERATOR),
-    Queries::WorkPackages::Filter::FilterConfiguration.new(Queries::WorkPackages::Filter::CommentFilter,
-                                                           :subject,
-                                                           CONTAINS_OPERATOR),
+    Queries::WorkPackages::Filter::FilterConfiguration.new(
+      Queries::WorkPackages::Filter::SubjectFilter,
+      :subject,
+      CONTAINS_OPERATOR
+    ),
+    Queries::WorkPackages::Filter::FilterConfiguration.new(
+      Queries::WorkPackages::Filter::DescriptionFilter,
+      :subject,
+      CONTAINS_OPERATOR
+    ),
+    Queries::WorkPackages::Filter::FilterConfiguration.new(
+      Queries::WorkPackages::Filter::CommentFilter,
+      :subject,
+      CONTAINS_OPERATOR
+    )
   ].freeze
 
   EE_TSV_FILTERS = [
-    Queries::WorkPackages::Filter::FilterConfiguration.new(Queries::WorkPackages::Filter::AttachmentContentFilter,
-                                                           :subject,
-                                                           CONTAINS_OPERATOR),
-    Queries::WorkPackages::Filter::FilterConfiguration.new(Queries::WorkPackages::Filter::AttachmentFileNameFilter,
-                                                           :subject,
-                                                           CONTAINS_OPERATOR)
+    Queries::WorkPackages::Filter::FilterConfiguration.new(
+      Queries::WorkPackages::Filter::AttachmentContentFilter,
+      :subject,
+      CONTAINS_OPERATOR
+    ),
+    Queries::WorkPackages::Filter::FilterConfiguration.new(
+      Queries::WorkPackages::Filter::AttachmentFileNameFilter,
+      :subject,
+      CONTAINS_OPERATOR
+    )
   ].freeze
 
   def self.key
@@ -74,6 +84,7 @@ class Queries::WorkPackages::Filter::SearchFilter <
 
   def filter_configurations
     list = CE_FILTERS
-    list + EE_TSV_FILTERS if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
+    list += EE_TSV_FILTERS if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
+    list
   end
 end
