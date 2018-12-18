@@ -123,10 +123,14 @@ export class ApiV3Paths {
     return this.apiV3Base + '/principals' + '?' + filters.toParams() + encodeURI('&sortBy=[["name","asc"]]&offset=1&pageSize=10');
   }
 
-  public wpBySubject(term:string) {
+  public wpBySubjectOrId(term:string, idOnly:boolean = false) {
     let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
-    filters.add('subject', '~', [term]);
+    if (idOnly) {
+      filters.add('id', '=', [term]);
+    } else {
+      filters.add('subjectOrId', '**', [term]);
+    }
 
     return this.apiV3Base + '/work_packages' + '?' + filters.toParams() + encodeURI('&sortBy=[["updatedAt","desc"]]&offset=1&pageSize=10');
   }

@@ -196,8 +196,14 @@ export class ExpandableSearchComponent implements OnDestroy {
 
   private autocompleteWorkPackages(query:string):Promise<WorkPackageResource[]> {
     this.$element.find('.ui-autocomplete--loading').show();
+    let idOnly:boolean = false;
 
-    let href = this.PathHelperService.api.v3.wpBySubject(query);
+    if (query.match(/^#\d+$/)) {
+      query = query.replace(/^#/, '');
+      idOnly = true;
+    }
+
+    let href = this.PathHelperService.api.v3.wpBySubjectOrId(query, idOnly);
 
     return this.halResourceService
       .get<CollectionResource<WorkPackageResource>>(href)

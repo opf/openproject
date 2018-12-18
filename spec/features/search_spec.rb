@@ -61,6 +61,8 @@ describe 'Search', type: :feature, js: true do
   describe 'autocomplete' do
     include ::Components::UIAutocompleteHelpers
 
+    let!(:other_work_package) { FactoryBot.create(:work_package, subject: "Other work package", project: project) }
+
     it 'provides suggestions' do
       page.find('#top-menu-search-button').click
 
@@ -75,6 +77,20 @@ describe 'Search', type: :feature, js: true do
                           query: target_work_package.subject,
                           results_selector: '.search-autocomplete--results')
       expect(current_path).to match /work_packages\/#{target_work_package.id}\//
+
+      page.find('#top-menu-search-button').click
+
+      suggestions = search_autocomplete(page.find('.top-menu-search--input'),
+                                        query: '1',
+                                        results_selector: '.search-autocomplete--results')
+      expect(suggestions).to have_text('No. 1')
+      expect(suggestions).to have_text('No. 11')
+
+      suggestions = search_autocomplete(page.find('.top-menu-search--input'),
+                                        query: '#1',
+                                        results_selector: '.search-autocomplete--results')
+      expect(suggestions).to have_text('No. 1')
+      expect(suggestions).to_not have_text('No. 11')
     end
   end
 
