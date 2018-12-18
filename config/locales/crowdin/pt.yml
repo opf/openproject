@@ -1306,6 +1306,7 @@ pt:
   label_environment: Ambiente
   label_estimates_and_time: Valores estimados e tempo
   label_equals: é
+  label_everywhere: everywhere
   label_example: Exemplo
   label_export_to: 'Também disponível em:'
   label_expanded_click_to_collapse: Expandido. Clique para ocultar

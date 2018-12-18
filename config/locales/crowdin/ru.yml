@@ -1324,6 +1324,7 @@ ru:
   label_environment: Переменные среды
   label_estimates_and_time: Оценки и время
   label_equals: "—"
+  label_everywhere: everywhere
   label_example: Пример
   label_export_to: 'Также доступна на:'
   label_expanded_click_to_collapse: Развернуто. Кликните для сворачивания

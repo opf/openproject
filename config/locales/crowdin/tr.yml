@@ -1283,6 +1283,7 @@ tr:
   label_environment: Ortam
   label_estimates_and_time: Tahminler & zaman
   label_equals: şuysa
+  label_everywhere: everywhere
   label_example: Örnek
   label_export_to: 'Ayrıca şu adreste bulunabilir:'
   label_expanded_click_to_collapse: Expanded. Click to collapse

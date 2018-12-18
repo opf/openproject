@@ -1317,6 +1317,7 @@ lt:
   label_environment: Aplinka
   label_estimates_and_time: Sąmatos ir laikas
   label_equals: yra
+  label_everywhere: everywhere
   label_example: Pavyzdys
   label_export_to: 'Taip pat galima rasti:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
