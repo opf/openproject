@@ -36,6 +36,30 @@ describe Queries::WorkPackages::Filter::AttachmentContentFilter, type: :model do
       allow(EnterpriseToken).to receive(:allows_to?).with(:attachment_filters).and_return(true)
     end
 
+    context 'WP with attachment' do
+      let(:context) { nil }
+      let(:value) { 'ipsum' }
+      let(:operator) { '~' }
+      let(:instance) do
+        described_class.create!(name: :search, context: context, operator: operator, values: [value])
+      end
+
+      let(:work_package) { FactoryBot.create(:work_package) }
+      let(:text) { 'lorem ipsum' }
+      let(:attachment) { FactoryBot.create(:attachment, container: work_package) }
+
+      before do
+        allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_return(text)
+        allow(attachment).to receive(:readable?).and_return(true)
+        attachment.reload
+      end
+
+      it 'finds WP through attachment content' do
+        expect(WorkPackage.joins(:attachments).where(instance.where))
+          .to match_array [work_package]
+      end
+    end
+
     it_behaves_like 'basic query filter' do
       let(:type) { :text }
       let(:class_key) { :attachment_content }

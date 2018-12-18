@@ -29,56 +29,33 @@
 #++
 
 class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackages::Filter::WorkPackageFilter
-  DISALLOWED_CHARACTERS = /['?\\:()&|!*]/
+  include Queries::WorkPackages::Filter::FilterOnTsvMixin
 
   def type
     :text
-  end
-
-  def includes
-    :attachments
   end
 
   def available?
     EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
   end
 
+  def includes
+    :attachments
+  end
+
+  def where
+    OpenProject::FullTextSearch.tsv_where(Attachment.table_name,
+                                          search_column,
+                                          values.first,
+                                          concatenation: concatenation,
+                                          normalization: normalization_type)
+  end
+
   def search_column
     raise NotImplementedError
   end
 
-  def where
-    if OpenProject::Database.allows_tsv?
-      column = '"attachments"."' + search_column + '_tsv"'
-      query = tokenize
-      language = OpenProject::Configuration.main_content_language
-
-      ActiveRecord::Base.send(
-        :sanitize_sql_array, ["#{column} @@ to_tsquery(?, ?)",
-                              language,
-                              query]
-      )
-    end
-  end
-
-  private
-
-  def tokenize
-    terms = normalize_text(clean_terms).split(/[\s]+/).reject(&:blank?)
-
-    case operator
-    when '~'
-      terms.join ' & '
-    when '!~'
-      '! ' + terms.join(' & ! ')
-    end
-  end
-
-  def clean_terms
-    values.first.gsub(DISALLOWED_CHARACTERS, ' ')
-  end
-
-  def normalize_text(text)
-    OpenProject::FullTextSearch.normalize_text(text)
+  def normalization_type
+    :text
   end
 end
