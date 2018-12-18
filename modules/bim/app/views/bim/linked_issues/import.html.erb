@@ -1,0 +1,27 @@
+<%= toolbar title: t('bim.bcf.import') %>
+
+<% unless @issue_type %>
+  <div class="notification-box -error">
+    <div class="notification-box--content">
+      <p>
+        <%= t('bim.bcf.type_not_active') %>
+        <%= link_to t(:label_project_settings), settings_project_path(@project, tab: :types) %>
+      </p>
+    </div>
+  </div>
+<% end %>
+
+<%= form_tag({ action: :perform_import }, multipart: true, method: :post) do %>
+
+  <div class="form--field">
+    <%= styled_label_tag 'bcf_file', t('bim.bcf.xml_file') %>
+    <div class="form--field-container">
+      <%= styled_file_field_tag :bcf_file, required: true %>
+    </div>
+  </div>
+
+  <%= submit_tag t(:label_import), class: 'button -highlight' %>
+  <%= link_to t(:button_cancel),
+              { action: :index },
+              class: 'button' %>
+<% end %>

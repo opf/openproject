@@ -29,7 +29,7 @@ module OpenProject
         enable! WithDescription if with_descriptions
         enable! WithRelations if with_relations
 
-        success(spreadsheet.xls)
+        yield success(spreadsheet.xls)
       end
 
       def success(content)
@@ -107,7 +107,7 @@ module OpenProject
       end
 
       def xls_export_filename
-        FilenameHelper.sane_filename(
+        sane_filename(
           "#{Setting.app_title} #{I18n.t(:label_work_package_plural)} \
            #{format_time_as_date(Time.now, '%Y-%m-%d')}.xls"
         )

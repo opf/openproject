@@ -1,0 +1,17 @@
+# English strings go here for Rails i18n
+en:
+  bim:
+    label_bim: 'BIM'
+    linked_issues: "Linked issues"
+    bcf:
+      xml_file: 'BCF XML File'
+      import: 'Import from BCF'
+      export: 'Export all to BCF-XML'
+      import_update_comment: '(Updated in BCF import)'
+      import_failed: 'Cannot import BCF file: %{error}'
+      import_successful: 'Imported %{count} BCF issues'
+      type_not_active: "The issue type is not activated for this project."
+
+  export:
+    format:
+      bcf: "BCF-XML"

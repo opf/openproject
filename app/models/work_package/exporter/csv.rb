@@ -45,7 +45,7 @@ class WorkPackage::Exporter::CSV < WorkPackage::Exporter::Base
       end
     end
 
-    success(serialized)
+    yield success(serialized)
   end
 
   def self.encode_csv_columns(columns, encoding = l(:general_csv_encoding))

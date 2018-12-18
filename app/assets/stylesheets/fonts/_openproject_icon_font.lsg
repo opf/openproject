@@ -76,6 +76,7 @@
 <li><span class="icon icon-enumerations"></span>enumerations</li>
 <li><span class="icon icon-error"></span>error</li>
 <li><span class="icon icon-export-atom"></span>export-atom</li>
+<li><span class="icon icon-export-bcf"></span>export-bcf</li>
 <li><span class="icon icon-export-csv"></span>export-csv</li>
 <li><span class="icon icon-export-pdf-descr"></span>export-pdf-descr</li>
 <li><span class="icon icon-export-pdf-with-descriptions"></span>export-pdf-with-descriptions</li>
@@ -113,6 +114,7 @@
 <li><span class="icon icon-hosting"></span>hosting</li>
 <li><span class="icon icon-image1"></span>image1</li>
 <li><span class="icon icon-image2"></span>image2</li>
+<li><span class="icon icon-import"></span>import</li>
 <li><span class="icon icon-info1"></span>info1</li>
 <li><span class="icon icon-info2"></span>info2</li>
 <li><span class="icon icon-installation-services"></span>installation-services</li>

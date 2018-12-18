@@ -87,29 +87,15 @@ class WorkPackagesController < ApplicationController
 
   def export_list(mime_type)
     exporter = WorkPackage::Exporter.for_list(mime_type)
-    export = exporter.list(@query, params)
-
-    if export.error?
-      flash[:error] = export.message
-      redirect_back(fallback_location: index_redirect_path)
-    else
-      send_data(export.content,
-                type: export.mime_type,
-                filename: export.title)
+    exporter.list(@query, params) do |export|
+      render_export_response export, fallback_path: index_redirect_path
     end
   end
 
   def export_single(mime_type)
     exporter = WorkPackage::Exporter.for_single(mime_type)
-    export = exporter.single(work_package, params)
-
-    if export.error?
-      flash[:error] = export.message
-      redirect_back(fallback_location: work_package_path(work_packages))
-    else
-      send_data(export.content,
-                type: export.mime_type,
-                filename: export.title)
+    exporter.single(work_package, params) do |export|
+      render_export_response export, fallback_path: work_package_path(work_packages)
     end
   end
 
@@ -126,13 +112,36 @@ class WorkPackagesController < ApplicationController
                 title: "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
   end
 
+  private
+
+  def render_export_response(export, fallback_path:)
+    if export.error?
+      flash[:error] = export.message
+      redirect_back(fallback_location: fallback_path)
+    elsif export.content.is_a? File
+      # browsers should not try to guess the content-type
+      response.headers['X-Content-Type-Options'] = 'nosniff'
+
+      # TODO avoid reading the file in memory here again
+      # but currently the tempfile gets removed in between
+      send_data(export.content.read,
+                type: export.mime_type,
+                disposition: 'attachment',
+                filename: export.title)
+    else
+      send_data(export.content,
+                type: export.mime_type,
+                filename: export.title)
+    end
+  end
+
   def authorize_on_work_package
     deny_access unless work_package
   end
 
   def protect_from_unauthorized_export
     if supported_export_formats.include?(params[:format]) &&
-       !User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
+      !User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
 
       deny_access
       false
@@ -180,7 +189,7 @@ class WorkPackagesController < ApplicationController
         .changing
         .includes(:user)
         .order(order).to_a
-      end
+    end
   end
 
   def index_redirect_path
@@ -190,8 +199,6 @@ class WorkPackagesController < ApplicationController
       work_packages_path
     end
   end
-
-  private
 
   def load_work_packages
     @results = @query.results

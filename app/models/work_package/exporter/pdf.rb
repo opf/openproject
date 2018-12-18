@@ -31,7 +31,7 @@
 class WorkPackage::Exporter::PDF < WorkPackage::Exporter::Base
   # Returns a PDF string of a list of work_packages
   def list
-    ::WorkPackage::PdfExport::WorkPackageListToPdf
+    yield ::WorkPackage::PdfExport::WorkPackageListToPdf
       .new(query,
            options)
       .render!
@@ -39,7 +39,7 @@ class WorkPackage::Exporter::PDF < WorkPackage::Exporter::Base
 
   # Returns a PDF string of a single work_package
   def single
-    ::WorkPackage::PdfExport::WorkPackageToPdf
+    yield ::WorkPackage::PdfExport::WorkPackageToPdf
       .new(work_package)
       .render!
   end

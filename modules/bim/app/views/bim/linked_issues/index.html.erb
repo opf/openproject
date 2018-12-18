@@ -1,0 +1,57 @@
+<%= stylesheet_link_tag 'bim/bim.css' %>
+<link rel="stylesheet" href="/highlighting/styles.css" />
+
+<%= toolbar title: t('bim.linked_issues'), html: {class: '-with-dropdown'} do %>
+  <li class="toolbar-item drop-down">
+
+  </li>
+    <li class="toolbar-item">
+      <%= link_to({ action: 'import' },
+                title: I18n.t(:label_import),
+                class: 'button import-bcf-button') do %>
+        <%= op_icon('button--icon icon-import') %>
+        <span class="button--text"><%= l(:label_import) %></span>
+      <% end %>
+    </li>
+    <% if @issue_type && @issues.present? %>
+      <li class="toolbar-item">
+        <% query = { f: [filter_object('type', '=', @issue_type.id)] } %>
+        <%= link_to(project_work_packages_with_query_path(@project, query, format: :bcf),
+                  title: t('bim.bcf.export'),
+                  class: 'button export-bcf-button') do %>
+          <%= op_icon('button--icon icon-export') %>
+          <span class="button--text"><%= t('bim.bcf.export') %></span>
+        <% end %>
+      </li>
+    <% end %>
+<% end %>
+
+<% if @issues.present? %>
+  <div class="bim--bcf-issues">
+    <% @issues.each do |issue| %>
+      <% status_id = issue.work_package&.status_id %>
+      <% hl_classname = status_id.present? ? "__hl_row_status_#{status_id}" : '' %>
+      <div class="<%= hl_classname %>">
+        <p>
+        <strong><%= issue.title %></strong>
+        <br/>
+        <span><%= issue.description %></span>
+        <% if issue.work_package %>
+          <%= link_to_work_package(issue.work_package) %>
+          <br/>
+        <% end %>
+        </p>
+        <% if issue.viewpoints.empty? %>
+          <p>(No viewpoints)</p>
+        <% end %>
+        <% issue.viewpoints.each do |vp| %>
+          <img src="<%= attachment_path(vp.snapshot.id) %>" />
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <%= no_results_box %>
+<% end %>
+
+<%= pagination_links_full @issues %>
