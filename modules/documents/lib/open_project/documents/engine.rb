@@ -64,6 +64,10 @@ module OpenProject::Documents
 
     patches [:CustomFieldsHelper, :Project]
 
+    add_api_path :documents do
+      "#{root}/documents"
+    end
+
     add_api_path :document do |id|
       "#{root}/documents/#{id}"
     end
