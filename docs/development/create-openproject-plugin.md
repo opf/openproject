@@ -51,7 +51,7 @@ The following steps are necessary to release a new plugin:
 ### Code Review
 A code review should check the whole code and remove glitches like:
 
-- Unappropiate comments
+- Inappropriate comments
 - Deactivated code
 - Minor cases of code smell
 
