@@ -45,9 +45,7 @@ class Queries::WorkPackages::Filter::AttachmentFileNameFilter < Queries::WorkPac
     'file'
   end
 
-  private
-
-  def normalize_text(text)
-    OpenProject::FullTextSearch.normalize_filename(text)
+  def normalization_type
+    :filename
   end
 end

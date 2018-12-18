@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,28 +28,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Operators
-  operators = [
-    Queries::Operators::GreaterOrEqual,
-    Queries::Operators::LessOrEqual,
-    Queries::Operators::Equals,
-    Queries::Operators::NotEquals,
-    Queries::Operators::None,
-    Queries::Operators::All,
-    Queries::Operators::Contains,
-    Queries::Operators::NotContains,
-    Queries::Operators::InLessThan,
-    Queries::Operators::InMoreThan,
-    Queries::Operators::In,
-    Queries::Operators::Today,
-    Queries::Operators::ThisWeek,
-    Queries::Operators::LessThanAgo,
-    Queries::Operators::MoreThanAgo,
-    Queries::Operators::Ago,
-    Queries::Operators::OnDate,
-    Queries::Operators::BetweenDate,
-    Queries::Operators::Everywhere
-  ]
 
-  OPERATORS = Hash[*(operators.map { |o| [o.symbol.to_s, o] }).flatten].freeze
+class Queries::WorkPackages::Filter::FilterConfiguration
+  attr_accessor(:filter_class, :filter_name, :operator)
+
+  def initialize(filter_class, filter_name, operator)
+    @filter_class = filter_class
+    @filter_name = filter_name
+    @operator = operator
+  end
 end

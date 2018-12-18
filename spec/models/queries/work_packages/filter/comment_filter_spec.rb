@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,28 +26,36 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Operators
-  operators = [
-    Queries::Operators::GreaterOrEqual,
-    Queries::Operators::LessOrEqual,
-    Queries::Operators::Equals,
-    Queries::Operators::NotEquals,
-    Queries::Operators::None,
-    Queries::Operators::All,
-    Queries::Operators::Contains,
-    Queries::Operators::NotContains,
-    Queries::Operators::InLessThan,
-    Queries::Operators::InMoreThan,
-    Queries::Operators::In,
-    Queries::Operators::Today,
-    Queries::Operators::ThisWeek,
-    Queries::Operators::LessThanAgo,
-    Queries::Operators::MoreThanAgo,
-    Queries::Operators::Ago,
-    Queries::Operators::OnDate,
-    Queries::Operators::BetweenDate,
-    Queries::Operators::Everywhere
-  ]
+require 'spec_helper'
 
-  OPERATORS = Hash[*(operators.map { |o| [o.symbol.to_s, o] }).flatten].freeze
+describe Queries::WorkPackages::Filter::CommentFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:type) { :text }
+    let(:class_key) { :comment }
+
+    describe '#available?' do
+      it 'is available' do
+        expect(instance).to be_available
+      end
+    end
+
+    describe '#allowed_values' do
+      it 'is nil' do
+        expect(instance.allowed_values).to be_nil
+      end
+    end
+
+    describe '#valid_values!' do
+      it 'is a noop' do
+        instance.values = ['none', 'is', 'changed']
+
+        instance.valid_values!
+
+        expect(instance.values)
+          .to match_array ['none', 'is', 'changed']
+      end
+    end
+
+    it_behaves_like 'non ar filter'
+  end
 end
