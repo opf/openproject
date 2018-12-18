@@ -1298,6 +1298,7 @@ ca:
   label_environment: Entorn
   label_estimates_and_time: Estimates and time
   label_equals: és
+  label_everywhere: everywhere
   label_example: Exemple
   label_export_to: 'També disponible en:'
   label_expanded_click_to_collapse: Expanded. Click to collapse

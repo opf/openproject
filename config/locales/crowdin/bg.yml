@@ -1288,6 +1288,7 @@ bg:
   label_environment: Среда
   label_estimates_and_time: Estimates and time
   label_equals: е
+  label_everywhere: everywhere
   label_example: Пример
   label_export_to: 'Also available in:'
   label_expanded_click_to_collapse: Expanded. Click to collapse

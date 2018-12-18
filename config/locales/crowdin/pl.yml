@@ -1321,6 +1321,7 @@ pl:
   label_environment: Środowisko
   label_estimates_and_time: Szacowany czas
   label_equals: jest
+  label_everywhere: everywhere
   label_example: Przykład
   label_export_to: 'Dostępne również w:'
   label_expanded_click_to_collapse: Rozwinięto. Kliknij, aby zwinąć

@@ -49,12 +49,12 @@ namespace :packager do
   task postinstall: [:environment, 'assets:clean', 'setup:scm'] do
 
     # We need to precompile assets when either
-    # 1. packager requested it (e.g., due to a server prefix being set)
+    # 1. packager requested it
     # 2. When a custom Gemfile is added
-    if ENV['REBUILD_ASSETS'] == 'true'
+    if ENV['MUST_REBUILD_ASSETS'] == 'true'
       Rake::Task['assets:precompile'].invoke
       FileUtils.chmod_R 'a+rx', "#{ENV['APP_HOME']}/public/assets/"
-      shell_setup(['config:set', 'REBUILD_ASSETS=""'])
+      shell_setup(['config:set', 'MUST_REBUILD_ASSETS=""'])
     end
 
     # Clear any caches
@@ -96,7 +96,6 @@ namespace :packager do
         new_root = relative_root.chomp('/')
 
         shell_setup(['config:set', "RAILS_RELATIVE_URL_ROOT=#{new_root}"])
-        shell_setup(['config:set', 'REBUILD_ASSETS="true"'])
       end
     end
 

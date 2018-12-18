@@ -5,7 +5,7 @@
 OpenProject is available in more than 30 languages.
 Get an overview of the translation process and join us in translating OpenProject to your language.
 
-In order to translate OpenProject, we use [CrowdIn](https://crowdin.com/projects/opf) as a plattform where contributers can provide translations for a large number of languages.
+In order to translate OpenProject, we use [CrowdIn](https://crowdin.com/projects/opf) as a platform where contributors can provide translations for a large number of languages.
 We highly appreciate the help of anyone who wants to translate OpenProject to additional languages.
 In order to provide translations not only for the OpenProject core but also for the plugins, we created several translation projects on CrowdIn:
 * [OpenProject (core)](https://crowdin.com/project/openproject)

@@ -5,7 +5,7 @@ To develop OpenProject a setup similar to that for using OpenProject in producti
 This guide assumes that you have a Ubuntu 16.04. installation installation with administrative rights. This guide will work
 analogous with all other distributions, but may require slight changes in the required packages. _Please, help us to extend this guide with information on other distributions should there be required changes._
 
-OpenProject will be installed with a PostgreSQL database. This guide will work analagous with a MySQL installation, though. 
+OpenProject will be installed with a PostgreSQL database. This guide will work analogous with a MySQL installation, though. 
 
 **Please note**: This guide is NOT suitable for a production setup, but only for developing with it!
 
