@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "Cleaning up current node_modules folders"
+rm -rf node_modules frontend/node_modules || true

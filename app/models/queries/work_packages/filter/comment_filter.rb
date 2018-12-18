@@ -1,7 +1,8 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,31 +25,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Operators
-  operators = [
-    Queries::Operators::GreaterOrEqual,
-    Queries::Operators::LessOrEqual,
-    Queries::Operators::Equals,
-    Queries::Operators::NotEquals,
-    Queries::Operators::None,
-    Queries::Operators::All,
-    Queries::Operators::Contains,
-    Queries::Operators::NotContains,
-    Queries::Operators::InLessThan,
-    Queries::Operators::InMoreThan,
-    Queries::Operators::In,
-    Queries::Operators::Today,
-    Queries::Operators::ThisWeek,
-    Queries::Operators::LessThanAgo,
-    Queries::Operators::MoreThanAgo,
-    Queries::Operators::Ago,
-    Queries::Operators::OnDate,
-    Queries::Operators::BetweenDate,
-    Queries::Operators::Everywhere
-  ]
+class Queries::WorkPackages::Filter::CommentFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def type
+    :text
+  end
 
-  OPERATORS = Hash[*(operators.map { |o| [o.symbol.to_s, o] }).flatten].freeze
+  def includes
+    %i{journals}
+  end
+
+  def where
+    operator_strategy.sql_for_field(values, Journal.table_name, 'notes')
+  end
 end

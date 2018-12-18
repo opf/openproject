@@ -12,7 +12,7 @@ Most of our code does not yet adhere to this styleguide, but we want all new cod
 
 Before committing, please run your new code through [Rubocop](https://github.com/bbatsov/rubocop). It detects deviations from a lot of things in the style guide and things that are bad practice in general. You obviously do not have to fix issues with existing code. There is a [list of editor plugins](https://github.com/bbatsov/rubocop#editor-integration) in the Rubocop readme.
 
-When reviewing code and you think the author has not run the code throug Rubocop, please ask them to.
+When reviewing code and you think the author has not run the code through Rubocop, please ask them to.
 
 ## Commit messages
 
