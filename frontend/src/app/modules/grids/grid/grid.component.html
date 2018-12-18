@@ -1,93 +1,108 @@
 
 <!-- Column headers -->
-<grid-area-column-headers class="grid--top-headers"
-                          [grid]="this"
-                          [style.grid-template-columns]="gridColumnStyle">
-</grid-area-column-headers>
+<div class="grid--column-headers"
+     [style.grid-template-columns]="gridColumnStyle">
+  <div *ngFor="let column of columnNumbers"
+       [style.grid-row-start]="1"
+       [style.grid-row-end]="1"
+       [style.grid-column-start]="column"
+       [style.grid-column-end]="column + 1"
+       class="grid--header"
+       gridColumnContextMenu
+       [gridColumnContextMenu-columnNumber]="column">
+  </div>
+</div>
 
 <!-- Row headers -->
-<grid-area-row-headers class="grid--left-headers"
-                       [grid]="this"
-                       [style.grid-template-rows]="gridRowStyle">
-</grid-area-row-headers>
+<div class="grid--row-headers"
+     [style.grid-template-rows]="gridRowStyle">
+  <div *ngFor="let row of rowNumbers"
+       [style.grid-row-start]="row"
+       [style.grid-row-end]="row + 1"
+       [style.grid-column-start]="1"
+       [style.grid-column-end]="2"
+       class="grid--header"
+       gridRowContextMenu
+       [gridRowContextMenu-rowNumber]="row">
+  </div>
+</div>
 
 <div class="grid--container"
      [style.grid-template-columns]="gridColumnStyle"
      [style.grid-template-rows]="gridRowStyle">
 
   <!-- Grid areas that have a widget in them -->
-  <div *ngFor="let area of gridWidgetAreas; trackBy: identifyGridArea;"
+  <div *ngFor="let area of layout.widgetAreas; trackBy: identifyGridArea;"
        class="grid--area -widgeted"
        [style.grid-row-start]="area.startRow"
        [style.grid-row-end]="area.endRow"
        [style.grid-column-start]="area.startColumn"
        [style.grid-column-end]="area.endColumn"
        cdkDropList
-       [id]="gridAreaId(area) + '-widgeted-' + area.guid"
+       [id]="area.guid"
        [cdkDropListData]="area"
-       [cdkDropListConnectedTo]="gridAreaDropIds">
+       [cdkDropListConnectedTo]="layout.widgetAreaIds">
     <div class="grid--area-content widget-box"
          cdkDrag
-         (cdkDragStarted)="dragStart(area)"
-         (cdkDragEnded)="dragStop(area, $event)">
+         (cdkDragStarted)="drag.start(area)"
+         (cdkDragEnded)="drag.stop(area, $event)">
       <div *cdkDragPlaceholder></div>
       <div class="grid--widget-remove"
-           (click)="removeWidget(area)">
+           (click)="remove.widget(area)">
       </div>
       <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area.widget)"
                    [ndcDynamicOutputs]="{}">
       </ndc-dynamic>
     </div>
-    <resizer *ngIf="!currentlyDragging"
-             (end)="resize(area, $event)"
-             (start)="resizeStart(area)"
-             (move)="resizeMove($event)">
+    <resizer *ngIf="!drag.currentlyDragging"
+             (end)="resize.end(area, $event)"
+             (start)="resize.start(area)"
+             (move)="resize.moving($event)">
     </resizer>
   </div>
 
   <!-- One grid area per cell (row x columns) -->
-  <div *ngFor="let area of gridAreas; trackBy: identifyGridArea;"
+  <div *ngFor="let area of layout.gridAreas; trackBy: identifyGridArea;"
        class="grid--area"
-       [ngClass] = "{'-drop-target': currentlyDragging,
-                     '-resize-target': isResizeTarget(area),
-                     '-addable': isAddable(area) }"
+       [ngClass] = "{'-drop-target': drag.currentlyDragging,
+                     '-resize-target': resize.isTarget(area),
+                     '-addable': add.isAddable(area) }"
        [style.grid-row-start]="area.startRow"
        [style.grid-row-end]="area.endRow"
        [style.grid-column-start]="area.startColumn"
        [style.grid-column-end]="area.endColumn"
        cdkDropList
-       [id]="gridAreaId(area)"
-       (mouseover)="setMousedOverArea(area)"
+       [id]="area.guid"
+       (mouseover)="layout.setMousedOverArea(area)"
        [cdkDropListData]="area"
-       (cdkDropListDropped)="drop($event)"
-       (cdkDropListEntered)="dragEntered($event)"
-       (cdkDropListExited)="dragExited($event)"
-       [cdkDropListConnectedTo]="gridAreaDropIds">
+       (cdkDropListDropped)="drag.drop($event)"
+       (cdkDropListEntered)="drag.entered($event)"
+       (cdkDropListExited)="drag.exited($event)"
+       [cdkDropListConnectedTo]="layout.widgetAreaIds">
     <div class="grid--widget-add"
-         *ngIf="isAddable(area)"
-         (click)="addWidget(area)">
+         *ngIf="add.isAddable(area)"
+         (click)="add.widget(area)">
     </div>
   </div>
 
   <!-- Grid area to visualize resizing -->
   <div class="grid--area -resizing"
-       *ngIf="resizePlaceholderArea"
-       [style.grid-row-start]="resizePlaceholderArea.startRow"
-       [style.grid-row-end]="resizePlaceholderArea.endRow"
-       [style.grid-column-start]="resizePlaceholderArea.startColumn"
-       [style.grid-column-end]="resizePlaceholderArea.endColumn">
+       *ngIf="resize.placeholderArea"
+       [style.grid-row-start]="resize.placeholderArea.startRow"
+       [style.grid-row-end]="resize.placeholderArea.endRow"
+       [style.grid-column-start]="resize.placeholderArea.startColumn"
+       [style.grid-column-end]="resize.placeholderArea.endColumn">
   </div>
 
   <!-- Grid area used as a placeholder while dragging -->
-  <div *ngIf="dragPlaceholderArea"
+  <div *ngIf="drag.placeholderArea"
        class="grid--area -widgeted"
-       [style.grid-row-start]="dragPlaceholderArea.startRow"
-       [style.grid-row-end]="dragPlaceholderArea.endRow"
-       [style.grid-column-start]="dragPlaceholderArea.startColumn"
-       [style.grid-column-end]="dragPlaceholderArea.endColumn">
-    <div class="widget-box"
-         style="height: 100%">
-      <ndc-dynamic [ndcDynamicComponent]="widgetComponent(dragPlaceholderArea.widget)"
+       [style.grid-row-start]="drag.placeholderArea.startRow"
+       [style.grid-row-end]="drag.placeholderArea.endRow"
+       [style.grid-column-start]="drag.placeholderArea.startColumn"
+       [style.grid-column-end]="drag.placeholderArea.endColumn">
+    <div class="widget-box">
+      <ndc-dynamic [ndcDynamicComponent]="widgetComponent(drag.placeholderArea.widget)"
                    [ndcDynamicOutputs]="{}">
       </ndc-dynamic>
     </div>

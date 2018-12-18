@@ -11,7 +11,7 @@ module Components
       end
 
       def resize_to(row, column)
-        area.find('.resizer').drag_to find("#grid--area-#{row}-#{column}")
+        area.find('.resizer').drag_to self.class.of(row, column).area
       end
 
       def remove
@@ -20,20 +20,16 @@ module Components
 
       def drag_to(row, column)
         handle = area.find('.cdk-drag-handle')
-        drop_area = find("#grid--area-#{row}-#{column}")
+        drop_area = self.class.of(row, column).area
 
+        # This weird combination of events is what works for no discernible reason
         page.driver.browser.action.click_and_hold(handle.native).perform
         sleep(0.3)
         drop_area.hover
-        #page.driver.browser.action.move_to(drop_area.native).perform
         page.driver.browser.send(:bridge).mouse_move_to(drop_area)
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
         sleep(0.3)
         page.driver.browser.action.release(drop_area.native).perform
-        #drop_area.click
-        #page.driver.browser.action.release.perform
-
-        #area.find('.cdk-drag-handle').drag_to find("#grid--area-#{row}-#{column}")
       end
 
       def expect_to_exist
@@ -54,6 +50,12 @@ module Components
 
       def area
         page.find(*area_selector)
+      end
+
+      def self.of(row_number, column_number)
+        area_style = "grid-area: #{row_number} / #{column_number} / #{row_number + 1} / #{column_number + 1}"
+
+        new(".grid--area:not(-widgeted)[style*='#{area_style}']")
       end
     end
   end

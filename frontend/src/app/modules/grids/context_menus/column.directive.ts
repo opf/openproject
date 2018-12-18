@@ -32,17 +32,18 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
 import {GridComponent} from "core-app/modules/grids/grid/grid.component";
+import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 
 @Directive({
   selector: '[gridColumnContextMenu]'
 })
 export class GridColumnContextMenu extends OpContextMenuTrigger {
-  @Input('gridColumnContextMenu-grid') public grid:GridComponent;
   @Input('gridColumnContextMenu-columnNumber') public columnNumber:number;
 
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
-              readonly I18n:I18nService) {
+              readonly I18n:I18nService,
+              readonly layout:GridAreaService) {
 
     super(elementRef, opContextMenu);
   }
@@ -68,7 +69,7 @@ export class GridColumnContextMenu extends OpContextMenuTrigger {
   }
 
   private buildItems() {
-    let grid = this.grid;
+    let grid = this.layout;
     let columnNumber = this.columnNumber;
 
     let items = [

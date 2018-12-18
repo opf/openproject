@@ -37,7 +37,7 @@ module Pages
 
       def add_row(row_number, before_or_after: :before)
         # open grid row menu
-        find("grid-area-row-headers .grid--header:nth-of-type(#{row_number})").click
+        find(".grid--row-headers .grid--header:nth-of-type(#{row_number})").click
 
         label = if before_or_after == :before
                   I18n.t('js.label_add_row_before')
@@ -50,7 +50,7 @@ module Pages
 
       def add_column(column_number, before_or_after: :before)
         # open grid column menu
-        find("grid-area-column-headers .grid--header:nth-of-type(#{column_number})").click
+        find(".grid--column-headers .grid--header:nth-of-type(#{column_number})").click
 
         label = if before_or_after == :before
                   I18n.t('js.label_add_column_before')
@@ -62,7 +62,7 @@ module Pages
       end
 
       def add_widget(row_number, column_number, name)
-        area = find("#grid--area-#{row_number}-#{column_number}")
+        area = area_of(row_number, column_number)
         area.hover
         area.find('.grid--widget-add').click
 
@@ -72,6 +72,10 @@ module Pages
 
           page.find('.grid--addable-widget', text: name).click
         end
+      end
+
+      def area_of(row_number, column_number)
+        ::Components::Grids::GridArea.of(row_number, column_number).area
       end
     end
   end

@@ -41,13 +41,10 @@ import {WidgetWpWatchedComponent} from "core-app/modules/grids/widgets/wp-watche
 import {WidgetWpCalendarComponent} from "core-app/modules/grids/widgets/wp-calendar/wp-calendar.component.ts";
 import {WidgetTimeEntriesCurrentUserComponent} from "core-app/modules/grids/widgets/time-entries-current-user/time-entries-current-user.component";
 import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
-import {AddGridWidgetService} from "core-app/modules/grids/widgets/add/add.service";
 import {GridComponent} from "core-app/modules/grids/grid/grid.component";
 import {AddGridWidgetModal} from "core-app/modules/grids/widgets/add/add.modal";
 import {GridColumnContextMenu} from "core-app/modules/grids/context_menus/column.directive";
 import {GridRowContextMenu} from "core-app/modules/grids/context_menus/row.directive";
-import {GridAreaColumnHeadersComponent} from "core-app/modules/grids/areas/column-headers.component";
-import {GridAreaRowHeadersComponent} from "core-app/modules/grids/areas/row-headers.component";
 import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
 import {Ng2StateDeclaration, UIRouterModule} from '@uirouter/angular';
 import {WidgetDocumentsComponent} from "core-app/modules/grids/widgets/documents/documents.component";
@@ -93,7 +90,6 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
       multi: true
     },
     GridWidgetsService,
-    AddGridWidgetService
   ],
   declarations: [
     GridComponent,
@@ -109,9 +105,6 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
 
     GridColumnContextMenu,
     GridRowContextMenu,
-
-    GridAreaColumnHeadersComponent,
-    GridAreaRowHeadersComponent,
 
     // MyPage
     MyPageComponent,

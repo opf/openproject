@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {GridWidgetArea} from "app/modules/grids/areas/grid-widget-area";
-import {GridComponent} from "app/modules/grids/grid/grid.component";
+import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 
 
 @Injectable()
-export class GridMoveAreasService {
-  public grid:GridComponent;
+export class GridMoveService {
+  constructor(private layout:GridAreaService) {}
 
-  public moveAreasDown(movedArea:GridWidgetArea|null, ignoreArea:GridWidgetArea) {
+  public down(movedArea:GridWidgetArea|null, ignoreArea:GridWidgetArea) {
     let movedAreas:GridWidgetArea[] = [];
-    let remainingAreas:GridWidgetArea[] = this.grid.gridWidgetAreas.slice(0);
+    let remainingAreas:GridWidgetArea[] = this.layout.widgetAreas.slice(0);
 
     if (ignoreArea) {
       remainingAreas = remainingAreas.filter((area) => {
@@ -28,11 +28,11 @@ export class GridMoveAreasService {
         return area.guid !== movedArea!.guid;
       });
 
-      movedArea = this.moveOneAreaDown(movedAreas, remainingAreas);
+      movedArea = this.moveOneDown(movedAreas, remainingAreas);
     }
   }
 
-  private moveOneAreaDown(anchorAreas:GridWidgetArea[], movableAreas:GridWidgetArea[]) {
+  private moveOneDown(anchorAreas:GridWidgetArea[], movableAreas:GridWidgetArea[]) {
     let moveSpecification = this.firstAreaToMove(anchorAreas, movableAreas);
 
     if (moveSpecification) {
@@ -44,8 +44,8 @@ export class GridMoveAreasService {
       toMoveArea.startRow = anchorArea.endRow;
       toMoveArea.endRow = toMoveArea.startRow + areaHeight;
 
-      if (this.grid.numRows < toMoveArea.endRow - 1) {
-        this.grid.numRows = toMoveArea.endRow - 1;
+      if (this.layout.numRows < toMoveArea.endRow - 1) {
+        this.layout.numRows = toMoveArea.endRow - 1;
       }
 
       return toMoveArea;
