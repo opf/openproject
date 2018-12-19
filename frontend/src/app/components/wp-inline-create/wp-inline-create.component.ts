@@ -39,7 +39,7 @@ import {
 } from '@angular/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {filter} from 'rxjs/operators';
+import {filter, distinctUntilChanged} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
@@ -65,6 +65,7 @@ import {IWorkPackageEditingServiceToken} from "../wp-edit-form/work-package-edit
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {CurrentUserService} from "core-components/user/current-user.service";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -235,8 +236,27 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
       const wp = this.currentWorkPackage = changeset.workPackage;
       this.applyDefaultsAndInsert(changeset, wp);
+
+      changeset.wpForm$
+      .pipe(
+        filter((form) => !!this.currentWorkPackage && !!form),
+        distinctUntilChanged((x:FormResource, y:FormResource) => {
+          console.log('received');
+          return x && y && x.payload.type.idFromLink === y.payload.type.idFromLink;
+        }),
+        untilComponentDestroyed(this)
+      ).subscribe((form) => {
+        this.currentWorkPackage!.overriddenSchema = form.schema;
+        const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
+
+        if (rowElement.length && this.currentWorkPackage) {
+          this.rowBuilder.refreshRow(this.currentWorkPackage, rowElement);
+        }
+      });
     });
   }
+
+  // TODO: Move into Service?
 
   /**
    * Apply values to the work package from the current set of filters
@@ -254,22 +274,46 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
       promise = Promise.resolve();
     }
 
-    promise.then(() => {
-      // Update the changeset with any added filtered values
-      this.wpEditing.updateValue('new', changeset);
-      this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
+    //changeset.wpForm$.pipe(
+    //  untilComponentDestroyed(this),
+    //  distinctUntilChanged((x:FormResource, y:FormResource) => {
+    //    console.log('received');
+    //    return x && x.type.idFromLink === y.type.idFromLink;
+    //  })
+    //).subscribe((form) => {
+      promise.then(() => {
+        // Update the changeset with any added filtered values
+        this.wpEditing.updateValue('new', changeset);
+        this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
 
-      // Actually render the row
-      const form = this.workPackageEditForm = this.renderInlineCreateRow(wp);
+        // Actually render the row
+        const form = this.workPackageEditForm = this.renderInlineCreateRow(wp);
 
-      setTimeout(() => {
-        // Activate any required fields
-        form.activateMissingFields();
+        setTimeout(() => {
+          // Activate any required fields
+          form.activateMissingFields();
 
-        // Hide the button row
-        this.hideRow();
+          // Hide the button row
+          this.hideRow();
+        });
       });
-    });
+    //});
+    //promise.then(() => {
+    //  // Update the changeset with any added filtered values
+    //  this.wpEditing.updateValue('new', changeset);
+    //  this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
+
+    //  // Actually render the row
+    //  const form = this.workPackageEditForm = this.renderInlineCreateRow(wp);
+
+    //  setTimeout(() => {
+    //    // Activate any required fields
+    //    form.activateMissingFields();
+
+    //    // Hide the button row
+    //    this.hideRow();
+    //  });
+    //});
   }
 
   /**

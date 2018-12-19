@@ -47,6 +47,8 @@ import {
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {take} from "rxjs/operators";
+import {Observable, BehaviorSubject} from 'rxjs';
+import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 
 export class WorkPackageChangeset {
   // Injections
@@ -64,8 +66,9 @@ export class WorkPackageChangeset {
 
   // The current work package form
   public wpForm:FormResource|undefined;
-  public wpFormPromise:Promise<FormResource>|undefined;
-
+  private wpFormPromise:Promise<FormResource>|undefined;
+  private wpFormSubject = new BehaviorSubject<FormResource|undefined>(undefined);
+  public wpForm$ = this.wpFormSubject.asObservable();
 
   // The current editing resource
   public resource:WorkPackageResource|null;
@@ -128,6 +131,9 @@ export class WorkPackageChangeset {
     // will update the form automatically.
     if (this.workPackage.isNew && (key === 'project' || key === 'type')) {
       this.updateForm();
+          //.then(() => {
+          //  this.workPackage.overriddenSchema = this.schema;
+          //});
     }
   }
 
@@ -142,7 +148,7 @@ export class WorkPackageChangeset {
 
   public getForm():Promise<FormResource> {
     if (this.wpForm) {
-      return Promise.resolve(this.wpForm)
+      return Promise.resolve(this.wpForm);
     }
 
     this.wpFormPromise = this.wpFormPromise || this.updateForm();
@@ -160,6 +166,8 @@ export class WorkPackageChangeset {
       .then((form:FormResource) => {
         this.wpForm = form;
         this.buildResource();
+
+        this.wpFormSubject.next(form);
 
         return form;
       })
@@ -335,7 +343,7 @@ export class WorkPackageChangeset {
    * If loaded, return the form schema, which provides better information on writable status
    * and contains available values.
    */
-  public get schema():HalResource {
+  public get schema():SchemaResource {
     return (this.wpForm || this.workPackage).schema;
   }
 

@@ -137,6 +137,9 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
     this.titleService.setFirstPart(this.I18n.t('js.work_packages.create.title'));
   }
 
+
+  // TODO: move to service
+
   protected newWorkPackageFromParams(stateParams:any):Promise<WorkPackageChangeset> {
     const type = parseInt(stateParams.type);
 

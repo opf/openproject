@@ -49,14 +49,19 @@ export class WorkPackageFilterValues {
   }
 
   private setAllowedValueFor(form:FormResource, field:string, value:string|HalResource) {
-    return this.allowedValuesFor(form, field).then((allowedValues) => {
-      let newValue = this.findSpecialValue(value, field) || this.findAllowedValue(value, allowedValues);
+    // TODO: remove promise
+    //return this.allowedValuesFor(form, field).then((allowedValues) => {
+    return new Promise((resolve) => {
+      let newValue = this.findSpecialValue(value, field) || value; //this.findAllowedValue(value, allowedValues);
 
       if (newValue) {
         this.changeset.setValue(field, newValue);
         this.changeset.workPackage[field] = newValue;
       }
+
+      resolve();
     });
+    //});
   }
 
   /**
