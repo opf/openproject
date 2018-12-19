@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,22 +28,35 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Grids::GridQuery < Queries::BaseQuery
-  def self.model
-    Grids::Grid
-  end
+module Grids
+  module Filters
+    class PageFilter < Filters::GridFilter
+      def allowed_values
+        ::Grids::Configuration.registered_pages
+      end
 
-  def default_scope
-    grid_classes = ::Grids::Configuration.registered_grids
+      def type
+        :string
+      end
 
-    or_scope = grid_classes.pop.visible_scope
+      def self.key
+        :page
+      end
 
-    while grid_classes.any?
-      or_scope = or_scope.or(grid_classes.pop.visible_scope)
+      def where
+        actual_values = values
+                        .map do |page|
+                          ::Grids::Configuration.grid_for_page(page).name
+                        end
+
+        operator_strategy.sql_for_field(actual_values,
+                                        self.class.model.table_name,
+                                        'type')
+      end
+
+      def available_operators
+        [::Queries::Operators::Equals]
+      end
     end
-
-    # Have to use the subselect as AR will otherwise remove
-    # associations not defined on the subclass
-    Grids::Grid.where(id: or_scope)
   end
 end

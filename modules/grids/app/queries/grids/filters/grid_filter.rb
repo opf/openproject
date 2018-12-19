@@ -28,8 +28,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Grids
-  query = Queries::Grids::GridQuery
+module Grids
+  module Filters
+    class GridFilter < Queries::Filters::Base
+      self.model = ::Grids::Grid
 
-  Queries::Register.filter query, Queries::Grids::Filters::PageFilter
+      def human_name
+        Grids::Grid.human_attribute_name(name)
+      end
+    end
+  end
 end

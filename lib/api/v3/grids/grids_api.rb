@@ -37,7 +37,7 @@ module API
 
           get do
             query = ParamsToQueryService
-                    .new(::Grids::Grid, current_user, query_class: ::Queries::Grids::GridQuery)
+                    .new(::Grids::Grid, current_user, query_class: ::Grids::Query)
                     .call(params)
 
             if query.valid?
@@ -75,7 +75,7 @@ module API
 
           route_param :id do
             before do
-              @grid = ::Queries::Grids::GridQuery
+              @grid = ::Grids::Query
                       .new(user: current_user)
                       .results
                       .where(id: params['id'])
