@@ -28,34 +28,21 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class MyPageGrid < Grid
-  belongs_to :user
+module Grids
+  class Grid < ActiveRecord::Base
+    # TODO: check if this needs to be namespaced
+    self.table_name = :grids
 
-  def self.new_default(user)
-    new(
-      user: user,
-      row_count: 7,
-      column_count: 4,
-      widgets: [
-        GridWidget.new(
-          identifier: 'work_packages_assigned',
-          start_row: 1,
-          end_row: 7,
-          start_column: 1,
-          end_column: 3
-        ),
-        GridWidget.new(
-          identifier: 'work_packages_created',
-          start_row: 1,
-          end_row: 7,
-          start_column: 3,
-          end_column: 5
-        )
-      ]
-    )
-  end
+    has_many :widgets,
+             class_name: 'Widget',
+             autosave: true
 
-  def self.visible_scope
-    where(user_id: User.current.id)
+    def self.new_default(_user)
+      new(
+        row_count: 4,
+        column_count: 5,
+        widgets: []
+      )
+    end
   end
 end

@@ -82,7 +82,7 @@ module API
                                          link_factory: false
 
           def self.represented_class
-            Grid
+            ::Grids::Grid
           end
 
           def _dependencies

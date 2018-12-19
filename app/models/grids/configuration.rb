@@ -101,12 +101,13 @@ class Grids::Configuration
   end
 end
 
-Grids::Configuration.register_grid('MyPageGrid', 'my_page_path')
-Grids::Configuration.register_widget('work_packages_assigned', 'MyPageGrid')
-Grids::Configuration.register_widget('work_packages_accountable', 'MyPageGrid')
-Grids::Configuration.register_widget('work_packages_watched', 'MyPageGrid')
-Grids::Configuration.register_widget('work_packages_created', 'MyPageGrid')
-Grids::Configuration.register_widget('work_packages_calendar', 'MyPageGrid')
-Grids::Configuration.register_widget('time_entries_current_user', 'MyPageGrid')
-Grids::Configuration.register_widget('documents', 'MyPageGrid')
-Grids::Configuration.register_widget('news', 'MyPageGrid')
+# TODO: move to modules/grids/lib/grids???
+Grids::Configuration.register_grid('Grids::MyPage', 'my_page_path')
+Grids::Configuration.register_widget('work_packages_assigned', 'Grids::MyPage')
+Grids::Configuration.register_widget('work_packages_accountable', 'Grids::MyPage')
+Grids::Configuration.register_widget('work_packages_watched', 'Grids::MyPage')
+Grids::Configuration.register_widget('work_packages_created', 'Grids::MyPage')
+Grids::Configuration.register_widget('work_packages_calendar', 'Grids::MyPage')
+Grids::Configuration.register_widget('time_entries_current_user', 'Grids::MyPage')
+Grids::Configuration.register_widget('documents', 'Grids::MyPage')
+Grids::Configuration.register_widget('news', 'Grids::MyPage')

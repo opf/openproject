@@ -120,6 +120,11 @@ PATH
     openproject-global_roles (8.2.0)
 
 PATH
+  remote: modules/grids
+  specs:
+    grids (8.2.0)
+
+PATH
   remote: modules/meeting
   specs:
     openproject-meeting (8.2.0)
@@ -863,6 +868,7 @@ DEPENDENCIES
   fuubar (~> 2.3.1)
   gon (~> 6.2.0)
   grape (~> 1.1)
+  grids!
   health_check
   html-pipeline (~> 2.8.0)
   htmldiff

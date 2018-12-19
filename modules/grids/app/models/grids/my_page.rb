@@ -28,16 +28,36 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Grid < ActiveRecord::Base
-  has_many :widgets,
-           class_name: 'GridWidget',
-           autosave: true
+module Grids
+  class MyPage < Grid
+    belongs_to :user
 
-  def self.new_default(_user)
-    new(
-      row_count: 4,
-      column_count: 5,
-      widgets: []
-    )
+    def self.new_default(user)
+      new(
+        user: user,
+        row_count: 7,
+        column_count: 4,
+        widgets: [
+          Grids::Widget.new(
+            identifier: 'work_packages_assigned',
+            start_row: 1,
+            end_row: 7,
+            start_column: 1,
+            end_column: 3
+          ),
+          Grids::Widget.new(
+            identifier: 'work_packages_created',
+            start_row: 1,
+            end_row: 7,
+            start_column: 3,
+            end_column: 5
+          )
+        ]
+      )
+    end
+
+    def self.visible_scope
+      where(user_id: User.current.id)
+    end
   end
 end

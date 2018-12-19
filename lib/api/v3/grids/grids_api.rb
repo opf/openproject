@@ -37,7 +37,7 @@ module API
 
           get do
             query = ParamsToQueryService
-                    .new(Grid, current_user)
+                    .new(::Grids::Grid, current_user, query_class: ::Queries::Grids::GridQuery)
                     .call(params)
 
             if query.valid?

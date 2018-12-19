@@ -28,7 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class GridWidget < ActiveRecord::Base
-  belongs_to :grid
-  serialize :options, Hash
+module Grids
+  class Widget < ActiveRecord::Base
+    # TODO: make superfluous
+    self.table_name = :grid_widgets
+
+    belongs_to :grid
+    serialize :options, Hash
+  end
 end

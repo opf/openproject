@@ -29,9 +29,9 @@
 #++
 
 class Queries::Grids::Filters::GridFilter < Queries::Filters::Base
-  self.model = Grid
+  self.model = ::Grids::Grid
 
   def human_name
-    Grid.human_attribute_name(name)
+    Grids::Grid.human_attribute_name(name)
   end
 end

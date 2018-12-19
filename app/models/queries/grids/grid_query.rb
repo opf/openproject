@@ -28,7 +28,7 @@
 
 class Queries::Grids::GridQuery < Queries::BaseQuery
   def self.model
-    Grid
+    Grids::Grid
   end
 
   def default_scope
@@ -42,6 +42,6 @@ class Queries::Grids::GridQuery < Queries::BaseQuery
 
     # Have to use the subselect as AR will otherwise remove
     # associations not defined on the subclass
-    Grid.where(id: or_scope)
+    Grids::Grid.where(id: or_scope)
   end
 end
