@@ -30,8 +30,6 @@
 
 class Grids::Configuration
   class << self
-    include OpenProject::StaticRouting::UrlHelpers
-
     def register_grid(grid,
                       page)
       @grid_register ||= {}
@@ -48,7 +46,7 @@ class Grids::Configuration
     end
 
     def grid_for_page(page)
-      registered_grid_by_page[page] || Grid
+      registered_grid_by_page[page] || Grids::Grid
     end
 
     def grid_for_class(klass)
@@ -77,7 +75,10 @@ class Grids::Configuration
       if @registered_grid_by_page && @registered_grid_by_page.length == @grid_register.length
         @registered_grid_by_page
       else
-        @registered_grid_by_page = @grid_register.map { |klass, path| [send(path), klass.constantize] }.to_h
+        @registered_grid_by_page = @grid_register.map do |klass, path|
+          [url_helpers.send(path),
+           klass.constantize]
+        end.to_h
       end
     end
 
@@ -85,7 +86,10 @@ class Grids::Configuration
       if @registered_grid_by_klass && @registered_grid_by_klass.length == @grid_register.length
         @registered_grid_by_klass
       else
-        @registered_grid_by_klass = @grid_register.map { |klass, path| [klass.constantize, send(path)] }.to_h
+        @registered_grid_by_klass = @grid_register.map do |klass, path|
+          [klass.constantize,
+           url_helpers.send(path)]
+        end.to_h
       end
     end
 
@@ -98,16 +102,9 @@ class Grids::Configuration
                                            .to_h
       end
     end
+
+    def url_helpers
+      @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
+    end
   end
 end
-
-# TODO: move to modules/grids/lib/grids???
-Grids::Configuration.register_grid('Grids::MyPage', 'my_page_path')
-Grids::Configuration.register_widget('work_packages_assigned', 'Grids::MyPage')
-Grids::Configuration.register_widget('work_packages_accountable', 'Grids::MyPage')
-Grids::Configuration.register_widget('work_packages_watched', 'Grids::MyPage')
-Grids::Configuration.register_widget('work_packages_created', 'Grids::MyPage')
-Grids::Configuration.register_widget('work_packages_calendar', 'Grids::MyPage')
-Grids::Configuration.register_widget('time_entries_current_user', 'Grids::MyPage')
-Grids::Configuration.register_widget('documents', 'Grids::MyPage')
-Grids::Configuration.register_widget('news', 'Grids::MyPage')
