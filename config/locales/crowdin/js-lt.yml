@@ -264,15 +264,15 @@ lt:
     label_unwatch_work_package: Nebestebėti darbų paketo
     label_uploaded_by: Įkėlė
     label_default_queries: Numatytasis vaizdas
-    label_starred_queries: Favorite views
-    label_global_queries: Public views
-    label_custom_queries: Private views
+    label_starred_queries: Mėgiamiausias vaizdas
+    label_global_queries: Viešasis vaizdas
+    label_custom_queries: Asmeninis vaizdas
     label_columns: Stulpeliai
     label_attachments: Failai
     label_drop_files: Numeskite failus čia
     label_drop_files_hint: arba spustelkite, kad pridėtumėte failus
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
-      single files.
+    label_drop_folders_hint: Aplankų negalima įkelti kaip priedų. Prašome pasirinkti
+      atskirus failus.
     label_add_attachments: Prisegti priedus
     label_formattable_attachment_hint: Prisegti ir susieti failus užvelkant ant šio
       laukelio arba įklijuojant į iškarpinę.
@@ -293,9 +293,9 @@ lt:
       show_modal: Rodyti atributo pagalbos teksto įrašą
     onboarding:
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
+        welcome: Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių
+          sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos.
+          Ekskursiją galite paleisti iš naujo bet kuriuo metu.
         project_selection: Prašome pasirinkti vieną iš projektų su įdėtais naudingais
           demonstraciniais duomenimis. <br> <b>Demo project</b> geriausiai tinka klasikiniam
           projektų valdymui, o <b>Scrum project</b> labiau tinka Agile projektų valdymui.
@@ -319,9 +319,8 @@ lt:
           tasks, features, milestones, bugs, ir pan. <br> Jūs galite kurti ir redaguoti
           darbų paketus tiesiai šiame sąraše. Norėdami pamatyti detaliau, du kart
           spustelkite pele ant pasirinktos eilutės.'
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities, dependencies
-          or comments.
+        wp_full_view: "<b>Darbo paketo detalių</b> lange rasite visą reikalingą informaciją,
+          pvz., aprašymą, būseną ir prioritetą, veiklą, priklausomybes ar komentarus."
         wp_back_button: Su rodykle galite pereiti atgal į darbo paketų sąrašą.
         wp_create_button: Mygtukas <b>Sukurti</b> pridės naują darbą į jūsų projektą.
         wp_timeline_button: Jūs galite aktyvuoti <b>Gantto diagramą</b> norėdami matyti
@@ -359,7 +358,7 @@ lt:
       attribute_groups:
         error_duplicate_group_name: "%{group} grupės pavadinimas naudotas daugiau
           nei kartą. Grupių pavadinimai privalo būti unikalūs."
-        error_no_table_configured: Please configure a table for %{group}.
+        error_no_table_configured: Prašome sukonfigūruoti lentelę, skirtą grupei %{group}.
         reset_title: Nustatyti iš naujo formos konfigūraciją
         confirm_reset: 'Įspėjimas: Ar tikrai norite grįžti prie pradinės formos konfigūracijos?
           Atributai bus perkelti į jų numatytąsias grupes ir išjungs VISUS pritaikytus
@@ -373,18 +372,18 @@ lt:
         more_information: Daugiau informacijos
         nevermind: Nekreipti dėmesio
         filter_types:
-          parent: being child of
-          precedes: preceding
-          follows: following
-          relates: relating to
-          duplicates: duplicating
+          parent: yra vaikas
+          precedes: eina prieš
+          follows: eina po
+          relates: susieta su
+          duplicates: dubliuoja
           duplicated: dubliuojasi su
-          blocks: blocking
+          blocks: blokuoja
           blocked: blokuojamas
-          partof: being part of
-          includes: including
-          requires: requiring
-          required: required by
+          partof: yra dalis
+          includes: įskaitant
+          requires: reikalauja
+          required: reikalingas
     watchers:
       label_loading: Įkeliami stebėtojai...
       label_error_loading: Įkeliant stebėtojus įvyko klaida
@@ -412,19 +411,19 @@ lt:
       hierarchy_headline: Hierarchy
       children_headline: Pasekėjai
     relation_buttons:
-      set_parent: Set parent
+      set_parent: Priskirti tėvą
       change_parent: Keisti pirmtaką
       remove_parent: Pašalinti tėvą
       group_by_wp_type: Grupuoti pagal darbų paketo tipą
       group_by_relation_type: Grupuoti pagal ryšio tipą
       add_parent: Pridėti jau esamą tėvą
       add_new_child: Sukurti naują vaiką
-      create_new: Create new
-      add_existing: Add existing
+      create_new: Sukurti naują
+      add_existing: Pridėti esamą
       add_existing_child: Pridėti jau esamą vaiką
       remove_child: Pašalinti vaiką
       add_new_relation: Sukurti naują ryšį
-      add_existing_relation: Add existing relation
+      add_existing_relation: Pridėti esamą sąryšį
       update_description: Nustatyti arba atnaujinti šio ryšio aprašymą
       toggle_description: Įjungti/išjungti ryšio aprašymą
       update_relation: Paspauskite, jei norite pakeisti ryšio tipą
@@ -436,7 +435,7 @@ lt:
     relations_autocomplete:
       placeholder: Nurodykite susijusio darbų paketo id
       parent_placeholder: Pasirinkite tėvinį paketą, enter palieka tuščią, escape
-        atšaukia paketimus.
+        atšaukia pakeitimus.
     repositories:
       select_tag: Pasirinkti žymę
       select_branch: Parinkti padalinį
@@ -749,8 +748,8 @@ lt:
           relation_columns: Ar reikia matyti ryšius darbų paketų sąraše?
           check_out_link: Patikrinkite Enterprise Edition.
         relation_filters:
-          first_part: Show all work packages
-          second_part: the current work package
+          first_part: Visi darbų paketai
+          second_part: dabartinis darbų paketas
       tabs:
         overview: Peržiūra
         activity: Veikla

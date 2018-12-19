@@ -1292,6 +1292,7 @@ hi:
   label_environment: Environment
   label_estimates_and_time: Estimates and time
   label_equals: is
+  label_everywhere: everywhere
   label_example: Example
   label_export_to: 'Also available in:'
   label_expanded_click_to_collapse: विस्तार. संक्षिप्त करने के लिए क्लिक करें
