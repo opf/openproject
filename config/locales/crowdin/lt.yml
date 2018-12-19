@@ -63,7 +63,7 @@ lt:
     index:
       no_results_title_text: Nėra nurodytų spalvų.
       no_results_content_text: Sukurti naują spalvą
-    label_no_color: No color
+    label_no_color: Be spalvų
   custom_actions:
     actions:
       name: Veiksmai
@@ -94,7 +94,7 @@ lt:
       no_results_title_text: Nėra jokių pasirinktinų laukų.
       no_results_content_text: Sukurti naują pasirinktinį lauką
   concatenation:
-    single: or
+    single: arba
   deprecations:
     old_timeline:
       replacement: Šis laiko juostos modulis buvo pakeistas nauju, kuris integruotas
@@ -1182,7 +1182,7 @@ lt:
   label_all: visi
   label_all_time: visas laikas
   label_all_words: Visi žodžiai
-  label_all_open_wps: All open
+  label_all_open_wps: Visi atviri
   label_always_visible: Visada rodomas
   label_announcement: Skelbimas
   label_and_its_subprojects: "%{value} ir jo sub-projektai"
@@ -1347,7 +1347,7 @@ lt:
   label_group_by: Grupuoti pagal
   label_group_new: Nauja grupė
   label_group: Grupė
-  label_group_named: Group %{name}
+  label_group_named: Grupė %{name}
   label_group_plural: Grupės
   label_help: Pagalba
   label_here: čia
@@ -2306,7 +2306,7 @@ lt:
     highlighting:
       mode_long:
         inline: Paryškinti tik konkrečius atributus
-        none: No highlighting
+        none: Be paryškinimų
         status: Visa eilutė pagal būseną
         type: Visa eilutė pagal tipą
         priority: Visa eilutė pagal prioritetą

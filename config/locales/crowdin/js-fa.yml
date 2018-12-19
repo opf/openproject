@@ -64,12 +64,12 @@ fa:
     description_subwork_package: 'Child of work package #%{id}'
     editor:
       preview: Toggle preview mode
-      source_code: Toggle Markdown source mode
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      source_code: تغییر بین نشانه‌گذاری منبع
+      error_saving_failed: 'ذخیره سند با خطای مقابل ناموفق بود: %{error}'
       error_initialization_failed: راه اندازی CKEditor انجام نشد!
       mode:
-        manual: Switch to Markdown source
-        wysiwyg: Switch to WYSIWYG editor
+        manual: تغییر به نشانه‌گذاری منبع
+        wysiwyg: تغییر به ویرایشگر WYSIWYG
       macro:
         child_pages:
           button: Links to child pages
@@ -299,14 +299,14 @@ fa:
         welcome: یک تور معرفی سه دقیقه‌ای را برای یادگیری <b>مهم‌ترین ویژگی ها</b>
           در پیش گیرید. <br>وصیه می‌کنیم مراحل را تا پایان کامل کنید. شما می توانید
           تور را در هر زمان دیگری هم دوباره راه اندازی کنید.
-        project_selection: Please select one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
-        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
-          menu</b>.
+        project_selection: لطفاً یکی از پروژه‌ها با داده‌های نسخه‌ی نمایشی مفید برای
+          شروع را انتخاب کنید. <br> <b>پروژه نسخه ی نمایشی</b> برای مدیریت پروژه های
+          کلاسیک مناسب هستند، در حالی که <b>پروژه اسکرام</b> برای مدیریت پروژه چالاک
+          مناسب است.
+        sidebar_arrow: با استفاده از فلش می‌توانید به <b>منوی اصلی</b> باز گردید.
         members: دعوت از <b>اعضای</b> جدید برای پیوستن به پروژه شما.
-        wiki: Within the <b>Wiki</b> you can document and share knowledge together
-          with your team.
+        wiki: در <b>ویکی</b> شما می‌توانید سند و دانش را همراه با تیم خود به اشتراک
+          بگذارید.
         backlogs_overview: کار‌های خود را در <b>Backlogs view</b> مدیریت کنید. <br>
           در سمت راست Product Backlog یا یک Bug Backlog دارید، در سمت چپ چشم‌انداز
           sprintها را خواهید داشت. در اینجا می‌توانید <b>epicها, کاربر‌ها استوری ها,
@@ -314,29 +314,28 @@ fa:
           به یک sprint اضافه‌شان کنید.
         backlogs_task_board_arrow: برای مشاهده‌ی <b>صفحه‌ی کارتان</b>، منوی پایین‌باز‌شونده‌ی
           sprint را باز کنید...
-        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
-        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
-          sprint. Add new tasks or impediments with the + icon next to a user story.
-          Via drag'n'drop you can update the status.
-        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
-          gives you a more detailed view of your work.
-        wp_list: This is the <b>Work package</b> list with the important work within
-          your project, such as tasks, features, milestones, bugs, and more. <br>
-          You can create or edit a work package directly within this list. To see
-          its details you can double click on a row.
+        backlogs_task_board_select: "... و <b>میز کار</b> را انتخاب کنید."
+        backlogs_task_board: "<b>میز کار</b> پیشرفت این اسپرینت را نمایش می‌دهد. افزودن
+          وظایف جدید و یا موانع با آیکون + در کنار داستان کاربر انجام می‌شود. از طریق
+          کشیدن و رها کردن شما می‌توانید وضعیت به روز رسانی را مشاهده نمایید."
+        wp_toggler: حال بیایید نگاهی به بخش <b>بسته‌های کاری</b> بیندازید که به شما
+          اجازه مشاهده جزئیات بیشتری از کار را می‌دهد.
+        wp_list: این لیست <b>بسته کاری</b> است با کارهای مهم در پروژه شما مانند وظایف،
+          امکانات، نقاط عطف، اشکالات و... <br> شما می‌توانید بسته کاری را به طور مستقیم
+          در این لیست ایجاد یا ویرایش نمایید. برای دیدن جزئیات می‌توانید دوبار بر
+          روی یک ردیف کلیک کنید.
         wp_full_view: Within the <b>Work package details</b> you find all relevant
           information, such as description, status and priority, activities, dependencies
           or comments.
-        wp_back_button: With the arrow you can navigate back to the work package list.
-        wp_create_button: The <b>Create</b> button will add a new work package to
-          your project.
-        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-          for your project.
-        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
-          and add dependencies. All team members can see and update the latest plan
-          at any time.
-        help_menu: In the <b>Help</b> menu you will find a user guide and additional
-          help resources. <br> Enjoy your work with OpenProject!
+        wp_back_button: با فلش شما می‌توانید به لیست بسته کار باز گردید.
+        wp_create_button: دکمه <b>ایجاد</b> یک بسته کار به پروژه شما اضافه می‌کند.
+        wp_timeline_button: شما می‌توانید <b>گانت چارت</b> را برای ایجاد یک جدول زمانی
+          برای پروژه خود فعال نمایید.
+        wp_timeline: اینجا می‌توانید طرح پروژه‌های خود را ویرایش کنید. ایجاد فازها
+          و نقاط عطف جدید و اضافه کردن وابستگی‌ها. همه اعضای تیم می‌توانند آخرین برنامه
+          را مشاهده و به روز رسانی نمایند.
+        help_menu: در منوی <b>راهنما</b> می‌توانید راهنمای کاربر و منابع کمکی بیشتری
+          پیدا کنید. <br> از کار خود با اپن‌پراجکت لذت ببرید!
         got_it: متوجه شدم
     password_confirmation:
       field_description: You need to enter your account password to confirm this change.

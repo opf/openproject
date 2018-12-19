@@ -280,7 +280,7 @@ lt:
     label_remove_watcher: Pašalinti stebėtoją vardu %{name}
     label_remove_all_files: Ištrinti visus failus
     label_add_description: Pridėti %{file} aprašymą
-    label_upload_notification: Uploading files...
+    label_upload_notification: Įkeliu failus...
     label_work_package_upload_notification: 'Įkelti failus darbų paketui #%{id}: %{subject}'
     label_files_to_upload: 'Šie failai bus įkelti:'
     label_rejected_files: 'Negalima įkelti šių failų:'
@@ -408,7 +408,7 @@ lt:
       relation_type: ryšio tipas
     relations_hierarchy:
       parent_headline: Tėvas
-      hierarchy_headline: Hierarchy
+      hierarchy_headline: Hierarchija
       children_headline: Pasekėjai
     relation_buttons:
       set_parent: Priskirti tėvą
@@ -467,8 +467,7 @@ lt:
       activate_no: aktyvuoti, kad rūšiavimas būtų pašalintas
     text_work_packages_destroy_confirmation: Ar tikrai norite ištrinti pasirinktus(-ą)
       darbų paketus(-ą)?
-    text_query_destroy_confirmation: Are you sure you want to delete the selected
-      view?
+    text_query_destroy_confirmation: Ar tikrai norite panaikinti pasirinktą vaizdą?
     text_attachment_destroy_confirmation: Ar tikrai norite panaikinti priedą?
     timelines:
       gantt_chart: Ganto grafikas
@@ -532,8 +531,8 @@ lt:
         quarters: Ketvirčiai
         years: Metai(-ų)
         slider: Didinimo slankiklis
-        description: 'Select the initial zoom level that should be shown when autozoom
-          is not available.
+        description: 'Pasirinkite pradinį pritraukimo lygį, kuris bus rodomas kai
+          automatinis pritraukimas negalimas.
 
 '
     tl_toolbar:
@@ -549,7 +548,7 @@ lt:
       learn_more: Sužinoti daugiau
       close_warning: Ignoruoti šį perspėjimą.
     upsale:
-      ee_only: Enterprise Edition only feature
+      ee_only: Galimybė tik Enterprise Edition
     wiki_formatting:
       strong: Paryškintas
       italic: Pasvirasis
@@ -630,7 +629,7 @@ lt:
           sutrauktumėte išfiltruotus vaikus
       faulty_query:
         title: Nepavyko įkelti darbų paketų.
-        description: Your view is erroneous and could not be processed.
+        description: Jūsų vaizdas yra klaidingas ir negalėjo būti apdorotas.
       no_results:
         title: Nėra rodytinų darbų paketų.
         description: Arba nebuvo niekas sukurta, arba visi darbų paketai buvo išfiltruoti.
@@ -666,7 +665,7 @@ lt:
         created_by_me: Sukūriau pats
         assigned_to_me: Priskirti man
         recently_created: Neseniai sukurti
-        all_open: All open
+        all_open: Visi atviri
         summary: Santrauka
       jump_marks:
         pagination: Pereiti į lentelės laužymą puslapiais
@@ -694,17 +693,17 @@ lt:
         insert_columns: Įterpti stulpelius ...
         filters: Filtrai
         display_sums: Rodyti suvestines
-        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
-          view? Title will be set back to previous value.
-        click_to_edit_query_name: Click to edit title of this view.
-        rename_query_placeholder: Name of this view
+        confirm_edit_cancel: Ar tikrai norite atšaukti pavadinimo pakeitimus? Pavadinimas
+          bus atstatytas į prieš tai buvusį tekstą.
+        click_to_edit_query_name: Paspauskite norėdami keisti vaizdo pavadinimą.
+        rename_query_placeholder: Vaizdo pavadinimas
         errors:
-          unretrievable_query: Unable to retrieve view from URL
-          not_found: There is no such view
-          duplicate_query_title: Name of this view already exists. Change anyway?
-        text_no_results: No matching views were found.
+          unretrievable_query: Nepavyksta gauti vaizdo iš URL
+          not_found: Nėra tokio vaizdo
+          duplicate_query_title: Toks vaizdo vardas jau yra. Vis tiek keisti?
+        text_no_results: Atitinkančių vaizdų nerasta.
       table:
-        configure_button: Configure work package table
+        configure_button: Sukonfigūruokite darbų paketo lentelę
         summary: Lentelė su eilutėmis, sudarytomis iš darbų paketų, ir stulpeliais,
           sudarytais iš darbų paketų atributų.
         text_inline_edit: Dauguma langelių šioje lentelėje yra mygtukai, kurie aktyvuoja
@@ -714,37 +713,38 @@ lt:
         text_select_hint: Pažymėjimo langeliai turi būti atidaryti nuspaudus 'Alt'
           ir krypčių rodykles.
       table_configuration:
-        button: Configure this work package table
-        choose_display_mode: Display work packages as
-        modal_title: Work package table configuration
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          view you're editing.
+        button: Sukonfigūruokite šią darbų paketo lentelę
+        choose_display_mode: Parodyti darbų paketą kaip
+        modal_title: Darbų paketų lentelės konfigūracija
+        embedded_tab_disabled: Šis konfigūracijos lapas nerodomas įterpiamam vaizdui,
+          kurį jūs redaguojate.
         default: numatytasis
-        display_settings: Display settings
-        default_mode: Flat list
-        hierarchy_mode: Hierarchy
+        display_settings: Rodymo nustatymai
+        default_mode: Paprastas sąrašas
+        hierarchy_mode: Hierarchija
         hierarchy_hint: All filtered table results will be augmented with their ancestors.
           Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
-        highlighting: Highlighting
+        display_sums_hint: Rodyti visų sumuotinų atributų sumas eilutėje lentelės
+          apačioje po rezultatais.
+        show_timeline_hint: Parodyti interaktyvią gantt schemą dešinėje lentelės pusėje.
+          Jūs galite keisti šios schemos plotį stumdydami skyriklį tarp lentelės ir
+          schemos.
+        highlighting: Paryškinimai
         highlighting_mode:
-          description: Highlight with color
-          none: No highlighting
+          description: Spalviniai paryškinimai
+          none: Be paryškinimų
           inline: Paryškinti atributai
           inline_all: Visi atributai
-          entire_row_by: Entire row by
+          entire_row_by: Visa eilutė pagal
           status: Būsena
           priority: Pirmenybė
           type: Tipas
-        columns_help_text: Use the input above to add or remove columns to your table
-          view. You can drag and drop the columns to reorder them.
+        columns_help_text: Aukščiau esančioje įvedimo eilutėje pridėkite ar išmeskite
+          stulpelius iš lentelės vaizdo. Galite pele perkelti stulpelius, jei reikalinga
+          kita jų tvarka.
         upsale:
-          attribute_highlighting: Need certain work packages to stand out from the
-            mass?
+          attribute_highlighting: Reikia išskirti tam tikrus darbo paketus iš didelės
+            masės?
           relation_columns: Ar reikia matyti ryšius darbų paketų sąraše?
           check_out_link: Patikrinkite Enterprise Edition.
         relation_filters:
@@ -762,7 +762,7 @@ lt:
         months: mėnesiai(-ių)
     toolbar:
       settings:
-        configure_view: Configure view ...
+        configure_view: Konfigūruokite vaizdą...
         columns: Stulpeliai ...
         sort_by: Rūšiuoti pagal ...
         group_by: Grupuoti pagal ...
@@ -773,16 +773,16 @@ lt:
         save: Išsaugoti
         save_as: Išsaugoti kaip ...
         export: Eksportuoti ...
-        visibility_settings: Visibility settings ...
-        page_settings: Rename view ...
+        visibility_settings: Matomumo nustatymai...
+        page_settings: Pervardinti vaizdą ...
         delete: Ištrinti
       filter: Filtras
       unselected_title: Darbų paketas
-      search_query_label: Search saved views
-      search_query_title: Click to search saved views
-      placeholder_query_title: Set a title for this view
+      search_query_label: Išsaugotų vaizdų paieška
+      search_query_title: Paspauskite išsaugotų vaizdų paieškai
+      placeholder_query_title: Suteikite šiam vaizdui pavadinimą
     modals:
-      label_settings: Rename view
+      label_settings: Pervardinti vaizdą
       label_name: Vardas
       label_delete_page: Naikinti dabartinį puslapį
       button_apply: Taikyti
@@ -796,10 +796,10 @@ lt:
         title: Patvirtinkite, jog %{label} ištrinamas
         text: Ar Jūs tikrai norite, kad %{label} būtų ištrintas?
         has_children: 'Darbų paketas turi %{childUnits}:'
-        confirm_deletion_children: I acknowledge that ALL descendants of the listed
-          work packages will be recursively removed.
-        deletes_children: All child work packages and their descendants will also
-          be recursively deleted.
+        confirm_deletion_children: Aš sutinku, kad VISI šio darbų paketo palikuoniai
+          bus rekursiškai ištrinti.
+        deletes_children: Visi darbų paketo vaikai ir jų palikuoniai taip pat bus
+          rekursiškai ištrinti.
     notice_successful_create: Sėkmingas sukūrimas.
     notice_successful_delete: Sėkmingas panaikinimas.
     notice_successful_update: Sėkmingas atnaujinimas.
@@ -826,9 +826,8 @@ lt:
         messages_on_field: 'Šio laukelio reikšmė netinkama: %{messages}'
     error_could_not_resolve_version_name: Nepavyko nustatyti versijos pavadinimo
     error_could_not_resolve_user_name: Nepavyko nustatyti vartotojo vardo
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
-    error_attachment_upload_permission: You don't have the permission to upload files
-      on this resource.
+    error_attachment_upload: 'Failo ''%{name}'' nepavyko įkelti: %{error}'
+    error_attachment_upload_permission: Jūs neturite teisės įkelti failus į šį resursą.
     units:
       workPackage:
         one: darbų paketas
