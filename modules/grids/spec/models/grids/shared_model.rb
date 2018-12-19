@@ -26,11 +26,29 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_model'
+shared_examples_for 'grid attributes' do
+  describe 'attributes' do
+    it '#row_count' do
+      instance.row_count = 5
+      expect(instance.row_count)
+        .to eql 5
+    end
 
-describe Grid, type: :model do
-  let(:instance) { Grid.new }
+    it '#column_count' do
+      instance.column_count = 5
+      expect(instance.column_count)
+        .to eql 5
+    end
 
-  it_behaves_like 'grid attributes'
+    it '#widgets' do
+      widgets = [
+        Grids::Widget.new(start_row: 2),
+        Grids::Widget.new(start_row: 5)
+      ]
+
+      instance.widgets = widgets
+      expect(instance.widgets)
+        .to match_array widgets
+    end
+  end
 end

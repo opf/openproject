@@ -360,11 +360,6 @@ en:
         subscriber: "Subscriber"
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
-      grid:
-        page: "Page"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
       relation:
         delay: "Delay"
         from: "Work package"
@@ -507,10 +502,6 @@ en:
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
-        grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
         parse_schema_filter_params_service:
           attributes:
             base:

@@ -2,7 +2,7 @@ module Grids
   class Engine < ::Rails::Engine
     isolate_namespace Grids
 
-    config.autoload_paths << File.expand_path("app/queries", __FILE__)
+    include OpenProject::Plugins::ActsAsOpEngine
 
     config.to_prepare do
       query = Grids::Query

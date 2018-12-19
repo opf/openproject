@@ -26,29 +26,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-shared_examples_for 'grid attributes' do
-  describe 'attributes' do
-    it '#row_count' do
-      instance.row_count = 5
-      expect(instance.row_count)
-        .to eql 5
-    end
+require 'spec_helper'
 
-    it '#column_count' do
-      instance.column_count = 5
-      expect(instance.column_count)
-        .to eql 5
-    end
+require_relative './shared_model'
 
-    it '#widgets' do
-      widgets = [
-        GridWidget.new(start_row: 2),
-        GridWidget.new(start_row: 5)
-      ]
+describe Grids::MyPage, type: :model do
+  let(:instance) { described_class.new }
 
-      instance.widgets = widgets
-      expect(instance.widgets)
-        .to match_array widgets
+  it_behaves_like 'grid attributes'
+
+  context 'attributes' do
+    let(:user) { FactoryBot.build_stubbed :user }
+
+    it '#user' do
+      instance.user = user
+      expect(instance.user)
+        .to eql user
     end
   end
 end

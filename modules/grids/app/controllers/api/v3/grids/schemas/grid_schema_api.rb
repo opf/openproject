@@ -26,60 +26,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module API
+  module V3
+    module Grids
+      module Schemas
+        class GridSchemaAPI < ::API::OpenProjectAPI
+          resources :schema do
+            get do
+              contract = ::Grids::CreateContract.new(::Grids::Grid.new, current_user)
 
-describe GridWidget, type: :model do
-  let(:instance) { GridWidget.new }
-
-  describe 'attributes' do
-    it '#start_row' do
-      instance.start_row = 5
-      expect(instance.start_row)
-        .to eql 5
-    end
-
-    it '#end_row' do
-      instance.end_row = 5
-      expect(instance.end_row)
-        .to eql 5
-    end
-
-    it '#start_column' do
-      instance.start_column = 5
-      expect(instance.start_column)
-        .to eql 5
-    end
-
-    it '#end_column' do
-      instance.end_column = 5
-      expect(instance.end_column)
-        .to eql 5
-    end
-
-    it '#identifier' do
-      instance.identifier = 'some_identifier'
-      expect(instance.identifier)
-        .to eql 'some_identifier'
-    end
-
-    it '#options' do
-      value = {
-        some: 'value',
-        and: {
-          also: 1
-        }
-      }
-
-      instance.options = value
-      expect(instance.options)
-        .to eql value
-    end
-
-    it '#grid' do
-      grid = Grid.new
-      instance.grid = grid
-      expect(instance.grid)
-        .to eql grid
+              ::API::V3::Grids::Schemas::GridSchemaRepresenter.new(contract,
+                                                                   api_v3_paths.grid_schema,
+                                                                   current_user: current_user)
+            end
+          end
+        end
+      end
     end
   end
 end

@@ -38,7 +38,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
   end
 
   let(:my_page_grid) do
-    grid = MyPageGrid.new_default(current_user)
+    grid = Grids::MyPage.new_default(current_user)
     grid.save!
     grid
   end
@@ -46,7 +46,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     FactoryBot.create(:user)
   end
   let(:other_my_page_grid) do
-    MyPageGrid.new_default(other_user).save
+    Grids::MyPage.new_default(other_user).save
   end
 
   before do
@@ -89,11 +89,13 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
     context 'with a filter on the page attribute' do
       shared_let(:other_grid) do
-        grid = Grid.new(row_count: 20,
-                        column_count: 20)
+        grid = Grids::Grid.new(row_count: 20,
+                               column_count: 20)
         grid.save
 
-        Grid.where(id: grid.id).update_all(user_id: current_user.id)
+        Grids::Grid
+          .where(id: grid.id)
+          .update_all(user_id: current_user.id)
 
         grid
       end
@@ -266,7 +268,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
       it 'does not persist the changes to widgets' do
         expect(my_page_grid.reload.widgets.count)
-          .to eql MyPageGrid.new_default(current_user).widgets.size
+          .to eql Grids::MyPage.new_default(current_user).widgets.size
       end
     end
 
@@ -363,7 +365,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     end
 
     it 'persists the grid' do
-      expect(Grid.count)
+      expect(Grids::Grid.count)
         .to eql(1)
     end
 
@@ -392,7 +394,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       end
 
       it 'does not create a grid' do
-        expect(Grid.count)
+        expect(Grids::Grid.count)
           .to eql(0)
       end
 
@@ -435,7 +437,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       end
 
       it 'does not create a grid' do
-        expect(Grid.count)
+        expect(Grids::Grid.count)
           .to eql(0)
       end
 

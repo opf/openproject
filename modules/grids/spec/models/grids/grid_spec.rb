@@ -26,22 +26,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Grids
-      module Schemas
-        class GridSchemaAPI < ::API::OpenProjectAPI
-          resources :schema do
-            get do
-              contract = ::Grids::CreateContract.new(Grid.new, current_user)
+require 'spec_helper'
+require_relative './shared_model'
 
-              ::API::V3::Grids::Schemas::GridSchemaRepresenter.new(contract,
-                                                                   api_v3_paths.grid_schema,
-                                                                   current_user: current_user)
-            end
-          end
-        end
-      end
-    end
-  end
+describe Grids::Grid, type: :model do
+  let(:instance) { Grids::Grid.new }
+
+  it_behaves_like 'grid attributes'
 end

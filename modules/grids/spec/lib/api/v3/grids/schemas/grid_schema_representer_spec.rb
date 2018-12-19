@@ -107,7 +107,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'Integer' }
-        let(:name) { Grid.human_attribute_name(:row_count) }
+        let(:name) { Grids::Grid.human_attribute_name(:row_count) }
         let(:required) { true }
         let(:writable) { true }
       end
@@ -120,7 +120,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'Integer' }
-        let(:name) { Grid.human_attribute_name(:column_count) }
+        let(:name) { Grids::Grid.human_attribute_name(:column_count) }
         let(:required) { true }
         let(:writable) { true }
       end
@@ -133,7 +133,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'DateTime' }
-        let(:name) { Grid.human_attribute_name('created_at') }
+        let(:name) { Grids::Grid.human_attribute_name('created_at') }
         let(:required) { true }
         let(:writable) { false }
       end
@@ -146,7 +146,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'DateTime' }
-        let(:name) { Grid.human_attribute_name('updated_at') }
+        let(:name) { Grids::Grid.human_attribute_name('updated_at') }
         let(:required) { true }
         let(:writable) { false }
       end
@@ -159,7 +159,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { '[]GridWidget' }
-        let(:name) { Grid.human_attribute_name('widgets') }
+        let(:name) { Grids::Grid.human_attribute_name('widgets') }
         let(:required) { true }
         let(:writable) { true }
       end
@@ -192,7 +192,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
       context 'when having a new record' do
         it_behaves_like 'has basic schema properties' do
           let(:type) { 'Href' }
-          let(:name) { Grid.human_attribute_name('page') }
+          let(:name) { Grids::Grid.human_attribute_name('page') }
           let(:required) { true }
           let(:writable) { true }
         end
@@ -228,7 +228,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
 
         it_behaves_like 'has basic schema properties' do
           let(:type) { 'Href' }
-          let(:name) { Grid.human_attribute_name('page') }
+          let(:name) { Grids::Grid.human_attribute_name('page') }
           let(:required) { true }
           let(:writable) { false }
         end
