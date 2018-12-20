@@ -1290,7 +1290,7 @@ hu:
   label_environment: Környezet
   label_estimates_and_time: Becslések & időpontok
   label_equals: van
-  label_everywhere: everywhere
+  label_everywhere: bárhol
   label_example: Példa
   label_export_to: 'Is elérhető:'
   label_expanded_click_to_collapse: Kinyitva. Kattintson az összecsukáshoz
@@ -1348,7 +1348,7 @@ hu:
   label_journal_diff: Leírás összehasonlítás
   label_language: Nyelv
   label_jump_to_a_project: Ugrás a projekthez
-  label_keyword_plural: Keywords
+  label_keyword_plural: Kulcsszavak
   label_language_based: A felhasználói nyelv alapján
   label_last_activity: Utolsó aktivitás
   label_last_change_on: Utolsó módosítás a
