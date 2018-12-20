@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {input, InputState} from 'reactivestates';
 import {debugLog} from '../../helpers/debug_output';
 import {SchemaCacheService} from '../schemas/schema-cache.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
@@ -46,7 +45,6 @@ import {
 } from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {take} from "rxjs/operators";
 import {Observable, BehaviorSubject} from 'rxjs';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 
@@ -64,11 +62,8 @@ export class WorkPackageChangeset {
   private changes:{ [attribute:string]:any } = {};
   public inFlight:boolean = false;
 
-  // The current work package form
-  public wpForm:FormResource|undefined;
-  private wpFormPromise:Promise<FormResource>|undefined;
-  private wpFormSubject = new BehaviorSubject<FormResource|undefined>(undefined);
-  public wpForm$ = this.wpFormSubject.asObservable();
+  private wpFormSubject:BehaviorSubject<FormResource|undefined>;
+  public wpForm$:Observable<FormResource|undefined>;
 
   // The current editing resource
   public resource:WorkPackageResource|null;
@@ -77,9 +72,12 @@ export class WorkPackageChangeset {
               public workPackage:WorkPackageResource,
               form?:FormResource) {
     // New work packages have no schema set yet, so update the form immediately to get one
-    if (form !== undefined) {
-      this.wpForm = form;
-    }
+    this.wpFormSubject = new BehaviorSubject<FormResource|undefined>(form);
+    this.wpForm$ = this.wpFormSubject.asObservable();
+  }
+
+  public get wpForm() {
+    return this.wpFormSubject.getValue();
   }
 
   public reset(key:string) {
@@ -93,8 +91,7 @@ export class WorkPackageChangeset {
   }
 
   public resetForm() {
-    this.wpForm = undefined;
-    this.wpFormPromise = undefined;
+    this.wpFormSubject.next(undefined);
   }
 
   public get empty() {
@@ -131,9 +128,6 @@ export class WorkPackageChangeset {
     // will update the form automatically.
     if (this.workPackage.isNew && (key === 'project' || key === 'type')) {
       this.updateForm();
-          //.then(() => {
-          //  this.workPackage.overriddenSchema = this.schema;
-          //});
     }
   }
 
@@ -147,12 +141,11 @@ export class WorkPackageChangeset {
   }
 
   public getForm():Promise<FormResource> {
-    if (this.wpForm) {
+    if (!this.wpForm) {
+      return this.updateForm();
+    } else {
       return Promise.resolve(this.wpForm);
     }
-
-    this.wpFormPromise = this.wpFormPromise || this.updateForm();
-    return this.wpFormPromise;
   }
 
   /**
@@ -164,7 +157,6 @@ export class WorkPackageChangeset {
     return this.workPackage.$links
       .update(payload)
       .then((form:FormResource) => {
-        this.wpForm = form;
         this.buildResource();
 
         this.wpFormSubject.next(form);
@@ -362,7 +354,6 @@ export class WorkPackageChangeset {
       return;
     }
 
-    const hasForm = !!this.wpForm;
     let payload:any = this.workPackage.$source;
 
     const resource = this.halResourceService.createHalResourceOfType('WorkPackage', this.mergeWithPayload(payload));

@@ -274,46 +274,22 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
       promise = Promise.resolve();
     }
 
-    //changeset.wpForm$.pipe(
-    //  untilComponentDestroyed(this),
-    //  distinctUntilChanged((x:FormResource, y:FormResource) => {
-    //    console.log('received');
-    //    return x && x.type.idFromLink === y.type.idFromLink;
-    //  })
-    //).subscribe((form) => {
-      promise.then(() => {
-        // Update the changeset with any added filtered values
-        this.wpEditing.updateValue('new', changeset);
-        this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
+    promise.then(() => {
+      // Update the changeset with any added filtered values
+      this.wpEditing.updateValue('new', changeset);
+      this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
 
-        // Actually render the row
-        const form = this.workPackageEditForm = this.renderInlineCreateRow(wp);
+      // Actually render the row
+      const form = this.workPackageEditForm = this.renderInlineCreateRow(wp);
 
-        setTimeout(() => {
-          // Activate any required fields
-          form.activateMissingFields();
+      setTimeout(() => {
+        // Activate any required fields
+        form.activateMissingFields();
 
-          // Hide the button row
-          this.hideRow();
-        });
+        // Hide the button row
+        this.hideRow();
       });
-    //});
-    //promise.then(() => {
-    //  // Update the changeset with any added filtered values
-    //  this.wpEditing.updateValue('new', changeset);
-    //  this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
-
-    //  // Actually render the row
-    //  const form = this.workPackageEditForm = this.renderInlineCreateRow(wp);
-
-    //  setTimeout(() => {
-    //    // Activate any required fields
-    //    form.activateMissingFields();
-
-    //    // Hide the button row
-    //    this.hideRow();
-    //  });
-    //});
+    });
   }
 
   /**
