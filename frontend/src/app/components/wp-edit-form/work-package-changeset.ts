@@ -62,6 +62,7 @@ export class WorkPackageChangeset {
   private changes:{ [attribute:string]:any } = {};
   public inFlight:boolean = false;
 
+  private wpFormPromise:Promise<FormResource>|null;
   private wpFormSubject:BehaviorSubject<FormResource|undefined>;
   public wpForm$:Observable<FormResource|undefined>;
 
@@ -141,6 +142,7 @@ export class WorkPackageChangeset {
   }
 
   public getForm():Promise<FormResource> {
+    console.log('get form called');
     if (!this.wpForm) {
       return this.updateForm();
     } else {
@@ -154,19 +156,26 @@ export class WorkPackageChangeset {
   public updateForm():Promise<FormResource> {
     let payload = this.buildPayloadFromChanges();
 
-    return this.workPackage.$links
-      .update(payload)
-      .then((form:FormResource) => {
-        this.buildResource();
+    if (!this.wpFormPromise) {
+      this.wpFormPromise = this.workPackage.$links
+        .update(payload)
+        .then((form:FormResource) => {
+          this.buildResource();
 
-        this.wpFormSubject.next(form);
+          this.wpFormSubject.next(form);
 
-        return form;
-      })
-      .catch((error:any) => {
-        this.resetForm();
-        throw error;
-      });
+          this.wpFormPromise = null;
+          return form;
+        })
+        .catch((error: any) => {
+          this.resetForm();
+
+          this.wpFormPromise = null;
+          throw error;
+        });
+    }
+
+    return this.wpFormPromise;
   }
 
   public save():Promise<WorkPackageResource> {
