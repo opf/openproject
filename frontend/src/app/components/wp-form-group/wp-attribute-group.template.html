@@ -10,8 +10,8 @@
           {{ descriptor.label }}
           <span class="required"
                 *ngIf="descriptor.field!.required && descriptor.field!.writable"> *</span>
-          <attribute-help-text [attribute]="descriptor.name" [attributeScope]="'WorkPackage'"></attribute-help-text>
         </wp-replacement-label>
+        <attribute-help-text [attribute]="descriptor.name" [attributeScope]="'WorkPackage'"></attribute-help-text>
       </div>
       <div *ngIf="!descriptor.multiple && descriptor.field"
            class="attributes-key-value--value-container">
@@ -33,8 +33,8 @@
         *ngIf="descriptor.multiple">
         <wp-replacement-label [fieldName]="descriptor.name">
           {{ descriptor.label }}
-          <attribute-help-text [attribute]="descriptor.name" [attributeScope]="'WorkPackage'"></attribute-help-text>
         </wp-replacement-label>
+        <attribute-help-text [attribute]="descriptor.name" [attributeScope]="'WorkPackage'"></attribute-help-text>
       </div>
       <div
         *ngIf="descriptor.multiple"

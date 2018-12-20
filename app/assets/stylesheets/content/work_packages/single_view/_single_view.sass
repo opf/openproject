@@ -196,6 +196,11 @@ i
   .attributes-key-value--key
     flex: 0 0 45%
     max-width: 45%
+    // Ensure that the text is shortened while the help icon will be displayed
+    display: flex
+    > wp-replacement-label
+      @include text-shortener
+      flex: 0 1 auto
   .attributes-key-value--value-container
     flex: 0 0 55%
     max-width: 55%
