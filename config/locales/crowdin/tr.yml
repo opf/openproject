@@ -1174,8 +1174,8 @@ tr:
   label_available_project_repositories: Uygun depolar
   label_api_documentation: API belgelendirmesi
   label_between: arasında
-  label_blocked_by: tarafından engellendi
-  label_blocks: bloklar
+  label_blocked_by: bağlı
+  label_blocks: engeller
   label_blog: Blog
   label_board_locked: Kilitlendi
   label_board_new: Yeni forum
@@ -1264,9 +1264,9 @@ tr:
   label_download: "%{count} indirme"
   label_download_plural: "%{count} indirme"
   label_downloads_abbr: D/L
-  label_duplicated_by: yineleyen
+  label_duplicated_by: tarafından çoğaltılır
   label_duplicate: kopya
-  label_duplicates: Çoğalt
+  label_duplicates: çoğaltır
   label_edit: Düzenle
   label_enable_multi_select: Çoklu seçimi etkinleştir
   label_enabled_project_custom_fields: Etkin özel alanlar
@@ -1300,7 +1300,7 @@ tr:
   label_filters_toggle: Filtreleri göster / gizle
   label_float: Ondalık
   label_folder: Klasör
-  label_follows: öncesi
+  label_follows: takip eder
   label_force_user_language_to_default: Varsayılan olmayan izin verildi bir dil olan
     kullanıcı dilini ayarlama
   label_form_configuration: Formu yapılandırma
@@ -1431,7 +1431,7 @@ tr:
   label_overall_spent_time: Genel harcanan zaman
   label_overview: Genel Bakış
   label_page_title: Sayfa başlığı
-  label_part_of: parçası
+  label_part_of: bölümü
   label_password_lost: Parolanızı mı unuttunuz?
   label_password_rule_lowercase: Küçük harf
   label_password_rule_numeric: Sayısal karakterler
@@ -1447,7 +1447,7 @@ tr:
   label_planning: Planlanıyor
   label_please_login: Lütfen giriş yapın
   label_plugins: Eklentiler
-  label_precedes: sonrası
+  label_precedes: iletletir
   label_preferences: Seçenekler
   label_preview: Ön İzleme
   label_previous: Önceki

@@ -277,7 +277,7 @@ pt-BR:
     label_drop_files: Solte os arquivos aqui
     label_drop_files_hint: ou clique para adicionar arquivos
     label_drop_folders_hint: Você não pode enviar pastas como anexo. Por favor, selecione
-      arquivos únicos.
+      arquivos individuais.
     label_add_attachments: Adicionar anexos
     label_formattable_attachment_hint: Anexar e vincular arquivos soltando neste campo,
       ou colando da área de transferência.
@@ -315,7 +315,7 @@ pt-BR:
         backlogs_overview: Gerencie seu trabalho na visão de <b>Backlogs</b>.<br>
           À direita você possui o Backlog do produto ou um Backlog de Bug, à esquerda
           você terá sprints respectivos. Aqui você pode criar <b>épicos, histórias
-          de usuários e bugs</b>, priorizar através de arrastar e soltar, e adicioná-los
+          de usuários e bugs</b>, priorizar através de arrastar e soltar e adicioná-los
           a um sprint.
         backlogs_task_board_arrow: Para visualizar seu <b>Quadro de tarefas</b>, abra
           o menu suspenso de Sprint...
@@ -386,7 +386,7 @@ pt-BR:
         filter_types:
           parent: sendo filho de
           precedes: anterior
-          follows: seguinte
+          follows: posterior
           relates: relativo a
           duplicates: duplicando
           duplicated: duplicado por
