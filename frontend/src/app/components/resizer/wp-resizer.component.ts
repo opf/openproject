@@ -198,7 +198,7 @@ export class WpResizerDirective implements OnInit, OnDestroy {
       this.toggleColumns(element, 700);
     }
   }
-  
+
   private toggleColumns(element:HTMLElement, checkWidth:number = 750) {
     if (element) {
       jQuery(element).toggleClass('-can-have-columns', element.offsetWidth > checkWidth);
