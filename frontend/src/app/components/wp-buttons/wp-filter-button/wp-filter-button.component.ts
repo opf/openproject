@@ -59,11 +59,11 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
   }
 
   public get labelKey():string {
-    return 'js.button_filter';
+    return 'js.button_advanced_filters';
   }
 
   public get textKey():string {
-    return 'js.toolbar.filter';
+    return 'js.toolbar.advanced_filters';
   }
 
   public get label():string {

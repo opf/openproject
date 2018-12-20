@@ -1,14 +1,16 @@
-<button class="button"
+<button class="button--link"
         [attr.id]="buttonId"
         [attr.accesskey]="accessKey"
         [attr.title]="label"
         [attr.aria-label]="label"
         [disabled]="disabled"
         (click)="performAction($event)"
-        [ngClass]="{ '-active': isActive() }">
+        [ngClass]="{ '-active': isActive() }"
+        style="border: none; background: none;">
   <op-icon icon-classes="{{ iconClass }} button--icon"></op-icon>
   <span class="button--text">
     {{ buttonText }}
     <span class="badge -secondary" *ngIf="initialized" [textContent]="filterCount"></span>
   </span>
+  <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
 </button>

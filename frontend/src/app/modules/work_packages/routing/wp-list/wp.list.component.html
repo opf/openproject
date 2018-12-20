@@ -8,15 +8,19 @@
 
       <ul class="toolbar-items hide-when-print"
           *ngIf="tableInformationLoaded">
+        <li class="toolbar-item hidden-for-mobile">
+          <wp-filter-by-text-input>
+          </wp-filter-by-text-input>
+        </li>
+        <li class="toolbar-item hidden-for-mobile">
+          <wp-filter-button>
+          </wp-filter-button>
+        </li>
         <li class="toolbar-item">
           <wp-create-button
             [allowed]="allowed('work_packages', 'createWorkPackage')"
             stateName="work-packages.list.new">
           </wp-create-button>
-        </li>
-        <li class="toolbar-item hidden-for-mobile">
-          <wp-filter-button>
-          </wp-filter-button>
         </li>
         <li class="toolbar-item hidden-for-mobile">
           <wp-details-view-button>

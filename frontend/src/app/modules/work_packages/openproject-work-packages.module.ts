@@ -186,6 +186,7 @@ import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/rout
 import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component";
 import {AttachmentsUploadComponent} from 'core-app/modules/attachments/attachments-upload/attachments-upload.component';
 import {AttachmentListComponent} from 'core-app/modules/attachments/attachment-list/attachment-list.component';
+import {WorkPackageFilterByTextInputComponent} from "core-components/wp-quick-filter/wp-filter-by-text-input/wp-filter-by-text-input.component";
 
 @NgModule({
   imports: [
@@ -342,6 +343,7 @@ import {AttachmentListComponent} from 'core-app/modules/attachments/attachment-l
     WorkPackageTimelineTableController,
 
     WorkPackageCreateButtonComponent,
+    WorkPackageFilterByTextInputComponent,
 
     // Single view
     WorkPackageOverviewTabComponent,
