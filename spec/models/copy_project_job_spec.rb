@@ -56,7 +56,7 @@ describe CopyProjectJob, type: :model do
       # (see https://github.com/collectiveidea/delayed_job#rails-3-mailers).
       # Thus, we need to return a message object here, otherwise 'Delayed Job'
       # will complain about an object without a method #deliver.
-      allow(UserMailer).to receive(:copy_project_failed).and_return(maildouble)
+      allow(ProjectMailer).to receive(:copy_project_failed).and_return(maildouble)
     end
 
     it 'sets locale correctly' do
@@ -100,7 +100,7 @@ describe CopyProjectJob, type: :model do
       # (see https://github.com/collectiveidea/delayed_job#rails-3-mailers).
       # Thus, we need to return a message object here, otherwise 'Delayed Job'
       # will complain about an object without a method #deliver.
-      allow(UserMailer).to receive(:copy_project_succeeded).and_return(maildouble)
+      allow(ProjectMailer).to receive(:copy_project_succeeded).and_return(maildouble)
 
       @copied_project, @errors = copy_job.send(:create_project_copy,
                                                source_project,
@@ -139,7 +139,7 @@ describe CopyProjectJob, type: :model do
       let(:subproject) { FactoryBot.create(:project, parent: project) }
 
       describe 'invalid parent' do
-        before do expect(UserMailer).to receive(:copy_project_failed).and_return(maildouble) end
+        before do expect(ProjectMailer).to receive(:copy_project_failed).and_return(maildouble) end
 
         include_context 'copy project' do
           let(:project_to_copy) { subproject }
@@ -158,7 +158,7 @@ describe CopyProjectJob, type: :model do
         }
 
         before do
-          expect(UserMailer).to receive(:copy_project_succeeded).and_return(maildouble)
+          expect(ProjectMailer).to receive(:copy_project_succeeded).and_return(maildouble)
 
           member_add_subproject
         end
