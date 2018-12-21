@@ -31,7 +31,6 @@ import {Injectable} from '@angular/core';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {WorkPackageTableFilters} from '../wp-table-filters';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {InputState} from 'reactivestates';
@@ -105,39 +104,6 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<
   }
 
   private loadCurrentFiltersSchemas(filters:QueryFilterInstanceResource[]):Promise<{}> {
-    return Promise.all(_.map(filters,
-                       (filter:QueryFilterInstanceResource) => this.loadFilterSchema(filter)));
-  }
-
-  private loadFilterSchema(filter:QueryFilterInstanceResource):Promise<{}> {
-    return new Promise((resolve, reject) => {
-      filter.schema.$load()
-        .catch(reject)
-        .then(() => {
-        if (_.has(filter, ['values.length', 'currentSchema.values.allowedValues.$load'])) {
-          (filter.currentSchema!.values!.allowedValues as CollectionResource).$load()
-            .then((options:CollectionResource) => {
-              this.setLoadedValues(filter, options);
-
-              resolve();
-            });
-        } else {
-          resolve();
-        }
-      });
-    });
-  }
-
-  private setLoadedValues(filter:QueryFilterInstanceResource, options:CollectionResource) {
-    _.each(filter.values, (value:any, index:any) => {
-      let loadedHalResource = _.find(options.elements,
-                                     option => option.$href === value.$href);
-
-      if (loadedHalResource) {
-        filter.values[index] = loadedHalResource;
-      } else {
-        throw "HalResource not in list of allowed values.";
-      }
-    });
+    return Promise.all(filters.map(f => f.$load()));
   }
 }
