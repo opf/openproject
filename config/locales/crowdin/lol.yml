@@ -99,14 +99,12 @@ lol:
       no_results_title_text: crwdns102700:0crwdne102700:0
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      scheduled: crwdns109290:0crwdne109290:0
+      schedule_failed: crwdns109292:0%{errors}crwdne109292:0
+      failed: crwdns109294:0%{name}crwdne109294:0
+      failed_text: crwdns109296:0%{name}crwdne109296:0
+      completed: crwdns109298:0%{name}crwdne109298:0
+      completed_text: crwdns109300:0%{name}crwdne109300:0
     index:
       no_results_title_text: crwdns102702:0crwdne102702:0
       no_results_content_text: crwdns102704:0crwdne102704:0
