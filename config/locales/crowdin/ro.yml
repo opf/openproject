@@ -118,6 +118,15 @@ ro:
       no_results_title_text: În acest moment nu există proiecte care să facă parte
         din acest grup.
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: În acest moment nu există proiecte
       no_results_content_text: Creare proiect nou
