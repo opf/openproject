@@ -116,14 +116,14 @@ nl:
       no_results_title_text: Er zijn momenteel projecten deel van deze groep.
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      scheduled: Het verwijderen staat gepland en wordt uigevoerd in de achtergrond.
+        U wordt op de hoogte gehouden van het resultaat.
+      schedule_failed: 'Project kan niet worden verwijderd: %{errors}'
+      failed: Verwijderen van project %{name} is mislukt
+      failed_text: Het verzoek om het project %{name} verwijderen is mislukt. Het
+        project is gearchiveerd gebleven.
+      completed: Verwijderen van project %{name} is gelukt
+      completed_text: Het verzoek om het verwijderen van project '%{name}' is voltooid.
     index:
       no_results_title_text: Er zijn momenteel geen projecten
       no_results_content_text: Maak een nieuw project
@@ -1312,7 +1312,7 @@ nl:
   label_environment: Omgeving
   label_estimates_and_time: Schattingen en tijden
   label_equals: is
-  label_everywhere: everywhere
+  label_everywhere: overal
   label_example: Voorbeeld
   label_export_to: 'Ook verkrijgbaar in:'
   label_expanded_click_to_collapse: Uitgebreid. Klik op samenvouwen
