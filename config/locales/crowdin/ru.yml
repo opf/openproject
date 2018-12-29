@@ -115,14 +115,14 @@ ru:
       no_results_title_text: На данный момент проектов этой группы нет.
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      scheduled: Удаление было запланировано и исполнено в фоновом режиме. О результатах
+        вы будете уведомлены.
+      schedule_failed: 'Проект удален быть не может: %{errors}'
+      failed: Удалить проект %{name} не удалось
+      failed_text: Запрос по удалению проекта %{name} выполнить не удалось. Проект
+        был архивирован.
+      completed: Удаление проекта %{name} завершено
+      completed_text: Запрос по удалению проекта «%{name}» выполнен.
     index:
       no_results_title_text: На данный момент проектов нет
       no_results_content_text: Создать новый проект
