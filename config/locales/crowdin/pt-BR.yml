@@ -116,14 +116,14 @@ pt-BR:
       no_results_title_text: Atualmente, não há projetos componentes deste grupo.
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      scheduled: Exclusão foi agendada e será realizada em segundo plano. Você será
+        notificado do resultado.
+      schedule_failed: 'Projeto não pode ser excluído: %{errors}'
+      failed: Exclusão do projeto %{name} falhou
+      failed_text: A solicitação para excluir o projeto %{name} falhou. O projeto
+        foi arquivado.
+      completed: Exclusão do projeto %{name} concluída
+      completed_text: Foi concluída a solicitação para exclusão do projeto '%{name}'.
     index:
       no_results_title_text: Atualmente, não existem projetos
       no_results_content_text: Criar um novo projeto
@@ -1299,7 +1299,7 @@ pt-BR:
   label_environment: Ambiente
   label_estimates_and_time: Estimativas e tempo
   label_equals: é
-  label_everywhere: everywhere
+  label_everywhere: em todos os lugares
   label_example: Exemplo
   label_export_to: 'Também disponível em:'
   label_expanded_click_to_collapse: Expandido. Clique para recolher
