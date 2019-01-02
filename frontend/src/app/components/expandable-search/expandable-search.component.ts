@@ -210,12 +210,16 @@ export class ExpandableSearchComponent implements OnDestroy {
       .toPromise()
       .then((collection) => {
         this.noResults = collection.count === 0;
-        this.$element.find('.ui-autocomplete--loading').hide();
+        this.hideSpinner();
         return collection.elements || [];
       }).catch(() => {
-        this.$element.find('.ui-autocomplete--loading').hide();
+        this.hideSpinner();
         return [];
       });
+  }
+
+  private hideSpinner():void {
+    this.$element.find('.ui-autocomplete--loading').hide();
   }
 }
 
