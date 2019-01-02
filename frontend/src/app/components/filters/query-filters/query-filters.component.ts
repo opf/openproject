@@ -66,7 +66,8 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
     close_form: this.I18n.t('js.close_form_title'),
     selected_filter_list: this.I18n.t('js.label_selected_filter_list'),
     button_delete: this.I18n.t('js.button_delete'),
-    please_select: this.I18n.t('js.placeholders.selection')
+    please_select: this.I18n.t('js.placeholders.selection'),
+    filter_by_text: this.I18n.t('js.work_packages.label_filter_by_text')
   };
 
   constructor(readonly wpTableFilters:WorkPackageTableFiltersService,
