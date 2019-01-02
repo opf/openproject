@@ -68,7 +68,8 @@ describe 'Search', type: :feature, js: true do
 
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
                                         query: query,
-                                        results_selector: '.search-autocomplete--results')
+                                        results_selector: '.search-autocomplete--results',
+                                        wait_for_results: 2.0)
       expect(suggestions).to have_text('No. 23')
       expect(suggestions).to_not have_text('No. 13')
 
@@ -82,13 +83,15 @@ describe 'Search', type: :feature, js: true do
 
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
                                         query: '1',
-                                        results_selector: '.search-autocomplete--results')
+                                        results_selector: '.search-autocomplete--results',
+                                        wait_for_results: 2.0)
       expect(suggestions).to have_text('No. 1')
       expect(suggestions).to have_text('No. 11')
 
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
                                         query: '#1',
-                                        results_selector: '.search-autocomplete--results')
+                                        results_selector: '.search-autocomplete--results',
+                                        wait_for_results: 2.0)
       expect(suggestions).to have_text('No. 1')
       expect(suggestions).to_not have_text('No. 11')
     end

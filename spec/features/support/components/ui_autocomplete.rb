@@ -28,12 +28,12 @@
 
 module Components
   module UIAutocompleteHelpers
-    def search_autocomplete(element, query:, results_selector: nil)
+    def search_autocomplete(element, query:, results_selector: nil, wait_for_results: 0.5)
       # Open the element
       element.click
       # Insert the text to find
       element.set(query)
-      sleep(0.5)
+      sleep(wait_for_results)
 
       ##
       # Find the open dropdown
