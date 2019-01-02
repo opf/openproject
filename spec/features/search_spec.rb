@@ -68,8 +68,7 @@ describe 'Search', type: :feature, js: true do
 
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
                                         query: query,
-                                        results_selector: '.search-autocomplete--results',
-                                        wait_for_results: 2.0)
+                                        results_selector: '.search-autocomplete--results')
       expect(suggestions).to have_text('No. 23')
       expect(suggestions).to_not have_text('No. 13')
 
@@ -81,19 +80,20 @@ describe 'Search', type: :feature, js: true do
 
       page.find('#top-menu-search-button').click
 
-      suggestions = search_autocomplete(page.find('.top-menu-search--input'),
-                                        query: '#1',
-                                        results_selector: '.search-autocomplete--results',
-                                        wait_for_results: 2.0)
-      expect(suggestions).to have_text('No. 1')
-      expect(suggestions).to_not have_text('No. 11')
+      first_wp = work_packages.first
+
 
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
-                                        query: '1',
-                                        results_selector: '.search-autocomplete--results',
-                                        wait_for_results: 2.0)
-      expect(suggestions).to have_text('No. 1')
-      expect(suggestions).to have_text('No. 11')
+                                        query: first_wp.id.to_s,
+                                        results_selector: '.search-autocomplete--results')
+      expect(suggestions).to have_text("No. 1")
+      expect(suggestions).to have_text("No. 11")
+
+      suggestions = search_autocomplete(page.find('.top-menu-search--input'),
+                                        query: "##{first_wp.id}",
+                                        results_selector: '.search-autocomplete--results')
+      expect(suggestions).to have_text("No. #{first_wp.id}")
+      expect(suggestions).to_not have_text("No. 11")
     end
   end
 
