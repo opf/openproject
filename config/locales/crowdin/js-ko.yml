@@ -281,6 +281,10 @@ ko:
     help_texts:
       show_modal: 특성 도움말 텍스트 항목 표시
     onboarding:
+      buttons:
+        skip: Skip
+        next: Next
+        got_it: Got it
       steps:
         welcome: 3분 소개 투어를 보고 가장 <b>중요한 기능</b>에 대해 알아보세요. <br> 끝까지 단계를 완료하는 것이 좋습니다.
           언제든지 투어를 다시 시작할 수 있습니다.

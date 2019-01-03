@@ -291,6 +291,10 @@ pl:
     help_texts:
       show_modal: Pokaż atrybut wpisu tekstu pomocy
     onboarding:
+      buttons:
+        skip: Skip
+        next: Next
+        got_it: Got it
       steps:
         welcome: "Poświęć trzy minuty na zapoznanie się z <b>najważniejszymi funkcjami</b>.
           \n <br> Zalecamy wykonanie tych kroków do końca. Zwiedzanie można w każdej

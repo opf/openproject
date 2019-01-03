@@ -99,14 +99,12 @@ ja:
       no_results_title_text: 現在、このグループのプロジェクトはありません。
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      scheduled: 削除は予定されており、バックグラウンドで実行されます。 結果が通知されます。
+      schedule_failed: 'プロジェクトを削除できません: %{errors}'
+      failed: プロジェクト%{name} の削除に失敗しました
+      failed_text: プロジェクト%{name} の削除要求が失敗しました。 プロジェクトはアーカイブされたままです。
+      completed: プロジェクト%{name} の削除が完了しました
+      completed_text: プロジェクト '%{name}'を削除する要求は完了しました。
     index:
       no_results_title_text: 現在、プロジェクトはありません
       no_results_content_text: プロジェクトを新規作成
@@ -175,9 +173,9 @@ ja:
       projects: プロジェクト
       enabled_projects: 有効なプロジェクト
       add_group: 属性グループを追加する
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: 関連する作業項目のテーブルを追加する
+      edit_query: テーブルを編集
+      query_group_placeholder: テーブルに名前を付けます
       reset: デフォルトに戻す
       type_color_text: 'このタイプの色を割り当てたり変更する場合にクリックします。 選択された色は、ガントチャートの作業項目を区別します。
 
@@ -1196,7 +1194,7 @@ ja:
   label_environment: 環境
   label_estimates_and_time: 見積もりと 時間
   label_equals: 等しい
-  label_everywhere: everywhere
+  label_everywhere: どこにでも
   label_example: 例
   label_export_to: こちらもアクセス可能：
   label_expanded_click_to_collapse: 拡大しました。クリックすると閉じます

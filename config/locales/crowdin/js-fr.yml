@@ -299,6 +299,10 @@ fr:
     help_texts:
       show_modal: Afficher l’aide de l’attribut de saisie de texte
     onboarding:
+      buttons:
+        skip: Skip
+        next: Next
+        got_it: Got it
       steps:
         welcome: Faites une visite d’introduction de trois minutes d’apprendre le
           plus de caractéristiques importantes de <b></b>. <br> il est recommandé
