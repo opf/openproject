@@ -35,14 +35,6 @@
     position: relative
     list-style: none
 
-@mixin contextual($margin-top: 8px)
-  float: right
-  white-space: nowrap
-  line-height: 1.4em
-  margin-top: $margin-top
-  padding-left: 10px
-
-
 ul.legacy-actions-main
   @include legacy-actions-defaults
   margin-left: 20px
@@ -55,7 +47,8 @@ p.subtitle + ul.legacy-actions-specific
   @include legacy-actions-defaults(-57px)
 
 .message-reply-menu
-  @include contextual(-60px)
+  float: right
+  padding-left: 10px
   > .button
     margin-right: 0
 
