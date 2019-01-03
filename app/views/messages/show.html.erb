@@ -83,7 +83,7 @@ See docs/COPYRIGHT.rdoc for more details.
                                                  r: message,
                                                  anchor: "message-#{message.id}") %>
         -
-      <%= authoring message.created_on, message.author %>
+        <%= authoring message.created_on, message.author %>
       </h3>
       <div class="message-reply-menu">
         <%= link_to(icon_wrapper('icon-quote', t(:button_quote)),
