@@ -313,6 +313,10 @@ en:
       show_modal: 'Show attribute help text entry'
 
     onboarding:
+      buttons:
+        skip: 'Skip'
+        next: 'Next'
+        got_it: 'Got it'
       steps:
         welcome: 'Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.'
         project_selection: 'Please select one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
@@ -331,7 +335,6 @@ en:
         wp_timeline_button: 'You can activate the <b>Gantt chart</b> to create a timeline for your project.'
         wp_timeline: 'Here you can edit your project plan. Create new phases, milestones, and add dependencies. All team members can see and update the latest plan at any time.'
         help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
-        got_it: 'Got it'
 
     password_confirmation:
       field_description: 'You need to enter your account password to confirm this change.'
