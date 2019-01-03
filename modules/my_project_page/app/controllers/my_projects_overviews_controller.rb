@@ -54,7 +54,7 @@ class MyProjectsOverviewsController < ApplicationController
                        block_name: block_name,
                        textile: textile })
     else
-      render plain: t(:error_textile_not_saved), status: 400
+      render plain: t(:error_block_not_saved), status: 400
     end
   end
 
