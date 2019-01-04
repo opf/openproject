@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title l(:label_administration), l(:label_workflow_plural) -%>
-<%= render partial: 'action_menu', locals: { title: Workflow.model_name.human } %>
+<%= render partial: 'toolbar', locals: {title: Workflow.model_name.human } %>
 <% local_assigns[:additional_breadcrumb] = t(:button_copy) %>
 
 <%= styled_form_tag({}, id: 'workflow_copy_form') do %>

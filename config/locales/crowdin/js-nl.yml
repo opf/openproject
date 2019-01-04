@@ -298,6 +298,10 @@ nl:
     help_texts:
       show_modal: Toon kenmerk help tekstinvoer
     onboarding:
+      buttons:
+        skip: Skip
+        next: Next
+        got_it: Got it
       steps:
         welcome: Neem drie minuten introductie rondleiding om de meeste <b>belangrijke
           kenmerken </b> te leren. <br> het is raadzaam de stappen uit te voeren tot

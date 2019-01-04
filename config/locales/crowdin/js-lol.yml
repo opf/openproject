@@ -277,6 +277,10 @@ lol:
     help_texts:
       show_modal: crwdns107414:0crwdne107414:0
     onboarding:
+      buttons:
+        skip: Skip
+        next: Next
+        got_it: Got it
       steps:
         welcome: crwdns109232:0crwdne109232:0
         project_selection: crwdns109168:0crwdne109168:0

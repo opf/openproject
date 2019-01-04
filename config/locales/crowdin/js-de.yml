@@ -301,6 +301,10 @@ de:
     help_texts:
       show_modal: Hilfe-Text für dieses Attribut anzeigen
     onboarding:
+      buttons:
+        skip: Skip
+        next: Next
+        got_it: Got it
       steps:
         welcome: Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen.
           <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese

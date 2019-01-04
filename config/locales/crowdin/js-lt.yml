@@ -292,6 +292,10 @@ lt:
     help_texts:
       show_modal: Rodyti atributo pagalbos teksto įrašą
     onboarding:
+      buttons:
+        skip: Skip
+        next: Next
+        got_it: Got it
       steps:
         welcome: Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių
           sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos.

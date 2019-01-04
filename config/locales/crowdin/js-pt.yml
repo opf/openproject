@@ -295,6 +295,10 @@ pt:
     help_texts:
       show_modal: Mostrar entrada do texto de ajuda de atributos
     onboarding:
+      buttons:
+        skip: Skip
+        next: Next
+        got_it: Got it
       steps:
         welcome: Acompanhe um tour de apresentação de 3 minutos para descobrir mais
           <b>recursos importantes</b>.<br> Recomendamos que conclua as etapas até

@@ -295,6 +295,10 @@ vi:
     help_texts:
       show_modal: Hiển thị văn bản trợ giúp
     onboarding:
+      buttons:
+        skip: Skip
+        next: Next
+        got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
