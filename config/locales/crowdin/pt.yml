@@ -97,12 +97,12 @@ pt:
     single: ou
   deprecations:
     old_timeline:
-      replacement: Este módulo de linhas temporais está a ser substituído por uma
-        linha temporal interativa integrada no módulo de pacotes de trabalho.
+      replacement: Este módulo de cronogramas está a ser substituído por um cronograma
+        interativo, integrado no módulo de pacotes de trabalho.
       removal: Este módulo vai ser removido com OpenProject 8.0. A configuração para
         esta vista NÃO migrará para a vista do pacote de trabalho.
       further_information_before: Dê uma vista de olhos a
-      link_name: Como migrar para uma uma nova linha temporal.
+      link_name: como migrar para o novo cronograma.
       further_information_after: ''
     calendar:
       removal: 'Atenção: Este módulo será removido com o OpenProject 8.0.'
@@ -136,6 +136,15 @@ pt:
       versions:
         no_results_title_text: Atualmente, não existem versões para o projeto.
         no_results_content_text: Crie uma nova versão
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
   members:
     index:
       no_results_title_text: Atualmente, não existem membros pertencentes a este projeto.
@@ -169,10 +178,10 @@ pt:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Verifique esta opção para marcar pacotes de trabalho com este estado como só de leitura.
+        Nenhum atributo pode ser alterado com a exceção do estado.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Nota</strong>: Valores herdados (ex: por crianças ou relações) ainda serão aplicados.
       status_color_text: |
         Clique para atribuir ou alterar a cor deste status.
         É mostrada no botão de status e pode ser usada para destacar os pacotes de trabalho na tabela.
@@ -189,9 +198,9 @@ pt:
       projects: Projetos
       enabled_projects: Projetos ativados
       add_group: Adicionar grupo de atributos
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Adicionar tabela de pacotes de trabalho relacionados
+      edit_query: Editar tabela
+      query_group_placeholder: Dê um nome à tabela
       reset: Repor predefinições
       type_color_text: |
         Clique para atribuir ou alterar a cor deste tipo. A cor selecionada distingue pacotes de trabalho
@@ -362,7 +371,7 @@ pt:
         to: Tarefas Relacionadas
       status:
         is_closed: Tarefa fechada
-        is_readonly: Work package read-only
+        is_readonly: Pacote de trabalho só de leitura
       journal:
         notes: Notas
       member:
@@ -381,7 +390,7 @@ pt:
         relations_of_type_column: relações de %{type}
         group_by: Agrupar resultados por
         filters: Filtros
-        timeline_labels: Etiquetas de linha temporal
+        timeline_labels: Etiquetas de cronograma
       repository:
         url: URL
       role:
@@ -768,18 +777,21 @@ pt:
     failure_message: Consentimento falhou, não pode continuar.
     title: Consentimento do utilizador
     decline_warning_message: Recusou consentir e foi desligado.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    user_has_consented: O utilizador consentiu o seu depoimento configurado no momento
+      determinado.
+    not_yet_consented: O utilizador ainda não consentiu, será pedido no próximo início
+      de sessão.
+    contact_mail_instructions: Defina o endereço de email que os utilizadores podem
+      utilizar para contatar um controlador de dados a solicitar alteração ou remoção
+      de dados.
+    contact_your_administrator: Entre em contato com o administrador caso pretenda
+      apagar a sua conta.
+    contact_this_mail_address: Entre em contato com %{mail_address} caso pretenda
+      apagar a sua conta.
+    text_update_consent_time: Marque esta caixa para forçar os utilizadores a consentirem
+      novamente. Ative após alterar o aspecto legal das informações de consentimento
+      acima.
+    update_consent_last_time: 'Última atualização do consentimento: %{update_time}'
   copy_project:
     started: Começou a copiar o projeto "%{source_project_name}" para "%{target_project_name}".
       Será informado por E-mail, assim que o projeto "%{target_project_name}" esteja
@@ -1008,10 +1020,10 @@ pt:
     de que os cookies estão habilitados, uma vez que esta aplicação não funcionará
     corretamente sem eles.
   error_custom_option_not_found: A opção não existe.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_dependent_work_package: 'Erro no pacote de trabalho dependente #%{related_id}
+    %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: Não foi possível ativar a sua conta (alcançado
+    o limite do utilizador). Por favor contate o seu administrador para obter acesso.
   error_failed_to_delete_entry: Falha ao apagar esta entrada.
   error_invalid_selected_value: O valor selecionado é inválido.
   error_invalid_group_by: 'Não é possível agrupar por: %{value}'
@@ -1020,7 +1032,7 @@ pt:
   error_journal_attribute_not_present: O diário não contém o atributo %{attribute}.
   error_pdf_export_too_many_columns: Demasiadas colunas selecionadas para a exportação
     PDF. Reduza o número de colunas.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'Não foi possível guardar a exportação de PDF: %{error}'
   error_token_authenticity: Não é possível verificar o token de Cross-Site Request
     Forgery. Tentou enviar dados em vários navegadores ou abas? Feche todas as abas
     e tente novamente.
@@ -1048,7 +1060,7 @@ pt:
   error_unable_update_wiki: Não é possível atualizar a página wiki.
   error_workflow_copy_source: Por favor, selecione um tipo ou papel de origem
   error_workflow_copy_target: Por favor, selecione o tipo de alvo(s) e função(ões)
-  error_menu_item_not_created: Item de menu não pôde ser adicionado
+  error_menu_item_not_created: O item de menu não pôde ser adicionado
   error_menu_item_not_saved: Item de menu não pôde ser guardado
   error_wiki_root_menu_item_conflict: 'Não é possível mudar o nome de"%{old_name}"
     para "%{new_name}" devido a um conflito no item de menu resultante com o item
@@ -1057,7 +1069,7 @@ pt:
 '
   error_external_authentication_failed: Ocorreu um erro durante a autenticação externa.
     Por favor, tente novamente.
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: 'Atributos não destacáveis: %{attributes}'
   events:
     project: Projeto alterado
     changeset: Changeset editado
@@ -1075,8 +1087,8 @@ pt:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF com descrições
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF com descrições e anexos
+      pdf_with_attachments: PDF com anexos
   extraction:
     available:
       pdftotext: Pdftotext disponível (opcional)
@@ -1107,7 +1119,7 @@ pt:
       upsale:
         become_hero: Torne-se um herói!
         title: Atualizar para a versão Enterprise
-        description: What are the benefits?
+        description: Quais são os benefícios?
         more_info: Mais informação
         additional_features: Poderosas funcionalidades Premium adicionais
         professional_support: Apoio profissional dos especialistas da OpenProject
@@ -1125,7 +1137,7 @@ pt:
       boards: Fórum da Comunidade
       newsletter: Alertas de segurança / Boletim informativo
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Guia de configuração
   instructions_after_registration: Pode iniciar a sessão assim que a sua conta for
     ativada ao clicar em %{signin}.
   instructions_after_logout: Pode iniciar sessão novamente ao clicar em %{signin}.
@@ -1189,7 +1201,7 @@ pt:
   label_authentication: Autenticação
   label_available_project_work_package_categories: Categorias de pacotes de trabalho
     disponíveis
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Tipos de pacotes de trabalho disponíveis
   label_available_project_boards: Quadros disponíveis
   label_available_project_versions: Versões disponíveis
   label_available_project_repositories: Repositórios disponíveis
@@ -1298,7 +1310,7 @@ pt:
   label_enumeration_value: Valor de enumeração
   label_enumerations: Enumerações
   label_enterprise: Enterprise
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} utilizadores ativos reservados"
   label_enterprise_edition: Versão Enterprise
   label_environment: Ambiente
   label_estimates_and_time: Valores estimados e tempo
@@ -1360,7 +1372,7 @@ pt:
   label_journal_diff: Comparação de descrição
   label_language: Idioma
   label_jump_to_a_project: Saltar para um projeto...
-  label_keyword_plural: Keywords
+  label_keyword_plural: Palavras-chave
   label_language_based: Com base no idioma do utilizador
   label_last_activity: Última atividade
   label_last_change_on: Última alteração
@@ -1553,8 +1565,8 @@ pt:
   label_sort_lower: Descer
   label_sort_lowest: Mover para o último
   label_spent_time: Tempo usado
-  label_start_to_end: começo ao fim
-  label_start_to_start: começo ao começo
+  label_start_to_end: início ao fim
+  label_start_to_start: início a início
   label_statistics: Estatísticas
   label_status: Situação
   label_status_updated: Estado de pacote de trabalho atualizado
@@ -1740,11 +1752,11 @@ pt:
         circular_inclusion: Detetada a inclusão circular de páginas.
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: A char a macro create_work_package_link fora do contexto
+          do projeto.
+        invalid_type: Nenhum tipo com o nome '%{type}' encontrado no projeto '%{project}'.
       link_name: Nova tarefa
-      link_name_type: New %{type_name}
+      link_name_type: Novo %{type_name}
   mail:
     actions: Ações
   mail_body_account_activation_request: 'Um novo utilizador (%{value}) registou-se.
@@ -1766,14 +1778,14 @@ pt:
   mail_subject_wiki_content_added: "'%{id}' wiki foi adicionada"
   mail_subject_wiki_content_updated: A página Wiki '%{id}' foi atualizada
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
-    message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+    subject: Atingido o limite de ativação de utilizador
+    message: "Um novo utilizador (%{email}) tentou criar uma conta num ambiente do
+      OpenProject gerido por si (%{host}). \nO utilizador não conseguiu ativar a sua
+      conta pois foi atingido o limite máximo de utilizadores.\n"
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: 'Para permitir que o utilizador inicie a sessão pode: '
+      a: Atualizar o seu plano de pagamento ([here](upgrade_url))
+      b: Bloquear ou eliminar um utilizador existente ([here](users_url))
   more_actions: Mais funções
   noscript_description: Tem de ativar o JavaScript para usar o OpenProject!
   noscript_heading: JavaScript desativado
@@ -1815,7 +1827,7 @@ pt:
     foram eliminadas.
   notice_email_error: Ocorreu um erro ao enviar o e-mail (%{value})
   notice_email_sent: Foi enviado um e-mail para %{value}
-  notice_failed_to_save_work_packages: 'Falha ao guardar %{count} pacote(s) de trabalho
+  notice_failed_to_save_work_packages: 'Ero ao guardar %{count} pacote(s) de trabalho
     dos %{total} selecionados: %{ids}.'
   notice_failed_to_save_members: 'Erro ao guardar membro(s): %{errors}.'
   notice_file_not_found: A página que está a tentar aceder não existe ou foi removida.
@@ -1894,7 +1906,7 @@ pt:
       colaboração da equipa com o OpenProject.
     text_show_again: Pode reiniciar este vídeo através do menu de ajuda
     welcome: Bem-vindo ao OpenProject
-    select_language: Please select your language
+    select_language: Selecione o seu idioma
   permission_add_work_package_notes: Adicionar notas
   permission_add_work_packages: Adicionar tarefas
   permission_add_messages: Publicar mensagens
@@ -1912,7 +1924,7 @@ pt:
   permission_delete_messages: Eliminar mensagens
   permission_delete_own_messages: Eliminar as próprias mensagens
   permission_delete_reportings: Eliminar comunicações
-  permission_delete_timelines: Apagar linhas temporais
+  permission_delete_timelines: Apagar cronogramas
   permission_delete_wiki_pages: Eliminar páginas wiki
   permission_delete_wiki_pages_attachments: Eliminar anexos
   permission_edit_work_package_notes: Editar notas
@@ -1924,7 +1936,7 @@ pt:
   permission_edit_project: Editar projeto
   permission_edit_reportings: Editar comunicações
   permission_edit_time_entries: Editar registos de tempo
-  permission_edit_timelines: Editar linhas temporais
+  permission_edit_timelines: Editar cronogramas
   permission_edit_wiki_pages: Editar páginas wiki
   permission_export_work_packages: Exportar pacotes de trabalho
   permission_export_wiki_pages: Exportar páginas wiki
@@ -1950,14 +1962,14 @@ pt:
   permission_manage_types: Selecione tipos
   permission_view_calendar: Exibir o calendário
   permission_view_changesets: Revisões de vista de repositório em OpenProject
-  permission_view_commit_author_statistics: Ver estatísticas confirmadas do autor
+  permission_view_commit_author_statistics: Ver estatísticas de commits do autor
   permission_view_work_package_watchers: Ver lista de observadores
   permission_view_work_packages: Ver os pacotes de trabalho
   permission_view_messages: Ver mensagens
   permission_view_members: Ver membros
   permission_view_reportings: Ver comunicações
   permission_view_time_entries: Ver o tempo gasto
-  permission_view_timelines: Ver linhas temporais
+  permission_view_timelines: Ver cronogramas
   permission_view_wiki_edits: Ver histórico da wiki
   permission_view_wiki_pages: Ver wiki
   placeholders:
@@ -1965,8 +1977,8 @@ pt:
   project:
     destroy:
       confirmation: Se continuar, o projeto %{identifier} e todos os dados relacionados
-        serão permanentemente destruídos.
-      info: Excluir o projeto é uma ação irreversível.
+        ficarão permanentemente destruídos.
+      info: Apagar o projeto é uma ação irreversível.
       project_verification: Insira o nome do projeto %{name} para verificar a eliminação.
       subprojects_confirmation: 'O(s) seu(s) sub-projeto(s): %{value} também será/serão
         apagado(s).'
@@ -2071,7 +2083,7 @@ pt:
         não está disponível para o fornecedor SCM %{vendor}.
       disabled_or_unknown_vendor: O fornecedor SCM %{vendor} está desabilitado ou
         já não está disponível.
-      remote_call_failed: 'Chamar o controlo gerido falha com a mensagem ''%{message}''
+      remote_call_failed: 'Chamar o controlo gerido falhou com a mensagem ''%{message}''
         (código: %{code})'
       remote_invalid_response: Recebeu uma resposta inválida do controlo remoto gerido.
       remote_save_failed: Não foi possível guardar o repositório com os parâmetros
@@ -2143,7 +2155,7 @@ pt:
   setting_email_delivery_method: Método de entrega de email
   setting_sendmail_location: Localização do executável do sendmail
   setting_smtp_enable_starttls_auto: Automaticamente usar STARTTLS se disponível
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: Utilizar ligação SSL
   setting_smtp_address: Servidor SMTP
   setting_smtp_port: Porta SMTP
   setting_smtp_authentication: Autenticação SMTP
@@ -2171,10 +2183,10 @@ pt:
   setting_commit_logtime_activity_id: Atividade para tempo registado
   setting_commit_logtime_enabled: Ativar registo de tempo
   setting_commit_ref_keywords: Palavras-chave de referência
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_time: Tempo de consentimento
+  setting_consent_info: Texto de informações de consentimento
+  setting_consent_required: Consentimento necessário
+  setting_consent_decline_mail: Endereço de email de contato do consentimento
   setting_cross_project_work_package_relations: Permitir relações entre projectos
     de pacotes de trabalho
   setting_date_format: Formato da data
@@ -2256,7 +2268,7 @@ pt:
     e autorização ao utilizador para aceder a repositórios.
   setting_time_format: Formato da hora
   setting_accessibility_mode_for_anonymous: Ativar modo de acessibilidade para utilizadores
-    anônimos
+    anónimos
   setting_user_format: Formato de apresentação de utilizadores
   setting_user_default_timezone: Fuso horário padrão dos utilizadores
   setting_users_deletable_by_admins: Contas de utilizadores podem ser eliminadas pelos
@@ -2267,9 +2279,9 @@ pt:
   setting_welcome_on_homescreen: Exibir o bloco de boas-vindas no ecrã inicial
   setting_wiki_compression: Compressão do histórico da wiki
   setting_work_package_group_assignment: Permitir atribuição de grupos
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighting_mode: Modo de destaque padrão
+  setting_work_package_list_default_highlighted_attributes: Atributos padrão destacados
+    em linha
   settings:
     general: Geral
     other: Outro
@@ -2281,11 +2293,11 @@ pt:
       deletion: Eliminação
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
+        inline: Destacar atributos em linha
         none: Sem destaque
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: Linha inteira por estado
+        type: Linha inteira por tipo
+        priority: Linha inteira por prioridade
   text_formatting:
     markdown: Markdown
     plain: Texto Simples
@@ -2358,7 +2370,7 @@ pt:
   text_email_delivery_not_configured: |-
     Entrega por e-mail não está configurada, e as notificação estão desativadas.
     Configure o seu servidor de SMTP em config/configuration.yml e reinicie a aplicação para ativar estas funcionalidades.
-  text_enumeration_category_reassign_to: 'Re-atribuí-los para este valor:'
+  text_enumeration_category_reassign_to: 'Reatribuí-los ao valor:'
   text_enumeration_destroy_question: "%{count} objetos estão atribuídos a esse valor."
   text_file_repository_writable: Diretório de anexos com permissões de escrita
   text_git_repo_example: um repositório de bare e local (por exemplo, /gitrepo, c:\gitrepo)
@@ -2370,7 +2382,7 @@ pt:
   text_work_package_category_destroy_assignments: Remover atribuições da categoria
   text_work_package_category_destroy_question: Algumas tarefas (%{count}) estão atribuídas
     a esta categoria. O que é que quer fazer?
-  text_work_package_category_reassign_to: Re-atribuir pacotes de trabalho para esta
+  text_work_package_category_reassign_to: Reatribuir pacotes de trabalho para esta
     categoria
   text_work_package_updated: O pacote de trabalho %{id} foi atualizado por %{author}.
   text_work_package_watcher_added: Foi adicionado como observador para trabalhar no
@@ -2487,19 +2499,19 @@ pt:
       other: "%{count} dias"
     edit_color: Editar cor
     edit_thing: Editar
-    edit_timeline: Editar relatório de linha temporal %{timeline}
-    delete_timeline: Apagar relatório de linha temporal %{timeline}
+    edit_timeline: Editar relatório de cronograma %{timeline}
+    delete_timeline: Apagar relatório de cronograma %{timeline}
     empty: "(vazio)"
     enable_type_in_project: Ativar tipo "%{type}"
     end: Fim
     errors:
-      not_implemented: Não foi possível processar a linha temporal porque utiliza
-        um recurso que ainda não está implementado.
-      report_comparison: Não foi possível à linha temporal processar as comparações
-        configuradas. Por favor verifique a secção apropriada na configuração. Restaurá-la
-        pode ajudar a resolver este problema.
-      report_epicfail: A linha temporal não foi carregada devido a um erro inesperado.
-      report_timeout: A linha temporal não foi carregada numa duração razoável.
+      not_implemented: Não foi possível processar o Cronograma porque utiliza um recurso
+        que ainda não está implementado.
+      report_comparison: O cronograma não conseguiu processar as comparações configuradas.
+        Por favor verifique a secção apropriada na configuração. Restaurá-la pode
+        ajudar a resolver este problema.
+      report_epicfail: O cronograma não foi carregado devido a um erro inesperado.
+      report_timeout: O Cronograma não foi carregado numa duração razoável.
     filter:
       errors:
         timeframe_start: 'O início do prazo '
@@ -2580,12 +2592,12 @@ pt:
     new_association: Nova dependência
     new_work_package: Nova tarefa
     new_reporting: Novo relatório
-    new_timeline: Novo relatório de linha temporal
+    new_timeline: Novo relatório de cronograma
     no_projects_for_reporting_available: Não existem projectos em que possa ser criada
       uma associação de relatórios.
-    no_right_to_view_timeline: Não tem a permissão necessária para visualizar a linha
-      temporal vinculada.
-    no_timeline_for_id: Não há nenhuma linha temporal com ID %{id}.
+    no_right_to_view_timeline: Não tem a permissão necessária para visualizar o cronograma
+      vinculado.
+    no_timeline_for_id: Não há nenhum cronograma com ID %{id}.
     notice_successful_deleted_all_elements: Todos os elementos eliminado com sucesso
     outline: Restaurar contorno
     outlines:
@@ -2617,12 +2629,12 @@ pt:
 
 '
     start: Início
-    timeline: Relatório de linha temporal
-    timelines: Relatório de linha temporal
+    timeline: Relatório de cronogramas
+    timelines: Relatório de cronograma
     settings: Cronogramas
     vertical_work_package: Pacotes de trabalho vertical
-    you_are_viewing_the_selected_timeline: Está a visualizar o relatório de linha
-      temporal selecionado
+    you_are_viewing_the_selected_timeline: Está a visualizar o relatório de cronograma
+      selecionado
     zoom:
       in: Zoom +
       out: Zoom -
@@ -2632,7 +2644,7 @@ pt:
       quarters: Trimestres
       years: Anos
   title_remove_and_delete_user: Remova o utilizador convidado do projeto e apague-o/a.
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: Atualização para desbloquear mais utilizadores.
   tooltip_user_default_timezone: 'O fuso horário padrão para novos utilizadores. Pode
     ser alterado nas definições do utilizador.
 
@@ -2707,23 +2719,24 @@ pt:
   note_password_login_disabled: A senha da sessão foi desativada por %{configuration}.
   warning: Aviso
   warning_attachments_not_saved: Não foi possível guardar %{count} ficheiro(s).
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'Convidou mais utilizadores do que é suportado pelo
+    seu plano atual. Os utilizadores convidados podem não ser capazes de participar
+    do seu ambiente OpenProject. Por favor, <a href="%{upgrade_url}">atualize o seu
+    plano</a> ou bloqueie utilizadores existentes para permitir que os utilizadores
+    convidados se possam registar.
 
 '
   warning_registration_token_expired: |
     O e-mail de ativação expirou. Enviámos um novo para %{email}.
     por favor clique no link lá contido para ativar a sua conta.
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: 'Atingido o limite de utilizadores. Não pode ativar
+    mais nenhum utilizador. <a href="%{upgrade_url}">Atualize o seu plano</a> ou bloqueie
+    a adição de novos utilizadores.
 
 '
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached_instructions: 'Atingiu o seu limite de utilizadores (%{current}/%{max}
+    utilizadores ativos). Entre em contato com sales@openproject.com para atualizar
+    o seu plano Enterprise Edition e adicionar novos utilizadores.
 
 '
   menu_item: Item de menu
@@ -2756,7 +2769,7 @@ pt:
       code_401_wrong_credentials: Não forneceu credenciais válidas.
       code_403: Você não está autorizado a acessar a este recurso.
       code_404: O recurso solicitado não pôde ser encontrado.
-      code_409: Could not update the resource because of conflicting modifications.
+      code_409: Não consegui atualizar o recurso devido a modificações irreconciliáveis.
       code_500: Ocorreu um erro interno.
       expected:
         date: AAAA-MM-DD (Data ISO 8601 apenas)
@@ -2778,7 +2791,7 @@ pt:
       multipart_body_error: O corpo da solicitação não continha as partes multipart
         esperadas.
       multiple_errors: Várias restrições de campo foram violadas.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Não foi possível criar o anexo
       render:
         context_not_parsable: O contexto fornecido não é um link para um recurso.
         unsupported_context: Não há suporte para o recurso dado como contexto.
@@ -2796,3 +2809,4 @@ pt:
         leitura.
     resources:
       schema: Esquema
+  label_everywhere: everywhere

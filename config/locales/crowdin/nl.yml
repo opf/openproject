@@ -134,6 +134,15 @@ nl:
       versions:
         no_results_title_text: Momenteel zijn er geen versies voor het project.
         no_results_content_text: Maak een nieuwe versie
+    delete:
+      scheduled: Het verwijderen staat gepland en wordt uigevoerd in de achtergrond.
+        U wordt op de hoogte gehouden van het resultaat.
+      schedule_failed: 'Project kan niet worden verwijderd: %{errors}'
+      failed: Verwijderen van project %{name} is mislukt
+      failed_text: Het verzoek om het project %{name} verwijderen is mislukt. Het
+        project is gearchiveerd gebleven.
+      completed: Verwijderen van project %{name} is gelukt
+      completed_text: Het verzoek om het verwijderen van project '%{name}' is voltooid.
   members:
     index:
       no_results_title_text: Er zijn momenteel geen leden onderdeel van dit project.
@@ -167,10 +176,10 @@ nl:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Schakel deze optie in om de werkpakketten met deze status alleen-lezen te markeren.
+        geen kenmerken kunnen worden gewijzigd met uitzondering van de status.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong></strong>Opmerking: overgenomen waarden (bijvoorbeeld van kinderen of betrekkingen) blijft van toepassing.
       status_color_text: |
         Klik op toewijzen of wijzigen van de kleur van deze status.
         het wordt weergegeven in de statusknop en kan worden gebruikt voor het benadrukken van de werkpakketten in de tabel.
@@ -187,9 +196,9 @@ nl:
       projects: Projecten
       enabled_projects: Ingeschakelde projecten
       add_group: Toevoegen van nieuwe attribuutgroepen
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Tabel van verwante werkpakketten toevoegen
+      edit_query: Tabel bewerken
+      query_group_placeholder: Geef de tabel een naam
       reset: Standaardinstellingen herstellen
       type_color_text: |
         Klik op toewijzen of wijzigen van de kleur van dit type. De geselecteerde kleur onderscheidt werk pakketten
@@ -358,7 +367,7 @@ nl:
         to: Verwante werkpakket
       status:
         is_closed: Werkpakket gesloten
-        is_readonly: Work package read-only
+        is_readonly: Werkpakket is alleen-lezen
       journal:
         notes: Notities
       member:
@@ -1058,7 +1067,7 @@ nl:
 '
   error_external_authentication_failed: Er heeft zich een fout voorgedaan bij de externe
     authenticatie. Probeer het opnieuw.
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: 'Attribute(s) niet markeerbaar: %{attributes}'
   events:
     project: Project bewerkt
     changeset: Wijzigingsset bewerkt
@@ -1108,7 +1117,7 @@ nl:
       upsale:
         become_hero: Word een held!
         title: Upgrade naar Enterprise Edition
-        description: What are the benefits?
+        description: Wat zijn de voordelen?
         more_info: Meer informatie
         additional_features: Extra krachtige premium functies
         professional_support: Professionele ondersteuning van de OpenProject experts
@@ -1189,7 +1198,7 @@ nl:
   label_auth_source_plural: Verificatiemodi
   label_authentication: Verificatie
   label_available_project_work_package_categories: Beschikbare werkpakket categorieën
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Beschikbare werkpakkettypes
   label_available_project_boards: Beschikbare borden
   label_available_project_versions: Beschikbare versies
   label_available_project_repositories: Beschikbare opslagplaatsen
@@ -1360,7 +1369,7 @@ nl:
   label_journal_diff: Beschrijving vergelijking
   label_language: Taal
   label_jump_to_a_project: Ga naar een project...
-  label_keyword_plural: Keywords
+  label_keyword_plural: Trefwoorden
   label_language_based: Op basis van de taal van gebruiker
   label_last_activity: Laatste activiteit
   label_last_change_on: Laatste wijziging op
@@ -1897,7 +1906,7 @@ nl:
       team samenwerking met OpenProject.
     text_show_again: U kunt deze video van het helpmenu opnieuw starten
     welcome: Welkom bij OpenProject
-    select_language: Please select your language
+    select_language: Gelieve uw taal te kiezen
   permission_add_work_package_notes: Notities toevoegen
   permission_add_work_packages: Werkpakketten toevoegen
   permission_add_messages: Berichten posten
@@ -2146,7 +2155,7 @@ nl:
   setting_sendmail_location: Locatie van het uitvoerbare sendmail
   setting_smtp_enable_starttls_auto: Gebruik STARTTLS automatisch wanneer deze beschikbaar
     is
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: SSL-verbinding gebruikt
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP-port
   setting_smtp_authentication: SMTP-authenticatie
@@ -2266,9 +2275,8 @@ nl:
   setting_welcome_on_homescreen: Toon het Welkom blok op thuisscherm
   setting_wiki_compression: Compressie van wiki geschiedenis
   setting_work_package_group_assignment: Sta toewijzingen een groepen toe
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighting_mode: Standaardmodus markeren
+  setting_work_package_list_default_highlighted_attributes: Inline gemarkeerd standaardkenmerken
   settings:
     general: Algemeen
     other: Overig
@@ -2280,11 +2288,11 @@ nl:
       deletion: Verwijdering
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
+        inline: Markeer attribute(s) inline
         none: Geen markering
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: Hele rij per Status
+        type: Hele rij per Type
+        priority: Hele rij door prioriteit
   text_formatting:
     markdown: Markdown
     plain: Onopgemaakte tekst
@@ -2757,7 +2765,7 @@ nl:
       code_401_wrong_credentials: U heeft niet de juiste referenties opgeven.
       code_403: U bent niet gemachtigd om toegang te hebben tot deze resource.
       code_404: De gevraagde resource kan niet worden gevonden.
-      code_409: Could not update the resource because of conflicting modifications.
+      code_409: De bron kan niet worden bijgewerkt vanwege conflicterende wijzigingen.
       code_500: Een interne fout is opgetreden.
       expected:
         date: JJJJ-MM-DD (alleen ISO 8601 datum)
@@ -2796,3 +2804,4 @@ nl:
       writing_read_only_attributes: U mag geen read-only attribuut schrijven.
     resources:
       schema: Schema
+  label_everywhere: overal

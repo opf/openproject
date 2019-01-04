@@ -133,6 +133,15 @@ ru:
       versions:
         no_results_title_text: На данный момент этапы в проекте отсутствуют.
         no_results_content_text: Создать новый этап проекта
+    delete:
+      scheduled: Удаление было запланировано и исполнено в фоновом режиме. О результатах
+        вы будете уведомлены.
+      schedule_failed: 'Проект удален быть не может: %{errors}'
+      failed: Удалить проект %{name} не удалось
+      failed_text: Запрос по удалению проекта %{name} выполнить не удалось. Проект
+        был архивирован.
+      completed: Удаление проекта %{name} завершено
+      completed_text: Запрос по удалению проекта «%{name}» выполнен.
   members:
     index:
       no_results_title_text: На данный момент у этого проекта нет участников.
@@ -185,9 +194,9 @@ ru:
       projects: Проекты
       enabled_projects: Доступные проекты
       add_group: Добавить группу атрибутов
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Добавить таблицу связанных пакетов работ
+      edit_query: Изменить таблицу
+      query_group_placeholder: Дайте таблице название
       reset: Восстановить значения по умолчанию
       type_color_text: 'Щелкните, чтобы задать или изменить цвет этого типа. Выбранный
         цвет позволяет различать пакеты работ на диаграммах Ганта.
@@ -2822,3 +2831,4 @@ ru:
         только для чтения.
     resources:
       schema: Схема
+  label_everywhere: везде

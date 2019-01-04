@@ -117,6 +117,13 @@ ja:
       versions:
         no_results_title_text: 現在、プロジェクトのバージョンはありません。
         no_results_content_text: 新しいバージョンを作成
+    delete:
+      scheduled: 削除は予定されており、バックグラウンドで実行されます。 結果が通知されます。
+      schedule_failed: 'プロジェクトを削除できません: %{errors}'
+      failed: プロジェクト%{name} の削除に失敗しました
+      failed_text: プロジェクト%{name} の削除要求が失敗しました。 プロジェクトはアーカイブされたままです。
+      completed: プロジェクト%{name} の削除が完了しました
+      completed_text: プロジェクト '%{name}'を削除する要求は完了しました。
   members:
     index:
       no_results_title_text: 現在、このプロジェクトのメンバーはいません。
@@ -166,9 +173,9 @@ ja:
       projects: プロジェクト
       enabled_projects: 有効なプロジェクト
       add_group: 属性グループを追加する
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: 関連する作業項目のテーブルを追加する
+      edit_query: テーブルを編集
+      query_group_placeholder: テーブルに名前を付けます
       reset: デフォルトに戻す
       type_color_text: 'このタイプの色を割り当てたり変更する場合にクリックします。 選択された色は、ガントチャートの作業項目を区別します。
 
@@ -2495,3 +2502,4 @@ ja:
       writing_read_only_attributes: 読み取り専用の属性を書き込みできません。
     resources:
       schema: スキーマ
+  label_everywhere: どこにでも

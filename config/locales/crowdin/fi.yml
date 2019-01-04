@@ -133,6 +133,15 @@ fi:
       versions:
         no_results_title_text: Projektille ei ole versioita.
         no_results_content_text: Luo uusi versio
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
   members:
     index:
       no_results_title_text: Tähän projektiin ei kuulu yhtään henkilöä.
@@ -2723,3 +2732,4 @@ fi:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  label_everywhere: everywhere

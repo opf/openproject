@@ -284,6 +284,10 @@ zh-TW:
     help_texts:
       show_modal: 顯示屬性說明文字項目
     onboarding:
+      buttons:
+        skip: Skip
+        next: 下一個
+        got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -325,7 +329,6 @@ zh-TW:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: 您需要輸入您的帳戶密碼，以確認此更改。
       title: 確認您的密碼以便繼續

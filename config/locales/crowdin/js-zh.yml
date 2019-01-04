@@ -53,8 +53,7 @@ zh:
     button_export-atom: 下载原子
     calendar:
       title: 日历
-      too_many: There are more work packages (%{count}) than can be displayed by the
-        calendar (%{max}). Add filters to focus on the relevant ones.
+      too_many: 工作包 (%{count}) 比日历 (%{max}) 显示的内容要多。添加筛选器可筛选相关内容。
     description_available_columns: 可用的列
     description_current_position: 你在这里：
     description_select_work_package: '选择工作包 #%{id}'
@@ -62,12 +61,12 @@ zh:
     description_subwork_package: '子工作包 #%{id}'
     editor:
       preview: 切换预览模式
-      source_code: Toggle Markdown source mode
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      error_initialization_failed: Failed to initialize CKEditor!
+      source_code: 切换标记源模式
+      error_saving_failed: 保存文档失败，出现以下错误：%{error}
+      error_initialization_failed: 无法初始化 CKEditor！
       mode:
-        manual: Switch to Markdown source
-        wysiwyg: Switch to WYSIWYG editor
+        manual: 切换到标记源
+        wysiwyg: 切换到 WYSIWYG 编辑器
       macro:
         child_pages:
           button: 链接至子页面
@@ -107,11 +106,11 @@ zh:
           button: 嵌入工作包表
           text: "[Placeholder] 嵌入式工作包表"
         embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
+          text: "[Placeholder]嵌入式日历"
     custom_actions:
       date:
         specific: 于
-        current_date: Current date
+        current_date: 当前日期
     error:
       internal: 发生了内部错误。
       cannot_save_changes_with_message: 由于%{error} 原因，无法保存您的更改。
@@ -260,8 +259,7 @@ zh:
     label_attachments: 文件
     label_drop_files: 将文件拖至此处
     label_drop_files_hint: 或单击以添加文件
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
-      single files.
+    label_drop_folders_hint: 您不能将文件夹作为附件上载。请选择单个文件。
     label_add_attachments: 添加附件
     label_formattable_attachment_hint: 将文件拖拽到此区域或从剪贴板粘贴以附加文件
     label_remove_file: 删除 %{fileName}
@@ -279,48 +277,29 @@ zh:
     help_texts:
       show_modal: 显示属性帮助文本项
     onboarding:
+      buttons:
+        skip: Skip
+        next: 下一个
+        got_it: 知道了
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
-        project_selection: Please select one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
-        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
-          menu</b>.
-        members: Invite new <b>Members</b> to join your project.
-        wiki: Within the <b>Wiki</b> you can document and share knowledge together
-          with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
-        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
-        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
-          sprint. Add new tasks or impediments with the + icon next to a user story.
-          Via drag'n'drop you can update the status.
-        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
-          gives you a more detailed view of your work.
-        wp_list: This is the <b>Work package</b> list with the important work within
-          your project, such as tasks, features, milestones, bugs, and more. <br>
-          You can create or edit a work package directly within this list. To see
-          its details you can double click on a row.
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities, dependencies
-          or comments.
-        wp_back_button: With the arrow you can navigate back to the work package list.
-        wp_create_button: The <b>Create</b> button will add a new work package to
-          your project.
-        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-          for your project.
-        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
-          and add dependencies. All team members can see and update the latest plan
-          at any time.
-        help_menu: In the <b>Help</b> menu you will find a user guide and additional
-          help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
+        welcome: 通过三分钟的导览了解<b>最重要的功能</b> 。<br>我们建议您完成所有步骤。您可以随时重新浏览介绍。
+        project_selection: 请选择包含有用演示数据的项目开始。<br><b>演示项目</b>最适合经典项目管理，而 <b>Scrum 项目</b>更适合敏捷项目管理。
+        sidebar_arrow: 使用箭头可以导航回项目的<b>主菜单</b>。
+        members: 邀请新<b>成员</b>加入您的项目。
+        wiki: 在 <b>Wiki</b> 中，您可以记录并与您的团队共享知识。
+        backlogs_overview: 在 <b>Backlogs</b> 视图中管理您的工作。右边是产品 Backlog 或错误 Backlog，左边是各自的
+          sprint。<br>在这里，您可以创建<b>长篇故事、用户故事和错误</b>，通过拖放来确定优先级，以及将它们添加到 sprint 中。
+        backlogs_task_board_arrow: 要查看您的<b>任务面板</b>，请打开 Sprint 下拉菜单…
+        backlogs_task_board_select: "…并选择<b>任务面板</b>条目。"
+        backlogs_task_board: "<b>任务面板</b>将此 sprint 的进度可视化。使用用户故事旁边的 + 图标添加新任务或障碍。通过拖放可以更新状态。"
+        wp_toggler: 现在我们来看一下<b>工作包</b>部分，工作包提供了更详细的工作视图。
+        wp_list: 这是<b>工作包</b>列表，包含项目中的重要工作，例如任务、特征、里程碑和错误等。<br>您可以在这个列表中直接创建或编辑工作包。要查看工作包的详细信息，可以双击该行。
+        wp_full_view: 在<b>工作包详细信息</b>中，您可以找到所有相关信息，如描述、状态与优先级、依赖项或评论。
+        wp_back_button: 使用箭头可以导航回工作包列表。
+        wp_create_button: "<b>创建</b>按钮将为您的项目添加一个新工作包。"
+        wp_timeline_button: 您可以激活<b>甘特图</b>来为项目创建时间轴。
+        wp_timeline: 在这里您可以编辑您的项目计划。创建新的阶段、里程碑，并添加依赖项。所有团队成员都可以随时查看和更新最新计划。
+        help_menu: 在<b>帮助</b>菜单中，您可以找到用户指南和其他帮助资源。<br>使用 OpenProject 享受您的工作！
     password_confirmation:
       field_description: 输入密码以确认更改
       title: 输入密码以继续
@@ -345,7 +324,7 @@ zh:
     types:
       attribute_groups:
         error_duplicate_group_name: 名称 %{group} 已多次使用。组名不能重复。
-        error_no_table_configured: Please configure a table for %{group}.
+        error_no_table_configured: 请为 %{group} 配置一个表。
         reset_title: 重置表单配置
         confirm_reset: '警告：确定想要重置表单配置吗？这会将属性重置为它们的默认组，并禁用所有自定义字段。
 
@@ -355,18 +334,18 @@ zh:
         more_information: 更多信息
         nevermind: 我愿意
         filter_types:
-          parent: being child of
-          precedes: preceding
-          follows: following
-          relates: relating to
-          duplicates: duplicating
+          parent: 父级
+          precedes: 前导
+          follows: 跟随
+          relates: 关于
+          duplicates: 复制
           duplicated: 复制于
-          blocks: blocking
+          blocks: 阻止
           blocked: 阻止于
-          partof: being part of
-          includes: including
-          requires: requiring
-          required: required by
+          partof: 属于
+          includes: 包括
+          requires: 要求
+          required: 要求于
     watchers:
       label_loading: 正在加载关注者...
       label_error_loading: 加载关注者时出错
@@ -394,19 +373,19 @@ zh:
       hierarchy_headline: 层次结构
       children_headline: 子类
     relation_buttons:
-      set_parent: Set parent
+      set_parent: 设置父级
       change_parent: 更改父级
       remove_parent: 删除上一级
       group_by_wp_type: 按工作包类型分组
       group_by_relation_type: 按关系类型分组
       add_parent: 添加现有的上一级
       add_new_child: 创建子结点
-      create_new: Create new
-      add_existing: Add existing
+      create_new: 新建
+      add_existing: 添加现有
       add_existing_child: 增加现有的子节点
       remove_child: 删除子结点
       add_new_relation: 创建新的关系
-      add_existing_relation: Add existing relation
+      add_existing_relation: 添加现有关系
       update_description: 设置或更新此关系的描述
       toggle_description: 切换关系描述
       update_relation: 点击以更改关系类型
@@ -417,7 +396,7 @@ zh:
       abort: 放弃
     relations_autocomplete:
       placeholder: 输入相关的工作包ID
-      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
+      parent_placeholder: 选择新父级，按 enter 键可取消设置，按 escape 键可取消。
     repositories:
       select_tag: 选择标签
       select_branch: 选择分支
@@ -548,8 +527,7 @@ zh:
       description_options_hide: 隐藏选项
       description_options_show: 显示选项
       error:
-        update_conflict_refresh: Click here to refresh the work package and update
-          to the newest version.
+        update_conflict_refresh: 单击此处可刷新工作包并更新到最新版本。
         edit_prohibited: 已阻止对此工作包编辑 %{attribute}。此属性来源于关系（如儿童）或无法配置。
         format:
           date: "%{attribute} 不是有效日期 - 需要 YYYY-MM-DD。"
@@ -567,8 +545,7 @@ zh:
       message_successful_bulk_delete: 已成功删除工作包。
       message_successful_show_in_fullscreen: 单击此处以全屏视图打开此工作包。
       message_view_spent_time: 显示这个工作包所花费的时间
-      message_work_package_read_only: Work package is locked in this status. No attribute
-        other than status can be altered.
+      message_work_package_read_only: 工作包被锁定在此状态。除状态外，其他属性均不可更改。
       no_value: 无值
       inline_create:
         title: 单击此处将新工作包添加至此列表
@@ -679,8 +656,8 @@ zh:
         highlighting_mode:
           description: 使用颜色突出显示
           none: 无突出显示
-          inline: Highlighted attribute(s)
-          inline_all: All attributes
+          inline: 突出显示的属性
+          inline_all: 全部属性
           entire_row_by: 整行
           status: 状态
           priority: 优先级
@@ -691,8 +668,8 @@ zh:
           relation_columns: 需要查看工作包列表中的关系吗？
           check_out_link: 签出企业版。
         relation_filters:
-          first_part: Show all work packages
-          second_part: the current work package
+          first_part: 显示所有工作包
+          second_part: 当前工作包
       tabs:
         overview: 概述
         activity: 活动

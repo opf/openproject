@@ -134,6 +134,15 @@ pt-BR:
       versions:
         no_results_title_text: Atualmente, não há versões para o projeto.
         no_results_content_text: Criar uma nova versão
+    delete:
+      scheduled: Exclusão foi agendada e será realizada em segundo plano. Você será
+        notificado do resultado.
+      schedule_failed: 'Projeto não pode ser excluído: %{errors}'
+      failed: Exclusão do projeto %{name} falhou
+      failed_text: A solicitação para excluir o projeto %{name} falhou. O projeto
+        foi arquivado.
+      completed: Exclusão do projeto %{name} concluída
+      completed_text: Foi concluída a solicitação para exclusão do projeto '%{name}'.
   members:
     index:
       no_results_title_text: Atualmente, não há membros deste projeto.
@@ -187,9 +196,9 @@ pt-BR:
       projects: Projetos
       enabled_projects: Projetos habilitados
       add_group: Adicionar grupo de atributo
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Adicionar tabela de pacotes de trabalho relacionados
+      edit_query: Editar tabela
+      query_group_placeholder: Nomear tabela
       reset: Redefinir para os padrões
       type_color_text: 'Clique para atribuir ou alterar a cor deste tipo. A cor selecionada
         diferencia pacotes de trabalho em gráficos de Gantt.
@@ -2771,3 +2780,4 @@ pt-BR:
       writing_read_only_attributes: Você não pode escrever um atributo somente leitura.
     resources:
       schema: Esquema
+  label_everywhere: em todos os lugares

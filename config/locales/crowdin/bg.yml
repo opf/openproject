@@ -134,6 +134,15 @@ bg:
       versions:
         no_results_title_text: В момента няма версии за проекта.
         no_results_content_text: Създаване на нова версия
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
   members:
     index:
       no_results_title_text: В момента има няма членове част от този проект.
@@ -2741,3 +2750,4 @@ bg:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Схема
+  label_everywhere: everywhere

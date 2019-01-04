@@ -293,6 +293,10 @@ tr:
     help_texts:
       show_modal: Metin giriş öznitelik yardımını göster
     onboarding:
+      buttons:
+        skip: Skip
+        next: Sonraki
+        got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -334,7 +338,6 @@ tr:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: Bu değişikliği onaylamak için hesap parolanızı girmeniz gerekir.
       title: Devam etmek için parolanızı doğrulayın
@@ -378,16 +381,16 @@ tr:
         filter_types:
           parent: being child of
           precedes: preceding
-          follows: following
+          follows: takip etmek
           relates: relating to
           duplicates: duplicating
-          duplicated: yineleyen
-          blocks: blocking
-          blocked: tarafından engellendi
+          duplicated: tarafından çoğaltılır
+          blocks: engelleme
+          blocked: bağlı
           partof: being part of
           includes: including
           requires: requiring
-          required: required by
+          required: tarafından gerekli
     watchers:
       label_loading: takipçiler yükleniyor...
       label_error_loading: Takipçileri yüklerken bir hata oluştu
@@ -399,16 +402,16 @@ tr:
       parent: Üst
       children: Çocuk
       relates: Alakalı
-      duplicates: Çoğalt
-      duplicated: Yineleyen
-      blocks: Şunu Engelliyor
-      blocked: Şuna Bağlı
-      precedes: Sonrası
-      follows: Öncesi
+      duplicates: Çoğaltır
+      duplicated: Tarafından çoğaltılır
+      blocks: Engeller
+      blocked: Bağlı
+      precedes: İletletir
+      follows: Takip eder
       includes: İçerir
       partof: Bölümü
-      requires: Gerektirir
-      required: Tarafından gerekli
+      requires: Şunu gerektirir
+      required: Gerektirir
       relation_type: ilişki türü
     relations_hierarchy:
       parent_headline: Üst
@@ -744,7 +747,7 @@ tr:
           relation_columns: İş paketleri listesindeki ilişkileri görmek ister misiniz?
           check_out_link: Enterprise sürüme bakın.
         relation_filters:
-          first_part: Show all work packages
+          first_part: Tüm iş paketleri görüntüle
           second_part: the current work package
       tabs:
         overview: Genel Bakış
