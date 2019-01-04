@@ -301,8 +301,8 @@ fr:
     onboarding:
       buttons:
         skip: Skip
-        next: Next
-        got_it: Got it
+        next: Suivante
+        got_it: J'ai compris
       steps:
         welcome: Faites une visite d’introduction de trois minutes d’apprendre le
           plus de caractéristiques importantes de <b></b>. <br> il est recommandé
@@ -352,7 +352,6 @@ fr:
         help_menu: Dans le menu <b> Help </b>, vous trouverez un guide de l'utilisateur
           et des ressources d'aide supplémentaires. <br> profiter de votre travail
           avec OpenProject!
-        got_it: J'ai compris
     password_confirmation:
       field_description: Vous devez saisir le mot de passe de votre compte pour confirmer
         ce changement.

@@ -301,8 +301,8 @@ es:
     onboarding:
       buttons:
         skip: Skip
-        next: Next
-        got_it: Got it
+        next: Siguiente
+        got_it: Entendido
       steps:
         welcome: Realice un paseo de introducción de tres minutos para conocer las
           <b>características más importantes</b>. <br> Le recomendamos que complete
@@ -349,7 +349,6 @@ es:
           el último plan en cualquier momento.
         help_menu: En el menú <b>Ayuda</b>, encontrará una guía del usuario y recursos
           de ayuda adicionales. <br> ¡Disfrute de su trabajo con OpenProject!
-        got_it: Entendido
     password_confirmation:
       field_description: Necesitas introducir la contraseña de tu cuenta para confirmar
         este cambio.

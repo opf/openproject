@@ -296,7 +296,7 @@ sv-SE:
     onboarding:
       buttons:
         skip: Skip
-        next: Next
+        next: Nästa
         got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
@@ -339,7 +339,6 @@ sv-SE:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: Du behöver ange ditt lösenord för att bekräfta ändringen.
       title: Bekräfta ditt lösenord för att fortsätta

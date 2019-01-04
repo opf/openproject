@@ -303,8 +303,8 @@ de:
     onboarding:
       buttons:
         skip: Skip
-        next: Next
-        got_it: Got it
+        next: Weiter
+        got_it: Verstanden
       steps:
         welcome: Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen.
           <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese
@@ -345,7 +345,6 @@ de:
           die aktuelle Planung und kann diese bei Bedarf aktualisieren.
         help_menu: 'Im <b>Hilfe</b> Menü finden Sie ein Benutzerhandbuch sowie weitere
           Hilfematerialien.           <br> Viel Spaß mit OpenProject!'
-        got_it: Verstanden
     password_confirmation:
       field_description: Sie müssen Ihr Kennwort eingeben um diese Änderungen zu speichern.
       title: Geben Sie Ihr Kennwort ein um fortzufahren

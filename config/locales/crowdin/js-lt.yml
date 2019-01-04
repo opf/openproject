@@ -294,8 +294,8 @@ lt:
     onboarding:
       buttons:
         skip: Skip
-        next: Next
-        got_it: Got it
+        next: Kitas
+        got_it: Supratau
       steps:
         welcome: Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių
           sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos.
@@ -334,7 +334,6 @@ lt:
           ir keisti naujausią planą bet kuriuo metu.
         help_menu: Meniu <b>Žinynas</b> rasite vartotojo vadovą ir papildomos pagalbos
           šaltinius. <br>Mėgaukitės darbu su OpenProject!
-        got_it: Supratau
     password_confirmation:
       field_description: Norėdami patvirtinti šį pakeitimą turite įvesti savo paskyros
         slaptažodį.

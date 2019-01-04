@@ -301,8 +301,8 @@ pt-BR:
     onboarding:
       buttons:
         skip: Skip
-        next: Next
-        got_it: Got it
+        next: Próxima
+        got_it: Entendi
       steps:
         welcome: Acompanhe um tour de apresentação de 3 minutos para descobrir mais
           <b>recursos importantes</b>.<br> Recomendamos que você conclua as etapas
@@ -347,7 +347,6 @@ pt-BR:
           atualizar o plano mais recente a qualquer momento.
         help_menu: No menu <b>Ajuda</b> você vai encontrar um guia do usuário e recursos
           adicionais de ajuda. <br> Aprecie o seu trabalho com OpenProject!
-        got_it: Entendi
     password_confirmation:
       field_description: Você precisa digitar sua senha para confirmar essa alteração.
       title: Confirme sua senha para continuar
