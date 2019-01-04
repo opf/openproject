@@ -161,7 +161,7 @@ describe 'rb_taskboards/show', type: :view do
         assert_select "tr.story_#{story.id} td.add_new" do |td|
           expect(td.count).to eq 1
           expect(td.first).to have_content '+'
-          expect(td.first[:class]).to include 'clickable'
+          expect(td.first).to have_css '.clickable'
         end
       end
     end
@@ -175,7 +175,7 @@ describe 'rb_taskboards/show', type: :view do
         assert_select "tr.story_#{story.id} td.add_new" do |td|
           expect(td.count).to eq 1
           expect(td.first).not_to have_content '+'
-          expect(td.first[:class]).not_to include 'clickable'
+          expect(td.first).not_to have_css '.clickable'
         end
       end
     end
@@ -189,7 +189,7 @@ describe 'rb_taskboards/show', type: :view do
         assert_select '#impediments td.add_new' do |td|
           expect(td.count).to eq 1
           expect(td.first).to have_content '+'
-          expect(td.first[:class]).to include 'clickable'
+          expect(td.first).to have_css '.clickable'
         end
       end
     end
@@ -203,7 +203,7 @@ describe 'rb_taskboards/show', type: :view do
         assert_select '#impediments td.add_new' do |td|
           expect(td.count).to eq 1
           expect(td.first).not_to have_content '+'
-          expect(td.first[:class]).not_to include 'clickable'
+          expect(td.first).not_to have_css '.clickable'
         end
       end
     end

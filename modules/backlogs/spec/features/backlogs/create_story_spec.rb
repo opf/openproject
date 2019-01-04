@@ -109,7 +109,7 @@ describe 'Backlogs', js: true do
   it 'allows creating a new story' do
     visit backlogs_project_backlogs_path(project)
 
-    within("#backlog_#{backlog_version.id}", wait: 10) do
+    within "#backlog_#{project.id}" do
       menu = find('.menu')
       menu.click
       click_link 'New Story'
