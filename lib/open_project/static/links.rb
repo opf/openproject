@@ -71,7 +71,7 @@ module OpenProject
               label: 'homescreen.links.boards'
             },
             professional_support: {
-              href: 'https://www.openproject.org/project-collaboration-products/#support',
+              href: 'https://www.openproject.org/pricing/#support',
               label: :label_professional_support
             },
             website: {
