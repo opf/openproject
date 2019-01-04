@@ -6,7 +6,7 @@ module DemoData
       def seed_data!
         puts "*** Seeding MyProjectsOverview"
 
-        Array(I18n.t("seeders.demo_data.projects")).each do |key, project|
+        Array(translate_with_base_url("seeders.demo_data.projects")).each do |key, project|
           puts "   -Creating overview for #{project[:name]}"
 
           if config = project[:"project-overview"]
@@ -29,10 +29,18 @@ module DemoData
       end
 
       def applicable?
-        MyProjectsOverview.count.zero?
+        MyProjectsOverview.count.zero? && demo_projects_exist?
       end
 
       private
+
+      def demo_projects_exist?
+        identifiers = Array(I18n.t("seeders.demo_data.projects"))
+          .map { |_key, project| project[:identifier] }
+
+        identifiers
+          .all? { |ident| Project.where(identifier: ident).exists? }
+      end
 
       def area(config, project)
         return config if config.is_a? String

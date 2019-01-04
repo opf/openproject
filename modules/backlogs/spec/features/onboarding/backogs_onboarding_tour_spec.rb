@@ -84,7 +84,7 @@ describe 'backlogs onboarding tour', js: true do
       expect(page).to have_text 'Manage your work in the Backlogs view.'
 
       next_button.click
-      expect(page).to have_text 'To see your Task board, open on the Sprint drop-down...'
+      expect(page).to have_text 'To see your Task board, open the Sprint drop-down...'
 
       next_button.click
       expect(page).to have_selector('.backlog .items', visible: true)
