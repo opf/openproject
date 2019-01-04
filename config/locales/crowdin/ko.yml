@@ -121,15 +121,6 @@ ko:
       versions:
         no_results_title_text: 프로젝트에 버전이 없습니다.
         no_results_content_text: 새 버전 생성
-    delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
   members:
     index:
       no_results_title_text: 프로젝트에 멤버 파트가 없습니다.
@@ -2599,4 +2590,3 @@ ko:
       writing_read_only_attributes: 읽기 전용 특성은 변경할 수 없습니다.
     resources:
       schema: 스키마
-  label_everywhere: everywhere

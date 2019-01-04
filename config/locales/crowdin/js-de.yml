@@ -302,7 +302,7 @@ de:
       show_modal: Hilfe-Text für dieses Attribut anzeigen
     onboarding:
       buttons:
-        skip: Skip
+        skip: Überspringen
         next: Weiter
         got_it: Verstanden
       steps:
