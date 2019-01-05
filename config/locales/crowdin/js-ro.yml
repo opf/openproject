@@ -298,7 +298,7 @@ ro:
     onboarding:
       buttons:
         skip: Skip
-        next: Next
+        next: Înainte
         got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
@@ -341,7 +341,6 @@ ro:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: Trebuie să introduceţi parola contului dumneavoastră pentru
         a confirma această schimbare.

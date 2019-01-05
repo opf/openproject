@@ -293,7 +293,7 @@ fi:
     onboarding:
       buttons:
         skip: Skip
-        next: Next
+        next: Seuraava
         got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
@@ -336,7 +336,6 @@ fi:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: Sinun täytyy syöttää tilisi salasana vahvistaaksesi tämän
         muutoksen.

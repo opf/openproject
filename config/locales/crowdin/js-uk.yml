@@ -339,7 +339,6 @@ uk:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: Вам необхідно ввести пароль облікового запису, щоб підтвердити
         цю зміну.

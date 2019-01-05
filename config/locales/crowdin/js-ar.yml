@@ -290,7 +290,7 @@ ar:
     onboarding:
       buttons:
         skip: Skip
-        next: Next
+        next: التالي
         got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
@@ -333,7 +333,6 @@ ar:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: تحتاج إلى إدخال كلمة مرور حسابك لتأكيد هذا التغيير.
       title: أكِّد كلمة مرورك للمواصلة

@@ -297,8 +297,8 @@ pt:
     onboarding:
       buttons:
         skip: Skip
-        next: Next
-        got_it: Got it
+        next: Próxima
+        got_it: Entendi
       steps:
         welcome: Acompanhe um tour de apresentação de 3 minutos para descobrir mais
           <b>recursos importantes</b>.<br> Recomendamos que conclua as etapas até
@@ -339,7 +339,6 @@ pt:
           o plano mais recente a qualquer momento.
         help_menu: No menu <b>Ajuda</b> vai encontrar um guia de utilizador e recursos
           adicionais de ajuda. <br> Desfrute do seu trabalho com o OpenProject!
-        got_it: Entendi
     password_confirmation:
       field_description: Tem que digitar a sua palavra-passe para confirmar esta alteração.
       title: Confirme a sua palavra-passe para continuar

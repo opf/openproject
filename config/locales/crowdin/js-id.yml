@@ -296,7 +296,7 @@ id:
     onboarding:
       buttons:
         skip: Skip
-        next: Next
+        next: Lanjut
         got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
@@ -339,7 +339,6 @@ id:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: Anda harus mengisi kata sandi akun untuk mengkonfirmasi perubahan.
       title: Konfirmasi kata sandi anda untuk melanjutkan
