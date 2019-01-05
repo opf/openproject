@@ -279,7 +279,7 @@ ja:
       show_modal: テキスト入力属性のヘルプを表示
     onboarding:
       buttons:
-        skip: Skip
+        skip: スキップ
         next: 次へ
         got_it: 了承
       steps:
