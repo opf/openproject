@@ -27,6 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% if content_for?(:action_menu_main) %>
-  <%= render partial: "layouts/action_menu_base" %>
-<% end %>
+<%= @project.name %>
+<%= project_url(@project) %>
+
+<%= t('projects.delete.failed_text', name: @project.name) %>

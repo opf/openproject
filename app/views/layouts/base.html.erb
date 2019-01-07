@@ -169,8 +169,6 @@ See docs/COPYRIGHT.rdoc for more details.
         <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>
         <%= content_for :content_body %>
         <% unless local_assigns[:no_action_menu] %>
-          <!-- Action menu -->
-          <%= render partial: 'layouts/action_menu' %>
           <%= yield %>
         <% end %>
         <%= call_hook :view_layouts_base_content %>

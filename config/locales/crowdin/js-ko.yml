@@ -281,6 +281,10 @@ ko:
     help_texts:
       show_modal: 특성 도움말 텍스트 항목 표시
     onboarding:
+      buttons:
+        skip: Skip
+        next: 다음
+        got_it: 확인
       steps:
         welcome: 3분 소개 투어를 보고 가장 <b>중요한 기능</b>에 대해 알아보세요. <br> 끝까지 단계를 완료하는 것이 좋습니다.
           언제든지 투어를 다시 시작할 수 있습니다.
@@ -308,7 +312,6 @@ ko:
           언제든지 최신 계획을 보고 업데이트할 수 있습니다.
         help_menu: "<b>도움말</b> 메뉴에서 사용자 가이드 및 추가 도움말 리소스를 찾아볼 수 있습니다. <br> OpenProject에서
           즐겁게 작업하세요!"
-        got_it: 확인
     password_confirmation:
       field_description: 이 변경 내용을 확인하려면 계정 암호를 입력해야 합니다.
       title: 계속하려면 암호 확인

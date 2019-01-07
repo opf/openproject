@@ -298,6 +298,10 @@ it:
     help_texts:
       show_modal: Mostra l'immissione di testo della guida dell'attributo
     onboarding:
+      buttons:
+        skip: Skip
+        next: Prossimo
+        got_it: Capito
       steps:
         welcome: Fai un tour introduttivo di tre minuti per apprendere le <b>funzioni
           importanti</b>. <br> Consigliamo di completare i passaggi fino alla fine.
@@ -342,7 +346,6 @@ it:
           ed aggiornare nsre l'ultimo piano ogni volta.
         help_menu: Nel menu <b>Aiuto</b> troverai una guids utente e risorse di aiuto
           aggiuntive. <br> Goditi il tuo lsvoto con OpenProject!
-        got_it: Capito
     password_confirmation:
       field_description: È necessario inserire la password dell'account per confermare
         la modifica.

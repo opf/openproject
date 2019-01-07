@@ -26,11 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, HostListener, OnDestroy, Renderer2, ViewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  Renderer2,
+  ViewChild
+} from '@angular/core';
 import {ContainHelpers} from 'core-app/modules/common/focus/contain-helpers';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 
 export const expandableSearchSelector = 'expandable-search';
 
@@ -45,13 +57,76 @@ export class ExpandableSearchComponent implements OnDestroy {
 
   public collapsed:boolean = true;
   public focused:boolean = false;
+  public noResults = false;
+
+  private $element:JQuery;
+  private $input:JQuery;
 
   private unregisterGlobalListener:Function | undefined;
 
   constructor(readonly FocusHelper:FocusHelperService,
               readonly elementRef:ElementRef,
               readonly renderer:Renderer2,
-              readonly I18n:I18nService) {
+              readonly I18n:I18nService,
+              readonly PathHelperService:PathHelperService,
+              readonly halResourceService:HalResourceService,
+              readonly dynamicCssService:DynamicCssService) {
+  }
+
+  ngOnInit() {
+    this.$element = jQuery(this.elementRef.nativeElement);
+    this.$input = jQuery(this.input.nativeElement);
+
+    let selected = false;
+
+    this.$input.autocomplete({
+      delay: 250,
+      autoFocus: false, // Accessibility!
+      appendTo: '#top-menu',
+      classes: {
+        'ui-autocomplete': 'search-autocomplete--results'
+      },
+      position: {
+        my: 'left top+10',
+        at: 'left bottom'
+      },
+      source: (request:{ term:string }, response:Function) => {
+        this.autocompleteWorkPackages(request.term).then((values) => {
+          selected = false;
+          response(values.map(wp => {
+            return { workPackage: wp };
+          }));
+        });
+      },
+      select: (_evt:any, ui:any) => {
+        selected = true;
+        this.redirectToWp(ui.item.workPackage.id);
+      },
+      minLength: 0
+    })
+    .data('ui-autocomplete')._renderItem = (ul:JQuery, item:{workPackage:WorkPackageResource}) => {
+      let workPackage = item.workPackage;
+      return jQuery("<li>")
+        .attr('data-value', workPackage.id)
+        .attr('tabindex', -1)
+        .append(
+          jQuery('<div>')
+            .addClass( 'ui-menu-item-wrapper')
+            .append(
+              jQuery('<span>')
+                .addClass('search-autocomplete--wp-id')
+                .addClass(`__hl_dot_status_${workPackage.status.idFromLink}`)
+                .attr('title', workPackage.status.name)
+                .append(`#${workPackage.id}`)
+            )
+            .append(
+              jQuery('<span>')
+                .addClass('search-autocomplete--subject')
+                .append(` ${workPackage.subject}`)
+            )
+        )
+        .appendTo(ul);
+    };
   }
 
   // detect if click is outside or inside the element
@@ -59,6 +134,8 @@ export class ExpandableSearchComponent implements OnDestroy {
   public handleClick(event:JQueryEventObject):void {
     event.stopPropagation();
     event.preventDefault();
+
+    this.dynamicCssService.requireHighlighting();
 
     // If search is open, submit form when clicked on icon
     if (!this.collapsed && ContainHelpers.insideOrSelf(this.btn.nativeElement, event.target)) {
@@ -77,8 +154,8 @@ export class ExpandableSearchComponent implements OnDestroy {
     return false;
   }
 
-  ngOnDestroy() {
-    this.unregister();
+  public redirectToWp(id:string) {
+    window.location = this.PathHelperService.workPackagePath(id) as unknown as Location;
   }
 
   private registerOutsideClick() {
@@ -114,6 +191,39 @@ export class ExpandableSearchComponent implements OnDestroy {
 
   private set searchValue(val:string) {
     this.input.nativeElement.value = val;
+  }
+
+  ngOnDestroy():void {
+    this.$input.autocomplete('destroy');
+    this.unregister();
+  }
+
+  private autocompleteWorkPackages(query:string):Promise<WorkPackageResource[]> {
+    this.$element.find('.ui-autocomplete--loading').show();
+    let idOnly:boolean = false;
+
+    if (query.match(/^#\d+$/)) {
+      query = query.replace(/^#/, '');
+      idOnly = true;
+    }
+
+    let href = this.PathHelperService.api.v3.wpBySubjectOrId(query, idOnly);
+
+    return this.halResourceService
+      .get<CollectionResource<WorkPackageResource>>(href)
+      .toPromise()
+      .then((collection) => {
+        this.noResults = collection.count === 0;
+        this.hideSpinner();
+        return collection.elements || [];
+      }).catch(() => {
+        this.hideSpinner();
+        return [];
+      });
+  }
+
+  private hideSpinner():void {
+    this.$element.find('.ui-autocomplete--loading').hide();
   }
 }
 

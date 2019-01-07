@@ -54,7 +54,7 @@ install_plugins() {
 migrate() {
 	pushd /usr/src/app
 	/etc/init.d/memcached start
-	rake db:migrate db:seed
+	bundle exec rake db:migrate db:seed db:structure:dump
 	/etc/init.d/memcached stop
 	chown app:app db/structure.sql
 	popd

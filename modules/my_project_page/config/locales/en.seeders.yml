@@ -35,7 +35,7 @@ en:
               - id: b
                 title: ''
                 content: |
-                  ![Teaser](##attachment:"background-teaser-8-0v6.jpg")
+                  ![Teaser](##attachment:"demo_project_teaser.png")
             left:
               - id: a
                 title: Welcome to your demo project
@@ -53,7 +53,7 @@ en:
                   Here you will find our [User Guides](https://www.openproject.org/help/).
                   Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
                 attachments:
-                  - background-teaser-8-0v6.jpg
+                  - demo_project_teaser.png
               - block: project_description
               - block: work_package_tracking
             right:
@@ -65,7 +65,7 @@ en:
               - id: b
                 title: ''
                 content: |
-                  ![Teaser](##attachment:"background-teaser-8-0v6.jpg")
+                  ![Teaser](##attachment:"scrum_project_teaser.png")
             left:
               - id: a
                 title: Welcome to your Scrum demo project
@@ -84,7 +84,7 @@ en:
                   Here you will find our [User Guides](https://www.openproject.org/help/).
                   Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
                 attachments:
-                  - background-teaser-8-0v6.jpg
+                  - scrum_project_teaser.png
               - block: project_description
               - block: work_package_tracking
             right:

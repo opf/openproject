@@ -208,44 +208,6 @@ hr
     width: 18px
     opacity: 0.001
 
-  \:checked + .styled-checkbox:after
-    opacity: 1
-
-.styled-checkbox
-  box-sizing: content-box
-  display: inline-block
-  vertical-align: top
-  width: 18px
-  height: 18px
-  padding: 0 5px
-  user-select: none
-
-  &:before
-    content: ''
-    position: absolute
-    width: 18px
-    height: 18px
-    background: #ffffff
-    border: 1px solid #cacaca
-    border-radius: 2px
-    cursor: pointer
-    box-shadow: inset 0 1px #fff
-  &:after
-    opacity: 0
-    content: ''
-    position: absolute
-    margin: 5px 2px
-    // Length of check tail
-    width: 11px
-    // Length of check foot
-    height: 3px
-    background: transparent
-    border: 3px solid #666666
-    border-top: none
-    border-right: none
-    transform: rotate(-50deg)
-
-
 %form--fieldset-or-section
   padding:        1rem 0 0
   margin-bottom:  1rem

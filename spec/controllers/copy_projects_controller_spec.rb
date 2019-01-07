@@ -151,7 +151,7 @@ describe CopyProjectsController, type: :controller do
 
     context 'on success' do
       it 'user receives success mail' do
-        expect(UserMailer).to receive(:copy_project_succeeded).and_return(maildouble)
+        expect(ProjectMailer).to receive(:copy_project_succeeded).and_return(maildouble)
 
         copy_project(project)
       end
@@ -159,11 +159,11 @@ describe CopyProjectsController, type: :controller do
 
     context 'on error' do
       before do
-        allow(UserMailer).to receive(:with_deliveries).and_raise(ActiveRecord::RecordNotFound)
+        allow(ProjectMailer).to receive(:with_deliveries).and_raise(ActiveRecord::RecordNotFound)
       end
 
       it 'user receives success mail' do
-        expect(UserMailer).to receive(:copy_project_failed).and_return(maildouble)
+        expect(ProjectMailer).to receive(:copy_project_failed).and_return(maildouble)
 
         copy_project(project)
       end

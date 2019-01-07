@@ -94,7 +94,7 @@ jQuery(function ($) {
     });
   }
 
-  $('.project-actions, .legacy-actions-main, .legacy-actions-specific, .toolbar-items').each(function (idx, menu) {
+  $('.project-actions, .toolbar-items').each(function (idx, menu) {
     install_menu_logic($(menu));
   });
 });

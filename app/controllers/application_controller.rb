@@ -260,6 +260,8 @@ class ApplicationController < ActionController::Base
                'X-Reason' => 'login needed',
                'WWW-Authenticate' => auth_header
         end
+
+        format.all { head :not_acceptable }
       end
       return false
     end

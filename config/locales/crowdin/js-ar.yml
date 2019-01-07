@@ -288,6 +288,10 @@ ar:
     help_texts:
       show_modal: Show attribute help text entry
     onboarding:
+      buttons:
+        skip: Skip
+        next: التالي
+        got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -329,7 +333,6 @@ ar:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: تحتاج إلى إدخال كلمة مرور حسابك لتأكيد هذا التغيير.
       title: أكِّد كلمة مرورك للمواصلة

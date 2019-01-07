@@ -277,6 +277,10 @@ lol:
     help_texts:
       show_modal: crwdns107414:0crwdne107414:0
     onboarding:
+      buttons:
+        skip: crwdns109302:0crwdne109302:0
+        next: crwdns109304:0crwdne109304:0
+        got_it: crwdns109306:0crwdne109306:0
       steps:
         welcome: crwdns109232:0crwdne109232:0
         project_selection: crwdns109168:0crwdne109168:0
@@ -295,7 +299,6 @@ lol:
         wp_timeline_button: crwdns109194:0crwdne109194:0
         wp_timeline: crwdns109196:0crwdne109196:0
         help_menu: crwdns109198:0crwdne109198:0
-        got_it: crwdns109200:0crwdne109200:0
     password_confirmation:
       field_description: crwdns107416:0crwdne107416:0
       title: crwdns107418:0crwdne107418:0
