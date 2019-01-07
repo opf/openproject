@@ -1328,6 +1328,7 @@ fa:
   label_history: History
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
+  label_subject_or_id: Subject or ID
   label_in: in
   label_in_less_than: in less than
   label_in_more_than: in more than

@@ -1315,6 +1315,7 @@ th:
   label_history: ประวัติย้อนหลัง
   label_hierarchy_leaf: Hierarchy leaf
   label_home: หน้าหลัก
+  label_subject_or_id: Subject or ID
   label_in: ใน
   label_in_less_than: ในไม่เกิน
   label_in_more_than: ในมากกว่า

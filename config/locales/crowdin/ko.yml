@@ -1284,6 +1284,7 @@ ko:
   label_history: 기록
   label_hierarchy_leaf: 계층 구조 리프
   label_home: 홈
+  label_subject_or_id: Subject or ID
   label_in: "-"
   label_in_less_than: 보다 작음
   label_in_more_than: 보다 큼

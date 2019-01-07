@@ -1363,6 +1363,7 @@ cs:
   label_history: Historie
   label_hierarchy_leaf: Úroveň hierarchie
   label_home: Domů
+  label_subject_or_id: Subject or ID
   label_in: v
   label_in_less_than: za méně než
   label_in_more_than: za více než

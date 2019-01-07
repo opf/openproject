@@ -1345,6 +1345,7 @@ ca:
   label_history: Història
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Inici
+  label_subject_or_id: Subject or ID
   label_in: en
   label_in_less_than: en menys de
   label_in_more_than: en més de

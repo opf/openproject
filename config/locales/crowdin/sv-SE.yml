@@ -1330,6 +1330,7 @@ sv-SE:
   label_history: Historik
   label_hierarchy_leaf: Hierarki-blad
   label_home: Hem
+  label_subject_or_id: Subject or ID
   label_in: i
   label_in_less_than: i mindre än
   label_in_more_than: i mer än

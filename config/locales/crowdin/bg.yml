@@ -1335,6 +1335,7 @@ bg:
   label_history: История
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Начална страница
+  label_subject_or_id: Subject or ID
   label_in: в
   label_in_less_than: в по-малко от
   label_in_more_than: в повече от

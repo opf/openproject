@@ -1339,6 +1339,7 @@ hi:
   label_history: इतिहास
   label_hierarchy_leaf: पदानुक्रम पत्ती
   label_home: मुखपृष्ठ
+  label_subject_or_id: Subject or ID
   label_in: में
   label_in_less_than: से भी कम समय में
   label_in_more_than: से अधिक में

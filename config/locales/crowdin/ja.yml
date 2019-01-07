@@ -1233,6 +1233,7 @@ ja:
   label_history: 履歴
   label_hierarchy_leaf: 階層枚
   label_home: ホーム
+  label_subject_or_id: Subject or ID
   label_in: 今日から○日後
   label_in_less_than: 今日から○日後以前
   label_in_more_than: 今日から○日後以降

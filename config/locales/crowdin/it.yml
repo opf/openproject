@@ -1356,6 +1356,7 @@ it:
   label_history: Registro cronologico
   label_hierarchy_leaf: Foglia della gerarchia
   label_home: Radice (home)
+  label_subject_or_id: Subject or ID
   label_in: in
   label_in_less_than: in meno di
   label_in_more_than: in più di

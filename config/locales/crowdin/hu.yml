@@ -1337,6 +1337,7 @@ hu:
   label_history: Előzmény
   label_hierarchy_leaf: Hierarchia szint
   label_home: Home
+  label_subject_or_id: Subject or ID
   label_in: in
   label_in_less_than: kevesebb, mint
   label_in_more_than: több mint

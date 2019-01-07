@@ -1360,6 +1360,7 @@ ro:
   label_history: Istoric
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Pagina de start
+  label_subject_or_id: Subject or ID
   label_in: în
   label_in_less_than: în mai puțin de
   label_in_more_than: în mai mult de

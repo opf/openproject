@@ -1396,6 +1396,7 @@ ar:
   label_history: تاريخ
   label_hierarchy_leaf: Hierarchy leaf
   label_home: الصفحة الرئيسية
+  label_subject_or_id: Subject or ID
   label_in: في
   label_in_less_than: في أقل من
   label_in_more_than: في أكثر من
