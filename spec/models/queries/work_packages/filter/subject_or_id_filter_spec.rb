@@ -1,6 +1,5 @@
-#-- encoding: UTF-8
-
 #-- copyright
+
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
@@ -28,60 +27,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::WorkPackages::Filter::OrFilterForWpMixin
-  extend ActiveSupport::Concern
+require 'spec_helper'
 
-  included do
-    validate :minimum_one_filter_valid
+describe Queries::WorkPackages::Filter::SubjectOrIdFilter, type: :model do
+  let(:value) { 'bogus' }
+  let(:operator) { '**' }
+  let(:subject) { 'Some subject' }
+  let(:work_package) { FactoryBot.create(:work_package, subject: subject) }
+  let(:current_user) { FactoryBot.build(:user, member_in_project: work_package.project) }
+  let(:query) { FactoryBot.build_stubbed(:global_query, user: current_user) }
+  let(:instance) do
+    described_class.create!(name: :search, context: query, operator: operator, values: [value])
   end
 
-  def filters
-    if @filters
-      update_instances
-    else
-      @filters = create_instances
-    end
-
-    @filters.keep_if(&:validate)
+  before do
+    login_as current_user
   end
 
-  def includes
-    filters.map(&:includes).flatten.uniq.reject(&:blank?)
+  it 'finds in subject' do
+    instance.values = ['Some subject']
+    expect(WorkPackage.eager_load(instance.includes).where(instance.where))
+      .to match_array [work_package]
   end
 
-  def where
-    filters.map(&:where).join(' OR ')
-  end
-
-  def filter_configurations
-    raise NotImplementedError
-  end
-
-  def create_instances
-    filter_configurations.map do |conf|
-      conf.filter_class.create!(name: conf.filter_name,
-                                context: context,
-                                operator: conf.operator,
-                                values: values)
-    end
-  end
-
-  def update_instances
-    configurations = filter_configurations
-
-    @filters.each_with_index do |filter, index|
-      filter.operator = configurations[index].operator
-      filter.values = values
-    end
-  end
-
-  def ar_object_filter?
-    false
-  end
-
-  def minimum_one_filter_valid
-    if filters.empty?
-      errors.add(:values, :invalid)
-    end
+  it 'finds in ID' do
+    instance.values = [work_package.id.to_s]
+    expect(WorkPackage.eager_load(instance.includes).where(instance.where))
+      .to match_array [work_package]
   end
 end
