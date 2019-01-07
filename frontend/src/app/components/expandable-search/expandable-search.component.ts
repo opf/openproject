@@ -42,6 +42,7 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 
 export const expandableSearchSelector = 'expandable-search';
 
@@ -68,7 +69,8 @@ export class ExpandableSearchComponent implements OnDestroy {
               readonly renderer:Renderer2,
               readonly I18n:I18nService,
               readonly PathHelperService:PathHelperService,
-              readonly halResourceService:HalResourceService) {
+              readonly halResourceService:HalResourceService,
+              readonly dynamicCssService:DynamicCssService) {
   }
 
   ngOnInit() {
@@ -132,6 +134,8 @@ export class ExpandableSearchComponent implements OnDestroy {
   public handleClick(event:JQueryEventObject):void {
     event.stopPropagation();
     event.preventDefault();
+
+    this.dynamicCssService.requireHighlighting();
 
     // If search is open, submit form when clicked on icon
     if (!this.collapsed && ContainHelpers.insideOrSelf(this.btn.nativeElement, event.target)) {
