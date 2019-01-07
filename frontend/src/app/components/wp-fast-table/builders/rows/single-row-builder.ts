@@ -141,12 +141,8 @@ export class SingleRowBuilder {
 
   protected isColumnBeingEdited(workPackage:WorkPackageResource, column:QueryColumn) {
     const form = this.workPackageTable.editing.forms[workPackage.id];
-    const changeset = this.workPackageTable.editing.changeset(workPackage.id);
 
-    const isOpen = form && form.activeFields[column.id];
-    const isChanged = changeset && changeset.isOverridden(column.id);
-
-    return isOpen || isChanged;
+    return form && form.activeFields[column.id];
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLElement):[HTMLElement, boolean] {

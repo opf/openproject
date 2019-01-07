@@ -39,7 +39,7 @@ import {HookService} from 'core-app/modules/plugins/hook-service';
 
 @Injectable()
 export class WorkPackageCreateService implements IWorkPackageCreateService {
-  protected form:Promise<HalResource>;
+  protected form:Promise<HalResource>|undefined;
 
   // Allow callbacks to happen on newly created work packages
   protected newWorkPackageCreatedSubject = new Subject<WorkPackageResource>();
@@ -52,6 +52,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
   }
 
   public newWorkPackageCreated(wp:WorkPackageResource) {
+    this.form = undefined;
     this.newWorkPackageCreatedSubject.next(wp);
   }
 

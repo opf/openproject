@@ -83,7 +83,7 @@ export class WorkPackageChangeset {
 
   public reset(key:string) {
     delete this.changes[key];
-    this.buildResource();
+    this.buildResource(this.schema);
   }
 
   public clear() {
@@ -142,7 +142,6 @@ export class WorkPackageChangeset {
   }
 
   public getForm():Promise<FormResource> {
-    console.log('get form called');
     if (!this.wpForm) {
       return this.updateForm();
     } else {
@@ -160,14 +159,14 @@ export class WorkPackageChangeset {
       this.wpFormPromise = this.workPackage.$links
         .update(payload)
         .then((form:FormResource) => {
-          this.buildResource();
+          this.buildResource(form.schema);
 
           this.wpFormSubject.next(form);
 
           this.wpFormPromise = null;
           return form;
         })
-        .catch((error: any) => {
+        .catch((error:any) => {
           this.resetForm();
 
           this.wpFormPromise = null;
@@ -221,7 +220,7 @@ export class WorkPackageChangeset {
             })
             .catch(error => {
               // Update the resource anyway
-              this.buildResource();
+              this.buildResource(this.schema);
               reject(error);
             })
             .catch(reject);
@@ -356,7 +355,7 @@ export class WorkPackageChangeset {
     }
   }
 
-  private buildResource() {
+  private buildResource(schema:SchemaResource) {
     if (this.empty) {
       this.resource = null;
       this.wpEditing.updateValue(this.workPackage.id, this);
@@ -367,8 +366,7 @@ export class WorkPackageChangeset {
 
     const resource = this.halResourceService.createHalResourceOfType('WorkPackage', this.mergeWithPayload(payload));
 
-    // Override the schema with the current form, if any.
-    resource.overriddenSchema = this.schema;
+    resource.overriddenSchema = schema;
     this.resource = (resource as WorkPackageResource);
     this.wpEditing.updateValue(this.workPackage.id, this);
   }

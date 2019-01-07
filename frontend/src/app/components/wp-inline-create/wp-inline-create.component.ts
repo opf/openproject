@@ -39,7 +39,7 @@ import {
 } from '@angular/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {filter, distinctUntilChanged} from 'rxjs/operators';
+import {filter} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
@@ -65,7 +65,6 @@ import {IWorkPackageEditingServiceToken} from "../wp-edit-form/work-package-edit
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {CurrentUserService} from "core-components/user/current-user.service";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -170,13 +169,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
         filter(() => this.isActive), // Take only when row is inserted
         untilComponentDestroyed(this),
       )
-      .subscribe(() => {
-        const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
-
-        if (rowElement.length && this.currentWorkPackage) {
-          this.rowBuilder.refreshRow(this.currentWorkPackage, rowElement);
-        }
-      });
+      .subscribe(() => this.refreshRow());
   }
 
   /**
@@ -235,22 +228,18 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
       }
 
       const wp = this.currentWorkPackage = changeset.workPackage;
-      this.applyDefaultsAndInsert(changeset, wp);
+      this.applyDefaults(changeset, wp);
 
       changeset.wpForm$
       .pipe(
         filter((form) => !!this.currentWorkPackage && !!form),
-        distinctUntilChanged((x:FormResource, y:FormResource) => {
-          console.log('received');
-          return x && y && x.payload.type.idFromLink === y.payload.type.idFromLink;
-        }),
         untilComponentDestroyed(this)
       ).subscribe((form) => {
-        this.currentWorkPackage!.overriddenSchema = form.schema;
-        const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
-
-        if (rowElement.length && this.currentWorkPackage) {
-          this.rowBuilder.refreshRow(this.currentWorkPackage, rowElement);
+        if (!this.isActive) {
+          this.insertRow(wp);
+        } else {
+          this.currentWorkPackage!.overriddenSchema = form!.schema;
+          this.refreshRow();
         }
       });
     });
@@ -264,32 +253,36 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
    * @param changeset
    * @param wp
    */
-  private applyDefaultsAndInsert(changeset:WorkPackageChangeset, wp:WorkPackageResource) {
-    let promise:Promise<any>;
-
+  private applyDefaults(changeset:WorkPackageChangeset, wp:WorkPackageResource) {
     if (this.tableState.query.hasValue()) {
       const filter = new WorkPackageFilterValues(this.injector, changeset, this.tableState.query.value!.filters);
-      promise = filter.applyDefaultsFromFilters();
-    } else {
-      promise = Promise.resolve();
+      filter.applyDefaultsFromFilters();
     }
 
-    promise.then(() => {
-      // Update the changeset with any added filtered values
-      this.wpEditing.updateValue('new', changeset);
-      this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
+    // Update the changeset with any added filtered values
+    this.wpEditing.updateValue('new', changeset);
+    this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
+  }
 
-      // Actually render the row
-      const form = this.workPackageEditForm = this.renderInlineCreateRow(wp);
+  private insertRow(wp:WorkPackageResource) {
+    // Actually render the row
+    const form = this.workPackageEditForm = this.renderInlineCreateRow(wp);
 
-      setTimeout(() => {
-        // Activate any required fields
-        form.activateMissingFields();
+    setTimeout(() => {
+      // Activate any required fields
+      form.activateMissingFields();
 
-        // Hide the button row
-        this.hideRow();
-      });
+      // Hide the button row
+      this.hideRow();
     });
+  }
+
+  private refreshRow() {
+    const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
+
+    if (rowElement.length && this.currentWorkPackage) {
+      this.rowBuilder.refreshRow(this.currentWorkPackage, rowElement);
+    }
   }
 
   /**
@@ -309,7 +302,6 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     );
 
     const form = WorkPackageEditForm.createInContext(this.injector, context, wp, false);
-    form.changeset.clear();
 
     const [row, ] = this.rowBuilder.buildNew(wp, form);
     this.$element.append(row);
