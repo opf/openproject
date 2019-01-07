@@ -98,6 +98,15 @@ lol:
     memberships:
       no_results_title_text: crwdns102700:0crwdne102700:0
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: crwdns102702:0crwdne102702:0
       no_results_content_text: crwdns102704:0crwdne102704:0
@@ -1179,7 +1188,7 @@ lol:
   label_environment: crwdns104416:0crwdne104416:0
   label_estimates_and_time: crwdns104418:0crwdne104418:0
   label_equals: crwdns104420:0crwdne104420:0
-  label_everywhere: crwdns109288:0crwdne109288:0
+  label_everywhere: everywhere
   label_example: crwdns104422:0crwdne104422:0
   label_export_to: crwdns104424:0crwdne104424:0
   label_expanded_click_to_collapse: crwdns104426:0crwdne104426:0

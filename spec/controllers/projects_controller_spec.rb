@@ -295,6 +295,39 @@ describe ProjectsController, type: :controller do
       end
     end
 
+    describe '#destroy' do
+      let(:project) { FactoryBot.build_stubbed(:project) }
+      let(:request) { delete :destroy, params: { id: project.id } }
+
+      let(:service_result) { ::ServiceResult.new(success: success) }
+
+      before do
+        allow(Project).to receive(:find).and_return(project)
+        expect_any_instance_of(::Projects::DeleteProjectService)
+          .to receive(:call)
+          .with(delayed: true)
+          .and_return service_result
+      end
+
+      context 'when service call succeeds' do
+        let(:success) { true }
+        it 'prints success' do
+          request
+          expect(response).to be_redirect
+          expect(flash[:notice]).to be_present
+        end
+      end
+
+      context 'when service call fails' do
+        let(:success) { false }
+        it 'prints fail' do
+          request
+          expect(response).to be_redirect
+          expect(flash[:error]).to be_present
+        end
+      end
+    end
+
     describe '#custom_fields' do
       let(:project) { FactoryBot.create(:project) }
       let(:custom_field_1) { FactoryBot.create(:work_package_custom_field) }

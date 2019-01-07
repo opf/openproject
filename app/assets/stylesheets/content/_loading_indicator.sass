@@ -48,6 +48,8 @@
     width: 6px
     display: inline-block
     animation: block-waveStretchDelay 1.2s infinite ease-in-out
+    margin: 0 1px
+    
   .block-1
     animation-delay: -1.2s
   .block-2
@@ -62,9 +64,6 @@
   &.-compact
     margin: 20px auto
 
-    [class^='block-']
-      margin: 0 1px
-
   &.-small
     height: 34px
     margin: 0
@@ -72,8 +71,6 @@
 
     [class^='block-']
       width: 4px
-
-
 
 @keyframes block-waveStretchDelay
   0%, 40%, 100%

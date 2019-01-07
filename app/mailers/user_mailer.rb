@@ -28,15 +28,6 @@
 #++
 
 class UserMailer < BaseMailer
-  helper :application, # for format_text
-         :work_packages, # for css classes
-         :custom_fields # for show_value
-  helper IssuesHelper
-
-  include OpenProject::LocaleHelper
-
-  # wrap in a lambda to allow changing at run-time
-  default from: Proc.new { Setting.mail_from }
 
   def test_mail(user)
     @welcome_url = url_for(controller: '/homescreen')
@@ -320,35 +311,6 @@ class UserMailer < BaseMailer
     end
   end
 
-  # Activates/deactivates email deliveries during +block+
-  def self.with_deliveries(temporary_state = true, &_block)
-    old_state = ActionMailer::Base.perform_deliveries
-    ActionMailer::Base.perform_deliveries = temporary_state
-    yield
-  ensure
-    ActionMailer::Base.perform_deliveries = old_state
-  end
-
-  def self.generate_message_id(object, user)
-    # id + timestamp should reduce the odds of a collision
-    # as far as we don't send multiple emails for the same object
-    journable = (object.is_a? Journal) ? object.journable : object
-
-    timestamp = mail_timestamp(object)
-    hash = 'openproject'\
-           '.'\
-           "#{journable.class.name.demodulize.underscore}"\
-           '-'\
-           "#{user.id}"\
-           '-'\
-           "#{journable.id}"\
-           '.'\
-           "#{timestamp.strftime('%Y%m%d%H%M%S')}"
-    host = Setting.mail_from.to_s.gsub(%r{\A.*@}, '')
-    host = "#{::Socket.gethostname}.openproject" if host.empty?
-    "#{hash}@#{host}"
-  end
-
   private
 
   def subject_for_work_package(work_package)
@@ -368,45 +330,6 @@ class UserMailer < BaseMailer
     message
   end
 
-  def self.remove_self_notifications(message, author)
-    if author.pref && author.pref[:no_self_notified]
-      message.to = message.to.reject { |address| address == author.mail } if message.to.present?
-    end
-  end
-
-  def self.mail_timestamp(object)
-    if object.respond_to? :created_at
-      object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
-    else
-      object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
-    end
-  end
-
-  def self.host
-    if OpenProject::Configuration.rails_relative_url_root.blank?
-      Setting.host_name
-    else
-      Setting.host_name.to_s.gsub(%r{\/.*\z}, '')
-    end
-  end
-
-  def self.protocol
-    Setting.protocol
-  end
-
-  def self.default_url_options
-    options = super.merge host: host, protocol: protocol
-    unless OpenProject::Configuration.rails_relative_url_root.blank?
-      options[:script_name] = OpenProject::Configuration.rails_relative_url_root
-    end
-
-    options
-  end
-
-  def message_id(object, user)
-    headers['Message-ID'] = "<#{self.class.generate_message_id(object, user)}>"
-  end
-
   def references(object, user)
     headers['References'] = "<#{self.class.generate_message_id(object, user)}>"
   end
@@ -420,11 +343,6 @@ class UserMailer < BaseMailer
     if work_package.assigned_to
       open_project_headers 'Issue-Assignee' => work_package.assigned_to.login
     end
-  end
-
-  # Prepends given fields with 'X-OpenProject-' to save some duplication
-  def open_project_headers(hash)
-    hash.each { |key, value| headers["X-OpenProject-#{key}"] = value.to_s }
   end
 end
 

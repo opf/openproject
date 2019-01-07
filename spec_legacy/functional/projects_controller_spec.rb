@@ -421,13 +421,6 @@ describe ProjectsController, type: :controller do
     refute_nil Project.find_by(id: 1)
   end
 
-  it 'should post destroy' do
-    session[:user_id] = 1 # admin
-    delete :destroy, params: { id: 1, confirm: 1 }
-    assert_redirected_to '/projects'
-    assert_nil Project.find_by(id: 1)
-  end
-
   it 'should archive' do
     session[:user_id] = 1 # admin
     put :archive, params: { id: 1 }

@@ -27,24 +27,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% action_menu_key = action_menu_key ? action_menu_key : :action_menu_main %>
+<h1><%= link_to @project.name, project_url(@project) %></h1>
 
-<div class="toolbar-container">
-  <div class="toolbar">
-    <ul class="toolbar-items <%= action_menu_key %> <%= action_menu_key.to_s.gsub('action_menu_', 'legacy-actions-') %>">
-      <%= content_for action_menu_key %>
-      <% if content_for?(:action_menu_more) %>
-        <li class="drop-down toolbar-item">
-          <a href="#" class="button"
-             accesskey="<%= OpenProject::AccessKeys.key_for(:more_menu) %>">
-            <span class="button--text"><%= l(:label_more) %></span>
-            <%= op_icon('button--dropdown-indicator') %>
-          </a>
-          <ul class="menu-drop-down-container" style="display:none;">
-            <%= content_for :action_menu_more %>
-          </ul>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-</div>
+<%= t('projects.delete.failed_text', name: @project.name) %>

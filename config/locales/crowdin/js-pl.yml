@@ -291,6 +291,10 @@ pl:
     help_texts:
       show_modal: Pokaż atrybut wpisu tekstu pomocy
     onboarding:
+      buttons:
+        skip: Skip
+        next: Następny
+        got_it: OK
       steps:
         welcome: "Poświęć trzy minuty na zapoznanie się z <b>najważniejszymi funkcjami</b>.
           \n <br> Zalecamy wykonanie tych kroków do końca. Zwiedzanie można w każdej
@@ -331,7 +335,6 @@ pl:
           wyświetlić i zaktualizować najnowszy plan.
         help_menu: W menu <b>Pomoc</b> znajdziesz przewodnik użytkownika i dodatkowe
           zasoby pomocy. <br> Życzymy miłej pracy w OpenProject!
-        got_it: OK
     password_confirmation:
       field_description: Musisz wprowadzić hasło do twojego konta aby potwierdzić
         te zmiany.

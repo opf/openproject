@@ -26,47 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-@mixin legacy-actions-defaults($margin-top: 7px)
-  float: right
-  margin-top: $margin-top
-  font-size: 0.9rem
-  > li
-    float: left
-    position: relative
-    list-style: none
-
-@mixin contextual($margin-top: 8px)
-  float: right
-  white-space: nowrap
-  line-height: 1.4em
-  margin-top: $margin-top
-  padding-left: 10px
-
-
-ul.legacy-actions-main
-  @include legacy-actions-defaults
-  margin-left: 20px
-
-ul.legacy-actions-specific,
-.nosidebar ul.legacy-actions-specific
-  @include legacy-actions-defaults(-7px)
-
-p.subtitle + ul.legacy-actions-specific
-  @include legacy-actions-defaults(-57px)
-
 .message-reply-menu
-  @include contextual(-60px)
+  float: right
+  padding-left: 10px
   > .button
     margin-right: 0
-
-.legacy-actions--inline-label
-  @extend .inline-label
-  margin-bottom: 1rem
-  height: 1.5em
-
-  .form-label
-    color: $content-icon-link-color
-  input, select
-    font-size: 1em
-  select
-    padding: 0 1.5rem 0.0 0.5rem

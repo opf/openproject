@@ -298,6 +298,10 @@ nl:
     help_texts:
       show_modal: Toon kenmerk help tekstinvoer
     onboarding:
+      buttons:
+        skip: Skip
+        next: Volgende
+        got_it: Begrepen
       steps:
         welcome: Neem drie minuten introductie rondleiding om de meeste <b>belangrijke
           kenmerken </b> te leren. <br> het is raadzaam de stappen uit te voeren tot
@@ -342,7 +346,6 @@ nl:
           op elk gewenst moment zien en bijwerken.
         help_menu: In het menu <b>Help</b> vindt u een handleiding en aanvullende
           help-bronnen. <br> genieten van uw werk met OpenProject!
-        got_it: Begrepen
     password_confirmation:
       field_description: U moet uw wachtwoord invoeren om deze wijziging te bevestigen.
       title: Voer uw wachtwoord in om door te gaan

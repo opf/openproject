@@ -98,6 +98,15 @@ ja:
     memberships:
       no_results_title_text: 現在、このグループのプロジェクトはありません。
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: 現在、プロジェクトはありません
       no_results_content_text: プロジェクトを新規作成
@@ -166,9 +175,9 @@ ja:
       projects: プロジェクト
       enabled_projects: 有効なプロジェクト
       add_group: 属性グループを追加する
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: 関連する作業項目のテーブルを追加する
+      edit_query: テーブルを編集
+      query_group_placeholder: テーブルに名前を付けます
       reset: デフォルトに戻す
       type_color_text: 'このタイプの色を割り当てたり変更する場合にクリックします。 選択された色は、ガントチャートの作業項目を区別します。
 

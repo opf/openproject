@@ -29,6 +29,8 @@
 $hamburger-right: -3px
 $hamburger-width: 50px
 
+$search-input-width: 180px
+
 %top-menu-hover-styles
   @include varprop(background, header-item-bg-hover-color)
   @include varprop(color, header-item-font-hover-color)
@@ -206,7 +208,7 @@ input.top-menu-search--input
   display: inline-block
   border: none !important
   border-radius: 25px
-  width: 180px
+  width: $search-input-width
   outline: 0
   font-size: 0.75rem
   &::-ms-clear
@@ -214,6 +216,18 @@ input.top-menu-search--input
     width: 20px
   .top-menu-search.-collapsed &
     display: none
+
+.search-autocomplete--results
+  width: 300px
+
+.top-menu-search--loading
+  top: $header-height
+  left: -($search-input-width - $header-height) - 1
+
+.search-autocomplete--wp-id
+  color: $gray-dark
+  font-size: 13px
+  white-space: nowrap
 
 #quick-search
   float: right

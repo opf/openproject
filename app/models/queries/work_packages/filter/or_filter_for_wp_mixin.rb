@@ -29,6 +29,12 @@
 #++
 
 module Queries::WorkPackages::Filter::OrFilterForWpMixin
+  extend ActiveSupport::Concern
+
+  included do
+    validate :minimum_one_filter_valid
+  end
+
   def filters
     if @filters
       update_instances
@@ -71,5 +77,11 @@ module Queries::WorkPackages::Filter::OrFilterForWpMixin
 
   def ar_object_filter?
     false
+  end
+
+  def minimum_one_filter_valid
+    if filters.empty?
+      errors.add(:values, :invalid)
+    end
   end
 end

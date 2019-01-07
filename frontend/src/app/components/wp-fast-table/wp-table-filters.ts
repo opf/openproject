@@ -50,7 +50,8 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
     'includes',
     'requires',
     'required',
-    'search'
+    'search',
+    'subjectOrId'
   ];
 
   constructor(filters:QueryFilterInstanceResource[], public availableSchemas:QueryFilterInstanceSchemaResource[]) {

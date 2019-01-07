@@ -114,6 +114,15 @@ ru:
     memberships:
       no_results_title_text: На данный момент проектов этой группы нет.
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: На данный момент проектов нет
       no_results_content_text: Создать новый проект
@@ -1324,7 +1333,7 @@ ru:
   label_environment: Переменные среды
   label_estimates_and_time: Оценки и время
   label_equals: "—"
-  label_everywhere: везде
+  label_everywhere: everywhere
   label_example: Пример
   label_export_to: 'Также доступна на:'
   label_expanded_click_to_collapse: Развернуто. Кликните для сворачивания

@@ -293,6 +293,10 @@ hu:
     help_texts:
       show_modal: Attribútum-súgószöveg mutatása
     onboarding:
+      buttons:
+        skip: Skip
+        next: " Következő"
+        got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -334,7 +338,6 @@ hu:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: A változás megerősítéséhez adja meg jelszavát.
       title: Adja meg a jelszavát a folytatáshoz
