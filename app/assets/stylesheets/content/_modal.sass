@@ -31,6 +31,8 @@ $ng-modal-background: $body-background
 $ng-modal-close-color: $light-gray
 $ng-modal-image-height: 135px
 $ng-modal-image-width: $ng-modal-image-height
+$modal-header-height: $header-height
+$modal-footer-height: $modal-header-height
 
 // The portal element of a modal element
 // ( = the outer element should span the entire view )
@@ -73,6 +75,9 @@ $ng-modal-image-width: $ng-modal-image-height
 .op-modal--modal-body
   margin: 1em 0
   padding: 0 1.5rem
+  max-height: calc(100vh - #{$modal-header-height} - #{$modal-footer-height})
+  overflow: auto
+  @include styled-scroll-bar-vertical
 
   &.-formattable
     p:last-of-type
@@ -86,7 +91,9 @@ $ng-modal-image-width: $ng-modal-image-height
     margin-right: 0
 
 .op-modal--modal-close-button
-  float: right
+  position: absolute
+  top: 0.75rem
+  right: 0.75rem
   cursor: pointer
   @include varprop(color, body-font-color)
   &:hover
@@ -101,7 +108,7 @@ $ng-modal-image-width: $ng-modal-image-height
   .op-modal--modal-header
     display: flex
     align-items: center
-    height: $header-height
+    height: $modal-header-height
     padding: 0 45px 0 1.5rem
     border-bottom-style: solid
     @include varprop(background-color, header-bg-color)
@@ -110,25 +117,21 @@ $ng-modal-image-width: $ng-modal-image-height
 
     *
       @include varprop(color, header-item-font-color)
-      height: $header-height
-      line-height: $header-height
+      height: $modal-header-height
+      line-height: $modal-header-height
 
     h2, h3
       @include text-shortener
 
   .op-modal--modal-close-button
-    float: none
-    position: absolute
     right: 10px
     top: 0
+    @include varprop(line-height, modal-header-height)
+    @include varprop(color, header-item-font-color)
 
   .avatar,
   .icon-context
     margin-right: 0.5rem
-
-  .op-modal--modal-close-button
-    @include varprop(line-height, header-height)
-    @include varprop(color, header-item-font-color)
 
 // Specific styles for columns-modal
 .columns-modal--content
