@@ -30,13 +30,11 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {WorkPackageTableFiltersService} from "app/components/wp-fast-table/state/wp-table-filters.service";
 import {QueryFilterResource} from "app/modules/hal/resources/query-filter-resource";
-import {takeUntil} from "rxjs/operators";
-import {componentDestroyed} from "ng2-rx-componentdestroyed";
+import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {TableState} from "app/components/wp-table/table-state/table-state";
-import {QueryOperatorResource} from "app/modules/hal/resources/query-operator-resource";
-import {QueryFilterInstanceResource} from "app/modules/hal/resources/query-filter-instance-resource";
-import {QueryResource} from "app/modules/hal/resources/query-resource";
 import {WorkPackageCacheService} from "app/components/work-packages/work-package-cache.service";
+import {Subject} from "rxjs";
+import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 
 @Component({
   selector: 'wp-filter-by-text-input',
@@ -52,6 +50,7 @@ export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy 
   };
 
   public searchTerm:string;
+  private searchTermChanged:Subject<string> = new Subject<string>();
 
   private availableSearchFilter:QueryFilterResource;
 
@@ -59,6 +58,27 @@ export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy 
               readonly tableState:TableState,
               readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly wpCacheService:WorkPackageCacheService) {
+    this.searchTermChanged
+      .pipe(
+        untilComponentDestroyed(this),
+        debounceTime(250),
+        distinctUntilChanged()
+      )
+      .subscribe(term => {
+        this.searchTerm = term;
+        let currentSearchFilter = this.wpTableFilters.find('search');
+        if (this.searchTerm.length > 0) {
+          if (!currentSearchFilter) {
+            currentSearchFilter = this.wpTableFilters.currentState.add(this.availableSearchFilter);
+          }
+          currentSearchFilter.operator = currentSearchFilter.findOperator('**')!;
+          currentSearchFilter.values = [this.searchTerm];
+        } else if (currentSearchFilter) {
+          this.wpTableFilters.currentState.remove(currentSearchFilter);
+        }
+
+        this.wpTableFilters.replace(this.wpTableFilters.currentState);
+      });
   }
 
   public ngOnInit() {
@@ -86,19 +106,6 @@ export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy 
   }
 
   public valueChange(term:string) {
-    this.searchTerm = term;
-
-    let currentSearchFilter = this.wpTableFilters.find('search');
-    if (this.searchTerm.length > 0) {
-      if (!currentSearchFilter) {
-        currentSearchFilter = this.wpTableFilters.currentState.add(this.availableSearchFilter);
-      }
-      currentSearchFilter.operator = currentSearchFilter.findOperator('**')!;
-      currentSearchFilter.values = [this.searchTerm];
-    } else if (currentSearchFilter) {
-      this.wpTableFilters.currentState.remove(currentSearchFilter);
-    }
-
-    this.wpTableFilters.replace(this.wpTableFilters.currentState);
+    this.searchTermChanged.next(term);
   }
 }
