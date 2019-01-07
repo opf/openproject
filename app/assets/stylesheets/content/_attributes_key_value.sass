@@ -37,10 +37,15 @@
     @extend .form--label
     @include grid-size(4)
     @include text-shortener
+    display: flex
     margin-bottom: 0.1875rem
     padding: 0.375rem 0 !important
     font-weight: bold
     align-self: center
+    // Ensure that the text is shortened while the help icon will be displayed
+    > wp-replacement-label
+      @include text-shortener
+      flex: 0 1 auto
 
   .attributes-key-value--value-container
     @include grid-content(8)
