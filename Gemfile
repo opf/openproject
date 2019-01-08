@@ -212,7 +212,6 @@ group :test do
   gem 'rspec-retry', '~> 0.5.6'
 
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
-  # gem 'rspec-legacy_formatters', '~> 1.0.1', require: false
 
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
