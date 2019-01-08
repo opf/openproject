@@ -47,7 +47,7 @@ describe MeetingsController, type: :controller do
         before(:each) do
           get 'index',  params: { project_id: project.id }
         end
-        it { expect(response).to be_success }
+        it { expect(response).to be_successful }
         it { expect(assigns(:meetings_by_start_year_month_date)).to eql @grouped }
       end
     end
@@ -63,7 +63,7 @@ describe MeetingsController, type: :controller do
         before(:each) do
           get 'show',  params: { id: @m.id }
         end
-        it { expect(response).to be_success }
+        it { expect(response).to be_successful }
       end
     end
 
@@ -79,7 +79,7 @@ describe MeetingsController, type: :controller do
         before(:each) do
           get 'new',  params: { project_id: project.id }
         end
-        it { expect(response).to be_success }
+        it { expect(response).to be_successful }
         it { expect(assigns(:meeting)).to eql @m }
       end
     end
@@ -94,7 +94,7 @@ describe MeetingsController, type: :controller do
         before(:each) do
           get 'edit',  params: { id: @m.id }
         end
-        it { expect(response).to be_success }
+        it { expect(response).to be_successful }
         it { expect(assigns(:meeting)).to eql @m }
       end
     end
@@ -123,7 +123,7 @@ describe MeetingsController, type: :controller do
         }
 
         it 'renders an error' do
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template :new
           expect(response.body)
             .to have_selector '#errorExplanation li',
@@ -141,7 +141,7 @@ describe MeetingsController, type: :controller do
         }
 
         it 'renders an error' do
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template :new
           expect(response.body)
             .to have_selector '#errorExplanation li',

@@ -93,7 +93,7 @@ describe CostlogController, type: :controller do
         get :new, params: params
       end
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it_should_behave_like 'assigns'
       it { expect(response).to render_template('edit') }
     end
@@ -157,7 +157,7 @@ describe CostlogController, type: :controller do
         get :edit, params: params
       end
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(assigns(:cost_entry)).to eq(cost_entry) }
       it { expect(assigns(:cost_entry)).not_to be_changed }
       it { expect(response).to render_template('edit') }
@@ -293,7 +293,7 @@ describe CostlogController, type: :controller do
         post :create, params: params
       end
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it_should_behave_like 'assigns'
       it { expect(flash[:notice]).to be_nil }
     end
@@ -520,7 +520,7 @@ describe CostlogController, type: :controller do
       end
 
       it_should_behave_like 'assigns'
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(flash[:notice]).to be_nil }
     end
 

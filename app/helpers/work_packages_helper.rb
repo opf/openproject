@@ -155,7 +155,7 @@ module WorkPackagesHelper
     changed_dates = {}
 
     journals = work_package.journals.where(['created_at >= ?', Date.today.to_time - 7.day])
-               .order('created_at desc')
+               .order(Arel.sql('created_at desc'))
 
     journals.each do |journal|
       break if changed_dates['start_date'] && changed_dates['due_date']

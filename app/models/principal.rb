@@ -49,7 +49,7 @@ class Principal < ActiveRecord::Base
   has_many :memberships, -> {
     includes(:project, :roles)
       .where(projects: { status: Project::STATUS_ACTIVE })
-      .order('projects.name ASC')
+      .order(Arel.sql('projects.name ASC'))
     # haven't been able to produce the order using hashes
   },
            class_name: 'Member',

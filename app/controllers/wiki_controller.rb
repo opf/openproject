@@ -271,7 +271,7 @@ class WikiController < ApplicationController
                 .content
                 .versions
                 .select(:id, :user_id, :notes, :created_at, :version)
-                .order('version DESC')
+                .order(Arel.sql('version DESC'))
                 .page(params[:page])
                 .per_page(per_page_param)
 
@@ -337,7 +337,7 @@ class WikiController < ApplicationController
   # Export wiki to a single html file
   def export
     if User.current.allowed_to?(:export_wiki_pages, @project)
-      @pages = @wiki.pages.order('title')
+      @pages = @wiki.pages.order(Arel.sql('title'))
       export = render_to_string action: 'export_multiple', layout: false
       send_data(export, type: 'text/html', filename: 'wiki.html')
     else
@@ -423,7 +423,7 @@ class WikiController < ApplicationController
   end
 
   def load_pages_for_index
-    @pages = @wiki.pages.with_updated_on.order('title').includes(wiki: :project)
+    @pages = @wiki.pages.with_updated_on.order(Arel.sql('title')).includes(wiki: :project)
   end
 
   def default_breadcrumb

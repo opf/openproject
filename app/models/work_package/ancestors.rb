@@ -81,7 +81,7 @@ module WorkPackage::Ancestors
         .where(id: @ids)
         .includes(:ancestors)
         .where(ancestors_work_packages: { project_id: Project.allowed_to(user, :view_work_packages) })
-        .order('relations.hierarchy DESC')
+        .order(Arel.sql('relations.hierarchy DESC'))
     end
   end
 end

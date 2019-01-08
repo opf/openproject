@@ -35,7 +35,7 @@ describe Webhooks::Incoming::HooksController, :type => :controller do
 
       post :handle_hook, params: { hook_name: 'testhook' }
 
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it 'should call the hook with a user' do

@@ -43,7 +43,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
       let(:active_strategies) { [:developer] }
 
       it 'renders the index page' do
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'index'
       end
     end
@@ -59,7 +59,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
         end
 
         it 'renders the new form' do
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template 'new_type'
         end
       end
@@ -70,7 +70,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
         end
 
         it 'renders the new form' do
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template 'new'
         end
       end
@@ -85,7 +85,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
         let(:params) { { identifier: 'foo' } }
 
         it 'renders action new' do
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template 'new'
           expect(assigns[:device]).to be_invalid
         end
@@ -119,7 +119,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
-            expect(response).to be_success
+            expect(response).to be_successful
             expect(response).to render_template 'confirm'
             expect(flash[:notice]).not_to be_present
           end
@@ -130,7 +130,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
-            expect(response).to be_success
+            expect(response).to be_successful
             expect(response).to render_template 'confirm'
           end
 

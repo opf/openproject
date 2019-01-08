@@ -31,7 +31,7 @@ class HourlyRate < Rate
     HourlyRate
       .where(['user_id = ? and project_id = ? and valid_from > ?',
               user_id, project_id, reference_date])
-      .order('valid_from ASC')
+      .order(Arel.sql('valid_from ASC'))
       .first
   end
 
@@ -69,7 +69,7 @@ class HourlyRate < Rate
 
     unless project.nil?
       rate = where(['user_id = ? and project_id = ? and valid_from <= ?', user_id, project, date])
-             .order('valid_from DESC')
+             .order(Arel.sql('valid_from DESC'))
              .first
       if rate.nil?
         project = Project.find(project) unless project.is_a?(Project)
@@ -78,7 +78,7 @@ class HourlyRate < Rate
                       project.ancestors.to_a,
                       date])
                .includes(:project)
-               .order('projects.lft DESC, valid_from DESC')
+               .order(Arel.sql('projects.lft DESC, valid_from DESC'))
                .first
       end
     end

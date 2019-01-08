@@ -66,7 +66,7 @@ class MeetingContentsController < ApplicationController
   def history
     # don't load text
     @content_versions = @content.journals.select('id, user_id, notes, created_at, version')
-                        .order('version DESC')
+                        .order(Arel.sql('version DESC'))
                         .page(page_param)
                         .per_page(per_page_param)
 

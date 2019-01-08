@@ -115,13 +115,13 @@ describe TypesController, type: :controller do
 
     describe 'GET index' do
       before { get 'index' }
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(response).to render_template 'index' }
     end
 
     describe 'GET new' do
       before { get 'new' }
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(response).to render_template 'new' }
     end
 
@@ -208,7 +208,7 @@ describe TypesController, type: :controller do
         get 'edit', params: { id: type.id, tab: :settings }
       end
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(response).to render_template 'edit' }
       it { expect(response).to render_template 'types/form/_settings' }
       it { expect(response.body).to have_selector "input[@name='type[name]'][@value='My type']" }
@@ -227,7 +227,7 @@ describe TypesController, type: :controller do
         get 'edit', params: { id: type.id, tab: :projects }
       end
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(response).to render_template 'edit' }
       it { expect(response).to render_template 'types/form/_projects' }
       it { expect(response.body).to have_selector "input[@name='type[project_ids][]'][@value='#{project.id}'][@checked='checked']" }

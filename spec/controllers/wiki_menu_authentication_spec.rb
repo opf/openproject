@@ -52,7 +52,7 @@ describe WikiMenuItemsController, type: :controller do
 
       get 'edit', params: @params
 
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 

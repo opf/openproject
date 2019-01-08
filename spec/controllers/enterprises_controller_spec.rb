@@ -58,7 +58,7 @@ describe EnterprisesController, type: :controller do
         end
 
         it 'renders the overview' do
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template 'show'
           expect(response).to render_template partial: 'enterprises/_current'
           expect(response).to render_template partial: 'enterprises/_form'

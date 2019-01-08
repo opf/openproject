@@ -572,7 +572,7 @@ class WorkPackage < ActiveRecord::Base
                                  "MAX(hierarchy) AS depth")
 
     joins("LEFT OUTER JOIN (#{max_relation_depth.to_sql}) AS max_depth ON max_depth.to_id = work_packages.id")
-      .reorder("COALESCE(max_depth.depth, 0) #{direction}")
+      .reorder(Arel.sql("COALESCE(max_depth.depth, 0) #{direction}"))
       .select("#{table_name}.*, COALESCE(max_depth.depth, 0)")
   end
 
@@ -749,7 +749,7 @@ class WorkPackage < ActiveRecord::Base
       .new(user, self)
       .scope
       .where(id: id)
-      .pluck('SUM(hours)')
+      .pluck(Arel.sql('SUM(hours)'))
       .first
   end
 

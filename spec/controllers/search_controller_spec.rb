@@ -39,7 +39,7 @@ describe SearchController, type: :controller do
   }
 
   shared_examples_for 'successful search' do
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
     it { expect(response).to render_template('index') }
   end
 

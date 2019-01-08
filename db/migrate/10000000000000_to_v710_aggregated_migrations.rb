@@ -190,7 +190,7 @@ class ToV710AggregatedMigrations < ActiveRecord::Migration[5.1]
   end
 
   def all_versions
-    @all_versions ||= ActiveRecord::Migrator.get_all_versions
+    @all_versions ||= ActiveRecord::Base.connection.migration_context.get_all_versions
   end
 
   def schema_migrations_table_name

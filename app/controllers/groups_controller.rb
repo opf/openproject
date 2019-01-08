@@ -38,7 +38,7 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.xml
   def index
-    @groups = Group.order('lastname ASC')
+    @groups = Group.order(Arel.sql('lastname ASC'))
 
     respond_to do |format|
       format.html # index.html.erb

@@ -15,7 +15,7 @@ describe AnnouncementsController, type: :controller do
     end
 
     it do expect(assigns(:announcement)).to eql announcement end
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
   end
 
   describe '#update' do

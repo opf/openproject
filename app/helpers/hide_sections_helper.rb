@@ -37,6 +37,8 @@ module HideSectionsHelper
       }
     )
 
-    include_gon(nonce: content_security_policy_script_nonce, camel_case: true, camel_depth: 15)
+    nonced_javascript_tag do
+      include_gon(need_tag: false, nonce: content_security_policy_script_nonce, camel_case: true, camel_depth: 15)
+    end
   end
 end

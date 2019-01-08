@@ -33,8 +33,9 @@ ruby '~> 2.5.1'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 5.1.6'
+gem 'rails', '~> 5.2.1'
 gem 'responders', '~> 2.4'
+gem "listen", "~> 3.1" # Use for event-based reloaders
 
 gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
 gem 'rdoc', '>= 2.4.2'
@@ -118,7 +119,7 @@ gem 'rack-protection', '~> 2.0.0'
 gem 'rack-attack', '~> 5.2.0'
 
 # CSP headers
-gem 'secure_headers', '~> 5.0.5'
+gem 'secure_headers', '~> 6.0.0'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.16.0'
@@ -201,18 +202,16 @@ group :test do
   gem 'cucumber-rails', '~> 1.6.0', require: false
   gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
-  # not possible to upgrade to 3.6+ until rails is 5.1+
-  gem 'rspec', '~> 3.7.0'
+  gem 'rspec', '~> 3.8.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 3.7.2', group: :development
-  gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
+  gem 'rspec-rails', '~> 3.8.1', group: :development
+  gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
   gem 'rspec-retry', '~> 0.5.6'
 
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
-  gem 'rspec-legacy_formatters', '~> 1.0.1', require: false
 
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
@@ -223,7 +222,7 @@ group :test do
   gem 'chromedriver-helper', '~> 2.1.0'
   gem 'selenium-webdriver', '~> 3.14'
 
-  gem 'fuubar', '~> 2.3.1'
+  gem 'fuubar', '~> 2.3.2'
   gem 'timecop', '~> 0.9.0'
   gem 'webmock', '~> 3.1.0', require: false
 
@@ -245,7 +244,6 @@ group :development do
   gem 'livingstyleguide', '~> 2.0.1'
 
   gem 'rubocop'
-  gem 'active_record_query_trace'
 end
 
 group :development, :test do

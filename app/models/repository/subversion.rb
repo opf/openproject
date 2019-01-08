@@ -83,7 +83,7 @@ class Repository::Subversion < Repository
 
   def latest_changesets(path, rev, limit = 10)
     revisions = scm.revisions(path, rev, nil, limit: limit)
-    revisions ? changesets.where(revision: revisions.map(&:identifier)).order('committed_on DESC').includes(:user) : []
+    revisions ? changesets.where(revision: revisions.map(&:identifier)).order(Arel.sql('committed_on DESC')).includes(:user) : []
   end
 
   # Returns a path relative to the url of the repository

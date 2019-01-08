@@ -105,7 +105,7 @@ describe Changeset, type: :model do
         end
         assert_equal [1], c.work_package_ids.sort
 
-        time = TimeEntry.order('id DESC').first
+        time = TimeEntry.order(Arel.sql('id DESC')).first
         assert_equal 1, time.work_package_id
         assert_equal 1, time.project_id
         assert_equal 2, time.user_id
@@ -137,7 +137,7 @@ describe Changeset, type: :model do
       assert WorkPackage.find(1).closed?
       assert WorkPackage.find(2).closed?
 
-      times = TimeEntry.order('id desc').limit(2)
+      times = TimeEntry.order(Arel.sql('id desc')).limit(2)
       assert_equal [1, 2], times.map(&:work_package_id).sort
     end
 

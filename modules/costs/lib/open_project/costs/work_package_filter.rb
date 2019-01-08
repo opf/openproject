@@ -62,7 +62,7 @@ module OpenProject::Costs
     def cost_objects
       CostObject
         .where(project_id: project)
-        .order('subject ASC')
+        .order(Arel.sql('subject ASC'))
     end
   end
 end

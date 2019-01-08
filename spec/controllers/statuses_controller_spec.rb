@@ -37,7 +37,7 @@ describe StatusesController, type: :controller do
   shared_examples_for :response do
     subject { response }
 
-    it { is_expected.to be_success }
+    it { is_expected.to be_successful }
 
     it { is_expected.to render_template(template) }
   end

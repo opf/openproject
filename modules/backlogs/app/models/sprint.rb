@@ -38,15 +38,15 @@ require 'date'
 class Sprint < Version
   scope :open_sprints, lambda { |project|
     where(["versions.status = 'open' and versions.project_id = ?", project.id])
-      .order("COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC")
+      .order(Arel.sql("COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC"))
   }
 
   # null last ordering
   scope :order_by_date, -> {
-    order "COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC"
+    order Arel.sql("COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC")
   }
   scope :order_by_name, -> {
-    order "#{Version.table_name}.name ASC"
+    order Arel.sql("#{Version.table_name}.name ASC")
   }
 
   scope :apply_to, lambda { |project|

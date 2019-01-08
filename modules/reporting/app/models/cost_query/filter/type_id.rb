@@ -26,6 +26,6 @@ class CostQuery::Filter::TypeId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    Type.order('name').pluck(:name, :id)
+    Type.order(Arel.sql('name')).pluck(:name, :id)
   end
 end
