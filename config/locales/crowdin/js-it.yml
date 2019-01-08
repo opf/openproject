@@ -608,6 +608,7 @@ it:
       label_enable_multi_select: Abilita multiseleziona
       label_disable_multi_select: Disabilita multiseleziona
       label_filter_add: Aggiungi filtro
+      label_filter_by_text: Filter by text
       label_options: Opzioni
       label_column_multiselect: 'Campo a discesa combinata: selezionare con i tasti
         freccia, confermare la selezione con invio, eliminare con backspace'
@@ -623,6 +624,7 @@ it:
       message_work_package_read_only: Il pacchetto di lavoro è bloccato in questo
         stato. Nessun attributo eccetto lo stato può essere alterato.
       no_value: Nessun valore
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Clicca qui per aggiungere un nuovo work package a questa lista
       create:

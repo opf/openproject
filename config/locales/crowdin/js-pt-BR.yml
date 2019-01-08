@@ -605,6 +605,7 @@ pt-BR:
       label_enable_multi_select: Ativar seleção múltipla
       label_disable_multi_select: Desativar seleção múltipla
       label_filter_add: Adicionar filtro
+      label_filter_by_text: Filter by text
       label_options: Opções
       label_column_multiselect: 'Campo dropdown combinado: selecione com as teclas
         de seta, confirme a seleção com enter, apague com backspace'
@@ -619,6 +620,7 @@ pt-BR:
       message_work_package_read_only: Pacote de trabalho está bloqueado na presente
         situação. Nenhum atributo que não seja a situação pode ser alterado.
       no_value: Nenhum valor
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Clique aqui para adicionar um novo pacote de trabalho a esta lista
       create:

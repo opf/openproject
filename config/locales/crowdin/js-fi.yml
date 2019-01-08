@@ -594,6 +594,7 @@ fi:
       label_enable_multi_select: Ota monivalinta käyttöön
       label_disable_multi_select: Poista monivalinta käytöstä
       label_filter_add: Lisää suodatin
+      label_filter_by_text: Filter by text
       label_options: Valinnat
       label_column_multiselect: 'Yhdistetty avattava kenttä: Valitse nuolinäppäimillä,
         vahvista Enter, backspace poistaa'
@@ -606,6 +607,7 @@ fi:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Ei arvoa
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Napsauttamalla tätä voit lisätä luetteloon uuden työpaketin
       create:

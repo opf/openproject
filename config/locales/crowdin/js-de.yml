@@ -609,6 +609,7 @@ de:
       label_enable_multi_select: Mehrfachauswahl aktivieren
       label_disable_multi_select: Mehrfachauswahl deaktivieren
       label_filter_add: Filter hinzufügen
+      label_filter_by_text: Filter by text
       label_options: Optionen
       label_column_multiselect: 'Kombiniertes Eingabefeld: Auswahl mit Pfeiltasten,
         Auslösen mit Enter, Löschen mit Backspace'
@@ -622,6 +623,7 @@ de:
       message_work_package_read_only: Das Arbeitspaket ist in diesem Status gesperrt.
         Kein Attribut außer dem Status selbst kann darin verändert werden.
       no_value: Kein Wert
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Klicken Sie hier, um ein neues Arbeitspaket zu dieser Liste hinzufügen
       create:

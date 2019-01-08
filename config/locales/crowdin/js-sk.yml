@@ -600,6 +600,7 @@ sk:
       label_enable_multi_select: Povoliť hromadný výber
       label_disable_multi_select: Zakázať hromadný výber
       label_filter_add: Pridať filter
+      label_filter_by_text: Filter by text
       label_options: Voľby
       label_column_multiselect: 'Kombinované rozbaľovacie pole: vyberte pomocou klávesov
         so šípkami, potvrďte stlačením ENTER, odstraňujte stlačením BACKSPACE'
@@ -614,6 +615,7 @@ sk:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Žiadna hodnota
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Kliknutím sem pridajte nový pracovný balík do tohto zoznamu
       create:

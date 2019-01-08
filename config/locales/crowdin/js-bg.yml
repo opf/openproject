@@ -599,6 +599,7 @@ bg:
       label_enable_multi_select: Разреши множествено избиране
       label_disable_multi_select: Спиране на множествено избиране
       label_filter_add: Добавяне на филтър
+      label_filter_by_text: Filter by text
       label_options: Опции
       label_column_multiselect: 'Комбинирани падащо меню: изберете с клавишите със
         стрелки, потвърдете избора с enter, изтриване с backspace'
@@ -613,6 +614,7 @@ bg:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Няма стойност
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Щракнете тук, за да добавите нов работен пакет към този списък
       create:

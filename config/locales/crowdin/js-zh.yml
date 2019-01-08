@@ -537,6 +537,7 @@ zh:
       label_enable_multi_select: 启用多选
       label_disable_multi_select: 禁用多选
       label_filter_add: 添加筛选器
+      label_filter_by_text: Filter by text
       label_options: 选项
       label_column_multiselect: '组合式的下拉字段: 使用箭头键选择，用 enter 键确认选择，用退格键删除'
       label_switch_to_single_select: 切换为单选
@@ -547,6 +548,7 @@ zh:
       message_view_spent_time: 显示这个工作包所花费的时间
       message_work_package_read_only: 工作包被锁定在此状态。除状态外，其他属性均不可更改。
       no_value: 无值
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: 单击此处将新工作包添加至此列表
       create:

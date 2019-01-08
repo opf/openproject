@@ -604,6 +604,7 @@ fil:
       label_enable_multi_select: Paganahin ang mga pagpipilian
       label_disable_multi_select: Hindi pinagana ang maraming pagpipilian
       label_filter_add: Magdagdag ng filter
+      label_filter_by_text: Filter by text
       label_options: Mga opsyon
       label_column_multiselect: 'Pagsamahin ang dropdown na patlang: Piliin na may
         mga arrow key, kumpirmahin ang pinili gamit ang enter, burahin gamit ang backspace'
@@ -619,6 +620,7 @@ fil:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Walang halaga
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Pindutin dito upang magdagdag ng bagong work package sa listahan na
           ito

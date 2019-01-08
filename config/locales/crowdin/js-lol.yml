@@ -536,6 +536,7 @@ lol:
       label_enable_multi_select: crwdns107756:0crwdne107756:0
       label_disable_multi_select: crwdns107758:0crwdne107758:0
       label_filter_add: crwdns107760:0crwdne107760:0
+      label_filter_by_text: Filter by text
       label_options: crwdns107762:0crwdne107762:0
       label_column_multiselect: crwdns107764:0crwdne107764:0
       label_switch_to_single_select: crwdns107766:0crwdne107766:0
@@ -546,6 +547,7 @@ lol:
       message_view_spent_time: crwdns107776:0crwdne107776:0
       message_work_package_read_only: crwdns109212:0crwdne109212:0
       no_value: crwdns107778:0crwdne107778:0
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: crwdns107780:0crwdne107780:0
       create:

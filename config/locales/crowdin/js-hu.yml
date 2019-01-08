@@ -596,6 +596,7 @@ hu:
       label_enable_multi_select: Többszörös kijelölés engedélyezése
       label_disable_multi_select: Többszörös kijelölés tiltása
       label_filter_add: Szűrő hozzáadása
+      label_filter_by_text: Filter by text
       label_options: Beállítások
       label_column_multiselect: 'Kombinált legördülő mező: Nyilakkal jelöljön ki,
         enter-el hagyja jóvá, és backspace-vel töröljön'
@@ -609,6 +610,7 @@ hu:
       message_work_package_read_only: Ez Feladatcsomag ebben a státuszban zárolt.
         Nem lehet más attribútum segítségével megváltoztatni.
       no_value: Nincs érték
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Ide kattintva adhatsz új munkacsomagot a listához
       create:
