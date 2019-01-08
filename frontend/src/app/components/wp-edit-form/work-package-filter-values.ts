@@ -32,7 +32,7 @@ export class WorkPackageFilterValues {
       }
 
       // Select the first value
-      var value = filter.values[0];
+      let value = filter.values[0];
 
       // Avoid empty values
       if (value) {

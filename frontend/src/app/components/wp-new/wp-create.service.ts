@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Injectable, Injector} from '@angular/core';
+import {Injectable, Injector, Inject} from '@angular/core';
 import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
@@ -36,6 +36,11 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {IWorkPackageCreateService} from "core-components/wp-new/wp-create.service.interface";
 import {HookService} from 'core-app/modules/plugins/hook-service';
+import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
+import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
+import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
+import {TableState} from "core-components/wp-table/table-state/table-state";
 
 @Injectable()
 export class WorkPackageCreateService implements IWorkPackageCreateService {
@@ -48,6 +53,8 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
               protected hooks:HookService,
               protected wpCacheService:WorkPackageCacheService,
               protected halResourceService:HalResourceService,
+              @Inject(IWorkPackageEditingServiceToken) protected readonly wpEditing:WorkPackageEditingService,
+              protected readonly tableState:TableState,
               protected apiWorkPackages:ApiWorkPackagesService) {
   }
 
@@ -114,5 +121,93 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
     }
 
     return this.form;
+  }
+
+  public cancelCreation() {
+    this.wpEditing.stopEditing('new');
+    this.wpCacheService.clearSome('new');
+  }
+
+  public changesetUpdates$() {
+    return this
+      .wpEditing
+      .state('new')
+      .values$();
+  }
+
+  public createOrContinueWorkPackage(projectIdentifier:string, type?:number) {
+    let changesetPromise = this.continueExistingEdit(type);
+
+    if (!changesetPromise) {
+      changesetPromise = this.createNewWithDefaults(projectIdentifier, type);
+    }
+
+    return changesetPromise.then((changeset) => {
+      this.wpEditing.updateValue('new', changeset);
+      this.wpCacheService.updateWorkPackage(changeset.workPackage);
+
+      return changeset;
+    });
+  }
+
+  protected continueExistingEdit(type?:number) {
+    const changeset = this.wpEditing.state('new').value;
+    if (changeset !== undefined) {
+      const changeType = changeset.workPackage.type;
+
+      const hasChanges = !changeset.empty;
+      const typeEmpty = !changeType && !type;
+      const typeMatches = type && changeType && changeType.idFromLink === type.toString();
+
+      if (hasChanges && (typeEmpty || typeMatches)) {
+        return Promise.resolve(changeset);
+      }
+    }
+
+    return null;
+  }
+
+  protected createNewWithDefaults(projectIdentifier:string, type?:number) {
+    let changesetPromise = null;
+
+    if (type) {
+      changesetPromise = this.createNewTypedWorkPackage(projectIdentifier, type);
+    } else {
+      changesetPromise = this.createNewWorkPackage(projectIdentifier);
+    }
+
+    return changesetPromise.then((changeset:WorkPackageChangeset) => {
+      if (!changeset) {
+        throw 'No new work package was created';
+      }
+
+      let except:string[] = [];
+
+      if (type) {
+        except = ['type'];
+      }
+
+      this.applyDefaults(changeset, changeset.workPackage, except);
+
+      return changeset;
+    });
+  }
+
+  /**
+   * Apply values to the work package from the current set of filters
+   *
+   * @param changeset
+   * @param wp
+   * @param except
+   */
+  private applyDefaults(changeset:WorkPackageChangeset, wp:WorkPackageResource, except:string[]) {
+    // Not using WorkPackageTableFiltersService here as the embedded table does not load the form
+    // which will result in that service having empty current filters.
+    let query = this.tableState.query.value;
+
+    if (query) {
+      const filter = new WorkPackageFilterValues(this.injector, changeset, query.filters, except);
+      filter.applyDefaultsFromFilters();
+    }
   }
 }

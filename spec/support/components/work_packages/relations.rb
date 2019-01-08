@@ -153,7 +153,6 @@ module Components
         expect(page).to have_no_selector '.wp-breadcrumb-parent', wait: 10
       end
 
-
       def remove_parent
         # Open the parent edit
         find('.wp-relation--parent-change').click
