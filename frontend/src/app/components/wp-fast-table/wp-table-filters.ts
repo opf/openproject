@@ -50,6 +50,7 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
     'includes',
     'requires',
     'required',
+    'search',
     'subjectOrId'
   ];
 
@@ -97,9 +98,15 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
     return _.every(this.current, filter => filter.isCompletelyDefined());
   }
 
-  public get currentVisibleFilters() {
-    return this.currentFilters
-               .filter((filter) => this.hidden.indexOf(filter.id) === -1);
+  public get currentlyVisibleFilters() {
+    const invisibleFilters = new Set(this.hidden);
+    invisibleFilters.delete('search');
+
+    return _.reject(this.currentFilters, (filter) => invisibleFilters.has(filter.id));
+  }
+
+  public get anyCurrentlyVisibleFilters():boolean {
+    return this.currentlyVisibleFilters.length > 0;
   }
 
   private get currentFilters() {

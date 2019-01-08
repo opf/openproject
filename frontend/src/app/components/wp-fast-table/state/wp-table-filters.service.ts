@@ -71,6 +71,10 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<
     );
   }
 
+  public find(id:string):QueryFilterInstanceResource|undefined {
+    return _.find(this.currentState.current, filter => filter.id === id);
+  }
+
   public applyToQuery(query:QueryResource) {
     query.filters = this.current;
     return true;

@@ -591,6 +591,7 @@ en:
       label_enable_multi_select: "Enable multiselect"
       label_disable_multi_select: "Disable multiselect"
       label_filter_add: "Add filter"
+      label_filter_by_text: "Filter by text"
       label_options: "Options"
       label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
       label_switch_to_single_select: "Switch to single select"
@@ -601,6 +602,7 @@ en:
       message_view_spent_time: "Show spent time for this work package"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       no_value: "No value"
+      placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
        title: 'Click here to add a new work package to this list'
       create:
