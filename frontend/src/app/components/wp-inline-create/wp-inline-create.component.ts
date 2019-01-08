@@ -65,6 +65,7 @@ import {IWorkPackageEditingServiceToken} from "../wp-edit-form/work-package-edit
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {CurrentUserService} from "core-components/user/current-user.service";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -91,6 +92,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
   private rowBuilder:InlineCreateRowBuilder;
 
   private timelineBuilder:TimelineRowBuilder;
+  private editingSubscription:Subscription;
 
   private $element:JQuery;
 
@@ -230,17 +232,20 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
       const wp = this.currentWorkPackage = changeset.workPackage;
       this.applyDefaults(changeset, wp);
 
-      changeset.wpForm$
-      .pipe(
-        filter((form) => !!this.currentWorkPackage && !!form),
-        untilComponentDestroyed(this)
-      ).subscribe((form) => {
-        if (!this.isActive) {
-          this.insertRow(wp);
-        } else {
-          this.currentWorkPackage!.overriddenSchema = form!.schema;
-          this.refreshRow();
-        }
+      this.editingSubscription = this
+        .wpEditing
+        .state(wp.id)
+        .values$()
+        .pipe(
+          filter((cs) => !!this.currentWorkPackage && !!cs.form),
+          //untilComponentDestroyed(this)
+        ).subscribe((form) => {
+          if (!this.isActive) {
+            this.insertRow(wp);
+          } else {
+            this.currentWorkPackage!.overriddenSchema = form!.schema;
+            this.refreshRow();
+          }
       });
     });
   }
@@ -293,15 +298,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
    * @returns The work package form of the row
    */
   private renderInlineCreateRow(wp:WorkPackageResource):WorkPackageEditForm {
-    // Set editing context to table
-    const context = new TableRowEditContext(
-      this.table,
-      this.injector,
-      wp.id,
-      this.rowBuilder.classIdentifier(wp)
-    );
-
-    const form = WorkPackageEditForm.createInContext(this.injector, context, wp, false);
+    const form = this.table.editing.startEditing(wp, this.rowBuilder.classIdentifier(wp));
 
     const [row, ] = this.rowBuilder.buildNew(wp, form);
     this.$element.append(row);
@@ -327,6 +324,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     this.table.editing.stopEditing('new');
     this.wpCacheService.clearSome('new');
     this.$element.find('.wp-row-new').remove();
+    this.editingSubscription.unsubscribe();
   }
 
   public showRow() {

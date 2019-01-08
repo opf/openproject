@@ -145,7 +145,6 @@ module Components
         apply if save_changes
       end
 
-
       def apply
         @opened = false
 
