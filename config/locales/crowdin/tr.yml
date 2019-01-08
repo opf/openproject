@@ -1330,6 +1330,7 @@ tr:
   label_history: Geçmiş
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Ana sayfa
+  label_subject_or_id: Subject or ID
   label_in: şurada
   label_in_less_than: daha azdır
   label_in_more_than: daha fazla

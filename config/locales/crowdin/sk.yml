@@ -1374,6 +1374,7 @@ sk:
   label_history: História
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Úvod
+  label_subject_or_id: Subject or ID
   label_in: v
   label_in_less_than: v menej ako
   label_in_more_than: vo viac ako

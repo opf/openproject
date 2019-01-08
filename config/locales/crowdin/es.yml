@@ -1366,6 +1366,7 @@ es:
   label_history: Historial
   label_hierarchy_leaf: Hoja de jerarquía
   label_home: Inicio
+  label_subject_or_id: Subject or ID
   label_in: en
   label_in_less_than: en menos de
   label_in_more_than: en más de

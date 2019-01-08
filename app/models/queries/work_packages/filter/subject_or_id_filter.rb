@@ -28,60 +28,44 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::WorkPackages::Filter::OrFilterForWpMixin
-  extend ActiveSupport::Concern
+class Queries::WorkPackages::Filter::SubjectOrIdFilter <
+  Queries::WorkPackages::Filter::WorkPackageFilter
 
-  included do
-    validate :minimum_one_filter_valid
+  include Queries::WorkPackages::Filter::OrFilterForWpMixin
+
+  CONTAINS_OPERATOR = '~'.freeze
+  EQUALS_OPERATOR = '='.freeze
+
+  FILTERS = [
+    Queries::WorkPackages::Filter::FilterConfiguration.new(
+      Queries::WorkPackages::Filter::SubjectFilter,
+      :subject,
+      CONTAINS_OPERATOR
+    ),
+    Queries::WorkPackages::Filter::FilterConfiguration.new(
+      Queries::WorkPackages::Filter::IdFilter,
+      :id,
+      EQUALS_OPERATOR
+    )
+  ].freeze
+
+  def self.key
+    :subject_or_id
   end
 
-  def filters
-    if @filters
-      update_instances
-    else
-      @filters = create_instances
-    end
-
-    @filters.keep_if(&:validate)
+  def name
+    :subject_or_id
   end
 
-  def includes
-    filters.map(&:includes).flatten.uniq.reject(&:blank?)
+  def type
+    :search
   end
 
-  def where
-    filters.map(&:where).join(' OR ')
+  def human_name
+    I18n.t('label_subject_or_id')
   end
 
   def filter_configurations
-    raise NotImplementedError
-  end
-
-  def create_instances
-    filter_configurations.map do |conf|
-      conf.filter_class.create!(name: conf.filter_name,
-                                context: context,
-                                operator: conf.operator,
-                                values: values)
-    end
-  end
-
-  def update_instances
-    configurations = filter_configurations
-
-    @filters.each_with_index do |filter, index|
-      filter.operator = configurations[index].operator
-      filter.values = values
-    end
-  end
-
-  def ar_object_filter?
-    false
-  end
-
-  def minimum_one_filter_valid
-    if filters.empty?
-      errors.add(:values, :invalid)
-    end
+    FILTERS
   end
 end

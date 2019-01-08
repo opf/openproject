@@ -55,6 +55,8 @@
     grid-gap: 10px
     align-items: center
     margin-bottom: 10px
+    &.--without-operator
+      grid-template-columns: 20% 45% 50px
 
   .advanced-filters--filter-name,
   .advanced-filters--add-filter-label
@@ -109,15 +111,14 @@
 
 
 .advanced-filters--spacer
-  border-top:   1px solid $filters--border-color
+  border-top: 1px solid $filters--border-color
   height: 1px
-  margin:          0.75rem 1rem
+  margin: 0.75rem 0
 
 .advanced-filters--spacer,
 .advanced-filters--filter
   &.hidden
     display: none !important
-
 
 fieldset#date-range p
   margin: 2px 0 2px 0

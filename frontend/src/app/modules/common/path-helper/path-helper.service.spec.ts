@@ -46,5 +46,14 @@ describe('PathHelper', function() {
         PathHelper.api.v3.principals(projectId, term)
       ).toEqual('/api/v3/principals?filters=' +  encodeURI('[{"status":{"operator":"!","values":["0","3"]}},{"member":{"operator":"=","values":["1"]}},{"type":{"operator":"=","values":["User","Group"]}},{"id":{"operator":"!","values":["me"]}},{"name":{"operator":"~","values":["Maria"]}}]&sortBy=[["name","asc"]]&offset=1&pageSize=10'));
     });
+
+    it('should provide a path to work package query on subject or ID ', function() {
+      expect(
+        PathHelper.api.v3.wpBySubjectOrId("bogus")
+      ).toEqual('/api/v3/work_packages?filters=' +  encodeURI('[{"subjectOrId":{"operator":"**","values":["bogus"]}}]&sortBy=[["updatedAt","desc"]]&offset=1&pageSize=10'));
+      expect(
+        PathHelper.api.v3.wpBySubjectOrId("1234", true)
+      ).toEqual('/api/v3/work_packages?filters=' +  encodeURI('[{"id":{"operator":"=","values":["1234"]}}]&sortBy=[["updatedAt","desc"]]&offset=1&pageSize=10'));
+    });
   });
 });

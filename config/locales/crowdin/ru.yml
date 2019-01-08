@@ -1371,6 +1371,7 @@ ru:
   label_history: История
   label_hierarchy_leaf: Уровень иерархии
   label_home: Главная
+  label_subject_or_id: Subject or ID
   label_in: в
   label_in_less_than: менее чем
   label_in_more_than: более чем

@@ -1350,6 +1350,7 @@ nl:
   label_history: Geschiedenis
   label_hierarchy_leaf: Hiërarchie blad
   label_home: Home
+  label_subject_or_id: Subject or ID
   label_in: in
   label_in_less_than: in minder dan
   label_in_more_than: in meer dan

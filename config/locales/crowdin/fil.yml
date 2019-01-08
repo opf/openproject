@@ -1369,6 +1369,7 @@ fil:
   label_history: Kasaysayan
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Tahanan
+  label_subject_or_id: Subject or ID
   label_in: sa
   label_in_less_than: mas mababa kaysa
   label_in_more_than: mahigit sa

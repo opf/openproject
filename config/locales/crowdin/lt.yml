@@ -1364,6 +1364,7 @@ lt:
   label_history: Istorija
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Namai
+  label_subject_or_id: Subject or ID
   label_in: " "
   label_in_less_than: mažiau nei
   label_in_more_than: daugiau nei

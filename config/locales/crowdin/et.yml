@@ -1330,6 +1330,7 @@ et:
   label_history: Ajalugu
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Avaleht
+  label_subject_or_id: Subject or ID
   label_in: sisaldub hulgas
   label_in_less_than: on väiksem kui
   label_in_more_than: on suurem kui
