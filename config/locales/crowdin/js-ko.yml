@@ -700,6 +700,8 @@ ko:
         days: 일
         weeks: 주
         months: 개월
+      label_filter_by_text: Filter by text
+      placeholder_filter_by_text: Subject, description, comments, ...
     toolbar:
       settings:
         configure_view: 보기 구성...

@@ -119,7 +119,7 @@ vi:
           text: "[Placeholder] Embedded calendar"
     custom_actions:
       date:
-        specific: 'on'
+        specific: lúc
         current_date: Current date
     error:
       internal: Lỗi nội bộ đã xảy ra.
@@ -190,7 +190,7 @@ vi:
     label_edit_status: Trạng thái chỉnh sửa của nhóm công việc
     label_equals: is
     label_expand: Mở rộng
-    label_expanded: expanded
+    label_expanded: đã mở rộng
     label_expand_all: Mở rộng tất cả
     label_expand_project_menu: Mở rộng menu dự án
     label_export: Xuất
@@ -205,60 +205,60 @@ vi:
     label_in_less_than: ít hơn
     label_in_more_than: nhiều hơn
     label_latest_activity: Hoạt động mới nhất
-    label_last_updated_on: Last updated on
+    label_last_updated_on: Cập nhật lần cuối lúc
     label_less_or_equal: "<="
     label_less_than_ago: less than days ago
     label_loading: Loading...
     label_me: me
-    label_menu_collapse: collapse
-    label_menu_expand: expand
+    label_menu_collapse: thu lại
+    label_menu_expand: mở rộng
     label_more_than_ago: nhiều hơn mấy ngày trước
     label_next: Tiếp
     label_no_data: Không có dữ liệu để hiển thị
-    label_no_due_date: no end date
-    label_no_start_date: no start date
+    label_no_due_date: không có ngày kết thúc
+    label_no_start_date: không có ngày bắt đầu
     label_none: không
     label_not_contains: không chứa
     label_not_equals: không là
-    label_on: 'on'
+    label_on: lúc
     label_open_menu: Mở trình đơn
     label_open_context_menu: Mở menu ngữ cảnh
     label_open_work_packages: mở
     label_password: Mật khẩu
     label_previous: Trước đó
-    label_per_page: 'Per page:'
+    label_per_page: 'Mỗi trang:'
     label_please_wait: Vui lòng chờ
     label_visibility_settings: Cài đặt hiển thị
     label_quote_comment: Trích bình luận này
     label_reset: Reset
     label_remove_columns: Loại bỏ cột được chọn
-    label_save_as: Save as
-    label_select_watcher: Select a watcher...
-    label_selected_filter_list: Selected filters
+    label_save_as: Lưu thành
+    label_select_watcher: Chọn một người theo dõi...
+    label_selected_filter_list: 'Các bộ lọc đã chọn: %s'
     label_show_attributes: Hiển thị tất cả các thuộc tính
     label_show_in_menu: Hiển thị chế độ xem trong menu
     label_sort_by: Sort by
-    label_sorted_by: sorted by
+    label_sorted_by: sắp xếp theo
     label_sort_higher: Move up
     label_sort_lower: Dịch xuống
-    label_sorting: Sorting
+    label_sorting: Sắp xếp
     label_star_query: Ưa thích
     label_press_enter_to_save: Nhấn enter để lưu.
     label_public_query: Công cộng
-    label_sum_for: Sum for
+    label_sum_for: Tổng cho
     label_subject: Chủ đề
     label_this_week: tuần này
     label_today: hôm nay
     label_up: Lên
     label_activity_show_only_comments: Hiển thị các hoạt động với các bình luận
     label_activity_show_all: Hiển thị các hoạt động
-    label_total_progress: "%{percent}% Total progress"
+    label_total_progress: "%{percent}% Tổng tiến độ"
     label_updated_on: cập Nhật ngày
     label_warning: Warning
     label_work_package: Work Package
     label_work_package_plural: Work Packages
     label_watch: Theo dõi
-    label_watch_work_package: Watch work package
+    label_watch_work_package: Xem gói công việc
     label_watcher_added_successfully: Watcher successfully added!
     label_watcher_deleted_successfully: Watcher successfully deleted!
     label_work_package_details_you_are_here: You're on the %{tab} tab for %{type}
@@ -758,6 +758,8 @@ vi:
         days: ngày
         weeks: weeks
         months: months
+      label_filter_by_text: Filter by text
+      placeholder_filter_by_text: Subject, description, comments, ...
     toolbar:
       settings:
         configure_view: Định cấu hình chế độ xem...

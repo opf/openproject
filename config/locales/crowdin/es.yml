@@ -137,6 +137,15 @@ es:
       versions:
         no_results_title_text: Actualmente no hay versiones para este proyecto.
         no_results_content_text: Crear un nueva versión
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
   members:
     index:
       no_results_title_text: Actualmente no hay miembros que formen parte de este
@@ -2834,3 +2843,5 @@ es:
       writing_read_only_attributes: No debería escribir un atributo de solo lectura.
     resources:
       schema: Esquema
+  label_everywhere: everywhere
+  label_subject_or_id: Subject or ID

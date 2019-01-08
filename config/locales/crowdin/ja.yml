@@ -117,6 +117,15 @@ ja:
       versions:
         no_results_title_text: 現在、プロジェクトのバージョンはありません。
         no_results_content_text: 新しいバージョンを作成
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
   members:
     index:
       no_results_title_text: 現在、このプロジェクトのメンバーはいません。
@@ -2495,3 +2504,5 @@ ja:
       writing_read_only_attributes: 読み取り専用の属性を書き込みできません。
     resources:
       schema: スキーマ
+  label_everywhere: everywhere
+  label_subject_or_id: Subject or ID

@@ -134,6 +134,15 @@ uk:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -167,10 +176,10 @@ uk:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Відмітьте цю опцію, щоб позначити пакети робіт з таким статусом, як доступні лише для перегляду.
+        Жоден атрибут не можуть бути змінені за виключенням статусу.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Примітки</strong>: Будуть застосовані успадковані значення (наприклад, елементів попередників чи нащадків).
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -187,9 +196,9 @@ uk:
       projects: Projects
       enabled_projects: Enabled projects
       add_group: Add attribute group
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Додати таблицю пов'язаних пакетів робіт
+      edit_query: Редагувати таблицю
+      query_group_placeholder: Найменувати таблицю
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -339,10 +348,10 @@ uk:
         multi_value: Allow multi-select
         possible_values: Можливі значення
         regexp: Регулярний вираз
-        searchable: Searchable
-        visible: Visible
+        searchable: Доступно для пошуку
+        visible: Видиме
       custom_value:
-        value: Value
+        value: Значення
       enterprise_token:
         starts_at: Valid since
         expires_at: Expires at
@@ -355,7 +364,7 @@ uk:
         to: Related work package
       status:
         is_closed: Work package closed
-        is_readonly: Work package read-only
+        is_readonly: Пакет робіт лише для перегляду
       journal:
         notes: Нотатки
       member:
@@ -953,7 +962,7 @@ uk:
   default_role_non_member: Non member
   default_role_reader: Читач
   default_role_member: Member
-  default_type: Work Package
+  default_type: Пакет робіт
   default_type_bug: Bug
   default_type_deliverable: Доставляємо
   default_type_epic: Epic
@@ -1205,7 +1214,7 @@ uk:
   label_auth_source_plural: Authentication modes
   label_authentication: Authentication
   label_available_project_work_package_categories: Available work package categories
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Доступні типи пакетів робіт
   label_available_project_boards: Available boards
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
@@ -1375,7 +1384,7 @@ uk:
   label_journal_diff: Description Comparison
   label_language: Мова
   label_jump_to_a_project: Jump to a project...
-  label_keyword_plural: Keywords
+  label_keyword_plural: Ключові слова
   label_language_based: Based on user's language
   label_last_activity: Last activity
   label_last_change_on: Остання зміна
@@ -2786,3 +2795,5 @@ uk:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Схема
+  label_everywhere: everywhere
+  label_subject_or_id: Subject or ID

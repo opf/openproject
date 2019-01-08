@@ -133,6 +133,15 @@ tr:
       versions:
         no_results_title_text: Şu anda proje için versiyon mevcut değil.
         no_results_content_text: Yeni bir versiyon oluştur
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
   members:
     index:
       no_results_title_text: Bu projenini parçası olan mevcut bir üye bulunmamakta.
@@ -165,10 +174,10 @@ tr:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Bu durumdaki iş paketlereni salt okunur olarak işaretlemek için bu seçeneği işaretleyin.
+        Durum haricindeki başka özellikler değiştirilemez.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Uyarı</strong>: Devralınan değerler (örneğin; çocuklardan ve bağlantılardan) hala geçerli olacaktır.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -185,9 +194,9 @@ tr:
       projects: Projeler
       enabled_projects: Etkin projeler
       add_group: Add attribute group
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Bağlantılı iş paketlerinin tablosunu ekle
+      edit_query: Tabloyu düzenle
+      query_group_placeholder: Tabloya bir ad verin
       reset: Varsayılanlara geri yükle
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -348,7 +357,7 @@ tr:
         to: İlgili iş paketi
       status:
         is_closed: İş paketi kapalı
-        is_readonly: İş paketleri salt okunur
+        is_readonly: İş paketi salt okunur
       journal:
         notes: Notlar
       member:
@@ -1168,7 +1177,7 @@ tr:
   label_auth_source_plural: Kimlik doğrulama modları
   label_authentication: Kimlik Doğrulaması
   label_available_project_work_package_categories: Uygun iş paketi kategorileri
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Uygun iş paketi tipleri
   label_available_project_boards: Uygun panolar
   label_available_project_versions: Uygun sürümler
   label_available_project_repositories: Uygun depolar
@@ -2739,3 +2748,5 @@ tr:
       writing_read_only_attributes: Salt okunur bir nitelik yazmamalısınız.
     resources:
       schema: Şema
+  label_everywhere: everywhere
+  label_subject_or_id: Subject or ID

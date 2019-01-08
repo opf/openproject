@@ -300,7 +300,7 @@ fr:
       show_modal: Afficher l’aide de l’attribut de saisie de texte
     onboarding:
       buttons:
-        skip: Skip
+        skip: Passer
         next: Suivante
         got_it: J'ai compris
       steps:
@@ -785,6 +785,8 @@ fr:
         days: jours
         weeks: semaines
         months: mois
+      label_filter_by_text: Filter by text
+      placeholder_filter_by_text: Subject, description, comments, ...
     toolbar:
       settings:
         configure_view: Configurer la vue...
