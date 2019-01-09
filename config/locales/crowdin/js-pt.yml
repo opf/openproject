@@ -761,6 +761,8 @@ pt:
         days: dias
         weeks: semanas
         months: meses
+      label_filter_by_text: Filter by text
+      placeholder_filter_by_text: Subject, description, comments, ...
     toolbar:
       settings:
         configure_view: Configurar a visualização...

@@ -84,7 +84,7 @@ class VersionsController < ApplicationController
     if request.post?
       if @version.save
         flash[:notice] = l(:notice_successful_create)
-        redirect_to controller: '/project_settings', action: 'show', tab: 'versions', id: @project
+        redirect_back_or_default(controller: '/project_settings', action: 'show', tab: 'versions', id: @project)
       else
         render action: 'new'
       end

@@ -776,6 +776,8 @@ nl:
         days: dagen
         weeks: weken
         months: maanden
+      label_filter_by_text: Filter by text
+      placeholder_filter_by_text: Subject, description, comments, ...
     toolbar:
       settings:
         configure_view: Weergave instellingen...

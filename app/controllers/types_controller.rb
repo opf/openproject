@@ -36,7 +36,7 @@ class TypesController < ApplicationController
   before_action :require_admin
 
   def index
-    @types = ::Type.page(params[:page]).per_page(per_page_param)
+    @types = ::Type.page(page_param).per_page(per_page_param)
   end
 
   def type

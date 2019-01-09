@@ -682,6 +682,8 @@ zh:
         days: 天
         weeks: 周
         months: 月
+      label_filter_by_text: Filter by text
+      placeholder_filter_by_text: Subject, description, comments, ...
     toolbar:
       settings:
         configure_view: 配置视图…
