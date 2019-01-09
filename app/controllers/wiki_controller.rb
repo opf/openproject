@@ -272,7 +272,7 @@ class WikiController < ApplicationController
                 .versions
                 .select(:id, :user_id, :notes, :created_at, :version)
                 .order('version DESC')
-                .page(params[:page])
+                .page(page_param)
                 .per_page(per_page_param)
 
     render layout: !request.xhr?

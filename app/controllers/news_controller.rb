@@ -45,7 +45,7 @@ class NewsController < ApplicationController
     scope = @project ? @project.news : News.all
 
     @newss = scope.merge(News.latest_for(current_user, count: 0))
-                  .page(params[:page])
+                  .page(page_param)
                   .per_page(per_page_param)
 
     respond_to do |format|

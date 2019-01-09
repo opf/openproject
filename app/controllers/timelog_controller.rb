@@ -224,7 +224,7 @@ class TimelogController < ApplicationController
                .where(cond.conditions)
                .distinct(false)
                .order(sort_clause)
-               .page(params[:page])
+               .page(page_param)
                .per_page(per_page_param)
   end
 
