@@ -648,7 +648,7 @@ class ApplicationController < ActionController::Base
       self.logged_user = nil
 
       flash[:warning] = I18n.t('notice_forced_logout', ttl_time: Setting.session_ttl)
-      redirect_to(controller: 'account', action: 'login', back_url: login_back_url)
+      redirect_to(controller: '/account', action: 'login', back_url: login_back_url)
     end
     session[:updated_at] = Time.now
   end
