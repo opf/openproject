@@ -1502,7 +1502,6 @@ en:
   label_role_search: "Assign role to new members"
   label_scm: "SCM"
   label_search: "Search"
-  label_search_titles_only: "Search titles only"
   label_send_information: "Send account information to the user"
   label_send_test_email: "Send a test email"
   label_settings: "Settings"
