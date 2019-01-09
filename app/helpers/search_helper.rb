@@ -85,6 +85,15 @@ module SearchHelper
     end
   end
 
+  def attachment_fulltexts(event)
+    attachment_strings_for(:fulltext, event)
+  end
+
+  def attachment_filenames(event)
+    # TODO: attribute "filename" might not be available on fog?
+    attachment_strings_for(:filename, event)
+  end
+
   def type_label(t)
     l("label_#{t.singularize}_plural", default: t.to_s.humanize)
   end
@@ -108,8 +117,6 @@ module SearchHelper
         project_id: (@project.identifier if @project),
         action: 'index',
         q: params[:q],
-        titles_only: params[:title_only],
-        all_words: params[:all_words],
         scope: current_scope,
         t => 1
       }
@@ -138,5 +145,13 @@ module SearchHelper
                                                 project_id: @project.try(:identifier),
                                                 offset: pagination_next_date.to_r.to_s),
                            class: 'navigate-right')
+  end
+
+  private
+
+  def attachment_strings_for(attribute_name, event)
+    if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv? && event.respond_to?(:attachments)
+      event.attachments&.map(&attribute_name)&.join(' ')
+    end
   end
 end
