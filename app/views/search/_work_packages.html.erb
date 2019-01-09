@@ -43,6 +43,12 @@ See docs/COPYRIGHT.rdoc for more details.
   }
 %>
 
+<query-filters *ngIf="!!filters"
+                   [filters]="filters"
+                   [showCloseFilter]="true">
+
+</query-filters>
+
 <wp-embedded-table-entry query-props="<%= query_properties.to_json %>"
                    configuration="<%= configuration.to_json %>">
 </wp-embedded-table-entry>
