@@ -42,8 +42,6 @@ class SearchController < ApplicationController
       case search_params[:scope]
       when 'all'
         nil
-      when 'my_projects'
-        User.current.memberships.map(&:project)
       when 'current_project'
         @project
       else
