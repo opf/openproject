@@ -539,7 +539,7 @@ GEM
     ruby-enum (0.7.2)
       i18n
     ruby-prof (0.17.0)
-    ruby-progressbar (1.9.0)
+    ruby-progressbar (1.10.0)
     ruby_dep (1.5.0)
     rubyzip (1.2.2)
     safe_yaml (1.0.4)
@@ -736,7 +736,7 @@ DEPENDENCIES
   rubocop
   ruby-duration (~> 3.2.0)
   ruby-prof
-  ruby-progressbar (~> 1.9.0)
+  ruby-progressbar (~> 1.10.0)
   rubytree!
   sanitize (~> 4.6.0)
   sass (= 3.5.1)
