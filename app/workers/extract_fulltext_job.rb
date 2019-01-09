@@ -62,7 +62,7 @@ class ExtractFulltextJob < ApplicationJob
       end
     rescue => e
       Rails.logger.error(
-        "Failed to extract plaintext from file #{@attachment.id} (On domain #{Setting.host_name}): #{e}: #{e.message}"
+        "Failed to extract plaintext from file #{@attachment&.id} (On domain #{Setting.host_name}): #{e}: #{e.message}"
       )
     end
   end
@@ -83,7 +83,7 @@ class ExtractFulltextJob < ApplicationJob
   end
 
   def remote_file?
-    !@attachment.file.is_a?(LocalFileUploader)
+    !@attachment&.file.is_a?(LocalFileUploader)
   end
 
   def delete_file?
