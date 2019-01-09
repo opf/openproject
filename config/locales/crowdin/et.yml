@@ -143,15 +143,6 @@ et:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-    delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -2744,5 +2735,3 @@ et:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
-  label_everywhere: everywhere
-  label_subject_or_id: Subject or ID
