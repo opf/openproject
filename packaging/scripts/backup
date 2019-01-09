@@ -25,10 +25,11 @@ dump_mysql() {
 
   ruby -ruri -rcgi -e '
   uri = URI(ENV["DATABASE_URL"])
+  password = CGI.unescape(uri.password || "")
   params = CGI.parse(uri.query || "")
   config=<<CONFIG
 [client]
-password="#{uri.password}"
+password="#{password}"
 user="#{uri.user}"
 host="#{uri.host}"
 port="#{uri.port}"
