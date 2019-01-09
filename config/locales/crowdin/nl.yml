@@ -134,15 +134,6 @@ nl:
       versions:
         no_results_title_text: Momenteel zijn er geen versies voor het project.
         no_results_content_text: Maak een nieuwe versie
-    delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
   members:
     index:
       no_results_title_text: Er zijn momenteel geen leden onderdeel van dit project.
@@ -2804,5 +2795,3 @@ nl:
       writing_read_only_attributes: U mag geen read-only attribuut schrijven.
     resources:
       schema: Schema
-  label_everywhere: everywhere
-  label_subject_or_id: Subject or ID

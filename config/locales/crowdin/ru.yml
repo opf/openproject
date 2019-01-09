@@ -133,15 +133,6 @@ ru:
       versions:
         no_results_title_text: На данный момент этапы в проекте отсутствуют.
         no_results_content_text: Создать новый этап проекта
-    delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
   members:
     index:
       no_results_title_text: На данный момент у этого проекта нет участников.
@@ -2831,5 +2822,3 @@ ru:
         только для чтения.
     resources:
       schema: Схема
-  label_everywhere: everywhere
-  label_subject_or_id: Subject or ID

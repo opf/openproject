@@ -117,13 +117,6 @@ lol:
       versions:
         no_results_title_text: crwdns102720:0crwdne102720:0
         no_results_content_text: crwdns102722:0crwdne102722:0
-    delete:
-      scheduled: crwdns109368:0crwdne109368:0
-      schedule_failed: crwdns109370:0%{errors}crwdne109370:0
-      failed: crwdns109372:0%{name}crwdne109372:0
-      failed_text: crwdns109374:0%{name}crwdne109374:0
-      completed: crwdns109376:0%{name}crwdne109376:0
-      completed_text: crwdns109378:0%{name}crwdne109378:0
   members:
     index:
       no_results_title_text: crwdns102724:0crwdne102724:0
@@ -2455,5 +2448,3 @@ lol:
       writing_read_only_attributes: crwdns106930:0crwdne106930:0
     resources:
       schema: crwdns106932:0crwdne106932:0
-  label_everywhere: crwdns109380:0crwdne109380:0
-  label_subject_or_id: crwdns109382:0crwdne109382:0
