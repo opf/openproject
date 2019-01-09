@@ -124,7 +124,7 @@ gem 'secure_headers', '~> 6.0.0'
 # Providing health checks
 gem 'okcomputer', '~> 1.16.0'
 
-gem 'gon', '~> 6.2.0'
+gem 'gon', '~> 6.2.1'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
