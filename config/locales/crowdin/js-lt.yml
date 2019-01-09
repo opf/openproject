@@ -597,6 +597,7 @@ lt:
       label_enable_multi_select: Įgalinti daugybinį pažymėjimą
       label_disable_multi_select: Išjungti daugybinį pažymėjimą
       label_filter_add: Pridėti filtrą
+      label_filter_by_text: Filter by text
       label_options: Nustatymai
       label_column_multiselect: 'Kombinuotas išplečiamojo sąrašo laukas: pasirinkite
         rodyklių mygtukais, patvirtinkite pasirinkimą su Enter mygtuku, ištrinkite
@@ -611,6 +612,7 @@ lt:
       message_work_package_read_only: Šioje būsenoje darbų paketas yra užrakintas.
         Negali būti keičiamas joks atributas, išskyrus būseną.
       no_value: Nenurodytas dydis
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Paspauskite čia, kad pridėtumėte į sąrašą naują darbų paketą
       create:
@@ -763,6 +765,8 @@ lt:
         days: dienas(-ų)
         weeks: savaitės(-ių)
         months: mėnesiai(-ių)
+      label_filter_by_text: Filter by text
+      placeholder_filter_by_text: Subject, description, comments, ...
     toolbar:
       settings:
         configure_view: Konfigūruokite vaizdą...

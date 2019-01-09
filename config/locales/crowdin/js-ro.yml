@@ -605,6 +605,7 @@ ro:
       label_enable_multi_select: Activare selecție multiplă
       label_disable_multi_select: Dezactivare selecție multiplă
       label_filter_add: Adăugare filtru
+      label_filter_by_text: Filter by text
       label_options: Opțiuni
       label_column_multiselect: 'Câmp desfășurat combinat: selectaţi cu săgețile,
         confirmați alegerea cu enter, ştergeţi cu backspace'
@@ -619,6 +620,7 @@ ro:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Nici o valoare
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Click aici pentru a adăuga un nou pachet de lucru în listă
       create:
@@ -769,6 +771,8 @@ ro:
         days: zile
         weeks: săptămâni
         months: luni
+      label_filter_by_text: Filter by text
+      placeholder_filter_by_text: Subject, description, comments, ...
     toolbar:
       settings:
         configure_view: Configure view ...

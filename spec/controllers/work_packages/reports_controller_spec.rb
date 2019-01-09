@@ -78,7 +78,7 @@ describe WorkPackages::ReportsController, type: :controller do
 
       subject { response }
 
-      it { is_expected.to be_success }
+      it { is_expected.to be_successful }
 
       it { is_expected.to render_template('report') }
 
@@ -106,7 +106,7 @@ describe WorkPackages::ReportsController, type: :controller do
 
         subject { response }
 
-        it { is_expected.to be_success }
+        it { is_expected.to be_successful }
 
         it { is_expected.to render_template('report_details') }
 

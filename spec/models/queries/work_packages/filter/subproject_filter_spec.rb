@@ -33,6 +33,7 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
     let(:type) { :list }
     let(:class_key) { :subproject_id }
     let(:name) { I18n.t('query_fields.subproject_id') }
+    let(:project) { FactoryBot.build_stubbed :project }
     let(:relation) { double(ActiveRecord::Relation) }
     let(:projects) { [] }
     let(:plucked) { projects.map { |p| [p.id, p.name] } }

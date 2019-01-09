@@ -296,7 +296,7 @@ ru:
       show_modal: Показать содержимое атрибута текста справки
     onboarding:
       buttons:
-        skip: Skip
+        skip: Пропустить
         next: Следующие
         got_it: Принять
       steps:
@@ -601,6 +601,7 @@ ru:
       label_enable_multi_select: Разрешить множественный выбор
       label_disable_multi_select: Отключить множественный выбор
       label_filter_add: Добавить фильтр
+      label_filter_by_text: Filter by text
       label_options: Опции
       label_column_multiselect: 'Комбинированные ниспадающие поле: выбор  клавишами
         со стрелками, подтвержднение выбора нажатием клавиши enter, удаление  клавишей
@@ -616,6 +617,7 @@ ru:
       message_work_package_read_only: В этом статусе пакет работ заблокирован. Никакой
         атрибут, отличный от статуса, изменен быть не может.
       no_value: Значение отсутствует
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Кликните здесь, чтобы добавить новый пакет работ в этот список
       create:
@@ -766,6 +768,8 @@ ru:
         days: дней
         weeks: недели
         months: месяцев
+      label_filter_by_text: Filter by text
+      placeholder_filter_by_text: Subject, description, comments, ...
     toolbar:
       settings:
         configure_view: Настроить вид ...

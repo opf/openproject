@@ -51,7 +51,7 @@ describe NewsController, type: :controller do
     it 'renders index' do
       get :index
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template 'index'
 
       expect(assigns(:project)).to be_nil
@@ -61,7 +61,7 @@ describe NewsController, type: :controller do
     it 'renders index with project' do
       get :index, params: { project_id: project.id }
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template 'index'
       expect(assigns(:newss)).not_to be_nil
     end
@@ -71,7 +71,7 @@ describe NewsController, type: :controller do
     it 'renders show' do
       get :show, params: { id: news.id }
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template 'show'
 
       expect(response.body).to have_selector('h2', text: news.title)
@@ -80,7 +80,7 @@ describe NewsController, type: :controller do
     it 'renders show with slug' do
       get :show, params: { id: "#{news.id}-some-news-title" }
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template 'show'
 
       expect(response.body).to have_selector('h2', text: news.title)
@@ -97,7 +97,7 @@ describe NewsController, type: :controller do
     it 'renders new' do
       get :new, params: { project_id: project.id }
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template 'new'
     end
   end
@@ -140,7 +140,7 @@ describe NewsController, type: :controller do
              }
            }
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template 'new'
       expect(assigns(:news)).not_to be_nil
       expect(assigns(:news)).to be_new_record
@@ -152,7 +152,7 @@ describe NewsController, type: :controller do
   describe '#edit' do
     it 'renders edit' do
       get :edit, params: { id: news.id }
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template 'edit'
     end
   end

@@ -36,7 +36,7 @@ class TypesController < ApplicationController
   before_action :require_admin
 
   def index
-    @types = ::Type.page(params[:page]).per_page(per_page_param)
+    @types = ::Type.page(page_param).per_page(per_page_param)
   end
 
   def type
@@ -137,7 +137,7 @@ class TypesController < ApplicationController
   end
 
   def load_projects_and_types
-    @types = ::Type.order('position')
+    @types = ::Type.order(Arel.sql('position'))
     @projects = Project.all
   end
 

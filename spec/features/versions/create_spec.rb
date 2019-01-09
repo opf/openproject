@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,24 +26,44 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module ChiliProject
-  VERSION = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
-    'ChiliProject::VERSION', 'OpenProject::VERSION'
-  )
+require 'spec_helper'
 
-  Database = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
-    'ChiliProject::Database', 'OpenProject::Database'
-  )
+describe 'version create', type: :feature do
+  let(:user) do
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_with_permissions: %i[manage_versions view_work_packages])
+    end
+  let(:project) { FactoryBot.create(:project) }
+  let(:new_version_name) { 'A new version name' }
 
-  module PrincipalAllowanceEvaluator
-    Base = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
-      'ChiliProject::PrincipalAllowanceEvaluator::Base',
-      'OpenProject::PrincipalAllowanceEvaluator::Base'
-    )
+  before do
+    login_as(user)
+  end
 
-    Default = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
-      'ChiliProject::PrincipalAllowanceEvaluator::Default',
-      'OpenProject::PrincipalAllowanceEvaluator::Default'
-    )
+  context 'create a version' do
+    it 'and redirect to default' do
+      visit new_project_version_path(project)
+
+      fill_in 'Name', with: new_version_name
+      click_on 'Create'
+
+      expect(page).to have_current_path(settings_project_path(project, tab: 'versions'))
+      expect(page).to have_content new_version_name
+    end
+
+
+    it 'and redirect back to where you started' do
+      visit project_roadmap_path(project)
+
+      click_on 'New version'
+      expect(page).to have_current_path(new_project_version_path(project))
+
+      fill_in 'Name', with: new_version_name
+      click_on 'Create'
+
+      expect(page).to have_current_path(project_roadmap_path(project))
+      expect(page).to have_content new_version_name
+    end
   end
 end

@@ -611,6 +611,7 @@ es:
       label_enable_multi_select: Habilitar selección múltiple
       label_disable_multi_select: Deshabilitar selección múltiple
       label_filter_add: Añadir filtro
+      label_filter_by_text: Filter by text
       label_options: Opciones
       label_column_multiselect: 'Campo de lista desplegable combinada: seleccione
         con las teclas de flecha, confirme la selección con enter, elimine con retroceso'
@@ -625,6 +626,7 @@ es:
       message_work_package_read_only: El paquete de trabajo está bloqueado en este
         estado. Excepto el estado, ningún otro atributo se puede modificar.
       no_value: Sin valor
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista
       create:
@@ -777,6 +779,8 @@ es:
         days: días
         weeks: semanas
         months: meses
+      label_filter_by_text: Filter by text
+      placeholder_filter_by_text: Subject, description, comments, ...
     toolbar:
       settings:
         configure_view: Configurar vista…

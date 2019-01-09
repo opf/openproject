@@ -31,7 +31,7 @@ class CostRate < Rate
   def next(reference_date = valid_from)
     CostRate
       .where(['cost_type_id = ? and valid_from > ?', cost_type_id, reference_date])
-      .order('valid_from ASC')
+      .order(Arel.sql('valid_from ASC'))
       .first
   end
 

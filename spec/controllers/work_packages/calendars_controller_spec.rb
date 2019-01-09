@@ -55,7 +55,7 @@ describe WorkPackages::CalendarsController, type: :controller do
     shared_examples_for 'calendar#index' do
       subject { response }
 
-      it { is_expected.to be_success }
+      it { is_expected.to be_successful }
 
       it { is_expected.to render_template('work_packages/calendars/index') }
     end

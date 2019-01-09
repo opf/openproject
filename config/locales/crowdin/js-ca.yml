@@ -600,6 +600,7 @@ ca:
       label_enable_multi_select: Permetre sel·lecció múltiple
       label_disable_multi_select: Deshabilita la selecció múltiple
       label_filter_add: Afegir un filtre
+      label_filter_by_text: Filter by text
       label_options: Opcions
       label_column_multiselect: 'Camp combinat desplegable: selecciona amb les tecles
         de fletxa, confirmar la selecció amb enter, suprimir amb retrocés'
@@ -614,6 +615,7 @@ ca:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Cap valor
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Feu clic aquí per afegir un nou paquet de treball a aquesta llista
       create:
@@ -763,6 +765,8 @@ ca:
         days: dies
         weeks: setmanes
         months: mesos
+      label_filter_by_text: Filter by text
+      placeholder_filter_by_text: Subject, description, comments, ...
     toolbar:
       settings:
         configure_view: Configure view ...

@@ -36,7 +36,7 @@ class RolesController < ApplicationController
 
   def index
     @roles = Role
-             .order('builtin, position')
+             .order(Arel.sql('builtin, position'))
              .page(page_param)
              .per_page(per_page_param)
 
@@ -48,7 +48,7 @@ class RolesController < ApplicationController
     @role = Role.new(permitted_params.role? || { permissions: Role.non_member.permissions })
 
     @permissions = @role.setable_permissions
-    @roles = Role.order('builtin, position')
+    @roles = Role.order(Arel.sql('builtin, position'))
   end
 
   def create
@@ -63,7 +63,7 @@ class RolesController < ApplicationController
       notify_changed_roles(:added, @role)
     else
       @permissions = @role.setable_permissions
-      @roles = Role.order('builtin, position')
+      @roles = Role.order(Arel.sql('builtin, position'))
 
       render action: 'new'
     end
@@ -99,12 +99,12 @@ class RolesController < ApplicationController
   end
 
   def report
-    @roles = Role.order('builtin, position')
+    @roles = Role.order(Arel.sql('builtin, position'))
     @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
   end
 
   def bulk_update
-    @roles = Role.order('builtin, position')
+    @roles = Role.order(Arel.sql('builtin, position'))
 
     @roles.each do |role|
       new_permissions = params[:permissions][role.id.to_s].presence || []

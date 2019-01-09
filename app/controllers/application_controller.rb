@@ -270,11 +270,7 @@ class ApplicationController < ActionController::Base
 
   def require_admin
     return unless require_login
-    unless User.current.admin?
-      render_403
-      return false
-    end
-    true
+    render_403 unless User.current.admin?
   end
 
   def deny_access

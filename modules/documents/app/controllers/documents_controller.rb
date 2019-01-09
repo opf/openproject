@@ -57,7 +57,7 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    @attachments = @document.attachments.order('created_at DESC')
+    @attachments = @document.attachments.order(Arel.sql('created_at DESC'))
   end
 
   def new

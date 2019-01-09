@@ -23,6 +23,6 @@ class CostQuery::Filter::ActivityId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    TimeEntryActivity.order('name').pluck(:name, :id)
+    TimeEntryActivity.order(Arel.sql('name')).pluck(:name, :id)
   end
 end

@@ -62,7 +62,7 @@ class Role < ActiveRecord::Base
   validates_length_of :name, maximum: 30
 
   def self.givable
-    where('builtin = 0').order('position')
+    where('builtin = 0').order(Arel.sql('position'))
   end
 
   def permissions
@@ -141,7 +141,7 @@ class Role < ActiveRecord::Base
 
   # Find all the roles that can be given to a project member
   def self.find_all_givable
-    where(builtin: 0).order('position')
+    where(builtin: 0).order(Arel.sql('position'))
   end
 
   # Return the builtin 'non member' role.  If the role doesn't exist,

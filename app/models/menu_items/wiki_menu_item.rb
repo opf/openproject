@@ -33,7 +33,7 @@ class MenuItems::WikiMenuItem < MenuItem
   scope :main_items, ->(wiki_id) {
     where(navigatable_id: wiki_id, parent_id: nil)
       .includes(:children)
-      .order('id ASC')
+      .order(Arel.sql('id ASC'))
   }
 
   def slug

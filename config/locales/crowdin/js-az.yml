@@ -597,6 +597,7 @@ az:
       label_enable_multi_select: Enable multiselect
       label_disable_multi_select: Disable multiselect
       label_filter_add: Add filter
+      label_filter_by_text: Filter by text
       label_options: Options
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
         confirm selection with enter, delete with backspace'
@@ -611,6 +612,7 @@ az:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: No value
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Click here to add a new work package to this list
       create:
@@ -760,6 +762,8 @@ az:
         days: days
         weeks: weeks
         months: months
+      label_filter_by_text: Filter by text
+      placeholder_filter_by_text: Subject, description, comments, ...
     toolbar:
       settings:
         configure_view: Configure view ...

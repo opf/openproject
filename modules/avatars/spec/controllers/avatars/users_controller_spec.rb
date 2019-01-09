@@ -60,27 +60,27 @@ describe ::Avatars::UsersController, type: :controller do
 
     it 'returns invalid method for post request' do
       post :update, params: { id: target_user.id }
-      expect(response).not_to be_success
+      expect(response).not_to be_successful
       expect(response.status).to eq 405
     end
 
     it 'calls the service for put' do
       expect_any_instance_of(::Avatars::UpdateService)
         .to receive(:replace)
-        .and_return(ServiceResult.new(success: true))
+              .and_return(ServiceResult.new(success: true))
 
       put :update, params: { id: target_user.id }
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.status).to eq 200
     end
 
     it 'calls the service for put' do
       expect_any_instance_of(::Avatars::UpdateService)
         .to receive(:replace)
-        .and_return(ServiceResult.new(success: false))
+              .and_return(ServiceResult.new(success: false))
 
       put :update, params: { id: target_user.id }
-      expect(response).not_to be_success
+      expect(response).not_to be_successful
       expect(response.status).to eq 400
     end
   end
@@ -99,14 +99,14 @@ describe ::Avatars::UsersController, type: :controller do
 
     it 'returns invalid method for post request' do
       post :destroy, params: { id: target_user.id }
-      expect(response).not_to be_success
+      expect(response).not_to be_successful
       expect(response.status).to eq 405
     end
 
     it 'calls the service for delete' do
       expect_any_instance_of(::Avatars::UpdateService)
         .to receive(:destroy)
-        .and_return(ServiceResult.new(success: true, result: 'message'))
+              .and_return(ServiceResult.new(success: true, result: 'message'))
 
       delete :destroy, params: { id: target_user.id }
       expect(flash[:notice]).to include 'message'
@@ -120,10 +120,10 @@ describe ::Avatars::UsersController, type: :controller do
 
       expect_any_instance_of(::Avatars::UpdateService)
         .to receive(:destroy)
-        .and_return(result)
+              .and_return(result)
 
       delete :destroy, params: { id: target_user.id }
-      expect(response).not_to be_success
+      expect(response).not_to be_successful
       expect(flash[:notice]).not_to be_present
       expect(flash[:error]).to include 'error'
       expect(response).to redirect_to controller.send :redirect_path

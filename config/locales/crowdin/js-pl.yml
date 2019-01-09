@@ -598,6 +598,7 @@ pl:
       label_enable_multi_select: Włącz wybór wielokrotny
       label_disable_multi_select: Wyłącz wybór wielokrotny
       label_filter_add: Dodaj filtr
+      label_filter_by_text: Filter by text
       label_options: Opcje
       label_column_multiselect: 'Łączone pole rozwijane: Wybierz za pomocą klawiszy
         strzałek, potwierdź wybór klawiszem enter, usuń klawiszem backspace'
@@ -611,6 +612,7 @@ pl:
       message_work_package_read_only: Pakiet roboczy jest zablokowany w tym stanie.
         Nie można zmienić żadnego atrybutu innego niż stan.
       no_value: Brak wartości
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Kliknij tutaj, aby dodać nowy pakiet prac do tej listy
       create:
@@ -759,6 +761,8 @@ pl:
         days: dni
         weeks: tygodnie
         months: miesiące
+      label_filter_by_text: Filter by text
+      placeholder_filter_by_text: Subject, description, comments, ...
     toolbar:
       settings:
         configure_view: Konfigurowanie widoku...

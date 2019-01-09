@@ -40,7 +40,7 @@ describe ActivitiesController, type: :controller do
 
   describe 'index' do
     shared_examples_for 'valid index response' do
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
 
       it { expect(response).to render_template 'index' }
     end
@@ -98,7 +98,7 @@ describe ActivitiesController, type: :controller do
 
       it 'renders activity' do
         get 'index', params: { project_id: project.id }
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'index'
       end
     end

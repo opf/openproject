@@ -47,7 +47,7 @@ describe AccountController, type: :controller do
 
     it 'renders the view' do
       expect(response).to render_template 'login'
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     context 'user already logged in' do
@@ -85,7 +85,7 @@ describe AccountController, type: :controller do
     describe 'wrong password' do
       it 'redirects back to login' do
         post :login, params: { username: 'admin', password: 'bad' }
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'login'
         expect(flash[:error]).to include 'Invalid user or password'
       end

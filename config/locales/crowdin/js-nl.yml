@@ -609,6 +609,7 @@ nl:
       label_enable_multi_select: Laat meerkeuze toe
       label_disable_multi_select: Laat meerkeuze niet toe
       label_filter_add: Filter toevoegen
+      label_filter_by_text: Filter by text
       label_options: Opties
       label_column_multiselect: 'Gecombineerd met dropdown-veld: Selecteer met richtingstoetsen,
         bevestig selectie met enter, verwijder met backspace'
@@ -623,6 +624,7 @@ nl:
       message_work_package_read_only: Werkpakket is opgesloten in deze status. Geen
         kenmerk dan status kan worden gewijzigd.
       no_value: Geen waarde
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Klik hier om een nieuw werkpakket aan deze lijst toe te voegen
       create:
@@ -774,6 +776,8 @@ nl:
         days: dagen
         weeks: weken
         months: maanden
+      label_filter_by_text: Filter by text
+      placeholder_filter_by_text: Subject, description, comments, ...
     toolbar:
       settings:
         configure_view: Weergave instellingen...

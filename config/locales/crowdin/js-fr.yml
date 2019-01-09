@@ -617,6 +617,7 @@ fr:
       label_enable_multi_select: Activer la sélection multiple
       label_disable_multi_select: Désactiver la sélection multiple
       label_filter_add: Ajouter le filtre
+      label_filter_by_text: Filter by text
       label_options: Options
       label_column_multiselect: 'Champ liste déroulante combinée : sélectionner avec
         les touches fléchées, confirmer la sélection avec la touche enter, supprimer
@@ -632,6 +633,7 @@ fr:
       message_work_package_read_only: Paquet de travail est verrouillé. Aucun attribut
         autre que l’État ne peut être modifié.
       no_value: Aucune valeur
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Cliquez ici pour ajouter un nouveau lot de travaux à cette liste
       create:

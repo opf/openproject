@@ -542,6 +542,7 @@ ja:
       label_enable_multi_select: 複数の選択を許可
       label_disable_multi_select: 複数の選択を禁止
       label_filter_add: フィルタを追加
+      label_filter_by_text: Filter by text
       label_options: オプション
       label_column_multiselect: '結合されたドロップダウンフィールド: 矢印キーで選択する、エンターキーで選択を確認する、バックスペースキーで削除する'
       label_switch_to_single_select: 単一選択に切り替え
@@ -552,6 +553,7 @@ ja:
       message_view_spent_time: このワークパッケージに費やした時間を表示する
       message_work_package_read_only: 作業項目はこの状態でロックされています。 ステータス以外の属性は変更できません。
       no_value: 値なし
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: クリックしてこのリストに新しい作業項目を追加します
       create:
@@ -685,6 +687,8 @@ ja:
         days: " 日"
         weeks: 週間
         months: ヶ月間
+      label_filter_by_text: Filter by text
+      placeholder_filter_by_text: Subject, description, comments, ...
     toolbar:
       settings:
         configure_view: 表示設定...

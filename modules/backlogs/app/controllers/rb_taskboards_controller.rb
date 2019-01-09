@@ -42,7 +42,7 @@ class RbTaskboardsController < RbApplicationController
     @statuses     = Type.find(Task.type).statuses
     @story_ids    = @sprint.stories(@project).map(&:id)
     @last_updated = Task.children_of(@story_ids)
-                        .order('updated_at DESC')
+                        .order(Arel.sql('updated_at DESC'))
                         .first
   end
 
