@@ -136,7 +136,7 @@ gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.g
 gem 'prawn', '~> 2.2'
 gem 'prawn-table', '~> 0.2.2'
 
-gem 'cells-rails', '~> 0.0.6'
+gem 'cells-rails', '~> 0.0.9'
 gem 'cells-erb', '~> 0.0.8'
 
 gem 'meta-tags', '~> 2.6.0'
