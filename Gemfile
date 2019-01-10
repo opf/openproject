@@ -265,7 +265,7 @@ group :development, :test do
   gem 'pry-byebug', '~> 3.6.0', platforms: [:mri]
 end
 
-gem 'bootsnap', '~> 1.1.2', require: true
+gem 'bootsnap', '~> 1.3.2', require: true
 
 # API gems
 gem 'grape', '~> 1.1'
