@@ -32,8 +32,8 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= form_tag(search_path(@project), method: :get) do %>
     <%= hidden_field_tag(controller.default_search_scope, 1, project_id: nil) if controller.default_search_scope %>
 
-    <expandable-search>
+    <global-search-input>
 
-    </expandable-search>
+    </global-search-input>
   <% end %>
 </div>

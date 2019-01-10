@@ -42,7 +42,7 @@ import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {CurrentProjectService} from 'core-components/projects/current-project.service';
 import {ProjectCacheService} from 'core-components/projects/project-cache.service';
 import {States} from 'core-components/states.service';
-import {ExpandableSearchComponent} from 'core-components/expandable-search/expandable-search.component';
+import {GlobalSearchInputComponent} from 'core-components/global-search/global-search-input.component';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {UserCacheService} from 'core-components/user/user-cache.service';
 import {MainMenuResizerComponent} from 'core-components/resizer/main-menu-resizer.component';
@@ -148,7 +148,7 @@ import {FullCalendarModule} from "ng-fullcalendar";
     OpContextMenuTrigger,
 
     // Searchbar
-    ExpandableSearchComponent,
+    GlobalSearchInputComponent,
 
     // Modals
     ConfirmDialogModal,
@@ -168,7 +168,7 @@ import {FullCalendarModule} from "ng-fullcalendar";
   ],
   entryComponents: [
     // Searchbar
-    ExpandableSearchComponent,
+    GlobalSearchInputComponent,
 
     // Project Auto completer
     ProjectMenuAutocompleteComponent,
