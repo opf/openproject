@@ -79,7 +79,7 @@ Doorkeeper.configure do
   # `grant_type` - the grant type of the request (see Doorkeeper::OAuth)
   # `scopes` - the requested scopes (see Doorkeeper::OAuth::Scopes)
   #
-  # use_refresh_token
+  use_refresh_token
 
   # Forbids creating/updating applications with arbitrary scopes that are
   # not in configuration, i.e. `default_scopes` or `optional_scopes`.
