@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class CostQuery::Filter::AuthorId < Report::Filter::Base
+class CostQuery::Filter::AuthorId < CostQuery::Filter::UserId
   join_table WorkPackage
   applies_for :label_work_package_attributes
 

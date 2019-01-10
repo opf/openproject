@@ -35,8 +35,6 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
-import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
-import {WorkPackageFilterValues} from '../wp-edit-form/work-package-filter-values';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageCreateService} from './wp-create.service';
@@ -44,9 +42,6 @@ import {takeUntil} from 'rxjs/operators';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {
-  IWorkPackageEditingServiceToken
-} from "../wp-edit-form/work-package-editing.service.interface";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {CurrentUserService} from "core-app/components/user/current-user.service";
 
@@ -57,7 +52,6 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
   public newWorkPackage:WorkPackageResource;
   public parentWorkPackage:WorkPackageResource;
   public changeset:WorkPackageChangeset;
-  protected wpEditing:WorkPackageEditingService = this.injector.get<WorkPackageEditingService>(IWorkPackageEditingServiceToken);
 
   public stateParams = this.$transition.params('to');
   public text = {
@@ -81,15 +75,13 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.newWorkPackageFromParams(this.stateParams)
+    this
+      .createdWorkPackage()
       .then((changeset:WorkPackageChangeset) => {
         this.changeset = changeset;
         this.newWorkPackage = changeset.workPackage;
 
         this.setTitle();
-
-        this.wpCacheService.updateWorkPackage(this.newWorkPackage);
-        this.wpEditing.updateValue('new', changeset);
 
         if (this.stateParams['parent_id']) {
           this.changeset.setValue(
@@ -137,31 +129,15 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
     this.titleService.setFirstPart(this.I18n.t('js.work_packages.create.title'));
   }
 
-  protected newWorkPackageFromParams(stateParams:any):Promise<WorkPackageChangeset> {
-    const type = parseInt(stateParams.type);
-
-    // If there is an open edit for this type, continue it
-    const changeset = this.wpEditing.state('new').value;
-    if (changeset !== undefined) {
-      const changeType = changeset.workPackage.type;
-
-      const hasChanges = !changeset.empty;
-      const typeEmpty = (!changeType && !type);
-      const typeMatches = (changeType && changeType.idFromLink === type.toString());
-
-      if (hasChanges && (typeEmpty || typeMatches)) {
-        return Promise.resolve(changeset);
-      }
-    }
-
-    return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type).then(changeset => {
-      const filter = new WorkPackageFilterValues(this.injector, changeset, this.wpTableFilters.current, ['type']);
-      return filter.applyDefaultsFromFilters().then(() => changeset);
-    });
+  public cancelAndBackToList() {
+    this.wpCreate.cancelCreation();
+    this.$state.go('work-packages.list', this.$state.params);
   }
 
-  public cancelAndBackToList() {
-    this.wpEditing.stopEditing(this.newWorkPackage.id);
-    this.$state.go('work-packages.list', this.$state.params);
+  protected createdWorkPackage() {
+    const type = this.stateParams.type ? parseInt(this.stateParams.type) : undefined;
+    const project = this.stateParams.projectPath;
+
+    return this.wpCreate.createOrContinueWorkPackage(project, type);
   }
 }

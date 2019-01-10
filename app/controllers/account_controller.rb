@@ -93,7 +93,7 @@ class AccountController < ApplicationController
       render template: 'account/password_recovery'
     elsif request.post?
       mail = params[:mail]
-      user = User.find_by_mail(mail)
+      user = User.find_by_mail(mail) if mail.present?
 
       # Ensure the same request is sent regardless of which email is entered
       # to avoid detecability of mails

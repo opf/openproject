@@ -27,19 +27,17 @@
 //++
 
 .attributes-key-value
-  @include grid-block
-  @include grid-layout(2)
-  @include grid-visible-overflow
+  display: flex
+  flex-wrap: wrap
   font-size: 0.875rem
   line-height: 1.6
 
   .attributes-key-value--key
     @extend .form--label
-    @include grid-size(4)
-    @include text-shortener
     display: flex
+    flex: 1 0 35%
     margin-bottom: 0.1875rem
-    padding: 0.375rem 0 !important
+    padding: 0.375rem 0
     font-weight: bold
     // Ensure that the text is shortened while the help icon will be displayed
     > wp-replacement-label
@@ -47,12 +45,11 @@
       flex: 0 1 auto
 
   .attributes-key-value--value-container
-    @include grid-content(8)
-    @include grid-visible-overflow
     display: flex
+    flex: 1 0 65%
     margin-bottom: 0.1875rem
-    padding: 0 !important
     align-self: center
+    overflow: hidden
 
     &.not-editable
       padding: 6px

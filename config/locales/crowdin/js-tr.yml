@@ -762,8 +762,6 @@ tr:
         days: gün
         weeks: hafta
         months: ay
-      label_filter_by_text: Filter by text
-      placeholder_filter_by_text: Subject, description, comments, ...
     toolbar:
       settings:
         configure_view: Görünümü yapılandır ...

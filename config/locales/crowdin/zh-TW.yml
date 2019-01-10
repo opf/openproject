@@ -127,15 +127,6 @@ zh-TW:
       versions:
         no_results_title_text: 目前的專案沒有版本號
         no_results_content_text: 建立一個新版本號
-    delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
   members:
     index:
       no_results_title_text: 目前這個專案沒有成員
@@ -2529,5 +2520,3 @@ zh-TW:
         您不可寫入唯讀的屬性。
     resources:
       schema: 架構
-  label_everywhere: everywhere
-  label_subject_or_id: Subject or ID

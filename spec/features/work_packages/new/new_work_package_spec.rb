@@ -306,6 +306,7 @@ describe 'new work package', js: true do
     end
 
     it 'can create the work package, but not update it after saving' do
+      type_field.activate!
       type_field.set_value type_bug.name
       # wait after the type change
       sleep(0.2)
@@ -321,7 +322,7 @@ describe 'new work package', js: true do
     end
   end
 
-  context 'a anonymous user is prompted to login' do
+  context 'an anonymous user is prompted to login' do
     let(:user) { FactoryBot.create(:anonymous) }
     let(:wp_page) { ::Pages::Page.new }
 

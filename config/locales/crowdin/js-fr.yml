@@ -300,7 +300,7 @@ fr:
       show_modal: Afficher l’aide de l’attribut de saisie de texte
     onboarding:
       buttons:
-        skip: Skip
+        skip: Passer
         next: Suivante
         got_it: J'ai compris
       steps:
