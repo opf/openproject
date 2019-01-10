@@ -10,6 +10,10 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[5.1]
       t.string  :scopes,       null: false, default: ''
       t.boolean :confidential, null: false, default: true
       t.timestamps             null: false
+
+      # Allow to map a user to use for client credentials auth flow
+      t.references :client_credentials_user,
+                   foreign_key: { to_table: :users, on_delete: :nullify }
     end
 
     add_index :oauth_applications, :uid, unique: true

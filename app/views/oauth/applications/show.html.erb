@@ -74,6 +74,18 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
     </div>
     <% end %>
+    <% if user_id = @application.client_credentials_user_id %>
+      <div class="attributes-key-value--key"><%= t 'oauth.client_credentials_impersonation_set_to' %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <p>
+            <%= link_to_user User.find_by(id: user_id) %>
+            <br/>
+            <strong><%= t('oauth.client_credentials_impersonation_warning') %></strong>
+          </p>
+        </div>
+      </div>
+    <% end %>
     <div class="attributes-key-value--key"><%= @application.class.human_attribute_name :scopes %></div>
     <div class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -text">

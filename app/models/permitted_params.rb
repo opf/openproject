@@ -563,6 +563,7 @@ class PermittedParams
           :name,
           :redirect_uri,
           :confidential,
+          :client_credentials_user_id,
           scopes: []
         ],
         project_type: [

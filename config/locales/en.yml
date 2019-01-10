@@ -458,8 +458,9 @@ en:
       'doorkeeper/application':
         uid: "Client ID"
         secret: "Client secret"
-        owner: "Application owner"
+        owner: "Owner"
         redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
         scopes: "Scopes"
         confidential: "Confidential"
 
@@ -2650,6 +2651,7 @@ en:
           If you're registering a desktop application, use the following URL.
         confidential: "Check if Application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
         scopes: Select which scopes this application can access. Leave empty to use defaults.
+        client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to disable client credentials flow"
         register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
         default_scopes: ""
     client_id: "Client ID"
@@ -2677,7 +2679,17 @@ en:
       sucessful_revocation: "Revocation of grant successful."
       successful_application_revocation: "Revocation of application %{application_name} successful."
       none_given: "No OAuth applications have been granted access to your user account."
+    flows:
+      authorization_code: "Authorization code flow"
+      client_credentials: "Client credentials flow"
+    client_credentials: "User used for Client credentials"
+    client_credentials_impersonation_set_to: "Client credentials user set to"
+    client_credentials_impersonation_warning: "Note: Clients using the 'Client credentials' flow in this application will have the rights of this user"
+    client_credentials_impersonation_html: >
+      By default, OpenProject provides OAuth 2.0 authorization via %{authorization_code_flow_link}.
+      You can optionally enable %{client_credentials_flow_link}, but you must provide a user on whose behalf requests will be performed.
     authorization_error: "An authorization error has occurred."
+    authorization_error_client_credentials: "Client credentials flow is not allowed for this application."
     my_application_grants: "Granted applications"
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke all %{count} tokens active for it."
     my_oauth: "OAuth Grants and Apps"

@@ -3,6 +3,7 @@ module OAuth
     class RowCell < ::RowCell
       include ::IconsHelper
       include ::OAuthHelper
+      include ::OpenProject::ObjectLinking
 
       def application
         model
@@ -25,6 +26,14 @@ module OAuth
       def redirect_uri
         urls = application.redirect_uri.split("\n")
         safe_join urls, '<br/>'.html_safe
+      end
+
+      def client_credentials
+        if user_id = application.client_credentials_user_id
+          link_to_user User.find(user_id)
+        else
+          '-'
+        end
       end
 
       def confidential

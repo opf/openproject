@@ -50,27 +50,30 @@ module OAuth
     end
 
     def create
-      @application.attributes = permitted_params.oauth_application
-      @application.owner = current_user
+      call = ::OAuth::PersistApplicationService.new(@application, user: current_user)
+                                               .call(permitted_params.oauth_application)
 
-      if @application.save
+      if call.success?
         flash[:notice] = t(:notice_successful_create)
-        flash[:_application_secret] = @application.plaintext_secret
-        redirect_to action: :show, id: @application.id
+        flash[:_application_secret] = call.result.plaintext_secret
+        redirect_to action: :show, id: call.result.id
       else
-        flash[:error] = @application.errors.full_messages.join('\n')
+        @errors = call.errors
+        flash[:error] = call.errors.full_messages.join('\n')
         render action: :new
       end
     end
 
     def update
-      @application.attributes = permitted_params.oauth_application
+      call = ::OAuth::PersistApplicationService.new(@application, user: current_user)
+                                               .call(permitted_params.oauth_application)
 
-      if @application.save
+      if call.success?
         flash[:notice] = t(:notice_successful_update)
         redirect_to action: :index
       else
-        flash[:error] = @application.errors.full_messages.join('\n')
+        @errors = call.errors
+        flash[:error] = call.errors.full_messages.join('\n')
         render action: :edit
       end
     end

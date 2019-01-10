@@ -109,6 +109,14 @@ module OpenProject
             text_formatting: {
               href: 'https://www.openproject.org/help/wiki/',
               label: :setting_text_formatting
+            },
+            oauth_authorization_code_flow: {
+              href: 'https://oauth.net/2/grant-types/authorization-code/',
+              label: 'oauth.flows.authorization_code'
+            },
+            client_credentials_code_flow: {
+              href: 'https://oauth.net/2/grant-types/client-credentials/',
+              label: 'oauth.flows.client_credentials'
             }
           }
         end
