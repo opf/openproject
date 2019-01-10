@@ -50,26 +50,6 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= t('oauth.application.instructions.confidential') %>
     </span>
   </div>
-  <div class="form--field">
-    <%
-      default_scopes = Doorkeeper.configuration.default_scopes.to_a
-      optional_scopes = Doorkeeper.configuration.optional_scopes.to_a
-      all_scopes = default_scopes + optional_scopes
-      scope_options = all_scopes.map do |scope|
-        translation = I18n.t("oauth.scopes.#{scope}", default: scope)
-        [translation, scope]
-      end
-    %>
-
-    <%= f.select :scopes,
-                 scope_options,
-                 {},
-                 multiple: true,
-                 container_class: '-middle' %>
-    <span class="form--field-instructions">
-      <%= t('oauth.application.instructions.scopes') %>
-    </span>
-  </div>
   <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend">Client credentials</legend>
     <p>

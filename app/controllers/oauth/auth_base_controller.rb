@@ -1,8 +1,7 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,37 +24,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
-require_dependency 'user'
-require_dependency 'principal'
+
 
 module OAuth
-  class PersistApplicationService
-    include Concerns::Contracted
-
-    attr_reader :application, :current_user
-
-    def initialize(model, user:)
-      @application = model
-      @current_user = user
-
-      self.contract_class = Oauth::ApplicationContract
-    end
-
-    def call(attributes)
-      set_defaults
-      application.attributes = attributes
-
-      result, errors = validate_and_save(application, current_user)
-      ServiceResult.new success: result, errors: errors, result: application
-    end
-
-    def set_defaults
-      return if application.owner_id
-
-      application.owner = current_user
-      application.owner_type = 'User'
-    end
+  ##
+  # Base controller for doorkeeper to skip the login check
+  # because it needs to set a specific return URL
+  # See config/initializers/doorkeeper.rb
+  class AuthBaseController < ::ApplicationController
+    skip_before_action :check_if_login_required
+    layout 'only_logo'
   end
 end

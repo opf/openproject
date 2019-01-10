@@ -28,9 +28,10 @@
 
 require 'spec_helper'
 
-describe 'OAuth user flow', type: :feature, js: true do
+describe 'OAuth authorization code flow', type: :feature, js: true do
   let!(:user) { FactoryBot.create(:user) }
   let!(:app) { FactoryBot.create(:oauth_application, name: 'Cool API app!') }
+  let(:client_secret) { app.plaintext_secret }
 
   def oauth_path(client_id)
     "/oauth/authorize?response_type=code&client_id=#{client_id}&redirect_uri=urn:ietf:wg:oauth:2.0:oob&scope=api_v3"
@@ -57,32 +58,55 @@ describe 'OAuth user flow', type: :feature, js: true do
     find('input.button[value="Authorize"]').click
 
     # Expect auth token
-    expect(page).to have_selector('#authorization_code')
+    code = find('#authorization_code').text
 
-    # And also have no grant for this application
+    # And also have a grant for this application
     user.oauth_grants.reload
     expect(user.oauth_grants.count).to eq 1
     expect(user.oauth_grants.first.application).to eq app
 
+    # Use that code to get a request
+    host = Capybara.current_session.server.host
+    port = Capybara.current_session.server.port
+
+    parameters = {
+      client_id: app.uid,
+      client_secret: client_secret,
+      code: code,
+      grant_type: :authorization_code,
+      redirect_uri: app.redirect_uri
+    }
+
+    response = RestClient.post "http://#{host}:#{port}/oauth/token", parameters.to_param
+    body = JSON.parse(response.body)
+
+    expect(body['access_token']).to be_present
+    expect(body['refresh_token']).to be_present
+    expect(body['scope']).to eq 'api_v3'
+
     # Should show that grant in my account
     visit my_account_path
-    click_on 'OAuth Grants and Apps'
+    click_on 'Access token'
 
-    expect(page).to have_selector('h2', text: app.name)
-    expect(page).to have_selector('td.scopes', text: 'Full API access')
+    expect(page).to have_selector("#oauth-application-grant-#{app.id}", text: app.name)
+    expect(page).to have_selector('td', text: app.name)
 
     # Revoke the application
-    click_on 'Revoke'
+    within("#oauth-application-grant-#{app.id}") do
+      click_on 'Revoke'
+    end
+
     page.driver.browser.switch_to.alert.accept
 
-    # Should be on empty grant page
+    # Should be back on access_token path
     expect(page).to have_selector('.flash.notice')
-    expect(page).to have_selector('.generic-table--no-results-container', text: I18n.t('oauth.grants.none_given'))
+    expect(page).to have_no_selector("[id^=oauth-application-grant]")
+
+    expect(current_path).to match "/my/access_token"
 
     # And all grants have been revoked
-    user.oauth_grants.reload
-    expect(user.oauth_grants.count).to eq 1
-    expect(user.oauth_grants.first.revoked_at).not_to be_nil
+    authorized = ::Doorkeeper::Application.authorized_for(user)
+    expect(authorized).to be_empty
   end
 
   it 'does not authenticate unknown applications' do

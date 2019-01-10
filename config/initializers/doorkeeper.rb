@@ -8,7 +8,6 @@ Doorkeeper.configure do
     if logged_user.present?
       logged_user
     else
-      warn request.fullpath
       session[:back_url] = request.fullpath
       redirect_to(signin_path)
     end
@@ -54,7 +53,7 @@ Doorkeeper.configure do
   # Defaults to ActionController::Base.
   # See https://github.com/doorkeeper-gem/doorkeeper#custom-base-controller
   #
-  base_controller 'ApplicationController'
+  base_controller '::OAuth::AuthBaseController'
 
   # Enable hashing and bcrypt-hashing of token secrets
   # and application secrets, respectively.
@@ -98,8 +97,7 @@ Doorkeeper.configure do
   # For more information go to
   # https://github.com/doorkeeper-gem/doorkeeper/wiki/Using-Scopes
   #
-  default_scopes  :public
-  optional_scopes :api_v3
+  default_scopes  :api_v3
 
   # Change the way client credentials are retrieved from the request object.
   # By default it retrieves first from the `HTTP_AUTHORIZATION` header, then
@@ -214,6 +212,6 @@ end
 
 OpenProject::Application.configure do |application|
   application.config.to_prepare do
-    ::Doorkeeper::AuthorizationsController.layout "only_logo"
+    # ::Doorkeeper::AuthorizationsController.layout "only_logo"
   end
 end

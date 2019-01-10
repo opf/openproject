@@ -347,7 +347,6 @@ OpenProject::Application.routes.draw do
     end
     resources :enumerations
 
-
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
     delete 'design/favicon' => 'custom_styles#favicon_delete', as: 'custom_style_favicon_delete'
     delete 'design/touch_icon' => 'custom_styles#touch_icon_delete', as: 'custom_style_touch_icon_delete'
@@ -519,10 +518,6 @@ OpenProject::Application.routes.draw do
   # alternate routes for the current user
   scope 'my' do
     match '/deletion_info' => 'users#deletion_info', via: :get, as: 'delete_my_account_info'
-
-
-    match '/oauth/grants' => 'oauth/grants#index', via: :get, as: 'my_oauth_grants'
-    match '/oauth/revoke_token/:grant_id' => 'oauth/grants#revoke_token', via: :post, as: 'revoke_my_oauth_grant'
     match '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', via: :post, as: 'revoke_my_oauth_application'
   end
 
