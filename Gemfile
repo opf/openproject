@@ -280,7 +280,7 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   group :postgres do
-    gem 'pg', '~> 1.0.0'
+    gem 'pg', '~> 1.1.0'
   end
 end
 

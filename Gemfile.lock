@@ -556,7 +556,7 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
-    pg (1.0.0)
+    pg (1.1.4)
     plaintext (0.1.0)
       activesupport (> 2.2.1)
       nokogiri (~> 1.8.1)
@@ -911,7 +911,7 @@ DEPENDENCIES
   openproject-xls_export!
   parallel_tests (~> 2.21.3)
   passenger (~> 5.3.3)
-  pg (~> 1.0.0)
+  pg (~> 1.1.0)
   plaintext (= 0.1.0)
   posix-spawn (~> 0.3.13)
   prawn (~> 2.2)
