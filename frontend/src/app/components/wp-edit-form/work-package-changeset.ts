@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {input, InputState} from 'reactivestates';
 import {debugLog} from '../../helpers/debug_output';
 import {SchemaCacheService} from '../schemas/schema-cache.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
@@ -46,7 +45,7 @@ import {
 } from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {take} from "rxjs/operators";
+import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 
 export class WorkPackageChangeset {
   // Injections
@@ -62,10 +61,8 @@ export class WorkPackageChangeset {
   private changes:{ [attribute:string]:any } = {};
   public inFlight:boolean = false;
 
-  // The current work package form
-  public wpForm:FormResource|undefined;
-  public wpFormPromise:Promise<FormResource>|undefined;
-
+  private wpFormPromise:Promise<FormResource>|null;
+  public form:FormResource|null;
 
   // The current editing resource
   public resource:WorkPackageResource|null;
@@ -73,10 +70,7 @@ export class WorkPackageChangeset {
   constructor(readonly injector:Injector,
               public workPackage:WorkPackageResource,
               form?:FormResource) {
-    // New work packages have no schema set yet, so update the form immediately to get one
-    if (form !== undefined) {
-      this.wpForm = form;
-    }
+    this.form = form || null;
   }
 
   public reset(key:string) {
@@ -90,8 +84,7 @@ export class WorkPackageChangeset {
   }
 
   public resetForm() {
-    this.wpForm = undefined;
-    this.wpFormPromise = undefined;
+    this.form = null;
   }
 
   public get empty() {
@@ -141,12 +134,11 @@ export class WorkPackageChangeset {
   }
 
   public getForm():Promise<FormResource> {
-    if (this.wpForm) {
-      return Promise.resolve(this.wpForm)
+    if (!this.form) {
+      return this.updateForm();
+    } else {
+      return Promise.resolve(this.form);
     }
-
-    this.wpFormPromise = this.wpFormPromise || this.updateForm();
-    return this.wpFormPromise;
   }
 
   /**
@@ -155,18 +147,26 @@ export class WorkPackageChangeset {
   public updateForm():Promise<FormResource> {
     let payload = this.buildPayloadFromChanges();
 
-    return this.workPackage.$links
-      .update(payload)
-      .then((form:FormResource) => {
-        this.wpForm = form;
-        this.buildResource();
+    if (!this.wpFormPromise) {
+      this.wpFormPromise = this.workPackage.$links
+        .update(payload)
+        .then((form:FormResource) => {
+          this.form = form;
 
-        return form;
-      })
-      .catch((error:any) => {
-        this.resetForm();
-        throw error;
-      });
+          this.buildResource();
+
+          this.wpFormPromise = null;
+          return form;
+        })
+        .catch((error:any) => {
+          this.resetForm();
+
+          this.wpFormPromise = null;
+          throw error;
+        });
+    }
+
+    return this.wpFormPromise;
   }
 
   public save():Promise<WorkPackageResource> {
@@ -235,8 +235,8 @@ export class WorkPackageChangeset {
   private mergeWithPayload(plainPayload:any) {
     // Fall back to the last known state of the work package should the form not be loaded.
     let reference = this.workPackage.$source;
-    if (this.wpForm) {
-      reference = this.wpForm.payload.$source;
+    if (this.form) {
+      reference = this.form.payload.$source;
     }
 
     _.each(this.changes, (val:any, key:string) => {
@@ -267,8 +267,8 @@ export class WorkPackageChangeset {
     if (this.workPackage.isNew) {
       // If the work package is new, we need to pass the entire form payload
       // to let all default values be transmitted (type, status, etc.)
-      if (this.wpForm) {
-        payload = this.wpForm.payload.$source;
+      if (this.form) {
+        payload = this.form.payload.$source;
       } else {
         payload = this.workPackage.$source;
       }
@@ -335,8 +335,8 @@ export class WorkPackageChangeset {
    * If loaded, return the form schema, which provides better information on writable status
    * and contains available values.
    */
-  public get schema():HalResource {
-    return (this.wpForm || this.workPackage).schema;
+  public get schema():SchemaResource {
+    return (this.form || this.workPackage).schema;
   }
 
   public getSchemaName(attribute:string):string {
@@ -354,12 +354,10 @@ export class WorkPackageChangeset {
       return;
     }
 
-    const hasForm = !!this.wpForm;
     let payload:any = this.workPackage.$source;
 
     const resource = this.halResourceService.createHalResourceOfType('WorkPackage', this.mergeWithPayload(payload));
 
-    // Override the schema with the current form, if any.
     resource.overriddenSchema = this.schema;
     this.resource = (resource as WorkPackageResource);
     this.wpEditing.updateValue(this.workPackage.id, this);

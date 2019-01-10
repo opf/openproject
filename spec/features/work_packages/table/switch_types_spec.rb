@@ -270,11 +270,6 @@ describe 'Switching types in work package table', js: true do
                         member_through_role: role
     end
 
-    before do
-      workflow
-      login_as user
-    end
-
     let(:custom_field) do
       FactoryBot.create(
         :list_wp_custom_field,
@@ -309,6 +304,7 @@ describe 'Switching types in work package table', js: true do
     end
 
     before do
+      workflow
       login_as(user)
 
       visit new_project_work_packages_path(project.identifier, type: type.id)

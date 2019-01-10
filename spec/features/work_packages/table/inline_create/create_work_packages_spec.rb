@@ -8,16 +8,16 @@ describe 'inline create work package', js: true do
   let(:role) { FactoryBot.create :role, permissions: permissions }
   let(:user) do
     FactoryBot.create :user,
-                       member_in_project: project,
-                       member_through_role: role
+                      member_in_project: project,
+                      member_through_role: role
   end
   let(:status) { FactoryBot.create(:default_status) }
   let(:workflow) do
     FactoryBot.create :workflow,
-                       type_id: type.id,
-                       old_status: status,
-                       new_status: FactoryBot.create(:status),
-                       role: role
+                      type_id: type.id,
+                      old_status: status,
+                      new_status: FactoryBot.create(:status),
+                      role: role
   end
 
   let!(:project) { FactoryBot.create(:project, is_public: true, types: types) }
@@ -88,6 +88,50 @@ describe 'inline create work package', js: true do
         expect(page).to have_no_selector('.wp-inline-create--add-link')
       end
     end
+
+    context 'when having filtered by custom field and switching to that type' do
+      let(:cf_list) do
+        FactoryBot.create(:list_wp_custom_field, is_for_all: true, is_filter: true)
+      end
+      let(:types) { [type, cf_type] }
+      let(:type) { FactoryBot.create(:type_standard) }
+      let(:cf_type) { FactoryBot.create(:type, custom_fields: [cf_list]) }
+      let(:columns) { ::Components::WorkPackages::Columns.new }
+
+      it 'applies the filter value for the custom field' do
+        wp_table.visit!
+        wp_table.add_filter cf_list.name, 'is', cf_list.custom_options.second.name
+        columns.open_modal
+        columns.add(cf_list.name, save_changes: true)
+
+        wp_table.click_inline_create
+
+        callback.call
+
+        type_field = wp_table.edit_field(nil, :type)
+        type_field.activate!
+        type_field.set_value cf_type.name
+
+        wp_table.expect_notification(
+          type: :error,
+          message: 'Subject can\'t be blank.'
+        )
+
+        subject_field = wp_table.edit_field(nil, :subject)
+        subject_field.expect_active!
+        subject_field.set_value 'Some subject'
+        subject_field.save!
+
+        wp_table.expect_notification(
+          message: 'Successful creation. Click here to open this work package in fullscreen view.'
+        )
+
+        created_wp = WorkPackage.last
+
+        cf_field = wp_table.edit_field(created_wp, :"customField#{cf_list.id}")
+        cf_field.expect_text(cf_list.custom_options.second.name)
+      end
+    end
   end
 
   describe 'global create' do
@@ -98,7 +142,7 @@ describe 'inline create work package', js: true do
     end
 
     it_behaves_like 'inline create work package' do
-      let(:callback) {
+      let(:callback) do
         ->() {
           # Set project
           project_field = wp_table.edit_field(nil, :project)
@@ -112,7 +156,7 @@ describe 'inline create work package', js: true do
 
           type_field.set_value type.name
         }
-      }
+      end
     end
   end
 
@@ -124,26 +168,26 @@ describe 'inline create work package', js: true do
     end
 
     it_behaves_like 'inline create work package' do
-      let(:callback) {
-        ->() { }
-      }
+      let(:callback) do
+        ->() {}
+      end
     end
 
     context 'user has permissions in other project' do
       let(:permissions) { [:view_work_packages] }
 
       let(:project2) { FactoryBot.create :project }
-      let(:role2) {
+      let(:role2) do
         FactoryBot.create :role,
-                           permissions: [:view_work_packages,
-                                         :add_work_packages]
-      }
-      let!(:membership) {
+                          permissions: %i[view_work_packages
+                                          add_work_packages]
+      end
+      let!(:membership) do
         FactoryBot.create :member,
-                           user: user,
-                           project: project2,
-                           roles: [role2]
-      }
+                          user: user,
+                          project: project2,
+                          roles: [role2]
+      end
 
       it 'renders the work packages, but no create' do
         wp_table.expect_work_package_listed(existing_wp)

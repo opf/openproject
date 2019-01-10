@@ -74,8 +74,8 @@ export class EditFieldComponent extends Field implements OnDestroy {
       )
       .subscribe((changeset) => {
 
-        if (!this.changeset.empty && this.changeset.wpForm) {
-          const fieldSchema = changeset.wpForm!.schema[this.name];
+        if (!this.changeset.empty && this.changeset.form) {
+          const fieldSchema = changeset.form!.schema[this.name];
 
           if (!fieldSchema) {
             return handler.deactivate(false);
