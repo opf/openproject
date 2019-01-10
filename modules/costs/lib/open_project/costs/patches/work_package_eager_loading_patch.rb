@@ -67,8 +67,8 @@ module OpenProject::Costs::Patches::WorkPackageEagerLoadingPatch
     labor_scope = work_package_labor_scope(scope)
 
     scope
-      .joins(material_scope.join_sources)
-      .joins(labor_scope.join_sources)
+      .joins(material_scope.arel.join_sources)
+      .joins(labor_scope.arel.join_sources)
       .joins(time_join.join_sources)
       .select(material_scope.select_values)
       .select(labor_scope.select_values)
