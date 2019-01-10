@@ -86,25 +86,22 @@ module Redmine
             find_order = "#{searchable_options[:order_column]} " + (options[:before] ? 'DESC' : 'ASC')
 
             columns = searchable_options[:columns]
-            columns = columns[0..0] if options[:titles_only]
 
             tsv_columns = searchable_options[:tsv_columns]
 
             token_clauses = columns.map { |column| "(LOWER(#{column}) LIKE ?)" }
 
-            unless options[:titles_only]
-              if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
-                tsv_clauses = tsv_columns.map do |tsv_column|
-                  OpenProject::FullTextSearch.tsv_where(tsv_column[:table_name],
-                                                        tsv_column[:column_name],
-                                                        tokens.join(' '),
-                                                        concatenation: :and,
-                                                        normalization: tsv_column[:normalization_type])
-                end
+            if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
+              tsv_clauses = tsv_columns.map do |tsv_column|
+                OpenProject::FullTextSearch.tsv_where(tsv_column[:table_name],
+                                                      tsv_column[:column_name],
+                                                      tokens.join(' '),
+                                                      concatenation: :and,
+                                                      normalization: tsv_column[:normalization_type])
               end
             end
 
-            if !options[:titles_only] && searchable_options[:search_custom_fields]
+            if searchable_options[:search_custom_fields]
               searchable_custom_field_ids = CustomField.where(type: "#{name}CustomField",
                                                               searchable: true).pluck(:id)
               if searchable_custom_field_ids.any?
