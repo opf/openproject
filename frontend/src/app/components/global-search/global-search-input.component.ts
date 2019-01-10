@@ -44,18 +44,17 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 
-export const expandableSearchSelector = 'expandable-search';
+export const globalSearchSelector = 'global-search-input';
 
 @Component({
-  selector: expandableSearchSelector,
-  templateUrl: './expandable-search.component.html'
+  selector: globalSearchSelector,
+  templateUrl: './global-search-input.component.html'
 })
 
-export class ExpandableSearchComponent implements OnDestroy {
+export class GlobalSearchInputComponent implements OnDestroy {
   @ViewChild('inputEl') input:ElementRef;
   @ViewChild('btn') btn:ElementRef;
 
-  public collapsed:boolean = true;
   public focused:boolean = false;
   public noResults = false;
 
@@ -137,37 +136,13 @@ export class ExpandableSearchComponent implements OnDestroy {
 
     this.dynamicCssService.requireHighlighting();
 
-    // If search is open, submit form when clicked on icon
-    if (!this.collapsed && ContainHelpers.insideOrSelf(this.btn.nativeElement, event.target)) {
+    if (ContainHelpers.insideOrSelf(this.btn.nativeElement, event.target)) {
       this.submitNonEmptySearch();
     }
-
-    if (this.collapsed) {
-      this.collapsed = false;
-      this.FocusHelper.focusElement(jQuery(this.input.nativeElement));
-      this.registerOutsideClick();
-    }
-  }
-
-  public closeWhenFocussedOutside() {
-    ContainHelpers.whenOutside(this.elementRef.nativeElement, () => this.close());
-    return false;
   }
 
   public redirectToWp(id:string) {
     window.location = this.PathHelperService.workPackagePath(id) as unknown as Location;
-  }
-
-  private registerOutsideClick() {
-    this.unregisterGlobalListener = this.renderer.listen('document', 'click', () => {
-      this.close();
-    });
-  }
-
-  private close() {
-    this.collapsed = true;
-    this.searchValue = '';
-    this.unregister();
   }
 
   private unregister() {
@@ -228,5 +203,5 @@ export class ExpandableSearchComponent implements OnDestroy {
 }
 
 DynamicBootstrapper.register({
-  selector: expandableSearchSelector, cls: ExpandableSearchComponent
+  selector: globalSearchSelector, cls: GlobalSearchInputComponent
 });
