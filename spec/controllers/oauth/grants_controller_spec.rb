@@ -37,22 +37,6 @@ describe ::OAuth::GrantsController, type: :controller do
     login_as user
   end
 
-  describe '#index' do
-    it do
-      get :index
-      expect(response).to be_success
-      expect(response).to render_template :index
-    end
-  end
-
-  describe '#revoke_token' do
-    it do
-      post :revoke_token, params: { grant_id: 1234 }
-      expect(flash[:notice]).to be_present
-      expect(response).to redirect_to action: :index
-    end
-  end
-
   describe '#revoke_application' do
     context 'when not found' do
       it 'renders 404' do
@@ -72,7 +56,7 @@ describe ::OAuth::GrantsController, type: :controller do
       it do
         post :revoke_application, params: { application_id: 1 }
         expect(flash[:notice]).to include 'Foo'
-        expect(response).to redirect_to action: :index
+        expect(response).to redirect_to controller: '/my', action: :access_token
       end
     end
   end

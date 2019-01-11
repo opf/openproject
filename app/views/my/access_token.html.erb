@@ -158,7 +158,7 @@ See docs/COPYRIGHT.rdoc for more details.
               </td>
               <td>
                 <%= link_to t(:button_revoke),
-                            revoke_my_oauth_application_path(application.id),
+                            revoke_my_oauth_application_path(application_id: application.id),
                             data: { confirm: I18n.t('oauth.revoke_my_application_confirmation',
                                                     token_count: t('oauth.x_active_tokens', count: tokens.count)) },
                             method: :post,

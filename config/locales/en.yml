@@ -2651,7 +2651,7 @@ en:
           <br/>
           If you're registering a desktop application, use the following URL.
         confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
-        client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to disable client credentials flow"
+        client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
         register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
         default_scopes: ""
     client_id: "Client ID"

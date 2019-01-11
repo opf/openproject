@@ -31,7 +31,7 @@ require 'work_package'
 
 describe ::OAuth::ApplicationsController, type: :controller do
   let(:user) { FactoryBot.build_stubbed :admin }
-  let(:application_stub) { instance_double(::Doorkeeper::Application, id: 1) }
+  let(:application_stub) { FactoryBot.build_stubbed(:oauth_application, id: 1, secret: 'foo') }
 
   before do
     login_as user
@@ -90,7 +90,6 @@ describe ::OAuth::ApplicationsController, type: :controller do
         .to receive(:new)
         .and_return(application_stub)
       expect(application_stub).to receive(:attributes=)
-      expect(application_stub).to receive(:owner=).with(user)
       expect(application_stub).to receive(:save).and_return(true)
       expect(application_stub).to receive(:plaintext_secret).and_return('secret!')
     end

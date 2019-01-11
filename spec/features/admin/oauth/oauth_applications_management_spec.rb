@@ -45,7 +45,6 @@ describe 'OAuth applications management', type: :feature, js: true do
     fill_in 'application_name', with: 'My API application'
     # Fill invalid redirect_uri
     fill_in 'application_redirect_uri', with: "not a url!"
-    select 'Full API access', from: 'application_scopes'
     click_on 'Create'
 
 
@@ -56,7 +55,6 @@ describe 'OAuth applications management', type: :feature, js: true do
     expect(page).to have_selector('.flash.notice', text: 'Successful creation.')
 
     expect(page).to have_selector('.attributes-key-value--key', text: 'Client ID')
-    expect(page).to have_selector('.attributes-key-value--value', text: 'Full API access')
     expect(page).to have_selector('.attributes-key-value--value', text: "urn:ietf:wg:oauth:2.0:oob\nhttps://localhost/my/callback")
 
     # Should print secret on initial visit
@@ -67,7 +65,6 @@ describe 'OAuth applications management', type: :feature, js: true do
     click_on 'Edit'
 
     fill_in 'application_redirect_uri', with: "urn:ietf:wg:oauth:2.0:oob"
-    select 'Public access', from: 'application_scopes'
     click_on 'Save'
 
     # Show application
@@ -76,8 +73,6 @@ describe 'OAuth applications management', type: :feature, js: true do
     expect(page).to have_no_selector('.attributes-key-value--key', text: 'Client secret')
     expect(page).to have_no_selector('.attributes-key-value--value code')
     expect(page).to have_selector('.attributes-key-value--key', text: 'Client ID')
-    expect(page).to have_selector('.attributes-key-value--value', text: 'Public access')
-    expect(page).to have_no_selector('.attributes-key-value--value', text: "Public Access Full API access")
     expect(page).to have_selector('.attributes-key-value--value', text: "urn:ietf:wg:oauth:2.0:oob")
 
     click_on 'Delete'
