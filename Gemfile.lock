@@ -516,7 +516,7 @@ GEM
     minitest (5.11.3)
     mixlib-shellout (2.1.0)
     msgpack (1.2.6)
-    multi_json (1.12.2)
+    multi_json (1.13.1)
     multi_test (0.1.2)
     mustermann (1.0.2)
     mustermann-grape (1.0.0)
@@ -890,7 +890,7 @@ DEPENDENCIES
   listen (~> 3.1)
   livingstyleguide (~> 2.0.1)
   meta-tags (~> 2.6.0)
-  multi_json (~> 1.12.1)
+  multi_json (~> 1.13.1)
   mysql2 (~> 0.5.0)
   net-ldap (~> 0.16.0)
   newrelic_rpm
