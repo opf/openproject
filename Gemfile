@@ -239,9 +239,12 @@ group :ldap do
 end
 
 group :development do
-  gem 'letter_opener'
   gem 'faker'
+  gem 'letter_opener'
   gem 'livingstyleguide', '~> 2.0.1'
+
+  gem 'spring'
+  gem 'spring-commands-rspec'
 
   gem 'rubocop'
 end
