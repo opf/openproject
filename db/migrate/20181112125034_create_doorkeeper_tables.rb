@@ -4,20 +4,20 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[5.1]
       t.string  :name,         null: false
       t.string  :uid,          null: false
       t.string  :secret,       null: false
-      t.string  :owner_type,   null: false
+      t.string  :owner_type
+      t.integer :owner_id
+      t.integer :client_credentials_user_id
       t.text    :redirect_uri, null: false
       t.string  :scopes,       null: false, default: ''
       t.boolean :confidential, null: false, default: true
       t.timestamps             null: false
-
-      # Add owner of an application
-      t.references :owner,
-                   foreign_key: { to_table: :users, on_delete: :nullify }
-
-      # Allow to map a user to use for client credentials auth flow
-      t.references :client_credentials_user,
-                   foreign_key: { to_table: :users, on_delete: :nullify }
     end
+
+    # Add owner of an application
+    add_foreign_key :oauth_applications, :users, column: :owner_id, on_delete: :nullify
+
+    # Allow to map a user to use for client credentials auth flow
+    add_foreign_key :oauth_applications, :users, column: :client_credentials_user_id, on_delete: :nullify
 
     add_index :oauth_applications, :uid, unique: true
     add_index :oauth_applications, %i[owner_id owner_type]
