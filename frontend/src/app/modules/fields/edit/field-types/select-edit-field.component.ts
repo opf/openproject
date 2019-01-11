@@ -48,7 +48,6 @@ export class SelectEditFieldComponent extends EditFieldComponent {
   public text:{ requiredPlaceholder:string, placeholder:string };
 
   public halSorting:HalResourceSortingService;
-  public compareByHref = AngularTrackingHelpers.compareByHref;
 
   protected initialize() {
     this.halSorting = this.injector.get(HalResourceSortingService);
