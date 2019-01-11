@@ -65,10 +65,6 @@ describe 'OAuth authorization code flow', type: :feature, js: true do
     expect(user.oauth_grants.count).to eq 1
     expect(user.oauth_grants.first.application).to eq app
 
-    # Use that code to get a request
-    host = Capybara.current_session.server.host
-    port = Capybara.current_session.server.port
-
     parameters = {
       client_id: app.uid,
       client_secret: client_secret,
@@ -77,8 +73,10 @@ describe 'OAuth authorization code flow', type: :feature, js: true do
       redirect_uri: app.redirect_uri
     }
 
-    response = RestClient.post "http://#{host}:#{port}/oauth/token", parameters.to_param
-    body = JSON.parse(response.body)
+    session = ActionDispatch::Integration::Session.new(Rails.application)
+    response = session.post("/oauth/token", params: parameters)
+    expect(response).to eq 200
+    body = JSON.parse(session.response.body)
 
     expect(body['access_token']).to be_present
     expect(body['refresh_token']).to be_present
