@@ -83,7 +83,6 @@ gem 'rinku', '~> 2.0.4'
 # Version parsing with semver
 gem 'semantic', '~> 1.6.1'
 
-
 # generates SVG Graphs
 # used for statistics on svn repositories
 gem 'svg-graph', '~> 2.1.0'
@@ -99,7 +98,7 @@ gem 'posix-spawn', '~> 0.3.13', require: false
 
 gem 'bcrypt', '~> 3.1.6'
 
-gem 'multi_json', '~> 1.12.1'
+gem 'multi_json', '~> 1.13.1'
 gem 'oj', '~> 3.7.0'
 # We rely on this specific version, which is the latest as of now (end of 2016),
 # because we have to apply to it a bugfix which could break things in other versions.
