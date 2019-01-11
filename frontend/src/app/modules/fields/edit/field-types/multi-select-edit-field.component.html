@@ -1,75 +1,22 @@
-<div [ngClass]="isMultiselect ? 'textarea-wrapper' : ''">
+<div>
   <div class="inline-label">
-    <select
-        *ngIf="!isMultiselect"
-        class="focus-input wp-inline-edit--field inplace-edit--field -animated form--select"
-        [(ngModel)]="selectedOption"
-        [attr.aria-required]="required"
-        [required]="required"
-        [disabled]="inFlight"
-        [id]="handler.htmlId"
-        (keydown)="handler.handleUserKeydown($event, true)"
-        (change)="handler.handleUserSubmit()"
-    >
-      <option
-          value=""
-          [textContent]="text.requiredPlaceholder"
-          [attr.label]="text.requiredPlaceholder"
-          *ngIf="currentValueInvalid || options.length == 0"
-          [selected]="currentValueInvalid || options.length == 0"
-          [attr.selected]="currentValueInvalid || options.length == 0 || undefined"
-          disabled>
-      </option>
-      <option
-          *ngFor="let value of valueOptions"
-          [ngValue]="value"
-          [attr.label]="value.name"
-          [textContent]="value.name">
-      </option>
-    </select>
-
-    <select
-        *ngIf="isMultiselect"
-        [(ngModel)]="selectedOption"
-        class="focus-input wp-inline-edit--field inplace-edit--textarea -animated form--select"
-        [attr.aria-required]="required"
-        [required]="required"
-        [disabled]="inFlight"
-        [id]="handler.htmlId"
-        (keydown)="handler.handleUserKeydown($event, true)"
-        (change)="submitOnSingleSelect()"
-        multiple
-        size=5
-    >
-      <option
-          value=""
-          [textContent]="text.requiredPlaceholder"
-          *ngIf="currentValueInvalid || options.length == 0"
-          [attr.label]="text.requiredPlaceholder"
-          [selected]="currentValueInvalid || options.length == 0"
-          disabled>
-      </option>
-      <option
-          *ngFor="let value of valueOptions"
-          [ngValue]="value"
-          [attr.label]="value.name"
-          [textContent]="value.name">
-      </option>
-    </select>
-
-    <a href class="wp-inline-edit--toggle-multiselect form-label no-decoration-on-hover -transparent"
-       (click)="toggleMultiselect()">
-      <op-icon *ngIf="isMultiselect"
-               icon-classes="icon-minus2 icon4"
-               [icon-title]="text.switch_to_single_select"></op-icon>
-      <op-icon *ngIf="!isMultiselect"
-               icon-classes="icon-add icon4"
-               [icon-title]="text.switch_to_multi_select"></op-icon>
-    </a>
+    <ng-select [(ngModel)]="selectedOption"
+               class="wp-inline-edit--field"
+               [required]="required"
+               [disabled]="inFlight"
+               [id]="handler.htmlId"
+               [items]="valueOptions"
+               bindLabel="name"
+               [virtualScroll]="true"
+               autofocus
+               (keydown)="handler.handleUserKeydown($event, true)"
+               [multiple]="true"
+               [closeOnSelect]="false">
+    </ng-select>
   </div>
 
   <edit-field-controls [fieldController]="self"
-                       *ngIf="isMultiselect && !handler.inEditMode"
+                       *ngIf="!handler.inEditMode"
                        (onSave)="handler.handleUserSubmit()"
                        (onCancel)="handler.handleUserCancel()"
                        [saveTitle]="text.save"

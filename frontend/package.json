@@ -43,6 +43,7 @@
     "@angular/platform-browser": "7.1.1",
     "@angular/platform-browser-dynamic": "7.1.1",
     "@angular/router": "7.1.1",
+    "@ng-select/ng-select": "~2.13.3",
     "@types/angular": "^1.6.51",
     "@types/assertion-error": "^1.0.30",
     "@types/chart.js": "^2.7.40",

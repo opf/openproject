@@ -1,27 +1,12 @@
-<select [(ngModel)]="selectedOption"
-        [compareWith]="compareByHref"
-        class="wp-inline-edit--field form--select"
-        [attr.aria-required]="required"
-        [required]="required"
-        [disabled]="inFlight"
-        [id]="handler.htmlId"
-        (keydown)="handler.handleUserKeydown($event, true)"
-        (change)="handler.handleUserSubmit()"
-        role="listbox">
-  <option
-      [ngValue]="undefined"
-      [textContent]="text.requiredPlaceholder"
-      [attr.selected]="currentValueInvalid || undefined"
-      [attr.label]="text.requiredPlaceholder"
-      *ngIf="currentValueInvalid"
-      disabled>
-  </option>
-  <option
-      *ngFor="let value of valueOptions"
-      [attr.selected]="compareByHref(selectedOption, value) || undefined"
-      [attr.label]="value.name"
-      [ngValue]="value"
-      [textContent]="value.name">
-  </option>
-
-</select>
+<ng-select [(ngModel)]="selectedOption"
+           class="wp-inline-edit--field"
+           [required]="required"
+           [disabled]="inFlight"
+           [id]="handler.htmlId"
+           [items]="valueOptions"
+           bindLabel="name"
+           [virtualScroll]="true"
+           autofocus
+           (keydown)="handler.handleUserKeydown($event, true)"
+           (change)="handler.handleUserSubmit()">
+</ng-select>
