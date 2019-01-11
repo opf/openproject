@@ -99,10 +99,10 @@ module SearchHelper
   end
 
   def project_select_tag
-    options = [[l(:label_project_all), 'all']]
-    options << [l(:label_and_its_subprojects, @project.name), 'subprojects'] unless @project.nil? || @project.descendants.active.empty?
-    options << [@project.name, 'current_project'] unless @project.nil?
-    styled_select_tag('scope', options_for_select(options, current_scope)) if options.size > 1
+    options = [[t(:label_project_all), 'all']]
+    options << [t(:label_in_this_project_subprojects)] unless @project.nil? || @project.descendants.active.empty?
+    options << [t(:label_in_this_project)] unless @project.nil?
+    select_tag('scope', options_for_select(options, current_scope), style: "width: 211px; display: inline-block;") if options.size > 1
   end
 
   def render_results_by_type(results_by_type)

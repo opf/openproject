@@ -58,28 +58,6 @@ See docs/COPYRIGHT.rdoc for more details.
   </ul>
 </div>
 
-
-<%= styled_form_tag(search_path(@project), method: :get, id: 'search-form') do %>
-  <fieldset class="simple-filters--container" id="search-filter">
-    <input type="hidden" name="<%= current_module %>" value="1">
-    <ul class="simple-filters--filters">
-      <li class="simple-filters--filter">
-        <%= styled_label_tag "search-input", l(:description_search), class: "hidden-for-sighted simple-filters--filter-name" %>
-        <div class="simple-filters--filter-value">
-          <%= styled_text_field_tag :q, @question, id: 'search-input' %>
-        </div>
-      </li>
-      <li class="simple-filters--filter">
-        <%= styled_label_tag :scope, l(:description_project_scope), class: 'hidden-for-sighted simple-filters--filter-name' %>
-        <div class="simple-filters--filter-value">
-          <%= project_select_tag %>
-        </div>
-      </li>
-    </ul>
-  </fieldset>
-<% end %>
-<%= styled_submit_tag l(:button_submit), name: 'submit', form: 'search-form', class: 'button -highlight' %>
-
 <% if @results %>
   <% if params[:work_packages].present? %>
     <%= render partial: 'work_packages' %>
@@ -110,5 +88,5 @@ See docs/COPYRIGHT.rdoc for more details.
     </dl>
   <% end %>
 <% end %>
-<%= render partial: 'pagination', locals: {pagination_previous_date: @pagination_previous_date, pagination_next_date: @pagination_next_date } %>
+<%= render partial: 'pagination', locals: {pagination_previous_date: @pagination_previous_date, pagination_next_date: @pagination_next_date } unless params[:work_packages].present? %>
 <% html_title(l(:label_search)) -%>
