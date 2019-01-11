@@ -32,6 +32,9 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= form_tag(search_path(@project), method: :get) do %>
     <%= hidden_field_tag(controller.default_search_scope, 1, project_id: nil) if controller.default_search_scope %>
 
+    <%= styled_label_tag :scope, t(:description_project_scope), class: 'hidden-for-sighted' %>
+    <%= project_select_tag %>
+
     <global-search-input>
 
     </global-search-input>
