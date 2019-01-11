@@ -168,7 +168,7 @@ $search-input-width: 180px
 .top-menu-search
   display: inline-block
   position: relative
-  &:not(.-collapsed) > div
+  > div
     padding-top: 9px
 
 .top-menu-search--wrapper
@@ -186,7 +186,7 @@ $search-input-width: 180px
   &:hover
     text-decoration: none
 
-  .top-menu-search:not(.-collapsed) &
+  .top-menu-search &
     position: absolute
     top: 0
     right: 0
@@ -196,11 +196,6 @@ $search-input-width: 180px
     -o-transform: scaleX(-1)
     -ms-transform: scaleX(-1)
     transform: scaleX(-1)
-
-  .top-menu-search.-collapsed &
-    display: block
-    &:hover
-      @extend %top-menu-hover-styles
 
 input.top-menu-search--input
   margin: 0
@@ -214,8 +209,6 @@ input.top-menu-search--input
   &::-ms-clear
     margin-right: 5px
     width: 20px
-  .top-menu-search.-collapsed &
-    display: none
 
 .search-autocomplete--results
   width: 300px
@@ -308,7 +301,7 @@ input.top-menu-search--input
   bottom: 10px
   z-index: 10
 
-.top-menu-search:not(.-collapsed) .top-menu-search--button
+.top-menu-search .top-menu-search--button
   position: relative
   top: 0
   z-index: 10
