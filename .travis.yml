@@ -59,7 +59,7 @@ before_install:
   # work around https://github.com/travis-ci/travis-ci/issues/8969
   - travis_retry gem update --system
   # Don't install 1.16.3
-  - gem install bundler -v 1.16.2
+  - gem install bundler -v 2.0.1
 
   # Install Node latest LTS
   # This should only be necessary when preparing the cache or for npm test runs
