@@ -101,7 +101,7 @@ module API
             end
 
             delete do
-              if DeleteUserService.new(@user, current_user).call
+              if ::Users::DeleteService.new(@user, current_user).call
                 status 202
               else
                 fail ::API::Errors::Unauthorized

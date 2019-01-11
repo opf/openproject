@@ -268,7 +268,7 @@ class UsersController < ApplicationController
     # true if the user deletes him/herself
     self_delete = (@user == User.current)
 
-    DeleteUserService.new(@user, User.current).call
+    Users::DeleteService.new(@user, User.current).call
 
     flash[:notice] = l('account.deleted')
 
@@ -313,7 +313,7 @@ class UsersController < ApplicationController
   end
 
   def check_if_deletion_allowed
-    render_404 unless DeleteUserService.deletion_allowed? @user, User.current
+    render_404 unless Users::DeleteService.deletion_allowed? @user, User.current
   end
 
   def my_or_admin_layout
