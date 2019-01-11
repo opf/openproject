@@ -29,7 +29,6 @@ import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-se
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {Component, Inject, Input} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 
 @Component({
   selector: 'wp-details-toolbar',
@@ -43,5 +42,5 @@ export class WorkPackageSplitViewToolbarComponent {
   }
 
 constructor(readonly I18n:I18nService,
-            @Inject(IWorkPackageEditingServiceToken) readonly wpEditing:WorkPackageEditingService) {}
+            readonly wpEditing:WorkPackageEditingService) {}
 }

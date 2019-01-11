@@ -5,13 +5,12 @@ import {WorkPackageEditingService} from "core-components/wp-edit-form/work-packa
 import {rowGroupClassName} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 import {locatePredecessorBySelector} from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
 import {groupIdentifier} from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
-import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 
 export class GroupByDragActionService extends TableDragActionService {
 
   private wpTableGroupBy = this.injector.get(WorkPackageViewGroupByService);
-  private wpEditing = this.injector.get<WorkPackageEditingService>(IWorkPackageEditingServiceToken);
+  private wpEditing = this.injector.get<WorkPackageEditingService>(WorkPackageEditingService);
   private wpNotifications = this.injector.get(WorkPackageNotificationService);
 
   public get applies() {
@@ -27,12 +26,12 @@ export class GroupByDragActionService extends TableDragActionService {
   }
 
   public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {
-    const changeset = this.wpEditing.changesetFor(workPackage);
+    const changeset = this.wpEditing.changeFor(workPackage);
     const groupedValue = this.getValueForGroup(el);
 
-    changeset.setValue(this.groupedAttribute!, groupedValue);
-    return changeset
-      .save()
+    changeset.projectedResource[this.groupedAttribute!] = groupedValue;
+    return this.wpEditing
+      .save(changeset)
       .catch(e => this.wpNotifications.handleRawError(e, workPackage));
   }
 

@@ -160,6 +160,8 @@ import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-to
 import {WorkPackagesGridComponent} from "core-components/wp-grid/wp-grid.component";
 import {WorkPackageViewDropdownMenuDirective} from "core-components/op-context-menu/handlers/wp-view-dropdown-menu.directive";
 import {WorkPackageEventsService} from "core-app/modules/work_packages/events/work-package-events.service";
+import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
+import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 
 
 @NgModule({
@@ -200,6 +202,12 @@ import {WorkPackageEventsService} from "core-app/modules/work_packages/events/wo
     QueryFiltersService,
     WorkPackageStaticQueriesService,
     WorkPackagesListInvalidQueryService,
+
+    // Provide a separate service for creation events of WP Inline create
+    // This can be hierarchically injected to provide isolated events on an embedded table
+    WorkPackageRelationsService,
+    WorkPackageCacheService,
+    SchemaCacheService,
 
     KeepTabService,
     WorkPackageNotificationService,

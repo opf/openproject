@@ -1,5 +1,4 @@
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageChangeset} from './work-package-changeset';
 import {Injector} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
@@ -7,6 +6,7 @@ import {DisplayFieldContext, DisplayFieldService} from "core-app/modules/fields/
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 import {MultipleLinesStringObjectsDisplayField} from "core-app/modules/fields/display/field-types/wp-display-multiple-lines-string-objects-field.module";
 import {ProgressTextDisplayField} from "core-app/modules/fields/display/field-types/wp-display-progress-text-field.module";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {MultipleLinesUserFieldModule} from "core-app/modules/fields/display/field-types/wp-display-multiple-lines-user-field.module";
 
 export const editableClassName = '-editable';
@@ -33,10 +33,10 @@ export class DisplayFieldRenderer {
 
   public render(workPackage:WorkPackageResource,
                 name:string,
-                changeset:WorkPackageChangeset|null,
+                change:WorkPackageChangeset|null,
                 placeholder = cellEmptyPlaceholder):HTMLSpanElement {
 
-    const [field, span] = this.renderFieldValue(workPackage, name, changeset, placeholder);
+    const [field, span] = this.renderFieldValue(workPackage, name, change, placeholder);
 
     if (field === null) {
       return span;
@@ -49,7 +49,7 @@ export class DisplayFieldRenderer {
 
   public renderFieldValue(workPackage:WorkPackageResource,
                           name:string,
-                          changeset:WorkPackageChangeset|null,
+                          change:WorkPackageChangeset|null,
                           placeholder = cellEmptyPlaceholder):[DisplayField|null, HTMLSpanElement] {
     const span = document.createElement('span');
     const schemaName = workPackage.getSchemaName(name);
@@ -61,7 +61,7 @@ export class DisplayFieldRenderer {
       return [null, span];
     }
 
-    const field = this.getField(workPackage, fieldSchema, schemaName, changeset);
+    const field = this.getField(workPackage, fieldSchema, schemaName, change);
     field.render(span, this.getText(field, placeholder));
 
     const title = field.title;
@@ -76,7 +76,7 @@ export class DisplayFieldRenderer {
   public getField(workPackage:WorkPackageResource,
                   fieldSchema:IFieldSchema,
                   name:string,
-                  changeset:WorkPackageChangeset|null):DisplayField {
+                  change:WorkPackageChangeset|null):DisplayField {
     let field = this.fieldCache[name];
 
     if (!field) {
@@ -84,7 +84,7 @@ export class DisplayFieldRenderer {
     }
 
     field.apply(workPackage, fieldSchema);
-    field.changeset = changeset;
+    field.activeChange = change;
 
     return field;
   }

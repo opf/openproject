@@ -1,18 +1,18 @@
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {ElementRef, Injector, OnInit} from "@angular/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {Subject} from "rxjs";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 
 export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler implements OnInit {
   public fieldName = 'comment';
   public handler = this;
-  public inEdit = false;
+  public active = false;
   public inEditMode = false;
   public inFlight = false;
 
-  public changeset:WorkPackageChangeset;
+  public change:WorkPackageChangeset;
 
   // Destroy events
   public onDestroy = new Subject<void>();
@@ -20,6 +20,10 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
   constructor(protected elementRef:ElementRef,
               protected injector:Injector) {
     super();
+  }
+
+  public ngOnInit() {
+    this.change = new WorkPackageChangeset(this.workPackage);
   }
 
   /**
@@ -39,16 +43,12 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
 
   public abstract get workPackage():WorkPackageResource;
 
-  ngOnInit() {
-    this.changeset = new WorkPackageChangeset(this.injector, this.workPackage);
-  }
-
   public reset(withText:string = '') {
     if (withText.length > 0) {
       withText += '\n';
     }
 
-    this.changeset.setValue('comment', { raw: withText });
+    this.change.setValue('comment' , { raw: withText });
   }
 
   public get schema():IFieldSchema {
@@ -66,24 +66,20 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
   }
 
   public get commentValue() {
-    return this.changeset.value('comment');
+    return this.change.value('comment');
   }
 
   public handleUserCancel() {
     this.deactivate(true);
   }
 
-  public get active() {
-    return this.inEdit;
-  }
-
   public activate(withText?:string) {
-    this.inEdit = true;
+    this.active = true;
     this.reset(withText);
   }
 
   deactivate(focus:boolean):void {
-    this.inEdit = false;
+    this.active = false;
     this.onDestroy.next();
     this.onDestroy.complete();
   }

@@ -2,8 +2,6 @@ import {Inject, Injectable, Injector} from '@angular/core';
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {States} from "core-components/states.service";
-import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
-import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
@@ -11,6 +9,7 @@ import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/w
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 
 @Injectable()
 export class WorkPackageCardDragAndDropService {
@@ -28,7 +27,7 @@ export class WorkPackageCardDragAndDropService {
   public constructor(readonly states:States,
                      readonly injector:Injector,
                      readonly reorderService:WorkPackageViewOrderService,
-                     @Inject(IWorkPackageCreateServiceToken) readonly wpCreate:WorkPackageCreateService,
+                     readonly wpCreate:WorkPackageCreateService,
                      readonly wpNotifications:WorkPackageNotificationService,
                      readonly currentProject:CurrentProjectService,
                      readonly wpInlineCreate:WorkPackageInlineCreateService) {
@@ -145,7 +144,7 @@ export class WorkPackageCardDragAndDropService {
     this.wpCreate
       .createOrContinueWorkPackage(this.currentProject.identifier)
       .then((changeset:WorkPackageChangeset) => {
-        this.activeInlineCreateWp = changeset.resource;
+        this.activeInlineCreateWp = changeset.projectedResource;
         this.workPackages = this.workPackages;
         this.cardView.cdRef.detectChanges();
       });

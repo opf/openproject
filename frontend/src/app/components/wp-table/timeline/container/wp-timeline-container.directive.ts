@@ -122,7 +122,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this.wpTableDirective.registerTimeline(this, this.timelineBody[0]);
 
     // Refresh on changes to work packages
-    this.updateOnWorkPackageChanges();
+    this.updateOnWorkPackageChangesets();
 
     // Refresh timeline rendering callback
     this.setupRefreshListener();
@@ -242,7 +242,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     });
   }
 
-  updateOnWorkPackageChanges() {
+  updateOnWorkPackageChangesets() {
     this.states.workPackages.observeChange()
       .pipe(
         takeUntil(componentDestroyed(this)),

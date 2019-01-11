@@ -1,6 +1,4 @@
 import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-changeset';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -30,8 +28,10 @@ import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-ch
 // ++
 import * as moment from 'moment';
 import {InputState, MultiInputState} from 'reactivestates';
-import Moment = moment.Moment;
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import Moment = moment.Moment;
 
 export const timelineElementCssClass = 'timeline-element';
 export const timelineBackgroundElementClass = 'timeline-element--bg';
@@ -119,7 +119,7 @@ export class TimelineViewParameters {
 export interface RenderInfo {
   viewParams:TimelineViewParameters;
   workPackage:WorkPackageResource;
-  changeset:WorkPackageChangeset;
+  change:WorkPackageChangeset;
 }
 
 /**

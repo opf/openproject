@@ -27,16 +27,19 @@
 // ++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageEditContext} from './work-package-edit-context';
-import {WorkPackageChangeset} from './work-package-changeset';
 import {combine, deriveRaw, multiInput, MultiInputState, State, StatesGroup} from 'reactivestates';
 import {map} from 'rxjs/operators';
 import {StateCacheService} from '../states/state-cache.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {Injectable, Injector} from '@angular/core';
-import {IWorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing.service.interface";
+import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {Subject} from "rxjs";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {ChangeMap} from "core-app/modules/fields/changeset/changeset";
 
-class WPChangesetStates extends StatesGroup {
+class WPChangesStates extends StatesGroup {
   name = 'WP-Changesets';
 
   changesets = multiInput<WorkPackageChangeset>();
@@ -47,40 +50,133 @@ class WPChangesetStates extends StatesGroup {
   }
 }
 
-@Injectable()
-export class WorkPackageEditingService extends StateCacheService<WorkPackageChangeset> implements IWorkPackageEditingService {
+/**
+ * Wrapper class for the saved change of a work package,
+ * used to access the previous save and or previous state
+ * of the work package (e.g., whether it was new).
+ */
+export class WorkPackageChangesetCommit {
+  /**
+   * The work package id of the change
+   * (This is the new work package ID if +wasNew+ is true.
+   */
+  public readonly id:string;
 
-  private stateGroup:WPChangesetStates;
+  /**
+   * The resulting, saved work package.
+   */
+  public readonly workPackage:WorkPackageResource;
+
+  /** Whether the commit saved an initial work package */
+  public readonly wasNew:boolean = false;
+
+  /** The previous changes */
+  public readonly changes:ChangeMap;
+
+  /**
+   * Create a change commit from the change object
+   * @param change The change object that resulted in the save
+   * @param saved The returned work package
+   */
+  constructor(change:WorkPackageChangeset, saved:WorkPackageResource) {
+    this.id = saved.id!.toString();
+    this.wasNew = change.pristineResource.isNew;
+    this.workPackage = saved;
+    this.changes = change.changes;
+  }
+}
+
+
+@Injectable()
+export class WorkPackageEditingService extends StateCacheService<WorkPackageChangeset> {
+
+  /** Committed / saved changes to work packages observable */
+  public comittedChanges = new Subject<WorkPackageChangesetCommit>();
+
+  /** State group of changes to wrap */
+  private stateGroup = new WPChangesStates();
 
   constructor(readonly injector:Injector,
+              readonly wpActivity:WorkPackagesActivityService,
+              readonly schemaCache:SchemaCacheService,
               readonly wpCacheService:WorkPackageCacheService) {
     super();
-    this.stateGroup = new WPChangesetStates();
+  }
+
+  public async save(change:WorkPackageChangeset):Promise<WorkPackageChangesetCommit> {
+    change.inFlight = true;
+
+    // TODO remove? const wasNew = change.pristineResource.isNew;
+
+    // Form the payload we're going to save
+    const [form, payload] = await change.buildRequestPayload();
+    // Reject errors when occurring in form validation
+    const errors = form.getErrors();
+    if (errors !== null) {
+      change.inFlight = false;
+      throw(errors);
+    }
+
+    const savedWp = await change.pristineResource.$links.updateImmediately(payload);
+
+    // Ensure the schema is loaded before updating
+    await this.schemaCache.ensureLoaded(savedWp);
+
+    // Initialize any potentially new HAL values
+    savedWp.retainFrom(change.pristineResource);
+
+    this.onSaved(savedWp);
+
+    change.inFlight = false;
+
+    // Complete the change
+    return this.complete(change, savedWp);
   }
 
   /**
-   * Start or continue editing the work package with a given edit context
-   * @param {string} workPackageId
-   * @param {WorkPackageEditContext} editContext
-   * @param {boolean} editAll
-   * @return {WorkPackageChangeset} changeset or null if the associated work package id does not exist
+   * Mark the given change as completed, notify changes
+   * and reset it.
    */
-  public changesetFor(oldReference:WorkPackageResource):WorkPackageChangeset {
-    const wpId = oldReference.id!;
-    const workPackage = this.wpCacheService.state(wpId).getValueOr(oldReference);
-    const state = this.multiState.get(wpId);
+  private complete(change:WorkPackageChangeset, saved:WorkPackageResource):WorkPackageChangesetCommit {
+    const commit = new WorkPackageChangesetCommit(change, saved);
+    this.comittedChanges.next(commit);
+    this.reset(change);
+
+    return commit;
+  }
+
+  /**
+   * Reset the given change, either due to cancelling or successful submission.
+   * @param change
+   */
+  public reset(change:WorkPackageChangeset) {
+    change.clear();
+    this.clearSome(change.workPackageId);
+  }
+
+
+  /**
+   * Start or continue editing the work package with a given edit context
+   * @param {workPackage} Work package to edit
+   * @param {form:FormResource} Initialize with an existing form
+   * @return {WorkPackageChangeset} Change object to work on
+   */
+  public changeFor(fallback:WorkPackageResource, form?:FormResource):WorkPackageChangeset {
+    const state = this.multiState.get(fallback.id!);
+    const workPackage = this.wpCacheService.state(fallback.id!).getValueOr(fallback);
     let changeset = state.value;
 
     // If there is no changeset, or
     // If there is an empty one for a older work package reference
     // build a new changeset
-    if (!changeset || (changeset.empty && changeset.resource.lockVersion < workPackage.lockVersion)) {
-      changeset = new WorkPackageChangeset(this.injector, workPackage)
+    if (!changeset || (changeset.isEmpty() && changeset.pristineResource.lockVersion < workPackage.lockVersion)) {
+      changeset = new WorkPackageChangeset(workPackage, state, form)
       state.putValue(changeset);
       return changeset;
     }
 
-    return changeset;
+    const change = state.value!;
+    return change;
   }
 
   /**
@@ -101,9 +197,9 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     return deriveRaw(combined,
       ($) => $
         .pipe(
-          map(([wp, changeset]) => {
-            if (wp && changeset && !changeset.empty) {
-              return changeset.resource;
+          map(([wp, change]) => {
+            if (wp && change && !change.isEmpty()) {
+              return change.projectedResource;
             } else {
               return wp;
             }
@@ -116,11 +212,21 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     this.multiState.get(workPackageId).clear();
   }
 
-  protected load(id:string) {
+  protected load(id:string):Promise<WorkPackageChangeset> {
     return this.wpCacheService.require(id)
       .then((wp:WorkPackageResource) => {
-        return new WorkPackageChangeset(this.injector, wp);
+        return this.changeFor(wp);
       });
+  }
+
+  protected onSaved(saved:WorkPackageResource) {
+    this.wpActivity.clear(saved.id);
+
+    // If there is a parent, its view has to be updated as well
+    if (saved.parent) {
+      this.wpCacheService.loadWorkPackage(saved.parent.id.toString(), true);
+    }
+    this.wpCacheService.updateWorkPackage(saved);
   }
 
   protected loadAll(ids:string[]) {

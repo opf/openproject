@@ -1,6 +1,6 @@
-import {EditChangeset} from "core-app/modules/fields/changeset/edit-changeset";
+import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 
-export class WidgetChangeset extends EditChangeset<GridWidgetResource> {
+export class WidgetChangeset extends ResourceChangeset<GridWidgetResource> {
 
 }
