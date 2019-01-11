@@ -260,8 +260,9 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.4.9.2'
   gem 'pry-rescue', '~> 1.4.5'
   gem 'pry-byebug', '~> 3.6.0', platforms: [:mri]
-  gem 'bootsnap', '~> 1.1.2', require: false
 end
+
+gem 'bootsnap', '~> 1.1.2', require: true
 
 # API gems
 gem 'grape', '~> 1.1'
