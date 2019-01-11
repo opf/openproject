@@ -252,7 +252,7 @@ end
 group :development, :test do
   gem 'thin', '~> 1.7.2'
   gem 'ruby-prof', require: false
-  gem 'puma', '~> 3.11.3'
+  gem 'puma', '~> 3.12.0'
 
   # Tracing and profiling gems
   gem 'rack-mini-profiler', require: false

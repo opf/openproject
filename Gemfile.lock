@@ -583,7 +583,7 @@ GEM
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
     public_suffix (3.0.3)
-    puma (3.11.4)
+    puma (3.12.0)
     rabl (0.13.1)
       activesupport (>= 2.3.14)
     rack (2.0.6)
@@ -920,7 +920,7 @@ DEPENDENCIES
   pry-rails (~> 0.3.6)
   pry-rescue (~> 1.4.5)
   pry-stack_explorer (~> 0.4.9.2)
-  puma (~> 3.11.3)
+  puma (~> 3.12.0)
   rabl (~> 0.13.0)
   rack-attack (~> 5.2.0)
   rack-mini-profiler
