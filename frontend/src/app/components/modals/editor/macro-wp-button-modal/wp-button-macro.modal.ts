@@ -32,7 +32,6 @@ import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, ViewChi
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
-import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {TypeResource} from "core-app/modules/hal/resources/type-resource";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 
@@ -68,7 +67,7 @@ export class WpButtonMacroModal extends OpModalComponent implements AfterViewIni
 
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService,
+              protected wpCreate:WorkPackageCreateService,
               protected currentProject:CurrentProjectService,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService) {

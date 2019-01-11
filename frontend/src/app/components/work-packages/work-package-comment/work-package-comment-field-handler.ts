@@ -1,9 +1,13 @@
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {ElementRef, Injector, OnInit} from "@angular/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {Subject} from "rxjs";
+import {WorkPackageChange} from "core-components/wp-edit/work-package-change";
+
+class CommentChange extends WorkPackageChange {
+  public comment:{raw:string};
+}
 
 export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler implements OnInit {
   public fieldName = 'comment';
@@ -12,7 +16,7 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
   public inEditMode = false;
   public inFlight = false;
 
-  public changeset:WorkPackageChangeset;
+  public change:CommentChange;
 
   // Destroy events
   public onDestroy = new Subject<void>();
@@ -20,6 +24,10 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
   constructor(protected elementRef:ElementRef,
               protected injector:Injector) {
     super();
+  }
+
+  public ngOnInit() {
+    this.change = new CommentChange(this.workPackage);
   }
 
   /**
@@ -39,16 +47,12 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
 
   public abstract get workPackage():WorkPackageResource;
 
-  ngOnInit() {
-    this.changeset = new WorkPackageChangeset(this.injector, this.workPackage);
-  }
-
   public reset(withText:string = '') {
     if (withText.length > 0) {
       withText += '\n';
     }
 
-    this.changeset.setValue('comment', { raw: withText });
+    this.change.comment = { raw: withText };
   }
 
   public get schema():IFieldSchema {
@@ -66,7 +70,7 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
   }
 
   public get commentValue() {
-    return this.changeset.value('comment');
+    return this.change.comment;
   }
 
   public handleUserCancel() {

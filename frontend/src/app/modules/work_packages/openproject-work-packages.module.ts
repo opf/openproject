@@ -28,7 +28,6 @@
 
 import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
-import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
 import {OpenprojectFieldsModule} from 'core-app/modules/fields/openproject-fields.module';
 import {ChartsModule} from 'ng2-charts';
 import {DynamicModule} from 'ng-dynamic-component';
@@ -91,7 +90,6 @@ import {WorkPackageRelationRowComponent} from 'core-components/wp-relations/wp-r
 import {WorkPackageRelationsCreateComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-create.component';
 import {WorkPackageRelationsHierarchyComponent} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.directive';
 import {WorkPackageCreateButtonComponent} from 'core-components/wp-buttons/wp-create-button/wp-create-button.component';
-import {FullCalendarModule} from 'ng-fullcalendar';
 import {WorkPackageBreadcrumbParentComponent} from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb-parent.component';
 import {WorkPackageFilterButtonComponent} from 'core-components/wp-buttons/wp-filter-button/wp-filter-button.component';
 import {WorkPackageFilterContainerComponent} from 'core-components/filters/filter-container/filter-container.directive';
@@ -152,10 +150,8 @@ import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/w
 import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
-import {IWorkPackageCreateServiceToken} from 'core-components/wp-new/wp-create.service.interface';
 import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
 import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
-import {IWorkPackageEditingServiceToken} from 'core-components/wp-edit-form/work-package-editing.service.interface';
 import {WorkPackageInlineCreateService} from 'core-components/wp-inline-create/wp-inline-create.service';
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
@@ -240,8 +236,8 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
     WorkPackageTableSelection,
 
     // Provide both serves with tokens to avoid tight dependency cycles
-    { provide: IWorkPackageCreateServiceToken, useClass: WorkPackageCreateService },
-    { provide: IWorkPackageEditingServiceToken, useClass: WorkPackageEditingService },
+    WorkPackageCreateService,
+    WorkPackageEditingService,
 
     // Provide a separate service for creation events of WP Inline create
     // This can be hierarchically injected to provide isolated events on an embedded table

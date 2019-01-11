@@ -8,16 +8,12 @@ import {WorkPackageTable} from '../../wp-fast-table';
 import {ClickOrEnterHandler} from '../click-or-enter-handler';
 import {TableEventHandler} from '../table-handler-registry';
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
-import {
-  IWorkPackageEditingService,
-  IWorkPackageEditingServiceToken
-} from "../../../wp-edit-form/work-package-editing.service.interface";
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
 
   // Injections
   public states:States = this.injector.get(States);
-  public wpEditing:WorkPackageEditingService = this.injector.get<WorkPackageEditingService>(IWorkPackageEditingServiceToken);
+  public wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
 
   // Keep a reference to all
 

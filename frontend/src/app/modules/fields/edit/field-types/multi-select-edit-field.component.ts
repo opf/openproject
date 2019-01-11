@@ -76,7 +76,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   }
 
   public get value() {
-    const val = this.changeset.value(this.name);
+    const val = this.resource[this.name];
 
     if (!Array.isArray(val) || this.isMultiselect) {
       return val;
@@ -91,7 +91,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
    * @returns {any}
    */
   public buildSelectedOption() {
-    const value:HalResource|HalResource[] = this.changeset.value(this.name);
+    const value:HalResource|HalResource[] = this.resource[this.name];
 
     if (this.isMultiselect) {
       if (!Array.isArray(value)) {
@@ -120,7 +120,6 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
    */
   public set selectedOption(val:ValueOption|ValueOption[]) {
     this._selectedOption = val;
-    let selected:any;
     let mapper = (val:ValueOption) => {
       let option = _.find(this.options, o => o.$href === val.$href) || this.nullOption;
 
@@ -133,12 +132,11 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
       return option;
     };
 
-    const value = _.castArray(val).map(el => mapper(el));
-    this.changeset.setValue(this.name, value);
+    this.resource[this.name] = _.castArray(val).map(el => mapper(el));
   }
 
   public isValueMulti() {
-    const val = this.changeset.value(this.name);
+    const val = this.resource[this.name];
     return val && val.length > 1;
   }
 
@@ -166,8 +164,8 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   private setValues(availableValues:any[], sortValuesByName:boolean = false) {
     if (sortValuesByName) {
       availableValues.sort(function (a:any, b:any) {
-        var nameA = a.name.toLowerCase();
-        var nameB = b.name.toLowerCase();
+        let nameA = a.name.toLowerCase();
+        let nameB = b.name.toLowerCase();
         return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
       });
     }

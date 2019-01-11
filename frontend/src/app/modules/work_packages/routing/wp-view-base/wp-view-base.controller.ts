@@ -40,11 +40,7 @@ import {WorkPackageCacheService} from "core-components/work-packages/work-packag
 import {States} from "core-components/states.service";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
-import {
-  IWorkPackageEditingService,
-  IWorkPackageEditingServiceToken
-} from "core-components/wp-edit-form/work-package-editing.service.interface";
-
+import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 export class WorkPackageViewController implements OnDestroy {
 
   public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
@@ -53,7 +49,7 @@ export class WorkPackageViewController implements OnDestroy {
   public keepTab:KeepTabService = this.injector.get(KeepTabService);
   public PathHelper:PathHelperService = this.injector.get(PathHelperService);
   public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
-  protected wpEditing:IWorkPackageEditingService = this.injector.get(IWorkPackageEditingServiceToken);
+  protected wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
   protected wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
   protected projectCacheService:ProjectCacheService = this.injector.get(ProjectCacheService);
   protected authorisationService:AuthorisationService = this.injector.get(AuthorisationService);

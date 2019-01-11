@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Inject, Injectable, Injector, OnDestroy, OnInit} from '@angular/core';
+import {Injectable, Injector, OnDestroy, OnInit} from '@angular/core';
 import {StateService, Transition} from '@uirouter/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -34,7 +34,6 @@ import {States} from '../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageCreateService} from './wp-create.service';
@@ -42,8 +41,8 @@ import {takeUntil} from 'rxjs/operators';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {CurrentUserService} from "core-app/components/user/current-user.service";
+import {WorkPackageChange} from "core-components/wp-edit/work-package-change";
 
 
 @Injectable()
@@ -51,7 +50,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
   public successState:string;
   public newWorkPackage:WorkPackageResource;
   public parentWorkPackage:WorkPackageResource;
-  public changeset:WorkPackageChangeset;
+  public change:WorkPackageChange;
 
   public stateParams = this.$transition.params('to');
   public text = {
@@ -66,7 +65,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
               readonly currentUser:CurrentUserService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected states:States,
-              @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService,
+              protected wpCreate:WorkPackageCreateService,
               protected wpTableFilters:WorkPackageTableFiltersService,
               protected wpCacheService:WorkPackageCacheService,
               protected pathHelper:PathHelperService,
@@ -77,17 +76,15 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
   public ngOnInit() {
     this
       .createdWorkPackage()
-      .then((changeset:WorkPackageChangeset) => {
-        this.changeset = changeset;
-        this.newWorkPackage = changeset.workPackage;
+      .then((changeset:WorkPackageChange) => {
+        this.change = changeset;
+        this.newWorkPackage = changeset.projectedWorkPackage;
 
         this.setTitle();
 
         if (this.stateParams['parent_id']) {
-          this.changeset.setValue(
-            'parent',
-            { href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path }
-          );
+          this.newWorkPackage.parent =
+            { href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path };
         }
 
         // Load the parent simply to display the type name :-/

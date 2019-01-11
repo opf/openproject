@@ -1,15 +1,14 @@
 import {Injector} from '@angular/core';
-import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-changeset';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
-import {IWorkPackageEditingServiceToken} from "../wp-edit-form/work-package-editing.service.interface";
+import {WorkPackageChange} from "core-components/wp-edit/work-package-change";
 
 export class WorkPackageTableEditingContext {
 
-  public wpEditing:WorkPackageEditingService = this.injector.get<WorkPackageEditingService>(IWorkPackageEditingServiceToken);
+  public wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
 
   constructor(readonly table:WorkPackageTable,
               readonly injector:Injector) {
@@ -22,7 +21,7 @@ export class WorkPackageTableEditingContext {
     this.forms = {};
   }
 
-  public changeset(workPackageId:string):WorkPackageChangeset | undefined {
+  public change(workPackageId:string):WorkPackageChange | undefined {
     return this.wpEditing.state(workPackageId).value;
   }
 

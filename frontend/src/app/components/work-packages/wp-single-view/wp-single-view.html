@@ -33,7 +33,7 @@
   </div>
 
   <div class="attributes-group -project-context"
-       *ngIf="projectContext.field">
+       *ngIf="projectContext && projectContext.field">
     <div class="attributes-group--header">
       <div class="attributes-group--header-container"></div>
     </div>
@@ -59,7 +59,7 @@
     </div>
   </div>
 
-  <div class="attributes-group -project-context hide-when-print" *ngIf="!workPackage.isNew && !projectContext.matches">
+  <div class="attributes-group -project-context hide-when-print" *ngIf="!workPackage.isNew && projectContext && !projectContext.matches">
     <div>
       <p>
         <span [innerHTML]="projectContextText"></span>

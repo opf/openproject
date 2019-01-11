@@ -37,7 +37,7 @@ import {
   Component,
   ContentChild,
   ElementRef,
-  Inject, Injector,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
@@ -49,7 +49,6 @@ import {ConfigurationService} from "core-app/modules/common/config/configuration
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
 import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
 
 @Component({
@@ -73,7 +72,6 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
   public inFlight = false;
   public canAddComment:boolean;
   public showAbove:boolean;
-  public changeset:WorkPackageChangeset;
 
   constructor(protected elementRef:ElementRef,
               protected injector:Injector,
@@ -146,7 +144,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     this.inFlight = true;
     await this.onSubmit();
     let indicator = this.loadingIndicator.wpDetails;
-    return indicator.promise = this.commentService.createComment(this.workPackage, this.commentValue)
+    return indicator.promise = this.commentService.createComment(this.workPackage, this.rawComment)
       .then(() => {
         this.inEdit = false;
         this.NotificationsService.addSuccess(this.I18n.t('js.work_packages.comment_added'));

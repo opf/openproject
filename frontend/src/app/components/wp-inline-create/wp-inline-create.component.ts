@@ -26,28 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  Inject,
-  Injector,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit
-} from '@angular/core';
+import {Component, ElementRef, HostListener, Injector, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {filter} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
-import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
-import {TimelineRowBuilder} from '../wp-fast-table/builders/timeline/timeline-row-builder';
-import {onClickOrEnter} from '../wp-fast-table/handlers/click-or-enter-handler';
-import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
-import {WorkPackageCreateService} from '../wp-new/wp-create.service';
 import {
   inlineCreateCancelClassName,
   InlineCreateRowBuilder,
@@ -57,10 +40,15 @@ import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
-import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
-import {CurrentUserService} from "core-components/user/current-user.service";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {Subscription} from 'rxjs';
+import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
+import {WorkPackageEditForm} from "core-components/wp-edit-form/work-package-edit-form";
+import {TimelineRowBuilder} from "core-components/wp-fast-table/builders/timeline/timeline-row-builder";
+import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
+import {WorkPackageTableColumnsService} from "core-components/wp-fast-table/state/wp-table-columns.service";
+import {onClickOrEnter} from "core-components/wp-fast-table/handlers/click-or-enter-handler";
+import {WorkPackageChange} from "core-components/wp-edit/work-package-change";
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -96,8 +84,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
               protected readonly FocusHelper:FocusHelperService,
               protected readonly I18n:I18nService,
               protected readonly tableState:TableState,
-              protected readonly currentUser:CurrentUserService,
-              @Inject(IWorkPackageCreateServiceToken) protected readonly wpCreate:WorkPackageCreateService,
+              protected readonly wpCreate:WorkPackageCreateService,
               protected readonly wpInlineCreate:WorkPackageInlineCreateService,
               protected readonly wpTableColumns:WorkPackageTableColumnsService,
               protected readonly wpTableFocus:WorkPackageTableFocusService,
@@ -217,20 +204,19 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
   public addWorkPackageRow() {
     this.wpCreate
       .createOrContinueWorkPackage(this.projectIdentifier)
-      .then((changeset:WorkPackageChangeset) => {
+      .then((change:WorkPackageChange) => {
 
-      const wp = this.currentWorkPackage = changeset.workPackage;
+      const wp = this.currentWorkPackage = change.projectedWorkPackage;
 
       this.editingSubscription = this
         .wpCreate
         .changesetUpdates$()
         .pipe(
-          filter((cs) => !!this.currentWorkPackage && !!cs.form),
-        ).subscribe((form) => {
+          filter(() => !!this.currentWorkPackage),
+        ).subscribe(() => {
           if (!this.isActive) {
             this.insertRow(wp);
           } else {
-            this.currentWorkPackage!.overriddenSchema = form!.schema;
             this.refreshRow();
           }
       });

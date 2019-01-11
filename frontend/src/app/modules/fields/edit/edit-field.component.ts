@@ -26,23 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Inject,
-  InjectionToken,
-  Injector,
-  OnDestroy,
-  OnInit
-} from "@angular/core";
+import {ChangeDetectorRef, Component, ElementRef, Inject, InjectionToken, Injector, OnDestroy} from "@angular/core";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {Field, IFieldSchema} from "core-app/modules/fields/field.base";
-import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
+import {WorkPackageChange} from "core-components/wp-edit/work-package-change";
 
 export const OpEditingPortalSchemaToken = new InjectionToken('wp-editing-portal--schema');
 export const OpEditingPortalHandlerToken = new InjectionToken('wp-editing-portal--handler');
@@ -58,8 +48,8 @@ export class EditFieldComponent extends Field implements OnDestroy {
 
   constructor(readonly I18n:I18nService,
               readonly elementRef:ElementRef,
-              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
-              @Inject(OpEditingPortalChangesetToken) protected changeset:WorkPackageChangeset,
+              readonly wpEditing:WorkPackageEditingService,
+              @Inject(OpEditingPortalChangesetToken) protected change:WorkPackageChange,
               @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
               @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
               readonly cdRef:ChangeDetectorRef,
@@ -67,21 +57,21 @@ export class EditFieldComponent extends Field implements OnDestroy {
     super();
     this.initialize();
 
-    this.wpEditing.state(this.changeset.workPackage.id)
+    this.wpEditing.state(this.change.workPackageId)
       .values$()
       .pipe(
         untilComponentDestroyed(this)
       )
-      .subscribe((changeset) => {
+      .subscribe((change) => {
 
-        if (!this.changeset.empty && this.changeset.form) {
-          const fieldSchema = changeset.form!.schema[this.name];
+        if (!this.change.isEmpty()) {
+          const fieldSchema = change.schema[this.name];
 
           if (!fieldSchema) {
             return handler.deactivate(false);
           }
 
-          this.changeset = changeset;
+          this.change = change;
           this.schema = fieldSchema;
           this.initialize();
           this.cdRef.markForCheck();
@@ -98,17 +88,17 @@ export class EditFieldComponent extends Field implements OnDestroy {
   }
 
   public get value() {
-    return this.changeset.value(this.name);
+    return this.resource[this.name];
   }
 
   public get name() {
     // Get the mapped schema name, as this is not always the attribute
     // e.g., startDate in table for milestone => date attribute
-    return this.changeset.getSchemaName(this.handler.fieldName);
+    return this.resource.getSchemaName(this.handler.fieldName);
   }
 
   public set value(value:any) {
-    this.changeset.setValue(this.name, this.parseValue(value));
+    this.resource[this.name] = this.parseValue(value);
   }
 
   public get placeholder() {
@@ -120,7 +110,7 @@ export class EditFieldComponent extends Field implements OnDestroy {
   }
 
   public get resource() {
-    return this.changeset.workPackage;
+    return this.change.projectedWorkPackage;
   }
 
   /**

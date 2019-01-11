@@ -1,17 +1,16 @@
 import {Injector} from '@angular/core';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
-import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
-import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
-import {
-  RelationColumnType,
-  WorkPackageTableRelationColumnsService
-} from '../../state/wp-table-relation-columns.service';
-import {WorkPackageTable} from '../../wp-fast-table';
 import {PrimaryRenderPass, RowRenderInfo} from '../primary-render-pass';
 import {relationGroupClass, RelationRowBuilder} from './relation-row-builder';
 import {QueryColumn} from 'core-components/wp-query/query-column';
+import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
+import {
+  RelationColumnType,
+  WorkPackageTableRelationColumnsService
+} from "core-components/wp-fast-table/state/wp-table-relation-columns.service";
+import {WorkPackageTableColumnsService} from "core-components/wp-fast-table/state/wp-table-columns.service";
+import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
 
 export interface RelationRenderInfo extends RowRenderInfo {
   data:{

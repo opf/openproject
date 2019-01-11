@@ -53,6 +53,7 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WikiPageResource} from "core-app/modules/hal/resources/wiki-page-resource";
 import {PostResource} from "core-app/modules/hal/resources/post-resource";
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
+import {AttachmentCollectionResource} from "core-app/modules/hal/resources/attachment-collection-resource";
 
 const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {
@@ -116,6 +117,9 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   WorkPackageCollection: {
     cls: WorkPackageCollectionResource
   },
+  AttachmentCollection: {
+    cls: AttachmentCollectionResource
+  },
   Query: {
     cls: QueryResource,
     attrTypes: {
@@ -123,7 +127,16 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
     }
   },
   Form: {
-    cls: FormResource
+    cls: FormResource,
+    attrTypes: {
+      payload: 'FormPayload'
+    }
+  },
+  FormPayload: {
+    cls: HalResource,
+    attrTypes: {
+      attachments: 'AttachmentsCollection'
+    }
   },
   QueryFilterInstance: {
     cls: QueryFilterInstanceResource,

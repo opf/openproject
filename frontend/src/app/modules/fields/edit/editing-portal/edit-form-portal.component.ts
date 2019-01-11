@@ -11,15 +11,14 @@ import {
 } from "@angular/core";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {
-  EditFieldComponent,
   OpEditingPortalChangesetToken,
   OpEditingPortalHandlerToken,
   OpEditingPortalSchemaToken
 } from "core-app/modules/fields/edit/edit-field.component";
 import {createLocalInjector} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.injector";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
 import {EditFieldService, IEditFieldType} from "core-app/modules/fields/edit/edit-field.service";
+import {WorkPackageChange} from "core-components/wp-edit/work-package-change";
 
 @Component({
   selector: 'edit-form-portal',
@@ -27,13 +26,13 @@ import {EditFieldService, IEditFieldType} from "core-app/modules/fields/edit/edi
 })
 export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() schemaInput:IFieldSchema;
-  @Input() changesetInput:WorkPackageChangeset;
+  @Input() changeInput:WorkPackageChange;
   @Input() editFieldHandler:EditFieldHandler;
   @Output() public onEditFieldReady = new EventEmitter<void>();
 
   public handler:EditFieldHandler;
   public schema:IFieldSchema;
-  public changeset:WorkPackageChangeset;
+  public change:WorkPackageChange;
   public fieldInjector:Injector;
 
   public componentClass:IEditFieldType;
@@ -49,16 +48,16 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
     if (this.editFieldHandler && this.schemaInput) {
       this.handler = this.editFieldHandler;
       this.schema = this.schemaInput;
-      this.changeset = this.changesetInput;
+      this.change = this.changeInput;
 
     } else {
       this.handler = this.injector.get<EditFieldHandler>(OpEditingPortalHandlerToken);
       this.schema = this.injector.get<IFieldSchema>(OpEditingPortalSchemaToken);
-      this.changeset = this.injector.get<WorkPackageChangeset>(OpEditingPortalChangesetToken);
+      this.change = this.injector.get<WorkPackageChange>(OpEditingPortalChangesetToken);
     }
 
     this.componentClass = this.editField.getClassFor(this.handler.fieldName, this.schema.type);
-    this.fieldInjector = createLocalInjector(this.injector, this.changeset, this.handler, this.schema);
+    this.fieldInjector = createLocalInjector(this.injector, this.change, this.handler, this.schema);
   }
 
   ngOnDestroy() {

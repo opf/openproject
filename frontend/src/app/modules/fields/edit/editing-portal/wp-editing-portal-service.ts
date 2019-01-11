@@ -45,7 +45,7 @@ export class WorkPackageEditingPortalService {
       .subscribe(() => outlet.detach());
 
     // Create an injector that contains injectable reference to the edit field and handler
-    const injector = createLocalInjector(this.injector, form.changeset, fieldHandler, schema);
+    const injector = createLocalInjector(this.injector, form.change, fieldHandler, schema);
 
     // Create a portal for the edit-form/field
     const portal = new ComponentPortal(EditFormPortalComponent, null, injector);

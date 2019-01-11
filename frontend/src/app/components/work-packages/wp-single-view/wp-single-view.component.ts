@@ -41,9 +41,10 @@ import {input, InputState} from 'reactivestates';
 import {DisplayFieldService} from 'core-app/modules/fields/display/display-field.service';
 import {DisplayField} from 'core-app/modules/fields/display/display-field.module';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {IWorkPackageEditingServiceToken} from '../../wp-edit-form/work-package-editing.service.interface';
 import {DynamicCssService} from '../../../modules/common/dynamic-css/dynamic-css.service';
 import {HookService} from 'core-app/modules/plugins/hook-service';
+import {WorkPackageChange} from "core-components/wp-edit/work-package-change";
+import {Subject} from "rxjs";
 
 export interface FieldDescriptor {
   name:string;
@@ -79,7 +80,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
 
   // State updated when structural changes to the single view may occur.
   // (e.g., when changing the type or project context).
-  public resourceContextChange:InputState<ResourceContextChange> = input<ResourceContextChange>();
+  public resourceContextChange = new Subject<ResourceContextChange>();
 
   // Project context as an indicator
   // when editing the work package in a different project
@@ -117,7 +118,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected PathHelper:PathHelperService,
               protected states:States,
               protected dynamicCssService:DynamicCssService,
-              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
+              protected wpEditing:WorkPackageEditingService,
               protected displayFieldService:DisplayFieldService,
               protected wpCacheService:WorkPackageCacheService,
               protected hook:HookService) {
@@ -132,50 +133,57 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     // if it isn't available yet
     this.dynamicCssService.requireHighlighting();
 
+    const change = this.wpEditing.changeFor(this.workPackage);
+    this.resourceContextChange.next(this.contextFrom(change));
+    this.refresh(change);
+
     // Whenever the resource context changes in any way,
     // update the visible fields.
     this.resourceContextChange
-      .values$()
       .pipe(
         takeUntil(componentDestroyed(this)),
         distinctUntilChanged<ResourceContextChange>((a, b) => _.isEqual(a, b)),
-        map(() => this.wpEditing.temporaryEditResource(this.workPackage.id).value!)
+        map(() => this.wpEditing.changeFor(this.workPackage))
       )
-      .subscribe((resource:WorkPackageResource) => {
-        // Prepare the fields that are required always
-        const isNew = this.workPackage.isNew;
-
-        if (!resource.project) {
-          this.projectContext = {matches: false, href: null};
-        } else {
-          this.projectContext = {
-            href: this.PathHelper.projectWorkPackagePath(resource.project.idFromLink, this.workPackage.id),
-            matches: resource.project.href === this.currentProject.apiv3Path
-          };
-        }
-
-        if (isNew && !this.currentProject.inProjectContext) {
-          this.projectContext.field = this.getFields(resource, ['project']);
-        }
-
-        const attributeGroups = resource.schema._attributeGroups;
-        this.groupedFields = this.rebuildGroupedFields(resource, attributeGroups);
-      });
+      .subscribe((change:WorkPackageChange) => this.refresh(change));
 
     // Update the resource context on every update to the temporary resource.
     // This allows detecting a changed type value in a new work package.
-    this.wpEditing.temporaryEditResource(this.workPackage.id)
+    this.wpEditing
+      .state(this.workPackage.id)
       .values$()
       .pipe(
         takeUntil(componentDestroyed(this))
       )
-      .subscribe((resource:WorkPackageResource) => {
-        this.resourceContextChange.putValue(this.contextFrom(resource));
+      .subscribe((change:WorkPackageChange) => {
+        this.resourceContextChange.next(this.contextFrom(change));
       });
   }
 
   ngOnDestroy() {
     // Nothing to do
+  }
+
+  private refresh(change:WorkPackageChange) {
+    // Prepare the fields that are required always
+    const isNew = this.workPackage.isNew;
+    const resource = change.projectedWorkPackage;
+
+    if (!resource.project) {
+      this.projectContext = {matches: false, href: null};
+    } else {
+      this.projectContext = {
+        href: this.PathHelper.projectWorkPackagePath(resource.project.idFromLink, this.workPackage.id),
+        matches: resource.project.href === this.currentProject.apiv3Path
+      };
+    }
+
+    if (isNew && !this.currentProject.inProjectContext) {
+      this.projectContext.field = this.getFields(resource, ['project']);
+    }
+
+    const attributeGroups = resource.schema._attributeGroups;
+    this.groupedFields = this.rebuildGroupedFields(resource, attributeGroups);
   }
 
   /**
@@ -316,14 +324,15 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
    * Used to identify changes in the schema or project that may result in visual changes
    * to the single view.
    *
-   * @param {WorkPackageResource} resource
+   * @param {WorkPackageChange} change
    * @returns {SchemaContext}
    */
-  private contextFrom(resource:WorkPackageResource):ResourceContextChange {
-    let schema = resource.schema;
+  private contextFrom(change:WorkPackageChange):ResourceContextChange {
+    let schema = change.schema;
+    let workPackage = change.projectedWorkPackage;
 
     let schemaHref:string|null = null;
-    let projectHref:string|null = resource.project && resource.project.href;
+    let projectHref:string|null = workPackage.project && workPackage.project.href;
 
     if (schema.baseSchema) {
       schemaHref = schema.baseSchema.href;
@@ -333,7 +342,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
 
 
     return {
-      isNew: resource.isNew,
+      isNew: workPackage.isNew,
       schema: schemaHref,
       project: projectHref
     };

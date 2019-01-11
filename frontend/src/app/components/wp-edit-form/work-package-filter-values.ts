@@ -1,11 +1,9 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {FormResource} from 'core-app/modules/hal/resources/form-resource';
-import {WorkPackageChangeset} from './work-package-changeset';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {CurrentUserService} from "core-components/user/current-user.service";
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {Injector} from '@angular/core';
+import {WorkPackageChange} from "core-components/wp-edit/work-package-change";
 
 export class WorkPackageFilterValues {
 
@@ -13,7 +11,7 @@ export class WorkPackageFilterValues {
   private halResourceService:HalResourceService = this.injector.get(HalResourceService);
 
   constructor(private injector:Injector,
-              private changeset:WorkPackageChangeset,
+              private change:WorkPackageChange,
               private filters:QueryFilterInstanceResource[],
               private excluded:string[] = []) {
 
@@ -45,8 +43,7 @@ export class WorkPackageFilterValues {
     let newValue = this.findSpecialValue(value, field) || value;
 
     if (newValue) {
-      this.changeset.setValue(field, newValue);
-      this.changeset.workPackage[field] = newValue;
+      this.change.projectedWorkPackage[field] = newValue;
     }
   }
 

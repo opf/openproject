@@ -1,11 +1,13 @@
 import {Injector} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {States} from '../../../../states.service';
-import {WorkPackageChangeset} from '../../../../wp-edit-form/work-package-changeset';
-import {collapsedGroupClass, hasChildrenInTable} from '../../../helpers/wp-table-hierarchy-helpers';
-import {WorkPackageTableHierarchiesService} from '../../../state/wp-table-hierarchy.service';
-import {WorkPackageTable} from '../../../wp-fast-table';
-import {SingleRowBuilder} from '../../rows/single-row-builder';
+import {SingleRowBuilder} from "core-components/wp-fast-table/builders/rows/single-row-builder";
+import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
+import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
+import {States} from "core-components/states.service";
+import {
+  collapsedGroupClass,
+  hasChildrenInTable
+} from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
 
 export const indicatorCollapsedClass = '-hierarchy-collapsed';
 export const hierarchyCellClassName = 'wp-table--hierarchy-span';
@@ -73,10 +75,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   /**
    * Append an additional ancestor row that is not yet loaded
    */
-  public buildAncestorRow(ancestor:WorkPackageResource,
-                          ancestorGroups:string[],
-                          index:number):[HTMLElement, boolean] {
-
+  public buildAncestorRow(ancestor:WorkPackageResource):[HTMLElement, boolean] {
     const workPackage = this.states.workPackages.get(ancestor.id).value!;
     const [tr, hidden] = this.buildEmpty(workPackage);
     tr.classList.add(additionalHierarchyRowClassName);
@@ -86,12 +85,12 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   /**
    * Append to the row of hierarchy level <level> a hierarchy indicator.
    * @param workPackage
-   * @param row
-   * @param level
+   * @param jRow jQuery row element
+   * @param level Indentation level
    */
   private appendHierarchyIndicator(workPackage:WorkPackageResource, jRow:JQuery, level?:number):void {
     const hierarchyLevel = level === undefined || null ? workPackage.ancestors.length : level;
-    const hierarchyElement = this.buildHierarchyIndicator(workPackage, jRow, hierarchyLevel);
+    const hierarchyElement = this.buildHierarchyIndicator(workPackage, hierarchyLevel);
 
     jRow.find('td.subject')
       .addClass('-with-hierarchy')
@@ -104,7 +103,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   /**
    * Build the hierarchy indicator at the given indentation level.
    */
-  private buildHierarchyIndicator(workPackage:WorkPackageResource, jRow:JQuery | null, level:number):HTMLElement {
+  private buildHierarchyIndicator(workPackage:WorkPackageResource, level:number):HTMLElement {
     const hierarchyIndicator = document.createElement('span');
     const collapsed = this.wpTableHierarchies.collapsed(workPackage.id);
     const indicatorWidth = 25 + (20 * level) + 'px';

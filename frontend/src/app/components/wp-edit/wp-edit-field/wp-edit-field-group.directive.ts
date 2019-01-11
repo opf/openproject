@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
@@ -43,8 +43,6 @@ import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-sele
 import {WorkPackageNotificationService} from '../wp-notification.service';
 import {WorkPackageCreateService} from './../../wp-new/wp-create.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
-import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 
 @Component({
   selector: 'wp-edit-field-group,[wp-edit-field-group]',
@@ -62,8 +60,8 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
 
   constructor(protected states:States,
               protected injector:Injector,
-              @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService,
-              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
+              protected wpCreate:WorkPackageCreateService,
+              protected wpEditing:WorkPackageEditingService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpTableSelection:WorkPackageTableSelection,
               protected wpTableFocus:WorkPackageTableFocusService,

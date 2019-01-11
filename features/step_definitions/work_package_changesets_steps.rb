@@ -33,7 +33,7 @@ Given(/^the work package "(.*?)" has the following changesets:$/) do |subject, t
   repo = wp.project.repository
 
   wp_changesets = table.hashes.map { |row|
-    FactoryBot.build(:changeset, row.merge(repository: repo))
+    FactoryBot.build(:change, row.merge(repository: repo))
   }
 
   wp.changesets = wp_changesets

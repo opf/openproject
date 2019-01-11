@@ -44,8 +44,8 @@ import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {StateService} from "@uirouter/core";
-import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
+import {WorkPackageCreateService} from 'core-app/components/wp-new/wp-create.service';
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
@@ -81,7 +81,7 @@ describe('WorkPackage', () => {
         PathHelperService,
         I18nService,
         { provide: ApiWorkPackagesService, useValue: {} },
-        { provide: IWorkPackageCreateServiceToken, useValue: {} },
+        { provide: WorkPackageCreateService, useValue: {} },
         { provide: StateService, useValue: {} },
         { provide: SchemaCacheService, useValue: {} },
       ]

@@ -28,19 +28,18 @@
 
 import {take} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-changeset';
 import {WorkPackageCreateController} from 'core-components/wp-new/wp-create.controller';
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
-import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
+import {WorkPackageChange} from "core-components/wp-edit/work-package-change";
 
 export class WorkPackageCopyController extends WorkPackageCreateController {
   private __initialized_at:Number;
   private copiedWorkPackageId:string;
 
   private wpRelations:WorkPackageRelationsService = this.injector.get(WorkPackageRelationsService);
-  protected wpEditing:WorkPackageEditingService = this.injector.get<WorkPackageEditingService>(IWorkPackageEditingServiceToken);
+  protected wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
 
   ngOnInit() {
     super.ngOnInit();
@@ -58,7 +57,7 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
 
   protected createdWorkPackage() {
     this.copiedWorkPackageId = this.stateParams.copiedFromWorkPackageId;
-    return new Promise<WorkPackageChangeset>((resolve, reject) => {
+    return new Promise<WorkPackageChange>((resolve, reject) => {
       this.wpCacheService.loadWorkPackage(this.copiedWorkPackageId)
         .values$()
         .pipe(
@@ -76,18 +75,18 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
 
   private createCopyFrom(wp:WorkPackageResource) {
     return this.wpEditing
-      .changesetFor(wp)
+      .changeFor(wp)
       .getForm()
       .then((form:any) =>
         this.wpCreate
           .copyWorkPackage(form, wp.project.identifier)
-          .then((changeset) => {
-            this.__initialized_at = changeset.workPackage.__initialized_at;
+          .then((change) => {
+            this.__initialized_at = change.base.__initialized_at;
 
-            this.wpCacheService.updateWorkPackage(changeset.workPackage);
-            this.wpEditing.updateValue('new', changeset);
+            this.wpCacheService.updateWorkPackage(change.base);
+            this.wpEditing.updateValue('new', change);
 
-            return changeset;
+            return change;
         })
     );
   }

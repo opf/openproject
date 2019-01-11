@@ -35,11 +35,11 @@ import {States} from '../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
-import {WorkPackageChangeset} from './work-package-changeset';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
-import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+import {WorkPackageChange} from "core-components/wp-edit/work-package-change";
 
 export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
 export const activeFieldClassName = 'wp-inline-edit--field';
@@ -48,7 +48,7 @@ export class WorkPackageEditForm {
   // Injections
   public states:States = this.injector.get(States);
   public wpCacheService = this.injector.get(WorkPackageCacheService);
-  public wpEditing = this.injector.get(IWorkPackageEditingServiceToken);
+  public wpEditing = this.injector.get(WorkPackageEditingService);
   public wpTableRefresh = this.injector.get(WorkPackageTableRefreshService);
   public wpNotificationsService = this.injector.get(WorkPackageNotificationService);
 
@@ -94,13 +94,13 @@ export class WorkPackageEditForm {
   }
 
   /**
-   * Return the current or a new changeset for the given work package.
-   * This will always return a valid (potentially empty) changeset.
+   * Return the current or a new change object for the given work package.
+   * This will always return a valid (potentially empty) change.
    *
-   * @return {WorkPackageChangeset}
+   * @return {WorkPackageChange}
    */
-  public get changeset():WorkPackageChangeset {
-    return this.wpEditing.changesetFor(this.workPackage);
+  public get change():WorkPackageChange {
+    return this.wpEditing.changeFor(this.workPackage);
   }
 
   /**
@@ -139,7 +139,7 @@ export class WorkPackageEditForm {
    * Activate all fields that are returned in validation errors
    */
   public activateMissingFields() {
-    this.changeset.getForm().then((form:any) => {
+    this.change.getForm().then((form:any) => {
       _.each(form.validationErrors, (val:any, key:string) => {
         if (key === 'id') {
           return;
@@ -154,9 +154,7 @@ export class WorkPackageEditForm {
    * @return {any}
    */
   public async submit():Promise<WorkPackageResource> {
-    const isInitial = this.workPackage.isNew;
-
-    if (this.changeset.empty && !isInitial) {
+    if (this.change.isEmpty() && !this.workPackage.isNew) {
       this.closeEditFields();
       return Promise.resolve(this.workPackage);
     }
@@ -171,17 +169,17 @@ export class WorkPackageEditForm {
     await Promise.all(_.map(this.activeFields, (handler:WorkPackageEditFieldHandler) => handler.onSubmit()));
 
     return new Promise<WorkPackageResource>((resolve, reject) => {
-      this.changeset.save()
-        .then(savedWorkPackage => {
+      this.wpEditing.save(this.change)
+        .then(result => {
           // Close all current fields
           this.closeEditFields(openFields);
 
-          resolve(savedWorkPackage);
+          resolve(result.workPackage);
 
-          this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
+          this.wpNotificationsService.showSave(result.workPackage, result.wasNew);
           this.editMode = false;
-          this.editContext.onSaved(isInitial, savedWorkPackage);
-          this.wpTableRefresh.request(`Saved work package ${savedWorkPackage.id}`);
+          this.editContext.onSaved(result.wasNew, result.workPackage);
+          this.wpTableRefresh.request(`Saved work package ${result.id}`);
         })
         .catch((error:ErrorResource|Object) => {
           this.wpNotificationsService.handleRawError(error, this.workPackage);
@@ -221,7 +219,7 @@ export class WorkPackageEditForm {
     fields.forEach((name:string) => {
       const handler = this.activeFields[name];
       handler && handler.deactivate();
-      this.changeset.reset(name);
+      this.change.reset(name);
     });
   }
 
@@ -275,9 +273,9 @@ export class WorkPackageEditForm {
    * @param fieldName
    */
   private loadFieldSchema(fieldName:string):Promise<IFieldSchema> {
-    return this.changeset.getForm()
+    return this.change.getForm()
       .then((form:FormResource) => {
-        const schemaName = this.changeset.getSchemaName(fieldName);
+        const schemaName = this.change.projectedWorkPackage.getSchemaName(fieldName);
         const fieldSchema:IFieldSchema = form.schema[schemaName];
 
         if (!fieldSchema) {

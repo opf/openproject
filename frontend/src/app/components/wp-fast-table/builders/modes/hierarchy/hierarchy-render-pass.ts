@@ -1,19 +1,19 @@
 import {Injector} from '@angular/core';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {States} from '../../../../states.service';
+import {additionalHierarchyRowClassName, SingleHierarchyRowBuilder} from './single-hierarchy-row-builder';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {PrimaryRenderPass, RowRenderInfo} from "core-components/wp-fast-table/builders/primary-render-pass";
+import {States} from "core-components/states.service";
+import {WorkPackageTableHierarchies} from "core-components/wp-fast-table/wp-table-hierarchies";
+import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
+import {WorkPackageTableRow} from "core-components/wp-fast-table/wp-table.interfaces";
 import {
   ancestorClassIdentifier,
   collapsedGroupClass,
   hierarchyGroupClass,
   hierarchyRootClass
-} from '../../../helpers/wp-table-hierarchy-helpers';
-import {WorkPackageTable} from '../../../wp-fast-table';
-import {WorkPackageTableHierarchies} from '../../../wp-table-hierarchies';
-import {WorkPackageTableRow} from '../../../wp-table.interfaces';
-import {PrimaryRenderPass, RowRenderInfo} from '../../primary-render-pass';
-import {additionalHierarchyRowClassName, SingleHierarchyRowBuilder} from './single-hierarchy-row-builder';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+} from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
 
@@ -165,13 +165,12 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     // Iterate ancestors
     ancestors.forEach((el:WorkPackageResource, index:number) => {
-      const ancestor = this.states.workPackages.get(el.id).value!;
-
+      const ancestor = this.states.workPackages.get(el.id).getValueOr(el);
 
       // If we see the parent the first time,
       // build it as an additional row and insert it into the ancestry
       if (!this.rendered[ancestor.id]) {
-        let [ancestorRow, hidden] = this.rowBuilder.buildAncestorRow(ancestor, ancestorGroups, index);
+        let [ancestorRow, hidden] = this.rowBuilder.buildAncestorRow(ancestor);
         // Insert the ancestor row, either right here if it's a root node
         // Or below the appropriate parent
 

@@ -44,7 +44,7 @@
   <div class="user-comment" [ngClass]="{ 'wiki': !inEdit }">
     <div *ngIf="inEdit" class="inplace-edit">
       <div class="user-comment--form inplace-edit--write-value">
-        <edit-form-portal [changesetInput]="changeset"
+        <edit-form-portal [changeInput]="change"
                           [schemaInput]="schema"
                           [editFieldHandler]="handler">
         </edit-form-portal>

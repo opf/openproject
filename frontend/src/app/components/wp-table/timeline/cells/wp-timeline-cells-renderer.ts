@@ -28,24 +28,26 @@
 
 import {Injector} from '@angular/core';
 import {States} from '../../../states.service';
-import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
 import {WorkPackageTimelineCell} from './wp-timeline-cell';
+import {WorkPackageEditingService} from 'core-app/components/wp-edit-form/work-package-editing-service';
 
 export class WorkPackageTimelineCellsRenderer {
 
   // Injections
   public states = this.injector.get(States);
+  public wpEditing = this.injector.get(WorkPackageEditingService);
 
   public cells:{ [classIdentifier:string]:WorkPackageTimelineCell } = {};
 
   private cellRenderers:{ milestone:TimelineMilestoneCellRenderer, generic:TimelineCellRenderer };
 
-  constructor(public readonly injector:Injector, private wpTimeline:WorkPackageTimelineTableController) {
+  constructor(readonly injector:Injector,
+              readonly wpTimeline:WorkPackageTimelineTableController) {
     this.cellRenderers = {
       milestone: new TimelineMilestoneCellRenderer(this.injector, wpTimeline),
       generic: new TimelineCellRenderer(this.injector, wpTimeline)
@@ -140,7 +142,7 @@ export class WorkPackageTimelineCellsRenderer {
     return {
       viewParams: this.wpTimeline.viewParameters,
       workPackage: wp,
-      changeset: new WorkPackageChangeset(this.injector, wp)
-    } as RenderInfo;
+      change: this.wpEditing.changeFor(wp)
+    };
   }
 }

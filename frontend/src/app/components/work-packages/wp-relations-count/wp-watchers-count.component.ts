@@ -2,7 +2,6 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {combineLatest} from 'rxjs';
 
 @Component({
   templateUrl: './wp-relations-count.html',

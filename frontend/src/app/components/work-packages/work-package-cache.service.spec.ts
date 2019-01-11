@@ -40,8 +40,8 @@ import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {States} from 'core-components/states.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
-import {IWorkPackageCreateServiceToken} from 'core-components/wp-new/wp-create.service.interface';
 import {take, takeWhile} from 'rxjs/operators';
+import {WorkPackageCreateService} from '../wp-new/wp-create.service';
 
 describe('WorkPackageCacheService', () => {
   let injector:Injector;
@@ -64,7 +64,7 @@ describe('WorkPackageCacheService', () => {
         {provide: PathHelperService, useValue: {}},
         {provide: I18nService, useValue: {t: (...args:any[]) => 'translation'}},
         {provide: WorkPackageResource, useValue: {}},
-        {provide: IWorkPackageCreateServiceToken, useValue: {}},
+        {provide: WorkPackageCreateService, useValue: {}},
         {provide: NotificationsService, useValue: {}},
         {provide: WorkPackageNotificationService, useValue: {}},
         {provide: OpenProjectFileUploadService, useValue: {}}
