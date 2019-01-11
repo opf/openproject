@@ -668,7 +668,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    retriable (3.1.1)
+    retriable (3.1.2)
     rinku (2.0.4)
     roar (1.1.0)
       representable (~> 3.0.0)
@@ -694,7 +694,7 @@ GEM
       rspec-expectations (~> 3.8.0)
       rspec-mocks (~> 3.8.0)
       rspec-support (~> 3.8.0)
-    rspec-retry (0.5.7)
+    rspec-retry (0.6.1)
       rspec-core (> 3.3)
     rspec-support (3.8.0)
     rubocop (0.62.0)
@@ -947,7 +947,7 @@ DEPENDENCIES
   rspec-activemodel-mocks (~> 1.1.0)!
   rspec-example_disabler!
   rspec-rails (~> 3.8.1)
-  rspec-retry (~> 0.5.6)
+  rspec-retry (~> 0.6.1)
   rubocop
   ruby-duration (~> 3.2.0)
   ruby-prof
