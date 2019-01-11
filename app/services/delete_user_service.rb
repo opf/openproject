@@ -64,7 +64,7 @@ class DeleteUserService
     if actor == user
       Setting.users_deletable_by_self?
     else
-      actor.admin && Setting.users_deletable_by_admins?
+      actor.admin? && actor.active? && Setting.users_deletable_by_admins?
     end
   end
 
