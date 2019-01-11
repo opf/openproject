@@ -2688,6 +2688,5 @@ en:
       By default, OpenProject provides OAuth 2.0 authorization via %{authorization_code_flow_link}.
       You can optionally enable %{client_credentials_flow_link}, but you must provide a user on whose behalf requests will be performed.
     authorization_error: "An authorization error has occurred."
-    authorization_error_client_credentials: "Client credentials flow is not allowed for this application."
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"

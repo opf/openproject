@@ -31,7 +31,7 @@ module OpenProject
             if client_credential_user = find_credential_app_user(token.application_id)
               authenticate_user client_credential_user
             else
-              fail!(I18n.t('oauth.authorization_error_client_credentials'))
+              success! User.anonymous
             end
           end
 
