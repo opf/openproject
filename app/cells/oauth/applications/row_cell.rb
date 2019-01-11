@@ -40,10 +40,6 @@ module OAuth
         application.confidential
       end
 
-      def scopes
-        oauth_scope_translations(application)
-      end
-
       def edit_link
         link_to(
           I18n.t(:button_edit),

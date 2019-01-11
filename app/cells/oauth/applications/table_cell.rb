@@ -43,7 +43,6 @@ module OAuth
           ['client_credentials', caption: I18n.t('oauth.client_credentials')],
           ['redirect_uri', caption: ::Doorkeeper::Application.human_attribute_name(:redirect_uri)],
           ['confidential', caption: ::Doorkeeper::Application.human_attribute_name(:confidential)],
-          ['scopes', caption: ::Doorkeeper::Application.human_attribute_name(:scopes)]
         ]
       end
     end

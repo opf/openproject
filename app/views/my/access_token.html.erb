@@ -142,8 +142,7 @@ See docs/COPYRIGHT.rdoc for more details.
             <% end %>
           <% end %>
           <% granted_applications.each do |application, tokens| %>
-            <% latest_id = tokens.each_with_index.max(&:created_at)[1] %>
-            <% latest = tokens[latest_id] %>
+            <% latest = tokens.sort_by(&:created_at).last %>
             <tr id="oauth-application-grant-<%= application.id %>">
               <td>
                 <%= t('oauth.application.named', name: application.name) %>
