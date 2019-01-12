@@ -66,7 +66,7 @@ class WorkPackage
       if work_packages.respond_to?(:pluck)
         work_packages.pluck(:id)
       else
-        Array(work_packages).map { |wp| wp.id }
+        Array(work_packages).map(&:id)
       end
     end
 
@@ -100,8 +100,9 @@ class WorkPackage
     def sum_arel(base_scope)
       subselect = sum_subselect(base_scope)
                   .as(subselect_alias)
-      wp_table.
-        outer_join(subselect).on(subselect[:id].eq(wp_table[:id]))
+      wp_table
+        .outer_join(subselect)
+        .on(subselect[:id].eq(wp_table[:id]))
     end
 
     def sum_subselect(base_scope)
@@ -110,6 +111,7 @@ class WorkPackage
         .except(:select)
         .select("#{costs_sum} AS #{costs_sum_alias}")
         .select(wp_table[:id])
+        .arel
         .outer_join(ce_table).on(ce_table_join_condition)
         .group(wp_table[:id])
     end
@@ -128,7 +130,7 @@ class WorkPackage
 
     def ce_table_join_condition
       authorization_scope = filter_authorized costs_model.all
-      authorization_where = authorization_scope.ast.cores.last.wheres.last
+      authorization_where = authorization_scope.arel.ast.cores.last.wheres.last
 
       # relies on the scope having the wp descendants joined at least
       # when #to_sql is called.
