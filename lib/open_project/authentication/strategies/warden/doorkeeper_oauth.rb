@@ -8,7 +8,6 @@ module OpenProject
         # Allows testing authentication via doorkeeper OAuth2 token
         #
         class DoorkeeperOAuth < ::Warden::Strategies::Base
-
           def valid?
             @token = ::Doorkeeper::OAuth::Token.authenticate(decorated_request, *Doorkeeper.configuration.access_token_methods)
             @token&.accessible? && @token.acceptable?(scope)
