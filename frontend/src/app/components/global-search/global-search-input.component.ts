@@ -27,6 +27,7 @@
 // ++
 
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -44,6 +45,8 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 import {GlobalSearchService} from "core-components/global-search/global-search.service";
+import {distinctUntilChanged} from "rxjs/operators";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -58,7 +61,8 @@ export class GlobalSearchInputComponent implements OnDestroy {
 
   public focused:boolean = false;
   public noResults = false;
-  public searchTerm:string = "asdf";
+  public searchTerm:string = '';
+  public currentTab:string = '';
   private $element:JQuery;
   private $input:JQuery;
 
@@ -71,13 +75,33 @@ export class GlobalSearchInputComponent implements OnDestroy {
               readonly PathHelperService:PathHelperService,
               readonly halResourceService:HalResourceService,
               readonly dynamicCssService:DynamicCssService,
-              readonly globalSearchServcie:GlobalSearchService) {
+              readonly globalSearchService:GlobalSearchService,
+              readonly cdRef:ChangeDetectorRef) {
   }
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.$input = jQuery(this.input.nativeElement);
 
+    this.globalSearchService.currentTab$
+      .pipe(
+        distinctUntilChanged(),
+        untilComponentDestroyed(this)
+      )
+      .subscribe((currentTab:string) => {
+      this.currentTab = currentTab;
+      this.cdRef.detectChanges();
+    });
+
+    this.globalSearchService.searchTerm$
+      .pipe(
+        distinctUntilChanged(),
+        untilComponentDestroyed(this)
+      )
+      .subscribe((searchTerm:string) => {
+        this.searchTerm = searchTerm;
+        this.cdRef.detectChanges();
+      });
 
     let selected = false;
 
