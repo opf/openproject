@@ -139,8 +139,6 @@ module OpenProject
       'drop-down-hover-bg-color'                             => "#EFEFEF",
       'context-menu-unselected-font-color'                   => "$drop-down-unselected-font-color",
       'context-menu-hover-font-color'                        => "$drop-down-hover-font-color",
-      'content-box-border'                                   => "1px solid $content-default-border-color",
-      'content-box-bg-color'                                 => "#FFFFFF",
       'action-menu-bg-color'                                 => "#FFFFFF",
       'wiki-default-font-size'                               => "1rem",
       'wiki-toc-header-font-size'                            => "calc($wiki-default-font-size * 0.6)",

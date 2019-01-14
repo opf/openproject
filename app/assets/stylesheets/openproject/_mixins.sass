@@ -35,34 +35,6 @@
   font-size:          $font-size
   font-weight:        $font-weight
 
-@mixin content-box
-  margin-top: 20px
-  padding: 25px
-  border: $content-box-border
-  background-color: $content-box-bg-color
-  min-height: 65px
-  zoom: 1
-  overflow-x: auto
-
-  h3, h2
-    border-bottom: 1px solid #EAEAEA
-    color: #444444
-    font-weight: normal
-    margin: 0 0 20px
-    padding: 5px 0 10px
-
-  table
-    padding: 10px
-    margin-bottom: 15px
-
-    th
-      border: none
-      background: transparent
-      font-weight: bold
-
-  ul
-    margin-bottom: 20px
-
 // Make sure an element doesn't collapse due to floated elements inside
 @mixin prevent-float-collapse
   &:after
