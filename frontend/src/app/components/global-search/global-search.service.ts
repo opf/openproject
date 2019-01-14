@@ -38,13 +38,13 @@ export class GlobalSearchService {
   public searchTerm$ = this._searchTerm.asObservable();
 
   private _currentTab = new BehaviorSubject<any>('work_packages');
-  public changeData$ = this._currentTab.asObservable();
+  public currentTab$ = this._currentTab.asObservable();
 
   private _projectScope = new BehaviorSubject<any>('all');
   public projectScope$ = this._projectScope.asObservable();
 
-  private tabs = new BehaviorSubject<any>([]);
-  public tabs$ = this.tabs.asObservable();
+  private _tabs = new BehaviorSubject<any>([]);
+  public tabs$ = this._tabs.asObservable();
 
 
   constructor(protected I18n:I18nService,
@@ -56,16 +56,16 @@ export class GlobalSearchService {
     let initialData = this.loadGonData();
     if (initialData) {
       if (initialData.available_search_types) {
-        this.tabs.next(initialData.available_search_types);
+        this._tabs.next(initialData.available_search_types);
       }
       if (initialData.search_term) {
-        this.tabs.next(initialData.search_term);
+        this._searchTerm.next(initialData.search_term);
       }
       if (initialData.current_tab) {
-        this.tabs.next(initialData.current_tab);
+        this._currentTab.next(initialData.current_tab);
       }
       if (initialData.project_scope) {
-        this.tabs.next(initialData.project_scope);
+        this._projectScope.next(initialData.project_scope);
       }
     }
   }
@@ -75,9 +75,8 @@ export class GlobalSearchService {
                                 project_scope:string,
                                 current_tab:string}|null {
     try {
-      return (window as any).gon.search_options;
+      return (window as any).gon.global_search;
     } catch (e) {
-      console.log("Can't load initial search options from gon: " + e);
       return null;
     }
   }
