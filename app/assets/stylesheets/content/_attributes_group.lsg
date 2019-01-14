@@ -1,12 +1,12 @@
 # Attributes Groups
 
-## with Attribute Lists
+## Attribute Lists
 
 ```
 <div class="attributes-group">
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
-      <h3 class="attributes-group--header-text">Details</h3>
+      <h3 class="attributes-group--header-text">System</h3>
     </div>
     <div class="attributes-group--header-toggle">
       <a href="#" class="button -small -transparent">Show all</a>
@@ -14,28 +14,81 @@
   </div>
 
   <div class="attributes-key-value">
-    <div class="attributes-key-value--key">Status</div>
+      <div class="attributes-key-value--key">Catdoc available (optional)</div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span>
+            <i class="icon-context icon-bug"></i>
+          </span>
+        </div>
+      </div>
+      <div class="attributes-key-value--key">Attachments directory writable</div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span>
+            <i class="icon-context icon-checkmark"></i>
+          </span>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">Storage filesystem 1</h3>
+    </div>
+  </div>
+
+  <div class="attributes-key-value">
+    <div class="attributes-key-value--key">Encompasses storage for</div>
     <div class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -text">
-        <span title="New">New</span>
+        <span>Attachments</span>
       </div>
     </div>
-    <div class="attributes-key-value--key">Percentage done</div>
+    <div class="attributes-key-value--key">Remaining disk space</div>
     <div class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -text">
-        <span title="0">0</span>
+        <span>120 GB</span>
       </div>
     </div>
-    <div class="attributes-key-value--key">Date</div>
+  </div>
+</div>
+```
+
+## Attribute Lists with Inline Edit
+
+```
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">People</h3>
+    </div>
+    <div class="attributes-group--header-toggle">
+      <a href="#" class="button -small -transparent">Show all</a>
+    </div>
+  </div>
+
+  <div class="attributes-key-value">
+    <div class="attributes-key-value--key">Assignee</div>
     <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
-        <span title="">-</span>
+      <div class="wp-edit-field--container">
+        <span class="wp-table--cell-span wp-edit-field--display-field inplace-edit wp-edit-field -editable" title="Jane Doe">Jane Doe</span>
       </div>
     </div>
-    <div class="attributes-key-value--key">Priority</div>
+    <div class="attributes-key-value--key">
+      <wp-replacement-label>
+        <span class="wp-replacement-label"> Accountable </span>
+      </wp-replacement-label>
+      <attribute-help-text>
+        <a href="#" class="icon icon-help1">
+        </a>
+      </attribute-help-text>
+    </div>
     <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
-        <span title="Normal">Normal</span>
+      <div class="wp-edit-field--container">
+        <span class="wp-table--cell-span wp-edit-field--display-field inplace-edit wp-edit-field -editable" title="John Doe">John Doe</span>
       </div>
     </div>
   </div>
@@ -44,39 +97,37 @@
 <div class="attributes-group">
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
-      <h3 class="attributes-group--header-text">People</h3>
+      <h3 class="attributes-group--header-text">Details</h3>
     </div>
   </div>
 
   <div class="attributes-key-value">
-    <div class="attributes-key-value--key">Assignee</div>
+    <div class="attributes-key-value--key">Progress (%)</div>
     <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -user">
-        <span class="user-avatar--container">
-          <img class="user-avatar--avatar" alt="Avatar" title="testing.long.emails@openproject.org" src="http://example.com/users/1/avatar">
-          <span class="user-avatar--user-with-role">
-            <span class="user-avatar--user">
-              <a class="user-avatar--user-link" href="#">testing.long.emails@openproject.org</a>
-            </span>
+      <div class="wp-edit-field--container">
+        <span title="-" class="wp-table--cell-span wp-edit-field--display-field inplace-edit wp-edit-field -placeholder -editable">
+          <span style="width: 80px" class="progress-bar">
+              <span style="width: 60%" class="inner-progress closed"></span>
+              <span style="width: 0%" class="inner-progress done"></span>
           </span>
+          <span class="progress-bar-legend">60%</span>
         </span>
       </div>
     </div>
-    <div class="attributes-key-value--key">Responsible</div>
+    <div class="attributes-key-value--key">Date</div>
     <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -user">
-        <span class="user-avatar--container">
-          <img class="user-avatar--avatar" alt="Avatar" title="testing.long.emails+filter-junk-away@openproject.org" src="http://gravatar.com/avatar/ae4878114ca94594589106efaad8890e?default=wavatar&amp;secure=false">
-          <span class="user-avatar--user-with-role">
-            <span class="user-avatar--user">
-              <a class="user-avatar--link" href="#">Karl-Theodor zu Guttenberg (copy)</a>
-            </span>
-            <span class="user-avatar--role">
-              Distinguished Statesman.
-              Former Minister for Economics and Technology.
-            </span>
-          </span>
-        </span>
+      <div class="wp-edit-field--container">
+          <span class="wp-table--cell-span wp-edit-field--display-field inplace-edit wp-edit-field -editable" title="12/06/2018">12/06/2018</span>
+      </div>
+      <span class="attributes-key-value--value-separator"></span>
+      <div class="wp-edit-field--container">
+          <span class="wp-table--cell-span wp-edit-field--display-field inplace-edit wp-edit-field -placeholder -editable">no end date</span>
+      </div>
+    </div>
+    <div class="attributes-key-value--key">Priority</div>
+    <div class="attributes-key-value--value-container">
+      <div class="wp-edit-field--container">
+        <span class="wp-table--cell-span wp-edit-field--display-field inplace-edit wp-edit-field -editable" title="Normal">Normal</span>
       </div>
     </div>
   </div>
