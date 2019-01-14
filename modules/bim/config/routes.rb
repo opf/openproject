@@ -38,6 +38,7 @@ OpenProject::Application.routes.draw do
     scope 'projects/:project_id', as: 'project' do
       resources :linked_issues, controller: 'bim/linked_issues' do
         get :import, action: :import, on: :collection
+        post :prepare_import, action: :prepare_import, on: :collection
         post :import, action: :perform_import, on: :collection
       end
     end

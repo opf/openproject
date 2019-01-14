@@ -18,7 +18,7 @@ module OpenProject::Bim
                    'bim/linked_issues': :index
 
         permission :manage_bim,
-                   'bim/linked_issues': %i[index import perform_import]
+                   'bim/linked_issues': %i[index import prepare_import perform_import]
       end
 
       menu :project_menu,

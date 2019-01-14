@@ -5,39 +5,76 @@ module ::Bim
     before_action :find_project_by_project_id
     before_action :authorize
 
+    before_action :check_file_param, only: %i[prepare_import]
+    before_action :get_persisted_file, only: %i[perform_import]
+    before_action :persist_file, only: %i[prepare_import]
+
+    before_action :build_importer, only: %i[prepare_import perform_import]
+
     before_action :get_issue_type
-    before_action :check_file_param, only: :perform_import
 
     menu_item :bim
 
     def index
-      @issues = BcfIssue
-        .in_project(@project)
-        .with_markup
-        .includes(:comments, :work_package, viewpoints: :attachments)
-        .page(page_param)
-        .per_page(per_page_param)
+      @issues = BcfIssue.in_project(@project)
+                        .with_markup
+                        .includes(:comments, :work_package, viewpoints: :attachments)
+                        .page(page_param)
+                        .per_page(per_page_param)
     end
 
     def import; end
 
-    def perform_import
-      importer = ::OpenProject::Bim::BcfXml::Importer.new @project, current_user: current_user
+    def prepare_import
+      @bcf_file = params[:bcf_file]
 
       begin
-        result = importer.import! params[:bcf_file].path
+        @listing = @importer.get_extractor_list! @bcf_file.path
+        @issues = ::Bim::BcfIssue
+          .with_markup
+          .includes(work_package: %i[status priority assigned_to])
+          .where(uuid: @listing.map { |e| e[:uuid] })
+      rescue StandardError => e
+        flash[:error] = I18n.t('bim.bcf.import_failed', error: e.message)
+        redirect_to action: :index
+      end
+    end
+
+    def perform_import
+      begin
+        result = @importer.import! @bcf_attachment.local_path
         flash[:notice] = I18n.t('bim.bcf.import_successful', count: result)
       rescue StandardError => e
         flash[:error] = I18n.t('bim.bcf.import_failed', error: e.message)
       end
 
+      @bcf_attachment.destroy
       redirect_to action: :index
     end
 
     private
 
+    def build_importer
+      @importer = ::OpenProject::Bim::BcfXml::Importer.new @project, current_user: current_user
+    end
+
     def get_issue_type
       @issue_type = @project.types.find_by(name: 'Issue')
+    end
+
+    def get_persisted_file
+      @bcf_attachment = Attachment.find_by! id: session[:bcf_file_id], author: current_user
+    rescue ActiveRecord::RecordNotFound
+      render_404 'BCF file not found'
+    end
+
+    def persist_file
+      file = params[:bcf_file]
+      @bcf_attachment = Attachment.create! file: file, description: file.original_filename, author: current_user
+      session[:bcf_file_id] = @bcf_attachment.id
+    rescue StandardError => e
+      flash[:error] = "Failed to persist BCF file: #{e.message}"
+      redirect_to action: :index
     end
 
     def check_file_param

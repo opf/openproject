@@ -13,6 +13,10 @@ module OpenProject::Bim::BcfXml
       @doc = Nokogiri::XML markup
     end
 
+    def uuid
+      extract_non_empty :@Guid, attribute: true
+    end
+
     def title
       extract_non_empty :Title
     end

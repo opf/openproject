@@ -11,16 +11,19 @@
   </div>
 <% end %>
 
-<%= form_tag({ action: :perform_import }, multipart: true, method: :post) do %>
+<%= form_tag({ action: :prepare_import }, multipart: true, method: :post) do %>
 
   <div class="form--field">
     <%= styled_label_tag 'bcf_file', t('bim.bcf.xml_file') %>
     <div class="form--field-container">
       <%= styled_file_field_tag :bcf_file, required: true %>
     </div>
+    <div class="form--field-instructions">
+      <p><%= t('bim.import.description') %></p>
+    </div>
   </div>
 
-  <%= submit_tag t(:label_import), class: 'button -highlight' %>
+  <%= submit_tag t('bim.import.button_prepare'), class: 'button -highlight' %>
   <%= link_to t(:button_cancel),
               { action: :index },
               class: 'button' %>

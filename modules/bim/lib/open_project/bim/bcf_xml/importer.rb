@@ -11,6 +11,18 @@ module OpenProject::Bim::BcfXml
       @current_user = current_user
     end
 
+    ##
+    # Get a list of issues contained in a BCF
+    # but do not perform the import
+    def get_extractor_list!(file)
+      Zip::File.open(file) do |zip|
+        yield_topic_entries(zip)
+          .map do |entry|
+          to_listing(MarkupExtractor.new(entry))
+        end
+      end
+    end
+
     def import!(file)
       Zip::File.open(file) do |zip|
         # Extract all topics of the zip and save them
@@ -27,6 +39,14 @@ module OpenProject::Bim::BcfXml
     end
 
     private
+
+    def to_listing(extractor)
+      keys = %i[uuid title priority status description author assignee modified_author due_date]
+      Hash[keys.map { |k| [k, extractor.public_send(k)] }].tap do |attributes|
+        attributes[:viewpoint_count] = extractor.viewpoints.count
+        attributes[:comments_count] = extractor.comments.count
+      end
+    end
 
     def synchronize_topics(zip)
       yield_topic_entries(zip)
