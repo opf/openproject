@@ -95,7 +95,7 @@ class Repository::Subversion < Repository
     scm_info = scm.info
     if scm_info
       # latest revision found in database
-      db_revision = latest_changeset ? latest_changeset.revision.to_i : 0
+      db_revision = latest_changeset ? latest_changeset.revision.to_i : scm.start_revision
       # latest revision in the repository
       scm_revision = scm_info.lastrev.identifier.to_i
       if db_revision < scm_revision
