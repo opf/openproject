@@ -7,6 +7,9 @@ ENV APP_PATH /usr/src/app
 ENV APP_DATA /var/db/openproject
 ENV ATTACHMENTS_STORAGE_PATH /var/db/openproject/files
 
+# Set a default key base, ensure to provide a secure value in production environments!
+ENV SECRET_KEY_BASE=OVERWRITE_ME
+
 # install node + npm
 RUN curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar xzf - -C /usr/local --strip-components=1
 
@@ -58,7 +61,7 @@ RUN chown -R $APP_USER:$APP_USER $APP_DATA
 COPY packaging/conf/database.yml ./config/database.yml
 
 # Run the npm postinstall manually after it was copied
-RUN DATABASE_URL=sqlite3:///tmp/db.sqlite3 SECRET_TOKEN=foobar RAILS_ENV=production bundle exec rake assets:precompile
+RUN DATABASE_URL=sqlite3:///tmp/db.sqlite3 RAILS_ENV=production bundle exec rake assets:precompile
 
 # Include pandoc
 RUN DATABASE_URL=sqlite3:///tmp/db.sqlite3 RAILS_ENV=production bundle exec rails runner "puts ::OpenProject::TextFormatting::Formats::Markdown::PandocDownloader.check_or_download!"
