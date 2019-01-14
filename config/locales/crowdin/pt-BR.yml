@@ -2143,7 +2143,7 @@ pt-BR:
   setting_bcc_recipients: Destinatários de cópia oculta (Cco)
   setting_brute_force_block_after_failed_logins: Bloquear usuário após este número
     de tentativas de login
-  setting_brute_force_block_minutes: Tempo que o usuário está bloqueado para
+  setting_brute_force_block_minutes: Tempo que o usuário ficará bloqueado
   setting_cache_formatted_text: Texto formatado em cache
   setting_use_wysiwyg_description: Selecione para habilitar o CKEditor5 para todos
     os usuários por padrão. O CKEditor tem funcionalidades limitadas para o GFM Markdown.
@@ -2189,8 +2189,8 @@ pt-BR:
     dos novos pacotes de trabalho
   setting_work_packages_export_limit: Limite de exportação de pacotes de trabalho
   setting_journal_aggregation_time_minutes: Exibir diários como agregados dentro
-  setting_log_requesting_user: Log de acesso do usuário, nome e endereço de e-mail
-    para todas as solicitações
+  setting_log_requesting_user: Registrar início de sessão do usuário, nome e endereço
+    de e-mail para todas as requisições
   setting_login_required: Autenticação Requerida
   setting_mail_from: Endereço de e-mail de saída
   setting_mail_handler_api_enabled: Habilitar serviço web de entrada de e-mails
@@ -2230,7 +2230,7 @@ pt-BR:
   setting_self_registration: Auto-registro
   setting_sequential_project_identifiers: Gerar identificadores sequenciais de projeto
   setting_session_ttl: Tempo de expiração de sessão após inatividade
-  setting_session_ttl_hint: Valor abaixo de 5 trabalhos como desativado
+  setting_session_ttl_hint: Valor abaixo de 5 funciona como desativado
   setting_session_ttl_enabled: Sessão expira
   setting_start_of_week: A semana começa em
   setting_sys_api_enabled: Habilitar o serviço web de gerenciamento de repositório
@@ -2256,7 +2256,7 @@ pt-BR:
     other: Outro
     passwords: Senhas
     session: Sessão
-    brute_force_prevention: Bloqueio de usuário automatizado
+    brute_force_prevention: Bloqueio automatizado de usuário
     user:
       default_preferences: Preferências padrão
       deletion: Exclusão
