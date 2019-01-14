@@ -186,6 +186,11 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-flag',
             if: proc { !OpenProject::Configuration.disable_password_login? }
 
+  menu.push :oauth_applications,
+            { controller: '/oauth/applications', action: 'index' },
+            html: { class: 'oauth_applications' },
+            icon: 'icon2 icon-key'
+
   menu.push :announcements,
             { controller: '/announcements', action: 'edit' },
             caption: 'Announcement',

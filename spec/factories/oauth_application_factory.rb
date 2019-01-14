@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,19 +26,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Be sure to restart your server when you modify this file.
-
-# Add new inflection rules using the following format. Inflections
-# are locale specific, and you may define rules for as many different
-# locales as you wish. All of these examples are active by default:
-# ActiveSupport::Inflector.inflections(:en) do |inflect|
-#   inflect.plural /^(ox)$/i, '\1en'
-#   inflect.singular /^(ox)en/i, '\1'
-#   inflect.irregular 'person', 'people'
-#   inflect.uncountable %w( fish sheep )
-# end
-
-# These inflection rules are supported but not enabled by default:
-ActiveSupport::Inflector.inflections(:en) do |inflect|
-  inflect.acronym 'OAuth'
+FactoryBot.define do
+  factory :oauth_application, class: ::Doorkeeper::Application do
+    name { 'My API application' }
+    confidential { true }
+    owner factory: :admin
+    owner_type { 'User' }
+    uid { '12345' }
+    redirect_uri { 'urn:ietf:wg:oauth:2.0:oob' }
+    scopes { 'api_v3' }
+  end
 end

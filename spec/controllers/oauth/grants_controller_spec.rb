@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,19 +26,38 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Be sure to restart your server when you modify this file.
+require 'spec_helper'
+require 'work_package'
 
-# Add new inflection rules using the following format. Inflections
-# are locale specific, and you may define rules for as many different
-# locales as you wish. All of these examples are active by default:
-# ActiveSupport::Inflector.inflections(:en) do |inflect|
-#   inflect.plural /^(ox)$/i, '\1en'
-#   inflect.singular /^(ox)en/i, '\1'
-#   inflect.irregular 'person', 'people'
-#   inflect.uncountable %w( fish sheep )
-# end
+describe ::OAuth::GrantsController, type: :controller do
+  let(:user) { FactoryBot.build_stubbed :user }
+  let(:application_stub) { instance_double(::Doorkeeper::Application, name: 'Foo', id: 1) }
 
-# These inflection rules are supported but not enabled by default:
-ActiveSupport::Inflector.inflections(:en) do |inflect|
-  inflect.acronym 'OAuth'
+  before do
+    login_as user
+  end
+
+  describe '#revoke_application' do
+    context 'when not found' do
+      it 'renders 404' do
+        post :revoke_application, params: { application_id: 1234 }
+        expect(flash[:notice]).to be_nil
+        expect(response.response_code).to eq 404
+      end
+    end
+
+    context 'when found' do
+      before do
+        allow(controller)
+          .to receive(:find_application)
+          .and_return(application_stub)
+      end
+
+      it do
+        post :revoke_application, params: { application_id: 1 }
+        expect(flash[:notice]).to include 'Foo'
+        expect(response).to redirect_to controller: '/my', action: :access_token
+      end
+    end
+  end
 end

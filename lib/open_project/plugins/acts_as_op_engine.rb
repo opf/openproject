@@ -132,6 +132,21 @@ module OpenProject::Plugins
         end
       end
 
+      # Prepend view paths of this engine
+      # Note: YOU WILL override views of the core with this functionality
+      def override_core_views!
+        config.after_initialize do
+          paths = ActionController::Base.view_paths.map(&:to_s)
+          my_view_path = config.root.to_s + '/app/views'
+
+          # Move item to the front
+          paths.delete(my_view_path)
+          paths.insert(0, my_view_path)
+
+          ActionController::Base.view_paths = paths
+        end
+      end
+
       # Add permitted attributes (strong_parameters)
       #
       # Useful when adding a field to an OpenProject core model. We discourage adding

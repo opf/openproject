@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,20 +25,51 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require 'rake'
 
-# Be sure to restart your server when you modify this file.
+##
+# Invoke a rake task while safely loading the tasks only once
+# to ensure they are neither loaded nor executed twice.
+class RakeJob < ApplicationJob
+  attr_reader :task_name
 
-# Add new inflection rules using the following format. Inflections
-# are locale specific, and you may define rules for as many different
-# locales as you wish. All of these examples are active by default:
-# ActiveSupport::Inflector.inflections(:en) do |inflect|
-#   inflect.plural /^(ox)$/i, '\1en'
-#   inflect.singular /^(ox)en/i, '\1'
-#   inflect.irregular 'person', 'people'
-#   inflect.uncountable %w( fish sheep )
-# end
+  def initialize(task_name)
+    @task_name = task_name
+  end
 
-# These inflection rules are supported but not enabled by default:
-ActiveSupport::Inflector.inflections(:en) do |inflect|
-  inflect.acronym 'OAuth'
+  def perform
+    Rails.logger.info { "Invoking Rake task #{task_name}." }
+    invoke
+  end
+
+  protected
+
+  def invoke
+    load_tasks!
+    task.invoke
+  end
+
+  private
+
+  ##
+  # Load tasks if there are none. This should only be run once in an environment
+  def load_tasks!
+    raise unless tasks_loaded?
+  rescue StandardError
+    OpenProject::Application.load_rake_tasks
+  end
+
+  ##
+  # Reference to the task name.
+  # Will raise NameError or NoMethodError depending on what of rake is (not) loaded
+  def task
+    Rake::Task[task_name]
+  end
+
+  ##
+  # Returns whether any task is loaded
+  # Will raise NameError or NoMethodError depending on what of rake is (not) loaded
+  def tasks_loaded?
+    !Rake::Task.tasks.empty?
+  end
 end

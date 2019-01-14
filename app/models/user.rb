@@ -79,6 +79,16 @@ class User < Principal
   has_one :api_token, class_name: '::Token::Api', dependent: :destroy
   belongs_to :auth_source
 
+  # Authorized OAuth grants
+  has_many :oauth_grants,
+           class_name: 'Doorkeeper::AccessGrant',
+           foreign_key: 'resource_owner_id'
+
+  # User-defined oauth applications
+  has_many :oauth_applications,
+           class_name: 'Doorkeeper::Application',
+           as: :owner
+
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
   scope :blocked, -> { create_blocked_scope(self, true) }

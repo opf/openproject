@@ -27,19 +27,41 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Be sure to restart your server when you modify this file.
 
-# Add new inflection rules using the following format. Inflections
-# are locale specific, and you may define rules for as many different
-# locales as you wish. All of these examples are active by default:
-# ActiveSupport::Inflector.inflections(:en) do |inflect|
-#   inflect.plural /^(ox)$/i, '\1en'
-#   inflect.singular /^(ox)en/i, '\1'
-#   inflect.irregular 'person', 'people'
-#   inflect.uncountable %w( fish sheep )
-# end
+module OAuth
+  class GrantsController < ::ApplicationController
+    before_action :require_login
 
-# These inflection rules are supported but not enabled by default:
-ActiveSupport::Inflector.inflections(:en) do |inflect|
-  inflect.acronym 'OAuth'
+    layout 'my'
+    menu_item :access_token
+
+    def index
+      @applications = ::Doorkeeper::Application.authorized_for(current_user)
+    end
+
+    def revoke_application
+      application = find_application
+      if application.nil?
+        render_404
+        return
+      end
+
+      ::Doorkeeper::Application.revoke_tokens_and_grants_for(
+        application.id,
+        current_user
+      )
+
+      flash[:notice] = I18n.t('oauth.grants.successful_application_revocation', application_name: application.name)
+      redirect_to controller: '/my', action: :access_token
+    end
+
+    private
+
+    def find_application
+      ::Doorkeeper::Application
+        .where(id: params[:application_id])
+        .select(:name, :id)
+        .take
+    end
+  end
 end
