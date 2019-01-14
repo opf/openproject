@@ -80,6 +80,7 @@ import {OpenprojectWorkPackageRoutesModule} from "core-app/modules/work_packages
 import {BrowserModule} from "@angular/platform-browser";
 import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
 import {FullCalendarModule} from "ng-fullcalendar";
+import {GlobalSearchService} from "core-components/global-search/global-search.service";
 
 @NgModule({
   imports: [
@@ -141,6 +142,7 @@ import {FullCalendarModule} from "ng-fullcalendar";
 
     // Main Menu
     MainMenuToggleService,
+    GlobalSearchService,
 
     // Augmenting Rails
     ModalWrapperAugmentService,
