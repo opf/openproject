@@ -43,6 +43,7 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
+import {GlobalSearchService} from "core-components/global-search/global-search.service";
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -57,7 +58,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
 
   public focused:boolean = false;
   public noResults = false;
-
+  public searchTerm:string = "asdf";
   private $element:JQuery;
   private $input:JQuery;
 
@@ -69,12 +70,14 @@ export class GlobalSearchInputComponent implements OnDestroy {
               readonly I18n:I18nService,
               readonly PathHelperService:PathHelperService,
               readonly halResourceService:HalResourceService,
-              readonly dynamicCssService:DynamicCssService) {
+              readonly dynamicCssService:DynamicCssService,
+              readonly globalSearchServcie:GlobalSearchService) {
   }
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.$input = jQuery(this.input.nativeElement);
+
 
     let selected = false;
 
