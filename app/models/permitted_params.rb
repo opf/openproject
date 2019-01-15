@@ -130,6 +130,18 @@ class PermittedParams
     params.require(:member).permit(*self.class.permitted_attributes[:member])
   end
 
+  def oauth_application
+    params.require(:application).permit(*self.class.permitted_attributes[:oauth_application]).tap do |app_params|
+      scopes = app_params[:scopes]
+
+      if scopes.present?
+        app_params[:scopes] = scopes.reject(&:blank?).join(" ")
+      end
+
+      app_params
+    end
+  end
+
   def projects_type_ids
     params.require(:project).require(:type_ids).map(&:to_i).select { |x| x > 0 }
   end
@@ -547,6 +559,13 @@ class PermittedParams
           # attributes unique to :new_work_package
           :journal_notes,
           :lock_version],
+        oauth_application: [
+          :name,
+          :redirect_uri,
+          :confidential,
+          :client_credentials_user_id,
+          scopes: []
+        ],
         project_type: [
           :name,
           type_ids: []],

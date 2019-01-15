@@ -141,6 +141,30 @@ See docs/COPYRIGHT.rdoc for more details.
               </tr>
             <% end %>
           <% end %>
+          <% granted_applications.each do |application, tokens| %>
+            <% latest = tokens.sort_by(&:created_at).last %>
+            <tr id="oauth-application-grant-<%= application.id %>">
+              <td>
+                <%= t('oauth.application.named', name: application.name) %>
+                &nbsp;
+                (<%= t('oauth.x_active_tokens', count: tokens.count) %>)
+              </td>
+              <td>
+                <span><%= format_time(latest.created_at) %></span>
+              </td>
+              <td>
+                <span><%= format_time(latest.created_at + latest.expires_in.seconds) %></span>
+              </td>
+              <td>
+                <%= link_to t(:button_revoke),
+                            revoke_my_oauth_application_path(application_id: application.id),
+                            data: { confirm: I18n.t('oauth.revoke_my_application_confirmation',
+                                                    token_count: t('oauth.x_active_tokens', count: tokens.count)) },
+                            method: :post,
+                            class: 'icon icon-delete' %>
+              </td>
+            </tr>
+          <% end %>
           <%= call_hook(:view_access_tokens_table, user: @user) %>
           </tbody>
         </table>

@@ -445,6 +445,14 @@ sv-SE:
         time_entries: Logga tid
         type: Typ
         watcher: Bevakare
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: måste accepteras.
@@ -502,6 +510,16 @@ sv-SE:
             %{count}."
           greater_than_or_equal_to: "(%{name}) måste vara större än eller lika med
             %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: kan inte läsas. Är du säker på att det är en support-nyckel?
         parse_schema_filter_params_service:
@@ -635,6 +653,7 @@ sv-SE:
       wiki_page: Wiki-sida
       workflow: Arbetsflöde
       work_package: Arbetspaket
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'Det fanns problem med följande fält:'
     field_erroneous_label: |-
@@ -710,6 +729,7 @@ sv-SE:
   button_change_password: Ändra lösenord
   button_check_all: Markera alla
   button_clear: Rensa
+  button_click_to_reveal: Click to reveal
   button_close: Close
   button_collapse_all: Fäll ihop alla
   button_configure: Konfigurera
@@ -740,6 +760,7 @@ sv-SE:
   button_remove_widget: Ta bort widget
   button_rename: Ändra namn
   button_replace: Ersätt
+  button_revoke: Revoke
   button_reply: Svara
   button_reset: Återställ
   button_rollback: Återgå till denna version
@@ -2743,3 +2764,110 @@ sv-SE:
       writing_read_only_attributes: Du får inte skriva till ett skrivskyddat attribut.
     resources:
       schema: Schema
+  doorkeeper:
+    pre_authorization:
+      status: Pre-authorization
+    errors:
+      messages:
+        invalid_request: The request is missing a required parameter, includes an
+          unsupported parameter value, or is otherwise malformed.
+        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
+          client redirect URI.
+        unauthorized_client: The client is not authorized to perform this request
+          using this method.
+        access_denied: The resource owner or authorization server denied the request.
+        invalid_scope: The requested scope is invalid, unknown, or malformed.
+        invalid_code_challenge_method: The code challenge method must be plain or
+          S256.
+        server_error: The authorization server encountered an unexpected condition
+          which prevented it from fulfilling the request.
+        temporarily_unavailable: The authorization server is currently unable to handle
+          the request due to a temporary overloading or maintenance of the server.
+        credential_flow_not_configured: Resource Owner Password Credentials flow failed
+          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
+        resource_owner_authenticator_not_configured: Resource Owner find failed due
+          to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
+        admin_authenticator_not_configured: Access to admin panel is forbidden due
+          to Doorkeeper.configure.admin_authenticator being unconfigured.
+        unsupported_response_type: The authorization server does not support this
+          response type.
+        invalid_client: Client authentication failed due to unknown client, no client
+          authentication included, or unsupported authentication method.
+        invalid_grant: The provided authorization grant is invalid, expired, revoked,
+          does not match the redirection URI used in the authorization request, or
+          was issued to another client.
+        unsupported_grant_type: The authorization grant type is not supported by the
+          authorization server.
+        invalid_token:
+          revoked: The access token was revoked
+          expired: The access token expired
+          unknown: The access token is invalid
+  oauth:
+    application:
+      singular: OAuth application
+      plural: OAuth applications
+      named: OAuth application '%{name}'
+      new: New OAuth application
+      default_scopes: "(Default scopes)"
+      instructions:
+        name: The name of your application. This will be displayed to other users
+          upon authorization.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
+          One entry per line. <br/> If you''re registering a desktop application,
+          use the following URL.
+
+'
+        confidential: Check if the application will be used where the client secret
+          can be kept confidential. Native mobile apps and Single Page Apps are assumed
+          non-confidential.
+        client_credential_user_id: Optional user ID to impersonate when clients use
+          this application. Leave empty to allow public access only
+        register_intro: If you are developing an OAuth API client application for
+          OpenProject, you can register it using this form for all users to use.
+        default_scopes: ''
+    client_id: Client ID
+    client_secret_notice: 'This is the only time we can print the client secret, please
+      note it down and keep it secure. It should be treated as a password and cannot
+      be retrieved by OpenProject at a later time.
+
+'
+    authorization_dialog:
+      authorize: Authorize
+      cancel: Cancel and deny authorization.
+      prompt_html: Authorize <strong>%{application_name}</strong> to use your account
+        <em>%{login}</em>?
+      title: Authorize %{application_name}
+      wants_to_access_html: 'This application requests access to your OpenProject
+        account. <br/> <strong>It has requested the following permissions:</strong>
+
+'
+    scopes:
+      api_v3: Full API access
+      api_v3_text: Application will receive full read & write access to the OpenProject
+        API to perform actions on your behalf.
+    grants:
+      created_date: Approved on
+      scopes: Permissions
+      successful_application_revocation: Revocation of application %{application_name}
+        successful.
+      none_given: No OAuth applications have been granted access to your user account.
+    x_active_tokens:
+      one: one active token
+      other: "%{count} active token"
+    flows:
+      authorization_code: Authorization code flow
+      client_credentials: Client credentials flow
+    client_credentials: User used for Client credentials
+    client_credentials_impersonation_set_to: Client credentials user set to
+    client_credentials_impersonation_warning: 'Note: Clients using the ''Client credentials''
+      flow in this application will have the rights of this user'
+    client_credentials_impersonation_html: 'By default, OpenProject provides OAuth
+      2.0 authorization via %{authorization_code_flow_link}. You can optionally enable
+      %{client_credentials_flow_link}, but you must provide a user on whose behalf
+      requests will be performed.
+
+'
+    authorization_error: An authorization error has occurred.
+    revoke_my_application_confirmation: Do you really want to remove this application?
+      This will revoke %{token_count} active for it.
+    my_registered_applications: Registered OAuth applications

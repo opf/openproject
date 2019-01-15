@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/doorkeeper-gem/doorkeeper
+  revision: ce969eee6c16aa8082b0c77ebb5968d9e9b6a57b
+  ref: ce969eee6c16aa8082b0c77ebb5968d9e9b6a57b
+  specs:
+    doorkeeper (5.0.2)
+      railties (>= 4.2)
+
+GIT
   remote: https://github.com/dr0verride/RubyTree.git
   revision: 06f53ee78cc2a48377c1bd177d3bc83c1504701c
   ref: 06f53ee
@@ -860,6 +868,7 @@ DEPENDENCIES
   database_cleaner (~> 1.6)
   date_validator (~> 0.9.0)
   delayed_job_active_record (~> 4.1.1)
+  doorkeeper!
   equivalent-xml (~> 0.6)
   escape_utils (~> 1.0)
   factory_bot (~> 4.8)

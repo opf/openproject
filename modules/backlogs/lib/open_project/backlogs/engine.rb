@@ -118,6 +118,9 @@ module OpenProject::Backlogs
       backlogs/burndown.js
     )
 
+    # We still override version and project settings views from the core! URH
+    override_core_views!
+
     patches [:PermittedParams,
              :WorkPackage,
              :Status,

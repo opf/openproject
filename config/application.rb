@@ -175,15 +175,6 @@ module OpenProject
     # This allows for setting the root either via config file or via environment variable.
     config.action_controller.relative_url_root = OpenProject::Configuration['rails_relative_url_root']
 
-    config.to_prepare do
-      # Rails loads app/views paths of all plugin on each request and appends it to the view_paths.
-      # Thus, they end up behind the core view path and core views are found before plugin views.
-      # To change this behaviour, we just reverse the view_path order on each request so plugin views
-      # take precedence.
-      ApplicationController.view_paths = ActionView::PathSet.new(ApplicationController.view_paths.to_ary.reverse)
-      ActionMailer::Base.view_paths = ActionView::PathSet.new(ActionMailer::Base.view_paths.to_ary.reverse)
-    end
-
     # Load API files
     config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
     config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
@@ -198,6 +189,13 @@ module OpenProject
 
     def self.root_url
       Setting.protocol + "://" + Setting.host_name
+    end
+
+    ##
+    # Load core and engine tasks we're interested in
+    def self.load_rake_tasks
+      load_tasks
+      Doorkeeper::Rake.load_tasks
     end
   end
 end
