@@ -314,6 +314,80 @@ Use `-no-ellipse` class to a TD element to disable the text-overflow applied usu
 ```
 
 
+## with buttons
+
+```
+<table class="generic-table">
+<thead>
+      <tr>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span class="sort asc">
+                Email
+              </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              Roles
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              Status
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--empty-header"></div>
+        </th>
+      </tr>
+    </thead>
+  <tbody>
+    <tr>
+      <td>
+        <a href="#">member@example.net</a>
+      </td>
+      <td>Member</td>
+      <td>active</td>
+      <td class="buttons">
+        <a href="#" class="icon icon-edit" title="Edit"></i></a>
+        <a href="#" class="icon icon-delete" title="Remove"></a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#">verylongemail_example@example.com</a>
+      </td>
+      <td>Member</td>
+      <td>active</td>
+      <td class="buttons">
+        <a href="#" class="icon icon-edit" title="Edit"></i></a>
+        <a href="#" class="icon icon-delete" title="Remove"></a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#">member@example.net</a>
+      </td>
+      <td>Admin</td>
+      <td>active</td>
+      <td class="buttons">
+        <a href="#" class="icon icon-edit" title="Edit"></i></a>
+        <a href="#" class="icon icon-delete" title="Remove"></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+```
+
+
 ## with no content
 
 ```
