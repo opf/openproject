@@ -552,7 +552,7 @@ GEM
     openproject-token (1.0.1)
       activemodel (~> 5.0)
     parallel (1.12.1)
-    parallel_tests (2.21.3)
+    parallel_tests (2.27.1)
       parallel
     parser (2.5.3.0)
       ast (~> 2.4.0)
@@ -924,7 +924,7 @@ DEPENDENCIES
   openproject-two_factor_authentication!
   openproject-webhooks!
   openproject-xls_export!
-  parallel_tests (~> 2.21.3)
+  parallel_tests (~> 2.27.1)
   passenger (~> 5.3.3)
   pg (~> 1.1.0)
   plaintext (~> 0.3.0)
