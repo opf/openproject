@@ -167,7 +167,7 @@ gem 'nokogiri', '~> 1.10.0'
 # fog dependency chain. We only need aws here, so we can avoid it
 # at the cost of referencing carrierwave#master for now.
 gem 'fog-aws'
-gem 'carrierwave', '~> 1.2.2'
+gem 'carrierwave', '~> 1.3.1'
 
 gem 'aws-sdk-core', '~> 3.20.2'
 # File upload via fog + screenshots on travis
