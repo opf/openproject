@@ -6,7 +6,7 @@
 ```
 <div class="generic-table--container">
   <div class="generic-table--results-container" style="max-height: 340px;">
-    <table class="generic-table" interactive-table>
+    <table class="generic-table">
       <colgroup>
         <col highlight-col>
         <col highlight-col>
@@ -114,7 +114,7 @@ Use `-no-ellipse` class to a TD element to disable the text-overflow applied usu
 ```
 <div class="generic-table--container">
   <div class="generic-table--results-container" style="max-height: 340px;">
-    <table class="generic-table" interactive-table>
+    <table class="generic-table">
       <colgroup>
         <col highlight-col>
         <col highlight-col>
@@ -196,7 +196,7 @@ Use `-no-ellipse` class to a TD element to disable the text-overflow applied usu
 
 <div class="generic-table--container -with-footer">
   <div class="generic-table--results-container" style="max-height: 340px;">
-    <table class="generic-table" interactive-table>
+    <table class="generic-table">
       <colgroup>
         <col highlight-col>
         <col highlight-col>

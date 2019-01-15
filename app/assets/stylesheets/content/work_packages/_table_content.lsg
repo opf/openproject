@@ -5,7 +5,7 @@
 ```
 <div class="generic-table--container work-package-table--container">
   <div class="generic-table--results-container">
-    <table class="generic-table" interactive-table>
+    <table class="generic-table">
       <colgroup>
         <col highlight-col>
         <col highlight-col>
