@@ -135,7 +135,7 @@ gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.g
 gem 'prawn', '~> 2.2'
 gem 'prawn-table', '~> 0.2.2'
 
-gem 'cells-erb', '~> 0.0.8'
+gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.0.9'
 
 gem 'meta-tags', '~> 2.6.0'
@@ -166,9 +166,9 @@ gem 'nokogiri', '~> 1.10.0'
 gem 'carrierwave', '~> 1.3.1'
 gem 'fog-aws'
 
-gem 'aws-sdk-core', '~> 3.20.2'
+gem 'aws-sdk-core', '~> 3.45.0'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.9.1'
+gem 'aws-sdk-s3', '~> 1.30.1'
 
 gem 'openproject-token', '~> 1.0.1'
 
