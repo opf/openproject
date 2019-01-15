@@ -128,7 +128,7 @@ gem 'gon', '~> 6.2.1'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
-gem 'airbrake', '~> 5.1.0', require: false
+gem 'airbrake', '~> 7.4.0', require: false
 
 gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.git',
                           branch: 'master'
