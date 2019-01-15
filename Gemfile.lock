@@ -520,7 +520,7 @@ GEM
     mysql2 (0.5.2)
     net-ldap (0.16.0)
     netrc (0.11.0)
-    newrelic_rpm (4.5.0.337)
+    newrelic_rpm (5.7.0.350)
     nio4r (2.3.1)
     nokogiri (1.10.1)
       mini_portile2 (~> 2.4.0)
