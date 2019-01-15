@@ -98,13 +98,6 @@ module SearchHelper
     l("label_#{t.singularize}_plural", default: t.to_s.humanize)
   end
 
-  def project_select_tag
-    options = [[t(:label_project_all), 'all']]
-    options << [t(:label_in_this_project_subprojects)] unless @project.nil? || @project.descendants.active.empty?
-    options << [t(:label_in_this_project)] unless @project.nil?
-    select_tag('scope', options_for_select(options, current_scope), style: "width: 211px; display: inline-block;") if options.size > 1
-  end
-
   def render_results_by_type(results_by_type)
     links = []
     # Sorts types by results count
