@@ -186,9 +186,7 @@ module Redmine
         @added.times do |i|
           line = self[-(1 + i)]
           removed = (@type == 'sbs') ? line : self[-(1 + @added + i)]
-          ll = Redmine.escape_some_html_entities(removed.line_left)
-          lr = Redmine.escape_some_html_entities(line.line_right)
-          offsets = offsets(ll, lr)
+          offsets = offsets(removed.line_left, line.line_right)
           removed.offsets = line.offsets = offsets
         end
       end
@@ -198,25 +196,37 @@ module Redmine
 
     def offsets(line_left, line_right)
       if line_left.present? && line_right.present? && line_left != line_right
+        line_left = Redmine.escape_some_html_entities(line_left)
+        line_right = Redmine.escape_some_html_entities(line_right)
         max = [line_left.size, line_right.size].min
-        starting = 0
-        while starting < max && line_left[starting] == line_right[starting]
-          starting += 1
-        end
-        if starting.positive? && line_left[starting - 1] == '&'
-          starting -= 1
-        end
-        ending = -1
-        while ending >= -(max - starting) && line_left[ending] == line_right[ending]
-          ending -= 1
-        end
-        if ending < -1 && line_left[ending + 1] == ';' && line_left[starting] == '&'
-          ending += 1
-        end
+        starting = starting(line_left, line_right, max)
+        ending = ending(line_left, line_right, max, starting)
         unless starting == 0 && ending == -1
           [starting, ending]
         end
       end
+    end
+
+    def starting(line_left, line_right, max)
+      starting = 0
+      while starting < max && line_left[starting] == line_right[starting]
+        starting += 1
+      end
+      if starting.positive? && line_left[starting - 1] == '&'
+        starting -= 1
+      end
+      starting
+    end
+
+    def ending(line_left, line_right, max, starting)
+      ending = -1
+      while ending >= -(max - starting) && line_left[ending] == line_right[ending]
+        ending -= 1
+      end
+      if ending < -1 && line_left[ending + 1] == ';' && line_left[starting] == '&'
+        ending += 1
+      end
+      ending
     end
   end
 
