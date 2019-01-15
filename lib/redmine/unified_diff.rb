@@ -186,8 +186,8 @@ module Redmine
         @added.times do |i|
           line = self[-(1 + i)]
           removed = (@type == 'sbs') ? line : self[-(1 + @added + i)]
-	  ll = Redmine.escape_some_html_entities(removed.line_left)
-	  lr = Redmine.escape_some_html_entities(line.line_right)
+          ll = Redmine.escape_some_html_entities(removed.line_left)
+          lr = Redmine.escape_some_html_entities(line.line_right)
           offsets = offsets(ll, lr)
           removed.offsets = line.offsets = offsets
         end
