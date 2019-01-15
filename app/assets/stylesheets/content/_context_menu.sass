@@ -26,6 +26,50 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
+.action-menu
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
+  ul
+    list-style-type: none
+    margin: 0
+    min-width: 240px
+    border: 1px solid #dddddd
+    padding: 3px 0
+    background: #ffffff
+
+  li
+    padding: 4px 13px 4px 10px
+    &:hover
+      background: #f0f0f0
+      cursor: pointer
+    &.has-no-icon
+      padding: 4px 10px 4px 35px
+    &.dropdown-divider
+      border-top: 1px solid #eeeeee
+      margin: 3px 0
+      padding: 0
+      font-size: 1px
+    &:hover ul
+      display: block
+      margin: -28px 0 0 190px
+
+    a
+      @include varprop(color, context-menu-unselected-font-color)
+      font-weight: normal
+      &:hover
+        text-decoration: none
+    ul
+      display: none
+      position: absolute
+
+.icon-action-menu
+  @include icon-action-menu-rules
+.icon-action-menu-post
+  @include icon-action-menu-rules
+  padding-left: 0.25rem
+.icon-sub-menu
+  @include icon-sub-menu-rules
+
+
 .op-context-menu--overlay
   position: absolute
   top: 0
