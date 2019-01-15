@@ -33,11 +33,10 @@ ruby '~> 2.5.1'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-session_store', '~> 1.1.0'
+gem 'listen', '~> 3.1' # Use for event-based reloaders
 gem 'rails', '~> 5.2.2'
 gem 'responders', '~> 2.4'
-gem "listen", "~> 3.1" # Use for event-based reloaders
 
-gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
 gem 'rdoc', '>= 2.4.2'
 
 gem 'omniauth', git: 'https://github.com/oliverguenther/omniauth', ref: '40c6f5f751d2da7cce5444bbd96c390c450440a9'
@@ -54,6 +53,7 @@ gem 'friendly_id', '~> 5.2.1'
 gem 'acts_as_list', '~> 0.9.9'
 gem 'acts_as_tree', '~> 2.8.0'
 gem 'awesome_nested_set', '~> 3.1.3'
+gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
 gem 'typed_dag', '~> 2.0.2'
 
 gem 'addressable', '~> 2.5.2'
@@ -136,8 +136,8 @@ gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.g
 gem 'prawn', '~> 2.2'
 gem 'prawn-table', '~> 0.2.2'
 
-gem 'cells-rails', '~> 0.0.9'
 gem 'cells-erb', '~> 0.0.8'
+gem 'cells-rails', '~> 0.0.9'
 
 gem 'meta-tags', '~> 2.6.0'
 
@@ -164,11 +164,8 @@ gem 'unicorn'
 
 gem 'nokogiri', '~> 1.10.0'
 
-# carrierwave 0.11.3 should allow to use fog-aws without the rest of the
-# fog dependency chain. We only need aws here, so we can avoid it
-# at the cost of referencing carrierwave#master for now.
-gem 'fog-aws'
 gem 'carrierwave', '~> 1.3.1'
+gem 'fog-aws'
 
 gem 'aws-sdk-core', '~> 3.20.2'
 # File upload via fog + screenshots on travis
@@ -183,9 +180,9 @@ gem 'rest-client', '~> 2.0'
 gem 'ruby-progressbar', '~> 1.10.0', require: false
 
 group :test do
+  gem 'launchy', '~> 2.4.3'
   gem 'rack-test', '~> 1.0.0'
   gem 'shoulda-context', '~> 1.2'
-  gem 'launchy', '~> 2.4.3'
 
   # Require factory_bot for usage with openproject plugins testing
   # FactoryBot needs to be available when loading app otherwise factory
@@ -203,9 +200,9 @@ group :test do
   gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
   gem 'rspec', '~> 3.8.0'
+  gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 3.8.1', group: :development
-  gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
@@ -226,10 +223,10 @@ group :test do
   gem 'timecop', '~> 0.9.0'
   gem 'webmock', '~> 3.1.0', require: false
 
-  gem 'simplecov', '~> 0.16.0', require: false
-  gem 'shoulda-matchers', '~> 3.1', require: nil
-  gem 'json_spec', '~> 1.1.4'
   gem 'equivalent-xml', '~> 0.6'
+  gem 'json_spec', '~> 1.1.4'
+  gem 'shoulda-matchers', '~> 3.1', require: nil
+  gem 'simplecov', '~> 0.16.0', require: false
 
   gem 'parallel_tests', '~> 2.21.3'
 end
@@ -250,19 +247,19 @@ group :development do
 end
 
 group :development, :test do
-  gem 'thin', '~> 1.7.2'
-  gem 'ruby-prof', require: false
   gem 'puma', '~> 3.12.0'
+  gem 'thin', '~> 1.7.2'
 
   # Tracing and profiling gems
-  gem 'rack-mini-profiler', require: false
   gem 'flamegraph', require: false
+  gem 'rack-mini-profiler', require: false
+  gem 'ruby-prof', require: false
   gem 'stackprof', require: false
 
-  gem 'pry-rails', '~> 0.3.6'
-  gem 'pry-stack_explorer', '~> 0.4.9.2'
-  gem 'pry-rescue', '~> 1.4.5'
   gem 'pry-byebug', '~> 3.6.0', platforms: [:mri]
+  gem 'pry-rails', '~> 0.3.6'
+  gem 'pry-rescue', '~> 1.4.5'
+  gem 'pry-stack_explorer', '~> 0.4.9.2'
 end
 
 gem 'bootsnap', '~> 1.3.2', require: true
@@ -292,10 +289,10 @@ group :docker, optional: true do
   gem 'passenger', '~> 5.3.3'
 
   # Used to easily precompile assets
-  gem 'sqlite3', require: false
-  gem 'rails_12factor', require: !!ENV['HEROKU']
   gem 'health_check', require: !!ENV['HEROKU']
   gem 'newrelic_rpm', require: !!ENV['HEROKU']
+  gem 'rails_12factor', require: !!ENV['HEROKU']
+  gem 'sqlite3', require: false
 end
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
@@ -304,5 +301,6 @@ gemfiles = Dir.glob File.expand_path('../{Gemfile.plugins,Gemfile.modules,Gemfil
 gemfiles << ENV['CUSTOM_PLUGIN_GEMFILE'] unless ENV['CUSTOM_PLUGIN_GEMFILE'].nil?
 gemfiles.each do |file|
   next unless File.readable?(file)
+
   eval_gemfile(file)
 end
