@@ -599,7 +599,7 @@ GEM
       httpclient
       json-jwt (>= 1.9.0)
       rack
-    rack-protection (2.0.1)
+    rack-protection (2.0.5)
       rack
     rack-test (1.0.0)
       rack (>= 1.0, < 3)
