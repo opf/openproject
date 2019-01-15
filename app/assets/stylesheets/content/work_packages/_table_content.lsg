@@ -16,15 +16,12 @@
       <thead>
         <tr>
           <th>
-            <div class="generic-table--header-outer">
-              <input type="checkbox">
-            </div>
-          </th>
-          <th>
             <div class="generic-table--sort-header-outer">
               <span class="generic-table--sort-header">
-                #
-                <span class="icon-context icon-button icon-pulldown dropdown-indicator"></span>
+                ID
+                <op-icon>
+                  <i class="dropdown-indicator icon-pulldown icon-small"></i>
+                </op-icon>
               </span>
             </div>
           </th>
@@ -32,7 +29,9 @@
             <div class="generic-table--sort-header-outer">
               <span class="generic-table--sort-header">
                 Subject
-                <span class="icon-context icon-button icon-pulldown dropdown-indicator"></span>
+                <op-icon>
+                  <i class="dropdown-indicator icon-pulldown icon-small"></i>
+                </op-icon>
               </span>
             </div>
           </th>
@@ -40,7 +39,9 @@
             <div class="generic-table--sort-header-outer">
               <span class="generic-table--sort-header">
                 Type
-                <span class="icon-context icon-button icon-pulldown dropdown-indicator"></span>
+                <op-icon>
+                  <i class="dropdown-indicator icon-pulldown icon-small"></i>
+                </op-icon>
               </span>
             </div>
           </th>
@@ -48,7 +49,9 @@
             <div class="generic-table--sort-header-outer">
               <span class="generic-table--sort-header">
                 Status
-                <span class="icon-context icon-button icon-pulldown dropdown-indicator"></span>
+                <op-icon>
+                  <i class="dropdown-indicator icon-pulldown icon-small"></i>
+                </op-icon>
               </span>
             </div>
           </th>
@@ -56,7 +59,9 @@
             <div class="generic-table--sort-header-outer">
               <span class="generic-table--sort-header">
                 Priority
-                <span class="icon-context icon-button icon-pulldown dropdown-indicator"></span>
+                <op-icon>
+                  <i class="dropdown-indicator icon-pulldown icon-small"></i>
+                </op-icon>
               </span>
             </div>
           </th>
@@ -64,88 +69,60 @@
             <div class="generic-table--sort-header-outer">
               <span class="generic-table--sort-header">
                 Assignee
-                <span class="icon-context icon-button icon-pulldown dropdown-indicator"></span>
+                <op-icon>
+                  <i class="dropdown-indicator icon-pulldown icon-small"></i>
+                </op-icon>
               </span>
             </div>
           </th>
         </tr>
       </thead>
       <tbody>
-      	<tr>
-        	<td class="checkbox">
-    			  <p><input type="checkbox"></p>
-    		  </td>
-    		  <td class="id">
-      			<p>1234</p>
-      		</td>
-      		<td>
-      			<p>Lorem ipsum</p>
-      		</td>
-      		<td>
-      			<p>User Story</p>
-      			<div class="active-column"></div>
-      		</td>
-      		<td>
-      			<p>In Progress</p>
-      		</td>
-      		<td>
-      			<p>Normal</p>
-      		</td>
-      		<td>
-      			<p>John Doe</p>
-      		</td>
-    	  </tr>
-        <tr>
-          <td class="checkbox">
-            <p><input type="checkbox"></p>
-          </td>
+        <tr class="wp-table--row -checked">
           <td class="id">
-            <p>1234</p>
+            <a href="#">1234</a>
           </td>
           <td>
-            <p>Lorem ipsum</p>
+            <span class="wp-table--cell-span -editable">Lorem ipsum</span>
           </td>
           <td>
-            <p>User Story</p>
+            <span class="wp-table--cell-span -editable">User Story</span>
             <div class="active-column"></div>
           </td>
           <td>
-            <p>In Progress</p>
+            <span class="wp-table--cell-span -editable">In Progress</span>
           </td>
           <td>
-            <p>Normal</p>
+            <span class="wp-table--cell-span -editable">Normal</span>
           </td>
           <td>
-            <p>John Doe</p>
+            <span class="wp-table--cell-span -editable">John Doe</span>
           </td>
         </tr>
-        <tr>
-          <td class="checkbox">
-            <p><input type="checkbox"></p>
-          </td>
+        <tr class="wp-table--row">
           <td class="id">
-            <p>1234</p>
+            <a href="#">1234</a>
           </td>
           <td>
-            <p>Lorem ipsum</p>
+            <span class="wp-table--cell-span -editable">Lorem ipsum</span>
           </td>
           <td>
-            <p>User Story</p>
+            <span class="wp-table--cell-span -editable">User Story</span>
             <div class="active-column"></div>
           </td>
           <td>
-            <p>In Progress</p>
+            <span class="wp-table--cell-span -editable">In Progress</span>
           </td>
           <td>
-            <p>Normal</p>
+            <span class="wp-table--cell-span -editable">Normal</span>
           </td>
           <td>
-            <p>John Doe</p>
+            <span class="wp-table--cell-span -editable">John Doe</span>
           </td>
         </tr>
       </tbody>
     </table>
-    
+
   </div>
 </div>
 ```
