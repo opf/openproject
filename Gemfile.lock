@@ -294,7 +294,7 @@ GEM
       thor (~> 0.19)
     builder (3.2.3)
     byebug (10.0.2)
-    capybara (3.11.1)
+    capybara (3.12.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -526,7 +526,7 @@ GEM
     netrc (0.11.0)
     newrelic_rpm (4.5.0.337)
     nio4r (2.3.1)
-    nokogiri (1.10.0)
+    nokogiri (1.10.1)
       mini_portile2 (~> 2.4.0)
     nokogumbo (1.5.0)
       nokogiri
@@ -854,7 +854,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.6)
   bootsnap (~> 1.3.2)
   bourbon (~> 4.3.4)
-  capybara (~> 3.11.1)
+  capybara (~> 3.12.0)
   capybara-screenshot (~> 1.0.17)
   capybara-select2!
   carrierwave (~> 1.3.1)
