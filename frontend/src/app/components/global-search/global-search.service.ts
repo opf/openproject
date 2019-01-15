@@ -46,9 +46,9 @@ export class GlobalSearchService {
   private _tabs = new BehaviorSubject<any>([]);
   public tabs$ = this._tabs.asObservable();
 
-
   constructor(protected I18n:I18nService,
-              protected injector:Injector) {
+              protected injector:Injector,
+              readonly currentProjectService:CurrentProjectService) {
     this.initialize();
   }
 
@@ -81,7 +81,51 @@ export class GlobalSearchService {
     }
   }
 
+  public submitSearch():void {
+    let searchPath:string = '';
+    if (this.currentProjectService.path) {
+      searchPath = this.currentProjectService.path;
+    }
+    searchPath = searchPath + `/search?${this.searchQueryParams()}`;
+    window.location.href = searchPath;
+  }
+
   public set searchTerm(searchTerm:string) {
     this._searchTerm.next(searchTerm);
+  }
+
+  public get searchTerm():string {
+    return this._searchTerm.value;
+  }
+
+  public get tabs():string {
+    return this._tabs.value;
+  }
+
+  public get currentTab():string {
+    return this._currentTab.value;
+  }
+
+  public get projectScope():string {
+    return this._projectScope.value;
+  }
+
+  public set projectScope(value:string) {
+    this._projectScope.next(value);
+  }
+
+  private searchQueryParams():string {
+    let params:string;
+
+    params = `q=${this.searchTerm}&scope=${this.projectScope}`;
+
+    if (this.currentTab.length > 0) {
+      params = `${params}&${this.currentTab}=1`;
+    }
+    if (this.projectScope.length > 0) {
+      params = `${params}&scope=${this.projectScope}`;
+    }
+
+    return params;
   }
 }
