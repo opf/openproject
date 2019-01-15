@@ -29,7 +29,7 @@
 
 module Redmine
   # Escape the some HTML entities for the diff
-  def self.escape_some_HTML_entities(line)
+  def self.escape_some_html_entities(line)
     line.gsub('&', '&amp;').gsub('<', '&lt;')
   end
 
@@ -186,7 +186,9 @@ module Redmine
         @added.times do |i|
           line = self[-(1 + i)]
           removed = (@type == 'sbs') ? line : self[-(1 + @added + i)]
-          offsets = offsets(removed.line_left, line.line_right)
+	  ll = Redmine.escape_some_html_entities(removed.line_left)
+	  lr = Redmine.escape_some_html_entities(line.line_right)
+          offsets = offsets(ll, lr)
           removed.offsets = line.offsets = offsets
         end
       end
@@ -196,21 +198,19 @@ module Redmine
 
     def offsets(line_left, line_right)
       if line_left.present? && line_right.present? && line_left != line_right
-        ll = Redmine.escape_some_HTML_entities(line_left)
-        lr = Redmine.escape_some_HTML_entities(line_right)
-        max = [ll.size, lr.size].min
+        max = [line_left.size, line_right.size].min
         starting = 0
-        while starting < max && ll[starting] == lr[starting]
+        while starting < max && line_left[starting] == line_right[starting]
           starting += 1
         end
-        if starting.positive? && ll[starting - 1] == '&'
+        if starting.positive? && line_left[starting - 1] == '&'
           starting -= 1
         end
         ending = -1
-        while ending >= -(max - starting) && ll[ending] == lr[ending]
+        while ending >= -(max - starting) && line_left[ending] == line_right[ending]
           ending -= 1
         end
-        if ending < -1 && ll[ending + 1] == ';' && ll[starting] == '&'
+        if ending < -1 && line_left[ending + 1] == ';' && line_left[starting] == '&'
           ending += 1
         end
         unless starting == 0 && ending == -1
@@ -249,7 +249,7 @@ module Redmine
 
     def html_line_left
       if offsets
-        l = Redmine.escape_some_HTML_entities(line_left)
+        l = Redmine.escape_some_html_entities(line_left)
         l.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line_left
@@ -258,7 +258,7 @@ module Redmine
 
     def html_line_right
       if offsets
-        l = Redmine.escape_some_HTML_entities(line_right)
+        l = Redmine.escape_some_html_entities(line_right)
         l.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line_right
@@ -267,7 +267,7 @@ module Redmine
 
     def html_line
       if offsets
-        l = Redmine.escape_some_HTML_entities(line)
+        l = Redmine.escape_some_html_entities(line)
         l.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line
