@@ -306,7 +306,7 @@ GEM
     capybara-screenshot (1.0.22)
       capybara (>= 1.0, < 4)
       launchy
-    carrierwave (1.2.2)
+    carrierwave (1.3.1)
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
@@ -858,7 +858,7 @@ DEPENDENCIES
   capybara (~> 3.11.1)
   capybara-screenshot (~> 1.0.17)
   capybara-select2!
-  carrierwave (~> 1.2.2)
+  carrierwave (~> 1.3.1)
   cells-erb (~> 0.0.8)
   cells-rails (~> 0.0.9)
   chromedriver-helper (~> 2.1.0)
