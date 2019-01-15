@@ -29,14 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <div class="top-menu-search--wrapper hidden-for-mobile">
   <%= label_tag("q", l(:label_search), class: "hidden-for-sighted") %>
 
-  <%= form_tag(search_path(@project), method: :get) do %>
-    <%= hidden_field_tag(controller.default_search_scope, 1, project_id: nil) if controller.default_search_scope %>
+  <global-search-input>
 
-    <%= styled_label_tag :scope, t(:description_project_scope), class: 'hidden-for-sighted' %>
-    <%= project_select_tag %>
-
-    <global-search-input>
-
-    </global-search-input>
-  <% end %>
+  </global-search-input>
 </div>

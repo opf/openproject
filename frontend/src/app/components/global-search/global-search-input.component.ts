@@ -47,6 +47,7 @@ import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css
 import {GlobalSearchService} from "core-components/global-search/global-search.service";
 import {distinctUntilChanged} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -76,22 +77,15 @@ export class GlobalSearchInputComponent implements OnDestroy {
               readonly halResourceService:HalResourceService,
               readonly dynamicCssService:DynamicCssService,
               readonly globalSearchService:GlobalSearchService,
-              readonly cdRef:ChangeDetectorRef) {
+              readonly cdRef:ChangeDetectorRef,
+              readonly currentProjectService:CurrentProjectService) {
   }
+
+  private projectScopeTypes = ['all_projects', 'this_project', 'this_project_and_all_descendants'];
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.$input = jQuery(this.input.nativeElement);
-
-    this.globalSearchService.currentTab$
-      .pipe(
-        distinctUntilChanged(),
-        untilComponentDestroyed(this)
-      )
-      .subscribe((currentTab:string) => {
-      this.currentTab = currentTab;
-      this.cdRef.detectChanges();
-    });
 
     this.globalSearchService.searchTerm$
       .pipe(
@@ -107,7 +101,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
 
     this.$input.autocomplete({
       delay: 250,
-      autoFocus: false, // Accessibility!
+      autoFocus: true,
       appendTo: '#top-menu',
       classes: {
         'ui-autocomplete': 'search-autocomplete--results'
@@ -116,42 +110,58 @@ export class GlobalSearchInputComponent implements OnDestroy {
         my: 'left top+10',
         at: 'left bottom'
       },
+      // focus: (event, ui) => {
+      //   // this.searchTerm = ui.item.label;
+      //   this.globalSearchService.searchTerm = this.searchTerm;
+      //   return false;
+      // },
       source: (request:{ term:string }, response:Function) => {
         this.autocompleteWorkPackages(request.term).then((values) => {
           selected = false;
           response(values.map(wp => {
-            return { workPackage: wp };
+            return { item: wp };
           }));
         });
       },
+      focus: (_evt:any, ui:any) => {
+        return false;
+      },
       select: (_evt:any, ui:any) => {
         selected = true;
-        this.redirectToWp(ui.item.workPackage.id);
+        this.globalSearchService.searchTerm = this.searchValue;
+
+        switch (ui.item.item) {
+          case 'all_projects': {
+            this.globalSearchService.projectScope = 'all';
+            this.globalSearchService.submitSearch();
+            break;
+          }
+          case 'this_project': {
+            this.globalSearchService.projectScope = 'current_project';
+            this.globalSearchService.submitSearch();
+            break;
+          }
+          case 'this_project_and_all_descendants': {
+            this.globalSearchService.projectScope = '';
+            this.globalSearchService.submitSearch();
+            break;
+          }
+          default: {
+            const workPackage = ui.item.item;
+            this.redirectToWp(workPackage.id);
+          }
+        }
+
+        return false;
       },
       minLength: 0
     })
-    .data('ui-autocomplete')._renderItem = (ul:JQuery, item:{workPackage:WorkPackageResource}) => {
-      let workPackage = item.workPackage;
-      return jQuery("<li>")
-        .attr('data-value', workPackage.id)
-        .attr('tabindex', -1)
-        .append(
-          jQuery('<div>')
-            .addClass( 'ui-menu-item-wrapper')
-            .append(
-              jQuery('<span>')
-                .addClass('search-autocomplete--wp-id')
-                .addClass(`__hl_dot_status_${workPackage.status.idFromLink}`)
-                .attr('title', workPackage.status.name)
-                .append(`#${workPackage.id}`)
-            )
-            .append(
-              jQuery('<span>')
-                .addClass('search-autocomplete--subject')
-                .append(` ${workPackage.subject}`)
-            )
-        )
-        .appendTo(ul);
+    .data('ui-autocomplete')._renderItem = (ul:JQuery, item:{item:string|WorkPackageResource}) => {
+      if (_.includes(this.projectScopeTypes, item.item)) {
+        return this.renderProjectScopeItem(item.item as string).appendTo(ul);
+      } else {
+        return this.renderWorkPackageItem(item.item as WorkPackageResource).appendTo(ul);
+      }
     };
   }
 
@@ -160,8 +170,6 @@ export class GlobalSearchInputComponent implements OnDestroy {
   public handleClick(event:JQueryEventObject):void {
     event.stopPropagation();
     event.preventDefault();
-
-    this.dynamicCssService.requireHighlighting();
 
     if (ContainHelpers.insideOrSelf(this.btn.nativeElement, event.target)) {
       this.submitNonEmptySearch();
@@ -179,11 +187,10 @@ export class GlobalSearchInputComponent implements OnDestroy {
     }
   }
 
-  private submitNonEmptySearch() {
+  public submitNonEmptySearch() {
     if (this.searchValue !== '') {
-      jQuery(this.input.nativeElement)
-        .closest('form')
-        .submit();
+      this.globalSearchService.searchTerm = this.searchValue;
+      this.globalSearchService.submitSearch();
     }
   }
 
@@ -191,16 +198,14 @@ export class GlobalSearchInputComponent implements OnDestroy {
     return this.input.nativeElement.value;
   }
 
-  private set searchValue(val:string) {
-    this.input.nativeElement.value = val;
-  }
-
   ngOnDestroy():void {
     this.$input.autocomplete('destroy');
     this.unregister();
   }
 
-  private autocompleteWorkPackages(query:string):Promise<WorkPackageResource[]> {
+  private autocompleteWorkPackages(query:string):Promise<(WorkPackageResource|string)[]> {
+    this.dynamicCssService.requireHighlighting();
+
     this.$element.find('.ui-autocomplete--loading').show();
     let idOnly:boolean = false;
 
@@ -209,7 +214,16 @@ export class GlobalSearchInputComponent implements OnDestroy {
       idOnly = true;
     }
 
-    let href = this.PathHelperService.api.v3.wpBySubjectOrId(query, idOnly);
+    let href:string = this.PathHelperService.api.v3.wpBySubjectOrId(query, idOnly);
+
+    let suggestions:(string|WorkPackageResource)[] = [];
+
+    if (this.currentProjectService.path) {
+      suggestions.push('this_project_and_all_descendants');
+      suggestions.push('this_project');
+    }
+
+    suggestions.push('all_projects');
 
     return this.halResourceService
       .get<CollectionResource<WorkPackageResource>>(href)
@@ -217,15 +231,56 @@ export class GlobalSearchInputComponent implements OnDestroy {
       .then((collection) => {
         this.noResults = collection.count === 0;
         this.hideSpinner();
-        return collection.elements || [];
+        return suggestions.concat(collection.elements);
       }).catch(() => {
         this.hideSpinner();
-        return [];
+        return suggestions;
       });
   }
 
   private hideSpinner():void {
     this.$element.find('.ui-autocomplete--loading').hide();
+  }
+
+  private renderProjectScopeItem(scope:string):JQuery {
+    return jQuery("<li>")
+      .attr('data-value', scope)
+      .attr('tabindex', -1)
+      .append(
+        jQuery('<div>')
+          .addClass( 'ui-menu-item-wrapper')
+          .append(
+            jQuery('<span>')
+              .addClass('search-autocomplete--search-term')
+              .append(this.searchValue)
+          ).append(
+            jQuery('<span>')
+              .addClass('search-autocomplete--project-scope')
+              .append(` [${scope}]`)
+          )
+      );
+  }
+
+  private renderWorkPackageItem(workPackage:WorkPackageResource) {
+    return jQuery("<li>")
+      .attr('data-value', workPackage.id)
+      .attr('tabindex', -1)
+      .append(
+        jQuery('<div>')
+          .addClass( 'ui-menu-item-wrapper')
+          .append(
+            jQuery('<span>')
+              .addClass('search-autocomplete--wp-id')
+              .addClass(`__hl_dot_status_${workPackage.status.idFromLink}`)
+              .attr('title', workPackage.status.name)
+              .append(`#${workPackage.id}`)
+          )
+          .append(
+            jQuery('<span>')
+              .addClass('search-autocomplete--subject')
+              .append(` ${workPackage.subject}`)
+          )
+      );
   }
 }
 

@@ -110,7 +110,7 @@ class SearchController < ApplicationController
     @available_search_types = Redmine::Search.available_search_types.dup
     gon.global_search = {
       search_term: @question,
-      project_scope: @scope,
+      project_scope: search_params[:scope].to_s,
       available_search_types: @available_search_types,
       current_tab: @available_search_types.select { |search_type| search_params[search_type] }.first || 'all'
     }
