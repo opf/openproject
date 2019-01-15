@@ -75,10 +75,17 @@
               </span>
             </div>
           </th>
+          <th class="wp-table--configuration-modal--trigger">
+            <div class="generic-table--sort-header-outer">
+              <a href="" title="Configure view">
+                    <i class="icon-settings icon-small"></i>
+              </a>
+            </div>
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr class="wp-table--row -checked">
+        <tr class="wp-table--row issue -checked">
           <td class="id">
             <a href="#">1234</a>
           </td>
@@ -97,9 +104,19 @@
           </td>
           <td>
             <span class="wp-table--cell-span -editable">John Doe</span>
+          </td>
+          <td class="wp-table--context-menu-td">
+            <span>
+              <a href="#" class="wp-table--details-link wp-table-context-menu-icon" title="Open details view">
+                <i class="icon icon-info2"></i>
+              </a>
+              <a href="#" class="wp-table-context-menu-link wp-table-context-menu-icon" title="Open context menu">
+                <i class="icon icon-show-more-horizontal"></i>
+              </a>
+            </span>
           </td>
         </tr>
-        <tr class="wp-table--row">
+        <tr class="wp-table--row issue">
           <td class="id">
             <a href="#">1234</a>
           </td>
@@ -118,6 +135,16 @@
           </td>
           <td>
             <span class="wp-table--cell-span -editable">John Doe</span>
+          </td>
+          <td class="wp-table--context-menu-td">
+            <span>
+              <a href="#" class="wp-table--details-link wp-table-context-menu-icon" title="Open details view">
+                <i class="icon icon-info2"></i>
+              </a>
+              <a href="#" class="wp-table-context-menu-link wp-table-context-menu-icon" title="Open context menu">
+                <i class="icon icon-show-more-horizontal"></i>
+              </a>
+            </span>
           </td>
         </tr>
       </tbody>
