@@ -304,7 +304,8 @@ OpenProject::Application.routes.draw do
       get '(/revisions/:rev)/diff.:format', action: :diff
       get '(/revisions/:rev)/diff(/*repo_path)',
           action: :diff,
-          format: false
+          format: 'html',
+          constraints: { rev: /[\w0-9\.\-_]+/, repo_path: /.*/ }
 
       get '(/revisions/:rev)/:format/*repo_path',
           action: :entry,

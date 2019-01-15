@@ -28,6 +28,11 @@
 #++
 
 module Redmine
+  # Escape the some HTML entities for the diff
+  def Redmine.escape_some_HTML_entities(line)
+    line.gsub('&', '&amp;').gsub('<', '&lt;')
+  end
+
   # Class used to parse unified diffs
   class UnifiedDiff < Array
     attr_reader :diff_type
@@ -191,14 +196,22 @@ module Redmine
 
     def offsets(line_left, line_right)
       if line_left.present? && line_right.present? && line_left != line_right
+        line_left = Redmine.escape_some_HTML_entities(line_left)
+        line_right = Redmine.escape_some_HTML_entities(line_right)
         max = [line_left.size, line_right.size].min
         starting = 0
         while starting < max && line_left[starting] == line_right[starting]
           starting += 1
         end
+        if starting > 0 && line_left[starting - 1] == '&'
+          starting -= 1
+        end
         ending = -1
         while ending >= -(max - starting) && line_left[ending] == line_right[ending]
           ending -= 1
+        end
+        if ending < -1 && line_left[ending + 1] == ';' && line_left[starting] == '&'
+          ending += 1
         end
         unless starting == 0 && ending == -1
           [starting, ending]
@@ -236,7 +249,8 @@ module Redmine
 
     def html_line_left
       if offsets
-        line_left.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
+        l = Redmine.escape_some_HTML_entities(line_left)
+        l.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line_left
       end
@@ -244,7 +258,8 @@ module Redmine
 
     def html_line_right
       if offsets
-        line_right.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
+        l = Redmine.escape_some_HTML_entities(line_right)
+        l.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line_right
       end
@@ -252,7 +267,8 @@ module Redmine
 
     def html_line
       if offsets
-        line.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
+        l = Redmine.escape_some_HTML_entities(line)
+        l.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line
       end

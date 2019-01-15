@@ -516,15 +516,15 @@ describe OpenProject::Scm::Adapters::Git do
           it 'provides the selected diff for the given range' do
             diff = adapter.diff('README', '61b685f', '2f9c009')
             expect(diff).to eq(<<-DIFF.strip_heredoc.split("\n"))
-              diff --git a/README b/README
-              index 6cbd30c..b94e68e 100644
-              --- a/README
-              +++ b/README
-              @@ -1 +1,4 @@
-               Mercurial test repository
-              +
-              +Mercurial is a distributed version control system. Mercurial is dedicated to speed and efficiency with a sane user interface.
-              +It is written in Python.
+              diff --git a/README b/README\n
+              index 6cbd30c..b94e68e 100644\n
+              --- a/README\n
+              +++ b/README\n
+              @@ -1 +1,4 @@\n
+               Mercurial test repository\n
+              +\n
+              +Mercurial is a distributed version control system. Mercurial is dedicated to speed and efficiency with a sane user interface.\n
+              +It is written in Python.\n
             DIFF
           end
         end

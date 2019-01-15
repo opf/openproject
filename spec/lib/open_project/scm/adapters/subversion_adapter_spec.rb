@@ -387,17 +387,17 @@ describe OpenProject::Scm::Adapters::Subversion do
         it 'provides the selected diff for the given range' do
           diff = adapter.diff('subversion_test/helloworld.c', 8, 6)
           expect(diff).to eq(<<-DIFF.strip_heredoc.split("\n"))
-            Index: helloworld.c
-            ===================================================================
-            --- helloworld.c	(revision 6)
-            +++ helloworld.c	(revision 8)
-            @@ -3,6 +3,5 @@
-             int main(void)
-             {
-                 printf("hello, world\\n");
-            -
-                 return 0;
-             }
+            Index: helloworld.c\n
+            ===================================================================\n
+            --- helloworld.c	(revision 6)\n
+            +++ helloworld.c	(revision 8)\n
+            @@ -3,6 +3,5 @@\n
+             int main(void)\n
+             {\n
+                 printf("hello, world\\n");\n
+            -\n
+                 return 0;\n
+             }\n
           DIFF
         end
       end
