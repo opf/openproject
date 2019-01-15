@@ -59,7 +59,7 @@ gem 'typed_dag', '~> 2.0.2'
 gem 'addressable', '~> 2.5.2'
 
 # Provide timezone info for TZInfo used by AR
-gem 'tzinfo-data', '~> 1.2018.4'
+gem 'tzinfo-data', '~> 1.2018.9'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
