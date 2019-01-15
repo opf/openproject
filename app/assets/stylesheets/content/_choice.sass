@@ -26,33 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-//a hack for IE, the width will be just fine for this element
-$choice-parent-relation-select-width: 375px
-
 //resolve the problem if inside are elements with float
 .detail-panel-description-content
   .relation
     clear: both
-
-.choice
-  overflow: visible
-  .choice--select, .choice--button
-    @extend .form--field
-    float: left
-    display: block
-  .choice--select
-    overflow: visible
-    margin-top: 3px
-    margin-right: 1rem
-    width: $choice-parent-relation-select-width
-    .select2
-      width: inherit
-      .select2-drop
-        width: inherit
-  .choice--button
-    .button
-      margin: 2px
-
 
 .select2-drop.-large-dropdown
   min-width: 25vw
