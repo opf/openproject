@@ -589,8 +589,8 @@ GEM
     rack (2.0.6)
     rack-accept (0.4.5)
       rack (>= 0.4)
-    rack-attack (5.2.0)
-      rack
+    rack-attack (5.4.2)
+      rack (>= 1.0, < 3)
     rack-mini-profiler (1.0.0)
       rack (>= 1.2.0)
     rack-oauth2 (1.9.3)
@@ -923,7 +923,7 @@ DEPENDENCIES
   pry-stack_explorer (~> 0.4.9.2)
   puma (~> 3.12.0)
   rabl (~> 0.13.0)
-  rack-attack (~> 5.2.0)
+  rack-attack (~> 5.4.2)
   rack-mini-profiler
   rack-protection (~> 2.0.0)
   rack-test (~> 1.0.0)
