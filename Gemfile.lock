@@ -527,7 +527,7 @@ GEM
     nokogumbo (2.0.1)
       nokogiri (~> 1.8, >= 1.8.4)
     oj (3.7.7)
-    okcomputer (1.16.0)
+    okcomputer (1.17.3)
     omniauth-saml (1.7.0)
       omniauth (~> 1.3)
       ruby-saml (~> 1.4)
@@ -893,7 +893,7 @@ DEPENDENCIES
   newrelic_rpm
   nokogiri (~> 1.10.0)
   oj (~> 3.7.0)
-  okcomputer (~> 1.16.0)
+  okcomputer (~> 1.17.3)
   omniauth!
   omniauth-openid-connect!
   omniauth-openid_connect-providers!

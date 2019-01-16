@@ -121,7 +121,7 @@ gem 'rack-attack', '~> 5.4.2'
 gem 'secure_headers', '~> 6.0.0'
 
 # Providing health checks
-gem 'okcomputer', '~> 1.16.0'
+gem 'okcomputer', '~> 1.17.3'
 
 gem 'gon', '~> 6.2.1'
 
