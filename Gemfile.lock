@@ -460,8 +460,8 @@ GEM
     httpclient (2.8.3)
     i18n (1.5.2)
       concurrent-ruby (~> 1.0)
-    i18n-js (3.0.5)
-      i18n (>= 0.6.6, < 2)
+    i18n-js (3.2.0)
+      i18n (>= 0.8.0, < 2)
     icalendar (2.3.0)
     ice_nine (0.11.2)
     interception (0.5)
@@ -889,7 +889,7 @@ DEPENDENCIES
   health_check
   html-pipeline (~> 2.8.0)
   htmldiff
-  i18n-js (~> 3.0.0)
+  i18n-js (~> 3.2.0)
   json_spec (~> 1.1.4)
   launchy (~> 2.4.3)
   letter_opener
