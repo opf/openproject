@@ -237,7 +237,7 @@ class Query < ActiveRecord::Base
   end
 
   def self.sortable_columns
-    available_columns.select(&:sortable)
+    available_columns.select(&:sortable) + [manual_sorting_column]
   end
 
   # Returns an array of columns that can be used to group the results
@@ -247,12 +247,12 @@ class Query < ActiveRecord::Base
 
   # Returns an array of columns that can be used to sort the results
   def sortable_columns
-    available_columns.select(&:sortable)
+    available_columns.select(&:sortable) + [manual_sorting_column]
   end
 
   # Returns a Hash of sql columns for sorting by column
   def sortable_key_by_column_name
-    column_sortability = available_columns.inject({}) do |h, column|
+    column_sortability = sortable_columns.inject({}) do |h, column|
       h[column.name.to_s] = column.sortable
       h
     end

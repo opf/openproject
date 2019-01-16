@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,50 +27,17 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-#
-module Query::ManualSorting
-  extend ActiveSupport::Concern
 
-  included do
-    include Concerns::VirtualAttribute
-    after_save :persist_ordered_work_packages!
-
-    virtual_attribute :ordered_work_packages do
-      ::OrderedWorkPackage
-        .where(query_id: id)
-        .order(:position)
-        .pluck(:work_package_id)
-    end
-
-    private
-
-    def manual_sorting_column
-      ::Queries::WorkPackages::Columns::ManualSortingColumn.new
-    end
-
-    ##
-    # Replace the current set of ordered work packages
-    def persist_ordered_work_packages!
-      return unless previous_changes[:ordered_work_packages]
-
-      OrderedWorkPackage.transaction do
-        ::OrderedWorkPackage.where(query_id: id).delete_all
-        store_ordered_work_packages!
-      end
-    end
-
-    ##
-    # Bulk insert the current set of ordered IDs
-    def store_ordered_work_packages!
-      bulk = ordered_work_packages.each_with_index.map do |wp_id, position|
-        {
-          query_id: id,
-          work_package_id: wp_id,
-          position: position
-        }
-      end
-
-      OrderedWorkPackage.import bulk
-    end
+class Queries::WorkPackages::Columns::ManualSortingColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+  def initialize
+    super :manual_sorting,
+          default_order: 'asc',
+          sortable: %w[ordered_work_packages.position],
+          sortable_join: <<-SQL
+              LEFT OUTER JOIN
+                ordered_work_packages
+              ON
+                ordered_work_packages.work_package_id = work_packages.id
+          SQL
   end
 end

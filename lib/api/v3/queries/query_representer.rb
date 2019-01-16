@@ -44,10 +44,10 @@ module API
                               id = id_from_href "projects", fragment['href']
 
                               id = if id.to_i.nonzero?
-                                     id # return numerical ID
-                                   else
-                                     Project.where(identifier: id).pluck(:id).first # lookup Project by identifier
-                                   end
+                                id # return numerical ID
+                              else
+                                Project.where(identifier: id).pluck(:id).first # lookup Project by identifier
+                              end
 
                               represented.project_id = id if id
                             },
@@ -60,14 +60,14 @@ module API
 
         link :results do
           path = if represented.project
-                   api_v3_paths.work_packages_by_project(represented.project.id)
-                 else
-                   api_v3_paths.work_packages
-                 end
+            api_v3_paths.work_packages_by_project(represented.project.id)
+          else
+            api_v3_paths.work_packages
+          end
 
           url_query = ::API::V3::Queries::QueryParamsRepresenter
-                      .new(represented)
-                      .to_url_query(merge_params: params.slice(:offset, :pageSize))
+            .new(represented)
+            .to_url_query(merge_params: params.slice(:offset, :pageSize))
           {
             href: [path, url_query].join('?')
           }
@@ -93,10 +93,10 @@ module API
 
         link :schema do
           href = if represented.project
-                   api_v3_paths.query_project_schema(represented.project.identifier)
-                 else
-                   api_v3_paths.query_schema
-                 end
+            api_v3_paths.query_project_schema(represented.project.identifier)
+          else
+            api_v3_paths.query_schema
+          end
           {
             href: href
           }
@@ -104,10 +104,10 @@ module API
 
         link :update do
           href = if represented.new_record?
-                   api_v3_paths.create_query_form
-                 else
-                   api_v3_paths.query_form(represented.id)
-                 end
+            api_v3_paths.create_query_form
+          else
+            api_v3_paths.query_form(represented.id)
+          end
 
           {
             href: href,
@@ -117,7 +117,7 @@ module API
 
         link :updateImmediately do
           next unless represented.new_record? && allowed_to?(:create) ||
-                      represented.persisted? && allowed_to?(:update)
+            represented.persisted? && allowed_to?(:update)
           {
             href: api_v3_paths.query(represented.id),
             method: :patch
@@ -126,7 +126,7 @@ module API
 
         link :delete do
           next if represented.new_record? ||
-                  !allowed_to?(:destroy)
+            !allowed_to?(:destroy)
 
           {
             href: api_v3_paths.query(represented.id),
@@ -240,6 +240,18 @@ module API
                       }
                     end
                   }
+
+        property :ordered_work_packages,
+                 skip_render: true,
+                 exec_context: :decorator,
+                 getter: nil,
+                 setter: ->(fragment:, **) {
+                   ordered_work_packages = Array(fragment).map do |link|
+                     id_from_href "work_packages", link
+                   end
+
+                   represented.ordered_work_packages = ordered_work_packages if fragment
+                 }
 
         property :starred,
                  writeable: true
