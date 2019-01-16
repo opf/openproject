@@ -61,7 +61,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% if @results %>
   <% if params[:work_packages].present? %>
-    <%= render partial: 'work_packages' %>
+    <global-search-work-packages></global-search-work-packages>
   <% else %>
     <h3><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
     <%= render partial: 'pagination', locals: {pagination_previous_date: @pagination_previous_date, pagination_next_date: @pagination_next_date } %>
