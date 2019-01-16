@@ -63,18 +63,17 @@ export class GlobalSearchInputComponent implements OnDestroy {
   public focused:boolean = false;
   public noResults = false;
   public searchTerm:string = '';
-  public currentTab:string = '';
   private $element:JQuery;
   private $input:JQuery;
 
   private unregisterGlobalListener:Function | undefined;
 
-  public text = {
+  public text:{ [key:string]:string } = {
     all_projects: this.I18n.t('js.global_search.all_projects'),
     this_project: this.I18n.t('js.global_search.this_project'),
     this_project_and_all_descendants: this.I18n.t('js.global_search.this_project_and_all_descendants'),
-    search: this.I18n.t('js.global_search.search') + ' ...',
-  }
+    search: this.I18n.t('js.global_search.search') + ' ...'
+  };
 
   constructor(readonly FocusHelper:FocusHelperService,
               readonly elementRef:ElementRef,
@@ -125,27 +124,26 @@ export class GlobalSearchInputComponent implements OnDestroy {
           }));
         });
       },
-      focus: (_evt:any, ui:any) => {
+      focus: (_evt:any, _ui:any) => {
         return false;
       },
       select: (_evt:any, ui:any) => {
         selected = true;
-        this.globalSearchService.searchTerm = this.searchValue;
 
         switch (ui.item.item) {
           case 'all_projects': {
             this.globalSearchService.projectScope = 'all';
-            this.globalSearchService.submitSearch();
+            this.submitNonEmptySearch();
             break;
           }
           case 'this_project': {
             this.globalSearchService.projectScope = 'current_project';
-            this.globalSearchService.submitSearch();
+            this.submitNonEmptySearch();
             break;
           }
           case 'this_project_and_all_descendants': {
             this.globalSearchService.projectScope = '';
-            this.globalSearchService.submitSearch();
+            this.submitNonEmptySearch();
             break;
           }
           default: {
@@ -188,8 +186,13 @@ export class GlobalSearchInputComponent implements OnDestroy {
   }
 
   public submitNonEmptySearch() {
+    console.log("submitNonEmptySearch", this.searchValue);
+    this.globalSearchService.searchTerm = this.searchValue;
     if (this.searchValue !== '') {
-      this.globalSearchService.searchTerm = this.searchValue;
+      // Work package results can update without page reload.
+      // console.log("currentTab", this.globalSearchService.currentTab, this.globalSearchService.currentTab === 'work_packages');
+      // if (this.globalSearchService.currentTab === 'work_packages') { return; }
+
       this.globalSearchService.submitSearch();
     }
   }

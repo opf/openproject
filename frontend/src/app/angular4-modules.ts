@@ -80,6 +80,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
 import {FullCalendarModule} from "ng-fullcalendar";
 import {GlobalSearchService} from "core-components/global-search/global-search.service";
+import {GlobalSearchWorkPackagesComponent} from "core-components/global-search/global-search-work-packages.component";
 
 @NgModule({
   imports: [
@@ -151,6 +152,7 @@ import {GlobalSearchService} from "core-components/global-search/global-search.s
 
     // Searchbar
     GlobalSearchInputComponent,
+    GlobalSearchWorkPackagesComponent,
 
     // Modals
     ConfirmDialogModal,
@@ -171,6 +173,7 @@ import {GlobalSearchService} from "core-components/global-search/global-search.s
   entryComponents: [
     // Searchbar
     GlobalSearchInputComponent,
+    GlobalSearchWorkPackagesComponent,
 
     // Project Auto completer
     ProjectMenuAutocompleteComponent,
