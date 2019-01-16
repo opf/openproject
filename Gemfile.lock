@@ -360,7 +360,7 @@ GEM
       railties (>= 4, < 6)
     cucumber-tag_expressions (1.1.1)
     cucumber-wire (0.0.1)
-    daemons (1.2.6)
+    daemons (1.3.1)
     dalli (2.7.7)
     database_cleaner (1.7.0)
     date_validator (0.9.0)
