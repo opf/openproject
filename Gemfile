@@ -153,7 +153,7 @@ end
 
 gem 'autoprefixer-rails', '~> 9.4.5'
 gem 'bourbon', '~> 4.3.4'
-gem 'i18n-js', '~> 3.0.0'
+gem 'i18n-js', '~> 3.2.0'
 gem 'sass', '3.5.1'
 gem 'sass-rails', '~> 5.0.6'
 gem 'sprockets', '~> 3.7.0'
