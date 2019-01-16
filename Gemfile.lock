@@ -556,7 +556,7 @@ GEM
       parallel
     parser (2.5.3.0)
       ast (~> 2.4.0)
-    passenger (5.3.3)
+    passenger (6.0.1)
       rack
       rake (>= 0.8.1)
     pdf-core (0.7.0)
@@ -925,7 +925,7 @@ DEPENDENCIES
   openproject-webhooks!
   openproject-xls_export!
   parallel_tests (~> 2.27.1)
-  passenger (~> 5.3.3)
+  passenger (~> 6.0.1)
   pg (~> 1.1.0)
   plaintext (~> 0.3.0)
   posix-spawn (~> 0.3.13)
