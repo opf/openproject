@@ -28,11 +28,6 @@
 #++
 
 module Redmine
-  # Escape the some HTML entities for the diff
-  def self.escape_some_html_entities(line)
-    line.gsub('&', '&amp;').gsub('<', '&lt;')
-  end
-
   # Class used to parse unified diffs
   class UnifiedDiff < Array
     attr_reader :diff_type
@@ -196,8 +191,8 @@ module Redmine
 
     def offsets(line_left, line_right)
       if line_left.present? && line_right.present? && line_left != line_right
-        line_left = Redmine.escape_some_html_entities(line_left)
-        line_right = Redmine.escape_some_html_entities(line_right)
+        line_left = escapeHTML(line_left)
+        line_right = escapeHTML(line_right)
         max = [line_left.size, line_right.size].min
         starting = starting(line_left, line_right, max)
         ending = ending(line_left, line_right, max, starting)
@@ -259,7 +254,7 @@ module Redmine
 
     def html_line_left
       if offsets
-        l = Redmine.escape_some_html_entities(line_left)
+        l = escapeHTML(line_left)
         l.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line_left
@@ -268,16 +263,21 @@ module Redmine
 
     def html_line_right
       if offsets
-        l = Redmine.escape_some_html_entities(line_right)
+        l = escapeHTML(line_right)
         l.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line_right
       end
     end
 
+    # Escape the HTML for the diff
+    def escapeHTML(line)
+      CGI.escapeHTML(line)
+    end
+
     def html_line
       if offsets
-        l = Redmine.escape_some_html_entities(line)
+        l = escapeHTML(line)
         l.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line
