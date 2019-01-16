@@ -832,3 +832,8 @@ en:
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'
+    global_search:
+      all_projects: "In all projects"
+      this_project: "In this project"
+      this_project_and_all_descendants: "In this projects + subprojects"
+      search: "Search"
