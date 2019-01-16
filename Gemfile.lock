@@ -467,7 +467,7 @@ GEM
     interception (0.5)
     io-like (0.3.0)
     ipaddress (0.8.3)
-    iso8601 (0.9.1)
+    iso8601 (0.12.1)
     jaro_winkler (1.5.2)
     jmespath (1.4.0)
     jquery-tablesorter (1.25.5)
