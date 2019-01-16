@@ -821,5 +821,5 @@ en:
     global_search:
       all_projects: "In all projects"
       this_project: "In this project"
-      this_project_and_all_descendants: "In this projects + subprojects"
+      this_project_and_all_descendants: "In this project + subprojects"
       search: "Search"
