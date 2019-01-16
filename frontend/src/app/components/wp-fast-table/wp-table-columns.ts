@@ -45,7 +45,6 @@ export class WorkPackageTableColumns extends WorkPackageTableBaseState<QueryColu
   public update(query:QueryResource|null, schema?:QuerySchemaResource) {
     if (query) {
       this.current = cloneHalResourceCollection<QueryColumn>(query.columns);
-      this.current.unshift({ id: 'sortHandle', name: 'Sort' } as QueryColumn);
     }
   }
 

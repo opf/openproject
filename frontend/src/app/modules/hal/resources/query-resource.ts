@@ -87,3 +87,11 @@ export class QueryResource extends HalResource {
       );
   }
 }
+
+export interface QueryResourceLinks {
+  updateImmediately?(attributes:any):Promise<any>;
+}
+
+export interface QueryResource extends QueryResourceLinks {
+}
+
