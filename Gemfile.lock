@@ -522,7 +522,7 @@ GEM
     msgpack (1.2.6)
     multi_json (1.13.1)
     multi_test (0.1.2)
-    mustermann (1.0.2)
+    mustermann (1.0.3)
     mustermann-grape (1.0.0)
       mustermann (~> 1.0.0)
     mysql2 (0.5.2)
