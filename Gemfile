@@ -64,7 +64,7 @@ gem 'tzinfo-data', '~> 1.2018.9'
 gem 'htmldiff'
 
 # Generate url slugs with #to_url and other string niceties
-gem 'stringex', '~> 2.7.1'
+gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
 gem 'commonmarker', '~> 0.17.9'
