@@ -277,7 +277,7 @@ GEM
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
     backports (3.11.4)
-    bcrypt (3.1.11)
+    bcrypt (3.1.12)
     bindata (2.4.4)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
