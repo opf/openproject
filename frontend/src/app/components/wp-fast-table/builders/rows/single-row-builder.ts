@@ -11,13 +11,15 @@ import {CellBuilder, wpCellTdClassName} from '../cell-builder';
 import {RelationCellbuilder} from '../relation-cell-builder';
 import {checkedClassName} from '../ui-state-link-builder';
 import {TableActionRenderer} from 'core-components/wp-fast-table/builders/table-action-renderer';
-import {contextMenuSpanClassName, contextMenuTdClassName} from "core-components/wp-table/table-actions/table-action";
-import {opIconElement} from "core-app/helpers/op-icon-builder";
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
 // Work package and timeline rows
 export const commonRowClassName = 'wp--row';
+
+export const internalSortColumn = {
+  id: '__internal-sorthandle'
+} as QueryColumn;
 
 export const internalContextMenuColumn = {
   id: '__internal-contextMenu'
@@ -54,7 +56,7 @@ export class SingleRowBuilder {
    * we add for buttons and timeline.
    */
   public get augmentedColumns():QueryColumn[] {
-    return this.columns.concat([internalContextMenuColumn]);
+    return [internalSortColumn, ...this.columns, internalContextMenuColumn];
   }
 
   public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLElement|null {
@@ -65,7 +67,7 @@ export class SingleRowBuilder {
 
     // Handle property types
     switch (column.id) {
-      case 'sortHandle':
+      case internalSortColumn.id:
         // Append sort handle
         let td = document.createElement('td');
         td.classList.add(wpCellTdClassName, 'wp-table--sort-td', 'hide-when-print');
