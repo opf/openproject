@@ -69,6 +69,13 @@ export class GlobalSearchInputComponent implements OnDestroy {
 
   private unregisterGlobalListener:Function | undefined;
 
+  public text = {
+    all_projects: this.I18n.t('js.global_search.all_projects'),
+    this_project: this.I18n.t('js.global_search.this_project'),
+    this_project_and_all_descendants: this.I18n.t('js.global_search.this_project_and_all_descendants'),
+    search: this.I18n.t('js.global_search.search') + ' ...',
+  }
+
   constructor(readonly FocusHelper:FocusHelperService,
               readonly elementRef:ElementRef,
               readonly renderer:Renderer2,
@@ -107,14 +114,9 @@ export class GlobalSearchInputComponent implements OnDestroy {
         'ui-autocomplete': 'search-autocomplete--results'
       },
       position: {
-        my: 'left top+10',
+        my: 'left top+9',
         at: 'left bottom'
       },
-      // focus: (event, ui) => {
-      //   // this.searchTerm = ui.item.label;
-      //   this.globalSearchService.searchTerm = this.searchTerm;
-      //   return false;
-      // },
       source: (request:{ term:string }, response:Function) => {
         this.autocompleteWorkPackages(request.term).then((values) => {
           selected = false;
@@ -151,8 +153,6 @@ export class GlobalSearchInputComponent implements OnDestroy {
             this.redirectToWp(workPackage.id);
           }
         }
-
-        return false;
       },
       minLength: 0
     })
@@ -256,7 +256,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
           ).append(
             jQuery('<span>')
               .addClass('search-autocomplete--project-scope')
-              .append(` [${scope}]`)
+              .append(`${this.text[scope]} ↵`)
           )
       );
   }
