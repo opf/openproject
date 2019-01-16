@@ -561,7 +561,7 @@ GEM
       ruby-rc4
       ttfunk
     pg (1.1.4)
-    plaintext (0.3.0)
+    plaintext (0.3.1)
       activesupport (> 2.2.1)
       nokogiri (~> 1.8)
       rubyzip (~> 1.2.1)
