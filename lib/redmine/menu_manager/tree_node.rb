@@ -75,6 +75,9 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
   # parent is set to be the receiver.  The child is added as the last child in
   # the current list of children for the receiver node.
   def add(child)
+    if @children_hash.has_key?(child.name)
+      binding.pry
+    end
     raise(ArgumentError, 'Child already added') if @children_hash.has_key?(child.name)
 
     @children_hash[key!(child)] = child

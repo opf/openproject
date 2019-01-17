@@ -104,6 +104,11 @@ PATH
       openproject-pdf_export (= 8.2.1)
 
 PATH
+  remote: modules/boards
+  specs:
+    openproject-boards (8.2.1)
+
+PATH
   remote: modules/costs
   specs:
     openproject-costs (8.2.1)
@@ -921,6 +926,7 @@ DEPENDENCIES
   openproject-auth_plugins!
   openproject-avatars!
   openproject-backlogs!
+  openproject-boards!
   openproject-costs!
   openproject-documents!
   openproject-github_integration!
