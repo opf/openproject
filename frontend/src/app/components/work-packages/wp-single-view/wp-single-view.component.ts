@@ -44,6 +44,7 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {IWorkPackageEditingServiceToken} from '../../wp-edit-form/work-package-editing.service.interface';
 import {DynamicCssService} from '../../../modules/common/dynamic-css/dynamic-css.service';
 import {HookService} from 'core-app/modules/plugins/hook-service';
+import {randomString} from "core-app/helpers/random-string";
 
 export interface FieldDescriptor {
   name:string;
@@ -56,6 +57,7 @@ export interface FieldDescriptor {
 
 export interface GroupDescriptor {
   name:string;
+  id:string;
   members:FieldDescriptor[];
   query?:QueryResource;
   type:string;
@@ -243,12 +245,14 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
       if (group._type === 'WorkPackageFormAttributeGroup') {
         return {
           name: group.name,
+          id: randomString(16),
           members: this.getFields(resource, group.attributes),
           type: group._type
         };
       } else {
         return {
           name: group.name,
+          id: randomString(16),
           query: group._embedded.query,
           relationType: group.relationType,
           members: [group._embedded.query],

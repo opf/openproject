@@ -61,6 +61,7 @@ import {
 import {QueryColumn} from 'core-components/wp-query/query-column';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
+import {randomString} from "core-app/helpers/random-string";
 
 @Component({
   templateUrl: './wp-table.directive.html',
@@ -104,6 +105,8 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   public numTableColumns:number;
 
   public timelineVisible:boolean;
+
+  public readonly uniqueTbodyIdentifier = `tbody-${randomString(16)}`;
 
   constructor(readonly elementRef:ElementRef,
               readonly  injector:Injector,

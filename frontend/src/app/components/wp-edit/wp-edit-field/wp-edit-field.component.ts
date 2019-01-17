@@ -154,6 +154,12 @@ export class WorkPackageEditFieldComponent implements OnInit {
     return false;
   }
 
+  public overflowingSelector() {
+    return this.$element
+      .closest('.attributes-group')
+      .data ('groupIdentifier');
+  }
+
   public activateOnForm(noWarnings:boolean = false) {
     // Activate the field
     this.active = true;

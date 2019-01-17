@@ -56,7 +56,9 @@
         </td>
       </tr>
       </tbody>
-      <tbody class="results-tbody work-package--results-tbody">
+      <tbody class="results-tbody work-package--results-tbody __overflowing_element_container"
+             [ngClass]="'__overflowing_' + uniqueTbodyIdentifier"
+             [attr.data-overflowing-identifier]="'.__overflowing_' + uniqueTbodyIdentifier">
       </tbody>
       <tbody *ngIf="tableElement && configuration.inlineCreateEnabled"
              wpInlineCreate

@@ -92,8 +92,9 @@
   <div *ngFor="let group of groupedFields; trackBy:trackByName"
        [hidden]="shouldHideGroup(group)"
        [attr.data-group-name]="group.name"
-       class="attributes-group"
-       id="attributes-group--{{group.name.toLowerCase()}}">
+       [ngClass]="'__overflowing_' + group.id"
+       [attr.data-overflowing-identifier]="'.__overflowing_' + group.id"
+       class="attributes-group __overflowing_element_container">
 
     <div class="attributes-group--header">
       <div class="attributes-group--header-container">

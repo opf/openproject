@@ -86,6 +86,10 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
     return this.form.changeset.inFlight;
   }
 
+  public get context():WorkPackageEditContext {
+    return this.form.editContext;
+  }
+
   public get active() {
     return true;
   }
