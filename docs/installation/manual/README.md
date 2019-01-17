@@ -205,7 +205,7 @@ with OpenProject. For more information, see https://github.com/opf/openproject-c
 [openproject@host] cd ~
 [openproject@host] git clone https://github.com/opf/openproject-ce.git --branch stable/8 --depth 1
 [openproject@host] cd openproject-ce
-[openproject@host] gem install bundler
+[openproject@host] gem install bundler -v 1.17.1
 # Replace mysql with postgresql if you had to install MySQL
 [openproject@host] bundle install --deployment --without mysql2 sqlite development test therubyracer docker
 [openproject@host] npm install
