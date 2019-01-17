@@ -8,5 +8,7 @@
            [virtualScroll]="true"
            autofocus
            (keydown)="handler.handleUserKeydown($event, true)"
-           (change)="handler.handleUserSubmit()">
+           (change)="handler.handleUserSubmit()"
+           appendTo="#attributes-group--{{groupName.toLowerCase()}}"
+           [dropdownPosition]="'bottom'">
 </ng-select>

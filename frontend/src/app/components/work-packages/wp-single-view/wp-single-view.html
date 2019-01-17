@@ -92,7 +92,8 @@
   <div *ngFor="let group of groupedFields; trackBy:trackByName"
        [hidden]="shouldHideGroup(group)"
        [attr.data-group-name]="group.name"
-       class="attributes-group">
+       class="attributes-group"
+       id="attributes-group--{{group.name.toLowerCase()}}">
 
     <div class="attributes-group--header">
       <div class="attributes-group--header-container">

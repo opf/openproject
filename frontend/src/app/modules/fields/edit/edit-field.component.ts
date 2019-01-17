@@ -123,6 +123,10 @@ export class EditFieldComponent extends Field implements OnDestroy {
     return this.changeset.workPackage;
   }
 
+  public get groupName() {
+    return this.changeset.form!.schema[this.name].attributeGroup;
+  }
+
   /**
    * Initialize the field after constructor was called.
    */

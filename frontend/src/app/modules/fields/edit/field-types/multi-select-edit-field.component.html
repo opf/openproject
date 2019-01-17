@@ -11,7 +11,9 @@
                autofocus
                (keydown)="handler.handleUserKeydown($event, true)"
                [multiple]="true"
-               [closeOnSelect]="false">
+               [closeOnSelect]="false"
+               appendTo="#attributes-group--{{groupName.toLowerCase()}}"
+               [dropdownPosition]="'top'">
     </ng-select>
   </div>
 
