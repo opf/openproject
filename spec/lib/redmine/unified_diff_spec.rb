@@ -55,4 +55,33 @@ module Redmine
       expect(@diff.first.first.line_right).to eq('<script>someMethod();</script>')
     end
   end
+
+  describe 'unified diff html eescape' do
+    let(:diff) do
+      Redmine::UnifiedDiff.new(<<~DIFF
+        diff --git a/asdf b/asdf
+        index 7f6361d..3c52e50 100644
+        --- a/asdf
+        +++ b/asdf
+        @@ -1,4 +1,4 @@
+         Test 1
+        -Test 2 <_> pouet
+        +Test 2 >_> pouet
+         Test 3
+         Test 4
+      DIFF
+      )
+    end
+
+    subject do
+      [].tap do |lines|
+        diff.first.each_line { |_,l| lines << [l.html_line_left, l.html_line_right] }
+      end
+    end
+
+    it 'should correctly escape elements' do
+      expect(subject[1]).to eq(["Test 2 <span>&lt;</span>_&gt; pouet", "<span></span>"])
+      expect(subject[2]).to eq(["<span></span>", "Test 2 <span>&gt;</span>_&gt; pouet"])
+    end
+  end
 end

@@ -191,42 +191,26 @@ module Redmine
 
     def offsets(line_left, line_right)
       if line_left.present? && line_right.present? && line_left != line_right
-        line_left = escapeHTML(line_left)
-        line_right = escapeHTML(line_right)
         max = [line_left.size, line_right.size].min
-        starting = starting(line_left, line_right, max)
-        ending = ending(line_left, line_right, max, starting)
+        starting = 0
+        while starting < max && line_left[starting] == line_right[starting]
+          starting += 1
+        end
+        ending = -1
+        while ending >= -(max - starting) && (line_left[ending] == line_right[ending])
+          ending -= 1
+        end
         unless starting == 0 && ending == -1
           [starting, ending]
         end
       end
     end
-
-    def starting(line_left, line_right, max)
-      starting = 0
-      while starting < max && line_left[starting] == line_right[starting]
-        starting += 1
-      end
-      if starting.positive? && line_left[starting - 1] == '&'
-        starting -= 1
-      end
-      starting
-    end
-
-    def ending(line_left, line_right, max, starting)
-      ending = -1
-      while ending >= -(max - starting) && line_left[ending] == line_right[ending]
-        ending -= 1
-      end
-      if ending < -1 && line_left[ending + 1] == ';' && line_left[starting] == '&'
-        ending += 1
-      end
-      ending
-    end
   end
 
   # A line of diff
   class Diff
+    include ActionView::Helpers::TagHelper
+
     attr_accessor :nb_line_left
     attr_accessor :line_left
     attr_accessor :nb_line_right
@@ -253,35 +237,15 @@ module Redmine
     end
 
     def html_line_left
-      if offsets
-        l = escapeHTML(line_left)
-        l.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
-      else
-        line_left
-      end
+      line_to_html(line_left, offsets)
     end
 
     def html_line_right
-      if offsets
-        l = escapeHTML(line_right)
-        l.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
-      else
-        line_right
-      end
-    end
-
-    # Escape the HTML for the diff
-    def escapeHTML(line)
-      CGI.escapeHTML(line)
+      line_to_html(line_right, offsets)
     end
 
     def html_line
-      if offsets
-        l = escapeHTML(line)
-        l.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
-      else
-        line
-      end
+      line_to_html(line, offsets)
     end
 
     def inspect
@@ -290,6 +254,30 @@ module Redmine
       puts line_left
       puts nb_line_right
       puts line_right
+    end
+
+    private
+
+    def line_to_html(line, offsets)
+      line_to_html_raw(line, offsets).tap do |html_str|
+        html_str.force_encoding('UTF-8')
+      end
+    end
+
+    def line_to_html_raw(line, offsets)
+      return line unless offsets
+
+      ActiveSupport::SafeBuffer.new.tap do |output|
+        if offsets.first != 0
+          output << line[0..offsets.first-1]
+        end
+
+        output << content_tag(:span, line[offsets.first..offsets.last])
+
+        unless offsets.last == -1
+          output << line[offsets.last+1..-1]
+        end
+      end.to_s
     end
   end
 end
