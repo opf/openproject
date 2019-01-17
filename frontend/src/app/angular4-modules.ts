@@ -80,6 +80,7 @@ import {OpenprojectWorkPackageRoutesModule} from "core-app/modules/work_packages
 import {BrowserModule} from "@angular/platform-browser";
 import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
 import {FullCalendarModule} from "ng-fullcalendar";
+import {OpenprojectBoardsModule} from "core-app/modules/boards/openproject-boards.module";
 
 @NgModule({
   imports: [
@@ -91,6 +92,8 @@ import {FullCalendarModule} from "ng-fullcalendar";
     OpenprojectRouterModule,
     // Hal Module
     OpenprojectHalModule,
+    // Boards module
+    OpenprojectBoardsModule,
 
     // CKEditor
     OpenprojectEditorModule,
