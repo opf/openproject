@@ -1,5 +1,6 @@
 # encoding: UTF-8
 $:.push File.expand_path('../lib', __FILE__)
+$:.push File.expand_path("../../lib", __dir__)
 
 require 'open_project/auth_plugins/version'
 
