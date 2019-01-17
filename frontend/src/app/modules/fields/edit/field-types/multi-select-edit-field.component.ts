@@ -47,6 +47,8 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name }),
   };
 
+  public appendTo:any = null;
+
   public currentValueInvalid:boolean = false;
   private nullOption:ValueOption;
   private _selectedOption:ValueOption[];
@@ -68,6 +70,9 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     } else {
       this.setValues([]);
     }
+
+    super.ngOnInit();
+    this.appendTo = this.overflowingSelector;
   }
 
   public get value() {

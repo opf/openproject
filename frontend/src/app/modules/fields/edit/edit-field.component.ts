@@ -97,9 +97,6 @@ export class EditFieldComponent extends Field implements OnInit, OnDestroy {
 
   ngOnInit():void {
     this.$element = jQuery(this.elementRef.nativeElement);
-
-    // TODO
-    console.log(this.overflowingSelector);
   }
 
   ngOnDestroy() {
@@ -107,9 +104,13 @@ export class EditFieldComponent extends Field implements OnInit, OnDestroy {
   }
 
   public get overflowingSelector() {
-    return this.$element
-      .closest(overflowingContainerSelector)
-      .data(overflowingContainerAttribute);
+    if(this.$element) {
+      return this.$element
+        .closest(overflowingContainerSelector)
+        .data(overflowingContainerAttribute);
+    } else {
+      return null;
+    }
   }
 
   public get inFlight() {

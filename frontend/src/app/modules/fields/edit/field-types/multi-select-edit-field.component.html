@@ -1,21 +1,19 @@
-<div>
-  <div class="inline-label">
-    <ng-select [(ngModel)]="selectedOption"
-               class="wp-inline-edit--field"
-               [required]="required"
-               [disabled]="inFlight"
-               [id]="handler.htmlId"
-               [items]="valueOptions"
-               bindLabel="name"
-               [virtualScroll]="true"
-               autofocus
-               (keydown)="handler.handleUserKeydown($event, true)"
-               [multiple]="true"
-               [closeOnSelect]="false"
-               appendTo="#attributes-group--{{groupName.toLowerCase()}}"
-               [dropdownPosition]="'top'">
-    </ng-select>
-  </div>
+<div class="textarea-wrapper">
+  <ng-select [(ngModel)]="selectedOption"
+             class="wp-inline-edit--field"
+             [required]="required"
+             [disabled]="inFlight"
+             [id]="handler.htmlId"
+             [items]="valueOptions"
+             bindLabel="name"
+             [virtualScroll]="true"
+             autofocus
+             (keydown)="handler.handleUserKeydown($event, true)"
+             [multiple]="true"
+             [closeOnSelect]="false"
+             [appendTo]="appendTo"
+             [dropdownPosition]="'top'">
+  </ng-select>
 
   <edit-field-controls [fieldController]="self"
                        *ngIf="!handler.inEditMode"

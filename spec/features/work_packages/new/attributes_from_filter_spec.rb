@@ -166,7 +166,7 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
 
       # Assignee is synced
       assignee_field = split_view_create.edit_field :assignee
-      expect(assignee_field.input_element.find('option[selected]').text).to eql('An assignee')
+      expect(assignee_field.input_element.find('.ng-value-label').text).to eql('An assignee')
 
       within '.work-packages--edit-actions' do
         click_button 'Save'

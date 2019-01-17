@@ -1,6 +1,8 @@
 <div class="work-packages-split-view--tabletimeline-content">
   <div class="work-packages-tabletimeline--table-side work-package-table--container">
-    <table class="keyboard-accessible-list generic-table work-package-table">
+    <table class="keyboard-accessible-list generic-table work-package-table __overflowing_element_container"
+          [ngClass]="'__overflowing_' + uniqueTableIdentifier"
+          [attr.data-overflowing-identifier]="'.__overflowing_' + uniqueTableIdentifier">
       <colgroup>
         <col highlight-col *ngFor="let column of columns"/>
         <col highlight-col/>
@@ -56,9 +58,7 @@
         </td>
       </tr>
       </tbody>
-      <tbody class="results-tbody work-package--results-tbody __overflowing_element_container"
-             [ngClass]="'__overflowing_' + uniqueTbodyIdentifier"
-             [attr.data-overflowing-identifier]="'.__overflowing_' + uniqueTbodyIdentifier">
+      <tbody class="results-tbody work-package--results-tbody">
       </tbody>
       <tbody *ngIf="tableElement && configuration.inlineCreateEnabled"
              wpInlineCreate

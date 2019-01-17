@@ -66,6 +66,10 @@ class WorkPackageField
   end
   alias :activate_edition :activate!
 
+  def openSelectField
+    find('.ng-input input').click
+  end
+
   def expect_state!(open:)
     if open
       expect_active!

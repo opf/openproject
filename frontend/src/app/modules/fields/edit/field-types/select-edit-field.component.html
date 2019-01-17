@@ -9,6 +9,6 @@
            autofocus
            (keydown)="handler.handleUserKeydown($event, true)"
            (change)="handler.handleUserSubmit()"
-           appendTo="#attributes-group--{{groupName.toLowerCase()}}"
+           [appendTo]="appendTo"
            [dropdownPosition]="'bottom'">
 </ng-select>

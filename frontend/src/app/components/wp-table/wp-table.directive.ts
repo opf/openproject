@@ -106,7 +106,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public timelineVisible:boolean;
 
-  public readonly uniqueTbodyIdentifier = `tbody-${randomString(16)}`;
+  public readonly uniqueTableIdentifier = `wp-table--container-${randomString(16)}`;
 
   constructor(readonly elementRef:ElementRef,
               readonly  injector:Injector,

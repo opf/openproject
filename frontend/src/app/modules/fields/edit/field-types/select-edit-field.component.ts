@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -41,11 +41,13 @@ export interface ValueOption {
 @Component({
   templateUrl: './select-edit-field.component.html'
 })
-export class SelectEditFieldComponent extends EditFieldComponent {
+export class SelectEditFieldComponent extends EditFieldComponent implements OnInit {
   public options:any[];
   public valueOptions:ValueOption[];
   public template:string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html';
   public text:{ requiredPlaceholder:string, placeholder:string };
+
+  public appendTo:any = null;
 
   public halSorting:HalResourceSortingService;
 
@@ -66,6 +68,11 @@ export class SelectEditFieldComponent extends EditFieldComponent {
     } else {
       this.setValues([]);
     }
+  }
+
+  public ngOnInit() {
+    super.ngOnInit();
+    this.appendTo = this.overflowingSelector;
   }
 
   public get selectedOption() {
