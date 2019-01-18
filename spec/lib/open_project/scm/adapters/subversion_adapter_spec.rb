@@ -369,23 +369,23 @@ describe OpenProject::Scm::Adapters::Subversion do
 
       describe '.diff' do
         it 'provides a full diff against the last revision' do
-          diff = adapter.diff('', 12)
+          diff = adapter.diff('', 12).map(&:chomp)
           expect(diff.join("\n")).to include('Added: svn:ignore')
         end
 
         it 'provides a negative diff' do
-          diff = adapter.diff('', 11, 12)
+          diff = adapter.diff('', 11, 12).map(&:chomp)
           expect(diff.join("\n")).to include('Deleted: svn:ignore')
         end
 
         it 'provides the complete for the given range' do
-          diff = adapter.diff('', 8, 6).join("\n")
+          diff = adapter.diff('', 8, 6).map(&:chomp).join("\n")
           expect(diff).to include('Index: subversion_test/folder/greeter.rb')
           expect(diff).to include('Index: subversion_test/helloworld.c')
         end
 
         it 'provides the selected diff for the given range' do
-          diff = adapter.diff('subversion_test/helloworld.c', 8, 6)
+          diff = adapter.diff('subversion_test/helloworld.c', 8, 6).map(&:chomp)
           expect(diff).to eq(<<-DIFF.strip_heredoc.split("\n"))
             Index: helloworld.c
             ===================================================================

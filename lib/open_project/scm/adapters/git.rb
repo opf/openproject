@@ -408,7 +408,7 @@ module OpenProject
             args << 'show' << '--no-color' << identifier_from
           end
           args << '--' << scm_encode(@path_encoding, 'UTF-8', path) unless path.empty?
-          capture_git(args).lines.map(&:chomp)
+          capture_git(args).lines
         rescue Exceptions::CommandFailed
           nil
         end

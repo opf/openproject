@@ -490,7 +490,7 @@ describe OpenProject::Scm::Adapters::Git do
 
         describe '.diff' do
           it 'provides a full diff of the last commit by default' do
-            diff = adapter.diff('', 'HEAD')
+            diff = adapter.diff('', 'HEAD').map(&:chomp)
             expect(diff[0]).to eq('commit 71e5c1d3dca6304805b143b9d0e6695fb3895ea4')
 
             bare = "Author: Oliver G\xFCnther <mail@oliverguenther.de>"
@@ -503,18 +503,18 @@ describe OpenProject::Scm::Adapters::Git do
           end
 
           it 'provides a negative diff' do
-            diff = adapter.diff('', 'HEAD~2', 'HEAD~1')
+            diff = adapter.diff('', 'HEAD~2', 'HEAD~1').map(&:chomp)
             expect(diff.join("\n")).to include('-And this is a file')
           end
 
           it 'provides the complete for the given range' do
-            diff = adapter.diff('', '61b685f', '2f9c009')
+            diff = adapter.diff('', '61b685f', '2f9c009').map(&:chomp)
             expect(diff[1]).to eq('index 6cbd30c..b94e68e 100644')
             expect(diff[10]).to eq('index 4eca635..9a541fe 100644')
           end
 
           it 'provides the selected diff for the given range' do
-            diff = adapter.diff('README', '61b685f', '2f9c009')
+            diff = adapter.diff('README', '61b685f', '2f9c009').map(&:chomp)
             expect(diff).to eq(<<-DIFF.strip_heredoc.split("\n"))
               diff --git a/README b/README
               index 6cbd30c..b94e68e 100644

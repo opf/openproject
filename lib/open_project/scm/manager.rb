@@ -33,7 +33,10 @@ module OpenProject
     class Manager
       class << self
         def registered
-          @scms ||= {}
+          @scms ||= {
+            subversion: ::Repository::Subversion,
+            git: ::Repository::Git
+          }
         end
 
         ##
