@@ -54,8 +54,8 @@ module OpenProject
 
         begin
           Rouge::Lexer::guess guessers: guessers
-        rescue Exception => e
-          if e.message == 'Ambiguous guess: can\'t decide between ["html", "xml"]'
+        rescue => e
+          if !e.message.nil? && e.message == 'Ambiguous guess: can\'t decide between ["html", "xml"]'
             Rouge::Lexers::HTML.new
           else
             raise e
