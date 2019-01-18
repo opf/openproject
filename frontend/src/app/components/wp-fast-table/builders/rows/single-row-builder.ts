@@ -11,6 +11,7 @@ import {CellBuilder, wpCellTdClassName} from '../cell-builder';
 import {RelationCellbuilder} from '../relation-cell-builder';
 import {checkedClassName} from '../ui-state-link-builder';
 import {TableActionRenderer} from 'core-components/wp-fast-table/builders/table-action-renderer';
+import {CdkDragBuilder} from "core-components/wp-fast-table/builders/drag-and-drop/cdk-drag-builder";
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
@@ -40,6 +41,9 @@ export class SingleRowBuilder {
   // Details Link builder
   protected contextLinkBuilder = new TableActionRenderer(this.injector);
 
+  // Drag & Drop handle builder
+  protected cdkDragBuilder = new CdkDragBuilder(this.injector);
+
   constructor(public readonly injector:Injector,
               protected workPackageTable:WorkPackageTable) {
   }
@@ -68,16 +72,7 @@ export class SingleRowBuilder {
     // Handle property types
     switch (column.id) {
       case internalSortColumn.id:
-        // Append sort handle
-        let td = document.createElement('td');
-        td.classList.add(wpCellTdClassName, 'wp-table--sort-td', 'hide-when-print');
-
-        // Wrap any actions in a span
-        let span = document.createElement('span');
-        span.classList.add('wp-table--drag-and-drop-handle', 'icon-toggle')
-
-        td.appendChild(span);
-        return td;
+        return this.cdkDragBuilder.build(workPackage);
       case internalContextMenuColumn.id:
         if (this.workPackageTable.configuration.actionsColumnEnabled) {
           return this.contextLinkBuilder.build(workPackage);

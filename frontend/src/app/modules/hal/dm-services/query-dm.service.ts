@@ -33,7 +33,7 @@ import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-c
 import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {ApiV3FilterBuilder} from 'core-app/components/api/api-v3/api-v3-filter-builder';
-import {Injectable} from '@angular/core';
+import {Injectable, Query} from '@angular/core';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {Observable} from "rxjs";
@@ -157,7 +157,7 @@ export class QueryDmService {
     }
   }
 
-  public all(projectIdentifier:string|null|undefined):Promise<CollectionResource> {
+  public all(projectIdentifier:string|null|undefined):Observable<CollectionResource<QueryResource>> {
     let filters = new ApiV3FilterBuilder();
 
     if (projectIdentifier) {
@@ -171,8 +171,7 @@ export class QueryDmService {
     let urlQuery = { filters: filters.toJson() };
 
     return this.halResourceService
-      .get<CollectionResource>(this.pathHelper.api.v3.queries.toString(), urlQuery)
-      .toPromise();
+      .get<CollectionResource<QueryResource>>(this.pathHelper.api.v3.queries.toString(), urlQuery);
   }
 
   private extractPayload(query:QueryResource, form:QueryFormResource):Promise<QueryResource> {
