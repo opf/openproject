@@ -43,7 +43,6 @@ describe 'subject inplace editor', js: true, selenium: true do
 
     field = work_package_page.work_package_field(:version)
     field.activate!
-    field.openSelectField
 
     options = field.all(".ng-option-label")
 

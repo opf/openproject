@@ -1,12 +1,13 @@
 <div class="textarea-wrapper">
   <ng-select [(ngModel)]="selectedOption"
-             class="wp-inline-edit--field"
+             [ngClass]="'wp-inline-edit--field'"
              [required]="required"
              [disabled]="inFlight"
              [id]="handler.htmlId"
              [items]="valueOptions"
              bindLabel="name"
              [virtualScroll]="true"
+             [clearSearchOnAdd]="true"
              autofocus
              (keydown)="handler.handleUserKeydown($event, true)"
              [multiple]="true"

@@ -5,4 +5,4 @@ export function randomString(length:number = 16) {
     random += pattern.charAt(Math.floor(Math.random() * pattern.length));
   }
   return random;
-};
+}

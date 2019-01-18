@@ -63,11 +63,15 @@ class WorkPackageField
         raise "Expected WP field input type '#{field_type}' for attribute '#{property_name}'."
       end
     end
+
+    if field_type == 'ng-select'
+      openSelectField
+    end
   end
   alias :activate_edition :activate!
 
   def openSelectField
-    find('.ng-input input').click
+    field_container.find('.ng-input input').click
   end
 
   def expect_state!(open:)
@@ -122,8 +126,8 @@ class WorkPackageField
   def set_value(content)
     scroll_to_element(input_element)
 
-    if input_element.tag_name == 'select'
-      input_element.find(:option, content).select_option
+    if input_element.tag_name == 'ng-select'
+      page.find('.ng-dropdown-panel .ng-option', text: content).click
     else
       input_element.set(content)
     end
@@ -145,7 +149,7 @@ class WorkPackageField
       set_value value
 
       # select fields are saved on change
-      save! if save && field_type != 'select'
+      save! if save && field_type != 'ng-select'
       expect_state! open: expect_failure
     end
   end
@@ -180,7 +184,7 @@ class WorkPackageField
            'type',
            'version',
            'category'
-        :select
+        'ng-select'
       else
         :input
       end.to_s

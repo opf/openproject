@@ -104,7 +104,7 @@ export class EditFieldComponent extends Field implements OnInit, OnDestroy {
   }
 
   public get overflowingSelector() {
-    if(this.$element) {
+    if (this.$element) {
       return this.$element
         .closest(overflowingContainerSelector)
         .data(overflowingContainerAttribute);

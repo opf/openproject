@@ -1,5 +1,5 @@
 <ng-select [(ngModel)]="selectedOption"
-           class="wp-inline-edit--field"
+           [ngClass]="'wp-inline-edit--field'"
            [required]="required"
            [disabled]="inFlight"
            [id]="handler.htmlId"
