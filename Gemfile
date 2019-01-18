@@ -195,7 +195,7 @@ group :test do
   # and other niceties
   gem 'test-prof', '~> 0.7.3'
 
-  gem 'cucumber', '~> 3.0.0'
+  gem 'cucumber', '~> 3.1.0'
   gem 'cucumber-rails', '~> 1.6.0', require: false
   gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
