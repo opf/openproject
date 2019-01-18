@@ -851,6 +851,11 @@
       "resolved": "https://registry.npmjs.org/@types/codemirror/-/codemirror-0.0.70.tgz",
       "integrity": "sha512-NHpD8C5J9P+6M/Swm+jIkOs8EywFMeSYzX9c1917QBNfvj2fuS0djROLoLNzSYEMHUWWaEVPLYJ8zDR2M6qaaQ=="
     },
+    "@types/dragula": {
+      "version": "2.1.34",
+      "resolved": "https://registry.npmjs.org/@types/dragula/-/dragula-2.1.34.tgz",
+      "integrity": "sha512-tZbauiqJgEpKKtBQI8pQ24FrkDNGhiXCFsygqQPeAJTPJJC1RI0BOmHv7VHI9qDehhXXffq9aJEUhqEQyY/PVA=="
+    },
     "@types/es6-shim": {
       "version": "0.31.39",
       "resolved": "https://registry.npmjs.org/@types/es6-shim/-/es6-shim-0.31.39.tgz",
