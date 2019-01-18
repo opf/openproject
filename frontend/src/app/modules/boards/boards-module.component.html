@@ -1,4 +1,11 @@
 <div class="boards--container loading-indicator--location"
      data-indicator-name="boards-module">
-  Boards!
+  <ng-container *ngIf="queries"
+                (cdkDropListDropped)="drop($event)"
+                cdkDropListGroup>
+    <div class="boards--list" *ngFor="let query of queries">
+      <h2 [textContent]="query.name"></h2>
+      <wp-embedded-table [queryId]="query.id" [queryProps]="columnsQueryProps"></wp-embedded-table>
+    </div>
+  </ng-container>
 </div>

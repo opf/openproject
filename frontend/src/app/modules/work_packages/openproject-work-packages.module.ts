@@ -28,7 +28,6 @@
 
 import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
-import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
 import {OpenprojectFieldsModule} from 'core-app/modules/fields/openproject-fields.module';
 import {ChartsModule} from 'ng2-charts';
 import {DynamicModule} from 'ng-dynamic-component';
@@ -187,6 +186,7 @@ import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/rout
 import {AttachmentsUploadComponent} from 'core-app/modules/attachments/attachments-upload/attachments-upload.component';
 import {AttachmentListComponent} from 'core-app/modules/attachments/attachment-list/attachment-list.component';
 import {WorkPackageFilterByTextInputComponent} from "core-components/filters/quick-filter-by-text-input/quick-filter-by-text-input.component";
+import {CdkDragPortalBody} from "core-components/wp-fast-table/builders/drag-and-drop/cdk-drag-portal-body";
 
 @NgModule({
   imports: [
@@ -421,6 +421,7 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
     // editor module to avoid circular dependencies
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
+    CdkDragPortalBody,
   ],
   entryComponents: [
     // Split view
@@ -492,6 +493,7 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
     // editor module to avoid circular dependencies
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
+    CdkDragPortalBody,
   ],
   exports: [
     WorkPackageEmbeddedTableComponent,
