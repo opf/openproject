@@ -31,10 +31,12 @@ import {OpenprojectCommonModule} from "core-app/modules/common/openproject-commo
 import {BoardsModuleComponent} from "core-app/modules/boards/boards-module.component";
 import {initializeAvatarsPlugin} from "core-app/modules/plugins/linked/openproject-avatars/main";
 import {HookService} from "core-app/modules/plugins/hook-service";
+import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 
 @NgModule({
   imports: [
-    OpenprojectCommonModule
+    OpenprojectCommonModule,
+    OpenprojectWorkPackagesModule
   ],
   providers: [
   ],

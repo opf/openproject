@@ -71,6 +71,7 @@ import {PortalModule} from "@angular/cdk/portal";
 import {CommonModule} from "@angular/common";
 import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
 import {NoResultsComponent} from "core-app/modules/common/no-results/no-results.component";
+import {DragDropModule} from "@angular/cdk/drag-drop";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {UserAutocompleterComponent} from "app/modules/common/autocomplete/user-autocompleter.component";
 
@@ -95,6 +96,7 @@ export function bootstrapModule(injector:Injector) {
     FormsModule,
     // Angular CDK
     PortalModule,
+    DragDropModule,
     // Our own A11y module
     OpenprojectAccessibilityModule,
     NgSelectModule,
@@ -106,6 +108,7 @@ export function bootstrapModule(injector:Injector) {
     CommonModule,
     FormsModule,
     PortalModule,
+    DragDropModule,
     OpenprojectAccessibilityModule,
 
     OpDatePickerComponent,
