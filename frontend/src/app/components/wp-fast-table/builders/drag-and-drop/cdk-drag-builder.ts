@@ -13,7 +13,10 @@ export class CdkDragBuilder extends PortalBuilder<CdkDragPortalBody> {
     let td = document.createElement('td');
     td.classList.add(wpCellTdClassName, 'wp-table--sort-td', 'hide-when-print');
 
-    this.attachWithPortal(td, CdkDragPortalBody);
+    // Wrap handle as span
+    let span = document.createElement('span');
+    span.classList.add('wp-table--drag-and-drop-handle', 'icon-toggle');
+    td.appendChild(span);
 
     return td;
   }
