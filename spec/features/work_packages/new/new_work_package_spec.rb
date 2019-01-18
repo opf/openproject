@@ -57,9 +57,11 @@ describe 'new work package', js: true do
     loading_indicator_saveguard
     wp_page.subject_field.set(subject)
 
+    project_field.openSelectField
     project_field.set_value project
 
     expect(page).to have_selector("#wp-new-inline-edit--field-type option[label=#{type}]", wait: 10)
+    type_field.openSelectField
     type_field.set_value type
     sleep 1
   end

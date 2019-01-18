@@ -180,6 +180,7 @@ class WorkPackageField
       when 'assignee',
            'responsible',
            'priority',
+           'status',
            'project',
            'type',
            'version',

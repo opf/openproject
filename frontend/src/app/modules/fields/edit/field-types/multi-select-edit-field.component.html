@@ -2,6 +2,7 @@
   <ng-select [(ngModel)]="selectedOption"
              [ngClass]="'wp-inline-edit--field'"
              [required]="required"
+             [clearable]="!required"
              [disabled]="inFlight"
              [id]="handler.htmlId"
              [items]="valueOptions"

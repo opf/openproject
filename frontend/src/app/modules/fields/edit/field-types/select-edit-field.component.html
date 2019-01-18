@@ -1,6 +1,7 @@
 <ng-select [(ngModel)]="selectedOption"
            [ngClass]="'wp-inline-edit--field'"
            [required]="required"
+           [clearable]="!required"
            [disabled]="inFlight"
            [id]="handler.htmlId"
            [items]="valueOptions"
@@ -9,6 +10,5 @@
            autofocus
            (keydown)="handler.handleUserKeydown($event, true)"
            (change)="handler.handleUserSubmit()"
-           [appendTo]="appendTo"
-           [dropdownPosition]="'bottom'">
+           [appendTo]="appendTo">
 </ng-select>
