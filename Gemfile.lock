@@ -605,7 +605,7 @@ GEM
       rack
     rack-protection (2.0.5)
       rack
-    rack-test (1.0.0)
+    rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rack_session_access (0.2.0)
       builder (>= 2.0.0)
@@ -931,7 +931,7 @@ DEPENDENCIES
   rack-attack (~> 5.4.2)
   rack-mini-profiler
   rack-protection (~> 2.0.0)
-  rack-test (~> 1.0.0)
+  rack-test (~> 1.1.0)
   rack_session_access
   rails (~> 5.2.2)
   rails-controller-testing (~> 1.0.2)

@@ -180,7 +180,7 @@ gem 'ruby-progressbar', '~> 1.10.0', require: false
 
 group :test do
   gem 'launchy', '~> 2.4.3'
-  gem 'rack-test', '~> 1.0.0'
+  gem 'rack-test', '~> 1.1.0'
   gem 'shoulda-context', '~> 1.2'
 
   # Require factory_bot for usage with openproject plugins testing
