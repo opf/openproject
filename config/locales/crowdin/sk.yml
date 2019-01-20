@@ -1827,11 +1827,11 @@ sk:
     approval.
   notice_account_register_done: Account was successfully created. To activate your
     account, click on the link that was emailed to you.
-  notice_account_unknown_email: Unknown user.
+  notice_account_unknown_email: Neznámy užívateľ.
   notice_account_update_failed: Nastavenie konta sa nepodarilo uložiť. Prosím, skontrolujte
     si stránku účtu.
   notice_account_updated: Account was successfully updated.
-  notice_account_wrong_password: Wrong password
+  notice_account_wrong_password: Nesprávne heslo
   notice_account_registered_and_logged_in: Welcome, your account has been activated.
     You are logged in now.
   notice_activation_failed: The account could not be activated.
