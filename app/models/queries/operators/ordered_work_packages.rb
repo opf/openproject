@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,24 +27,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Filters
-  STRATEGIES = {
-    list: Queries::Filters::Strategies::List,
-    list_all: Queries::Filters::Strategies::ListAll,
-    list_optional: Queries::Filters::Strategies::ListOptional,
-    integer: Queries::Filters::Strategies::Integer,
-    date: Queries::Filters::Strategies::Date,
-    datetime_past: Queries::Filters::Strategies::DateTimePast,
-    string: Queries::Filters::Strategies::String,
-    text: Queries::Filters::Strategies::Text,
-    search: Queries::Filters::Strategies::Search,
-    float: Queries::Filters::Strategies::Float,
-    inexistent: Queries::Filters::Strategies::Inexistent,
-    empty_value: Queries::Filters::Strategies::EmptyValue
-  }.freeze
+module Queries::Operators
+  class OrderedWorkPackages < Base
+    label 'open_work_packages'
+    set_symbol 'ow'
+    require_value false
 
-  ##
-  # Wrapper class for invalid filters being created
-  class InvalidError < StandardError; end
-  class MissingError < StandardError; end
+    def self.sql_for_field(_values, _db_table, _db_field)
+      "#{OrderedWorkPackage.table_name}.position IS NOT NULL"
+    end
+  end
 end

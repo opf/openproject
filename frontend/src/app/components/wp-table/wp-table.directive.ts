@@ -199,7 +199,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public openTableConfigurationModal() {
     this.opContextMenu.close();
-    this.opModalService.show<WpTableConfigurationModalComponent>(WpTableConfigurationModalComponent);
+    this.opModalService.show<WpTableConfigurationModalComponent>(WpTableConfigurationModalComponent, {}, this.injector);
   }
 
   public get isEmbedded() {
