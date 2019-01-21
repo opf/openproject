@@ -5,6 +5,7 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
 
 @Component({
   selector: 'boards-module',
@@ -36,8 +37,13 @@ export class BoardsModuleComponent implements OnInit {
     };
   }
 
-  drop($event:any) {
-    console.warn($event);
+  get boardTableConfiguration():WorkPackageTableConfigurationObject {
+    return {
+      hierarchyToggleEnabled: false,
+      columnMenuEnabled: false,
+      actionsColumnEnabled: false,
+      isEmbedded: true
+    };
   }
 
   private set loadingPromise(promise:Promise<unknown>) {
