@@ -215,7 +215,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
     this.globalSearchService.searchTerm = this.searchValue;
     if (this.searchValue !== '') {
       // Work package results can update without page reload.
-      if (this.globalSearchService.currentTab === 'work_packages') { return; }
+      if (jQuery('body.controller-search').length > 0 && this.globalSearchService.currentTab === 'work_packages') { return; }
 
       this.globalSearchService.submitSearch();
     }
