@@ -65,10 +65,6 @@ export class GlobalSearchTabsComponent implements OnDestroy {
   public currentTab:string = '';
   public tabs:string[] = [];
 
-  public text:{ [key:string]:string } = {
-    all_projects: this.I18n.t('js.global_search.all_projects'),
-  };
-
   constructor(readonly FocusHelper:FocusHelperService,
               readonly elementRef:ElementRef,
               readonly renderer:Renderer2,

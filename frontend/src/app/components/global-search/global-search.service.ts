@@ -125,9 +125,9 @@ export class GlobalSearchService {
   private searchQueryParams():string {
     let params:string;
 
-    params = `q=${this.searchTerm}&scope=${this.projectScope}`;
+    params = `q=${this.searchTerm}`;
 
-    if (this.currentTab.length > 0) {
+    if (this.currentTab.length > 0 && this.currentTab !== 'all') {
       params = `${params}&${this.currentTab}=1`;
     }
     if (this.projectScope.length > 0) {
