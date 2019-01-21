@@ -35,29 +35,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% current_module = params.slice(*@object_types).keys.first.to_s %>
 
-<div id="tabs">
-  <ul class="tabrow">
-    <% @object_types.each do |t| %>
-      <li class="<%= params[t].present? ? 'selected' : '' %>">
-        <% target = { controller: 'search',
-                      project_id: (@project.identifier if @project),
-                      action: 'index',
-                      q: params[:q],
-                      scope: current_scope,
-                      t => 1 } %>
-        <%= link_to type_label(t), target %>
-      </li>
-    <% end %>
-    <li class="<%= @object_types.detect { |t| params[t].present? } ? '' : 'selected' %>">
-      <% target = { controller: 'search',
-                    project_id: (@project.identifier if @project),
-                    action: 'index',
-                    q: params[:q],
-                    scope: current_scope } %>
-      <%= link_to t('label_all'), target %>
-    </li>
-  </ul>
-</div>
+<global-search-tabs></global-search-tabs>
 
 <% if @results %>
   <% if params[:work_packages].present? %>

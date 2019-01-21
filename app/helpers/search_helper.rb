@@ -95,7 +95,7 @@ module SearchHelper
   end
 
   def type_label(t)
-    l("label_#{t.singularize}_plural", default: t.to_s.humanize)
+    OpenProject::GlobalSearch.tab_name(t)
   end
 
   def render_results_by_type(results_by_type)

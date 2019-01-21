@@ -111,7 +111,12 @@ class SearchController < ApplicationController
     gon.global_search = {
       search_term: @question,
       project_scope: search_params[:scope].to_s,
-      available_search_types: @available_search_types,
+      available_search_types: @available_search_types.map { |search_type|
+        {
+          id: search_type,
+          name: OpenProject::GlobalSearch.tab_name(search_type)
+        }
+      },
       current_tab: @available_search_types.select { |search_type| search_params[search_type] }.first || 'all'
     }
 
