@@ -49,6 +49,7 @@ import {distinctUntilChanged} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {GlobalSearchInputComponent} from "core-components/global-search/global-search-input.component";
+import {Subscription} from "rxjs";
 
 export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 
@@ -59,6 +60,9 @@ export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 
 export class GlobalSearchWorkPackagesComponent implements OnDestroy {
   @ViewChild('wpTable') wpTable:ElementRef;
+
+  private searchTermSub:Subscription;
+  private projectScopeSub:Subscription;
 
   public queryProps:{ [key:string]:any };
 
@@ -79,31 +83,40 @@ export class GlobalSearchWorkPackagesComponent implements OnDestroy {
               readonly I18n:I18nService,
               readonly PathHelperService:PathHelperService,
               readonly halResourceService:HalResourceService,
-              readonly dynamicCssService:DynamicCssService,
               readonly globalSearchService:GlobalSearchService,
               readonly cdRef:ChangeDetectorRef,
               readonly currentProjectService:CurrentProjectService) {
   }
 
   ngOnInit() {
-    this.globalSearchService.searchTerm$.subscribe((_searchTerm) => this.setQueryProps());
-    this.globalSearchService.projectScope$.subscribe((_projectScope) => this.setQueryProps());
+    this.searchTermSub = this.globalSearchService
+      .searchTerm$
+      .subscribe((searchTerm) => this.setQueryProps());
+    this.projectScopeSub = this.globalSearchService
+      .projectScope$
+      .subscribe((_projectScope) => this.setQueryProps());
     this.setQueryProps();
   }
 
   private setQueryProps():void {
+    let filters:any[] = [];
+
+    if (this.globalSearchService.searchTerm.length > 0) {
+      filters.push({ search: {
+          operator: '**',
+          values: [this.globalSearchService.searchTerm] }});
+    }
     this.queryProps = {
       'columns[]': ['id', 'project', 'type', 'subject', 'updatedAt'],
-      filters: JSON.stringify([{ search: {
-                              operator: '**',
-                              values: [this.globalSearchService.searchTerm] }}]),
+      filters: JSON.stringify(filters),
       sortBy: JSON.stringify([['updatedAt', 'desc']])
     };
     console.log("queryProps", this.queryProps);
   }
 
   ngOnDestroy():void {
-    // nothing to do
+    this.searchTermSub.unsubscribe();
+    this.projectScopeSub.unsubscribe();
   }
 }
 
