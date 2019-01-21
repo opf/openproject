@@ -14,7 +14,9 @@
              [multiple]="true"
              [closeOnSelect]="false"
              [appendTo]="appendTo"
-             [dropdownPosition]="'top'">
+             [dropdownPosition]="'top'"
+             (open)="onOpen()"
+             (close)="onClose()">
   </ng-select>
 
   <edit-field-controls [fieldController]="self"

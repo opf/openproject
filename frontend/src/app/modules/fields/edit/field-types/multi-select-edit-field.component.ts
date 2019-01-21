@@ -48,6 +48,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   };
 
   public appendTo:any = null;
+  private wpTableContainerIdentifier = '.work-package-table--container';
 
   public currentValueInvalid:boolean = false;
   private nullOption:ValueOption;
@@ -114,6 +115,14 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
 
     const value = _.castArray(val).map(el => mapper(el));
     this.changeset.setValue(this.name, value);
+  }
+
+  public onOpen() {
+    jQuery(this.wpTableContainerIdentifier).addClass('-hidden-overflow');
+  }
+
+  public onClose() {
+    jQuery(this.wpTableContainerIdentifier).removeClass('-hidden-overflow');
   }
 
   private findValueOption(option?:HalResource):ValueOption {

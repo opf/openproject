@@ -71,7 +71,7 @@ class WorkPackageField
   alias :activate_edition :activate!
 
   def openSelectField
-    field_container.find('.ng-input input').click
+    autocomplete_selector.click
   end
 
   def expect_state!(open:)
@@ -133,6 +133,23 @@ class WorkPackageField
     end
   end
 
+  ##
+  # Set or select the given value.
+  # For fields of type select, will check for an option with that value.
+  def unset_value(content, multi=false)
+    scroll_to_element(input_element)
+
+    if input_element.tag_name == 'ng-select'
+      if multi
+        page.find('.ng-dropdown-panel .ng-option', text: content).click
+      else
+        page.find('.ng-dropdown-panel .ng-option', text: '-').click
+      end
+    else
+      input_element.set('')
+    end
+  end
+
   def type(text)
     scroll_to_element(input_element)
     input_element.send_keys text
@@ -155,11 +172,19 @@ class WorkPackageField
   end
 
   def submit_by_enter
-    input_element.native.send_keys(:return)
+    if field_type == 'ng-select'
+      autocomplete_selector.send_keys :return
+    else
+      input_element.native.send_keys :return
+    end
   end
 
   def cancel_by_escape
-    input_element.native.send_keys :escape
+    if field_type == 'ng-select'
+      autocomplete_selector.send_keys :escape
+    else
+      input_element.native.send_keys :escape
+    end
   end
 
   def editable?
@@ -172,6 +197,10 @@ class WorkPackageField
     else
       '.wp-inline-edit--field'
     end
+  end
+
+  def autocomplete_selector
+    field_container.find('.ng-input input')
   end
 
   def field_type

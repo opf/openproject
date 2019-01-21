@@ -15,6 +15,12 @@ describe "multi select custom values", js: true do
     )
   end
 
+  let(:cf_edit_field) do
+    field = wp_page.edit_field "customField#{custom_field.id}"
+    field.field_type = 'ng-select'
+    field
+  end
+
   let(:member_names) { ["Billy Nobbler", "Cooper Quatermaine", "Anton Lupin"] }
 
   # We include an invited member to check at the same time that invited users are properly
@@ -70,10 +76,9 @@ describe "multi select custom values", js: true do
 
       page.find("div.custom-option", text: "Billy Nobbler").click
 
-      sel = page.find(:select)
-
-      sel.unselect "Anton Lupin"
-      sel.select "Cooper Quatermaine"
+      cf_edit_field.openSelectField
+      cf_edit_field.unset_value "Anton Lupin", true
+      cf_edit_field.set_value "Cooper Quatermaine"
 
       click_on "Reviewer: Save"
 
