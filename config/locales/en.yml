@@ -128,6 +128,11 @@ en:
     calendar:
       removal: "Please note: This module is going to be removed with OpenProject 8.0."
 
+  global_search:
+    overwritten_tabs:
+      wiki_pages: "Wiki"
+      messages: "Forum"
+
   groups:
     index:
       no_results_title_text: There are currently no groups.

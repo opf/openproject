@@ -82,12 +82,16 @@ export class GlobalSearchService {
   }
 
   public submitSearch():void {
+    window.location.href = this.searchPath();;
+  }
+
+  public searchPath() {
     let searchPath:string = '';
     if (this.currentProjectService.path) {
       searchPath = this.currentProjectService.path;
     }
     searchPath = searchPath + `/search?${this.searchQueryParams()}`;
-    window.location.href = searchPath;
+    return searchPath;
   }
 
   public set searchTerm(searchTerm:string) {
@@ -104,6 +108,10 @@ export class GlobalSearchService {
 
   public get currentTab():string {
     return this._currentTab.value;
+  }
+
+  public set currentTab(tab:string) {
+    this._currentTab.next(tab);
   }
 
   public get projectScope():string {
