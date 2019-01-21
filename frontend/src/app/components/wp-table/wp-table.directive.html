@@ -57,11 +57,7 @@
         </td>
       </tr>
       </tbody>
-      <tbody class="results-tbody work-package--results-tbody"
-             [cdkDropListData]="rows"
-             (cdkDropListDropped)="drop($event)"
-             cdkDropList>
-      </tbody>
+      <tbody class="results-tbody work-package--results-tbody"></tbody>
       <tbody *ngIf="tableElement && configuration.inlineCreateEnabled"
              wpInlineCreate
              [wp-inline-create--table]="workPackageTable"
