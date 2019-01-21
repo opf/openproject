@@ -107,7 +107,7 @@ class SearchController < ApplicationController
       @question = ''
     end
 
-    @available_search_types = Redmine::Search.available_search_types.dup
+    @available_search_types = Redmine::Search.available_search_types.dup.push('all')
     gon.global_search = {
       search_term: @question,
       project_scope: search_params[:scope].to_s,
