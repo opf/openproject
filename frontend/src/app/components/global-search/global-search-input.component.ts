@@ -173,7 +173,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
         // Stop propagation of this event to not overwrite the user's input.
         return false;
       },
-      minLength: 0
+      minLength: 1
     })
     .data('ui-autocomplete')._renderItem = (ul:JQuery, item:{item:string|WorkPackageResource}) => {
       if (_.includes(this.projectScopeTypes, item.item)) {
