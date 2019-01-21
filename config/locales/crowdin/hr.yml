@@ -401,7 +401,7 @@ hr:
         mail_notification: Obavijesti e-mailom
         new_password: Nova lozinka
         password_confirmation: Potvrda
-        consented_at: Pristanak
+        consented_at: Pristanak na
       user_preference:
         comments_sorting: Prikaži komentare
         hide_mail: Sakriji moju e-mail adresu
@@ -772,16 +772,17 @@ hr:
       izbrisan.
     contact_this_mail_address: Molimo vas da kontaktirate %{mail_address} ako želite
       imati svoj račun izbrisan.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    text_update_consent_time: Potvrdite ovaj okvir da biste prisiliti korisnike da
+      ponovno prihvate. Omogući kada promijenite pravni aspekt obavijesti pristanka
+      iznad.
+    update_consent_last_time: 'Posljednja obnova odobrenja: %{update_time}'
   copy_project:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
     failed: Nije moguće kopirati projekt %{source_project_name}
     succeeded: Dodan je projekt %{target_project_name}
     errors: Greška
-    project_custom_fields: Custom fields on project
+    project_custom_fields: Prilagođena polja na projektu
     text:
       failed: Nije moguće kopirati projekt "%{source_project_name}" u projekt "%{target_project_name}".
       succeeded: Kopiran je projekt "%{source_project_name}" u "%{target_project_name}".
@@ -1077,7 +1078,7 @@ hr:
       pdf: PDF
       pdf_with_descriptions: PDF s opisima
       pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_attachments: PDF s privicima
   extraction:
     available:
       pdftotext: Pdftotext available (optional)
@@ -1125,7 +1126,7 @@ hr:
       boards: Forum Zajednice
       newsletter: Security alerts / Newsletter
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Vodič za konfiguraciju
   instructions_after_registration: Nakon uspješne aktivacije, kliknite %{signin} za
     prijavu u sustav.
   instructions_after_logout: Prijaviti se možete tako da kliknete %{signin}.
@@ -1214,7 +1215,7 @@ hr:
   label_select_main_menu_item: Odaberite novi element glavnog izbornika
   label_select_project: Select a project
   label_required_disk_storage: Potraban diskovni prostor
-  label_send_invitation: Send invitation
+  label_send_invitation: Pošalji pozivnicu
   label_change_plural: Promjene
   label_change_properties: Promjeni značajke
   label_change_status: Promijeni status
@@ -1315,7 +1316,7 @@ hr:
   label_file_plural: Datoteke
   label_filter_add: Dodaj filter
   label_filter_plural: Filteri
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: Pokaži/Sakrij filtere
   label_float: Plutajući
   label_folder: Mapa
   label_follows: slijedi
@@ -1487,8 +1488,8 @@ hr:
   label_projects_storage_information: "%{count} projekt koristi %{storage} diskovnog
     prostora"
   label_project_view_all: Pogledaj sve projekte
-  label_project_show_details: Show project details
-  label_project_hide_details: Hide project details
+  label_project_show_details: Prikaži detalje o projektu
+  label_project_hide_details: Sakrij detalje o projektu
   label_public_projects: Javni projekti
   label_query_new: Novi upit
   label_query_plural: Prilagođeni upiti
@@ -1745,7 +1746,7 @@ hr:
           context.
         invalid_type: No type found with name '%{type}' in project '%{project}'.
       link_name: Novi radni paket
-      link_name_type: New %{type_name}
+      link_name_type: Novi %{type_name}
   mail:
     actions: Actions
   mail_body_account_activation_request: 'Novi korisnik je (%{value}) je registriran.
@@ -1770,7 +1771,7 @@ hr:
   mail_subject_wiki_content_added: "'%{id}' wiki stranica je dodana"
   mail_subject_wiki_content_updated: "'%{id}' wiki stranica je ažurirana"
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
+    subject: Korisnička granica aktivacije dostignuta
     message: |
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
@@ -1995,12 +1996,12 @@ hr:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: Aktivno ili arhivirano
     assigned_to_role: Rola opunomoćenog korisnika
     member_of_group: Grupa opunomoćenog korisnika
     assignee_or_group: Assignee or belonging group
     subproject_id: Potprojekt
-    name_or_identifier: Name or identifier
+    name_or_identifier: Ime ili identifikator
   repositories:
     at_identifier: pri %{identifier}
     atom_revision_feed: Atom revizija sadržaja
@@ -2169,18 +2170,18 @@ hr:
   setting_commit_logtime_activity_id: Aktivnost za zabilježeno vrijeme
   setting_commit_logtime_enabled: Omogućite zapis vremena
   setting_commit_ref_keywords: Referencing keywords
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_time: Vrijeme pristanka
+  setting_consent_info: Tekst informacije sugkasnosti
+  setting_consent_required: Potrebna suglasnost
+  setting_consent_decline_mail: E-mail kontakta za suglasnost
   setting_cross_project_work_package_relations: Omogući relacije između unakrsnih
     projekata
   setting_date_format: Format datuma
   setting_default_language: Zadani jezik
-  setting_default_notification_option: Default notification option
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_default_projects_public: New projects are public by default
-  setting_diff_max_lines_displayed: Max number of diff lines displayed
+  setting_default_notification_option: Podešavanje zadanih obavijesti
+  setting_default_projects_modules: Zadani omogućeni moduli za nove projekte
+  setting_default_projects_public: Novi projekti su zadani kao javni
+  setting_diff_max_lines_displayed: Maksimalan broj prikazanih redaka
   setting_display_subprojects_work_packages: Prikaži radne pakete podprojekata na
     glavnom projektu kao početne
   setting_emails_footer: Podnožje email poruke
@@ -2207,8 +2208,8 @@ hr:
   setting_log_requesting_user: Zabilježite korisnički pristup, ime, i email adresu
     za sve zahtjeve
   setting_login_required: Potrebna autentifikacija
-  setting_mail_from: Emission email address
-  setting_mail_handler_api_enabled: Enable incoming email web service
+  setting_mail_from: Izvorišna adresa e-pošte
+  setting_mail_handler_api_enabled: Omogućiti dolaznu e-poštu web-usluga
   setting_mail_handler_api_description: The email web handler enables OpenProject
     to receive emails containing specific commands as an instrumentation mechanism
     (e.g., to create and update work packages).
@@ -2283,7 +2284,7 @@ hr:
     markdown: Markdown
     plain: Plain text
   status_active: aktivno
-  status_archived: archived
+  status_archived: arhivirano
   status_invited: pozvani
   status_locked: zaključano
   status_registered: registriran

@@ -803,10 +803,10 @@ sk:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
-    notice_successful_create: Successful creation.
-    notice_successful_delete: Successful deletion.
-    notice_successful_update: Successful update.
-    notice_bad_request: Bad Request.
+    notice_successful_create: Úspešne vytvorené.
+    notice_successful_delete: Úspešne zmazané.
+    notice_successful_update: Úspešne aktualizované.
+    notice_bad_request: Nesprávna požiadavka.
     relations:
       empty: Neexistuje žiadna väzba
       remove: Odstrániť vzťah
