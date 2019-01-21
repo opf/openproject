@@ -14,7 +14,7 @@
            id="q"
            size="20"
            class="top-menu-search--input"
-           placeholder= "{{text.search}}"
+           placeholder="{{text.search}}"
            [ngModel]="searchTerm"
            (keyup.enter)="submitNonEmptySearch()"
            (ngModelChange)="inputChange($event)">
