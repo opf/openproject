@@ -30,7 +30,9 @@ export class BoardsModuleComponent implements OnInit {
 
   get columnsQueryProps() {
     return  {
-      'columns[]': ['id', 'subject']
+      'columns[]': ['id', 'subject'],
+      'showHierarchies': false,
+      'pageSize': 500,
     };
   }
 
