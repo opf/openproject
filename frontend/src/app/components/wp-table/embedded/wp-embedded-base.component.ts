@@ -1,4 +1,4 @@
-import {AfterViewInit, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Input, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {CurrentProjectService} from '../../projects/current-project.service';
 import {TableState} from '../table-state/table-state';
 import {WorkPackageStatesInitializationService} from '../../wp-list/wp-states-initialization.service';
@@ -50,6 +50,10 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
 
   ngOnDestroy():void {
     // noting to do
+  }
+
+  ngOnChanges(changes:SimpleChanges) {
+    this.refresh();
   }
 
   get projectIdentifier() {
