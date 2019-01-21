@@ -64,14 +64,14 @@ sk:
     index:
       no_results_title_text: Momentálne nie sú k dispozícií žiadne farby.
       no_results_content_text: Vytvoriť novú farbu
-    label_no_color: No color
+    label_no_color: Žiadna farba
   custom_actions:
     actions:
       name: Akcie
-      add: Add action
+      add: Pridať akciu
       assigned_to:
         executing_user_value: "(Assign to executing user)"
-    conditions: Conditions
+    conditions: Podmienky
     plural: Custom actions
     new: New custom action
     edit: Edit custom action %{name}
@@ -94,7 +94,7 @@ sk:
       no_results_title_text: Momentálne nie sú k dispozícií žiadne vlastné polia.
       no_results_content_text: Vytvoriť nové vlastné pole
   concatenation:
-    single: or
+    single: alebo
   deprecations:
     old_timeline:
       replacement: This timelines module is being replaced by the interactive timeline
@@ -195,10 +195,10 @@ sk:
       form_configuration: Konfigurácia formulára
       projects: Projekty
       enabled_projects: Enabled projects
-      add_group: Add attribute group
+      add_group: Pridať skupinu vlastností
       add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      edit_query: Upraviť tabuľku
+      query_group_placeholder: Zadajte názov tabuľky
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -1416,7 +1416,7 @@ sk:
   label_journal_diff: Porovnanie popisu
   label_language: Jazyk
   label_jump_to_a_project: Skok do projektu...
-  label_keyword_plural: Keywords
+  label_keyword_plural: Kľúčové slová
   label_language_based: Založené na jazyku používateľa
   label_last_activity: Posledná aktivita
   label_last_change_on: Posledná zmena
@@ -1669,7 +1669,7 @@ sk:
   label_version_sharing_none: Nezdieľané
   label_version_sharing_system: So všetkými projektmi
   label_version_sharing_tree: S projektovým stromom
-  label_videos: Videos
+  label_videos: Videá
   label_view_all_revisions: Zobraziť všetky revízie
   label_view_diff: Zobraziť rozdiely
   label_view_revisions: Zobraziť revízie
@@ -1896,9 +1896,9 @@ sk:
   notice_members_added: Added %{number} users to the project.
   notice_member_removed: Removed %{user} from project.
   notice_member_deleted: "%{user} has been removed from the project and deleted."
-  notice_no_principals_found: No results found.
-  notice_bad_request: Bad Request.
-  notice_not_authorized: You are not authorized to access this page.
+  notice_no_principals_found: Neboli nájdené žiadne výsledky.
+  notice_bad_request: Nesprávna požiadavka.
+  notice_not_authorized: Nemáte dostatočné oprávnenia na zobrazenie tejto stránky.
   notice_not_authorized_archived_project: The project you're trying to access has
     been archived.
   notice_password_confirmation_failed: Your password is not correct. Cannot continue.
@@ -1906,15 +1906,15 @@ sk:
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
   notice_project_not_deleted: The project wasn't deleted.
-  notice_successful_connection: Successful connection.
-  notice_successful_create: Successful creation.
-  notice_successful_delete: Successful deletion.
-  notice_successful_update: Successful update.
+  notice_successful_connection: Úspešne pripojené.
+  notice_successful_create: Úspešne vytvorené.
+  notice_successful_delete: Úspešne zmazané.
+  notice_successful_update: Úspešne aktualizované.
   notice_to_many_principals_to_display: |-
     There are too many results.
     Narrow down the search by typing in the name of the new member (or group).
   notice_unable_delete_time_entry: Unable to delete time log entry.
-  notice_unable_delete_version: Unable to delete version.
+  notice_unable_delete_version: Verzia nemôže byť zmazaná.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -1957,11 +1957,11 @@ sk:
       team collaboration with OpenProject.
     text_show_again: Môžete spustiť toto video z ponuky Pomocník
     welcome: Welcome to OpenProject
-    select_language: Please select your language
+    select_language: Prosím vyberte Váš jazyk
   permission_add_work_package_notes: Pridať poznámky
   permission_add_work_packages: Pridať pracovné balíky
   permission_add_messages: Post messages
-  permission_add_project: Create project
+  permission_add_project: Vytvoriť projekt
   permission_add_subprojects: Create subprojects
   permission_add_work_package_watchers: Pridať pozorovateľov
   permission_browse_repository: Read-only access to repository (browse and checkout)
@@ -1981,15 +1981,15 @@ sk:
   permission_edit_work_packages: Edit work packages
   permission_edit_messages: Edit messages
   permission_edit_own_work_package_notes: Edit own notes
-  permission_edit_own_messages: Edit own messages
+  permission_edit_own_messages: Úprava vlastných správ
   permission_edit_own_time_entries: Edit own time logs
-  permission_edit_project: Edit project
+  permission_edit_project: Upraviť projekt
   permission_edit_reportings: Edit reportings
   permission_edit_time_entries: Edit time logs
   permission_edit_timelines: Edit timelines
   permission_edit_wiki_pages: Edit wiki pages
   permission_export_work_packages: Export work packages
-  permission_export_wiki_pages: Export wiki pages
+  permission_export_wiki_pages: Export wiki stránok
   permission_list_attachments: List attachments
   permission_log_time: Log spent time
   permission_manage_boards: Spravovať diskusie
@@ -2002,7 +2002,7 @@ sk:
   permission_manage_repository: Spravovať repozitár
   permission_manage_subtasks: Spravovať podúlohy
   permission_manage_versions: Manage versions
-  permission_manage_wiki: Manage wiki
+  permission_manage_wiki: Spravovať Wiki
   permission_manage_wiki_menu: Manage wiki menu
   permission_move_work_packages: Move work packages
   permission_protect_wiki_pages: Protect wiki pages
@@ -2210,8 +2210,8 @@ sk:
   setting_app_title: Application title
   setting_attachment_max_size: Attachment max. size
   setting_autofetch_changesets: Autofetch repository changes
-  setting_autologin: Autologin
-  setting_available_languages: Available languages
+  setting_autologin: Automatické prihlasovanie
+  setting_available_languages: Dostupné jazyky
   setting_bcc_recipients: Blind carbon copy recipients (bcc)
   setting_brute_force_block_after_failed_logins: Block user after this number of failed
     login attempts
@@ -2238,8 +2238,8 @@ sk:
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_display_subprojects_work_packages: Display subprojects work packages on
     main projects by default
-  setting_emails_footer: Emails footer
-  setting_emails_header: Emails header
+  setting_emails_footer: E-mail päta
+  setting_emails_header: E-mail záhlavie
   setting_email_login: Use e-mail as login
   setting_enabled_scm: Enabled SCM
   setting_feeds_enabled: Enable Feeds
@@ -2314,7 +2314,7 @@ sk:
   setting_welcome_on_homescreen: Display welcome block on homescreen
   setting_wiki_compression: Wiki history compression
   setting_work_package_group_assignment: Povoliť priradenie skupinám
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighting_mode: Predvolený režim zvýraznenia
   setting_work_package_list_default_highlighted_attributes: Default inline highlighted
     attributes
   settings:
