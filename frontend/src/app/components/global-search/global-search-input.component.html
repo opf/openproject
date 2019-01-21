@@ -16,7 +16,8 @@
            class="top-menu-search--input"
            placeholder= "{{text.search}}"
            [ngModel]="searchTerm"
-           (keyup.enter)="submitNonEmptySearch()">
+           (keyup.enter)="submitNonEmptySearch()"
+           (ngModelChange)="inputChange($event)">
     <a #btn
        id="top-menu-search-button"
        class="top-menu-search--button search-form-normal"

@@ -45,9 +45,10 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 import {GlobalSearchService} from "core-components/global-search/global-search.service";
-import {distinctUntilChanged} from "rxjs/operators";
+import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {Subject, Subscription} from "rxjs";
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -63,6 +64,9 @@ export class GlobalSearchInputComponent implements OnDestroy {
   public focused:boolean = false;
   public noResults = false;
   public searchTerm:string = '';
+
+  private searchTermChanged:Subject<string> = new Subject<string>();
+
   private $element:JQuery;
   private $input:JQuery;
 
@@ -92,6 +96,20 @@ export class GlobalSearchInputComponent implements OnDestroy {
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.$input = jQuery(this.input.nativeElement);
+
+    this.searchTermChanged
+      .pipe(
+        distinctUntilChanged(),
+        debounceTime(250),
+        untilComponentDestroyed(this)
+      )
+      .subscribe((searchTerm:string) => {
+        this.searchTerm = searchTerm;
+        if (this.globalSearchService.currentTab === 'work_packages') {
+          this.globalSearchService.searchTerm = searchTerm;
+        }
+        this.cdRef.detectChanges();
+      });
 
     this.globalSearchService.searchTerm$
       .pipe(
@@ -125,6 +143,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
         });
       },
       focus: (_evt:any, _ui:any) => {
+        // Stop propagation of this event to not overwrite the user's input.
         return false;
       },
       select: (_evt:any, ui:any) => {
@@ -151,6 +170,8 @@ export class GlobalSearchInputComponent implements OnDestroy {
             this.redirectToWp(workPackage.id);
           }
         }
+        // Stop propagation of this event to not overwrite the user's input.
+        return false;
       },
       minLength: 0
     })
@@ -185,13 +206,16 @@ export class GlobalSearchInputComponent implements OnDestroy {
     }
   }
 
+  public inputChange(searchTerm:string):void {
+    this.searchTermChanged.next(searchTerm);
+  }
+
   public submitNonEmptySearch() {
     console.log("submitNonEmptySearch", this.searchValue);
     this.globalSearchService.searchTerm = this.searchValue;
     if (this.searchValue !== '') {
       // Work package results can update without page reload.
-      // console.log("currentTab", this.globalSearchService.currentTab, this.globalSearchService.currentTab === 'work_packages');
-      // if (this.globalSearchService.currentTab === 'work_packages') { return; }
+      if (this.globalSearchService.currentTab === 'work_packages') { return; }
 
       this.globalSearchService.submitSearch();
     }
