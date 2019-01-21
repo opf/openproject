@@ -172,7 +172,7 @@ describe 'API v3 Work package form resource', type: :request do
               end
 
               it_behaves_like 'parse error',
-                              'unexpected comma at line 1, column 3'
+                              'unexpected comma () at line 1, column 3'
             end
 
             describe 'lock version' do
