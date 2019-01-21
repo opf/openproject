@@ -5,16 +5,29 @@ import {States} from 'core-components/states.service';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
 import {RenderedRow, RowRenderInfo} from "core-components/wp-fast-table/builders/primary-render-pass";
+import {take} from "rxjs/operators";
 
 export class DragAndDropTransformer {
 
   private readonly tableState:TableState = this.injector.get(TableState);
   private readonly states:States = this.injector.get(States);
   private readonly pathHelper = this.injector.get(PathHelperService);
-  private readonly dragService = this.injector.get(DragAndDropService);
+  private readonly dragService = this.injector.get(DragAndDropService, null);
 
   constructor(public readonly injector:Injector,
               public table:WorkPackageTable) {
+
+    // The DragService may not have been provided
+    // in which case we do not provide drag and drop
+    if (this.dragService === null) {
+      return;
+    }
+
+    this.tableState.stopAllSubscriptions
+      .pipe(take(1))
+      .subscribe(() => {
+        this.dragService.remove(this.table.tbody);
+    });
 
     this.dragService.register({
       container: this.table.tbody,
