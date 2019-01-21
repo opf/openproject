@@ -87,7 +87,7 @@ export class GlobalSearchService {
 
   public searchPath() {
     let searchPath:string = '';
-    if (this.currentProjectService.path) {
+    if (this.currentProjectService.path && this.projectScope !== 'all') {
       searchPath = this.currentProjectService.path;
     }
     searchPath = searchPath + `/search?${this.searchQueryParams()}`;
