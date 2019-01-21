@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -13,7 +13,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Foperatorree Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -25,27 +25,45 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Filters
-  STRATEGIES = {
-    list: Queries::Filters::Strategies::List,
-    list_all: Queries::Filters::Strategies::ListAll,
-    list_optional: Queries::Filters::Strategies::ListOptional,
-    integer: Queries::Filters::Strategies::Integer,
-    date: Queries::Filters::Strategies::Date,
-    datetime_past: Queries::Filters::Strategies::DateTimePast,
-    string: Queries::Filters::Strategies::String,
-    text: Queries::Filters::Strategies::Text,
-    search: Queries::Filters::Strategies::Search,
-    float: Queries::Filters::Strategies::Float,
-    inexistent: Queries::Filters::Strategies::Inexistent,
-    empty_value: Queries::Filters::Strategies::EmptyValue
-  }.freeze
+class Queries::WorkPackages::Filter::ManualSortFilter <
+  Queries::WorkPackages::Filter::WorkPackageFilter
 
-  ##
-  # Wrapper class for invalid filters being created
-  class InvalidError < StandardError; end
-  class MissingError < StandardError; end
+  def available_operators
+    [Queries::Operators::OrderedWorkPackages]
+  end
+
+  def available?
+    true
+  end
+
+  def joins
+    :ordered_work_packages
+  end
+
+  def type
+    :empty_value
+  end
+
+  def where
+    WorkPackage.arel_table[:id]
+      .in(context.ordered_work_packages)
+      .to_sql
+  end
+
+  def self.key
+    :manual_sort
+  end
+
+  def ar_object_filter?
+    true
+  end
+
+  private
+
+  def operator_strategy
+    Queries::Operators::OrderedWorkPackages
+  end
 end
