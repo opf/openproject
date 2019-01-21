@@ -106,6 +106,19 @@ export class GlobalSearchWorkPackagesComponent implements OnDestroy {
           operator: '**',
           values: [this.globalSearchService.searchTerm] }});
     }
+
+    if (this.globalSearchService.projectScope === 'current_project') {
+      filters.push({ subprojectId: {
+          operator: '!*',
+          values: [] }});
+    }
+
+    if (this.globalSearchService.projectScope === '') {
+      filters.push({ subprojectId: {
+          operator: '*',
+          values: [] }});
+    }
+
     this.queryProps = {
       'columns[]': ['id', 'project', 'type', 'subject', 'updatedAt'],
       filters: JSON.stringify(filters),
