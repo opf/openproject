@@ -105,9 +105,18 @@ export class GlobalSearchInputComponent implements OnDestroy {
       )
       .subscribe((searchTerm:string) => {
         this.searchTerm = searchTerm;
-        if (this.globalSearchService.currentTab === 'work_packages') {
+
+        // When there is already a Work Packages table in the search result, changing the search term should update
+        // that table as you type and update the current URL displayed in the browser.
+        if (this.globalSearchService.isAfterSearch() &&
+            this.globalSearchService.currentTab === 'work_packages') {
           this.globalSearchService.searchTerm = searchTerm;
+          window.history
+                .replaceState({},
+                         `${I18n.t('global_search.search')}: ${this.searchValue}`,
+                              this.globalSearchService.searchPath());
         }
+        
         this.cdRef.detectChanges();
       });
 
@@ -211,11 +220,12 @@ export class GlobalSearchInputComponent implements OnDestroy {
   }
 
   public submitNonEmptySearch() {
-    console.log("submitNonEmptySearch", this.searchValue);
     this.globalSearchService.searchTerm = this.searchValue;
     if (this.searchValue !== '') {
       // Work package results can update without page reload.
-      if (jQuery('body.controller-search').length > 0 && this.globalSearchService.currentTab === 'work_packages') { return; }
+      if (this.globalSearchService.isAfterSearch() && this.globalSearchService.currentTab === 'work_packages') {
+        return;
+      }
 
       this.globalSearchService.submitSearch();
     }

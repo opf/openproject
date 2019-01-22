@@ -37,10 +37,12 @@ export class GlobalSearchService {
   private _searchTerm = new BehaviorSubject<string>('');
   public searchTerm$ = this._searchTerm.asObservable();
 
+  // Default selected tab is Work Packages
   private _currentTab = new BehaviorSubject<any>('work_packages');
   public currentTab$ = this._currentTab.asObservable();
 
-  private _projectScope = new BehaviorSubject<any>('all');
+  // Default project scope is "this projoect and all subprojets"
+  private _projectScope = new BehaviorSubject<any>('');
   public projectScope$ = this._projectScope.asObservable();
 
   private _tabs = new BehaviorSubject<any>([]);
@@ -135,5 +137,9 @@ export class GlobalSearchService {
     }
 
     return params;
+  }
+
+  public isAfterSearch():boolean {
+    return (jQuery('body.controller-search').length > 0);
   }
 }

@@ -73,10 +73,6 @@ export class GlobalSearchWorkPackagesComponent implements OnDestroy {
     inlineCreateEnabled: false
   };
 
-  public text:{ [key:string]:string } = {
-    all_projects: this.I18n.t('js.global_search.all_projects'),
-  };
-
   constructor(readonly FocusHelper:FocusHelperService,
               readonly elementRef:ElementRef,
               readonly renderer:Renderer2,
@@ -91,7 +87,7 @@ export class GlobalSearchWorkPackagesComponent implements OnDestroy {
   ngOnInit() {
     this.searchTermSub = this.globalSearchService
       .searchTerm$
-      .subscribe((searchTerm) => this.setQueryProps());
+      .subscribe((_searchTerm) => this.setQueryProps());
     this.projectScopeSub = this.globalSearchService
       .projectScope$
       .subscribe((_projectScope) => this.setQueryProps());
