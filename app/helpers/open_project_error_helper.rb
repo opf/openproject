@@ -29,6 +29,7 @@ module OpenProjectErrorHelper
       current_user: current_user,
       params: params,
       request: try(:request),
+      session: try(:session),
       env: try(:env),
     }
   end

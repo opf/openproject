@@ -20,7 +20,7 @@ module OpenProject
           context[:level] ||= context[:exception] ? :error : :info
           context[:current_user] ||= User.current
 
-          registered_handlers.each do |handler|
+          registered_handlers.values.each do |handler|
             handler.call message, context
           end
 
@@ -50,17 +50,26 @@ module OpenProject
         end
 
         ##
+        # Register a new handler
+        def register(key, handler)
+          raise "#{key} already registered" if registered_handlers.key?(key)
+          raise "handler must respond_to #call" unless handler.respond_to?(:call)
+
+          @handlers[key] = handler
+        end
+
+        ##
         # Create a payload for lograge from a controller request line
         def controller_payload_hash(controller)
           {
-            user: controller.send(:current_user).try(:id)
+            user: User.current.try(:id)
           }
         end
 
         private
 
         def default_handlers
-          [method(:rails_logger_handler)]
+          { rails_logger: method(:rails_logger_handler) }
         end
 
         ##
@@ -69,16 +78,23 @@ module OpenProject
         def rails_logger_handler(message, context = {})
           Rails.logger.public_send(
             context[:level],
-            context_string(context) + message
+            "#{context_string(context)} #{message}"
           )
         end
 
         ##
         # Create a context string
         def context_string(context)
-          ''.tap do |str|
-            str << "[user=#{context[:current_user].id}] " if context[:current_user]
-          end
+          %i[current_user project reference]
+            .map do |key|
+              value = context[key]
+
+              if value
+                "[#{key}=#{value}]"
+              end
+            end
+            .compact
+            .join(' ')
         end
       end
     end
