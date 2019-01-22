@@ -145,7 +145,8 @@ group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
   # see https://github.clientom/mperham/dalli
-  gem 'dalli', '~> 2.7.6'
+  gem 'dalli', git: 'https://github.com/petergoldstein/dalli',
+               ref: '0ff39199b5e91c6dbdaabc7c085b81938d0f08d2'
 
   # Unicorn worker killer to restart unicorn child workers
   gem 'unicorn-worker-killer', require: false
