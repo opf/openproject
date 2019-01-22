@@ -53,6 +53,9 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
   // Reference to the active component, if any
   public componentInstance:EditFieldComponent;
 
+  // Subject to fire when user demanded activation
+  public $onUserActivate = new Subject<void>();
+
   // Current errors of the field
   public errors:string[];
 
@@ -115,8 +118,6 @@ export class WorkPackageEditFieldHandler extends EditFieldHandler {
     this.errors = newErrors;
     this.element.classList.toggle('-error', this.isErrorenous);
   }
-
-
 
   /**
    * Handle a user submitting the field (e.g, ng-change)

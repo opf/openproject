@@ -32,6 +32,7 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {EditFieldComponent} from "../edit-field.component";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 export interface ValueOption {
   name:string;
@@ -52,6 +53,14 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   public halSorting:HalResourceSortingService;
 
   protected initialize() {
+
+    this.handler
+      .$onUserActivate
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe(() => this.openDamnedAutoCompleter());
+
     this.halSorting = this.injector.get(HalResourceSortingService);
 
     this.text = {

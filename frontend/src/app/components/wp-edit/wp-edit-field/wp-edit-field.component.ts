@@ -178,7 +178,12 @@ export class WorkPackageEditFieldComponent implements OnInit {
 
     this.activateOnForm()
       .then((handler) => {
-        handler && handler.focus(positionOffset);
+        if (!handler) {
+          return;
+        }
+
+        handler.$onUserActivate.next();
+        handler.focus(positionOffset);
       });
 
     return false;
