@@ -81,7 +81,6 @@ export class GlobalSearchTitleComponent implements OnDestroy {
 
       this.cdRef.detectChanges();
     });
-
   }
 
   ngOnDestroy() {
