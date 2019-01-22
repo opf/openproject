@@ -44,6 +44,7 @@ class ApplicationController < ActionController::Base
   include HookHelper
   include ::OpenProject::Authentication::SessionExpiry
   include AdditionalUrlHelpers
+  include OpenProjectErrorHelper
 
   layout 'base'
 
