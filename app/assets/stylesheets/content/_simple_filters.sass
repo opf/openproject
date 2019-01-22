@@ -91,6 +91,24 @@ $filters--border-color: $gray !default
     @include text-shortener
     margin: auto 0
 
+fieldset#date-range
+  p
+    margin: 2px 0 2px 0
+
+  // Special case: simple filters with a radiobutton
+  .simple-filters--filter
+    grid-template-columns: 10% repeat(auto-fill, 45%)
+    grid-template-rows: 50% 50%
+    grid-gap: 10px 0
+
+  .simple-filters--filter-name.form--label
+    grid-column: 2
+
+
 @include breakpoint(680px down)
   .simple-filters--filter-value
     grid-column: 1 / -1
+
+  fieldset#date-range
+    .simple-filters--filter-value
+      grid-column: unset
