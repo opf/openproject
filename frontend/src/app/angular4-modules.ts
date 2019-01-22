@@ -82,6 +82,7 @@ import {FullCalendarModule} from "ng-fullcalendar";
 import {GlobalSearchService} from "core-components/global-search/global-search.service";
 import {GlobalSearchWorkPackagesComponent} from "core-components/global-search/global-search-work-packages.component";
 import {GlobalSearchTabsComponent} from "core-components/global-search/global-search-tabs.component";
+import {GlobalSearchTitleComponent} from "core-components/global-search/global-search-title.component";
 
 @NgModule({
   imports: [
@@ -155,6 +156,7 @@ import {GlobalSearchTabsComponent} from "core-components/global-search/global-se
     GlobalSearchInputComponent,
     GlobalSearchWorkPackagesComponent,
     GlobalSearchTabsComponent,
+    GlobalSearchTitleComponent,
 
     // Modals
     ConfirmDialogModal,
@@ -177,6 +179,7 @@ import {GlobalSearchTabsComponent} from "core-components/global-search/global-se
     GlobalSearchInputComponent,
     GlobalSearchWorkPackagesComponent,
     GlobalSearchTabsComponent,
+    GlobalSearchTitleComponent,
 
     // Project Auto completer
     ProjectMenuAutocompleteComponent,
