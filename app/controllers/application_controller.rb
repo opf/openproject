@@ -505,6 +505,8 @@ class ApplicationController < ActionController::Base
     @message = l(@message) if @message.is_a?(Symbol)
     @status = arg[:status] || 500
 
+    op_handle_error "[Error #@status] #@message"
+
     respond_to do |format|
       format.html do
         render template: 'common/error', layout: use_layout, status: @status

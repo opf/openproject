@@ -11,7 +11,7 @@ module OpenProject
             if exception.is_a? Exception
               context[:exception] = exception
               context[:backtrace] = clean_backtrace(exception)
-              message = "#{exception}: #{exception.message}"
+              "#{exception}: #{exception.message}"
             else
               exception.to_s
             end
@@ -49,6 +49,14 @@ module OpenProject
           @handlers ||= default_handlers
         end
 
+        ##
+        # Create a payload for lograge from a controller request line
+        def controller_payload_hash(controller)
+          {
+            user: controller.send(:current_user).try(:id)
+          }
+        end
+
         private
 
         def default_handlers
@@ -61,19 +69,15 @@ module OpenProject
         def rails_logger_handler(message, context = {})
           Rails.logger.public_send(
             context[:level],
-            message + context_string(context)
+            context_string(context) + message
           )
-
-          if backtrace = context[:backtrace]
-            Rails.logger.debug { backtrace.join($/) }
-          end
         end
 
         ##
         # Create a context string
         def context_string(context)
           ''.tap do |str|
-            str << " [user=#{context[:user].id}]" if context[:user]
+            str << "[user=#{context[:current_user].id}] " if context[:current_user]
           end
         end
       end
