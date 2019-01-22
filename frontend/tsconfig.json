@@ -32,6 +32,7 @@
       "dom"
     ],
     "paths": {
+      "@ng-select/ng-select": ["../node_modules/@ng-select/ng-select/dist/"],
       "core-app/*": ["./app/*"],
       "core-components/*": ["./app/components/*"]
     }

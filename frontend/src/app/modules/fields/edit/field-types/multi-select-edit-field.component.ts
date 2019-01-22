@@ -32,7 +32,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {Component, OnInit} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {ValueOption} from "core-app/modules/fields/edit/field-types/select-edit-field.component";
-import {NgSelectComponent} from "@ng-select/ng-select/dist";
+import {NgSelectComponent} from "@ng-select/ng-select";
 import {ViewChild} from "@angular/core";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
