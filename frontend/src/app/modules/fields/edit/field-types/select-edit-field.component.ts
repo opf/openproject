@@ -33,7 +33,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {EditFieldComponent} from "../edit-field.component";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {NgSelectComponent} from "@ng-select/ng-select";
+import {NgSelectComponent} from "@ng-select/ng-select/dist";
 
 export interface ValueOption {
   name:string;
