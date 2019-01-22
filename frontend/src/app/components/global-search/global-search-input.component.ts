@@ -116,7 +116,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
                          `${I18n.t('global_search.search')}: ${this.searchValue}`,
                               this.globalSearchService.searchPath());
         }
-        
+
         this.cdRef.detectChanges();
       });
 
@@ -191,6 +191,12 @@ export class GlobalSearchInputComponent implements OnDestroy {
         return this.renderWorkPackageItem(item.item as WorkPackageResource).appendTo(ul);
       }
     };
+
+    this.$input.on('focus', () => {
+      if (this.searchValue.length > 0) {
+        this.$input.autocomplete('search', this.searchValue);
+      }
+    });
   }
 
   // detect if click is outside or inside the element
