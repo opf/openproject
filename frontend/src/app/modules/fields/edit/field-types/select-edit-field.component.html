@@ -7,8 +7,9 @@
            [items]="valueOptions"
            bindLabel="name"
            [virtualScroll]="true"
-           autofocus
            (keydown)="handler.handleUserKeydown($event, true)"
            (change)="handler.handleUserSubmit()"
+           (open)="onOpen()"
+           (close)="onClose()"
            [appendTo]="appendTo">
 </ng-select>

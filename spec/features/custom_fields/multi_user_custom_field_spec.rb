@@ -76,7 +76,6 @@ describe "multi select custom values", js: true do
 
       page.find("div.custom-option", text: "Billy Nobbler").click
 
-      cf_edit_field.openSelectField
       cf_edit_field.unset_value "Anton Lupin", true
       cf_edit_field.set_value "Cooper Quatermaine"
 

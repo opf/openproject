@@ -32,11 +32,16 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {Component, OnInit} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {ValueOption} from "core-app/modules/fields/edit/field-types/select-edit-field.component";
+import {NgSelectComponent} from "@ng-select/ng-select";
+import {ViewChild} from "@angular/core";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 @Component({
   templateUrl: './multi-select-edit-field.component.html'
 })
 export class MultiSelectEditFieldComponent extends EditFieldComponent implements OnInit {
+  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+
   readonly I18n:I18nService = this.injector.get(I18nService);
   public options:any[];
   public valueOptions:ValueOption[];
@@ -55,6 +60,13 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   private _selectedOption:ValueOption[];
 
   ngOnInit() {
+    this.handler
+      .$onUserActivate
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe(() => this.openAutocompleteSelectField());
+
     this.nullOption = { name: this.text.placeholder, $href: null };
 
     if (Array.isArray(this.schema.allowedValues)) {
@@ -123,6 +135,10 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
 
   public onClose() {
     jQuery(this.wpTableContainerIdentifier).removeClass('-hidden-overflow');
+  }
+
+  private openAutocompleteSelectField() {
+    this.ngSelectComponent.open();
   }
 
   private findValueOption(option?:HalResource):ValueOption {

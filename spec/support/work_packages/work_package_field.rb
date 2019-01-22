@@ -63,10 +63,6 @@ class WorkPackageField
         raise "Expected WP field input type '#{field_type}' for attribute '#{property_name}'."
       end
     end
-
-    if field_type == 'ng-select'
-      openSelectField
-    end
   end
   alias :activate_edition :activate!
 

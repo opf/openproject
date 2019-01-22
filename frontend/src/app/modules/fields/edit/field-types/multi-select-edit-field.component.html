@@ -9,14 +9,13 @@
              bindLabel="name"
              [virtualScroll]="true"
              [clearSearchOnAdd]="true"
-             autofocus
              (keydown)="handler.handleUserKeydown($event, true)"
+             (open)="onOpen()"
+             (close)="onClose()"
              [multiple]="true"
              [closeOnSelect]="false"
              [appendTo]="appendTo"
-             [dropdownPosition]="'top'"
-             (open)="onOpen()"
-             (close)="onClose()">
+             [dropdownPosition]="'top'">
   </ng-select>
 
   <edit-field-controls [fieldController]="self"

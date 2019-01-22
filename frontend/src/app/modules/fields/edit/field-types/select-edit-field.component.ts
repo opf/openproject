@@ -26,13 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {EditFieldComponent} from "../edit-field.component";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {NgSelectComponent} from "@ng-select/ng-select";
 
 export interface ValueOption {
   name:string;
@@ -43,12 +44,15 @@ export interface ValueOption {
   templateUrl: './select-edit-field.component.html'
 })
 export class SelectEditFieldComponent extends EditFieldComponent implements OnInit {
+  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+
   public options:any[];
   public valueOptions:ValueOption[];
   public template:string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html';
   public text:{ requiredPlaceholder:string, placeholder:string };
 
   public appendTo:any = null;
+  private wpTableContainerIdentifier = '.work-package-table--container';
 
   public halSorting:HalResourceSortingService;
 
@@ -59,7 +63,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       .pipe(
         untilComponentDestroyed(this)
       )
-      .subscribe(() => this.openDamnedAutoCompleter());
+      .subscribe(() => this.openAutocompleteSelectField());
 
     this.halSorting = this.injector.get(HalResourceSortingService);
 
@@ -115,6 +119,18 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       ||
       (!this.value && this.schema.required)
     );
+  }
+
+  public onOpen() {
+    jQuery(this.wpTableContainerIdentifier).addClass('-hidden-overflow');
+  }
+
+  public onClose() {
+    jQuery(this.wpTableContainerIdentifier).removeClass('-hidden-overflow');
+  }
+
+  private openAutocompleteSelectField() {
+    this.ngSelectComponent.open();
   }
 
   private addEmptyOption() {
