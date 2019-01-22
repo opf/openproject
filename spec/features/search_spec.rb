@@ -88,14 +88,15 @@ describe 'Search', type: :feature, js: true do
       expect(suggestions).to have_text("No. 1")
 
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
-                                        query: "1",
+                                        query: work_packages[10].id.to_s[0..-2],
                                         results_selector: '.search-autocomplete--results')
-      expect(suggestions).to have_text("No. 11")
+      expect(suggestions).to have_text(work_packages[10].subject)
 
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
                                         query: "##{first_wp.id}",
                                         results_selector: '.search-autocomplete--results')
-      expect(suggestions).to_not have_text("No. 11")
+      expect(suggestions).to have_text(first_wp.subject)
+      expect(suggestions).to_not have_text(work_packages[10].subject)
     end
   end
 
