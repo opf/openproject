@@ -31,7 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= call_hook :search_index_head %>
   <%= include_gon(nonce: content_security_policy_script_nonce) %>
 <% end %>
-<%= toolbar title: l(:label_search) %>
+<global-search-title></global-search-title>
 
 <% current_module = params.slice(*@object_types).keys.first.to_s %>
 
