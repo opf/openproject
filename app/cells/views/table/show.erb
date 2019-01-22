@@ -65,7 +65,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <td colspan="<%= headers.length + 1 %>"><%= empty_row_message %></td>
         </tr>
         <% end %>
-        <% for row in rows do -%>
+        <% for row in rows -%>
           <%= render_row row %>
         <% end -%>
       </tbody>
