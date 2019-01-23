@@ -53,7 +53,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   };
 
   public appendTo:any = null;
-  private wpTableContainerIdentifier = '.work-package-table--container';
+  private hiddenOverflowContainer = '.__hidden_overflow_container';
 
   public currentValueInvalid:boolean = false;
   private nullOption:ValueOption;
@@ -130,11 +130,11 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   }
 
   public onOpen() {
-    jQuery(this.wpTableContainerIdentifier).addClass('-hidden-overflow');
+    jQuery(this.hiddenOverflowContainer).addClass('-hidden-overflow');
   }
 
   public onClose() {
-    jQuery(this.wpTableContainerIdentifier).removeClass('-hidden-overflow');
+    jQuery(this.hiddenOverflowContainer).removeClass('-hidden-overflow');
   }
 
   private openAutocompleteSelectField() {

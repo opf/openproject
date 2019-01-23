@@ -110,6 +110,7 @@ describe 'inline create work package', js: true do
 
         type_field = wp_table.edit_field(nil, :type)
         type_field.activate!
+        type_field.openSelectField
         type_field.set_value cf_type.name
 
         wp_table.expect_notification(

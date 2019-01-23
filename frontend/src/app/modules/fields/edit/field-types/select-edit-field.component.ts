@@ -52,12 +52,11 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   public text:{ requiredPlaceholder:string, placeholder:string };
 
   public appendTo:any = null;
-  private wpTableContainerIdentifier = '.work-package-table--container';
+  private hiddenOverflowContainer = '.__hidden_overflow_container';
 
   public halSorting:HalResourceSortingService;
 
   protected initialize() {
-
     this.handler
       .$onUserActivate
       .pipe(
@@ -122,11 +121,11 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   public onOpen() {
-    jQuery(this.wpTableContainerIdentifier).addClass('-hidden-overflow');
+    jQuery(this.hiddenOverflowContainer).addClass('-hidden-overflow');
   }
 
   public onClose() {
-    jQuery(this.wpTableContainerIdentifier).removeClass('-hidden-overflow');
+    jQuery(this.hiddenOverflowContainer).removeClass('-hidden-overflow');
   }
 
   private openAutocompleteSelectField() {

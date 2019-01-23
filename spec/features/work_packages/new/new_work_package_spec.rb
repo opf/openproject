@@ -141,6 +141,7 @@ describe 'new work package', js: true do
       it 'can switch types and keep attributes' do
         wp_page.subject_field.set(subject)
         type_field.activate!
+        type_field.openSelectField
         type_field.set_value 'Bug'
 
         save_work_package!
