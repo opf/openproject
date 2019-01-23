@@ -93,7 +93,7 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
     super.ngOnInit();
 
     this.configuration.actionsColumnEnabled = false;
-    this.configuration.columnMenuEnabled = false;
+    this.configuration.columnMenuEnabled = true;
     this.configuration.contextMenuEnabled = false;
     this.configuration.inlineCreateEnabled = false;
     this.configuration.withFilters = true;
