@@ -68,19 +68,14 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   public configuration:WorkPackageTableConfiguration;
   public error:string|null = null;
 
-  constructor(readonly QueryDm:QueryDmService,
-              readonly tableState:TableState,
-              readonly injector:Injector,
-              readonly opModalService:OpModalService,
-              readonly I18n:I18nService,
-              readonly urlParamsHelper:UrlParamsHelperService,
-              readonly loadingIndicatorService:LoadingIndicatorService,
-              readonly tableActionsService:OpTableActionsService,
-              readonly wpTableTimeline:WorkPackageTableTimelineService,
-              readonly wpTablePagination:WorkPackageTablePaginationService,
-              readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-              readonly currentProject:CurrentProjectService) {
-    super(QueryDm, tableState, I18n, urlParamsHelper, loadingIndicatorService, wpStatesInitialization, currentProject);
+  readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
+  readonly opModalService:OpModalService = this.injector.get(OpModalService);
+  readonly tableActionsService:OpTableActionsService = this.injector.get(OpTableActionsService);
+  readonly wpTableTimeline:WorkPackageTableTimelineService = this.injector.get(WorkPackageTableTimelineService);
+  readonly wpTablePagination:WorkPackageTablePaginationService = this.injector.get(WorkPackageTablePaginationService);
+
+  constructor(injector:Injector) {
+    super(injector);
   }
 
   ngAfterViewInit():void {

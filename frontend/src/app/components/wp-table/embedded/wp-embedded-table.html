@@ -1,6 +1,11 @@
 <div class="work-packages-embedded-view--container loading-indicator--location"
      [ngClass]="{ '-hierarchy-disabled': !configuration.hierarchyToggleEnabled,  '-compact-tables': compactTableStyle }"
      [attr.data-indicator-name]="uniqueEmbeddedTableName">
+
+  <ng-container *ngIf="configuration.withFilters">
+    <filter-container></filter-container>
+  </ng-container>
+
   <ng-container *ngIf="tableInformationLoaded">
     <!-- TABLE + TIMELINE horizontal split -->
     <wp-table [projectIdentifier]="projectIdentifier"

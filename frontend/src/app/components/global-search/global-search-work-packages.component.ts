@@ -27,10 +27,11 @@
 // ++
 
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener,
+  HostListener, Injector,
   OnDestroy,
   Renderer2,
   ViewChild
@@ -50,41 +51,53 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {GlobalSearchInputComponent} from "core-components/global-search/global-search-input.component";
 import {Subscription} from "rxjs";
+import {WorkPackageTableFilters} from "core-components/wp-fast-table/wp-table-filters";
+import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
+import {QueryFiltersComponent} from "core-components/filters/query-filters/query-filters.component";
+import {WorkPackageEmbeddedTableComponent} from "core-components/wp-table/embedded/wp-embedded-table.component";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
+import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
+import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
 
 export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 
 @Component({
   selector: globalSearchWorkPackagesSelector,
-  templateUrl: './global-search-work-packages.component.html'
+  templateUrl: '/app/components/wp-table/embedded/wp-embedded-table.html'
 })
 
-export class GlobalSearchWorkPackagesComponent implements OnDestroy {
-  @ViewChild('wpTable') wpTable:ElementRef;
+export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableComponent implements OnDestroy {
+  @ViewChild('wpTable') wpTable:WorkPackageEmbeddedTableComponent;
 
   private searchTermSub:Subscription;
   private projectScopeSub:Subscription;
 
+  public filters:WorkPackageTableFilters;
   public queryProps:{ [key:string]:any };
-
-  public configuration = {
-    actionsColumnEnabled: false,
-    columnMenuEnabled: false,
-    contextMenuEnabled: false,
-    inlineCreateEnabled: false
-  };
 
   constructor(readonly FocusHelper:FocusHelperService,
               readonly elementRef:ElementRef,
               readonly renderer:Renderer2,
               readonly I18n:I18nService,
-              readonly PathHelperService:PathHelperService,
               readonly halResourceService:HalResourceService,
               readonly globalSearchService:GlobalSearchService,
               readonly cdRef:ChangeDetectorRef,
-              readonly currentProjectService:CurrentProjectService) {
+              injector:Injector,
+              private QueryFormDm:QueryFormDmService,
+              private WpFilters:WorkPackageFiltersService) {
+    super(injector);
   }
 
   ngOnInit() {
+    super.ngOnInit();
+
+    this.configuration.actionsColumnEnabled = false;
+    this.configuration.columnMenuEnabled = false;
+    this.configuration.contextMenuEnabled = false;
+    this.configuration.inlineCreateEnabled = false;
+    this.configuration.withFilters = true;
+
     this.searchTermSub = this.globalSearchService
       .searchTerm$
       .subscribe((_searchTerm) => this.setQueryProps());
@@ -92,6 +105,21 @@ export class GlobalSearchWorkPackagesComponent implements OnDestroy {
       .projectScope$
       .subscribe((_projectScope) => this.setQueryProps());
     this.setQueryProps();
+  }
+
+  protected loadQuery(visible:boolean = true) {
+    return super.loadQuery(visible).then((query:QueryResource) => {
+      this.loadForm(query);
+      return query;
+    });
+  }
+
+  private loadForm(query:QueryResource):Promise<QueryFormResource> {
+    return this.QueryFormDm.load(query).then((form:QueryFormResource) => {
+      this.wpStatesInitialization.updateStatesFromForm(query, form);
+      this.WpFilters.visible = true;
+      return form;
+    });
   }
 
   private setQueryProps():void {
@@ -120,7 +148,8 @@ export class GlobalSearchWorkPackagesComponent implements OnDestroy {
       filters: JSON.stringify(filters),
       sortBy: JSON.stringify([['updatedAt', 'desc']])
     };
-    console.log("queryProps", this.queryProps);
+
+    this.refresh();
   }
 
   ngOnDestroy():void {

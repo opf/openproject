@@ -1,4 +1,4 @@
-import {AfterViewInit, Input, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {AfterViewInit, Injector, Input, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {CurrentProjectService} from '../../projects/current-project.service';
 import {TableState} from '../table-state/table-state';
 import {WorkPackageStatesInitializationService} from '../../wp-list/wp-states-initialization.service';
@@ -22,13 +22,15 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
   public configuration:WorkPackageTableConfiguration;
   public error:string|null = null;
 
-  protected constructor(readonly QueryDm:QueryDmService,
-                        readonly tableState:TableState,
-                        readonly I18n:I18nService,
-                        readonly urlParamsHelper:UrlParamsHelperService,
-                        readonly loadingIndicatorService:LoadingIndicatorService,
-                        readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-                        readonly currentProject:CurrentProjectService) {
+  readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
+  readonly tableState:TableState  = this.injector.get(TableState);
+  readonly I18n:I18nService = this.injector.get(I18nService);
+  readonly urlParamsHelper:UrlParamsHelperService = this.injector.get(UrlParamsHelperService);
+  readonly loadingIndicatorService:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);
+  readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
+  readonly currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
+
+  protected constructor(protected injector:Injector) {
   }
 
   ngOnInit() {
