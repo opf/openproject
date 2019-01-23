@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnDestroy} from '@angular/core';
+import {Component, Input, OnDestroy} from '@angular/core';
 import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageTableFilters} from 'core-components/wp-fast-table/wp-table-filters';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -37,6 +37,9 @@ import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-f
   selector: 'filter-container',
 })
 export class WorkPackageFilterContainerComponent implements OnDestroy {
+  @Input('showFilterButton') showFilterButton:boolean = false;
+  @Input('filterButtonText') filterButtonText:string = I18n.t('js.button_filter');
+
   public filters = this.wpTableFilters.currentState;
 
   constructor(readonly wpTableFilters:WorkPackageTableFiltersService,

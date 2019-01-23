@@ -85,8 +85,7 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
               readonly globalSearchService:GlobalSearchService,
               readonly cdRef:ChangeDetectorRef,
               injector:Injector,
-              private QueryFormDm:QueryFormDmService,
-              private WpFilters:WorkPackageFiltersService) {
+              private QueryFormDm:QueryFormDmService) {
     super(injector);
   }
 
@@ -98,6 +97,8 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
     this.configuration.contextMenuEnabled = false;
     this.configuration.inlineCreateEnabled = false;
     this.configuration.withFilters = true;
+    this.configuration.showFilterButton = true;
+    this.configuration.filterButtonText = I18n.t('js.button_advanced_filter')
 
     this.searchTermSub = this.globalSearchService
       .searchTerm$
@@ -124,7 +125,6 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
   private loadForm(query:QueryResource):Promise<QueryFormResource> {
     return this.QueryFormDm.load(query).then((form:QueryFormResource) => {
       this.wpStatesInitialization.updateStatesFromForm(query, form);
-      this.WpFilters.visible = true;
       return form;
     });
   }
