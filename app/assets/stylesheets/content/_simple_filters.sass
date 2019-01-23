@@ -75,13 +75,17 @@ $filters--border-color: $gray !default
     grid-template-columns: repeat(auto-fill, 50%)
     align-items: center
 
-    .form--radio-button-container
-      margin-right: 20px
-      flex-grow: 0
-
     button,
     .button
       margin: 0 10px 10px 0
+
+  .simple-filters--filter.-with-radio-buttons
+    grid-template-columns: 10% repeat(auto-fit, minmax(45%, 1fr))
+    grid-template-rows: repeat(auto-fill, 35px)
+    grid-gap: 10px 0
+
+    .simple-filters--filter-name.form--label
+      grid-column: 2
 
   .simple-filters--controls
     grid-column: 1 / -1
@@ -92,5 +96,6 @@ $filters--border-color: $gray !default
     margin: auto 0
 
 @include breakpoint(680px down)
-  .simple-filters--filter-value
-    grid-column: 1 / -1
+  .simple-filters--filter:not(.-with-radio-buttons)
+    .simple-filters--filter-value
+      grid-column: 1 / -1
