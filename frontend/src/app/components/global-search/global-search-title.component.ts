@@ -36,6 +36,7 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {distinctUntilChanged} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {GlobalSearchService} from "core-components/global-search/global-search.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {Injector} from "@angular/core";
@@ -51,12 +52,19 @@ export class GlobalSearchTitleComponent implements OnDestroy {
   @Input() public searchTerm:string;
   @Input() public project:string;
   @Input() public projectScope:string;
+  @Input() public searchTitle:string;
 
   private currentProjectService:CurrentProjectService = this.injector.get(CurrentProjectService);
+
+  public text:{ [key:string]:string } = {
+    all_projects: this.I18n.t('js.global_search.title.all_projects'),
+    project_and_subprojects: this.I18n.t('js.global_search.title.project_and_subprojects')
+  };
 
   constructor(readonly elementRef:ElementRef,
               readonly cdRef:ChangeDetectorRef,
               readonly globalSearchService:GlobalSearchService,
+              readonly I18n:I18nService,
               protected injector:Injector) {
   }
 
@@ -72,8 +80,8 @@ export class GlobalSearchTitleComponent implements OnDestroy {
     )
     .subscribe(([newSearchTerm, newProjectScope]) => {
       this.searchTerm = newSearchTerm;
-      this.projectScope = newProjectScope;
       this.project = this.projectText(newProjectScope);
+      this.searchTitle = 'Search for ' + this.searchTerm + ' in ' + this.project;
 
       this.cdRef.detectChanges();
     });
@@ -86,10 +94,18 @@ export class GlobalSearchTitleComponent implements OnDestroy {
   private projectText(scope:string):string {
     let currentProjectName = this.currentProjectService.name ? this.currentProjectService.name : '';
 
-    if(scope === 'all') {
-      return 'all projects';
-    } else {
-      return currentProjectName;
+    switch(scope){
+      case 'all':
+        return this.text.all_projects;
+        break;
+      case 'current_project':
+        return currentProjectName;
+        break;
+      case '':
+        return currentProjectName + ' ' + this.text.project_and_subprojects;
+        break;
+      default:
+        return '';
     }
   }
 }
