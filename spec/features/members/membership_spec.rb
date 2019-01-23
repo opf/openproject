@@ -100,16 +100,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
     end
   end
 
-  context 'with an impaired user' do
-    before do
-      admin.impaired = true
-      admin.save!
-    end
-
-    it_behaves_like 'adding and removing principals'
-  end
-
-  context 'with an un-impaired user' do
+  context 'with a user' do
     it_behaves_like 'adding and removing principals'
 
     # The following scenario is only tested with an unimpaired user

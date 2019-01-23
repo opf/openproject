@@ -4,27 +4,12 @@
     class="hidden-for-sighted">
   </label>
 
-  <ng-container *ngIf="!impaired">
+  <ng-container>
     <input #select2Columns
            type="hidden" />
     <div>
       <p class="form--inline-instructions" [textContent]="text.columnsHelp"></p>
     </div>
-  </ng-container>
-  <ng-container *ngIf="impaired">
-  <div *ngFor="let column of availableColumns; let first = first;">
-    <label class="form--label-with-check-box" for="column-{{column.id}}">
-      <div class="form--check-box-container">
-        <input id="column-{{column.id}}"
-               type="checkbox"
-               title="{{ column.name }}"
-               [(ngModel)]="selectedColumnMap[column.id]"
-               (ngModelChange)="setSelectedColumn(column)"
-               focus="first" />
-      </div>
-      {{column.name}}
-    </label>
-  </div>
   </ng-container>
 </div>
 <div *ngIf="eeShowBanners" class="ee-relation-columns-upsale">

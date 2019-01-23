@@ -37,10 +37,6 @@ describe UserPreference do
       expect(subject.hide_mail).to eql(true)
     end
 
-    it 'disables accessibility mode' do
-      expect(subject.impaired).to eql(false)
-    end
-
     it 'activates no self notification' do
       expect(subject.others[:no_self_notified]).to be_truthy
     end

@@ -19,7 +19,6 @@ export class WpTableConfigurationColumnsTab implements TabComponent, AfterViewIn
   public availableColumnsMap:{[id:string]: QueryColumn} = _.keyBy(this.availableColumns, c => c.id);
   public selectedColumns:ColumnLike[] = this.wpTableColumns.getColumns().map(c => this.column2Like(c));
 
-  public impaired = this.ConfigurationService.accessibilityModeEnabled();
   public selectedColumnMap:{ [id:string]:boolean } = {};
   public eeShowBanners:boolean = false;
   public text = {
@@ -33,7 +32,6 @@ export class WpTableConfigurationColumnsTab implements TabComponent, AfterViewIn
     upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link')
   };
 
-  // In non-impaired mode, we use select2 for usability
   @ViewChild('select2Columns') select2Columns:ElementRef;
 
   constructor(readonly injector:Injector,
@@ -73,16 +71,12 @@ export class WpTableConfigurationColumnsTab implements TabComponent, AfterViewIn
   }
 
   ngAfterViewInit() {
-    if (!this.impaired) {
-      this.setupSelect2();
-    }
+    this.setupSelect2();
   }
 
   ngOnDestroy() {
-    if (!this.impaired) {
-      const input = jQuery(this.select2Columns.nativeElement);
-      input.select2('close');
-    }
+    const input = jQuery(this.select2Columns.nativeElement);
+    input.select2('close');
   }
 
   setupSelect2() {
