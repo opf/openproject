@@ -76,7 +76,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
     all_projects: this.I18n.t('js.global_search.all_projects'),
     this_project: this.I18n.t('js.global_search.this_project'),
     this_project_and_all_descendants: this.I18n.t('js.global_search.this_project_and_all_descendants'),
-    search: this.I18n.t('js.global_search.search') + ' ...'
+    search: this.I18n.t('js.global_search.search') + ' here ...'
   };
 
   constructor(readonly FocusHelper:FocusHelperService,
@@ -327,6 +327,11 @@ export class GlobalSearchInputComponent implements OnDestroy {
               .append(` ${workPackage.subject}`)
           )
       );
+  }
+
+  public resize() {
+    jQuery(this.input.nativeElement).toggleClass('-expanded');
+    jQuery('.top-menu-search--button').toggleClass('-input-focused');
   }
 }
 
