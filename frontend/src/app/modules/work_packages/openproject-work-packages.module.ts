@@ -494,6 +494,8 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
     WpButtonMacroModal,
   ],
   exports: [
+    WorkPackagesTableController,
+    WorkPackageTablePaginationComponent,
     WorkPackageEmbeddedTableComponent,
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
