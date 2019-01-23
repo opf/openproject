@@ -425,12 +425,12 @@ cs:
       group_by_relation_type: Seskupit podle typu vztahu
       add_parent: Přidat existujícího rodiče
       add_new_child: Vytvořit nového potomka
-      create_new: Create new
-      add_existing: Add existing
+      create_new: Vytvořit nový
+      add_existing: Přidat existující
       add_existing_child: Přidat existujícího potomka
       remove_child: Odstranit záznam
       add_new_relation: Vytvořit nový vztah
-      add_existing_relation: Add existing relation
+      add_existing_relation: Přidat existující vztah
       update_description: Nastavit nebo upravit popis tohoto vztahu
       toggle_description: Toggle relation description
       update_relation: Click to change the relation type
