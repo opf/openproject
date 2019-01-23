@@ -67,6 +67,7 @@ en:
     button_duplicate: "Duplicate"
     button_edit: "Edit"
     button_filter: "Filter"
+    button_advanced_filter: "Advanced filter"
     button_list_view: "List view"
     button_show_view: "Fullscreen view"
     button_log_time: "Log time"

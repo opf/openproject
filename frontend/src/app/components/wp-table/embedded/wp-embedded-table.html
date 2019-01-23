@@ -4,7 +4,8 @@
       *ngIf="show">
 
   <ng-container *ngIf="configuration.withFilters">
-    <filter-container></filter-container>
+    <filter-container [showFilterButton]="configuration.showFilterButton"
+                      [filterButtonText]="configuration.filterButtonText"></filter-container>
   </ng-container>
 
   <ng-container *ngIf="tableInformationLoaded">
