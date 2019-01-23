@@ -598,8 +598,6 @@ fi:
       label_options: Valinnat
       label_column_multiselect: 'Yhdistetty avattava kenttä: Valitse nuolinäppäimillä,
         vahvista Enter, backspace poistaa'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: Työpaketin poistossa tapahtui virhe.
       message_successful_bulk_delete: Poistetut työpaketit.
       message_successful_show_in_fullscreen: Klikkaa tästä avataksesi työpaketin kokonäyttötilaan.
@@ -756,6 +754,8 @@ fi:
         days: päivää
         weeks: weeks
         months: months
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...

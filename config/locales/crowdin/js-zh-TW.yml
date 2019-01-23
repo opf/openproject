@@ -574,8 +574,6 @@ zh-TW:
       label_filter_by_text: Filter by text
       label_options: 選項
       label_column_multiselect: '組合的下拉欄位: 使用方向鍵選擇，用 enter 鍵確認，用backspace鍵刪除'
-      label_switch_to_single_select: 切換為單選
-      label_switch_to_multi_select: 切換為複選
       message_error_during_bulk_delete: 刪除工作項目時發生錯誤
       message_successful_bulk_delete: 成功刪除工作項目
       message_successful_show_in_fullscreen: 點擊此處以全螢幕開啟此工作包
@@ -720,6 +718,8 @@ zh-TW:
         days: 天
         weeks: 週
         months: 月
+      label_switch_to_single_select: 切換為單選
+      label_switch_to_multi_select: 切換為複選
     toolbar:
       settings:
         configure_view: Configure view ...

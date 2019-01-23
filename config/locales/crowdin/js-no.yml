@@ -598,8 +598,6 @@
       label_options: Alternativer
       label_column_multiselect: 'Kombinert nedtrekksfelt: velg med piltastene, bekreft
         valg med enter, slette med tilbaketasten'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: Det oppstod en feil undersletting av arbeidspakker.
       message_successful_bulk_delete: Arbeidspakkene ble slettet.
       message_successful_show_in_fullscreen: Klikk her for å åpne denne arbeidspakken
@@ -758,6 +756,8 @@
         days: dager
         weeks: uker
         months: måneder
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...

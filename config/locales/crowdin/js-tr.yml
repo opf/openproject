@@ -602,8 +602,6 @@ tr:
       label_options: Ayarlar
       label_column_multiselect: 'Birleştirilmiş aşağı açılan alan: ok tuşlarıyla seçin,
         seçimi enter ile onaylayın, backspace ile silme'
-      label_switch_to_single_select: Tekli seçime geç
-      label_switch_to_multi_select: Çoklu seçime geç
       message_error_during_bulk_delete: İş paketleri silinmeye çalışılırken bir hata
         oluştu.
       message_successful_bulk_delete: İş paketleri başarıyla silindi.
@@ -762,6 +760,8 @@ tr:
         days: gün
         weeks: hafta
         months: ay
+      label_switch_to_single_select: Tekli seçime geç
+      label_switch_to_multi_select: Çoklu seçime geç
     toolbar:
       settings:
         configure_view: Görünümü yapılandır ...

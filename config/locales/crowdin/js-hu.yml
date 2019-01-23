@@ -600,8 +600,6 @@ hu:
       label_options: Beállítások
       label_column_multiselect: 'Kombinált legördülő mező: Nyilakkal jelöljön ki,
         enter-el hagyja jóvá, és backspace-vel töröljön'
-      label_switch_to_single_select: Váltás az egyszeri kiválasztásra
-      label_switch_to_multi_select: Váltás a többszörös kiválasztásra
       message_error_during_bulk_delete: Hiba történt a feladatcsoport törlése közben.
       message_successful_bulk_delete: Sikerült törölni a feladatcsoportokat.
       message_successful_show_in_fullscreen: Ide kattintva a munkacsomag részletei
@@ -761,6 +759,8 @@ hu:
         days: nap
         weeks: hetek
         months: hónap
+      label_switch_to_single_select: Váltás az egyszeri kiválasztásra
+      label_switch_to_multi_select: Váltás a többszörös kiválasztásra
     toolbar:
       settings:
         configure_view: Nézet beállítása

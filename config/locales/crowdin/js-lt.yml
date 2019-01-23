@@ -602,8 +602,6 @@ lt:
       label_column_multiselect: 'Kombinuotas išplečiamojo sąrašo laukas: pasirinkite
         rodyklių mygtukais, patvirtinkite pasirinkimą su Enter mygtuku, ištrinkite
         su Backspace'
-      label_switch_to_single_select: Perjungti į žymėjimą po vieną
-      label_switch_to_multi_select: Perjungti į žymėjimą po daug
       message_error_during_bulk_delete: Įvyko klaida bandant naikinti darbų paketą.
       message_successful_bulk_delete: Darbų paketai sėkmingai ištrinti.
       message_successful_show_in_fullscreen: Paspauskite čia, kad atvertumėte darbų
@@ -765,6 +763,8 @@ lt:
         days: dienas(-ų)
         weeks: savaitės(-ių)
         months: mėnesiai(-ių)
+      label_switch_to_single_select: Perjungti į žymėjimą po vieną
+      label_switch_to_multi_select: Perjungti į žymėjimą po daug
     toolbar:
       settings:
         configure_view: Konfigūruokite vaizdą...

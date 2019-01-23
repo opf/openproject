@@ -604,8 +604,6 @@ ca:
       label_options: Opcions
       label_column_multiselect: 'Camp combinat desplegable: selecciona amb les tecles
         de fletxa, confirmar la selecció amb enter, suprimir amb retrocés'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: S'ha produït un error en intentar suprimir
         paquets de treball.
       message_successful_bulk_delete: Paquets de treball suprimits correctament.
@@ -765,6 +763,8 @@ ca:
         days: dies
         weeks: setmanes
         months: mesos
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...

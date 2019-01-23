@@ -615,8 +615,6 @@ es:
       label_options: Opciones
       label_column_multiselect: 'Campo de lista desplegable combinada: seleccione
         con las teclas de flecha, confirme la selección con enter, elimine con retroceso'
-      label_switch_to_single_select: Cambiar a selección única
-      label_switch_to_multi_select: Cambiar a multiselección
       message_error_during_bulk_delete: Ha ocurrido un error intentado eliminar los
         paquetes de trabajo.
       message_successful_bulk_delete: Paquetes de trabajo eliminados exitosamente.
@@ -779,6 +777,8 @@ es:
         days: días
         weeks: semanas
         months: meses
+      label_switch_to_single_select: Cambiar a selección única
+      label_switch_to_multi_select: Cambiar a multiselección
     toolbar:
       settings:
         configure_view: Configurar vista…

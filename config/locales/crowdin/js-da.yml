@@ -598,8 +598,6 @@ da:
       label_options: Muligheder
       label_column_multiselect: 'Kombineret rullegardinfelt: Vælg med piletaster,
         bekræft valg med ''Enter'' slet med ''Backspace'''
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: En fejl opstod under forsøg på at slette arbejdspakker.
       message_successful_bulk_delete: Slettet arbejdspakker med succes.
       message_successful_show_in_fullscreen: Click here to open this work package
@@ -758,6 +756,8 @@ da:
         days: dage
         weeks: uger
         months: måneder
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...

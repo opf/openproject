@@ -600,8 +600,6 @@ sv-SE:
       label_options: Alternativ
       label_column_multiselect: 'Kombinerade nedrullningsbara fält: Markera med piltangenterna,
         bekräfta val med RETUR, ta bort med BACKSTEG'
-      label_switch_to_single_select: Växla till enkelvalsläge
-      label_switch_to_multi_select: Växla till flervalsläge
       message_error_during_bulk_delete: Ett fel uppstod vid försök att ta bort arbetspaket.
       message_successful_bulk_delete: Arbetspaket togs bort.
       message_successful_show_in_fullscreen: Klicka här för att öppna det här arbetspaketet
@@ -760,6 +758,8 @@ sv-SE:
         days: dagar
         weeks: veckor
         months: månader
+      label_switch_to_single_select: Växla till enkelvalsläge
+      label_switch_to_multi_select: Växla till flervalsläge
     toolbar:
       settings:
         configure_view: Configure view ...

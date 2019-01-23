@@ -177,10 +177,10 @@ cs:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Zaškrtněte tuto volbu k označení pracovních balíčků s tímto stavem jako jen pro čtení.
+        Žádné atributy nelze změnit s výjimkou stavu samotného.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Poznámka</strong>: zděděné hodnoty (např. z potomků či dalších vztahů) budou platné i nadále.
       status_color_text: |
         Klikněte na přiřadit nebo změnit barvu této priority.
         lze použít ke zvýraznění pracovních balíčků v tabulce.
@@ -197,9 +197,9 @@ cs:
       projects: Projekty
       enabled_projects: Povolit projekty
       add_group: Přidat skupinu atributů
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Přidat seznam se souvisejícími pracovními balíčky
+      edit_query: Upravit tabulku
+      query_group_placeholder: Pojmenovat tabulku
       reset: Obnovit výchozí nastavení
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -365,7 +365,7 @@ cs:
         to: Související pracovní balíček
       status:
         is_closed: Pracovní balíček uzavřen
-        is_readonly: Work package read-only
+        is_readonly: Pracovní balíček jen pro čtení
       journal:
         notes: Poznámky
       member:
@@ -1233,7 +1233,7 @@ cs:
   label_auth_source_plural: Režimy ověřování
   label_authentication: Ověření
   label_available_project_work_package_categories: Dostupné kategorie pracovních balíčků
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Dostupné kategorie pracovních balíčků
   label_available_project_boards: Available boards
   label_available_project_versions: Dostupné verze
   label_available_project_repositories: Dostupné repozitáře
@@ -1405,7 +1405,7 @@ cs:
   label_journal_diff: Popis porovnání
   label_language: Jazyk
   label_jump_to_a_project: Přejít na projekt...
-  label_keyword_plural: Keywords
+  label_keyword_plural: Klíčová slova
   label_language_based: Na základě jazyka uživatele
   label_last_activity: Last activity
   label_last_change_on: Poslední změna

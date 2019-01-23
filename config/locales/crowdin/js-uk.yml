@@ -606,8 +606,6 @@ uk:
       label_options: Options
       label_column_multiselect: 'Поле комбінованого випадаючого списку: виділіть за
         допомогою клавіш зі стрілками, підтвердьте вибір з Enter, видаліть з Backspace'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: Сталася помилка під час спроби вилучення пакету
         робіт.
       message_successful_bulk_delete: Успішно видалено пакет робіт.
@@ -767,6 +765,8 @@ uk:
         days: days
         weeks: weeks
         months: months
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...

@@ -540,8 +540,6 @@ zh:
       label_filter_by_text: Filter by text
       label_options: 选项
       label_column_multiselect: '组合式的下拉字段: 使用箭头键选择，用 enter 键确认选择，用退格键删除'
-      label_switch_to_single_select: 切换为单选
-      label_switch_to_multi_select: 切换为多选
       message_error_during_bulk_delete: 试图删除工作包时出错。
       message_successful_bulk_delete: 已成功删除工作包。
       message_successful_show_in_fullscreen: 单击此处以全屏视图打开此工作包。
@@ -682,6 +680,8 @@ zh:
         days: 天
         weeks: 周
         months: 月
+      label_switch_to_single_select: 切换为单选
+      label_switch_to_multi_select: 切换为多选
     toolbar:
       settings:
         configure_view: 配置视图…
