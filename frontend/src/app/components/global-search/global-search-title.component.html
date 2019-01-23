@@ -1,12 +1,12 @@
 <div class="toolbar-container">
   <div class="toolbar">
     <div class="title-container">
-      <h2 [attr.title]="searchTerm">
+      <h2 [attr.title]="searchTitle">
         Search for
         <i>"{{ searchTerm }}"</i>
         {{ project !== '' ? 'in' : ''}}
         <i>{{ project }}</i>
-        {{ projectScope === '' ? 'and all Subprojects' : ''}} </h2>
+      </h2>
       <ul class="toolbar-items"></ul>
     </div>
   </div>
