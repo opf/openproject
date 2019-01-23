@@ -258,7 +258,7 @@ GEM
     arel (9.0.0)
     ast (2.4.0)
     attr_required (1.0.1)
-    autoprefixer-rails (9.4.5)
+    autoprefixer-rails (9.4.6)
       execjs
     awesome_nested_set (3.1.4)
       activerecord (>= 4.0.0, < 5.3)
