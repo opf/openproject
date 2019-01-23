@@ -44,6 +44,7 @@ class ApplicationController < ActionController::Base
   include HookHelper
   include ::OpenProject::Authentication::SessionExpiry
   include AdditionalUrlHelpers
+  include OpenProjectErrorHelper
 
   layout 'base'
 
@@ -100,6 +101,9 @@ class ApplicationController < ActionController::Base
       # greeted with the CSRF error upon login.
       message = I18n.t(:error_token_authenticity)
       message << ' ' + I18n.t(:error_cookie_missing) if openproject_cookie_missing?
+
+      log_csrf_failure
+
       render_error status: 422, message: message
     end
   end
@@ -217,6 +221,15 @@ class ApplicationController < ActionController::Base
     request.cookies[OpenProject::Configuration['session_cookie_name']].nil?
   end
   helper_method :openproject_cookie_missing?
+
+  ##
+  # Create CSRF issue
+  def log_csrf_failure
+    message = 'CSRF validation error'
+    message << ' (No session cookie present)' if openproject_cookie_missing?
+
+    op_handle_error message, reference: :csrf_validation_failed
+  end
 
   def log_requesting_user
     return unless Setting.log_requesting_user?
@@ -503,6 +516,8 @@ class ApplicationController < ActionController::Base
     @message = arg[:message]
     @message = l(@message) if @message.is_a?(Symbol)
     @status = arg[:status] || 500
+
+    op_handle_error "[Error #@status] #@message"
 
     respond_to do |format|
       format.html do
