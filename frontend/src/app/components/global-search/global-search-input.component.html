@@ -16,6 +16,8 @@
            class="top-menu-search--input"
            placeholder="{{text.search}}"
            [ngModel]="searchTerm"
+           (focus) = "resize()"
+           (focusout) = "resize()"
            (keyup.enter)="submitNonEmptySearch()"
            (ngModelChange)="inputChange($event)">
     <a #btn
