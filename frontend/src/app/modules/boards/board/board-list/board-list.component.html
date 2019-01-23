@@ -1,0 +1,10 @@
+<div #loadingIndicator
+     class="board-list--container loading-indicator--location">
+  <ng-container *ngIf="query">
+    <h2 [textContent]="query.name"></h2>
+    <wp-embedded-table [queryId]="query.id"
+                       [queryProps]="columnsQueryProps"
+                       [configuration]="boardTableConfiguration">
+    </wp-embedded-table>
+  </ng-container>
+</div>

@@ -1,0 +1,12 @@
+<div *ngIf="(board$ | async) as board"
+     class="board--container">
+
+  <h2 [textContent]="board.name"></h2>
+  <hr/>
+
+  <div class="boards-list--container">
+    <div class="boards-list--item" *ngFor="let id of board.queries">
+      <board-list [queryId]="id"></board-list>
+    </div>
+  </div>
+</div>
