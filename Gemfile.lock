@@ -16,12 +16,12 @@ GIT
 
 GIT
   remote: https://github.com/finnlabs/omniauth-openid-connect.git
-  revision: 42c4bd27aaab986e0d8723da50314135691a0955
-  ref: 42c4bd27aaab986e0d8723da50314135691a0955
+  revision: 46f0c33bee2c885c89dd2866f5cf847da62b3482
+  ref: 46f0c33bee2c885c89dd2866f5cf847da62b3482
   specs:
     omniauth-openid-connect (0.3.0)
       addressable (~> 2.5)
-      omniauth (~> 1.6.1)
+      omniauth (~> 1.6)
       openid_connect (~> 1.1.6)
 
 GIT
@@ -56,12 +56,12 @@ GIT
       rspec
 
 GIT
-  remote: https://github.com/oliverguenther/omniauth
-  revision: 40c6f5f751d2da7cce5444bbd96c390c450440a9
-  ref: 40c6f5f751d2da7cce5444bbd96c390c450440a9
+  remote: https://github.com/opf/omniauth
+  revision: fe862f986b2e846e291784d2caa3d90a658c67f0
+  ref: fe862f986b2e846e291784d2caa3d90a658c67f0
   specs:
-    omniauth (1.6.1)
-      hashie (>= 3.4.6, < 3.6.0)
+    omniauth (1.9.0)
+      hashie (>= 3.4.6, < 3.7.0)
       rack (>= 1.6.2, < 3)
 
 GIT
@@ -448,7 +448,7 @@ GEM
     gravatar_image_tag (1.2.0)
     hashdiff (0.3.7)
     hashery (2.1.2)
-    hashie (3.5.7)
+    hashie (3.6.0)
     health_check (3.0.0)
       railties (>= 5.0)
     html-pipeline (2.8.3)
