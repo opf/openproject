@@ -659,7 +659,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    rdoc (6.0.3)
+    rdoc (6.1.1)
     redcarpet (3.4.0)
     reform (2.2.4)
       disposable (>= 0.4.1)
