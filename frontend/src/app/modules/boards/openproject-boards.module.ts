@@ -33,20 +33,54 @@ import {initializeAvatarsPlugin} from "core-app/modules/plugins/linked/openproje
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
+import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
+import {WorkPackagesCalendarEntryComponent} from "core-app/modules/calendar/wp-calendar-entry/wp-calendar-entry.component";
+import {BoardComponent} from "core-app/modules/boards/board/board.component";
+import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
+import {BoardsEntryComponent} from "core-app/modules/boards/boards-entry/boards-entry.component";
+import {BoardsService} from "core-app/modules/boards/board/boards.service";
+
+export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
+  {
+    name: 'boards',
+    parent: 'root',
+    url: '/boards',
+    redirectTo: 'boards.list',
+    component: BoardsEntryComponent
+  },
+  {
+    name: 'boards.list',
+    component: BoardsModuleComponent
+  },
+  {
+    name: 'boards.show',
+    url: '/{id}',
+    params: {
+      id: { type: 'int' },
+      board: { },
+    },
+    component: BoardComponent
+  }
+];
 
 @NgModule({
   imports: [
     OpenprojectCommonModule,
-    OpenprojectWorkPackagesModule
+    OpenprojectWorkPackagesModule,
+
+    // Routes for /boards
+    UIRouterModule.forChild({ states: BOARDS_ROUTES }),
   ],
   providers: [
-    DragAndDropService
+    BoardsService,
   ],
   declarations: [
-    BoardsModuleComponent
+    BoardsModuleComponent,
+    BoardComponent,
+    BoardListComponent,
+    BoardsEntryComponent,
   ],
   entryComponents: [
-    BoardsModuleComponent
   ]
 })
 export class OpenprojectBoardsModule { }
