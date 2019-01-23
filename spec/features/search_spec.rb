@@ -70,7 +70,7 @@ describe 'Search', type: :feature, js: true do
                                         query: query,
                                         results_selector: '.search-autocomplete--results')
       expect(suggestions).to have_text('No. 23', wait: 10)
-      expect(suggestions).to_not have_text('No. 13')
+      expect(suggestions).to_not have_text('No. 10')
 
       target_work_package = work_packages.last
       select_autocomplete(page.find('.top-menu-search--input'),
