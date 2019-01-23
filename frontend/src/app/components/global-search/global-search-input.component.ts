@@ -160,8 +160,9 @@ export class GlobalSearchInputComponent implements OnDestroy {
 
         switch (ui.item.item) {
           case 'all_projects': {
+            this.globalSearchService.resultsHidden = true;
             this.globalSearchService.projectScope = 'all';
-            this.submitNonEmptySearch();
+            this.submitNonEmptySearch(true);
             break;
           }
           case 'this_project': {
@@ -225,11 +226,13 @@ export class GlobalSearchInputComponent implements OnDestroy {
     this.searchTermChanged.next(searchTerm);
   }
 
-  public submitNonEmptySearch() {
+  public submitNonEmptySearch(forcePageLoad:boolean = false) {
     this.globalSearchService.searchTerm = this.searchValue;
     if (this.searchValue !== '') {
       // Work package results can update without page reload.
-      if (this.globalSearchService.isAfterSearch() && this.globalSearchService.currentTab === 'work_packages') {
+      if (!forcePageLoad &&
+          this.globalSearchService.isAfterSearch() &&
+          this.globalSearchService.currentTab === 'work_packages') {
         return;
       }
 

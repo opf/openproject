@@ -46,7 +46,7 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 import {GlobalSearchService} from "core-components/global-search/global-search.service";
-import {distinctUntilChanged} from "rxjs/operators";
+import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {GlobalSearchInputComponent} from "core-components/global-search/global-search-input.component";
@@ -72,6 +72,7 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
 
   private searchTermSub:Subscription;
   private projectScopeSub:Subscription;
+  private resultsHiddenSub:Subscription;
 
   public filters:WorkPackageTableFilters;
   public queryProps:{ [key:string]:any };
@@ -101,9 +102,15 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
     this.searchTermSub = this.globalSearchService
       .searchTerm$
       .subscribe((_searchTerm) => this.setQueryProps());
+
     this.projectScopeSub = this.globalSearchService
       .projectScope$
       .subscribe((_projectScope) => this.setQueryProps());
+
+    this.resultsHiddenSub = this.globalSearchService
+      .resultsHidden$
+      .subscribe((resultsHidden:boolean) => this.show = !resultsHidden);
+
     this.setQueryProps();
   }
 
