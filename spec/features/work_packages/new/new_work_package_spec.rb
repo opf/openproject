@@ -57,9 +57,10 @@ describe 'new work package', js: true do
     loading_indicator_saveguard
     wp_page.subject_field.set(subject)
 
+    project_field.openSelectField
     project_field.set_value project
 
-    expect(page).to have_selector("#wp-new-inline-edit--field-type option[label=#{type}]", wait: 10)
+    type_field.openSelectField
     type_field.set_value type
     sleep 1
   end
@@ -140,6 +141,7 @@ describe 'new work package', js: true do
       it 'can switch types and keep attributes' do
         wp_page.subject_field.set(subject)
         type_field.activate!
+        type_field.openSelectField
         type_field.set_value 'Bug'
 
         save_work_package!
@@ -180,9 +182,11 @@ describe 'new work package', js: true do
           cf1 = find(".customField#{ids.first} input")
           expect(cf1).not_to be_nil
 
-          expect(page).to have_selector(".customField#{ids.last} select")
+          expect(page).to have_selector(".customField#{ids.last} ng-select")
 
-          find(".customField#{ids.last} option", text: 'foo').select_option
+          cf = wp_page.edit_field "customField#{ids.last}"
+          cf.openSelectField
+          cf.set_value 'foo'
           save_work_package!(false)
 
           notification.expect_error("#{custom_field1.name} can't be blank.")

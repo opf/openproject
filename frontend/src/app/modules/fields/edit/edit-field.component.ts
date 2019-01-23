@@ -48,13 +48,19 @@ export const OpEditingPortalSchemaToken = new InjectionToken('wp-editing-portal-
 export const OpEditingPortalHandlerToken = new InjectionToken('wp-editing-portal--handler');
 export const OpEditingPortalChangesetToken = new InjectionToken('wp-editing-portal--changeset');
 
+export const overflowingContainerSelector = '.__overflowing_element_container';
+export const overflowingContainerAttribute = 'overflowingIdentifier';
+
 @Component({
   template: ''
 })
-export class EditFieldComponent extends Field implements OnDestroy {
+export class EditFieldComponent extends Field implements OnInit, OnDestroy {
 
   /** Self reference */
   public self = this;
+
+  /** JQuery accessor to element ref */
+  protected $element:JQuery<HTMLElement>;
 
   constructor(readonly I18n:I18nService,
               readonly elementRef:ElementRef,
@@ -89,8 +95,22 @@ export class EditFieldComponent extends Field implements OnDestroy {
       });
   }
 
+  ngOnInit():void {
+    this.$element = jQuery(this.elementRef.nativeElement);
+  }
+
   ngOnDestroy() {
     // Nothing to do
+  }
+
+  public get overflowingSelector() {
+    if (this.$element) {
+      return this.$element
+        .closest(overflowingContainerSelector)
+        .data(overflowingContainerAttribute);
+    } else {
+      return null;
+    }
   }
 
   public get inFlight() {
@@ -121,6 +141,10 @@ export class EditFieldComponent extends Field implements OnDestroy {
 
   public get resource() {
     return this.changeset.workPackage;
+  }
+
+  public get groupName() {
+    return this.changeset.form!.schema[this.name].attributeGroup;
   }
 
   /**

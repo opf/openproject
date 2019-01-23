@@ -571,6 +571,13 @@
         "tslib": "^1.9.0"
       }
     },
+    "@ng-select/ng-select": {
+      "version": "git+https://github.com/HDinger/ng-select.git#55fa145cf7fea4fdaf96dde0f1584c7d7b10dbd4",
+      "from": "git+https://github.com/HDinger/ng-select.git#55fa145cf7fea4fdaf96dde0f1584c7d7b10dbd4",
+      "requires": {
+        "yarn": "^1.13.0"
+      }
+    },
     "@ngtools/webpack": {
       "version": "7.1.1",
       "resolved": "https://registry.npmjs.org/@ngtools/webpack/-/webpack-7.1.1.tgz",
@@ -3762,8 +3769,8 @@
       "integrity": "sha1-mMI9qxF1ZXuMBXPozszZGw/xjIQ="
     },
     "foundation-apps": {
-      "version": "git://github.com/opf/foundation-apps.git#921e942c70dd9e50dc576cabdc8fd0616d9dddce",
-      "from": "git://github.com/opf/foundation-apps.git#921e942c70dd9e50dc576cabdc8fd0616d9dddce"
+      "version": "git+https://github.com/opf/foundation-apps.git#921e942c70dd9e50dc576cabdc8fd0616d9dddce",
+      "from": "git+https://github.com/opf/foundation-apps.git#921e942c70dd9e50dc576cabdc8fd0616d9dddce"
     },
     "fragment-cache": {
       "version": "0.2.1",
@@ -10684,6 +10691,11 @@
           "integrity": "sha1-MvxLn82vhF/N9+c7uXysImHwqwo="
         }
       }
+    },
+    "yarn": {
+      "version": "1.13.0",
+      "resolved": "https://registry.npmjs.org/yarn/-/yarn-1.13.0.tgz",
+      "integrity": "sha512-Unfw2eefv8imt4ZMPhvFVP44WCz38huDxkHs+Yqrx4wBTK75Tr0mh3V4rh+2Nw5iQq0rcM/VafotCZo9qTb5DA=="
     },
     "yeast": {
       "version": "0.1.2",

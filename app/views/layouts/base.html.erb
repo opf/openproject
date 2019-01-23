@@ -89,7 +89,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
   <%= crowdin_in_context_translation %>
 </head>
-<body class="<%= body_css_classes %>" data-relative_url_root="<%= root_path %>">
+<body class="<%= body_css_classes %> __overflowing_element_container __overflowing_abc" data-relative_url_root="<%= root_path %>" data-overflowing-identifier=".__overflowing_abc">
 <noscript>
   <div class="top-shelf icon icon-warning">
     <h1><%= l(:noscript_heading) %></h1>
