@@ -118,7 +118,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
                          `${I18n.t('global_search.search')}: ${this.searchValue}`,
                               this.globalSearchService.searchPath());
         }
-
+        
         this.cdRef.detectChanges();
       });
 

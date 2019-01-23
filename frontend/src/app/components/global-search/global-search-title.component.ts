@@ -30,13 +30,9 @@ import {
   Component,
   Input,
   ElementRef,
-  HostListener,
-  OnDestroy,
-  Renderer2,
-  ViewChild
+  OnDestroy
 } from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {BehaviorSubject} from 'rxjs';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs';
