@@ -1,14 +1,11 @@
-<div class="boards--container loading-indicator--location"
+<div *ngIf="(boards$ | async) as boards"
+     class="boards--listing-group loading-indicator--location"
      data-indicator-name="boards-module">
-  <ng-container *ngIf="queries"
-                (cdkDropListDropped)="drop($event)"
-                cdkDropListGroup>
-    <div class="boards--list" *ngFor="let query of queries">
-      <h2 [textContent]="query.name"></h2>
-      <wp-embedded-table [queryId]="query.id"
-                         [queryProps]="columnsQueryProps"
-                         [configuration]="boardTableConfiguration">
-      </wp-embedded-table>
-    </div>
-  </ng-container>
+  <div *ngFor="let board of boards"
+       class="boards--listing-item">
+    <a [textContent]="board.name"
+       uiSref="boards.show"
+       [uiParams]="{ id: board.id, board: board }">
+    </a>
+  </div>
 </div>

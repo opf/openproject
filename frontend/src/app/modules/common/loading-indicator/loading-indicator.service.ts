@@ -80,9 +80,12 @@ export class LoadingIndicatorService {
   public get wpDetails() { return this.indicator('wpDetails'); }
   public get modal() { return this.indicator('modal'); }
 
-  // Return an indicator by name
-  public indicator(name:string):LoadingIndicator {
-    let indicator = this.getIndicatorAt(name);
+  // Return an indicator by name or element
+  public indicator(indicator:string|JQuery):LoadingIndicator {
+    if (typeof indicator === 'string') {
+      indicator = this.getIndicatorAt(name) as JQuery;
+    }
+
     return new LoadingIndicator(indicator, this.indicatorTemplate);
   }
 
