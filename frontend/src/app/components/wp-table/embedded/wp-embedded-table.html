@@ -3,6 +3,11 @@
                   '-compact-tables': compactTableStyle,
                   '-external-height': externalHeight }"
      [attr.data-indicator-name]="uniqueEmbeddedTableName">
+
+  <ng-container *ngIf="configuration.withFilters">
+    <filter-container></filter-container>
+  </ng-container>
+
   <ng-container *ngIf="tableInformationLoaded">
     <!-- TABLE + TIMELINE horizontal split -->
     <wp-table [projectIdentifier]="projectIdentifier"
