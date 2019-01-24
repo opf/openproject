@@ -80,7 +80,7 @@ describe 'My page news widget spec', type: :feature, js: true do
     expect(page)
       .to have_content visible_news.project.name
     expect(page)
-      .to have_content (visible_news.created_on).strftime('%m/%d/%Y')
+      .to have_content visible_news.created_on.strftime('%m/%d/%Y')
 
     expect(page)
       .to have_no_content invisible_news.title

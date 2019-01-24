@@ -33,7 +33,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
 
   let(:grid) do
     FactoryBot.build_stubbed(
-      :my_page_grid,
+      :my_page,
       row_count: 4,
       column_count: 5,
       widgets: [

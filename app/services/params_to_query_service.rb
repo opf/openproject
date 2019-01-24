@@ -121,7 +121,6 @@ class ParamsToQueryService
   end
 
   def set_query_class(query_class, model)
-
     self.query_class = if query_class
                          query_class
                        else

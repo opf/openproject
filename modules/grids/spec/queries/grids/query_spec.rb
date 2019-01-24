@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,20 +26,48 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Grids
-  class Grid < ActiveRecord::Base
-    self.table_name = :grids
+require 'spec_helper'
 
-    has_many :widgets,
-             class_name: 'Widget',
-             autosave: true
+describe Grids::Query, type: :model do
+  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:base_scope) { Grids::Grid.where(id: Grids::MyPage.where(user_id: user.id)) }
+  let(:instance) { described_class.new }
 
-    def self.new_default(_user)
-      new(
-        row_count: 4,
-        column_count: 5,
-        widgets: []
-      )
+  before do
+    login_as(user)
+  end
+
+  context 'without a filter' do
+    describe '#results' do
+      it 'is the same as getting all the grids visible to the user' do
+        expect(instance.results.to_sql).to eql base_scope.to_sql
+      end
+    end
+  end
+
+  context 'with a page filter' do
+    before do
+      instance.where('page', '=', ['/my/page'])
+    end
+
+    describe '#results' do
+      it 'is the same as handwriting the query' do
+        expected = base_scope
+                   .where(['grids.type IN (?)', ['Grids::MyPage']])
+
+        expect(instance.results.to_sql).to eql expected.to_sql
+      end
+    end
+
+    describe '#valid?' do
+      it 'is true' do
+        expect(instance).to be_valid
+      end
+
+      it 'is invalid if the filter is invalid' do
+        instance.where('page', '!', ['/some/other/page'])
+        expect(instance).to be_invalid
+      end
     end
   end
 end

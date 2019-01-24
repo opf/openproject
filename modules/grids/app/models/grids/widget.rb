@@ -30,7 +30,6 @@
 
 module Grids
   class Widget < ActiveRecord::Base
-    # TODO: make superfluous
     self.table_name = :grid_widgets
 
     belongs_to :grid

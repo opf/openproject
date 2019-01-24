@@ -127,7 +127,7 @@ PATH
 PATH
   remote: modules/grids
   specs:
-    grids (8.2.0)
+    grids (8.2.1)
 
 PATH
   remote: modules/meeting
