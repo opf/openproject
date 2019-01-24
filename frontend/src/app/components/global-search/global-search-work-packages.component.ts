@@ -156,6 +156,8 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
       sortBy: JSON.stringify([['updatedAt', 'desc']]),
       showHierarchies: false
     };
+
+    this.refresh();
   }
 
   ngOnDestroy():void {
