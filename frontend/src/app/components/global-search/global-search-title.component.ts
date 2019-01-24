@@ -40,7 +40,6 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {GlobalSearchService} from "core-components/global-search/global-search.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {Injector} from "@angular/core";
-// import {GlobalSearchInputComponent} from "core-components/global-search/global-search-input.component";
 
 export const globalSearchTitleSelector = 'global-search-title';
 
@@ -58,7 +57,9 @@ export class GlobalSearchTitleComponent implements OnDestroy {
 
   public text:{ [key:string]:string } = {
     all_projects: this.I18n.t('js.global_search.title.all_projects'),
-    project_and_subprojects: this.I18n.t('js.global_search.title.project_and_subprojects')
+    project_and_subprojects: this.I18n.t('js.global_search.title.project_and_subprojects'),
+    search_for: this.I18n.t('js.global_search.title.search_for'),
+    in: this.I18n.t('js.label_in')
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -81,7 +82,7 @@ export class GlobalSearchTitleComponent implements OnDestroy {
     .subscribe(([newSearchTerm, newProjectScope]) => {
       this.searchTerm = newSearchTerm;
       this.project = this.projectText(newProjectScope);
-      this.searchTitle = 'Search for ' + this.searchTerm + ' in ' + this.project;
+      this.searchTitle = `${this.text.search_for} ${this.searchTerm} ${this.project === '' ? '' : this.text.in} ${this.project}`;
 
       this.cdRef.detectChanges();
     });
@@ -94,7 +95,7 @@ export class GlobalSearchTitleComponent implements OnDestroy {
   private projectText(scope:string):string {
     let currentProjectName = this.currentProjectService.name ? this.currentProjectService.name : '';
 
-    switch(scope){
+    switch (scope) {
       case 'all':
         return this.text.all_projects;
         break;
