@@ -64,6 +64,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
   public focused:boolean = false;
   public noResults = false;
   public searchTerm:string = '';
+  public expanded:boolean = false;
 
   private searchTermChanged:Subject<string> = new Subject<string>();
 
@@ -76,7 +77,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
     all_projects: this.I18n.t('js.global_search.all_projects'),
     this_project: this.I18n.t('js.global_search.this_project'),
     this_project_and_all_descendants: this.I18n.t('js.global_search.this_project_and_all_descendants'),
-    search: this.I18n.t('js.global_search.search') + ' here ...'
+    search: this.I18n.t('js.global_search.search') + ' ...'
   };
 
   constructor(readonly FocusHelper:FocusHelperService,
@@ -105,6 +106,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
       )
       .subscribe((searchTerm:string) => {
         this.searchTerm = searchTerm;
+        this.determineExpansion();
 
         // When there is already a Work Packages table in the search result, changing the search term should update
         // that table as you type and update the current URL displayed in the browser.
@@ -127,6 +129,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
       )
       .subscribe((searchTerm:string) => {
         this.searchTerm = searchTerm;
+        this.determineExpansion();
         this.cdRef.detectChanges();
       });
 
@@ -330,8 +333,12 @@ export class GlobalSearchInputComponent implements OnDestroy {
   }
 
   public resize() {
-    jQuery(this.input.nativeElement).toggleClass('-expanded');
-    jQuery('.top-menu-search--button').toggleClass('-input-focused');
+    this.focused = !this.focused;
+    this.determineExpansion();
+  }
+
+  private determineExpansion():void {
+    this.expanded = (this.focused || this.searchValue.length > 0 || this.searchTerm.length > 0);
   }
 }
 
