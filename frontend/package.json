@@ -30,7 +30,7 @@
     "tslint": "5.11.0"
   },
   "dependencies": {
-    "@angular-devkit/build-angular": "^0.11.1",
+    "@angular-devkit/build-angular": "^0.12.3",
     "@angular/animations": "7.1.1",
     "@angular/cdk": "^7.1.1",
     "@angular/cli": "^7.1.1",
