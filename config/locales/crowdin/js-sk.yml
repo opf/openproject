@@ -370,7 +370,7 @@ sk:
           fields.
 
 '
-        upgrade_to_ee: Upgrade to Enterprise Edition
+        upgrade_to_ee: Upgrade na Enterprise Edition
         upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
           you mind supporting us OpenSource developers by becoming an Enterprise Edition
           client?
@@ -573,10 +573,10 @@ sk:
       image: Obrázok
     work_packages:
       bulk_actions:
-        move: Bulk move
-        edit: Bulk edit
-        copy: Bulk copy
-        delete: Bulk delete
+        move: Hromadne presunúť
+        edit: Hromadne editovať
+        copy: Hromadne kopírovať
+        delete: Hromadne zmazať
       button_clear: Vyčistiť
       comment_added: Komentár bol úspešne pridaný.
       comment_send_failed: Vyskytla sa chyba. Nebolo možné pridať komentár.
@@ -587,8 +587,8 @@ sk:
       description_options_hide: Skryť možnosti
       description_options_show: Zobraziť možnosti
       error:
-        update_conflict_refresh: Click here to refresh the work package and update
-          to the newest version.
+        update_conflict_refresh: Kliknutím sem obnovíte pracovný balíček a aktualizujete
+          na najnovšiu verziu.
         edit_prohibited: Úprava %{attribute} je blokovaná pre tento pracovný balík.
           Buď je tento atribút odvodený zo vzťahov (napr. z podriadených), alebo nie
           je konfigurovateľný.
@@ -610,8 +610,8 @@ sk:
       message_successful_show_in_fullscreen: Kliknutím sem otvoríte tento pracovný
         balík v zobrazení na celú obrazovku.
       message_view_spent_time: Show spent time for this work package
-      message_work_package_read_only: Work package is locked in this status. No attribute
-        other than status can be altered.
+      message_work_package_read_only: Pracovný balíček je v tomto stave uzamknutý.
+        Nie je možné zmeniť iný atribút ako stav.
       no_value: Žiadna hodnota
       placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
@@ -751,8 +751,8 @@ sk:
           relation_columns: Potrebujete vidieť vzťahy v zozname pracovných balíčkov?
           check_out_link: Pozrite si verziu Enterprise.
         relation_filters:
-          first_part: Show all work packages
-          second_part: the current work package
+          first_part: Zobraziť všetky pracovné balíčky
+          second_part: aktuálny pracovný balíček
       tabs:
         overview: Prehľad
         activity: Činnosť
