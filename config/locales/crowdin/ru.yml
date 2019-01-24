@@ -222,8 +222,7 @@ ru:
         no_results_title_text: В настоящее время нет рабочих пакетов, о которых я
           сообщал.
       responsible:
-        no_results_title_text: На данный момент нет пакетов работ, за которые я несу
-          ответственность.
+        no_results_title_text: На данный момент нет пакетов работ, в которых я подотчетен.
       watched:
         no_results_title_text: На данный момент у меня нет рабочих пакетов, за которыми
           я наблюдаю.
@@ -687,7 +686,7 @@ ru:
     password: Пароль
     priority: Приоритет
     project: Проект
-    responsible: Ответственность
+    responsible: Подотчетный
     role: Роль
     roles: Роли
     start_date: Дата начала
@@ -1545,7 +1544,7 @@ ru:
   label_repository_plural: Репозитории
   label_required: требуется
   label_requires: требуется
-  label_responsible_for_work_packages: Пакеты работ, за которые я несу ответственность
+  label_responsible_for_work_packages: Пакеты работ, в которых я подотчетен
   label_result_plural: Результаты
   label_reverse_chronological_order: В обратном хронологическом порядке
   label_revision: Редакция
@@ -1682,8 +1681,8 @@ ru:
     работ
   label_work_package_view_all_reported_by_me: Посмотреть все комплексы работ, описанные
     мной
-  label_work_package_view_all_responsible_for: Посмотреть все пакеты работ, за которые
-    я отвечаю
+  label_work_package_view_all_responsible_for: Посмотреть все пакеты работ, в которых
+    я подотчетен
   label_work_package_view_all_watched: Посмотреть все наблюдаемые пакеты работ
   label_work_package_watchers: Наблюдатель
   label_workflow: Рабочий поток
@@ -2578,7 +2577,7 @@ ru:
       outline: Первоначальная схема детализации
       parent: Показывать подпроекты
       work_package_filters: Фильтровать пакеты работ
-      work_package_responsible: Показать пакеты работ с ответственным
+      work_package_responsible: Показать пакеты работ с подотчетными
       work_package_assignee: Показать пакеты работ с назначениями
       types: Показать типы
       status: Показать состояние
@@ -2591,7 +2590,7 @@ ru:
       project_time_filter_relative: "%{start_label} %{startspan} %{startspanunit}
         назад, %{end_label} %{endspan} %{endspanunit} с этого момента"
       project_filters: Фильтр проектов
-      project_responsible: Показать проекты с ответственным
+      project_responsible: Показать проекты с подотчетными
       project_status: Показать статус проекта
       timeframe: Показать сроки
       timeframe_end: до
