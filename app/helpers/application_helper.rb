@@ -161,11 +161,11 @@ module ApplicationHelper
     html_options = { class: css_classes.join(' '), role: 'alert' }.merge(html_options)
 
     content_tag :div, html_options do
-        concat(join_flash_messages(message))
-        concat(content_tag(:i, '', class: 'icon-close close-handler',
-                                   tabindex: '0',
-                                   role: 'button',
-                                   aria: { label: ::I18n.t('js.close_popup_title') }))
+      concat(join_flash_messages(message))
+      concat(content_tag(:i, '', class: 'icon-close close-handler',
+                                 tabindex: '0',
+                                 role: 'button',
+                                 aria: { label: ::I18n.t('js.close_popup_title') }))
     end
   end
 

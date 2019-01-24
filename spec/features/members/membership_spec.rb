@@ -103,9 +103,6 @@ feature 'group memberships through groups page', type: :feature, js: true do
   context 'with a user' do
     it_behaves_like 'adding and removing principals'
 
-    # The following scenario is only tested with an unimpaired user
-    # as it does not make a difference whether or not the user is impaired.
-
     scenario 'Escaping should work properly when selecting a user' do
       members_page.visit!
       members_page.open_new_member!

@@ -71,7 +71,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     edit_comment: this.I18n.t('js.label_edit_comment'),
   };
 
-  public accessibilityModeEnabled = this.ConfigurationService.accessibilityModeEnabled();
   private $element:JQuery;
 
   constructor(readonly elementRef:ElementRef,
@@ -123,7 +122,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   public shouldHideIcons():boolean {
-    return !(this.isComment && (this.focussing() || this.accessibilityModeEnabled));
+    return !(this.isComment && this.focussing());
   }
 
   public get postedComment() {

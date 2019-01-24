@@ -200,8 +200,7 @@ class AccountController < ApplicationController
 
       if user.save
         token.destroy
-        flash[:notice] = with_accessibility_notice :notice_account_activated,
-                                                   locale: user.language
+        flash[:notice] = I18n.t(:notice_account_activated)
       else
         flash[:error] = I18n.t(:notice_activation_failed)
       end
@@ -513,8 +512,7 @@ class AccountController < ApplicationController
     if @user.save
       session[:auth_source_registration] = nil
       self.logged_user = @user
-      flash[:notice] = with_accessibility_notice :notice_account_activated,
-                                                 locale: @user.language
+      flash[:notice] = I18n.t(:notice_account_activated)
       redirect_to controller: '/my', action: 'account'
     end
     # Otherwise render register view again
@@ -619,8 +617,7 @@ class AccountController < ApplicationController
       OpenProject::OmniAuth::Authorization.after_login! user, auth_hash, self
     end
 
-    flash[:notice] = with_accessibility_notice :notice_account_registered_and_logged_in,
-                                               locale: user.language
+    flash[:notice] = I18n.t(:notice_account_registered_and_logged_in)
     redirect_after_login user
   end
 
@@ -708,15 +705,5 @@ class AccountController < ApplicationController
 
       token.user
     end
-  end
-
-  def with_accessibility_notice(key, locale:)
-    locale = locale.presence || I18n.locale
-    text = I18n.t(key, locale: locale)
-    notice = link_translate(:notice_accessibility_mode,
-                            links: { url: my_settings_url },
-                            locale: locale)
-
-    "#{text} #{notice}".html_safe
   end
 end

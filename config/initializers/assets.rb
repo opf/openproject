@@ -5,7 +5,6 @@ OpenProject::Application.configure do
     favicon.ico
     openproject.css
     accessibility.css
-    accessibility.js
     admin_users.js
     autocompleter.js
     calendar/lang/*.js
