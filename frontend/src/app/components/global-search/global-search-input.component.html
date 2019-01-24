@@ -14,7 +14,9 @@
            id="q"
            size="20"
            class="top-menu-search--input"
+           [class.-expanded]="expanded"
            placeholder="{{text.search}}"
+           autocomplete="off"
            [ngModel]="searchTerm"
            (focus) = "resize()"
            (focusout) = "resize()"
@@ -27,6 +29,7 @@
        accesskey="4"
        tabindex="0"
        role="button"
+       [class.-input-focused]="expanded"
        (accessibleClick)="handleClick($event)" >
        <op-icon icon-classes="icon5 icon-search ellipsis"></op-icon>
     </a>
