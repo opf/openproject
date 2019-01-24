@@ -5,7 +5,13 @@
        class="boards--listing-item">
     <a [textContent]="board.name"
        uiSref="boards.show"
-       [uiParams]="{ id: board.id, board: board }">
+       [uiParams]="{ id: board.id }">
+    </a>
+  </div>
+  <div class="boards--listing-item -new">
+    <a (click)="newBoard()">
+      <op-icon icon-classes="icon-add icon-context"></op-icon>
+      <span [textContent]="text.create"></span>
     </a>
   </div>
 </div>

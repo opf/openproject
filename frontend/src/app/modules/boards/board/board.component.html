@@ -1,16 +1,23 @@
 <div *ngIf="(board$ | async) as board"
      class="board--container">
 
-  <div class="toolbar-container">
+  <div class="toolbar-container -editable">
     <div id="toolbar">
-      <div class="board--header-container">
+      <div class="title-container board--header-container">
         <div class="wp-show--back-button hide-when-print">
           <accessible-by-keyboard (execute)="goBack()"
                                   linkClass="work-packages-list-view-button button">
             <op-icon icon-classes="button--icon icon-back-up"></op-icon>
           </accessible-by-keyboard>
         </div>
-        <h2 class="board--name-header" [textContent]="board.name"></h2>
+        <span class="form--text-field-container">
+          <input class="toolbar--editable-toolbar -border-on-hover-only form--text-field"
+                 autocomplete="off"
+                 type="text"
+                 [ngModel]="board.name"
+                 (ngModelChange)="updateBoardName(board, $event)"
+                 name="board_name" />
+        </span>
       </div>
     </div>
   </div>
@@ -18,6 +25,13 @@
   <div class="boards-list--container">
     <div class="boards-list--item" *ngFor="let id of board.queries">
       <board-list [queryId]="id"></board-list>
+    </div>
+
+    <div class="boards-list--add-item" (click)="addList(board)">
+      <div class="boards-list--add-item-text">
+        <op-icon icon-classes="icon-add icon-context"></op-icon>
+        <span [textContent]="text.addList"></span>
+      </div>
     </div>
   </div>
 </div>

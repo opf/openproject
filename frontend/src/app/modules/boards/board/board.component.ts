@@ -4,7 +4,9 @@ import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and
 import {StateService} from "@uirouter/core";
 import {Observable} from "rxjs";
 import {BoardsService} from "core-app/modules/boards/board/boards.service";
-import {filter} from "rxjs/operators";
+import {filter, tap} from "rxjs/operators";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'board',
@@ -16,9 +18,16 @@ import {filter} from "rxjs/operators";
 })
 export class BoardComponent implements OnInit, OnDestroy {
 
-  public board$:Observable<Board>;
+  public board$:Observable<Board|undefined>;
+
+  public text = {
+    loadingError: 'No such board found',
+    addList: 'Add list'
+  };
 
   constructor(private readonly state:StateService,
+              private readonly I18n:I18nService,
+              private readonly notifications:NotificationsService,
               private readonly Boards:BoardsService) {
   }
 
@@ -26,19 +35,35 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.state.go('^');
   }
 
+  updateBoardName(board:Board, name:string) {
+    board.name = name;
+    this.Boards.update(board);
+  }
+
   ngOnInit():void {
     const id = this.state.params.id;
     this.board$ = this.Boards
       .load(id)
       .pipe(
-        filter((b) => b !== undefined)
-      ) as Observable<Board>;
+        tap(b => {
+          if (b === undefined) {
+            this.showError();
+          }
+        })
+      );
 
+  }
+
+  showError() {
+    this.notifications.addError(this.text.loadingError);
   }
 
   ngOnDestroy():void {
     // Nothing to do
   }
 
-
+  addList(board:Board) {
+    board.queries = [...board.queries, 5];
+    this.Boards.update(board);
+  }
 }
