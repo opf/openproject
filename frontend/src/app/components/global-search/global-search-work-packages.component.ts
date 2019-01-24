@@ -153,10 +153,9 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
     this.queryProps = {
       'columns[]': ['id', 'project', 'type', 'subject', 'updatedAt'],
       filters: JSON.stringify(filters),
-      sortBy: JSON.stringify([['updatedAt', 'desc']])
+      sortBy: JSON.stringify([['updatedAt', 'desc']]),
+      showHierarchies: false
     };
-
-    this.refresh();
   }
 
   ngOnDestroy():void {
