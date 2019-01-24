@@ -53,11 +53,8 @@ export class OpDatePickerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
-    // we don't want the date picker in the accessibility mode
-    if (!this.ConfigurationService.accessibilityModeEnabled()) {
-      this.input = this.$element.find('input');
-      this.setup();
-    }
+    this.input = this.$element.find('input');
+    this.setup();
   }
 
   ngOnDestroy() {

@@ -103,10 +103,6 @@ class UserPreference < ActiveRecord::Base
     end
   end
 
-  def impaired?
-    !!impaired
-  end
-
   private
 
   def to_boolean(value)

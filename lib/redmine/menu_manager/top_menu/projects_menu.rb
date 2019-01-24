@@ -31,20 +31,10 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
     return '' if User.current.anonymous? and Setting.login_required?
     return '' if User.current.anonymous? and User.current.number_of_known_projects.zero?
 
-    if User.current.impaired?
-      render_impaired_project_links
-    else
-      render_projects_dropdown
-    end
+    render_projects_dropdown
   end
 
   private
-
-  ##
-  # Render the project menu items into the top menu
-  def render_impaired_project_links
-    project_items.map { |item| render_menu_node(item) }.join(' ')
-  end
 
   def render_projects_dropdown
     label = !!(@project && !@project.name.empty?) ? @project.name : t(:label_select_project)
@@ -67,21 +57,11 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   end
 
   def project_index_item
-    if User.current.impaired?
-      icon_class = 'icon3'
-      projects_label = l(:label_project_plural)
-      projects_class = 'icon-projects'
-    else
-      icon_class = 'icon4'
-      projects_label = l(:label_project_view_all)
-      projects_class = 'icon-show-all-projects'
-    end
-
     Redmine::MenuManager::MenuItem.new(
       :list_projects,
       { controller: '/projects', action: 'index' },
-      caption: projects_label,
-      icon: "#{projects_class} #{icon_class}",
+      caption: t(:label_project_view_all),
+      icon: "icon-show-all-projects icon4",
       html: {
         accesskey: OpenProject::AccessKeys.key_for(:project_search)
       }
@@ -89,18 +69,11 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   end
 
   def project_new_item
-    icon_class =
-      if User.current.impaired?
-        'icon3'
-      else
-        'icon4'
-      end
-
     Redmine::MenuManager::MenuItem.new(
       :new_project,
       { controller: '/projects', action: 'new' },
       caption: Project.model_name.human,
-      icon: "icon-add #{icon_class}",
+      icon: "icon-add icon4",
       html: {
         accesskey: OpenProject::AccessKeys.key_for(:new_project),
         aria: {label: t(:label_project_new)},

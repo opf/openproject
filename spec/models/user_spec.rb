@@ -508,39 +508,6 @@ describe User, type: :model do
     end
   end
 
-  describe '#impaired?' do
-    let(:anonymous) { FactoryBot.create(:anonymous) }
-    let(:user) { FactoryBot.create(:user) }
-
-    context 'anonymous user with accessibility mode disabled for anonymous users' do
-      before do
-        allow(Setting).to receive(:accessibility_mode_for_anonymous?).and_return(false)
-      end
-
-      it { expect(anonymous.impaired?).to be_falsey }
-    end
-
-    context 'anonymous user with accessibility mode enabled for anonymous users' do
-      before do
-        allow(Setting).to receive(:accessibility_mode_for_anonymous?).and_return(true)
-      end
-
-      it { expect(anonymous.impaired?).to be_truthy }
-    end
-
-    context 'not impaired user' do
-      it { expect(user.impaired?).to be_falsey }
-    end
-
-    context 'impaired user' do
-      before do
-        user.pref[:impaired] = true
-      end
-
-      it { expect(user.impaired?).to be_truthy }
-    end
-  end
-
   describe '#notify_about?' do
     let(:work_package) do
       FactoryBot.build_stubbed(:work_package,

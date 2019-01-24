@@ -434,19 +434,6 @@ class User < Principal
     @time_zone ||= (pref.time_zone.blank? ? nil : ActiveSupport::TimeZone[pref.time_zone])
   end
 
-  def impaired=(value)
-    pref.update_attribute(:impaired, !!value)
-    !!value
-  end
-
-  def impaired
-    (anonymous? && Setting.accessibility_mode_for_anonymous?) || pref.impaired?
-  end
-
-  def impaired?
-    impaired
-  end
-
   def wants_comments_in_reverse_order?
     pref.comments_in_reverse_order?
   end
