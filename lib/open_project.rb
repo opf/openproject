@@ -32,6 +32,7 @@ require 'redmine/menu_manager'
 require 'redmine/activity'
 require 'redmine/search'
 require 'open_project/custom_field_format'
+require 'open_project/logging/log_delegator'
 require 'redmine/mime_type'
 require 'redmine/core_ext'
 require 'open_project/design'
@@ -41,3 +42,13 @@ require 'redmine/plugin'
 require 'redmine/notifiable'
 
 require 'csv'
+
+module OpenProject
+
+  ##
+  # Shortcut to the OpenProject log delegator, which extends
+  # default Rails error handling with other error handlers such as sentry.
+  def self.logger
+    ::OpenProject::Logging::LogDelegator
+  end
+end
