@@ -54,7 +54,7 @@ describe "multi select custom values", js: true do
     describe 'in single view' do
       let(:edit_field) do
         field = wp_page.edit_field "customField#{custom_field.id}"
-        field.field_type = 'select'
+        field.field_type = 'ng-select'
         field
       end
 
@@ -72,10 +72,9 @@ describe "multi select custom values", js: true do
         expect(page).to have_text "onions"
 
         edit_field.activate!
-        sel = edit_field.input_element
 
-        sel.unselect "pineapple"
-        sel.select "mushrooms"
+        edit_field.unset_value "pineapple", true
+        edit_field.set_value "mushrooms"
 
         edit_field.submit_by_dashboard
 
@@ -93,7 +92,7 @@ describe "multi select custom values", js: true do
     describe 'in the WP table' do
       let(:table_edit_field) do
         field = wp_table.edit_field work_package, "customField#{custom_field.id}"
-        field.field_type = 'select'
+        field.field_type = 'ng-select'
         field
       end
 
@@ -129,10 +128,9 @@ describe "multi select custom values", js: true do
         expect(page).to have_selector('.group--value', text: 'ham (1)')
 
         table_edit_field.activate!
-        sel = table_edit_field.input_element
 
-        sel.unselect "pineapple"
-        sel.unselect "onions"
+        table_edit_field.unset_value "pineapple", true
+        table_edit_field.unset_value "onions", true
 
         table_edit_field.submit_by_dashboard
 
@@ -145,12 +143,7 @@ describe "multi select custom values", js: true do
         field = WorkPackageMultiSelectField.new(split_view.container, "customField#{custom_field.id}")
 
         field.activate!
-        sel = field.input_element
-        expect(field).not_to be_multiselect
-
-        field.toggle_multiselect
-        expect(field).to be_multiselect
-        sel.unselect "ham"
+        field.unset_value "ham", true
         field.submit_by_dashboard
 
         # Expect none selected in split and table
@@ -159,10 +152,9 @@ describe "multi select custom values", js: true do
 
         # Activate again
         field.activate!
-        field.toggle_multiselect
-        expect(field).to be_multiselect
-        sel.select "ham"
-        sel.select "onions"
+
+        field.set_value "ham"
+        field.set_value "onions"
 
         field.submit_by_dashboard
 
@@ -171,10 +163,8 @@ describe "multi select custom values", js: true do
         table_edit_field.expect_state_text 'ham, onions'
 
         field.activate!
-        # Is now multiselect from the start, since multiple values enabled
-        expect(field).to be_multiselect
-        sel.select "pineapple"
-        sel.select "mushrooms"
+        field.set_value "pineapple"
+        field.set_value "mushrooms"
 
         field.submit_by_dashboard
         expect(field.display_element).to have_text('ham')

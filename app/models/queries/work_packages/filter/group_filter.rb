@@ -87,7 +87,7 @@ class Queries::WorkPackages::Filter::GroupFilter < Queries::WorkPackages::Filter
               all_groups.where(id: values)
             end
 
-    scope.joins(:users).pluck('users_users.id').uniq.sort
+    scope.joins(:users).pluck(Arel.sql('users_users.id')).uniq.sort
   end
 
   def all_groups

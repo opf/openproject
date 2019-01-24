@@ -294,6 +294,10 @@ sv-SE:
     help_texts:
       show_modal: Show attribute help text entry
     onboarding:
+      buttons:
+        skip: Skip
+        next: Nästa
+        got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -335,7 +339,6 @@ sv-SE:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: Du behöver ange ditt lösenord för att bekräfta ändringen.
       title: Bekräfta ditt lösenord för att fortsätta
@@ -593,11 +596,10 @@ sv-SE:
       label_enable_multi_select: Aktivera multival
       label_disable_multi_select: Inaktivera multival
       label_filter_add: Lägg till filter
+      label_filter_by_text: Filter by text
       label_options: Alternativ
       label_column_multiselect: 'Kombinerade nedrullningsbara fält: Markera med piltangenterna,
         bekräfta val med RETUR, ta bort med BACKSTEG'
-      label_switch_to_single_select: Växla till enkelvalsläge
-      label_switch_to_multi_select: Växla till flervalsläge
       message_error_during_bulk_delete: Ett fel uppstod vid försök att ta bort arbetspaket.
       message_successful_bulk_delete: Arbetspaket togs bort.
       message_successful_show_in_fullscreen: Klicka här för att öppna det här arbetspaketet
@@ -606,6 +608,7 @@ sv-SE:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Inget värde
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Klicka här för att lägga till ett nytt arbetspaket till listan
       create:
@@ -755,6 +758,8 @@ sv-SE:
         days: dagar
         weeks: veckor
         months: månader
+      label_switch_to_single_select: Växla till enkelvalsläge
+      label_switch_to_multi_select: Växla till flervalsläge
     toolbar:
       settings:
         configure_view: Configure view ...

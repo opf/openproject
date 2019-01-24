@@ -42,17 +42,9 @@ body.action-create
     // Will eventually be overridden by the resizer
     flex-basis: 580px
 
-    &.-columns-2
+    &.-can-have-columns
       .-columns-2
-        column-count: 2
-        column-gap: 4rem
-
-        .attributes-key-value
-          -webkit-column-break-inside: avoid
-          page-break-inside: avoid
-          break-inside: avoid
-          overflow: hidden
-          backface-visibility: visible
+        @include two-column-layout
 
 .work-packages--details
   height: 100%
@@ -105,7 +97,6 @@ body.action-create
     .wp-inline-edit--field
       height: 38px
       line-height: 36px
-      padding: 0 0.375rem
 
 .work-packages--type-selector
   flex-shrink: 0
@@ -116,6 +107,9 @@ body.action-create
 
 .work-package--new-state
   margin-bottom: 55px
+
+  .title-container
+    overflow: visible
 
   .work-packages--attachments
     margin-bottom: 25px

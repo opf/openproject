@@ -311,7 +311,7 @@ describe Query, type: :model do
     assert c.sortable
     issues = WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
                         .where(q.statement)
-                        .order(Array(c.sortable).map { |s| "#{s} ASC" }.join(', '))
+                        .order(Arel.sql(Array(c.sortable).map { |s| "#{s} ASC" }.join(', ')))
                         .references(:projects)
     values = issues.map { |i| i.custom_value_for(c.custom_field).to_s }
     assert !values.empty?
@@ -325,7 +325,7 @@ describe Query, type: :model do
     assert c.sortable
     issues = WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
              .where(q.statement)
-             .order(Array(c.sortable).map { |s| "#{s} DESC" }.join(', '))
+             .order(Arel.sql(Array(c.sortable).map { |s| "#{s} DESC" }.join(', ')))
              .references(:projects)
     values = issues.map { |i| i.custom_value_for(c.custom_field).to_s }
     assert !values.empty?
@@ -340,7 +340,7 @@ describe Query, type: :model do
     issues = WorkPackage
              .includes(:assigned_to, :status, :type, :project, :priority)
              .where(q.statement)
-             .order(Array(c.sortable).map { |s| "#{s} ASC" }.join(', '))
+             .order(Arel.sql(Array(c.sortable).map { |s| "#{s} ASC" }.join(', ')))
              .references(:projects)
     values = issues.map { |i| begin; Kernel.Float(i.custom_value_for(c.custom_field).to_s); rescue; nil; end }.compact
     assert !values.empty?

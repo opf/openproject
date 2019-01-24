@@ -27,7 +27,9 @@ Yes, but you will lose the ability to enable Git/SVN repository integration. Not
 
 ### Can I use PostgreSQL instead of MySQL?
 
-Yes, but you will need to setup the database by yourself, and then ask the installer to use an existing database and enter the host and credentials configuration to access it.
+Yes, but you will need to setup the database by yourself, and then set the DATABASE_URL environment variable.
+This can be done with the command `openproject config:set DATABASE_URL="postgres://{user}:{password}@{hostname}:{port}/{database-name}"`.
+**Note:** When entering DATABASE_URL manually, you need to [percent-escape special characters](https://developer.mozilla.org/en-US/docs/Glossary/percent-encoding) in the password.
 
 ### My favorite linux distribution is not listed. What can I do?
 

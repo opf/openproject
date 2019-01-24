@@ -294,6 +294,10 @@ cs:
     help_texts:
       show_modal: Show attribute help text entry
     onboarding:
+      buttons:
+        skip: Skip
+        next: Další
+        got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -335,7 +339,6 @@ cs:
           aktuální plán.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: You need to enter your account password to confirm this change.
       title: Pro pokračování potvrďte vaše heslo
@@ -422,12 +425,12 @@ cs:
       group_by_relation_type: Seskupit podle typu vztahu
       add_parent: Přidat existujícího rodiče
       add_new_child: Vytvořit nového potomka
-      create_new: Create new
-      add_existing: Add existing
+      create_new: Vytvořit nový
+      add_existing: Přidat existující
       add_existing_child: Přidat existujícího potomka
       remove_child: Odstranit záznam
       add_new_relation: Vytvořit nový vztah
-      add_existing_relation: Add existing relation
+      add_existing_relation: Přidat existující vztah
       update_description: Nastavit nebo upravit popis tohoto vztahu
       toggle_description: Toggle relation description
       update_relation: Click to change the relation type
@@ -597,11 +600,10 @@ cs:
       label_enable_multi_select: Povolit vícenásobný výběr
       label_disable_multi_select: Zakázat vícenásobný výběr
       label_filter_add: Přidat filtr
+      label_filter_by_text: Filter by text
       label_options: Možnosti
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
         confirm selection with enter, delete with backspace'
-      label_switch_to_single_select: Přepnout na jednoduchý výběr
-      label_switch_to_multi_select: Přepnout na vícenásobný výběr
       message_error_during_bulk_delete: Při pokusu o odstranění pracovních balíčků
         došlo k chybě.
       message_successful_bulk_delete: Pracovní balíčky úspěšně odstraněny.
@@ -611,6 +613,7 @@ cs:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Žádná hodnota
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Click here to add a new work package to this list
       create:
@@ -760,6 +763,8 @@ cs:
         days: dnů
         weeks: týdny
         months: mesice
+      label_switch_to_single_select: Přepnout na jednoduchý výběr
+      label_switch_to_multi_select: Přepnout na vícenásobný výběr
     toolbar:
       settings:
         configure_view: Nastavit zobrazení ...

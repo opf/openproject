@@ -301,6 +301,10 @@ de:
     help_texts:
       show_modal: Hilfe-Text für dieses Attribut anzeigen
     onboarding:
+      buttons:
+        skip: Überspringen
+        next: Weiter
+        got_it: Verstanden
       steps:
         welcome: Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen.
           <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese
@@ -341,7 +345,6 @@ de:
           die aktuelle Planung und kann diese bei Bedarf aktualisieren.
         help_menu: 'Im <b>Hilfe</b> Menü finden Sie ein Benutzerhandbuch sowie weitere
           Hilfematerialien.           <br> Viel Spaß mit OpenProject!'
-        got_it: Verstanden
     password_confirmation:
       field_description: Sie müssen Ihr Kennwort eingeben um diese Änderungen zu speichern.
       title: Geben Sie Ihr Kennwort ein um fortzufahren
@@ -606,11 +609,10 @@ de:
       label_enable_multi_select: Mehrfachauswahl aktivieren
       label_disable_multi_select: Mehrfachauswahl deaktivieren
       label_filter_add: Filter hinzufügen
+      label_filter_by_text: Filter by text
       label_options: Optionen
       label_column_multiselect: 'Kombiniertes Eingabefeld: Auswahl mit Pfeiltasten,
         Auslösen mit Enter, Löschen mit Backspace'
-      label_switch_to_single_select: Zur Einfachauswahl wechseln
-      label_switch_to_multi_select: Zur Mehrfachauswahl wechseln
       message_error_during_bulk_delete: Fehler beim Löschen der Arbeitspakete.
       message_successful_bulk_delete: Arbeitspakete erfolgreich gelöscht.
       message_successful_show_in_fullscreen: Klicken Sie hier, um dieses Arbeitspaket
@@ -619,6 +621,7 @@ de:
       message_work_package_read_only: Das Arbeitspaket ist in diesem Status gesperrt.
         Kein Attribut außer dem Status selbst kann darin verändert werden.
       no_value: Kein Wert
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Klicken Sie hier, um ein neues Arbeitspaket zu dieser Liste hinzufügen
       create:
@@ -773,6 +776,8 @@ de:
         days: Tage
         weeks: Wochen
         months: Monaten
+      label_switch_to_single_select: Zur Einfachauswahl wechseln
+      label_switch_to_multi_select: Zur Mehrfachauswahl wechseln
     toolbar:
       settings:
         configure_view: Ansicht konfigurieren …

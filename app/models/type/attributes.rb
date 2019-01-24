@@ -62,7 +62,7 @@ module Type::Attributes
     # @return [Hash{String => Hash}] Map from attribute names to options.
     def all_work_package_form_attributes(merge_date: false)
       OpenProject::Cache.fetch('all_work_package_form_attributes',
-                               *WorkPackageCustomField.pluck('max(updated_at), count(id)').flatten,
+                               *WorkPackageCustomField.pluck(Arel.sql('max(updated_at), count(id)')).flatten,
                                merge_date) do
         calculate_all_work_package_form_attributes(merge_date)
       end

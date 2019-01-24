@@ -292,6 +292,10 @@
     help_texts:
       show_modal: Show attribute help text entry
     onboarding:
+      buttons:
+        skip: Skip
+        next: Neste
+        got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -333,7 +337,6 @@
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: You need to enter your account password to confirm this change.
       title: Confirm your password to continue
@@ -591,11 +594,10 @@
       label_enable_multi_select: Aktiver multivalg
       label_disable_multi_select: Deaktivere multivalg
       label_filter_add: Legg til filter
+      label_filter_by_text: Filter by text
       label_options: Alternativer
       label_column_multiselect: 'Kombinert nedtrekksfelt: velg med piltastene, bekreft
         valg med enter, slette med tilbaketasten'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: Det oppstod en feil undersletting av arbeidspakker.
       message_successful_bulk_delete: Arbeidspakkene ble slettet.
       message_successful_show_in_fullscreen: Klikk her for å åpne denne arbeidspakken
@@ -604,6 +606,7 @@
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Ingen verdi
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Klikk her for å legge til en nye arbeidspakke i listen
       create:
@@ -753,6 +756,8 @@
         days: dager
         weeks: uker
         months: måneder
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...

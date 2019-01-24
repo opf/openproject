@@ -17,7 +17,7 @@ describe ::Avatars::MyAvatarController, type: :controller do
     end
 
     it 'renders the edit action' do
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template 'avatars/my/avatar'
     end
   end
@@ -43,7 +43,7 @@ describe ::Avatars::MyAvatarController, type: :controller do
 
     it 'returns invalid method for post request' do
       post :update
-      expect(response).not_to be_success
+      expect(response).not_to be_successful
       expect(response.status).to eq 405
     end
 
@@ -53,7 +53,7 @@ describe ::Avatars::MyAvatarController, type: :controller do
         .and_return(ServiceResult.new(success: true))
 
       put :update
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.status).to eq 200
     end
 
@@ -63,7 +63,7 @@ describe ::Avatars::MyAvatarController, type: :controller do
         .and_return(ServiceResult.new(success: false))
 
       put :update
-      expect(response).not_to be_success
+      expect(response).not_to be_successful
       expect(response.status).to eq 400
     end
   end
@@ -71,7 +71,7 @@ describe ::Avatars::MyAvatarController, type: :controller do
   describe '#delete' do
     it 'returns invalid method for post request' do
       post :destroy
-      expect(response).not_to be_success
+      expect(response).not_to be_successful
       expect(response.status).to eq 405
     end
 
@@ -95,7 +95,7 @@ describe ::Avatars::MyAvatarController, type: :controller do
         .and_return(result)
 
       delete :destroy
-      expect(response).not_to be_success
+      expect(response).not_to be_successful
       expect(flash[:notice]).not_to be_present
       expect(flash[:error]).to include 'error'
       expect(response).to redirect_to controller.send :redirect_path

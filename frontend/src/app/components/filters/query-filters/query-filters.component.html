@@ -8,6 +8,22 @@
   </a>
 
   <ul class="advanced-filters--filters">
+    <li id="filter_search"
+        class="advanced-filters--filter --without-operator">
+      <label for="filter-by-text-input"
+             class="advanced-filters--filter-name"
+             [textContent]="text.filter_by_text"
+             [attr.title]="text.filter_by_text">
+      </label>
+
+      <div class="advanced-filters--filter-value">
+        <wp-filter-by-text-input>
+        </wp-filter-by-text-input>
+      </div>
+    </li>
+
+    <li class="advanced-filters--spacer" *ngIf="filters.anyCurrentlyVisibleFilters"></li>
+
     <ng-container *ngFor="let filter of filters.current; trackBy: trackByName ; let index = index">
       <li id="filter_{{filter.id}}"
           query-filter

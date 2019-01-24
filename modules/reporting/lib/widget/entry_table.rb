@@ -25,8 +25,7 @@ class ::Widget::Table::EntryTable < ::Widget::Table
   def render
     content = content_tag :div, class: 'generic-table--container -with-footer' do
       content_tag :div, class: 'generic-table--results-container' do
-        table = content_tag :table, 'interactive-table' => true,
-                                    class: 'generic-table',
+        table = content_tag :table, class: 'generic-table',
                                     id: 'sortable-table' do
           concat colgroup
           concat head

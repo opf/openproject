@@ -64,14 +64,14 @@ sk:
     index:
       no_results_title_text: Momentálne nie sú k dispozícií žiadne farby.
       no_results_content_text: Vytvoriť novú farbu
-    label_no_color: No color
+    label_no_color: Žiadna farba
   custom_actions:
     actions:
       name: Akcie
-      add: Add action
+      add: Pridať akciu
       assigned_to:
         executing_user_value: "(Assign to executing user)"
-    conditions: Conditions
+    conditions: Podmienky
     plural: Custom actions
     new: New custom action
     edit: Edit custom action %{name}
@@ -94,7 +94,7 @@ sk:
       no_results_title_text: Momentálne nie sú k dispozícií žiadne vlastné polia.
       no_results_content_text: Vytvoriť nové vlastné pole
   concatenation:
-    single: or
+    single: alebo
   deprecations:
     old_timeline:
       replacement: This timelines module is being replaced by the interactive timeline
@@ -115,6 +115,15 @@ sk:
     memberships:
       no_results_title_text: Pre túto skupinu nie sú momentálne vytvorené žiadne projekty.
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: V súčasnosti neexistujú žiadne projekty
       no_results_content_text: Vytvoriť nový projekt
@@ -186,10 +195,10 @@ sk:
       form_configuration: Konfigurácia formulára
       projects: Projekty
       enabled_projects: Enabled projects
-      add_group: Add attribute group
+      add_group: Pridať skupinu vlastností
       add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      edit_query: Upraviť tabuľku
+      query_group_placeholder: Zadajte názov tabuľky
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -443,6 +452,14 @@ sk:
         time_entries: Zaprotokoluj čas
         type: Typ
         watcher: Pozorovateľ
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: musí byť akceptovaný.
@@ -499,6 +516,16 @@ sk:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
         parse_schema_filter_params_service:
@@ -643,6 +670,7 @@ sk:
       wiki_page: Wiki stránka
       workflow: Pracovný postup
       work_package: Pracovný balíček
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'Nastali problémy s nasledujúcimi poliami:'
     field_erroneous_label: 'Toto pole je neplatné: %{full_errors}. Prosím zadajte
@@ -717,6 +745,7 @@ sk:
   button_change_password: Zmeniť heslo
   button_check_all: Označiť všetko
   button_clear: Vyčistiť
+  button_click_to_reveal: Click to reveal
   button_close: Zatvoriť
   button_collapse_all: Zbaliť všetko
   button_configure: Konfigurovať
@@ -747,6 +776,7 @@ sk:
   button_remove_widget: Odstrániť widget
   button_rename: Premenovať
   button_replace: Replace
+  button_revoke: Revoke
   button_reply: Odpoveď
   button_reset: Vynulovať
   button_rollback: Vrátenie k tejto verzii
@@ -1365,6 +1395,7 @@ sk:
   label_history: História
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Úvod
+  label_subject_or_id: Subject or ID
   label_in: v
   label_in_less_than: v menej ako
   label_in_more_than: vo viac ako
@@ -1385,7 +1416,7 @@ sk:
   label_journal_diff: Porovnanie popisu
   label_language: Jazyk
   label_jump_to_a_project: Skok do projektu...
-  label_keyword_plural: Keywords
+  label_keyword_plural: Kľúčové slová
   label_language_based: Založené na jazyku používateľa
   label_last_activity: Posledná aktivita
   label_last_change_on: Posledná zmena
@@ -1638,7 +1669,7 @@ sk:
   label_version_sharing_none: Nezdieľané
   label_version_sharing_system: So všetkými projektmi
   label_version_sharing_tree: S projektovým stromom
-  label_videos: Videos
+  label_videos: Videá
   label_view_all_revisions: Zobraziť všetky revízie
   label_view_diff: Zobraziť rozdiely
   label_view_revisions: Zobraziť revízie
@@ -1828,11 +1859,11 @@ sk:
     approval.
   notice_account_register_done: Account was successfully created. To activate your
     account, click on the link that was emailed to you.
-  notice_account_unknown_email: Unknown user.
+  notice_account_unknown_email: Neznámy užívateľ.
   notice_account_update_failed: Nastavenie konta sa nepodarilo uložiť. Prosím, skontrolujte
     si stránku účtu.
   notice_account_updated: Account was successfully updated.
-  notice_account_wrong_password: Wrong password
+  notice_account_wrong_password: Nesprávne heslo
   notice_account_registered_and_logged_in: Welcome, your account has been activated.
     You are logged in now.
   notice_activation_failed: The account could not be activated.
@@ -1865,9 +1896,9 @@ sk:
   notice_members_added: Added %{number} users to the project.
   notice_member_removed: Removed %{user} from project.
   notice_member_deleted: "%{user} has been removed from the project and deleted."
-  notice_no_principals_found: No results found.
-  notice_bad_request: Bad Request.
-  notice_not_authorized: You are not authorized to access this page.
+  notice_no_principals_found: Neboli nájdené žiadne výsledky.
+  notice_bad_request: Nesprávna požiadavka.
+  notice_not_authorized: Nemáte dostatočné oprávnenia na zobrazenie tejto stránky.
   notice_not_authorized_archived_project: The project you're trying to access has
     been archived.
   notice_password_confirmation_failed: Your password is not correct. Cannot continue.
@@ -1875,15 +1906,15 @@ sk:
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
   notice_project_not_deleted: The project wasn't deleted.
-  notice_successful_connection: Successful connection.
-  notice_successful_create: Successful creation.
-  notice_successful_delete: Successful deletion.
-  notice_successful_update: Successful update.
+  notice_successful_connection: Úspešne pripojené.
+  notice_successful_create: Úspešne vytvorené.
+  notice_successful_delete: Úspešne zmazané.
+  notice_successful_update: Úspešne aktualizované.
   notice_to_many_principals_to_display: |-
     There are too many results.
     Narrow down the search by typing in the name of the new member (or group).
   notice_unable_delete_time_entry: Unable to delete time log entry.
-  notice_unable_delete_version: Unable to delete version.
+  notice_unable_delete_version: Verzia nemôže byť zmazaná.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -1926,11 +1957,11 @@ sk:
       team collaboration with OpenProject.
     text_show_again: Môžete spustiť toto video z ponuky Pomocník
     welcome: Welcome to OpenProject
-    select_language: Please select your language
+    select_language: Prosím vyberte Váš jazyk
   permission_add_work_package_notes: Pridať poznámky
   permission_add_work_packages: Pridať pracovné balíky
   permission_add_messages: Post messages
-  permission_add_project: Create project
+  permission_add_project: Vytvoriť projekt
   permission_add_subprojects: Create subprojects
   permission_add_work_package_watchers: Pridať pozorovateľov
   permission_browse_repository: Read-only access to repository (browse and checkout)
@@ -1950,15 +1981,15 @@ sk:
   permission_edit_work_packages: Edit work packages
   permission_edit_messages: Edit messages
   permission_edit_own_work_package_notes: Edit own notes
-  permission_edit_own_messages: Edit own messages
+  permission_edit_own_messages: Úprava vlastných správ
   permission_edit_own_time_entries: Edit own time logs
-  permission_edit_project: Edit project
+  permission_edit_project: Upraviť projekt
   permission_edit_reportings: Edit reportings
   permission_edit_time_entries: Edit time logs
   permission_edit_timelines: Edit timelines
   permission_edit_wiki_pages: Edit wiki pages
   permission_export_work_packages: Export work packages
-  permission_export_wiki_pages: Export wiki pages
+  permission_export_wiki_pages: Export wiki stránok
   permission_list_attachments: List attachments
   permission_log_time: Log spent time
   permission_manage_boards: Spravovať diskusie
@@ -1971,7 +2002,7 @@ sk:
   permission_manage_repository: Spravovať repozitár
   permission_manage_subtasks: Spravovať podúlohy
   permission_manage_versions: Manage versions
-  permission_manage_wiki: Manage wiki
+  permission_manage_wiki: Spravovať Wiki
   permission_manage_wiki_menu: Manage wiki menu
   permission_move_work_packages: Move work packages
   permission_protect_wiki_pages: Protect wiki pages
@@ -2179,8 +2210,8 @@ sk:
   setting_app_title: Application title
   setting_attachment_max_size: Attachment max. size
   setting_autofetch_changesets: Autofetch repository changes
-  setting_autologin: Autologin
-  setting_available_languages: Available languages
+  setting_autologin: Automatické prihlasovanie
+  setting_available_languages: Dostupné jazyky
   setting_bcc_recipients: Blind carbon copy recipients (bcc)
   setting_brute_force_block_after_failed_logins: Block user after this number of failed
     login attempts
@@ -2207,8 +2238,8 @@ sk:
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_display_subprojects_work_packages: Display subprojects work packages on
     main projects by default
-  setting_emails_footer: Emails footer
-  setting_emails_header: Emails header
+  setting_emails_footer: E-mail päta
+  setting_emails_header: E-mail záhlavie
   setting_email_login: Use e-mail as login
   setting_enabled_scm: Enabled SCM
   setting_feeds_enabled: Enable Feeds
@@ -2283,7 +2314,7 @@ sk:
   setting_welcome_on_homescreen: Display welcome block on homescreen
   setting_wiki_compression: Wiki history compression
   setting_work_package_group_assignment: Povoliť priradenie skupinám
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
+  setting_work_package_list_default_highlighting_mode: Predvolený režim zvýraznenia
   setting_work_package_list_default_highlighted_attributes: Default inline highlighted
     attributes
   settings:
@@ -2805,3 +2836,110 @@ sk:
         na čítanie.
     resources:
       schema: Schéma
+  doorkeeper:
+    pre_authorization:
+      status: Pre-authorization
+    errors:
+      messages:
+        invalid_request: The request is missing a required parameter, includes an
+          unsupported parameter value, or is otherwise malformed.
+        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
+          client redirect URI.
+        unauthorized_client: The client is not authorized to perform this request
+          using this method.
+        access_denied: The resource owner or authorization server denied the request.
+        invalid_scope: The requested scope is invalid, unknown, or malformed.
+        invalid_code_challenge_method: The code challenge method must be plain or
+          S256.
+        server_error: The authorization server encountered an unexpected condition
+          which prevented it from fulfilling the request.
+        temporarily_unavailable: The authorization server is currently unable to handle
+          the request due to a temporary overloading or maintenance of the server.
+        credential_flow_not_configured: Resource Owner Password Credentials flow failed
+          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
+        resource_owner_authenticator_not_configured: Resource Owner find failed due
+          to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
+        admin_authenticator_not_configured: Access to admin panel is forbidden due
+          to Doorkeeper.configure.admin_authenticator being unconfigured.
+        unsupported_response_type: The authorization server does not support this
+          response type.
+        invalid_client: Client authentication failed due to unknown client, no client
+          authentication included, or unsupported authentication method.
+        invalid_grant: The provided authorization grant is invalid, expired, revoked,
+          does not match the redirection URI used in the authorization request, or
+          was issued to another client.
+        unsupported_grant_type: The authorization grant type is not supported by the
+          authorization server.
+        invalid_token:
+          revoked: The access token was revoked
+          expired: The access token expired
+          unknown: The access token is invalid
+  oauth:
+    application:
+      singular: OAuth application
+      plural: OAuth applications
+      named: OAuth application '%{name}'
+      new: New OAuth application
+      default_scopes: "(Default scopes)"
+      instructions:
+        name: The name of your application. This will be displayed to other users
+          upon authorization.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
+          One entry per line. <br/> If you''re registering a desktop application,
+          use the following URL.
+
+'
+        confidential: Check if the application will be used where the client secret
+          can be kept confidential. Native mobile apps and Single Page Apps are assumed
+          non-confidential.
+        client_credential_user_id: Optional user ID to impersonate when clients use
+          this application. Leave empty to allow public access only
+        register_intro: If you are developing an OAuth API client application for
+          OpenProject, you can register it using this form for all users to use.
+        default_scopes: ''
+    client_id: Client ID
+    client_secret_notice: 'This is the only time we can print the client secret, please
+      note it down and keep it secure. It should be treated as a password and cannot
+      be retrieved by OpenProject at a later time.
+
+'
+    authorization_dialog:
+      authorize: Authorize
+      cancel: Cancel and deny authorization.
+      prompt_html: Authorize <strong>%{application_name}</strong> to use your account
+        <em>%{login}</em>?
+      title: Authorize %{application_name}
+      wants_to_access_html: 'This application requests access to your OpenProject
+        account. <br/> <strong>It has requested the following permissions:</strong>
+
+'
+    scopes:
+      api_v3: Full API access
+      api_v3_text: Application will receive full read & write access to the OpenProject
+        API to perform actions on your behalf.
+    grants:
+      created_date: Approved on
+      scopes: Permissions
+      successful_application_revocation: Revocation of application %{application_name}
+        successful.
+      none_given: No OAuth applications have been granted access to your user account.
+    x_active_tokens:
+      one: one active token
+      other: "%{count} active token"
+    flows:
+      authorization_code: Authorization code flow
+      client_credentials: Client credentials flow
+    client_credentials: User used for Client credentials
+    client_credentials_impersonation_set_to: Client credentials user set to
+    client_credentials_impersonation_warning: 'Note: Clients using the ''Client credentials''
+      flow in this application will have the rights of this user'
+    client_credentials_impersonation_html: 'By default, OpenProject provides OAuth
+      2.0 authorization via %{authorization_code_flow_link}. You can optionally enable
+      %{client_credentials_flow_link}, but you must provide a user on whose behalf
+      requests will be performed.
+
+'
+    authorization_error: An authorization error has occurred.
+    revoke_my_application_confirmation: Do you really want to remove this application?
+      This will revoke %{token_count} active for it.
+    my_registered_applications: Registered OAuth applications

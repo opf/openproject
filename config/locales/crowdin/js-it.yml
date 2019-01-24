@@ -298,6 +298,10 @@ it:
     help_texts:
       show_modal: Mostra l'immissione di testo della guida dell'attributo
     onboarding:
+      buttons:
+        skip: Skip
+        next: Prossimo
+        got_it: Capito
       steps:
         welcome: Fai un tour introduttivo di tre minuti per apprendere le <b>funzioni
           importanti</b>. <br> Consigliamo di completare i passaggi fino alla fine.
@@ -342,7 +346,6 @@ it:
           ed aggiornare nsre l'ultimo piano ogni volta.
         help_menu: Nel menu <b>Aiuto</b> troverai una guids utente e risorse di aiuto
           aggiuntive. <br> Goditi il tuo lsvoto con OpenProject!
-        got_it: Capito
     password_confirmation:
       field_description: È necessario inserire la password dell'account per confermare
         la modifica.
@@ -605,11 +608,10 @@ it:
       label_enable_multi_select: Abilita multiseleziona
       label_disable_multi_select: Disabilita multiseleziona
       label_filter_add: Aggiungi filtro
+      label_filter_by_text: Filter by text
       label_options: Opzioni
       label_column_multiselect: 'Campo a discesa combinata: selezionare con i tasti
         freccia, confermare la selezione con invio, eliminare con backspace'
-      label_switch_to_single_select: Passa a selezione singola
-      label_switch_to_multi_select: Passa a selezione multipla
       message_error_during_bulk_delete: Errore durante il tentativo d'eliminazione
         della macro-attività (work-package).
       message_successful_bulk_delete: Macro-attività (work-package) eliminata con
@@ -620,6 +622,7 @@ it:
       message_work_package_read_only: Il pacchetto di lavoro è bloccato in questo
         stato. Nessun attributo eccetto lo stato può essere alterato.
       no_value: Nessun valore
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Clicca qui per aggiungere un nuovo work package a questa lista
       create:
@@ -772,6 +775,8 @@ it:
         days: giorni
         weeks: Settimane
         months: mesi
+      label_switch_to_single_select: Passa a selezione singola
+      label_switch_to_multi_select: Passa a selezione multipla
     toolbar:
       settings:
         configure_view: Configura la vista...

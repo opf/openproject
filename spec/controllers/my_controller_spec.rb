@@ -128,7 +128,7 @@ describe MyController, type: :controller do
     end
 
     it 'responds with success' do
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it 'renders the account template' do

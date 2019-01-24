@@ -292,6 +292,10 @@ sk:
     help_texts:
       show_modal: Show attribute help text entry
     onboarding:
+      buttons:
+        skip: Skip
+        next: Ďalšie
+        got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -333,7 +337,6 @@ sk:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: You need to enter your account password to confirm this change.
       title: Confirm your password to continue
@@ -597,11 +600,10 @@ sk:
       label_enable_multi_select: Povoliť hromadný výber
       label_disable_multi_select: Zakázať hromadný výber
       label_filter_add: Pridať filter
+      label_filter_by_text: Filter by text
       label_options: Voľby
       label_column_multiselect: 'Kombinované rozbaľovacie pole: vyberte pomocou klávesov
         so šípkami, potvrďte stlačením ENTER, odstraňujte stlačením BACKSPACE'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: Chyba pri pokuse o odstránenie pracovných
         balíčkov.
       message_successful_bulk_delete: Pracovné balíčky boli úspešne odstránené.
@@ -611,6 +613,7 @@ sk:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Žiadna hodnota
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Kliknutím sem pridajte nový pracovný balík do tohto zoznamu
       create:
@@ -760,6 +763,8 @@ sk:
         days: dní
         weeks: týždne
         months: mesiace
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -800,10 +805,10 @@ sk:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
-    notice_successful_create: Successful creation.
-    notice_successful_delete: Successful deletion.
-    notice_successful_update: Successful update.
-    notice_bad_request: Bad Request.
+    notice_successful_create: Úspešne vytvorené.
+    notice_successful_delete: Úspešne zmazané.
+    notice_successful_update: Úspešne aktualizované.
+    notice_bad_request: Nesprávna požiadavka.
     relations:
       empty: Neexistuje žiadna väzba
       remove: Odstrániť vzťah

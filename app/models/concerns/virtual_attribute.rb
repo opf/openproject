@@ -94,12 +94,12 @@ module Concerns
       # Using attribute_will_change! does not place the value in the tracker but merely forces
       # the attribute to be returned when asking the object for changes.
       def set_virtual_attribute_was(attribute, value)
-        attributes = mutation_tracker.send(:attributes)
+        attributes = mutations_from_database.send(:attributes)
         attributes[attribute.to_s].instance_variable_set(:@value_before_type_cast, value)
       end
 
       def set_virtual_attribute(attribute, value)
-        attributes = mutation_tracker.send(:attributes)
+        attributes = mutations_from_database.send(:attributes)
         attributes[attribute.to_s] = attributes[attribute.to_s].with_value_from_user(value)
       end
     end

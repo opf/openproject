@@ -41,7 +41,7 @@ module Pagination::Model
       base.scope :like, -> (q) {
         s = "%#{q.to_s.strip.downcase}%"
         base.where(['LOWER(name) LIKE :s', { s: s }])
-          .order('name')
+          .order(Arel.sql('name'))
       }
     end
 

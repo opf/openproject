@@ -125,6 +125,10 @@ module SortHelper
         .compact
     end
 
+    def map_each
+      to_a.map { |criteria| yield criteria }
+    end
+
     def add!(key, asc)
       @criteria.delete_if do |k, _o| k == key end
       @criteria = [[key, asc]] + @criteria

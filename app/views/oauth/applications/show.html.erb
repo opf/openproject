@@ -1,0 +1,113 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% html_title t(:label_administration), t('oauth.application.singular'), h(@application.name) -%>
+
+<%= toolbar title: "#{t('oauth.application.singular')} - #{h(@application.name)}",
+            title_class: 'no-padding-bottom' do %>
+  <li class="toolbar-item">
+    <%= link_to edit_oauth_application_path(@application),
+                class: 'button' do %>
+      <%= op_icon('button--icon icon-edit') %>
+      <span class="button--text"><%= t(:button_edit) %></span>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <%= link_to oauth_application_path(@application),
+                method: :delete,
+                data: { confirm: I18n.t(:text_are_you_sure) },
+                class: 'button -danger' do %>
+      <%= op_icon('button--icon icon-delete') %>
+      <span class="button--text"><%= t(:button_delete) %></span>
+    <% end %>
+  </li>
+<% end %>
+
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"><%= t(:label_details) %></h3>
+    </div>
+  </div>
+
+  <div class="attributes-key-value">
+    <div class="attributes-key-value--key"><%= @application.class.human_attribute_name :uid %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span><%= @application.uid %></span>
+      </div>
+    </div>
+    <% if flash[:_application_secret] %>
+    <div class="attributes-key-value--key"><%= @application.class.human_attribute_name :secret %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+          <p>
+            <code><%= flash[:_application_secret] %></code>
+            <br/>
+            <strong><%= t 'oauth.client_secret_notice' %></strong>
+          </p>
+      </div>
+    </div>
+    <% end %>
+    <% if user_id = @application.client_credentials_user_id %>
+      <div class="attributes-key-value--key"><%= t 'oauth.client_credentials_impersonation_set_to' %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <p>
+            <%= link_to_user User.find_by(id: user_id) %>
+            <br/>
+            <strong><%= t('oauth.client_credentials_impersonation_warning') %></strong>
+          </p>
+        </div>
+      </div>
+    <% end %>
+    <div class="attributes-key-value--key"><%= @application.class.human_attribute_name :scopes %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span><%= oauth_scope_translations(@application) %></span>
+      </div>
+    </div>
+    <div class="attributes-key-value--key"><%= @application.class.human_attribute_name :confidential %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span>
+          <%= @application.confidential? ? t(:general_text_Yes) : t(:general_text_No) %>
+        </span>
+      </div>
+    </div>
+    <div class="attributes-key-value--key"><%= @application.class.human_attribute_name :redirect_uri %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span>
+          <%= safe_join @application.redirect_uri.split("\n"), '<br/>'.html_safe %>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+

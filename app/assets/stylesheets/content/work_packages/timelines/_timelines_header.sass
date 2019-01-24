@@ -1,9 +1,12 @@
-.wp-table-timeline--header
+// In Safari custom elements have width and height 0 per default
+// That is why position: sticky in its children won't work
+wp-timeline-header
+  display: block
   height: $generic-table--header-height
   width: 100%
   position: sticky
   top: 0
-  z-index: 1
+  z-index: 2
 
 .wp-timeline--header-element
   background: white
@@ -39,4 +42,3 @@
   font-weight: bold
   font-size: 11px
   height: 15px
-

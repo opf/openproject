@@ -43,7 +43,7 @@ feature 'Group memberships through groups page', type: :feature do
   end
 
   shared_examples 'errors when adding members' do
-    scenario 'adding a role without a principal, non impaired', js: true do
+    scenario 'adding a role without a principal', js: true do
       members_page.visit!
       expect_angular_frontend_initialized
       members_page.add_user! nil, as: 'Manager'
@@ -52,18 +52,7 @@ feature 'Group memberships through groups page', type: :feature do
     end
   end
 
-  context 'creating membership' do
-    context 'with an impaired user' do
-      before do
-        admin.impaired = true
-        admin.save!
-      end
-
-      it_behaves_like 'errors when adding members'
-    end
-
-    context 'with an un-impaired user' do
-      it_behaves_like 'errors when adding members'
-    end
+  context 'creating membership with a user' do
+    it_behaves_like 'errors when adding members'
   end
 end

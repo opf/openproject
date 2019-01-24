@@ -105,7 +105,6 @@ module OpenProject::Backlogs
            caption: :project_module_backlogs,
            before: :calendar,
            param: :project_id,
-           if: proc { not(User.current.respond_to?(:impaired?) and User.current.impaired?) },
            icon: 'icon2 icon-backlogs'
     end
 
@@ -117,6 +116,9 @@ module OpenProject::Backlogs
       backlogs/jquery.flot/excanvas.js
       backlogs/burndown.js
     )
+
+    # We still override version and project settings views from the core! URH
+    override_core_views!
 
     patches [:PermittedParams,
              :WorkPackage,

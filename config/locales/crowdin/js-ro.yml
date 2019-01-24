@@ -296,6 +296,10 @@ ro:
     help_texts:
       show_modal: Show attribute help text entry
     onboarding:
+      buttons:
+        skip: Skip
+        next: Înainte
+        got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -337,7 +341,6 @@ ro:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: Trebuie să introduceţi parola contului dumneavoastră pentru
         a confirma această schimbare.
@@ -602,11 +605,10 @@ ro:
       label_enable_multi_select: Activare selecție multiplă
       label_disable_multi_select: Dezactivare selecție multiplă
       label_filter_add: Adăugare filtru
+      label_filter_by_text: Filter by text
       label_options: Opțiuni
       label_column_multiselect: 'Câmp desfășurat combinat: selectaţi cu săgețile,
         confirmați alegerea cu enter, ştergeţi cu backspace'
-      label_switch_to_single_select: Activați selecție independentă
-      label_switch_to_multi_select: Activați selecție multiplă
       message_error_during_bulk_delete: A apărut o eroare la ștergerea pachetelor
         de lucru.
       message_successful_bulk_delete: Pachetele de lucru au fost șterse cu succes.
@@ -616,6 +618,7 @@ ro:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Nici o valoare
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Click aici pentru a adăuga un nou pachet de lucru în listă
       create:
@@ -766,6 +769,8 @@ ro:
         days: zile
         weeks: săptămâni
         months: luni
+      label_switch_to_single_select: Activați selecție independentă
+      label_switch_to_multi_select: Activați selecție multiplă
     toolbar:
       settings:
         configure_view: Configure view ...

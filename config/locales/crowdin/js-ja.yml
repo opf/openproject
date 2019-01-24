@@ -260,8 +260,7 @@ ja:
     label_attachments: ファイルを添付する
     label_drop_files: ここにファイルをドロップ
     label_drop_files_hint: またはクリックしてファイルを追加する
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
-      single files.
+    label_drop_folders_hint: フォルダを添付ファイルとしてアップロードすることはできません。 単一のファイルを選択してください。
     label_add_attachments: 添付ファイルを追加する
     label_formattable_attachment_hint: このフィールドにドロップ、またはクリップボードから貼り付けて、ファイルを添付およびリンクします。
     label_remove_file: "%{fileName}を削除"
@@ -279,35 +278,30 @@ ja:
     help_texts:
       show_modal: テキスト入力属性のヘルプを表示
     onboarding:
+      buttons:
+        skip: スキップ
+        next: 次へ
+        got_it: 了承
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
+        welcome: 3分間の導入ツアーで、最も<b>重要な機能</b>を確認します。 <br>最後まで手順を完了することをお勧めします。 ツアーはいつでも再開できます。
         project_selection: 開始するには、便利なデモデータを含むプロジェクトの1つを選択してください。 <br> <b>デモプロジェクト</b>は古典的なプロジェクト管理に最適ですが、<b>スクラムプロジェクト</b>はアジャイルプロジェクト管理に適しています。
         sidebar_arrow: 矢印を使って、プロジェクトの<b>メインメニュー</b>に戻ることができます。
         members: 新しい<b>メンバー</b>を招待してプロジェクトに参加してください。
         wiki: "<b>Wiki</b>内ではチームと一緒に知識を文書化して共有することができます。"
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
+        backlogs_overview: "<b>バックログ</b>ビューで作業を管理します。 <br>右側には製品バックログまたはバグバックログがあり、左側にはそれぞれのスプリントがあります。ここで、<b>エピック、ユーザーストーリー、およびバグ</b>を作成し、ドラッグアンドドロップで優先順位を付けてスプリントに追加することができます。"
+        backlogs_task_board_arrow: "<b>タスクボード</b>を表示するには、スプリントのドロップダウンを開きます..."
         backlogs_task_board_select: "... <b>タスクボード</b>を選択します。"
         backlogs_task_board: "<b>タスクボード</b>はこのスプリントの進捗状況を視覚化します。ユーザーのストーリーの横にある+アイコンを使用して、新しいタスクや障害を追加します。
           ドラッグ&ドロップ経由でステータスを更新することができます。"
         wp_toggler: 次に、<b>作業パッケージ</b>セクションを見て、作業の詳細を確認してください。
         wp_list: これは、タスク、機能、マイルストーン、バグなど、プロジェクト内の重要な作業をまとめた<b>作業項目</b>リストです。 <br>このリスト内で作業パッケージを直接作成または編集できます。
           詳細を見るには行をダブルクリックします。
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities, dependencies
-          or comments.
+        wp_full_view: "<b>作業項目の詳細</b>には、説明、ステータス、優先度、アクティビティ、依存関係、コメントなどの関連情報がすべて表示されます。"
         wp_back_button: 矢印を使用すると作業項目リストに戻ることができます。
         wp_create_button: "<b>作成</b>ボタンをクリックすると、プロジェクトに新しい作業項目が追加されます。"
         wp_timeline_button: "<b>ガントチャート</b>をアクティブにして、プロジェクトのタイムラインを作成することができます。"
         wp_timeline: ここでプロジェクト計画を編集できます。 新しい段階、マイルストーンを作成し、依存関係を追加します。 すべてのチームメンバーは、いつでも最新のプランを見て更新することができます。
         help_menu: "<b>ヘルプ</b>メニューには、ユーザーガイドとその他のヘルプリソースがあります。 <br> OpenProjectであなたの仕事をお楽しみください！"
-        got_it: 了承
     password_confirmation:
       field_description: この変更を確認するには、アカウントのパスワードを入力する必要があります。
       title: 続行するにはパスワードを確認してください
@@ -332,7 +326,7 @@ ja:
     types:
       attribute_groups:
         error_duplicate_group_name: 名前 %{group} が複数回使用されています。グループ名は一意にする必要があります。
-        error_no_table_configured: Please configure a table for %{group}.
+        error_no_table_configured: "%{group} のテーブルを設定してください。"
         reset_title: フォーム設定をリセット
         confirm_reset: '警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。
             コンテキスト| リクエストコンテキスト
@@ -344,18 +338,18 @@ ja:
         more_information: 詳細情報
         nevermind: 無視
         filter_types:
-          parent: being child of
-          precedes: preceding
-          follows: following
-          relates: relating to
-          duplicates: duplicating
+          parent: の子である
+          precedes: 先行
+          follows: フォロー
+          relates: に関連する
+          duplicates: 複製中
           duplicated: 次の項目が重複
-          blocks: blocking
+          blocks: ブロッキング
           blocked: ブロックされている
-          partof: being part of
-          includes: including
-          requires: requiring
-          required: required by
+          partof: の一部であること
+          includes: 含む
+          requires: 要求する
+          required: に必要
     watchers:
       label_loading: ウォッチャーを読み込み中...
       label_error_loading: ウォッチャーを読み込み中にエラーが発生しました。
@@ -383,19 +377,19 @@ ja:
       hierarchy_headline: 階層
       children_headline: 子
     relation_buttons:
-      set_parent: Set parent
+      set_parent: 親を設定
       change_parent: 親タスクの変更
       remove_parent: 親関係を削除
       group_by_wp_type: ワークパッケージタイプのグループ
       group_by_relation_type: 関係タイプのグループ
       add_parent: 既存の親関係を追加する
       add_new_child: 子関係を作成
-      create_new: Create new
-      add_existing: Add existing
+      create_new: 新規作成
+      add_existing: 既存を追加
       add_existing_child: 既存の子関係を追加
       remove_child: 子関係を削除
       add_new_relation: 新しい関係を作成
-      add_existing_relation: Add existing relation
+      add_existing_relation: 既存の関係を追加
       update_description: この関係の説明を設定または更新する
       toggle_description: 関係の説明を切り替え
       update_relation: クリックして関係のタイプを変更
@@ -548,16 +542,16 @@ ja:
       label_enable_multi_select: 複数の選択を許可
       label_disable_multi_select: 複数の選択を禁止
       label_filter_add: フィルタを追加
+      label_filter_by_text: Filter by text
       label_options: オプション
       label_column_multiselect: '結合されたドロップダウンフィールド: 矢印キーで選択する、エンターキーで選択を確認する、バックスペースキーで削除する'
-      label_switch_to_single_select: 単一選択に切り替え
-      label_switch_to_multi_select: 複数選択に切り替え
       message_error_during_bulk_delete: 作業項目を削除する際にエラーが発生しました。
       message_successful_bulk_delete: 作業項目が正常に削除されました。
       message_successful_show_in_fullscreen: クリックすると全画面表示でこの作業項目を開きます。
       message_view_spent_time: このワークパッケージに費やした時間を表示する
       message_work_package_read_only: 作業項目はこの状態でロックされています。 ステータス以外の属性は変更できません。
       no_value: 値なし
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: クリックしてこのリストに新しい作業項目を追加します
       create:
@@ -679,8 +673,8 @@ ja:
           relation_columns: ワークパッケージリストに関係を表示する必要がありますか?
           check_out_link: エンタープライズ版をチェックしてください。
         relation_filters:
-          first_part: Show all work packages
-          second_part: the current work package
+          first_part: すべての作業項目を表示
+          second_part: 現在の作業項目
       tabs:
         overview: 概要
         activity: 活動
@@ -691,6 +685,8 @@ ja:
         days: " 日"
         weeks: 週間
         months: ヶ月間
+      label_switch_to_single_select: 単一選択に切り替え
+      label_switch_to_multi_select: 複数選択に切り替え
     toolbar:
       settings:
         configure_view: 表示設定...

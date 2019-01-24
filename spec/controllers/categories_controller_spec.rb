@@ -63,7 +63,7 @@ describe CategoriesController, type: :controller do
 
     subject { response }
 
-    it { is_expected.to be_success }
+    it { is_expected.to be_successful }
 
     it { is_expected.to render_template('new') }
   end
@@ -105,7 +105,7 @@ describe CategoriesController, type: :controller do
 
     context 'valid category' do
       let(:category_id) { category.id }
-      it { is_expected.to be_success }
+      it { is_expected.to be_successful }
       it { is_expected.to render_template('edit') }
     end
 
@@ -203,7 +203,7 @@ describe CategoriesController, type: :controller do
       describe '#response' do
         subject { response }
 
-        it { is_expected.to be_success }
+        it { is_expected.to be_successful }
 
         it { is_expected.to render_template('destroy') }
       end

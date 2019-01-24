@@ -293,6 +293,10 @@ fil:
     help_texts:
       show_modal: Magpakita ng katangian tekstong tulong entry
     onboarding:
+      buttons:
+        skip: Skip
+        next: Susunod
+        got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -334,7 +338,6 @@ fil:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: Kailangan mong ipasok ang iyong akwant password upang kumpirmahin
         ang pagbabago niito.
@@ -601,11 +604,10 @@ fil:
       label_enable_multi_select: Paganahin ang mga pagpipilian
       label_disable_multi_select: Hindi pinagana ang maraming pagpipilian
       label_filter_add: Magdagdag ng filter
+      label_filter_by_text: Filter by text
       label_options: Mga opsyon
       label_column_multiselect: 'Pagsamahin ang dropdown na patlang: Piliin na may
         mga arrow key, kumpirmahin ang pinili gamit ang enter, burahin gamit ang backspace'
-      label_switch_to_single_select: Lumipat sa napiling solo
-      label_switch_to_multi_select: Lumipat sa maramihang pagpili
       message_error_during_bulk_delete: Isang mali ang naganap habang sinusubukan
         burahin ang mga work package.
       message_successful_bulk_delete: Matagumpay naibura ang mga work package.
@@ -616,6 +618,7 @@ fil:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Walang halaga
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Pindutin dito upang magdagdag ng bagong work package sa listahan na
           ito
@@ -770,6 +773,8 @@ fil:
         days: mga araw
         weeks: mga linggo
         months: mga buwan
+      label_switch_to_single_select: Lumipat sa napiling solo
+      label_switch_to_multi_select: Lumipat sa maramihang pagpili
     toolbar:
       settings:
         configure_view: Configure view ...

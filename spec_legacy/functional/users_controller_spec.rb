@@ -170,7 +170,7 @@ describe UsersController, type: :controller do
       end
     end
 
-    user = User.order('id DESC').first
+    user = User.order(Arel.sql('id DESC')).first
     assert_redirected_to edit_user_path(user)
 
     assert_equal 'John', user.firstname

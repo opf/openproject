@@ -293,6 +293,10 @@ bg:
     help_texts:
       show_modal: Show attribute help text entry
     onboarding:
+      buttons:
+        skip: Skip
+        next: Следващо
+        got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -334,7 +338,6 @@ bg:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: You need to enter your account password to confirm this change.
       title: Confirm your password to continue
@@ -596,11 +599,10 @@ bg:
       label_enable_multi_select: Разреши множествено избиране
       label_disable_multi_select: Спиране на множествено избиране
       label_filter_add: Добавяне на филтър
+      label_filter_by_text: Filter by text
       label_options: Опции
       label_column_multiselect: 'Комбинирани падащо меню: изберете с клавишите със
         стрелки, потвърдете избора с enter, изтриване с backspace'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: Възникна грешка при опит за изтриване на работни
         пакети.
       message_successful_bulk_delete: Успешно изтрити работни пакети.
@@ -610,6 +612,7 @@ bg:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Няма стойност
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Щракнете тук, за да добавите нов работен пакет към този списък
       create:
@@ -758,6 +761,8 @@ bg:
         days: дни
         weeks: седмици
         months: месеци
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...

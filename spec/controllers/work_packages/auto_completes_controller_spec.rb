@@ -72,7 +72,7 @@ describe WorkPackages::AutoCompletesController, type: :controller do
   shared_examples_for 'successful response' do
     subject { response }
 
-    it { is_expected.to be_success }
+    it { is_expected.to be_successful }
   end
 
   shared_examples_for 'contains expected values' do

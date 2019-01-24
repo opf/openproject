@@ -54,11 +54,6 @@ See docs/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <section class="form--section">
-  <h3 class="form--section-title"><%=t(:label_ui, app_title: Setting.app_title)%></h3>
-  <%= render partial: "users/impaired_settings" %>
-</section>
-
-<section class="form--section">
   <h3 class="form--section-title"><%=t(:label_authentication)%></h3>
   <% if @user.uses_external_authentication? %>
     <div class="form--field">

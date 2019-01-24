@@ -636,7 +636,7 @@ class Project < ActiveRecord::Base
 
   # Returns an auto-generated project identifier based on the last identifier used
   def self.next_identifier
-    p = Project.order('created_on DESC').first
+    p = Project.order(Arel.sql('created_on DESC')).first
     p.nil? ? nil : p.identifier.to_s.succ
   end
 

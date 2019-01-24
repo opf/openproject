@@ -71,6 +71,10 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<
     );
   }
 
+  public find(id:string):QueryFilterInstanceResource|undefined {
+    return _.find(this.currentState.current, filter => filter.id === id);
+  }
+
   public applyToQuery(query:QueryResource) {
     query.filters = this.current;
     return true;
@@ -105,39 +109,6 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<
   }
 
   private loadCurrentFiltersSchemas(filters:QueryFilterInstanceResource[]):Promise<{}> {
-    return Promise.all(_.map(filters,
-                       (filter:QueryFilterInstanceResource) => this.loadFilterSchema(filter)));
-  }
-
-  private loadFilterSchema(filter:QueryFilterInstanceResource):Promise<{}> {
-    return new Promise((resolve, reject) => {
-      filter.schema.$load()
-        .catch(reject)
-        .then(() => {
-        if (_.has(filter, ['values.length', 'currentSchema.values.allowedValues.$load'])) {
-          (filter.currentSchema!.values!.allowedValues as CollectionResource).$load()
-            .then((options:CollectionResource) => {
-              this.setLoadedValues(filter, options);
-
-              resolve();
-            });
-        } else {
-          resolve();
-        }
-      });
-    });
-  }
-
-  private setLoadedValues(filter:QueryFilterInstanceResource, options:CollectionResource) {
-    _.each(filter.values, (value:any, index:any) => {
-      let loadedHalResource = _.find(options.elements,
-                                     option => option.$href === value.$href);
-
-      if (loadedHalResource) {
-        filter.values[index] = loadedHalResource;
-      } else {
-        throw "HalResource not in list of allowed values.";
-      }
-    });
+    return Promise.all(filters.map((filter:QueryFilterInstanceResource) => filter.schema.$load()));
   }
 }

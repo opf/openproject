@@ -38,7 +38,7 @@ module Members
     end
 
     def fix_groups_order(sort_clause)
-      sort_clause.gsub /groups/, "groups.group_name"
+      sort_clause.gsub /groups/, "groupalias.group_name"
     end
 
     def fix_roles_order(sort_clause)

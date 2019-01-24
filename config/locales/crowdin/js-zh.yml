@@ -277,6 +277,10 @@ zh:
     help_texts:
       show_modal: 显示属性帮助文本项
     onboarding:
+      buttons:
+        skip: Skip
+        next: 下一个
+        got_it: 知道了
       steps:
         welcome: 通过三分钟的导览了解<b>最重要的功能</b> 。<br>我们建议您完成所有步骤。您可以随时重新浏览介绍。
         project_selection: 请选择包含有用演示数据的项目开始。<br><b>演示项目</b>最适合经典项目管理，而 <b>Scrum 项目</b>更适合敏捷项目管理。
@@ -296,7 +300,6 @@ zh:
         wp_timeline_button: 您可以激活<b>甘特图</b>来为项目创建时间轴。
         wp_timeline: 在这里您可以编辑您的项目计划。创建新的阶段、里程碑，并添加依赖项。所有团队成员都可以随时查看和更新最新计划。
         help_menu: 在<b>帮助</b>菜单中，您可以找到用户指南和其他帮助资源。<br>使用 OpenProject 享受您的工作！
-        got_it: 知道了
     password_confirmation:
       field_description: 输入密码以确认更改
       title: 输入密码以继续
@@ -534,16 +537,16 @@ zh:
       label_enable_multi_select: 启用多选
       label_disable_multi_select: 禁用多选
       label_filter_add: 添加筛选器
+      label_filter_by_text: Filter by text
       label_options: 选项
       label_column_multiselect: '组合式的下拉字段: 使用箭头键选择，用 enter 键确认选择，用退格键删除'
-      label_switch_to_single_select: 切换为单选
-      label_switch_to_multi_select: 切换为多选
       message_error_during_bulk_delete: 试图删除工作包时出错。
       message_successful_bulk_delete: 已成功删除工作包。
       message_successful_show_in_fullscreen: 单击此处以全屏视图打开此工作包。
       message_view_spent_time: 显示这个工作包所花费的时间
       message_work_package_read_only: 工作包被锁定在此状态。除状态外，其他属性均不可更改。
       no_value: 无值
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: 单击此处将新工作包添加至此列表
       create:
@@ -677,6 +680,8 @@ zh:
         days: 天
         weeks: 周
         months: 月
+      label_switch_to_single_select: 切换为单选
+      label_switch_to_multi_select: 切换为多选
     toolbar:
       settings:
         configure_view: 配置视图…

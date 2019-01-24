@@ -53,20 +53,18 @@
 
 // Add bottom border to timeline
 .wp-table-timeline--body
-  border-bottom: 1px solid $table-row-border-color
+  outline: 1px solid $table-row-border-color
 
-// Ensure the height of table and timeline rows
 .wp-timeline-cell
+  // Ensure the height of table and timeline rows
   height: $table-timeline--row-height
+  // Vertically center elements
+  display: flex
+  align-items: center
 
   &:first-child
     // The first table child is 1px larger
     height: calc(#{$table-timeline--row-height} + 1px)
-
-.wp-timeline-cell
-  // Vertically center elements
-  display: flex
-  align-items: center
 
   // Need to disable flex behavior on children
   > div

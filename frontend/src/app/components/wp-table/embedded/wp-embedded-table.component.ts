@@ -29,6 +29,8 @@ import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedded/wp-embedded-base.component";
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
+import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
+import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -49,6 +51,7 @@ import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table
     WorkPackageTableAdditionalElementsService,
     WorkPackageTableRefreshService,
     WorkPackageTableHighlightingService,
+    { provide: IWorkPackageCreateServiceToken, useClass: WorkPackageCreateService },
     // Order is important here, to avoid this service
     // getting global injections
     WorkPackageStatesInitializationService,

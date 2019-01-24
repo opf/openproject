@@ -260,6 +260,8 @@ class ApplicationController < ActionController::Base
                'X-Reason' => 'login needed',
                'WWW-Authenticate' => auth_header
         end
+
+        format.all { head :not_acceptable }
       end
       return false
     end
@@ -268,11 +270,7 @@ class ApplicationController < ActionController::Base
 
   def require_admin
     return unless require_login
-    unless User.current.admin?
-      render_403
-      return false
-    end
-    true
+    render_403 unless User.current.admin?
   end
 
   def deny_access
@@ -646,7 +644,7 @@ class ApplicationController < ActionController::Base
       self.logged_user = nil
 
       flash[:warning] = I18n.t('notice_forced_logout', ttl_time: Setting.session_ttl)
-      redirect_to(controller: 'account', action: 'login', back_url: login_back_url)
+      redirect_to(controller: '/account', action: 'login', back_url: login_back_url)
     end
     session[:updated_at] = Time.now
   end

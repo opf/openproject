@@ -42,12 +42,5 @@ See docs/COPYRIGHT.rdoc for more details.
                            container_class: (defined? input_size) ? "-#{input_size}" : '' %>
   </div>
   <div class="form--field"><%= pref_fields.check_box :warn_on_leaving_unsaved %></div>
-  <div class="form--field">
-    <%= pref_fields.check_box :impaired, aria: {labelledby: 'accessibility-instructions'} %>
-    <div class="form--field-instructions" id="accessibility-instructions">
-      <span class="hidden-for-sighted"><%= t('activerecord.attributes.user_preference.impaired') + '. ' %></span>
-      <%= t(:text_accessibility_hint) %>
-    </div>
-  </div>
   <div class="form--field"><%= pref_fields.check_box :auto_hide_popups %></div>
 <% end %>

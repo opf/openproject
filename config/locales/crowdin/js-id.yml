@@ -294,6 +294,10 @@ id:
     help_texts:
       show_modal: Tampilkan atribut-atribut teks bantuan yang dimasukkan
     onboarding:
+      buttons:
+        skip: Skip
+        next: Lanjut
+        got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -335,7 +339,6 @@ id:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: Anda harus mengisi kata sandi akun untuk mengkonfirmasi perubahan.
       title: Konfirmasi kata sandi anda untuk melanjutkan
@@ -593,11 +596,10 @@ id:
       label_enable_multi_select: Enable multiselect
       label_disable_multi_select: Disable multiselect
       label_filter_add: Tambah Filter
+      label_filter_by_text: Filter by text
       label_options: Opsi
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
         confirm selection with enter, delete with backspace'
-      label_switch_to_single_select: Beralih ke pilihan tunggal
-      label_switch_to_multi_select: Beralih ke pilihan majemuk
       message_error_during_bulk_delete: 'Error: Menghapus Paket-Penugasan.'
       message_successful_bulk_delete: Paket-Penugasan telah dihapus.
       message_successful_show_in_fullscreen: Click here to open this work package
@@ -606,6 +608,7 @@ id:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Kosongkan
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Click here to add a new work package to this list
       create:
@@ -757,6 +760,8 @@ id:
         days: hari
         weeks: minggu
         months: bulan
+      label_switch_to_single_select: Beralih ke pilihan tunggal
+      label_switch_to_multi_select: Beralih ke pilihan majemuk
     toolbar:
       settings:
         configure_view: Configure view ...

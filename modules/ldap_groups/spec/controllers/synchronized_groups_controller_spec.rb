@@ -25,7 +25,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
       let(:logged_in_user) { admin }
 
       it 'renders the page' do
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'index'
       end
     end
@@ -65,7 +65,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
               .and_return(group)
 
           get :show, params: { ldap_group_id: id }
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template 'show'
         end
       end
@@ -87,7 +87,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
 
       it 'renders the page' do
         get :new
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'new'
       end
     end
@@ -175,7 +175,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
               .and_return(group)
 
           get :destroy_info, params: { ldap_group_id: id }
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template 'destroy_info'
         end
       end

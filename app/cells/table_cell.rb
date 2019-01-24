@@ -102,8 +102,7 @@ class TableCell < RailsCell
   end
 
   def render_row(row)
-    prefix = (self.class.namespace || "table").underscore
-    cell("#{prefix}/row", row, table: self).call
+    cell(self.class.row_class, row, table: self).call
   end
 
   def initial_sort

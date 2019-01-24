@@ -29,10 +29,6 @@
 jQuery(function() {
   const doc = document.documentElement!;
 
-  if (bowser.chrome && bowser.version >= '58' || bowser.firefox && bowser.version >= '59') {
-    doc.classList.add('-supports-sticky-headers');
-  }
-
   if (bowser.chrome) {
     doc.classList.add('-browser-chrome');
   }
@@ -61,4 +57,3 @@ jQuery(function() {
     doc.classList.add('-browser-mobile');
   }
 });
-

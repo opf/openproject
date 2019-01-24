@@ -55,8 +55,8 @@ tr:
     button_export-atom: Atom indir
     calendar:
       title: Takvim
-      too_many: There are more work packages (%{count}) than can be displayed by the
-        calendar (%{max}). Add filters to focus on the relevant ones.
+      too_many: Takvimde gösterilebilecek iş paketinden(%{max}) daha fazla iş paketi
+        mevcuttur(%{count}). İlişkili olanlara odaklanmak için filtreler ekleyin.
     description_available_columns: Kullanılabilir sütunlar
     description_current_position: 'Buradasınız:'
     description_select_work_package: "#%{id} nolu iş paketini seçin"
@@ -271,8 +271,8 @@ tr:
     label_attachments: Dosyalar
     label_drop_files: Dosyaları buraya bırakın
     label_drop_files_hint: veya eklemek için tıklayın
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
-      single files.
+    label_drop_folders_hint: Klasörleri ek olarak karşıya yükleyemezsiniz. Lütfen
+      tekil dosyalar seçiniz.
     label_add_attachments: Dosya Ekle
     label_formattable_attachment_hint: Dosyaları bu alana sürükleyerek ekleyebilir
       veya panodan yapıştırabilirsiniz.
@@ -293,10 +293,14 @@ tr:
     help_texts:
       show_modal: Metin giriş öznitelik yardımını göster
     onboarding:
+      buttons:
+        skip: Atla
+        next: Sonraki
+        got_it: Got it
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
+        welcome: En <b>önemli özellikleri</b> öğrenmek için üç dakikalık bir tanıtım
+          gezintisine çıkın. <br> Tüm adımları tamamlamanızı öneririz. Turu istediğiniz
+          zaman yeniden başlatabilirsiniz.
         project_selection: Please select one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
           management, while the <b>Scrum project</b> is better for Agile project management.
@@ -334,7 +338,6 @@ tr:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: Bu değişikliği onaylamak için hesap parolanızı girmeniz gerekir.
       title: Devam etmek için parolanızı doğrulayın
@@ -378,16 +381,16 @@ tr:
         filter_types:
           parent: being child of
           precedes: preceding
-          follows: following
+          follows: takip etmek
           relates: relating to
           duplicates: duplicating
-          duplicated: yineleyen
-          blocks: blocking
-          blocked: tarafından engellendi
+          duplicated: tarafından çoğaltılır
+          blocks: engelleme
+          blocked: bağlı
           partof: being part of
           includes: including
           requires: requiring
-          required: required by
+          required: tarafından gerekli
     watchers:
       label_loading: takipçiler yükleniyor...
       label_error_loading: Takipçileri yüklerken bir hata oluştu
@@ -399,35 +402,35 @@ tr:
       parent: Üst
       children: Çocuk
       relates: Alakalı
-      duplicates: Çoğalt
-      duplicated: Yineleyen
-      blocks: Şunu Engelliyor
-      blocked: Şuna Bağlı
-      precedes: Sonrası
-      follows: Öncesi
+      duplicates: Çoğaltır
+      duplicated: Tarafından çoğaltılır
+      blocks: Engeller
+      blocked: Bağlı
+      precedes: İletletir
+      follows: Takip eder
       includes: İçerir
       partof: Bölümü
-      requires: Gerektirir
-      required: Tarafından gerekli
+      requires: Şunu gerektirir
+      required: Gerektirir
       relation_type: ilişki türü
     relations_hierarchy:
       parent_headline: Üst
       hierarchy_headline: Hiyerarşi
       children_headline: Çocuk
     relation_buttons:
-      set_parent: Set parent
+      set_parent: Üstünü ayarla
       change_parent: Üstünü değiştir
       remove_parent: Üstündekini kaldır
       group_by_wp_type: İş paketi türüne göre grupla
       group_by_relation_type: İlişki türüne göre gruplandırma
       add_parent: Mevcut bir üst ekle
       add_new_child: Yeni alt birim oluştur
-      create_new: Create new
-      add_existing: Add existing
+      create_new: Yeni oluştur
+      add_existing: Mevcut olanı ekle
       add_existing_child: Mevcut bir alt birim ekle
       remove_child: Alt bileşeni kaldır
       add_new_relation: Yeni ilişki oluştur
-      add_existing_relation: Add existing relation
+      add_existing_relation: Varolan ilişki ekle
       update_description: Bu ilişkinin açıklamasını güncelle
       toggle_description: İlişki açıklamasını göster
       update_relation: İlişki türünü değiştirmek için tıklayın
@@ -438,7 +441,8 @@ tr:
       abort: İptal
     relations_autocomplete:
       placeholder: İlgili çalışma paket kimliğini girin
-      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
+      parent_placeholder: Yeni üst seçin, ayarı kaldırmak için enter'a, iptal etmek
+        için ESC'ye basın.
     repositories:
       select_tag: Etiket seç
       select_branch: Branş seç
@@ -582,8 +586,8 @@ tr:
       description_options_hide: Seçenekleri gizle
       description_options_show: Seçenekleri göster
       error:
-        update_conflict_refresh: Click here to refresh the work package and update
-          to the newest version.
+        update_conflict_refresh: İş paketini yenilemek ve en yeni sürüme güncellemek
+          için buraya tıklayın.
         edit_prohibited: "%{attribute} düzenleme bu iş paketi için bloke durumda.
           Ya bu öznitelik ilişkileri (ör, alt paket) ile tanımlanabilir ya da yapılandırılamaz."
         format:
@@ -594,20 +598,20 @@ tr:
       label_enable_multi_select: Çoklu seçimi etkinleştir
       label_disable_multi_select: Çoklu seçimi devre dışı bırak
       label_filter_add: Filtre ekle
+      label_filter_by_text: Filter by text
       label_options: Ayarlar
       label_column_multiselect: 'Birleştirilmiş aşağı açılan alan: ok tuşlarıyla seçin,
         seçimi enter ile onaylayın, backspace ile silme'
-      label_switch_to_single_select: Tekli seçime geç
-      label_switch_to_multi_select: Çoklu seçime geç
       message_error_during_bulk_delete: İş paketleri silinmeye çalışılırken bir hata
         oluştu.
       message_successful_bulk_delete: İş paketleri başarıyla silindi.
       message_successful_show_in_fullscreen: Bu iş paketini tam ekran görebilmek için
         buraya tıklayın.
       message_view_spent_time: Bu iş paketi için harcanan zamanı göster
-      message_work_package_read_only: Work package is locked in this status. No attribute
-        other than status can be altered.
+      message_work_package_read_only: İş paketi bu durum içinde kilitli. Durumu haricinde
+        başka bir özelliği değiştirilemez.
       no_value: Değer yok
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Listeden yeni bir iş paketi eklemek için buraya tıklayınız
       create:
@@ -744,8 +748,8 @@ tr:
           relation_columns: İş paketleri listesindeki ilişkileri görmek ister misiniz?
           check_out_link: Enterprise sürüme bakın.
         relation_filters:
-          first_part: Show all work packages
-          second_part: the current work package
+          first_part: Tüm iş paketleri görüntüle
+          second_part: geçerli iş paketi
       tabs:
         overview: Genel Bakış
         activity: Etkinlik
@@ -756,6 +760,8 @@ tr:
         days: gün
         weeks: hafta
         months: ay
+      label_switch_to_single_select: Tekli seçime geç
+      label_switch_to_multi_select: Çoklu seçime geç
     toolbar:
       settings:
         configure_view: Görünümü yapılandır ...

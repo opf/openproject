@@ -299,6 +299,10 @@ es:
     help_texts:
       show_modal: Mostrar entrada de texto de ayuda para atributo
     onboarding:
+      buttons:
+        skip: Skip
+        next: Siguiente
+        got_it: Entendido
       steps:
         welcome: Realice un paseo de introducción de tres minutos para conocer las
           <b>características más importantes</b>. <br> Le recomendamos que complete
@@ -345,7 +349,6 @@ es:
           el último plan en cualquier momento.
         help_menu: En el menú <b>Ayuda</b>, encontrará una guía del usuario y recursos
           de ayuda adicionales. <br> ¡Disfrute de su trabajo con OpenProject!
-        got_it: Entendido
     password_confirmation:
       field_description: Necesitas introducir la contraseña de tu cuenta para confirmar
         este cambio.
@@ -608,11 +611,10 @@ es:
       label_enable_multi_select: Habilitar selección múltiple
       label_disable_multi_select: Deshabilitar selección múltiple
       label_filter_add: Añadir filtro
+      label_filter_by_text: Filter by text
       label_options: Opciones
       label_column_multiselect: 'Campo de lista desplegable combinada: seleccione
         con las teclas de flecha, confirme la selección con enter, elimine con retroceso'
-      label_switch_to_single_select: Cambiar a selección única
-      label_switch_to_multi_select: Cambiar a multiselección
       message_error_during_bulk_delete: Ha ocurrido un error intentado eliminar los
         paquetes de trabajo.
       message_successful_bulk_delete: Paquetes de trabajo eliminados exitosamente.
@@ -622,6 +624,7 @@ es:
       message_work_package_read_only: El paquete de trabajo está bloqueado en este
         estado. Excepto el estado, ningún otro atributo se puede modificar.
       no_value: Sin valor
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista
       create:
@@ -774,6 +777,8 @@ es:
         days: días
         weeks: semanas
         months: meses
+      label_switch_to_single_select: Cambiar a selección única
+      label_switch_to_multi_select: Cambiar a multiselección
     toolbar:
       settings:
         configure_view: Configurar vista…

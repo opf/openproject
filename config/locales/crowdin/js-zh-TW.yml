@@ -284,6 +284,10 @@ zh-TW:
     help_texts:
       show_modal: 顯示屬性說明文字項目
     onboarding:
+      buttons:
+        skip: Skip
+        next: 下一個
+        got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -325,7 +329,6 @@ zh-TW:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: 您需要輸入您的帳戶密碼，以確認此更改。
       title: 確認您的密碼以便繼續
@@ -568,10 +571,9 @@ zh-TW:
       label_enable_multi_select: 啟用複選
       label_disable_multi_select: 停用複選
       label_filter_add: 新增篩選器
+      label_filter_by_text: Filter by text
       label_options: 選項
       label_column_multiselect: '組合的下拉欄位: 使用方向鍵選擇，用 enter 鍵確認，用backspace鍵刪除'
-      label_switch_to_single_select: 切換為單選
-      label_switch_to_multi_select: 切換為複選
       message_error_during_bulk_delete: 刪除工作項目時發生錯誤
       message_successful_bulk_delete: 成功刪除工作項目
       message_successful_show_in_fullscreen: 點擊此處以全螢幕開啟此工作包
@@ -579,6 +581,7 @@ zh-TW:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: 無值
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: 點擊添加新的工作項目到此清單
       create:
@@ -715,6 +718,8 @@ zh-TW:
         days: 天
         weeks: 週
         months: 月
+      label_switch_to_single_select: 切換為單選
+      label_switch_to_multi_select: 切換為複選
     toolbar:
       settings:
         configure_view: Configure view ...

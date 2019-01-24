@@ -96,13 +96,5 @@ See docs/COPYRIGHT.rdoc for more details.
       </span>
     </div>
   </fieldset>
-
-  <fieldset class="form--fieldset">
-    <legend class="form--fieldset-legend"><%= t(:label_accessibility)%></legend>
-
-    <div class="form--field">
-      <%= setting_check_box :accessibility_mode_for_anonymous %>
-    </div>
-  </fieldset>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

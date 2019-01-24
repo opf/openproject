@@ -277,7 +277,7 @@ pt-BR:
     label_drop_files: Solte os arquivos aqui
     label_drop_files_hint: ou clique para adicionar arquivos
     label_drop_folders_hint: Você não pode enviar pastas como anexo. Por favor, selecione
-      arquivos únicos.
+      arquivos individuais.
     label_add_attachments: Adicionar anexos
     label_formattable_attachment_hint: Anexar e vincular arquivos soltando neste campo,
       ou colando da área de transferência.
@@ -299,6 +299,10 @@ pt-BR:
     help_texts:
       show_modal: Mostrar entrada para o texto de ajuda de atributos
     onboarding:
+      buttons:
+        skip: Pular
+        next: Próxima
+        got_it: Entendi
       steps:
         welcome: Acompanhe um tour de apresentação de 3 minutos para descobrir mais
           <b>recursos importantes</b>.<br> Recomendamos que você conclua as etapas
@@ -315,7 +319,7 @@ pt-BR:
         backlogs_overview: Gerencie seu trabalho na visão de <b>Backlogs</b>.<br>
           À direita você possui o Backlog do produto ou um Backlog de Bug, à esquerda
           você terá sprints respectivos. Aqui você pode criar <b>épicos, histórias
-          de usuários e bugs</b>, priorizar através de arrastar e soltar, e adicioná-los
+          de usuários e bugs</b>, priorizar através de arrastar e soltar e adicioná-los
           a um sprint.
         backlogs_task_board_arrow: Para visualizar seu <b>Quadro de tarefas</b>, abra
           o menu suspenso de Sprint...
@@ -343,7 +347,6 @@ pt-BR:
           atualizar o plano mais recente a qualquer momento.
         help_menu: No menu <b>Ajuda</b> você vai encontrar um guia do usuário e recursos
           adicionais de ajuda. <br> Aprecie o seu trabalho com OpenProject!
-        got_it: Entendi
     password_confirmation:
       field_description: Você precisa digitar sua senha para confirmar essa alteração.
       title: Confirme sua senha para continuar
@@ -386,7 +389,7 @@ pt-BR:
         filter_types:
           parent: sendo filho de
           precedes: anterior
-          follows: seguinte
+          follows: posterior
           relates: relativo a
           duplicates: duplicando
           duplicated: duplicado por
@@ -602,11 +605,10 @@ pt-BR:
       label_enable_multi_select: Ativar seleção múltipla
       label_disable_multi_select: Desativar seleção múltipla
       label_filter_add: Adicionar filtro
+      label_filter_by_text: Filter by text
       label_options: Opções
       label_column_multiselect: 'Campo dropdown combinado: selecione com as teclas
         de seta, confirme a seleção com enter, apague com backspace'
-      label_switch_to_single_select: Alternar para seleção única
-      label_switch_to_multi_select: Alternar para seleção múltipla
       message_error_during_bulk_delete: Ocorreu um erro ao tentar excluir pacotes
         de trabalho.
       message_successful_bulk_delete: Pacotes de trabalho excluídos com sucesso.
@@ -616,6 +618,7 @@ pt-BR:
       message_work_package_read_only: Pacote de trabalho está bloqueado na presente
         situação. Nenhum atributo que não seja a situação pode ser alterado.
       no_value: Nenhum valor
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Clique aqui para adicionar um novo pacote de trabalho a esta lista
       create:
@@ -766,6 +769,8 @@ pt-BR:
         days: dias
         weeks: semanas
         months: meses
+      label_switch_to_single_select: Alternar para seleção única
+      label_switch_to_multi_select: Alternar para seleção múltipla
     toolbar:
       settings:
         configure_view: Configurar visualização...

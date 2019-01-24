@@ -72,7 +72,6 @@ export class ConfigurationService {
         enabled_modules: [],
         display: {},
         user_preferences: {
-          impaired: false,
           time_zone: '',
           others: {
             comments_sorting: 'asc',
@@ -95,9 +94,6 @@ export class ConfigurationService {
       this.settings.display[setting] !== false;
   }
 
-  public accessibilityModeEnabled() {
-    return this.settings.user_preferences.impaired;
-  }
   public commentsSortedInDescendingOrder() {
     return this.settings.user_preferences.others.comments_sorting === 'desc';
   }

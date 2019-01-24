@@ -42,7 +42,7 @@ describe 'Wysiwyg embedded work package tables',
   before do
     login_as(user)
   end
-  
+
   describe 'in wikis' do
     describe 'creating a wiki page' do
       before do
@@ -55,7 +55,7 @@ describe 'Wysiwyg embedded work package tables',
 
           modal.expect_open
           modal.switch_to 'Filters'
-          filters.expect_filter_count 1
+          filters.expect_filter_count 2
           filters.add_filter_by('Type', 'is', work_package.type.name)
 
           modal.switch_to 'Columns'
@@ -80,7 +80,7 @@ describe 'Wysiwyg embedded work package tables',
 
           modal.expect_open
           modal.switch_to 'Filters'
-          filters.expect_filter_count 2
+          filters.expect_filter_count 3
           modal.switch_to 'Columns'
           columns.assume_opened
           columns.expect_checked 'ID'

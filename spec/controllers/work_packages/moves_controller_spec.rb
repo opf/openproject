@@ -291,7 +291,7 @@ describe WorkPackages::MovesController, type: :controller do
           end
 
           it 'redirects to the work package copy' do
-            copy = WorkPackage.order('id desc').first
+            copy = WorkPackage.order(Arel.sql('id desc')).first
             is_expected.to redirect_to(work_package_path(copy))
           end
         end
@@ -306,7 +306,7 @@ describe WorkPackages::MovesController, type: :controller do
                  }
           end
 
-          subject { WorkPackage.order('id desc').where(project_id: project.id).first }
+          subject { WorkPackage.order(Arel.sql('id desc')).where(project_id: project.id).first }
 
           it 'did not change the type' do
             expect(subject.type_id).to eq(work_package.type_id)
@@ -354,7 +354,7 @@ describe WorkPackages::MovesController, type: :controller do
                  }
           end
 
-          subject { WorkPackage.limit(2).order('id desc').where(project_id: target_project.id) }
+          subject { WorkPackage.limit(2).order(Arel.sql('id desc')).where(project_id: target_project.id) }
 
           it 'copied two work packages' do
             expect(subject.count).to eq(2)
@@ -409,7 +409,7 @@ describe WorkPackages::MovesController, type: :controller do
                  }
           end
 
-          subject { WorkPackage.limit(1).order('id desc').last.journals }
+          subject { WorkPackage.limit(1).order(Arel.sql('id desc')).last.journals }
 
           it { expect(subject.count).to eq(1) }
 

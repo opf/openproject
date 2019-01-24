@@ -291,6 +291,10 @@ pl:
     help_texts:
       show_modal: Pokaż atrybut wpisu tekstu pomocy
     onboarding:
+      buttons:
+        skip: Skip
+        next: Następny
+        got_it: OK
       steps:
         welcome: "Poświęć trzy minuty na zapoznanie się z <b>najważniejszymi funkcjami</b>.
           \n <br> Zalecamy wykonanie tych kroków do końca. Zwiedzanie można w każdej
@@ -331,7 +335,6 @@ pl:
           wyświetlić i zaktualizować najnowszy plan.
         help_menu: W menu <b>Pomoc</b> znajdziesz przewodnik użytkownika i dodatkowe
           zasoby pomocy. <br> Życzymy miłej pracy w OpenProject!
-        got_it: OK
     password_confirmation:
       field_description: Musisz wprowadzić hasło do twojego konta aby potwierdzić
         te zmiany.
@@ -595,11 +598,10 @@ pl:
       label_enable_multi_select: Włącz wybór wielokrotny
       label_disable_multi_select: Wyłącz wybór wielokrotny
       label_filter_add: Dodaj filtr
+      label_filter_by_text: Filter by text
       label_options: Opcje
       label_column_multiselect: 'Łączone pole rozwijane: Wybierz za pomocą klawiszy
         strzałek, potwierdź wybór klawiszem enter, usuń klawiszem backspace'
-      label_switch_to_single_select: fff
-      label_switch_to_multi_select: Przełącz na zaznaczanie wielu rzeczy
       message_error_during_bulk_delete: Wystąpił błąd podczas próby usunięcia zadania.
       message_successful_bulk_delete: Pomyślnie usunięto zadania.
       message_successful_show_in_fullscreen: Kliknij tutaj, aby otworzyć ten pakiet
@@ -608,6 +610,7 @@ pl:
       message_work_package_read_only: Pakiet roboczy jest zablokowany w tym stanie.
         Nie można zmienić żadnego atrybutu innego niż stan.
       no_value: Brak wartości
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Kliknij tutaj, aby dodać nowy pakiet prac do tej listy
       create:
@@ -756,6 +759,8 @@ pl:
         days: dni
         weeks: tygodnie
         months: miesiące
+      label_switch_to_single_select: fff
+      label_switch_to_multi_select: Przełącz na zaznaczanie wielu rzeczy
     toolbar:
       settings:
         configure_view: Konfigurowanie widoku...

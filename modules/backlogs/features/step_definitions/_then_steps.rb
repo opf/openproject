@@ -89,7 +89,7 @@ Then /^show me the list of sprints$/ do
 end
 
 Then /^show me the list of stories$/ do
-  stories = Story.where(project_id: @project.id).order('position ASC')
+  stories = Story.where(project_id: @project.id).order(Arel.sql('position ASC'))
   subject_max = (stories.map(&:subject) << 'subject').sort { |a, b| a.length <=> b.length }.last.length
   sprints = @project.versions
   sprint_max = (sprints.map(&:name) << 'sprint').sort { |a, b| a.length <=> b.length }.last.length

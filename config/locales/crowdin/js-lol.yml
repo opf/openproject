@@ -277,6 +277,10 @@ lol:
     help_texts:
       show_modal: crwdns107414:0crwdne107414:0
     onboarding:
+      buttons:
+        skip: crwdns109302:0crwdne109302:0
+        next: crwdns109304:0crwdne109304:0
+        got_it: crwdns109306:0crwdne109306:0
       steps:
         welcome: crwdns109232:0crwdne109232:0
         project_selection: crwdns109168:0crwdne109168:0
@@ -295,7 +299,6 @@ lol:
         wp_timeline_button: crwdns109194:0crwdne109194:0
         wp_timeline: crwdns109196:0crwdne109196:0
         help_menu: crwdns109198:0crwdne109198:0
-        got_it: crwdns109200:0crwdne109200:0
     password_confirmation:
       field_description: crwdns107416:0crwdne107416:0
       title: crwdns107418:0crwdne107418:0
@@ -533,16 +536,16 @@ lol:
       label_enable_multi_select: crwdns107756:0crwdne107756:0
       label_disable_multi_select: crwdns107758:0crwdne107758:0
       label_filter_add: crwdns107760:0crwdne107760:0
+      label_filter_by_text: Filter by text
       label_options: crwdns107762:0crwdne107762:0
       label_column_multiselect: crwdns107764:0crwdne107764:0
-      label_switch_to_single_select: crwdns107766:0crwdne107766:0
-      label_switch_to_multi_select: crwdns107768:0crwdne107768:0
       message_error_during_bulk_delete: crwdns107770:0crwdne107770:0
       message_successful_bulk_delete: crwdns107772:0crwdne107772:0
       message_successful_show_in_fullscreen: crwdns107774:0crwdne107774:0
       message_view_spent_time: crwdns107776:0crwdne107776:0
       message_work_package_read_only: crwdns109212:0crwdne109212:0
       no_value: crwdns107778:0crwdne107778:0
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: crwdns107780:0crwdne107780:0
       create:
@@ -676,6 +679,8 @@ lol:
         days: crwdns107996:0crwdne107996:0
         weeks: crwdns107998:0crwdne107998:0
         months: crwdns108000:0crwdne108000:0
+      label_switch_to_single_select: crwdns107766:0crwdne107766:0
+      label_switch_to_multi_select: crwdns107768:0crwdne107768:0
     toolbar:
       settings:
         configure_view: crwdns108002:0crwdne108002:0

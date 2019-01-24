@@ -33,13 +33,16 @@ ruby '~> 2.5.1'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 5.1.6'
+gem 'listen', '~> 3.1' # Use for event-based reloaders
+gem 'rails', '~> 5.2.2'
 gem 'responders', '~> 2.4'
 
-gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
 gem 'rdoc', '>= 2.4.2'
 
-gem 'omniauth', git: 'https://github.com/oliverguenther/omniauth', ref: '40c6f5f751d2da7cce5444bbd96c390c450440a9'
+# Maintain our own omniauth due to relative URL root issues
+# see upstream PR: https://github.com/omniauth/omniauth/pull/903
+gem 'omniauth', git: 'https://github.com/opf/omniauth', ref: 'fe862f986b2e846e291784d2caa3d90a658c67f0'
+gem 'doorkeeper', git: 'https://github.com/doorkeeper-gem/doorkeeper', ref: 'ce969eee6c16aa8082b0c77ebb5968d9e9b6a57b'
 gem 'request_store', '~> 1.4.1'
 
 gem 'warden', '~> 1.2'
@@ -50,20 +53,21 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'friendly_id', '~> 5.2.1'
 
 gem 'acts_as_list', '~> 0.9.9'
-gem 'acts_as_tree', '~> 2.7.0'
+gem 'acts_as_tree', '~> 2.8.0'
 gem 'awesome_nested_set', '~> 3.1.3'
+gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
 gem 'typed_dag', '~> 2.0.2'
 
 gem 'addressable', '~> 2.5.2'
 
 # Provide timezone info for TZInfo used by AR
-gem 'tzinfo-data', '~> 1.2018.4'
+gem 'tzinfo-data', '~> 1.2018.9'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
 
 # Generate url slugs with #to_url and other string niceties
-gem 'stringex', '~> 2.7.1'
+gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
 gem 'commonmarker', '~> 0.17.9'
@@ -76,12 +80,11 @@ gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
 gem 'rouge', '~> 3.1.1'
 # HTML sanitization used for html-pipeline
-gem 'sanitize', '~> 4.6.0'
+gem 'sanitize', '~> 5.0.0'
 # HTML autolinking for mails and urls (replaces autolink)
 gem 'rinku', '~> 2.0.4'
 # Version parsing with semver
 gem 'semantic', '~> 1.6.1'
-
 
 # generates SVG Graphs
 # used for statistics on svn repositories
@@ -98,13 +101,13 @@ gem 'posix-spawn', '~> 0.3.13', require: false
 
 gem 'bcrypt', '~> 3.1.6'
 
-gem 'multi_json', '~> 1.12.1'
-gem 'oj', '~> 3.5.0'
-# We rely on this specific version, which is the latest as of now (end of 2016),
+gem 'multi_json', '~> 1.13.1'
+gem 'oj', '~> 3.7.0'
+# We rely on this specific version, which is the latest as of now (start of 2019),
 # because we have to apply to it a bugfix which could break things in other versions.
 # This can be removed as soon as said bugfix is integrated into rabl itself.
 # See: config/initializers/rabl_hack.rb
-gem 'rabl', '~> 0.13.0'
+gem 'rabl', '~> 0.14.0'
 
 gem 'daemons'
 gem 'delayed_job_active_record', '~> 4.1.1'
@@ -115,19 +118,19 @@ gem 'rack-protection', '~> 2.0.0'
 # It allows whitelisting, blacklisting, throttling, and tracking based
 # on arbitrary properties of the request.
 # https://github.com/kickstarter/rack-attack
-gem 'rack-attack', '~> 5.2.0'
+gem 'rack-attack', '~> 5.4.2'
 
 # CSP headers
-gem 'secure_headers', '~> 5.0.5'
+gem 'secure_headers', '~> 6.0.0'
 
 # Providing health checks
-gem 'okcomputer', '~> 1.16.0'
+gem 'okcomputer', '~> 1.17.3'
 
-gem 'gon', '~> 6.2.0'
+gem 'gon', '~> 6.2.1'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
-gem 'airbrake', '~> 5.1.0', require: false
+gem 'airbrake', '~> 7.4.0', require: false
 
 gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.git',
                           branch: 'master'
@@ -135,8 +138,8 @@ gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.g
 gem 'prawn', '~> 2.2'
 gem 'prawn-table', '~> 0.2.2'
 
-gem 'cells-rails', '~> 0.0.6'
-gem 'cells-erb', '~> 0.0.8'
+gem 'cells-erb', '~> 0.1.0'
+gem 'cells-rails', '~> 0.0.9'
 
 gem 'meta-tags', '~> 2.6.0'
 
@@ -150,10 +153,10 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'autoprefixer-rails', '~> 7.1.5'
+gem 'autoprefixer-rails', '~> 9.4.5'
 gem 'bourbon', '~> 4.3.4'
-gem 'i18n-js', '~> 3.0.0'
-gem 'sass', '3.5.1'
+gem 'i18n-js', '~> 3.2.0'
+gem 'sass', '3.7.3'
 gem 'sass-rails', '~> 5.0.6'
 gem 'sprockets', '~> 3.7.0'
 
@@ -161,30 +164,27 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'nokogiri', '~> 1.8.5'
+gem 'nokogiri', '~> 1.10.0'
 
-# carrierwave 0.11.3 should allow to use fog-aws without the rest of the
-# fog dependency chain. We only need aws here, so we can avoid it
-# at the cost of referencing carrierwave#master for now.
+gem 'carrierwave', '~> 1.3.1'
 gem 'fog-aws'
-gem 'carrierwave', '~> 1.2.2'
 
-gem 'aws-sdk-core', '~> 3.20.2'
+gem 'aws-sdk-core', '~> 3.45.0'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.9.1'
+gem 'aws-sdk-s3', '~> 1.30.1'
 
 gem 'openproject-token', '~> 1.0.1'
 
-gem 'plaintext', '0.1.0'
+gem 'plaintext', '~> 0.3.0'
 
 gem 'rest-client', '~> 2.0'
 
-gem 'ruby-progressbar', '~> 1.9.0', require: false
+gem 'ruby-progressbar', '~> 1.10.0', require: false
 
 group :test do
-  gem 'rack-test', '~> 1.0.0'
-  gem 'shoulda-context', '~> 1.2'
   gem 'launchy', '~> 2.4.3'
+  gem 'rack-test', '~> 1.1.0'
+  gem 'shoulda-context', '~> 1.2'
 
   # Require factory_bot for usage with openproject plugins testing
   # FactoryBot needs to be available when loading app otherwise factory
@@ -197,42 +197,40 @@ group :test do
   # and other niceties
   gem 'test-prof', '~> 0.7.3'
 
-  gem 'cucumber', '~> 3.0.0'
+  gem 'cucumber', '~> 3.1.0'
   gem 'cucumber-rails', '~> 1.6.0', require: false
   gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
-  # not possible to upgrade to 3.6+ until rails is 5.1+
-  gem 'rspec', '~> 3.7.0'
+  gem 'rspec', '~> 3.8.0'
+  gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 3.7.2', group: :development
-  gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
+  gem 'rspec-rails', '~> 3.8.1', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
-  gem 'rspec-retry', '~> 0.5.6'
+  gem 'rspec-retry', '~> 0.6.1'
 
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
-  gem 'rspec-legacy_formatters', '~> 1.0.1', require: false
 
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.11.1'
+  gem 'capybara', '~> 3.12.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'chromedriver-helper', '~> 2.1.0'
   gem 'selenium-webdriver', '~> 3.14'
 
-  gem 'fuubar', '~> 2.3.1'
+  gem 'fuubar', '~> 2.3.2'
   gem 'timecop', '~> 0.9.0'
   gem 'webmock', '~> 3.1.0', require: false
 
-  gem 'simplecov', '~> 0.16.0', require: false
-  gem 'shoulda-matchers', '~> 3.1', require: nil
-  gem 'json_spec', '~> 1.1.4'
   gem 'equivalent-xml', '~> 0.6'
+  gem 'json_spec', '~> 1.1.4'
+  gem 'shoulda-matchers', '~> 3.1', require: nil
+  gem 'simplecov', '~> 0.16.0', require: false
 
-  gem 'parallel_tests', '~> 2.21.3'
+  gem 'parallel_tests', '~> 2.27.1'
 end
 
 group :ldap do
@@ -240,30 +238,33 @@ group :ldap do
 end
 
 group :development do
-  gem 'letter_opener'
   gem 'faker'
+  gem 'letter_opener'
   gem 'livingstyleguide', '~> 2.0.1'
 
+  gem 'spring'
+  gem 'spring-commands-rspec'
+
   gem 'rubocop'
-  gem 'active_record_query_trace'
 end
 
 group :development, :test do
+  gem 'puma', '~> 3.12.0'
   gem 'thin', '~> 1.7.2'
-  gem 'ruby-prof', require: false
-  gem 'puma', '~> 3.11.3'
 
   # Tracing and profiling gems
-  gem 'rack-mini-profiler', require: false
   gem 'flamegraph', require: false
+  gem 'rack-mini-profiler', require: false
+  gem 'ruby-prof', require: false
   gem 'stackprof', require: false
 
-  gem 'pry-rails', '~> 0.3.6'
-  gem 'pry-stack_explorer', '~> 0.4.9.2'
-  gem 'pry-rescue', '~> 1.4.5'
   gem 'pry-byebug', '~> 3.6.0', platforms: [:mri]
-  gem 'bootsnap', '~> 1.1.2', require: false
+  gem 'pry-rails', '~> 0.3.6'
+  gem 'pry-rescue', '~> 1.5.0'
+  gem 'pry-stack_explorer', '~> 0.4.9.2'
 end
+
+gem 'bootsnap', '~> 1.3.2', require: true
 
 # API gems
 gem 'grape', '~> 1.1'
@@ -278,7 +279,7 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   group :postgres do
-    gem 'pg', '~> 1.0.0'
+    gem 'pg', '~> 1.1.0'
   end
 end
 
@@ -287,13 +288,13 @@ group :opf_plugins do
 end
 
 group :docker, optional: true do
-  gem 'passenger', '~> 5.3.3'
+  gem 'passenger', '~> 6.0.1'
 
   # Used to easily precompile assets
-  gem 'sqlite3', require: false
-  gem 'rails_12factor', require: !!ENV['HEROKU']
   gem 'health_check', require: !!ENV['HEROKU']
   gem 'newrelic_rpm', require: !!ENV['HEROKU']
+  gem 'rails_12factor', require: !!ENV['HEROKU']
+  gem 'sqlite3', require: false
 end
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
@@ -302,5 +303,6 @@ gemfiles = Dir.glob File.expand_path('../{Gemfile.plugins,Gemfile.modules,Gemfil
 gemfiles << ENV['CUSTOM_PLUGIN_GEMFILE'] unless ENV['CUSTOM_PLUGIN_GEMFILE'].nil?
 gemfiles.each do |file|
   next unless File.readable?(file)
+
   eval_gemfile(file)
 end

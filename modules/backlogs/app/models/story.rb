@@ -40,7 +40,7 @@ class Story < WorkPackage
     options.reverse_merge!(order: Story::ORDER,
                            conditions: Story.condition(project_id, sprint_ids))
 
-    candidates = Story.where(options[:conditions]).order(options[:order])
+    candidates = Story.where(options[:conditions]).order(Arel.sql(options[:order]))
 
     stories_by_version = Hash.new do |hash, sprint_id|
       hash[sprint_id] = []
@@ -65,7 +65,7 @@ class Story < WorkPackage
   def self.at_rank(project_id, sprint_id, rank)
     Story.where(Story.condition(project_id, sprint_id))
          .joins(:status)
-         .order(Story::ORDER)
+         .order(Arel.sql(Story::ORDER))
          .offset(rank -1)
          .first
   end

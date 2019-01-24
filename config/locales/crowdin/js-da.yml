@@ -292,6 +292,10 @@ da:
     help_texts:
       show_modal: Show attribute help text entry
     onboarding:
+      buttons:
+        skip: Skip
+        next: Næste
+        got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -333,7 +337,6 @@ da:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: You need to enter your account password to confirm this change.
       title: Confirm your password to continue
@@ -591,11 +594,10 @@ da:
       label_enable_multi_select: Tillad multimarkeringer
       label_disable_multi_select: Slå multimarkeringer fra
       label_filter_add: Tilføj filter
+      label_filter_by_text: Filter by text
       label_options: Muligheder
       label_column_multiselect: 'Kombineret rullegardinfelt: Vælg med piletaster,
         bekræft valg med ''Enter'' slet med ''Backspace'''
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: En fejl opstod under forsøg på at slette arbejdspakker.
       message_successful_bulk_delete: Slettet arbejdspakker med succes.
       message_successful_show_in_fullscreen: Click here to open this work package
@@ -604,6 +606,7 @@ da:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Ingen værdi tildelt
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Click here to add a new work package to this list
       create:
@@ -753,6 +756,8 @@ da:
         days: dage
         weeks: uger
         months: måneder
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...

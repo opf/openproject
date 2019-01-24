@@ -147,7 +147,6 @@ import {FullCalendarModule} from "ng-fullcalendar";
   ],
   declarations: [
     OpContextMenuTrigger,
-    MainMenuResizerComponent,
 
     // Searchbar
     ExpandableSearchComponent,

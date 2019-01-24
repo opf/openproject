@@ -93,6 +93,12 @@ OpenProject::Application.routes.draw do
   # don't understand why that should make sense.
   mount API::Root => '/'
 
+  # OAuth authorization routes
+  use_doorkeeper do
+    # Do not add global application controller
+    skip_controllers :applications, :authorized_applications
+  end
+
   get '/roles/workflow/:id/:role_id/:type_id' => 'roles#workflow'
 
   get   '/types/:id/edit/:tab' => "types#edit",
@@ -298,7 +304,8 @@ OpenProject::Application.routes.draw do
       get '(/revisions/:rev)/diff.:format', action: :diff
       get '(/revisions/:rev)/diff(/*repo_path)',
           action: :diff,
-          format: false
+          format: 'html',
+          constraints: { rev: /[\w0-9\.\-_]+/, repo_path: /.*/ }
 
       get '(/revisions/:rev)/:format/*repo_path',
           action: :entry,
@@ -377,6 +384,10 @@ OpenProject::Application.routes.draw do
     end
 
     resources :custom_actions, except: :show
+
+    namespace :oauth do
+      resources :applications
+    end
   end
 
   # We should fix this crappy routing (split up and rename controller methods)
@@ -508,6 +519,7 @@ OpenProject::Application.routes.draw do
   # alternate routes for the current user
   scope 'my' do
     match '/deletion_info' => 'users#deletion_info', via: :get, as: 'delete_my_account_info'
+    match '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', via: :post, as: 'revoke_my_oauth_application'
   end
 
   scope controller: 'my' do

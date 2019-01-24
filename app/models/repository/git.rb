@@ -130,7 +130,7 @@ class Repository::Git < Repository
   # The repository can still be fully reloaded by calling #clear_changesets
   # before fetching changesets (eg. for offline resync)
   def fetch_changesets
-    c = changesets.order('committed_on DESC').first
+    c = changesets.order(Arel.sql('committed_on DESC')).first
     since = (c ? c.committed_on - 7.days : nil)
 
     revisions = scm.revisions('', nil, nil, all: true, since: since, reverse: true)
@@ -175,7 +175,7 @@ class Repository::Git < Repository
     return [] if revisions.nil? || revisions.empty?
 
     changesets.where(['scmid IN (?)', revisions.map!(&:scmid)])
-      .order('committed_on DESC')
+      .order(Arel.sql('committed_on DESC'))
   end
 
   private

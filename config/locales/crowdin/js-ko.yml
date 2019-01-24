@@ -281,6 +281,10 @@ ko:
     help_texts:
       show_modal: 특성 도움말 텍스트 항목 표시
     onboarding:
+      buttons:
+        skip: Skip
+        next: 다음
+        got_it: 확인
       steps:
         welcome: 3분 소개 투어를 보고 가장 <b>중요한 기능</b>에 대해 알아보세요. <br> 끝까지 단계를 완료하는 것이 좋습니다.
           언제든지 투어를 다시 시작할 수 있습니다.
@@ -308,7 +312,6 @@ ko:
           언제든지 최신 계획을 보고 업데이트할 수 있습니다.
         help_menu: "<b>도움말</b> 메뉴에서 사용자 가이드 및 추가 도움말 리소스를 찾아볼 수 있습니다. <br> OpenProject에서
           즐겁게 작업하세요!"
-        got_it: 확인
     password_confirmation:
       field_description: 이 변경 내용을 확인하려면 계정 암호를 입력해야 합니다.
       title: 계속하려면 암호 확인
@@ -553,16 +556,16 @@ ko:
       label_enable_multi_select: 다중 선택 사용
       label_disable_multi_select: 다중 선택 사용 안 함
       label_filter_add: 필터 추가
+      label_filter_by_text: Filter by text
       label_options: 옵션
       label_column_multiselect: '결합된 드롭다운 필드: 화살표 키로 선택, Enter로 선택 확인, 백스페이스로 삭제'
-      label_switch_to_single_select: 단일 선택으로 전환
-      label_switch_to_multi_select: 다중 선택으로 전환
       message_error_during_bulk_delete: 작업 패키지를 삭제하는 동안 오류가 발생했습니다.
       message_successful_bulk_delete: 성공적으로 작업 패키지를 삭제했습니다.
       message_successful_show_in_fullscreen: 전체 화면 보기에서 이 작업 패키지를 열려면 여기를 클릭하세요.
       message_view_spent_time: 이 작업 패키지에 대해 소비한 시간 표시
       message_work_package_read_only: 작업 패키지가 이 상태로 잠겨 있습니다. 상태 이외의 특성은 변경할 수 없습니다.
       no_value: 값 없음
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: 이 목록에 새 작업 패키지를 추가하려면 여기를 클릭하세요.
       create:
@@ -697,6 +700,8 @@ ko:
         days: 일
         weeks: 주
         months: 개월
+      label_switch_to_single_select: 단일 선택으로 전환
+      label_switch_to_multi_select: 다중 선택으로 전환
     toolbar:
       settings:
         configure_view: 보기 구성...

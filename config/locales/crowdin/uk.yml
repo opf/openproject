@@ -115,6 +115,15 @@ uk:
     memberships:
       no_results_title_text: There are currently no projects part of this group.
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
@@ -167,10 +176,10 @@ uk:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Відмітьте цю опцію, щоб позначити пакети робіт з таким статусом, як доступні лише для перегляду.
+        Жоден атрибут не можуть бути змінені за виключенням статусу.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Примітки</strong>: Будуть застосовані успадковані значення (наприклад, елементів попередників чи нащадків).
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -187,9 +196,9 @@ uk:
       projects: Projects
       enabled_projects: Enabled projects
       add_group: Add attribute group
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Додати таблицю пов'язаних пакетів робіт
+      edit_query: Редагувати таблицю
+      query_group_placeholder: Найменувати таблицю
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -339,10 +348,10 @@ uk:
         multi_value: Allow multi-select
         possible_values: Можливі значення
         regexp: Регулярний вираз
-        searchable: Searchable
-        visible: Visible
+        searchable: Доступно для пошуку
+        visible: Видиме
       custom_value:
-        value: Value
+        value: Значення
       enterprise_token:
         starts_at: Valid since
         expires_at: Expires at
@@ -355,7 +364,7 @@ uk:
         to: Related work package
       status:
         is_closed: Work package closed
-        is_readonly: Work package read-only
+        is_readonly: Пакет робіт лише для перегляду
       journal:
         notes: Нотатки
       member:
@@ -439,6 +448,14 @@ uk:
         time_entries: Log time
         type: Type
         watcher: Watcher
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: must be accepted.
@@ -495,6 +512,16 @@ uk:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
         parse_schema_filter_params_service:
@@ -635,6 +662,7 @@ uk:
       wiki_page: Wiki page
       workflow: Workflow
       work_package: Work package
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'Були проблеми з наступними полями:'
     field_erroneous_label: |-
@@ -710,6 +738,7 @@ uk:
   button_change_password: Change password
   button_check_all: Check all
   button_clear: Clear
+  button_click_to_reveal: Click to reveal
   button_close: Close
   button_collapse_all: Collapse all
   button_configure: Configure
@@ -740,6 +769,7 @@ uk:
   button_remove_widget: Remove widget
   button_rename: Rename
   button_replace: Replace
+  button_revoke: Revoke
   button_reply: Reply
   button_reset: Reset
   button_rollback: Rollback to this version
@@ -953,7 +983,7 @@ uk:
   default_role_non_member: Non member
   default_role_reader: Читач
   default_role_member: Member
-  default_type: Work Package
+  default_type: Пакет робіт
   default_type_bug: Bug
   default_type_deliverable: Доставляємо
   default_type_epic: Epic
@@ -1205,7 +1235,7 @@ uk:
   label_auth_source_plural: Authentication modes
   label_authentication: Authentication
   label_available_project_work_package_categories: Available work package categories
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Доступні типи пакетів робіт
   label_available_project_boards: Available boards
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
@@ -1356,6 +1386,7 @@ uk:
   label_history: History
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
+  label_subject_or_id: Subject or ID
   label_in: in
   label_in_less_than: in less than
   label_in_more_than: in more than
@@ -1376,7 +1407,7 @@ uk:
   label_journal_diff: Description Comparison
   label_language: Мова
   label_jump_to_a_project: Jump to a project...
-  label_keyword_plural: Keywords
+  label_keyword_plural: Ключові слова
   label_language_based: Based on user's language
   label_last_activity: Last activity
   label_last_change_on: Остання зміна
@@ -2787,3 +2818,110 @@ uk:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Схема
+  doorkeeper:
+    pre_authorization:
+      status: Pre-authorization
+    errors:
+      messages:
+        invalid_request: The request is missing a required parameter, includes an
+          unsupported parameter value, or is otherwise malformed.
+        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
+          client redirect URI.
+        unauthorized_client: The client is not authorized to perform this request
+          using this method.
+        access_denied: The resource owner or authorization server denied the request.
+        invalid_scope: The requested scope is invalid, unknown, or malformed.
+        invalid_code_challenge_method: The code challenge method must be plain or
+          S256.
+        server_error: The authorization server encountered an unexpected condition
+          which prevented it from fulfilling the request.
+        temporarily_unavailable: The authorization server is currently unable to handle
+          the request due to a temporary overloading or maintenance of the server.
+        credential_flow_not_configured: Resource Owner Password Credentials flow failed
+          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
+        resource_owner_authenticator_not_configured: Resource Owner find failed due
+          to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
+        admin_authenticator_not_configured: Access to admin panel is forbidden due
+          to Doorkeeper.configure.admin_authenticator being unconfigured.
+        unsupported_response_type: The authorization server does not support this
+          response type.
+        invalid_client: Client authentication failed due to unknown client, no client
+          authentication included, or unsupported authentication method.
+        invalid_grant: The provided authorization grant is invalid, expired, revoked,
+          does not match the redirection URI used in the authorization request, or
+          was issued to another client.
+        unsupported_grant_type: The authorization grant type is not supported by the
+          authorization server.
+        invalid_token:
+          revoked: The access token was revoked
+          expired: The access token expired
+          unknown: The access token is invalid
+  oauth:
+    application:
+      singular: OAuth application
+      plural: OAuth applications
+      named: OAuth application '%{name}'
+      new: New OAuth application
+      default_scopes: "(Default scopes)"
+      instructions:
+        name: The name of your application. This will be displayed to other users
+          upon authorization.
+        redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
+          One entry per line. <br/> If you''re registering a desktop application,
+          use the following URL.
+
+'
+        confidential: Check if the application will be used where the client secret
+          can be kept confidential. Native mobile apps and Single Page Apps are assumed
+          non-confidential.
+        client_credential_user_id: Optional user ID to impersonate when clients use
+          this application. Leave empty to allow public access only
+        register_intro: If you are developing an OAuth API client application for
+          OpenProject, you can register it using this form for all users to use.
+        default_scopes: ''
+    client_id: Client ID
+    client_secret_notice: 'This is the only time we can print the client secret, please
+      note it down and keep it secure. It should be treated as a password and cannot
+      be retrieved by OpenProject at a later time.
+
+'
+    authorization_dialog:
+      authorize: Authorize
+      cancel: Cancel and deny authorization.
+      prompt_html: Authorize <strong>%{application_name}</strong> to use your account
+        <em>%{login}</em>?
+      title: Authorize %{application_name}
+      wants_to_access_html: 'This application requests access to your OpenProject
+        account. <br/> <strong>It has requested the following permissions:</strong>
+
+'
+    scopes:
+      api_v3: Full API access
+      api_v3_text: Application will receive full read & write access to the OpenProject
+        API to perform actions on your behalf.
+    grants:
+      created_date: Approved on
+      scopes: Permissions
+      successful_application_revocation: Revocation of application %{application_name}
+        successful.
+      none_given: No OAuth applications have been granted access to your user account.
+    x_active_tokens:
+      one: one active token
+      other: "%{count} active token"
+    flows:
+      authorization_code: Authorization code flow
+      client_credentials: Client credentials flow
+    client_credentials: User used for Client credentials
+    client_credentials_impersonation_set_to: Client credentials user set to
+    client_credentials_impersonation_warning: 'Note: Clients using the ''Client credentials''
+      flow in this application will have the rights of this user'
+    client_credentials_impersonation_html: 'By default, OpenProject provides OAuth
+      2.0 authorization via %{authorization_code_flow_link}. You can optionally enable
+      %{client_credentials_flow_link}, but you must provide a user on whose behalf
+      requests will be performed.
+
+'
+    authorization_error: An authorization error has occurred.
+    revoke_my_application_confirmation: Do you really want to remove this application?
+      This will revoke %{token_count} active for it.
+    my_registered_applications: Registered OAuth applications

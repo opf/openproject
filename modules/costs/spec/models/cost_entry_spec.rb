@@ -228,7 +228,7 @@ describe CostEntry, type: :model do
             rate = CostRate
                    .where(['cost_type_id = ? AND valid_from <= ?',
                            cost_entry.cost_type.id, cost_entry.spent_on])
-                   .order('valid_from DESC').first.rate
+                   .order(Arel.sql('valid_from DESC')).first.rate
             expect(cost_entry.costs).to eq(cost_entry.units * rate)
           end
         end

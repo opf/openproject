@@ -89,13 +89,3 @@ Feature: Export sprint stories as PDF on the Backlogs view
     When I open the "Sprint 001" backlogs menu
     And I follow "Export" of the "Sprint 001" backlogs menu
     Then the PDF download dialog should be displayed
-
-  @javascript
-  Scenario: Export sprint stories as a PDF using a selected configuration
-    Given there are multiple export card configurations
-    And I am on the master backlog
-    When I open the "Sprint 001" backlogs menu
-    And I follow "Export" of the "Sprint 001" backlogs menu
-    And I should see a modal window
-    And I click on the link on the modal window with text "Custom 2"
-    Then the PDF download dialog should be displayed

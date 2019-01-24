@@ -295,6 +295,10 @@ ru:
     help_texts:
       show_modal: Показать содержимое атрибута текста справки
     onboarding:
+      buttons:
+        skip: Пропустить
+        next: Следующие
+        got_it: Принять
       steps:
         welcome: Совершите вводный трехминутный тур для знакомства с наиболее <b>важными
           особенностями</b>. <br>Рекомендуем пройти все шаги до конца. Пройти вводный
@@ -336,7 +340,6 @@ ru:
           любым членом вашей команды в любое время.
         help_menu: В меню <b>Справка</b> руководство пользователя и дополнительные
           справочные материалы. <br>Приятной работы с OpenProject!
-        got_it: Принять
     password_confirmation:
       field_description: Необходимо ввести свой пароль для подтверждения изменений.
       title: Для продолжения введите свой пароль
@@ -598,12 +601,11 @@ ru:
       label_enable_multi_select: Разрешить множественный выбор
       label_disable_multi_select: Отключить множественный выбор
       label_filter_add: Добавить фильтр
+      label_filter_by_text: Filter by text
       label_options: Опции
       label_column_multiselect: 'Комбинированные ниспадающие поле: выбор  клавишами
         со стрелками, подтвержднение выбора нажатием клавиши enter, удаление  клавишей
         backspace'
-      label_switch_to_single_select: Переключиться на одиночный выбор
-      label_switch_to_multi_select: Переключиться на множественный выбор
       message_error_during_bulk_delete: Произошла ошибка при попытке удаления пакетов
         работ.
       message_successful_bulk_delete: Пакет работ успешно удален.
@@ -613,6 +615,7 @@ ru:
       message_work_package_read_only: В этом статусе пакет работ заблокирован. Никакой
         атрибут, отличный от статуса, изменен быть не может.
       no_value: Значение отсутствует
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Кликните здесь, чтобы добавить новый пакет работ в этот список
       create:
@@ -763,6 +766,8 @@ ru:
         days: дней
         weeks: недели
         months: месяцев
+      label_switch_to_single_select: Переключиться на одиночный выбор
+      label_switch_to_multi_select: Переключиться на множественный выбор
     toolbar:
       settings:
         configure_view: Настроить вид ...
