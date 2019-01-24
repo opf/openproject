@@ -41,11 +41,11 @@ export class SchemaResource extends HalResource {
   }
 }
 
-export class SchemaAttributeObject {
+export class SchemaAttributeObject<T = HalResource> {
   public type:string;
   public name:string;
   public required:boolean;
   public hasDefault:boolean;
   public writable:boolean;
-  public allowedValues:HalResource[] | CollectionResource;
+  public allowedValues:T[] | CollectionResource<T>;
 }

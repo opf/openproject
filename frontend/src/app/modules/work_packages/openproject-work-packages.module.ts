@@ -187,6 +187,7 @@ import {AttachmentsUploadComponent} from 'core-app/modules/attachments/attachmen
 import {AttachmentListComponent} from 'core-app/modules/attachments/attachment-list/attachment-list.component';
 import {WorkPackageFilterByTextInputComponent} from "core-components/filters/quick-filter-by-text-input/quick-filter-by-text-input.component";
 import {CdkDragPortalBody} from "core-components/wp-fast-table/builders/drag-and-drop/cdk-drag-portal-body";
+import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
 
 @NgModule({
   imports: [
@@ -228,6 +229,7 @@ import {CdkDragPortalBody} from "core-components/wp-fast-table/builders/drag-and
     WorkPackageTableSortByService,
     WorkPackageTableColumnsService,
     WorkPackageTableFiltersService,
+    QueryFiltersService,
     WorkPackageTableSumService,
     WorkPackageTableHighlightingService,
     WorkPackageStatesInitializationService,
