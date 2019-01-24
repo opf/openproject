@@ -2,38 +2,43 @@ import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from "@a
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {
+  LoadingIndicator,
+  LoadingIndicatorService, withLoadingIndicator
+} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
 import {Board} from "core-app/modules/boards/board/board";
+import {Observable} from "rxjs";
+import {share, tap} from "rxjs/operators";
 
 @Component({
   selector: 'board-list',
   templateUrl: './board-list.component.html',
   styleUrls: ['./board-list.component.sass']
 })
-export class BoardListComponent implements AfterViewInit {
+export class BoardListComponent implements OnInit {
   @Input() queryId:number;
 
   @ViewChild('loadingIndicator') indicator:ElementRef;
 
-  /** The query resoure being loaded */
-  public query:QueryResource;
+  /** The query resource being loaded */
+  public query$:Observable<QueryResource>;
 
   constructor(private readonly QueryDm:QueryDmService,
-              private readonly loadingIndicator:LoadingIndicatorService,
-              private readonly CurrentProject:CurrentProjectService) {
+              private readonly loadingIndicator:LoadingIndicatorService) {
   }
 
-  ngAfterViewInit():void {
-    this.loadingPromise = this.QueryDm.find({}, this.queryId)
-      .then(query => {
-        this.query = query;
-      });
+  ngOnInit():void {
+    this.query$ = this.QueryDm
+      .stream({}, this.queryId)
+      .pipe(
+        withLoadingIndicator(this.indicatorInstance, 50)
+      );
   }
 
   get columnsQueryProps() {
-    return  {
+    return {
       'columns[]': ['id', 'subject'],
       'showHierarchies': false,
       'pageSize': 500,
@@ -49,8 +54,7 @@ export class BoardListComponent implements AfterViewInit {
     };
   }
 
-  private set loadingPromise(promise:Promise<unknown>) {
-    const indicator = jQuery(this.indicator.nativeElement);
-    this.loadingIndicator.indicator(indicator).promise = promise;
+  private get indicatorInstance() {
+    return this.loadingIndicator.indicator(jQuery(this.indicator.nativeElement));
   }
 }
