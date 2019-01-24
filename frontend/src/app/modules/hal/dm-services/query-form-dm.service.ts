@@ -57,21 +57,28 @@ export class QueryFormDmService {
     return query.$links.update(payload);
   }
 
-  public loadWithParams(params:{}, queryId?:number, projectIdentifier?:string):Promise<QueryFormResource> {
+  /**
+   * Map the available filters of the given form into the query resource.
+   *
+   * @param query
+   * @param form
+   */
+  public mapSchemas(query:QueryResource, form:QueryFormResource) {
+
+  }
+
+  public loadWithParams(params:{}, queryId:number|undefined, projectIdentifier:string|undefined|null, payload:any = {}):Promise<QueryFormResource> {
     // We need a valid payload so that we
     // can check whether form saving is possible.
     // The query needs a name to be valid.
-    let payload:any = {};
-
-    if (!queryId) {
-      payload['name'] = '!!!__O__o__O__!!!';
+    if (!queryId && !payload.name) {
+      payload.name = '!!!__O__o__O__!!!';
     }
 
     if (projectIdentifier) {
-      payload['_links'] = {
-        'project': {
-          'href': this.pathHelper.api.v3.projects.id(projectIdentifier).toString()
-        }
+      payload._links = payload._links || {};
+      payload._links.project = {
+        'href': this.pathHelper.api.v3.projects.id(projectIdentifier).toString()
       };
     }
 
@@ -81,5 +88,9 @@ export class QueryFormDmService {
     return this.halResourceService
       .post<QueryFormResource>(href, payload)
       .toPromise();
+  }
+
+  public buildQueryResource(form:QueryFormResource):QueryResource {
+    return this.halResourceService.createHalResourceOfType<QueryResource>('Query', form.payload);
   }
 }

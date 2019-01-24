@@ -44,7 +44,6 @@ export class PathHelperService {
   public get staticBase() {
     return this.appBasePath;
   }
-
   public attachmentDownloadPath(attachmentIdentifier:string, slug:string|undefined) {
     let path = this.staticBase + '/attachments/' + attachmentIdentifier;
 

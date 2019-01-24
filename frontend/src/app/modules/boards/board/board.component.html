@@ -23,8 +23,8 @@
   </div>
 
   <div class="boards-list--container">
-    <div class="boards-list--item" *ngFor="let id of board.queries">
-      <board-list [queryId]="id"></board-list>
+    <div class="boards-list--item" *ngFor="let query of board.queries">
+      <board-list [queryInput]="query"></board-list>
     </div>
 
     <div class="boards-list--add-item" (click)="addList(board)">

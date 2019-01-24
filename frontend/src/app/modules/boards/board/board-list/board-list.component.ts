@@ -9,8 +9,9 @@ import {
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
 import {Board} from "core-app/modules/boards/board/board";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {share, tap} from "rxjs/operators";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Component({
   selector: 'board-list',
@@ -18,7 +19,7 @@ import {share, tap} from "rxjs/operators";
   styleUrls: ['./board-list.component.sass']
 })
 export class BoardListComponent implements OnInit {
-  @Input() queryId:number;
+  @Input() queryInput:number|QueryResource;
 
   @ViewChild('loadingIndicator') indicator:ElementRef;
 
@@ -30,8 +31,13 @@ export class BoardListComponent implements OnInit {
   }
 
   ngOnInit():void {
+    if (this.queryInput instanceof HalResource) {
+      this.query$ = of(this.queryInput);
+      return;
+    }
+
     this.query$ = this.QueryDm
-      .stream({}, this.queryId)
+      .stream({}, this.queryInput)
       .pipe(
         withLoadingIndicator(this.indicatorInstance, 50)
       );
