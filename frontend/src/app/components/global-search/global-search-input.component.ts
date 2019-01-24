@@ -64,6 +64,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
   public focused:boolean = false;
   public noResults = false;
   public searchTerm:string = '';
+  public expanded:boolean = false;
 
   private searchTermChanged:Subject<string> = new Subject<string>();
 
@@ -105,6 +106,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
       )
       .subscribe((searchTerm:string) => {
         this.searchTerm = searchTerm;
+        this.determineExpansion();
 
         // When there is already a Work Packages table in the search result, changing the search term should update
         // that table as you type and update the current URL displayed in the browser.
@@ -127,6 +129,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
       )
       .subscribe((searchTerm:string) => {
         this.searchTerm = searchTerm;
+        this.determineExpansion();
         this.cdRef.detectChanges();
       });
 
@@ -327,6 +330,15 @@ export class GlobalSearchInputComponent implements OnDestroy {
               .append(` ${workPackage.subject}`)
           )
       );
+  }
+
+  public resize() {
+    this.focused = !this.focused;
+    this.determineExpansion();
+  }
+
+  private determineExpansion():void {
+    this.expanded = (this.focused || this.searchValue.length > 0 || this.searchTerm.length > 0);
   }
 }
 

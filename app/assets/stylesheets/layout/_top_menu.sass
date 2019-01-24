@@ -29,7 +29,8 @@
 $hamburger-right: -3px
 $hamburger-width: 50px
 
-$search-input-width: 180px
+$search-input-width: 200px
+$search-input-width-expanded: 300px
 
 %top-menu-hover-styles
   @include varprop(background, header-item-bg-hover-color)
@@ -62,9 +63,9 @@ $search-input-width: 180px
   @include varprop(border-bottom-color, header-border-bottom-color)
 
   ::-webkit-input-placeholder
-    color: $header-search-field-font-color
+    @include varprop(color, header-item-font-color)
   ::-moz-placeholder
-    color: $header-search-field-font-color
+    @include varprop(color, header-item-font-color)
   .menu_root
     margin: 0
     padding: 0
@@ -168,6 +169,9 @@ $search-input-width: 180px
 .top-menu-search
   display: inline-block
   position: relative
+  height: $header-height
+  line-height: $header-height
+  margin: 0 15px
   > div
     padding-top: 9px
 
@@ -177,9 +181,7 @@ $search-input-width: 180px
 .top-menu-search--button
   line-height: $header-height
   height: $header-height
-  width: $header-height
-  padding: 0 12px
-  @include varprop(color, header-item-font-color)
+  padding: 0 5px
   @include varprop(font-size, header-item-font-size)
   font-weight: normal
   background: transparent
@@ -188,27 +190,56 @@ $search-input-width: 180px
 
   .top-menu-search &
     position: absolute
-    top: 0
+    top: 1px
     right: 0
+    z-index: 10
     @include varprop(color, header-item-font-color)
-    -webkit-transform: scaleX(-1)
-    -moz-transform: scaleX(-1)
-    -o-transform: scaleX(-1)
-    -ms-transform: scaleX(-1)
-    transform: scaleX(-1)
 
-input.top-menu-search--input
+.top-menu-search--button.-input-focused
+  color: $header-search-field-font-color
+
+input[type="text"].top-menu-search--input
   margin: 0
   padding: 0 20px 0 10px
   display: inline-block
-  border: none !important
-  border-radius: 25px
+  border-width: 1px
+  border-style: solid
+  @include varprop(border-color, header-item-font-color)
+  border-radius: 4px
+  height: 31px
   width: $search-input-width
   outline: 0
-  font-size: 0.75rem
+  font-size: 0.9rem
+  background: transparent
+  @include varprop(color, header-item-font-color)
+  -webkit-transition: width 0.2s ease-in-out
+  transition: width 0.2s ease-in-out
   &::-ms-clear
     margin-right: 5px
     width: 20px
+  &:focus
+    background: white
+    border-width: 1px
+    border-style: solid
+    @include varprop(border-color, header-item-font-color)
+    color: $header-search-field-font-color
+    &:hover
+      background: white
+  &:hover
+    background: unset
+    border-width: 1px
+    border-style: solid
+    @include varprop(border-color, header-item-font-color)
+
+input.top-menu-search--input.-expanded
+  width: $search-input-width-expanded
+  background: white
+  border-width: 1px
+  border-style: solid
+  @include varprop(border-color, header-item-font-color)
+  color: $header-search-field-font-color
+  &:hover
+    background: white
 
 .search-autocomplete--results
   width: 300px
@@ -227,7 +258,7 @@ input.top-menu-search--input
 
 .top-menu-search--loading
   top: $header-height
-  left: -($search-input-width - $header-height) - 1
+  left: 0
 
 .search-autocomplete--wp-id
   color: $gray-dark
@@ -304,10 +335,6 @@ input.top-menu-search--input
   [class*="icon-"]:before
     padding: 0.25rem
 
-.top-menu-search .top-menu-search--button
-  position: relative
-  top: 0
-  z-index: 10
 
 #main-menu-toggle
   display: block
