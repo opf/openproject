@@ -1,7 +1,7 @@
 FROM ruby:2.5-stretch
 
-ENV NODE_VERSION="8.11.1"
-ENV BUNDLER_VERSION="1.16.2"
+ENV NODE_VERSION="10.15.0"
+ENV BUNDLER_VERSION="2.0.1"
 ENV APP_USER app
 ENV APP_PATH /usr/src/app
 ENV APP_DATA /var/db/openproject
@@ -28,7 +28,7 @@ RUN apt-get update -qq && \
 # we don't want to pollute any locally-mounted directory
 RUN useradd -d /home/$APP_USER -m $APP_USER
 RUN mkdir -p $APP_PATH $APP_DATA
-RUN gem install bundler --version "${bundler_version}"
+RUN gem install bundler --version "${bundler_version}" --no-document
 
 WORKDIR $APP_PATH
 
