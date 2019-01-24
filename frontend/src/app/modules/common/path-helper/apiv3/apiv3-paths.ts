@@ -95,6 +95,18 @@ export class ApiV3Paths {
     }
   }
 
+  /**
+   * returns a resource segment from (/base)/api/v3/(resource)
+   * @param segment
+   */
+  public resource(segment:string) {
+    if (!segment.startsWith('/')) {
+      segment = '/' + segment;
+    }
+
+    return this.apiV3Base + segment;
+  }
+
   public previewMarkup(context:string) {
     let base = this.apiV3Base + '/render/markdown';
 

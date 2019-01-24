@@ -5,6 +5,13 @@
 
 .boards-list--item
   flex: 0 0 25vw
+  height: 75vh
+  border: 1px solid #ccc
+  padding: 20px
+  margin-left: 2rem
+
+  &:first-child
+    margin-left: 0
 
 .board--header-container
   display: flex
@@ -13,12 +20,12 @@
 .board--name-header
   list-style: none
 
-
 .boards-list--add-item
   flex: 0 0 auto
   border: 1px dashed #ccc
   height: 200px
   cursor: pointer
+  margin-left: 30px
 
   // Center child text
   display: flex
