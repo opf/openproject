@@ -143,13 +143,12 @@
 
 @mixin two-column-layout
   column-count: 2
-  column-gap: 4rem
+  column-gap: 3rem
 
   .attributes-key-value
     -webkit-column-break-inside: avoid
     page-break-inside: avoid
     break-inside: avoid
-    overflow: hidden
     // For some reason chrome seems to treat a two column layout
     // as if it would result in showing the backside of this element.
     // This leads to input and select elements not showing their values.

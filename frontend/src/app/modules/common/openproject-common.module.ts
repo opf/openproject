@@ -70,6 +70,7 @@ import {UIRouterModule} from "@uirouter/angular";
 import {PortalModule} from "@angular/cdk/portal";
 import {CommonModule} from "@angular/common";
 import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
+import {NgSelectModule} from "@ng-select/ng-select";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -138,6 +139,9 @@ export function bootstrapModule(injector:Injector) {
     ZenModeButtonComponent,
 
     OPContextMenuComponent,
+
+    // Autocompleter Component
+    NgSelectModule,
   ],
   declarations: [
     OpDatePickerComponent,

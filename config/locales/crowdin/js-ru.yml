@@ -606,8 +606,6 @@ ru:
       label_column_multiselect: 'Комбинированные ниспадающие поле: выбор  клавишами
         со стрелками, подтвержднение выбора нажатием клавиши enter, удаление  клавишей
         backspace'
-      label_switch_to_single_select: Переключиться на одиночный выбор
-      label_switch_to_multi_select: Переключиться на множественный выбор
       message_error_during_bulk_delete: Произошла ошибка при попытке удаления пакетов
         работ.
       message_successful_bulk_delete: Пакет работ успешно удален.
@@ -768,6 +766,8 @@ ru:
         days: дней
         weeks: недели
         months: месяцев
+      label_switch_to_single_select: Переключиться на одиночный выбор
+      label_switch_to_multi_select: Переключиться на множественный выбор
     toolbar:
       settings:
         configure_view: Настроить вид ...

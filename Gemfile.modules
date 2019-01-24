@@ -10,7 +10,7 @@ gem 'omniauth-openid_connect-providers',
 
 gem 'omniauth-openid-connect',
 		git: 'https://github.com/finnlabs/omniauth-openid-connect.git',
-		ref: '42c4bd27aaab986e0d8723da50314135691a0955'
+		ref: '46f0c33bee2c885c89dd2866f5cf847da62b3482'
 
 group :opf_plugins do
 	gem 'openproject-global_roles',              path: 'modules/global_roles'

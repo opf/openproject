@@ -622,8 +622,6 @@ fr:
       label_column_multiselect: 'Champ liste déroulante combinée : sélectionner avec
         les touches fléchées, confirmer la sélection avec la touche enter, supprimer
         avec retour arrière'
-      label_switch_to_single_select: Commuter en sélection unique
-      label_switch_to_multi_select: Commuter en sélection multiple
       message_error_during_bulk_delete: Une erreur s'est produite lors de la tentative
         de suppression des lots de travaux.
       message_successful_bulk_delete: Les lots de travaux ont été correctement supprimés.
@@ -787,6 +785,8 @@ fr:
         days: jours
         weeks: semaines
         months: mois
+      label_switch_to_single_select: Commuter en sélection unique
+      label_switch_to_multi_select: Commuter en sélection multiple
     toolbar:
       settings:
         configure_view: Configurer la vue...

@@ -51,6 +51,10 @@ export abstract class EditFieldHandler {
    */
   fieldName:string;
 
+  /**
+   * Activation handler firing upon user requesting activation.
+   */
+  $onUserActivate:Subject<void>;
 
   /**
    * Accessibility label for the field

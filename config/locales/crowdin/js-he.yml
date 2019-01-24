@@ -603,8 +603,6 @@ he:
       label_options: אפשריות
       label_column_multiselect: 'השדה הנפתח משולב: בחר עם מקשי החצים, לאשר את הבחירה
         עם enter, למחוק עם backspace'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: אירעה שגיאה בעת ניסיון למחוק את התווית.
       message_successful_bulk_delete: מחק בהצלחה חבילות עבודה.
       message_successful_show_in_fullscreen: Click here to open this work package
@@ -763,6 +761,8 @@ he:
         days: ימים
         weeks: שבועות
         months: חודשים
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...

@@ -154,6 +154,12 @@ export class WorkPackageEditFieldComponent implements OnInit {
     return false;
   }
 
+  public overflowingSelector() {
+    return this.$element
+      .closest('.attributes-group')
+      .data ('groupIdentifier');
+  }
+
   public activateOnForm(noWarnings:boolean = false) {
     // Activate the field
     this.active = true;
@@ -172,7 +178,12 @@ export class WorkPackageEditFieldComponent implements OnInit {
 
     this.activateOnForm()
       .then((handler) => {
-        handler && handler.focus(positionOffset);
+        if (!handler) {
+          return;
+        }
+
+        handler.$onUserActivate.next();
+        handler.focus(positionOffset);
       });
 
     return false;

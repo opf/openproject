@@ -205,6 +205,8 @@ with OpenProject. For more information, see https://github.com/opf/openproject-c
 [openproject@host] cd ~
 [openproject@host] git clone https://github.com/opf/openproject-ce.git --branch stable/8 --depth 1
 [openproject@host] cd openproject-ce
+# Ensure rubygems is up-to-date for bundler 2
+[openproject@host] gem update --system
 [openproject@host] gem install bundler
 # Replace mysql with postgresql if you had to install MySQL
 [openproject@host] bundle install --deployment --without mysql2 sqlite development test therubyracer docker

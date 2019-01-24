@@ -603,8 +603,6 @@ bg:
       label_options: Опции
       label_column_multiselect: 'Комбинирани падащо меню: изберете с клавишите със
         стрелки, потвърдете избора с enter, изтриване с backspace'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: Възникна грешка при опит за изтриване на работни
         пакети.
       message_successful_bulk_delete: Успешно изтрити работни пакети.
@@ -763,6 +761,8 @@ bg:
         days: дни
         weeks: седмици
         months: месеци
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...

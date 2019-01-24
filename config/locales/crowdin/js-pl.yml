@@ -602,8 +602,6 @@ pl:
       label_options: Opcje
       label_column_multiselect: 'Łączone pole rozwijane: Wybierz za pomocą klawiszy
         strzałek, potwierdź wybór klawiszem enter, usuń klawiszem backspace'
-      label_switch_to_single_select: fff
-      label_switch_to_multi_select: Przełącz na zaznaczanie wielu rzeczy
       message_error_during_bulk_delete: Wystąpił błąd podczas próby usunięcia zadania.
       message_successful_bulk_delete: Pomyślnie usunięto zadania.
       message_successful_show_in_fullscreen: Kliknij tutaj, aby otworzyć ten pakiet
@@ -761,6 +759,8 @@ pl:
         days: dni
         weeks: tygodnie
         months: miesiące
+      label_switch_to_single_select: fff
+      label_switch_to_multi_select: Przełącz na zaznaczanie wielu rzeczy
     toolbar:
       settings:
         configure_view: Konfigurowanie widoku...

@@ -608,8 +608,6 @@ fil:
       label_options: Mga opsyon
       label_column_multiselect: 'Pagsamahin ang dropdown na patlang: Piliin na may
         mga arrow key, kumpirmahin ang pinili gamit ang enter, burahin gamit ang backspace'
-      label_switch_to_single_select: Lumipat sa napiling solo
-      label_switch_to_multi_select: Lumipat sa maramihang pagpili
       message_error_during_bulk_delete: Isang mali ang naganap habang sinusubukan
         burahin ang mga work package.
       message_successful_bulk_delete: Matagumpay naibura ang mga work package.
@@ -775,6 +773,8 @@ fil:
         days: mga araw
         weeks: mga linggo
         months: mga buwan
+      label_switch_to_single_select: Lumipat sa napiling solo
+      label_switch_to_multi_select: Lumipat sa maramihang pagpili
     toolbar:
       settings:
         configure_view: Configure view ...

@@ -599,8 +599,6 @@ pt:
       label_options: Opções
       label_column_multiselect: 'Campo dropdown combinada: selecione com as teclas
         de seta, confirmar a seleção com enter, apagar com backspace'
-      label_switch_to_single_select: Mudar para seleção individual
-      label_switch_to_multi_select: Mudar para multiseleção
       message_error_during_bulk_delete: Ocorreu um erro ao tentar eliminar tarefas.
       message_successful_bulk_delete: Tarefas eliminadas com sucesso.
       message_successful_show_in_fullscreen: Clique aqui para abrir este pacote de
@@ -761,6 +759,8 @@ pt:
         days: dias
         weeks: semanas
         months: meses
+      label_switch_to_single_select: Mudar para seleção individual
+      label_switch_to_multi_select: Mudar para multiseleção
     toolbar:
       settings:
         configure_view: Configurar a visualização...

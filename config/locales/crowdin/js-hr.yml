@@ -602,8 +602,6 @@ hr:
       label_options: Mogućnosti
       label_column_multiselect: 'Kombinirano padajuće polje: odaberite sa strelicama
         na tipkovnici, potvrdite izbor sa enter tipkom, a izbrišite s backspace tipkom'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: Došlo je do pogreške tijekom brisanja radnog
         paketa.
       message_successful_bulk_delete: Uspiješno izrisani radni paketi.
@@ -763,6 +761,8 @@ hr:
         days: dani
         weeks: tjedana
         months: mjeseci
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...

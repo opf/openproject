@@ -539,8 +539,6 @@ lol:
       label_filter_by_text: Filter by text
       label_options: crwdns107762:0crwdne107762:0
       label_column_multiselect: crwdns107764:0crwdne107764:0
-      label_switch_to_single_select: crwdns107766:0crwdne107766:0
-      label_switch_to_multi_select: crwdns107768:0crwdne107768:0
       message_error_during_bulk_delete: crwdns107770:0crwdne107770:0
       message_successful_bulk_delete: crwdns107772:0crwdne107772:0
       message_successful_show_in_fullscreen: crwdns107774:0crwdne107774:0
@@ -681,6 +679,8 @@ lol:
         days: crwdns107996:0crwdne107996:0
         weeks: crwdns107998:0crwdne107998:0
         months: crwdns108000:0crwdne108000:0
+      label_switch_to_single_select: crwdns107766:0crwdne107766:0
+      label_switch_to_multi_select: crwdns107768:0crwdne107768:0
     toolbar:
       settings:
         configure_view: crwdns108002:0crwdne108002:0

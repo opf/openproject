@@ -599,8 +599,6 @@ ar:
       label_options: خيارات
       label_column_multiselect: 'نطاق قائمة منسدلة مشتركة: اختر بمفاتيح الأسهم، وأكّد
         الاختيار بالضغط على مفتاح الإدخال، واحذف بمفتاح التحرك للخلف'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: حدث خطأ ما أثناء محاولة حذف مجموعات العمل.
       message_successful_bulk_delete: تم حذف مجموعات العمل بنجاح.
       message_successful_show_in_fullscreen: اضغط هنا لفتح مجموعة العمل هذه بعرض كامل
@@ -758,6 +756,8 @@ ar:
         days: أيام
         weeks: أسابيع
         months: أشهر
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...

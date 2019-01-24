@@ -16,12 +16,12 @@ GIT
 
 GIT
   remote: https://github.com/finnlabs/omniauth-openid-connect.git
-  revision: 42c4bd27aaab986e0d8723da50314135691a0955
-  ref: 42c4bd27aaab986e0d8723da50314135691a0955
+  revision: 46f0c33bee2c885c89dd2866f5cf847da62b3482
+  ref: 46f0c33bee2c885c89dd2866f5cf847da62b3482
   specs:
     omniauth-openid-connect (0.3.0)
       addressable (~> 2.5)
-      omniauth (~> 1.6.1)
+      omniauth (~> 1.6)
       openid_connect (~> 1.1.6)
 
 GIT
@@ -56,12 +56,12 @@ GIT
       rspec
 
 GIT
-  remote: https://github.com/oliverguenther/omniauth
-  revision: 40c6f5f751d2da7cce5444bbd96c390c450440a9
-  ref: 40c6f5f751d2da7cce5444bbd96c390c450440a9
+  remote: https://github.com/opf/omniauth
+  revision: fe862f986b2e846e291784d2caa3d90a658c67f0
+  ref: fe862f986b2e846e291784d2caa3d90a658c67f0
   specs:
-    omniauth (1.6.1)
-      hashie (>= 3.4.6, < 3.6.0)
+    omniauth (1.9.0)
+      hashie (>= 3.4.6, < 3.7.0)
       rack (>= 1.6.2, < 3)
 
 GIT
@@ -258,7 +258,7 @@ GEM
     arel (9.0.0)
     ast (2.4.0)
     attr_required (1.0.1)
-    autoprefixer-rails (9.4.5)
+    autoprefixer-rails (9.4.6)
       execjs
     awesome_nested_set (3.1.4)
       activerecord (>= 4.0.0, < 5.3)
@@ -448,7 +448,7 @@ GEM
     gravatar_image_tag (1.2.0)
     hashdiff (0.3.7)
     hashery (2.1.2)
-    hashie (3.5.7)
+    hashie (3.6.0)
     health_check (3.0.0)
       railties (>= 5.0)
     html-pipeline (2.8.3)
@@ -458,10 +458,10 @@ GEM
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     httpclient (2.8.3)
-    i18n (1.5.2)
+    i18n (1.5.3)
       concurrent-ruby (~> 1.0)
-    i18n-js (3.2.0)
-      i18n (>= 0.8.0, < 2)
+    i18n-js (3.2.1)
+      i18n (>= 0.6.6)
     icalendar (2.5.2)
       ice_cube (~> 0.16)
     ice_cube (0.16.3)
@@ -536,7 +536,7 @@ GEM
       mini_portile2 (~> 2.4.0)
     nokogumbo (2.0.1)
       nokogiri (~> 1.8, >= 1.8.4)
-    oj (3.7.7)
+    oj (3.7.8)
     okcomputer (1.17.3)
     omniauth-saml (1.7.0)
       omniauth (~> 1.3)
@@ -659,7 +659,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    rdoc (6.0.3)
+    rdoc (6.1.1)
     redcarpet (3.4.0)
     reform (2.2.4)
       disposable (>= 0.4.1)
@@ -710,7 +710,7 @@ GEM
     rspec-retry (0.6.1)
       rspec-core (> 3.3)
     rspec-support (3.8.0)
-    rubocop (0.63.0)
+    rubocop (0.63.1)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.5, != 2.5.1.1)

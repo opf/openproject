@@ -604,8 +604,6 @@ sk:
       label_options: Voľby
       label_column_multiselect: 'Kombinované rozbaľovacie pole: vyberte pomocou klávesov
         so šípkami, potvrďte stlačením ENTER, odstraňujte stlačením BACKSPACE'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: Chyba pri pokuse o odstránenie pracovných
         balíčkov.
       message_successful_bulk_delete: Pracovné balíčky boli úspešne odstránené.
@@ -765,6 +763,8 @@ sk:
         days: dní
         weeks: týždne
         months: mesiace
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
