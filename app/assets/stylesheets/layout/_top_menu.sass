@@ -63,9 +63,9 @@ $search-input-width-expanded: 300px
   @include varprop(border-bottom-color, header-border-bottom-color)
 
   ::-webkit-input-placeholder
-    color: $header-item-font-color
+    @include varprop(color, header-item-font-color)
   ::-moz-placeholder
-    color: $header-item-font-color
+    @include varprop(color, header-item-font-color)
   .menu_root
     margin: 0
     padding: 0
@@ -202,7 +202,9 @@ input[type="text"].top-menu-search--input
   margin: 0
   padding: 0 20px 0 10px
   display: inline-block
-  border: 1px solid $header-item-font-color
+  border-width: 1px
+  border-style: solid
+  @include varprop(border-color, header-item-font-color)
   border-radius: 4px
   height: 31px
   width: $search-input-width
@@ -217,16 +219,27 @@ input[type="text"].top-menu-search--input
     width: 20px
   &:focus
     background: white
-    border: 1px solid $header-item-font-color
+    border-width: 1px
+    border-style: solid
+    @include varprop(border-color, header-item-font-color)
     color: $header-search-field-font-color
     &:hover
       background: white
   &:hover
     background: unset
-    border: 1px solid $header-item-font-color
+    border-width: 1px
+    border-style: solid
+    @include varprop(border-color, header-item-font-color)
 
 input.top-menu-search--input.-expanded
   width: $search-input-width-expanded
+  background: white
+  border-width: 1px
+  border-style: solid
+  @include varprop(border-color, header-item-font-color)
+  color: $header-search-field-font-color
+  &:hover
+    background: white
 
 .search-autocomplete--results
   width: 300px
