@@ -24,7 +24,10 @@ export class BoardsModuleComponent {
   }
 
   newBoard() {
-    const board = this.Boards.create();
-    this.state.go('boards.show', { id: board.id });
+    this.Boards
+      .create()
+      .then((board) => {
+        this.state.go('boards.show', { id: board.id });
+      });
   }
 }

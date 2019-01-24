@@ -37,6 +37,7 @@ import {Injectable, Query} from '@angular/core';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {Observable} from "rxjs";
+import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
 
 export interface PaginationObject {
   pageSize:number;
@@ -48,6 +49,7 @@ export class QueryDmService {
   constructor(protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService,
               protected UrlParamsHelper:UrlParamsHelperService,
+              protected QueryFilters:QueryFiltersService,
               protected PayloadDm:PayloadDmService) {
   }
 
@@ -123,26 +125,22 @@ export class QueryDmService {
 
   public update(query:QueryResource, form:QueryFormResource) {
     return new Promise<QueryResource>((resolve, reject) => {
-      this.extractPayload(query, form)
-        .then(payload => {
-          let path:string = this.pathHelper.api.v3.queries.id(query.id).toString();
-          this.halResourceService.patch<QueryResource>(path, payload)
-            .toPromise()
-            .then(resolve)
-            .catch(reject);
-        })
+      const payload = this.extractPayload(query, form);
+      let path:string = this.pathHelper.api.v3.queries.id(query.id).toString();
+      this.halResourceService.patch<QueryResource>(path, payload)
+        .toPromise()
+        .then(resolve)
         .catch(reject);
     });
   }
 
   public create(query:QueryResource, form:QueryFormResource):Promise<QueryResource> {
-    return this.extractPayload(query, form).then(payload => {
-      let path:string = this.pathHelper.api.v3.queries.toString();
+    const payload:any = this.extractPayload(query, form);
+    let path:string = this.pathHelper.api.v3.queries.toString();
 
-      return this.halResourceService
-        .post<QueryResource>(path, payload)
-        .toPromise();
-    });
+    return this.halResourceService
+      .post<QueryResource>(path, payload)
+      .toPromise();
   }
 
   public delete(query:QueryResource) {
@@ -174,13 +172,9 @@ export class QueryDmService {
       .get<CollectionResource<QueryResource>>(this.pathHelper.api.v3.queries.toString(), urlQuery);
   }
 
-  private extractPayload(query:QueryResource, form:QueryFormResource):Promise<QueryResource> {
+  private extractPayload(query:QueryResource, form:QueryFormResource):QueryResource {
     // Extracting requires having the filter schemas loaded as the dependencies
-    // need to be present. This should be handled within the cached information however, so it is fast.
-    const promises = _.map(query.filters, filter => filter.schema.$load());
-
-    return Promise
-      .all(promises)
-      .then(() => this.PayloadDm.extract<QueryResource>(query, form.schema));
+    this.QueryFilters.mapSchemasIntoFilters(query, form);
+    return this.PayloadDm.extract<QueryResource>(query, form.schema);
   }
 }

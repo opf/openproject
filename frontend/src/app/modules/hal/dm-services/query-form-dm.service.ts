@@ -57,16 +57,6 @@ export class QueryFormDmService {
     return query.$links.update(payload);
   }
 
-  /**
-   * Map the available filters of the given form into the query resource.
-   *
-   * @param query
-   * @param form
-   */
-  public mapSchemas(query:QueryResource, form:QueryFormResource) {
-
-  }
-
   public loadWithParams(params:{}, queryId:number|undefined, projectIdentifier:string|undefined|null, payload:any = {}):Promise<QueryFormResource> {
     // We need a valid payload so that we
     // can check whether form saving is possible.

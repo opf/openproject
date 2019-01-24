@@ -140,9 +140,6 @@ export class HalResource {
 
   /**
    * Alias for $href.
-   * Please use $href instead.
-   *
-   * @deprecated
    */
   public get href():string|null {
     return this.$link.href;

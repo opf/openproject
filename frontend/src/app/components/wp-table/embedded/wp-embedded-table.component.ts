@@ -31,6 +31,7 @@ import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedde
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
+import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -38,6 +39,7 @@ import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.s
   providers: [
     TableState,
     OpTableActionsService,
+    WorkPackageInlineCreateService,
     WorkPackageTableRelationColumnsService,
     WorkPackageTablePaginationService,
     WorkPackageTableGroupByService,
