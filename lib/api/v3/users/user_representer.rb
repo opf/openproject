@@ -46,7 +46,6 @@ module API
           new(user, current_user: current_user)
         end
 
-
         def initialize(user, current_user:)
           super(user, current_user: current_user)
         end
@@ -213,7 +212,7 @@ module API
         end
 
         def current_user_can_delete_represented?
-          current_user && DeleteUserService.deletion_allowed?(represented, current_user)
+          current_user && ::Users::DeleteService.deletion_allowed?(represented, current_user)
         end
       end
     end
