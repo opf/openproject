@@ -292,7 +292,7 @@ pl:
       show_modal: Pokaż atrybut wpisu tekstu pomocy
     onboarding:
       buttons:
-        skip: Skip
+        skip: Omiń
         next: Następny
         got_it: OK
       steps:
