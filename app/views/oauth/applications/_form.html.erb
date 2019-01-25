@@ -59,7 +59,13 @@ See docs/COPYRIGHT.rdoc for more details.
     </p>
 
     <div class="form--field">
-      <%= f.text_field :client_credentials_user_id, size: 25, container_class: '-middle' %>
+      <label class="form--label"> <%= t('doorkeeper.application.client_credentials_user_id') %>
+      </label>
+      <div class="form--field-container -visible-overflow">
+        <div class="form--text-field-container -middle">
+          <user-autocompleter></user-autocompleter>
+        </div>
+      </div>
       <p class="form--field-instructions">
         <%= t('oauth.application.instructions.client_credential_user_id') %>
         <br/>

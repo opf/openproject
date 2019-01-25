@@ -71,6 +71,7 @@ import {PortalModule} from "@angular/cdk/portal";
 import {CommonModule} from "@angular/common";
 import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
 import {NgSelectModule} from "@ng-select/ng-select";
+import {UserAutocompleterComponent} from "app/modules/common/autocomplete/user-autocompleter.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -95,6 +96,7 @@ export function bootstrapModule(injector:Injector) {
     PortalModule,
     // Our own A11y module
     OpenprojectAccessibilityModule,
+    NgSelectModule,
   ],
   exports: [
     // Re-export all commonly used
@@ -142,6 +144,7 @@ export function bootstrapModule(injector:Injector) {
 
     // Autocompleter Component
     NgSelectModule,
+    UserAutocompleterComponent,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -184,6 +187,8 @@ export function bootstrapModule(injector:Injector) {
 
     // Zen mode button
     ZenModeButtonComponent,
+
+    UserAutocompleterComponent,
   ],
   entryComponents: [
     OpDateTimeComponent,
@@ -198,6 +203,7 @@ export function bootstrapModule(injector:Injector) {
     OPContextMenuComponent,
     ZenModeButtonComponent,
     CollapsibleSectionComponent,
+    UserAutocompleterComponent,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
