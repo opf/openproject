@@ -107,18 +107,6 @@ export class GlobalSearchInputComponent implements OnDestroy {
       .subscribe((searchTerm:string) => {
         this.searchTerm = searchTerm;
         this.determineExpansion();
-
-        // When there is already a Work Packages table in the search result, changing the search term should update
-        // that table as you type and update the current URL displayed in the browser.
-        if (this.globalSearchService.isAfterSearch() &&
-            this.globalSearchService.currentTab === 'work_packages') {
-          this.globalSearchService.searchTerm = searchTerm;
-          window.history
-                .replaceState({},
-                         `${I18n.t('global_search.search')}: ${this.searchValue}`,
-                              this.globalSearchService.searchPath());
-        }
-        
         this.cdRef.detectChanges();
       });
 
@@ -163,9 +151,13 @@ export class GlobalSearchInputComponent implements OnDestroy {
 
         switch (ui.item.item) {
           case 'all_projects': {
-            this.globalSearchService.resultsHidden = true;
+            let forcePageLoad = false;
+            if (this.globalSearchService.projectScope !== 'all') {
+              forcePageLoad = true;
+              this.globalSearchService.resultsHidden = true;
+            }
             this.globalSearchService.projectScope = 'all';
-            this.submitNonEmptySearch(true);
+            this.submitNonEmptySearch(forcePageLoad);
             break;
           }
           case 'this_project': {
@@ -225,10 +217,6 @@ export class GlobalSearchInputComponent implements OnDestroy {
     }
   }
 
-  public inputChange(searchTerm:string):void {
-    this.searchTermChanged.next(searchTerm);
-  }
-
   public submitNonEmptySearch(forcePageLoad:boolean = false) {
     this.globalSearchService.searchTerm = this.searchValue;
     if (this.searchValue !== '') {
@@ -236,6 +224,11 @@ export class GlobalSearchInputComponent implements OnDestroy {
       if (!forcePageLoad &&
           this.globalSearchService.isAfterSearch() &&
           this.globalSearchService.currentTab === 'work_packages') {
+        window.history
+          .replaceState({},
+            `${I18n.t('global_search.search')}: ${this.searchValue}`,
+            this.globalSearchService.searchPath());
+
         return;
       }
 
