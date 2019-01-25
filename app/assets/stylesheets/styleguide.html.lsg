@@ -9,58 +9,58 @@
 
 @default preprocessor: sass
 
-//@sass
-//  .livingstyleguide--header
-//    @include grid-content
-//
-//  .livingstyleguide--footer
-//    @include grid-content
-//
-//  .livingstyleguide--intro
-//    @include grid-content
-//
-//  .styleguide-banner
-//    height:  280px
-//    padding: 200px 0 0
-//    background: url('/assets/styleguide/logo_openproject.png')
-//    background-position: top center
-//    background-repeat: no-repeat
-//
-//  .styleguide-banner--text
-//    text-align: center
-//
-//  .styleguide-nav--menu-items
-//    @extend %menu-bar
-//    @include menu-bar-layout
-//    @include menu-bar-style(#eee)
-//
-//  .livingstyleguide--code-block
-//    max-height: 300px
-//
-//  .livingstyleguide--example
-//    overflow: visible
-//
-//  .lsg-search-box
-//    width: 40%
-//    margin: 0 auto
-//
-//  .icon-list
-//    display: flex
-//    flex-flow: row wrap
-//    width: 640px
-//    margin: 0 auto
-//
-//    li
-//      flex: 1
-//      flex-basis: 15%
-//      display: block
-//      text-align: center
-//      margin: 10px
-//      font-size: 12px
-//
-//    span
-//      display: block
-//      font-size: 30px
+@sass
+  .livingstyleguide--header
+    @include grid-content
+
+  .livingstyleguide--footer
+    @include grid-content
+
+  .livingstyleguide--intro
+    @include grid-content
+
+  .styleguide-banner
+    height:  280px
+    padding: 200px 0 0
+    background: url('/assets/styleguide/logo_openproject.png')
+    background-position: top center
+    background-repeat: no-repeat
+
+  .styleguide-banner--text
+    text-align: center
+
+  .styleguide-nav--menu-items
+    @extend %menu-bar
+    @include menu-bar-layout
+    @include menu-bar-style(#eee)
+
+  .livingstyleguide--code-block
+    max-height: 300px
+
+  .livingstyleguide--example
+    overflow: visible
+
+  .lsg-search-box
+    width: 40%
+    margin: 0 auto
+
+  .icon-list
+    display: flex
+    flex-flow: row wrap
+    width: 640px
+    margin: 0 auto
+
+    li
+      flex: 1
+      flex-basis: 15%
+      display: block
+      text-align: center
+      margin: 10px
+      font-size: 12px
+
+    span
+      display: block
+      font-size: 30px
 
 
 @header

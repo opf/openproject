@@ -73,9 +73,6 @@ end
 require File.dirname(__FILE__) + '/../lib/open_project/configuration'
 require File.dirname(__FILE__) + '/../app/middleware/reset_current_user'
 
-# Have livingstyleguide believe, that Sass still exists
-Sass = SassC
-
 module OpenProject
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
