@@ -7,7 +7,7 @@ describe 'Work Package table configuration modal columns spec', js: true do
   let!(:wp_1) { FactoryBot.create(:work_package, project: project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:columns) { ::Components::WorkPackages::Columns.new impaired: user.impaired }
+  let(:columns) { ::Components::WorkPackages::Columns.new }
   let!(:work_package) { FactoryBot.create :work_package, project: project }
 
   let!(:query) do
@@ -43,18 +43,7 @@ describe 'Work Package table configuration modal columns spec', js: true do
     end
   end
 
-  context 'when impaired' do
-    let(:user) {
-      user = FactoryBot.create :admin
-      user.impaired = true
-
-      user
-    }
-
-    it_behaves_like 'add and remove columns'
-  end
-
-  context 'when not impaired' do
+  context 'When seeing the table' do
     it_behaves_like 'add and remove columns'
 
 

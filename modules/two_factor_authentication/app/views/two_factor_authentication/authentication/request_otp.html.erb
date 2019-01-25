@@ -2,10 +2,6 @@
 <% has_other_devices = @active_devices.count > 1 %>
 <% has_backup_codes = @authenticated_user.otp_backup_codes.exists? %>
 
-<% unless @user.impaired?
-  disable_accessibility_css!
-end %>
-
 <% content_for :header_tags do %>
   <%= javascript_include_tag('two_factor_authentication/two_factor_authentication.js') %>
   <%= stylesheet_link_tag('two_factor_authentication/two_factor_authentication.css') %>

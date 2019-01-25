@@ -177,6 +177,14 @@ module API
         authorize_by_with_raise(authorized, &block)
       end
 
+      def authorize_admin
+        authorize_by_with_raise(current_user.admin? && (current_user.active? || current_user.is_a?(SystemUser)))
+      end
+
+      def authorize_logged_in
+        authorize_by_with_raise(current_user.logged? && current_user.active? || current_user.is_a?(SystemUser))
+      end
+
       def raise_invalid_query_on_service_failure
         service = yield
 

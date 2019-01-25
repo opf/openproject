@@ -75,19 +75,11 @@ When /^I select(?: the)? role "(.+)"$/ do |role|
 end
 
 def select_principal(principal)
-  if !User.current.impaired?
-    select2(principal.name, css: '#s2id_member_user_ids')
-  else
-    select_without_select2(principal.name, 'form .principals')
-  end
+  select2(principal.name, css: '#s2id_member_user_ids')
 end
 
 def select_role(role)
-  if User.current.impaired?
-    select_without_select2(role.name, 'form .roles')
-  else
-    select(role.name, from: 'member_role_ids')
-  end
+  select(role.name, from: 'member_role_ids')
 end
 
 def select_without_select2(name, scope)

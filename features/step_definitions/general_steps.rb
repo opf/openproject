@@ -79,12 +79,6 @@ Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
   login(username, 'adminADMIN!')
 end
 
-Given /^(?:|I )am (not )?impaired$/ do |bool|
-  user = User.find(page.get_rack_session_key('user_id'))
-  user.impaired = !bool
-  user.save
-end
-
 Given /^there is 1 [pP]roject with(?: the following)?:$/ do |table|
   p = FactoryBot.build(:project)
   send_table_to_object(p, table)
