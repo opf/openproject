@@ -6,10 +6,7 @@ import {BoardListsService} from "core-app/modules/boards/board/board-list/board-
 @Injectable()
 export class BoardsService {
 
-  private boards:Board[] = [
-    new Board(1, 'Other Board', [5, 7, 8]),
-    new Board(2, 'My Board', [8, 5])
-  ];
+  private boards:Board[] = [];
 
   constructor(private readonly BoardsList:BoardListsService) {
   }
