@@ -56,6 +56,7 @@ export class BoardListComponent implements OnInit {
       hierarchyToggleEnabled: false,
       columnMenuEnabled: false,
       actionsColumnEnabled: false,
+      dragAndDropEnabled: true,
       isEmbedded: true
     };
   }

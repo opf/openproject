@@ -131,6 +131,16 @@ export class WorkPackageTable {
     });
   }
 
+  /**
+   * Determine whether we need an empty placeholder row.
+   * When D&D is enabled, the table requires a drag target that is non-empty,
+   * and the tbody cannot be resized appropriately.
+   */
+  public get renderPlaceholderRow() {
+    return this.configuration.dragAndDropEnabled;
+  }
+
+
   private performRenderPass() {
     this.editing.reset();
     const renderPass = this.lastRenderPass = this.rowBuilder.buildRows();

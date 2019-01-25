@@ -48,6 +48,7 @@ export class DragAndDropTransformer {
     this.dragService.register({
       container: this.table.tbody,
       moves: function(el:any, source:any, handle:HTMLElement, sibling:any) {
+        console.warn("Moves %O", el);
         return handle.classList.contains('wp-table--drag-and-drop-handle');
       },
       onMoved: (row:HTMLTableRowElement, target:any, source:HTMLTableRowElement, sibling:HTMLTableRowElement | null) => {
