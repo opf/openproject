@@ -68,11 +68,13 @@ if defined?(Bundler)
   # Require the gems listed in Gemfile, including any gems
   # you've limited to :test, :development, or :production.
   Bundler.require(*Rails.groups(:opf_plugins))
-
 end
 
 require File.dirname(__FILE__) + '/../lib/open_project/configuration'
 require File.dirname(__FILE__) + '/../app/middleware/reset_current_user'
+
+# Have livingstyleguide believe, that Sass still exists
+# Sass = SassC
 
 module OpenProject
   class Application < Rails::Application
@@ -130,7 +132,6 @@ module OpenProject
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
-
 
     # Make Active Record use stable #cache_key alongside new #cache_version method.
     # This is needed for recyclable cache keys.
