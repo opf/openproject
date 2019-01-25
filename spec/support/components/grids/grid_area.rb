@@ -26,7 +26,7 @@ module Components
         page.driver.browser.action.click_and_hold(handle.native).perform
         sleep(0.3)
         drop_area.hover
-        page.driver.browser.send(:bridge).mouse_move_to(drop_area)
+        page.driver.browser.send(:bridge).mouse_move_to(drop_area).mouse_up
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
         sleep(0.3)
         page.driver.browser.action.release(drop_area.native).perform
