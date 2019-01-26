@@ -299,7 +299,7 @@ nl:
       show_modal: Toon kenmerk help tekstinvoer
     onboarding:
       buttons:
-        skip: Skip
+        skip: Overslaan
         next: Volgende
         got_it: Begrepen
       steps:
