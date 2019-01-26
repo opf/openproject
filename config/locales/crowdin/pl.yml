@@ -614,8 +614,7 @@ pl:
                 one: było użyte wcześniej. Proszę wybrać inne niż poprzednie.
                 other: było użyte wcześniej. Proszę wybrać inne niż %{count} poprzednich.
                 few: było użyte wcześniej. Proszę wybrać inne niż %{count} poprzednich.
-                many: has been used before. Please choose one that is different from
-                  your last %{count}.
+                many: było użyte wcześniej. Proszę wybrać inne niż %{count} poprzednie.
               match:
                 confirm: Potwierdź nowe hasło.
                 description: '"Potwierdzenie hasła" powinno być zgodne z wartością
@@ -631,9 +630,9 @@ pl:
         body: 'Sprawdź następujące pola:'
         header:
           one: 1 błąd uniemożliwia zapisanie %{model}
-          other: "%{count} błędów uniemożliwia zapisanie %{model}"
+          other: "%{count} błędy uniemożliwiają zapisanie %{model}"
           few: "%{count} błędów uniemożliwia zapisanie %{model}"
-          many: "%{count} errors prohibited this %{model} from being saved"
+          many: "%{count} błędy uniemożliwiaja zapisanie %{model}"
     models:
       attachment: Plik
       attribute_help_text: Tekst pomocy atrybutu
@@ -652,7 +651,7 @@ pl:
         one: Rola
         other: Role
         few: Role
-        many: Roles
+        many: Rol
       type: Typ
       user: Użytkownik
       version: Wersja
@@ -878,38 +877,38 @@ pl:
         one: około 1 godziny
         other: około %{count} godzin
         few: około %{count} godzin
-        many: about %{count} hours
+        many: około %{count} godziny
       about_x_months:
         one: około 1 miesiąca
         other: około %{count} miesięcy
         few: około %{count} miesięcy
-        many: about %{count} months
+        many: około %{count} miesięcy
       about_x_years:
         one: około 1 roku
         other: około %{count} lat
         few: około %{count} lat
-        many: about %{count} years
+        many: około %{count} lat
       almost_x_years:
         one: prawie 1 rok
         other: prawie %{count} lat
         few: prawie %{count} lat
-        many: almost %{count} years
+        many: prawie %{count} lata
       half_a_minute: pół minuty
       less_than_x_minutes:
         one: mniej niż minutę
         other: mniej niż %{count} minut
         few: mniej niż %{count} minut
-        many: less than %{count} minutes
+        many: mniej niż %{count} minuty
       less_than_x_seconds:
         one: mniej niż 1 sekundę
         other: mniej niż %{count} sekund
         few: mniej niż %{count} sekund
-        many: less than %{count} seconds
+        many: mniej niż %{count} sekundy
       over_x_years:
         one: ponad 1 rok
         other: ponad %{count} lat
         few: ponad %{count} lat
-        many: over %{count} years
+        many: ponad %{count} lata
       x_days:
         one: 1 dzień
         other: "%{count} dni"
@@ -924,18 +923,18 @@ pl:
         one: 1 miesiąc
         other: "%{count} miesięcy"
         few: "%{count} miesięcy"
-        many: "%{count} months"
+        many: "%{count} miesiące"
       x_seconds:
         one: 1 sekunda
         other: "%{count} sekund"
         few: "%{count} sekund"
-        many: "%{count} seconds"
+        many: "%{count} sekundy"
     units:
       hour:
         one: godzina
         other: godziny
         few: godziny
-        many: hours
+        many: godzin
   default_activity_development: Rozwój
   default_activity_management: Zarządzanie
   default_activity_other: Inne
@@ -1720,7 +1719,7 @@ pl:
     other: "%{count} zamkniętych"
     zero: 0 closed
     few: "%{count} zamkniętych"
-    many: "%{count} closed"
+    many: "%{count} zamknięte"
   label_x_comments:
     one: 1 komentarz
     other: "%{count} komentarzy"
