@@ -1281,7 +1281,7 @@ th:
   label_download_plural: มี %{count} ดาวโหลด
   label_downloads_abbr: D/L
   label_duplicated_by: ทำซ้ำโดย
-  label_duplicate: duplicate
+  label_duplicate: ทำซ้ำ
   label_duplicates: ซ้ำ
   label_edit: แก้ไข
   label_enable_multi_select: สลับไปเลือกหลายค่า
@@ -1291,7 +1291,7 @@ th:
   label_end_to_end: ตลอด
   label_end_to_start: สิ้นสุดไปยังเริ่มต้น
   label_enumeration_new: ค่าการแจกแจงใหม่
-  label_enumeration_value: Enumeration value
+  label_enumeration_value: ค่าชุดตัวแปร
   label_enumerations: การระบุหมายเลข
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
@@ -1353,7 +1353,7 @@ th:
   label_invite_user: Invite user
   label_show_hide: แสดง/ซ่อน
   label_show_all_registered_users: Show all registered users
-  label_journal: Journal
+  label_journal: บันทึก
   label_journal_diff: เปรียบเทียบคำอธิบาย
   label_language: ภาษา
   label_jump_to_a_project: ไปยังโครงการ...
