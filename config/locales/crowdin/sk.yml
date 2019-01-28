@@ -773,7 +773,6 @@ sk:
   button_print: Tlač
   button_quote: Citovať
   button_remove: Vymazať
-  button_remove_widget: Odstrániť widget
   button_rename: Premenovať
   button_replace: Nahradiť
   button_revoke: Revoke
@@ -1469,7 +1468,6 @@ sk:
   label_my_account: Môj účet
   label_my_account_data: Moje prihlasovacie parametre
   label_my_page: Moja stránka
-  label_my_page_block: Blok mojich strán
   label_my_projects: Moje projekty
   label_my_queries: Moje vlastné dopyty
   label_never: Nikdy
@@ -1576,7 +1574,6 @@ sk:
   label_repository_plural: Repozitáre
   label_required: požadované
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Výsledky
   label_reverse_chronological_order: V obrátenom chronologickom poradí
   label_revision: Revízia
@@ -1783,7 +1780,6 @@ sk:
     (iba na niektorých zoznamoch)
   label_keyboard_shortcut_focus_next_item: Zamerať na ďalšiu položku zoznamu (iba
     na niektorých zoznamoch)
-  label_visible_elements: Viditeľné prvky
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
     ldap_error: 'LDAP-Chyba: %{error_message}'
@@ -2942,3 +2938,7 @@ sk:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Odstrániť widget
+  label_my_page_block: Blok mojich strán
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: Viditeľné prvky

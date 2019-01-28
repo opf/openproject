@@ -763,7 +763,6 @@ lt:
   button_print: Spausdinti
   button_quote: Cituoti
   button_remove: Pašalinti
-  button_remove_widget: Pašalinti valdiklį
   button_rename: Pervardinti
   button_replace: Pakeisti
   button_revoke: Revoke
@@ -1459,7 +1458,6 @@ lt:
   label_my_account: Mano paskyra
   label_my_account_data: Mano paskyros duomenys
   label_my_page: Mano puslapis
-  label_my_page_block: Mano puslapio blokas
   label_my_projects: Mano projektai
   label_my_queries: Mano sukurtos užklausos
   label_never: Niekada
@@ -1569,7 +1567,6 @@ lt:
   label_repository_plural: Repozitorijos
   label_required: reikalingas
   label_requires: turi turėti
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Rezultatai
   label_reverse_chronological_order: Atbuline chronologine tvarka
   label_revision: Revizija
@@ -1776,7 +1773,6 @@ lt:
     elementą (tik kai kuriuose sąrašuose)
   label_keyboard_shortcut_focus_next_item: Sutelkti dėmesį į sekantį sąrašo elementą
     (tik kai kuriuose sąrašuose)
-  label_visible_elements: Matomi elementai
   auth_source:
     using_abstract_auth_source: Negalima naudoti abstraktaus autentifikavimo šaltinio.
     ldap_error: 'LDAP-Klaida: %{error_message}'
@@ -2955,3 +2951,7 @@ lt:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Pašalinti valdiklį
+  label_my_page_block: Mano puslapio blokas
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: Matomi elementai

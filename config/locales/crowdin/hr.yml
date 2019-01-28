@@ -762,7 +762,6 @@ hr:
   button_print: Ispis
   button_quote: Citiraj
   button_remove: Ukloni
-  button_remove_widget: Ukloni widget
   button_rename: Preimenuj
   button_replace: Zamijeni
   button_revoke: Revoke
@@ -1445,7 +1444,6 @@ hr:
   label_my_account: Moj korisnički račun
   label_my_account_data: Moji korisnički podaci
   label_my_page: Moja stranica
-  label_my_page_block: Moj blok stranice
   label_my_projects: Moji projekati
   label_my_queries: Moji prilagođeni upiti
   label_never: Nikad
@@ -1553,7 +1551,6 @@ hr:
   label_repository_plural: Repozitoriji
   label_required: potrebne
   label_requires: zahtijeva
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Rezultati
   label_reverse_chronological_order: U obrnutom kronološkom redu
   label_revision: Revizija
@@ -1754,7 +1751,6 @@ hr:
     (na pojedinim listama)
   label_keyboard_shortcut_focus_next_item: Fokusirajte sljedeći element iz liste (na
     pojedinim listama)
-  label_visible_elements: Vidljivi elementi
   auth_source:
     using_abstract_auth_source: Ne možete se koristiti apstraktni izvor autentifikacije.
     ldap_error: 'LDAP-Greška: %{error_message}'
@@ -2918,3 +2914,7 @@ hr:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Ukloni widget
+  label_my_page_block: Moj blok stranice
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: Vidljivi elementi

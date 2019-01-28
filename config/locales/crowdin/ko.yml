@@ -709,7 +709,6 @@ ko:
   button_print: 인쇄
   button_quote: 인용
   button_remove: 제거
-  button_remove_widget: 위젯 제거
   button_rename: 이름 바꾸기
   button_replace: 교체하기
   button_revoke: Revoke
@@ -1379,7 +1378,6 @@ ko:
   label_my_account: 내 계정
   label_my_account_data: 내 계정 데이터
   label_my_page: 내 페이지
-  label_my_page_block: 내 페이지 블록
   label_my_projects: 내 프로젝트
   label_my_queries: 내 사용자 지정 쿼리
   label_never: 사용 안 함
@@ -1486,7 +1484,6 @@ ko:
   label_repository_plural: 리포지토리
   label_required: 필수
   label_requires: 필수
-  label_responsible_for_work_packages: 내가 담당하는 작업 패키지
   label_result_plural: 결과
   label_reverse_chronological_order: 시간 역순으로
   label_revision: 수정
@@ -1681,7 +1678,6 @@ ko:
   label_keyboard_shortcut_go_preview: 현재 편집을 미리 보려면 이동(편집 페이지에서만)
   label_keyboard_shortcut_focus_previous_item: 이전 목록 요소에 포커스 맞추기(일부 목록에서만)
   label_keyboard_shortcut_focus_next_item: 다음 목록 요소에 포커스 맞추기(일부 목록에서만)
-  label_visible_elements: 표시되는 요소
   auth_source:
     using_abstract_auth_source: 추상 인증 소스를 사용할 수 없습니다.
     ldap_error: 'LDAP 오류: %{error_message}'
@@ -2729,3 +2725,7 @@ ko:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: 위젯 제거
+  label_my_page_block: 내 페이지 블록
+  label_responsible_for_work_packages: 내가 담당하는 작업 패키지
+  label_visible_elements: 표시되는 요소

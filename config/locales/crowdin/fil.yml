@@ -783,7 +783,6 @@ fil:
   button_print: I-print
   button_quote: Quote
   button_remove: Tanggalin
-  button_remove_widget: Alisin ang widget
   button_rename: Baguhin ang pangalan
   button_replace: Palitan
   button_revoke: Revoke
@@ -1464,7 +1463,6 @@ fil:
   label_my_account: Ang aking akwant
   label_my_account_data: Ang data ng aking akwant
   label_my_page: Ang aking pahina
-  label_my_page_block: Ang pahinang block
   label_my_projects: Ang mga aking proyekto
   label_my_queries: Ang mga aking custom query
   label_never: Hindi kailanman
@@ -1574,7 +1572,6 @@ fil:
   label_repository_plural: Mga repositoryo
   label_required: kailangan
   label_requires: kinakailangan
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Mga resulta
   label_reverse_chronological_order: Sa kabaligtaran ng chronological order
   label_revision: Rebisyon
@@ -1771,7 +1768,6 @@ fil:
     (sa ilang listahan lamang)
   label_keyboard_shortcut_focus_next_item: Tumuoj sa susunod na listahang elemento
     (sa ilang listahan lamang)
-  label_visible_elements: Nakikita ang mga elemento
   auth_source:
     using_abstract_auth_source: Hindi magamit ang isang abstrak na pagpapatunay ng
       pinagmulan.
@@ -2986,3 +2982,7 @@ fil:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Alisin ang widget
+  label_my_page_block: Ang pahinang block
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: Nakikita ang mga elemento

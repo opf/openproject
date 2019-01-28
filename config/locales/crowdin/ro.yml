@@ -768,7 +768,6 @@ ro:
   button_print: Tipărește
   button_quote: Citare
   button_remove: Eliminare
-  button_remove_widget: Elimină secțiune
   button_rename: Redenumire
   button_replace: Replace
   button_revoke: Revoke
@@ -1455,7 +1454,6 @@ ro:
   label_my_account: Contul meu
   label_my_account_data: Datele din contul meu
   label_my_page: Pagina mea
-  label_my_page_block: Bloc pentru pagina mea
   label_my_projects: Proiectele mele
   label_my_queries: Interogările mele
   label_never: Niciodată
@@ -1564,7 +1562,6 @@ ro:
   label_repository_plural: Repo-uri
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Rezultate
   label_reverse_chronological_order: În ordine invers cronologică
   label_revision: Revizie
@@ -1766,7 +1763,6 @@ ro:
     în cadrul anumitor liste)
   label_keyboard_shortcut_focus_next_item: Focalizare pe elementul următor (doar în
     cadrul anumitor liste)
-  label_visible_elements: Elemente vizibile
   auth_source:
     using_abstract_auth_source: Nu poate fi folosită o sursă de autentificare abstractă.
     ldap_error: 'Eroare LDAP: %{error_message}'
@@ -2946,3 +2942,7 @@ ro:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Elimină secțiune
+  label_my_page_block: Bloc pentru pagina mea
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: Elemente vizibile

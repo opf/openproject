@@ -698,7 +698,6 @@ zh-TW:
   button_print: 列印
   button_quote: 引言
   button_remove: 刪除
-  button_remove_widget: 移除元件
   button_rename: 重新命名
   button_replace: 取代
   button_revoke: Revoke
@@ -1337,7 +1336,6 @@ zh-TW:
   label_my_account: 我的帳號
   label_my_account_data: 我的帳號資料
   label_my_page: 我的首頁
-  label_my_page_block: 我的首頁區塊
   label_my_projects: 我的專案
   label_my_queries: 我的自訂查詢
   label_never: 永不
@@ -1444,7 +1442,6 @@ zh-TW:
   label_repository_plural: Repositories
   label_required: 必要
   label_requires: 要求
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: 結果
   label_reverse_chronological_order: 在反序排列
   label_revision: 修訂
@@ -1632,7 +1629,6 @@ zh-TW:
   label_keyboard_shortcut_go_preview: 前往預覽目前編輯的項目 (只在詳細資訊頁面)
   label_keyboard_shortcut_focus_previous_item: 停駐在前一個清單元素 (只在某些清單)
   label_keyboard_shortcut_focus_next_item: 停駐在下一個清單元素 (只在某些清單)
-  label_visible_elements: 可見的元素
   auth_source:
     using_abstract_auth_source: 不能使用抽象的認證來源
     ldap_error: 'LDAP 錯誤: %{error_message}'
@@ -2648,3 +2644,7 @@ zh-TW:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: 移除元件
+  label_my_page_block: 我的首頁區塊
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: 可見的元素

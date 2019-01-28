@@ -154,10 +154,14 @@ es:
     label_activity_no: Entrada de actividad número %{activityNo}
     label_activity_with_comment_no: Entrada de actividad número %{activityNo} tiene
       un comentario.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Añadir columnas
     label_add_comment: Agregar comentario
     label_add_comment_title: Escriba un comentario y agregue @ para notificar a otras
       personas
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Agregar columnas seleccionadas
     label_added_by: agregado por
     label_added_time_by: Agregado por %{author} %{age}
@@ -215,6 +219,7 @@ es:
     label_menu_collapse: colapsar
     label_menu_expand: expandir
     label_more_than_ago: más días atrás
+    label_my_page: My page
     label_next: Siguiente
     label_no_data: No hay datos disponibles
     label_no_due_date: sin fecha de finalizacion
@@ -233,7 +238,9 @@ es:
     label_visibility_settings: Configuración de visibilidad
     label_quote_comment: Citar este comentario
     label_reset: Reiniciar
+    label_remove_column: Remove column
     label_remove_columns: Eliminar columnas seleccionadas
+    label_remove_row: Remove row
     label_save_as: Guardad como
     label_select_watcher: Selecciona un observador...
     label_selected_filter_list: Filtros seleccionados
@@ -255,6 +262,7 @@ es:
     label_activity_show_only_comments: Solo mostrar las actividades con comentarios
     label_activity_show_all: Mostrar todas las actividades
     label_total_progress: 'Progreso total: %{percent}%'
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: actualizado el
     label_warning: Alerta
     label_work_package: Paquete de trabajo
@@ -402,6 +410,10 @@ es:
           includes: incluido
           requires: requiere
           required: requerido por
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: cargando observadores...
       label_error_loading: Se ha producido un error al cargar los observadores

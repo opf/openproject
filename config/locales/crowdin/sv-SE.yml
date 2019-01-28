@@ -757,7 +757,6 @@ sv-SE:
   button_print: Print
   button_quote: Citat
   button_remove: Ta bort
-  button_remove_widget: Ta bort widget
   button_rename: Ändra namn
   button_replace: Ersätt
   button_revoke: Revoke
@@ -1425,7 +1424,6 @@ sv-SE:
   label_my_account: Mitt konto
   label_my_account_data: Min kontoinformation
   label_my_page: Min sida
-  label_my_page_block: Området "Min Sida"
   label_my_projects: Mina projekt
   label_my_queries: Min anpassade frågor
   label_never: Aldrig
@@ -1532,7 +1530,6 @@ sv-SE:
   label_repository_plural: Versionsarkiv
   label_required: obligatorisk
   label_requires: kräver
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Resultat
   label_reverse_chronological_order: I omvänd kronologisk ordning
   label_revision: Revision
@@ -1727,7 +1724,6 @@ sv-SE:
     listor endast)
   label_keyboard_shortcut_focus_next_item: Fokusera nästa listelement (på vissa listor
     endast)
-  label_visible_elements: Synliga element
   auth_source:
     using_abstract_auth_source: Kan inte använda en abstrakt autentiseringskälla.
     ldap_error: 'LDAP-fel: %{error_message}'
@@ -2871,3 +2867,7 @@ sv-SE:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Ta bort widget
+  label_my_page_block: Området "Min Sida"
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: Synliga element

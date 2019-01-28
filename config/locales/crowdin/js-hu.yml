@@ -151,9 +151,13 @@ hu:
     label_activity_no: Tevékenységi bejegyzések száma %{activityNo}
     label_activity_with_comment_no: Tevékenységi bejegyzések száma %{activityNo}.
       Felhasználói megjegyzéssel.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Oszlopok hozzáadása
     label_add_comment: Megjegyzés hozzáadása
     label_add_comment_title: "@név beírásával értesíthetsz másokat a hozzászólásodról"
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: A kiválasztott oszlopok hozzáadása
     label_added_by: Hozzáadta
     label_added_time_by: Hozzáadva %{author} %{age}
@@ -211,6 +215,7 @@ hu:
     label_menu_collapse: összecsuk
     label_menu_expand: kibont
     label_more_than_ago: több, nappal ezelőtt
+    label_my_page: My page
     label_next: " Következő"
     label_no_data: Nincs megjelenítendő adat
     label_no_due_date: nincs záró dátuma
@@ -229,7 +234,9 @@ hu:
     label_visibility_settings: Láthatósági beállítások
     label_quote_comment: Hozzászólás idézése
     label_reset: Visszaállít, reset
+    label_remove_column: Remove column
     label_remove_columns: Eltávolítja a kijelölt oszlopokat
+    label_remove_row: Remove row
     label_save_as: Mentés másként
     label_select_watcher: Megfigyelők választása...
     label_selected_filter_list: Szűrők választása
@@ -251,6 +258,7 @@ hu:
     label_activity_show_only_comments: Hozzászólással rendelkező tevékenységek mutatása
     label_activity_show_all: Minden tevékenység mutatása
     label_total_progress: "%{percent}% a teljes folyamatban"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: frissítve
     label_warning: Figyelem
     label_work_package: Feladatcsoport
@@ -391,6 +399,10 @@ hu:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: megfigyelők betöltése...
       label_error_loading: Hiba történt a megfigyelők betöltése közben

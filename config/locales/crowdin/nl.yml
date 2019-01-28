@@ -767,7 +767,6 @@ nl:
   button_print: Afdrukken
   button_quote: Citeer
   button_remove: Verwijder
-  button_remove_widget: Widget verwijderen
   button_rename: Naam wijzigen
   button_replace: Vervang
   button_revoke: Revoke
@@ -1445,7 +1444,6 @@ nl:
   label_my_account: Mijn gegevens
   label_my_account_data: Mijn accountgegevens
   label_my_page: Mijn pagina
-  label_my_page_block: Mijn pagina blok
   label_my_projects: Mijn projecten
   label_my_queries: Mijn aangepaste query 's
   label_never: Nooit
@@ -1554,8 +1552,6 @@ nl:
   label_repository_plural: Repositories
   label_required: vereist
   label_requires: vereist
-  label_responsible_for_work_packages: Werkpakketten waar ik verantwoordelijk voor
-    ben
   label_result_plural: Resultaten
   label_reverse_chronological_order: In omgekeerde chronologische volgorde
   label_revision: Revisie
@@ -1753,7 +1749,6 @@ nl:
     sommige lijsten)
   label_keyboard_shortcut_focus_next_item: Focus volgende lijstelement (enkel op sommige
     lijsten)
-  label_visible_elements: Zichtbare elementen
   auth_source:
     using_abstract_auth_source: Kan geen abstracte authenticatiebron gebruiken.
     ldap_error: 'LDAP-fout: %{error_message}'
@@ -2934,3 +2929,8 @@ nl:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Widget verwijderen
+  label_my_page_block: Mijn pagina blok
+  label_responsible_for_work_packages: Werkpakketten waar ik verantwoordelijk voor
+    ben
+  label_visible_elements: Zichtbare elementen
