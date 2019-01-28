@@ -31,6 +31,7 @@ import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedde
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
+import {WorkPackageTableFilters} from "core-components/wp-fast-table/wp-table-filters";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -127,6 +128,10 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
           }
         });
     });
+  }
+
+  public onFiltersChanged(filters:WorkPackageTableFilters) {
+    // Nop
   }
 
   protected loadQuery(visible:boolean = true) {
