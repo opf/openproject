@@ -2,7 +2,7 @@
 # Defines OpenProject (CE) modules and their dependencies
 # the dependencies from the gemspec from a git repo are ignored
 # see also https://github.com/bundler/bundler/issues/1041
-gem 'omniauth-saml', '~> 1.7.0'
+gem 'omniauth-saml', '~> 1.10.1'
 
 gem 'omniauth-openid_connect-providers',
 		git: 'https://github.com/finnlabs/omniauth-openid_connect-providers.git',
@@ -15,6 +15,7 @@ gem 'omniauth-openid-connect',
 group :opf_plugins do
 	gem 'openproject-global_roles',              path: 'modules/global_roles'
 	gem 'openproject-auth_plugins',              path: 'modules/auth_plugins'
+	gem 'openproject-auth_saml',                 path: 'modules/auth_saml'
 	gem 'openproject-openid_connect',            path: 'modules/openid_connect'
 	gem 'openproject-documents',                 path: 'modules/documents'
 	gem 'openproject-my_project_page',           path: 'modules/my_project_page'
