@@ -461,7 +461,7 @@ ru:
         one: Вы можете выбрать только один элемент
         other: Вы можете выбрать только {{limit}} элементов
         zero: You cannot select any items
-        few: Вы можете выбрать только {{limit}} элемента
+        few: Можно выбрать {{limit}} элементов
         many: You can only select {{limit}} items
     project_menu_details: Детали
     sort:
@@ -852,7 +852,7 @@ ru:
         one: 1 час
         other: "%{count} часов"
         zero: 0 hours
-        few: "%{count} часа"
+        few: 'Кол-во часов: %{count}'
         many: "%{count} hours"
     zen_mode:
       button_activate: Включить дзен-режим

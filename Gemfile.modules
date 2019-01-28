@@ -2,7 +2,7 @@
 # Defines OpenProject (CE) modules and their dependencies
 # the dependencies from the gemspec from a git repo are ignored
 # see also https://github.com/bundler/bundler/issues/1041
-gem 'omniauth-saml', '~> 1.7.0'
+gem 'omniauth-saml', '~> 1.10.1'
 
 gem 'omniauth-openid_connect-providers',
 		git: 'https://github.com/finnlabs/omniauth-openid_connect-providers.git',
@@ -13,25 +13,23 @@ gem 'omniauth-openid-connect',
 		ref: '46f0c33bee2c885c89dd2866f5cf847da62b3482'
 
 group :opf_plugins do
-  # included so that engines can reference OpenProject::Version
-  $:.push File.expand_path("../lib", __FILE__)
+	gem 'openproject-global_roles',              path: 'modules/global_roles'
+	gem 'openproject-auth_plugins',              path: 'modules/auth_plugins'
+	gem 'openproject-auth_saml',                 path: 'modules/auth_saml'
+	gem 'openproject-openid_connect',            path: 'modules/openid_connect'
+	gem 'openproject-documents',                 path: 'modules/documents'
+	gem 'openproject-my_project_page',           path: 'modules/my_project_page'
+	gem 'openproject-xls_export',                path: 'modules/xls_export'
+	gem 'reporting_engine',                      path: 'modules/reporting_engine'
+	gem 'openproject-costs',                     path: 'modules/costs'
+	gem 'openproject-reporting',                 path: 'modules/reporting'
+	gem 'openproject-meeting',                   path: 'modules/meeting'
+	gem 'openproject-pdf_export',                path: 'modules/pdf_export'
+	gem "openproject-backlogs",                  path: 'modules/backlogs'
+	gem 'openproject-avatars',                   path: 'modules/avatars'
+	gem 'openproject-two_factor_authentication', path: 'modules/two_factor_authentication'
+	gem 'openproject-webhooks',                  path: 'modules/webhooks'
+	gem 'openproject-github_integration',        path: 'modules/github_integration'
 
-  gem 'openproject-global_roles',              path: 'modules/global_roles'
-  gem 'openproject-auth_plugins',              path: 'modules/auth_plugins'
-  gem 'openproject-openid_connect',            path: 'modules/openid_connect'
-  gem 'openproject-documents',                 path: 'modules/documents'
-  gem 'openproject-my_project_page',           path: 'modules/my_project_page'
-  gem 'openproject-xls_export',                path: 'modules/xls_export'
-  gem 'reporting_engine',                      path: 'modules/reporting_engine'
-  gem 'openproject-costs',                     path: 'modules/costs'
-  gem 'openproject-reporting',                 path: 'modules/reporting'
-  gem 'openproject-meeting',                   path: 'modules/meeting'
-  gem 'openproject-pdf_export',                path: 'modules/pdf_export'
-  gem "openproject-backlogs",                  path: 'modules/backlogs'
-  gem 'openproject-avatars',                   path: 'modules/avatars'
-  gem 'openproject-two_factor_authentication', path: 'modules/two_factor_authentication'
-  gem 'openproject-webhooks',                  path: 'modules/webhooks'
-  gem 'openproject-github_integration',        path: 'modules/github_integration'
-
-  gem 'grids', path: 'modules/grids'
+    gem 'grids',                                 path: 'modules/grids'
 end
