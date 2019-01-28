@@ -45,7 +45,10 @@ import {UserDmService} from 'core-app/modules/hal/dm-services/user-dm.service';
 import {ProjectDmService} from 'core-app/modules/hal/dm-services/project-dm.service';
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-error-handler";
+import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
+import {TimeEntryDmService} from './dm-services/time-entry-dm.service';
 import {CommonModule} from "@angular/common";
+import {NewsDmService} from './dm-services/news-dm.service';
 
 @NgModule({
   imports: [
@@ -59,15 +62,18 @@ import {CommonModule} from "@angular/common";
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
     { provide: APP_INITIALIZER, useFactory: initializeHalResourceConfig, deps: [HalResourceService], multi: true },
     ConfigurationDmService,
+    GridDmService,
     HelpTextDmService,
+    NewsDmService,
     PayloadDmService,
+    ProjectDmService,
     QueryDmService,
-    UserDmService,
     QueryFormDmService,
     RelationsDmService,
-    ProjectDmService,
     RootDmService,
-    TypeDmService
+    TimeEntryDmService,
+    TypeDmService,
+    UserDmService,
   ]
 })
 export class OpenprojectHalModule { }

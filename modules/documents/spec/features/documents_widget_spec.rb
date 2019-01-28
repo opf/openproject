@@ -35,8 +35,8 @@ describe 'Documents widget', type: :feature, js: true do
   let(:project) { FactoryBot.create(:project) }
   let(:user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:role) { FactoryBot.create(:role, permissions: [:edit_project]) }
 
@@ -58,15 +58,5 @@ describe 'Documents widget', type: :feature, js: true do
 
       expect(page.find('#block-select option', text: 'Documents')['disabled']).to eql 'true'
     end
-  end
-
-  it 'has a "Document" widget on the my page' do
-    visit my_page_layout_path
-
-    select 'Documents', from: 'block-options'
-    click_button 'Add'
-
-    expect(page).to have_selector('.widget-box--header-title', text: 'Documents', wait: 10)
-    expect(page.find('#block-options option', text: 'Documents')['disabled']).to eql 'true'
   end
 end

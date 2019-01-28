@@ -184,6 +184,36 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/projects/42/work_packages/form'
   end
 
+  describe '#grids' do
+    subject { helper.grids }
+
+    it_behaves_like 'api v3 path', '/grids'
+  end
+
+  describe '#create_grid_form' do
+    subject { helper.create_grid_form }
+
+    it_behaves_like 'api v3 path', '/grids/form'
+  end
+
+  describe '#grid_schema' do
+    subject { helper.grid_schema }
+
+    it_behaves_like 'api v3 path', '/grids/schema'
+  end
+
+  describe '#grid' do
+    subject { helper.grid(42) }
+
+    it_behaves_like 'api v3 path', '/grids/42'
+  end
+
+  describe '#grid_form' do
+    subject { helper.grid_form(42) }
+
+    it_behaves_like 'api v3 path', '/grids/42/form'
+  end
+
   describe '#message' do
     subject { helper.message(42) }
 

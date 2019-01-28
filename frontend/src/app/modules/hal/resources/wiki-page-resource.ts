@@ -29,6 +29,7 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
 
+
 export interface WikiPageResourceLinks {
   addAttachment(attachment:HalResource):Promise<any>;
 }

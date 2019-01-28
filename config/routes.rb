@@ -523,10 +523,6 @@ OpenProject::Application.routes.draw do
   end
 
   scope controller: 'my' do
-    post '/my/add_block', action: 'add_block'
-    post '/my/remove_block', action: 'remove_block'
-    post '/my/order_blocks', action: 'order_blocks'
-    get '/my/page_layout', action: 'page_layout'
     get '/my/password', action: 'password'
     post '/my/change_password', action: 'change_password'
     get '/my/page', action: 'page'

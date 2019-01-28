@@ -288,12 +288,19 @@ module API
                                                 visibility,
                                                 attribute_group,
                                                 values_callback)
+
+        wrapped_link_factory = if link_factory
+                                 ->(value) { instance_exec(value, &link_factory) }
+                               else
+                                 link_factory
+                               end
+
         representer = ::API::Decorators::AllowedValuesByCollectionRepresenter
                       .new(type: call_or_use(type),
                            name: call_or_translate(name_source),
                            current_user: current_user,
                            value_representer: value_representer,
-                           link_factory: ->(value) { instance_exec(value, &link_factory) },
+                           link_factory: wrapped_link_factory,
                            required: call_or_use(required),
                            has_default: call_or_use(has_default),
                            writable: call_or_use(writable),

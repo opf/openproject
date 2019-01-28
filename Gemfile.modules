@@ -13,6 +13,9 @@ gem 'omniauth-openid-connect',
 		ref: '46f0c33bee2c885c89dd2866f5cf847da62b3482'
 
 group :opf_plugins do
+    # included so that engines can reference OpenProject::Version
+    $:.push File.expand_path("../lib", __FILE__)
+
 	gem 'openproject-global_roles',              path: 'modules/global_roles'
 	gem 'openproject-auth_plugins',              path: 'modules/auth_plugins'
 	gem 'openproject-auth_saml',                 path: 'modules/auth_saml'
@@ -30,4 +33,6 @@ group :opf_plugins do
 	gem 'openproject-two_factor_authentication', path: 'modules/two_factor_authentication'
 	gem 'openproject-webhooks',                  path: 'modules/webhooks'
 	gem 'openproject-github_integration',        path: 'modules/github_integration'
+
+    gem 'grids',                                 path: 'modules/grids'
 end
