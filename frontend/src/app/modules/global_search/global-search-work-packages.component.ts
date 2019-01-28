@@ -89,7 +89,8 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
               injector:Injector,
               private QueryFormDm:QueryFormDmService,
               private wpTableFilters:WorkPackageTableFiltersService,
-              private UrlParamsHelper:UrlParamsHelperService) {
+              private UrlParamsHelper:UrlParamsHelperService,
+              private WpFilter:WorkPackageFiltersService) {
     super(injector);
   }
 
@@ -106,7 +107,10 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
 
     this.searchTermSub = this.globalSearchService
       .searchTerm$
-      .subscribe((_searchTerm) => this.setQueryProps());
+      .subscribe((_searchTerm) => {
+        this.WpFilter.visible = false;
+        this.setQueryProps();
+      });
 
     this.projectScopeSub = this.globalSearchService
       .projectScope$
