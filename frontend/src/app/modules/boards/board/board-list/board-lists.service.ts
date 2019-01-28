@@ -4,6 +4,9 @@ import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {Board} from "core-app/modules/boards/board/board";
+import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 
 @Injectable()
 export class BoardListsService {
@@ -13,11 +16,12 @@ export class BoardListsService {
   constructor(private readonly CurrentProject:CurrentProjectService,
               private readonly pathHelper:PathHelperService,
               private readonly QueryDm:QueryDmService,
+              private readonly halResourceService:HalResourceService,
               private readonly QueryFormDm:QueryFormDmService) {
 
   }
 
-  public create(name:string = 'New board'):Promise<QueryResource> {
+  private create(name:string = 'New list'):Promise<QueryResource> {
     return this.QueryFormDm
       .loadWithParams(
         { pageSize: 0},
@@ -29,6 +33,32 @@ export class BoardListsService {
         const query = this.QueryFormDm.buildQueryResource(form);
         return this.QueryDm.create(query, form);
       });
+  }
+
+  /**
+   * Add an empty query to the board
+   * @param board
+   * @param query
+   */
+  public async addQuery(board:Board):Promise<Board> {
+    const query = await this.create();
+
+    let source = {
+      _type: 'GridWidget',
+      identifier: 'work_package_query',
+      startRow: 1,
+      endRow: 1,
+      startColumn: 1,
+      endColumn: 1,
+      options: {
+        query_id: query.id
+      }
+    };
+
+    let resource = this.halResourceService.createHalResourceOfClass(GridWidgetResource, source);
+    board.addQuery(resource);
+
+    return board;
   }
 
   private buildQueryRequest(name:string) {

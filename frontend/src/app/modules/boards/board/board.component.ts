@@ -1,15 +1,15 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
-import {Board} from "core-app/modules/boards/board/board";
+import {Component, OnInit} from "@angular/core";
 import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
 import {StateService} from "@uirouter/core";
-import {Observable} from "rxjs";
-import {BoardsService} from "core-app/modules/boards/board/boards.service";
-import {filter, take, tap} from "rxjs/operators";
+import {from, Observable} from "rxjs";
+import {tap} from "rxjs/operators";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
+import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
+import {BoardService} from "core-app/modules/boards/board/board.service";
+import {Board} from "core-app/modules/boards/board/board";
 
 @Component({
   selector: 'board',
@@ -19,7 +19,7 @@ import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service"
     DragAndDropService
   ]
 })
-export class BoardComponent implements OnInit, OnDestroy {
+export class BoardComponent implements OnInit {
 
   public board$:Observable<Board|undefined>;
 
@@ -33,7 +33,8 @@ export class BoardComponent implements OnInit, OnDestroy {
               private readonly notifications:NotificationsService,
               private readonly BoardList:BoardListsService,
               private readonly QueryDm:QueryDmService,
-              private readonly Boards:BoardsService) {
+              private readonly BoardCache:BoardCacheService,
+              private readonly Boards:BoardService) {
   }
 
   goBack() {
@@ -42,13 +43,12 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   updateBoardName(board:Board, name:string) {
     board.name = name;
-    this.Boards.update(board);
+    this.BoardCache.update(board);
   }
 
   ngOnInit():void {
-    const id = this.state.params.id;
-    this.board$ = this.Boards
-      .load(id)
+    const id:number = this.state.params.id;
+    this.board$ = from(this.BoardCache.require(id.toString()))
       .pipe(
         tap(b => {
           if (b === undefined) {
@@ -63,28 +63,11 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.notifications.addError(this.text.loadingError);
   }
 
-  ngOnDestroy():void {
-    this.Boards
-      .load(this.state.params.id)
-      .pipe(
-        filter(b => b !== undefined),
-        take(1)
-      )
-      .subscribe((board:Board) => {
-        board.queries.forEach((el) => {
-          if (el instanceof HalResource) {
-            this.QueryDm.delete(el);
-          }
-        });
-      });
-  }
-
   addList(board:Board) {
     this.BoardList
-      .create()
-      .then(query => {
-        board.queries = [...board.queries, query];
-        this.Boards.update(board);
+      .addQuery(board)
+      .then(board => {
+        this.BoardCache.update(board);
       });
   }
 }

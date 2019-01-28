@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,21 +28,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Grids
-      class WidgetRepresenter < ::API::Decorators::Single
-        property :identifier
-        property :start_row
-        property :end_row
-        property :start_column
+require_dependency 'grids/grid'
 
-        property :options
+class BoardGrid < ::Grids::Grid
+  belongs_to :user
 
-        def _type
-          'GridWidget'
-        end
-      end
-    end
+  def self.new_default(project = nil)
+    new(
+      # TODO project: project,
+      row_count: 1,
+      column_count: 4,
+      widgets: []
+    )
+  end
+
+  def self.visible_scope(project = nil)
+    # Use base class to avoid incompatibility scope merging
+    # TODO project scope
+    ::Grids::Grid.where(type: 'BoardGrid')
   end
 end

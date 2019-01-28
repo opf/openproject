@@ -41,7 +41,7 @@ export abstract class AbstractDmService<T extends HalResource> implements DmServ
               protected pathHelper:PathHelperService) {
   }
 
-  public list(params:DmListParameter|null):Promise<CollectionResource> {
+  public list(params:DmListParameter|null):Promise<CollectionResource<T>> {
     let queryProps = [];
 
     if (params && params.sortBy) {

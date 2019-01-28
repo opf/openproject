@@ -147,7 +147,6 @@ export function bootstrapModule(injector:Injector) {
     OPContextMenuComponent,
 
     NoResultsComponent,
-
     // Autocompleter Component
     NgSelectModule,
     UserAutocompleterComponent,

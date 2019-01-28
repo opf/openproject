@@ -38,6 +38,12 @@ module OpenProject::Boards
            caption: :'boards.label_boards',
            param: :project_id,
            icon: 'icon2 icon-backlogs'
+
+    end
+
+    config.to_prepare do
+      Grids::Configuration.register_grid('BoardGrid', 'boards_path')
+      Grids::Configuration.register_widget('work_package_query', 'BoardGrid')
     end
   end
 end

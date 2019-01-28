@@ -58,8 +58,8 @@ export class PathHelperService {
     return this.staticBase + '/highlighting/styles';
   }
 
-  public boardPath(projectIdentifier:string, boardIdentifier:string) {
-    return this.projectBoardsPath(projectIdentifier) + '/' + boardIdentifier;
+  public forumPath(projectIdentifier:string, forumIdentifier:string) {
+    return this.projectForumPath(projectIdentifier) + '/' + forumIdentifier;
   }
 
   public keyboardShortcutsHelpPath() {
@@ -90,7 +90,7 @@ export class PathHelperService {
     return this.projectPath(projectIdentifier) + '/activity';
   }
 
-  public projectBoardsPath(projectIdentifier:string) {
+  public projectForumPath(projectIdentifier:string) {
     return this.projectPath(projectIdentifier) + '/boards';
   }
 
@@ -124,6 +124,14 @@ export class PathHelperService {
 
   public projectWorkPackageNewPath(projectId:string) {
     return this.projectWorkPackagesPath(projectId) + '/new';
+  }
+
+  public projectBoardsPath(projectIdentifier:string | null) {
+    if (projectIdentifier) {
+      return this.projectPath(projectIdentifier) + '/boards';
+    } else {
+      return this.appBasePath + '/boards';
+    }
   }
 
   public timeEntriesPath(workPackageId:string|number) {
@@ -183,4 +191,5 @@ export class PathHelperService {
   public textFormattingHelp() {
     return this.staticBase + '/help/text_formatting';
   }
+
 }

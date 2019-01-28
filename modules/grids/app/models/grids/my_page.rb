@@ -57,7 +57,7 @@ module Grids
     end
 
     def self.visible_scope
-      where(user_id: User.current.id)
+      Grid.where(user_id: User.current.id)
     end
   end
 end
