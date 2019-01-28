@@ -115,19 +115,19 @@ describe 'My page', type: :feature, js: true do
 
     # Disabling the following as it leads to false positives on travis only
 
-    # dragging makes room for the dragged widget which means
-    # that widgets that have been there are moved down
-    #watched_area.drag_to(1, 3)
-    #watched_area.expect_to_span(1, 3, 4, 5)
-    #calendar_area.expect_to_span(4, 1, 6, 5)
-    #assigned_area.expect_to_span(6, 1, 12, 3)
-    #created_area.expect_to_span(6, 3, 12, 5)
+    # # dragging makes room for the dragged widget which means
+    # # that widgets that have been there are moved down
+    # watched_area.drag_to(1, 3)
+    # watched_area.expect_to_span(1, 3, 4, 5)
+    # calendar_area.expect_to_span(4, 1, 6, 5)
+    # assigned_area.expect_to_span(6, 1, 12, 3)
+    # created_area.expect_to_span(6, 3, 12, 5)
 
-    #calendar_area.drag_to(3, 4)
-    ## reduces the size of calendar as the widget would otherwise not fit
-    #calendar_area.expect_to_span(3, 4, 5, 7)
-    #watched_area.expect_to_span(5, 3, 8, 5)
-    #assigned_area.expect_to_span(6, 1, 12, 3)
-    #created_area.expect_to_span(8, 3, 14, 5)
+    # calendar_area.drag_to(3, 4)
+    # # reduces the size of calendar as the widget would otherwise not fit
+    # calendar_area.expect_to_span(3, 4, 5, 7)
+    # watched_area.expect_to_span(5, 3, 8, 5)
+    # assigned_area.expect_to_span(6, 1, 12, 3)
+    # created_area.expect_to_span(8, 3, 14, 5)
   end
 end
