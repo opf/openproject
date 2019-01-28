@@ -48,7 +48,11 @@ import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-erro
 import {CommonModule} from "@angular/common";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
-import {GlobalSearchService} from "core-components/global-search/global-search.service";
+import {GlobalSearchInputComponent} from "core-app/modules/global_search/global-search-input.component";
+import {GlobalSearchWorkPackagesComponent} from "core-app/modules/global_search/global-search-work-packages.component";
+import {GlobalSearchTabsComponent} from "core-app/modules/global_search/global-search-tabs.component";
+import {GlobalSearchTitleComponent} from "core-app/modules/global_search/global-search-title.component";
+import {GlobalSearchService} from "core-app/modules/global_search/global-search.service";
 
 @NgModule({
   imports: [
@@ -59,9 +63,17 @@ import {GlobalSearchService} from "core-components/global-search/global-search.s
     GlobalSearchService
   ],
   declarations: [
-    // Todo: GlobalSearchInputComponent etc.
+    GlobalSearchInputComponent,
+    GlobalSearchWorkPackagesComponent,
+    GlobalSearchTabsComponent,
+    GlobalSearchTitleComponent,
+  ],
+  entryComponents: [
+    GlobalSearchInputComponent,
+    GlobalSearchWorkPackagesComponent,
+    GlobalSearchTabsComponent,
+    GlobalSearchTitleComponent
   ]
-
 })
 export class OpenprojectGlobalSearchModule { }
 

@@ -36,30 +36,30 @@ import {
   Renderer2,
   ViewChild
 } from '@angular/core';
-import {ContainHelpers} from 'core-app/modules/common/focus/contain-helpers';
-import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
-import {GlobalSearchService} from "core-components/global-search/global-search.service";
+import {ContainHelpers} from 'app/modules/common/focus/contain-helpers';
+import {FocusHelperService} from 'app/modules/common/focus/focus-helper';
+import {I18nService} from 'app/modules/common/i18n/i18n.service';
+import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
+import {PathHelperService} from "app/modules/common/path-helper/path-helper.service";
+import {HalResourceService} from "app/modules/hal/services/hal-resource.service";
+import {WorkPackageResource} from "app/modules/hal/resources/work-package-resource";
+import {CollectionResource} from "app/modules/hal/resources/collection-resource";
+import {DynamicCssService} from "app/modules/common/dynamic-css/dynamic-css.service";
+import {GlobalSearchService} from "app/modules/global_search/global-search.service";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {GlobalSearchInputComponent} from "core-components/global-search/global-search-input.component";
+import {CurrentProjectService} from "app/components/projects/current-project.service";
+import {GlobalSearchInputComponent} from "app/modules/global_search/global-search-input.component";
 import {Subscription} from "rxjs";
-import {WorkPackageTableFilters} from "core-components/wp-fast-table/wp-table-filters";
-import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
-import {QueryFiltersComponent} from "core-components/filters/query-filters/query-filters.component";
-import {WorkPackageEmbeddedTableComponent} from "core-components/wp-table/embedded/wp-embedded-table.component";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
-import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
-import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
-import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
+import {WorkPackageTableFilters} from "app/components/wp-fast-table/wp-table-filters";
+import {WorkPackageTableFiltersService} from "app/components/wp-fast-table/state/wp-table-filters.service";
+import {QueryFiltersComponent} from "app/components/filters/query-filters/query-filters.component";
+import {WorkPackageEmbeddedTableComponent} from "app/components/wp-table/embedded/wp-embedded-table.component";
+import {QueryResource} from "app/modules/hal/resources/query-resource";
+import {QueryFormResource} from "app/modules/hal/resources/query-form-resource";
+import {QueryFormDmService} from "app/modules/hal/dm-services/query-form-dm.service";
+import {WorkPackageFiltersService} from "app/components/filters/wp-filters/wp-filters.service";
+import {UrlParamsHelperService} from "app/components/wp-query/url-params-helper";
 
 export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 
