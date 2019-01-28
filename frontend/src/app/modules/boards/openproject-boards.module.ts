@@ -33,7 +33,7 @@ import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/open
 import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
 import {BoardComponent} from "core-app/modules/boards/board/board.component";
 import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
-import {BoardsEntryComponent} from "core-app/modules/boards/boards-entry/boards-entry.component";
+import {BoardsRootComponent} from "core-app/modules/boards/boards-root/boards-root.component";
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 
@@ -43,7 +43,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     parent: 'root',
     url: '/boards',
     redirectTo: 'boards.list',
-    component: BoardsEntryComponent
+    component: BoardsRootComponent
   },
   {
     name: 'boards.list',
@@ -76,7 +76,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     BoardsModuleComponent,
     BoardComponent,
     BoardListComponent,
-    BoardsEntryComponent,
+    BoardsRootComponent,
   ],
   entryComponents: [
   ]

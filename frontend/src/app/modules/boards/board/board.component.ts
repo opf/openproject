@@ -21,6 +21,9 @@ import {Board} from "core-app/modules/boards/board/board";
 })
 export class BoardComponent implements OnInit {
 
+  // We only support 4 columns for now while the grid does not autoscale
+  readonly maxCount = 4;
+
   public board$:Observable<Board|undefined>;
 
   public text = {
@@ -48,7 +51,8 @@ export class BoardComponent implements OnInit {
 
   ngOnInit():void {
     const id:number = this.state.params.id;
-    this.board$ = from(this.BoardCache.require(id.toString()))
+    this.BoardCache.require(id.toString());
+    this.board$ = from(this.BoardCache.observe(id.toString()))
       .pipe(
         tap(b => {
           if (b === undefined) {
@@ -66,8 +70,9 @@ export class BoardComponent implements OnInit {
   addList(board:Board) {
     this.BoardList
       .addQuery(board)
-      .then(board => {
-        this.BoardCache.update(board);
+      .then(board => this.Boards.save(board))
+      .then(saved => {
+        this.BoardCache.update(saved);
       });
   }
 }

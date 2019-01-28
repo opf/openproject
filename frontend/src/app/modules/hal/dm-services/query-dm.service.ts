@@ -124,14 +124,15 @@ export class QueryDmService {
   }
 
   public update(query:QueryResource, form:QueryFormResource) {
-    return new Promise<QueryResource>((resolve, reject) => {
-      const payload = this.extractPayload(query, form);
-      let path:string = this.pathHelper.api.v3.queries.id(query.id).toString();
-      this.halResourceService.patch<QueryResource>(path, payload)
-        .toPromise()
-        .then(resolve)
-        .catch(reject);
-    });
+    const payload = this.extractPayload(query, form);
+    return this.patch(query.id, payload);
+  }
+
+  public patch(id:string|number, payload:{[key:string]:unknown}) {
+    let path:string = this.pathHelper.api.v3.queries.id(id).toString();
+    return this.halResourceService
+      .patch<QueryResource>(path, payload)
+      .toPromise();
   }
 
   public create(query:QueryResource, form:QueryFormResource):Promise<QueryResource> {

@@ -46,12 +46,29 @@ export class BoardService {
   }
 
   /**
+   * Save the changes to the board
+   */
+  public save(board:Board) {
+    return this.fetchSchema(board)
+      .then(schema => this.GridDm.update(board.grid, schema))
+      .then(grid => {
+        board.grid = grid;
+        return board;
+      });
+  }
+
+  private fetchSchema(board:Board) {
+    return this.GridDm.updateForm(board.grid)
+      .then((form) => form.schema);
+  }
+
+  /**
    * Retrieve the board path identifier for looking up grids.
    *
    * @param projectIdentifier The current project identifier
    */
   public boardPath(projectIdentifier:string|null = this.CurrentProject.identifier) {
-    return this.PathHelper.projectBoardsPath(projectIdentifier);
+    return '/boards'; // this.PathHelper.projectBoardsPath(projectIdentifier);
   }
 
   /**

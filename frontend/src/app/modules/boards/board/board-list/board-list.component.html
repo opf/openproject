@@ -3,6 +3,7 @@
   <ng-container *ngIf="(query$ | async) as query">
     <h2 [textContent]="query.name"></h2>
     <wp-embedded-table [queryId]="query.id"
+                       [loadedQuery]="query"
                        [queryProps]="columnsQueryProps"
                        [configuration]="boardTableConfiguration">
     </wp-embedded-table>

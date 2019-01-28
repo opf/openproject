@@ -34,6 +34,7 @@ module API
         property :start_row
         property :end_row
         property :start_column
+        property :end_column
 
         property :options
 

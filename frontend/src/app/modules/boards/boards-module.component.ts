@@ -10,10 +10,7 @@ import {tap} from "rxjs/operators";
 @Component({
   selector: 'boards-module',
   templateUrl: './boards-module.component.html',
-  styleUrls: ['./boards-module.component.sass'],
-  providers: [
-    BoardCacheService
-  ]
+  styleUrls: ['./boards-module.component.sass']
 })
 export class BoardsModuleComponent {
 

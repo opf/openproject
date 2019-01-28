@@ -27,7 +27,9 @@
       <board-list [queryInput]="query"></board-list>
     </div>
 
-    <div class="boards-list--add-item" (click)="addList(board)">
+    <div class="boards-list--add-item"
+         *ngIf="board.queries.length < maxCount"
+         (click)="addList(board)">
       <div class="boards-list--add-item-text">
         <op-icon icon-classes="icon-add icon-context"></op-icon>
         <span [textContent]="text.addList"></span>

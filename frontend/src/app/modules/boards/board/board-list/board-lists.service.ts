@@ -41,15 +41,16 @@ export class BoardListsService {
    * @param query
    */
   public async addQuery(board:Board):Promise<Board> {
+    const count = board.queries.length;
     const query = await this.create();
 
     let source = {
       _type: 'GridWidget',
       identifier: 'work_package_query',
       startRow: 1,
-      endRow: 1,
-      startColumn: 1,
-      endColumn: 1,
+      endRow: 2,
+      startColumn: count + 1,
+      endColumn: count + 2,
       options: {
         query_id: query.id
       }

@@ -35,7 +35,7 @@ export class GridWidgetResource extends HalResource {
   public startColumn:number;
   public endColumn:number;
 
-  public options:{[key:string]:unknown} = {};
+  public options:{[key:string]:unknown};
 
   public get height() {
     return this.endRow - this.startRow;

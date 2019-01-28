@@ -88,7 +88,8 @@ export class GridDmService extends AbstractDmService<GridResource> {
             endRow: widget.endRow,
             startColumn: widget.startColumn,
             endColumn: widget.endColumn,
-            identifier: widget.identifier
+            identifier: widget.identifier,
+            options: widget.options
           };
         });
       }

@@ -33,7 +33,7 @@ export class BoardListComponent implements OnInit {
     }
 
     this.query$ = this.QueryDm
-      .stream({}, this.queryInput)
+      .stream(this.columnsQueryProps, this.queryInput)
       .pipe(
         withLoadingIndicator(this.indicatorInstance, 50)
       );
