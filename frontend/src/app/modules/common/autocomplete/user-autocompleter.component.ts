@@ -30,13 +30,15 @@ import {Component, ElementRef, OnInit} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 
 @Component({
   template: `
     <ng-select [items]="options"
                bindLabel="name"
                bindValue="id"
-               [virtualScroll]="true">
+               [virtualScroll]="true"
+               (search)="onSearch($event)">
     </ng-select>
   `,
   selector: 'user-autocompleter'
@@ -51,11 +53,22 @@ export class UserAutocompleterComponent implements OnInit {
 
   ngOnInit() {
     this.url = this.pathHelper.api.v3.users.path;
-    this.setAvailableUsers(this.url);
+    this.setAvailableUsers(this.url, '');
   }
 
-  private setAvailableUsers(url:string) {
-    this.halResourceService.get(url)
+  public onSearch($event:any) {
+    let urlQuery:any;
+    if($event) {
+      let filters = new ApiV3FilterBuilder();
+      filters.add('name', '~', [$event]);
+      urlQuery = { filters: filters.toJson() };
+    }
+
+    this.setAvailableUsers(this.url, urlQuery);
+  }
+
+  private setAvailableUsers(url:string, filters:any) {
+    this.halResourceService.get(url, filters)
       .subscribe(res => {
         this.options = res.elements.map((el:any) => {
           return {name: el.name, id: el.id};
