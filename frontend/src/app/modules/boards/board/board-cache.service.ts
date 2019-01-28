@@ -1,39 +1,23 @@
 import {Injectable} from "@angular/core";
 import {StateCacheService} from "core-components/states/state-cache.service";
-import {BoardResource} from "core-app/modules/boards/board/board-resource";
 import {multiInput, MultiInputState} from "reactivestates";
-import {BoardService} from "core-app/modules/boards/board/board-dm.service";
+import {BoardService} from "core-app/modules/boards/board/board.service";
+import {Board} from "core-app/modules/boards/board/board";
 
 @Injectable()
-export class BoardCacheService extends StateCacheService<BoardResource> {
+export class BoardCacheService extends StateCacheService<Board> {
 
-  protected _state = multiInput<BoardResource>();
+  protected _state = multiInput<Board>();
 
   constructor(protected BoardDm:BoardService) {
     super();
   }
 
-  public create(name:string = 'New board'):Promise<BoardResource> {
-    return this.BoardsList
-      .create()
-      .then(query => {
-        const id:number = _.max(this.boards.map(b => b.id)) || 0;
-        const board = new BoardResource(id + 1, name, [query]);
-        this.boards.push(board);
-
-        return board;
-      });
-  }
-
-  update(board:BoardResource) {
-    _.remove(this.boards, b => b.id === board.id);
-    this.boards.push(board);
-  }
-
-  protected load(id:string):Promise<BoardResource> {
+  protected load(id:string):Promise<Board> {
     return this.BoardDm
       .one(parseInt(id))
-      .then((board) => {
+      .toPromise()
+      .then((board:Board) => {
         this.updateValue(id, board);
         return board;
       });
@@ -43,13 +27,18 @@ export class BoardCacheService extends StateCacheService<BoardResource> {
   protected loadAll(ids:string[]):Promise<undefined> {
     return this.BoardDm
       .allInScope()
+      .toPromise()
       .then((boards) => {
-         boards.forEach(b => this.updateValue(b.id, b as BoardResource));
+         boards.forEach(b => this.updateValue(b.id, b));
          return undefined;
     });
   }
 
-  protected get multiState():MultiInputState<BoardResource> {
+  protected get multiState():MultiInputState<Board> {
     return this._state;
+  }
+
+  update(board:Board) {
+    this.updateValue(board.id, board);
   }
 }

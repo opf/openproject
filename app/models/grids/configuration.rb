@@ -112,3 +112,5 @@ Grids::Configuration.register_widget('documents', 'MyPageGrid')
 Grids::Configuration.register_widget('news', 'MyPageGrid')
 
 Grids::Configuration.register_grid('BoardGrid', 'boards_path')
+Grids::Configuration.register_widget('work_package_query', 'BoardGrid')
+

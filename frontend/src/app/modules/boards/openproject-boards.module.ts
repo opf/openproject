@@ -26,20 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {BoardsModuleComponent} from "core-app/modules/boards/boards-module.component";
-import {initializeAvatarsPlugin} from "core-app/modules/plugins/linked/openproject-avatars/main";
-import {HookService} from "core-app/modules/plugins/hook-service";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
-import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
 import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
-import {WorkPackagesCalendarEntryComponent} from "core-app/modules/calendar/wp-calendar-entry/wp-calendar-entry.component";
 import {BoardComponent} from "core-app/modules/boards/board/board.component";
 import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
 import {BoardsEntryComponent} from "core-app/modules/boards/boards-entry/boards-entry.component";
-import {BoardsDmService} from "core-app/modules/boards/board/boards.service";
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
+import {BoardService} from "core-app/modules/boards/board/board.service";
 
 export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -73,7 +69,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     UIRouterModule.forChild({ states: BOARDS_ROUTES }),
   ],
   providers: [
-    BoardsDmService,
+    BoardService,
     BoardListsService,
   ],
   declarations: [

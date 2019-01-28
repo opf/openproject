@@ -253,6 +253,20 @@ export class HalResourceService {
   }
 
   /**
+   * Create a resource class of the given class
+   * @param resourceClass
+   * @param source
+   * @param loaded
+   */
+  public createHalResourceOfClass<T extends HalResource>(resourceClass:HalResourceClass<T>, source:any, loaded:boolean = false) {
+    const initializer = (halResource:T) => initializeHalProperties(this, halResource);
+    const type = source._type || 'HalResource';
+    let resource = new resourceClass(this.injector, source, loaded, initializer, type);
+
+    return resource;
+  }
+
+  /**
    * Create a linked HalResource from the given link.
    *
    * @param {HalLinkInterface} link

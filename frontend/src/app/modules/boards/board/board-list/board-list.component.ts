@@ -1,16 +1,12 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from "@angular/core";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {Component, ElementRef, Input, OnInit, ViewChild} from "@angular/core";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {
-  LoadingIndicator,
-  LoadingIndicatorService, withLoadingIndicator
+  LoadingIndicatorService,
+  withLoadingIndicator
 } from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
-import {BoardResource} from "core-app/modules/boards/board/board";
 import {Observable, of} from "rxjs";
-import {share, tap} from "rxjs/operators";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Component({
