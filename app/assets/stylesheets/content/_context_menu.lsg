@@ -1,7 +1,7 @@
 # Context menu
 
 ```
-<div class="action-menu">
+<div class="action-menu drop-down">
 	<ul class="menu">
 
 		<li>
