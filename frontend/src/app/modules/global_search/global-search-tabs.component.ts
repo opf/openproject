@@ -35,20 +35,20 @@ import {
   Renderer2,
   ViewChild
 } from '@angular/core';
-import {ContainHelpers} from 'core-app/modules/common/focus/contain-helpers';
-import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
-import {GlobalSearchService} from "core-components/global-search/global-search.service";
+import {ContainHelpers} from 'app/modules/common/focus/contain-helpers';
+import {FocusHelperService} from 'app/modules/common/focus/focus-helper';
+import {I18nService} from 'app/modules/common/i18n/i18n.service';
+import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
+import {PathHelperService} from "app/modules/common/path-helper/path-helper.service";
+import {HalResourceService} from "app/modules/hal/services/hal-resource.service";
+import {WorkPackageResource} from "app/modules/hal/resources/work-package-resource";
+import {CollectionResource} from "app/modules/hal/resources/collection-resource";
+import {DynamicCssService} from "app/modules/common/dynamic-css/dynamic-css.service";
+import {GlobalSearchService} from "app/modules/global_search/global-search.service";
 import {distinctUntilChanged} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {GlobalSearchInputComponent} from "core-components/global-search/global-search-input.component";
+import {CurrentProjectService} from "app/components/projects/current-project.service";
+import {GlobalSearchInputComponent} from "app/modules/global_search/global-search-input.component";
 import {Subscription} from "rxjs";
 
 export const globalSearchTabsSelector = 'global-search-tabs';

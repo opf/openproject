@@ -32,13 +32,13 @@ import {
   ElementRef,
   OnDestroy
 } from '@angular/core';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
 import {distinctUntilChanged} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {GlobalSearchService} from "core-components/global-search/global-search.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {I18nService} from 'app/modules/common/i18n/i18n.service';
+import {GlobalSearchService} from "app/modules/global_search/global-search.service";
+import {CurrentProjectService} from "app/components/projects/current-project.service";
 import {Injector} from "@angular/core";
 
 export const globalSearchTitleSelector = 'global-search-title';

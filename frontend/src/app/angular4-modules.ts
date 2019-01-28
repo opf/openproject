@@ -42,7 +42,6 @@ import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {CurrentProjectService} from 'core-components/projects/current-project.service';
 import {ProjectCacheService} from 'core-components/projects/project-cache.service';
 import {States} from 'core-components/states.service';
-import {GlobalSearchInputComponent} from 'core-components/global-search/global-search-input.component';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {UserCacheService} from 'core-components/user/user-cache.service';
 import {MainMenuResizerComponent} from 'core-components/resizer/main-menu-resizer.component';
@@ -80,10 +79,7 @@ import {OpenprojectWorkPackageRoutesModule} from "core-app/modules/work_packages
 import {BrowserModule} from "@angular/platform-browser";
 import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
 import {FullCalendarModule} from "ng-fullcalendar";
-import {GlobalSearchService} from "core-components/global-search/global-search.service";
-import {GlobalSearchWorkPackagesComponent} from "core-components/global-search/global-search-work-packages.component";
-import {GlobalSearchTabsComponent} from "core-components/global-search/global-search-tabs.component";
-import {GlobalSearchTitleComponent} from "core-components/global-search/global-search-title.component";
+import {OpenprojectGlobalSearchModule} from "core-app/modules/global_search/openproject-global-search.module";
 
 @NgModule({
   imports: [
@@ -110,6 +106,9 @@ import {GlobalSearchTitleComponent} from "core-components/global-search/global-s
     // Calendar module
     OpenprojectCalendarModule,
     FullCalendarModule,
+
+    // Global Search
+    OpenprojectGlobalSearchModule,
 
     // Plugin hooks and modules
     OpenprojectPluginsModule,
@@ -145,19 +144,12 @@ import {GlobalSearchTitleComponent} from "core-components/global-search/global-s
 
     // Main Menu
     MainMenuToggleService,
-    GlobalSearchService,
 
     // Augmenting Rails
     ModalWrapperAugmentService,
   ],
   declarations: [
     OpContextMenuTrigger,
-
-    // Searchbar
-    GlobalSearchInputComponent,
-    GlobalSearchWorkPackagesComponent,
-    GlobalSearchTabsComponent,
-    GlobalSearchTitleComponent,
 
     // Modals
     ConfirmDialogModal,
@@ -176,12 +168,6 @@ import {GlobalSearchTitleComponent} from "core-components/global-search/global-s
     ConfirmFormSubmitController,
   ],
   entryComponents: [
-    // Searchbar
-    GlobalSearchInputComponent,
-    GlobalSearchWorkPackagesComponent,
-    GlobalSearchTabsComponent,
-    GlobalSearchTitleComponent,
-
     // Project Auto completer
     ProjectMenuAutocompleteComponent,
 
