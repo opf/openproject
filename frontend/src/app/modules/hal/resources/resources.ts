@@ -23,6 +23,7 @@ import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
+import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 
 export const coreHalResources = [
   AttachmentCollectionResource,
@@ -50,4 +51,5 @@ export const coreHalResources = [
   UserResource,
   WorkPackageResource,
   WorkPackageCollectionResource,
+  GridResource
 ];

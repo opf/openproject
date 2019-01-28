@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
-import {Board} from "core-app/modules/boards/board/board";
-import {BoardsService} from "core-app/modules/boards/board/boards.service";
+import {BoardResource} from "core-app/modules/boards/board/board";
+import {BoardsDmService} from "core-app/modules/boards/board/boards.service";
 import {Observable} from "rxjs";
 import {StateService} from "@uirouter/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -16,9 +16,9 @@ export class BoardsModuleComponent {
     create: this.I18n.t('js.relation_buttons.create_new')
   };
 
-  public boards$:Observable<Board[]> = this.Boards.loadAll('foo');
+  public boards$:Observable<BoardResource[]> = this.Boards.loadAll('foo');
 
-  constructor(private readonly Boards:BoardsService,
+  constructor(private readonly Boards:BoardsDmService,
               private readonly I18n:I18nService,
               private readonly state:StateService) {
   }

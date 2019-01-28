@@ -8,7 +8,7 @@ import {
 } from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
-import {Board} from "core-app/modules/boards/board/board";
+import {BoardResource} from "core-app/modules/boards/board/board";
 import {Observable, of} from "rxjs";
 import {share, tap} from "rxjs/operators";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";

@@ -367,6 +367,11 @@ en:
         subscriber: "Subscriber"
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
+      grid:
+        page: "Page"
+        row_count: "Number of rows"
+        column_count: "Number of columns"
+        widgets: "Widgets"
       relation:
         delay: "Delay"
         from: "Work package"
@@ -528,6 +533,10 @@ en:
               not_match_configured: "doesn't match available scopes."
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
+        grid:
+          overlaps: 'overlap.'
+          outside: 'is outside of the grid.'
+          end_before_start: 'end value needs to be larger than the start value.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -755,7 +764,6 @@ en:
   button_print: "Print"
   button_quote: "Quote"
   button_remove: Remove
-  button_remove_widget: "Remove widget"
   button_rename: "Rename"
   button_replace: "Replace"
   button_revoke: "Revoke"
@@ -1378,7 +1386,6 @@ en:
   label_my_account: "My account"
   label_my_account_data: "My account data"
   label_my_page: "My page"
-  label_my_page_block: "My page block"
   label_my_projects: "My projects"
   label_my_queries: "My custom queries"
   label_never: "Never"
@@ -1485,7 +1492,6 @@ en:
   label_repository_plural: "Repositories"
   label_required: 'required'
   label_requires: 'requires'
-  label_responsible_for_work_packages: "Work packages I am accountable for"
   label_result_plural: "Results"
   label_reverse_chronological_order: "In reverse chronological order"
   label_revision: "Revision"
@@ -1672,7 +1678,6 @@ en:
   label_keyboard_shortcut_go_preview: "Go to preview the current edit (on edit pages only)"
   label_keyboard_shortcut_focus_previous_item: "Focus previous list element (on some lists only)"
   label_keyboard_shortcut_focus_next_item: "Focus next list element (on some lists only)"
-  label_visible_elements: Visible elements
 
   auth_source:
     using_abstract_auth_source: "Can't use an abstract authentication source."

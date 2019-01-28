@@ -7,14 +7,12 @@ OpenProject::Application.configure do
     accessibility.css
     admin_users.js
     autocompleter.js
-    calendar/lang/*.js
     copy_issue_actions.js
     date-de-DE.js
     date-en-US.js
     locales/*.js
     members_form.js
     members_select_boxes.js
-    my_page.js
     new_user.js
     project/responsible_attribute.js
     project/description_handling.js

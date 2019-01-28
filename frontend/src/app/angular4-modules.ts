@@ -74,6 +74,7 @@ import {CurrentUserService} from 'core-components/user/current-user.service';
 import {OpenprojectWorkPackagesModule} from 'core-app/modules/work_packages/openproject-work-packages.module';
 import {OpenprojectAttachmentsModule} from 'core-app/modules/attachments/openproject-attachments.module';
 import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-editor.module';
+import {OpenprojectGridsModule} from "core-app/modules/grids/openproject-grids.module";
 import {OpenprojectRouterModule} from "core-app/modules/router/openproject-router.module";
 import {OpenprojectWorkPackageRoutesModule} from "core-app/modules/work_packages/openproject-work-package-routes.module";
 import {BrowserModule} from "@angular/platform-browser";
@@ -98,7 +99,7 @@ import {OpenprojectBoardsModule} from "core-app/modules/boards/openproject-board
     OpenprojectEditorModule,
     // Display + Edit field functionality
     OpenprojectFieldsModule,
-
+    OpenprojectGridsModule,
     OpenprojectAttachmentsModule,
 
     // Work packages and their routes

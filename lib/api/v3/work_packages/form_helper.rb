@@ -33,6 +33,7 @@ module API
     module WorkPackages
       module FormHelper
         extend Grape::API::Helpers
+        include ::API::V3::Utilities::FormHelper
 
         def respond_with_work_package_form(work_package, contract_class:, form_class:, action: :update)
           parameters = parse_body
@@ -53,19 +54,6 @@ module API
           else
             fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
           end
-        end
-
-        private
-
-        def only_validation_errors(errors)
-          errors.all? { |error| error.code == 422 }
-        end
-
-        def parse_body
-          ::API::V3::WorkPackages::ParseParamsService
-            .new(current_user)
-            .call(request_body)
-            .result
         end
       end
     end

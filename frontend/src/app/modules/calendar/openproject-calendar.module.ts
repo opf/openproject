@@ -71,6 +71,9 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
     WorkPackagesCalendarController,
     WorkPackagesCalendarEntryComponent,
   ],
+  exports: [
+    WorkPackagesCalendarController
+  ]
 })
 export class OpenprojectCalendarModule {
 }

@@ -38,7 +38,7 @@ import {WorkPackagesCalendarEntryComponent} from "core-app/modules/calendar/wp-c
 import {BoardComponent} from "core-app/modules/boards/board/board.component";
 import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
 import {BoardsEntryComponent} from "core-app/modules/boards/boards-entry/boards-entry.component";
-import {BoardsService} from "core-app/modules/boards/board/boards.service";
+import {BoardsDmService} from "core-app/modules/boards/board/boards.service";
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
 
 export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
@@ -73,7 +73,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     UIRouterModule.forChild({ states: BOARDS_ROUTES }),
   ],
   providers: [
-    BoardsService,
+    BoardsDmService,
     BoardListsService,
   ],
   declarations: [

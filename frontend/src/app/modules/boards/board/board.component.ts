@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
-import {Board} from "core-app/modules/boards/board/board";
+import {BoardResource} from "core-app/modules/boards/board/board";
 import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
 import {StateService} from "@uirouter/core";
 import {Observable} from "rxjs";
-import {BoardsService} from "core-app/modules/boards/board/boards.service";
+import {BoardsDmService} from "core-app/modules/boards/board/boards.service";
 import {filter, take, tap} from "rxjs/operators";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -21,7 +21,7 @@ import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service"
 })
 export class BoardComponent implements OnInit, OnDestroy {
 
-  public board$:Observable<Board|undefined>;
+  public board$:Observable<BoardResource|undefined>;
 
   public text = {
     loadingError: 'No such board found',
@@ -33,14 +33,14 @@ export class BoardComponent implements OnInit, OnDestroy {
               private readonly notifications:NotificationsService,
               private readonly BoardList:BoardListsService,
               private readonly QueryDm:QueryDmService,
-              private readonly Boards:BoardsService) {
+              private readonly Boards:BoardsDmService) {
   }
 
   goBack() {
     this.state.go('^');
   }
 
-  updateBoardName(board:Board, name:string) {
+  updateBoardName(board:BoardResource, name:string) {
     board.name = name;
     this.Boards.update(board);
   }
@@ -70,7 +70,7 @@ export class BoardComponent implements OnInit, OnDestroy {
         filter(b => b !== undefined),
         take(1)
       )
-      .subscribe((board:Board) => {
+      .subscribe((board:BoardResource) => {
         board.queries.forEach((el) => {
           if (el instanceof HalResource) {
             this.QueryDm.delete(el);
@@ -79,7 +79,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       });
   }
 
-  addList(board:Board) {
+  addList(board:BoardResource) {
     this.BoardList
       .create()
       .then(query => {

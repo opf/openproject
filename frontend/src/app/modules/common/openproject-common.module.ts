@@ -72,6 +72,7 @@ import {CommonModule} from "@angular/common";
 import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {NgSelectModule} from "@ng-select/ng-select";
+import {NoResultsComponent} from "core-app/modules/common/no-results/no-results.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -143,6 +144,8 @@ export function bootstrapModule(injector:Injector) {
 
     OPContextMenuComponent,
 
+    NoResultsComponent,
+
     // Autocompleter Component
     NgSelectModule,
   ],
@@ -187,6 +190,8 @@ export function bootstrapModule(injector:Injector) {
 
     // Zen mode button
     ZenModeButtonComponent,
+
+    NoResultsComponent
   ],
   entryComponents: [
     OpDateTimeComponent,

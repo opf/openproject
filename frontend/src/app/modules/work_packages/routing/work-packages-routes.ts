@@ -39,6 +39,7 @@ import {WorkPackagesListComponent} from "core-app/modules/work_packages/routing/
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {Ng2StateDeclaration} from "@uirouter/angular";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
+import {MyPageComponent} from "core-components/routing/my-page/my-page.component";
 
 
 
