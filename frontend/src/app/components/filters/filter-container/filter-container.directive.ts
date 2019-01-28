@@ -26,11 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Input, OnDestroy} from '@angular/core';
+import {Component, Input, OnDestroy, Output} from '@angular/core';
 import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageTableFilters} from 'core-components/wp-fast-table/wp-table-filters';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
+import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
 
 @Component({
   templateUrl: './filter-container.directive.html',
@@ -39,6 +40,7 @@ import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-f
 export class WorkPackageFilterContainerComponent implements OnDestroy {
   @Input('showFilterButton') showFilterButton:boolean = false;
   @Input('filterButtonText') filterButtonText:string = I18n.t('js.button_filter');
+  @Output() public filtersChanged = new DebouncedEventEmitter<WorkPackageTableFilters>(componentDestroyed(this));
 
   public filters = this.wpTableFilters.currentState;
 
@@ -56,6 +58,7 @@ export class WorkPackageFilterContainerComponent implements OnDestroy {
   }
 
   public replaceIfComplete(filters:WorkPackageTableFilters) {
-    this.wpTableFilters.replaceIfComplete(this.filters);
+    this.wpTableFilters.replaceIfComplete(filters);
+    this.filtersChanged.emit(this.filters);
   }
 }

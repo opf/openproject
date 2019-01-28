@@ -47,7 +47,7 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 import {GlobalSearchService} from "core-components/global-search/global-search.service";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {GlobalSearchInputComponent} from "core-components/global-search/global-search-input.component";
 import {Subscription} from "rxjs";
@@ -59,6 +59,7 @@ import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
 import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
+import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 
 export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 
@@ -67,12 +68,13 @@ export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
   templateUrl: '/app/components/wp-table/embedded/wp-embedded-table.html'
 })
 
-export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableComponent implements OnDestroy {
+export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableComponent implements OnDestroy, AfterViewInit {
   @ViewChild('wpTable') wpTable:WorkPackageEmbeddedTableComponent;
 
   private searchTermSub:Subscription;
   private projectScopeSub:Subscription;
   private resultsHiddenSub:Subscription;
+  private query:QueryResource;
 
   public filters:WorkPackageTableFilters;
   public queryProps:{ [key:string]:any };
@@ -85,7 +87,9 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
               readonly globalSearchService:GlobalSearchService,
               readonly cdRef:ChangeDetectorRef,
               injector:Injector,
-              private QueryFormDm:QueryFormDmService) {
+              private QueryFormDm:QueryFormDmService,
+              private wpTableFilters:WorkPackageTableFiltersService,
+              private UrlParamsHelper:UrlParamsHelperService) {
     super(injector);
   }
 
@@ -115,9 +119,18 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
     this.setQueryProps();
   }
 
+  public onFiltersChanged(filters:WorkPackageTableFilters) {
+    if (filters.isComplete()) {
+      this.query.filters = filters.current;
+      this.queryProps = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(this.query);
+      this.refresh();
+    }
+  }
+
   protected loadQuery(visible:boolean = true) {
     return super.loadQuery(visible).then((query:QueryResource) => {
       this.loadForm(query);
+      this.query = query;
       return query;
     });
   }

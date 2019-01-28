@@ -7,7 +7,8 @@
 
   <ng-container *ngIf="configuration.withFilters">
     <filter-container [showFilterButton]="configuration.showFilterButton"
-                      [filterButtonText]="configuration.filterButtonText"></filter-container>
+                      [filterButtonText]="configuration.filterButtonText"
+                      (filtersChanged)="onFiltersChanged($event)"></filter-container>
   </ng-container>
 
   <ng-container *ngIf="tableInformationLoaded">
