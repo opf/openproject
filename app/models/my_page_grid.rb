@@ -56,6 +56,6 @@ class MyPageGrid < Grid
   end
 
   def self.visible_scope
-    where(user_id: User.current.id)
+    Grid.where(type: 'MyPageGrid', user_id: User.current.id)
   end
 end

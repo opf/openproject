@@ -40,6 +40,6 @@ class BoardGrid < Grid
 
   def self.visible_scope(project = nil)
     # TODO where(project: project)
-    self
+    Grid.where(type: 'BoardGrid')
   end
 end
