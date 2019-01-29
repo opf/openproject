@@ -83,6 +83,14 @@ GIT
       activesupport (>= 3.0)
       rspec-mocks (>= 2.99, < 4.0)
 
+GIT
+  remote: https://github.com/sikachu/bourbon
+  revision: a12ca168e74d3468c80500b21b525a4e12a19ef9
+  ref: a12ca168e74d3468c80500b21b525a4e12a19ef9
+  specs:
+    bourbon (5.1.0)
+      thor (~> 0.19)
+
 PATH
   remote: modules/auth_plugins
   specs:
@@ -302,9 +310,6 @@ GEM
       debug_inspector (>= 0.0.1)
     bootsnap (1.3.2)
       msgpack (~> 1.0)
-    bourbon (4.3.4)
-      sass (~> 3.4)
-      thor (~> 0.19)
     builder (3.2.3)
     byebug (10.0.2)
     capybara (3.12.0)
@@ -417,7 +422,7 @@ GEM
     faker (1.9.1)
       i18n (>= 0.7)
     fastimage (2.1.5)
-    ffi (1.10.0)
+    ffi (1.9.25)
     flamegraph (0.9.5)
     fog-aws (3.3.0)
       fog-core (~> 2.1)
@@ -764,6 +769,15 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    sassc (2.0.0)
+      ffi (~> 1.9.6)
+      rake
+    sassc-rails (2.1.0)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     secure_headers (6.0.0)
       useragent (>= 0.15.0)
     selenium-webdriver (3.141.0)
@@ -876,7 +890,7 @@ DEPENDENCIES
   aws-sdk-s3 (~> 1.30.1)
   bcrypt (~> 3.1.6)
   bootsnap (~> 1.3.2)
-  bourbon (~> 4.3.4)
+  bourbon!
   capybara (~> 3.12.0)
   capybara-screenshot (~> 1.0.17)
   capybara-select2!
@@ -988,8 +1002,8 @@ DEPENDENCIES
   ruby-progressbar (~> 1.10.0)
   rubytree!
   sanitize (~> 5.0.0)
-  sass (= 3.7.3)
-  sass-rails (~> 5.0.6)
+  sass-rails
+  sassc-rails (~> 2.1.0)
   secure_headers (~> 6.0.0)
   selenium-webdriver (~> 3.14)
   semantic (~> 1.6.1)
