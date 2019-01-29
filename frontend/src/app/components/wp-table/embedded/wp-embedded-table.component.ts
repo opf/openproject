@@ -64,6 +64,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   @Input() public compactTableStyle:boolean = false;
   @Input() public externalHeight:boolean = false;
 
+  public show:boolean = true;
   public tableInformationLoaded = false;
   public showTablePagination = false;
   public configuration:WorkPackageTableConfiguration;

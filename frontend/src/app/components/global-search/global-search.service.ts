@@ -41,12 +41,16 @@ export class GlobalSearchService {
   private _currentTab = new BehaviorSubject<any>('work_packages');
   public currentTab$ = this._currentTab.asObservable();
 
-  // Default project scope is "this projoect and all subprojets"
+  // Default project scope is "this project and all subprojets"
   private _projectScope = new BehaviorSubject<any>('');
   public projectScope$ = this._projectScope.asObservable();
 
   private _tabs = new BehaviorSubject<any>([]);
   public tabs$ = this._tabs.asObservable();
+
+  // Sometimes we need to be able to hide the search results altogether, i.e. while expecting a full page reload.
+  private _resultsHidden = new BehaviorSubject<any>(false);
+  public resultsHidden$ = this._resultsHidden.asObservable();
 
   constructor(protected I18n:I18nService,
               protected injector:Injector,
@@ -122,6 +126,14 @@ export class GlobalSearchService {
 
   public set projectScope(value:string) {
     this._projectScope.next(value);
+  }
+
+  public get resultsHidden():boolean {
+    return this._resultsHidden.value;
+  }
+
+  public set resultsHidden(value:boolean) {
+    this._resultsHidden.next(value);
   }
 
   private searchQueryParams():string {

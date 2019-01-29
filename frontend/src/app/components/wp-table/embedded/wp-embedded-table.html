@@ -2,7 +2,8 @@
      [ngClass]="{ '-hierarchy-disabled': !configuration.hierarchyToggleEnabled,
                   '-compact-tables': compactTableStyle,
                   '-external-height': externalHeight }"
-     [attr.data-indicator-name]="uniqueEmbeddedTableName">
+     [attr.data-indicator-name]="uniqueEmbeddedTableName"
+      *ngIf="show">
 
   <ng-container *ngIf="configuration.withFilters">
     <filter-container></filter-container>
