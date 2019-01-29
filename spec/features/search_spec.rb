@@ -97,6 +97,11 @@ describe 'Search', type: :feature, js: true do
                                         results_selector: '.search-autocomplete--results')
       expect(suggestions).to have_text(first_wp.subject)
       expect(suggestions).to_not have_text(work_packages[10].subject)
+
+      # Expect to have 3 project scope selecting menu entries
+      expect(suggestions).to have_text("In this project")
+      expect(suggestions).to have_text("In this project + subprojects")
+      expect(suggestions).to have_text("In all projects")
     end
   end
 
