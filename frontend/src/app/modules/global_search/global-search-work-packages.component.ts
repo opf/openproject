@@ -103,7 +103,7 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
     this.configuration.inlineCreateEnabled = false;
     this.configuration.withFilters = true;
     this.configuration.showFilterButton = true;
-    this.configuration.filterButtonText = I18n.t('js.button_advanced_filter')
+    this.configuration.filterButtonText = I18n.t('js.button_advanced_filter');
 
     this.searchTermSub = this.globalSearchService
       .searchTerm$

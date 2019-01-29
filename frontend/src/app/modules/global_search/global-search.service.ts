@@ -88,7 +88,7 @@ export class GlobalSearchService {
   }
 
   public submitSearch():void {
-    window.location.href = this.searchPath();;
+    window.location.href = this.searchPath();
   }
 
   public searchPath() {
