@@ -8,19 +8,40 @@
         <div class="block-5"></div>
       </div>
     </div>
-    <input #inputEl
-           type="text"
-           name="q"
-           id="q"
-           size="20"
-           class="top-menu-search--input"
-           [class.-expanded]="expanded"
-           placeholder="{{text.search}}"
-           autocomplete="off"
-           [ngModel]="searchTerm"
-           (focus) = "resize()"
-           (focusout) = "resize()"
-           (keyup.enter)="submitNonEmptySearch()">
+     <ng-select [items]="results"
+                 name="q"
+                 id="q"
+                [ngClass]="'top-menu-search--input'"
+                [class.-expanded]="expanded"
+                placeholder="{{text.search}}"
+                bindLabel="subject"
+                (search)="handleUserInput($event)"
+                (open)="resize()"
+                (close)="resize()"
+                [closeOnSelect]="false"
+                (change)="onChange($event)"
+                (keyup.enter)="submitNonEmptySearch()"
+                [virtualScroll]="true">
+
+        <ng-template ng-header-tmp>
+          <div *ngFor="let suggestion of suggestions" tabindex="-1" class="ui-menu-item">
+            <div class="ui-menu-item-wrapper">
+              <span class="search-autocomplete--search-term"> {{searchTerm}} </span>
+              <span class="search-autocomplete--project-scope" title="{{suggestion.projectScope}}"> {{suggestion.text}} ↵ </span>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+          <div data-value="item.id" tabindex="-1" class="ui-menu-item">
+            <div class="ui-menu-item-wrapper" tabindex="-1">
+              <span class="search-autocomplete--wp-id __hl_dot_status_{{item.statusId}}" title="item.status"> #{{item.id}} </span>
+              <span class="search-autocomplete--subject"> {{item.subject}} </span>
+            </div>
+          </div>
+        </ng-template>
+
+    </ng-select>
     <a #btn
        id="top-menu-search-button"
        class="top-menu-search--button search-form-normal"
