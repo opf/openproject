@@ -99,7 +99,7 @@ export class ApiV3Paths {
    * @param {string | number} projectIdentifier
    * @returns {Apiv3ProjectPaths | this}
    */
-  public withOptionalProject(projectIdentifier?:string|number):Apiv3ProjectPaths|this {
+  public withOptionalProject(projectIdentifier:string|number|null|undefined):Apiv3ProjectPaths|this {
     if (_.isNil(projectIdentifier)) {
       return this;
     } else {

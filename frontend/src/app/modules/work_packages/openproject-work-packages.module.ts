@@ -90,7 +90,6 @@ import {WorkPackageRelationRowComponent} from 'core-components/wp-relations/wp-r
 import {WorkPackageRelationsCreateComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-create.component';
 import {WorkPackageRelationsHierarchyComponent} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.directive';
 import {WorkPackageCreateButtonComponent} from 'core-components/wp-buttons/wp-create-button/wp-create-button.component';
-import {FullCalendarModule} from 'ng-fullcalendar';
 import {WorkPackageBreadcrumbParentComponent} from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb-parent.component';
 import {WorkPackageFilterButtonComponent} from 'core-components/wp-buttons/wp-filter-button/wp-filter-button.component';
 import {WorkPackageFilterContainerComponent} from 'core-components/filters/filter-container/filter-container.directive';
@@ -188,6 +187,7 @@ import {AttachmentListComponent} from 'core-app/modules/attachments/attachment-l
 import {WorkPackageFilterByTextInputComponent} from "core-components/filters/quick-filter-by-text-input/quick-filter-by-text-input.component";
 import {CdkDragPortalBody} from "core-components/wp-fast-table/builders/drag-and-drop/cdk-drag-portal-body";
 import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
+import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
 
 @NgModule({
   imports: [
@@ -272,6 +272,7 @@ import {QueryFiltersService} from "core-components/wp-query/query-filters.servic
 
     QueryFormDmService,
     TableState,
+    ReorderQueryService,
 
     WpTableConfigurationService,
   ],

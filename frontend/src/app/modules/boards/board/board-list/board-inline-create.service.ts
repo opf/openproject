@@ -28,62 +28,55 @@
 
 import {Injectable, Injector, OnDestroy} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {Observable, of, Subject} from "rxjs";
-import {ComponentType} from "@angular/cdk/portal";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
+import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
+import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
+import {TableState} from "core-components/wp-table/table-state/table-state";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {BoardInlineAddAutocompleterComponent} from "core-app/modules/boards/board/inline-add/board-inline-add-autocompleter.component";
 
 @Injectable()
-export class WorkPackageInlineCreateService implements OnDestroy {
+export class BoardInlineCreateService extends WorkPackageInlineCreateService implements OnDestroy {
 
-  protected readonly I18n:I18nService = this.injector.get(I18nService);
-  protected readonly authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
-
-  constructor(protected readonly injector:Injector) {
+  constructor(protected readonly injector:Injector,
+              protected readonly tableState:TableState,
+              protected readonly halResourceService:HalResourceService,
+              protected readonly pathHelperService:PathHelperService,
+              protected readonly wpRelationsHierarchyService:WorkPackageRelationsHierarchyService) {
+    super(injector);
   }
 
   /**
    * A separate reference pane for the inline create component
    */
-  public readonly referenceComponentClass:ComponentType<any>|null = null;
-
+  public readonly referenceComponentClass = BoardInlineAddAutocompleterComponent;
 
   /**
    * A related work package for the inline create context
    */
   public referenceTarget:WorkPackageResource|null = null;
 
+  public get canAdd() {
+    return this.canCreateWorkPackages;
+  }
+
+  public get canReference() {
+    return true;
+  }
+
   /**
    * Reference button text
    */
   public readonly buttonTexts = {
-    reference: '',
-    create: this.I18n.t('js.label_create_work_package'),
+    reference: this.I18n.t('js.relation_buttons.add_existing_child'),
+    create: this.I18n.t('js.relation_buttons.add_new_child')
   };
-
-  public get canAdd() {
-    return this.canCreateWorkPackages || this.authorisationService.can('work_package', 'addChild');
-  }
-
-  public get canReference() {
-    return false;
-  }
-
-  public get canCreateWorkPackages() {
-    return this.authorisationService.can('work_packages', 'createWorkPackage');
-  }
-
-  /** Allow callbacks to happen on newly created inline work packages */
-  public newInlineWorkPackageCreated = new Subject<string>();
-
-  /** Allow callbacks to happen on newly created inline work packages */
-  public newInlineWorkPackageReferenced = new Subject<string>();
 
   /**
    * Ensure hierarchical injected versions of this service correctly unregister
    */
   ngOnDestroy() {
-    this.newInlineWorkPackageCreated.complete();
-    this.newInlineWorkPackageReferenced.complete();
+    super.ngOnDestroy();
   }
+
 }

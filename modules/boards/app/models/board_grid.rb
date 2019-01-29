@@ -33,7 +33,7 @@ require_dependency 'grids/grid'
 class BoardGrid < ::Grids::Grid
   belongs_to :user
 
-  def self.new_default(project = nil)
+  def self.new_default(_project = nil)
     new(
       # TODO project: project,
       row_count: 1,
@@ -42,7 +42,7 @@ class BoardGrid < ::Grids::Grid
     )
   end
 
-  def self.visible_scope(project = nil)
+  def self.visible_scope(_project = nil)
     # Use base class to avoid incompatibility scope merging
     # TODO project scope
     ::Grids::Grid.where(type: 'BoardGrid')

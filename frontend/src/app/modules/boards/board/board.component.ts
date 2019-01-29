@@ -16,7 +16,7 @@ import {Board} from "core-app/modules/boards/board/board";
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.sass'],
   providers: [
-    DragAndDropService
+    DragAndDropService,
   ]
 })
 export class BoardComponent implements OnInit {
