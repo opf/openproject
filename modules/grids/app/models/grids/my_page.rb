@@ -32,7 +32,7 @@ module Grids
   class MyPage < Grid
     belongs_to :user
 
-    def self.new_default(user)
+    def self.new_default(user:, project: nil)
       new(
         user: user,
         row_count: 7,
@@ -56,8 +56,9 @@ module Grids
       )
     end
 
-    def self.visible_scope
-      Grid.where(user_id: User.current.id)
+    def self.visible(user = User.current)
+      super
+        .where(user_id: user.id)
     end
   end
 end

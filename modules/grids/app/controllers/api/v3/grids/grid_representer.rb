@@ -32,11 +32,21 @@ module API
       class GridRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
 
-        resource_link :page,
+        resource_link :scope,
                       getter: ->(*) {
-                        path = ::Grids::Configuration.grid_for_class(represented.class)
+                        path_attributes = represented
+                                          .attributes
+                                          .slice("id", "user_id", "project_id")
+                                          .compact
+                                          .symbolize_keys
+
+                        path = ::Grids::Configuration.to_scope(represented.class,
+                                                               path_attributes)
 
                         next unless path
+
+                        # Remove all query params
+                        path.gsub!(/\?.+\z/,'')
 
                         {
                           href: path,
@@ -44,7 +54,7 @@ module API
                         }
                       },
                       setter: ->(fragment:, **) {
-                        represented.page = fragment['href']
+                        represented.scope = fragment['href']
                       }
 
         self_link title_getter: ->(*) { nil }

@@ -35,10 +35,10 @@ module Grids
     def default_scope
       grid_classes = ::Grids::Configuration.registered_grids
 
-      or_scope = grid_classes.pop.visible_scope
+      or_scope = grid_classes.pop.visible(User.current)
 
       while grid_classes.any?
-        or_scope = or_scope.or(grid_classes.pop.visible_scope)
+        or_scope = or_scope.or(grid_classes.pop.visible(User.current))
       end
 
       # Have to use the subselect as AR will otherwise remove

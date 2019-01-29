@@ -38,12 +38,38 @@ module OpenProject::Boards
            caption: :'boards.label_boards',
            param: :project_id,
            icon: 'icon2 icon-backlogs'
-
     end
 
     config.to_prepare do
-      Grids::Configuration.register_grid('BoardGrid', 'boards_path')
-      Grids::Configuration.register_widget('work_package_query', 'BoardGrid')
+      Grids::Configuration.register_grid('Boards::Grid',
+                                         ->(path) {
+                                           begin
+                                             recognized = Rails.application.routes.recognize_path(path)
+
+                                             if recognized[:controller] == 'boards/boards'
+                                               recognized.slice(:project_id, :id, :user_id)&.merge(class: Boards::Grid)
+                                             end
+                                           rescue ActionController::RoutingError
+                                             nil
+                                           end
+                                         },
+                                         :project_boards_path,
+                                         -> {
+                                           view_allowed = Project.allowed_to(User.current, :view_boards)
+                                           manage_allowed = Project.allowed_to(User.current, :manage_boards)
+
+                                           board_projects = Project
+                                                              .where(id: view_allowed)
+                                                              .or(Project.where(id: manage_allowed))
+
+                                           url_helper = OpenProject::StaticRouting::StaticUrlHelpers.new
+
+                                           paths = board_projects.map { |p| url_helper.project_boards_path(p) }
+
+                                           paths if paths.any?
+                                         })
+
+      Grids::Configuration.register_widget('work_package_query', 'Boards::Grid')
     end
   end
 end

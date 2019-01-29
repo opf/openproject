@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -30,40 +28,48 @@
 
 require 'spec_helper'
 
-describe Grids::Filters::PageFilter, type: :model do
-  include_context 'filter tests'
-  let(:values) { ['/my/page'] }
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:model) { Grids::Grid }
+describe Grids::Query, type: :model do
+  let(:user) { FactoryBot.create(:user) }
+  let(:other_user) { FactoryBot.create(:user) }
+  let!(:my_page_grid) do
+    Grids::MyPage.new_default(user: user).tap(&:save!)
+  end
+  let!(:other_my_page_grid) do
+    Grids::MyPage.new_default(user: other_user).tap(&:save!)
+  end
+  let(:instance) { described_class.new }
 
   before do
     login_as(user)
   end
 
-  it_behaves_like 'basic query filter' do
-    let(:class_key) { :page }
-    let(:type) { :string }
-    let(:model) { Grids::Grid.where(user_id: user.id) }
-    let(:values) { ['/my/page'] }
-
-    describe '#allowed_values' do
-      it 'is /my/page' do
-        expect(instance.allowed_values)
-          .to match_array values
+  context 'without a filter' do
+    describe '#results' do
+      it 'is the same as getting all the grids visible to the user' do
+        expect(instance.results).to match_array [my_page_grid]
       end
     end
   end
 
-  describe '#scope' do
-    context 'for "="' do
-      let(:operator) { '=' }
+  context 'with a scope filter' do
+    before do
+      instance.where('scope', '=', ['/my/page'])
+    end
 
-      context 'for /my/page do' do
-        it 'is the same as handwriting the query' do
-          expected = model.where("grids.type IN ('Grids::MyPage')")
+    describe '#results' do
+      it 'is the same as handwriting the query' do
+        expect(instance.results).to match_array [my_page_grid]
+      end
+    end
 
-          expect(instance.scope.to_sql).to eql expected.to_sql
-        end
+    describe '#valid?' do
+      it 'is true' do
+        expect(instance).to be_valid
+      end
+
+      it 'is invalid if the filter is invalid' do
+        instance.where('scope', '!', ['/some/other/page'])
+        expect(instance).to be_invalid
       end
     end
   end

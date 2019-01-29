@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,49 +25,45 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_examples'
+require_dependency 'grids/grid'
 
-describe Grids::UpdateContract do
-  include_context 'model contract'
-  include_context 'grid contract'
+module Boards
+  class Grid < ::Grids::Grid
+    belongs_to :project
 
-  it_behaves_like 'shared grid contract attributes'
-
-  describe 'type' do
-    before do
-      grid.type = 'Grid'
+    def self.new_default(user: nil, project:)
+      new(
+        project: project,
+        row_count: 1,
+        column_count: 4,
+        widgets: []
+      )
     end
 
-    it 'is not writable' do
-      expect(instance.validate)
-        .to be_falsey
+    def writable?(user)
+      super &&
+        Project.allowed_to(user, :manage_boards).exists?(project_id)
     end
 
-    it 'explains the not writable error' do
-      instance.validate
-      # scope because that is what type is called on the outside for grids
-      expect(instance.errors.details[:scope])
-        .to match_array [{ error: :error_readonly }]
-    end
-  end
+    class << self
+      alias_method :super_visible, :visible
 
-  describe 'user_id' do
-    it_behaves_like 'is not writable' do
-      let(:model) { grid }
-      let(:attribute) { :user_id }
-      let(:value) { 5 }
-    end
-  end
+      def visible(user = User.current)
+        in_project_with_permission(user, :view_boards)
+          .or(in_project_with_permission(user, :manage_boards))
+      end
 
-  describe 'project_id' do
-    it_behaves_like 'is not writable' do
-      let(:model) { grid }
-      let(:attribute) { :project_id }
-      let(:value) { 5 }
+      private
+
+      def in_project_with_permission(user, permission)
+        super_visible
+          .where(project_id: Project.allowed_to(user, permission))
+      end
     end
+
+    private_class_method :super_visible
   end
 end

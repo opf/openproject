@@ -29,32 +29,76 @@
 #++
 
 class Grids::Configuration
+  attr_accessor :grid,
+                :from_scope,
+                :to_scope,
+                :all_scopes
+
+  def initialize(grid, from_scope, to_scope, all_scopes)
+    self.grid = grid
+    self.from_scope = from_scope
+    self.to_scope = to_scope
+    self.all_scopes = all_scopes
+  end
+
   class << self
     def register_grid(grid,
-                      page)
+                      from_scope,
+                      to_scope,
+                      all_scopes = to_scope)
       @grid_register ||= {}
 
-      @grid_register[grid] = page
+      @grid_register[grid] = new(grid, from_scope, to_scope, all_scopes)
     end
 
     def registered_grids
-      registered_grid_by_klass.keys
+      if @registered_grid_classes && @registered_grid_classes.length == @grid_register.length
+        @registered_grid_classes
+      else
+        @registered_grid_classes = @grid_register.keys.map(&:constantize)
+      end
     end
 
-    def registered_pages
-      registered_grid_by_page.keys
+    def all_scopes
+      all.map do |config|
+        if config.all_scopes.is_a?(String) || config.all_scopes.is_a?(Symbol)
+          url_helpers.send(config.to_scope)
+        else
+          config.all_scopes.call
+        end
+      end.compact
     end
 
-    def grid_for_page(page)
-      registered_grid_by_page[page] || Grids::Grid
+    def all
+      @grid_register.values
     end
 
-    def grid_for_class(klass)
-      registered_grid_by_klass[klass]
+    def attributes_from_scope(page)
+      config = all.find do |config|
+        config.from_scope.call(page)
+      end
+
+      if config
+        config.from_scope.call(page)
+      else
+        { class: ::Grids::Grid }
+      end
+    end
+
+    def class_from_scope(page)
+      attributes_from_scope(page)[:class]
+    end
+
+    def to_scope(klass, path_parts)
+      config = @grid_register[klass.name]
+
+      return nil unless config
+
+      url_helpers.send(config.to_scope, path_parts)
     end
 
     def registered_grid?(klass)
-      registered_grid_by_klass.key?(klass)
+      registered_grids.include? klass
     end
 
     def register_widget(identifier, grid_classes)
@@ -70,28 +114,6 @@ class Grids::Configuration
     end
 
     protected
-
-    def registered_grid_by_page
-      if @registered_grid_by_page && @registered_grid_by_page.length == @grid_register.length
-        @registered_grid_by_page
-      else
-        @registered_grid_by_page = @grid_register.map do |klass, path|
-          [url_helpers.send(path),
-           klass.constantize]
-        end.to_h
-      end
-    end
-
-    def registered_grid_by_klass
-      if @registered_grid_by_klass && @registered_grid_by_klass.length == @grid_register.length
-        @registered_grid_by_klass
-      else
-        @registered_grid_by_klass = @grid_register.map do |klass, path|
-          [klass.constantize,
-           url_helpers.send(path)]
-        end.to_h
-      end
-    end
 
     def registered_widget_by_identifier
       if @registered_widget_by_identifier && @registered_widget_by_identifier.length == @widget_register.length

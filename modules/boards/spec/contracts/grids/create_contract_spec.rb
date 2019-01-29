@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,26 +25,32 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'grids/grid'
+require 'spec_helper'
 
-class BoardGrid < ::Grids::Grid
-  belongs_to :user
+describe Grids::CreateContract, 'for Boards::Grid' do
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:grid) do
+    Boards::Grid.new_default(user: user, project: project)
+  end
+  include_context 'model contract'
 
-  def self.new_default(project = nil)
-    new(
-      # TODO project: project,
-      row_count: 1,
-      column_count: 4,
-      widgets: []
-    )
+  let(:instance) { described_class.new(grid, user) }
+
+  describe 'user_id' do
+    it_behaves_like 'is not writable' do
+      let(:attribute) { :user_id }
+      let(:value) { 5 }
+    end
   end
 
-  def self.visible_scope(project = nil)
-    # Use base class to avoid incompatibility scope merging
-    # TODO project scope
-    ::Grids::Grid.where(type: 'BoardGrid')
+  describe 'project_id' do
+    it_behaves_like 'is writable' do
+      let(:attribute) { :project_id }
+      let(:value) { 5 }
+    end
   end
 end

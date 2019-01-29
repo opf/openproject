@@ -41,34 +41,6 @@ shared_context 'grid contract' do
     FactoryBot.build_stubbed(:my_page, default_values)
   end
 
-  shared_examples_for 'is not writable' do
-    before do
-      grid.attributes = { attribute => value }
-    end
-
-    it 'is not writable' do
-      expect(instance.validate)
-        .to be_falsey
-    end
-
-    it 'explains the not writable error' do
-      instance.validate
-      expect(instance.errors.details[attribute])
-        .to match_array [{ error: :error_readonly }]
-    end
-  end
-
-  shared_examples_for 'is writable' do
-    before do
-      grid.attributes = { attribute => value }
-    end
-
-    it 'is writable' do
-      expect(instance.validate)
-        .to be_truthy
-    end
-  end
-
   shared_examples_for 'validates positive integer' do
     context 'when the value is negative' do
       let(:value) { -1 }
@@ -95,6 +67,9 @@ shared_context 'grid contract' do
 end
 
 shared_examples_for 'shared grid contract attributes' do
+  include_context 'model contract'
+  let(:model) { grid }
+
   describe 'row_count' do
     it_behaves_like 'is writable' do
       let(:attribute) { :row_count }
@@ -402,7 +377,7 @@ shared_examples_for 'shared grid contract attributes' do
       end
 
       it 'is invalid for the grid superclass itself' do
-        expect(instance.errors.details[:page])
+        expect(instance.errors.details[:scope])
           .to match_array [{ error: :inclusion }]
       end
     end

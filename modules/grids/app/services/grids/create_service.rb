@@ -48,7 +48,7 @@ class Grids::CreateService
   protected
 
   def create(attributes)
-    grid = new_grid(attributes.delete(:page))
+    grid = new_grid(attributes.delete(:scope))
 
     set_attributes_call = set_attributes(attributes, grid)
 
@@ -69,8 +69,16 @@ class Grids::CreateService
       .call(attributes)
   end
 
-  def new_grid(page)
-    grid_class = ::Grids::Configuration.grid_for_page(page)
-    grid_class.new_default(user)
+  def new_grid(scope)
+    attributes = ::Grids::Configuration.attributes_from_scope(scope)
+
+    grid_class = attributes[:class]
+    grid_project = project_from_id(attributes[:project_id])
+
+    grid_class.new_default(user: user, project: grid_project)
+  end
+
+  def project_from_id(id)
+    Project.find(id) if id
   end
 end

@@ -38,7 +38,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
   end
 
   let(:grid) do
-    grid = Grids::MyPage.new_default(current_user)
+    grid = Grids::MyPage.new_default(user: current_user)
     grid.save!
     grid
   end
@@ -66,14 +66,14 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
         .at_path('_type')
     end
 
-    it 'contains a Schema disallowing setting page' do
+    it 'contains a Schema disallowing setting scope' do
       expect(subject.body)
         .to be_json_eql("Schema".to_json)
         .at_path('_embedded/schema/_type')
 
       expect(subject.body)
         .to be_json_eql(false.to_json)
-        .at_path('_embedded/schema/page/writable')
+        .at_path('_embedded/schema/scope/writable')
     end
 
     it 'contains the current data in the payload' do
@@ -99,7 +99,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
           }
         ],
         "_links": {
-          "page": {
+          "scope": {
             "href": "/my/page",
             "type": "text/html"
           }
@@ -117,21 +117,21 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
         .at_path('_links/commit/href')
     end
 
-    context 'with some value for the page value' do
+    context 'with some value for the scope value' do
       let(:params) do
         {
           '_links': {
-            'page': {
+            'scope': {
               'href': '/some/path'
             }
           }
         }
       end
 
-      it 'has a validation error on page as the value is not writeable' do
+      it 'has a validation error on scope as the value is not writeable' do
         expect(subject.body)
           .to be_json_eql("You must not write a read-only attribute.".to_json)
-          .at_path('_embedded/validationErrors/page/message')
+          .at_path('_embedded/validationErrors/scope/message')
       end
     end
 
@@ -170,7 +170,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
     context 'for another user\'s grid' do
       let(:other_user) { FactoryBot.create(:user) }
       let(:other_grid) do
-        grid = Grids::MyPage.new_default(other_user)
+        grid = Grids::MyPage.new_default(user: other_user)
         grid.save!
         grid
       end

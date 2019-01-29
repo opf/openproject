@@ -32,6 +32,7 @@ require_relative './shared_model'
 
 describe Grids::MyPage, type: :model do
   let(:instance) { described_class.new }
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   it_behaves_like 'grid attributes'
 
@@ -42,6 +43,41 @@ describe Grids::MyPage, type: :model do
       instance.user = user
       expect(instance.user)
         .to eql user
+    end
+  end
+
+  describe '.new_default' do
+    it 'builds a new MyPage grid' do
+      expect(described_class.new_default(user: user))
+        .to be_a_kind_of(Grids::MyPage)
+    end
+
+    it 'is not persisted' do
+      expect(described_class.new_default(user: user))
+        .to be_new_record
+    end
+
+    it 'assigns the user' do
+      expect(described_class.new_default(user: user).user)
+        .to eql user
+    end
+
+    it 'assigns two widgets' do
+      expect(described_class.new_default(user: user).widgets[0].identifier)
+        .to eql 'work_packages_assigned'
+
+      expect(described_class.new_default(user: user).widgets[1].identifier)
+        .to eql 'work_packages_created'
+    end
+
+    it 'defines default so row_count' do
+      expect(described_class.new_default(user: user).row_count)
+        .to eql 7
+    end
+
+    it 'defines default so row_count' do
+      expect(described_class.new_default(user: user).column_count)
+        .to eql 4
     end
   end
 end

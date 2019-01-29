@@ -29,24 +29,29 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Grids resource', type: :request, content_type: :json do
+describe 'API v3 Grids resource for Board Grids', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
+  shared_let(:project) { FactoryBot.create(:project) }
+  shared_let(:other_project) { FactoryBot.create(:project) }
+  shared_let(:view_boards_role) { FactoryBot.create(:role, permissions: [:view_boards]) }
+  shared_let(:manage_boards_role) { FactoryBot.create(:role, permissions: [:manage_boards]) }
+  shared_let(:other_role) { FactoryBot.create(:role, permissions: []) }
   shared_let(:current_user) do
-    FactoryBot.create(:user)
+    FactoryBot.create(:user).tap do |user|
+      FactoryBot.create(:member, user: user, project: project, roles: [manage_boards_role])
+      FactoryBot.create(:member, user: user, project: other_project, roles: [other_role])
+    end
   end
 
-  let(:my_page_grid) do
-    grid = Grids::MyPage.new_default(user: current_user)
+  let(:board_grid) do
+    grid = Boards::Grid.new_default(project: project)
     grid.save!
     grid
   end
-  let(:other_user) do
-    FactoryBot.create(:user)
-  end
-  let(:other_my_page_grid) do
-    Grids::MyPage.new_default(user: other_user).save
+  let(:other_board_grid) do
+    Boards::Grid.new_default(project: other_project).save
   end
 
   before do
@@ -59,8 +64,8 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     let(:path) { api_v3_paths.grids }
 
     let(:stored_grids) do
-      my_page_grid
-      other_my_page_grid
+      board_grid
+      other_board_grid
     end
 
     before do
@@ -87,31 +92,16 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         .at_path('total')
     end
 
-    context 'with a filter on the scope attribute' do
-      shared_let(:other_grid) do
-        grid = Grids::Grid.new(row_count: 20,
-                               column_count: 20)
-        grid.save
-
-        Grids::Grid
-          .where(id: grid.id)
-          .update_all(user_id: current_user.id)
-
-        grid
-      end
-
-      let(:stored_grids) do
-        my_page_grid
-        other_my_page_grid
-        other_grid
-      end
+    context 'with a filter on the scope attribute for all boards of a project' do
+      # The user would be able to see both boards
+      shared_let(:other_role) { FactoryBot.create(:role, permissions: [:view_boards]) }
 
       let(:path) do
         filter = [{ 'scope' =>
-                    {
-                      'operator' => '=',
-                      'values' => [my_page_path]
-                    } }]
+                      {
+                        'operator' => '=',
+                        'values' => [boards_project_path(project)]
+                      } }]
 
         "#{api_v3_paths.grids}?#{{ filters: filter.to_json }.to_query}"
       end
@@ -120,7 +110,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         expect(subject.status).to eq(200)
       end
 
-      it 'sends only the my page of the current user' do
+      it 'sends only the board of the project' do
         expect(subject.body)
           .to be_json_eql('Collection'.to_json)
           .at_path('_type')
@@ -132,15 +122,19 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         expect(subject.body)
           .to be_json_eql(1.to_json)
           .at_path('total')
+
+        expect(subject.body)
+          .to be_json_eql(board_grid.id.to_json)
+          .at_path('_embedded/elements/0/id')
       end
     end
   end
 
   describe '#get' do
-    let(:path) { api_v3_paths.grid(my_page_grid.id) }
+    let(:path) { api_v3_paths.grid(board_grid.id) }
 
     let(:stored_grids) do
-      my_page_grid
+      board_grid
     end
 
     before do
@@ -161,11 +155,11 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
     it 'identifies the url the grid is stored for' do
       expect(subject.body)
-        .to be_json_eql(my_page_path.to_json)
+        .to be_json_eql(project_boards_path(project.id).to_json)
         .at_path('_links/scope/href')
     end
 
-    context 'with the page not existing' do
+    context 'with the scope not existing' do
       let(:path) { api_v3_paths.grid(5) }
 
       it 'responds with 404 NOT FOUND' do
@@ -173,13 +167,13 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       end
     end
 
-    context 'with the grid belonging to someone else' do
+    context 'when lacking permission to see the grid' do
       let(:stored_grids) do
-        my_page_grid
-        other_my_page_grid
+        board_grid
+        other_board_grid
       end
 
-      let(:path) { api_v3_paths.grid(other_my_page_grid) }
+      let(:path) { api_v3_paths.grid(other_board_grid) }
 
       it 'responds with 404 NOT FOUND' do
         expect(subject.status).to eql 404
@@ -188,14 +182,14 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
   end
 
   describe '#patch' do
-    let(:path) { api_v3_paths.grid(my_page_grid.id) }
+    let(:path) { api_v3_paths.grid(board_grid.id) }
 
     let(:params) do
       {
         "rowCount": 10,
         "columnCount": 15,
         "widgets": [{
-          "identifier": "work_packages_assigned",
+          "identifier": "work_package_query",
           "startRow": 4,
           "endRow": 8,
           "startColumn": 2,
@@ -205,7 +199,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     end
 
     let(:stored_grids) do
-      my_page_grid
+      board_grid
     end
 
     before do
@@ -231,7 +225,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     end
 
     it 'perists the changes' do
-      expect(my_page_grid.reload.row_count)
+      expect(board_grid.reload.row_count)
         .to eql params['rowCount']
     end
 
@@ -241,7 +235,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
           "rowCount": -5,
           "columnCount": 15,
           "widgets": [{
-            "identifier": "work_packages_assigned",
+            "identifier": "work_package_query",
             "startRow": 4,
             "endRow": 8,
             "startColumn": 2,
@@ -267,8 +261,8 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       end
 
       it 'does not persist the changes to widgets' do
-        expect(my_page_grid.reload.widgets.count)
-          .to eql Grids::MyPage.new_default(user: current_user).widgets.size
+        expect(board_grid.reload.widgets.count)
+          .to eql Boards::Grid.new_default(project: project, user: current_user).widgets.size
       end
     end
 
@@ -300,7 +294,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       end
     end
 
-    context 'with the page not existing' do
+    context 'with the grid not existing' do
       let(:path) { api_v3_paths.grid(5) }
 
       it 'responds with 404 NOT FOUND' do
@@ -308,13 +302,12 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       end
     end
 
-    context 'with the grid belonging to someone else' do
+    context 'without the manage_boards permission' do
       let(:stored_grids) do
-        my_page_grid
-        other_my_page_grid
+        other_board_grid
       end
 
-      let(:path) { api_v3_paths.grid(other_my_page_grid) }
+      let(:path) { api_v3_paths.grid(other_board_grid) }
 
       it 'responds with 404 NOT FOUND' do
         expect(subject.status).to eql 404
@@ -330,7 +323,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         "rowCount": 10,
         "columnCount": 15,
         "widgets": [{
-          "identifier": "work_packages_assigned",
+          "identifier": "work_package_query",
           "startRow": 4,
           "endRow": 8,
           "startColumn": 2,
@@ -338,7 +331,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         }],
         "_links": {
           "scope": {
-            "href": my_page_path
+            "href": project_boards_path(project)
           }
         }
       }.with_indifferent_access
@@ -375,7 +368,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
           "rowCount": -5,
           "columnCount": "sdjfksdfsdfdsf",
           "widgets": [{
-            "identifier": "work_packages_assigned",
+            "identifier": "work_package_query",
             "startRow": 4,
             "endRow": 8,
             "startColumn": 2,
@@ -383,7 +376,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
           }],
           "_links": {
             "scope": {
-              "href": my_page_path
+              "href": project_boards_path(project)
             }
           }
         }.with_indifferent_access
@@ -417,18 +410,58 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       end
     end
 
-    context 'without a page link' do
+    context 'without a scope link' do
       let(:params) do
         {
           "rowCount": 5,
           "columnCount": 5,
           "widgets": [{
-            "identifier": "work_packages_assigned",
+            "identifier": "work_package_query",
             "startRow": 2,
             "endRow": 4,
             "startColumn": 2,
             "endColumn": 5
           }]
+        }.with_indifferent_access
+      end
+
+      it 'responds with 422' do
+        expect(subject.status).to eq(422)
+      end
+
+      it 'does not create a grid' do
+        expect(Grids::Grid.count)
+          .to eql(0)
+      end
+
+      it 'returns the errors' do
+        expect(subject.body)
+          .to be_json_eql('Error'.to_json)
+          .at_path('_type')
+
+        expect(subject.body)
+          .to be_json_eql("Scope is not set to one of the allowed values.".to_json)
+          .at_path('message')
+      end
+    end
+
+    context 'without the permission to create boards in the project' do
+      let(:params) do
+        {
+          "rowCount": 5,
+          "columnCount": 5,
+          "widgets": [{
+            "identifier": "work_package_query",
+            "startRow": 2,
+            "endRow": 4,
+            "startColumn": 2,
+            "endColumn": 5
+          }],
+          "_links": {
+            "scope": {
+              "href": project_boards_path(other_project)
+            }
+          }
         }.with_indifferent_access
       end
 

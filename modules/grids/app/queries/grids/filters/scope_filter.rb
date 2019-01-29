@@ -30,44 +30,42 @@
 
 module Grids
   module Filters
-    class PageFilter < Filters::GridFilter
+    class ScopeFilter < Filters::GridFilter
       def allowed_values
         raise NotImplementedError, 'There would be too many candidates'
       end
 
       def allowed_values_subset
-        values
-          .map { |page| [page, ::Grids::Configuration.attributes_from_scope(page)] }
-          .map do |page, config|
-            next unless config && config[:class]
+        grid_configs_of_values
+          .map do |value, config|
+          next unless config && config[:class]
 
-            if config[:id] && config[:class].visible.exists?(config[:id]) || config[:class].visible.any?
-              page
-            end
-          end.compact
+          if config && config[:class]
+            value
+          end
+        end.compact
       end
 
       def type
         :list
       end
 
-      def self.key
-        :page
-      end
-
-      # TODO: add condition methods for user_id and id
       def where
-        values
-          .map { |page| ::Grids::Configuration.attributes_from_scope(page) }
-          .map do |actual_value|
-            conditions = [class_condition(actual_value[:class]),
-                          project_id_condition(actual_value[:project_id])]
+        grid_configs_of_values
+          .map do |_value, config|
+          conditions = [class_condition(config[:class]),
+                        project_id_condition(config[:project_id])]
 
-            "(#{conditions.compact.join(' AND ')})"
-          end.join(' OR ')
+          "(#{conditions.compact.join(' AND ')})"
+        end.join(' OR ')
       end
 
       private
+
+      def grid_configs_of_values
+        values
+          .map { |value| [value, ::Grids::Configuration.attributes_from_scope(value)] }
+      end
 
       def class_condition(klass)
         return nil unless klass
@@ -89,12 +87,12 @@ module Grids
                                         'project_id')
       end
 
-      def available_operators
-        [::Queries::Operators::Equals]
-      end
-
       def type_strategy
         @type_strategy ||= Queries::Filters::Strategies::HugeList.new(self)
+      end
+
+      def available_operators
+        [::Queries::Operators::Equals]
       end
     end
   end

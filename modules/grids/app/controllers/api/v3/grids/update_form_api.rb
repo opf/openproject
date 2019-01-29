@@ -41,8 +41,8 @@ module API
                      .call(request_body)
                      .result
 
-            if params[:page]
-              params[:type] = ::Grids::Configuration.grid_for_page(params.delete(:page)).to_s
+            if params[:scope]
+              params[:type] = ::Grids::Configuration.class_from_scope(params.delete(:scope)).to_s
             end
 
             call = ::Grids::SetAttributesService

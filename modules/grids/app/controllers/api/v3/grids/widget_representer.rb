@@ -36,8 +36,6 @@ module API
         property :start_column
         property :end_column
 
-        property :options
-
         def _type
           'GridWidget'
         end

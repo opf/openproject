@@ -36,7 +36,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
   let(:self_link) { '/a/self/link' }
   let(:embedded) { true }
   let(:new_record) { true }
-  let(:allowed_pages) { %w(/some/path /some/other/path) }
+  let(:allowed_scopes) { %w(/some/path /some/other/path) }
   let(:allowed_widgets) do
     [
       OpenStruct.new(
@@ -55,7 +55,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
       writable = %w(row_count column_count widgets)
 
       if new_record
-        writable << 'page'
+        writable << 'scope'
       end
 
       writable.include?(attribute.to_s)
@@ -63,8 +63,8 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
 
     allow(contract)
       .to receive(:assignable_values)
-      .with(:page, current_user)
-      .and_return(allowed_pages)
+      .with(:scope, current_user)
+      .and_return(allowed_scopes)
 
     allow(contract)
       .to receive(:assignable_values)
@@ -186,13 +186,13 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
       end
     end
 
-    describe 'page' do
-      let(:path) { 'page' }
+    describe 'scope' do
+      let(:path) { 'scope' }
 
       context 'when having a new record' do
         it_behaves_like 'has basic schema properties' do
           let(:type) { 'Href' }
-          let(:name) { Grids::Grid.human_attribute_name('page') }
+          let(:name) { Grids::Grid.human_attribute_name('scope') }
           let(:required) { true }
           let(:writable) { true }
         end
@@ -201,12 +201,12 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
           let(:embedded) { true }
 
           it_behaves_like 'links to allowed values directly' do
-            let(:hrefs) { allowed_pages }
+            let(:hrefs) { allowed_scopes }
           end
 
           it 'does not embed' do
             expect(generated)
-              .not_to have_json_path('page/embedded')
+              .not_to have_json_path('scope/embedded')
           end
         end
 
@@ -217,18 +217,18 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
 
           it 'does not embed' do
             expect(generated)
-              .not_to have_json_path('page/embedded')
+              .not_to have_json_path('scope/embedded')
           end
         end
       end
 
       context 'when not having a new record' do
         let(:new_record) { false }
-        let(:allowed_pages) { nil }
+        let(:allowed_scopes) { nil }
 
         it_behaves_like 'has basic schema properties' do
           let(:type) { 'Href' }
-          let(:name) { Grids::Grid.human_attribute_name('page') }
+          let(:name) { Grids::Grid.human_attribute_name('scope') }
           let(:required) { true }
           let(:writable) { false }
         end
@@ -240,7 +240,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
 
           it 'does not embed' do
             expect(generated)
-              .not_to have_json_path('page/embedded')
+              .not_to have_json_path('scope/embedded')
           end
         end
 
@@ -251,7 +251,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
 
           it 'does not embed' do
             expect(generated)
-              .not_to have_json_path('page/embedded')
+              .not_to have_json_path('scope/embedded')
           end
         end
       end

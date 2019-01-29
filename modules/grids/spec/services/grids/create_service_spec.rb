@@ -32,6 +32,14 @@ require 'spec_helper'
 
 describe Grids::CreateService, type: :model do
   let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:project) do
+    FactoryBot.build_stubbed(:project).tap do |p|
+      allow(Project)
+        .to receive(:find)
+        .with(p.id)
+        .and_return(p)
+    end
+  end
   let(:contract_class) do
     double('contract_class')
   end
@@ -40,7 +48,8 @@ describe Grids::CreateService, type: :model do
     described_class.new(user: user,
                         contract_class: contract_class)
   end
-  let(:call_attributes) { { page: OpenProject::StaticRouting::StaticUrlHelpers.new.my_page_path } }
+  let(:scope) { "some/scope/url" }
+  let(:call_attributes) { { scope: scope } }
   let(:grid_class) { Grids::MyPage }
   let(:set_attributes_success) do
     true
@@ -58,7 +67,7 @@ describe Grids::CreateService, type: :model do
 
     allow(grid_class)
       .to receive(:new_default)
-      .with(user)
+      .with(user: user, project: project)
       .and_return(grid)
 
     allow(grid)
@@ -81,13 +90,38 @@ describe Grids::CreateService, type: :model do
       .to receive(:call)
       .and_return(set_attributes_result)
   end
+  let!(:grid_configuration) do
+    allow(Grids::Configuration)
+      .to receive(:attributes_from_scope)
+      .with(scope)
+      .and_return(class: grid_class, project_id: project.id)
+  end
 
   describe 'call' do
-    shared_examples_for 'service call' do
-      subject { instance.call(attributes: call_attributes) }
+    subject { instance.call(attributes: call_attributes) }
 
-      it 'is successful' do
-        expect(subject.success?).to be_truthy
+    it 'is successful' do
+      expect(subject.success?).to be_truthy
+    end
+
+    it 'returns the result of the SetAttributesService' do
+      expect(subject)
+        .to eql set_attributes_result
+    end
+
+    it 'persists the grid' do
+      expect(grid)
+        .to receive(:save)
+        .and_return(grid_valid)
+
+      subject
+    end
+
+    context 'when the SetAttributeService is unsuccessful' do
+      let(:set_attributes_success) { false }
+
+      it 'is unsuccessful' do
+        expect(subject.success?).to be_falsey
       end
 
       it 'returns the result of the SetAttributesService' do
@@ -95,76 +129,37 @@ describe Grids::CreateService, type: :model do
           .to eql set_attributes_result
       end
 
-      it 'persists the grid' do
+      it 'does not persist the changes' do
         expect(grid)
-          .to receive(:save)
-          .and_return(grid_valid)
+          .to_not receive(:save)
 
         subject
       end
 
-      context 'when the SetAttributeService is unsuccessful' do
-        let(:set_attributes_success) { false }
+      it "exposes the contract's errors" do
+        subject
 
-        it 'is unsuccessful' do
-          expect(subject.success?).to be_falsey
-        end
-
-        it 'returns the result of the SetAttributesService' do
-          expect(subject)
-            .to eql set_attributes_result
-        end
-
-        it 'does not persist the changes' do
-          expect(grid)
-            .to_not receive(:save)
-
-          subject
-        end
-
-        it "exposes the contract's errors" do
-          subject
-
-          expect(subject.errors).to eql set_attributes_errors
-        end
-      end
-
-      context 'when the grid is invalid' do
-        let(:grid_valid) { false }
-
-        it 'is unsuccessful' do
-          expect(subject.success?).to be_falsey
-        end
-
-        it "exposes the grid's errors" do
-          subject
-
-          expect(subject.errors).to eql grid.errors
-        end
+        expect(subject.errors).to eql set_attributes_errors
       end
     end
 
-    context 'without parameters' do
-      let(:call_attributes) { {} }
-      let(:grid_class) { Grids::Grid }
+    context 'when the grid is invalid' do
+      let(:grid_valid) { false }
 
-      it_behaves_like 'service call' do
-        it 'creates a Grid' do
-          expect(subject.result)
-            .to be_a grid_class
-        end
+      it 'is unsuccessful' do
+        expect(subject.success?).to be_falsey
+      end
+
+      it "exposes the grid's errors" do
+        subject
+
+        expect(subject.errors).to eql grid.errors
       end
     end
 
-    context 'with my page grid parameters' do
-      let(:call_attributes) { { page: OpenProject::StaticRouting::StaticUrlHelpers.new.my_page_path } }
-
-      it_behaves_like 'service call' do
-        it 'creates a Grids::MyPage' do
-          expect(subject.result)
-            .to be_a Grids::MyPage
-        end
-      end
+    it 'creates a Grid' do
+      expect(subject.result)
+        .to be_a grid_class
     end
   end
 end
