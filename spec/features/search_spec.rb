@@ -29,111 +29,183 @@
 require 'spec_helper'
 
 describe 'Search', type: :feature, js: true do
+  include ::Components::UIAutocompleteHelpers
   let(:project) { FactoryBot.create :project }
   let(:user) { FactoryBot.create :admin }
 
   let!(:work_packages) do
     (1..23).map do |n|
-      subject = "Subject No. #{n}"
-      FactoryBot.create :work_package,
-                        subject: subject,
-                        project: project,
-                        created_at: "2016-11-21 #{n}:00".to_datetime,
-                        updated_at: "2016-11-21 #{n}:00".to_datetime
+      Timecop.freeze("2016-11-21 #{n}:00".to_datetime) do
+        subject = "Subject No. #{n}"
+        FactoryBot.create :work_package,
+                          subject: subject,
+                          project: project
+      end
     end
   end
 
-  let(:query) { "Subject" }
+  let(:query) { 'Subject' }
+
+  let(:params) { [project, { q: query }] }
 
   def expect_range(a, b)
     (a..b).each do |n|
       expect(page.body).to include("No. #{n}")
-      expect(page.body).to have_selector("a[href*='#{work_package_path(work_packages[n-1].id)}']")
+      expect(page.body).to have_selector("a[href*='#{work_package_path(work_packages[n - 1].id)}']")
     end
   end
 
   before do
     login_as user
 
-    visit search_path(project, q: query)
+    visit search_path(*params)
   end
 
   describe 'autocomplete' do
-    include ::Components::UIAutocompleteHelpers
 
-    let!(:other_work_package) { FactoryBot.create(:work_package, subject: "Other work package", project: project) }
+    let!(:other_work_package) { FactoryBot.create(:work_package, subject: 'Other work package', project: project) }
 
     it 'provides suggestions' do
-      page.find('#top-menu-search-button').click
-
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
                                         query: query,
                                         results_selector: '.search-autocomplete--results')
+      # Suggestions shall show latest WPs first.
       expect(suggestions).to have_text('No. 23', wait: 10)
+      #  and show maximum 10 suggestions.
       expect(suggestions).to_not have_text('No. 10')
+      # and unrelated work packages shall not get suggested
+      expect(suggestions).to_not have_text(other_work_package.subject)
 
       target_work_package = work_packages.last
+
+      # Expect redirection when WP is selected from results
       select_autocomplete(page.find('.top-menu-search--input'),
                           query: target_work_package.subject,
+                          select_text: "##{target_work_package.id}",
                           results_selector: '.search-autocomplete--results')
       expect(current_path).to match /work_packages\/#{target_work_package.id}\//
 
-      page.find('#top-menu-search-button').click
-
       first_wp = work_packages.first
 
+      # Typing a work package id shall find that work package
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
                                         query: first_wp.id.to_s,
                                         results_selector: '.search-autocomplete--results')
-      expect(suggestions).to have_text("No. 1")
+      expect(suggestions).to have_text('No. 1')
 
-      suggestions = search_autocomplete(page.find('.top-menu-search--input'),
-                                        query: work_packages[10].id.to_s[0..-2],
-                                        results_selector: '.search-autocomplete--results')
-      expect(suggestions).to have_text(work_packages[10].subject)
-
+      # Typing a hash sign before an ID shall only suggest that work package and (no hits within the subject)
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
                                         query: "##{first_wp.id}",
                                         results_selector: '.search-autocomplete--results')
-      expect(suggestions).to have_text(first_wp.subject)
-      expect(suggestions).to_not have_text(work_packages[10].subject)
+      expect(suggestions).to have_text("Subject", count: 1)
 
       # Expect to have 3 project scope selecting menu entries
-      expect(suggestions).to have_text("In this project")
-      expect(suggestions).to have_text("In this project + subprojects")
-      expect(suggestions).to have_text("In all projects")
+      expect(suggestions).to have_text('In this project ↵')
+      expect(suggestions).to have_text('In this project + subprojects ↵')
+      expect(suggestions).to have_text('In all projects ↵')
+
+      # Selection project scope 'In all projects' redirects away from current project.
+      select_autocomplete(page.find('.top-menu-search--input'),
+                          query: query,
+                          select_text: "In all projects ↵",
+                          results_selector: '.search-autocomplete--results')
+      expect(current_path).to match(/\/search/)
+      expect(current_url).to match(/\/search\?q=#{query}&work_packages=1&scope=all$/)
+    end
+  end
+
+  describe 'work package search' do
+    context 'project search' do
+      let(:subproject) { FactoryBot.create :project, parent: project }
+      let!(:other_work_package) do
+        FactoryBot.create(:work_package, subject: 'Other work package', project: subproject)
+      end
+
+      let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
+      let(:columns) { ::Components::WorkPackages::Columns.new }
+
+      it 'shows a work package table with correct results' do
+        # Search without subprojects
+        select_autocomplete(page.find('.top-menu-search--input'),
+                            query: query,
+                            select_text: 'In this project ↵',
+                            results_selector: '.search-autocomplete--results')
+        # Expect that the project scope is set to current_project and no module (this is the "all" tab) is requested.
+        expect(current_url).to match(/\/#{project.identifier}\/search\?q=#{query}&scope=current_project$/)
+
+        # Expect that the "All" tab is selected.
+        expect(page).to have_selector('[tab-id="all"].selected')
+
+        # Select "Work packages" tab
+        page.find('[tab-id="work_packages"]').click
+
+        # Expect that the project scope is set to current_project and the module "work_packages" is requested.
+        expect(current_url).to match(/\/search\?q=#{query}&work_packages=1&scope=current_project$/)
+
+        # Expect that the "Work packages" tab is selected.
+        expect(page).to have_selector('[tab-id="work_packages"].selected')
+
+        table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
+        table.expect_work_package_count(20) # 20 is the default page size.
+        # Expect order to be from newest to oldest.
+        table.expect_work_package_order(*work_packages[3..23].map { |wp| wp.id.to_s }.reverse)
+
+        # Expect that changing the search term without using the autocompleter will leave the project scope unchanged
+        # at current_project.
+        search_field = page.find('.top-menu-search--input')
+        search_field.set(other_work_package.subject)
+        search_field.send_keys(:enter)
+        expect(current_url).to match(/\/#{project.identifier}\/search\?q=Other%20work%20package&work_packages=1&scope=current_project$/)
+
+        # and expect that subproject's work packages will not be found
+        table.expect_work_package_not_listed other_work_package
+
+        # Change to project scope including subprojects
+        select_autocomplete(page.find('.top-menu-search--input'),
+                            query: other_work_package.subject,
+                            select_text: 'In this project + subprojects ↵',
+                            results_selector: '.search-autocomplete--results')
+        # Expect that the project scope is not set and work_packages module continues to stay selected.
+        expect(current_url).to match(/\/#{project.identifier}\/search\?q=Other%20work%20package&work_packages=1$/)
+        # Expect that the "Work packages" tab is selected.
+        expect(page).to have_selector('[tab-id="work_packages"].selected')
+
+        table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
+        table.expect_work_package_count(1)
+        table.expect_work_package_subject(other_work_package.subject)
+      end
     end
   end
 
   describe 'pagination' do
-    context 'project search' do
-      it "works" do
+    context 'project wide search' do
+      it 'works' do
         expect_range 14, 23
 
-        click_on "Next", match: :first
+        click_on 'Next', match: :first
         expect_range 4, 13
         expect(current_path).to match "/projects/#{project.identifier}/search"
 
-        click_on "Previous", match: :first
+        click_on 'Previous', match: :first
         expect_range 14, 23
         expect(current_path).to match "/projects/#{project.identifier}/search"
       end
     end
 
-    context 'global search' do
+    context 'global "All" search' do
       before do
         login_as user
 
         visit "/search?q=#{query}"
       end
 
-      it "works" do
+      it 'works' do
         expect_range 14, 23
 
-        click_on "Next", match: :first
+        click_on 'Next', match: :first
         expect_range 4, 13
 
-        click_on "Previous", match: :first
+        click_on 'Previous', match: :first
         expect_range 14, 23
       end
     end
