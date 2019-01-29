@@ -32,7 +32,6 @@ import {
   ElementRef,
   HostListener,
   OnDestroy,
-  Renderer2,
   ViewChild
 } from '@angular/core';
 import {ContainHelpers} from 'app/modules/common/focus/contain-helpers';
@@ -48,7 +47,7 @@ import {GlobalSearchService} from "app/modules/global_search/global-search.servi
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {CurrentProjectService} from "app/components/projects/current-project.service";
-import {Subject, Subscription} from "rxjs";
+import {Subject} from "rxjs";
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -82,7 +81,6 @@ export class GlobalSearchInputComponent implements OnDestroy {
 
   constructor(readonly FocusHelper:FocusHelperService,
               readonly elementRef:ElementRef,
-              readonly renderer:Renderer2,
               readonly I18n:I18nService,
               readonly PathHelperService:PathHelperService,
               readonly halResourceService:HalResourceService,

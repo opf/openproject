@@ -73,6 +73,7 @@ import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-s
 import {NoResultsComponent} from "core-app/modules/common/no-results/no-results.component";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {UserAutocompleterComponent} from "app/modules/common/autocomplete/user-autocompleter.component";
+import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -147,7 +148,10 @@ export function bootstrapModule(injector:Injector) {
 
     // Autocompleter Component
     NgSelectModule,
+
     UserAutocompleterComponent,
+
+    ScrollableTabsComponent,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -194,6 +198,8 @@ export function bootstrapModule(injector:Injector) {
     NoResultsComponent,
 
     UserAutocompleterComponent,
+
+    ScrollableTabsComponent,
   ],
   entryComponents: [
     OpDateTimeComponent,

@@ -27,59 +27,36 @@
 // ++
 
 import {
-  ChangeDetectorRef,
   Component,
-  ElementRef,
-  HostListener,
   OnDestroy,
-  Renderer2,
-  ViewChild
 } from '@angular/core';
-import {ContainHelpers} from 'app/modules/common/focus/contain-helpers';
-import {FocusHelperService} from 'app/modules/common/focus/focus-helper';
-import {I18nService} from 'app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
-import {PathHelperService} from "app/modules/common/path-helper/path-helper.service";
-import {HalResourceService} from "app/modules/hal/services/hal-resource.service";
-import {WorkPackageResource} from "app/modules/hal/resources/work-package-resource";
-import {CollectionResource} from "app/modules/hal/resources/collection-resource";
-import {DynamicCssService} from "app/modules/common/dynamic-css/dynamic-css.service";
 import {GlobalSearchService} from "app/modules/global_search/global-search.service";
-import {distinctUntilChanged} from "rxjs/operators";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {CurrentProjectService} from "app/components/projects/current-project.service";
-import {GlobalSearchInputComponent} from "app/modules/global_search/global-search-input.component";
 import {Subscription} from "rxjs";
+import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
 
 export const globalSearchTabsSelector = 'global-search-tabs';
 
 @Component({
   selector: globalSearchTabsSelector,
-  templateUrl: './global-search-tabs.component.html'
+  templateUrl: '/app/modules/common/tabs/scrollable-tabs.component.html'
 })
 
-export class GlobalSearchTabsComponent implements OnDestroy {
+export class GlobalSearchTabsComponent extends ScrollableTabsComponent implements OnDestroy {
   private currentTabSub:Subscription;
   private tabsSub:Subscription;
 
-  public currentTab:string = '';
-  public tabs:string[] = [];
+  public classes:string[] = ['global-search--tabs', 'scrollable-tabs'];
 
-  constructor(readonly FocusHelper:FocusHelperService,
-              readonly elementRef:ElementRef,
-              readonly renderer:Renderer2,
-              readonly I18n:I18nService,
-              readonly PathHelperService:PathHelperService,
-              readonly halResourceService:HalResourceService,
-              readonly globalSearchService:GlobalSearchService,
-              readonly cdRef:ChangeDetectorRef) {
+  constructor(readonly globalSearchService:GlobalSearchService) {
+    super();
   }
 
   ngOnInit() {
     this.currentTabSub = this.globalSearchService
       .currentTab$
       .subscribe((currentTab) => {
-        this.currentTab = currentTab;
+        this.currentTabId = currentTab;
       });
 
     this.tabsSub = this.globalSearchService
@@ -90,6 +67,8 @@ export class GlobalSearchTabsComponent implements OnDestroy {
   }
 
   public clickTab(tab:string) {
+    super.clickTab(tab);
+
     this.globalSearchService.currentTab = tab;
     this.globalSearchService.submitSearch();
   }

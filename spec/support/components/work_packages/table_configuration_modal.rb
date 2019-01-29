@@ -100,7 +100,6 @@ module Components
       def trigger
         find('.wp-table--configuration-modal--trigger')
       end
-
     end
   end
 end
