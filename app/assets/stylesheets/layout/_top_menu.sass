@@ -198,9 +198,8 @@ $search-input-width-expanded: 300px
 .top-menu-search--button.-input-focused
   color: $header-search-field-font-color
 
-input[type="text"].top-menu-search--input
+.ng-select.top-menu-search--input
   margin: 0
-  padding: 0 20px 0 10px
   display: inline-block
   border-width: 1px
   border-style: solid
@@ -231,7 +230,7 @@ input[type="text"].top-menu-search--input
     border-style: solid
     @include varprop(border-color, header-item-font-color)
 
-input.top-menu-search--input.-expanded
+.ng-select.top-menu-search--input.-expanded
   width: $search-input-width-expanded
   background: white
   border-width: 1px
@@ -244,16 +243,48 @@ input.top-menu-search--input.-expanded
 .search-autocomplete--results
   width: 300px
 
-.search-autocomplete--project-scope
-  display: inline-block
-  position: absolute
-  right: 7px
-  border: 1px solid $button--border-color
-  font-size: 13px
-  background: $button--background-color
-  border-radius: 2px
-  padding: 3px 4px
-  margin-left: 5px
+.ng-select .ng-select-container
+  border: none !important
+  min-height: inherit !important
+  height: 31px !important
+  
+.ng-dropdown-panel
+  @include styled-scroll-bar-vertical
+  overflow-y: auto
+
+  .ng-dropdown-panel-items,
+  .scroll-host
+    overflow: unset !important
+    overflow-y: unset !important
+
+  .ng-dropdown-header
+    border-bottom: none !important
+    padding: 0 !important
+
+    .ui-menu-item
+      color: black
+      cursor: pointer
+      line-height: 18px
+      padding: 10px
+
+      &:hover
+        background: #ebf5ff
+
+      .ui-menu-item-wrapper
+        display: flex
+        align-items: center
+
+      .search-autocomplete--project-scope
+        display: inline-block
+        position: absolute
+        right: 7px
+        border: 1px solid $button--border-color
+        font-size: 13px
+        background: $button--background-color
+        border-radius: 2px
+        padding: 3px 4px
+        margin-left: 5px
+        line-height: 1.5
 
 .top-menu-search--loading
   top: $header-height

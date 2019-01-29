@@ -47,7 +47,8 @@ import {GlobalSearchService} from "app/modules/global_search/global-search.servi
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {CurrentProjectService} from "app/components/projects/current-project.service";
-import {Subject} from "rxjs";
+import {Subject, Subscription} from "rxjs";
+import {NgSelectComponent} from "@ng-select/ng-select";
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -57,18 +58,20 @@ export const globalSearchSelector = 'global-search-input';
 })
 
 export class GlobalSearchInputComponent implements OnDestroy {
-  @ViewChild('inputEl') input:ElementRef;
   @ViewChild('btn') btn:ElementRef;
+  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
   public focused:boolean = false;
   public noResults = false;
   public searchTerm:string = '';
   public expanded:boolean = false;
+  public results:any[];
+  public suggestions:any[];
 
   private searchTermChanged:Subject<string> = new Subject<string>();
 
   private $element:JQuery;
-  private $input:JQuery;
+  private input:HTMLElement;
 
   private unregisterGlobalListener:Function | undefined;
 
@@ -94,7 +97,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
-    this.$input = jQuery(this.input.nativeElement);
+    this.input = this.ngSelectComponent.element;
 
     this.searchTermChanged
       .pipe(
@@ -118,79 +121,6 @@ export class GlobalSearchInputComponent implements OnDestroy {
         this.determineExpansion();
         this.cdRef.detectChanges();
       });
-
-    let selected = false;
-
-    this.$input.autocomplete({
-      delay: 250,
-      autoFocus: true,
-      appendTo: '#top-menu',
-      classes: {
-        'ui-autocomplete': 'search-autocomplete--results'
-      },
-      position: {
-        my: 'left top+9',
-        at: 'left bottom'
-      },
-      source: (request:{ term:string }, response:Function) => {
-        this.autocompleteWorkPackages(request.term).then((values) => {
-          selected = false;
-          response(values.map(wp => {
-            return { item: wp };
-          }));
-        });
-      },
-      focus: (_evt:any, _ui:any) => {
-        // Stop propagation of this event to not overwrite the user's input.
-        return false;
-      },
-      select: (_evt:any, ui:any) => {
-        selected = true;
-
-        switch (ui.item.item) {
-          case 'all_projects': {
-            let forcePageLoad = false;
-            if (this.globalSearchService.projectScope !== 'all') {
-              forcePageLoad = true;
-              this.globalSearchService.resultsHidden = true;
-            }
-            this.globalSearchService.projectScope = 'all';
-            this.submitNonEmptySearch(forcePageLoad);
-            break;
-          }
-          case 'this_project': {
-            this.globalSearchService.projectScope = 'current_project';
-            this.submitNonEmptySearch();
-            break;
-          }
-          case 'this_project_and_all_descendants': {
-            this.globalSearchService.projectScope = '';
-            this.submitNonEmptySearch();
-            break;
-          }
-          default: {
-            const workPackage = ui.item.item;
-            this.redirectToWp(workPackage.id);
-          }
-        }
-        // Stop propagation of this event to not overwrite the user's input.
-        return false;
-      },
-      minLength: 1
-    })
-    .data('ui-autocomplete')._renderItem = (ul:JQuery, item:{item:string|WorkPackageResource}) => {
-      if (_.includes(this.projectScopeTypes, item.item)) {
-        return this.renderProjectScopeItem(item.item as string).appendTo(ul);
-      } else {
-        return this.renderWorkPackageItem(item.item as WorkPackageResource).appendTo(ul);
-      }
-    };
-
-    this.$input.on('focus', () => {
-      if (this.searchValue.length > 0) {
-        this.$input.autocomplete('search', this.searchValue);
-      }
-    });
   }
 
   // detect if click is outside or inside the element
@@ -202,6 +132,34 @@ export class GlobalSearchInputComponent implements OnDestroy {
     if (ContainHelpers.insideOrSelf(this.btn.nativeElement, event.target)) {
       this.submitNonEmptySearch();
     }
+    if (ContainHelpers.insideOrSelf(jQuery('.ng-dropdown-header')[0], event.target)) {
+      let projectScope = jQuery(event.target).find('.search-autocomplete--project-scope').attr("title");
+      if(projectScope) {
+        this.searchInScope(projectScope);
+      }
+    }
+  }
+
+  public onChange($event:any) {
+    let selectedOption = $event;
+    this.redirectToWp(selectedOption.id);
+  }
+
+  public handleUserInput($event:any) {
+    this.searchTerm = $event;
+
+    if(this.searchTerm !== null) {
+      this.globalSearchService.searchTerm = this.searchTerm;
+      this.getSearchResult(this.searchTerm);
+    }
+  }
+
+  private getSearchResult(term:string) {
+    this.autocompleteWorkPackages(term).then((values) => {
+      this.results = values.map((wp:any) => {
+        return { id: wp.id, subject: wp.subject, status: wp.status.name, statusId: wp.status.idFromLink, $href: wp.$href };
+      });
+    });
   }
 
   public redirectToWp(id:string) {
@@ -212,6 +170,35 @@ export class GlobalSearchInputComponent implements OnDestroy {
     if (this.unregisterGlobalListener) {
       this.unregisterGlobalListener();
       this.unregisterGlobalListener = undefined;
+    }
+  }
+
+  private searchInScope(scope:string) {
+    switch (scope) {
+      case 'all_projects': {
+        let forcePageLoad = false;
+        if (this.globalSearchService.projectScope !== 'all') {
+          forcePageLoad = true;
+          this.globalSearchService.resultsHidden = true;
+        }
+        this.globalSearchService.projectScope = 'all';
+        this.submitNonEmptySearch(forcePageLoad);
+        break;
+      }
+      case 'this_project': {
+        this.globalSearchService.projectScope = 'current_project';
+        this.submitNonEmptySearch();
+        break;
+      }
+      case 'this_project_and_all_descendants': {
+        this.globalSearchService.projectScope = '';
+        this.submitNonEmptySearch();
+        break;
+      }
+      default: {
+        // const workPackage = ui.item.item;
+        // this.redirectToWp(workPackage.id);
+      }
     }
   }
 
@@ -235,15 +222,14 @@ export class GlobalSearchInputComponent implements OnDestroy {
   }
 
   private get searchValue() {
-    return this.input.nativeElement.value;
+    return this.searchTerm ? this.searchTerm : '';
   }
 
   ngOnDestroy():void {
-    this.$input.autocomplete('destroy');
     this.unregister();
   }
 
-  private autocompleteWorkPackages(query:string):Promise<(WorkPackageResource|string)[]> {
+  private autocompleteWorkPackages(query:string):Promise<(any)[]> {
     this.dynamicCssService.requireHighlighting();
 
     this.$element.find('.ui-autocomplete--loading').show();
@@ -256,14 +242,15 @@ export class GlobalSearchInputComponent implements OnDestroy {
 
     let href:string = this.PathHelperService.api.v3.wpBySubjectOrId(query, idOnly);
 
-    let suggestions:(string|WorkPackageResource)[] = [];
-
+    this.suggestions = [];
     if (this.currentProjectService.path) {
-      suggestions.push('this_project_and_all_descendants');
-      suggestions.push('this_project');
+      this.suggestions.push('this_project_and_all_descendants');
+      this.suggestions.push('this_project');
     }
-
-    suggestions.push('all_projects');
+    this.suggestions.push('all_projects');
+    this.suggestions = this.suggestions.map((suggestion:string) => {
+      return { projectScope: suggestion, text: this.text[suggestion] }
+    });
 
     return this.halResourceService
       .get<CollectionResource<WorkPackageResource>>(href)
@@ -271,56 +258,15 @@ export class GlobalSearchInputComponent implements OnDestroy {
       .then((collection) => {
         this.noResults = collection.count === 0;
         this.hideSpinner();
-        return suggestions.concat(collection.elements);
+        return collection.elements;
       }).catch(() => {
         this.hideSpinner();
-        return suggestions;
+        return this.suggestions;
       });
   }
 
   private hideSpinner():void {
     this.$element.find('.ui-autocomplete--loading').hide();
-  }
-
-  private renderProjectScopeItem(scope:string):JQuery {
-    return jQuery("<li>")
-      .attr('data-value', scope)
-      .attr('tabindex', -1)
-      .append(
-        jQuery('<div>')
-          .addClass( 'ui-menu-item-wrapper')
-          .append(
-            jQuery('<span>')
-              .addClass('search-autocomplete--search-term')
-              .append(this.searchValue)
-          ).append(
-            jQuery('<span>')
-              .addClass('search-autocomplete--project-scope')
-              .append(`${this.text[scope]} ↵`)
-          )
-      );
-  }
-
-  private renderWorkPackageItem(workPackage:WorkPackageResource) {
-    return jQuery("<li>")
-      .attr('data-value', workPackage.id)
-      .attr('tabindex', -1)
-      .append(
-        jQuery('<div>')
-          .addClass( 'ui-menu-item-wrapper')
-          .append(
-            jQuery('<span>')
-              .addClass('search-autocomplete--wp-id')
-              .addClass(`__hl_dot_status_${workPackage.status.idFromLink}`)
-              .attr('title', workPackage.status.name)
-              .append(`#${workPackage.id}`)
-          )
-          .append(
-            jQuery('<span>')
-              .addClass('search-autocomplete--subject')
-              .append(` ${workPackage.subject}`)
-          )
-      );
   }
 
   public resize() {
