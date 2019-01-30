@@ -82,8 +82,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
     search: this.I18n.t('js.global_search.search') + ' ...'
   };
 
-  constructor(readonly FocusHelper:FocusHelperService,
-              readonly elementRef:ElementRef,
+  constructor(readonly elementRef:ElementRef,
               readonly I18n:I18nService,
               readonly PathHelperService:PathHelperService,
               readonly halResourceService:HalResourceService,
@@ -107,7 +106,6 @@ export class GlobalSearchInputComponent implements OnDestroy {
       )
       .subscribe((searchTerm:string) => {
         this.searchTerm = searchTerm;
-        this.determineExpansion();
         this.cdRef.detectChanges();
       });
 
@@ -118,9 +116,12 @@ export class GlobalSearchInputComponent implements OnDestroy {
       )
       .subscribe((searchTerm:string) => {
         this.searchTerm = searchTerm;
-        this.determineExpansion();
         this.cdRef.detectChanges();
       });
+  }
+
+  ngOnDestroy():void {
+    this.unregister();
   }
 
   // detect if click is outside or inside the element
@@ -129,29 +130,50 @@ export class GlobalSearchInputComponent implements OnDestroy {
     event.stopPropagation();
     event.preventDefault();
 
+    // TODO: make button load the right query
     if (ContainHelpers.insideOrSelf(this.btn.nativeElement, event.target)) {
       this.submitNonEmptySearch();
     }
-    if (ContainHelpers.insideOrSelf(jQuery('.ng-dropdown-header')[0], event.target)) {
-      let projectScope = jQuery(event.target).find('.search-autocomplete--project-scope').attr("title");
-      if(projectScope) {
+    // handle clicks for searching in a specific scope
+    let scopeElements = jQuery('.ng-dropdown-header')[0];
+    if (scopeElements && ContainHelpers.insideOrSelf(scopeElements, event.target)) {
+      let projectScope = jQuery(event.target).parent().find('.search-autocomplete--project-scope').attr("title");
+      if (projectScope) {
         this.searchInScope(projectScope);
       }
     }
   }
 
+  // load selected work package
   public onChange($event:any) {
     let selectedOption = $event;
     this.redirectToWp(selectedOption.id);
   }
 
+  // load work packages result list for searched term
   public handleUserInput($event:any) {
     this.searchTerm = $event;
 
-    if(this.searchTerm !== null) {
+    (this.searchTerm === '') ? this.closeMenu() : this.ngSelectComponent.isOpen = true;
+
+    if (this.searchTerm !== null && this.searchTerm !== '') {
       this.globalSearchService.searchTerm = this.searchTerm;
       this.getSearchResult(this.searchTerm);
     }
+  }
+
+  public closeMenu() {
+    this.ngSelectComponent.isOpen = false;
+  }
+
+  public onFocus() {
+    this.expanded = true;
+  }
+
+  public onFocusOut() {
+    this.expanded = false;
+    this.ngSelectComponent.filterValue = this.searchTerm;
+    this.closeMenu();
   }
 
   private getSearchResult(term:string) {
@@ -160,73 +182,6 @@ export class GlobalSearchInputComponent implements OnDestroy {
         return { id: wp.id, subject: wp.subject, status: wp.status.name, statusId: wp.status.idFromLink, $href: wp.$href };
       });
     });
-  }
-
-  public redirectToWp(id:string) {
-    window.location = this.PathHelperService.workPackagePath(id) as unknown as Location;
-  }
-
-  private unregister() {
-    if (this.unregisterGlobalListener) {
-      this.unregisterGlobalListener();
-      this.unregisterGlobalListener = undefined;
-    }
-  }
-
-  private searchInScope(scope:string) {
-    switch (scope) {
-      case 'all_projects': {
-        let forcePageLoad = false;
-        if (this.globalSearchService.projectScope !== 'all') {
-          forcePageLoad = true;
-          this.globalSearchService.resultsHidden = true;
-        }
-        this.globalSearchService.projectScope = 'all';
-        this.submitNonEmptySearch(forcePageLoad);
-        break;
-      }
-      case 'this_project': {
-        this.globalSearchService.projectScope = 'current_project';
-        this.submitNonEmptySearch();
-        break;
-      }
-      case 'this_project_and_all_descendants': {
-        this.globalSearchService.projectScope = '';
-        this.submitNonEmptySearch();
-        break;
-      }
-      default: {
-        // const workPackage = ui.item.item;
-        // this.redirectToWp(workPackage.id);
-      }
-    }
-  }
-
-  public submitNonEmptySearch(forcePageLoad:boolean = false) {
-    this.globalSearchService.searchTerm = this.searchValue;
-    if (this.searchValue !== '') {
-      // Work package results can update without page reload.
-      if (!forcePageLoad &&
-          this.globalSearchService.isAfterSearch() &&
-          this.globalSearchService.currentTab === 'work_packages') {
-        window.history
-          .replaceState({},
-            `${I18n.t('global_search.search')}: ${this.searchValue}`,
-            this.globalSearchService.searchPath());
-
-        return;
-      }
-
-      this.globalSearchService.submitSearch();
-    }
-  }
-
-  private get searchValue() {
-    return this.searchTerm ? this.searchTerm : '';
-  }
-
-  ngOnDestroy():void {
-    this.unregister();
   }
 
   private autocompleteWorkPackages(query:string):Promise<(any)[]> {
@@ -265,17 +220,69 @@ export class GlobalSearchInputComponent implements OnDestroy {
       });
   }
 
+  private searchInScope(scope:string) {
+    switch (scope) {
+      case 'all_projects': {
+        let forcePageLoad = false;
+        if (this.globalSearchService.projectScope !== 'all') {
+          forcePageLoad = true;
+          this.globalSearchService.resultsHidden = true;
+        }
+        this.globalSearchService.projectScope = 'all';
+        this.submitNonEmptySearch(forcePageLoad);
+        break;
+      }
+      case 'this_project': {
+        this.globalSearchService.projectScope = 'current_project';
+        this.submitNonEmptySearch();
+        break;
+      }
+      case 'this_project_and_all_descendants': {
+        this.globalSearchService.projectScope = '';
+        this.submitNonEmptySearch();
+        break;
+      }
+      default: {
+        // do nothing
+      }
+    }
+  }
+
+  public submitNonEmptySearch(forcePageLoad:boolean = false) {
+    this.globalSearchService.searchTerm = this.searchValue;
+    if (this.searchValue !== '') {
+      // Work package results can update without page reload.
+      if (!forcePageLoad &&
+          this.globalSearchService.isAfterSearch() &&
+          this.globalSearchService.currentTab === 'work_packages') {
+        window.history
+          .replaceState({},
+            `${I18n.t('global_search.search')}: ${this.searchValue}`,
+            this.globalSearchService.searchPath());
+
+        return;
+      }
+      this.globalSearchService.submitSearch();
+    }
+  }
+
+  private redirectToWp(id:string) {
+    window.location = this.PathHelperService.workPackagePath(id) as unknown as Location;
+  }
+
   private hideSpinner():void {
     this.$element.find('.ui-autocomplete--loading').hide();
   }
 
-  public resize() {
-    this.focused = !this.focused;
-    this.determineExpansion();
+  private unregister() {
+    if (this.unregisterGlobalListener) {
+      this.unregisterGlobalListener();
+      this.unregisterGlobalListener = undefined;
+    }
   }
 
-  private determineExpansion():void {
-    this.expanded = (this.focused || this.searchValue.length > 0 || this.searchTerm.length > 0);
+  private get searchValue() {
+    return this.searchTerm ? this.searchTerm : '';
   }
 }
 

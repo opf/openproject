@@ -16,9 +16,9 @@
                 placeholder="{{text.search}}"
                 bindLabel="subject"
                 (search)="handleUserInput($event)"
-                (open)="resize()"
-                (close)="resize()"
-                [closeOnSelect]="false"
+                (focus)="onFocus()"
+                (focusout)="onFocusOut()"
+                (open)="closeMenu()"
                 (change)="onChange($event)"
                 (keyup.enter)="submitNonEmptySearch()"
                 [virtualScroll]="true">
