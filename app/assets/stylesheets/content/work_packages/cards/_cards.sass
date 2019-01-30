@@ -1,0 +1,30 @@
+.work-package--cards-container
+  display: flex
+  flex-wrap: wrap
+
+  .work-package--card
+    min-width: 200px
+    border: 1px solid $widget-box-block-border-color
+    border-radius: 5px
+    padding: 5px 5px 5px 10px
+    margin-top: 10px
+    background-color: #eeeeee6e
+
+  .work-package--card--subject .wp-edit-field--container
+    margin-left: -5px
+
+  .work-package--card--additional-info-container
+    margin-top: 15px
+
+    .work-package--card--additional-info
+      display: flex
+      line-height: 22px
+
+      .work-package--card--additional-info-attribute
+        max-width: 50%
+        @include text-shortener
+        margin-right: 5px
+
+      wp-edit-field
+        width: initial
+

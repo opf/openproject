@@ -1,0 +1,27 @@
+<div class="work-package--cards-container -small-font">
+  <div class="work-package--card"
+       *ngFor="let wp of workPackages">
+
+    <wp-edit-field-group [workPackage]="wp">
+      <wp-edit-field [workPackageId]="wp.id"
+                     fieldName="subject"
+                     class="work-package--card--subject -bold">
+      </wp-edit-field>
+
+      <div class="work-package--card--author -italic"
+           [textContent]="text.wp_id_added_by(wp)">
+      </div>
+
+      <div class="work-package--card--additional-info-container">
+        <div *ngFor="let column of availableColumns"
+             class="work-package--card--additional-info">
+            <span [textContent]="column.name + ':'"
+                  class="work-package--card--additional-info-attribute"></span>
+            <wp-edit-field [workPackageId]="wp.id"
+                           [fieldName]="column.id">
+            </wp-edit-field>
+        </div>
+      </div>
+    </wp-edit-field-group>
+  </div>
+</div>

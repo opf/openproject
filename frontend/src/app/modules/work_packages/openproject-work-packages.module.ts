@@ -188,6 +188,7 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
 import {CdkDragPortalBody} from "core-components/wp-fast-table/builders/drag-and-drop/cdk-drag-portal-body";
 import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
 import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
+import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 
 @NgModule({
   imports: [
@@ -425,6 +426,9 @@ import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
     CdkDragPortalBody,
+
+    // Card view
+    WorkPackageCardViewComponent,
   ],
   entryComponents: [
     // Split view
@@ -497,9 +501,13 @@ import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
     CdkDragPortalBody,
+
+    // Card view
+    WorkPackageCardViewComponent,
   ],
   exports: [
     WorkPackageEmbeddedTableComponent,
+    WorkPackageCardViewComponent,
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
   ]
