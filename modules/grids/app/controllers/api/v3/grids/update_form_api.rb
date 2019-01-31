@@ -36,6 +36,8 @@ module API
           end
 
           post do
+            raise_if_lacking_manage_permission
+
             params = API::V3::ParseResourceParamsService
                      .new(current_user, representer: GridPayloadRepresenter)
                      .call(request_body)

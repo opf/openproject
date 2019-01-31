@@ -28,48 +28,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Grids::CreateService
-  include ::Shared::ServiceContext
+module Grids
+  class Factory
+    class << self
+      def build(scope, user)
+        attributes = ::Grids::Configuration.attributes_from_scope(scope)
 
-  attr_accessor :user,
-                :contract_class
+        grid_class = attributes[:class]
+        grid_project = project_from_id(attributes[:project_id])
 
-  def initialize(user:, contract_class: Grids::CreateContract)
-    self.user = user
-    self.contract_class = contract_class
-  end
+        grid_class.new_default(user: user, project: grid_project)
+      end
 
-  def call(attributes: {})
-    in_context(false) do
-      create(attributes)
+      def project_from_id(id)
+        Project.find(id) if id
+      rescue ActiveRecord::RecordNotFound
+        nil
+      end
     end
-  end
-
-  protected
-
-  def create(attributes)
-    grid = new_grid(attributes.delete(:scope))
-
-    set_attributes_call = set_attributes(attributes, grid)
-
-    if set_attributes_call.success? &&
-       !grid.save
-      set_attributes_call.errors = grid.errors
-      set_attributes_call.success = false
-    end
-
-    set_attributes_call
-  end
-
-  def set_attributes(attributes, grid)
-    Grids::SetAttributesService
-      .new(user: user,
-           grid: grid,
-           contract_class: contract_class)
-      .call(attributes)
-  end
-
-  def new_grid(scope)
-    ::Grids::Factory.build(scope, user)
   end
 end

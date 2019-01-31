@@ -63,14 +63,14 @@ module Grids
       nil
     end
 
-    def writeable?
+    def edit_allowed?
       Grids::Configuration.writable?(model, user)
     end
 
     private
 
     def validate_allowed
-      unless writeable?
+      unless edit_allowed?
         # scope because that is what is exposed to the outside
         errors.add(:scope, :inclusion)
       end

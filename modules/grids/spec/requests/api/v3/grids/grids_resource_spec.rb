@@ -46,7 +46,9 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     FactoryBot.create(:user)
   end
   let(:other_my_page_grid) do
-    Grids::MyPage.new_default(user: other_user).save
+    grid = Grids::MyPage.new_default(user: other_user)
+    grid.save!
+    grid
   end
 
   before do
@@ -179,7 +181,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         other_my_page_grid
       end
 
-      let(:path) { api_v3_paths.grid(other_my_page_grid) }
+      let(:path) { api_v3_paths.grid(other_my_page_grid.id) }
 
       it 'responds with 404 NOT FOUND' do
         expect(subject.status).to eql 404
@@ -314,7 +316,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         other_my_page_grid
       end
 
-      let(:path) { api_v3_paths.grid(other_my_page_grid) }
+      let(:path) { api_v3_paths.grid(other_my_page_grid.id) }
 
       it 'responds with 404 NOT FOUND' do
         expect(subject.status).to eql 404

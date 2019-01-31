@@ -34,19 +34,9 @@ module API
 
         resource_link :scope,
                       getter: ->(*) {
-                        path_attributes = represented
-                                          .attributes
-                                          .slice("id", "user_id", "project_id")
-                                          .compact
-                                          .symbolize_keys
-
-                        path = ::Grids::Configuration.to_scope(represented.class,
-                                                               path_attributes)
+                        path = scope_path
 
                         next unless path
-
-                        # Remove all query params
-                        path.gsub!(/\?.+\z/,'')
 
                         {
                           href: path,
@@ -99,6 +89,7 @@ module API
                  writeable: false,
                  getter: ->(*) {
                    next unless represented.created_at
+
                    datetime_formatter.format_datetime(represented.created_at)
                  }
 
@@ -107,11 +98,38 @@ module API
                  writeable: false,
                  getter: ->(*) {
                    next unless represented.updated_at
+
                    datetime_formatter.format_datetime(represented.updated_at)
                  }
 
         def _type
           'Grid'
+        end
+
+        private
+
+        def scope_path
+          path = ::Grids::Configuration.to_scope(represented.class,
+                                                 scope_path_attributes)
+
+          # Remove all query params
+          # Those are added when the path does not actually require
+          # project or user
+          path&.gsub(/(\?.+)|(\.\d+)\z/, '')
+        end
+
+        def scope_path_attributes
+          path_attributes = []
+
+          if represented.respond_to?(:project)
+            path_attributes << represented.project
+          end
+
+          if represented.respond_to?(:user)
+            path_attributes << represented.user
+          end
+
+          path_attributes.compact
         end
       end
     end

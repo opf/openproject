@@ -33,25 +33,34 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) { FactoryBot.create(:project) }
+  shared_let(:manage_boards_project) { FactoryBot.create(:project) }
+  shared_let(:view_boards_project) { FactoryBot.create(:project) }
   shared_let(:other_project) { FactoryBot.create(:project) }
   shared_let(:view_boards_role) { FactoryBot.create(:role, permissions: [:view_boards]) }
   shared_let(:manage_boards_role) { FactoryBot.create(:role, permissions: [:manage_boards]) }
   shared_let(:other_role) { FactoryBot.create(:role, permissions: []) }
   shared_let(:current_user) do
     FactoryBot.create(:user).tap do |user|
-      FactoryBot.create(:member, user: user, project: project, roles: [manage_boards_role])
+      FactoryBot.create(:member, user: user, project: manage_boards_project, roles: [manage_boards_role])
+      FactoryBot.create(:member, user: user, project: view_boards_project, roles: [view_boards_role])
       FactoryBot.create(:member, user: user, project: other_project, roles: [other_role])
     end
   end
 
-  let(:board_grid) do
-    grid = Boards::Grid.new_default(project: project)
+  let(:manage_boards_grid) do
+    grid = Boards::Grid.new_default(project: manage_boards_project)
+    grid.save!
+    grid
+  end
+  let(:view_boards_grid) do
+    grid = Boards::Grid.new_default(project: view_boards_project)
     grid.save!
     grid
   end
   let(:other_board_grid) do
-    Boards::Grid.new_default(project: other_project).save
+    grid = Boards::Grid.new_default(project: other_project)
+    grid.save!
+    grid
   end
 
   before do
@@ -64,7 +73,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
     let(:path) { api_v3_paths.grids }
 
     let(:stored_grids) do
-      board_grid
+      manage_boards_grid
       other_board_grid
     end
 
@@ -100,7 +109,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
         filter = [{ 'scope' =>
                       {
                         'operator' => '=',
-                        'values' => [boards_project_path(project)]
+                        'values' => [boards_project_path(manage_boards_project)]
                       } }]
 
         "#{api_v3_paths.grids}?#{{ filters: filter.to_json }.to_query}"
@@ -124,17 +133,17 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
           .at_path('total')
 
         expect(subject.body)
-          .to be_json_eql(board_grid.id.to_json)
+          .to be_json_eql(manage_boards_grid.id.to_json)
           .at_path('_embedded/elements/0/id')
       end
     end
   end
 
   describe '#get' do
-    let(:path) { api_v3_paths.grid(board_grid.id) }
+    let(:path) { api_v3_paths.grid(manage_boards_grid.id) }
 
     let(:stored_grids) do
-      board_grid
+      manage_boards_grid
     end
 
     before do
@@ -155,7 +164,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
     it 'identifies the url the grid is stored for' do
       expect(subject.body)
-        .to be_json_eql(project_boards_path(project.id).to_json)
+        .to be_json_eql(project_boards_path(manage_boards_project).to_json)
         .at_path('_links/scope/href')
     end
 
@@ -169,11 +178,11 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
     context 'when lacking permission to see the grid' do
       let(:stored_grids) do
-        board_grid
+        manage_boards_grid
         other_board_grid
       end
 
-      let(:path) { api_v3_paths.grid(other_board_grid) }
+      let(:path) { api_v3_paths.grid(other_board_grid.id) }
 
       it 'responds with 404 NOT FOUND' do
         expect(subject.status).to eql 404
@@ -182,7 +191,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
   end
 
   describe '#patch' do
-    let(:path) { api_v3_paths.grid(board_grid.id) }
+    let(:path) { api_v3_paths.grid(manage_boards_grid.id) }
 
     let(:params) do
       {
@@ -199,7 +208,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
     end
 
     let(:stored_grids) do
-      board_grid
+      manage_boards_grid
     end
 
     before do
@@ -225,7 +234,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
     end
 
     it 'perists the changes' do
-      expect(board_grid.reload.row_count)
+      expect(manage_boards_grid.reload.row_count)
         .to eql params['rowCount']
     end
 
@@ -261,8 +270,8 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
       end
 
       it 'does not persist the changes to widgets' do
-        expect(board_grid.reload.widgets.count)
-          .to eql Boards::Grid.new_default(project: project, user: current_user).widgets.size
+        expect(manage_boards_grid.reload.widgets.count)
+          .to eql Boards::Grid.new_default(project: manage_boards_project, user: current_user).widgets.size
       end
     end
 
@@ -304,10 +313,10 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
     context 'without the manage_boards permission' do
       let(:stored_grids) do
-        other_board_grid
+        view_boards_grid
       end
 
-      let(:path) { api_v3_paths.grid(other_board_grid) }
+      let(:path) { api_v3_paths.grid(view_boards_grid.id) }
 
       it 'responds with 404 NOT FOUND' do
         expect(subject.status).to eql 404
@@ -331,7 +340,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
         }],
         "_links": {
           "scope": {
-            "href": project_boards_path(project)
+            "href": project_boards_path(manage_boards_project)
           }
         }
       }.with_indifferent_access
@@ -376,7 +385,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
           }],
           "_links": {
             "scope": {
-              "href": project_boards_path(project)
+              "href": project_boards_path(manage_boards_project)
             }
           }
         }.with_indifferent_access
@@ -459,7 +468,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
           }],
           "_links": {
             "scope": {
-              "href": project_boards_path(other_project)
+              "href": project_boards_path(view_boards_project)
             }
           }
         }.with_indifferent_access
