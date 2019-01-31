@@ -63,11 +63,11 @@ describe Grids::CreateService, type: :model do
                       errors: set_attributes_errors
   end
   let!(:grid) do
-    grid = FactoryBot.build_stubbed(grid_class.name.demodulize.underscore.to_sym)
+    grid = FactoryBot.build(grid_class.name.demodulize.underscore.to_sym)
 
-    allow(grid_class)
-      .to receive(:new_default)
-      .with(user: user, project: project)
+    allow(Grids::Factory)
+      .to receive(:build)
+      .with(scope, user)
       .and_return(grid)
 
     allow(grid)

@@ -32,10 +32,10 @@ describe Grids::Query, type: :model do
   let(:user) { FactoryBot.create(:user) }
   let(:other_user) { FactoryBot.create(:user) }
   let!(:my_page_grid) do
-    Grids::MyPage.new_default(user: user).tap(&:save!)
+    FactoryBot.create(:my_page, user: user)
   end
   let!(:other_my_page_grid) do
-    Grids::MyPage.new_default(user: other_user).tap(&:save!)
+    FactoryBot.create(:my_page, user: other_user)
   end
   let(:instance) { described_class.new }
 

@@ -6,6 +6,12 @@ module OpenProject
 
       widgets 'work_package_query'
 
+      defaults(
+        row_count: 1,
+        column_count: 4,
+        widgets: []
+      )
+
       class << self
         def from_scope(scope)
           recognized = Rails.application.routes.recognize_path(scope)

@@ -31,45 +31,12 @@ require 'spec_helper'
 describe Boards::Grid, type: :model do
   let(:instance) { described_class.new }
   let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
 
   context 'attributes' do
     it '#project' do
       instance.project = project
       expect(instance.project)
         .to eql project
-    end
-  end
-
-  describe '.new_default' do
-    it 'builds a new Board grid' do
-      expect(described_class.new_default(project: project))
-        .to be_a_kind_of(Boards::Grid)
-    end
-
-    it 'is not persisted' do
-      expect(described_class.new_default(project: project))
-        .to be_new_record
-    end
-
-    it 'assigns the project' do
-      expect(described_class.new_default(project: project).project)
-        .to eql project
-    end
-
-    it 'assigns no widgets' do
-      expect(described_class.new_default(project: project).widgets)
-        .to be_empty
-    end
-
-    it 'defines default for row_count' do
-      expect(described_class.new_default(project: project).row_count)
-        .to eql 1
-    end
-
-    it 'defines default for row_count' do
-      expect(described_class.new_default(project: project).column_count)
-        .to eql 4
     end
   end
 end

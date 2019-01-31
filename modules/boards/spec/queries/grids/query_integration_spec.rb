@@ -42,10 +42,10 @@ describe Grids::Query, type: :model do
     end
   end
   let!(:board_grid) do
-    Boards::Grid.new_default(project: project).tap(&:save!)
+    FactoryBot.create(:board_grid, project: project)
   end
   let!(:other_board_grid) do
-    Boards::Grid.new_default(project: other_project).tap(&:save!)
+    FactoryBot.create(:board_grid, project: other_project)
   end
   let(:instance) { described_class.new }
 

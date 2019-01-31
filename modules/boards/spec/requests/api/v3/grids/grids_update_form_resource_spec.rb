@@ -44,9 +44,7 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
   end
 
   let(:grid) do
-    grid = Boards::Grid.new_default(user: current_user, project: project)
-    grid.save!
-    grid
+    FactoryBot.create(:board_grid, project: project)
   end
   let(:path) { api_v3_paths.grid_form(grid.id) }
   let(:params) { {} }

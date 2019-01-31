@@ -37,19 +37,11 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     FactoryBot.create(:user)
   end
 
-  let(:my_page_grid) do
-    grid = Grids::MyPage.new_default(user: current_user)
-    grid.save!
-    grid
-  end
+  let(:my_page_grid) { FactoryBot.create(:my_page, user: current_user) }
   let(:other_user) do
     FactoryBot.create(:user)
   end
-  let(:other_my_page_grid) do
-    grid = Grids::MyPage.new_default(user: other_user)
-    grid.save!
-    grid
-  end
+  let(:other_my_page_grid) { FactoryBot.create(:my_page, user: other_user) }
 
   before do
     login_as(current_user)
@@ -270,7 +262,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
       it 'does not persist the changes to widgets' do
         expect(my_page_grid.reload.widgets.count)
-          .to eql Grids::MyPage.new_default(user: current_user).widgets.size
+          .to eql Grids::MyPageGridRegistration.defaults[:widgets].size
       end
     end
 

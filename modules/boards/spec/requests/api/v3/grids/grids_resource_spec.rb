@@ -48,19 +48,13 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
   end
 
   let(:manage_boards_grid) do
-    grid = Boards::Grid.new_default(project: manage_boards_project)
-    grid.save!
-    grid
+    FactoryBot.create(:board_grid, project: manage_boards_project)
   end
   let(:view_boards_grid) do
-    grid = Boards::Grid.new_default(project: view_boards_project)
-    grid.save!
-    grid
+    FactoryBot.create(:board_grid, project: view_boards_project)
   end
   let(:other_board_grid) do
-    grid = Boards::Grid.new_default(project: other_project)
-    grid.save!
-    grid
+    FactoryBot.create(:board_grid, project: other_project)
   end
 
   before do
@@ -271,7 +265,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
       it 'does not persist the changes to widgets' do
         expect(manage_boards_grid.reload.widgets.count)
-          .to eql Boards::Grid.new_default(project: manage_boards_project, user: current_user).widgets.size
+          .to eql OpenProject::Boards::GridRegistration.defaults[:widgets].size
       end
     end
 

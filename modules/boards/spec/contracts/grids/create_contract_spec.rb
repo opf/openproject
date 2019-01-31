@@ -34,7 +34,7 @@ describe Grids::CreateContract, 'for Boards::Grid' do
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:grid) do
-    Boards::Grid.new_default(user: user, project: project)
+    FactoryBot.create(:board_grid, project: project)
   end
   include_context 'model contract'
 

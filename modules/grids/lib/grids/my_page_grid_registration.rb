@@ -12,6 +12,27 @@ module Grids
             'documents',
             'news'
 
+    defaults(
+      row_count: 7,
+      column_count: 4,
+      widgets: [
+        {
+          identifier: 'work_packages_assigned',
+          start_row: 1,
+          end_row: 7,
+          start_column: 1,
+          end_column: 3
+        },
+        {
+          identifier: 'work_packages_created',
+          start_row: 1,
+          end_row: 7,
+          start_column: 3,
+          end_column: 5
+        }
+      ]
+    )
+
     class << self
       def from_scope(scope)
         if scope == url_helpers.my_page_path

@@ -38,9 +38,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
   end
 
   let(:grid) do
-    grid = Grids::MyPage.new_default(user: current_user)
-    grid.save!
-    grid
+    FactoryBot.create(:my_page, user: current_user)
   end
   let(:path) { api_v3_paths.grid_form(grid.id) }
   let(:params) { {} }
@@ -169,11 +167,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
 
     context 'for another user\'s grid' do
       let(:other_user) { FactoryBot.create(:user) }
-      let(:other_grid) do
-        grid = Grids::MyPage.new_default(user: other_user)
-        grid.save!
-        grid
-      end
+      let(:other_grid) { FactoryBot.create(:my_page, user: other_user) }
 
       let(:path) { api_v3_paths.grid_form(other_grid.id) }
 

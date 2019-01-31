@@ -1,7 +1,7 @@
 describe OpenProject::Boards::GridRegistration do
   let(:project) { FactoryBot.create(:project) }
   let(:permissions) { [:view_boards] }
-  let(:board) { Boards::Grid.new_default(project: project).tap(&:save!) }
+  let(:board) { FactoryBot.create(:board_grid, project: project) }
   let(:user) do
     FactoryBot.create(:user,
                       member_in_project: project,

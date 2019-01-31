@@ -33,14 +33,5 @@ require_dependency 'grids/grid'
 module Boards
   class Grid < ::Grids::Grid
     belongs_to :project
-
-    def self.new_default(user: nil, project:)
-      new(
-        project: project,
-        row_count: 1,
-        column_count: 4,
-        widgets: []
-      )
-    end
   end
 end

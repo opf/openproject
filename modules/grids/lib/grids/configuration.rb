@@ -63,6 +63,10 @@ class Grids::Configuration
       end
     end
 
+    def defaults(klass)
+      grid_register[klass.name]&.defaults
+    end
+
     def class_from_scope(page)
       attributes_from_scope(page)[:class]
     end
@@ -140,6 +144,19 @@ class Grids::Configuration
         end
 
         @widgets
+      end
+
+      def defaults(hash = nil)
+        if hash
+          @defaults = hash
+        end
+
+        params = @defaults.dup
+        params[:widgets] = (params[:widgets] || []).map do |widget|
+          Grids::Widget.new(widget)
+        end
+
+        params
       end
 
       def from_scope(_scope)
