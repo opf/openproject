@@ -658,7 +658,7 @@ lol:
   button_print: crwdns103500:0crwdne103500:0
   button_quote: crwdns103502:0crwdne103502:0
   button_remove: crwdns103504:0crwdne103504:0
-  button_remove_widget: crwdns111934:0crwdne111934:0
+  button_remove_widget: crwdns112126:0crwdne112126:0
   button_rename: crwdns103508:0crwdne103508:0
   button_replace: crwdns103510:0crwdne103510:0
   button_reply: crwdns103512:0crwdne103512:0
@@ -1288,7 +1288,7 @@ lol:
   label_my_account: crwdns104632:0crwdne104632:0
   label_my_account_data: crwdns104634:0crwdne104634:0
   label_my_page: crwdns104636:0crwdne104636:0
-  label_my_page_block: crwdns111936:0crwdne111936:0
+  label_my_page_block: crwdns112128:0crwdne112128:0
   label_my_projects: crwdns104640:0crwdne104640:0
   label_my_queries: crwdns104642:0crwdne104642:0
   label_never: crwdns104644:0crwdne104644:0
@@ -1395,7 +1395,7 @@ lol:
   label_repository_plural: crwdns104846:0crwdne104846:0
   label_required: crwdns104848:0crwdne104848:0
   label_requires: crwdns104850:0crwdne104850:0
-  label_responsible_for_work_packages: crwdns111938:0crwdne111938:0
+  label_responsible_for_work_packages: crwdns112130:0crwdne112130:0
   label_result_plural: crwdns104854:0crwdne104854:0
   label_reverse_chronological_order: crwdns104856:0crwdne104856:0
   label_revision: crwdns104858:0crwdne104858:0
@@ -1582,7 +1582,7 @@ lol:
   label_keyboard_shortcut_go_preview: crwdns105190:0crwdne105190:0
   label_keyboard_shortcut_focus_previous_item: crwdns105192:0crwdne105192:0
   label_keyboard_shortcut_focus_next_item: crwdns105194:0crwdne105194:0
-  label_visible_elements: crwdns111940:0crwdne111940:0
+  label_visible_elements: crwdns112132:0crwdne112132:0
   auth_source:
     using_abstract_auth_source: crwdns105198:0crwdne105198:0
     ldap_error: crwdns105200:0%{error_message}crwdne105200:0
