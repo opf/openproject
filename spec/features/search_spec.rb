@@ -62,7 +62,6 @@ describe 'Search', type: :feature, js: true do
   end
 
   describe 'autocomplete' do
-
     let!(:other_work_package) { FactoryBot.create(:work_package, subject: 'Other work package', project: project) }
 
     it 'provides suggestions' do
@@ -111,6 +110,7 @@ describe 'Search', type: :feature, js: true do
                           results_selector: '.search-autocomplete--results')
       expect(current_path).to match(/\/search/)
       expect(current_url).to match(/\/search\?q=#{query}&work_packages=1&scope=all$/)
+
     end
   end
 
