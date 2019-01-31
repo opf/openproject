@@ -8,13 +8,19 @@ import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
 import {Observable, of, Subject} from "rxjs";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {auditTime, debounce, debounceTime, distinctUntilChanged, tap, withLatestFrom} from "rxjs/operators";
+import {auditTime, debounce, debounceTime, distinctUntilChanged, share, tap, withLatestFrom} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
+import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
+import {BoardInlineCreateService} from "core-app/modules/boards/board/board-list/board-inline-create.service";
 
 @Component({
   selector: 'board-list',
   templateUrl: './board-list.component.html',
-  styleUrls: ['./board-list.component.sass']
+  styleUrls: ['./board-list.component.sass'],
+  providers: [
+    { provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService }
+  ]
 })
 export class BoardListComponent implements OnInit, OnDestroy {
   @Input() queryInput:number|QueryResource;
@@ -41,7 +47,8 @@ export class BoardListComponent implements OnInit, OnDestroy {
     this.query$ = this.QueryDm
       .stream(this.columnsQueryProps, this.queryInput)
       .pipe(
-        withLoadingIndicator(this.indicatorInstance, 50)
+        withLoadingIndicator(this.indicatorInstance, 50),
+        share()
       );
 
     this.rename$
@@ -58,6 +65,7 @@ export class BoardListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy():void {
+    // Interface compatibility
   }
 
   get columnsQueryProps() {
