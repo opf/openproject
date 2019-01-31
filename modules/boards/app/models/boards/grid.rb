@@ -42,28 +42,5 @@ module Boards
         widgets: []
       )
     end
-
-    def writable?(user)
-      super &&
-        Project.allowed_to(user, :manage_boards).exists?(project_id)
-    end
-
-    class << self
-      alias_method :super_visible, :visible
-
-      def visible(user = User.current)
-        in_project_with_permission(user, :view_boards)
-          .or(in_project_with_permission(user, :manage_boards))
-      end
-
-      private
-
-      def in_project_with_permission(user, permission)
-        super_visible
-          .where(project_id: Project.allowed_to(user, permission))
-      end
-    end
-
-    private_class_method :super_visible
   end
 end

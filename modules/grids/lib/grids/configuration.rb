@@ -29,57 +29,35 @@
 #++
 
 class Grids::Configuration
-  attr_accessor :grid,
-                :from_scope,
-                :to_scope,
-                :all_scopes
-
-  def initialize(grid, from_scope, to_scope, all_scopes)
-    self.grid = grid
-    self.from_scope = from_scope
-    self.to_scope = to_scope
-    self.all_scopes = all_scopes
-  end
-
   class << self
     def register_grid(grid,
-                      from_scope,
-                      to_scope,
-                      all_scopes = to_scope)
-      @grid_register ||= {}
-
-      @grid_register[grid] = new(grid, from_scope, to_scope, all_scopes)
+                      klass)
+      grid_register[grid] = klass
     end
 
     def registered_grids
-      if @registered_grid_classes && @registered_grid_classes.length == @grid_register.length
+      if @registered_grid_classes && @registered_grid_classes.length == grid_register.length
         @registered_grid_classes
       else
-        @registered_grid_classes = @grid_register.keys.map(&:constantize)
+        @registered_grid_classes = grid_register.keys.map(&:constantize)
       end
     end
 
     def all_scopes
-      all.map do |config|
-        if config.all_scopes.is_a?(String) || config.all_scopes.is_a?(Symbol)
-          url_helpers.send(config.to_scope)
-        else
-          config.all_scopes.call
-        end
-      end.compact
+      all.map(&:all_scopes).flatten.compact
     end
 
     def all
-      @grid_register.values
+      grid_register.values
     end
 
     def attributes_from_scope(page)
       config = all.find do |config|
-        config.from_scope.call(page)
+        config.from_scope(page)
       end
 
       if config
-        config.from_scope.call(page)
+        config.from_scope(page)
       else
         { class: ::Grids::Grid }
       end
@@ -90,7 +68,7 @@ class Grids::Configuration
     end
 
     def to_scope(klass, path_parts)
-      config = @grid_register[klass.name]
+      config = grid_register[klass.name]
 
       return nil unless config
 
@@ -113,7 +91,15 @@ class Grids::Configuration
       (grid_classes || []).include?(grid)
     end
 
+    def writable?(grid, user)
+      grid_register[grid.class.to_s]&.writable?(grid, user)
+    end
+
     protected
+
+    def grid_register
+      @grid_register ||= {}
+    end
 
     def registered_widget_by_identifier
       if @registered_widget_by_identifier && @registered_widget_by_identifier.length == @widget_register.length
@@ -127,6 +113,75 @@ class Grids::Configuration
 
     def url_helpers
       @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
+    end
+  end
+
+  class Registration
+    class << self
+      def grid_class(name_string = nil)
+        if name_string
+          @grid_class = name_string
+        end
+
+        @grid_class
+      end
+
+      def to_scope(path = nil)
+        if path
+          @to_scope = path
+        end
+
+        @to_scope
+      end
+
+      def widgets(*widgets)
+        if widgets.any?
+          @widgets = widgets
+        end
+
+        @widgets
+      end
+
+      def from_scope(_scope)
+        raise NotImplementedError
+      end
+
+      def all_scopes
+        Array(url_helpers.send(@to_scope))
+      end
+
+      def visible(_user = User.current)
+        ::Grids::Grid
+          .where(type: grid_class)
+      end
+
+      def writable?(_grid, _user)
+        true
+      end
+
+      def register!
+        unless @grid_class
+          raise 'Need to define the grid class first. Use grid_class to do so.'
+        end
+        unless @widgets
+          raise 'Need to define at least one widget first. Use widgets to do so.'
+        end
+        unless @to_scope
+          raise 'Need to define a scope. Use to_scope to do so'
+        end
+
+        Grids::Configuration.register_grid(@grid_class, self)
+
+        widgets.each do |widget|
+          Grids::Configuration.register_widget(widget, @grid_class)
+        end
+      end
+
+      private
+
+      def url_helpers
+        @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
+      end
     end
   end
 end

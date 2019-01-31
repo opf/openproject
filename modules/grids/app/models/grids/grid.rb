@@ -36,21 +36,12 @@ module Grids
              class_name: 'Widget',
              autosave: true
 
-    def writable?(_user)
-      true
-    end
-
     def self.new_default(user: nil, project: nil)
       new(
         row_count: 4,
         column_count: 5,
         widgets: []
       )
-    end
-
-    def self.visible(_user = User.current)
-      Grid
-        .where(type: name)
     end
   end
 end

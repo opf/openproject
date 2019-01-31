@@ -55,10 +55,5 @@ module Grids
         ]
       )
     end
-
-    def self.visible(user = User.current)
-      super
-        .where(user_id: user.id)
-    end
   end
 end

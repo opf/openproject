@@ -44,7 +44,7 @@ module Grids
     attribute_alias :type, :scope
 
     def validate
-      validate_class_and_allowed
+      validate_allowed
       validate_registered_widgets
       validate_widget_collisions
       validate_widgets_within
@@ -63,11 +63,14 @@ module Grids
       nil
     end
 
+    def writeable?
+      Grids::Configuration.writable?(model, user)
+    end
+
     private
 
-    def validate_class_and_allowed
-      unless Grids::Configuration.registered_grid?(model.class) &&
-             model.writable?(user)
+    def validate_allowed
+      unless writeable?
         # scope because that is what is exposed to the outside
         errors.add(:scope, :inclusion)
       end
