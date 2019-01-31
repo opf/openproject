@@ -110,7 +110,6 @@ describe 'Search', type: :feature, js: true do
                           results_selector: '.search-autocomplete--results')
       expect(current_path).to match(/\/search/)
       expect(current_url).to match(/\/search\?q=#{query}&work_packages=1&scope=all$/)
-
     end
   end
 
@@ -121,7 +120,7 @@ describe 'Search', type: :feature, js: true do
         FactoryBot.create(:work_package, subject: 'Other work package', project: subproject)
       end
 
-      let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
+      let(:filters) { ::Components::WorkPackages::Filters.new }
       let(:columns) { ::Components::WorkPackages::Columns.new }
 
       it 'shows a work package table with correct results' do
@@ -150,17 +149,45 @@ describe 'Search', type: :feature, js: true do
         # Expect order to be from newest to oldest.
         table.expect_work_package_order(*work_packages[3..23].map { |wp| wp.id.to_s }.reverse)
 
+        # Expect that "Advanced filters" can refine the search:
+        filters.expect_closed
+        page.find('.advanced-filters--toggle').click
+        filters.expect_open
+        filters.add_filter_by('Subject',
+                              'contains',
+                              [work_packages.last.subject],
+                              'subject')
+        table.expect_work_package_listed(work_packages.last)
+        filters.remove_filter('subject')
+        page.find('#filter-by-text-input').set(work_packages[9].subject)
+        table.expect_work_package_not_listed(work_packages.last)
+        table.expect_work_package_listed(work_packages[9])
+
+        # Expect that changing the advanced filters will not affect the global search input.
+        global_search_field = page.find('.top-menu-search--input')
+        expect(global_search_field.value).to eq query
+
+        # Expect that a fresh global search will reset the advanced filters, i.e. that they are closed
+        global_search_field.set(work_packages[10].subject)
+        global_search_field.send_keys(:enter)
+        table.expect_work_package_not_listed(work_packages[9])
+        table.expect_work_package_listed(work_packages[10])
+        filters.expect_closed
+        # ...and that advanced filter shall have copied the global search input value.
+        page.find('.advanced-filters--toggle').click
+        filters.expect_open
+        expect(page.find('#filter-by-text-input').value).to eq work_packages[10].subject
+
         # Expect that changing the search term without using the autocompleter will leave the project scope unchanged
         # at current_project.
-        search_field = page.find('.top-menu-search--input')
-        search_field.set(other_work_package.subject)
-        search_field.send_keys(:enter)
+        global_search_field.set(other_work_package.subject)
+        global_search_field.send_keys(:enter)
         expect(current_url).to match(/\/#{project.identifier}\/search\?q=Other%20work%20package&work_packages=1&scope=current_project$/)
 
         # and expect that subproject's work packages will not be found
         table.expect_work_package_not_listed other_work_package
 
-        # Change to project scope including subprojects
+        # Change to project scope to include subprojects
         select_autocomplete(page.find('.top-menu-search--input'),
                             query: other_work_package.subject,
                             select_text: 'In this project + subprojects ↵',
