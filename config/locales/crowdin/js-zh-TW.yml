@@ -5,8 +5,7 @@ zh-TW:
       hide: 隱藏
       loading: 載入中…
     attachments:
-      draggable_hint: 'Drag on editor field to inline image or reference attachment.
-        Closed editor fields will be opened while you keep dragging.
+      draggable_hint: '在編輯器欄位上拖動到內聯圖像或引用附件。在繼續拖動時, 將打開已關閉的編輯器欄位。
 
 '
     autocomplete_select:
@@ -54,49 +53,45 @@ zh-TW:
     button_export-atom: 下載 Atom
     calendar:
       title: 行事曆
-      too_many: There are more work packages (%{count}) than can be displayed by the
-        calendar (%{max}). Add filters to focus on the relevant ones.
+      too_many: 與日曆 (%{max}) 所顯示的工作包 (%{count}) 相比, 有更多的工作包 (123_0_321)。添加篩選器以將焦點放在相關篩選器上。
     description_available_columns: 可用欄
     description_current_position: 您在這裏：
     description_select_work_package: '選取工作項目 #%{id}'
     description_selected_columns: 所選的欄
     description_subwork_package: '子工作項目 #%{id}'
     editor:
-      preview: Toggle preview mode
-      source_code: Toggle Markdown source mode
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      error_initialization_failed: Failed to initialize CKEditor!
+      preview: 切換預覽模式
+      source_code: 切換標記源模式
+      error_saving_failed: '保存文檔失敗, 出現以下錯誤: %{error}'
+      error_initialization_failed: 無法初始 CKEditor!
       mode:
-        manual: Switch to Markdown source
-        wysiwyg: Switch to WYSIWYG editor
+        manual: 切換到標記源模式
+        wysiwyg: 切換到所見即所得編輯器
       macro:
         child_pages:
-          button: Links to child pages
-          include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          button: 指向子頁面的連結
+          include_parent: 包括父項
+          text: "[Placeholder] 連結到子頁面"
           page: 維基頁面
           this_page: " 本頁"
-          hint: 'Leave this field empty to list all child pages of the current page.
-            If you want to reference a different page, provide its title or slug.
+          hint: '將此欄位留空, 以列出當前頁的所有子頁面。如果要引用其他頁面, 請提供其標題或 slug。
 
 '
         code_block:
-          button: Insert code snippet
-          title: Insert / edit Code snippet
-          language: Formatting language
-          language_hint: Enter the formatting language that will be used for highlighting
-            (if supported).
+          button: 插入程式碼片段
+          title: 插入/編輯程式碼片段
+          language: 設定語言
+          language_hint: 輸入將用於突出顯示的格式語言 (如果支援)。
         dropdown:
           macros: 巨集
-          chose_macro: Chose macro
+          chose_macro: 選擇macro
         toc: 目錄
-        toolbar_help: Click to select widget and show the toolbar. Double-click to
-          edit widget
+        toolbar_help: 按一下以選擇小部件並顯示工具列。按兩下以編輯小部件
         wiki_page_include:
           button: 包含另一個 Wiki 頁面的內容
-          text: "[Placeholder] Included wiki page of"
+          text: "[Placeholder] 包含維基頁面"
           page: 維基頁面
-          not_set: "(Page not yet set)"
+          not_set: "(頁面尚未設置)"
           hint: '通過指定其標題或Slug, 包括另一個 Wiki 頁面的內容。您可以通過將另一個專案的 Wiki 頁與下面的示例類似的冒號進行分隔,
             從而包括該頁面。
 
@@ -110,18 +105,18 @@ zh-TW:
           with_type: '創建工作包 (類型: %{typename})'
         embedded_table:
           button: 嵌入工作包表
-          text: "[Placeholder] Embedded work package table"
+          text: "[Placeholder] 嵌入式工作包表格"
         embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
+          text: "[Placeholder] 嵌入式日曆"
     custom_actions:
       date:
         specific: 開啟
-        current_date: Current date
+        current_date: 當前日期
     error:
       internal: 發生內部錯誤。
       cannot_save_changes_with_message: '由於以下錯誤, 無法保存所做的更改: %{error}'
-      query_saving: The view could not be saved.
-      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
+      query_saving: 無法保存視圖。
+      embedded_table_loading: '無法載入嵌入視圖: %{message}'
     filter:
       description:
         text_open_filter: 使用 ALT 和方向鍵打開此篩選器。
@@ -241,8 +236,8 @@ zh-TW:
     label_sort_higher: 往上移動
     label_sort_lower: 往下移動
     label_sorting: 排序
-    label_star_query: Favored
-    label_press_enter_to_save: Press enter to save.
+    label_star_query: 喜好
+    label_press_enter_to_save: 按 Enter 即可儲存。
     label_public_query: 公開
     label_sum_for: 總和
     label_subject: 主題
@@ -265,23 +260,22 @@ zh-TW:
     label_unwatch: 取消監看
     label_unwatch_work_package: 取消關注工作項目
     label_uploaded_by: 上傳者
-    label_default_queries: Default views
-    label_starred_queries: Favorite views
-    label_global_queries: Public views
-    label_custom_queries: Private views
+    label_default_queries: 預設視圖
+    label_starred_queries: 最愛檢視
+    label_global_queries: 公開檢視
+    label_custom_queries: 私密檢視
     label_columns: 欄
     label_attachments: 檔案
     label_drop_files: 將檔案拖曳至此處
     label_drop_files_hint: 或按一下要添加的檔
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
-      single files.
+    label_drop_folders_hint: 不能將資料夾作為附件上載。請選擇單個檔。
     label_add_attachments: 新增附件
     label_formattable_attachment_hint: 藉由拖放或從剪貼簿貼上至此欄位來附加和連結檔案。
     label_remove_file: 刪除 %{fileName}
     label_remove_watcher: 刪除關注者 %{name}
     label_remove_all_files: 刪除所有檔案
     label_add_description: 添加 %{file} 的說明
-    label_upload_notification: Uploading files...
+    label_upload_notification: 上傳檔案中...
     label_work_package_upload_notification: '上傳檔案到工作包 #%{id}: %{subject}'
     label_files_to_upload: '將上傳這些檔案:'
     label_rejected_files: '不能上傳這些檔案:'
@@ -293,50 +287,31 @@ zh-TW:
       show_modal: 顯示屬性說明文字項目
     onboarding:
       buttons:
-        skip: Skip
+        skip: 略過
         next: 下一個
-        got_it: Got it
+        got_it: 了解
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
-        project_selection: Please select one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
-        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
-          menu</b>.
-        members: Invite new <b>Members</b> to join your project.
-        wiki: Within the <b>Wiki</b> you can document and share knowledge together
-          with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
-        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
-        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
-          sprint. Add new tasks or impediments with the + icon next to a user story.
-          Via drag'n'drop you can update the status.
-        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
-          gives you a more detailed view of your work.
-        wp_list: This is the <b>Work package</b> list with the important work within
-          your project, such as tasks, features, milestones, bugs, and more. <br>
-          You can create or edit a work package directly within this list. To see
-          its details you can double click on a row.
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities, dependencies
-          or comments.
-        wp_back_button: With the arrow you can navigate back to the work package list.
-        wp_create_button: The <b>Create</b> button will add a new work package to
-          your project.
-        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-          for your project.
-        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
-          and add dependencies. All team members can see and update the latest plan
-          at any time.
-        help_menu: In the <b>Help</b> menu you will find a user guide and additional
-          help resources. <br> Enjoy your work with OpenProject!
+        welcome: 觀看三分鐘的介紹導覽, 以瞭解最多 <b>重要功能</b>。 <br> 我們建議完成所有步驟直到結束。您可以隨時重新開始導覽。
+        project_selection: 請選擇一個具有有用演示資料的專案開始。 <br> <b>演示專案</b> 最適合傳統專案管理, 而 <b>scrum
+          專案</b> 是更好的敏捷專案管理。
+        sidebar_arrow: 使用箭頭, 您可以導航回專案的 <b>主功能表</b>。
+        members: 邀請新的 <b>會員</b> 加入您的專案。
+        wiki: 在 <b>wiki</b> 中, 您可以與您的團隊一起記錄和分享知識。
+        backlogs_overview: 在 <b>積壓工作</b> 視圖中管理您的工作。 <br> 在右邊, 你有產品積壓或錯誤積壓, 在左邊, 你將有各自的衝刺。在這裡,
+          您可以創建 <b>史詩、使用者故事和錯誤</b>, 通過拖動 ' n ' drop 進行優先排序, 並將它們添加到衝刺中。
+        backlogs_task_board_arrow: 要查看您的 <b>任務板</b>, 請打開衝刺下拉式功能表..。
+        backlogs_task_board_select: ", 然後選擇 <b>任務板</b> 條目。"
+        backlogs_task_board: <b>任務板</b> 視覺化此衝刺的進度。使用使用者情景旁邊的 "+" 圖示添加新任務或障礙。通過拖放,
+          您可以更新狀態。
+        wp_toggler: 現在, 讓我們來看看 <b>工作包</b> 部分, 它為您提供了更詳細的工作視圖。
+        wp_list: 這是 <b>工作包</b> 清單, 其中包含專案中的重要工作, 如任務、功能、里程碑、bug 等。 <br> 您可以直接在此清單中創建或編輯工作包。要查看其詳細資訊,
+          您可以按兩下一行。
+        wp_full_view: 在 <b>工作包詳細資訊</b> 中, 您可以找到所有相關資訊, 如描述、狀態和優先順序、活動、依賴項或注釋。
+        wp_back_button: 使用箭頭, 您可以導航回工作包清單。
+        wp_create_button: "<b>創建</b>按鍵將新增一個工作包至您的專案"
+        wp_timeline_button: 您可啟用<b>甘特圖</b>來建立您專案的時間軸
+        wp_timeline: 在這裡您可以編輯您的專案計畫．建立新的階段，里程碑以及相依來源．所有的隊員都可在任何時候檢視及更新最新的計畫．
+        help_menu: 您可以在<b>幫助</b>選單裡找到使用者手冊和更多的幫助資源．
     password_confirmation:
       field_description: 您需要輸入您的帳戶密碼，以確認此更改。
       title: 確認您的密碼以便繼續
@@ -361,11 +336,9 @@ zh-TW:
     types:
       attribute_groups:
         error_duplicate_group_name: 名稱 %{group} 已被使用，群組名稱不可重複。
-        error_no_table_configured: Please configure a table for %{group}.
+        error_no_table_configured: 請為 %{group} 配置表。
         reset_title: 重設表單配置
-        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group and disable ALL custom
-          fields.
+        confirm_reset: '警告: 確實要重置表單配置嗎？這將重置屬性到其預設組, 並禁用所有自訂欄位。
 
 '
         upgrade_to_ee: 升級到企業版
@@ -373,18 +346,18 @@ zh-TW:
         more_information: 更多資訊
         nevermind: 無視
         filter_types:
-          parent: being child of
-          precedes: preceding
-          follows: following
-          relates: relating to
-          duplicates: duplicating
+          parent: 成為子級
+          precedes: 前
+          follows: 接著的
+          relates: 相關於
+          duplicates: 複製中...
           duplicated: 標示重複者
-          blocks: blocking
+          blocks: 阻止
           blocked: 標示禁止者
-          partof: being part of
-          includes: including
-          requires: requiring
-          required: required by
+          partof: 成為的一部分
+          includes: 包括
+          requires: 需要
+          required: 被以下需要
     time_entry:
       activity: Activity
       comment: Comment
@@ -413,22 +386,22 @@ zh-TW:
       relation_type: 關聯類型
     relations_hierarchy:
       parent_headline: 主
-      hierarchy_headline: Hierarchy
+      hierarchy_headline: 階層
       children_headline: 子階
     relation_buttons:
-      set_parent: Set parent
+      set_parent: 設置父級
       change_parent: 改變上層
       remove_parent: 移除上一層
       group_by_wp_type: 按工作包類型分組
       group_by_relation_type: 按關聯類型分組
       add_parent: 增加現有的上一層
       add_new_child: 建立新子項
-      create_new: Create new
-      add_existing: Add existing
+      create_new: 新建
+      add_existing: 添加現有的
       add_existing_child: 加入現有子項
       remove_child: 移除子項
       add_new_relation: 建立新關聯
-      add_existing_relation: Add existing relation
+      add_existing_relation: 添加現有關系
       update_description: 設置或更新此關聯的說明
       toggle_description: 切換關係描述
       update_relation: 按一下此處以更改關聯類型
@@ -439,7 +412,7 @@ zh-TW:
       abort: 捨棄
     relations_autocomplete:
       placeholder: 輸入相關的工作包 ID
-      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
+      parent_placeholder: 選擇新的父項, 按 enter 恢復設置, 按esc 取消。
     repositories:
       select_tag: 選擇標籤
       select_branch: 選擇分支
@@ -466,8 +439,7 @@ zh-TW:
       activate_dsc: 啟動以套用降冪排序
       activate_no: 啟動以移除排序
     text_work_packages_destroy_confirmation: 你確定要刪除選定的工作項目嗎？
-    text_query_destroy_confirmation: Are you sure you want to delete the selected
-      view?
+    text_query_destroy_confirmation: 確實要刪除所選視圖嗎？
     text_attachment_destroy_confirmation: 你確定你想要刪除附件?
     timelines:
       gantt_chart: 甘特圖
@@ -485,7 +457,7 @@ zh-TW:
       button_deactivate: 隱藏甘特圖
       cancel: 取消
       change: 更改計劃
-      due_date: Finish date
+      due_date: 完成日期
       empty: "(空)"
       error: 發生錯誤。
       errors:
@@ -524,8 +496,7 @@ zh-TW:
         quarters: 季
         years: 年
         slider: 縮放滑動器
-        description: 'Select the initial zoom level that should be shown when autozoom
-          is not available.
+        description: '選擇自動縮放無法接通應顯示的初始縮放級別。
 
 '
     tl_toolbar:
@@ -539,7 +510,7 @@ zh-TW:
       learn_more: 了解更多
       close_warning: 忽略此警告。
     upsale:
-      ee_only: Enterprise Edition only feature
+      ee_only: 僅企業版功能
     wiki_formatting:
       strong: 粗體
       italic: 斜體
@@ -572,8 +543,7 @@ zh-TW:
       description_options_hide: 隱藏選項
       description_options_show: 顯示選項
       error:
-        update_conflict_refresh: Click here to refresh the work package and update
-          to the newest version.
+        update_conflict_refresh: 點擊此處刷新工作包並更新到最新版本。
         edit_prohibited: 已禁止對此工作包編輯 %{attribute}。此屬性來源於關聯 (如：子項) 或無法配置。
         format:
           date: "%{attribute} 不是有效日期 - 需要 YYYY-MM-DD。"
@@ -590,8 +560,7 @@ zh-TW:
       message_successful_bulk_delete: 成功刪除工作項目
       message_successful_show_in_fullscreen: 點擊此處以全螢幕開啟此工作包
       message_view_spent_time: 顯示這個工作包所花費的時間
-      message_work_package_read_only: Work package is locked in this status. No attribute
-        other than status can be altered.
+      message_work_package_read_only: 工作包被鎖定在此狀態。任何屬性以外的狀態都不能更改。
       no_value: 無值
       placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
@@ -613,7 +582,7 @@ zh-TW:
         children_expanded: 層次級別 %{level} 已展開。點擊以收合篩選的子任務
       faulty_query:
         title: 無法載入工作包。
-        description: Your view is erroneous and could not be processed.
+        description: 您的視圖是錯誤的, 無法處理。
       no_results:
         title: 無工作項目可顯示
         description: 無工作項目或是被篩選器把工作項目隱藏了
@@ -628,7 +597,7 @@ zh-TW:
         createdAt: 建立於
         description: 說明
         date: 日期
-        dueDate: Finish date
+        dueDate: 完成日期
         estimatedTime: 預估時間
         spentTime: 耗時
         category: 類別
@@ -646,9 +615,9 @@ zh-TW:
         version: 版本
       default_queries:
         latest_activity: 最新活動
-        created_by_me: Created by me
-        assigned_to_me: Assigned to me
-        recently_created: Recently created
+        created_by_me: 由我創建
+        assigned_to_me: 分配給我
+        recently_created: 最近創建的
         all_open: 全部打開
         summary: 大綱
       jump_marks:
@@ -673,15 +642,14 @@ zh-TW:
         insert_columns: 插入欄...
         filters: 篩選器
         display_sums: 顯示加總
-        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
-          view? Title will be set back to previous value.
-        click_to_edit_query_name: Click to edit title of this view.
-        rename_query_placeholder: Name of this view
+        confirm_edit_cancel: 確實要取消編輯此視圖的名稱嗎？標題將被設置回以前的值。
+        click_to_edit_query_name: 按一下以編輯此視圖的標題。
+        rename_query_placeholder: 此視圖的名稱
         errors:
-          unretrievable_query: Unable to retrieve view from URL
-          not_found: There is no such view
-          duplicate_query_title: Name of this view already exists. Change anyway?
-        text_no_results: No matching views were found.
+          unretrievable_query: 無法從 url 檢索視圖
+          not_found: 無此查詢
+          duplicate_query_title: 此視圖的名稱已存在。確定改變？
+        text_no_results: 找不到匹配的視圖。
       table:
         configure_button: 配置工作包表
         summary: 由工作項目和工作項目屬性列組成的表格。
@@ -690,36 +658,34 @@ zh-TW:
         text_select_hint: 請使用Alt+方向鍵打開選擇框。
       table_configuration:
         button: 配置此工作包表
-        choose_display_mode: Display work packages as
+        choose_display_mode: 將工作包顯示為
         modal_title: 工作包表配置
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          view you're editing.
+        embedded_tab_disabled: 此配置選項卡不適用於您正在編輯的嵌入視圖。
         default: 預設
         display_settings: 顯示設定
-        default_mode: Flat list
-        hierarchy_mode: Hierarchy
+        default_mode: 展開清單
+        hierarchy_mode: 階層
         hierarchy_hint: 所有已篩選的表結果都將隨其來源一起增強。層次結構可以展開和折疊。
         display_sums_hint: 顯示表結果下一行中所有 "可加總" 屬性的總和。
         show_timeline_hint: 在表格的右側顯示互動式甘特圖。可以通過在表和甘特圖之間拖動分隔線來更改其寬度。
-        highlighting: Highlighting
+        highlighting: 突顯
         highlighting_mode:
-          description: Highlight with color
-          none: No highlighting
-          inline: Highlighted attribute(s)
-          inline_all: All attributes
-          entire_row_by: Entire row by
+          description: 以顏色凸顯
+          none: 無突顯
+          inline: 凸顯屬性
+          inline_all: 所有屬性
+          entire_row_by: 按類型劃分的整行
           status: 狀態
           priority: 優先等級
           type: 類型
         columns_help_text: 使用上面的輸入在表視圖中添加或移除列。可以拖放列以對其進行重新排序。
         upsale:
-          attribute_highlighting: Need certain work packages to stand out from the
-            mass?
+          attribute_highlighting: 需要某些工作包才能從大眾中脫穎而出？
           relation_columns: 需要檢視工作項目清單的關係嗎
           check_out_link: 請查閱企業版
         relation_filters:
-          first_part: Show all work packages
-          second_part: the current work package
+          first_part: 顯示所有工作包
+          second_part: 當前工作包
       tabs:
         overview: 概要
         activity: 活動
@@ -734,7 +700,7 @@ zh-TW:
       label_switch_to_multi_select: 切換為複選
     toolbar:
       settings:
-        configure_view: Configure view ...
+        configure_view: 設定檢視...
         columns: 欄
         sort_by: 排序條件...
         group_by: 分組條件...
@@ -798,7 +764,7 @@ zh-TW:
         messages_on_field: '此欄位無效: %{messages}'
     error_could_not_resolve_version_name: 無法解析版本名稱
     error_could_not_resolve_user_name: 無法解析使用者名稱
-    error_attachment_upload: '檔 "%{name}" 無法上載: %{error}'
+    error_attachment_upload: '檔 "%{name}" 未能上傳: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
