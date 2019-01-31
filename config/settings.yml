@@ -304,8 +304,6 @@ commit_logs_encoding:
 repository_log_display_limit:
   format: int
   default: 100
-accessibility_mode_for_anonymous:
-  default: 0
 emails_footer:
   serialized: true
   default:
