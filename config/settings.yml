@@ -326,7 +326,7 @@ emails_header:
   default:
     en: ''
 work_package_startdate_is_adddate:
-  default: 1
+  default: 0
   format: boolean
 user_default_timezone:
   default: ""
