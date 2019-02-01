@@ -815,7 +815,7 @@ GEM
       activesupport (>= 3)
       attr_required (>= 0.0.5)
       httpclient (>= 2.4)
-    sys-filesystem (1.1.9)
+    sys-filesystem (1.2.0)
       ffi
     tdigest (0.1.1)
       rbtree (~> 0.4.2)
@@ -1021,7 +1021,7 @@ DEPENDENCIES
   stackprof
   stringex (~> 2.8.5)
   svg-graph (~> 2.1.0)
-  sys-filesystem (~> 1.1.4)
+  sys-filesystem (~> 1.2.0)
   test-prof (~> 0.7.3)
   thin (~> 1.7.2)
   timecop (~> 0.9.0)
