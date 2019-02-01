@@ -170,7 +170,7 @@ describe 'Search', type: :feature, js: true do
         # Expect that a fresh global search will reset the advanced filters, i.e. that they are closed
         global_search_field.set(work_packages[10].subject)
         global_search_field.send_keys(:enter)
-        table.expect_work_package_not_listed(work_packages[9])
+        table.expect_work_package_not_listed(work_packages[9], wait: 20)
         table.expect_work_package_listed(work_packages[10])
         filters.expect_closed
         # ...and that advanced filter shall have copied the global search input value.
