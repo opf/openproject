@@ -230,7 +230,7 @@ group :test do
 
   gem 'fuubar', '~> 2.3.2'
   gem 'timecop', '~> 0.9.0'
-  gem 'webmock', '~> 3.1.0', require: false
+  gem 'webmock', '~> 3.5.0', require: false
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'
