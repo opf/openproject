@@ -276,8 +276,15 @@ describe Journal::AggregatedJournal, type: :model do
 
   context 'different WP updated immediately after change' do
     let(:other_wp) { FactoryBot.build(:work_package) }
+    let(:delay) { 0.001.seconds }
+
     before do
       other_wp.save!
+      # The delay is necessary to ensure the correct order of the journals.
+      # Otherwise travis would create two journals with the exact same timestamp
+      # resulting in a somewhere random ordering.
+      other_wp.journals.first.created_at = work_package.journals.first.created_at + delay
+      other_wp.journals.first.save!
     end
 
     it 'returns both journals' do
