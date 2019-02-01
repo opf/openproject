@@ -158,7 +158,7 @@ describe 'My project page editing', type: :feature, js: true do
     find('#a-form-submit').click
 
     # expect changes to be saved
-    expect(page).to have_selector('.widget-box--header', text: 'My title')
+    expect(page).to have_selector('.widget-box--header', text: 'My title', wait: 20)
 
     custom_block = find_block(hidden, :a)
 
