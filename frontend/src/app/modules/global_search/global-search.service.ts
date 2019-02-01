@@ -70,8 +70,11 @@ export class GlobalSearchService {
       if (initialData.current_tab) {
         this._currentTab.next(initialData.current_tab);
       }
+
       if (initialData.project_scope) {
         this._projectScope.next(initialData.project_scope);
+      } else if (this.currentProjectService.path) {
+        this._projectScope.next('all');
       }
     }
   }
