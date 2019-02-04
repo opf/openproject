@@ -26,10 +26,11 @@
         var storageKey = 'openProject-onboardingTour';
         var currentTourPart = sessionStorage.getItem(storageKey);
         var url = new URL(window.location.href);
+        var isMobile = document.body.classList.contains('-browser-mobile');
 
         // ------------------------------- Initial start -------------------------------
         // Do not show the tutorial on mobile or when the demo data has been deleted
-        if(!(bowser.mobile || bowser.ios || bowser.android) && $('meta[name=demo_projects_available]').attr('content') == "true") {
+        if(!isMobile && $('meta[name=demo_projects_available]').attr('content') == "true") {
 
             // Start after the intro modal (language selection)
             // This has to be changed once the project selection is implemented
