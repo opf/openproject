@@ -299,7 +299,7 @@ it:
       show_modal: Mostra l'immissione di testo della guida dell'attributo
     onboarding:
       buttons:
-        skip: Skip
+        skip: Salta
         next: Prossimo
         got_it: Capito
       steps:
