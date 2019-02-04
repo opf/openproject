@@ -60,7 +60,7 @@ module API
                  type: 'Integer',
                  visibility: false
 
-          schema_with_allowed_collection :page,
+          schema_with_allowed_collection :scope,
                                          type: 'Href',
                                          required: true,
                                          has_default: false,

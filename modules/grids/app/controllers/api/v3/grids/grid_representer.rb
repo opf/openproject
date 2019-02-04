@@ -32,9 +32,9 @@ module API
       class GridRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
 
-        resource_link :page,
+        resource_link :scope,
                       getter: ->(*) {
-                        path = ::Grids::Configuration.grid_for_class(represented.class)
+                        path = scope_path
 
                         next unless path
 
@@ -44,7 +44,7 @@ module API
                         }
                       },
                       setter: ->(fragment:, **) {
-                        represented.page = fragment['href']
+                        represented.scope = fragment['href']
                       }
 
         self_link title_getter: ->(*) { nil }
@@ -89,6 +89,7 @@ module API
                  writeable: false,
                  getter: ->(*) {
                    next unless represented.created_at
+
                    datetime_formatter.format_datetime(represented.created_at)
                  }
 
@@ -97,11 +98,38 @@ module API
                  writeable: false,
                  getter: ->(*) {
                    next unless represented.updated_at
+
                    datetime_formatter.format_datetime(represented.updated_at)
                  }
 
         def _type
           'Grid'
+        end
+
+        private
+
+        def scope_path
+          path = ::Grids::Configuration.to_scope(represented.class,
+                                                 scope_path_attributes)
+
+          # Remove all query params
+          # Those are added when the path does not actually require
+          # project or user
+          path&.gsub(/(\?.+)|(\.\d+)\z/, '')
+        end
+
+        def scope_path_attributes
+          path_attributes = []
+
+          if represented.respond_to?(:project)
+            path_attributes << represented.project
+          end
+
+          if represented.respond_to?(:user)
+            path_attributes << represented.user
+          end
+
+          path_attributes.compact
         end
       end
     end

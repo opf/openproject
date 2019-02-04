@@ -58,7 +58,7 @@ describe Grids::SetAttributesService, type: :model do
   let(:call_attributes) { {} }
   let(:grid_class) { Grids::MyPage }
   let(:grid) do
-    FactoryBot.build_stubbed(grid_class.name.demodulize.underscore.to_sym)
+    FactoryBot.build_stubbed(grid_class.name.demodulize.underscore.to_sym, widgets: [])
   end
 
   describe 'call' do
@@ -126,7 +126,7 @@ describe Grids::SetAttributesService, type: :model do
           .to be_new_record
       end
 
-      it 'applies the provided valuees' do
+      it 'applies the provided values' do
         expect(grid.widgets[0].attributes.except('id'))
           .to eql widgets[0].attributes.except('id').merge('grid_id' => grid.id)
       end

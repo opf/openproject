@@ -35,13 +35,5 @@ module Grids
     has_many :widgets,
              class_name: 'Widget',
              autosave: true
-
-    def self.new_default(_user)
-      new(
-        row_count: 4,
-        column_count: 5,
-        widgets: []
-      )
-    end
   end
 end

@@ -81,7 +81,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
       it 'identifies the url the grid is stored for' do
         is_expected
           .to be_json_eql(my_page_path.to_json)
-          .at_path('_links/page/href')
+          .at_path('_links/scope/href')
       end
 
       it 'has an id' do
@@ -174,9 +174,9 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
         end
       end
 
-      context 'page link' do
+      context 'scope link' do
         it_behaves_like 'has an untitled link' do
-          let(:link) { 'page' }
+          let(:link) { 'scope' }
           let(:href) { my_page_path }
           let(:type) { "text/html" }
 

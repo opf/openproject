@@ -37,17 +37,11 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     FactoryBot.create(:user)
   end
 
-  let(:my_page_grid) do
-    grid = Grids::MyPage.new_default(current_user)
-    grid.save!
-    grid
-  end
+  let(:my_page_grid) { FactoryBot.create(:my_page, user: current_user) }
   let(:other_user) do
     FactoryBot.create(:user)
   end
-  let(:other_my_page_grid) do
-    Grids::MyPage.new_default(other_user).save
-  end
+  let(:other_my_page_grid) { FactoryBot.create(:my_page, user: other_user) }
 
   before do
     login_as(current_user)
@@ -87,7 +81,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         .at_path('total')
     end
 
-    context 'with a filter on the page attribute' do
+    context 'with a filter on the scope attribute' do
       shared_let(:other_grid) do
         grid = Grids::Grid.new(row_count: 20,
                                column_count: 20)
@@ -107,7 +101,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       end
 
       let(:path) do
-        filter = [{ 'page' =>
+        filter = [{ 'scope' =>
                     {
                       'operator' => '=',
                       'values' => [my_page_path]
@@ -162,7 +156,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     it 'identifies the url the grid is stored for' do
       expect(subject.body)
         .to be_json_eql(my_page_path.to_json)
-        .at_path('_links/page/href')
+        .at_path('_links/scope/href')
     end
 
     context 'with the page not existing' do
@@ -179,7 +173,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         other_my_page_grid
       end
 
-      let(:path) { api_v3_paths.grid(other_my_page_grid) }
+      let(:path) { api_v3_paths.grid(other_my_page_grid.id) }
 
       it 'responds with 404 NOT FOUND' do
         expect(subject.status).to eql 404
@@ -268,15 +262,15 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
       it 'does not persist the changes to widgets' do
         expect(my_page_grid.reload.widgets.count)
-          .to eql Grids::MyPage.new_default(current_user).widgets.size
+          .to eql Grids::MyPageGridRegistration.defaults[:widgets].size
       end
     end
 
-    context 'with a page param' do
+    context 'with a scope param' do
       let(:params) do
         {
           "_links": {
-            "page": {
+            "scope": {
               "href": ''
             }
           }
@@ -295,7 +289,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
           .at_path('message')
 
         expect(subject.body)
-          .to be_json_eql("page".to_json)
+          .to be_json_eql("scope".to_json)
           .at_path('_embedded/details/attribute')
       end
     end
@@ -314,7 +308,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         other_my_page_grid
       end
 
-      let(:path) { api_v3_paths.grid(other_my_page_grid) }
+      let(:path) { api_v3_paths.grid(other_my_page_grid.id) }
 
       it 'responds with 404 NOT FOUND' do
         expect(subject.status).to eql 404
@@ -337,7 +331,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
           "endColumn": 5
         }],
         "_links": {
-          "page": {
+          "scope": {
             "href": my_page_path
           }
         }
@@ -382,7 +376,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
             "endColumn": 5
           }],
           "_links": {
-            "page": {
+            "scope": {
               "href": my_page_path
             }
           }
@@ -447,7 +441,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
           .at_path('_type')
 
         expect(subject.body)
-          .to be_json_eql("Page is not set to one of the allowed values.".to_json)
+          .to be_json_eql("Scope is not set to one of the allowed values.".to_json)
           .at_path('message')
       end
     end

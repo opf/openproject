@@ -41,10 +41,10 @@ module Grids
       validate_positive_integer(:column_count)
     end
 
-    attribute_alias :type, :page
+    attribute_alias :type, :scope
 
     def validate
-      validate_registered_subclass
+      validate_allowed
       validate_registered_widgets
       validate_widget_collisions
       validate_widgets_within
@@ -63,12 +63,16 @@ module Grids
       nil
     end
 
+    def edit_allowed?
+      Grids::Configuration.writable?(model, user)
+    end
+
     private
 
-    def validate_registered_subclass
-      unless Grids::Configuration.registered_grid?(model.class)
-        # page because that is what is exposed to the outside
-        errors.add(:page, :inclusion)
+    def validate_allowed
+      unless edit_allowed?
+        # scope because that is what is exposed to the outside
+        errors.add(:scope, :inclusion)
       end
     end
 

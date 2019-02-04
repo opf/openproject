@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,45 +30,33 @@
 
 require 'spec_helper'
 
-describe Grids::Query, type: :model do
+describe Grids::Filters::ScopeFilter, type: :model do
+  include_context 'filter tests'
+  let(:values) { ['/my/page'] }
   let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:base_scope) { Grids::Grid.where(id: Grids::MyPage.where(user_id: user.id)) }
-  let(:instance) { described_class.new }
+  let(:model) { Grids::Grid }
 
   before do
     login_as(user)
   end
 
-  context 'without a filter' do
-    describe '#results' do
-      it 'is the same as getting all the grids visible to the user' do
-        expect(instance.results.to_sql).to eql base_scope.to_sql
-      end
-    end
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :scope }
+    let(:type) { :list }
+    let(:model) { Grids::Grid.where(user_id: user.id) }
+    let(:values) { ['/my/page'] }
   end
 
-  context 'with a page filter' do
-    before do
-      instance.where('page', '=', ['/my/page'])
-    end
+  describe '#scope' do
+    context 'for "="' do
+      let(:operator) { '=' }
 
-    describe '#results' do
-      it 'is the same as handwriting the query' do
-        expected = base_scope
-                   .where(['grids.type IN (?)', ['Grids::MyPage']])
+      context 'for /my/page do' do
+        it 'is the same as handwriting the query' do
+          expected = model.where("(grids.type IN ('Grids::MyPage'))")
 
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
-    end
-
-    describe '#valid?' do
-      it 'is true' do
-        expect(instance).to be_valid
-      end
-
-      it 'is invalid if the filter is invalid' do
-        instance.where('page', '!', ['/some/other/page'])
-        expect(instance).to be_invalid
+          expect(instance.scope.to_sql).to eql expected.to_sql
+        end
       end
     end
   end

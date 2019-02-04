@@ -50,7 +50,7 @@ class Grids::UpdateService
   protected
 
   def create(attributes)
-    set_type_for_error_message(attributes.delete(:page))
+    set_type_for_error_message(attributes.delete(:scope))
 
     set_attributes_call = set_attributes(attributes, grid)
 
@@ -71,11 +71,11 @@ class Grids::UpdateService
       .call(attributes)
   end
 
-  # Changing the page/type after the grid has been created is prohibited.
+  # Changing the scope/type after the grid has been created is prohibited.
   # But we set the value so that an error message can be displayed
-  def set_type_for_error_message(page)
-    if page
-      grid_class = ::Grids::Configuration.grid_for_page(page)
+  def set_type_for_error_message(scope)
+    if scope
+      grid_class = ::Grids::Configuration.class_from_scope(scope)
       grid.type = grid_class.name
     end
   end

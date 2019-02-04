@@ -70,7 +70,7 @@ describe ::API::V3::Grids::GridPayloadRepresenter, 'parsing' do
         }
       ],
       "_links" => {
-        "page" => {
+        "scope" => {
           "href" => my_page_path
         }
       }
@@ -78,10 +78,10 @@ describe ::API::V3::Grids::GridPayloadRepresenter, 'parsing' do
   end
 
   describe '_links' do
-    context 'page' do
+    context 'scope' do
       it 'updates page' do
         grid = representer.from_hash(hash)
-        expect(grid.page)
+        expect(grid.scope)
           .to eql(my_page_path)
       end
     end

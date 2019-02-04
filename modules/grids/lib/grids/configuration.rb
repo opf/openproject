@@ -31,30 +31,56 @@
 class Grids::Configuration
   class << self
     def register_grid(grid,
-                      page)
-      @grid_register ||= {}
-
-      @grid_register[grid] = page
+                      klass)
+      grid_register[grid] = klass
     end
 
     def registered_grids
-      registered_grid_by_klass.keys
+      if @registered_grid_classes && @registered_grid_classes.length == grid_register.length
+        @registered_grid_classes
+      else
+        @registered_grid_classes = grid_register.keys.map(&:constantize)
+      end
     end
 
-    def registered_pages
-      registered_grid_by_page.keys
+    def all_scopes
+      all.map(&:all_scopes).flatten.compact
     end
 
-    def grid_for_page(page)
-      registered_grid_by_page[page] || Grids::Grid
+    def all
+      grid_register.values
     end
 
-    def grid_for_class(klass)
-      registered_grid_by_klass[klass]
+    def attributes_from_scope(page)
+      config = all.find do |config|
+        config.from_scope(page)
+      end
+
+      if config
+        config.from_scope(page)
+      else
+        { class: ::Grids::Grid }
+      end
+    end
+
+    def defaults(klass)
+      grid_register[klass.name]&.defaults
+    end
+
+    def class_from_scope(page)
+      attributes_from_scope(page)[:class]
+    end
+
+    def to_scope(klass, path_parts)
+      config = grid_register[klass.name]
+
+      return nil unless config
+
+      url_helpers.send(config.to_scope, path_parts)
     end
 
     def registered_grid?(klass)
-      registered_grid_by_klass.key?(klass)
+      registered_grids.include? klass
     end
 
     def register_widget(identifier, grid_classes)
@@ -69,28 +95,14 @@ class Grids::Configuration
       (grid_classes || []).include?(grid)
     end
 
-    protected
-
-    def registered_grid_by_page
-      if @registered_grid_by_page && @registered_grid_by_page.length == @grid_register.length
-        @registered_grid_by_page
-      else
-        @registered_grid_by_page = @grid_register.map do |klass, path|
-          [url_helpers.send(path),
-           klass.constantize]
-        end.to_h
-      end
+    def writable?(grid, user)
+      grid_register[grid.class.to_s]&.writable?(grid, user)
     end
 
-    def registered_grid_by_klass
-      if @registered_grid_by_klass && @registered_grid_by_klass.length == @grid_register.length
-        @registered_grid_by_klass
-      else
-        @registered_grid_by_klass = @grid_register.map do |klass, path|
-          [klass.constantize,
-           url_helpers.send(path)]
-        end.to_h
-      end
+    protected
+
+    def grid_register
+      @grid_register ||= {}
     end
 
     def registered_widget_by_identifier
@@ -105,6 +117,88 @@ class Grids::Configuration
 
     def url_helpers
       @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
+    end
+  end
+
+  class Registration
+    class << self
+      def grid_class(name_string = nil)
+        if name_string
+          @grid_class = name_string
+        end
+
+        @grid_class
+      end
+
+      def to_scope(path = nil)
+        if path
+          @to_scope = path
+        end
+
+        @to_scope
+      end
+
+      def widgets(*widgets)
+        if widgets.any?
+          @widgets = widgets
+        end
+
+        @widgets
+      end
+
+      def defaults(hash = nil)
+        if hash
+          @defaults = hash
+        end
+
+        params = @defaults.dup
+        params[:widgets] = (params[:widgets] || []).map do |widget|
+          Grids::Widget.new(widget)
+        end
+
+        params
+      end
+
+      def from_scope(_scope)
+        raise NotImplementedError
+      end
+
+      def all_scopes
+        Array(url_helpers.send(@to_scope))
+      end
+
+      def visible(_user = User.current)
+        ::Grids::Grid
+          .where(type: grid_class)
+      end
+
+      def writable?(_grid, _user)
+        true
+      end
+
+      def register!
+        unless @grid_class
+          raise 'Need to define the grid class first. Use grid_class to do so.'
+        end
+        unless @widgets
+          raise 'Need to define at least one widget first. Use widgets to do so.'
+        end
+        unless @to_scope
+          raise 'Need to define a scope. Use to_scope to do so'
+        end
+
+        Grids::Configuration.register_grid(@grid_class, self)
+
+        widgets.each do |widget|
+          Grids::Configuration.register_widget(widget, @grid_class)
+        end
+      end
+
+      private
+
+      def url_helpers
+        @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
+      end
     end
   end
 end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,23 +26,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'grids/grid'
+require 'spec_helper'
 
-class BoardGrid < ::Grids::Grid
-  belongs_to :user
+describe Boards::Grid, type: :model do
+  let(:instance) { described_class.new }
+  let(:project) { FactoryBot.build_stubbed(:project) }
 
-  def self.new_default(_project = nil)
-    new(
-      # TODO project: project,
-      row_count: 1,
-      column_count: 4,
-      widgets: []
-    )
-  end
-
-  def self.visible_scope(_project = nil)
-    # Use base class to avoid incompatibility scope merging
-    # TODO project scope
-    ::Grids::Grid.where(type: 'BoardGrid')
+  context 'attributes' do
+    it '#project' do
+      instance.project = project
+      expect(instance.project)
+        .to eql project
+    end
   end
 end

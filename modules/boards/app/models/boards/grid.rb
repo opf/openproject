@@ -28,43 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require_dependency 'grids/grid'
 
-describe Grids::Filters::PageFilter, type: :model do
-  include_context 'filter tests'
-  let(:values) { ['/my/page'] }
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:model) { Grids::Grid }
-
-  before do
-    login_as(user)
-  end
-
-  it_behaves_like 'basic query filter' do
-    let(:class_key) { :page }
-    let(:type) { :string }
-    let(:model) { Grids::Grid.where(user_id: user.id) }
-    let(:values) { ['/my/page'] }
-
-    describe '#allowed_values' do
-      it 'is /my/page' do
-        expect(instance.allowed_values)
-          .to match_array values
-      end
-    end
-  end
-
-  describe '#scope' do
-    context 'for "="' do
-      let(:operator) { '=' }
-
-      context 'for /my/page do' do
-        it 'is the same as handwriting the query' do
-          expected = model.where("grids.type IN ('Grids::MyPage')")
-
-          expect(instance.scope.to_sql).to eql expected.to_sql
-        end
-      end
-    end
+module Boards
+  class Grid < ::Grids::Grid
+    belongs_to :project
   end
 end

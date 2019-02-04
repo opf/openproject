@@ -46,7 +46,7 @@ describe Relation, 'hierarchy_paths', type: :model do
     SQL
   end
 
-  def path_for(id)
+  def to_scope(id)
     record_for(id)[0][1]
   end
 
