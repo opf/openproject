@@ -82,7 +82,8 @@ export class BoardListComponent implements OnInit, OnDestroy {
       columnMenuEnabled: false,
       actionsColumnEnabled: false,
       dragAndDropEnabled: true,
-      isEmbedded: true
+      isEmbedded: true,
+      isCardView: false
     };
   }
 

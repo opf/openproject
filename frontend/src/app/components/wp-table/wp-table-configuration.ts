@@ -60,6 +60,9 @@ export class WorkPackageTableConfiguration {
   /** Whether this table is in an embedded context*/
   public isEmbedded:boolean = false;
 
+  /** Whether the work packages shall be shown in cards instead of a table */
+  public isCardView:boolean = false;
+
   constructor(private providedConfig:WorkPackageTableConfigurationObject) {
     _.each(providedConfig, (value, k) => {
       let key = (k as keyof WorkPackageTableConfiguration);

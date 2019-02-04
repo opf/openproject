@@ -8,10 +8,15 @@
            name="board_list_name"
            type="text" />
 
-    <wp-embedded-table [queryId]="query.id"
+    <wp-embedded-table *ngIf="boardTableConfiguration.isEmbedded && !boardTableConfiguration.isCardView"
+                       [queryId]="query.id"
                        [loadedQuery]="query"
                        [queryProps]="columnsQueryProps"
                        [configuration]="boardTableConfiguration">
     </wp-embedded-table>
+
+    <wp-card-view *ngIf="boardTableConfiguration.isCardView"
+                  [loadedQuery]="query"
+                  [queryProps]="columnsQueryProps"></wp-card-view>
   </ng-container>
 </div>
