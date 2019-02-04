@@ -22,6 +22,8 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
   public configuration:WorkPackageTableConfiguration;
   public error:string|null = null;
 
+  private initialized:boolean = false;
+
   readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
   readonly tableState:TableState  = this.injector.get(TableState);
   readonly I18n:I18nService = this.injector.get(I18nService);
@@ -37,6 +39,7 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
     this.configuration = new WorkPackageTableConfiguration(this.providedConfiguration);
     // Set embedded status in configuration
     this.configuration.isEmbedded = true;
+    this.initialized = true;
   }
 
   ngAfterViewInit():void {
@@ -55,7 +58,9 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
   }
 
   ngOnChanges(changes:SimpleChanges) {
-    this.refresh();
+    if (this.initialized) {
+      this.refresh(this.initialLoadingIndicator);
+    }
   }
 
   get projectIdentifier() {
@@ -100,7 +105,7 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
   protected abstract loadQuery(visible:boolean):Promise<any>;
 
   protected get queryProjectScope() {
-    if (!(this.configuration && this.configuration.projectContext)) {
+    if (!this.configuration.projectContext) {
       return undefined;
     } else {
       return this.projectIdentifier;

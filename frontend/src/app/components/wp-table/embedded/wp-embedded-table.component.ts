@@ -135,7 +135,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
 
     // HACK: Decrease loading time of queries when results are not needed.
     // We should allow the backend to disable results embedding instead.
-    if (!(this.configuration && this.configuration.tableVisible)) {
+    if (!this.configuration.tableVisible) {
       this.queryProps.pageSize = 1;
     }
 
