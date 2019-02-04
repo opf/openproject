@@ -757,7 +757,6 @@ bg:
   button_print: Print
   button_quote: Цитат
   button_remove: Премахване
-  button_remove_widget: Премахване на притурка
   button_rename: Преименуване
   button_replace: Replace
   button_revoke: Revoke
@@ -1430,7 +1429,6 @@ bg:
   label_my_account: Моят профил
   label_my_account_data: Данни за моят акаунт
   label_my_page: Моята страница
-  label_my_page_block: Блок Моята страница
   label_my_projects: Моите проекти
   label_my_queries: Моите потребителски заявки
   label_never: Никога
@@ -1539,7 +1537,6 @@ bg:
   label_repository_plural: Хранилища
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Резултати
   label_reverse_chronological_order: В обратен хронологичен ред
   label_revision: Преразглеждане
@@ -1735,7 +1732,6 @@ bg:
     lists only)
   label_keyboard_shortcut_focus_next_item: Focus next list element (on some lists
     only)
-  label_visible_elements: Видими елементи
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -2880,3 +2876,7 @@ bg:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Премахване на притурка
+  label_my_page_block: Блок Моята страница
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: Видими елементи

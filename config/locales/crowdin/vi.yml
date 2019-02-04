@@ -757,7 +757,6 @@ vi:
   button_print: Print
   button_quote: Trích dẫn
   button_remove: Remove
-  button_remove_widget: Xóa widget
   button_rename: Đổi tên
   button_replace: Replace
   button_revoke: Revoke
@@ -1427,7 +1426,6 @@ vi:
   label_my_account: Tài khoản của tôi
   label_my_account_data: Dữ liệu tài khoản của tôi
   label_my_page: Trang của tôi
-  label_my_page_block: Block trang của tôi
   label_my_projects: Dự án của tôi
   label_my_queries: Các truy vấn tùy biến của tôi
   label_never: Never
@@ -1535,7 +1533,6 @@ vi:
   label_repository_plural: Repositories
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Gói công việc mà tôi có trách nhiệm
   label_result_plural: Results
   label_reverse_chronological_order: In reverse chronological order
   label_revision: Revision
@@ -1728,7 +1725,6 @@ vi:
     lists only)
   label_keyboard_shortcut_focus_next_item: Focus next list element (on some lists
     only)
-  label_visible_elements: Visible elements
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -2880,3 +2876,7 @@ vi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Xóa widget
+  label_my_page_block: Block trang của tôi
+  label_responsible_for_work_packages: Gói công việc mà tôi có trách nhiệm
+  label_visible_elements: Visible elements

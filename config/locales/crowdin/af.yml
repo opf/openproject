@@ -756,7 +756,6 @@ af:
   button_print: Print
   button_quote: Haal aan
   button_remove: Remove
-  button_remove_widget: Verwyder legstuk
   button_rename: Hernoem
   button_replace: Replace
   button_revoke: Revoke
@@ -1431,7 +1430,6 @@ af:
   label_my_account: My rekening
   label_my_account_data: My rekeningdata
   label_my_page: My bladsy
-  label_my_page_block: My bladsyblok
   label_my_projects: My projekte
   label_my_queries: My pasgemaakte navrae
   label_never: Never
@@ -1539,7 +1537,6 @@ af:
   label_repository_plural: Repositories
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Results
   label_reverse_chronological_order: In reverse chronological order
   label_revision: Revision
@@ -1732,7 +1729,6 @@ af:
     lists only)
   label_keyboard_shortcut_focus_next_item: Focus next list element (on some lists
     only)
-  label_visible_elements: Visible elements
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -2884,3 +2880,7 @@ af:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Verwyder legstuk
+  label_my_page_block: My bladsyblok
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: Visible elements

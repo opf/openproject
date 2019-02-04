@@ -692,7 +692,6 @@ ja:
   button_print: 印刷
   button_quote: 引用
   button_remove: 削除
-  button_remove_widget: ウィジェットを削除
   button_rename: 名称変更
   button_replace: 置き換え
   button_revoke: Revoke
@@ -1328,7 +1327,6 @@ ja:
   label_my_account: 個人設定
   label_my_account_data: アカウントのデータ
   label_my_page: 個人ページ
-  label_my_page_block: このページ上のブロック
   label_my_projects: 参加しているプロジェクト
   label_my_queries: 個人のクエリ
   label_never: なし
@@ -1436,7 +1434,6 @@ ja:
   label_repository_plural: リポジトリ
   label_required: 必須
   label_requires: 要求
-  label_responsible_for_work_packages: 責任者である作業項目
   label_result_plural: 検索結果
   label_reverse_chronological_order: 新しい順
   label_revision: リビジョン
@@ -1623,7 +1620,6 @@ ja:
   label_keyboard_shortcut_go_preview: 現在の編集のプレビューへ移動（編集ページのみ）
   label_keyboard_shortcut_focus_previous_item: 前のリスト項目へフォーカスする(特定のリストのみ）
   label_keyboard_shortcut_focus_next_item: 次のリスト項目へフォーカスする(特定のリストのみ）
-  label_visible_elements: 表示する要素
   auth_source:
     using_abstract_auth_source: 概要認証元を使用できません。
     ldap_error: 'LDAPエラー: %{error_message}'
@@ -2634,3 +2630,7 @@ ja:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: ウィジェットを削除
+  label_my_page_block: このページ上のブロック
+  label_responsible_for_work_packages: 責任者である作業項目
+  label_visible_elements: 表示する要素

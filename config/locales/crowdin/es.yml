@@ -780,7 +780,6 @@ es:
   button_print: Imprimir
   button_quote: Comentario
   button_remove: Eliminar
-  button_remove_widget: Quitar componente
   button_rename: Cambiar el nombre
   button_replace: Sustituir
   button_revoke: Revoke
@@ -1461,7 +1460,6 @@ es:
   label_my_account: Mi cuenta
   label_my_account_data: Mis datos de cuenta
   label_my_page: Mi página
-  label_my_page_block: Mi bloque de página
   label_my_projects: Mis proyectos
   label_my_queries: Mis consultas personalizadas
   label_never: Nunca
@@ -1570,7 +1568,6 @@ es:
   label_repository_plural: Repositorios
   label_required: requerido
   label_requires: requiere
-  label_responsible_for_work_packages: Paquetes de trabajo de los que soy responsable
   label_result_plural: Resultados
   label_reverse_chronological_order: En orden cronológico inverso
   label_revision: Revisión
@@ -1771,7 +1768,6 @@ es:
     en algunas listas)
   label_keyboard_shortcut_focus_next_item: Activar siguiente elemento de lista (sólo
     en algunas listas)
-  label_visible_elements: Elementos visibles
   auth_source:
     using_abstract_auth_source: No puede utilizar una fuente de autenticación abstracta.
     ldap_error: 'Error de LDAP: %{error_message}'
@@ -2973,3 +2969,7 @@ es:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Quitar componente
+  label_my_page_block: Mi bloque de página
+  label_responsible_for_work_packages: Paquetes de trabajo de los que soy responsable
+  label_visible_elements: Elementos visibles

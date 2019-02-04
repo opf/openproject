@@ -27,10 +27,18 @@
 //++
 
 .news
-  margin-bottom: 3rem
+  margin-bottom: 30px
 
-  &.box > p
-    margin-top: -15px
+  .author
+    font-style: italic
+    font-size: 12px
+
+.news--comments
+  margin: 1rem 0
+
+  .author
+    font-style: italic
+    font-size: 12px
 
   .timestamp
     border-bottom: 1px dotted
@@ -40,7 +48,7 @@
     font-size: 11px
 
   .news--comment
-    font-size: 11px
+    margin: 1.5rem
 
 .summary
   font-style: italic
@@ -51,3 +59,4 @@ p.author
 
 .news--header
   @include text-shortener
+  margin-bottom: 10px

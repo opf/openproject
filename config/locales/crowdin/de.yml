@@ -777,7 +777,6 @@ de:
   button_print: Drucken
   button_quote: Zitieren
   button_remove: Entfernen
-  button_remove_widget: Infobox löschen
   button_rename: Umbenennen
   button_replace: Ersetzen
   button_revoke: Revoke
@@ -1463,7 +1462,6 @@ de:
   label_my_account: Mein Konto
   label_my_account_data: Meine Kontodaten
   label_my_page: Meine Seite
-  label_my_page_block: Bereich "Meine Seite"
   label_my_projects: Meine Projekte
   label_my_queries: Meine Berichte
   label_never: Nie
@@ -1572,7 +1570,6 @@ de:
   label_repository_plural: Projektarchive
   label_required: benötigt von
   label_requires: benötigt
-  label_responsible_for_work_packages: Von mir verantwortete Arbeitspakete
   label_result_plural: Ergebnisse
   label_reverse_chronological_order: in umgekehrter zeitlicher Reihenfolge
   label_revision: Revision
@@ -1766,7 +1763,6 @@ de:
     (nur bei einigen Listen)
   label_keyboard_shortcut_focus_next_item: Fokussiere nächstes Listenelement (nur
     bei einigen Listen)
-  label_visible_elements: Sichtbare Elemente
   auth_source:
     using_abstract_auth_source: Abstrakte Authentifizierungsquellen können nicht verwendet
       werden.
@@ -2968,3 +2964,7 @@ de:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Infobox löschen
+  label_my_page_block: Bereich "Meine Seite"
+  label_responsible_for_work_packages: Von mir verantwortete Arbeitspakete
+  label_visible_elements: Sichtbare Elemente

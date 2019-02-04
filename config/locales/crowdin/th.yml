@@ -749,7 +749,6 @@ th:
   button_print: Print
   button_quote: อ้างถึง
   button_remove: Remove
-  button_remove_widget: เอาเครื่องมือออก
   button_rename: เปลี่ยนชื่อ
   button_replace: Replace
   button_revoke: Revoke
@@ -1410,7 +1409,6 @@ th:
   label_my_account: บัญชีของฉัน
   label_my_account_data: ข้อมูลบัญชีของฉัน
   label_my_page: หน้าของฉัน
-  label_my_page_block: หน้าบล็อกของฉัน
   label_my_projects: โครงการของฉัน
   label_my_queries: แบบสอบถามแบบกำหนดเองของฉัน
   label_never: Never
@@ -1517,7 +1515,6 @@ th:
   label_repository_plural: ที่เก็บ
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: ผลลัพธ์
   label_reverse_chronological_order: ในลำดับที่สลับ
   label_revision: การปรับปรุง
@@ -1705,7 +1702,6 @@ th:
   label_keyboard_shortcut_go_preview: ไปดูตัวอย่างการแก้ไขปัจจุบัน (ในหน้าแก้ไขเท่านั้น)
   label_keyboard_shortcut_focus_previous_item: เน้นรายการองค์ประกอบก่อนหน้านี้ (ในบางรายการเท่านั้น)
   label_keyboard_shortcut_focus_next_item: เน้นรายการองค์ประกอบถัดไป (ในบางรายการเท่านั้น)
-  label_visible_elements: Visible elements
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -2817,3 +2813,7 @@ th:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: เอาเครื่องมือออก
+  label_my_page_block: หน้าบล็อกของฉัน
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: Visible elements

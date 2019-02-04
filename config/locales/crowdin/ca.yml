@@ -764,7 +764,6 @@ ca:
   button_print: Print
   button_quote: Citar
   button_remove: Suprimir
-  button_remove_widget: Treure els widgets
   button_rename: Renombrar
   button_replace: Replace
   button_revoke: Revoke
@@ -1440,7 +1439,6 @@ ca:
   label_my_account: El meu compte
   label_my_account_data: Dades del meu compte
   label_my_page: La meva pàgina
-  label_my_page_block: El meu bloc de pàgina
   label_my_projects: Els meus projectes
   label_my_queries: Les meves consultes personalitzades
   label_never: Mai
@@ -1549,7 +1547,6 @@ ca:
   label_repository_plural: Repositoris
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Resultats
   label_reverse_chronological_order: En ordre cronològic invers
   label_revision: Revisió
@@ -1749,7 +1746,6 @@ ca:
     (només en algunes llistes)
   label_keyboard_shortcut_focus_next_item: Activar l'element següent de la llista
     (només en algunes llistes)
-  label_visible_elements: Elements visibles
   auth_source:
     using_abstract_auth_source: No podeu utilitzar una font d'autenticació abstracte.
     ldap_error: 'Error LDAP: %{error_message}'
@@ -2940,3 +2936,7 @@ ca:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Treure els widgets
+  label_my_page_block: El meu bloc de pàgina
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: Elements visibles

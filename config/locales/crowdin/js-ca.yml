@@ -151,9 +151,13 @@ ca:
     label_activity_no: Número d'entrada d'activitat %{activityNo}
     label_activity_with_comment_no: Número d'entrada d'activitat %{activityNo}. Disposa
       d'un comentari d'usuari.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Add columns
     label_add_comment: Afegeix un comentari
     label_add_comment_title: Comment and type @ to notify other people
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Afegir columnes seleccionades
     label_added_by: afegit per
     label_added_time_by: Afegit per %{author} %{age}
@@ -211,6 +215,7 @@ ca:
     label_menu_collapse: col·lapsar
     label_menu_expand: expandir
     label_more_than_ago: fa més dies
+    label_my_page: My page
     label_next: Següent
     label_no_data: No hi ha dades per mostrar
     label_no_due_date: no hi ha data de finalització
@@ -229,7 +234,9 @@ ca:
     label_visibility_settings: Visibility settings
     label_quote_comment: Citar aquest comentari
     label_reset: Restablir
+    label_remove_column: Remove column
     label_remove_columns: Treure les columnes seleccionades
+    label_remove_row: Remove row
     label_save_as: Desa com a
     label_select_watcher: Seleccioneu un vigilant...
     label_selected_filter_list: Filtres seleccionats
@@ -251,6 +258,7 @@ ca:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Progrés total"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: actualitzat el
     label_warning: Alerta
     label_work_package: Paquet de treball
@@ -392,6 +400,10 @@ ca:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: carregant vigilants...
       label_error_loading: S'ha produït un error la càrrega dels vigilants

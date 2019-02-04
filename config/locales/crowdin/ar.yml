@@ -770,7 +770,6 @@ ar:
   button_print: طباعة
   button_quote: اقتباس
   button_remove: إزالة
-  button_remove_widget: إزالة الأداة
   button_rename: اعادة التّسمية
   button_replace: Replace
   button_revoke: Revoke
@@ -1491,7 +1490,6 @@ ar:
   label_my_account: حسابي
   label_my_account_data: بيانات حسابي
   label_my_page: صفحتي
-  label_my_page_block: حظر الصفحة الخاصة بي
   label_my_projects: مشاريعي
   label_my_queries: استعلاماتي المخصصة
   label_never: أبداً
@@ -1599,7 +1597,6 @@ ar:
   label_repository_plural: مستودعات البيانات
   label_required: مطلوب
   label_requires: متطلبات
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: نتائج
   label_reverse_chronological_order: في ترتيب زمني عكسي
   label_revision: مراجعة
@@ -1806,7 +1803,6 @@ ar:
     القوائم فقط)
   label_keyboard_shortcut_focus_next_item: التركيز عنصر القائمة التالي (في بعض القوائم
     فقط)
-  label_visible_elements: العناصر المرئية
   auth_source:
     using_abstract_auth_source: لا يمكن استخدام مصدر مصادقة الملخص.
     ldap_error: 'خطأ LDAP: %{error_message}'
@@ -2947,3 +2943,7 @@ ar:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: إزالة الأداة
+  label_my_page_block: حظر الصفحة الخاصة بي
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: العناصر المرئية

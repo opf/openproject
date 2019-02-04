@@ -754,7 +754,6 @@ fi:
   button_print: Print
   button_quote: Siteeraa
   button_remove: Poista
-  button_remove_widget: Poista widgetti
   button_rename: Nimeä uudelleen
   button_replace: Korvaa
   button_revoke: Revoke
@@ -1422,7 +1421,6 @@ fi:
   label_my_account: Oma tili
   label_my_account_data: Tilini tiedot
   label_my_page: Oma sivu
-  label_my_page_block: Minun sivu
   label_my_projects: Omat projektit
   label_my_queries: Omat hakuni
   label_never: Never
@@ -1530,7 +1528,6 @@ fi:
   label_repository_plural: Tietovarastot
   label_required: Required
   label_requires: edellyttää
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Tulokset
   label_reverse_chronological_order: Käänteisessä aikajärjestyksessä
   label_revision: Revisio
@@ -1723,7 +1720,6 @@ fi:
     lists only)
   label_keyboard_shortcut_focus_next_item: Focus next list element (on some lists
     only)
-  label_visible_elements: Näkyvät elementit
   auth_source:
     using_abstract_auth_source: Voi käyttää abstrakti autentikointi lähde.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -2862,3 +2858,7 @@ fi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Poista widgetti
+  label_my_page_block: Minun sivu
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: Näkyvät elementit

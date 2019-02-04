@@ -152,9 +152,13 @@ sv-SE:
     label_activate: Aktivera
     label_activity_no: Aktivitetspost nummer %{activityNo}
     label_activity_with_comment_no: Aktivitetspost nummer %{activityNo} har en användarkommentar.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Lägg till kolumn
     label_add_comment: Lägg till kommentar
     label_add_comment_title: Comment and type @ to notify other people
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Lägga till markerade kolumner
     label_added_by: lagts till av
     label_added_time_by: Lagts till av %{author} %{age}
@@ -211,6 +215,7 @@ sv-SE:
     label_menu_collapse: fäll ihop
     label_menu_expand: expandera
     label_more_than_ago: mer än dagar sedan
+    label_my_page: My page
     label_next: Nästa
     label_no_data: Ingen data att visa
     label_no_due_date: inget slutdatum
@@ -229,7 +234,9 @@ sv-SE:
     label_visibility_settings: Visibility settings
     label_quote_comment: Citera denna kommentar
     label_reset: Återställ
+    label_remove_column: Remove column
     label_remove_columns: Ta bort markerade kolumner
+    label_remove_row: Remove row
     label_save_as: Spara som
     label_select_watcher: Välj en bevakare...
     label_selected_filter_list: Valda filter
@@ -251,6 +258,7 @@ sv-SE:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Totalt klart"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: uppdaterad den
     label_warning: Varning
     label_work_package: Arbetspaket
@@ -391,6 +399,10 @@ sv-SE:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: laddar bevakare...
       label_error_loading: Ett fel inträffade när bevakarna laddades

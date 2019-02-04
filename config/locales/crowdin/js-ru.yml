@@ -153,9 +153,13 @@ ru:
     label_activity_no: Деятельность номер %{activityNo}
     label_activity_with_comment_no: Деятельность номер %{activityNo}. Есть комментарий
       пользователя.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Добавить столбец
     label_add_comment: Добавить комментарий
     label_add_comment_title: Комментарий и тип @ для уведомления других людей
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Добавить выбранные столбцы
     label_added_by: Добавил(-а)
     label_added_time_by: Добавил(-а) %{author} %{age}
@@ -213,6 +217,7 @@ ru:
     label_menu_collapse: свернуть
     label_menu_expand: развернуть
     label_more_than_ago: больше, чем дней назад
+    label_my_page: My page
     label_next: Следующие
     label_no_data: Нет данных для отображения
     label_no_due_date: без даты окончания
@@ -231,7 +236,9 @@ ru:
     label_visibility_settings: Параметры видимости
     label_quote_comment: Цитировать этот комментарий
     label_reset: Сброс
+    label_remove_column: Remove column
     label_remove_columns: Удалить выбранные столбцы
+    label_remove_row: Remove row
     label_save_as: Сохранить как
     label_select_watcher: Выберите наблюдателя...
     label_selected_filter_list: Выбранные фильтры
@@ -253,6 +260,7 @@ ru:
     label_activity_show_only_comments: Показать только деятельности с комментариями
     label_activity_show_all: Показать все активности
     label_total_progress: "%{percent}% общего прогресса"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: Обновлено
     label_warning: Предупреждение
     label_work_package: Пакет работ
@@ -391,6 +399,10 @@ ru:
           includes: включая
           requires: требование
           required: необходим для
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: Загрузка наблюдателей...
       label_error_loading: При загрузке наблюдателей произошла ошибка

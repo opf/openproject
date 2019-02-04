@@ -769,7 +769,6 @@ ru:
   button_print: Печать
   button_quote: Цитата
   button_remove: Удалить
-  button_remove_widget: Удалить виджет
   button_rename: Переименовать
   button_replace: Заменить
   button_revoke: Revoke
@@ -1465,7 +1464,6 @@ ru:
   label_my_account: Моя учетная запись
   label_my_account_data: Данные моей учетной записи
   label_my_page: Моя страница
-  label_my_page_block: Блоки на моей странице
   label_my_projects: Мои проекты
   label_my_queries: Мои пользовательские запросы
   label_never: Никогда
@@ -1576,7 +1574,6 @@ ru:
   label_repository_plural: Репозитории
   label_required: требуется
   label_requires: требуется
-  label_responsible_for_work_packages: Пакеты работ, в которых я подотчетен
   label_result_plural: Результаты
   label_reverse_chronological_order: В обратном хронологическом порядке
   label_revision: Редакция
@@ -1781,7 +1778,6 @@ ru:
     списка (того же списка)
   label_keyboard_shortcut_focus_next_item: Сфокусироваться на следующем элементе списка
     (того же списка)
-  label_visible_elements: Видимые элементы
   auth_source:
     using_abstract_auth_source: Нельзя использовать абстрактную аутентификацию.
     ldap_error: 'LDAP-ошибка: %{error_message}'
@@ -2960,3 +2956,7 @@ ru:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Удалить виджет
+  label_my_page_block: Блоки на моей странице
+  label_responsible_for_work_packages: Пакеты работ, в которых я подотчетен
+  label_visible_elements: Видимые элементы
