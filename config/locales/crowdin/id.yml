@@ -751,7 +751,6 @@ id:
   button_print: Cetak
   button_quote: Kutipan
   button_remove: Remove
-  button_remove_widget: Hapus widget
   button_rename: Ubah nama
   button_replace: Ganti
   button_revoke: Revoke
@@ -1421,7 +1420,6 @@ id:
   label_my_account: Akun saya
   label_my_account_data: Data akun saya
   label_my_page: My Homepage
-  label_my_page_block: Blok halaman saya
   label_my_projects: Project saya
   label_my_queries: Query kustom saya
   label_never: Never
@@ -1529,7 +1527,6 @@ id:
   label_repository_plural: Repositori
   label_required: dibutuhkan
   label_requires: dibutuhkan
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Hasil
   label_reverse_chronological_order: Urutan kronologi terbalik
   label_revision: Revisi
@@ -1722,7 +1719,6 @@ id:
     di daftar yang sama)
   label_keyboard_shortcut_focus_next_item: Fokus daftar elemen berikutnya (hanya di
     daftar yang sama)
-  label_visible_elements: Element tampak
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -2865,3 +2861,7 @@ id:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Hapus widget
+  label_my_page_block: Blok halaman saya
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: Element tampak

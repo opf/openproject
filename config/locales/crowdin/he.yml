@@ -758,7 +758,6 @@ he:
   button_print: Print
   button_quote: צטט
   button_remove: Remove
-  button_remove_widget: הסר רכיב
   button_rename: שינוי שם
   button_replace: Replace
   button_revoke: Revoke
@@ -1445,7 +1444,6 @@ he:
   label_my_account: החשבון שלי
   label_my_account_data: My account data
   label_my_page: My page
-  label_my_page_block: My page block
   label_my_projects: הפרוייקטים שלי
   label_my_queries: My custom queries
   label_never: Never
@@ -1552,7 +1550,6 @@ he:
   label_repository_plural: Repositories
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: תוצאות
   label_reverse_chronological_order: In reverse chronological order
   label_revision: Revision
@@ -1753,7 +1750,6 @@ he:
     lists only)
   label_keyboard_shortcut_focus_next_item: Focus next list element (on some lists
     only)
-  label_visible_elements: Visible elements
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -2907,3 +2903,7 @@ he:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: הסר רכיב
+  label_my_page_block: My page block
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: Visible elements

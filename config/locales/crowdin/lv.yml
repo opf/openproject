@@ -756,7 +756,6 @@ lv:
   button_print: Drukāt
   button_quote: Citēt
   button_remove: Noņemt
-  button_remove_widget: Noņemt logrīku
   button_rename: Rename
   button_replace: Replace
   button_revoke: Revoke
@@ -1436,7 +1435,6 @@ lv:
   label_my_account: Mans konts
   label_my_account_data: Mana konta dati
   label_my_page: Mana lapa
-  label_my_page_block: My page block
   label_my_projects: Mani projekti
   label_my_queries: My custom queries
   label_never: Nekad
@@ -1543,7 +1541,6 @@ lv:
   label_repository_plural: Repositories
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Results
   label_reverse_chronological_order: Apgrieztā hronoloģiskā secībā
   label_revision: Revision
@@ -1737,7 +1734,6 @@ lv:
     lists only)
   label_keyboard_shortcut_focus_next_item: Focus next list element (on some lists
     only)
-  label_visible_elements: Redzamie elementi
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -2888,3 +2884,7 @@ lv:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Noņemt logrīku
+  label_my_page_block: My page block
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: Redzamie elementi

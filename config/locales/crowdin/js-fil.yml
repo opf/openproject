@@ -149,9 +149,13 @@ fil:
     label_activity_no: Bilang ng aktibidad entry %{activityNo}
     label_activity_with_comment_no: Bilang ng aktibidad entry %{activityNo}. Mayroong
       komento ng gumagamit.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Magdagdag ng hanay
     label_add_comment: Magdagdag ng komento
     label_add_comment_title: Mag-komento at mag-type ng @ upang ipaalam sa ibang tao
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Magdagdag ng napiling hanay
     label_added_by: idinagdag ni
     label_added_time_by: Idinagdag ni %{author} %{age}
@@ -209,6 +213,7 @@ fil:
     label_menu_collapse: bumagsak
     label_menu_expand: palawakin
     label_more_than_ago: mahigit sa araw nakalipas
+    label_my_page: My page
     label_next: Susunod
     label_no_data: Walang data upang ipakita
     label_no_due_date: walang katapusan petsa
@@ -227,7 +232,9 @@ fil:
     label_visibility_settings: Ang mga setting ng katanyagan
     label_quote_comment: I-quote ang komentong ito
     label_reset: I-reset
+    label_remove_column: Remove column
     label_remove_columns: Tanggalin ang mga napiling hanay
+    label_remove_row: Remove row
     label_save_as: I-save bilang
     label_select_watcher: Pumili ng manunuod...
     label_selected_filter_list: Napiling mga filter
@@ -249,6 +256,7 @@ fil:
     label_activity_show_only_comments: Magpakita ng mga aktibidad sa komento lamang
     label_activity_show_all: Ipakita lahat ang mga aktibidad
     label_total_progress: "%{percent}% Kabuang progreso"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: i-update sa
     label_warning: Babala
     label_work_package: Work package
@@ -393,6 +401,10 @@ fil:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: naglo-load ang mga manunuod...
       label_error_loading: Isang mali ang naganap habang naglo-load ng mga manunuod

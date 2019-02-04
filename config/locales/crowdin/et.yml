@@ -754,7 +754,6 @@ et:
   button_print: Print
   button_quote: Tsiteeri
   button_remove: Remove
-  button_remove_widget: Eemalda vidin
   button_rename: Nimeta ümber
   button_replace: Replace
   button_revoke: Revoke
@@ -1425,7 +1424,6 @@ et:
   label_my_account: Oma konto
   label_my_account_data: Oma konto andmed
   label_my_page: Minu esileht
-  label_my_page_block: Uus blokk
   label_my_projects: Minu projektid
   label_my_queries: Mu omaloodud päringud
   label_never: Mitte kunagi
@@ -1532,7 +1530,6 @@ et:
   label_repository_plural: Hoidlad
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Tulemused
   label_reverse_chronological_order: Pööratud ajalises järjestuses
   label_revision: Sissekanne
@@ -1723,7 +1720,6 @@ et:
     vaid valitud loendites)
   label_keyboard_shortcut_focus_next_item: Liigu järgmisele loendi elemendile (töötab
     vaid valitud loendites)
-  label_visible_elements: Visible elements
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -2863,3 +2859,7 @@ et:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Eemalda vidin
+  label_my_page_block: Uus blokk
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: Visible elements

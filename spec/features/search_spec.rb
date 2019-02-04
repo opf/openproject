@@ -29,39 +29,40 @@
 require 'spec_helper'
 
 describe 'Search', type: :feature, js: true do
+  include ::Components::UIAutocompleteHelpers
   let(:project) { FactoryBot.create :project }
   let(:user) { FactoryBot.create :admin }
 
   let!(:work_packages) do
     (1..23).map do |n|
-      subject = "Subject No. #{n}"
-      FactoryBot.create :work_package,
-                        subject: subject,
-                        project: project,
-                        created_at: "2016-11-21 #{n}:00".to_datetime,
-                        updated_at: "2016-11-21 #{n}:00".to_datetime
+      Timecop.freeze("2016-11-21 #{n}:00".to_datetime) do
+        subject = "Subject No. #{n}"
+        FactoryBot.create :work_package,
+                          subject: subject,
+                          project: project
+      end
     end
   end
 
-  let(:query) { "Subject" }
+  let(:query) { 'Subject' }
+
+  let(:params) { [project, { q: query }] }
 
   def expect_range(a, b)
     (a..b).each do |n|
       expect(page.body).to include("No. #{n}")
-      expect(page.body).to have_selector("a[href*='#{work_package_path(work_packages[n-1].id)}']")
+      expect(page.body).to have_selector("a[href*='#{work_package_path(work_packages[n - 1].id)}']")
     end
   end
 
   before do
     login_as user
 
-    visit search_path(project, q: query)
+    visit search_path(*params)
   end
 
   describe 'autocomplete' do
-    include ::Components::UIAutocompleteHelpers
-
-    let!(:other_work_package) { FactoryBot.create(:work_package, subject: "Other work package", project: project) }
+    let!(:other_work_package) { FactoryBot.create(:work_package, subject: 'Other work package', project: project) }
 
     it 'provides suggestions' do
       page.find('#top-menu-search-button').click
@@ -69,12 +70,19 @@ describe 'Search', type: :feature, js: true do
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
                                         query: query,
                                         results_selector: '.search-autocomplete--results')
+      # Suggestions shall show latest WPs first.
       expect(suggestions).to have_text('No. 23', wait: 10)
-      expect(suggestions).to_not have_text('No. 13')
+      #  and show maximum 10 suggestions.
+      expect(suggestions).to_not have_text('No. 10')
+      # and unrelated work packages shall not get suggested
+      expect(suggestions).to_not have_text(other_work_package.subject)
 
       target_work_package = work_packages.last
+
+      # Expect redirection when WP is selected from results
       select_autocomplete(page.find('.top-menu-search--input'),
                           query: target_work_package.subject,
+                          select_text: "##{target_work_package.id}",
                           results_selector: '.search-autocomplete--results')
       expect(current_path).to match /work_packages\/#{target_work_package.id}\//
 
@@ -82,20 +90,17 @@ describe 'Search', type: :feature, js: true do
 
       first_wp = work_packages.first
 
+      # Typing a work package id shall find that work package
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
                                         query: first_wp.id.to_s,
                                         results_selector: '.search-autocomplete--results')
-      expect(suggestions).to have_text("No. 1")
+      expect(suggestions).to have_text('No. 1')
 
-      suggestions = search_autocomplete(page.find('.top-menu-search--input'),
-                                        query: "1",
-                                        results_selector: '.search-autocomplete--results')
-      expect(suggestions).to have_text("No. 11")
-
+      # Typing a hash sign before an ID shall only suggest that work package and (no hits within the subject)
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
                                         query: "##{first_wp.id}",
                                         results_selector: '.search-autocomplete--results')
-      expect(suggestions).to_not have_text("No. 11")
+      expect(suggestions).to have_text("Subject", count: 1)
     end
   end
 

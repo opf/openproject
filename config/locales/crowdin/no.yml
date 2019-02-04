@@ -754,7 +754,6 @@
   button_print: Print
   button_quote: Sitèr
   button_remove: Fjern
-  button_remove_widget: Fjern widget
   button_rename: Endre navn
   button_replace: Erstatt
   button_revoke: Revoke
@@ -1423,7 +1422,6 @@
   label_my_account: Min konto
   label_my_account_data: Min kontoinformasjon
   label_my_page: Min side
-  label_my_page_block: Min side-blokk
   label_my_projects: Mine prosjekter
   label_my_queries: Minne egendefinerte spørringer
   label_never: Aldri
@@ -1530,7 +1528,6 @@
   label_repository_plural: Pakkebrønner
   label_required: påkrevd
   label_requires: krever
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Resultater
   label_reverse_chronological_order: I omvendt kronologisk rekkefølge
   label_revision: Revisjon
@@ -1724,7 +1721,6 @@
     (gjelder bare noen lister)
   label_keyboard_shortcut_focus_next_item: Sett fokus på neste listeelement (gjelder
     bare noen lister)
-  label_visible_elements: Synlige elementer
   auth_source:
     using_abstract_auth_source: Kan ikke bruke en abstrakt autentiserings kilde.
     ldap_error: 'LDAP-feil: %{error_message}'
@@ -2872,3 +2868,7 @@
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Fjern widget
+  label_my_page_block: Min side-blokk
+  label_responsible_for_work_packages: Work packages I am accountable for
+  label_visible_elements: Synlige elementer

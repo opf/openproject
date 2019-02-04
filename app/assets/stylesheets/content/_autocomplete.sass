@@ -145,7 +145,11 @@ mark.ui-autocomplete-match
 
   .ng-value-container
     width: calc(100% - 30px)
-    
+
+    // Override OPs default padding for inputs which looks strange in the autocompleter
+    input
+      padding-left: 0px
+
   .ng-select-container
     z-index: auto !important
     .ng-value-container input

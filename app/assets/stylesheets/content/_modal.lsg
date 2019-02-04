@@ -1,8 +1,14 @@
-# Modal
+# Modals
+
+## Modals: Standard style
 
 ```
 <div class="modal-container">
-  <div class="op-modal--modal-header"><i class="icon-close"></i></div>
+  <div class="op-modal--modal-header">
+    <a class="op-modal--modal-close-button">
+      <i class="icon-close" title="Close popup"></i>
+    </a>
+  </div>
   <div class="modal-content">
     <h3>Modal Headline</h3>
     Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper
@@ -47,6 +53,37 @@
         </a>
       </li>
     </ul>
+```
 
+## Modals: With footer
 
+```
+<div class="op-modal--modal-container -highlight">
+  <div class="op-modal--modal-header">
+    <h2>Welcome to OpenProject</h2>
+    <a class="op-modal--modal-close-button" title="Close popup">
+      <i class="icon-close"></i>
+    </a>
+  </div>
+  <div class="op-modal--modal-body">
+    <b>Please select your language</b>
+    <fieldset class="form--fieldset">
+      <div class="form--field">
+        <label class="form--label" title="Language" for="user_language">Language</label>
+        <span class="form--field-container">
+          <span class="form--select-container -slim">
+            <select class="form--select">
+              <option value="de">Deutsch</option>
+              <option selected="selected" value="en">English</option>
+              <option value="fr">Français</option>
+            </select>
+          </span>
+        </span>
+      </div>
+    </fieldset>
+  </div>
+  <div class="op-modal--modal-footer">
+    <button name="button" type="submit" class="button -highlight">Save</button>
+  </div>
+</div>
 ```

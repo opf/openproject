@@ -313,9 +313,8 @@ class UserMailer < BaseMailer
 
   private
 
-  def subject_for_work_package(work_package)
-    subject =  "[#{work_package.project.name} - #{work_package.type.name} ##{work_package.id}] "
-    subject << "(#{work_package.status.name}) " << work_package.subject
+  def subject_for_work_package(wp)
+    "#{wp.project.name} - #{wp.status.name} #{wp.type.name} ##{wp.id}: #{wp.subject}"
   end
 
   # like #mail, but contains special author based filters

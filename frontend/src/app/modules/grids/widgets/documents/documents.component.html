@@ -1,0 +1,24 @@
+<h3 class="widget-box--header" cdkDragHandle>
+  <i class="icon-context icon-notes" aria-hidden="true"></i>
+  <span class="widget-box--header-title" [textContent]="text.title"></span>
+</h3>
+
+<div class="grid--widget-content">
+  <no-results *ngIf="noEntries"
+              [title]="text.noResults">
+  </no-results>
+  <ng-container *ngFor="let document of entries">
+    <h4 class="document-category-elements--header">
+      <a [href]="documentPath(document)"
+         [textContent]="document.title">
+      </a>
+    </h4>
+    <p class="document-category-elements--date">
+      <em [textContent]="documentCreated(document)"></em>
+    </p>
+
+    <div class="wiki grid--widget-limited-text"
+         [innerHtml]="documentDescription(document)">
+    </div>
+  </ng-container>
+</div>

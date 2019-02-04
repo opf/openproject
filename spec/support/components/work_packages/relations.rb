@@ -172,6 +172,13 @@ module Components
         subject.update subject_text
       end
 
+      def openChildrenAutocompleter
+        find('.wp-inline-create--reference-link', text: I18n.t('js.relation_buttons.add_existing_child')).click
+
+        # Security check to be sure that the autocompleter has finished loading
+        expect(page).to have_selector '.wp-relations-autocomplete--results'
+      end
+
       def add_existing_child(work_package)
         # Locate the create row container
         container = find('.wp-relations--add-form')

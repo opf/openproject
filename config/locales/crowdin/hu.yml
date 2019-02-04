@@ -753,7 +753,6 @@ hu:
   button_print: Nyomtatás
   button_quote: Idéz
   button_remove: Eltávolítás
-  button_remove_widget: Widget eltávolítása
   button_rename: Átnevezés
   button_replace: Csere
   button_revoke: Revoke
@@ -1432,7 +1431,6 @@ hu:
   label_my_account: Saját fiókom
   label_my_account_data: Az én fiók adataim
   label_my_page: Az én oldalam
-  label_my_page_block: Az én oldalam blokkolva
   label_my_projects: Az én projektjeim
   label_my_queries: Az én egyéni lekérdezéseim
   label_never: Soha
@@ -1540,7 +1538,6 @@ hu:
   label_repository_plural: Csomagtárolók
   label_required: kötelező
   label_requires: igényel
-  label_responsible_for_work_packages: Feladatcsoportok, amelyért én vagyok a felelős
   label_result_plural: Eredmények
   label_reverse_chronological_order: Fordított időrendi sorrendben
   label_revision: Felülvizsgálat
@@ -1737,7 +1734,6 @@ hu:
     (csak néhány lista)
   label_keyboard_shortcut_focus_next_item: Középpontban a következő lista elemei (csak
     néhány lista)
-  label_visible_elements: Látható elemek
   auth_source:
     using_abstract_auth_source: Nem használható egy absztrakt hitelesítési forrás.
     ldap_error: 'LDAP-hiba: %{error_message}'
@@ -2898,3 +2894,7 @@ hu:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Widget eltávolítása
+  label_my_page_block: Az én oldalam blokkolva
+  label_responsible_for_work_packages: Feladatcsoportok, amelyért én vagyok a felelős
+  label_visible_elements: Látható elemek

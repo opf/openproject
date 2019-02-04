@@ -62,6 +62,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   @Input('queryProps') public queryProps:any = {};
   @Input() public tableActions:OpTableActionFactory[] = [];
   @Input() public compactTableStyle:boolean = false;
+  @Input() public externalHeight:boolean = false;
 
   public tableInformationLoaded = false;
   public showTablePagination = false;

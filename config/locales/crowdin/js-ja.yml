@@ -141,9 +141,13 @@ ja:
     label_activate: 有効にする
     label_activity_no: アクティビティのエントリ番号 %{activityNo}
     label_activity_with_comment_no: アクティビティのエントリ番号 %{activityNo}。ユーザー コメントがあります。
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: 列を追加
     label_add_comment: コメントを追加
     label_add_comment_title: コメントで@ を入力して人に通知する
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: 選択した列を追加
     label_added_by: 追加した人
     label_added_time_by: "%{author} %{age}によって追加されました。"
@@ -200,6 +204,7 @@ ja:
     label_menu_collapse: 以下を非表示
     label_menu_expand: 展開
     label_more_than_ago: 今日より○日前以前
+    label_my_page: My page
     label_next: 次へ
     label_no_data: 表示できるデータがありません。
     label_no_due_date: 完了日なし
@@ -218,7 +223,9 @@ ja:
     label_visibility_settings: 表示の設定
     label_quote_comment: このコメントを引用
     label_reset: リセット
+    label_remove_column: Remove column
     label_remove_columns: 選択した列を削除
+    label_remove_row: Remove row
     label_save_as: 名前をつけて保存
     label_select_watcher: ウォッチャーを選択...
     label_selected_filter_list: 選択されたフィルタ
@@ -240,6 +247,7 @@ ja:
     label_activity_show_only_comments: コメントのみのアクティビティを表示
     label_activity_show_all: すべてのアクティビティを表示
     label_total_progress: "%{percent}% 進行状況"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: 更新日時
     label_warning: 注意
     label_work_package: 作業項目
@@ -350,6 +358,10 @@ ja:
           includes: 含む
           requires: 要求する
           required: に必要
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: ウォッチャーを読み込み中...
       label_error_loading: ウォッチャーを読み込み中にエラーが発生しました。

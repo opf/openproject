@@ -32,13 +32,16 @@ class ServiceResult
   attr_accessor :success,
                 :errors,
                 :result,
+                :context,
                 :dependent_results
 
   def initialize(success: false,
                  errors: nil,
+                 context: {},
                  result: nil)
     self.success = success
     self.result = result
+    self.context = context
     self.errors = if errors
                     errors
                   elsif result.respond_to?(:errors)
@@ -68,6 +71,23 @@ class ServiceResult
   def all_errors
     [errors] + dependent_results.map(&:errors)
   end
+
+  ##
+  # Collect all present errors for the given result
+  # and dependent results.
+  #
+  # Returns a map of the service reuslt to the error object
+  def results_with_errors(include_self: true)
+    results =
+      if include_self
+        [self] + dependent_results
+      else
+        dependent_results
+      end
+
+    results.reject { |call| call.errors.empty? }
+  end
+
 
   def self_and_dependent
     [self] + dependent_results

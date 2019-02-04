@@ -27,11 +27,11 @@
 #++
 
 class ParamsToQueryService
-  attr_accessor :model,
-                :user
+  attr_accessor :user,
+                :query_class
 
-  def initialize(model, user)
-    self.model = model
+  def initialize(model, user, query_class: nil)
+    set_query_class(query_class, model)
     self.user = user
   end
 
@@ -120,9 +120,13 @@ class ParamsToQueryService
     @conversion_model ||= ::API::Utilities::QueryFiltersNameConverterContext.new(query_class)
   end
 
-  def query_class
-    model_name = model.name
+  def set_query_class(query_class, model)
+    self.query_class = if query_class
+                         query_class
+                       else
+                         model_name = model.name
 
-    "::Queries::#{model_name.pluralize}::#{model_name}Query".constantize
+                         "::Queries::#{model_name.pluralize}::#{model_name}Query".constantize
+                       end
   end
 end

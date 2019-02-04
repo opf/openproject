@@ -754,7 +754,6 @@ tr:
   button_print: Yazdır
   button_quote: Alıntı
   button_remove: Kaldır
-  button_remove_widget: Widgetleri kaldır
   button_rename: Yeniden adlandır
   button_replace: Değiştir
   button_revoke: Revoke
@@ -1425,7 +1424,6 @@ tr:
   label_my_account: Hesabım
   label_my_account_data: Hesap verilerim
   label_my_page: Benim sayfam
-  label_my_page_block: Sayfa bloğum
   label_my_projects: Projelerim
   label_my_queries: Özel sorgularım
   label_never: Hiçbir zaman
@@ -1533,7 +1531,6 @@ tr:
   label_repository_plural: Depolar
   label_required: gerekli
   label_requires: gerektirir
-  label_responsible_for_work_packages: Sorumlusu olduğum iş paketleri
   label_result_plural: Sonuçlar
   label_reverse_chronological_order: Ters tarih sırasına göre
   label_revision: Gözden geçirme
@@ -1726,7 +1723,6 @@ tr:
     bazı listelerde)
   label_keyboard_shortcut_focus_next_item: Sonraki liste öğesine odakla (yalnızca
     bazı listelerde)
-  label_visible_elements: Görünür öğeler
   auth_source:
     using_abstract_auth_source: Özet kimlik doğrulama kaynağı kullanılamıyor.
     ldap_error: 'LDAP-Hatası: %{error_message}'
@@ -2878,3 +2874,7 @@ tr:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Widgetleri kaldır
+  label_my_page_block: Sayfa bloğum
+  label_responsible_for_work_packages: Sorumlusu olduğum iş paketleri
+  label_visible_elements: Görünür öğeler

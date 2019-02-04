@@ -150,9 +150,13 @@ sk:
     label_activity_no: Záznam aktivity číslo %{activityNo}
     label_activity_with_comment_no: Záznam aktivity číslo %{activityNo} (obsahuje
       komentár)
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Add columns
     label_add_comment: Pridať komentár
     label_add_comment_title: Komentujte a napíšte @ pre upozornenie ďalších ľudí
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Pridať vybraté stĺpce
     label_added_by: Pridal
     label_added_time_by: Pridal %{author} %{age}
@@ -209,6 +213,7 @@ sk:
     label_menu_collapse: zbaliť
     label_menu_expand: rozbaliť
     label_more_than_ago: pred viac než dňom
+    label_my_page: My page
     label_next: Ďalšie
     label_no_data: Žiadne dáta na zobrazenie
     label_no_due_date: bez dátumu ukončenia
@@ -227,7 +232,9 @@ sk:
     label_visibility_settings: Nastavenia viditeľnosti
     label_quote_comment: Citovať tento komentár
     label_reset: Vynulovať
+    label_remove_column: Remove column
     label_remove_columns: Odstrániť vybraté stĺpce
+    label_remove_row: Remove row
     label_save_as: Uložiť ako
     label_select_watcher: Vybrať pozorovateľa ...
     label_selected_filter_list: Vybrané filtre
@@ -249,6 +256,7 @@ sk:
     label_activity_show_only_comments: Zobraziť len aktivity s komentármi
     label_activity_show_all: Zobraziť všetky aktivity
     label_total_progress: "%{percent}% celkový priebeh"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: aktualizované
     label_warning: Upozornenie
     label_work_package: Pracovný balíček
@@ -389,6 +397,10 @@ sk:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: načítanie pozorovateľov...
       label_error_loading: Vyskytla sa chyba pri načítavaní pozorovateľov

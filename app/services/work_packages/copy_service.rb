@@ -59,6 +59,8 @@ class WorkPackages::CopyService
       copy_watchers(copied.result)
     end
 
+    copied.context = { copied_from: work_package }
+
     copied
   end
 

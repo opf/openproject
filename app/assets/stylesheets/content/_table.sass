@@ -220,18 +220,18 @@ thead.-sticky th
   &.hover
     background:   #f8f8f8
 
-  &.-hidden-content
-    .generic-table--header,
-    .generic-table--sort-header
-      visibility: hidden
-      // Matches the min-width of .generic-table--header, .generic-table--sort-header
-      max-width: 40px
-
 .generic-table--empty-header
   padding:       0 6px
   height:        $generic-table--header-height
   border-bottom: 1px solid $table-row-border-color
   z-index:       1
+
+  // In case the table header contains invisible content for screen readers
+  .generic-table--header,
+  .generic-table--sort-header
+    visibility: hidden
+    // Matches the min-width of .generic-table--header, .generic-table--sort-header
+    max-width: 40px
 
 .generic-table--column-spacer
   white-space:  nowrap
@@ -276,6 +276,7 @@ thead.-sticky th
   border:       1px solid $gray
   border-radius: $global-radius
   padding:      14px 14px 14px 36px
+  display:      block
 
   > i,
   .generic-table--no-results-title

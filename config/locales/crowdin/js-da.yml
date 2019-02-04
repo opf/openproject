@@ -150,9 +150,13 @@ da:
     label_activity_no: Aktivitetsindlægsnummer %{activityNo}
     label_activity_with_comment_no: Aktivitetsindlægsnummer %{activityNo}. Har en
       brugerkommentar.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Add columns
     label_add_comment: Tilføj kommentar
     label_add_comment_title: Comment and type @ to notify other people
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Tilføj valgte kolonner
     label_added_by: tilføjet af
     label_added_time_by: Tilføjet af %{author} %{age}
@@ -210,6 +214,7 @@ da:
     label_menu_collapse: Fold menu sammen
     label_menu_expand: Fold menu ud
     label_more_than_ago: mere end dage siden
+    label_my_page: My page
     label_next: Næste
     label_no_data: Ingen data at vise
     label_no_due_date: ingen slutdato
@@ -228,7 +233,9 @@ da:
     label_visibility_settings: Visibility settings
     label_quote_comment: Citér denne kommentar
     label_reset: Nulstil
+    label_remove_column: Remove column
     label_remove_columns: Fjern valgte kolonner
+    label_remove_row: Remove row
     label_save_as: Gem som
     label_select_watcher: Vælg en tilsynsførende...
     label_selected_filter_list: Valgte filtre
@@ -250,6 +257,7 @@ da:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: 'Samlet fremskridt: %{percent}%'
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: opdateret d.
     label_warning: Advarsel
     label_work_package: Arbejdspakke
@@ -389,6 +397,10 @@ da:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: indlæser iagttagere...
       label_error_loading: En fejl opstod under indlæsning af seere

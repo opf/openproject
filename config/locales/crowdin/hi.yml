@@ -764,7 +764,6 @@ hi:
   button_print: Print
   button_quote: उद्धरण
   button_remove: Remove
-  button_remove_widget: विजेट हटाएँ
   button_rename: नाम बदलें
   button_replace: Replace
   button_revoke: Revoke
@@ -1434,7 +1433,6 @@ hi:
   label_my_account: My account
   label_my_account_data: My account data
   label_my_page: My page
-  label_my_page_block: My page block
   label_my_projects: My projects
   label_my_queries: My custom queries
   label_never: Never
@@ -1541,7 +1539,6 @@ hi:
   label_repository_plural: Repositories
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: कार्य पैकेज जिनके लिए मैं उत्तरदायी हूं
   label_result_plural: Results
   label_reverse_chronological_order: In reverse chronological order
   label_revision: Revision
@@ -1733,7 +1730,6 @@ hi:
     lists only)
   label_keyboard_shortcut_focus_next_item: Focus next list element (on some lists
     only)
-  label_visible_elements: Visible elements
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -2885,3 +2881,7 @@ hi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: विजेट हटाएँ
+  label_my_page_block: My page block
+  label_responsible_for_work_packages: कार्य पैकेज जिनके लिए मैं उत्तरदायी हूं
+  label_visible_elements: Visible elements
