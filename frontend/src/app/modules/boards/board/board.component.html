@@ -22,9 +22,14 @@
     </div>
   </div>
 
+  <label for="cardView">
+    Show as cards
+    <input type="checkbox" name="cardView" [(ngModel)]="useCardView" />
+  </label>
+
   <div class="boards-list--container">
     <div class="boards-list--item" *ngFor="let query of board.queries">
-      <board-list [queryInput]="query"></board-list>
+      <board-list [useCardView]="useCardView" [queryInput]="query"></board-list>
     </div>
 
     <div class="boards-list--add-item"

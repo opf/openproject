@@ -1,6 +1,9 @@
-<div class="work-package--cards-container -small-font">
+<div #container
+     class="work-package--cards-container -small-font"
+     [ngClass]="{ '-draggable': isDraggable }">
   <div class="work-package--card"
-       *ngFor="let wp of workPackages">
+       *ngFor="let wp of workPackages; trackBy:trackByHref"
+       [attr.data-work-package-id]="wp.id">
 
     <wp-edit-field-group [workPackage]="wp">
       <wp-edit-field [workPackageId]="wp.id"

@@ -31,6 +31,8 @@ export class BoardComponent implements OnInit {
     addList: 'Add list'
   };
 
+  useCardView = false;
+
   constructor(private readonly state:StateService,
               private readonly I18n:I18nService,
               private readonly notifications:NotificationsService,

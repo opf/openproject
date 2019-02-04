@@ -25,14 +25,17 @@ import {BoardInlineCreateService} from "core-app/modules/boards/board/board-list
 export class BoardListComponent implements OnInit, OnDestroy {
   @Input() queryInput:number|QueryResource;
 
+  /** Whether we use the card view */
+  @Input() useCardView:boolean;
+
   @ViewChild('loadingIndicator') indicator:ElementRef;
 
   /** The query resource being loaded */
   public query$:Observable<QueryResource>;
 
-
   /** Rename events */
   public rename$ = new Subject<string>();
+
 
   constructor(private readonly QueryDm:QueryDmService,
               private readonly loadingIndicator:LoadingIndicatorService) {
@@ -83,7 +86,7 @@ export class BoardListComponent implements OnInit, OnDestroy {
       actionsColumnEnabled: false,
       dragAndDropEnabled: true,
       isEmbedded: true,
-      isCardView: false
+      isCardView: this.useCardView
     };
   }
 

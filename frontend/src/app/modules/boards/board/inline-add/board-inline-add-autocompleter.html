@@ -5,7 +5,6 @@
            [multiple]="false"
            [loading]="isLoading"
            [typeahead]="searchInput$"
-           [ngModel]="selectedWorkPackageId"
            (close)="cancel()"
            (ngModelChange)="addWorkPackageToQuery($event)">
   <ng-template ng-label-tmp let-item="item">

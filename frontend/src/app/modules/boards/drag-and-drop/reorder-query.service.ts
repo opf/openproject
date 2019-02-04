@@ -51,7 +51,7 @@ export class ReorderQueryService {
     return this.updateQuery(tableState.query.value, order);
   }
 
-  private getCurrentOrder(tableState:TableState) {
+  protected getCurrentOrder(tableState:TableState):string[] {
     return tableState
       .renderedWorkPackages
       .mapOr((rows) => rows.map(row => row.workPackageId!.toString()), []);

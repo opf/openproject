@@ -28,7 +28,7 @@ export class BoardService {
     const path = this.boardPath(projectIdentifier);
 
     return from(
-        this.GridDm.list({ filters: [['page', '=', [path]]] })
+        this.GridDm.list({ filters: [['scope', '=', [path]]] })
       )
       .pipe(
         map(collection => collection.elements.map(grid => new Board(grid, 'Board name')))
@@ -68,7 +68,7 @@ export class BoardService {
    * @param projectIdentifier The current project identifier
    */
   public boardPath(projectIdentifier:string|null = this.CurrentProject.identifier) {
-    return '/boards'; // this.PathHelper.projectBoardsPath(projectIdentifier);
+    return this.PathHelper.projectBoardsPath(projectIdentifier);
   }
 
   /**
@@ -87,7 +87,7 @@ export class BoardService {
 
   private createGrid():Promise<GridResource> {
     const path = this.boardPath();
-    let payload = _.set({}, '_links.page.href', path);
+    let payload = _.set({}, '_links.scope.href', path);
 
     return this.GridDm
       .createForm(payload)

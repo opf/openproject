@@ -17,6 +17,9 @@
 
     <wp-card-view *ngIf="boardTableConfiguration.isCardView"
                   [loadedQuery]="query"
+                  [queryId]="query.id"
+                  [loadedQuery]="query"
+                  [configuration]="boardTableConfiguration"
                   [queryProps]="columnsQueryProps"></wp-card-view>
   </ng-container>
 </div>
