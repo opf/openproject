@@ -73,8 +73,6 @@ export class GlobalSearchInputComponent implements OnDestroy {
   private $element:JQuery;
   private input:HTMLElement;
 
-  private unregisterGlobalListener:Function | undefined;
-
   public text:{ [key:string]:string } = {
     all_projects: this.I18n.t('js.global_search.all_projects'),
     this_project: this.I18n.t('js.global_search.this_project'),
@@ -98,30 +96,10 @@ export class GlobalSearchInputComponent implements OnDestroy {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.input = this.ngSelectComponent.element;
 
-    this.searchTermChanged
-      .pipe(
-        distinctUntilChanged(),
-        debounceTime(250),
-        untilComponentDestroyed(this)
-      )
-      .subscribe((searchTerm:string) => {
-        this.searchTerm = searchTerm;
-        this.cdRef.detectChanges();
-      });
-
-    this.globalSearchService.searchTerm$
-      .pipe(
-        distinctUntilChanged(),
-        untilComponentDestroyed(this)
-      )
-      .subscribe((searchTerm:string) => {
-        this.searchTerm = searchTerm;
-        this.cdRef.detectChanges();
-      });
   }
 
   ngOnDestroy():void {
-    this.unregister();
+    // nothing to do
   }
 
   // detect if click is outside or inside the element
@@ -130,7 +108,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
     event.stopPropagation();
     event.preventDefault();
 
-    // TODO: make button load the right query
+    // handle click on the search button
     if (ContainHelpers.insideOrSelf(this.btn.nativeElement, event.target)) {
       this.submitNonEmptySearch();
     }
@@ -153,35 +131,49 @@ export class GlobalSearchInputComponent implements OnDestroy {
   // load work packages result list for searched term
   public handleUserInput($event:any) {
     this.searchTerm = $event;
+    this.globalSearchService.searchTerm = this.searchTerm;
 
-    (this.searchTerm === '') ? this.closeMenu() : this.ngSelectComponent.isOpen = true;
-
-    if (this.searchTerm !== null && this.searchTerm !== '') {
-      this.globalSearchService.searchTerm = this.searchTerm;
+    if (this.searchTerm !== '') {
       this.getSearchResult(this.searchTerm);
     }
+
+    this.toggleMenu();
   }
 
-  public closeMenu() {
-    this.ngSelectComponent.isOpen = false;
+  public toggleMenu() {
+    // close menu when input field is empty
+    if (this.searchTerm !== '') {
+      this.ngSelectComponent.isOpen = true;
+    } else {
+      this.ngSelectComponent.isOpen = false;
+    }
   }
 
   public onFocus() {
     this.expanded = true;
+    this.ngSelectComponent.filterValue = this.searchTerm;
   }
 
   public onFocusOut() {
     this.expanded = false;
-    this.ngSelectComponent.filterValue = this.searchTerm;
-    this.closeMenu();
+    this.ngSelectComponent.isOpen = false;
   }
 
   private getSearchResult(term:string) {
     this.autocompleteWorkPackages(term).then((values) => {
-      this.results = values.map((wp:any) => {
+      this.results = this.suggestions.concat(values.map((wp:any) => {
         return { id: wp.id, subject: wp.subject, status: wp.status.name, statusId: wp.status.idFromLink, $href: wp.$href };
-      });
+      }));
     });
+  }
+
+  public customSearchFn(term:string, item:any):boolean {
+    // return all project scope items and all items which contain the search term
+    if (item.id === undefined || item.subject.toLowerCase().indexOf(term.toLowerCase()) !== -1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   private autocompleteWorkPackages(query:string):Promise<(any)[]> {
@@ -197,15 +189,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
 
     let href:string = this.PathHelperService.api.v3.wpBySubjectOrId(query, idOnly);
 
-    this.suggestions = [];
-    if (this.currentProjectService.path) {
-      this.suggestions.push('this_project_and_all_descendants');
-      this.suggestions.push('this_project');
-    }
-    this.suggestions.push('all_projects');
-    this.suggestions = this.suggestions.map((suggestion:string) => {
-      return { projectScope: suggestion, text: this.text[suggestion] }
-    });
+    this.addSuggestions();
 
     return this.halResourceService
       .get<CollectionResource<WorkPackageResource>>(href)
@@ -216,8 +200,23 @@ export class GlobalSearchInputComponent implements OnDestroy {
         return collection.elements;
       }).catch(() => {
         this.hideSpinner();
-        return this.suggestions;
       });
+  }
+
+  // set the possible 'search in scope' options for the current project path
+  private addSuggestions() {
+    this.suggestions = [];
+    // add all options when searching within a project
+    // otherwise search in 'all projects'
+    if (this.currentProjectService.path) {
+      this.suggestions.push('this_project_and_all_descendants');
+      this.suggestions.push('this_project');
+    }
+    this.suggestions.push('all_projects');
+
+    this.suggestions = this.suggestions.map((suggestion:string) => {
+      return { projectScope: suggestion, subject: this.text[suggestion] }
+    });
   }
 
   private searchInScope(scope:string) {
@@ -249,7 +248,6 @@ export class GlobalSearchInputComponent implements OnDestroy {
   }
 
   public submitNonEmptySearch(forcePageLoad:boolean = false) {
-    this.globalSearchService.searchTerm = this.searchValue;
     if (this.searchValue !== '') {
       // Work package results can update without page reload.
       if (!forcePageLoad &&
@@ -272,13 +270,6 @@ export class GlobalSearchInputComponent implements OnDestroy {
 
   private hideSpinner():void {
     this.$element.find('.ui-autocomplete--loading').hide();
-  }
-
-  private unregister() {
-    if (this.unregisterGlobalListener) {
-      this.unregisterGlobalListener();
-      this.unregisterGlobalListener = undefined;
-    }
   }
 
   private get searchValue() {

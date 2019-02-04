@@ -177,16 +177,11 @@ $search-input-width-expanded: 300px
   height: $header-height
   line-height: $header-height
   margin: 0 15px
-  > div
-    padding-top: 9px
 
   .top-menu-search--button
     position: absolute
     right: 2px
     @include varprop(font-size, header-item-font-size)
-    font-weight: normal
-    background: transparent
-    z-index: 10
     @include varprop(color, header-item-font-color)
     &:hover
       text-decoration: none
@@ -194,18 +189,12 @@ $search-input-width-expanded: 300px
   .top-menu-search--button.-input-focused
     color: $header-search-field-font-color
 
+  .top-menu-search--loading
+    top: $header-height
 
   .ng-select
-    margin: 0
-    border-width: 1px
-    border-style: solid
-    @include varprop(border-color, header-item-font-color)
-    border-radius: 4px
-    height: 32px
     width: $search-input-width
     font-size: 0.9rem
-    background: transparent
-    @include varprop(color, header-item-font-color)
     -webkit-transition: width 0.2s ease-in-out
     transition: width 0.2s ease-in-out
     &::-ms-clear
@@ -214,27 +203,21 @@ $search-input-width-expanded: 300px
 
     .ng-select-container
       background: transparent
-      border: none
-
-    .ng-value-container
-      height: 30px
-      position: absolute
-      top: 0
+      border: 1px solid $header-item-font-color !important
+      max-height: 32px
+      min-height: unset
 
     .ng-arrow-wrapper
-      display: none
+      opacity: 0
 
     .ng-clear-wrapper
-      position: absolute
-      right: 25px
       @include varprop(color, header-item-font-color)
 
     .ng-input
       top: 0 !important
-
       input
         height: 30px
-        color: white
+        color: $header-item-font-color
 
     .ng-placeholder
       color: $header-item-font-color !important
@@ -242,9 +225,7 @@ $search-input-width-expanded: 300px
   .ng-select.-expanded
     width: $search-input-width-expanded
     background: white
-    border-width: 1px
-    border-style: solid
-    @include varprop(border-color, header-item-font-color)
+    border-radius: 4px
     color: $header-search-field-font-color
 
     .ng-placeholder,
@@ -260,49 +241,43 @@ $search-input-width-expanded: 300px
       .ng-option
         border-bottom: 1px solid #EAEAEA
 
-    .ng-dropdown-panel-items,
-    .scroll-host
-      overflow: unset
-      overflow-y: unset
+      .ng-option,
+        height: $header-height
+        white-space: normal
 
-    .ng-dropdown-header
-      border-bottom: none
-      padding: 0
+      .scroll-host
+        //overwrite scroll behaviour
+        overflow: unset
 
-      .ui-menu-item
-        color: black
-        cursor: pointer
-        line-height: 18px
-        padding: 10px
+      .search-autocomplete--wp-id
+        color: $gray-dark
+        font-size: 13px
+        white-space: nowrap
 
-        &:hover
-          background: #ebf5ff
+      .ng-dropdown-header
+        border-bottom: none
+        padding: 0
 
-        .ui-menu-item-wrapper
-          display: flex
-          align-items: center
+        .ui-menu-item
+          cursor: pointer
+          padding: 0 10px
+          &:hover
+            background: #ebf5ff
 
-        .search-autocomplete--project-scope
-          display: inline-block
-          position: absolute
-          right: 7px
-          border: 1px solid $button--border-color
-          font-size: 13px
-          background: $button--background-color
-          border-radius: 2px
-          padding: 3px 4px
-          margin-left: 5px
-          line-height: 1.5
+          .ui-menu-item-wrapper
+            display: flex
+            align-items: center
 
-  .top-menu-search--loading
-    top: $header-height
-    top: $header-height
-    left: 0
+          .search-autocomplete--project-scope
+            position: absolute
+            right: 7px
+            border: 1px solid $button--border-color
+            font-size: 13px
+            background: $button--background-color
+            border-radius: 2px
+            padding: 3px 4px
+            line-height: 1.5
 
-  .search-autocomplete--wp-id
-    color: $gray-dark
-    font-size: 13px
-    white-space: nowrap
 
 #quick-search
   float: right
