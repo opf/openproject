@@ -233,50 +233,31 @@ $search-input-width-expanded: 300px
     input
       color: $header-search-field-font-color !important
 
-    .ng-dropdown-panel
+    .scroll-host
       @include styled-scroll-bar-vertical
-      overflow-y: auto
 
-      .ng-dropdown-header .ui-menu-item,
       .ng-option
         border-bottom: 1px solid #EAEAEA
-
-      .ng-option,
-        height: $header-height
         white-space: normal
-
-      .scroll-host
-        //overwrite scroll behaviour
-        overflow: unset
 
       .search-autocomplete--wp-id
         color: $gray-dark
         font-size: 13px
         white-space: nowrap
 
-      .ng-dropdown-header
-        border-bottom: none
-        padding: 0
+      .ui-menu-item-wrapper
+        padding: 5px 5px
+        line-height: 25px
+        word-break: break-word
 
-        .ui-menu-item
-          cursor: pointer
-          padding: 0 10px
-          &:hover
-            background: #ebf5ff
-
-          .ui-menu-item-wrapper
-            display: flex
-            align-items: center
-
-          .search-autocomplete--project-scope
-            position: absolute
-            right: 7px
-            border: 1px solid $button--border-color
-            font-size: 13px
-            background: $button--background-color
-            border-radius: 2px
-            padding: 3px 4px
-            line-height: 1.5
+      .search-autocomplete--project-scope
+        position: absolute
+        right: 7px
+        border: 1px solid $button--border-color
+        font-size: 13px
+        background: $button--background-color
+        border-radius: 2px
+        padding: 0 4px
 
 
 #quick-search
@@ -368,7 +349,7 @@ $search-input-width-expanded: 300px
 
   .nosidebar &
     display: none
-    
+
   &:hover
     @extend %top-menu-hover-styles
 

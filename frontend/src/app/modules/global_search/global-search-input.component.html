@@ -21,7 +21,6 @@
                 (open)="toggleMenu()"
                 (change)="onChange($event)"
                 (keyup.enter)="submitNonEmptySearch()"
-                [markFirst]="false"
                 [virtualScroll]="true"
                 [searchFn]="customSearchFn">
         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
