@@ -100,7 +100,7 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
   protected abstract loadQuery(visible:boolean):Promise<any>;
 
   protected get queryProjectScope() {
-    if (!this.configuration.projectContext) {
+    if (!(this.configuration && this.configuration.projectContext)) {
       return undefined;
     } else {
       return this.projectIdentifier;

@@ -76,7 +76,7 @@ module Components
       end
 
       def expect_open
-        expect(page).to have_selector(selector)
+        expect(page).to have_selector(selector, wait: 40)
       end
 
       def expect_closed
