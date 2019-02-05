@@ -698,7 +698,7 @@ fi:
   button_change_password: Vaihda salasana
   button_check_all: Valitse kaikki
   button_clear: Tyhjää
-  button_close: Close
+  button_close: Sulje
   button_collapse_all: Tiivistä kaikki
   button_configure: Asetukset
   button_continue: Jatka
@@ -722,7 +722,7 @@ fi:
   button_login: Kirjaudu
   button_move: Siirrä
   button_move_and_follow: Siirrä ja seuraa
-  button_print: Print
+  button_print: Tulosta
   button_quote: Siteeraa
   button_remove: Poista
   button_remove_widget: Poista widgetti
@@ -923,7 +923,7 @@ fi:
   default_type_feature: Feature
   default_type_milestone: Milestone
   default_type_phase: Phase
-  default_type_task: Task
+  default_type_task: Tehtävä
   default_type_user_story: User story
   description_active: Aktiivinen?
   description_attachment_toggle: Show/Hide attachments
@@ -937,7 +937,7 @@ fi:
   description_choose_project: Projektit
   description_compare_from: Verrattuna
   description_compare_to: Verrattuna
-  description_current_position: 'You are here:'
+  description_current_position: 'Olet täällä:'
   description_date_from: Syötä aloituspäivämäärä
   description_date_range_interval: Valitse alkamis- ja päättymispäivämäärä
   description_date_range_list: Valitse alue luettelosta
@@ -2405,7 +2405,7 @@ fi:
   timelines:
     admin_menu:
       color: Väri
-      colors: Colors
+      colors: Värit
     associations: Riippuvuudet
     board_could_not_be_saved: Taulua ei voitu tallentaa
     button_delete_all: Poista kaikki
@@ -2470,7 +2470,7 @@ fi:
         none: None
         relative: Relative
         compare_relative_prefix: Compare current planning to
-        compare_relative_suffix: ago
+        compare_relative_suffix: sitten
         compare_absolute: Compare current planning to %{date}
       time_relative:
         days: päivää

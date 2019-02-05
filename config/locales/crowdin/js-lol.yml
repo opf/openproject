@@ -538,8 +538,8 @@ lol:
       label_filter_add: crwdns107760:0crwdne107760:0
       label_options: crwdns107762:0crwdne107762:0
       label_column_multiselect: crwdns107764:0crwdne107764:0
-      label_switch_to_single_select: crwdns112902:0crwdne112902:0
-      label_switch_to_multi_select: crwdns112904:0crwdne112904:0
+      label_switch_to_single_select: crwdns113094:0crwdne113094:0
+      label_switch_to_multi_select: crwdns113096:0crwdne113096:0
       message_error_during_bulk_delete: crwdns107770:0crwdne107770:0
       message_successful_bulk_delete: crwdns107772:0crwdne107772:0
       message_successful_show_in_fullscreen: crwdns107774:0crwdne107774:0
