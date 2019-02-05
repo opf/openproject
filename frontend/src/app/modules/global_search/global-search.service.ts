@@ -73,7 +73,7 @@ export class GlobalSearchService {
 
       if (initialData.project_scope) {
         this._projectScope.next(initialData.project_scope);
-      } else if (this.currentProjectService.path) {
+      } else if (!this.currentProjectService.path) {
         this._projectScope.next('all');
       }
     }
