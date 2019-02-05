@@ -691,8 +691,8 @@ lol:
         days: crwdns107996:0crwdne107996:0
         weeks: crwdns107998:0crwdne107998:0
         months: crwdns108000:0crwdne108000:0
-      label_switch_to_single_select: crwdns112902:0crwdne112902:0
-      label_switch_to_multi_select: crwdns112904:0crwdne112904:0
+      label_switch_to_single_select: crwdns113094:0crwdne113094:0
+      label_switch_to_multi_select: crwdns113096:0crwdne113096:0
     toolbar:
       settings:
         configure_view: crwdns108002:0crwdne108002:0
