@@ -58,7 +58,7 @@ gem 'awesome_nested_set', '~> 3.1.3'
 gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
 gem 'typed_dag', '~> 2.0.2'
 
-gem 'addressable', '~> 2.5.2'
+gem 'addressable', '~> 2.6.0'
 
 # Provide timezone info for TZInfo used by AR
 gem 'tzinfo-data', '~> 1.2018.9'
@@ -94,7 +94,7 @@ gem 'date_validator', '~> 0.9.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
-gem 'sys-filesystem', '~> 1.1.4', require: false
+gem 'sys-filesystem', '~> 1.2.0', require: false
 
 # Faster posix-compliant spawns for 8.0. conversions with pandoc
 gem 'posix-spawn', '~> 0.3.13', require: false
@@ -133,7 +133,7 @@ gem 'lograge', '~> 0.10.0'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
-gem 'airbrake', '~> 7.4.0', require: false
+gem 'airbrake', '~> 8.0.1', require: false
 
 gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.git',
                           branch: 'master'
@@ -144,7 +144,7 @@ gem 'prawn-table', '~> 0.2.2'
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.0.9'
 
-gem 'meta-tags', '~> 2.6.0'
+gem 'meta-tags', '~> 2.11.0'
 
 group :production do
   # we use dalli as standard memcache client
@@ -173,7 +173,7 @@ gem 'nokogiri', '~> 1.10.0'
 gem 'carrierwave', '~> 1.3.1'
 gem 'fog-aws'
 
-gem 'aws-sdk-core', '~> 3.45.0'
+gem 'aws-sdk-core', '~> 3.46.0'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.30.1'
 
@@ -219,7 +219,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.12.0'
+  gem 'capybara', '~> 3.13.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'chromedriver-helper', '~> 2.1.0'
