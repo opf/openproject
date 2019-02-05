@@ -60,6 +60,14 @@ module API
                  type: 'Integer',
                  visibility: false
 
+          schema :name,
+                 type: 'String',
+                 visibility: false
+
+          schema :options,
+                 type: 'JSON',
+                 visibility: false
+
           schema_with_allowed_collection :scope,
                                          type: 'Href',
                                          required: true,

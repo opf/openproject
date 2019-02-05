@@ -58,7 +58,7 @@ export class PayloadDmService {
     }
 
     _.each(nonLinkProperties, property => {
-      if (resource.hasOwnProperty(property)) {
+      if (resource.hasOwnProperty(property) || resource[property]) {
         if (Array.isArray(resource[property])) {
           payload[property] = _.map(resource[property], (element:any) => {
             if (element instanceof HalResource) {

@@ -14,8 +14,9 @@
           <input class="toolbar--editable-toolbar -border-on-hover-only form--text-field"
                  autocomplete="off"
                  type="text"
+                 [placeholder]="text.unnamedBoard"
                  [ngModel]="board.name"
-                 (ngModelChange)="updateBoardName(board, $event)"
+                 (ngModelChange)="rename$.next($event)"
                  name="board_name" />
         </span>
       </div>

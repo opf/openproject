@@ -31,7 +31,7 @@ export class BoardService {
         this.GridDm.list({ filters: [['scope', '=', [path]]] })
       )
       .pipe(
-        map(collection => collection.elements.map(grid => new Board(grid, 'Board name')))
+        map(collection => collection.elements.map(grid => new Board(grid)))
       );
   }
 
@@ -41,7 +41,7 @@ export class BoardService {
   public one(id:number):Observable<Board> {
     return from(this.GridDm.one(id))
       .pipe(
-        map(grid => new Board(grid, 'Board name'))
+        map(grid => new Board(grid))
       );
   }
 
@@ -77,7 +77,7 @@ export class BoardService {
    */
   public async create(name:string = 'New board'):Promise<Board> {
     const grid = await this.createGrid();
-    const board = new Board(grid, name);
+    const board = new Board(grid);
 
     await this.BoardsList.addQuery(board);
 
@@ -87,7 +87,7 @@ export class BoardService {
 
   private createGrid():Promise<GridResource> {
     const path = this.boardPath();
-    let payload = _.set({}, '_links.scope.href', path);
+    let payload = _.set({ name: 'Unnamed board' }, '_links.scope.href', path);
 
     return this.GridDm
       .createForm(payload)
