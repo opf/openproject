@@ -37,6 +37,8 @@ import {BoardsRootComponent} from "core-app/modules/boards/boards-root/boards-ro
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {BoardInlineAddAutocompleterComponent} from "core-app/modules/boards/board/inline-add/board-inline-add-autocompleter.component";
+import {BoardsMenuComponent} from "core-app/modules/boards/board/boards-menu.component";
+import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 
 export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -72,16 +74,19 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   providers: [
     BoardService,
     BoardListsService,
+    BoardCacheService,
   ],
   declarations: [
     BoardsModuleComponent,
     BoardComponent,
     BoardListComponent,
     BoardsRootComponent,
-    BoardInlineAddAutocompleterComponent
+    BoardInlineAddAutocompleterComponent,
+    BoardsMenuComponent
   ],
   entryComponents: [
-    BoardInlineAddAutocompleterComponent
+    BoardInlineAddAutocompleterComponent,
+    BoardsMenuComponent
   ]
 })
 export class OpenprojectBoardsModule { }
