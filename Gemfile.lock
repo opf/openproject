@@ -807,7 +807,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sqlite3 (1.3.13)
+    sqlite3 (1.4.0)
     stackprof (0.2.12)
     stringex (2.8.5)
     svg-graph (2.1.3)
