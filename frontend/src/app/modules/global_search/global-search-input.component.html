@@ -9,8 +9,8 @@
       </div>
     </div>
      <ng-select [items]="results"
-                 name="q"
-                 id="q"
+                name="q"
+                id="q"
                 [ngClass]="'top-menu-search--input'"
                 [class.-expanded]="expanded"
                 placeholder="{{text.search}}"
@@ -20,7 +20,6 @@
                 (focusout)="onFocusOut()"
                 (open)="toggleMenu()"
                 (change)="onChange($event)"
-                (keyup.enter)="submitNonEmptySearch()"
                 [virtualScroll]="true"
                 [searchFn]="customSearchFn">
         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
@@ -33,9 +32,9 @@
             </div>
           </div>
           <ng-template #isWorkPackageItem>
-            <div data-value="item.id" tabindex="-1" class="ui-menu-item">
+            <div tabindex="-1" class="ui-menu-item">
               <div class="ui-menu-item-wrapper" tabindex="-1">
-                <span class="search-autocomplete--wp-id __hl_dot_status_{{item.statusId}}" title="item.status"> #{{item.id}} </span>
+                <span class="search-autocomplete--wp-id __hl_dot_status_{{item.statusId}}" title="{{item.status}}"> #{{item.id}} </span>
                 <span class="search-autocomplete--subject"> {{item.subject}} </span>
               </div>
             </div>

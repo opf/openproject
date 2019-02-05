@@ -192,7 +192,7 @@ $search-input-width-expanded: 300px
   .top-menu-search--loading
     top: $header-height
 
-  .ng-select
+  .ng-select#q
     width: $search-input-width
     font-size: 0.9rem
     -webkit-transition: width 0.2s ease-in-out
@@ -203,61 +203,81 @@ $search-input-width-expanded: 300px
 
     .ng-select-container
       background: transparent
-      border: 1px solid $header-item-font-color !important
+      border-width: 1px
+      border-style: solid
+      @include varprop(border-color, header-item-font-color)
       max-height: 32px
       min-height: unset
+      &:hover
+        @include varprop(border-color, header-item-font-hover-color)
 
     .ng-arrow-wrapper
       opacity: 0
 
     .ng-clear-wrapper
       @include varprop(color, header-item-font-color)
+      top: 1px
 
     .ng-input
-      top: 0 !important
+      top: 0
       input
+        @include varprop(color, header-item-font-color)
         height: 30px
-        color: $header-item-font-color
+        cursor: text
 
     .ng-placeholder
-      color: $header-item-font-color !important
+      @include varprop(color, header-item-font-color)
 
-  .ng-select.-expanded
-    width: $search-input-width-expanded
-    background: white
-    border-radius: 4px
-    color: $header-search-field-font-color
+    &.-expanded
+      width: $search-input-width-expanded
+      background: white
+      border-radius: 4px
+      color: $header-search-field-font-color
 
-    .ng-placeholder,
-    .ng-clear-wrapper,
-    input
-      color: $header-search-field-font-color !important
+      .ng-select-container
+        border-radius: 4px !important
 
-    .scroll-host
-      @include styled-scroll-bar-vertical
+      .ng-select-bottom
+        top: calc(100% + 12px)
 
-      .ng-option
-        border-bottom: 1px solid #EAEAEA
-        white-space: normal
+      .ng-placeholder,
+      .ng-clear-wrapper,
+      input
+        @include varprop(color, header-search-field-font-color)
 
-      .search-autocomplete--wp-id
-        color: $gray-dark
-        font-size: 13px
-        white-space: nowrap
+      .scroll-host
+        @include styled-scroll-bar-vertical
+        max-height: 50vh
+        height: auto
 
-      .ui-menu-item-wrapper
-        padding: 5px 5px
-        line-height: 25px
-        word-break: break-word
+        .ng-option
+          border-bottom: 1px solid #EAEAEA
+          white-space: normal
+          &:last-child
+            border-bottom: none
+          &.ng-option-marked
+            @include varprop(background-color, drop-down-hover-bg-color)
+          &.ng-option-disabled
+            display: none
 
-      .search-autocomplete--project-scope
-        position: absolute
-        right: 7px
-        border: 1px solid $button--border-color
-        font-size: 13px
-        background: $button--background-color
-        border-radius: 2px
-        padding: 0 4px
+        .search-autocomplete--wp-id
+          color: $gray-dark
+          font-size: 13px
+          white-space: nowrap
+
+        .ui-menu-item-wrapper
+          padding: 5px 5px
+          line-height: 25px
+          word-break: break-word
+
+        .search-autocomplete--project-scope
+          position: absolute
+          right: 7px
+          border: 1px solid $button--border-color
+          font-size: 13px
+          background: $button--background-color
+          border-radius: 2px
+          padding: 0 4px
 
 
 #quick-search

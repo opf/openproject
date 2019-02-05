@@ -26,16 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  ViewChild
-} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, HostListener} from '@angular/core';
 import {ContainHelpers} from 'app/modules/common/focus/contain-helpers';
-import {FocusHelperService} from 'app/modules/common/focus/focus-helper';
 import {I18nService} from 'app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
 import {PathHelperService} from "app/modules/common/path-helper/path-helper.service";
@@ -44,10 +36,7 @@ import {WorkPackageResource} from "app/modules/hal/resources/work-package-resour
 import {CollectionResource} from "app/modules/hal/resources/collection-resource";
 import {DynamicCssService} from "app/modules/common/dynamic-css/dynamic-css.service";
 import {GlobalSearchService} from "app/modules/global_search/global-search.service";
-import {debounceTime, distinctUntilChanged} from "rxjs/operators";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {CurrentProjectService} from "app/components/projects/current-project.service";
-import {Subject, Subscription} from "rxjs";
 import {NgSelectComponent} from "@ng-select/ng-select";
 
 export const globalSearchSelector = 'global-search-input';
@@ -57,21 +46,16 @@ export const globalSearchSelector = 'global-search-input';
   templateUrl: './global-search-input.component.html'
 })
 
-export class GlobalSearchInputComponent implements OnDestroy {
+export class GlobalSearchInputComponent implements OnInit {
   @ViewChild('btn') btn:ElementRef;
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
-  public focused:boolean = false;
-  public noResults = false;
   public searchTerm:string = '';
   public expanded:boolean = false;
   public results:any[];
   public suggestions:any[];
 
-  private searchTermChanged:Subject<string> = new Subject<string>();
-
   private $element:JQuery;
-  private input:HTMLElement;
 
   public text:{ [key:string]:string } = {
     all_projects: this.I18n.t('js.global_search.all_projects'),
@@ -86,7 +70,6 @@ export class GlobalSearchInputComponent implements OnDestroy {
               readonly halResourceService:HalResourceService,
               readonly dynamicCssService:DynamicCssService,
               readonly globalSearchService:GlobalSearchService,
-              readonly cdRef:ChangeDetectorRef,
               readonly currentProjectService:CurrentProjectService) {
   }
 
@@ -94,12 +77,6 @@ export class GlobalSearchInputComponent implements OnDestroy {
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
-    this.input = this.ngSelectComponent.element;
-
-  }
-
-  ngOnDestroy():void {
-    // nothing to do
   }
 
   // detect if click is outside or inside the element
@@ -108,32 +85,28 @@ export class GlobalSearchInputComponent implements OnDestroy {
     event.stopPropagation();
     event.preventDefault();
 
-    // handle click on the search button
+    // handle click on search button
     if (ContainHelpers.insideOrSelf(this.btn.nativeElement, event.target)) {
       this.submitNonEmptySearch();
     }
-    // handle clicks for searching in a specific scope
-    let scopeElements = jQuery('.ng-dropdown-header')[0];
-    if (scopeElements && ContainHelpers.insideOrSelf(scopeElements, event.target)) {
-      let projectScope = jQuery(event.target).parent().find('.search-autocomplete--project-scope').attr("title");
-      if (projectScope) {
-        this.searchInScope(projectScope);
-      }
+  }
+
+  // load selected item
+  public onChange($event:any) {
+    let selectedOption = $event;
+    if (selectedOption.id) {  // item is a work package element
+      this.redirectToWp(selectedOption.id);
+    } else {                  // item is a 'scope' element
+      this.searchInScope(selectedOption.projectScope);
     }
   }
 
-  // load selected work package
-  public onChange($event:any) {
-    let selectedOption = $event;
-    this.redirectToWp(selectedOption.id);
-  }
-
-  // load work packages result list for searched term
+  // load result list for searched term
   public handleUserInput($event:any) {
     this.searchTerm = $event;
     this.globalSearchService.searchTerm = this.searchTerm;
 
-    if (this.searchTerm !== '') {
+    if (this.searchTerm.length > 0) {
       this.getSearchResult(this.searchTerm);
     }
 
@@ -142,7 +115,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
 
   public toggleMenu() {
     // close menu when input field is empty
-    if (this.searchTerm !== '') {
+    if (this.searchTerm.length > 0) {
       this.ngSelectComponent.isOpen = true;
     } else {
       this.ngSelectComponent.isOpen = false;
@@ -159,6 +132,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
     this.ngSelectComponent.isOpen = false;
   }
 
+  // get work packages result list and append it to suggestions
   private getSearchResult(term:string) {
     this.autocompleteWorkPackages(term).then((values) => {
       this.results = this.suggestions.concat(values.map((wp:any) => {
@@ -179,7 +153,10 @@ export class GlobalSearchInputComponent implements OnDestroy {
   private autocompleteWorkPackages(query:string):Promise<(any)[]> {
     this.dynamicCssService.requireHighlighting();
 
+    // hide empty dropdown while spinner is shown
+    setTimeout( () => this.$element.find('.ng-dropdown-panel').hide());
     this.$element.find('.ui-autocomplete--loading').show();
+
     let idOnly:boolean = false;
 
     if (query.match(/^#\d+$/)) {
@@ -195,7 +172,6 @@ export class GlobalSearchInputComponent implements OnDestroy {
       .get<CollectionResource<WorkPackageResource>>(href)
       .toPromise()
       .then((collection) => {
-        this.noResults = collection.count === 0;
         this.hideSpinner();
         return collection.elements;
       }).catch(() => {
@@ -220,6 +196,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
   }
 
   private searchInScope(scope:string) {
+    console.log("Search in scope! ", scope);
     switch (scope) {
       case 'all_projects': {
         let forcePageLoad = false;
@@ -248,7 +225,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
   }
 
   public submitNonEmptySearch(forcePageLoad:boolean = false) {
-    if (this.searchValue !== '') {
+    if (this.searchValue.length > 0) {
       // Work package results can update without page reload.
       if (!forcePageLoad &&
           this.globalSearchService.isAfterSearch() &&
@@ -270,6 +247,7 @@ export class GlobalSearchInputComponent implements OnDestroy {
 
   private hideSpinner():void {
     this.$element.find('.ui-autocomplete--loading').hide();
+    this.$element.find('.ng-dropdown-panel').show();
   }
 
   private get searchValue() {
