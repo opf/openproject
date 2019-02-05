@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
 import {from, Observable, Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged, filter, tap, withLatestFrom} from "rxjs/operators";
@@ -31,6 +31,9 @@ export class BoardComponent implements OnInit, OnDestroy {
   public board$:Observable<Board|undefined>;
 
   public text = {
+    delete: this.I18n.t('js.button_delete'),
+    areYouSure: "Are you sure?",
+    deleteSuccessful: 'Deletion successful',
     unnamedBoard: 'Unnamed board',
     loadingError: 'No such board found',
     addList: 'Add list'
@@ -86,8 +89,8 @@ export class BoardComponent implements OnInit, OnDestroy {
     // Nothing to do.
   }
 
-  showError() {
-    this.notifications.addError(this.text.loadingError);
+  showError(text = this.text.loadingError) {
+    this.notifications.addError(text);
   }
 
   addList(board:Board) {
@@ -97,5 +100,16 @@ export class BoardComponent implements OnInit, OnDestroy {
       .then(saved => {
         this.BoardCache.update(saved);
       });
+  }
+
+  destroyBoard(board:Board) {
+    if (!window.confirm(this.text.areYouSure)) {
+      return;
+    }
+
+    this.Boards
+      .delete(board)
+      .then(() => this.notifications.addSuccess(this.text.deleteSuccessful))
+      .catch((error) => this.showError(error));
   }
 }

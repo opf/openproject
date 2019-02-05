@@ -19,6 +19,18 @@
                  (ngModelChange)="rename$.next($event)"
                  name="board_name" />
         </span>
+        <ul class="toolbar-items">
+          <li class="toolbar-item">
+            <zen-mode-toggle-button></zen-mode-toggle-button>
+          </li>
+          <li class="toolbar-item">
+            <accessible-by-keyboard (execute)="destroyBoard(board)"
+                                    linkClass="boards--destroy-button button -danger">
+              <op-icon icon-classes="button--icon icon-delete"></op-icon>
+              {{ text.delete }}
+            </accessible-by-keyboard>
+          </li>
+        </ul>
       </div>
     </div>
   </div>

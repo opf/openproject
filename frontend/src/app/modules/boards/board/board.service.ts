@@ -84,6 +84,10 @@ export class BoardService {
     return board;
   }
 
+  public delete(board:any) {
+    return Promise.reject("Not implemented");
+  }
+
 
   private createGrid():Promise<GridResource> {
     const path = this.boardPath();
@@ -96,4 +100,5 @@ export class BoardService {
         return this.GridDm.create(resource, form.schema);
       });
   }
+
 }
