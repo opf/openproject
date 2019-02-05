@@ -1,4 +1,6 @@
-import {Injectable} from "@angular/core";
+import {Inject, Injectable, OnDestroy} from "@angular/core";
+import {DOCUMENT} from "@angular/common";
+import {keyCodes} from "core-app/modules/common/keyCodes.enum";
 
 export interface DragMember {
   container:HTMLElement;
@@ -9,11 +11,25 @@ export interface DragMember {
 }
 
 @Injectable()
-export class DragAndDropService {
+export class DragAndDropService implements OnDestroy {
 
   public drake:dragula.Drake|null = null;
 
   public members:DragMember[] = [];
+
+  private unregisterEscapeListener:Function;
+
+  constructor(@Inject(DOCUMENT) private document:Document) {
+    this.document.documentElement.addEventListener('keydown', (evt:KeyboardEvent) => {
+      if (this.drake && evt.key === 'Escape') {
+        this.drake.cancel(true);
+      }
+    });
+  }
+
+  ngOnDestroy():void {
+    this.unregisterEscapeListener();
+  }
 
   public remove(container:HTMLElement) {
     if (this.initialized) {
