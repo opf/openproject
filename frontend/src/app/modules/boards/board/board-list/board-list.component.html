@@ -8,18 +8,20 @@
            name="board_list_name"
            type="text" />
 
-    <wp-embedded-table *ngIf="boardTableConfiguration.isEmbedded && !boardTableConfiguration.isCardView"
-                       [queryId]="query.id"
-                       [loadedQuery]="query"
-                       [queryProps]="columnsQueryProps"
-                       [configuration]="boardTableConfiguration">
-    </wp-embedded-table>
+    <div class="board-list--query-container">
+      <wp-embedded-table *ngIf="boardTableConfiguration.isEmbedded && !boardTableConfiguration.isCardView"
+                         [queryId]="query.id"
+                         [loadedQuery]="query"
+                         [queryProps]="columnsQueryProps"
+                         [configuration]="boardTableConfiguration">
+      </wp-embedded-table>
 
-    <wp-card-view *ngIf="boardTableConfiguration.isCardView"
-                  [loadedQuery]="query"
-                  [queryId]="query.id"
-                  [loadedQuery]="query"
-                  [configuration]="boardTableConfiguration"
-                  [queryProps]="columnsQueryProps"></wp-card-view>
+      <wp-card-view *ngIf="boardTableConfiguration.isCardView"
+                    [loadedQuery]="query"
+                    [queryId]="query.id"
+                    [loadedQuery]="query"
+                    [configuration]="boardTableConfiguration"
+                    [queryProps]="columnsQueryProps"></wp-card-view>
+    </div>
   </ng-container>
 </div>
