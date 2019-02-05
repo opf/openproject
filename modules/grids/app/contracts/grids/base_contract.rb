@@ -55,6 +55,10 @@ module Grids
 
     attribute :widgets
 
+    attribute :name
+
+    attribute :options
+
     def self.model
       Grid
     end

@@ -65,9 +65,13 @@ module API
 
         property :id
 
+        property :name
+
         property :row_count
 
         property :column_count
+
+        property :options
 
         property :widgets,
                  exec_context: :decorator,
