@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
+  ElementRef, Inject,
   Injector,
   OnInit,
   ViewChild
@@ -42,6 +42,7 @@ import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and
 import {CardReorderQueryService} from "core-components/wp-card-view/card-reorder-query.service";
 import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
 
 
 @Component({
@@ -79,11 +80,16 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
   public workPackages:any[];
   public columns:QueryColumn[];
   public availableColumns:QueryColumn[];
-  public text:any = {
-    wp_id_added_by: this.I18n.t('js.label_wp_id_added_by', {id: '', author: ''})
+  public text = {
+    addNewCard: 'Add new card',
+    wpAddedBy: (wp:WorkPackageResource) =>
+      this.I18n.t('js.label_wp_id_added_by', {id: wp.id, author: wp.author.name})
   };
 
   @ViewChild('container') public container:ElementRef;
+
+  /** Whether the card view has an active inline created wp */
+  public activeInlineCreateWp?:WorkPackageResource;
 
   constructor(readonly QueryDm:QueryDmService,
               readonly tableState:TableState,
@@ -97,6 +103,8 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
               readonly wpTablePagination:WorkPackageTablePaginationService,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               readonly currentProject:CurrentProjectService,
+              @Inject(IWorkPackageCreateServiceToken) readonly wpCreate:WorkPackageCreateService,
+              readonly wpInlineCreate:WorkPackageInlineCreateService,
               readonly dragService:DragAndDropService,
               readonly reorderService:ReorderQueryService,
               readonly wpTableRefresh:WorkPackageTableRefreshService,
@@ -120,8 +128,7 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
 
     this.registerDragAndDrop();
 
-    this.text.wp_id_added_by = (wp:WorkPackageResource) =>
-     this.I18n.t('js.label_wp_id_added_by', {id: wp.id, author: wp.author.name});
+    this.registerCreationCallback();
 
     combine(
       this.tableState.columns,
@@ -132,7 +139,14 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
       untilComponentDestroyed(this)
     )
     .subscribe(([columns, results]) => {
-      this.workPackages = results.$embedded.elements;
+
+      if (this.activeInlineCreateWp) {
+        this.workPackages = [...results.$embedded.elements, this.activeInlineCreateWp];
+      } else {
+        this.workPackages = results.$embedded.elements;
+      }
+
+      console.warn("New order is %O", this.workPackages.map(el => el.id).join(", "));
 
       this.removeDragged();
 
@@ -168,10 +182,10 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
 
     this.dragService.register({
       container: this.container.nativeElement,
-      moves: () =>  true,
+      moves: (card:HTMLElement) => !card.dataset.isNew,
       onMoved: (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;
-        const toIndex = this.getIndex(wpId);
+        const toIndex = this.getIndex(card);
 
         this.reorderService
           .move(this.tableState, wpId, toIndex)
@@ -188,7 +202,7 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
         // Fix to ensure items that are virtually added get removed quickly
         card.classList.add('__was_dragged');
         const wpId:string = card.dataset.workPackageId!;
-        const toIndex = this.getIndex(wpId);
+        const toIndex = this.getIndex(card);
 
         this.reorderService
           .add(this.tableState, wpId, toIndex)
@@ -197,7 +211,56 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
     });
   }
 
-  private getIndex(wpId:string) {
-    return _.findIndex(this.workPackages, (wp) => wp.id.toString() === wpId);
+
+  /**
+   * Inline create a new card
+   */
+  addNewCard() {
+    this.wpCreate
+      .createOrContinueWorkPackage(this.currentProject.identifier)
+      .then((changeset:WorkPackageChangeset) => {
+        this.activeInlineCreateWp = changeset.workPackage;
+        this.workPackages = [...this.workPackages, this.activeInlineCreateWp];
+        this.cdRef.detectChanges();
+      });
   }
+
+  /**
+   * Listen to newly created work packages to detect whether the WP is the one we created,
+   * and properly reset inline create in this case
+   */
+  private registerCreationCallback() {
+    this.wpCreate
+      .onNewWorkPackage()
+      .pipe(untilComponentDestroyed(this))
+      .subscribe((wp:WorkPackageResource) => {
+        if (this.activeInlineCreateWp && this.activeInlineCreateWp.__initialized_at === wp.__initialized_at) {
+          const index = this.workPackages.indexOf(this.activeInlineCreateWp);
+          this.activeInlineCreateWp = undefined;
+
+          // Add this item to the results
+          this.reorderService
+            .add(this.tableState, wp.id, index)
+            .then(() => this.wpTableRefresh.request('Drag and Drop added item'));
+
+          // Notify inline create service
+          this.wpInlineCreate.newInlineWorkPackageCreated.next(wp.id);
+        }
+      });
+  }
+
+  /**
+   * Remove the new card
+   */
+  removeNewCard(wp:WorkPackageResource) {
+    const index = this.workPackages.indexOf(wp);
+    this.workPackages.splice(index, 1);
+    this.activeInlineCreateWp = undefined;
+    this.cdRef.detectChanges();
+  }
+
+  private getIndex(card:HTMLElement) {
+    return _.findIndex(card.parentElement!.children, el => card === el);
+  }
+
 }
