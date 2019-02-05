@@ -33,5 +33,6 @@ require_dependency 'grids/grid'
 module Boards
   class Grid < ::Grids::Grid
     belongs_to :project
+    validates_presence_of :name
   end
 end

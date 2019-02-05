@@ -32,6 +32,8 @@ module Grids
   class Grid < ActiveRecord::Base
     self.table_name = :grids
 
+    serialize :options, Hash
+
     has_many :widgets,
              class_name: 'Widget',
              autosave: true

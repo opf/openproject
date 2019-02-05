@@ -157,7 +157,7 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
     this.container.nativeElement
       .querySelectorAll('.__was_dragged')
       .map((el:HTMLElement) => {
-        el.parentElement && el.parentElement!.remove(el);
+        el.parentElement && el.parentElement!.removeChild(el);
       });
   }
 
