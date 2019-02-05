@@ -1,17 +1,70 @@
+<div class="toolbar">
+  <div class="title-container">
+    <h2 [textContent]="text.boards">
+    </h2>
+  </div>
+  <ul class="toolbar-items">
+    <li class="toolbar-item">
+      <a class="button -alt-highlight"
+         (click)="newBoard()">
+        <op-icon icon-classes="icon-add icon4">
+        </op-icon>
+        <span class="button--text"
+              [textContent]="text.board">
+        </span>
+      </a>
+    </li>
+  </ul>
+</div>
+
 <div *ngIf="(boards$ | async) as boards"
      class="boards--listing-group loading-indicator--location"
      data-indicator-name="boards-module">
-  <div *ngFor="let board of boards"
-       class="boards--listing-item">
-    <a [textContent]="board.name"
-       uiSref="boards.show"
-       [uiParams]="{ id: board.id }">
-    </a>
-  </div>
-  <div class="boards--listing-item -new">
-    <a (click)="newBoard()">
-      <op-icon icon-classes="icon-add icon-context"></op-icon>
-      <span [textContent]="text.create"></span>
-    </a>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                 <span [textContent]="text.name">
+                 </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                 <span [textContent]="text.createdAt">
+                 </span>
+                </div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let board of boards">
+          <td>
+           <a [textContent]="board.name"
+                 uiSref="boards.show"
+                 [uiParams]="{ id: board.id }">
+           </a>
+          </td>
+          <td>
+            <op-date-time [dateTimeValue]="board.createdAt"></op-date-time>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

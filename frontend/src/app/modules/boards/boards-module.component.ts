@@ -9,13 +9,15 @@ import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'boards-module',
-  templateUrl: './boards-module.component.html',
-  styleUrls: ['./boards-module.component.sass']
+  templateUrl: './boards-module.component.html'
 })
 export class BoardsModuleComponent {
 
   public text = {
-    create: this.I18n.t('js.relation_buttons.create_new')
+    name: this.I18n.t('js.modals.label_name'),
+    board: this.I18n.t('js.label_board'),
+    boards: this.I18n.t('js.label_board_plural'),
+    createdAt: this.I18n.t('js.label_created_on'),
   };
 
   public boards$:Observable<Board[]> = this.Boards.allInScope()
