@@ -156,7 +156,7 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
   removeDragged() {
     this.container.nativeElement
       .querySelectorAll('.__was_dragged')
-      .map((el:HTMLElement) => {
+      .forEach((el:HTMLElement) => {
         el.parentElement && el.parentElement!.removeChild(el);
       });
   }
