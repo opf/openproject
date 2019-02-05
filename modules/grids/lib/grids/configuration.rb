@@ -147,6 +147,10 @@ class Grids::Configuration
       end
 
       def defaults(hash = nil)
+        # This is called during code load, which
+        # may not have the table available.
+        return unless Grids::Widget.table_exists?
+
         if hash
           @defaults = hash
         end
