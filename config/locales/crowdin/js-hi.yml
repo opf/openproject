@@ -553,14 +553,6 @@ hi:
     tl_toolbar:
       zooms: Zoom level
       outlines: Hierarchy level
-    unsupported_browser:
-      title: Your browser version is not supported
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Learn more
-      close_warning: Ignore this warning.
     upsale:
       ee_only: केवल एंटरप्राइज संस्करण में सुविधा
     wiki_formatting:
@@ -857,3 +849,11 @@ hi:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    unsupported_browser:
+      title: Your browser version is not supported
+      message: The browser version you are using is no longer supported by OpenProject.
+      update_message: Please update your browser.
+      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
+        to Microsoft Edge.
+      learn_more: Learn more
+      close_warning: Ignore this warning.

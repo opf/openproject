@@ -554,14 +554,6 @@ pl:
     tl_toolbar:
       zooms: Powiększenie
       outlines: Poziom hierarchii
-    unsupported_browser:
-      title: Twoja wersja przeglądarki nie jest obsługiwana
-      message: Wersja przeglądarki, której używasz nie jest już wspierana przez OpenProject.
-      update_message: Prosimy uaktualnić przeglądarkę.
-      update_ie_user: Proszę przejść do programu Mozilla Firefox lub Google Chrome,
-        lub zaistalować przeglądarkę Microsoft Edge.
-      learn_more: Dowiedz się więcej
-      close_warning: Zignoruj to ostrzeżenie.
     upsale:
       ee_only: Funkcja dostępna tylko w wersji Enterprise
     wiki_formatting:
@@ -862,3 +854,11 @@ pl:
     zen_mode:
       button_activate: Włącz tryb zen
       button_deactivate: Wyłącz tryb zen
+    unsupported_browser:
+      title: Twoja wersja przeglądarki nie jest obsługiwana
+      message: Wersja przeglądarki, której używasz nie jest już wspierana przez OpenProject.
+      update_message: Prosimy uaktualnić przeglądarkę.
+      update_ie_user: Proszę przejść do programu Mozilla Firefox lub Google Chrome,
+        lub zaistalować przeglądarkę Microsoft Edge.
+      learn_more: Dowiedz się więcej
+      close_warning: Zignoruj to ostrzeżenie.

@@ -552,15 +552,6 @@ hu:
     tl_toolbar:
       zooms: Nagyítási szint
       outlines: Hierarchia szint
-    unsupported_browser:
-      title: Az ön böngészője nem támogatott
-      message: Az ön által használt böngésző verzióját már nem támogatja az OpenProject.
-        Kérjük frissítse böngészőjét.
-      update_message: Kérjük frissítse a böngészőjét.
-      update_ie_user: Kérjük frissítse böngészőjét Mozilla Firefox, Google Chrome
-        vagy Microsoft Edge-re.
-      learn_more: További információ
-      close_warning: Figyelmeztetés figyelmen kívül hagyása.
     upsale:
       ee_only: Ez csak az Enterprise Edition-ban elérhető
     wiki_formatting:
@@ -856,3 +847,12 @@ hu:
     zen_mode:
       button_activate: Zen mód aktiválása
       button_deactivate: Zen mód kikapcsolása
+    unsupported_browser:
+      title: Az ön böngészője nem támogatott
+      message: Az ön által használt böngésző verzióját már nem támogatja az OpenProject.
+        Kérjük frissítse böngészőjét.
+      update_message: Kérjük frissítse a böngészőjét.
+      update_ie_user: Kérjük frissítse böngészőjét Mozilla Firefox, Google Chrome
+        vagy Microsoft Edge-re.
+      learn_more: További információ
+      close_warning: Figyelmeztetés figyelmen kívül hagyása.

@@ -74,6 +74,7 @@ import {NoResultsComponent} from "core-app/modules/common/no-results/no-results.
 import {NgSelectModule} from "@ng-select/ng-select";
 import {UserAutocompleterComponent} from "app/modules/common/autocomplete/user-autocompleter.component";
 import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
+import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -229,8 +230,8 @@ export function bootstrapModule(injector:Injector) {
     ConfigurationService,
     PathHelperService,
     HTMLSanitizeService,
-
     TimezoneService,
+    BrowserDetector,
   ]
 })
 export class OpenprojectCommonModule { }

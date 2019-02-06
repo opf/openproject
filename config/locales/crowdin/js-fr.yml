@@ -572,15 +572,6 @@ fr:
     tl_toolbar:
       zooms: Niveau de zoom
       outlines: Niveau de hiérarchie
-    unsupported_browser:
-      title: La version de votre navigateur n'est pas prise en charge
-      message: La version du navigateur que vous utilisez n'est plus supportée par
-        OpenProject.
-      update_message: Veuillez mettre à jour votre navigateur.
-      update_ie_user: Veuillez passer à Mozilla Firefox ou Google Chrome, ou mettre
-        à niveau vers Microsoft Edge.
-      learn_more: En savoir plus
-      close_warning: Ignorer cet avertissement.
     upsale:
       ee_only: Fonctionnalité exclusive Version Entreprise
     wiki_formatting:
@@ -882,3 +873,12 @@ fr:
     zen_mode:
       button_activate: Activer le mode zen
       button_deactivate: Désactiver le mode zen
+    unsupported_browser:
+      title: La version de votre navigateur n'est pas prise en charge
+      message: La version du navigateur que vous utilisez n'est plus supportée par
+        OpenProject.
+      update_message: Veuillez mettre à jour votre navigateur.
+      update_ie_user: Veuillez passer à Mozilla Firefox ou Google Chrome, ou mettre
+        à niveau vers Microsoft Edge.
+      learn_more: En savoir plus
+      close_warning: Ignorer cet avertissement.

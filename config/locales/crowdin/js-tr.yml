@@ -554,15 +554,6 @@ tr:
     tl_toolbar:
       zooms: Yakınlaştırma düzeyi
       outlines: Hiyerarşi düzeyi
-    unsupported_browser:
-      title: Tarayıcı sürümü desteklenmiyor
-      message: Kullanmakta olduğunuz tarayıcı sürümü OpenProject tarafından artık
-        desteklenmemektedir. Lütfen tarayıcınızın güncelleştirin.
-      update_message: Lütfen tarayıcınızı güncelleyin.
-      update_ie_user: Lütfen Mozilla Firefox'a veya Google Chrome'a geçiş yapın ya
-        da Microsoft Edge'e yükseltin.
-      learn_more: Daha fazla bilgi edin
-      close_warning: Bu uyarıyı yoksay.
     upsale:
       ee_only: Enterprise Edition özelliği
     wiki_formatting:
@@ -856,3 +847,12 @@ tr:
     zen_mode:
       button_activate: Zen modunu etkinleştir
       button_deactivate: Zen modunu devre dışı bırak
+    unsupported_browser:
+      title: Tarayıcı sürümü desteklenmiyor
+      message: Kullanmakta olduğunuz tarayıcı sürümü OpenProject tarafından artık
+        desteklenmemektedir. Lütfen tarayıcınızın güncelleştirin.
+      update_message: Lütfen tarayıcınızı güncelleyin.
+      update_ie_user: Lütfen Mozilla Firefox'a veya Google Chrome'a geçiş yapın ya
+        da Microsoft Edge'e yükseltin.
+      learn_more: Daha fazla bilgi edin
+      close_warning: Bu uyarıyı yoksay.
