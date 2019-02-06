@@ -30,7 +30,7 @@ $hamburger-right: -3px
 $hamburger-width: 50px
 
 $search-input-width: 200px
-$search-input-width-expanded: 300px
+$search-input-width-expanded: 20vw
 
 %top-menu-hover-styles
   @include varprop(background, header-item-bg-hover-color)
@@ -386,3 +386,7 @@ $search-input-width-expanded: 300px
 @media only screen and (max-width: 1210px)
   #logo
     display: none
+
+  #top-menu
+    .ng-select#q.-expanded
+      width: 250px

@@ -26,9 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-@include breakpoint(778px down)
-  .top-menu-search--wrapper
-    display: none
 @include breakpoint(680px down)
   $hamburger-right: -3px
   $hamburger-width: 50px
@@ -67,27 +64,57 @@
       .nosidebar &
         left: 0px
 
-  #account-nav-right
-    > li
-      display: none
+    .top-menu-search
+      &.-mobile
+        width: 100vw
+        margin: 0
+        padding-right: 15px
 
-      &.drop-down,
-      &:last-child
-        display: block
+        .top-menu-search--button
+          display: none
+          @include varprop(color, header-item-font-color)
 
-      &.last-child
-        > a
-          display: block
+      .ng-select#q.-expanded
+        width: 100%
+        position: unset
+
+        .scroll-host
+          max-height: calc(100vh - #{$header-height})
+          position: unset
+
+        .ng-clear-wrapper
+          width: 40px
+          right: -25px
           text-align: center
 
-      > ul
-        top: $header-height-mobile
-        width: 100vw
-        box-shadow: 1px 1px 4px #cccccc
-        border: solid 1px rgba(0, 0, 0, 0.2)
+        .ng-select-bottom
+          top: $header-height
+          height: calc(100vh - #{$header-height})
+          overflow-y: auto
+          margin: 0
 
-        li
-          max-width: none
+        .ng-select-container
+          max-height: unset
+
+        .ng-input input
+          height: 36px
+
+      #top-menu-search-back-button
+        width: 50px
+        text-align: center
+        @include varprop(color, header-item-font-color)
+        &:hover, &:focus, &:active
+          text-decoration: none
+
+  #account-nav-right
+    > li ul
+      top: $header-height-mobile
+      width: 100vw
+      box-shadow: 1px 1px 4px #cccccc
+      border: solid 1px rgba(0, 0, 0, 0.2)
+
+      li
+        max-width: none
 
     #more-menu.drop-down--modules
       // 58 = Width of one menu item
@@ -123,4 +150,3 @@
       border-left: none !important
     .project-menu-autocomplete--results
       border-bottom: 2px solid $header-drop-down-border-color !important
-
