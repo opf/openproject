@@ -128,9 +128,9 @@ export class PathHelperService {
 
   public projectBoardsPath(projectIdentifier:string | null) {
     if (projectIdentifier) {
-      return this.projectPath(projectIdentifier) + '/boards';
+      return this.projectWorkPackagesPath(projectIdentifier) + '/boards';
     } else {
-      return this.appBasePath + '/boards';
+      return this.workPackagesPath() + '/boards';
     }
   }
 

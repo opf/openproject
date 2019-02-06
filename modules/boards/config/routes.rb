@@ -1,9 +1,9 @@
 OpenProject::Application.routes.draw do
-  scope '', as: 'boards' do
-    scope 'projects/:project_id', as: 'project' do
-      get '/boards(/*state)', to: 'boards/boards#index'
-    end
+  scope '', as: :work_package_boards do
+    get '/work_packages/boards(/*state)', to: 'boards/boards#index'
+  end
 
-    get '/boards(/*state)', to: 'boards/boards#index'
+  scope 'projects/:project_id', as: 'project' do
+    get '/work_packages/boards(/*state)', to: 'boards/boards#index', as: :work_package_boards
   end
 end

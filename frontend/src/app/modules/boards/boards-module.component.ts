@@ -20,7 +20,8 @@ export class BoardsModuleComponent {
     createdAt: this.I18n.t('js.label_created_on'),
     delete: this.I18n.t('js.button_delete'),
     areYouSure: this.I18n.t('js.text_are_you_sure'),
-    deleteSuccessful: this.I18n.t('js.notice_successful_delete')
+    deleteSuccessful: this.I18n.t('js.notice_successful_delete'),
+    noResults: this.I18n.t('js.notice_no_results_to_display')
   };
 
   public boards$:Observable<Board[]> = this.BoardCache.observeAll();

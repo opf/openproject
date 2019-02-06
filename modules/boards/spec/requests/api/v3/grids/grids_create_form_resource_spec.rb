@@ -66,7 +66,7 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
           name: 'foo',
           '_links': {
             'scope': {
-              'href': project_boards_path(project)
+              'href': project_work_package_boards_path(project)
             }
           }
         }
@@ -81,7 +81,7 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
           "options": {},
           "_links": {
             "scope": {
-              'href': project_boards_path(project),
+              'href': project_work_package_boards_path(project),
               "type": "text/html"
             }
           }
@@ -111,7 +111,7 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
         {
           '_links': {
             'scope': {
-              'href': project_boards_path(project)
+              'href': project_work_package_boards_path(project)
             }
           }
         }
@@ -129,7 +129,7 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
         {
           '_links': {
             'scope': {
-              'href': project_boards_path(project_id: project.id + 1)
+              'href': project_work_package_boards_path(project_id: project.id + 1)
             }
           }
         }
@@ -148,7 +148,7 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
           name: 'foo',
           "_links": {
             "scope": {
-              'href': project_boards_path(project),
+              'href': project_work_package_boards_path(project),
               "type": "text/html"
             }
           },

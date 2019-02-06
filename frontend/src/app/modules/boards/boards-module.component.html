@@ -54,6 +54,16 @@
           </tr>
         </thead>
         <tbody>
+        <tr *ngIf="boards.length === 0" id="empty-row-notification">
+          <td colspan="3">
+            <span>
+              <op-icon icon-classes="icon-info1 icon-context"></op-icon>
+              <span>
+                <strong [textContent]="text.noResults"></strong>
+              </span>
+            </span>
+          </td>
+        </tr>
         <tr *ngFor="let board of boards">
           <td>
            <a [textContent]="board.name"

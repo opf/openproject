@@ -64,7 +64,7 @@ describe Grids::Query, type: :model do
   context 'with a scope filter' do
     context 'filtering for a projects/:project_id/boards' do
       before do
-        instance.where('scope', '=', [project_boards_path(project)])
+        instance.where('scope', '=', [project_work_package_boards_path(project)])
       end
 
       describe '#results' do

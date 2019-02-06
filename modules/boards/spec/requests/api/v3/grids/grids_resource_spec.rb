@@ -164,7 +164,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
     it 'identifies the url the grid is stored for' do
       expect(subject.body)
-        .to be_json_eql(project_boards_path(manage_boards_project).to_json)
+        .to be_json_eql(project_work_package_boards_path(manage_boards_project).to_json)
         .at_path('_links/scope/href')
     end
 
@@ -341,7 +341,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
         }],
         "_links": {
           "scope": {
-            "href": project_boards_path(manage_boards_project)
+            "href": project_work_package_boards_path(manage_boards_project)
           }
         }
       }.with_indifferent_access
@@ -390,7 +390,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
           }],
           "_links": {
             "scope": {
-              "href": project_boards_path(manage_boards_project)
+              "href": project_work_package_boards_path(manage_boards_project)
             }
           }
         }.with_indifferent_access
@@ -475,7 +475,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
           }],
           "_links": {
             "scope": {
-              "href": project_boards_path(view_boards_project)
+              "href": project_work_package_boards_path(view_boards_project)
             }
           }
         }.with_indifferent_access

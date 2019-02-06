@@ -44,7 +44,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'boards',
     parent: 'root',
-    url: '/boards',
+    url: '/work_packages/boards',
     redirectTo: 'boards.list',
     component: BoardsRootComponent
   },

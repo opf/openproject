@@ -2,7 +2,7 @@ module OpenProject
   module Boards
     class GridRegistration < ::Grids::Configuration::Registration
       grid_class 'Boards::Grid'
-      to_scope :project_boards_path
+      to_scope :project_work_package_boards_path
 
       widgets 'work_package_query'
 
@@ -31,7 +31,7 @@ module OpenProject
                            .where(id: view_allowed)
                            .or(Project.where(id: manage_allowed))
 
-          paths = board_projects.map { |p| url_helpers.project_boards_path(p) }
+          paths = board_projects.map { |p| url_helpers.project_work_package_boards_path(p) }
 
           paths if paths.any?
         end
