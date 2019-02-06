@@ -90,7 +90,7 @@ describe 'Search', type: :feature, js: true do
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
                                         query: first_wp.id.to_s,
                                         results_selector: '.search-autocomplete--results')
-      expect(suggestions).to have_text('No. 1')
+      expect(suggestions).to have_text('No. 1', wait: 10)
 
       # Typing a hash sign before an ID shall only suggest that work package and (no hits within the subject)
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
@@ -147,6 +147,7 @@ describe 'Search', type: :feature, js: true do
         table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
         table.expect_work_package_count(20) # 20 is the default page size.
         # Expect order to be from newest to oldest.
+        table.expect_work_package_listed(*work_packages[3..23]) # This line ensures that the table is completely rendered.
         table.expect_work_package_order(*work_packages[3..23].map { |wp| wp.id.to_s }.reverse)
 
         # Expect that "Advanced filters" can refine the search:
@@ -160,8 +161,8 @@ describe 'Search', type: :feature, js: true do
         table.expect_work_package_listed(work_packages.last)
         filters.remove_filter('subject')
         page.find('#filter-by-text-input').set(work_packages[9].subject)
+        table.expect_work_package_listed(work_packages[9], wait: 10)
         table.expect_work_package_not_listed(work_packages.last)
-        table.expect_work_package_listed(work_packages[9])
 
         # Expect that changing the advanced filters will not affect the global search input.
         global_search_field = page.find('.top-menu-search--input')
@@ -176,7 +177,7 @@ describe 'Search', type: :feature, js: true do
         # ...and that advanced filter shall have copied the global search input value.
         page.find('.advanced-filters--toggle').click
         filters.expect_open
-        expect(page.find('#filter-by-text-input').value).to eq work_packages[10].subject
+        expect(page).to have_field('Filter by text', with: work_packages[10].subject, wait: 10)
 
         # Expect that changing the search term without using the autocompleter will leave the project scope unchanged
         # at current_project.
