@@ -28,18 +28,34 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Grids
-  class Grid < ActiveRecord::Base
-    self.table_name = :grids
+class Grids::DeleteService
+  include ::Shared::ServiceContext
+  include ::Concerns::Contracted
 
-    serialize :options, Hash
+  attr_accessor :user,
+                :grid,
+                :contract_class
 
-    has_many :widgets,
-             class_name: 'Widget',
-             autosave: true
+  def initialize(user:, grid:, contract_class: Grids::DeleteContract)
+    self.user = user
+    self.grid = grid
+    self.contract_class = contract_class
+  end
 
-    def user_deletable?
-      false
+  def call
+    in_context(false) do
+      delete_grid
     end
+  end
+
+  protected
+
+  def delete_grid
+    binding.pry
+    result, errors = validate_and_yield(grid, user) do
+      grid.delete
+    end
+
+    ServiceResult.new(success: result, errors: errors)
   end
 end

@@ -63,6 +63,15 @@ module API
           }
         end
 
+        link :delete do
+          next unless delete_allowed?
+
+          {
+            href: api_v3_paths.grid(represented.id),
+            method: :delete
+          }
+        end
+
         property :id
 
         property :name, render_nil: false
@@ -111,6 +120,12 @@ module API
         end
 
         private
+
+        def delete_allowed?
+          !represented.new_record? &&
+            represented.user_deletable? &&
+            ::Grids::Configuration.writable?(represented, current_user)
+        end
 
         def scope_path
           path = ::Grids::Configuration.to_scope(represented.class,

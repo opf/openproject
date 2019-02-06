@@ -120,6 +120,20 @@ module API
               end
             end
 
+            delete do
+              raise_if_lacking_manage_permission
+
+              call = ::Grids::DeleteService
+                .new(user: current_user, grid: @grid)
+                .call
+
+              if call.success?
+                status 204
+              else
+                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+              end
+            end
+
             mount UpdateFormAPI
           end
         end

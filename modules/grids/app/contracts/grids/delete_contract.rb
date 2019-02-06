@@ -28,17 +28,29 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require 'grids/base_contract'
+
 module Grids
-  class Grid < ActiveRecord::Base
-    self.table_name = :grids
+  class DeleteContract < BaseContract
 
-    serialize :options, Hash
+    def validate
+      validate_delete_allowed
 
-    has_many :widgets,
-             class_name: 'Widget',
-             autosave: true
+      super
+    end
 
-    def user_deletable?
+    ##
+    # Check whether this grid can be deleted.
+    # The base contract already checks whether we can manage it.
+    def validate_delete_allowed
+      unless model.user_deletable?
+        errors.add(:scope, :unremovable)
+      end
+    end
+
+    protected
+
+    def validate_model?
       false
     end
   end

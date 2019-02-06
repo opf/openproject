@@ -504,6 +504,7 @@ en:
         too_long: "is too long (maximum is %{count} characters)."
         too_short: "is too short (minimum is %{count} characters)."
         unchangeable: "cannot be changed."
+        unremovable: "cannot be removed."
         wrong_length: "is the wrong length (should be %{count} characters)."
       models:
         custom_field:

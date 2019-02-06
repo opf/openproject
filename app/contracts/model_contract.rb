@@ -118,6 +118,10 @@ class ModelContract < Reform::Contract
     run_attribute_validations
 
     super
+
+    # Allow subclasses to check only contract errors
+    return errors.empty? unless validate_model?
+
     model.valid?
 
     # We need to merge the contract errors with the model errors in
@@ -146,6 +150,18 @@ class ModelContract < Reform::Contract
     :activerecord
   end
   # end Methods required to get ActiveModel error messages working
+
+  protected
+
+  ##
+  # Allow subclasses to disable model validation
+  # during contract validation.
+  #
+  # This is necessary during, e.g., deletion contract validations
+  # to ensure invalid models can be deleted when allowed.
+  def validate_model?
+    true
+  end
 
   private
 
