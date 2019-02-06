@@ -17,18 +17,18 @@ export class DragAndDropService implements OnDestroy {
 
   public members:DragMember[] = [];
 
-  private unregisterEscapeListener:Function;
+  private escapeListener = (evt:KeyboardEvent) => {
+    if (this.drake && evt.key === 'Escape') {
+      this.drake.cancel(true);
+    }
+  };
 
   constructor(@Inject(DOCUMENT) private document:Document) {
-    this.document.documentElement.addEventListener('keydown', (evt:KeyboardEvent) => {
-      if (this.drake && evt.key === 'Escape') {
-        this.drake.cancel(true);
-      }
-    });
+    this.document.documentElement.addEventListener('keydown', this.escapeListener);
   }
 
   ngOnDestroy():void {
-    this.unregisterEscapeListener();
+    this.document.documentElement.removeEventListener('keydown', this.escapeListener);
   }
 
   public remove(container:HTMLElement) {
