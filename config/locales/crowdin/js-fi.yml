@@ -551,14 +551,6 @@ fi:
     tl_toolbar:
       zooms: Lähennyksen taso
       outlines: Hierarkian taso
-    unsupported_browser:
-      title: Selaimesi versiota ei tueta
-      message: Selaimesi versiota ei enää tueta.
-      update_message: Päivitäthän selaimesi.
-      update_ie_user: Siirry selaimeen Mozilla Firefox tai Google Chrome, tai päivitä
-        Microsoft Edge.
-      learn_more: Learn more
-      close_warning: Ohita tämä varoitus.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -851,3 +843,11 @@ fi:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    unsupported_browser:
+      title: Selaimesi versiota ei tueta
+      message: Selaimesi versiota ei enää tueta.
+      update_message: Päivitäthän selaimesi.
+      update_ie_user: Siirry selaimeen Mozilla Firefox tai Google Chrome, tai päivitä
+        Microsoft Edge.
+      learn_more: Learn more
+      close_warning: Ohita tämä varoitus.

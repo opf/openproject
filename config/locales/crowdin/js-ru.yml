@@ -557,14 +557,6 @@ ru:
     tl_toolbar:
       zooms: Степень масштабирования
       outlines: Уровень иерархии
-    unsupported_browser:
-      title: Ваша версия браузера не поддерживается
-      message: Версия вашего браузера больше не поддерживается OpenProject.
-      update_message: Пожалуйста, обновите свой браузер.
-      update_ie_user: Пожалуйста перейдите на Mozilla Firefox или Google Chrome, или
-        обновитесь до Microsoft Edge.
-      learn_more: Узнать больше
-      close_warning: Игнорировать это предупреждение.
     upsale:
       ee_only: Эта функция есть только в корпоративной версии
     wiki_formatting:
@@ -869,3 +861,11 @@ ru:
     zen_mode:
       button_activate: Включить дзен-режим
       button_deactivate: Отключить дзен-режим
+    unsupported_browser:
+      title: Ваша версия браузера не поддерживается
+      message: Версия вашего браузера больше не поддерживается OpenProject.
+      update_message: Пожалуйста, обновите свой браузер.
+      update_ie_user: Пожалуйста перейдите на Mozilla Firefox или Google Chrome, или
+        обновитесь до Microsoft Edge.
+      learn_more: Узнать больше
+      close_warning: Игнорировать это предупреждение.

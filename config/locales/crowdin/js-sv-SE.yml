@@ -554,14 +554,6 @@ sv-SE:
     tl_toolbar:
       zooms: Zoomnivå
       outlines: Hierarkinivå
-    unsupported_browser:
-      title: Din version av webbläsaren stöds inte
-      message: Den webbläsarversion som du använder stöds inte längre av OpenProject.
-      update_message: Vänligen uppdatera din webbläsare.
-      update_ie_user: Vänligen byt till Mozilla Firefox eller Google Chrome, eller
-        uppgradera till Microsoft Edge.
-      learn_more: Lär dig mer
-      close_warning: Bortse från denna varning.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -855,3 +847,11 @@ sv-SE:
     zen_mode:
       button_activate: Aktivera zen-läge
       button_deactivate: Inaktivera avskalat läge
+    unsupported_browser:
+      title: Din version av webbläsaren stöds inte
+      message: Den webbläsarversion som du använder stöds inte längre av OpenProject.
+      update_message: Vänligen uppdatera din webbläsare.
+      update_ie_user: Vänligen byt till Mozilla Firefox eller Google Chrome, eller
+        uppgradera till Microsoft Edge.
+      learn_more: Lär dig mer
+      close_warning: Bortse från denna varning.

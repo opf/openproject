@@ -550,14 +550,6 @@ th:
     tl_toolbar:
       zooms: Zoom level
       outlines: Hierarchy level
-    unsupported_browser:
-      title: ไม่รองรับเบราว์เซอร์รุ่นที่คุณใช้
-      message: เบราว์เซอร์รุ่นที่คุณใช้ไม่ได้รับการรองรับโดย OpenProject
-      update_message: กรุณาปรับรุ่นเบราว์เซอร์ของคุณ
-      update_ie_user: กรุณาเปลี่ยนไปใช้ Mozilla Firefox หรือ Google Chrome หรือปรับรุ่นเป็น
-        Microsoft Edge
-      learn_more: เรียนรู้เพิ่มเติม
-      close_warning: ไม่สนใจคำเตือนนี้
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -853,3 +845,11 @@ th:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    unsupported_browser:
+      title: ไม่รองรับเบราว์เซอร์รุ่นที่คุณใช้
+      message: เบราว์เซอร์รุ่นที่คุณใช้ไม่ได้รับการรองรับโดย OpenProject
+      update_message: กรุณาปรับรุ่นเบราว์เซอร์ของคุณ
+      update_ie_user: กรุณาเปลี่ยนไปใช้ Mozilla Firefox หรือ Google Chrome หรือปรับรุ่นเป็น
+        Microsoft Edge
+      learn_more: เรียนรู้เพิ่มเติม
+      close_warning: ไม่สนใจคำเตือนนี้

@@ -502,13 +502,6 @@ zh-TW:
     tl_toolbar:
       zooms: 縮放等級
       outlines: 層次結構級別
-    unsupported_browser:
-      title: 系統不支援您的瀏覽器版本
-      message: Openproject 不再支援您正在使用的瀏覽器版本。
-      update_message: 請升級您的瀏覽器。
-      update_ie_user: 請改用Mozilla Firefox或Google Chrome，或者升級到Microsoft Edge。
-      learn_more: 了解更多
-      close_warning: 忽略此警告。
     upsale:
       ee_only: 僅企業版功能
     wiki_formatting:
@@ -781,3 +774,10 @@ zh-TW:
     zen_mode:
       button_activate: 啟動 zen 模式
       button_deactivate: 停用 zen 模式
+    unsupported_browser:
+      title: 系統不支援您的瀏覽器版本
+      message: Openproject 不再支援您正在使用的瀏覽器版本。
+      update_message: 請升級您的瀏覽器。
+      update_ie_user: 請改用Mozilla Firefox或Google Chrome，或者升級到Microsoft Edge。
+      learn_more: 了解更多
+      close_warning: 忽略此警告。

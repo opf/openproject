@@ -553,14 +553,6 @@ id:
     tl_toolbar:
       zooms: Zoom level
       outlines: Hierarchy level
-    unsupported_browser:
-      title: Versi peramban Anda tidak didukung
-      message: Versi browser yang anda gunakan terlalu usang untuk OpenProject.
-      update_message: Mohon tingkatkan browsermu.
-      update_ie_user: Mohon ubah ke Mozzila atau Google Chrome, atau tingkatkan Microsoft
-        Edge.
-      learn_more: Pelajari lebih lanjut
-      close_warning: Abaikan peringatan ini.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -857,3 +849,11 @@ id:
     zen_mode:
       button_activate: Mengaktifkan modus zen
       button_deactivate: Menonaktifkan modus zen
+    unsupported_browser:
+      title: Versi peramban Anda tidak didukung
+      message: Versi browser yang anda gunakan terlalu usang untuk OpenProject.
+      update_message: Mohon tingkatkan browsermu.
+      update_ie_user: Mohon ubah ke Mozzila atau Google Chrome, atau tingkatkan Microsoft
+        Edge.
+      learn_more: Pelajari lebih lanjut
+      close_warning: Abaikan peringatan ini.

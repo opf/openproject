@@ -2514,6 +2514,11 @@ lol:
           revoked: The access token was revoked
           expired: The access token expired
           unknown: The access token is invalid
+  unsupported_browser:
+    title: Your browser is outdated and unsupported.
+    message: You may run into errors and degraded experience on this page.
+    update_message: Please update your browser.
+    close_warning: Ignore this warning.
   oauth:
     application:
       singular: OAuth application
@@ -2583,7 +2588,7 @@ lol:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: crwdns113086:0crwdne113086:0
-  label_my_page_block: crwdns113088:0crwdne113088:0
-  label_responsible_for_work_packages: crwdns113090:0crwdne113090:0
-  label_visible_elements: crwdns113092:0crwdne113092:0
+  button_remove_widget: crwdns113278:0crwdne113278:0
+  label_my_page_block: crwdns113280:0crwdne113280:0
+  label_responsible_for_work_packages: crwdns113282:0crwdne113282:0
+  label_visible_elements: crwdns113284:0crwdne113284:0
