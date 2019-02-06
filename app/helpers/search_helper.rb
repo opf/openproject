@@ -90,7 +90,6 @@ module SearchHelper
   end
 
   def attachment_filenames(event)
-    # TODO: attribute "filename" might not be available on fog?
     attachment_strings_for(:filename, event)
   end
 
