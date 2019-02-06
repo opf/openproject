@@ -168,6 +168,12 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
       img.classList.add('avatar-mini', 'avatar--fallback');
 
       link.appendChild(img);
+    } else {
+      const div = document.createElement('div');
+      div.classList.add('avatar-mini', 'avatar-default');
+      div.innerText = item.watcher.firstName.charAt(0).toUpperCase() + item.watcher.lastName.charAt(0).toUpperCase();
+
+      link.appendChild(div);
     }
 
     const span = document.createElement('span');

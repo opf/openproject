@@ -35,7 +35,7 @@ AvatarHelper.class_eval do
       elsif avatar_manager.gravatar_enabled?
         build_gravatar_image_tag user, options
       else
-        super
+        build_default_avatar_image_tag user, options
       end
     rescue StandardError => e
       Rails.logger.error "Failed to create avatar for #{user}: #{e}"
@@ -134,6 +134,15 @@ AvatarHelper.class_eval do
       elsif object.to_s =~ %r{<(.+?)>}
         $1
       end
+    end
+  end
+
+  def build_default_avatar_image_tag(user, options = {})
+    tag_options = merge_image_options(user, options)
+    tag_options[:class] << ' avatar avatar-default'
+
+    content_tag :div, tag_options do
+      user.firstname.chars.first.upcase + user.lastname.chars.first.upcase
     end
   end
 

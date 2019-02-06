@@ -1,12 +1,12 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2006-2013 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
 //
 // This program is free software; you can redistribute it and/or
@@ -23,38 +23,37 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.avatar, .gravatar
-  border-radius: $user-avatar-border-radius
-  width: $user-avatar-width
-  height: $user-avatar-height
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
+import {Component, Input, OnInit} from "@angular/core";
+import {UserCacheService} from "core-components/user/user-cache.service";
 
-.avatar-mini
-  border-radius: $user-avatar-mini-border-radius
-  width: $user-avatar-mini-width
-  height: $user-avatar-mini-height
-  margin-right: 10px
-  vertical-align: -5px
+@Component({
+  selector: 'user-avatar',
+  templateUrl: './user-avatar.component.html'
+})
+export class UserAvatarComponent implements OnInit {
+  @Input() public user:UserResource;
+  @Input() public classes:string;
 
-  &.avatar-default
-    line-height: $user-avatar-mini-height
-    font-size: 10px
+  public userInitials:string;
+  public userAvatar:string;
+  public userName:string;
 
-.avatar-default
-  display: inline-block
-  line-height: $user-avatar-height
-  text-align: center
-  vertical-align: middle
-  background-color: $user-avatar-default-bg-color
-  color: white
+  constructor(readonly userCacheService:UserCacheService,) {
+  }
 
-h1, h2, h3, h4, tr
-  .avatar, .avatar-mini
-    vertical-align: middle
-    margin-right: 7px
-
-
-.user-link
-  display: inline-block
+  public ngOnInit() {
+    if(this.user) {
+      this.userCacheService
+        .require(this.user.idFromLink)
+        .then((user:UserResource) => {
+          this.userInitials = user.firstName.charAt(0).toUpperCase() + user.lastName.charAt(0).toUpperCase();
+          this.userAvatar = user.avatar;
+          this.userName = user.name;
+        });
+    }
+  }
+}
