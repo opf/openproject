@@ -76,6 +76,7 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
         "rowCount": 4,
         "columnCount": 5,
         "widgets": [],
+        "options": {},
         "_links": {}
       }
 
@@ -110,10 +111,12 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
         expected = {
           "rowCount": 7,
           "columnCount": 4,
+          "options": {},
           "widgets": [
             {
               "_type": "GridWidget",
               identifier: 'work_packages_assigned',
+              "options": {},
               startRow: 1,
               endRow: 7,
               startColumn: 1,
@@ -122,6 +125,7 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
             {
               "_type": "GridWidget",
               identifier: 'work_packages_created',
+              "options": {},
               startRow: 1,
               endRow: 7,
               startColumn: 3,
@@ -179,6 +183,46 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
         expect(subject.body)
           .to be_json_eql("Widgets is not set to one of the allowed values.".to_json)
           .at_path('_embedded/validationErrors/widgets/message')
+      end
+    end
+
+    context 'with name set' do
+      let(:params) do
+        {
+          name: 'My custom grid 1',
+          '_links': {
+            'scope': {
+              'href': my_page_path
+            }
+          }
+        }
+      end
+
+      it 'feeds it back' do
+        expect(subject.body)
+          .to be_json_eql("My custom grid 1".to_json)
+          .at_path('_embedded/payload/name')
+      end
+    end
+
+    context 'with options set' do
+      let(:params) do
+        {
+          options: {
+            foo: 'bar'
+          },
+          '_links': {
+            'scope': {
+              'href': my_page_path
+            }
+          }
+        }
+      end
+
+      it 'feeds them back' do
+        expect(subject.body)
+          .to be_json_eql("bar".to_json)
+          .at_path('_embedded/payload/options/foo')
       end
     end
   end

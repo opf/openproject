@@ -187,6 +187,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     let(:params) do
       {
         "rowCount": 10,
+        "name": 'foo',
         "columnCount": 15,
         "widgets": [{
           "identifier": "work_packages_assigned",
@@ -216,6 +217,9 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       expect(subject.body)
         .to be_json_eql('Grid'.to_json)
         .at_path('_type')
+      expect(subject.body)
+        .to be_json_eql('foo'.to_json)
+        .at_path('name')
       expect(subject.body)
         .to be_json_eql(params['rowCount'].to_json)
         .at_path('rowCount')

@@ -76,6 +76,7 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
           "rowCount": 1,
           "columnCount": 4,
           "widgets": [],
+          "options": {},
           "_links": {
             "scope": {
               'href': project_boards_path(project),

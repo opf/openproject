@@ -121,6 +121,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
           {
             "_type": "GridWidget",
             "identifier": 'work_packages_assigned',
+            "options": {},
             "startRow": 4,
             "endRow": 5,
             "startColumn": 1,
@@ -129,6 +130,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
           {
             "_type": "GridWidget",
             "identifier": 'work_packages_created',
+            "options": {},
             "startRow": 1,
             "endRow": 2,
             "startColumn": 1,
@@ -137,6 +139,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
           {
             "_type": "GridWidget",
             "identifier": 'work_packages_watched',
+            "options": {},
             "startRow": 2,
             "endRow": 4,
             "startColumn": 4,

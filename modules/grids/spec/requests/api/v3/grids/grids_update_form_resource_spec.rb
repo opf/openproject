@@ -76,12 +76,14 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
 
     it 'contains the current data in the payload' do
       expected = {
-        "rowCount": 7,
-        "columnCount": 4,
-        "widgets": [
+        rowCount: 7,
+        columnCount: 4,
+        options: {},
+        widgets: [
           {
             "_type": "GridWidget",
             identifier: 'work_packages_assigned',
+            options: {},
             startRow: 1,
             endRow: 7,
             startColumn: 1,
@@ -90,6 +92,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
           {
             "_type": "GridWidget",
             identifier: 'work_packages_created',
+            options: {},
             startRow: 1,
             endRow: 7,
             startColumn: 3,

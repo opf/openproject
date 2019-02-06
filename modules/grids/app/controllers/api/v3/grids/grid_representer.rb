@@ -65,7 +65,7 @@ module API
 
         property :id
 
-        property :name
+        property :name, render_nil: false
 
         property :row_count
 
