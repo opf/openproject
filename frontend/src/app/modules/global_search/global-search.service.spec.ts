@@ -70,6 +70,16 @@ fdescribe('Global search service', function() {
       service.searchTerm = '<%';
       expect(service.searchPath()).toEqual('/search?q=%3C%25&work_packages=1');
     });
+
+    it('searchPath entails the current tab', () => {
+      service.currentTab = 'wiki_pages';
+      expect(service.searchPath()).toEqual('/search?q=&wiki_pages=1');
+    });
+
+    it('when currentTab is "all" searchPath does not add it as a params key', () => {
+      service.currentTab = 'all';
+      expect(service.searchPath()).toEqual('/search?q=');
+    });
   });
 
   describe('within a project', () => {
@@ -81,6 +91,11 @@ fdescribe('Global search service', function() {
 
     it('returns correct path containing the project', () => {
       expect(service.searchPath()).toEqual('/projects/myproject/search?q=&work_packages=1');
+    });
+
+    it('returns correct path containing the project scope', () => {
+      service.projectScope = 'current_project';
+      expect(service.searchPath()).toEqual('/projects/myproject/search?q=&work_packages=1&scope=current_project');
     });
   });
 });
