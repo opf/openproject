@@ -27,8 +27,6 @@
           <col highlight-col>
           <col highlight-col>
           <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
           <col>
         </colgroup>
         <thead>
@@ -49,6 +47,10 @@
                 </div>
               </div>
             </th>
+            <th>
+              <div class="generic-table--empty-header">
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -61,6 +63,11 @@
           </td>
           <td>
             <op-date-time [dateTimeValue]="board.createdAt"></op-date-time>
+          </td>
+          <td class="buttons">
+            <accessible-by-keyboard (execute)="destroyBoard(board)" linkClass="icon icon-delete">
+              {{ text.delete }}
+            </accessible-by-keyboard>
           </td>
         </tr>
         </tbody>
