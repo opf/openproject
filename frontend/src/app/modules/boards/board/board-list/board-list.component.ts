@@ -13,6 +13,8 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
 import {BoardInlineCreateService} from "core-app/modules/boards/board/board-list/board-inline-create.service";
+import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'board-list',
@@ -22,12 +24,12 @@ import {BoardInlineCreateService} from "core-app/modules/boards/board/board-list
     { provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService }
   ]
 })
-export class BoardListComponent implements OnInit, OnDestroy {
-  @Input() queryInput:number|QueryResource;
+export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {
 
   /** Whether we use the card view */
   @Input() useCardView:boolean;
 
+  /** Access to the loading indicator element */
   @ViewChild('loadingIndicator') indicator:ElementRef;
 
   /** The query resource being loaded */
@@ -38,17 +40,16 @@ export class BoardListComponent implements OnInit, OnDestroy {
 
 
   constructor(private readonly QueryDm:QueryDmService,
+              private readonly I18n:I18nService,
               private readonly loadingIndicator:LoadingIndicatorService) {
+    super(I18n);
   }
 
   ngOnInit():void {
-    if (this.queryInput instanceof HalResource) {
-      this.query$ = of(this.queryInput);
-      return;
-    }
+    const queryId:number = this.resource.options.query_id as number;
 
     this.query$ = this.QueryDm
-      .stream(this.columnsQueryProps, this.queryInput)
+      .stream(this.columnsQueryProps, queryId)
       .pipe(
         withLoadingIndicator(this.indicatorInstance, 50),
         share()

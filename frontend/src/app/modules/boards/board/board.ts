@@ -21,8 +21,8 @@ export class Board {
     this.grid.widgets.push(widget);
   }
 
-  public get queries():number[] {
-    return this.grid.widgets.map((w:GridWidgetResource) => w.options.query_id as number);
+  public get queries():GridWidgetResource[] {
+    return this.grid.widgets;
   }
 
   public get createdAt() {
