@@ -63,6 +63,7 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
     context 'with a valid boards scope' do
       let(:params) do
         {
+          name: 'foo',
           '_links': {
             'scope': {
               'href': project_boards_path(project)
@@ -76,6 +77,7 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
           "rowCount": 1,
           "columnCount": 4,
           "widgets": [],
+          "name": 'foo',
           "options": {},
           "_links": {
             "scope": {
@@ -143,6 +145,7 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
     context 'with an unsupported widget identifier' do
       let(:params) do
         {
+          name: 'foo',
           "_links": {
             "scope": {
               'href': project_boards_path(project),

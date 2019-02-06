@@ -83,9 +83,11 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
 
     it 'contains the current data in the payload' do
       expected = {
-        "rowCount": 1,
-        "columnCount": 4,
-        "widgets": [],
+        name: 'My board',
+        rowCount: 1,
+        columnCount: 4,
+        widgets: [],
+        options: {},
         "_links": {
           "scope": {
             "href": project_boards_path(project),

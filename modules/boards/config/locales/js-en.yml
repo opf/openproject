@@ -2,4 +2,4 @@
 en:
   js:
     boards:
-      # Foo
+      label_unnamed_board: 'Unnamed board'

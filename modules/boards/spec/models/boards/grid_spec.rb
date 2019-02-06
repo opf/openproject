@@ -38,5 +38,15 @@ describe Boards::Grid, type: :model do
       expect(instance.project)
         .to eql project
     end
+
+    it '#name' do
+      instance.name = nil
+
+      expect(instance).not_to be_valid
+      expect(instance.errors[:name]).to be_present
+
+      instance.name = 'foo'
+      expect(instance).to be_valid
+    end
   end
 end

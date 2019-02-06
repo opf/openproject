@@ -156,6 +156,12 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
         .at_path('_type')
     end
 
+    it 'has a name' do
+      expect(subject.body)
+        .to be_json_eql('My board'.to_json)
+        .at_path('name')
+    end
+
     it 'identifies the url the grid is stored for' do
       expect(subject.body)
         .to be_json_eql(project_boards_path(manage_boards_project).to_json)
@@ -324,6 +330,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
     let(:params) do
       {
         "rowCount": 10,
+        "name": 'foo',
         "columnCount": 15,
         "widgets": [{
           "identifier": "work_package_query",
@@ -353,6 +360,9 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
         .to be_json_eql('Grid'.to_json)
         .at_path('_type')
       expect(subject.body)
+        .to be_json_eql('foo'.to_json)
+        .at_path('name')
+      expect(subject.body)
         .to be_json_eql(params['rowCount'].to_json)
         .at_path('rowCount')
       expect(subject.body)
@@ -368,6 +378,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
     context 'with invalid params' do
       let(:params) do
         {
+          "name": 'foo',
           "rowCount": -5,
           "columnCount": "sdjfksdfsdfdsf",
           "widgets": [{
@@ -417,6 +428,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
       let(:params) do
         {
           "rowCount": 5,
+          "name": 'foo',
           "columnCount": 5,
           "widgets": [{
             "identifier": "work_package_query",
@@ -451,6 +463,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
     context 'without the permission to create boards in the project' do
       let(:params) do
         {
+          "name": 'foo',
           "rowCount": 5,
           "columnCount": 5,
           "widgets": [{
