@@ -146,8 +146,6 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
         this.workPackages = results.$embedded.elements;
       }
 
-      console.warn("New order is %O", this.workPackages.map(el => el.id).join(", "));
-
       this.removeDragged();
 
       this.columns = columns.current;

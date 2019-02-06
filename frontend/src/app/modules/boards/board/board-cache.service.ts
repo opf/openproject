@@ -8,9 +8,16 @@ import {Board} from "core-app/modules/boards/board/board";
 export class BoardCacheService extends StateCacheService<Board> {
 
   protected _state = multiInput<Board>();
+  protected loaded:Promise<unknown>|undefined;
 
   constructor(protected BoardDm:BoardService) {
     super();
+  }
+
+  public requireLoaded():void {
+    if (!this.loaded) {
+      this.loaded = this.loadAll();
+    }
   }
 
   protected load(id:string):Promise<Board> {
@@ -24,7 +31,7 @@ export class BoardCacheService extends StateCacheService<Board> {
 
   }
 
-  protected loadAll(ids:string[]):Promise<undefined> {
+  protected loadAll(ids:string[] = []):Promise<undefined> {
     return this.BoardDm
       .allInScope()
       .toPromise()

@@ -3,8 +3,9 @@ import {Observable} from "rxjs";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {Board} from "core-app/modules/boards/board/board";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
-import {tap} from "rxjs/operators";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {filter, tap} from "rxjs/operators";
+import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 
 @Component({
   selector: 'boards-menu',
@@ -12,16 +13,19 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 })
 
 export class BoardsMenuComponent {
+  trackById = AngularTrackingHelpers.compareByAttribute('id');
 
-  public boards$:Observable<Board[]> = this.Boards.allInScope()
+  public boards$:Observable<Board[]> = this.BoardCache
+    .observeAll()
     .pipe(
-      tap(boards => {
-        boards.forEach(b => this.BoardCache.update(b));
-      })
+      filter(boards => !!boards && boards.length !== 0),
+      tap((boards) => console.log(boards))
     );
 
   constructor(private readonly Boards:BoardService,
               private readonly BoardCache:BoardCacheService) {
+
+    this.BoardCache.requireLoaded();
   }
 }
 DynamicBootstrapper.register({selector: 'boards-menu', cls: BoardsMenuComponent});

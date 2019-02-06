@@ -51,7 +51,6 @@ class Grids::DeleteService
   protected
 
   def delete_grid
-    binding.pry
     result, errors = validate_and_yield(grid, user) do
       grid.delete
     end

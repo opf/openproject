@@ -28,6 +28,7 @@
 
 import {InputState, MultiInputState, State} from 'reactivestates';
 import {Observable} from "rxjs";
+import {auditTime, debounceTime, map, startWith, throttleTime} from "rxjs/operators";
 
 export abstract class StateCacheService<T> {
   private cacheDurationInMs:number;
@@ -63,6 +64,28 @@ export abstract class StateCacheService<T> {
    */
   public observe(id:string):Observable<T> {
     return this.state(id).values$();
+  }
+
+  /**
+   * Observe the entire set of loaded results
+   */
+  public observeAll():Observable<T[]> {
+    return this.multiState
+      .observeChange()
+      .pipe(
+        startWith([]),
+        auditTime(250),
+        map(() => {
+          let mapped:T[] = [];
+          _.each(this.multiState.getValueOr({}), (state:State<T>) => {
+            if (state.value) {
+              mapped.push(state.value);
+            }
+          });
+
+          return mapped;
+        })
+      );
   }
 
   /**

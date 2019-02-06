@@ -5,7 +5,6 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {Board} from "core-app/modules/boards/board/board";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
-import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'boards-module',
@@ -20,17 +19,13 @@ export class BoardsModuleComponent {
     createdAt: this.I18n.t('js.label_created_on'),
   };
 
-  public boards$:Observable<Board[]> = this.Boards.allInScope()
-    .pipe(
-      tap(boards => {
-        boards.forEach(b => this.BoardCache.update(b));
-      })
-    );
+  public boards$:Observable<Board[]> = this.BoardCache.observeAll();
 
   constructor(private readonly Boards:BoardService,
               private readonly BoardCache:BoardCacheService,
               private readonly I18n:I18nService,
               private readonly state:StateService) {
+    this.BoardCache.requireLoaded();
   }
 
   newBoard() {

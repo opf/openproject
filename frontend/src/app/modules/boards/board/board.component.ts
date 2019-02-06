@@ -29,6 +29,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   /** Rename events */
   public rename$ = new Subject<string>();
 
+  /** Board observable */
   public board$:Observable<Board|undefined>;
 
   public text = {
@@ -112,7 +113,8 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.Boards
       .delete(board)
       .then(() => {
-        this.state.go('^');
+        this.BoardCache.clearSome(board.id);
+        this.goBack();
         this.notifications.addSuccess(this.text.deleteSuccessful);
       })
       .catch((error) => this.showError(error));
