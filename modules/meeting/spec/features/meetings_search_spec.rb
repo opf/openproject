@@ -51,4 +51,3 @@ describe 'Meeting search', type: :feature, js: true do
     end
   end
 end
-
