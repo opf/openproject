@@ -84,8 +84,12 @@ export class BoardService {
     return board;
   }
 
-  public delete(board:any) {
-    return Promise.reject("Not implemented");
+  public delete(board:Board):Promise<unknown> {
+    if (!board.grid.delete) {
+      return Promise.reject("Deletion not possible");
+    }
+
+    return board.grid.delete();
   }
 
 

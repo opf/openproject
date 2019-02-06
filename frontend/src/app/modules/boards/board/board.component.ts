@@ -11,6 +11,7 @@ import {BoardService} from "core-app/modules/boards/board/board.service";
 import {Board} from "core-app/modules/boards/board/board";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {StateService} from "@uirouter/core";
+import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 
 @Component({
   selector: 'board',
@@ -32,14 +33,15 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   public text = {
     delete: this.I18n.t('js.button_delete'),
-    areYouSure: "Are you sure?",
-    deleteSuccessful: 'Deletion successful',
-    unnamedBoard: 'Unnamed board',
+    areYouSure: this.I18n.t('js.text_are_you_sure'),
+    deleteSuccessful: this.I18n.t('js.notice_successful_delete'),
+    unnamedBoard: this.I18n.t('js.boards.label_unnamed_board'),
     loadingError: 'No such board found',
     addList: 'Add list'
   };
 
   useCardView = false;
+  trackByQueryId = (index:number, widget:GridWidgetResource) => widget.options.query_id;
 
   constructor(private readonly state:StateService,
               private readonly I18n:I18nService,
@@ -109,7 +111,10 @@ export class BoardComponent implements OnInit, OnDestroy {
 
     this.Boards
       .delete(board)
-      .then(() => this.notifications.addSuccess(this.text.deleteSuccessful))
+      .then(() => {
+        this.state.go('^');
+        this.notifications.addSuccess(this.text.deleteSuccessful);
+      })
       .catch((error) => this.showError(error));
   }
 }

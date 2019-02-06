@@ -8,7 +8,16 @@ import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
 import {Observable, of, Subject} from "rxjs";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {auditTime, debounce, debounceTime, distinctUntilChanged, share, tap, withLatestFrom} from "rxjs/operators";
+import {
+  auditTime,
+  debounce,
+  debounceTime,
+  distinctUntilChanged, publishLast, refCount,
+  share,
+  shareReplay, take,
+  tap,
+  withLatestFrom
+} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
@@ -52,7 +61,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .stream(this.columnsQueryProps, queryId)
       .pipe(
         withLoadingIndicator(this.indicatorInstance, 50),
-        share()
+        shareReplay()
       );
 
     this.rename$
