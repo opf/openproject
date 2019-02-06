@@ -103,7 +103,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
         filter = [{ 'scope' =>
                       {
                         'operator' => '=',
-                        'values' => [boards_project_path(manage_boards_project)]
+                        'values' => [project_work_package_boards_path(manage_boards_project)]
                       } }]
 
         "#{api_v3_paths.grids}?#{{ filters: filter.to_json }.to_query}"
