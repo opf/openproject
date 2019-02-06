@@ -142,7 +142,7 @@ export class GlobalSearchService {
   private searchQueryParams():string {
     let params:string;
 
-    params = `q=${this.searchTerm}`;
+    params = `q=${encodeURIComponent(this.searchTerm)}`;
 
     if (this.currentTab.length > 0 && this.currentTab !== 'all') {
       params = `${params}&${this.currentTab}=1`;

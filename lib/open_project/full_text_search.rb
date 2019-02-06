@@ -31,7 +31,7 @@
 module OpenProject
   # This module provides utility methods to work with PostgreSQL's full-text capabilities (TSVECTOR)
   module FullTextSearch
-    DISALLOWED_CHARACTERS = /['?\\:()&|!*]/
+    DISALLOWED_CHARACTERS = /['?\\:()&|!*<>]/
 
     def self.tsv_where(table_name, column_name, value, options = { concatenation: :and, normalization: :text })
       if OpenProject::Database.allows_tsv?

@@ -26,26 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APP_INITIALIZER, ErrorHandler, NgModule} from '@angular/core';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {
-  initializeHalResourceConfig
-} from 'core-app/modules/hal/services/hal-resource.config';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {ConfigurationDmService} from 'core-app/modules/hal/dm-services/configuration-dm.service';
-import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.service';
-import {PayloadDmService} from 'core-app/modules/hal/dm-services/payload-dm.service';
-import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
-import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
-import {RelationsDmService} from 'core-app/modules/hal/dm-services/relations-dm.service';
-import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
-import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
-import {OpenProjectHeaderInterceptor} from 'core-app/modules/hal/http/openproject-header-interceptor';
-import {UserDmService} from 'core-app/modules/hal/dm-services/user-dm.service';
-import {ProjectDmService} from 'core-app/modules/hal/dm-services/project-dm.service';
-import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
-import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-error-handler";
-import {CommonModule} from "@angular/common";
+import {NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {GlobalSearchInputComponent} from "core-app/modules/global_search/global-search-input.component";
@@ -60,7 +41,7 @@ import {GlobalSearchService} from "core-app/modules/global_search/global-search.
     OpenprojectWorkPackagesModule
   ],
   providers: [
-    GlobalSearchService
+    GlobalSearchService,
   ],
   declarations: [
     GlobalSearchInputComponent,
