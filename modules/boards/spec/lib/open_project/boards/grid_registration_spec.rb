@@ -16,8 +16,8 @@ describe OpenProject::Boards::GridRegistration do
       end
     end
 
-    context 'when having the manage_boards permission' do
-      let(:permissions) { [:manage_boards] }
+    context 'when having the manage_board_views permission' do
+      let(:permissions) { [:manage_board_views] }
 
       it 'returns the board' do
         expect(described_class.visible(user))

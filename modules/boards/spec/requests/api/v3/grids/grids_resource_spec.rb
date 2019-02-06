@@ -33,22 +33,22 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  shared_let(:manage_boards_project) { FactoryBot.create(:project) }
+  shared_let(:manage_board_views_project) { FactoryBot.create(:project) }
   shared_let(:view_boards_project) { FactoryBot.create(:project) }
   shared_let(:other_project) { FactoryBot.create(:project) }
   shared_let(:view_boards_role) { FactoryBot.create(:role, permissions: [:view_boards]) }
-  shared_let(:manage_boards_role) { FactoryBot.create(:role, permissions: [:manage_boards]) }
+  shared_let(:manage_board_views_role) { FactoryBot.create(:role, permissions: [:manage_board_views]) }
   shared_let(:other_role) { FactoryBot.create(:role, permissions: []) }
   shared_let(:current_user) do
     FactoryBot.create(:user).tap do |user|
-      FactoryBot.create(:member, user: user, project: manage_boards_project, roles: [manage_boards_role])
+      FactoryBot.create(:member, user: user, project: manage_board_views_project, roles: [manage_board_views_role])
       FactoryBot.create(:member, user: user, project: view_boards_project, roles: [view_boards_role])
       FactoryBot.create(:member, user: user, project: other_project, roles: [other_role])
     end
   end
 
-  let(:manage_boards_grid) do
-    FactoryBot.create(:board_grid, project: manage_boards_project)
+  let(:manage_board_views_grid) do
+    FactoryBot.create(:board_grid, project: manage_board_views_project)
   end
   let(:view_boards_grid) do
     FactoryBot.create(:board_grid, project: view_boards_project)
@@ -67,7 +67,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
     let(:path) { api_v3_paths.grids }
 
     let(:stored_grids) do
-      manage_boards_grid
+      manage_board_views_grid
       other_board_grid
     end
 
@@ -103,7 +103,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
         filter = [{ 'scope' =>
                       {
                         'operator' => '=',
-                        'values' => [project_work_package_boards_path(manage_boards_project)]
+                        'values' => [project_work_package_boards_path(manage_board_views_project)]
                       } }]
 
         "#{api_v3_paths.grids}?#{{ filters: filter.to_json }.to_query}"
@@ -127,17 +127,17 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
           .at_path('total')
 
         expect(subject.body)
-          .to be_json_eql(manage_boards_grid.id.to_json)
+          .to be_json_eql(manage_board_views_grid.id.to_json)
           .at_path('_embedded/elements/0/id')
       end
     end
   end
 
   describe '#get' do
-    let(:path) { api_v3_paths.grid(manage_boards_grid.id) }
+    let(:path) { api_v3_paths.grid(manage_board_views_grid.id) }
 
     let(:stored_grids) do
-      manage_boards_grid
+      manage_board_views_grid
     end
 
     before do
@@ -164,7 +164,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
     it 'identifies the url the grid is stored for' do
       expect(subject.body)
-        .to be_json_eql(project_work_package_boards_path(manage_boards_project).to_json)
+        .to be_json_eql(project_work_package_boards_path(manage_board_views_project).to_json)
         .at_path('_links/scope/href')
     end
 
@@ -178,7 +178,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
     context 'when lacking permission to see the grid' do
       let(:stored_grids) do
-        manage_boards_grid
+        manage_board_views_grid
         other_board_grid
       end
 
@@ -191,7 +191,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
   end
 
   describe '#patch' do
-    let(:path) { api_v3_paths.grid(manage_boards_grid.id) }
+    let(:path) { api_v3_paths.grid(manage_board_views_grid.id) }
 
     let(:params) do
       {
@@ -208,7 +208,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
     end
 
     let(:stored_grids) do
-      manage_boards_grid
+      manage_board_views_grid
     end
 
     before do
@@ -234,7 +234,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
     end
 
     it 'perists the changes' do
-      expect(manage_boards_grid.reload.row_count)
+      expect(manage_board_views_grid.reload.row_count)
         .to eql params['rowCount']
     end
 
@@ -270,7 +270,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
       end
 
       it 'does not persist the changes to widgets' do
-        expect(manage_boards_grid.reload.widgets.count)
+        expect(manage_board_views_grid.reload.widgets.count)
           .to eql OpenProject::Boards::GridRegistration.defaults[:widgets].size
       end
     end
@@ -311,7 +311,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
       end
     end
 
-    context 'without the manage_boards permission' do
+    context 'without the manage_board_views permission' do
       let(:stored_grids) do
         view_boards_grid
       end
@@ -341,7 +341,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
         }],
         "_links": {
           "scope": {
-            "href": project_work_package_boards_path(manage_boards_project)
+            "href": project_work_package_boards_path(manage_board_views_project)
           }
         }
       }.with_indifferent_access
@@ -390,7 +390,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
           }],
           "_links": {
             "scope": {
-              "href": project_work_package_boards_path(manage_boards_project)
+              "href": project_work_package_boards_path(manage_board_views_project)
             }
           }
         }.with_indifferent_access

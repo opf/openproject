@@ -25,7 +25,7 @@ module OpenProject
 
         def all_scopes
           view_allowed = Project.allowed_to(User.current, :view_boards)
-          manage_allowed = Project.allowed_to(User.current, :manage_boards)
+          manage_allowed = Project.allowed_to(User.current, :manage_board_views)
 
           board_projects = Project
                            .where(id: view_allowed)
@@ -40,12 +40,12 @@ module OpenProject
 
         def visible(user = User.current)
           in_project_with_permission(user, :view_boards)
-            .or(in_project_with_permission(user, :manage_boards))
+            .or(in_project_with_permission(user, :manage_board_views))
         end
 
         def writable?(model, user)
           super &&
-            Project.allowed_to(user, :manage_boards).exists?(model.project_id)
+            Project.allowed_to(user, :manage_board_views).exists?(model.project_id)
         end
 
         private

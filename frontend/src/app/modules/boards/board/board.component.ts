@@ -102,6 +102,9 @@ export class BoardComponent implements OnInit, OnDestroy {
       .then(board => this.Boards.save(board))
       .then(saved => {
         this.BoardCache.update(saved);
+      })
+      .catch(error => {
+        this.notifications.addError(error);
       });
   }
 

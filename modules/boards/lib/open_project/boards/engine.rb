@@ -22,14 +22,14 @@ module OpenProject::Boards
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'openproject-backlogs',
+    register 'openproject-boards',
              author_url: 'https://community.openproject.com',
              settings: {},
              name: 'OpenProject Boards' do
 
       project_module :board_view do
-        permission :view_boards, 'boards/boards': %i[index show]
-        permission :manage_boards, 'boards/boards': %i[index show edit update destroy new create]
+        permission :view_boards, 'boards/boards': %i[index]
+        permission :manage_board_views, 'boards/boards': %i[index]
       end
 
       menu :project_menu,
