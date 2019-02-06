@@ -44,9 +44,10 @@ module Query::ManualSorting
 
     private
 
-    def manual_sorting_column
+    def self.manual_sorting_column
       ::Queries::WorkPackages::Columns::ManualSortingColumn.new
     end
+    delegate :manual_sorting_column, to: :class
 
     ##
     # Replace the current set of ordered work packages
