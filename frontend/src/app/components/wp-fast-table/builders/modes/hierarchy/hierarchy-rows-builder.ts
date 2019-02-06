@@ -1,5 +1,4 @@
 import {Injector} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {States} from '../../../../states.service';
 import {WorkPackageTableColumnsService} from '../../../state/wp-table-columns.service';
 import {WorkPackageTableHierarchiesService} from '../../../state/wp-table-hierarchy.service';
@@ -15,12 +14,9 @@ export class HierarchyRowsBuilder extends RowsBuilder {
   public wpTableColumns = this.injector.get(WorkPackageTableColumnsService);
   public wpTableHierarchies = this.injector.get(WorkPackageTableHierarchiesService);
 
-  protected rowBuilder:SingleHierarchyRowBuilder;
-
   // The group expansion state
   constructor(public readonly injector:Injector, public workPackageTable:WorkPackageTable) {
     super(injector, workPackageTable);
-    this.rowBuilder = new SingleHierarchyRowBuilder(injector, this.workPackageTable);
   }
 
   /**
@@ -34,6 +30,7 @@ export class HierarchyRowsBuilder extends RowsBuilder {
    * Rebuild the entire grouped tbody from the given table
    */
   public buildRows():HierarchyRenderPass {
-    return new HierarchyRenderPass(this.injector, this.workPackageTable, this.rowBuilder).render();
+    const builder = new SingleHierarchyRowBuilder(this.injector, this.workPackageTable);
+    return new HierarchyRenderPass(this.injector, this.workPackageTable, builder).render();
   }
 }

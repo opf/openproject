@@ -43,6 +43,7 @@ module Components
 
       def open_and_switch_to(name)
         open!
+        sleep 1
         switch_to(name)
       end
 
