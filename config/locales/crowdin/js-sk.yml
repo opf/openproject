@@ -557,14 +557,6 @@ sk:
     tl_toolbar:
       zooms: Úroveň priblíženia
       outlines: Úroveň vnorenia
-    unsupported_browser:
-      title: Prehliadač, ktorý aktuálne používate nie je podporovaný projektom OpenProject
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Zistiť viac
-      close_warning: Ignore this warning.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -866,3 +858,11 @@ sk:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    unsupported_browser:
+      title: Prehliadač, ktorý aktuálne používate nie je podporovaný projektom OpenProject
+      message: The browser version you are using is no longer supported by OpenProject.
+      update_message: Please update your browser.
+      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
+        to Microsoft Edge.
+      learn_more: Zistiť viac
+      close_warning: Ignore this warning.

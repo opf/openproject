@@ -68,7 +68,6 @@
     "atoa": "^1.0.0",
     "autoprefixer": "^9.4.0",
     "bourbon": "~5.1.0",
-    "bowser": "^1.9.4",
     "bundle-loader": "^0.5.4",
     "chart.js": "2.7.3",
     "clean-webpack-plugin": "^1.0.0",

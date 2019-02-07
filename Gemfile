@@ -123,6 +123,9 @@ gem 'rack-attack', '~> 5.4.2'
 # CSP headers
 gem 'secure_headers', '~> 6.0.0'
 
+# Browser detection for incompatibility checks
+gem 'browser', '~> 2.5.3'
+
 # Providing health checks
 gem 'okcomputer', '~> 1.17.3'
 
@@ -298,7 +301,8 @@ group :docker, optional: true do
   gem 'health_check', require: !!ENV['HEROKU']
   gem 'newrelic_rpm', require: !!ENV['HEROKU']
   gem 'rails_12factor', require: !!ENV['HEROKU']
-  gem 'sqlite3', require: false
+  # Require specific version of sqlite3 for rails
+  gem 'sqlite3', '~> 1.3.6', require: false
 end
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles

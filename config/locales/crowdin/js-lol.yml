@@ -497,13 +497,6 @@ lol:
     tl_toolbar:
       zooms: crwdns107672:0crwdne107672:0
       outlines: crwdns107674:0crwdne107674:0
-    unsupported_browser:
-      title: crwdns107676:0crwdne107676:0
-      message: crwdns107678:0crwdne107678:0
-      update_message: crwdns107680:0crwdne107680:0
-      update_ie_user: crwdns107682:0crwdne107682:0
-      learn_more: crwdns107684:0crwdne107684:0
-      close_warning: crwdns107686:0crwdne107686:0
     upsale:
       ee_only: crwdns107688:0crwdne107688:0
     wiki_formatting:
@@ -691,8 +684,8 @@ lol:
         days: crwdns107996:0crwdne107996:0
         weeks: crwdns107998:0crwdne107998:0
         months: crwdns108000:0crwdne108000:0
-      label_switch_to_single_select: crwdns112902:0crwdne112902:0
-      label_switch_to_multi_select: crwdns112904:0crwdne112904:0
+      label_switch_to_single_select: crwdns113286:0crwdne113286:0
+      label_switch_to_multi_select: crwdns113288:0crwdne113288:0
     toolbar:
       settings:
         configure_view: crwdns108002:0crwdne108002:0
@@ -773,3 +766,10 @@ lol:
     zen_mode:
       button_activate: crwdns108124:0crwdne108124:0
       button_deactivate: crwdns108126:0crwdne108126:0
+    unsupported_browser:
+      title: crwdns107676:0crwdne107676:0
+      message: crwdns107678:0crwdne107678:0
+      update_message: crwdns107680:0crwdne107680:0
+      update_ie_user: crwdns107682:0crwdne107682:0
+      learn_more: crwdns107684:0crwdne107684:0
+      close_warning: crwdns107686:0crwdne107686:0

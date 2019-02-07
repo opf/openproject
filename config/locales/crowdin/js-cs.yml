@@ -557,14 +557,6 @@ cs:
     tl_toolbar:
       zooms: Úroveň přiblížení/oddálení
       outlines: Úroveň hierarchie
-    unsupported_browser:
-      title: Verze vašeho prohlížeče není podporována
-      message: Verze prohlížeče, který používáte, již není OpenProject podporována.
-      update_message: Aktualizujte svůj prohlížeč prosím.
-      update_ie_user: Prosím přepněte do Mozilla Firefox nebo Google Chrome, nebo
-        upgradujte na Microsoft Edge.
-      learn_more: Více informací
-      close_warning: Ignorovat toto upozornění.
     upsale:
       ee_only: Pouze funkce Enterprise edice
     wiki_formatting:
@@ -866,3 +858,11 @@ cs:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    unsupported_browser:
+      title: Verze vašeho prohlížeče není podporována
+      message: Verze prohlížeče, který používáte, již není OpenProject podporována.
+      update_message: Aktualizujte svůj prohlížeč prosím.
+      update_ie_user: Prosím přepněte do Mozilla Firefox nebo Google Chrome, nebo
+        upgradujte na Microsoft Edge.
+      learn_more: Více informací
+      close_warning: Ignorovat toto upozornění.

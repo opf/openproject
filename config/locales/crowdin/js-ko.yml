@@ -516,13 +516,6 @@ ko:
     tl_toolbar:
       zooms: 확대 수준
       outlines: 계층 수준
-    unsupported_browser:
-      title: 이 브라우저 버전은 지원되지 않습니다.
-      message: OpenProject에서 더 이상 지원되지 않는 브라우저 버전을 사용하고 계십니다.
-      update_message: 브라우저를 업데이트하시기 바랍니다.
-      update_ie_user: Mozilla Firefox 또는 Google Chrome으로 전환하거나, Microsoft Edge로 업그레이드하십시오.
-      learn_more: 자세히 알아보기
-      close_warning: 이 경고를 무시하십시오.
     upsale:
       ee_only: Enterprise Edition 전용 기능
     wiki_formatting:
@@ -794,3 +787,10 @@ ko:
     zen_mode:
       button_activate: Zen 모드 활성화
       button_deactivate: Zen 모드 비활성화
+    unsupported_browser:
+      title: 이 브라우저 버전은 지원되지 않습니다.
+      message: OpenProject에서 더 이상 지원되지 않는 브라우저 버전을 사용하고 계십니다.
+      update_message: 브라우저를 업데이트하시기 바랍니다.
+      update_ie_user: Mozilla Firefox 또는 Google Chrome으로 전환하거나, Microsoft Edge로 업그레이드하십시오.
+      learn_more: 자세히 알아보기
+      close_warning: 이 경고를 무시하십시오.

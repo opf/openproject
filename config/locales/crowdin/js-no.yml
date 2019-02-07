@@ -551,14 +551,6 @@
     tl_toolbar:
       zooms: Zoom-nivå
       outlines: Nivå
-    unsupported_browser:
-      title: Din nettleserversjon er ikke støttet
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Mer informasjon
-      close_warning: Ignore this warning.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -853,3 +845,11 @@
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    unsupported_browser:
+      title: Din nettleserversjon er ikke støttet
+      message: The browser version you are using is no longer supported by OpenProject.
+      update_message: Please update your browser.
+      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
+        to Microsoft Edge.
+      learn_more: Mer informasjon
+      close_warning: Ignore this warning.

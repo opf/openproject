@@ -565,14 +565,6 @@ nl:
     tl_toolbar:
       zooms: Zoom niveau
       outlines: Niveau van de hiërarchie
-    unsupported_browser:
-      title: Uw browserversie wordt niet ondersteund
-      message: De browserversie die u gebruikt wordt niet meer ondersteund door OpenProject.
-      update_message: Gebruik een recentere versie van uw browser.
-      update_ie_user: Gebruik Mozilla Firefox of Google Chrome, of upgrade naar Microsoft
-        Edge.
-      learn_more: Leer meer
-      close_warning: Negeer deze waarschuwing.
     upsale:
       ee_only: Functie alleen voor de Enterprise Editie
     wiki_formatting:
@@ -871,3 +863,11 @@ nl:
     zen_mode:
       button_activate: Zen-modus activeren
       button_deactivate: Deactiveren van zen modus
+    unsupported_browser:
+      title: Uw browserversie wordt niet ondersteund
+      message: De browserversie die u gebruikt wordt niet meer ondersteund door OpenProject.
+      update_message: Gebruik een recentere versie van uw browser.
+      update_ie_user: Gebruik Mozilla Firefox of Google Chrome, of upgrade naar Microsoft
+        Edge.
+      learn_more: Leer meer
+      close_warning: Negeer deze waarschuwing.

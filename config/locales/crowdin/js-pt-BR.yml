@@ -562,15 +562,6 @@ pt-BR:
     tl_toolbar:
       zooms: Nível de zoom
       outlines: Nível de hierarquia
-    unsupported_browser:
-      title: Sua versão de navegador não é suportada
-      message: A versão do navegador que você está usando não é mais suportada pelo
-        OpenProject.
-      update_message: Por favor, atualize seu navegador.
-      update_ie_user: Por favor mude para o Mozilla Firefox ou Google Chrome, ou atualize
-        para o Microsoft Edge.
-      learn_more: Saiba mais
-      close_warning: Ignorar este aviso.
     upsale:
       ee_only: Recurso exclusivo da Enterprise Edition
     wiki_formatting:
@@ -866,3 +857,12 @@ pt-BR:
     zen_mode:
       button_activate: Ativar modo zen
       button_deactivate: Desativar modo zen
+    unsupported_browser:
+      title: Sua versão de navegador não é suportada
+      message: A versão do navegador que você está usando não é mais suportada pelo
+        OpenProject.
+      update_message: Por favor, atualize seu navegador.
+      update_ie_user: Por favor mude para o Mozilla Firefox ou Google Chrome, ou atualize
+        para o Microsoft Edge.
+      learn_more: Saiba mais
+      close_warning: Ignorar este aviso.
