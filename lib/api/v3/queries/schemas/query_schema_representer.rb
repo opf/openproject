@@ -144,6 +144,13 @@ module API
                  has_default: true,
                  visibility: false
 
+          schema :hidden,
+                 type: 'Boolean',
+                 required: true,
+                 writable: true,
+                 has_default: true,
+                 visibility: false
+
           schema_with_allowed_collection :columns,
                                          type: '[]QueryColumn',
                                          required: false,
