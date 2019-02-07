@@ -344,7 +344,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
         if (thisComponent.searchInput.val() === '') {
           let selected = thisComponent.queryResultsContainer.find('.wp-query-menu--item.selected');
           if (selected.length > 0) {
-            setTimeout(() => selected[0].scrollIntoView({behavior: 'instant', block: 'center'}), 20);
+            setTimeout(() => selected[0].scrollIntoView({behavior: 'auto', block: 'center'}), 20);
           }
         }
       }

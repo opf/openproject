@@ -119,7 +119,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         {
           href: configureFormLink.href,
           icon: 'icon-settings3',
-          linkText: configureFormLink.name,
+          linkText: I18n.t('js.button_configure-form'),
           onClick: () => false
         }
       );

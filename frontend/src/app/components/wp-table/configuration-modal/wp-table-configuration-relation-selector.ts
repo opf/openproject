@@ -52,8 +52,6 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
     includes:      this.I18n.t('js.types.attribute_groups.filter_types.includes')
   };
 
-  // public impaired = this.ConfigurationService.accessibilityModeEnabled();
-
   constructor(readonly injector:Injector,
               readonly I18n:I18nService,
               readonly wpTableFilters:WorkPackageTableFiltersService,

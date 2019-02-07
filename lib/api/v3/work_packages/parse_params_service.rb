@@ -31,7 +31,7 @@ module API
     module WorkPackages
       class ParseParamsService < API::V3::ParseResourceParamsService
         def initialize(user)
-          super(user, WorkPackage, ::API::V3::WorkPackages::WorkPackagePayloadRepresenter)
+          super(user, model: WorkPackage, representer: ::API::V3::WorkPackages::WorkPackagePayloadRepresenter)
         end
 
         private

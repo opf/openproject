@@ -4,6 +4,11 @@ targets:
   debian-8: &debian8
     build_dependencies:
       - libsqlite3-dev
+    dependencies:
+      - poppler-utils
+      - unrtf
+      - tesseract-ocr
+      - catdoc
   debian-9:
     <<: *debian8
   ubuntu-14.04:

@@ -131,6 +131,26 @@ module API
             "#{root}/custom_options/#{id}"
           end
 
+          def self.grids
+            "#{root}/grids"
+          end
+
+          def self.create_grid_form
+            "#{grids}/form"
+          end
+
+          def self.grid_schema
+            "#{grids}/schema"
+          end
+
+          def self.grid(id)
+            "#{grids}/#{id}"
+          end
+
+          def self.grid_form(id)
+            "#{grid(id)}/form"
+          end
+
           def self.help_texts
             "#{root}/help_texts"
           end

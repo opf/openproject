@@ -59,7 +59,6 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   };
 
   public onDataUpdated = new EventEmitter<void>();
-  public impaired = this.ConfigurationService.accessibilityModeEnabled();
   public selectedColumnMap:{ [id:string]:boolean } = {};
 
   // Get the view child we'll use as the portal host

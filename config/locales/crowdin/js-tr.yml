@@ -150,10 +150,14 @@ tr:
     label_activity_no: Etkinlik giriş numarası %{activityNo}
     label_activity_with_comment_no: Etkinlik giriş numarası %{activityNo}. Kullanıcı
       yorumu var.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Sütunlar ekle
     label_add_comment: Yorum ekle
     label_add_comment_title: Yorum yapmak ve diğer kişilere bunu bildirmek için @
       yazın
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Seçilen sütunları ekle
     label_added_by: ekleyen
     label_added_time_by: "%{author} %{age} tarafından eklendi"
@@ -211,6 +215,7 @@ tr:
     label_menu_collapse: daralt
     label_menu_expand: genişlet
     label_more_than_ago: günler önce
+    label_my_page: My page
     label_next: Sonraki
     label_no_data: Görüntülenecek veri yok
     label_no_due_date: bitiş tarihi yok
@@ -229,7 +234,9 @@ tr:
     label_visibility_settings: Görünürlük ayarları
     label_quote_comment: Yorumu alıntıla
     label_reset: Sıfırla
+    label_remove_column: Remove column
     label_remove_columns: Seçili sütunları sil
+    label_remove_row: Remove row
     label_save_as: Farklı Kaydet
     label_select_watcher: Takipçi seç...
     label_selected_filter_list: Seçilen filtreler
@@ -251,6 +258,7 @@ tr:
     label_activity_show_only_comments: Sadece yorumların olduğu etkinlikleri göster
     label_activity_show_all: Tüm etkinlikleri göster
     label_total_progress: Toplam ilerleme %{percent}%
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: güncelleme tarihi
     label_warning: Uyarı
     label_work_package: İş paketi
@@ -391,6 +399,10 @@ tr:
           includes: including
           requires: requiring
           required: tarafından gerekli
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: takipçiler yükleniyor...
       label_error_loading: Takipçileri yüklerken bir hata oluştu
@@ -542,15 +554,6 @@ tr:
     tl_toolbar:
       zooms: Yakınlaştırma düzeyi
       outlines: Hiyerarşi düzeyi
-    unsupported_browser:
-      title: Tarayıcı sürümü desteklenmiyor
-      message: Kullanmakta olduğunuz tarayıcı sürümü OpenProject tarafından artık
-        desteklenmemektedir. Lütfen tarayıcınızın güncelleştirin.
-      update_message: Lütfen tarayıcınızı güncelleyin.
-      update_ie_user: Lütfen Mozilla Firefox'a veya Google Chrome'a geçiş yapın ya
-        da Microsoft Edge'e yükseltin.
-      learn_more: Daha fazla bilgi edin
-      close_warning: Bu uyarıyı yoksay.
     upsale:
       ee_only: Enterprise Edition özelliği
     wiki_formatting:
@@ -602,8 +605,6 @@ tr:
       label_options: Ayarlar
       label_column_multiselect: 'Birleştirilmiş aşağı açılan alan: ok tuşlarıyla seçin,
         seçimi enter ile onaylayın, backspace ile silme'
-      label_switch_to_single_select: Tekli seçime geç
-      label_switch_to_multi_select: Çoklu seçime geç
       message_error_during_bulk_delete: İş paketleri silinmeye çalışılırken bir hata
         oluştu.
       message_successful_bulk_delete: İş paketleri başarıyla silindi.
@@ -762,6 +763,8 @@ tr:
         days: gün
         weeks: hafta
         months: ay
+      label_switch_to_single_select: Tekli seçime geç
+      label_switch_to_multi_select: Çoklu seçime geç
     toolbar:
       settings:
         configure_view: Görünümü yapılandır ...
@@ -844,3 +847,12 @@ tr:
     zen_mode:
       button_activate: Zen modunu etkinleştir
       button_deactivate: Zen modunu devre dışı bırak
+    unsupported_browser:
+      title: Tarayıcı sürümü desteklenmiyor
+      message: Kullanmakta olduğunuz tarayıcı sürümü OpenProject tarafından artık
+        desteklenmemektedir. Lütfen tarayıcınızın güncelleştirin.
+      update_message: Lütfen tarayıcınızı güncelleyin.
+      update_ie_user: Lütfen Mozilla Firefox'a veya Google Chrome'a geçiş yapın ya
+        da Microsoft Edge'e yükseltin.
+      learn_more: Daha fazla bilgi edin
+      close_warning: Bu uyarıyı yoksay.

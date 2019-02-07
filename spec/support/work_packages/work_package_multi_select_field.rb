@@ -6,10 +6,6 @@ class WorkPackageMultiSelectField < WorkPackageField
     field_container.has_selector?('.wp-inline-edit--toggle-multiselect .icon-minus2')
   end
 
-  def toggle_multiselect
-    field_container.find('.wp-inline-edit--toggle-multiselect').click
-  end
-
   def expect_save_button(enabled: true)
     if enabled
       expect(field_container).to have_no_selector("#{control_link}[disabled]")
@@ -23,7 +19,7 @@ class WorkPackageMultiSelectField < WorkPackageField
   end
 
   def field_type
-    'select'
+    'ng-select'
   end
 
   def control_link(action = :save)

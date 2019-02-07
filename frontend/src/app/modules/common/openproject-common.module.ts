@@ -70,6 +70,10 @@ import {UIRouterModule} from "@uirouter/angular";
 import {PortalModule} from "@angular/cdk/portal";
 import {CommonModule} from "@angular/common";
 import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
+import {NoResultsComponent} from "core-app/modules/common/no-results/no-results.component";
+import {NgSelectModule} from "@ng-select/ng-select";
+import {UserAutocompleterComponent} from "app/modules/common/autocomplete/user-autocompleter.component";
+import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -94,6 +98,7 @@ export function bootstrapModule(injector:Injector) {
     PortalModule,
     // Our own A11y module
     OpenprojectAccessibilityModule,
+    NgSelectModule,
   ],
   exports: [
     // Re-export all commonly used
@@ -138,6 +143,12 @@ export function bootstrapModule(injector:Injector) {
     ZenModeButtonComponent,
 
     OPContextMenuComponent,
+
+    NoResultsComponent,
+
+    // Autocompleter Component
+    NgSelectModule,
+    UserAutocompleterComponent,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -180,6 +191,10 @@ export function bootstrapModule(injector:Injector) {
 
     // Zen mode button
     ZenModeButtonComponent,
+
+    NoResultsComponent,
+
+    UserAutocompleterComponent,
   ],
   entryComponents: [
     OpDateTimeComponent,
@@ -194,6 +209,7 @@ export function bootstrapModule(injector:Injector) {
     OPContextMenuComponent,
     ZenModeButtonComponent,
     CollapsibleSectionComponent,
+    UserAutocompleterComponent,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
@@ -208,8 +224,8 @@ export function bootstrapModule(injector:Injector) {
     ConfigurationService,
     PathHelperService,
     HTMLSanitizeService,
-
     TimezoneService,
+    BrowserDetector,
   ]
 })
 export class OpenprojectCommonModule { }

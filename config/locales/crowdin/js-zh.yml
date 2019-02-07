@@ -140,9 +140,13 @@ zh:
     label_activate: 激活
     label_activity_no: 活动条目编号 %{activityNo}
     label_activity_with_comment_no: 活动条目编号 %{activityNo}，有用户评论。
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: 增添列
     label_add_comment: 添加评论
     label_add_comment_title: 写下评论并输入@ 以通知其他人
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: 添加所选的列
     label_added_by: 添加人
     label_added_time_by: 由 %{author} %{age} 添加
@@ -199,6 +203,7 @@ zh:
     label_menu_collapse: 折叠
     label_menu_expand: 展开
     label_more_than_ago: 更多天前
+    label_my_page: My page
     label_next: 下一个
     label_no_data: 没有要显示的数据
     label_no_due_date: 没有结束日期
@@ -217,7 +222,9 @@ zh:
     label_visibility_settings: 可见性设置
     label_quote_comment: 引用这个评论
     label_reset: 重置
+    label_remove_column: Remove column
     label_remove_columns: 删除选定的列
+    label_remove_row: Remove row
     label_save_as: 另存为
     label_select_watcher: 选择一位关注者...
     label_selected_filter_list: 所选的筛选器
@@ -239,6 +246,7 @@ zh:
     label_activity_show_only_comments: 仅显示批注的活动
     label_activity_show_all: 显示所有项目
     label_total_progress: "%{percent} %总进度"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: 更新于
     label_warning: 警告
     label_work_package: 工作包
@@ -278,7 +286,7 @@ zh:
       show_modal: 显示属性帮助文本项
     onboarding:
       buttons:
-        skip: Skip
+        skip: 跳过
         next: 下一个
         got_it: 知道了
       steps:
@@ -346,6 +354,10 @@ zh:
           includes: 包括
           requires: 要求
           required: 要求于
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: 正在加载关注者...
       label_error_loading: 加载关注者时出错
@@ -486,13 +498,6 @@ zh:
     tl_toolbar:
       zooms: 缩放级别
       outlines: 层次结构级别
-    unsupported_browser:
-      title: 不支持您的浏览器版本
-      message: OpenProject不再支持您现在所使用的浏览器版本。
-      update_message: 请升级您的浏览器。
-      update_ie_user: 请使用Mozilla Firefox或者Google Chrome浏览器，或者升级到Microsoft Edge浏览器。
-      learn_more: 了解更多信息
-      close_warning: 请忽略这个警告。
     upsale:
       ee_only: 企业版特定功能
     wiki_formatting:
@@ -540,8 +545,6 @@ zh:
       label_filter_by_text: Filter by text
       label_options: 选项
       label_column_multiselect: '组合式的下拉字段: 使用箭头键选择，用 enter 键确认选择，用退格键删除'
-      label_switch_to_single_select: 切换为单选
-      label_switch_to_multi_select: 切换为多选
       message_error_during_bulk_delete: 试图删除工作包时出错。
       message_successful_bulk_delete: 已成功删除工作包。
       message_successful_show_in_fullscreen: 单击此处以全屏视图打开此工作包。
@@ -682,6 +685,8 @@ zh:
         days: 天
         weeks: 周
         months: 月
+      label_switch_to_single_select: 切换为单选
+      label_switch_to_multi_select: 切换为多选
     toolbar:
       settings:
         configure_view: 配置视图…
@@ -762,3 +767,10 @@ zh:
     zen_mode:
       button_activate: 激活 zen 模式
       button_deactivate: 取消激活 zen 模式
+    unsupported_browser:
+      title: 不支持您的浏览器版本
+      message: OpenProject不再支持您现在所使用的浏览器版本。
+      update_message: 请升级您的浏览器。
+      update_ie_user: 请使用Mozilla Firefox或者Google Chrome浏览器，或者升级到Microsoft Edge浏览器。
+      learn_more: 了解更多信息
+      close_warning: 请忽略这个警告。

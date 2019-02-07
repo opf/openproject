@@ -152,7 +152,7 @@ describe ::API::V3::Users::UserRepresenter do
 
       context 'when deletion is allowed' do
         before do
-          allow(DeleteUserService).to receive(:deletion_allowed?)
+          allow(Users::DeleteService).to receive(:deletion_allowed?)
             .with(user, current_user)
             .and_return(true)
         end
@@ -164,7 +164,7 @@ describe ::API::V3::Users::UserRepresenter do
 
       context 'when deletion is not allowed' do
         before do
-          allow(DeleteUserService).to receive(:deletion_allowed?)
+          allow(Users::DeleteService).to receive(:deletion_allowed?)
             .with(user, current_user)
             .and_return(false)
         end
@@ -179,8 +179,8 @@ describe ::API::V3::Users::UserRepresenter do
       it 'is based on the representer\'s cache_key' do
         expect(OpenProject::Cache)
           .to receive(:fetch)
-                .with(representer.json_cache_key)
-                .and_call_original
+          .with(representer.json_cache_key)
+          .and_call_original
 
         representer.to_json
       end

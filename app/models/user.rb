@@ -79,6 +79,16 @@ class User < Principal
   has_one :api_token, class_name: '::Token::Api', dependent: :destroy
   belongs_to :auth_source
 
+  # Authorized OAuth grants
+  has_many :oauth_grants,
+           class_name: 'Doorkeeper::AccessGrant',
+           foreign_key: 'resource_owner_id'
+
+  # User-defined oauth applications
+  has_many :oauth_applications,
+           class_name: 'Doorkeeper::Application',
+           as: :owner
+
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
   scope :blocked, -> { create_blocked_scope(self, true) }
@@ -422,19 +432,6 @@ class User < Principal
 
   def time_zone
     @time_zone ||= (pref.time_zone.blank? ? nil : ActiveSupport::TimeZone[pref.time_zone])
-  end
-
-  def impaired=(value)
-    pref.update_attribute(:impaired, !!value)
-    !!value
-  end
-
-  def impaired
-    (anonymous? && Setting.accessibility_mode_for_anonymous?) || pref.impaired?
-  end
-
-  def impaired?
-    impaired
   end
 
   def wants_comments_in_reverse_order?

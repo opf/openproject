@@ -32,6 +32,12 @@ $table-timeline--compact-row-height: 28px
 // unless we're setting an external height with overflow, containment will not work.
 .work-packages-embedded-view--container
 
+  &.-external-height
+    display: flex
+    flex-direction: column
+    overflow: hidden
+    width: 100%
+
   // Align with section header
   .wp-table--table-header:first-child .generic-table--sort-header-outer,
   .wp-table--cell-td:first-child .wp-edit-field--display-field,

@@ -65,10 +65,7 @@ export class CopyToClipboardDirective implements OnInit {
     let notification = this.NotificationsService[type](message);
 
     // Remove the notification some time later
-    // but only when we're not in accessible mode
-    if (!this.ConfigurationService.accessibilityModeEnabled()) {
-      setTimeout(() => this.NotificationsService.remove(notification), 5000);
-    }
+    setTimeout(() => this.NotificationsService.remove(notification), 5000);
   }
 
   onClick($event:JQueryEventObject) {

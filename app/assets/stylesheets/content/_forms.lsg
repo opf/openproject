@@ -847,51 +847,6 @@ The modifier classes **-middle**, **-wide**, ... can be applied to the form-[inp
 </form>
 ```
 
-
-# Forms: Lists of fields
-
-```
-@full-width
-
-<ul class="form--list">
-  <li class="form--field -trailing-label">
-    <label class="form--label" for="project_work_package_custom_field_ids_1" lang="en">Quaerat Deleniti</label>
-    <span class="form--field-container"><span class="form--check-box-container"><input name="project[work_package_custom_field_ids][]" type="hidden" value=""><input checked="checked" class="form--check-box" id="project_work_package_custom_field_ids_1" lang="en" name="project[work_package_custom_field_ids][]" type="checkbox" value="1"></span></span>
-  </li>
-  <li class="form--field -trailing-label">
-    <label class="form--label" for="project_work_package_custom_field_ids_2" lang="en">voluptatum similique</label><span class="form--field-container"><span class="form--check-box-container"><input name="project[work_package_custom_field_ids][]" type="hidden" value=""><input checked="checked" class="form--check-box" id="project_work_package_custom_field_ids_2" lang="en" name="project[work_package_custom_field_ids][]" type="checkbox" value="2"></span></span>
-  </li>
-  <li class="form--field -trailing-label">
-    <label class="form--label" for="project_work_package_custom_field_ids_3" lang="en">voluptatem et</label><span class="form--field-container"><span class="form--check-box-container"><input name="project[work_package_custom_field_ids][]" type="hidden" value=""><input checked="checked" class="form--check-box" id="project_work_package_custom_field_ids_3" lang="en" name="project[work_package_custom_field_ids][]" type="checkbox" value="3"></span></span>
-  </li>
-  <li class="form--field -trailing-label">
-    <label class="form--label" for="project_work_package_custom_field_ids_4" lang="en">int cf</label><span class="form--field-container"><span class="form--check-box-container"><input disabled="disabled" name="project[work_package_custom_field_ids][]" type="hidden" value=""><input checked="checked" class="form--check-box" disabled="disabled" id="project_work_package_custom_field_ids_4" lang="en" name="project[work_package_custom_field_ids][]" type="checkbox" value="4"></span></span>
-  </li>
-  <li class="form--field -trailing-label">
-    <label class="form--label" for="project_work_package_custom_field_ids_5" lang="en">version CF</label><span class="form--field-container"><span class="form--check-box-container"><input disabled="disabled" name="project[work_package_custom_field_ids][]" type="hidden" value=""><input checked="checked" class="form--check-box" disabled="disabled" id="project_work_package_custom_field_ids_5" lang="en" name="project[work_package_custom_field_ids][]" type="checkbox" value="5"></span></span>
-  </li>
-  <li class="form--field -trailing-label">
-    <label class="form--label" for="project_work_package_custom_field_ids_6" lang="en">jskldfjkdsljf</label><span class="form--field-container"><span class="form--check-box-container"><input name="project[work_package_custom_field_ids][]" type="hidden" value=""><input checked="checked" class="form--check-box" id="project_work_package_custom_field_ids_6" lang="en" name="project[work_package_custom_field_ids][]" type="checkbox" value="6"></span></span>
-  </li>
-  <li class="form--field -trailing-label">
-    <label class="form--label" for="project_work_package_custom_field_ids_7" lang="en">My Custom field</label><span class="form--field-container"><span class="form--check-box-container"><input name="project[work_package_custom_field_ids][]" type="hidden" value=""><input checked="checked" class="form--check-box" id="project_work_package_custom_field_ids_7" lang="en" name="project[work_package_custom_field_ids][]" type="checkbox" value="7"></span></span>
-  </li>
-  <li class="form--field -trailing-label">
-    <label class="form--label" for="project_work_package_custom_field_ids_8" lang="en">user cf</label><span class="form--field-container"><span class="form--check-box-container"><input disabled="disabled" name="project[work_package_custom_field_ids][]" type="hidden" value=""><input checked="checked" class="form--check-box" disabled="disabled" id="project_work_package_custom_field_ids_8" lang="en" name="project[work_package_custom_field_ids][]" type="checkbox" value="8"></span></span>
-  </li>
-  <li class="form--field -trailing-label">
-    <label class="form--label" for="project_work_package_custom_field_ids_9" lang="en">bool cf</label><span class="form--field-container"><span class="form--check-box-container"><input disabled="disabled" name="project[work_package_custom_field_ids][]" type="hidden" value=""><input checked="checked" class="form--check-box" disabled="disabled" id="project_work_package_custom_field_ids_9" lang="en" name="project[work_package_custom_field_ids][]" type="checkbox" value="9"></span></span>
-  </li>
-  <li class="form--field -trailing-label">
-    <label class="form--label" for="project_work_package_custom_field_ids_11" lang="en">Float cf</label><span class="form--field-container"><span class="form--check-box-container"><input disabled="disabled" name="project[work_package_custom_field_ids][]" type="hidden" value=""><input checked="checked" class="form--check-box" disabled="disabled" id="project_work_package_custom_field_ids_11" lang="en" name="project[work_package_custom_field_ids][]" type="checkbox" value="11"></span></span>
-  </li>
-  <li class="form--field -trailing-label">
-    <label class="form--label" for="project_work_package_custom_field_ids_19" lang="en">List cf</label><span class="form--field-container"><span class="form--check-box-container"><input disabled="disabled" name="project[work_package_custom_field_ids][]" type="hidden" value=""><input checked="checked" class="form--check-box" disabled="disabled" id="project_work_package_custom_field_ids_19" lang="en" name="project[work_package_custom_field_ids][]" type="checkbox" value="19"></span></span>
-  </li>
-  </ul>
-```
-
-
 # Forms: Attachment fieldsets
 
 ```

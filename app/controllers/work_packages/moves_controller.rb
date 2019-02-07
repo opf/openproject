@@ -63,10 +63,13 @@ class WorkPackages::MovesController < ApplicationController
 
       if service_call.success?
         moved_work_packages << service_call.result
+      elsif @copy
+        unsaved_work_package_ids.concat dependent_error_ids(work_package.id, service_call)
       else
         unsaved_work_package_ids << work_package.id
       end
     end
+
 
     set_flash_from_bulk_work_package_save(@work_packages, unsaved_work_package_ids)
 
@@ -89,6 +92,22 @@ class WorkPackages::MovesController < ApplicationController
                         count: unsaved_work_package_ids.size,
                         total: work_packages.size,
                         ids: '#' + unsaved_work_package_ids.join(', #'))
+    end
+  end
+
+  ##
+  # When copying, add work package ids that are failing
+  def dependent_error_ids(parent_id, service_call)
+    ids = service_call
+      .results_with_errors(include_self: false)
+      .map { |result| result.context[:copied_from]&.id }
+      .compact
+
+    if ids.present?
+      joined = ids.map {|id| "##{id}" }.join(" ")
+      ["#{parent_id} (+ children errors: #{joined})"]
+    else
+      [parent_id]
     end
   end
 

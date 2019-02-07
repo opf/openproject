@@ -151,10 +151,14 @@ lt:
     label_activity_no: Veiklos įrašo numeris %{activityNo}
     label_activity_with_comment_no: Veiklos įrašo numeris %{activityNo}. Turintis
       vartotojo komentarą.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Pridėti stulpelių
     label_add_comment: Pridėti komentarą
     label_add_comment_title: Komentuokite ir įveskite @, kad praneštumėte kitiems
       žmonėms
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Pridėti pažymėtus stulpelius
     label_added_by: pridėta
     label_added_time_by: Pridėta %{author} %{age}
@@ -211,6 +215,7 @@ lt:
     label_menu_collapse: suskleisti
     label_menu_expand: išskleisti
     label_more_than_ago: daugiau nei prieš dieną
+    label_my_page: My page
     label_next: Kitas
     label_no_data: Nėra rodytinų duomenų
     label_no_due_date: nėra pabaigos datos
@@ -229,7 +234,9 @@ lt:
     label_visibility_settings: Matomumo nustatymai
     label_quote_comment: Cituoti šį komentarą
     label_reset: Nustatyti iš naujo
+    label_remove_column: Remove column
     label_remove_columns: Pašalinti pažymėtus stulpelius
+    label_remove_row: Remove row
     label_save_as: Išsaugoti kaip
     label_select_watcher: Parinkti stebėtoją...
     label_selected_filter_list: Parinkti filtrus
@@ -251,6 +258,7 @@ lt:
     label_activity_show_only_comments: Rodyti veiklą tik su komentarais
     label_activity_show_all: Rodyti visus atributus
     label_total_progress: "%{percent} % įvykdyta"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: atnaujintas
     label_warning: Įspėjimas
     label_work_package: Darbų paketas
@@ -387,6 +395,10 @@ lt:
           includes: įskaitant
           requires: reikalauja
           required: reikalingas
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: Įkeliami stebėtojai...
       label_error_loading: Įkeliant stebėtojus įvyko klaida
@@ -541,15 +553,6 @@ lt:
     tl_toolbar:
       zooms: Didinimo lygis
       outlines: Hierarchinis lygmuo
-    unsupported_browser:
-      title: Jūsų naršyklės versija nepalaikoma
-      message: Jūsų naudojama naršyklės versija daugiau nebepalaikoma OpenProject
-        sistemos.
-      update_message: Prašome atnaujinti savo naršyklę.
-      update_ie_user: Prašome pasikeisti į Mozilla Firefox ar Google Chrome arba atsinaujinti
-        į Microsoft Edge.
-      learn_more: Sužinoti daugiau
-      close_warning: Ignoruoti šį perspėjimą.
     upsale:
       ee_only: Galimybė tik Enterprise Edition
     wiki_formatting:
@@ -602,8 +605,6 @@ lt:
       label_column_multiselect: 'Kombinuotas išplečiamojo sąrašo laukas: pasirinkite
         rodyklių mygtukais, patvirtinkite pasirinkimą su Enter mygtuku, ištrinkite
         su Backspace'
-      label_switch_to_single_select: Perjungti į žymėjimą po vieną
-      label_switch_to_multi_select: Perjungti į žymėjimą po daug
       message_error_during_bulk_delete: Įvyko klaida bandant naikinti darbų paketą.
       message_successful_bulk_delete: Darbų paketai sėkmingai ištrinti.
       message_successful_show_in_fullscreen: Paspauskite čia, kad atvertumėte darbų
@@ -765,6 +766,8 @@ lt:
         days: dienas(-ų)
         weeks: savaitės(-ių)
         months: mėnesiai(-ių)
+      label_switch_to_single_select: Perjungti į žymėjimą po vieną
+      label_switch_to_multi_select: Perjungti į žymėjimą po daug
     toolbar:
       settings:
         configure_view: Konfigūruokite vaizdą...
@@ -853,3 +856,12 @@ lt:
     zen_mode:
       button_activate: Įjungti Zen režimą
       button_deactivate: Išjungti Zen režimą
+    unsupported_browser:
+      title: Jūsų naršyklės versija nepalaikoma
+      message: Jūsų naudojama naršyklės versija daugiau nebepalaikoma OpenProject
+        sistemos.
+      update_message: Prašome atnaujinti savo naršyklę.
+      update_ie_user: Prašome pasikeisti į Mozilla Firefox ar Google Chrome arba atsinaujinti
+        į Microsoft Edge.
+      learn_more: Sužinoti daugiau
+      close_warning: Ignoruoti šį perspėjimą.

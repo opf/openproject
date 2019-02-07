@@ -161,21 +161,11 @@ module ApplicationHelper
     html_options = { class: css_classes.join(' '), role: 'alert' }.merge(html_options)
 
     content_tag :div, html_options do
-      if User.current.impaired?
-        concat(content_tag('a', join_flash_messages(message),
-                           href: '#',
-                           class: 'impaired--empty-link'))
-        concat(content_tag(:i, '', class: 'icon-close close-handler',
-                                   tabindex: '0',
-                                   role: 'button',
-                                   aria: { label: ::I18n.t('js.close_popup_title') }))
-      else
-        concat(join_flash_messages(message))
-        concat(content_tag(:i, '', class: 'icon-close close-handler',
-                                   tabindex: '0',
-                                   role: 'button',
-                                   aria: { label: ::I18n.t('js.close_popup_title') }))
-      end
+      concat(join_flash_messages(message))
+      concat(content_tag(:i, '', class: 'icon-close close-handler',
+                                 tabindex: '0',
+                                 role: 'button',
+                                 aria: { label: ::I18n.t('js.close_popup_title') }))
     end
   end
 
@@ -311,16 +301,15 @@ module ApplicationHelper
   def body_css_classes
     css = ['theme-' + OpenProject::Design.identifier.to_s]
 
-    if accessibility_css_enabled? && User.current.impaired?
-      css << 'accessibility-mode'
-    end
-
     if params[:controller] && params[:action]
       css << 'controller-' + params[:controller]
       css << 'action-' + params[:action]
     end
 
     css << "ee-banners-#{EnterpriseToken.show_banners? ? 'visible' : 'hidden'}"
+
+    # Add browser specific classes to aid css fixes
+    css += browser_specific_classes
 
     css.join(' ')
   end
@@ -484,14 +473,6 @@ module ApplicationHelper
     else
       options
     end
-  end
-
-  def disable_accessibility_css!
-    @accessibility_css_disabled = true
-  end
-
-  def accessibility_css_enabled?
-    !@accessibility_css_disabled
   end
 
   #

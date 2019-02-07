@@ -92,46 +92,9 @@ $widget-box--enumeration-width: 20px
         padding-top: 0
         vertical-align: middle
 
-
-    .widget-box--additional-info
-      margin: 0
-      font-size: 0.9rem
-      font-style: italic
-
     .widget-box--enumeration
       margin-left: 1.5rem
       margin-top: 0.5rem
-
-    .widget-box--arrow-links
-      list-style: none
-      margin: 0.5rem 0 1rem 0
-
-      &:last-child
-        margin-bottom: 0
-
-      li:before
-        @include icon-font-common
-        @include icon-mixin-arrow-right2
-        @extend .icon-context
-        display: inline-block
-        font-size: 0.6rem
-        color: $content-icon-link-color
-        width: $widget-box--enumeration-width
-
-      .-widget-box--arrow-multiline
-        &:before
-          float: left
-
-        &:after
-          clear: both
-          content: ""
-          display: table
-
-        > div
-          float: left
-          margin-bottom: 10px
-          //necessary for correct alignment even with long texts
-          width: calc(100% - #{$widget-box--enumeration-width})
 
     .widget-box--feature-list
       list-style: none
@@ -156,6 +119,43 @@ $widget-box--enumeration-width: 20px
       max-height: 100px
       margin-left: auto
       margin-right: auto
+
+.widget-box--additional-info
+  margin: 0
+  font-size: 0.9rem
+  font-style: italic
+
+.widget-box--arrow-links
+  list-style: none
+  margin: 0.5rem 0 1rem 0
+
+  &:last-child
+    margin-bottom: 0
+
+  li:before
+    @include icon-font-common
+    @include icon-mixin-arrow-right2
+    @extend .icon-context
+    display: inline-block
+    font-size: 0.6rem
+    color: $content-icon-link-color
+    width: $widget-box--enumeration-width
+
+  .-widget-box--arrow-multiline
+    &:before
+      float: left
+
+    &:after
+      clear: both
+      content: ""
+      display: table
+
+    > div
+      float: left
+      margin-bottom: 10px
+      //necessary for correct alignment even with long texts
+      width: calc(100% - #{$widget-box--enumeration-width})
+
 
 @include breakpoint(680px down)
   .widget-boxes

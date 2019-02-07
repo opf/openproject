@@ -45,7 +45,3 @@ for some older browsers (e.g. IE 11).
 * [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (At least ESR version 60)
 * [Microsoft Edge](https://www.microsoft.com/de-de/windows/microsoft-edge)
 * [Google Chrome](https://www.google.com/chrome/browser/desktop/)
-
-## Screen reader support (accessibility)
-
-* [JAWS](http://www.freedomscientific.com/Products/Blindness/JAWS) >= 17.0

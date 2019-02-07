@@ -106,7 +106,6 @@ describe 'OpenProject child pages macro' do
     login_as(user)
   end
 
-
   let(:input) { }
   subject { format_text(current_page.content, :text) }
 

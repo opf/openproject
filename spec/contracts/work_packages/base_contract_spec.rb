@@ -31,10 +31,10 @@ require 'spec_helper'
 describe WorkPackages::BaseContract do
   let(:work_package) do
     FactoryBot.build_stubbed(:stubbed_work_package,
-                              type: type,
-                              done_ratio: 50,
-                              estimated_hours: 6.0,
-                              project: project)
+                             type: type,
+                             done_ratio: 50,
+                             estimated_hours: 6.0,
+                             project: project)
   end
   let(:type) { FactoryBot.build_stubbed(:type) }
   let(:member) do
@@ -162,14 +162,14 @@ describe WorkPackages::BaseContract do
 
     before do
       work_package.estimated_hours = estimated_hours
-
-      contract.validate
     end
 
     context '> 0' do
       let(:estimated_hours) { 1 }
 
       it 'is valid' do
+        contract.validate
+
         expect(subject.errors.symbols_for(:estimated_hours))
           .to be_empty
       end
@@ -179,6 +179,8 @@ describe WorkPackages::BaseContract do
       let(:estimated_hours) { 0 }
 
       it 'is valid' do
+        contract.validate
+
         expect(subject.errors.symbols_for(:estimated_hours))
           .to be_empty
       end
@@ -188,6 +190,8 @@ describe WorkPackages::BaseContract do
       let(:estimated_hours) { nil }
 
       it 'is valid' do
+        contract.validate
+
         expect(subject.errors.symbols_for(:estimated_hours))
           .to be_empty
       end
@@ -197,6 +201,8 @@ describe WorkPackages::BaseContract do
       let(:estimated_hours) { -1 }
 
       it 'is invalid' do
+        contract.validate
+
         expect(subject.errors.symbols_for(:estimated_hours))
           .to match_array [:only_values_greater_or_equal_zeroes_allowed]
       end

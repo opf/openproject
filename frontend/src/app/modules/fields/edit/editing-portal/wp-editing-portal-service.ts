@@ -9,6 +9,7 @@ import {EditFormPortalComponent} from "core-app/modules/fields/edit/editing-port
 import {createLocalInjector} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.injector";
 import {take} from "rxjs/operators";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {WorkPackageEditContext} from "core-components/wp-edit-form/work-package-edit-context";
 
 @Injectable()
 export class WorkPackageEditingPortalService {

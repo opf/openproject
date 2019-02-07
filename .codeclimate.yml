@@ -29,8 +29,9 @@ plugins:
     enabled: true
   brakeman:
     enabled: true
+  # as long as bundler-audit does not support bundler 2.0 we disable it
   bundler-audit:
-    enabled: true
+    enabled: false
   eslint:
     enabled: true
     checks:

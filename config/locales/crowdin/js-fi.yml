@@ -25,7 +25,7 @@ fi:
     button_add_watcher: Lisää seuraaja
     button_back_to_list_view: Back to list view
     button_cancel: Peruuta
-    button_close: Close
+    button_close: Sulje
     button_check_all: Valitse kaikki
     button_configure-form: Configure form
     button_confirm: Vahvista
@@ -58,7 +58,7 @@ fi:
       too_many: There are more work packages (%{count}) than can be displayed by the
         calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Käytettävissä olevat sarakkeet
-    description_current_position: 'You are here:'
+    description_current_position: 'Olet täällä:'
     description_select_work_package: 'Valitse työpaketti #%{id}'
     description_selected_columns: Valitut sarakkeet
     description_subwork_package: 'Alipaketti työpaketille #%{id}'
@@ -150,9 +150,13 @@ fi:
     label_activity_no: Aktiviteettimerkinnän numero %{activityNo}
     label_activity_with_comment_no: Aktiviteettimerkinnän numero %{activityNo}. Sisältää
       käyttäjän kommentin.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Lisää sarakkeita
     label_add_comment: Lisää kommentti
     label_add_comment_title: Comment and type @ to notify other people
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Lisää valitut sarakkeet
     label_added_by: lisännyt
     label_added_time_by: Lisännyt %{author} %{age}
@@ -209,6 +213,7 @@ fi:
     label_menu_collapse: pienennä
     label_menu_expand: laajenna
     label_more_than_ago: enemän kuin päivää sitten
+    label_my_page: My page
     label_next: Seuraava
     label_no_data: Ei tietoa näytettäväksi
     label_no_due_date: ei päättymispäivää
@@ -227,7 +232,9 @@ fi:
     label_visibility_settings: Visibility settings
     label_quote_comment: Lainaa tämä kommentti
     label_reset: Nollaus
+    label_remove_column: Remove column
     label_remove_columns: Poista valitut sarakkeet
+    label_remove_row: Remove row
     label_save_as: Tallenna nimellä
     label_select_watcher: Valitse seuraaja...
     label_selected_filter_list: Valitut suodattimet
@@ -249,6 +256,7 @@ fi:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} % eteneminen"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: päivitetty vimeksi
     label_warning: Warning
     label_work_package: Työpaketti
@@ -292,7 +300,7 @@ fi:
       show_modal: Show attribute help text entry
     onboarding:
       buttons:
-        skip: Skip
+        skip: Ohita
         next: Seuraava
         got_it: Got it
       steps:
@@ -389,6 +397,10 @@ fi:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: ladataan seuraajia...
       label_error_loading: Virhe ladattaessa seuraajia
@@ -539,14 +551,6 @@ fi:
     tl_toolbar:
       zooms: Lähennyksen taso
       outlines: Hierarkian taso
-    unsupported_browser:
-      title: Selaimesi versiota ei tueta
-      message: Selaimesi versiota ei enää tueta.
-      update_message: Päivitäthän selaimesi.
-      update_ie_user: Siirry selaimeen Mozilla Firefox tai Google Chrome, tai päivitä
-        Microsoft Edge.
-      learn_more: Learn more
-      close_warning: Ohita tämä varoitus.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -598,8 +602,6 @@ fi:
       label_options: Valinnat
       label_column_multiselect: 'Yhdistetty avattava kenttä: Valitse nuolinäppäimillä,
         vahvista Enter, backspace poistaa'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: Työpaketin poistossa tapahtui virhe.
       message_successful_bulk_delete: Poistetut työpaketit.
       message_successful_show_in_fullscreen: Klikkaa tästä avataksesi työpaketin kokonäyttötilaan.
@@ -756,6 +758,8 @@ fi:
         days: päivää
         weeks: weeks
         months: months
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -839,3 +843,11 @@ fi:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    unsupported_browser:
+      title: Selaimesi versiota ei tueta
+      message: Selaimesi versiota ei enää tueta.
+      update_message: Päivitäthän selaimesi.
+      update_ie_user: Siirry selaimeen Mozilla Firefox tai Google Chrome, tai päivitä
+        Microsoft Edge.
+      learn_more: Learn more
+      close_warning: Ohita tämä varoitus.

@@ -153,10 +153,14 @@ nl:
     label_activity_no: Activiteit ingangsnummer %{activityNo}
     label_activity_with_comment_no: Activiteit ingangsnummer %{activityNo}. Bevat
       gebruikerscommentaar.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Kolommen toevoegen
     label_add_comment: Commentaar toevoegen
     label_add_comment_title: Plaats een opmerking en gebruik het @-teken om anderen
       te informeren
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Geselecteerde kolommen toevoegen
     label_added_by: toegevoegd door
     label_added_time_by: Toegevoegd door %{author} %{age}
@@ -214,6 +218,7 @@ nl:
     label_menu_collapse: samenvouwen
     label_menu_expand: uitbreiden
     label_more_than_ago: meer dan dagen geleden
+    label_my_page: My page
     label_next: Volgende
     label_no_data: Geen gegevens om weer te geven
     label_no_due_date: geen einddatum
@@ -232,7 +237,9 @@ nl:
     label_visibility_settings: Zichtbaarheidsinstellingen
     label_quote_comment: Citeer dit commentaar
     label_reset: Herstel
+    label_remove_column: Remove column
     label_remove_columns: Verwijder geselecteerde kolommen
+    label_remove_row: Remove row
     label_save_as: Opslaan als
     label_select_watcher: Kies een toezichter...
     label_selected_filter_list: Geselecteerde filters
@@ -254,6 +261,7 @@ nl:
     label_activity_show_only_comments: Geef alleen activiteiten met commentaar weer
     label_activity_show_all: Geef alle activiteiten weer
     label_total_progress: "%{percent}% totale vooruitgang"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: bijgewerkt op
     label_warning: Waarschuwing
     label_work_package: Werkpakket
@@ -299,7 +307,7 @@ nl:
       show_modal: Toon kenmerk help tekstinvoer
     onboarding:
       buttons:
-        skip: Skip
+        skip: Overslaan
         next: Volgende
         got_it: Begrepen
       steps:
@@ -399,6 +407,10 @@ nl:
           includes: inclusief
           requires: vereisen
           required: vereist door
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: volgers worden geladen...
       label_error_loading: Er is een fout opgetreden tijdens het laden van de volgers
@@ -553,14 +565,6 @@ nl:
     tl_toolbar:
       zooms: Zoom niveau
       outlines: Niveau van de hiërarchie
-    unsupported_browser:
-      title: Uw browserversie wordt niet ondersteund
-      message: De browserversie die u gebruikt wordt niet meer ondersteund door OpenProject.
-      update_message: Gebruik een recentere versie van uw browser.
-      update_ie_user: Gebruik Mozilla Firefox of Google Chrome, of upgrade naar Microsoft
-        Edge.
-      learn_more: Leer meer
-      close_warning: Negeer deze waarschuwing.
     upsale:
       ee_only: Functie alleen voor de Enterprise Editie
     wiki_formatting:
@@ -613,8 +617,6 @@ nl:
       label_options: Opties
       label_column_multiselect: 'Gecombineerd met dropdown-veld: Selecteer met richtingstoetsen,
         bevestig selectie met enter, verwijder met backspace'
-      label_switch_to_single_select: Overschakelen naar enkele selectie
-      label_switch_to_multi_select: Overschakelen naar meerdere selectie
       message_error_during_bulk_delete: Een fout is opgetreden bij het proberen verwijderen
         van werkpakketten.
       message_successful_bulk_delete: Werkpakketten succesvol verwijderd.
@@ -776,6 +778,8 @@ nl:
         days: dagen
         weeks: weken
         months: maanden
+      label_switch_to_single_select: Overschakelen naar enkele selectie
+      label_switch_to_multi_select: Overschakelen naar meerdere selectie
     toolbar:
       settings:
         configure_view: Weergave instellingen...
@@ -859,3 +863,11 @@ nl:
     zen_mode:
       button_activate: Zen-modus activeren
       button_deactivate: Deactiveren van zen modus
+    unsupported_browser:
+      title: Uw browserversie wordt niet ondersteund
+      message: De browserversie die u gebruikt wordt niet meer ondersteund door OpenProject.
+      update_message: Gebruik een recentere versie van uw browser.
+      update_ie_user: Gebruik Mozilla Firefox of Google Chrome, of upgrade naar Microsoft
+        Edge.
+      learn_more: Leer meer
+      close_warning: Negeer deze waarschuwing.

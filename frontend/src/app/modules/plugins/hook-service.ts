@@ -45,11 +45,11 @@ export class HookService {
   }
 
   public call(id:string, ...params:any[]):any[] {
-    var results = [];
+    let results = [];
 
     if (this.hooks[id]) {
-      for (var x = 0; x < this.hooks[id].length; x++) {
-        var result = this.hooks[id][x](...params);
+      for (let x = 0; x < this.hooks[id].length; x++) {
+        let result = this.hooks[id][x](...params);
 
         if (result) {
           results.push(result);

@@ -150,9 +150,13 @@ hr:
     label_activity_no: Broj unosa aktivnosti %{activityNo}
     label_activity_with_comment_no: Broj unosa aktivnosti %{activityNo}. Postoji komentar
       korisnika.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Add columns
     label_add_comment: Dodaj komentar
     label_add_comment_title: Unesi komentar i upiši @ da obavijestiš druge osobe
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Dodaj odabrani stupac
     label_added_by: dodao
     label_added_time_by: Dodao %{author} %{age}
@@ -210,6 +214,7 @@ hr:
     label_menu_collapse: sakriti
     label_menu_expand: proširiti
     label_more_than_ago: prije nekoliko dana
+    label_my_page: My page
     label_next: Sljedeći
     label_no_data: Nema podataka za prikaz
     label_no_due_date: nema datuma kraja
@@ -228,7 +233,9 @@ hr:
     label_visibility_settings: Visibility settings
     label_quote_comment: Citirajte komentar
     label_reset: Resetiraj
+    label_remove_column: Remove column
     label_remove_columns: Izbriši odabrene stupce
+    label_remove_row: Remove row
     label_save_as: Spremiti kao
     label_select_watcher: Odaberite nadglednika...
     label_selected_filter_list: Odabrani filteri
@@ -250,6 +257,7 @@ hr:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% ukupnog napretka"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: ažurirano
     label_warning: Upozorenje
     label_work_package: Radni paket
@@ -390,6 +398,10 @@ hr:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: učitavanje nadglednika...
       label_error_loading: Došlo je do pogreške tijekom učitavanja nadglednika
@@ -543,14 +555,6 @@ hr:
     tl_toolbar:
       zooms: Razina zumiranja
       outlines: Razina u hijerarhiji
-    unsupported_browser:
-      title: Vaša verzija Internet preglednika nije podržana
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Ažurirajte svoj preglednik.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Saznaj više
-      close_warning: Ignorirati ovo upozorenje.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -602,8 +606,6 @@ hr:
       label_options: Mogućnosti
       label_column_multiselect: 'Kombinirano padajuće polje: odaberite sa strelicama
         na tipkovnici, potvrdite izbor sa enter tipkom, a izbrišite s backspace tipkom'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: Došlo je do pogreške tijekom brisanja radnog
         paketa.
       message_successful_bulk_delete: Uspiješno izrisani radni paketi.
@@ -763,6 +765,8 @@ hr:
         days: dani
         weeks: tjedana
         months: mjeseci
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -850,3 +854,11 @@ hr:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    unsupported_browser:
+      title: Vaša verzija Internet preglednika nije podržana
+      message: The browser version you are using is no longer supported by OpenProject.
+      update_message: Ažurirajte svoj preglednik.
+      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
+        to Microsoft Edge.
+      learn_more: Saznaj više
+      close_warning: Ignorirati ovo upozorenje.

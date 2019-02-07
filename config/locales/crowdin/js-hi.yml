@@ -150,9 +150,13 @@ hi:
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
       comment.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Add columns
     label_add_comment: टिप्पणी लिखें
     label_add_comment_title: Comment and type @ to notify other people
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Add selected columns
     label_added_by: द्वारा जोड़ा गया
     label_added_time_by: Added by %{author} %{age}
@@ -210,6 +214,7 @@ hi:
     label_menu_collapse: संक्षिप्त करें
     label_menu_expand: विस्तृत करें
     label_more_than_ago: more than days ago
+    label_my_page: My page
     label_next: Next
     label_no_data: प्रदर्शित करने के लिए कोई डेटा नहीं
     label_no_due_date: कोई समाप्ति दिनांक नहीं
@@ -228,7 +233,9 @@ hi:
     label_visibility_settings: दृश्यता settings
     label_quote_comment: Quote this comment
     label_reset: रीसेट करें
+    label_remove_column: Remove column
     label_remove_columns: Remove selected columns
+    label_remove_row: Remove row
     label_save_as: के रूप में सहेजें...
     label_select_watcher: एक द्रष्टा का चयन करें..
     label_selected_filter_list: चयनित फ़िल्टर्स
@@ -250,6 +257,7 @@ hi:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: समस्त गतिविधयाँ दिखाएँ
     label_total_progress: "%{percent}% कुल प्रगति"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: updated on
     label_warning: Warning
     label_work_package: कार्य पैकेज
@@ -390,6 +398,10 @@ hi:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -541,14 +553,6 @@ hi:
     tl_toolbar:
       zooms: Zoom level
       outlines: Hierarchy level
-    unsupported_browser:
-      title: Your browser version is not supported
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Learn more
-      close_warning: Ignore this warning.
     upsale:
       ee_only: केवल एंटरप्राइज संस्करण में सुविधा
     wiki_formatting:
@@ -600,8 +604,6 @@ hi:
       label_options: विकल्प
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
         confirm selection with enter, delete with backspace'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: An error occurred while trying to delete work
         packages.
       message_successful_bulk_delete: Successfully deleted work packages.
@@ -762,6 +764,8 @@ hi:
         days: days
         weeks: weeks
         months: months
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -845,3 +849,11 @@ hi:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    unsupported_browser:
+      title: Your browser version is not supported
+      message: The browser version you are using is no longer supported by OpenProject.
+      update_message: Please update your browser.
+      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
+        to Microsoft Edge.
+      learn_more: Learn more
+      close_warning: Ignore this warning.

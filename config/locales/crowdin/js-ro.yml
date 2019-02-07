@@ -152,9 +152,13 @@ ro:
     label_activity_no: Acțiunea cu numărul %{activityNo}
     label_activity_with_comment_no: Acțiunea cu numărul %{activityNo}. Are un comentariu
       de utilizator.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Adaugați coloane
     label_add_comment: Adăugare comentariu
     label_add_comment_title: Comentați şi tastaţi @ pentru a notifica alte persoane
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Adăugați coloanele selectate
     label_added_by: adăugat de
     label_added_time_by: Adăugat de %{author} %{age}
@@ -212,6 +216,7 @@ ro:
     label_menu_collapse: restrângere
     label_menu_expand: extindere
     label_more_than_ago: acum mai mult de zile
+    label_my_page: My page
     label_next: Înainte
     label_no_data: Nu există date de afișat
     label_no_due_date: fără dată sfârșit
@@ -230,7 +235,9 @@ ro:
     label_visibility_settings: Setări de vizibilitate
     label_quote_comment: Citare comentariu
     label_reset: Resetare
+    label_remove_column: Remove column
     label_remove_columns: Eliminare coloane selectate
+    label_remove_row: Remove row
     label_save_as: Salvare ca
     label_select_watcher: Selectaţi un observator...
     label_selected_filter_list: Filtre selectate
@@ -252,6 +259,7 @@ ro:
     label_activity_show_only_comments: Afișați doar activitățile ce conțin comentarii
     label_activity_show_all: Afișează toate activitățile
     label_total_progress: "%{percent} % Progres total"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: actualizat la data de
     label_warning: Avertizare
     label_work_package: Pachet de lucru
@@ -394,6 +402,10 @@ ro:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: se încarcă observatorii...
       label_error_loading: A apărut o eroare în timpul încărcării observatorilor
@@ -549,14 +561,6 @@ ro:
     tl_toolbar:
       zooms: Orizont de timp
       outlines: Nivel ierarhic
-    unsupported_browser:
-      title: Versiunea dumneavoastră de browser nu este suportată
-      message: Versiunea de browser utilizată nu mai este suportată de OpenProject.
-      update_message: Vă rugăm să actualizaţi browser-ul.
-      update_ie_user: Vă rugăm să folosiți Mozilla Firefox sau Google Chrome, sau
-        faceți un upgrade către Microsoft Edge.
-      learn_more: Aflați mai multe
-      close_warning: Ignoră acest avertisment.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -609,8 +613,6 @@ ro:
       label_options: Opțiuni
       label_column_multiselect: 'Câmp desfășurat combinat: selectaţi cu săgețile,
         confirmați alegerea cu enter, ştergeţi cu backspace'
-      label_switch_to_single_select: Activați selecție independentă
-      label_switch_to_multi_select: Activați selecție multiplă
       message_error_during_bulk_delete: A apărut o eroare la ștergerea pachetelor
         de lucru.
       message_successful_bulk_delete: Pachetele de lucru au fost șterse cu succes.
@@ -771,6 +773,8 @@ ro:
         days: zile
         weeks: săptămâni
         months: luni
+      label_switch_to_single_select: Activați selecție independentă
+      label_switch_to_multi_select: Activați selecție multiplă
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -857,3 +861,11 @@ ro:
     zen_mode:
       button_activate: Activați modul zen
       button_deactivate: Dezactivați modul zen
+    unsupported_browser:
+      title: Versiunea dumneavoastră de browser nu este suportată
+      message: Versiunea de browser utilizată nu mai este suportată de OpenProject.
+      update_message: Vă rugăm să actualizaţi browser-ul.
+      update_ie_user: Vă rugăm să folosiți Mozilla Firefox sau Google Chrome, sau
+        faceți un upgrade către Microsoft Edge.
+      learn_more: Aflați mai multe
+      close_warning: Ignoră acest avertisment.

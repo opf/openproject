@@ -33,10 +33,17 @@ module API
                     :representer,
                     :current_user
 
-      def initialize(user, model, representer)
+      def initialize(user, model: nil, representer: nil)
         self.current_user = user
         self.model = model
-        self.representer = representer
+
+        self.representer = if !representer && model
+                             "API::V3::#{model.to_s.pluralize}::#{model}Representer".constantize
+                           elsif representer
+                             representer
+                           else
+                             raise 'Representer not defined'
+                           end
       end
 
       def call(request_body)
@@ -61,7 +68,11 @@ module API
       end
 
       def struct
-        OpenStruct.new available_custom_fields: model.new.available_custom_fields
+        if model
+          OpenStruct.new available_custom_fields: model.new.available_custom_fields
+        else
+          OpenStruct.new
+        end
       end
     end
   end

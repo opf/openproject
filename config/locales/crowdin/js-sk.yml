@@ -150,9 +150,13 @@ sk:
     label_activity_no: Záznam aktivity číslo %{activityNo}
     label_activity_with_comment_no: Záznam aktivity číslo %{activityNo} (obsahuje
       komentár)
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Add columns
     label_add_comment: Pridať komentár
     label_add_comment_title: Komentujte a napíšte @ pre upozornenie ďalších ľudí
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Pridať vybraté stĺpce
     label_added_by: Pridal
     label_added_time_by: Pridal %{author} %{age}
@@ -209,6 +213,7 @@ sk:
     label_menu_collapse: zbaliť
     label_menu_expand: rozbaliť
     label_more_than_ago: pred viac než dňom
+    label_my_page: My page
     label_next: Ďalšie
     label_no_data: Žiadne dáta na zobrazenie
     label_no_due_date: bez dátumu ukončenia
@@ -227,7 +232,9 @@ sk:
     label_visibility_settings: Nastavenia viditeľnosti
     label_quote_comment: Citovať tento komentár
     label_reset: Vynulovať
+    label_remove_column: Remove column
     label_remove_columns: Odstrániť vybraté stĺpce
+    label_remove_row: Remove row
     label_save_as: Uložiť ako
     label_select_watcher: Vybrať pozorovateľa ...
     label_selected_filter_list: Vybrané filtre
@@ -249,6 +256,7 @@ sk:
     label_activity_show_only_comments: Zobraziť len aktivity s komentármi
     label_activity_show_all: Zobraziť všetky aktivity
     label_total_progress: "%{percent}% celkový priebeh"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: aktualizované
     label_warning: Upozornenie
     label_work_package: Pracovný balíček
@@ -370,7 +378,7 @@ sk:
           fields.
 
 '
-        upgrade_to_ee: Upgrade to Enterprise Edition
+        upgrade_to_ee: Upgrade na Enterprise Edition
         upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
           you mind supporting us OpenSource developers by becoming an Enterprise Edition
           client?
@@ -389,6 +397,10 @@ sk:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: načítanie pozorovateľov...
       label_error_loading: Vyskytla sa chyba pri načítavaní pozorovateľov
@@ -545,14 +557,6 @@ sk:
     tl_toolbar:
       zooms: Úroveň priblíženia
       outlines: Úroveň vnorenia
-    unsupported_browser:
-      title: Prehliadač, ktorý aktuálne používate nie je podporovaný projektom OpenProject
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Zistiť viac
-      close_warning: Ignore this warning.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -573,10 +577,10 @@ sk:
       image: Obrázok
     work_packages:
       bulk_actions:
-        move: Bulk move
-        edit: Bulk edit
-        copy: Bulk copy
-        delete: Bulk delete
+        move: Hromadne presunúť
+        edit: Hromadne editovať
+        copy: Hromadne kopírovať
+        delete: Hromadne zmazať
       button_clear: Vyčistiť
       comment_added: Komentár bol úspešne pridaný.
       comment_send_failed: Vyskytla sa chyba. Nebolo možné pridať komentár.
@@ -587,8 +591,8 @@ sk:
       description_options_hide: Skryť možnosti
       description_options_show: Zobraziť možnosti
       error:
-        update_conflict_refresh: Click here to refresh the work package and update
-          to the newest version.
+        update_conflict_refresh: Kliknutím sem obnovíte pracovný balíček a aktualizujete
+          na najnovšiu verziu.
         edit_prohibited: Úprava %{attribute} je blokovaná pre tento pracovný balík.
           Buď je tento atribút odvodený zo vzťahov (napr. z podriadených), alebo nie
           je konfigurovateľný.
@@ -604,16 +608,14 @@ sk:
       label_options: Voľby
       label_column_multiselect: 'Kombinované rozbaľovacie pole: vyberte pomocou klávesov
         so šípkami, potvrďte stlačením ENTER, odstraňujte stlačením BACKSPACE'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: Chyba pri pokuse o odstránenie pracovných
         balíčkov.
       message_successful_bulk_delete: Pracovné balíčky boli úspešne odstránené.
       message_successful_show_in_fullscreen: Kliknutím sem otvoríte tento pracovný
         balík v zobrazení na celú obrazovku.
       message_view_spent_time: Show spent time for this work package
-      message_work_package_read_only: Work package is locked in this status. No attribute
-        other than status can be altered.
+      message_work_package_read_only: Pracovný balíček je v tomto stave uzamknutý.
+        Nie je možné zmeniť iný atribút ako stav.
       no_value: Žiadna hodnota
       placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
@@ -753,8 +755,8 @@ sk:
           relation_columns: Potrebujete vidieť vzťahy v zozname pracovných balíčkov?
           check_out_link: Pozrite si verziu Enterprise.
         relation_filters:
-          first_part: Show all work packages
-          second_part: the current work package
+          first_part: Zobraziť všetky pracovné balíčky
+          second_part: aktuálny pracovný balíček
       tabs:
         overview: Prehľad
         activity: Činnosť
@@ -765,6 +767,8 @@ sk:
         days: dní
         weeks: týždne
         months: mesiace
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -805,10 +809,10 @@ sk:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
-    notice_successful_create: Successful creation.
-    notice_successful_delete: Successful deletion.
-    notice_successful_update: Successful update.
-    notice_bad_request: Bad Request.
+    notice_successful_create: Úspešne vytvorené.
+    notice_successful_delete: Úspešne zmazané.
+    notice_successful_update: Úspešne aktualizované.
+    notice_bad_request: Nesprávna požiadavka.
     relations:
       empty: Neexistuje žiadna väzba
       remove: Odstrániť vzťah
@@ -854,3 +858,11 @@ sk:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    unsupported_browser:
+      title: Prehliadač, ktorý aktuálne používate nie je podporovaný projektom OpenProject
+      message: The browser version you are using is no longer supported by OpenProject.
+      update_message: Please update your browser.
+      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
+        to Microsoft Edge.
+      learn_more: Zistiť viac
+      close_warning: Ignore this warning.

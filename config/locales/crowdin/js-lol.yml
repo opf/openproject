@@ -140,9 +140,13 @@ lol:
     label_activate: crwdns107142:0crwdne107142:0
     label_activity_no: crwdns107144:0%{activityNo}crwdne107144:0
     label_activity_with_comment_no: crwdns107146:0%{activityNo}crwdne107146:0
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: crwdns107148:0crwdne107148:0
     label_add_comment: crwdns107150:0crwdne107150:0
     label_add_comment_title: crwdns107152:0crwdne107152:0
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: crwdns107154:0crwdne107154:0
     label_added_by: crwdns107156:0crwdne107156:0
     label_added_time_by: crwdns107158:0%{author}crwdnd107158:0%{age}crwdne107158:0
@@ -199,6 +203,7 @@ lol:
     label_menu_collapse: crwdns107260:0crwdne107260:0
     label_menu_expand: crwdns107262:0crwdne107262:0
     label_more_than_ago: crwdns107264:0crwdne107264:0
+    label_my_page: My page
     label_next: crwdns107266:0crwdne107266:0
     label_no_data: crwdns107268:0crwdne107268:0
     label_no_due_date: crwdns107270:0crwdne107270:0
@@ -217,7 +222,9 @@ lol:
     label_visibility_settings: crwdns107296:0crwdne107296:0
     label_quote_comment: crwdns107298:0crwdne107298:0
     label_reset: crwdns107300:0crwdne107300:0
+    label_remove_column: Remove column
     label_remove_columns: crwdns107302:0crwdne107302:0
+    label_remove_row: Remove row
     label_save_as: crwdns107304:0crwdne107304:0
     label_select_watcher: crwdns107306:0crwdne107306:0
     label_selected_filter_list: crwdns107308:0crwdne107308:0
@@ -239,6 +246,7 @@ lol:
     label_activity_show_only_comments: crwdns107340:0crwdne107340:0
     label_activity_show_all: crwdns107342:0crwdne107342:0
     label_total_progress: crwdns107344:0%{percent}crwdne107344:0
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: crwdns107346:0crwdne107346:0
     label_warning: crwdns107348:0crwdne107348:0
     label_work_package: crwdns107350:0crwdne107350:0
@@ -345,6 +353,10 @@ lol:
           includes: crwdns109260:0crwdne109260:0
           requires: crwdns109262:0crwdne109262:0
           required: crwdns109264:0crwdne109264:0
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: crwdns107460:0crwdne107460:0
       label_error_loading: crwdns107462:0crwdne107462:0
@@ -485,13 +497,6 @@ lol:
     tl_toolbar:
       zooms: crwdns107672:0crwdne107672:0
       outlines: crwdns107674:0crwdne107674:0
-    unsupported_browser:
-      title: crwdns107676:0crwdne107676:0
-      message: crwdns107678:0crwdne107678:0
-      update_message: crwdns107680:0crwdne107680:0
-      update_ie_user: crwdns107682:0crwdne107682:0
-      learn_more: crwdns107684:0crwdne107684:0
-      close_warning: crwdns107686:0crwdne107686:0
     upsale:
       ee_only: crwdns107688:0crwdne107688:0
     wiki_formatting:
@@ -539,8 +544,6 @@ lol:
       label_filter_by_text: Filter by text
       label_options: crwdns107762:0crwdne107762:0
       label_column_multiselect: crwdns107764:0crwdne107764:0
-      label_switch_to_single_select: crwdns107766:0crwdne107766:0
-      label_switch_to_multi_select: crwdns107768:0crwdne107768:0
       message_error_during_bulk_delete: crwdns107770:0crwdne107770:0
       message_successful_bulk_delete: crwdns107772:0crwdne107772:0
       message_successful_show_in_fullscreen: crwdns107774:0crwdne107774:0
@@ -681,6 +684,8 @@ lol:
         days: crwdns107996:0crwdne107996:0
         weeks: crwdns107998:0crwdne107998:0
         months: crwdns108000:0crwdne108000:0
+      label_switch_to_single_select: crwdns113286:0crwdne113286:0
+      label_switch_to_multi_select: crwdns113288:0crwdne113288:0
     toolbar:
       settings:
         configure_view: crwdns108002:0crwdne108002:0
@@ -761,3 +766,10 @@ lol:
     zen_mode:
       button_activate: crwdns108124:0crwdne108124:0
       button_deactivate: crwdns108126:0crwdne108126:0
+    unsupported_browser:
+      title: crwdns107676:0crwdne107676:0
+      message: crwdns107678:0crwdne107678:0
+      update_message: crwdns107680:0crwdne107680:0
+      update_ie_user: crwdns107682:0crwdne107682:0
+      learn_more: crwdns107684:0crwdne107684:0
+      close_warning: crwdns107686:0crwdne107686:0

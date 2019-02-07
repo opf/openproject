@@ -150,10 +150,14 @@ id:
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
       comment.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Tambah kolom
     label_add_comment: Tambah komentar
     label_add_comment_title: Beri komentar dan tuliskan @ untuk memberi tahu orang
       lain
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Tambahkan kolom terpilih
     label_added_by: ditambahkan oleh
     label_added_time_by: Ditambahkan oleh %{author} %{age}
@@ -211,6 +215,7 @@ id:
     label_menu_collapse: runtuh
     label_menu_expand: expand
     label_more_than_ago: lusa yang lalu
+    label_my_page: My page
     label_next: Lanjut
     label_no_data: Tidak ada data untuk ditampilkan
     label_no_due_date: tidak ada tanggal berakhir
@@ -229,7 +234,9 @@ id:
     label_visibility_settings: Seting penampakan
     label_quote_comment: Quote this comment
     label_reset: Reset
+    label_remove_column: Remove column
     label_remove_columns: Hapus kolom terpilih
+    label_remove_row: Remove row
     label_save_as: Simpan sebagai
     label_select_watcher: Pilih pemantau...
     label_selected_filter_list: Filter terpilih
@@ -251,6 +258,7 @@ id:
     label_activity_show_only_comments: Tampilkan hanya aktivitas bersama komentar
     label_activity_show_all: Tampilkan semua aktivitas
     label_total_progress: "%{percent}% total progres"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: diupdate pada
     label_warning: Warning
     label_work_package: Paket-Penugasan
@@ -391,6 +399,10 @@ id:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: memuat pengamat...
       label_error_loading: An error occurred while loading the watchers
@@ -541,14 +553,6 @@ id:
     tl_toolbar:
       zooms: Zoom level
       outlines: Hierarchy level
-    unsupported_browser:
-      title: Versi peramban Anda tidak didukung
-      message: Versi browser yang anda gunakan terlalu usang untuk OpenProject.
-      update_message: Mohon tingkatkan browsermu.
-      update_ie_user: Mohon ubah ke Mozzila atau Google Chrome, atau tingkatkan Microsoft
-        Edge.
-      learn_more: Pelajari lebih lanjut
-      close_warning: Abaikan peringatan ini.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -600,8 +604,6 @@ id:
       label_options: Opsi
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
         confirm selection with enter, delete with backspace'
-      label_switch_to_single_select: Beralih ke pilihan tunggal
-      label_switch_to_multi_select: Beralih ke pilihan majemuk
       message_error_during_bulk_delete: 'Error: Menghapus Paket-Penugasan.'
       message_successful_bulk_delete: Paket-Penugasan telah dihapus.
       message_successful_show_in_fullscreen: Click here to open this work package
@@ -762,6 +764,8 @@ id:
         days: hari
         weeks: minggu
         months: bulan
+      label_switch_to_single_select: Beralih ke pilihan tunggal
+      label_switch_to_multi_select: Beralih ke pilihan majemuk
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -845,3 +849,11 @@ id:
     zen_mode:
       button_activate: Mengaktifkan modus zen
       button_deactivate: Menonaktifkan modus zen
+    unsupported_browser:
+      title: Versi peramban Anda tidak didukung
+      message: Versi browser yang anda gunakan terlalu usang untuk OpenProject.
+      update_message: Mohon tingkatkan browsermu.
+      update_ie_user: Mohon ubah ke Mozzila atau Google Chrome, atau tingkatkan Microsoft
+        Edge.
+      learn_more: Pelajari lebih lanjut
+      close_warning: Abaikan peringatan ini.

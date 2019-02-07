@@ -29,18 +29,6 @@
 require 'spec_helper'
 
 describe 'my routes', type: :routing do
-  it '/my/add_block POST routes to my#add_block' do
-    expect(post('/my/add_block')).to route_to('my#add_block')
-  end
-
-  it '/my/page_layout GET routes to my#page_layout' do
-    expect(get('/my/page_layout')).to route_to('my#page_layout')
-  end
-
-  it '/my/remove_block POST routes to my#remove_block' do
-    expect(post('/my/remove_block')).to route_to('my#remove_block')
-  end
-
   it '/my/account GET routes to my#account' do
     expect(get('/my/account')).to route_to('my#account')
   end

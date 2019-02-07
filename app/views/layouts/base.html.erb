@@ -89,16 +89,18 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
   <%= crowdin_in_context_translation %>
 </head>
-<body class="<%= body_css_classes %>" data-relative_url_root="<%= root_path %>">
+<body class="<%= body_css_classes %> __overflowing_element_container __overflowing_body" data-relative_url_root="<%= root_path %>" data-overflowing-identifier=".__overflowing_body">
+<%= render partial: 'browser/unsupported_browser' if unsupported_browser? %>
 <noscript>
-  <div class="top-shelf icon icon-warning">
-    <h1><%= l(:noscript_heading) %></h1>
+  <div class="top-shelf">
     <p>
-      <%= l(:noscript_description) %>
-    </p>
-    <h2>
+      <span>
+        <%= op_icon 'icon3 icon-warning' %>
+        <strong><%= t(:noscript_heading) %></strong>
+      </span>
+      <%= t(:noscript_description) %>
       <a href="http://www.enable-javascript.com/" target="_blank"><%= l(:noscript_learn_more) %></a>
-    </h2>
+    </p>
   </div>
 </noscript>
 <% main_menu = render_main_menu(local_assigns.fetch(:menu_name, nil), @project) %>

@@ -155,9 +155,13 @@ it:
     label_activity_no: Voce attività numero %{activityNo}
     label_activity_with_comment_no: Voce attività numero %{activityNo}. Ha un commento
       da un utente.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Aggiungi colonne
     label_add_comment: Aggiungi un commento
     label_add_comment_title: Commenta e digita @ per notificare altre persone
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Aggiungi colonne selezionate
     label_added_by: aggiunto da
     label_added_time_by: Aggiunto da %{author} %{age}
@@ -215,6 +219,7 @@ it:
     label_menu_collapse: collassa
     label_menu_expand: espandi
     label_more_than_ago: più di qualche giorno fa
+    label_my_page: My page
     label_next: Prossimo
     label_no_data: Nessun dato da visualizzare
     label_no_due_date: nessuna data di fine
@@ -233,7 +238,9 @@ it:
     label_visibility_settings: Impostazioni di visibilità
     label_quote_comment: Annota questo commento
     label_reset: Reimposta
+    label_remove_column: Remove column
     label_remove_columns: Rimuovi le colonne selezionate
+    label_remove_row: Remove row
     label_save_as: Salva come
     label_select_watcher: Seleziona un osservatore...
     label_selected_filter_list: Filtri selezionati
@@ -255,6 +262,7 @@ it:
     label_activity_show_only_comments: Mostra solo le attività con commenti
     label_activity_show_all: Mostra tutte le attività
     label_total_progress: "%{percent}% Progresso totale"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: aggiornato il
     label_warning: Attenzione
     label_work_package: Macro-attività
@@ -299,7 +307,7 @@ it:
       show_modal: Mostra l'immissione di testo della guida dell'attributo
     onboarding:
       buttons:
-        skip: Skip
+        skip: Salta
         next: Prossimo
         got_it: Capito
       steps:
@@ -399,6 +407,10 @@ it:
           includes: compreso
           requires: che richiedono
           required: richiesto dalla
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: caricamento osservatori in corso...
       label_error_loading: Si è verificato un errore nel caricamento degli osservatori
@@ -553,14 +565,6 @@ it:
     tl_toolbar:
       zooms: Livello di zoom
       outlines: Livello della gerarchia
-    unsupported_browser:
-      title: La versione del browser non è supportata
-      message: La versione del browser in uso non è più supportata da OpenProject.
-      update_message: Aggiornare il browser, prego.
-      update_ie_user: Passare a Mozilla Firefox o Google Chrome, oppure aggiornare
-        a Microsoft Edge.
-      learn_more: Scopri di più
-      close_warning: Ignora questo avviso.
     upsale:
       ee_only: Funzionalità esclusiva della Versione Enterprise
     wiki_formatting:
@@ -612,8 +616,6 @@ it:
       label_options: Opzioni
       label_column_multiselect: 'Campo a discesa combinata: selezionare con i tasti
         freccia, confermare la selezione con invio, eliminare con backspace'
-      label_switch_to_single_select: Passa a selezione singola
-      label_switch_to_multi_select: Passa a selezione multipla
       message_error_during_bulk_delete: Errore durante il tentativo d'eliminazione
         della macro-attività (work-package).
       message_successful_bulk_delete: Macro-attività (work-package) eliminata con
@@ -777,6 +779,8 @@ it:
         days: giorni
         weeks: Settimane
         months: mesi
+      label_switch_to_single_select: Passa a selezione singola
+      label_switch_to_multi_select: Passa a selezione multipla
     toolbar:
       settings:
         configure_view: Configura la vista...
@@ -860,3 +864,11 @@ it:
     zen_mode:
       button_activate: Attiva modalità zen
       button_deactivate: Disattiva modalità zen
+    unsupported_browser:
+      title: La versione del browser non è supportata
+      message: La versione del browser in uso non è più supportata da OpenProject.
+      update_message: Aggiornare il browser, prego.
+      update_ie_user: Passare a Mozilla Firefox o Google Chrome, oppure aggiornare
+        a Microsoft Edge.
+      learn_more: Scopri di più
+      close_warning: Ignora questo avviso.

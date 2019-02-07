@@ -55,8 +55,8 @@ cs:
     button_export-atom: Stáhnout Atom
     calendar:
       title: Kalendář
-      too_many: There are more work packages (%{count}) than can be displayed by the
-        calendar (%{max}). Add filters to focus on the relevant ones.
+      too_many: K zobrazení je více pracovních balíčků (%{count}) než je možné zobrazit
+        na kalendáři (%{max}). Prosím použijte filtry.
     description_available_columns: Dostupné sloupce
     description_current_position: 'Nacházíte se zde:'
     description_select_work_package: 'Vyberte pracovní balíček #%{id}'
@@ -66,7 +66,7 @@ cs:
       preview: Toggle preview mode
       source_code: Toggle Markdown source mode
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      error_initialization_failed: Failed to initialize CKEditor!
+      error_initialization_failed: Nepodařilo se inicializovat CKEditor!
       mode:
         manual: Přepněte do Markdown zdroje
         wysiwyg: Switch to WYSIWYG editor
@@ -113,7 +113,7 @@ cs:
           button: Vložit tabulku pracovního balíčku
           text: "[Placeholder] Embedded work package table"
         embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
+          text: "[Placeholder] Vložený kalendář"
     custom_actions:
       date:
         specific: zapnuto
@@ -150,10 +150,14 @@ cs:
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
       comment.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Přidat sloupce
     label_add_comment: Přidat komentář
     label_add_comment_title: Zadejte komentář a napište @ pro upozornění ostatních
       lidí
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Přidat vybrané sloupce
     label_added_by: přidal
     label_added_time_by: Přidal %{author} %{age}
@@ -210,6 +214,7 @@ cs:
     label_menu_collapse: sbalit
     label_menu_expand: rozbalit
     label_more_than_ago: před více jak (dny)
+    label_my_page: My page
     label_next: Další
     label_no_data: No data to display
     label_no_due_date: žádné datum ukončení
@@ -228,7 +233,9 @@ cs:
     label_visibility_settings: Visibility settings
     label_quote_comment: Quote this comment
     label_reset: Obnovit
+    label_remove_column: Remove column
     label_remove_columns: Odstranit vybrané sloupce
+    label_remove_row: Remove row
     label_save_as: Uložit jako
     label_select_watcher: Zvolte sledujícího...
     label_selected_filter_list: Vybrané filtry
@@ -236,8 +243,8 @@ cs:
     label_show_in_menu: Zobrazit pohled v menu
     label_sort_by: Seřadit podle
     label_sorted_by: řazeno podle
-    label_sort_higher: Move up
-    label_sort_lower: Move down
+    label_sort_higher: Přesunout výš
+    label_sort_lower: Přesunout níž
     label_sorting: Řazení
     label_star_query: Favored
     label_press_enter_to_save: Press enter to save.
@@ -250,6 +257,7 @@ cs:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: Celkový průběh %{percent}%
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: aktualizováno
     label_warning: Varování
     label_work_package: Pracovní balíček
@@ -271,8 +279,8 @@ cs:
     label_attachments: Soubory
     label_drop_files: Sem přetáhněte soubory
     label_drop_files_hint: or click to add files
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
-      single files.
+    label_drop_folders_hint: Není možné použít složku jako přílohu. Prosím vyberte
+      jednotlivé soubory.
     label_add_attachments: Přidat přílohy
     label_formattable_attachment_hint: Attach and link files by dropping on this field,
       or pasting from the clipboard.
@@ -295,13 +303,12 @@ cs:
       show_modal: Show attribute help text entry
     onboarding:
       buttons:
-        skip: Skip
+        skip: Přeskočit
         next: Další
         got_it: Got it
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
+        welcome: Naučte se během tří minut <b>důležité funkce</b>. <br> Doporučujeme
+          dokončit prohlídku až do konce. Prohlídku můžete kdykoliv restartovat.
         project_selection: Please select one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
           management, while the <b>Scrum project</b> is better for Agile project management.
@@ -310,12 +317,13 @@ cs:
         members: Invite new <b>Members</b> to join your project.
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
+        backlogs_overview: Vaši práci můžete organizovat v <b>backlog</b> pohledu.
+          <br> Na pravé straně je k dispozici backlog produktů či chyb, na levé straně
+          příslušné sprinty. Zde můžete vytvářet <b>epiky, user stories a chybové
+          reporty</b>, měnit priority přetažením myší a přiřazování k jednotlivým
+          sprintům.
+        backlogs_task_board_arrow: Chcete-li vidět Váš <b>seznam úkolů</b>, otevřete
+          Sprint drop-down menu...
         backlogs_task_board_select: "... and select the <b>Task board</b> entry."
         backlogs_task_board: The <b>Task board</b> visualizes the progress for this
           sprint. Add new tasks or impediments with the + icon next to a user story.
@@ -326,9 +334,8 @@ cs:
           your project, such as tasks, features, milestones, bugs, and more. <br>
           You can create or edit a work package directly within this list. To see
           its details you can double click on a row.
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities, dependencies
-          or comments.
+        wp_full_view: V <b>detailech pracovního balíčku</b> najdete všechny relevantní
+          informace jako popis, stav, prioritu, activity, návaznosti a komentáře.
         wp_back_button: With the arrow you can navigate back to the work package list.
         wp_create_button: The <b>Create</b> button will add a new work package to
           your project.
@@ -365,7 +372,7 @@ cs:
       attribute_groups:
         error_duplicate_group_name: Jméno %{group} je již použito. Jména skupin musí
           být jedinečná.
-        error_no_table_configured: Please configure a table for %{group}.
+        error_no_table_configured: Prosím nastavte tabulku pro %{group}.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom
@@ -379,18 +386,22 @@ cs:
         more_information: Více informací
         nevermind: Nevermind
         filter_types:
-          parent: being child of
-          precedes: preceding
-          follows: following
-          relates: relating to
-          duplicates: duplicating
+          parent: podřazený
+          precedes: předcházející
+          follows: navazující
+          relates: související s
+          duplicates: duplicitní
           duplicated: duplikováno
-          blocks: blocking
+          blocks: blokuje
           blocked: zablokoval
-          partof: being part of
-          includes: including
-          requires: requiring
-          required: required by
+          partof: součástí
+          includes: včetně
+          requires: vyžaduje
+          required: vyžadováno
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -418,19 +429,19 @@ cs:
       hierarchy_headline: Hierarchie
       children_headline: Potomci
     relation_buttons:
-      set_parent: Set parent
+      set_parent: Nastavit nadřazený
       change_parent: Změnit nadřazený
       remove_parent: Odstranit nadřazený
       group_by_wp_type: Seskupit podle typu pracovního balíčku
       group_by_relation_type: Seskupit podle typu vztahu
       add_parent: Přidat existujícího rodiče
       add_new_child: Vytvořit nového potomka
-      create_new: Create new
-      add_existing: Add existing
+      create_new: Vytvořit nový
+      add_existing: Přidat existující
       add_existing_child: Přidat existujícího potomka
       remove_child: Odstranit záznam
       add_new_relation: Vytvořit nový vztah
-      add_existing_relation: Add existing relation
+      add_existing_relation: Přidat existující vztah
       update_description: Nastavit nebo upravit popis tohoto vztahu
       toggle_description: Toggle relation description
       update_relation: Click to change the relation type
@@ -441,7 +452,8 @@ cs:
       abort: Zrušit
     relations_autocomplete:
       placeholder: Zadejte ID pracovního balíčku
-      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
+      parent_placeholder: Vyberte nadřazený prvek, enter zruší závislost, escape vrátí
+        předchozí stav.
     repositories:
       select_tag: Select tag
       select_branch: Select branch
@@ -545,14 +557,6 @@ cs:
     tl_toolbar:
       zooms: Úroveň přiblížení/oddálení
       outlines: Úroveň hierarchie
-    unsupported_browser:
-      title: Verze vašeho prohlížeče není podporována
-      message: Verze prohlížeče, který používáte, již není OpenProject podporována.
-      update_message: Aktualizujte svůj prohlížeč prosím.
-      update_ie_user: Prosím přepněte do Mozilla Firefox nebo Google Chrome, nebo
-        upgradujte na Microsoft Edge.
-      learn_more: Více informací
-      close_warning: Ignorovat toto upozornění.
     upsale:
       ee_only: Pouze funkce Enterprise edice
     wiki_formatting:
@@ -587,8 +591,8 @@ cs:
       description_options_hide: Skrýt možnosti
       description_options_show: Zobrazit možnosti
       error:
-        update_conflict_refresh: Click here to refresh the work package and update
-          to the newest version.
+        update_conflict_refresh: Klikněte sem pro obnovení pracovního balíčku a aktualizaci
+          na nejnovější verzi.
         edit_prohibited: Editing %{attribute} is blocked for this work package. Either
           this attribute is derived from relations (e.g, children) or otherwise not
           configurable.
@@ -604,16 +608,14 @@ cs:
       label_options: Možnosti
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
         confirm selection with enter, delete with backspace'
-      label_switch_to_single_select: Přepnout na jednoduchý výběr
-      label_switch_to_multi_select: Přepnout na vícenásobný výběr
       message_error_during_bulk_delete: Při pokusu o odstranění pracovních balíčků
         došlo k chybě.
       message_successful_bulk_delete: Pracovní balíčky úspěšně odstraněny.
       message_successful_show_in_fullscreen: Click here to open this work package
         in fullscreen view.
       message_view_spent_time: Zobrazit strávený čas pro tento pracovní balíček
-      message_work_package_read_only: Work package is locked in this status. No attribute
-        other than status can be altered.
+      message_work_package_read_only: Pracovní balíček je v tomto stavu uzamčen. Nemůže
+        být změněn žádný jiný atribut mimo vlastního stavu balíčku.
       no_value: Žádná hodnota
       placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
@@ -753,8 +755,8 @@ cs:
           relation_columns: Need to see relations in the work package list?
           check_out_link: Check out the Enterprise Edition.
         relation_filters:
-          first_part: Show all work packages
-          second_part: the current work package
+          first_part: Zobrazit všechny pracovní balíčky
+          second_part: aktuální pracovní balíček
       tabs:
         overview: Přehled
         activity: Aktivita
@@ -765,6 +767,8 @@ cs:
         days: dnů
         weeks: týdny
         months: mesice
+      label_switch_to_single_select: Přepnout na jednoduchý výběr
+      label_switch_to_multi_select: Přepnout na vícenásobný výběr
     toolbar:
       settings:
         configure_view: Nastavit zobrazení ...
@@ -854,3 +858,11 @@ cs:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    unsupported_browser:
+      title: Verze vašeho prohlížeče není podporována
+      message: Verze prohlížeče, který používáte, již není OpenProject podporována.
+      update_message: Aktualizujte svůj prohlížeč prosím.
+      update_ie_user: Prosím přepněte do Mozilla Firefox nebo Google Chrome, nebo
+        upgradujte na Microsoft Edge.
+      learn_more: Více informací
+      close_warning: Ignorovat toto upozornění.

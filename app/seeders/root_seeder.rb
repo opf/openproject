@@ -65,7 +65,11 @@ class RootSeeder < Seeder
         puts '*** Seeding development data'
         require 'factory_bot'
         # Load FactoryBot factories
-        ::FactoryBot.find_definitions
+        begin
+          ::FactoryBot.find_definitions
+        rescue => e
+          raise e unless e.message.downcase.include? "factory already registered"
+        end
 
         DevelopmentDataSeeder.new.seed!
       end

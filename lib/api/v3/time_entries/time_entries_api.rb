@@ -51,7 +51,7 @@ module API
 
           post do
             params = API::V3::ParseResourceParamsService
-                     .new(current_user, TimeEntry, TimeEntryRepresenter)
+                     .new(current_user, model: TimeEntry)
                      .call(request_body)
                      .result
 
@@ -88,7 +88,7 @@ module API
 
             patch do
               params = API::V3::ParseResourceParamsService
-                       .new(current_user, TimeEntry, TimeEntryRepresenter)
+                       .new(current_user, model: TimeEntry)
                        .call(request_body)
                        .result
 

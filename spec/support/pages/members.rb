@@ -147,11 +147,7 @@ module Pages
     end
 
     def select_principal!(principal_name)
-      if !User.current.impaired?
-        select2(principal_name, css: '#s2id_member_user_ids')
-      else
-        find('form .principals').check principal_name
-      end
+      select2(principal_name, css: '#s2id_member_user_ids')
     end
 
     ##
@@ -186,22 +182,14 @@ module Pages
     end
 
     def select_role!(role_name)
-      if !User.current.impaired?
-        select = find('select#member_role_ids')
-        select.select role_name
-      else
-        find('form .roles').check role_name
-      end
+      select = find('select#member_role_ids')
+      select.select role_name
     end
 
     def enter_principal_search!(principal_name)
-      if !User.current.impaired?
-        find('#s2id_member_user_ids')
-          .find('.select2-choices .select2-input')
-          .set(principal_name)
-      else
-        fill_in 'principal_search', with: principal_name
-      end
+      find('#s2id_member_user_ids')
+        .find('.select2-choices .select2-input')
+        .set(principal_name)
     end
 
     def go_to_page!(number)

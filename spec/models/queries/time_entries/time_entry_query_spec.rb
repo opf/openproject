@@ -46,31 +46,58 @@ describe Queries::TimeEntries::TimeEntryQuery, type: :model do
   end
 
   context 'with a user filter' do
+    let(:values) { ['1'] }
     before do
       allow(Principal)
         .to receive_message_chain(:in_visible_project, :pluck)
         .with(:id)
         .and_return([1])
-      instance.where('user_id', '=', ['1'])
+    end
+
+    subject do
+      instance.where('user_id', '=', values)
+      instance
     end
 
     describe '#results' do
       it 'is the same as handwriting the query' do
         expected = base_scope
-                   .where(["time_entries.user_id IN (?)", ['1']])
+                   .where(["time_entries.user_id IN (?)", values])
 
-        expect(instance.results.to_sql).to eql expected.to_sql
+        expect(subject.results.to_sql).to eql expected.to_sql
+      end
+
+      context 'with a me value' do
+        let(:values) { ['me'] }
+
+        it 'replaces the value to produce the query' do
+          expected = base_scope
+                     .where(["time_entries.user_id IN (?)", [user.id.to_s]])
+
+          expect(subject.results.to_sql).to eql expected.to_sql
+        end
       end
     end
 
     describe '#valid?' do
       it 'is true' do
-        expect(instance).to be_valid
+        expect(subject).to be_valid
       end
 
-      it 'is invalid if the filter is invalid' do
-        instance.where('user_id', '=', [''])
-        expect(instance).to be_invalid
+      context 'with a me value and being logged in' do
+        let(:values) { ['me'] }
+
+        it 'is valid' do
+          expect(subject).to be_valid
+        end
+      end
+
+      context 'with not existing values' do
+        let(:values) { [''] }
+
+        it 'is invalid' do
+          expect(subject).to be_invalid
+        end
       end
     end
   end
