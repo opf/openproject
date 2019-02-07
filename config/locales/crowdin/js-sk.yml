@@ -16,7 +16,7 @@ sk:
       remove: Remove %{name}
       active: Active %{label} %{name}
     close_popup_title: Zavrieť okno
-    close_filter_title: Close filter
+    close_filter_title: Zavrieť filter
     close_form_title: Close form
     clipboard:
       browser_error: Váš prehliadač nepodporuje kopírovanie do schránky. Manuálne
@@ -55,8 +55,8 @@ sk:
     button_export-atom: Stiahnuť Atom
     calendar:
       title: Kalendár
-      too_many: There are more work packages (%{count}) than can be displayed by the
-        calendar (%{max}). Add filters to focus on the relevant ones.
+      too_many: Existuje viac pracovných balíčkov (%{count}), než je možné zobraziť
+        v kalendári (%{max}). Pridaním filtrov sa zamerajte na tie relevantné.
     description_available_columns: Dostupné stĺpce
     description_current_position: 'Nachádzate sa tu:'
     description_select_work_package: 'Vyberte pracovný balík #%{id}'
@@ -64,12 +64,12 @@ sk:
     description_subwork_package: 'Podradený pracovný balík #%{id}'
     editor:
       preview: Toggle preview mode
-      source_code: Toggle Markdown source mode
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      error_initialization_failed: Failed to initialize CKEditor!
+      source_code: Prepnúť do režimu Markdown
+      error_saving_failed: 'Uloženie dokumentu zlyhalo s nasledujúcou chybou: %{error}'
+      error_initialization_failed: Nepodarilo sa inicializovať CKEditor!
       mode:
-        manual: Switch to Markdown source
-        wysiwyg: Switch to WYSIWYG editor
+        manual: Prepnúť na zdroj Markdown
+        wysiwyg: Prepnúť na WYSIWYG editor
       macro:
         child_pages:
           button: Links to child pages
@@ -113,11 +113,11 @@ sk:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
         embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
+          text: "[Placeholder] Vložený kalendár"
     custom_actions:
       date:
         specific: dňa
-        current_date: Current date
+        current_date: Aktuálny dátum
     error:
       internal: Vyskytla sa vnútorná chyba.
       cannot_save_changes_with_message: 'Cannot save your changes due to the following
@@ -278,8 +278,8 @@ sk:
     label_attachments: Súbory
     label_drop_files: Presuňte súbory sem
     label_drop_files_hint: alebo kliknite na tlačidlo Pridať súbory
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
-      single files.
+    label_drop_folders_hint: Nie je možné použiť priečinok ako prílohu. Prosím vyberte
+      jednotlivé súbory.
     label_add_attachments: Add attachments
     label_formattable_attachment_hint: Na priloženie súboru ho potiahnite a pustite
       na toto pole alebo ho vložte zo schránky.
@@ -298,53 +298,52 @@ sk:
     label_upload_counter: "%{done} z %{count} súborov hotové"
     label_validation_error: 'Pracovný balík sa nepodarilo uložiť z nasledujúcich chýb:'
     help_texts:
-      show_modal: Show attribute help text entry
+      show_modal: Zobraziť nápovedu pre tento atribút
     onboarding:
       buttons:
-        skip: Skip
+        skip: Preskočiť
         next: Ďalšie
-        got_it: Got it
+        got_it: Rozumiem
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
-        project_selection: Please select one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
-        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
-          menu</b>.
-        members: Invite new <b>Members</b> to join your project.
-        wiki: Within the <b>Wiki</b> you can document and share knowledge together
-          with your team.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
-        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
-        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
-          sprint. Add new tasks or impediments with the + icon next to a user story.
-          Via drag'n'drop you can update the status.
-        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
-          gives you a more detailed view of your work.
-        wp_list: This is the <b>Work package</b> list with the important work within
-          your project, such as tasks, features, milestones, bugs, and more. <br>
-          You can create or edit a work package directly within this list. To see
-          its details you can double click on a row.
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities, dependencies
-          or comments.
-        wp_back_button: With the arrow you can navigate back to the work package list.
-        wp_create_button: The <b>Create</b> button will add a new work package to
-          your project.
-        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-          for your project.
-        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
-          and add dependencies. All team members can see and update the latest plan
-          at any time.
-        help_menu: In the <b>Help</b> menu you will find a user guide and additional
-          help resources. <br> Enjoy your work with OpenProject!
+        welcome: Urobte si tri minúty čas na úvodnú prehliadku, aby ste sa naučili
+          čo najviac <b>dôležité funkcie</b>.<br> Doporučujeme dokončiť prehliadku
+          až do konca. Prehliadku môžete kedykoľvek reštartovať.
+        project_selection: 'Vyberte jeden z projektov s užitočnými demo dátami: <br><b>"Demo
+          projekt"</b> je vhodný pre klasické riadenie projektov, <b>"Scrum projekt"</b>
+          je vhodný pre agilné riadenie projektov.'
+        sidebar_arrow: Pomocou šípky sa môžete vrátiť späť k projektom <b>Hlavná ponuka</b>.
+        members: Pozvať nových <b>Členov</b> do vášho projektu.
+        wiki: V rámci <b>Wiki</b> možno dokumentovať a zdieľať znalosti spolu so svojím
+          tímom.
+        backlogs_overview: Vašu prácu môžete organizovať v <b>backlog</b> pohľade.
+          <br> Na pravej strane je k dispozícii backlog produktov či chýb, na ľavej
+          strane príslušné šprinty. Tu môžete vytvárať <b>epics, user stories a chybové
+          reporty</b>, meniť priority drag'n'drop myšou a priraďovaním k jednotlivým
+          šprintom.
+        backlogs_task_board_arrow: Ak chcete vidieť Váš <b>zoznam úloh</b>, otvorte
+          Sprint drop-down menu...
+        backlogs_task_board_select: "... a vyberte položku ponuky <b>Task board</b>."
+        backlogs_task_board: V <b>Task Board</b> môžete vidieť úlohy šprintu. Pridávať
+          nové úlohy alebo prekážky s ikonou + vedľa užívateľského príbehu. Prostredníctvom
+          drag and drop môžete aktualizovať stav.
+        wp_toggler: Tu sú <b>Pracovné balíčky</b>, ktoré vám poskytnú podrobnejší
+          pohľad na prácu vo vašom projekte.
+        wp_list: Toto je zoznam dôležitých <b>Pracovných balíčkov</b> vo vašom projekte,
+          napr. úlohy, funkcie, míľniky, chyby a oveľa viac. <br> Nové pracovné balíčky
+          môžete vytvárať a upravovať priamo v zozname. Dvojitým kliknutím na riadok
+          sa otvorí detailný pohľad.
+        wp_full_view: V <b>detailoch pracovného balíčku</b> nájdete všetky relevantné
+          informácie ako popis, stav, prioritu, aktivity, náväznosti a komentáre.
+        wp_back_button: Pomocou šípky sa môžete vrátiť späť na zoznam pracovných balíčkov.
+        wp_create_button: Tlačidlo <b>Vytvoriť</b> pridá nový pracovný balíček pre
+          váš projekt.
+        wp_timeline_button: Môžete aktivovať <b>Ganttov diagram</b> pre vytvorenie
+          časového harmonogramu projektu.
+        wp_timeline: Tu môžete upraviť svoj projektový plán. Vytvárať nové fázy, míľniky
+          a pridávať závislosti. Všetci členovia tímu môžu kedykoľvek zobraziť a aktualizovať
+          aktuálny plán.
+        help_menu: V ponuke <b>Help</b> nájdete používateľskú príručku a ďalšie zdroje
+          pomoci. <br> Užite si svoju prácu s programom OpenProject!
     password_confirmation:
       field_description: You need to enter your account password to confirm this change.
       title: Confirm your password to continue
@@ -365,13 +364,13 @@ sk:
       work_package_belongs_to: Tento pracovný balíček patrí k projektu %{projectname}.
       click_to_switch_context: Otvoriť tento pracovný balík v danom projekte.
       autocompleter:
-        label: Project autocompletion
+        label: Automatické doplňovanie projektu
     text_are_you_sure: Are you sure?
     types:
       attribute_groups:
         error_duplicate_group_name: The name %{group} is used more than once. Group
           names must be unique.
-        error_no_table_configured: Please configure a table for %{group}.
+        error_no_table_configured: Prosím nastavte tabuľku pre %{group}.
         reset_title: Reset form configuration
         confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom
@@ -385,18 +384,18 @@ sk:
         more_information: More information
         nevermind: Nevermind
         filter_types:
-          parent: being child of
-          precedes: preceding
-          follows: following
-          relates: relating to
-          duplicates: duplicating
+          parent: podradený
+          precedes: predchádzajúci
+          follows: následujúci
+          relates: súvisiace s
+          duplicates: duplicitné
           duplicated: zduplikoval
-          blocks: blocking
+          blocks: blokuje
           blocked: zablokované používateľom
-          partof: being part of
-          includes: including
-          requires: requiring
-          required: required by
+          partof: sú zahrnuté v
+          includes: vrátane
+          requires: vyžaduje
+          required: požadované
     time_entry:
       activity: Activity
       comment: Comment
@@ -428,19 +427,19 @@ sk:
       hierarchy_headline: Hierarchy
       children_headline: Potomkovia
     relation_buttons:
-      set_parent: Set parent
+      set_parent: Nastaviť nadradenú položku
       change_parent: Zmeniť nadradený objekt
       remove_parent: Remove parent
       group_by_wp_type: Group by work package type
       group_by_relation_type: Group by relation type
       add_parent: Add existing parent
       add_new_child: Create new child
-      create_new: Create new
-      add_existing: Add existing
+      create_new: Vytvoriť nový
+      add_existing: Pridať existujúci
       add_existing_child: Add existing child
       remove_child: Remove child
       add_new_relation: Create new relation
-      add_existing_relation: Add existing relation
+      add_existing_relation: Pridať existujúci vzťah
       update_description: Set or update description of this relation
       toggle_description: Toggle relation description
       update_relation: Click to change the relation type
@@ -451,7 +450,8 @@ sk:
       abort: Abort
     relations_autocomplete:
       placeholder: Enter the related work package id
-      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
+      parent_placeholder: Vyberte nadradený prvok, enter zruší závislosť, escape vráti
+        predchádzajúci stav.
     repositories:
       select_tag: Vybrať značku
       select_branch: Vyberte odbor
@@ -741,8 +741,8 @@ sk:
         highlighting_mode:
           description: Highlight with color
           none: No highlighting
-          inline: Highlighted attribute(s)
-          inline_all: All attributes
+          inline: Zvýraznené atribút(y)
+          inline_all: Všetky atribúty
           entire_row_by: Entire row by
           status: Stav
           priority: Priorita
@@ -804,7 +804,7 @@ sk:
       destroy_work_package:
         title: Potvrďte zmazanie %{label}
         text: Ste si istí, že chcete zmazať %{label}?
-        has_children: 'The work package has %{childUnits}:'
+        has_children: 'Pracovný balíček má %{childUnits}:'
         confirm_deletion_children: I acknowledge that ALL descendants of the listed
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
@@ -841,13 +841,13 @@ sk:
     units:
       workPackage:
         one: pracovný balíček
-        other: pracovný balíček
+        other: pracovné balíčky
         few: pracovné balíčky
         many: work packages
       child_work_packages:
-        one: one child work package
-        other: "%{count} work package children"
-        few: "%{count} work package children"
+        one: jeden podradený pracovný balíček
+        other: "%{count} podradených pracovných balíčkov"
+        few: "%{count} podradených pracovných balíčkov"
         many: "%{count} work package children"
       hour:
         one: 1 hodina
