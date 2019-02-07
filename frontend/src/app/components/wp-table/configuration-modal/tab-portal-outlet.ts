@@ -39,7 +39,7 @@ export class TabPortalOutlet {
 
   constructor(
     public availableTabs:TabInterface[],
-    public outletElement:Element,
+    public outletElement:HTMLElement,
     private componentFactoryResolver:ComponentFactoryResolver,
     private appRef:ApplicationRef,
     private injector:Injector) {
@@ -54,7 +54,7 @@ export class TabPortalOutlet {
     const tab = _.find(this.availableTabs, tab => tab.name === name);
 
     if (!tab) {
-      throw(`Trying to swtich to unknown tab ${name}.`);
+      throw(`Trying to switch to unknown tab ${name}.`);
     }
 
     if (tab.disableBecause != null) {
@@ -71,6 +71,7 @@ export class TabPortalOutlet {
     // where we want it to be rendered.
     this.outletElement.innerHTML = '';
     this.outletElement.appendChild(this._getComponentRootNode(instance.componentRef));
+    this.outletElement.dataset.tabName = tab.title;
     this.currentTab = instance;
 
     return false;
