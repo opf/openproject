@@ -52,7 +52,7 @@ class Grids::DeleteService
 
   def delete_grid
     result, errors = validate_and_yield(grid, user) do
-      grid.delete
+      grid.destroy
     end
 
     ServiceResult.new(success: result, errors: errors)

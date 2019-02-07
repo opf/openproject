@@ -15,12 +15,7 @@ import {AngularTrackingHelpers} from "core-components/angular/tracking-functions
 export class BoardsMenuComponent {
   trackById = AngularTrackingHelpers.compareByAttribute('id');
 
-  public boards$:Observable<Board[]> = this.BoardCache
-    .observeAll()
-    .pipe(
-      filter(boards => !!boards && boards.length !== 0),
-      tap((boards) => console.log(boards))
-    );
+  public boards$:Observable<Board[]> = this.BoardCache.observeAll();
 
   constructor(private readonly Boards:BoardService,
               private readonly BoardCache:BoardCacheService) {

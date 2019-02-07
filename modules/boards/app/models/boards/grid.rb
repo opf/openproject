@@ -35,8 +35,22 @@ module Boards
     belongs_to :project
     validates_presence_of :name
 
+    before_destroy :delete_queries
+
     def user_deletable?
       true
+    end
+
+    private
+
+    def delete_queries
+      ::Query.where(id: contained_queries).delete_all
+    end
+
+    def contained_queries
+      widgets
+        .map { |w| w.options['query_id'] }
+        .compact
     end
   end
 end

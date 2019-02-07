@@ -24,7 +24,7 @@ export class BoardListsService {
   private create(name:string = 'New list'):Promise<QueryResource> {
     return this.QueryFormDm
       .loadWithParams(
-        { pageSize: 0},
+        { pageSize: 0 },
         undefined,
         this.CurrentProject.identifier,
         this.buildQueryRequest(name)
@@ -64,7 +64,8 @@ export class BoardListsService {
 
   private buildQueryRequest(name:string) {
     return {
-      'name': name,
+      name: name,
+      hidden: true,
       filters:
         [
           {
