@@ -23,20 +23,20 @@
       </thead>
       <tbody>
         <tr>
-          <% if issue %>
+          <% if issue && issue.work_package %>
             <td><%= link_to_work_package issue.work_package %></td>
           <% else  %>
             <td>(will be created)</td>
           <% end %>
-          <td><%= entry[:title] %></td>
-          <td><%= entry[:status] %></td>
-          <td><%= entry[:priority] %></td>
-          <td><%= entry[:assignee] %></td>
-          <td><%= format_date(entry[:due_date]) %></td>
+          <td><%= entry[:title] || '-' %></td>
+          <td><%= entry[:status] || '-' %></td>
+          <td><%= entry[:priority] || '-' %></td>
+          <td><%= entry[:assignee] || '-' %></td>
+          <td><%= format_date(entry[:due_date]) || '-' %></td>
           <td><%= entry[:viewpoint_count] %></td>
           <td><%= entry[:comments_count] %></td>
         </tr>
-        <% if issue %>
+        <% if issue&.work_package %>
           <td></td>
           <td><%= issue.work_package.subject %></td>
           <td><%= issue.work_package.status.name %></td>

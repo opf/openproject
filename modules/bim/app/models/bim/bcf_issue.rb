@@ -15,7 +15,9 @@ module Bim
                extract_xml('/Markup/Topic/Title/text()', 'title'),
                extract_xml('/Markup/Topic/Description/text()', 'description'),
                extract_xml('/Markup/Topic/Priority/text()', 'priority_text'),
-               extract_xml('/Markup/Topic/@TopicStatus', 'status_text')
+               extract_xml('/Markup/Topic/@TopicStatus', 'status_text'),
+               extract_xml('/Markup/Topic/AssignedTo/text()', 'assignee_text'),
+               extract_xml('/Markup/Topic/DueDate/text()', 'due_date_text')
       end
 
       private
