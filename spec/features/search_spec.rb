@@ -161,7 +161,7 @@ describe 'Search', type: :feature, js: true do
         table.expect_work_package_listed(work_packages.last)
         filters.remove_filter('subject')
         page.find('#filter-by-text-input').set(work_packages[9].subject)
-        table.expect_work_package_listed(work_packages[9], wait: 10)
+        table.expect_work_package_subject(work_packages[9].subject)
         table.expect_work_package_not_listed(work_packages.last)
 
         # Expect that changing the advanced filters will not affect the global search input.
@@ -172,11 +172,19 @@ describe 'Search', type: :feature, js: true do
         global_search_field.set(work_packages[10].subject)
         global_search_field.send_keys(:enter)
         table.expect_work_package_not_listed(work_packages[9], wait: 20)
-        table.expect_work_package_listed(work_packages[10])
+        table.expect_work_package_subject(work_packages[10].subject)
         filters.expect_closed
         # ...and that advanced filter shall have copied the global search input value.
         page.find('.advanced-filters--toggle').click
         filters.expect_open
+
+        # Hack for tricking Capybara timing: Add and remove a filter, which should not change the result.
+        filters.add_filter_by('Subject',
+                              'contains',
+                              [work_packages.last.subject],
+                              'subject')
+        filters.remove_filter('subject')
+
         expect(page).to have_field('Filter by text', with: work_packages[10].subject, wait: 10)
 
         # Expect that changing the search term without using the autocompleter will leave the project scope unchanged
