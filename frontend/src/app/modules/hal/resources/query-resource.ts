@@ -70,6 +70,7 @@ export class QueryResource extends HalResource {
   public timelineLabels:TimelineLabels;
   public showHierarchies:boolean;
   public public:boolean;
+  public hidden:boolean;
   public project:ProjectResource;
 
   public $initialize(source:any) {
