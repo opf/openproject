@@ -15,12 +15,6 @@ module OpenProject
           ActiveModel::Type::Boolean.new.cast(val)
         end
 
-        def default_gravatar_options
-          [
-            [I18n.t(:label_none), '404']
-          ]
-        end
-
         def local_avatars_enabled?
           val = settings[:enable_local_avatars]
           ActiveModel::Type::Boolean.new.cast(val)

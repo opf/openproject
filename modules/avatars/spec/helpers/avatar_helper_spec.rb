@@ -39,7 +39,6 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
   def gravatar_expected_image_tag(digest, options = {})
     tag_options = options.reverse_merge(title: user.name,
                                         alt: 'Gravatar',
-                                        :'data-avatar-fallback-icon' => "icon icon-user",
                                         class: 'avatar avatar--gravatar-image avatar--fallback').delete_if { |key, value| value.nil? || key == :ssl }
 
     image_tag gravatar_expected_url(digest, options), tag_options
@@ -138,21 +137,6 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
         context 'with http protocol', with_settings: { protocol: 'http' } do
           it "should be set to unsecure if protocol is 'http'" do
             expect(helper.default_gravatar_options[:secure]).to be false
-          end
-        end
-      end
-
-      describe 'default avatar dependent on settings' do
-        context 'with wavatars' do
-          let(:gravatar_default) { 'Wavatars' }
-          it 'should be set to value of setting' do
-            expect(helper.default_gravatar_options[:default]).to eq 'Wavatars'
-          end
-        end
-
-        context 'when empty' do
-          it 'should be set to nil' do
-            expect(helper.default_gravatar_options[:default]).to be_nil
           end
         end
       end

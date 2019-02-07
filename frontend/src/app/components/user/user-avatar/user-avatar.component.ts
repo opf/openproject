@@ -42,11 +42,11 @@ export class UserAvatarComponent implements OnInit {
   public userAvatar:string;
   public userName:string;
 
-  constructor(readonly userCacheService:UserCacheService,) {
+  constructor(readonly userCacheService:UserCacheService) {
   }
 
   public ngOnInit() {
-    if(this.user) {
+    if (this.user) {
       this.userCacheService
         .require(this.user.idFromLink)
         .then((user:UserResource) => {

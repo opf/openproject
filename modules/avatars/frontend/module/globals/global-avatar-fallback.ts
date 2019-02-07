@@ -47,17 +47,19 @@ window.addEventListener('error', (evt) => {
     const target = targets[i] as HTMLElement;
     const parent = target.parentElement;
 
-    if (target.dataset.avatarFallbackRemove) {
-      parent && parent.removeChild(target);
-      continue;
-    }
+    const classes = target.classList + ' avatar-default';
 
-    const classes = target.dataset.avatarFallbackIcon || 'icon icon-user avatar';
-
-    const replacement = document.createElement('i');
+    const replacement = document.createElement('div');
     replacement.classList.add(...classes.split(/\s+/));
     replacement.setAttribute('aria-hidden', 'true');
+    replacement.textContent = getInitials(target.title);
 
     parent && parent.replaceChild(replacement, target);
   }
 }, true);
+
+
+function getInitials(name:string) {
+  let words = name.split(" ");
+  return words[0].charAt(0) + words[words.length - 1].charAt(0);
+}
