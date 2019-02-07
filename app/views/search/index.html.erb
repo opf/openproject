@@ -37,11 +37,11 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <global-search-tabs></global-search-tabs>
 
-<% if @results %>
-  <% if params[:work_packages].present? %>
-    <global-search-work-packages></global-search-work-packages>
-  <% else %>
-    <h3><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
+<% if params[:work_packages].present? %>
+  <global-search-work-packages></global-search-work-packages>
+<% else %>
+  <h3><%= l(:label_result_plural) %> (<%= @results_by_type&.values&.sum || '0' %>)</h3>
+  <% if @results %>
     <%= render partial: 'pagination', locals: {pagination_previous_date: @pagination_previous_date, pagination_next_date: @pagination_next_date } %>
     <dl id="search-results">
       <% @results.each do |e| %>
@@ -67,5 +67,6 @@ See docs/COPYRIGHT.rdoc for more details.
     </dl>
   <% end %>
 <% end %>
+
 <%= render partial: 'pagination', locals: {pagination_previous_date: @pagination_previous_date, pagination_next_date: @pagination_next_date } unless params[:work_packages].present? %>
 <% html_title(l(:label_search)) -%>
