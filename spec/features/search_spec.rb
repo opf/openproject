@@ -178,15 +178,6 @@ describe 'Search', type: :feature, js: true do
         page.find('.advanced-filters--toggle').click
         filters.expect_open
 
-        # Hack for tricking Capybara timing: Add and remove a filter, which should not change the result.
-        filters.add_filter_by('Subject',
-                              'contains',
-                              [work_packages.last.subject],
-                              'subject')
-        filters.remove_filter('subject')
-
-        expect(page).to have_field('Filter by text', with: work_packages[10].subject, wait: 10)
-
         # Expect that changing the search term without using the autocompleter will leave the project scope unchanged
         # at current_project.
         global_search_field.set(other_work_package.subject)
