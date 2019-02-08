@@ -56,16 +56,23 @@ export class UserAvatarComponent implements AfterViewInit {
     this.userID = this.$element.data('user-id')!;
     this.classes = this.$element.data('class-list')!;
     this.useFallback = this.$element.data('use-fallback')!;
+    this.userAvatar = this.$element.data('user-avatar-src')!;
+    this.userName = this.$element.data('user-name')!;
 
+    // When a userID is given,
+    // we have to get the information from the database
     if (this.userID) {
       this.userCacheService
         .require(this.userID)
         .then((user:UserResource) => {
-          this.userInitials = user.firstName.charAt(0).toUpperCase() + user.lastName.charAt(0).toUpperCase();
+          this.userInitials = this.getInitials(user.name);
           this.userAvatar = user.avatar;
           this.userName = user.name;
-          this.colorCode = this.computeColor(this.userName);
+          this.colorCode = this.computeColor(user.name);
         });
+    } else {
+      this.userInitials = this.getInitials(this.userName);
+      this.colorCode = this.computeColor(this.userName);
     }
     this.ref.detectChanges();
   }
@@ -75,10 +82,21 @@ export class UserAvatarComponent implements AfterViewInit {
     this.ref.detectChanges();
   }
 
-  public computeColor(initials:string) {
+  public getInitials(name:string) {
+    var names = name.split(' '),
+      initials = names[0].substring(0, 1).toUpperCase();
+
+    if (names.length > 1) {
+      initials += names[names.length - 1].substring(0, 1).toUpperCase();
+    }
+
+    return initials;
+  }
+
+  public computeColor(name:string) {
     let hash = 0;
-    for (var i = 0; i < initials.length; i++) {
-      hash = initials.charCodeAt(i) + ((hash << 5) - hash);
+    for (var i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
     }
 
     let h = hash % 360;
