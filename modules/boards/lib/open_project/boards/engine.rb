@@ -36,17 +36,18 @@ module OpenProject::Boards
            :board_view,
            { controller: '/boards/boards', action: :index },
            caption: :'boards.label_boards',
+           after: :work_packages,
            param: :project_id,
            icon: 'icon2 icon-backlogs'
 
       menu :project_menu,
            :board_menu,
-            { controller: '/boards/boards', action: :index },
-            param: :project_id,
-            parent: :board_view,
-            partial: 'boards/boards/menu_board',
-            last: true,
-            caption: :'boards.label_boards'
+           { controller: '/boards/boards', action: :index },
+           param: :project_id,
+           parent: :board_view,
+           partial: 'boards/boards/menu_board',
+           last: true,
+           caption: :'boards.label_boards'
     end
 
     config.to_prepare do
