@@ -26,11 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, OnInit} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+import {UserResource} from "core-app/modules/hal/resources/user-resource";
+import {NgSelectComponent} from "@ng-select/ng-select/dist";
 
 @Component({
   template: `
@@ -38,12 +40,23 @@ import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-build
                bindLabel="name"
                bindValue="id"
                [virtualScroll]="true"
-               (search)="onSearch($event)">
+               (search)="onSearch($event)"
+               (change)="onModelChange($event)" >
+      <ng-template ng-option-tmp let-item="item" let-index="index">
+        <user-avatar [attr.data-user-id]="item.id" 
+                     data-class-list="avatar-mini">
+        </user-avatar>
+        {{ item.name }}
+      </ng-template>
     </ng-select>
   `,
   selector: 'user-autocompleter'
 })
 export class UserAutocompleterComponent implements OnInit {
+  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+  @Output() public onChange = new EventEmitter<void>();
+  @Input() public clearAfterSelection:boolean = false;
+
   public options:any[];
   public url:string;
 
@@ -54,6 +67,16 @@ export class UserAutocompleterComponent implements OnInit {
   ngOnInit() {
     this.url = this.pathHelper.api.v3.users.path;
     this.setAvailableUsers(this.url, '');
+  }
+
+  public onModelChange(user:any) {
+    if(user) {
+      this.onChange.emit(user);
+
+      if(this.clearAfterSelection) {
+        this.ngSelectComponent.clearItem(user);
+      }
+    }
   }
 
   public onSearch($event:any) {
@@ -71,7 +94,7 @@ export class UserAutocompleterComponent implements OnInit {
     this.halResourceService.get(url, filters)
       .subscribe(res => {
         this.options = res.elements.map((el:any) => {
-          return {name: el.name, id: el.id};
+          return {name: el.name, id: el.id, href: el.href};
         });
       });
   }

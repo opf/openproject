@@ -64,7 +64,7 @@ export class UserAvatarComponent implements AfterViewInit {
           this.userInitials = user.firstName.charAt(0).toUpperCase() + user.lastName.charAt(0).toUpperCase();
           this.userAvatar = user.avatar;
           this.userName = user.name;
-          this.colorCode = this.computeColor(this.userInitials);
+          this.colorCode = this.computeColor(this.userName);
         });
     }
     this.ref.detectChanges();

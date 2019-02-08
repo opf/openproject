@@ -48,7 +48,6 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
   public workPackageId:string;
   public workPackage:WorkPackageResource;
 
-  public autocompleteInput = '';
   public error = false;
   public noResults:boolean = false;
   public allowedToView = false;
@@ -107,111 +106,12 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
       .catch((error:any) => {
         this.wpNotificationsService.showError(error, this.workPackage);
       });
-
-    this.setupAutoCompletion();
-  }
-
-  public setupAutoCompletion() {
-    const input = this.$element.find('.ui-autocomplete--input');
-    input.autocomplete({
-      delay: 250,
-      autoFocus: false, // Accessibility!
-      classes: {
-        'ui-autocomplete': 'wp-watchers-autocomplete--results'
-      },
-      source: (request:{ term:string }, response:Function) => {
-        this.autocompleteWatchers(request.term).then((values:any) => {
-          response(values.map((watcher:any) => {
-            return {watcher: watcher, value: watcher.name};
-          }));
-        });
-      },
-      select: (evt:JQueryEventObject, ui:any) => {
-        this.addWatcher(ui.item.watcher);
-        input.val('');
-        return false; // Avoid setting the value after selection
-      },
-      minLength: 0
-    } as any);
-
-    input.focus(() => input.autocomplete('search', input.val() as string));
-    (input.autocomplete('instance')as any)._renderItem = (ul:any, item:any) => this.renderWatcherItem(
-      ul,
-      item);
   }
 
   public set loadingPromise(promise:Promise<any>) {
     this.loadingIndicator.wpDetails.promise = promise;
   }
 
-  /**
-   * Converted renderer from manually compiling the view in ng1
-   * @param {JQuery} ul
-   * @param {{value:string; watcher:any}} item
-   * @returns {any}
-   */
-  public renderWatcherItem(ul:JQuery, item:{ value:string, watcher:UserResource }):JQuery {
-    const li = document.createElement('li');
-    li.classList.add('ui-menu-item');
-    li.dataset['value'] = item.value;
-
-    const div = document.createElement('div');
-    div.classList.add('ui-menu-item-wrapper');
-
-    const link = document.createElement('a');
-    link.tabIndex = -1;
-
-    if (item.watcher.avatar) {
-      const img = document.createElement('img');
-      img.src = item.watcher.avatar;
-      img.alt = item.watcher.name;
-      img.classList.add('avatar-mini', 'avatar--fallback');
-
-      link.appendChild(img);
-    } else {
-      const div = document.createElement('div');
-      div.classList.add('avatar-mini', 'avatar-default');
-      div.innerText = item.watcher.firstName.charAt(0).toUpperCase() + item.watcher.lastName.charAt(0).toUpperCase();
-
-      link.appendChild(div);
-    }
-
-    const span = document.createElement('span');
-    span.textContent = item.value;
-
-    link.appendChild(span);
-    div.appendChild(link);
-    li.appendChild(div);
-
-    ul.append(li);
-    return jQuery(li);
-  }
-
-  public autocompleteWatchers(query:string):Promise<any> {
-    let payload:any = {sortBy: JSON.stringify([['name', 'asc']])};
-
-    if (query && query.length > 0) {
-      let filter = {
-        name: {
-          operator: '~',
-          values: query,
-        }
-      };
-
-      payload['filters'] = JSON.stringify([filter]);
-    }
-
-    return new Promise<UserResource[]>((resolve, reject) => {
-      this.workPackage.availableWatchers
-        .$link
-        .$fetch(payload)
-        .then((collection:CollectionResource<UserResource>) => {
-          this.noResults = collection.count === 0;
-          resolve(collection.elements);
-        })
-        .catch(reject);
-    });
-  }
 
   public addWatcher(user:any) {
     this.loadingPromise = this.workPackage.addWatcher.$link.$fetch({user: {href: user.href}})
@@ -220,7 +120,6 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
         // should the current user have been added
         this.wpWatchersService.require(this.workPackage, true);
         this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
-        this.autocompleteInput = '';
       })
       .catch((error:any) => this.wpNotificationsService.showError(error, this.workPackage));
   }
