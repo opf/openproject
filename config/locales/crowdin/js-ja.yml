@@ -502,13 +502,6 @@ ja:
     tl_toolbar:
       zooms: ズームレベル
       outlines: 階層レベル
-    unsupported_browser:
-      title: このブラウザーのバージョンはサポートされていません。
-      message: 使用しているブラウザのバージョンは、OpenProjectではサポートされなくなりました。
-      update_message: ブラウザを更新してください。
-      update_ie_user: Mozilla FirefoxまたはGoogle Chromeに切り替えるか、Microsoft Edgeにアップグレードしてください。
-      learn_more: もっと詳しく
-      close_warning: この警告を無視する。
     upsale:
       ee_only: Enterprise Editionのみの機能
     wiki_formatting:
@@ -779,3 +772,10 @@ ja:
     zen_mode:
       button_activate: マナーモードをアクティブにする
       button_deactivate: マナーモードを非アクティブにする
+    unsupported_browser:
+      title: このブラウザーのバージョンはサポートされていません。
+      message: 使用しているブラウザのバージョンは、OpenProjectではサポートされなくなりました。
+      update_message: ブラウザを更新してください。
+      update_ie_user: Mozilla FirefoxまたはGoogle Chromeに切り替えるか、Microsoft Edgeにアップグレードしてください。
+      learn_more: もっと詳しく
+      close_warning: この警告を無視する。

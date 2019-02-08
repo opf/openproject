@@ -561,14 +561,6 @@ ro:
     tl_toolbar:
       zooms: Orizont de timp
       outlines: Nivel ierarhic
-    unsupported_browser:
-      title: Versiunea dumneavoastră de browser nu este suportată
-      message: Versiunea de browser utilizată nu mai este suportată de OpenProject.
-      update_message: Vă rugăm să actualizaţi browser-ul.
-      update_ie_user: Vă rugăm să folosiți Mozilla Firefox sau Google Chrome, sau
-        faceți un upgrade către Microsoft Edge.
-      learn_more: Aflați mai multe
-      close_warning: Ignoră acest avertisment.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -869,3 +861,11 @@ ro:
     zen_mode:
       button_activate: Activați modul zen
       button_deactivate: Dezactivați modul zen
+    unsupported_browser:
+      title: Versiunea dumneavoastră de browser nu este suportată
+      message: Versiunea de browser utilizată nu mai este suportată de OpenProject.
+      update_message: Vă rugăm să actualizaţi browser-ul.
+      update_ie_user: Vă rugăm să folosiți Mozilla Firefox sau Google Chrome, sau
+        faceți un upgrade către Microsoft Edge.
+      learn_more: Aflați mai multe
+      close_warning: Ignoră acest avertisment.

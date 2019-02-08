@@ -553,15 +553,6 @@ lt:
     tl_toolbar:
       zooms: Didinimo lygis
       outlines: Hierarchinis lygmuo
-    unsupported_browser:
-      title: Jūsų naršyklės versija nepalaikoma
-      message: Jūsų naudojama naršyklės versija daugiau nebepalaikoma OpenProject
-        sistemos.
-      update_message: Prašome atnaujinti savo naršyklę.
-      update_ie_user: Prašome pasikeisti į Mozilla Firefox ar Google Chrome arba atsinaujinti
-        į Microsoft Edge.
-      learn_more: Sužinoti daugiau
-      close_warning: Ignoruoti šį perspėjimą.
     upsale:
       ee_only: Galimybė tik Enterprise Edition
     wiki_formatting:
@@ -865,3 +856,12 @@ lt:
     zen_mode:
       button_activate: Įjungti Zen režimą
       button_deactivate: Išjungti Zen režimą
+    unsupported_browser:
+      title: Jūsų naršyklės versija nepalaikoma
+      message: Jūsų naudojama naršyklės versija daugiau nebepalaikoma OpenProject
+        sistemos.
+      update_message: Prašome atnaujinti savo naršyklę.
+      update_ie_user: Prašome pasikeisti į Mozilla Firefox ar Google Chrome arba atsinaujinti
+        į Microsoft Edge.
+      learn_more: Sužinoti daugiau
+      close_warning: Ignoruoti šį perspėjimą.

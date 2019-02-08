@@ -552,14 +552,6 @@ ar:
     tl_toolbar:
       zooms: تكبير المستوى
       outlines: مستوى التسلسل الهرمي
-    unsupported_browser:
-      title: إصدار متصفحك غير مدعوم
-      message: إصدار المتصفِّح الذي تستخدمة لم يعُد مدعومًا من قِبل أوبِن بروجِكت.
-      update_message: من فضلك قم بتحديث متصفِّحك.
-      update_ie_user: من فضلك حوّل إلى موزيلّا فايرفوكس أو جوجل كروم، أو قم بالتحديث
-        إلى مايكروسوفت إدج.
-      learn_more: التعرف على المزيد
-      close_warning: تجاهل هذا التحذير.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -864,3 +856,11 @@ ar:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    unsupported_browser:
+      title: إصدار متصفحك غير مدعوم
+      message: إصدار المتصفِّح الذي تستخدمة لم يعُد مدعومًا من قِبل أوبِن بروجِكت.
+      update_message: من فضلك قم بتحديث متصفِّحك.
+      update_ie_user: من فضلك حوّل إلى موزيلّا فايرفوكس أو جوجل كروم، أو قم بالتحديث
+        إلى مايكروسوفت إدج.
+      learn_more: التعرف على المزيد
+      close_warning: تجاهل هذا التحذير.

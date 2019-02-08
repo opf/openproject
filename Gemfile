@@ -124,6 +124,9 @@ gem 'rack-attack', '~> 5.4.2'
 # CSP headers
 gem 'secure_headers', '~> 6.0.0'
 
+# Browser detection for incompatibility checks
+gem 'browser', '~> 2.5.3'
+
 # Providing health checks
 gem 'okcomputer', '~> 1.17.3'
 

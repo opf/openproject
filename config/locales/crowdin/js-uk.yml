@@ -559,14 +559,6 @@ uk:
     tl_toolbar:
       zooms: Рівень масштабування
       outlines: Рівень ієрархії
-    unsupported_browser:
-      title: Версія вашого браузера не підтримується
-      message: Версія браузера, яку ви використовуєте, більше не підтримується OpenProject.
-      update_message: Будь ласка, оновіть ваш браузер.
-      update_ie_user: Будь ласка, перейдіть на Mozilla Firefox чи Google Chrome, або
-        оновіться до Microsoft Edge.
-      learn_more: Learn more
-      close_warning: Ігнорувати це попередження.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -868,3 +860,11 @@ uk:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    unsupported_browser:
+      title: Версія вашого браузера не підтримується
+      message: Версія браузера, яку ви використовуєте, більше не підтримується OpenProject.
+      update_message: Будь ласка, оновіть ваш браузер.
+      update_ie_user: Будь ласка, перейдіть на Mozilla Firefox чи Google Chrome, або
+        оновіться до Microsoft Edge.
+      learn_more: Learn more
+      close_warning: Ігнорувати це попередження.

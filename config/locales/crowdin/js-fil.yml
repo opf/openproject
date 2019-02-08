@@ -560,14 +560,6 @@ fil:
     tl_toolbar:
       zooms: Zoom level
       outlines: Hierarchy level
-    unsupported_browser:
-      title: Ang iyong bersyong browser ay hindi suportado
-      message: Ang bersyon ng browser na ginagamit mo ay hindi na suportado ng OpenProject.
-      update_message: Magyaring i-update ang iyong broswer.
-      update_ie_user: Mangyaring lumipat sa Mozilla Firefox o Google Chromw, o i-upgrade
-        sa Microsoft Edge.
-      learn_more: Matuto ng higit pa
-      close_warning: Huwag pansinin ang babala ito.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -871,3 +863,11 @@ fil:
     zen_mode:
       button_activate: I-aktibo ang zen mode
       button_deactivate: I-deactive ang zen mode
+    unsupported_browser:
+      title: Ang iyong bersyong browser ay hindi suportado
+      message: Ang bersyon ng browser na ginagamit mo ay hindi na suportado ng OpenProject.
+      update_message: Magyaring i-update ang iyong broswer.
+      update_ie_user: Mangyaring lumipat sa Mozilla Firefox o Google Chromw, o i-upgrade
+        sa Microsoft Edge.
+      learn_more: Matuto ng higit pa
+      close_warning: Huwag pansinin ang babala ito.

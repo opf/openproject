@@ -1873,11 +1873,6 @@
       "resolved": "https://registry.npmjs.org/bourbon/-/bourbon-5.1.0.tgz",
       "integrity": "sha512-rO4rwNAVNuzPmnL+DruxAe7DR2YFFo4nHsgDVRd9URMgDxtHmVBUnvFLXPan6teVe7jkybCyxcnR+CKClotj3g=="
     },
-    "bowser": {
-      "version": "1.9.4",
-      "resolved": "https://registry.npmjs.org/bowser/-/bowser-1.9.4.tgz",
-      "integrity": "sha512-9IdMmj2KjigRq6oWhmwv1W36pDuA4STQZ8q6YO9um+x07xgYNCD3Oou+WP/3L1HNz7iqythGet3/p4wvc8AAwQ=="
-    },
     "brace-expansion": {
       "version": "1.1.11",
       "resolved": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.11.tgz",
