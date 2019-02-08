@@ -176,10 +176,10 @@ sk:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Zaškrtnite túto voľbu k označeniu pracovných balíčkov s týmto stavom len ako na čítanie.
+        Nie je možné meniť žiadne atribúty s výnimkou stavu samotného.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Poznámka</strong>: zdedené hodnoty (napr. z podradených alebo ďalších relácií) budú platné i naďalej.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -387,7 +387,7 @@ sk:
         relations_of_type_column: "%{type} relations"
         group_by: zoskupiť výsledky podľa
         filters: Filtre
-        timeline_labels: Timeline labels
+        timeline_labels: Značky časovej osi
       repository:
         url: URL adresa
       role:
@@ -564,8 +564,8 @@ sk:
         repository:
           not_available: SCM dodávateľ nie je k dispozícii
           not_whitelisted: nie je povolené aktuálnou konfiguráciou.
-          invalid_url: is not a valid repository URL or path.
-          must_not_be_ssh: must not be an SSH url.
+          invalid_url: nie je platná adresa URL alebo cesta k úložisku.
+          must_not_be_ssh: nesmie byť SSH URL.
           no_directory: nie je adresár.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Pracovný balík #%{id} nepredstavuje
@@ -1048,7 +1048,8 @@ sk:
   enumeration_work_package_priorities: Priority Pracovného balíka
   enumeration_system_activity: Systémové aktivity
   enumeration_reported_project_statuses: Nahlásený stav projektu
-  error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
+  error_auth_source_sso_failed: Jednoduché prihlásenie (SSO) pre používateľa '%{value}'
+    zlyhalo
   error_can_not_archive_project: 'This project cannot be archived: There is at least
     one work package assigned to a version defined in this project.'
   error_can_not_delete_entry: Záznam sa nedá odstrániť
@@ -1177,7 +1178,7 @@ sk:
       forums: Diskusie
       blog: OpenProject blog
       boards: Komunitné fórum
-      newsletter: Security alerts / Newsletter
+      newsletter: Bezpečnostné upozornenia / Newsletter
   links:
     configuration_guide: Sprievodca konfiguráciou
   instructions_after_registration: Môžete prihlásiť ihneď potom, ako váš účet bude
@@ -1348,7 +1349,7 @@ sk:
   label_end_to_end: od konca do konca
   label_end_to_start: od konca do začiatku
   label_enumeration_new: Nové hodnoty výpočtu
-  label_enumeration_value: Enumeration value
+  label_enumeration_value: Hodnota enumerácie
   label_enumerations: Výpočet
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
@@ -1411,7 +1412,7 @@ sk:
   label_invite_user: Pozvať používateľa
   label_show_hide: Zobraziť/skryť
   label_show_all_registered_users: Zobraziť všetkých registrovaných užívateľov
-  label_journal: Journal
+  label_journal: Denník
   label_journal_diff: Porovnanie popisu
   label_language: Jazyk
   label_jump_to_a_project: Skok do projektu...
@@ -1685,8 +1686,9 @@ sk:
   label_wiki_page_plural: Wikistránky
   label_wiki_show_index_page_link: Zobraziť položku podmenu "Obsah"
   label_wiki_show_menu_item: Zobraziť ako položku menu v navigácii projektu
-  label_wiki_show_new_page_link: Show submenu item 'Create new child page'
-  label_wiki_show_submenu_item: 'Show as submenu item of '
+  label_wiki_show_new_page_link: Zobraziť položku submenu "Vytvoriť novú podradenú
+    stránku"
+  label_wiki_show_submenu_item: 'Zobraziť ako položku submenu '
   label_wiki_start: Úvodná stránka
   label_work_package: Pracovný balíček
   label_work_package_added: Pracovný balíček pridáný
@@ -1781,7 +1783,7 @@ sk:
   label_keyboard_shortcut_focus_next_item: Zamerať na ďalšiu položku zoznamu (iba
     na niektorých zoznamoch)
   auth_source:
-    using_abstract_auth_source: Can't use an abstract authentication source.
+    using_abstract_auth_source: Nie je možné použiť abstraktný zdroj overovania.
     ldap_error: 'LDAP-Chyba: %{error_message}'
     ldap_auth_failed: Nemožno overiť v LDAP-Serveri.
   macro_execution_error: Pri spúšťaní makra sa vyskytla chyba %{macro_name}
@@ -1894,8 +1896,8 @@ sk:
   notice_no_principals_found: Neboli nájdené žiadne výsledky.
   notice_bad_request: Nesprávna požiadavka.
   notice_not_authorized: Nemáte dostatočné oprávnenia na zobrazenie tejto stránky.
-  notice_not_authorized_archived_project: The project you're trying to access has
-    been archived.
+  notice_not_authorized_archived_project: Projekt, ku ktorému sa snažíte pristupovať,
+    bol archivovaný.
   notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
@@ -1963,18 +1965,18 @@ sk:
   permission_change_wiki_parent_page: Change parent wiki page
   permission_comment_news: Comment news
   permission_commit_access: Read/write access to repository (commit)
-  permission_copy_projects: Copy projects
-  permission_delete_work_package_watchers: Delete watchers
+  permission_copy_projects: Kopírovať projekty
+  permission_delete_work_package_watchers: Zmazať sledujúcich užívateľov
   permission_delete_work_packages: Odstrániť pracovné balíčky
   permission_delete_messages: Vymazať správy
-  permission_delete_own_messages: Delete own messages
-  permission_delete_reportings: Delete reportings
-  permission_delete_timelines: Delete timelines
+  permission_delete_own_messages: Odstrániť vlastné správy
+  permission_delete_reportings: Odstrániť prehľady
+  permission_delete_timelines: Odstrániť časové osy
   permission_delete_wiki_pages: Odstrániť wiki stránky
-  permission_delete_wiki_pages_attachments: Delete attachments
+  permission_delete_wiki_pages_attachments: Odstrániť prílohy
   permission_edit_work_package_notes: Upraviť poznámky
   permission_edit_work_packages: Upraviť pracovné balíčky
-  permission_edit_messages: Edit messages
+  permission_edit_messages: Upraviť správy
   permission_edit_own_work_package_notes: Edit own notes
   permission_edit_own_messages: Úprava vlastných správ
   permission_edit_own_time_entries: Edit own time logs
@@ -2361,7 +2363,7 @@ sk:
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: Must be at least %{count} characters long.
   text_comma_separated: Multiple values allowed (comma separated).
-  text_comment_wiki_page: 'Comment to wiki page: %{page}'
+  text_comment_wiki_page: 'Komentár k stránke wiki: %{page}'
   text_custom_field_possible_values_info: One line for each value
   text_custom_field_hint_activate_per_project: 'When using custom fields: Keep in
     mind that custom fields need to be activated per project, too.
