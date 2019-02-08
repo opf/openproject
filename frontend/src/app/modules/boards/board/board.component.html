@@ -11,9 +11,11 @@
           </accessible-by-keyboard>
         </div>
         <span class="form--text-field-container">
-          <input class="toolbar--editable-toolbar -border-on-hover-only form--text-field"
+          <input class="toolbar--editable-toolbar board--editable-toolbar -border-on-hover-only form--text-field"
                  autocomplete="off"
                  type="text"
+                 [focus]="isNew"
+                 (focus)="selectIfNew($event)"
                  [placeholder]="text.unnamedBoard"
                  [ngModel]="board.name"
                  (ngModelChange)="rename$.next($event)"
@@ -23,22 +25,19 @@
           <li class="toolbar-item">
             <zen-mode-toggle-button></zen-mode-toggle-button>
           </li>
-          <li class="toolbar-item">
-            <accessible-by-keyboard (execute)="destroyBoard(board)"
-                                    linkClass="boards--destroy-button button -danger">
-              <op-icon icon-classes="button--icon icon-delete"></op-icon>
-              {{ text.delete }}
-            </accessible-by-keyboard>
+          <li class="toolbar-item hidden-for-mobile">
+            <button id="work-packages-settings-button"
+                    title="{{ text.button_more }}"
+                    class="button last work-packages-settings-button toolbar-icon"
+                    boardsToolbarMenu
+                    [boardsToolbarMenu-resource]="board">
+              <op-icon icon-classes="button--icon icon-show-more"></op-icon>
+            </button>
           </li>
         </ul>
       </div>
     </div>
   </div>
-
-  <label for="cardView">
-    Show as cards
-    <input type="checkbox" name="cardView" [(ngModel)]="useCardView" />
-  </label>
 
   <div class="boards-list--container">
     <div class="boards-list--item" *ngFor="let query of board.queries; trackBy:trackByQueryId">

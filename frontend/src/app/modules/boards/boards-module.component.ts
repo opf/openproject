@@ -38,7 +38,8 @@ export class BoardsModuleComponent {
     this.Boards
       .create()
       .then((board) => {
-        this.state.go('boards.show', { id: board.id });
+        this.BoardCache.update(board);
+        this.state.go('boards.show', { id: board.id, isNew: true });
       });
   }
 

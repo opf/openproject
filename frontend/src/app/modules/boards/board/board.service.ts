@@ -80,6 +80,7 @@ export class BoardService {
     const board = new Board(grid);
 
     await this.BoardsList.addQuery(board);
+    await this.save(board);
 
     return board;
   }

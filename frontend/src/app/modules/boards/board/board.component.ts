@@ -32,7 +32,12 @@ export class BoardComponent implements OnInit, OnDestroy {
   /** Board observable */
   public board$:Observable<Board|undefined>;
 
+  /** Whether this is a new board just created */
+  public isNew:boolean = !!this.state.params.isNew;
+
+
   public text = {
+    button_more: this.I18n.t('js.button_more'),
     delete: this.I18n.t('js.button_delete'),
     areYouSure: this.I18n.t('js.text_are_you_sure'),
     deleteSuccessful: this.I18n.t('js.notice_successful_delete'),
@@ -108,18 +113,9 @@ export class BoardComponent implements OnInit, OnDestroy {
       });
   }
 
-  destroyBoard(board:Board) {
-    if (!window.confirm(this.text.areYouSure)) {
-      return;
+  selectIfNew($event:FocusEvent) {
+    if (this.isNew) {
+      ($event.target as HTMLInputElement).select();
     }
-
-    this.Boards
-      .delete(board)
-      .then(() => {
-        this.BoardCache.clearSome(board.id);
-        this.goBack();
-        this.notifications.addSuccess(this.text.deleteSuccessful);
-      })
-      .catch((error) => this.showError(error));
   }
 }

@@ -39,6 +39,10 @@ import {BoardService} from "core-app/modules/boards/board/board.service";
 import {BoardInlineAddAutocompleterComponent} from "core-app/modules/boards/board/inline-add/board-inline-add-autocompleter.component";
 import {BoardsMenuComponent} from "core-app/modules/boards/board/boards-menu.component";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
+import {BoardConfigurationDisplaySettingsTab} from "core-app/modules/boards/board/configuration-modal/tabs/display-settings-tab.component";
+import {BoardsToolbarMenuDirective} from "core-app/modules/boards/board/toolbar-menu/boards-toolbar-menu.directive";
+import {BoardConfigurationService} from "core-app/modules/boards/board/configuration-modal/board-configuration.service";
+import {BoardConfigurationModal} from "core-app/modules/boards/board/configuration-modal/board-configuration.modal";
 
 export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -57,7 +61,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     url: '/{id}',
     params: {
       id: { type: 'int' },
-      board: { },
+      isNew: { type: 'bool' }
     },
     component: BoardComponent
   }
@@ -75,6 +79,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     BoardService,
     BoardListsService,
     BoardCacheService,
+    BoardConfigurationService,
   ],
   declarations: [
     BoardsModuleComponent,
@@ -82,11 +87,16 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     BoardListComponent,
     BoardsRootComponent,
     BoardInlineAddAutocompleterComponent,
-    BoardsMenuComponent
+    BoardsMenuComponent,
+    BoardConfigurationDisplaySettingsTab,
+    BoardConfigurationModal,
+    BoardsToolbarMenuDirective,
   ],
   entryComponents: [
     BoardInlineAddAutocompleterComponent,
-    BoardsMenuComponent
+    BoardsMenuComponent,
+    BoardConfigurationModal,
+    BoardConfigurationDisplaySettingsTab,
   ]
 })
 export class OpenprojectBoardsModule { }
