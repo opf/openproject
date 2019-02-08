@@ -505,10 +505,6 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.7.0)
       launchy (~> 2.2)
-    listen (3.1.5)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
-      ruby_dep (~> 1.2)
     livingstyleguide (2.0.3)
       minisyntax (>= 0.2.5)
       redcarpet
@@ -754,7 +750,6 @@ GEM
     ruby-rc4 (0.1.5)
     ruby-saml (1.9.0)
       nokogiri (>= 1.5.10)
-    ruby_dep (1.5.0)
     rubyzip (1.2.2)
     safe_yaml (1.0.4)
     sanitize (5.0.0)
@@ -932,7 +927,6 @@ DEPENDENCIES
   json_spec (~> 1.1.4)
   launchy (~> 2.4.3)
   letter_opener
-  listen (~> 3.1)
   livingstyleguide (~> 2.0.1)
   lograge (~> 0.10.0)
   meta-tags (~> 2.11.0)

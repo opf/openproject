@@ -41,8 +41,11 @@ OpenProject::Application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
-  # Asynchronous file watcher
-  config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+  # File watcher
+  # using ActiveSupport::EventedFileUpdateChecker depends on listen which depends on fsevent
+  # which seems to be prone to creating zombie process (+200 of them) which can cause
+  # the process limit (on mac) to be reached which causes the system to need a reboot.
+  config.file_watcher = ActiveSupport::FileUpdateChecker
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local
