@@ -26,12 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
-import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {NgSelectComponent} from "@ng-select/ng-select/dist";
 
 @Component({
@@ -43,7 +42,7 @@ import {NgSelectComponent} from "@ng-select/ng-select/dist";
                (search)="onSearch($event)"
                (change)="onModelChange($event)" >
       <ng-template ng-option-tmp let-item="item" let-index="index">
-        <user-avatar [attr.data-user-id]="item.id" 
+        <user-avatar [attr.data-user-id]="item.id"
                      data-class-list="avatar-mini">
         </user-avatar>
         {{ item.name }}
@@ -57,23 +56,24 @@ export class UserAutocompleterComponent implements OnInit {
   @Output() public onChange = new EventEmitter<void>();
   @Input() public clearAfterSelection:boolean = false;
 
+  // Load all users as default
+  @Input() public url:string = this.pathHelper.api.v3.users.path;
+
   public options:any[];
-  public url:string;
 
   constructor(protected halResourceService:HalResourceService,
               readonly pathHelper:PathHelperService) {
   }
 
   ngOnInit() {
-    this.url = this.pathHelper.api.v3.users.path;
     this.setAvailableUsers(this.url, '');
   }
 
   public onModelChange(user:any) {
-    if(user) {
+    if (user) {
       this.onChange.emit(user);
 
-      if(this.clearAfterSelection) {
+      if (this.clearAfterSelection) {
         this.ngSelectComponent.clearItem(user);
       }
     }

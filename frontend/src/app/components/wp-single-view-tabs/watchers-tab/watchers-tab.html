@@ -17,7 +17,8 @@
          [hidden]="!allowedToAdd">
       <form name="watcherForm" novalidate>
         <user-autocompleter [clearAfterSelection]="true"
-                            (onChange)="addWatcher($event)">
+                            (onChange)="addWatcher($event)"
+                            [url]="availableWatchersPath">
         </user-autocompleter>
       </form>
     </div>

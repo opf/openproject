@@ -26,12 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
 import {Transition} from '@uirouter/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
@@ -39,6 +37,7 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 @Component({
   templateUrl: './watchers-tab.html',
@@ -53,6 +52,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
   public allowedToView = false;
   public allowedToAdd = false;
   public allowedToRemove = false;
+  public availableWatchersPath:string;
   private $element:JQuery;
 
   public watching:any[] = [];
@@ -70,7 +70,8 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
                      readonly $transition:Transition,
                      readonly wpNotificationsService:WorkPackageNotificationService,
                      readonly loadingIndicator:LoadingIndicatorService,
-                     readonly wpCacheService:WorkPackageCacheService) {
+                     readonly wpCacheService:WorkPackageCacheService,
+                     readonly pathHelper:PathHelperService) {
   }
 
   public ngOnInit() {
@@ -86,6 +87,8 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
         this.workPackage = wp;
         this.loadCurrentWatchers();
       });
+
+    this.availableWatchersPath = this.pathHelper.api.v3.work_packages.id(this.workPackageId).available_watchers;
   }
 
   public loadCurrentWatchers() {
