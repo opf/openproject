@@ -8,7 +8,7 @@
     </activity-link>
   </div>
 
-  <user-avatar [user]="activity.author" classes="avatar"></user-avatar>
+  <user-avatar [attr.data-user-id]="activity.author.idFromLink" data-class-list="avatar"></user-avatar>
 
   <span class="user" *ngIf="userActive">
     <a [attr.href]="userPath"

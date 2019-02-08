@@ -27,33 +27,64 @@
 //++
 
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
-import {Component, Input, OnInit} from "@angular/core";
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef} from "@angular/core";
 import {UserCacheService} from "core-components/user/user-cache.service";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
   selector: 'user-avatar',
   templateUrl: './user-avatar.component.html'
 })
-export class UserAvatarComponent implements OnInit {
-  @Input() public user:UserResource;
-  @Input() public classes:string;
-
+export class UserAvatarComponent implements AfterViewInit {
+  public $element:JQuery;
   public userInitials:string;
   public userAvatar:string;
   public userName:string;
+  public colorCode:string;
+  public userID:string;
+  public classes:string;
+  public useFallback:boolean;
 
-  constructor(readonly userCacheService:UserCacheService) {
+  constructor(readonly userCacheService:UserCacheService,
+              protected elementRef:ElementRef,
+              protected ref:ChangeDetectorRef) {
   }
 
-  public ngOnInit() {
-    if (this.user) {
+  public ngAfterViewInit() {
+    this.$element = jQuery(this.elementRef.nativeElement);
+
+    this.userID = this.$element.data('user-id')!;
+    this.classes = this.$element.data('class-list')!;
+    this.useFallback = this.$element.data('use-fallback')!;
+
+    if (this.userID) {
       this.userCacheService
-        .require(this.user.idFromLink)
+        .require(this.userID)
         .then((user:UserResource) => {
           this.userInitials = user.firstName.charAt(0).toUpperCase() + user.lastName.charAt(0).toUpperCase();
           this.userAvatar = user.avatar;
           this.userName = user.name;
+          this.colorCode = this.computeColor(this.userInitials);
         });
     }
+    this.ref.detectChanges();
+  }
+
+  public replaceWithDefault() {
+    this.useFallback = true;
+    this.ref.detectChanges();
+  }
+
+  public computeColor(initials:string) {
+    let hash = 0;
+    for (var i = 0; i < initials.length; i++) {
+      hash = initials.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let h = hash % 360;
+
+    return 'hsl('+ h +', 50%, 50%)';
   }
 }
+
+DynamicBootstrapper.register({ selector: 'user-avatar', cls: UserAvatarComponent  });

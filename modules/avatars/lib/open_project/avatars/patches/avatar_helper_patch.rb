@@ -75,10 +75,9 @@ AvatarHelper.class_eval do
       opts = options.merge(gravatar: default_gravatar_options)
 
       tag_options = merge_image_options(user, opts)
-      tag_options[:alt] = 'Gravatar'
       tag_options[:class] << ' avatar--gravatar-image avatar--fallback'
 
-      gravatar_image_tag(mail, tag_options)
+      content_tag 'user-avatar', '', 'data-class-list': tag_options[:class], 'data-user-id': user.id.to_s
     end
 
     def build_gravatar_image_url(user, options = {})
@@ -100,10 +99,7 @@ AvatarHelper.class_eval do
     def local_avatar_image_tag(user, options = {})
       tag_options = merge_image_options(user, options)
 
-      tag_options[:src] = local_avatar_image_url(user)
-      tag_options[:alt] = 'Avatar'
-
-      tag 'img', tag_options, false, false
+      content_tag 'user-avatar', '', 'data-class-list': tag_options[:class], 'data-user-id': user.id.to_s
     end
 
     def merge_image_options(user, options)
@@ -135,9 +131,7 @@ AvatarHelper.class_eval do
     tag_options = merge_image_options(user, options)
     tag_options[:class] << ' avatar avatar-default'
 
-    content_tag :div, tag_options do
-      user.firstname.chars.first.upcase + user.lastname.chars.first.upcase
-    end
+    content_tag 'user-avatar', '', 'data-class-list': tag_options[:class], 'data-user-id': user.id.to_s, 'data-use-fallback': 'true'
   end
 
   prepend InstanceMethods
