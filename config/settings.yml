@@ -364,3 +364,7 @@ api_max_page_size:
   default: 500
 demo_projects_available:
   default: false
+security_badge_displayed:
+  default: true
+installation_uuid:
+  default: null
