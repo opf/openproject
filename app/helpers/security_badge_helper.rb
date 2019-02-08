@@ -36,6 +36,7 @@ module SecurityBadgeHelper
       version: OpenProject::VERSION.to_s,
       db: ActiveRecord::Base.connection.adapter_name.downcase,
       lang: User.current.try(:language),
+      ee: EnterpriseToken.current.present?,
     }.merge(args.symbolize_keys)
     uri.query = info.to_query
     uri.to_s
