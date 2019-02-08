@@ -76,7 +76,7 @@ module Redmine
       # Returns the default search scope according to the current action
       def default_search_scope
         @default_search_scope ||= default_search_scopes[controller_name.to_sym][:actions][action_name.to_sym] ||
-                                  default_search_scopes[controller_name.to_sym][:default]
+                                  default_search_scopes[controller_name.to_sym][:default] || "work_packages"
       end
     end
   end

@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {WorkPackageTableFiltersService} from "app/components/wp-fast-table/state/wp-table-filters.service";
 import {QueryFilterResource} from "app/modules/hal/resources/query-filter-resource";
@@ -35,6 +35,8 @@ import {TableState} from "app/components/wp-table/table-state/table-state";
 import {WorkPackageCacheService} from "app/components/work-packages/work-package-cache.service";
 import {Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
+import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
+import {WorkPackageTableFilters} from "core-components/wp-fast-table/wp-table-filters";
 
 @Component({
   selector: 'wp-filter-by-text-input',
@@ -42,6 +44,8 @@ import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 })
 
 export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy {
+  @Output() public filterChanged = new DebouncedEventEmitter<WorkPackageTableFilters>(componentDestroyed(this));
+
   public text = {
     createWithDropdown: this.I18n.t('js.work_packages.create.button'),
     createButton: this.I18n.t('js.label_work_package'),
@@ -78,6 +82,7 @@ export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy 
         }
 
         this.wpTableFilters.replace(this.wpTableFilters.currentState);
+        this.filterChanged.emit(this.wpTableFilters.currentState);
       });
   }
 

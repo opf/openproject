@@ -17,7 +17,7 @@
       </label>
 
       <div class="advanced-filters--filter-value">
-        <wp-filter-by-text-input>
+        <wp-filter-by-text-input (filterChanged)="filtersChanged.emit($event)">
         </wp-filter-by-text-input>
       </div>
     </li>

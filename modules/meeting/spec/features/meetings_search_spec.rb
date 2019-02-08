@@ -28,19 +28,26 @@
 
 require 'spec_helper'
 
-describe 'search/index', type: :view do
-  let(:project)      { FactoryBot.create :project }
-  let(:subproject)   { FactoryBot.create(:project, parent: project).tap { |_| project.reload }  }
-  let(:work_package) { FactoryBot.create :work_package, project: project }
+describe 'Meeting search', type: :feature, js: true do
+  let(:project) { FactoryBot.create :project }
+  let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  let(:role) { FactoryBot.create :role, permissions: %i(view_meetings) }
+
+  let!(:meeting) { FactoryBot.create(:meeting, project: project) }
 
   before do
-    assign :project, project
-    assign :subproject, subproject
-    assign :object_types, ['work_packages']
-    assign :scope, ['work_packages', 'changesets']
-    assign :results, [work_package]
-    assign :results_by_type, 'work_packages' => 1
-    assign :question, 'foo'
-    assign :tokens, ['bar']
+    login_as user
+
+    visit project_path(project)
+  end
+
+  context 'global search' do
+    it 'works' do
+      global_search_field = page.find('.top-menu-search--input')
+      global_search_field.set("Meeting")
+      global_search_field.send_keys(:enter)
+      page.find('[tab-id="meetings"]').click
+      expect(page).to have_text(meeting.title)
+    end
   end
 end

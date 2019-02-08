@@ -2,7 +2,15 @@
      [ngClass]="{ '-hierarchy-disabled': !configuration.hierarchyToggleEnabled,
                   '-compact-tables': compactTableStyle,
                   '-external-height': externalHeight }"
-     [attr.data-indicator-name]="uniqueEmbeddedTableName">
+     [attr.data-indicator-name]="uniqueEmbeddedTableName"
+      *ngIf="show">
+
+  <ng-container *ngIf="configuration.withFilters">
+    <filter-container [showFilterButton]="configuration.showFilterButton"
+                      [filterButtonText]="configuration.filterButtonText"
+                      (filtersChanged)="onFiltersChanged($event)"></filter-container>
+  </ng-container>
+
   <ng-container *ngIf="tableInformationLoaded">
     <!-- TABLE + TIMELINE horizontal split -->
     <wp-table [projectIdentifier]="projectIdentifier"

@@ -40,28 +40,6 @@ describe SearchController, type: :controller do
     User.current = nil
   end
 
-  it 'should search all projects' do
-    get :index, params: { q: 'recipe subproject commit', submit: 'Search' }
-    assert_response :success
-    assert_template 'index'
-
-    assert assigns(:results).include?(WorkPackage.find(2))
-    assert assigns(:results).include?(WorkPackage.find(5))
-    assert assigns(:results).include?(Changeset.find(101))
-
-    assert assigns(:results_by_type).is_a?(Hash)
-    assert_equal 5, assigns(:results_by_type)['changesets']
-    assert_select 'a', content: 'Changesets (5)'
-  end
-
-  it 'should search project and subprojects' do
-    get :index, params: { project_id: 1, q: 'recipe subproject', scope: 'subprojects', submit: 'Search' }
-    assert_response :success
-    assert_template 'index'
-    assert assigns(:results).include?(WorkPackage.find(1))
-    assert assigns(:results).include?(WorkPackage.find(5))
-  end
-
   it 'should search without searchable custom fields' do
     CustomField.update_all "searchable = #{ActiveRecord::Base.connection.quoted_false}"
 
@@ -84,63 +62,15 @@ describe SearchController, type: :controller do
     assert results.include?(WorkPackage.find(7))
   end
 
-  it 'should search all words' do
-    # 'all words' is on by default
-    get :index, params: { project_id: 1, q: 'recipe updating saving' }
-    results = assigns(:results)
-    refute_nil results
-    assert_equal 1, results.size
-    assert results.include?(WorkPackage.find(3))
-  end
-
-  it 'should search one of the words' do
-    get :index, params: { project_id: 1, q: 'recipe updating saving', submit: 'Search' }
-    results = assigns(:results)
-    refute_nil results
-    assert_equal 4, results.size
-    assert results.include?(WorkPackage.find(3))
-  end
-
-  it 'should search titles only without result' do
-    get :index, params: { project_id: 1, q: 'recipe updating saving', all_words: '1', titles_only: '1', submit: 'Search' }
-    results = assigns(:results)
-    refute_nil results
-    assert_equal 0, results.size
-  end
-
-  it 'should search titles only' do
-    get :index, params: { project_id: 1, q: 'recipe', titles_only: '1', submit: 'Search' }
-    results = assigns(:results)
-    refute_nil results
-    assert_equal 2, results.size
-  end
-
   it 'should search with invalid project id' do
     get :index, params: { project_id: 195, q: 'recipe' }
     assert_response 404
     assert_nil assigns(:results)
   end
 
-  it 'should quick jump to work packages' do
-    # work_package of a public project
-    get :index, params: { q: '3' }
-    assert_redirected_to '/work_packages/3'
-  end
-
   it 'should not jump to an invisible WP' do
     get :index, params: { q: '4' }
     assert_response :success
     assert_template 'index'
-  end
-
-  it 'should large integer' do
-    get :index, params: { q: '4615713488' }
-    assert_response :success
-    assert_template 'index'
-  end
-
-  it 'should tokens with quotes' do
-    get :index, params: { project_id: 1, q: '"good bye" hello "bye bye"' }
-    assert_equal ['good bye', 'hello', 'bye bye'], assigns(:tokens)
   end
 end
