@@ -105,10 +105,6 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
     return _.reject(this.currentFilters, (filter) => invisibleFilters.has(filter.id));
   }
 
-  public get anyCurrentlyVisibleFilters():boolean {
-    return this.currentlyVisibleFilters.length > 0;
-  }
-
   private get currentFilters() {
     return this.current.map((filter:QueryFilterInstanceResource) => filter.filter);
   }
