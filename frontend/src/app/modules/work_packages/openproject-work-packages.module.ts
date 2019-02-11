@@ -184,7 +184,6 @@ import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/rout
 import {AttachmentsUploadComponent} from 'core-app/modules/attachments/attachments-upload/attachments-upload.component';
 import {AttachmentListComponent} from 'core-app/modules/attachments/attachment-list/attachment-list.component';
 import {WorkPackageFilterByTextInputComponent} from "core-components/filters/quick-filter-by-text-input/quick-filter-by-text-input.component";
-import {CdkDragPortalBody} from "core-components/wp-fast-table/builders/drag-and-drop/cdk-drag-portal-body";
 import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
 import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
@@ -423,7 +422,6 @@ import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card
     // editor module to avoid circular dependencies
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
-    CdkDragPortalBody,
 
     // Card view
     WorkPackageCardViewComponent,
@@ -498,7 +496,6 @@ import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card
     // editor module to avoid circular dependencies
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
-    CdkDragPortalBody,
 
     // Card view
     WorkPackageCardViewComponent,

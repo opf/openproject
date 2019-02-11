@@ -1,27 +1,20 @@
 import {Injectable} from "@angular/core";
 import {StateCacheService} from "core-components/states/state-cache.service";
 import {multiInput, MultiInputState} from "reactivestates";
-import {BoardService} from "core-app/modules/boards/board/board.service";
 import {Board} from "core-app/modules/boards/board/board";
+import {BoardDmService} from "core-app/modules/boards/board/board-dm.service";
 
 @Injectable()
 export class BoardCacheService extends StateCacheService<Board> {
 
   protected _state = multiInput<Board>();
-  protected loaded:Promise<unknown>|undefined;
 
-  constructor(protected BoardDm:BoardService) {
+  constructor(protected boardDm:BoardDmService) {
     super();
   }
 
-  public requireLoaded():void {
-    if (!this.loaded) {
-      this.loaded = this.loadAll();
-    }
-  }
-
   protected load(id:string):Promise<Board> {
-    return this.BoardDm
+    return this.boardDm
       .one(parseInt(id))
       .toPromise()
       .then((board:Board) => {
@@ -32,13 +25,9 @@ export class BoardCacheService extends StateCacheService<Board> {
   }
 
   protected loadAll(ids:string[] = []):Promise<undefined> {
-    return this.BoardDm
-      .allInScope()
-      .toPromise()
-      .then((boards) => {
-         boards.forEach(b => this.updateValue(b.id, b));
-         return undefined;
-    });
+    return Promise
+      .all(ids.map(id => this.load(id)))
+      .then(() => undefined);
   }
 
   protected get multiState():MultiInputState<Board> {

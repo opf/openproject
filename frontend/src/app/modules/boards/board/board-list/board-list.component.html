@@ -2,11 +2,13 @@
      class="board-list--container loading-indicator--location">
   <ng-container *ngIf="query">
 
-    <editable-toolbar-title [title]="query.name"
-                            [inFlight]="inFlight"
-                            (onSave)="renameQuery(query, $event)"
-                            [editable]="!!query.updateImmediately">
-    </editable-toolbar-title>
+    <div class="board-list--header">
+      <editable-toolbar-title [title]="query.name"
+                              [inFlight]="inFlight"
+                              (onSave)="renameQuery(query, $event)"
+                              [editable]="!!query.updateImmediately">
+      </editable-toolbar-title>
+    </div>
 
     <div class="board-list--query-container">
       <wp-embedded-table *ngIf="boardTableConfiguration.isEmbedded && !boardTableConfiguration.isCardView"

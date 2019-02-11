@@ -1,9 +1,7 @@
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {wpCellTdClassName} from "core-components/wp-fast-table/builders/cell-builder";
-import {CdkDragPortalBody} from "core-components/wp-fast-table/builders/drag-and-drop/cdk-drag-portal-body";
-import {PortalBuilder} from "core-components/wp-fast-table/builders/drag-and-drop/portal-builder";
 
-export class CdkDragBuilder extends PortalBuilder<CdkDragPortalBody> {
+export class DragDropHandleBuilder {
 
   /**
    * Renders an angular CDK drag component into the column

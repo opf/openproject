@@ -30,7 +30,6 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Inject,
   Injector,
   Input,
   OnDestroy,
@@ -44,7 +43,6 @@ import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs';
-import {debugLog} from '../../helpers/debug_output';
 import {States} from '../states.service';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTableGroupByService} from '../wp-fast-table/state/wp-table-group-by.service';
@@ -61,7 +59,6 @@ import {
 import {QueryColumn} from 'core-components/wp-query/query-column';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 import {randomString} from "core-app/helpers/random-string";
 
 @Component({

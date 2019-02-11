@@ -1,7 +1,5 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
-import {from, Observable, Subject} from "rxjs";
-import {debounceTime, distinctUntilChanged, filter, tap, withLatestFrom} from "rxjs/operators";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
@@ -12,6 +10,7 @@ import {Board} from "core-app/modules/boards/board/board";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {StateService} from "@uirouter/core";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
+import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: 'board',
@@ -26,11 +25,8 @@ export class BoardComponent implements OnInit, OnDestroy {
   // We only support 4 columns for now while the grid does not autoscale
   readonly maxCount = 4;
 
-  /** Rename events */
-  public rename$ = new Subject<string>();
-
   /** Board observable */
-  public board$:Observable<Board|undefined>;
+  public board:Board;
 
   /** Whether this is a new board just created */
   public isNew:boolean = !!this.state.params.isNew;
@@ -66,43 +62,31 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit():void {
-    const id:number = this.state.params.board_id;
+    const id:string = this.state.params.board_id.toString();
 
-    this.BoardCache.require(id.toString());
-    this.board$ = from(this.BoardCache.observe(id.toString()))
+    this.BoardCache
+      .requireAndStream(id)
       .pipe(
-        tap(b => {
-          if (b === undefined) {
-            this.showError();
-          }
-        })
-      );
-
-    this.rename$
-      .pipe(
-        untilComponentDestroyed(this),
-        debounceTime(1000),
-        distinctUntilChanged(),
-        withLatestFrom(this.board$),
-        filter(([, board]) => board !== undefined)
+        untilComponentDestroyed(this)
       )
-      .subscribe(([newName, board]) => {
-        let b = board as Board;
-        this.inFlight = true;
-
-        b.name = newName;
-        this.Boards
-          .save(b)
-          .then(board => {
-            this.BoardCache.update(board);
-            this.notifications.addSuccess(this.text.updateSuccessful);
-            this.inFlight = false;
-          });
-      });
+      .subscribe(board => this.board = board);
   }
 
   ngOnDestroy():void {
     // Nothing to do.
+  }
+
+  renameBoard(board:Board, newName:string) {
+    this.inFlight = true;
+
+    board.name = newName;
+    this.Boards
+      .save(board)
+      .then(board => {
+        this.BoardCache.update(board);
+        this.notifications.addSuccess(this.text.updateSuccessful);
+        this.inFlight = false;
+      });
   }
 
   showError(text = this.text.loadingError) {
@@ -121,9 +105,8 @@ export class BoardComponent implements OnInit, OnDestroy {
       });
   }
 
-  selectIfNew($event:FocusEvent) {
-    if (this.isNew) {
-      ($event.target as HTMLInputElement).select();
-    }
+  moveList(board:Board, event:CdkDragDrop<GridWidgetResource[]>) {
+    moveItemInArray(board.queries, event.previousIndex, event.currentIndex);
+    this.Boards.save(board);
   }
 }

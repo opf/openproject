@@ -1,4 +1,4 @@
-<div *ngIf="(board$ | async) as board"
+<div *ngIf="board"
      class="board--container">
 
   <div class="toolbar-container -editable">
@@ -14,7 +14,7 @@
         <editable-toolbar-title [title]="board.name"
                                 [inFlight]="inFlight"
                                 [initialFocus]="isNew"
-                                (onSave)="rename$.next($event)"
+                                (onSave)="renameBoard(board, $event)"
                                 [editable]="board.isEditable">
         </editable-toolbar-title>
 
@@ -36,8 +36,16 @@
     </div>
   </div>
 
-  <div class="boards-list--container">
-    <div class="boards-list--item" *ngFor="let query of board.queries; trackBy:trackByQueryId">
+  <div class="boards-list--container"
+       cdkDropList
+       cdkDropListOrientation="horizontal"
+       (cdkDropListDropped)="moveList(board, $event)"
+       >
+    <div class="boards-list--item"
+         *ngFor="let query of board.queries; trackBy:trackByQueryId"
+         cdkDrag>
+      <span class="boards-list-item-handle icon icon-drag-handle"
+            cdkDragHandle></span>
       <board-list [resource]="query"></board-list>
     </div>
 

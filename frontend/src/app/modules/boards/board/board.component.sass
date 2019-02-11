@@ -6,7 +6,6 @@
 .boards-list--item
   flex: 0 0 20%
   border: 1px solid #ccc
-  padding: 20px
   margin-left: 2rem
   position: relative
 
@@ -19,6 +18,21 @@
 
 .board--name-header
   list-style: none
+
+.boards-list-item-handle
+  position: absolute
+  left: 0
+  top: 20px
+  z-index: 1000
+  opacity: 0
+  cursor: grab
+
+  &:before
+    padding: 0
+    color: #888
+
+  .boards-list--item:hover &
+    opacity: 1
 
 .boards-list--add-item
   flex: 0 0 auto

@@ -8,10 +8,9 @@ import {BoardCacheService} from "core-app/modules/boards/board/board-cache.servi
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
 @Component({
-  selector: 'boards-module',
-  templateUrl: './boards-module.component.html'
+  templateUrl: './boards-index-page.component.html'
 })
-export class BoardsModuleComponent {
+export class BoardsIndexPageComponent {
 
   public text = {
     name: this.I18n.t('js.modals.label_name'),
@@ -24,21 +23,21 @@ export class BoardsModuleComponent {
     noResults: this.I18n.t('js.notice_no_results_to_display')
   };
 
-  public boards$:Observable<Board[]> = this.BoardCache.observeAll();
+  public boards$:Observable<Board[]> = this.boardCache.observeAll();
 
-  constructor(private readonly Boards:BoardService,
-              private readonly BoardCache:BoardCacheService,
+  constructor(private readonly boardService:BoardService,
+              private readonly boardCache:BoardCacheService,
               private readonly I18n:I18nService,
               private readonly notifications:NotificationsService,
               private readonly state:StateService) {
-    this.BoardCache.requireLoaded();
+    this.boardService.loadAllBoards();
   }
 
   newBoard() {
-    this.Boards
+    this.boardService
       .create()
       .then((board) => {
-        this.BoardCache.update(board);
+        this.boardCache.update(board);
         this.state.go('boards.show', { id: board.id, isNew: true });
       });
   }
@@ -48,10 +47,10 @@ export class BoardsModuleComponent {
       return;
     }
 
-    this.Boards
+    this.boardService
       .delete(board)
       .then(() => {
-        this.BoardCache.clearSome(board.id);
+        this.boardCache.clearSome(board.id);
         this.notifications.addSuccess(this.text.deleteSuccessful);
       })
       .catch((error) => this.notifications.addError("Deletion failed: " + error));

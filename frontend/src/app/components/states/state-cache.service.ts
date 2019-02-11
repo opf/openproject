@@ -116,6 +116,27 @@ export abstract class StateCacheService<T> {
   }
 
   /**
+   * Require the value to be loaded either when forced or the value is stale
+   * according to the cache interval specified for this service.
+   *
+   * Returns an observable to the values stream of the state.
+   *
+   * @param id The value's identifier.
+   * @param force Load the value anyway.
+   */
+  public requireAndStream(id:string, force:boolean = false):Observable<T> {
+    const state = this.multiState.get(id);
+
+    // Refresh when stale or being forced
+    if (this.stale(state) || force) {
+      state.clear();
+      state.putFromPromiseIfPristine(() => this.load(id));
+    }
+
+    return state.values$();
+  }
+
+  /**
    * Require the states of the given ids to be loaded if they're empty or stale,
    * or all when force is given.
    * @param ids Ids to require

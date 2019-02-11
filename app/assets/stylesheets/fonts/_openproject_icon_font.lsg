@@ -70,6 +70,7 @@
 <li><span class="icon icon-double-arrow-left"></span>double-arrow-left</li>
 <li><span class="icon icon-double-arrow-right"></span>double-arrow-right</li>
 <li><span class="icon icon-download"></span>download</li>
+<li><span class="icon icon-drag-handle"></span>drag-handle</li>
 <li><span class="icon icon-duplicate"></span>duplicate</li>
 <li><span class="icon icon-edit"></span>edit</li>
 <li><span class="icon icon-enterprise"></span>enterprise</li>
@@ -231,7 +232,6 @@
 <li><span class="icon icon-view-fullscreen"></span>view-fullscreen</li>
 <li><span class="icon icon-view-list"></span>view-list</li>
 <li><span class="icon icon-view-split"></span>view-split</li>
-<li><span class="icon icon-view-timeline"></span>view-timeline</li>
 <li><span class="icon icon-warning"></span>warning</li>
 <li><span class="icon icon-watched"></span>watched</li>
 <li><span class="icon icon-wiki-edit"></span>wiki-edit</li>
