@@ -2009,6 +2009,7 @@ zh:
   setting_per_page_options: 每页对象选项
   setting_plain_text_mail: 纯文本邮件 (没有 HTML)
   setting_protocol: 协议
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: 注册页脚
   setting_repositories_automatic_managed_vendor: 自动存储库供应商类型
   setting_repositories_encodings: 代码库的编码
@@ -2144,6 +2145,11 @@ zh:
   text_no_configuration_data: 角色、 类型、 工作包状态和工作流有尚未配置。 \n强烈建议加载默认配置。加载完成后你将能够修改它。
   text_no_notes: 没有注释可用于此工作包。
   text_notice_too_many_values_are_inperformant: 注意： 每个页面显示超过 100 个项目会增加页面加载时间。
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'
   text_own_membership_delete_confirmation: 您将要删除部分或全部的权限，可能不能够在那之后编辑此项目。 \n您确定要继续吗？
   text_plugin_assets_writable: 插件资产目录可写
   text_powered_by: Powered by %{link}

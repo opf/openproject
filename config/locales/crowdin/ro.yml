@@ -2243,6 +2243,7 @@ ro:
   setting_per_page_options: Opțiuni pentru obiecte pe pagină
   setting_plain_text_mail: Text e-mail simplu (fără HTML)
   setting_protocol: Protocol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: Tipul de furnizor pentru repo-urile
     automate
@@ -2421,6 +2422,11 @@ ro:
   text_no_notes: Nu sunt comentarii disponibile pentru acest pachet de lucru.
   text_notice_too_many_values_are_inperformant: 'Atenție: Afişarea unui număr mai
     mare de 100 de articole pe pagină poate creşte durata de încărcare.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'
   text_own_membership_delete_confirmation: "Sunteţi cale de a elimina unele sau toate
     permisiunile şi e posibil să nu mai puteți edita acest proiect după aceea. \nSunteţi
     sigur că doriţi să continuaţi?"

@@ -300,7 +300,7 @@ es:
       show_modal: Mostrar entrada de texto de ayuda para atributo
     onboarding:
       buttons:
-        skip: Skip
+        skip: Saltar
         next: Siguiente
         got_it: Entendido
       steps:

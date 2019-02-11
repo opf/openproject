@@ -658,7 +658,7 @@ lol:
   button_print: crwdns103500:0crwdne103500:0
   button_quote: crwdns103502:0crwdne103502:0
   button_remove: crwdns103504:0crwdne103504:0
-  button_remove_widget: crwdns113278:0crwdne113278:0
+  button_remove_widget: crwdns113710:0crwdne113710:0
   button_rename: crwdns103508:0crwdne103508:0
   button_replace: crwdns103510:0crwdne103510:0
   button_reply: crwdns103512:0crwdne103512:0
@@ -1047,7 +1047,7 @@ lol:
   label_all_open_wps: crwdns104154:0crwdne104154:0
   label_always_visible: crwdns104156:0crwdne104156:0
   label_announcement: crwdns104158:0crwdne104158:0
-  label_and_its_subprojects: crwdns104160:0%{value}crwdne104160:0
+  label_and_its_subprojects: crwdns113712:0%{value}crwdne113712:0
   label_api_access_key: crwdns104162:0crwdne104162:0
   label_api_access_key_created_on: crwdns104164:0%{value}crwdne104164:0
   label_api_access_key_type: crwdns104166:0crwdne104166:0
@@ -1288,7 +1288,7 @@ lol:
   label_my_account: crwdns104632:0crwdne104632:0
   label_my_account_data: crwdns104634:0crwdne104634:0
   label_my_page: crwdns104636:0crwdne104636:0
-  label_my_page_block: crwdns113280:0crwdne113280:0
+  label_my_page_block: crwdns113714:0crwdne113714:0
   label_my_projects: crwdns104640:0crwdne104640:0
   label_my_queries: crwdns104642:0crwdne104642:0
   label_never: crwdns104644:0crwdne104644:0
@@ -1395,7 +1395,7 @@ lol:
   label_repository_plural: crwdns104846:0crwdne104846:0
   label_required: crwdns104848:0crwdne104848:0
   label_requires: crwdns104850:0crwdne104850:0
-  label_responsible_for_work_packages: crwdns113282:0crwdne113282:0
+  label_responsible_for_work_packages: crwdns113716:0crwdne113716:0
   label_result_plural: crwdns104854:0crwdne104854:0
   label_reverse_chronological_order: crwdns104856:0crwdne104856:0
   label_revision: crwdns104858:0crwdne104858:0
@@ -1412,7 +1412,7 @@ lol:
   label_role_search: crwdns104880:0crwdne104880:0
   label_scm: crwdns104882:0crwdne104882:0
   label_search: crwdns104884:0crwdne104884:0
-  label_search_titles_only: crwdns104886:0crwdne104886:0
+  label_search_titles_only: crwdns113718:0crwdne113718:0
   label_send_information: crwdns104888:0crwdne104888:0
   label_send_test_email: crwdns104890:0crwdne104890:0
   label_settings: crwdns104892:0crwdne104892:0
@@ -1582,7 +1582,7 @@ lol:
   label_keyboard_shortcut_go_preview: crwdns105190:0crwdne105190:0
   label_keyboard_shortcut_focus_previous_item: crwdns105192:0crwdne105192:0
   label_keyboard_shortcut_focus_next_item: crwdns105194:0crwdne105194:0
-  label_visible_elements: crwdns113284:0crwdne113284:0
+  label_visible_elements: crwdns113720:0crwdne113720:0
   auth_source:
     using_abstract_auth_source: crwdns105198:0crwdne105198:0
     ldap_error: crwdns105200:0%{error_message}crwdne105200:0
@@ -1994,6 +1994,7 @@ lol:
   setting_per_page_options: crwdns106174:0crwdne106174:0
   setting_plain_text_mail: crwdns106176:0crwdne106176:0
   setting_protocol: crwdns106178:0crwdne106178:0
+  setting_security_badge_displayed: crwdns113722:0crwdne113722:0
   setting_registration_footer: crwdns106180:0crwdne106180:0
   setting_repositories_automatic_managed_vendor: crwdns106182:0crwdne106182:0
   setting_repositories_encodings: crwdns106184:0crwdne106184:0
@@ -2128,6 +2129,7 @@ lol:
   text_no_configuration_data: crwdns106404:0crwdne106404:0
   text_no_notes: crwdns106406:0crwdne106406:0
   text_notice_too_many_values_are_inperformant: crwdns106408:0crwdne106408:0
+  text_notice_security_badge_displayed_html: crwdns113724:0%{information_panel_path}crwdnd113724:0%{information_panel_label}crwdne113724:0
   text_own_membership_delete_confirmation: crwdns106410:0crwdne106410:0
   text_plugin_assets_writable: crwdns106412:0crwdne106412:0
   text_powered_by: crwdns106414:0%{link}crwdne106414:0

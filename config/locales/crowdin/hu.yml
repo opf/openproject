@@ -2201,6 +2201,7 @@ hu:
   setting_per_page_options: Objektum per oldal opció
   setting_plain_text_mail: Egyszerű szöveges e-mail (nem HTML)
   setting_protocol: Protokol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Regisztráció lábléc
   setting_repositories_automatic_managed_vendor: Automatikus tároló típus
   setting_repositories_encodings: Tárolók kódolásai
@@ -2372,6 +2373,11 @@ hu:
   text_no_notes: Ehhez a munkacsomaghoz nincsenek megjegyzések.
   text_notice_too_many_values_are_inperformant: 'Megjegyzés: Az oldalanként több mint
     100 elem megjelenítésekor az oldal betöltési ideje  növekedhet.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'
   text_own_membership_delete_confirmation: Értesítem arról, hogy eltávolít néhány
     vagy az összes jogosultságot, és ezt követően már nem lehet szerkeszteni ezt a
     projektet. Biztosan folytatni kívánja?
