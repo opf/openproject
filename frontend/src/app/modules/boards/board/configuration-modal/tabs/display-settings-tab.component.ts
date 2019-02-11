@@ -1,11 +1,17 @@
-import {Component, Injector} from '@angular/core';
+import {Component, Inject, Injector} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
+import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
+import {Board} from "core-app/modules/boards/board/board";
+import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 
 @Component({
   templateUrl: './display-settings-tab.component.html'
 })
 export class BoardConfigurationDisplaySettingsTab implements TabComponent {
+
+  // Current board resource
+  public board:Board;
 
   // Display mode
   public displayMode:'list'|'cards' = 'cards';
@@ -18,6 +24,7 @@ export class BoardConfigurationDisplaySettingsTab implements TabComponent {
   };
 
   constructor(readonly injector:Injector,
+              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly I18n:I18nService) {
   }
 
@@ -25,5 +32,6 @@ export class BoardConfigurationDisplaySettingsTab implements TabComponent {
   }
 
   ngOnInit() {
+    this.board = this.locals.board;
   }
 }

@@ -41,9 +41,7 @@
 
   <div class="boards-list--container">
     <div class="boards-list--item" *ngFor="let query of board.queries; trackBy:trackByQueryId">
-      <board-list [useCardView]="useCardView"
-                  [resource]="query">
-      </board-list>
+      <board-list [resource]="query"></board-list>
     </div>
 
     <div class="boards-list--add-item"

@@ -46,7 +46,6 @@ export class BoardComponent implements OnInit, OnDestroy {
     addList: 'Add list'
   };
 
-  useCardView = false;
   trackByQueryId = (index:number, widget:GridWidgetResource) => widget.options.query_id;
 
   constructor(private readonly state:StateService,

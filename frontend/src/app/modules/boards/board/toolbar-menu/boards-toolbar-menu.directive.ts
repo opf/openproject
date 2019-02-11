@@ -101,7 +101,7 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger implements 
         icon: 'icon-settings',
         onClick: ($event:JQueryEventObject) => {
           this.opContextMenu.close();
-          this.opModalService.show(BoardConfigurationModal);
+          this.opModalService.show(BoardConfigurationModal, { board: this.board });
 
           return true;
         }

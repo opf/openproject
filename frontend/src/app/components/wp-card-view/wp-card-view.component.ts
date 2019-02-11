@@ -217,9 +217,7 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
           this.activeInlineCreateWp = undefined;
 
           // Add this item to the results
-          this.reorderService
-            .add(this.tableState, wp.id, index)
-            .then(() => this.wpTableRefresh.request('Drag and Drop added item'));
+          this.reorderService.add(this.tableState, wp.id, index)
 
           // Notify inline create service
           this.wpInlineCreate.newInlineWorkPackageCreated.next(wp.id);

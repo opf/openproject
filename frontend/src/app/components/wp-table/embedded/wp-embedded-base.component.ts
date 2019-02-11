@@ -59,6 +59,7 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
 
   ngOnChanges(changes:SimpleChanges) {
     if (this.initialized) {
+      debugger;
       this.refresh(this.initialLoadingIndicator);
     }
   }
