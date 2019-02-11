@@ -38,6 +38,7 @@ da:
     button_duplicate: Lav dublet
     button_edit: Rediger
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Listevisning
     button_show_view: Fuldskærmsvisning
     button_log_time: Tidsregistrering
@@ -214,7 +215,7 @@ da:
     label_menu_collapse: Fold menu sammen
     label_menu_expand: Fold menu ud
     label_more_than_ago: mere end dage siden
-    label_my_page: My page
+    label_my_page: Min side
     label_next: Næste
     label_no_data: Ingen data at vise
     label_no_due_date: ingen slutdato
@@ -398,9 +399,9 @@ da:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Aktivitet
+      comment: Kommentar
+      hours: Timer
     watchers:
       label_loading: indlæser iagttagere...
       label_error_loading: En fejl opstod under indlæsning af seere
@@ -760,8 +761,6 @@ da:
         days: dage
         weeks: uger
         months: måneder
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -845,11 +844,12 @@ da:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: Din version af browseren understøttes ikke
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Få mere at vide
-      close_warning: Ignore this warning.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

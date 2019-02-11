@@ -107,6 +107,10 @@ it:
       further_information_after: ''
     calendar:
       removal: 'Nota bene: questo modulo sta per essere rimosso con OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Al momento non esistono gruppi.
@@ -1205,7 +1209,6 @@ it:
   label_all_open_wps: Apri tutto
   label_always_visible: Sempre visibile
   label_announcement: Annuncio
-  label_and_its_subprojects: "%{value} e i suoi sotto-progetti"
   label_api_access_key: Chiave di accesso API
   label_api_access_key_created_on: Chiave di accesso API creata %{value} fa
   label_api_access_key_type: API
@@ -1575,7 +1578,6 @@ it:
   label_role_search: Assegna ruolo ai nuovi membri
   label_scm: SCM
   label_search: Cerca
-  label_search_titles_only: Cerca solo nei titoli
   label_send_information: Invia le informazioni di registrazione all'utente
   label_send_test_email: Invia un email di prova
   label_settings: Impostazioni
@@ -2900,8 +2902,8 @@ it:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Aggiornare il browser, prego.
+    close_warning: Ignora questo avviso.
   oauth:
     application:
       singular: OAuth application
@@ -2947,7 +2949,7 @@ it:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Permessi
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2971,8 +2973,5 @@ it:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Rimuovi widget
-  label_my_page_block: Il mio blocco pagina
-  label_responsible_for_work_packages: Macro-attività di cui sono responsabile del
-    risultato
-  label_visible_elements: Elementi visibili
+  label_and_its_subprojects: "%{value} e i suoi sotto-progetti"
+  label_search_titles_only: Cerca solo nei titoli

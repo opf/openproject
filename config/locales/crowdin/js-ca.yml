@@ -38,6 +38,7 @@ ca:
     button_duplicate: Duplicar
     button_edit: Editar
     button_filter: Filtre
+    button_advanced_filter: Advanced filter
     button_list_view: Vista de llista
     button_show_view: Vista de pantalla completa
     button_log_time: Temps de registre
@@ -215,7 +216,7 @@ ca:
     label_menu_collapse: col·lapsar
     label_menu_expand: expandir
     label_more_than_ago: fa més dies
-    label_my_page: My page
+    label_my_page: La meva pàgina
     label_next: Següent
     label_no_data: No hi ha dades per mostrar
     label_no_due_date: no hi ha data de finalització
@@ -401,9 +402,9 @@ ca:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Activitat
+      comment: Comentari
+      hours: Hores
     watchers:
       label_loading: carregant vigilants...
       label_error_loading: S'ha produït un error la càrrega dels vigilants
@@ -767,8 +768,6 @@ ca:
         days: dies
         weeks: setmanes
         months: mesos
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -852,11 +851,12 @@ ca:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: La versió del navegador no és compatible
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Saber-ne més
-      close_warning: Ignore this warning.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

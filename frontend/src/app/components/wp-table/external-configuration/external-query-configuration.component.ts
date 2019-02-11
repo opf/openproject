@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectorRef,
   Component,
   Inject,
   ViewChild
@@ -26,7 +26,8 @@ export class ExternalQueryConfigurationComponent implements AfterViewInit {
 
   @ViewChild('embeddedTableForConfiguration') private embeddedTable:WorkPackageEmbeddedTableComponent;
 
-  constructor(@Inject(OpQueryConfigurationLocalsToken) readonly locals:QueryConfigurationLocals) {
+  constructor(@Inject(OpQueryConfigurationLocalsToken) readonly locals:QueryConfigurationLocals,
+              readonly cdRef:ChangeDetectorRef) {
   }
 
   ngAfterViewInit() {
@@ -37,6 +38,7 @@ export class ExternalQueryConfigurationComponent implements AfterViewInit {
         this.service.detach();
         this.locals.callback(this.embeddedTable.buildQueryProps());
       });
+      this.cdRef.detectChanges();
     });
   }
 

@@ -66,6 +66,8 @@ export class SingleRowBuilder {
       case internalContextMenuColumn.id:
         if (this.workPackageTable.configuration.actionsColumnEnabled) {
           return this.contextLinkBuilder.build(workPackage);
+        } else if (this.workPackageTable.configuration.columnMenuEnabled) {
+          return document.createElement('td');
         } else {
           return null;
         }

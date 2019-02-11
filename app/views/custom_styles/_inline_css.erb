@@ -61,11 +61,6 @@ See doc/COPYRIGHT.rdoc for more details.
     #main-menu #toggle-project-menu {
       border-top: 0px;
     }
-     <%# On white background the input needs a border to contrast better. %>
-    .top-menu-search input.top-menu-search--input,
-    .top-menu-search input.top-menu-search--input:focus {
-      border: 1px solid #CCCCCC; /* Same color as border of foundation input fields */
-    }
 
     <%# Trying to hit the query cache for the condition here: %>
     <% if DesignColor.overwritten.map(&:variable).include?('header-bg-color') &&

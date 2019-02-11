@@ -13,9 +13,9 @@ If you find any bugs or you have any recommendations for improving this tutorial
 
 We'll use [homebrew](https://brew.sh/) to install most of our requirements. Please install that first using the guide on their homepage.
 
-## Install Ruby 2.5.
+## Install Ruby 2.6.
 
-Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby 2.5.0.
+Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby 2.6.1.
 **Install rbenv and ruby-build**
 
 rbenv is a ruby version manager that lets you quickly switch between ruby versions.
@@ -28,23 +28,23 @@ $ brew install rbenv ruby-build
 $ rbenv init
 ```
 
-**Installing ruby-2.5**
+**Installing ruby-2.6**
 
-With both installed, we can now install the actual ruby version 2.5. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `2.5.0`, which we also require.
+With both installed, we can now install the actual ruby version 2.6. You can check available ruby versions with `rbenv install --list`.
+At the time of this writing, the latest stable version is `2.6.1`, which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
 and install that version.
 
 ```bash
 # Install the required version as read from the Gemfile
-[dev@ubuntu]# rbenv install 2.5.0
+[dev@ubuntu]# rbenv install 2.6.1
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
 
 ```bash
-[dev@ubuntu]# rbenv global 2.5.0
+[dev@ubuntu]# rbenv global 2.6.1
 ```
 
 You also need to install [bundler](https://github.com/bundler/bundler/), the ruby gem bundler.
@@ -108,13 +108,13 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```bash
 $ ruby --version
-ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-darwin16]
+ruby 2.6.1p33 (2019-01-30 revision 66950) [x86_64-darwin16]
 
 $ bundler --version
-Bundler version 1.16.1
+Bundler version 2.0.1
 
 $ npm --version
-3.10.10
+6.7.0
 ```
 
 # Install OpenProject

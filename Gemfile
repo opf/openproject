@@ -28,12 +28,11 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.5.1'
+ruby '~> 2.6.1'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'listen', '~> 3.1' # Use for event-based reloaders
 gem 'rails', '~> 5.2.2'
 gem 'responders', '~> 2.4'
 
@@ -230,7 +229,7 @@ group :test do
 
   gem 'fuubar', '~> 2.3.2'
   gem 'timecop', '~> 0.9.0'
-  gem 'webmock', '~> 3.1.0', require: false
+  gem 'webmock', '~> 3.5.0', require: false
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'

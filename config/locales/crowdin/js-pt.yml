@@ -39,6 +39,7 @@ pt:
     button_duplicate: Duplicar
     button_edit: Editar
     button_filter: Filtro
+    button_advanced_filter: Advanced filter
     button_list_view: Ver lista
     button_show_view: Ver em ecrã completo
     button_log_time: Tempo de registro
@@ -216,7 +217,7 @@ pt:
     label_menu_collapse: ocultar
     label_menu_expand: expandir
     label_more_than_ago: mais do que dias atrás
-    label_my_page: My page
+    label_my_page: A minha página
     label_next: Próxima
     label_no_data: Sem dados para apresentar
     label_no_due_date: sem data fim
@@ -400,9 +401,9 @@ pt:
           requires: a necessitar
           required: exigido por
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Atividade
+      comment: Comentario
+      hours: Horas
     watchers:
       label_loading: carregando observadores...
       label_error_loading: Ocorreu um erro ao carregar os observadores
@@ -763,8 +764,6 @@ pt:
         days: dias
         weeks: semanas
         months: meses
-      label_switch_to_single_select: Mudar para seleção individual
-      label_switch_to_multi_select: Mudar para multiseleção
     toolbar:
       settings:
         configure_view: Configurar a visualização...
@@ -849,11 +848,12 @@ pt:
     zen_mode:
       button_activate: Ativar modo zen
       button_deactivate: Desativar modo zen
-    unsupported_browser:
-      title: A versão do seu browser não é suportada
-      message: A versão do seu browser já não é suportada pelo OpenProject.
-      update_message: Por favor, atualize o seu browser.
-      update_ie_user: Por favor mude para o Mozilla Firefox ou Google Chrome, ou atualize
-        para o Microsoft Edge.
-      learn_more: Saber mais
-      close_warning: Ignore este aviso.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

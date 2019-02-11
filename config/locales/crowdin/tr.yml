@@ -105,6 +105,10 @@ tr:
       further_information_after: ''
     calendar:
       removal: 'Lütfen dikkat: Bu modül OpenProject 8.0 ile kaldırılacak.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Şu anda hiç grup bulunmamakta.
@@ -1178,7 +1182,6 @@ tr:
   label_all_open_wps: Tüm açık
   label_always_visible: Her zaman görüntüle
   label_announcement: Duyuru
-  label_and_its_subprojects: "%{value} ve onun alt projeler"
   label_api_access_key: API erişim anahtarı
   label_api_access_key_created_on: API erişim anahtarı %{value} önce oluşturuldu
   label_api_access_key_type: API
@@ -1547,7 +1550,6 @@ tr:
   label_role_search: Yeni üyelere rol atama
   label_scm: YKM
   label_search: Ara
-  label_search_titles_only: Sadece başlıkları ara
   label_send_information: Hesap bilgilerini kullanıcıya gönder
   label_send_test_email: Deneme e-postası gönder
   label_settings: Ayarlar
@@ -2808,8 +2810,8 @@ tr:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Lütfen tarayıcınızı güncelleyin.
+    close_warning: Bu uyarıyı yoksay.
   oauth:
     application:
       singular: OAuth application
@@ -2855,7 +2857,7 @@ tr:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: İzinler
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2879,7 +2881,5 @@ tr:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Widgetleri kaldır
-  label_my_page_block: Sayfa bloğum
-  label_responsible_for_work_packages: Sorumlusu olduğum iş paketleri
-  label_visible_elements: Görünür öğeler
+  label_and_its_subprojects: "%{value} ve onun alt projeler"
+  label_search_titles_only: Sadece başlıkları ara

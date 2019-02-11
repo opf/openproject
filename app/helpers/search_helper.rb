@@ -85,16 +85,16 @@ module SearchHelper
     end
   end
 
-  def type_label(t)
-    l("label_#{t.singularize}_plural", default: t.to_s.humanize)
+  def attachment_fulltexts(event)
+    attachment_strings_for(:fulltext, event)
   end
 
-  def project_select_tag
-    options = [[l(:label_project_all), 'all']]
-    options << [l(:label_my_projects), 'my_projects'] unless User.current.memberships.empty?
-    options << [l(:label_and_its_subprojects, @project.name), 'subprojects'] unless @project.nil? || @project.descendants.active.empty?
-    options << [@project.name, 'current_project'] unless @project.nil?
-    styled_select_tag('scope', options_for_select(options, current_scope)) if options.size > 1
+  def attachment_filenames(event)
+    attachment_strings_for(:filename, event)
+  end
+
+  def type_label(t)
+    OpenProject::GlobalSearch.tab_name(t)
   end
 
   def render_results_by_type(results_by_type)
@@ -109,8 +109,6 @@ module SearchHelper
         project_id: (@project.identifier if @project),
         action: 'index',
         q: params[:q],
-        titles_only: params[:title_only],
-        all_words: params[:all_words],
         scope: current_scope,
         t => 1
       }
@@ -139,5 +137,13 @@ module SearchHelper
                                                 project_id: @project.try(:identifier),
                                                 offset: pagination_next_date.to_r.to_s),
                            class: 'navigate-right')
+  end
+
+  private
+
+  def attachment_strings_for(attribute_name, event)
+    if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv? && event.respond_to?(:attachments)
+      event.attachments&.map(&attribute_name)&.join(' ')
+    end
   end
 end

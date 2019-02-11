@@ -585,8 +585,6 @@ class PermittedParams
           offset
           previous
           scope
-          all_words
-          titles_only
           work_packages
           news
           changesets

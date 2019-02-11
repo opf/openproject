@@ -38,6 +38,7 @@ hu:
     button_duplicate: Másolás ide
     button_edit: Szerkesztés
     button_filter: Szűrő
+    button_advanced_filter: Advanced filter
     button_list_view: Lista nézet
     button_show_view: Teljes képernyős nézet
     button_log_time: Eltöltött idő rögzítése
@@ -215,7 +216,7 @@ hu:
     label_menu_collapse: összecsuk
     label_menu_expand: kibont
     label_more_than_ago: több, nappal ezelőtt
-    label_my_page: My page
+    label_my_page: Az én oldalam
     label_next: " Következő"
     label_no_data: Nincs megjelenítendő adat
     label_no_due_date: nincs záró dátuma
@@ -400,9 +401,9 @@ hu:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Tevékenység
+      comment: Vélemény
+      hours: Óra
     watchers:
       label_loading: megfigyelők betöltése...
       label_error_loading: Hiba történt a megfigyelők betöltése közben
@@ -762,8 +763,6 @@ hu:
         days: nap
         weeks: hetek
         months: hónap
-      label_switch_to_single_select: Váltás az egyszeri kiválasztásra
-      label_switch_to_multi_select: Váltás a többszörös kiválasztásra
     toolbar:
       settings:
         configure_view: Nézet beállítása
@@ -847,12 +846,12 @@ hu:
     zen_mode:
       button_activate: Zen mód aktiválása
       button_deactivate: Zen mód kikapcsolása
-    unsupported_browser:
-      title: Az ön böngészője nem támogatott
-      message: Az ön által használt böngésző verzióját már nem támogatja az OpenProject.
-        Kérjük frissítse böngészőjét.
-      update_message: Kérjük frissítse a böngészőjét.
-      update_ie_user: Kérjük frissítse böngészőjét Mozilla Firefox, Google Chrome
-        vagy Microsoft Edge-re.
-      learn_more: További információ
-      close_warning: Figyelmeztetés figyelmen kívül hagyása.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

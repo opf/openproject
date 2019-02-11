@@ -38,6 +38,7 @@ fil:
     button_duplicate: Kapareha
     button_edit: I-edit
     button_filter: Salain
+    button_advanced_filter: Advanced filter
     button_list_view: Tingnan ang listahan
     button_show_view: Tanawin sa buong screen
     button_log_time: Ang oras ng tala
@@ -213,7 +214,7 @@ fil:
     label_menu_collapse: bumagsak
     label_menu_expand: palawakin
     label_more_than_ago: mahigit sa araw nakalipas
-    label_my_page: My page
+    label_my_page: Ang aking pahina
     label_next: Susunod
     label_no_data: Walang data upang ipakita
     label_no_due_date: walang katapusan petsa
@@ -402,9 +403,9 @@ fil:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Aktibidad
+      comment: Komento
+      hours: Mga oras
     watchers:
       label_loading: naglo-load ang mga manunuod...
       label_error_loading: Isang mali ang naganap habang naglo-load ng mga manunuod
@@ -777,8 +778,6 @@ fil:
         days: mga araw
         weeks: mga linggo
         months: mga buwan
-      label_switch_to_single_select: Lumipat sa napiling solo
-      label_switch_to_multi_select: Lumipat sa maramihang pagpili
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -863,11 +862,12 @@ fil:
     zen_mode:
       button_activate: I-aktibo ang zen mode
       button_deactivate: I-deactive ang zen mode
-    unsupported_browser:
-      title: Ang iyong bersyong browser ay hindi suportado
-      message: Ang bersyon ng browser na ginagamit mo ay hindi na suportado ng OpenProject.
-      update_message: Magyaring i-update ang iyong broswer.
-      update_ie_user: Mangyaring lumipat sa Mozilla Firefox o Google Chromw, o i-upgrade
-        sa Microsoft Edge.
-      learn_more: Matuto ng higit pa
-      close_warning: Huwag pansinin ang babala ito.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

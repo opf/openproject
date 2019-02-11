@@ -38,6 +38,7 @@ ru:
     button_duplicate: Дублировать
     button_edit: Правка
     button_filter: Фильтр
+    button_advanced_filter: Advanced filter
     button_list_view: Представление списком
     button_show_view: Полноэкранный просмотр
     button_log_time: Учет времени
@@ -217,7 +218,7 @@ ru:
     label_menu_collapse: свернуть
     label_menu_expand: развернуть
     label_more_than_ago: больше, чем дней назад
-    label_my_page: My page
+    label_my_page: Моя страница
     label_next: Следующие
     label_no_data: Нет данных для отображения
     label_no_due_date: без даты окончания
@@ -400,9 +401,9 @@ ru:
           requires: требование
           required: необходим для
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Деятельность
+      comment: Комментарий
+      hours: Часы
     watchers:
       label_loading: Загрузка наблюдателей...
       label_error_loading: При загрузке наблюдателей произошла ошибка
@@ -770,8 +771,6 @@ ru:
         days: дней
         weeks: недели
         months: месяцев
-      label_switch_to_single_select: Переключиться на одиночный выбор
-      label_switch_to_multi_select: Переключиться на множественный выбор
     toolbar:
       settings:
         configure_view: Настроить вид ...
@@ -861,11 +860,12 @@ ru:
     zen_mode:
       button_activate: Включить дзен-режим
       button_deactivate: Отключить дзен-режим
-    unsupported_browser:
-      title: Ваша версия браузера не поддерживается
-      message: Версия вашего браузера больше не поддерживается OpenProject.
-      update_message: Пожалуйста, обновите свой браузер.
-      update_ie_user: Пожалуйста перейдите на Mozilla Firefox или Google Chrome, или
-        обновитесь до Microsoft Edge.
-      learn_more: Узнать больше
-      close_warning: Игнорировать это предупреждение.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

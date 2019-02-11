@@ -38,6 +38,7 @@ fi:
     button_duplicate: Kahdenna
     button_edit: Muokkaa
     button_filter: Suodata
+    button_advanced_filter: Advanced filter
     button_list_view: Luettelonäkymä
     button_show_view: Koko näytön tila
     button_log_time: Kirjaa lokiin aika
@@ -213,7 +214,7 @@ fi:
     label_menu_collapse: pienennä
     label_menu_expand: laajenna
     label_more_than_ago: enemän kuin päivää sitten
-    label_my_page: My page
+    label_my_page: Oma sivu
     label_next: Seuraava
     label_no_data: Ei tietoa näytettäväksi
     label_no_due_date: ei päättymispäivää
@@ -398,9 +399,9 @@ fi:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Aktiviteetti
+      comment: Kommentti
+      hours: Tunnit
     watchers:
       label_loading: ladataan seuraajia...
       label_error_loading: Virhe ladattaessa seuraajia
@@ -758,8 +759,6 @@ fi:
         days: päivää
         weeks: weeks
         months: months
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -843,11 +842,12 @@ fi:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: Selaimesi versiota ei tueta
-      message: Selaimesi versiota ei enää tueta.
-      update_message: Päivitäthän selaimesi.
-      update_ie_user: Siirry selaimeen Mozilla Firefox tai Google Chrome, tai päivitä
-        Microsoft Edge.
-      learn_more: Learn more
-      close_warning: Ohita tämä varoitus.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

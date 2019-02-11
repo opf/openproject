@@ -105,6 +105,10 @@ fi:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Tällä hetkellä ei ole ryhmiä.
@@ -1177,7 +1181,6 @@ fi:
   label_all_open_wps: All open
   label_always_visible: Aina näkyvissä
   label_announcement: Ilmoitus
-  label_and_its_subprojects: "%{value} ja aliprojektit"
   label_api_access_key: API avain
   label_api_access_key_created_on: API access key created %{value} ago
   label_api_access_key_type: API
@@ -1544,7 +1547,6 @@ fi:
   label_role_search: Määritä rooli uusille jäsenille
   label_scm: SCM
   label_search: Haku
-  label_search_titles_only: Hae vain otsikot
   label_send_information: Lähetä tilin tiedot käyttäjälle
   label_send_test_email: Lähetä testi sähköposti
   label_settings: Asetukset
@@ -2792,8 +2794,8 @@ fi:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Päivitäthän selaimesi.
+    close_warning: Ohita tämä varoitus.
   oauth:
     application:
       singular: OAuth application
@@ -2839,7 +2841,7 @@ fi:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Oikeudet
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2863,7 +2865,5 @@ fi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Poista widgetti
-  label_my_page_block: Minun sivu
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Näkyvät elementit
+  label_and_its_subprojects: "%{value} ja aliprojektit"
+  label_search_titles_only: Hae vain otsikot

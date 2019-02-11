@@ -85,14 +85,8 @@ export class WorkPackageEmbeddedGraphComponent extends WorkPackageEmbeddedBaseCo
     }
   };
 
-  constructor(readonly QueryDm:QueryDmService,
-              readonly tableState:TableState,
-              readonly I18n:I18nService,
-              readonly urlParamsHelper:UrlParamsHelperService,
-              readonly loadingIndicatorService:LoadingIndicatorService,
-              readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-              readonly currentProject:CurrentProjectService) {
-    super(QueryDm, tableState, I18n, urlParamsHelper, loadingIndicatorService, wpStatesInitialization, currentProject);
+  constructor(injector:Injector) {
+    super(injector);
   }
 
   public refresh(visible:boolean = true):Promise<any> {

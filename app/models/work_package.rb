@@ -124,8 +124,20 @@ class WorkPackage < ActiveRecord::Base
   acts_as_searchable columns: ['subject',
                                "#{table_name}.description",
                                "#{Journal.table_name}.notes"],
-                     include: %i(project journals),
-                     references: %i(projects journals),
+                     tsv_columns: [
+                       {
+                         table_name: Attachment.table_name,
+                         column_name: 'fulltext',
+                         normalization_type: :text
+                       },
+                       {
+                         table_name: Attachment.table_name,
+                         column_name: 'file',
+                         normalization_type: :filename
+                       }
+                     ],
+                     include: %i(project journals attachments),
+                     references: %i(projects journals attachments),
                      date_column: "#{quoted_table_name}.created_at",
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"

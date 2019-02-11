@@ -105,6 +105,10 @@ pl:
       further_information_after: ''
     calendar:
       removal: 'Uwaga: moduł ten jest planowany do usunięcia w OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Nie ma żadnych grup.
@@ -1216,7 +1220,6 @@ pl:
   label_all_open_wps: Wszystkie otwarte
   label_always_visible: Zawsze wyświetlana
   label_announcement: Ogłoszenie
-  label_and_its_subprojects: "%{value} oraz jego projekty podrzędne"
   label_api_access_key: Klucz dostępu API
   label_api_access_key_created_on: Klucz API utworzony %{value} temu
   label_api_access_key_type: API
@@ -1585,7 +1588,6 @@ pl:
   label_role_search: Przydziel role nowemu członkowi
   label_scm: SCM
   label_search: Szukaj
-  label_search_titles_only: Szukaj tylko w tytułach
   label_send_information: Wyślij Informacje o koncie do użytkownika
   label_send_test_email: Wyślij wiadomość testową
   label_settings: Ustawienia
@@ -2880,8 +2882,8 @@ pl:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Prosimy uaktualnić przeglądarkę.
+    close_warning: Zignoruj to ostrzeżenie.
   oauth:
     application:
       singular: OAuth application
@@ -2927,13 +2929,15 @@ pl:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Uprawnienia
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      few: "%{count} active token"
+      many: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2951,7 +2955,5 @@ pl:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Usuń widżet
-  label_my_page_block: Mój blok strony
-  label_responsible_for_work_packages: Pakiety robocze, za które odpowiadam
-  label_visible_elements: Elementy widoczne
+  label_and_its_subprojects: "%{value} oraz jego projekty podrzędne"
+  label_search_titles_only: Szukaj tylko w tytułach

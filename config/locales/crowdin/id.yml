@@ -107,6 +107,10 @@ id:
       further_information_after: ''
     calendar:
       removal: 'Harap dicatat: Modul ini akan dihilangkan dengan OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Tidak ada grup untuk saat ini.
@@ -1176,7 +1180,6 @@ id:
   label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
-  label_and_its_subprojects: "%{value} dan Sub Project yang"
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key dibuat %{value} yg lalu
   label_api_access_key_type: API
@@ -1543,7 +1546,6 @@ id:
   label_role_search: Menetapkan role kepada anggota baru
   label_scm: SCM
   label_search: Cari
-  label_search_titles_only: Cari judul
   label_send_information: Kirim informasi akun ke user
   label_send_test_email: Kirim test email
   label_settings: Pengaturan
@@ -2795,8 +2797,8 @@ id:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Mohon tingkatkan browsermu.
+    close_warning: Abaikan peringatan ini.
   oauth:
     application:
       singular: OAuth application
@@ -2842,7 +2844,7 @@ id:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Hak akses
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2866,7 +2868,5 @@ id:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Hapus widget
-  label_my_page_block: Blok halaman saya
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Element tampak
+  label_and_its_subprojects: "%{value} dan Sub Project yang"
+  label_search_titles_only: Cari judul

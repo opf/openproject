@@ -43,13 +43,4 @@ describe 'search/index', type: :view do
     assign :question, 'foo'
     assign :tokens, ['bar']
   end
-
-  it 'selects the current project and its subprojects' do
-    render
-    # the current project and its subprojects should be selected as the scope
-    expect(rendered).to have_selector('option[selected]', text: project.name + ' and its subprojects')
-
-    # The grouped result link should retain the scope
-    expect(rendered).to have_xpath("//a[contains(@href,'subprojects')]", text: /work packages.*/i)
-  end
 end
