@@ -106,6 +106,10 @@ th:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: ขณะนี้ยังไม่มีกลุ่มใดๆ
@@ -1166,7 +1170,6 @@ th:
   label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
-  label_and_its_subprojects: "%{value} และโครงการย่อยที่เกี่ยวข้องทั้งหมด"
   label_api_access_key: คีย์การเข้าถึง API
   label_api_access_key_created_on: คีย์การเข้าถึง API ซึ่งสร้างเมื่อ %{value} ที่ผ่านมา
   label_api_access_key_type: API
@@ -1531,7 +1534,6 @@ th:
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: ค้นหา
-  label_search_titles_only: ค้นหาเฉพาะชื่อ
   label_send_information: ส่งข้อมูลบัญชีให้ผู้ใช้
   label_send_test_email: ส่งอีเมลทดสอบ
   label_settings: การตั้งค่า
@@ -2747,8 +2749,8 @@ th:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: กรุณาปรับรุ่นเบราว์เซอร์ของคุณ
+    close_warning: ไม่สนใจคำเตือนนี้
   oauth:
     application:
       singular: OAuth application
@@ -2794,7 +2796,7 @@ th:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: สิทธิ์
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2818,7 +2820,5 @@ th:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: เอาเครื่องมือออก
-  label_my_page_block: หน้าบล็อกของฉัน
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Visible elements
+  label_and_its_subprojects: "%{value} และโครงการย่อยที่เกี่ยวข้องทั้งหมด"
+  label_search_titles_only: ค้นหาเฉพาะชื่อ

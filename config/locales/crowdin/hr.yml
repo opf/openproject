@@ -104,6 +104,10 @@ hr:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Trenutno nema grupa.
@@ -1200,7 +1204,6 @@ hr:
   label_all_open_wps: All open
   label_always_visible: Uvijek se prikazuje
   label_announcement: Obavijest
-  label_and_its_subprojects: "%{value} i njegovi podprojekti"
   label_api_access_key: API pristupni ključ
   label_api_access_key_created_on: API pristupni ključ kreiran %{value} prije
   label_api_access_key_type: API
@@ -1567,7 +1570,6 @@ hr:
   label_role_search: Dodijeli uloge novim korisnicima
   label_scm: SCM
   label_search: Pretraživanje
-  label_search_titles_only: Pretraži samo naslove
   label_send_information: Pošalji korisničke informacije korisniku
   label_send_test_email: Pošalji probni e-mail
   label_settings: Postavke
@@ -2848,8 +2850,8 @@ hr:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Ažurirajte svoj preglednik.
+    close_warning: Ignorirati ovo upozorenje.
   oauth:
     application:
       singular: OAuth application
@@ -2895,13 +2897,14 @@ hr:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Dozvole
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      few: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2919,7 +2922,5 @@ hr:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Ukloni widget
-  label_my_page_block: Moj blok stranice
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Vidljivi elementi
+  label_and_its_subprojects: "%{value} i njegovi podprojekti"
+  label_search_titles_only: Pretraži samo naslove

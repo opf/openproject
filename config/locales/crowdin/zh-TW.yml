@@ -89,6 +89,10 @@ zh-TW:
       further_information_after: ''
     calendar:
       removal: 請注意：此模組將會在 OpenProject 8.0 中被移除。
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: 目前沒有群組
@@ -1090,7 +1094,6 @@ zh-TW:
   label_all_open_wps: 全部打開
   label_always_visible: 總是顯示
   label_announcement: 公告
-  label_and_its_subprojects: "%{value} 與它的子專案"
   label_api_access_key: API金鑰
   label_api_access_key_created_on: API金鑰在 %{value} 以前被建立
   label_api_access_key_type: API
@@ -1455,7 +1458,6 @@ zh-TW:
   label_role_search: 為新成員分配角色
   label_scm: SCM
   label_search: 搜尋
-  label_search_titles_only: 僅搜尋標題
   label_send_information: 傳送帳號資訊給使用者
   label_send_test_email: 發送測試電子郵件
   label_settings: 設定
@@ -2573,8 +2575,8 @@ zh-TW:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: 請升級您的瀏覽器。
+    close_warning: 忽略此警告。
   oauth:
     application:
       singular: OAuth application
@@ -2620,7 +2622,7 @@ zh-TW:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: 權限
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2644,7 +2646,5 @@ zh-TW:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: 移除元件
-  label_my_page_block: 我的首頁區塊
-  label_responsible_for_work_packages: 我負責的工作項目
-  label_visible_elements: 可見的元素
+  label_and_its_subprojects: "%{value} 與它的子專案"
+  label_search_titles_only: 僅搜尋標題

@@ -39,6 +39,7 @@ fr:
     button_duplicate: Dupliquer
     button_edit: Éditer
     button_filter: Filtre
+    button_advanced_filter: Advanced filter
     button_list_view: Vue en liste
     button_show_view: Affichage plein écran
     button_log_time: Consigner temps
@@ -218,7 +219,7 @@ fr:
     label_menu_collapse: réduire
     label_menu_expand: développer
     label_more_than_ago: il y a plus de quelques jours
-    label_my_page: My page
+    label_my_page: Ma page
     label_next: Suivante
     label_no_data: Aucune donnée à afficher
     label_no_due_date: pas d'échéance
@@ -414,9 +415,9 @@ fr:
           requires: requérant
           required: requis par
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Activité
+      comment: Commentaire
+      hours: Heures
     watchers:
       label_loading: observateurs en cours de chargement…
       label_error_loading: Une erreur s'est produite lors du chargement des observateurs
@@ -788,8 +789,6 @@ fr:
         days: jours
         weeks: semaines
         months: mois
-      label_switch_to_single_select: Commuter en sélection unique
-      label_switch_to_multi_select: Commuter en sélection multiple
     toolbar:
       settings:
         configure_view: Configurer la vue...
@@ -873,12 +872,12 @@ fr:
     zen_mode:
       button_activate: Activer le mode zen
       button_deactivate: Désactiver le mode zen
-    unsupported_browser:
-      title: La version de votre navigateur n'est pas prise en charge
-      message: La version du navigateur que vous utilisez n'est plus supportée par
-        OpenProject.
-      update_message: Veuillez mettre à jour votre navigateur.
-      update_ie_user: Veuillez passer à Mozilla Firefox ou Google Chrome, ou mettre
-        à niveau vers Microsoft Edge.
-      learn_more: En savoir plus
-      close_warning: Ignorer cet avertissement.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

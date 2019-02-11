@@ -38,6 +38,7 @@ hr:
     button_duplicate: Dupliciraj
     button_edit: Uredi
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Prikaz popisa
     button_show_view: Prikaz na cijelom ekranu
     button_log_time: Vrijeme pristupa
@@ -214,7 +215,7 @@ hr:
     label_menu_collapse: sakriti
     label_menu_expand: proširiti
     label_more_than_ago: prije nekoliko dana
-    label_my_page: My page
+    label_my_page: Moja stranica
     label_next: Sljedeći
     label_no_data: Nema podataka za prikaz
     label_no_due_date: nema datuma kraja
@@ -399,9 +400,9 @@ hr:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Aktivnost
+      comment: Komentar
+      hours: Sati
     watchers:
       label_loading: učitavanje nadglednika...
       label_error_loading: Došlo je do pogreške tijekom učitavanja nadglednika
@@ -765,8 +766,6 @@ hr:
         days: dani
         weeks: tjedana
         months: mjeseci
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -854,11 +853,12 @@ hr:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: Vaša verzija Internet preglednika nije podržana
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Ažurirajte svoj preglednik.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Saznaj više
-      close_warning: Ignorirati ovo upozorenje.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

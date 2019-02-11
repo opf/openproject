@@ -106,6 +106,10 @@ cs:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: V současné době neexistují žádné skupiny.
@@ -1212,7 +1216,6 @@ cs:
   label_all_open_wps: Všechny otevřené
   label_always_visible: Vždy zobrazovat
   label_announcement: Oznámení
-  label_and_its_subprojects: "%{value} a její dílčí projekty"
   label_api_access_key: Přístupový klíč pro API
   label_api_access_key_created_on: API přístupový klíč vytvořen před %{value}
   label_api_access_key_type: API
@@ -1578,7 +1581,6 @@ cs:
   label_role_search: Přiřadit roli novým členům
   label_scm: SCM
   label_search: Vyhledávání
-  label_search_titles_only: Vyhledávat jen tituly
   label_send_information: Odeslat informace o účtu uživateli
   label_send_test_email: Odeslat testovací email
   label_settings: Nastavení
@@ -2860,8 +2862,8 @@ cs:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Aktualizujte svůj prohlížeč prosím.
+    close_warning: Ignorovat toto upozornění.
   oauth:
     application:
       singular: OAuth application
@@ -2907,13 +2909,15 @@ cs:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Práva
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      few: "%{count} active token"
+      many: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2931,7 +2935,5 @@ cs:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Odstranit widget
-  label_my_page_block: My page block
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Viditelné prvky
+  label_and_its_subprojects: "%{value} a její dílčí projekty"
+  label_search_titles_only: Vyhledávat jen tituly

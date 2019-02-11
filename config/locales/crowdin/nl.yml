@@ -106,6 +106,10 @@ nl:
       further_information_after: ''
     calendar:
       removal: 'Let op: deze module is wordt verwijderd in OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Er zijn momenteel geen groepen.
@@ -1199,7 +1203,6 @@ nl:
   label_all_open_wps: Alles open
   label_always_visible: Altijd weergegeven
   label_announcement: Mededeling
-  label_and_its_subprojects: "%{value} en zijn subprojecten"
   label_api_access_key: API sleutel
   label_api_access_key_created_on: API sleutel %{value} geleden gemaakt
   label_api_access_key_type: API
@@ -1568,7 +1571,6 @@ nl:
   label_role_search: Rol toewijzen aan nieuwe leden
   label_scm: SCM
   label_search: Zoeken
-  label_search_titles_only: Alleen zoeken in titels
   label_send_information: Accountgegevens naar de gebruiker verzenden
   label_send_test_email: Stuur een test e-mail
   label_settings: Instellingen
@@ -2863,8 +2865,8 @@ nl:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Gebruik een recentere versie van uw browser.
+    close_warning: Negeer deze waarschuwing.
   oauth:
     application:
       singular: OAuth application
@@ -2910,7 +2912,7 @@ nl:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Machtigingen
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2934,8 +2936,5 @@ nl:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Widget verwijderen
-  label_my_page_block: Mijn pagina blok
-  label_responsible_for_work_packages: Werkpakketten waar ik verantwoordelijk voor
-    ben
-  label_visible_elements: Zichtbare elementen
+  label_and_its_subprojects: "%{value} en zijn subprojecten"
+  label_search_titles_only: Alleen zoeken in titels

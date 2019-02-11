@@ -106,6 +106,10 @@ da:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Der er i øjeblikket ingen grupper.
@@ -1178,7 +1182,6 @@ da:
   label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
-  label_and_its_subprojects: "%{value} og dets delprojekter"
   label_api_access_key: API adgangsnøgle
   label_api_access_key_created_on: API adgangsnøgle oprettet for %{value} siden
   label_api_access_key_type: API
@@ -1544,7 +1547,6 @@ da:
   label_role_search: Assign role to new members
   label_scm: Versionskontrolsystem
   label_search: Søg
-  label_search_titles_only: Søg kun i titler
   label_send_information: Send kontooplysninger til brugeren
   label_send_test_email: Send en e-mailtest
   label_settings: Indstillinger
@@ -2851,7 +2853,7 @@ da:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Tilladelser
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2875,7 +2877,5 @@ da:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Fjern widget
-  label_my_page_block: Min sideblok
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Synlige elementer
+  label_and_its_subprojects: "%{value} og dets delprojekter"
+  label_search_titles_only: Søg kun i titler

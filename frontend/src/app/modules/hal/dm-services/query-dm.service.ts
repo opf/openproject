@@ -167,6 +167,9 @@ export class QueryDmService {
       filters.add('project', '!*', []);
     }
 
+    // Exclude hidden queries
+    filters.add('hidden', '=', ['f']);
+
     let urlQuery = { filters: filters.toJson() };
 
     return this.halResourceService

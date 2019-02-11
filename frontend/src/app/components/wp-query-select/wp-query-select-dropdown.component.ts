@@ -172,7 +172,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
   private transformQueries(collection:CollectionResource<QueryResource>) {
     let loadedQueries:IAutocompleteItem[] = collection.elements
-      .filter(query => !query.hidden)
       .map(query => {
         return {label: query.name, query: query, query_props: null};
       });

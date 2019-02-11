@@ -77,6 +77,7 @@ import {UserAutocompleterComponent} from "app/modules/common/autocomplete/user-a
 import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 import {EditableToolbarTitleComponent} from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
+import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -150,6 +151,7 @@ export function bootstrapModule(injector:Injector) {
     OPContextMenuComponent,
 
     NoResultsComponent,
+
     // Autocompleter Component
     NgSelectModule,
 
@@ -158,6 +160,9 @@ export function bootstrapModule(injector:Injector) {
     ScrollableTabsComponent,
 
     EditableToolbarTitleComponent,
+
+    // User Avatar
+    UserAvatarComponent,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -208,6 +213,9 @@ export function bootstrapModule(injector:Injector) {
     ScrollableTabsComponent,
 
     EditableToolbarTitleComponent,
+
+    // User Avatar
+    UserAvatarComponent,
   ],
   entryComponents: [
     OpDateTimeComponent,
@@ -223,6 +231,7 @@ export function bootstrapModule(injector:Injector) {
     ZenModeButtonComponent,
     CollapsibleSectionComponent,
     UserAutocompleterComponent,
+    UserAvatarComponent
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },

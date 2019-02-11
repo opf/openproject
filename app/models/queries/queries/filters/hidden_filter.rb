@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,22 +27,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Operators
-  class BooleanEquals < Base
-    label 'equals'
-    set_symbol '='
+class Queries::Queries::Filters::HiddenFilter < Queries::Queries::Filters::QueryFilter
+  def self.key
+    :hidden
+  end
 
-    def self.sql_for_field(values, db_table, db_field)
-      sql = ''
+  def allowed_values
+    [
+      [I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
+      [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]
+    ]
+  end
 
-      if values.include?('f')
-        sql = "#{db_table}.#{db_field} IS NULL OR "
-      end
+  def type
+    :list
+  end
 
-      sql += "#{db_table}.#{db_field} IN (" +
-             values.map { |val| "'#{connection.quote_string(val)}'" }.join(',') + ')'
-
-      sql
-    end
+  def type_strategy
+    @type_strategy ||= ::Queries::Filters::Strategies::BooleanList.new self
   end
 end

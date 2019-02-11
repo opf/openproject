@@ -106,6 +106,10 @@ bg:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: В момента няма групи.
@@ -1183,7 +1187,6 @@ bg:
   label_all_open_wps: All open
   label_always_visible: Винаги се показват
   label_announcement: Известие
-  label_and_its_subprojects: "%{value} и неговите подпроекти"
   label_api_access_key: API ключ за достъп
   label_api_access_key_created_on: API ключ за достъп е създаден преди %{value}
   label_api_access_key_type: API
@@ -1553,7 +1556,6 @@ bg:
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: Търсене
-  label_search_titles_only: Търси само заглавия
   label_send_information: Изпрати информация за акаунта на този потребител
   label_send_test_email: Изпрати пробен имейл
   label_settings: Настройки
@@ -2857,7 +2859,7 @@ bg:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Права
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2881,7 +2883,5 @@ bg:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Премахване на притурка
-  label_my_page_block: Блок Моята страница
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Видими елементи
+  label_and_its_subprojects: "%{value} и неговите подпроекти"
+  label_search_titles_only: Търси само заглавия
