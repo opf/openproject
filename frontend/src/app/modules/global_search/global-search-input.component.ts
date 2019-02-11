@@ -129,13 +129,12 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   // load selected item
   public onChange($event:any) {
-    // update embeeded table and title when new search is submitted
-    this.globalSearchService.searchTerm = this.searchTerm;
-
     let selectedOption = $event;
     if (selectedOption.id) {  // item is a work package element
       this.redirectToWp(selectedOption.id);
     } else {                  // item is a 'scope' element
+      // update embeeded table and title when new search is submitted
+      this.globalSearchService.searchTerm = this.searchTerm;
       this.searchInScope(selectedOption.projectScope);
     }
   }
