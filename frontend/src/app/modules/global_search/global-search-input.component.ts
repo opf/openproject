@@ -208,7 +208,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     this.suggestions.push('all_projects');
 
     this.suggestions = this.suggestions.map((suggestion:string) => {
-      return { projectScope: suggestion, subject: this.text[suggestion] }
+      return { projectScope: suggestion, text: this.text[suggestion] }
     });
   }
 

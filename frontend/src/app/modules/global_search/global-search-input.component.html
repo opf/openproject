@@ -8,17 +8,18 @@
         <div class="block-5"></div>
       </div>
     </div>
-     <ng-select [items]="results"
+     <ng-select #select
+                [items]="results"
                 name="q"
                 id="q"
                 [ngClass]="'top-menu-search--input'"
                 [class.-expanded]="expanded"
                 placeholder="{{text.search}}"
-                bindLabel="subject"
                 (focus)="onFocus()"
                 (focusout)="onFocusOut()"
                 (search)="toggleMenu($event)"
                 (open)="toggleMenu(searchTerm)"
+                (close)="select.filterValue = searchTerm"
                 (change)="onChange($event)"
                 [searchFn]="customSearchFn"
                 [typeahead]="searchTermChanged$">
@@ -27,7 +28,7 @@
             <div tabindex="-1" class="ui-menu-item">
               <div class="ui-menu-item-wrapper">
                 <span class="search-autocomplete--search-term"> {{searchTerm}} </span>
-                <span class="search-autocomplete--project-scope" title="{{item.projectScope}}"> {{item.subject}} ↵ </span>
+                <span class="search-autocomplete--project-scope" title="{{item.projectScope}}"> {{item.text}} ↵ </span>
               </div>
             </div>
           </div>
