@@ -106,6 +106,10 @@ ca:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Actualment no hi ha cap grup.
@@ -1194,7 +1198,6 @@ ca:
   label_all_open_wps: All open
   label_always_visible: Sempre es mostren
   label_announcement: Avisos
-  label_and_its_subprojects: "%{value} i els seus subprojectes"
   label_api_access_key: Clau d'accés API
   label_api_access_key_created_on: Clau d'accés API creada fa %{value}
   label_api_access_key_type: API
@@ -1563,7 +1566,6 @@ ca:
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: Cercar
-  label_search_titles_only: Cerca només per títol
   label_send_information: Envia la informació del compte a l'usuari
   label_send_test_email: Enviar correu electrònic de prova
   label_settings: Configuració
@@ -2917,7 +2919,7 @@ ca:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Permisos
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2941,7 +2943,5 @@ ca:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Treure els widgets
-  label_my_page_block: El meu bloc de pàgina
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Elements visibles
+  label_and_its_subprojects: "%{value} i els seus subprojectes"
+  label_search_titles_only: Cerca només per títol

@@ -106,6 +106,10 @@ et:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: There are currently no groups.
@@ -1179,7 +1183,6 @@ et:
   label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
-  label_and_its_subprojects: "%{value} ja selle alamprojektid"
   label_api_access_key: API ligipääsutunnus
   label_api_access_key_created_on: API ligipääsutunnus on loodud %{value} tagasi
   label_api_access_key_type: API
@@ -1546,7 +1549,6 @@ et:
   label_role_search: Assign role to new members
   label_scm: Lähtekoodi haldusvahendid
   label_search: Otsi
-  label_search_titles_only: Ainult pealkirjadest
   label_send_information: Saada konto andmed kasutajale
   label_send_test_email: Saada kontrollkiri
   label_settings: Seaded
@@ -2840,7 +2842,7 @@ et:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Õigused
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2864,7 +2866,5 @@ et:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Eemalda vidin
-  label_my_page_block: Uus blokk
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Visible elements
+  label_and_its_subprojects: "%{value} ja selle alamprojektid"
+  label_search_titles_only: Ainult pealkirjadest

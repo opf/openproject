@@ -38,6 +38,7 @@ ar:
     button_duplicate: كرِّر
     button_edit: تعديل
     button_filter: فلترة
+    button_advanced_filter: Advanced filter
     button_list_view: عرض القائمة
     button_show_view: عرض ملء الشاشة
     button_log_time: وقت السجل
@@ -212,7 +213,7 @@ ar:
     label_menu_collapse: طي
     label_menu_expand: وسّع
     label_more_than_ago: منذ أكثر من أيام
-    label_my_page: My page
+    label_my_page: صفحتي
     label_next: التالي
     label_no_data: لا يوجد بيانات لعرضها
     label_no_due_date: لا يوجد تاريخ انتهاء
@@ -394,9 +395,9 @@ ar:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: النشاط
+      comment: تعليق
+      hours: الساعات
     watchers:
       label_loading: تحميل مشاهدين...
       label_error_loading: حدث خطأ خلال تحميل المشاهدين
@@ -760,8 +761,6 @@ ar:
         days: أيام
         weeks: أسابيع
         months: أشهر
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -856,11 +855,12 @@ ar:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: إصدار متصفحك غير مدعوم
-      message: إصدار المتصفِّح الذي تستخدمة لم يعُد مدعومًا من قِبل أوبِن بروجِكت.
-      update_message: من فضلك قم بتحديث متصفِّحك.
-      update_ie_user: من فضلك حوّل إلى موزيلّا فايرفوكس أو جوجل كروم، أو قم بالتحديث
-        إلى مايكروسوفت إدج.
-      learn_more: التعرف على المزيد
-      close_warning: تجاهل هذا التحذير.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

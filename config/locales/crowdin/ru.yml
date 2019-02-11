@@ -105,6 +105,10 @@ ru:
     calendar:
       removal: 'Пожалуйста, обратите внимание: Этот модуль собираются удалить в OpenProject
         8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: На данный момент группы отсутствуют.
@@ -1220,7 +1224,6 @@ ru:
   label_all_open_wps: Все открытые
   label_always_visible: Всегда отображается
   label_announcement: Объявление
-  label_and_its_subprojects: "%{value} и его подпроекты"
   label_api_access_key: Ключ доступа к API
   label_api_access_key_created_on: Ключ доступа к API, созданный %{value} назад
   label_api_access_key_type: API
@@ -1590,7 +1593,6 @@ ru:
   label_role_search: Назначить роль для новых участников
   label_scm: SCM
   label_search: Поиск
-  label_search_titles_only: Искать только в названиях
   label_send_information: Отправить сведения об учетной записи
   label_send_test_email: Отправить тестовое сообщение
   label_settings: Параметры
@@ -2890,8 +2892,8 @@ ru:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Пожалуйста, обновите свой браузер.
+    close_warning: Игнорировать это предупреждение.
   oauth:
     application:
       singular: OAuth application
@@ -2937,13 +2939,15 @@ ru:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Разрешения
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      few: "%{count} active token"
+      many: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2961,7 +2965,5 @@ ru:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Удалить виджет
-  label_my_page_block: Блоки на моей странице
-  label_responsible_for_work_packages: Пакеты работ, в которых я подотчетен
-  label_visible_elements: Видимые элементы
+  label_and_its_subprojects: "%{value} и его подпроекты"
+  label_search_titles_only: Искать только в названиях

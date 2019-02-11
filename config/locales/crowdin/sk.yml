@@ -3,8 +3,8 @@ sk:
   no_results_title_text: Momentálne nič na zobrazenie.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within
-        this time frame.
+      no_results_title_text: Počas tohto časového obdobia nebola vykonaná žiadna aktivita
+        na projekte.
   admin:
     plugins:
       no_results_title_text: Momentálne nie sú k dispozícii žiadne zásuvné moduly.
@@ -46,10 +46,10 @@ sk:
     is_active: aktuálne zobrazené
     is_inactive: v súčasnosti nie je zobrazené
   attribute_help_texts:
-    text_overview: In this view, you can create custom help texts for attributes view.
-      When defined, these texts can be shown by clicking the help icon next to its
-      belonging attribute.
-    label_plural: Attribute help texts
+    text_overview: V tomto zobrazení môžete vytvoriť vlastné texty pomoci pre zobrazenie
+      atribútov. Po definovaní môžete tieto texty prezerať kliknutím na ikonu pomoci
+      zobrazenú k príslušným atribútom.
+    label_plural: Texty nápovedy atribútu
     show_preview: Ukázať náhľad
     add_new: Pridať text pomocníka
     edit: Upraviť text pomocníka pre %{attribute_caption}
@@ -70,16 +70,16 @@ sk:
       name: Akcie
       add: Pridať akciu
       assigned_to:
-        executing_user_value: "(Assign to executing user)"
+        executing_user_value: "(Priradenie vykonávaciemu užívateľovi)"
     conditions: Podmienky
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
-    execute: Execute %{name}
+    plural: Vlastné akcie
+    new: Nová Vlastná akcia
+    edit: Upraviť vlastnú akciu %{name}
+    execute: Spustiť %{name}
     upsale:
-      title: Custom actions is an Enterprise Edition feature
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      title: Vlastné akcie sú len pre verziu Enterprise Edition
+      description: Vlastné akcie zjednodušujú každodennú prácu kombináciou sady jednotlivých
+        krokov do jedného tlačidla.
   custom_fields:
     text_add_new_custom_field: 'To add new custom fields to a project you first need
       to create them before you can add them to this project.
@@ -88,8 +88,8 @@ sk:
     is_enabled_globally: Is enabled globally
     enabled_in_project: Povolené v projekte
     contained_in_type: Contained in type
-    confirm_destroy_option: Deleting an option will delete all of its occurrences
-      (e.g. in work packages). Are you sure you want to delete it?
+    confirm_destroy_option: Odstránením hodnoty sa odstránia všetky predtým nastavené
+      hodnoty (napríklad pre pracovné balíčky). Naozaj chcete odstrániť hodnotu?
     tab:
       no_results_title_text: Momentálne nie sú k dispozícií žiadne vlastné polia.
       no_results_content_text: Vytvoriť nové vlastné pole
@@ -106,6 +106,10 @@ sk:
       further_information_after: ''
     calendar:
       removal: 'Upozornenie: Tento modul bude odstránený vo verzií OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Momentálne nie sú k dispozícií žiadne skupiny.
@@ -149,11 +153,10 @@ sk:
       no_results_content_text: Pridať člena do projektu
   my:
     access_token:
-      failed_to_reset_token: 'Failed to reset access token: %{error}'
-      notice_reset_token: 'A new %{type} token has been generated. Your access token
-        is:'
-      token_value_warning: 'Note: This is the only time you will see this token, make
-        sure to copy it now.'
+      failed_to_reset_token: 'Nepodarilo sa obnoviť prístupový token: %{error}'
+      notice_reset_token: 'Bol vytvorený nový token %{type}. Prístupový token je:'
+      token_value_warning: 'Poznámka: Toto je jediný čas, kedy uvidíte tento Token,
+        uistite sa, že ste si ho skopírovali.'
       no_results_title_text: Momentálne nie sú dostupné žiadne prístupové tokeny.
   news:
     index:
@@ -167,8 +170,8 @@ sk:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Kliknite na položku priradiť alebo zmeniť farbu tejto priority.
+        Je možné použiť na zvýraznenie pracovných balíčkov v tabuľke.
   reportings:
     index:
       no_results_title_text: Momentálne nie sú žiadne nahlásené stavy.
@@ -181,8 +184,8 @@ sk:
         <br/>
         <strong>Poznámka</strong>: zdedené hodnoty (napr. z podradených alebo ďalších relácií) budú platné i naďalej.
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        Kliknite na položku priradiť alebo zmeniť farbu tejto priority.
+        Zobrazuje sa v tlačidle stavu a dá sa použiť na zvýraznenie pracovných balíčkov v tabuľke.
     index:
       no_results_title_text: Momentálne nie sú žiadne stavy pracovného balíka.
       no_results_content_text: Pridať nový stav
@@ -200,9 +203,10 @@ sk:
       edit_query: Upraviť tabuľku
       query_group_placeholder: Zadajte názov tabuľky
       reset: Obnoviť predvolené
-      type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+      type_color_text: 'Kliknutím priradíte alebo zmeníte farbu tohto typu. Zvolená
+        farba rozlišuje pracovné balíčky v Ganttových grafoch.
+
+'
   versions:
     overview:
       no_results_title_text: Momentálne nie sú priradené žiadne pracovné balíky k
@@ -221,8 +225,8 @@ sk:
       few: "%{count} work package descendants"
       many: "%{count} work package descendants"
     move:
-      no_common_statuses_exists: There is no status available for all selected work
-        packages. Their status cannot be changed.
+      no_common_statuses_exists: Pre všetky vybraté pracovné balíčky nie je k dispozícii
+        žiadny stav. Ich stav nemožno zmeniť.
       unsupported_for_multiple_projects: Hromadné premiestnenie alebo kopírovanie
         nie je podporované pre pracovné balíky z viacerých projektov
     list_simple:
@@ -233,8 +237,8 @@ sk:
         no_results_title_text: Momentálne neexistujú žiadne pracovné balíčky, ktoré
           by boli hlásené.
       responsible:
-        no_results_title_text: There are currently no work packages that I am accountable
-          for.
+        no_results_title_text: Momentálne neexistujú žiadne pracovné balíčky, za ktoré
+          som zodpovedný.
       watched:
         no_results_title_text: Momentálne nemá nastavenú funkciu pozorovania pre žiadne
           pracovné balíčky.
@@ -290,10 +294,10 @@ sk:
           prihlásiť pomocou aktuálneho mena a hesla. Ak sa rozhodnete znovu zaregistrovať,
           môžte tak urobiť prostredníctvom tohto formulára.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
+        other: Zadajte login %{name} na overenie odstránenia. Následne budete požiadaný
+          o potvrdenie Vaším heslom.
+        self: Zadajte Váš login %{name} na overenie odstránenia. Následne budete požiadaný
+          o potvrdenie Vaším heslom.
     error_inactive_activation_by_mail: 'Váš účet ešte nebol aktivovaný. Ak ho chcete
       aktivovať, kliknite na odkaz, ktorý bol doručený na Vašu e-mailovú adresu.
 
@@ -316,8 +320,8 @@ sk:
       announcements:
         show_until: Zobrazovať, až kým
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: Obsah prílohy
+        attachment_file_name: Názov súboru prílohy
         downloads: Na stiahnutie
         file: Súbor
         filename: Súbor
@@ -361,7 +365,7 @@ sk:
         expires_at: Platnosť končí
         subscriber: Subscriber
         encoded_token: Enterprise support token
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Maximálny počet aktívnych užívateľov
       relation:
         delay: Oneskorenie
         from: Pracovný balíček
@@ -384,7 +388,7 @@ sk:
       query:
         column_names: Stĺpce
         relations_to_type_column: Vzťahy k %{type}
-        relations_of_type_column: "%{type} relations"
+        relations_of_type_column: 'vzťah typu: %{type}'
         group_by: zoskupiť výsledky podľa
         filters: Filtre
         timeline_labels: Značky časovej osi
@@ -400,8 +404,8 @@ sk:
         type: Typ
       type:
         attribute_groups: ''
-        is_in_roadmap: Displayed in roadmap by default
-        is_default: Activated for new projects by default
+        is_in_roadmap: Zobraziť v Roadmap štandardne
+        is_default: Aktivované pre nové projekty štandardne
         is_milestone: Je medzník
         color: Farba
       user:
@@ -414,7 +418,7 @@ sk:
         mail_notification: Upozornenia e-mailom
         new_password: Nové heslo
         password_confirmation: Potvrdenie
-        consented_at: Consented at
+        consented_at: Povolené na
       user_preference:
         comments_sorting: Zobraziť komentáre
         hide_mail: Skryť svoju emailovú adresu
@@ -424,7 +428,7 @@ sk:
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
       version:
-        effective_date: Finish date
+        effective_date: Dátum dokončenia
         sharing: Zdieľanie
       wiki_content:
         text: Text
@@ -436,7 +440,7 @@ sk:
       work_package:
         begin_insertion: Začiatok vkladania
         begin_deletion: Začiatok odstraňovania
-        children: Subelements
+        children: Dielčie prvky
         done_ratio: Stav spracovania (%)
         end_insertion: Koniec vkladania
         end_deletion: Koniec odstraňovania
@@ -491,31 +495,31 @@ sk:
         not_a_date: nie je platný dátum.
         not_a_datetime: is not a valid date time.
         not_a_number: nie je číslo.
-        not_allowed: is invalid because of missing permissions.
+        not_allowed: je neplatné kvôli chýbajúcim oprávneniam.
         not_an_integer: nie je celé číslo.
         not_an_iso_date: 'nie je platný dátum. Požadovaný formát: RRRR-MM-DD.'
         not_same_project: nepodlieha rovnakému projektu.
         odd: musí byť nepárne.
-        regex_invalid: could not be validated with the associated regular expression.
+        regex_invalid: nebolo možné overiť s príslušným regulárnym výrazom.
         smaller_than_or_equal_to_max_length: musí byť menšie alebo rovné ako maximálne
           dĺžka.
         taken: už existuje v systéme.
         too_long: je príliš dlhý (maximum je %{count} znakov).
         too_short: je príliš krátky (minimum je %{count} znakov).
-        unchangeable: cannot be changed.
+        unchangeable: nie je možné zmeniť.
         wrong_length: má chybnú dĺžku (správne má byť %{count} znakov).
       models:
         custom_field:
-          at_least_one_custom_option: At least one option needs to be available.
+          at_least_one_custom_option: Musí byť k dispozícii aspoň jedna možnosť.
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_logged_in: "(%{name}) value cannot be set because you are not logged
-            in."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          only_one_allowed: "(%{name}) je povolená len jedna hodnota."
+          empty: "(%{name}) hodnota nemôže byť prázdná."
+          inclusion: "(%{name}) hodnota nie je nastavená na jednu z povolených hodnôt."
+          not_logged_in: "(%{name}) hodnotu nie je možné nastaviť, pretože nie ste
+            prihlásení."
+          not_an_integer: "(%{name}) nie je celé číslo."
+          smaller_than_or_equal_to: "(%{name}) musí byť menšie než alebo rovné %{count}."
+          greater_than_or_equal_to: "(%{name}) musí byť väčšie než alebo rovné %{count}."
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -544,7 +548,8 @@ sk:
             project:
               error_not_found: nenájdené
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "- Používateľ nemá povolenie na vytvorenie verejných
+                zobrazení."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
@@ -553,7 +558,7 @@ sk:
               invalid: The custom field is not valid in the given context.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: Vzťah vytvorí kruh vzťahov.
           attributes:
             to:
               error_not_found: work package in `to` position not found or not visible
@@ -587,11 +592,11 @@ sk:
               status_transition_invalid: je neplatný, pretože neexistuje žiadny platný
                 prechod zo starého na nový stav v prípade aktuálne pridelených rolí
                 používateľa.
-              status_invalid_in_type: is invalid because the current status does not
-                exist in this type.
+              status_invalid_in_type: je neplatná, pretože súčasný stav neexistuje
+                v tomto type.
             type:
-              cannot_be_milestone_due_to_children: cannot be a milestone because this
-                work package has children.
+              cannot_be_milestone_due_to_children: nemôže byť míľnikom, pretože tento
+                pracovný balíček má podradené položky.
             priority_id:
               only_active_priorities_allowed: musí byť aktívna.
             category:
@@ -604,9 +609,9 @@ sk:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
-              duplicate_group: The group name '%{group}' is used more than once. Group
-                names must be unique.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              duplicate_group: Názov skupiny '%{group}' sa používa viackrát. Názvy
+                skupín musia byť jedinečné.
+              query_invalid: 'Vložený dopyt ''%{group}'' je neplatný: %{details}'
               group_without_name: Unnamed groups are not allowed.
         user:
           attributes:
@@ -646,10 +651,10 @@ sk:
           many: "%{count} errors prohibited this %{model} from being saved"
     models:
       attachment: Súbor
-      attribute_help_text: Attribute help text
+      attribute_help_text: Text nápovedy atribútu
       board: Diskusia
       comment: Komentár
-      custom_action: Custom action
+      custom_action: Vlastná akcia
       custom_field: Vlastné pole
       group: Skupina
       category: Kategória
@@ -699,7 +704,7 @@ sk:
     default_columns: Predvolené stĺpce
     description: Popis
     display_sums: Zobraziť súčty
-    due_date: Finish date
+    due_date: Dátum dokončenia
     estimated_hours: Predpokladaný čas
     estimated_time: Predpokladaný čas
     firstname: Krstné meno
@@ -718,7 +723,7 @@ sk:
     password: Heslo
     priority: Priorita
     project: Projekt
-    responsible: Accountable
+    responsible: Zodpovedný
     role: Rola
     roles: Role
     start_date: Dátum začiatku
@@ -755,7 +760,7 @@ sk:
   button_create: Vytvoriť
   button_create_and_continue: Vytvoriť a pokračovať
   button_delete: Odstrániť
-  button_decline: Decline
+  button_decline: Odmietnuť
   button_delete_watcher: Odobrať pozorovateľa %{name}
   button_download: Prevziať
   button_duplicate: Duplikovať
@@ -790,7 +795,7 @@ sk:
   button_unlock: Odomknúť
   button_unwatch: Prestať pozorovať
   button_update: Aktualizovať
-  button_upgrade: Upgrade
+  button_upgrade: Aktualizovať
   button_upload: Nahrať
   button_view: Zobraziť
   button_watch: Začať pozorovať
@@ -799,29 +804,29 @@ sk:
   button_configure_menu_entry: Nakonfigurovať položku menu
   button_delete_menu_entry: Odstrániť položku menu
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    checkbox_label: Zaznamenal(a) som a súhlasím s vyššie uvedeným.
+    failure_message: Súhlas zlyhal, nie je možné pokračovať.
+    title: Súhlas užívateľa
+    decline_warning_message: Odmietli ste súhlas a boli ste odhlásený.
+    user_has_consented: Používateľ súhlasil s nakonfigurovaným prehlásením v danom
+      čase.
+    not_yet_consented: Používateľ zatiaľ neudelil svoj súhlas a bude požiadaný pri
+      ďalšom prihlásení.
+    contact_mail_instructions: Definovať e-mailovú adresu, ktorý používatelia môžu
+      vybavovať žiadosti o zmeny v dátumoch alebo odstránenie údajov.
+    contact_your_administrator: Pokiaľ chcete svoj účet odstrániť, obráťte se na správcu
+      systému.
+    contact_this_mail_address: Ak chcete svoj účet odstrániť, obráťte sa na %{mail_address}.
+    text_update_consent_time: Zaškrtnite toto políčko k vynúteniu nového súhlasu užívateľa.
+      Povoľte v prípade, že ste zmenili právny aspekt súhlasu uvedeného vyššie.
+    update_consent_last_time: 'Posledná aktualizácia súhlasu: %{update_time}'
   copy_project:
     started: Začalo sa kopírovanie projektu "%{source_project_name}" do projektu "%{target_project_name}".
       Budete informovaní mailom hneď ako bude "%{target_project_name}" k dispozícii.
     failed: Nie je možné kopírovať projekt %{source_project_name}
     succeeded: Projekt %{target_project_name} bol vytvorený
     errors: Chyba
-    project_custom_fields: Custom fields on project
+    project_custom_fields: Vlastné polia projektu
     text:
       failed: Nepodarilo sa skopírovať projekt "%{source_project_name}" do projektu
         "%{target_project_name}".
@@ -1043,15 +1048,16 @@ sk:
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
       project_filters:
-        description_html: Upgrade to %{link} to filter and sort on custom fields
+        description_html: Aktualizujte na %{link} ak chcete filtrovať a triediť podľa
+          vlastných polí
   enumeration_activities: Činnosti (sledovanie času)
   enumeration_work_package_priorities: Priority Pracovného balíka
   enumeration_system_activity: Systémové aktivity
   enumeration_reported_project_statuses: Nahlásený stav projektu
   error_auth_source_sso_failed: Jednoduché prihlásenie (SSO) pre používateľa '%{value}'
     zlyhalo
-  error_can_not_archive_project: 'This project cannot be archived: There is at least
-    one work package assigned to a version defined in this project.'
+  error_can_not_archive_project: 'Tento projekt nie je možné archivovať: pre verziu
+    definovanú v tomto projekte je pridelený aspoň jeden pracovný balíček.'
   error_can_not_delete_entry: Záznam sa nedá odstrániť
   error_can_not_delete_custom_field: Nepodarilo sa odstrániť vlastné pole
   error_can_not_delete_type: Tento typ obsahuje pracovné balíky a nedá sa odstrániť.
@@ -1064,19 +1070,19 @@ sk:
   error_cookie_missing: Chýbajú súbory cookie pre OpenProject. Skontrolujte, či sú
     povolené súbory cookie, nakoľko bez nich táto aplikácia nebude správne fungovať.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_dependent_work_package: 'Chyba v závislosti pracovného balíčka #%{related_id}
+    %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: Váš účet nemôže byť aktivovaný (dosiahnutý
+    limit počtu užívateľov). Prosím kontaktujte vášho správcu pre získanie prístupu.
   error_failed_to_delete_entry: Failed to delete this entry.
-  error_invalid_selected_value: Invalid selected value.
+  error_invalid_selected_value: Vybratá neplatná hodnota.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
   error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
-  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
+  error_journal_attribute_not_present: Denník neobsahuje atribút %{attribute}.
   error_pdf_export_too_many_columns: Vybraných príliš veľa stĺpcov pre export do PDF.
     Znížte počet stĺpcov.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
+  error_pdf_failed_to_export: 'PDF export nie je možné uložiť: %{error}'
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
     you try to submit data on multiple browsers or tabs? Please close all tabs and
     try again.
@@ -1113,7 +1119,7 @@ sk:
 '
   error_external_authentication_failed: Vyskytla sa chyba počas externej autentifikácie.
     Prosím skúste to znova.
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: 'Atribút(y), ktoré nie je možné zvýrazniť: %{attributes}'
   events:
     project: Projekt upravený
     changeset: Sada zmien upravená
@@ -1131,16 +1137,16 @@ sk:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF s popisom
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: PDF s popiskami a prílohami
+      pdf_with_attachments: PDF s prílohami
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdftotext k dispozícii (voliteľné)
+      unrtf: Unrtf k dispozícii (voliteľné)
+      catdoc: Catdoc k dispozícii (voliteľné)
+      xls2csv: XLS2CSV k dispozícii (voliteľné)
+      catppt: Catppt k dispozícii (voliteľné)
+      tesseract: Tesseract k dispozícii (voliteľné)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1156,7 +1162,7 @@ sk:
   homescreen:
     additional:
       projects: Najnovšie viditeľné projekty v tejto inštancii.
-      no_visible_projects: There are no visible projects in this instance.
+      no_visible_projects: Neexistujú žiadne viditeľné projekty v tomto prípade.
       users: Najnovší registrovaní používatelia v tejto inštancii.
     blocks:
       community: OpenProject komunita
@@ -1222,10 +1228,9 @@ sk:
   label_all: Všetky
   label_all_time: všetok čas
   label_all_words: Všetky slová
-  label_all_open_wps: All open
+  label_all_open_wps: Všetky otvorené
   label_always_visible: Vždy zobrazené
   label_announcement: Oznámenie
-  label_and_its_subprojects: "%{value} a jemu podriadené projekty"
   label_api_access_key: Prístupový kľúč API
   label_api_access_key_created_on: Prístupový kľúč pre API vytvorený %{value} vzad
   label_api_access_key_type: API
@@ -1264,7 +1269,7 @@ sk:
   label_calendar: Kalendár
   label_calendar_show: Zobraziť kalendár
   label_category: Kategória
-  label_consent_settings: User Consent
+  label_consent_settings: Súhlas užívateľa
   label_wiki_menu_item: Položka menu wiki
   label_select_main_menu_item: Vyberte novú položku hlavného menu
   label_select_project: Select a project
@@ -1287,7 +1292,7 @@ sk:
   label_close_versions: Zavrieť ukončené verzie
   label_closed_work_packages: uzatvorené
   label_collapse: Zbaliť
-  label_collapsed_click_to_show: Collapsed. Click to show
+  label_collapsed_click_to_show: Zbalené. Kliknutí rozbalíte
   label_configuration: konfigurácia
   label_comment_add: Pridať komentár
   label_comment_added: Komentár pridaný
@@ -1352,7 +1357,7 @@ sk:
   label_enumeration_value: Hodnota enumerácie
   label_enumerations: Výpočet
   label_enterprise: Enterprise
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} rezervovaných aktívnych užívateľov"
   label_enterprise_edition: Enterprise Edition
   label_environment: Prostredie
   label_estimates_and_time: Estimates and time
@@ -1360,7 +1365,7 @@ sk:
   label_everywhere: everywhere
   label_example: Príklad
   label_export_to: 'K dispozícii tiež ako:'
-  label_expanded_click_to_collapse: Expanded. Click to collapse
+  label_expanded_click_to_collapse: Rozbalené. Kliknutí zbalíte
   label_f_hour: "%{value} hodina"
   label_f_hour_plural: "%{value} hodín"
   label_feed_plural: RSS správy (Feeds?)
@@ -1378,7 +1383,7 @@ sk:
   label_force_user_language_to_default: Nastavenie jazyka užívateľov ktorí majú nastavený
     ako predvolený nepovolený jazyk
   label_form_configuration: Konfigurácia formulára
-  label_gantt: Gantt
+  label_gantt: Ganttov graf
   label_gantt_chart: Ganttov diagram
   label_general: Všeobecné
   label_generate_key: Vygenerovať kľúč
@@ -1387,13 +1392,13 @@ sk:
   label_group_by: Zoskupiť podľa
   label_group_new: Nová skupina
   label_group: Skupina
-  label_group_named: Group %{name}
+  label_group_named: Skupina %{name}
   label_group_plural: Skupiny
   label_help: Nápoveda
   label_here: tu
   label_hide: Skryť
   label_history: História
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy_leaf: Úroveň hierarchie
   label_home: Úvod
   label_subject_or_id: Subject or ID
   label_in: v
@@ -1408,7 +1413,7 @@ sk:
   label_information_plural: Informácie
   label_integer: Celé číslo
   label_internal: Interné
-  label_introduction_video: Introduction video
+  label_introduction_video: Úvodné video
   label_invite_user: Pozvať používateľa
   label_show_hide: Zobraziť/skryť
   label_show_all_registered_users: Zobraziť všetkých registrovaných užívateľov
@@ -1485,7 +1490,7 @@ sk:
   label_next_week: Budúci týždeň
   label_no_change_option: "(Bez zmeny)"
   label_no_data: Žiadne dáta na zobrazenie
-  label_no_parent_page: No parent page
+  label_no_parent_page: Žiadna nadradená stránka
   label_nothing_display: Nič na zobrazenie
   label_nobody: nikto
   label_none: žiadne
@@ -1497,14 +1502,14 @@ sk:
   label_open_menu: Otvorte menu
   label_open_work_packages: otvorené
   label_open_work_packages_plural: otvorené
-  label_openproject_website: OpenProject website
+  label_openproject_website: Webová stránka OpenProject
   label_optional_description: Popis
   label_options: Voľby
   label_other: Ostatné
   label_overall_activity: Celková aktivita
   label_overall_spent_time: Celkový strávený čas
   label_overview: Prehľad
-  label_page_title: Page title
+  label_page_title: Názov stránky
   label_part_of: part of
   label_password_lost: Zabudli ste heslo?
   label_password_rule_lowercase: Malé písmená
@@ -1591,7 +1596,6 @@ sk:
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: Vyhľadávanie
-  label_search_titles_only: Vyhľadať iba tituly
   label_send_information: Odoslať užívateľovi informácie o účte
   label_send_test_email: Odoslať testovací email
   label_settings: Nastavenia
@@ -1623,7 +1627,7 @@ sk:
   label_summary: Zhrnutie
   label_system: Systém
   label_system_storage: Storage information
-  label_table_of_contents: Table of contents
+  label_table_of_contents: Obsah
   label_tag: Označenie
   label_text: Dlhý text
   label_this_month: Tento mesiac
@@ -1647,7 +1651,7 @@ sk:
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
   label_user: Užívateľ(ka)
-  label_user_named: User %{name}
+  label_user_named: Užívateľ %{name}
   label_user_activity: Aktivita používateľa %{value}
   label_user_anonymous: Anonymný
   label_user_mail_option_all: Pre všetky udalosti všetkých mojich projektov
@@ -1712,8 +1716,8 @@ sk:
     mne
   label_work_package_view_all_reported_by_me: Zobraziť všetky pracovné balíčky hlásené
     mnou
-  label_work_package_view_all_responsible_for: View all work packages that I am accountable
-    for
+  label_work_package_view_all_responsible_for: Zobraziť všetky pracovné balíčky, za
+    ktoré som zodpovedný
   label_work_package_view_all_watched: Zobraziť všetky sledované pracovné balíčky
   label_work_package_watchers: Pozorovatelia
   label_workflow: Pracovný postup
@@ -1791,7 +1795,7 @@ sk:
   macros:
     placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
-      missing_or_invalid_parameter: Missing or invalid macro parameter.
+      missing_or_invalid_parameter: Chýbajúce alebo neplatné parametre makra.
     legacy_warning:
       timeline: This legacy timeline macro has been removed and is no longer available.
         You can replace the functionality with an embedded table macro.
@@ -1801,11 +1805,11 @@ sk:
         circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: Volanie create_work_package_link makra z kontextu mimo
+          projektu.
+        invalid_type: Nenašiel sa žiadny typ s názvom '%{type}' v projekte '%{project}".
       link_name: Nový pracovný balíček
-      link_name_type: New %{type_name}
+      link_name_type: Nový %{type_name}
   mail:
     actions: Akcie
   mail_body_account_activation_request: 'Bol zaregistrovaný nový používateľ (%{value}).
@@ -1826,14 +1830,16 @@ sk:
   mail_subject_wiki_content_added: Bola pridaná wikistránka '%{id}'
   mail_subject_wiki_content_updated: Wikistránka '%{id}' bola aktualizovaná
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
-    message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+    subject: Bol dosiahnutý limit počtu užívateľov
+    message: 'Nový užívateľ (%{email}) se pokúsil vytvoriť účet v prostredí OpenProject
+      spravovanom Vami (%{host}). Užívateľ nemôže aktivovať svoj účet, pretože bol
+      dosiahnutý limit počtu užívateľov.
+
+'
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: 'Môžete vykonať nasledujúce kroky, aby ste mohli používateľa prihlásiť: '
+      a: Upgrade plánu platieb ([here](upgrade_url))
+      b: Zamknúť alebo odstrániť existujúceho používateľa ([here](users_url))
   more_actions: Ďalšie funkcie
   noscript_description: Musíte aktivovať JavaScript, aby ste mohli používať OpenProject!
   noscript_heading: JavaScript vypnutý
@@ -1864,10 +1870,10 @@ sk:
   notice_account_registered_and_logged_in: Vitajte, váš účet bol aktivovaný. Teraz
     ste prihlásení.
   notice_activation_failed: The account could not be activated.
-  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
-  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
-    but '%{actual}' returned.
-  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_auth_stage_verification_error: Nepodarilo sa overiť úroveň '%{stage}'.
+  notice_auth_stage_wrong_stage: Očakávané dokončenie overovacej fáze '%{expected}',
+    ale '%{actual}' se vrátil.
+  notice_auth_stage_error: Fáza autentifikácie '%{stage}' zlyhala.
   notice_can_t_change_password: Tento účet používa externú autentifikáciu. Nie je
     možné zmeniť heslo.
   notice_custom_options_deleted: Option '%{option_value}' and its %{num_deleted} occurrences
@@ -1898,7 +1904,7 @@ sk:
   notice_not_authorized: Nemáte dostatočné oprávnenia na zobrazenie tejto stránky.
   notice_not_authorized_archived_project: Projekt, ku ktorému sa snažíte pristupovať,
     bol archivovaný.
-  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_password_confirmation_failed: Heslo nie je správne. Nie je možné pokračovať.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
@@ -1914,7 +1920,7 @@ sk:
   notice_unable_delete_version: Verzia nemôže byť zmazaná.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
-  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  notice_user_invitation_resent: Pozvánka bola odoslaná na %{email}.
   present_access_key_value: 'Your %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Nastaviť štandardný typ automaticky.
   notice_logged_out: Boli ste odhlásený.
@@ -1922,9 +1928,9 @@ sk:
     používatelia, ktorí ho používajú.
   notice_project_cannot_update_custom_fields: 'Dostupné vlastné polia projektu sa
     nedajú aktualizovať. Projekt je neplatný: %{errors}'
-  notice_attachment_migration_wiki_page: 'This page was generated automatically during
-    the update of OpenProject. It contains all attachments previously associated with
-    the %{container_type} "%{container_name}".
+  notice_attachment_migration_wiki_page: 'Táto stránka bola vygenerovaná automaticky
+    počas aktualizácie OpenProject. Obsahuje všetky prílohy, ktoré boli predtým priradené
+    k %{container_type} "%{container_name}".
 
 '
   number:
@@ -2048,12 +2054,12 @@ sk:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: Aktívne alebo archivované
     assigned_to_role: Priradená rola
     member_of_group: Assignee's group
-    assignee_or_group: Assignee or belonging group
+    assignee_or_group: Priradené používateľovi alebo jeho skupine
     subproject_id: Podprojekt
-    name_or_identifier: Name or identifier
+    name_or_identifier: Meno alebo identifikátor
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2133,9 +2139,9 @@ sk:
     git:
       instructions:
         managed_url: This is the URL of the managed (local) Git repository.
-        path: Specify the path to your local Git repository ( e.g., %{example_path}
-          ). You can also use remote repositories which are cloned to a local copy
-          by using a value starting with http(s):// or file://.
+        path: Zadajte cestu k Vášmu lokálnemu úložisku Git (napr. %{example_path}
+          ). Môžete použiť aj vzdialené úložiská, ktoré sú klonované do lokálnej kópie
+          pomocou hodnoty začínajúcej s http(s):// alebo file://.
         path_encoding: 'Override Git path encoding (Default: UTF-8)'
       local_title: Link existing local Git repository
       local_url: Lokálna adresa URL
@@ -2222,10 +2228,10 @@ sk:
   setting_commit_logtime_activity_id: Activity for logged time
   setting_commit_logtime_enabled: Enable time logging
   setting_commit_ref_keywords: Referencing keywords
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_time: Čas súhlasu
+  setting_consent_info: Informačný text súhlasu
+  setting_consent_required: Vyžadovaný súhlas
+  setting_consent_decline_mail: Kontaktná e-mailová adresa pre udelenie súhlasu
   setting_cross_project_work_package_relations: Allow cross-project work package relations
   setting_date_format: Date format
   setting_default_language: Default language
@@ -2243,7 +2249,7 @@ sk:
   setting_feeds_limit: Feed content limit
   setting_file_max_size_displayed: Max size of text files displayed inline
   setting_host_name: Host name
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: Platnosť aktivačného E-Mailu uplynie po
   setting_work_package_done_ratio: Calculate the work package done ratio with
   setting_work_package_done_ratio_field: Use the work package field
   setting_work_package_done_ratio_status: Use the work package status
@@ -2303,7 +2309,7 @@ sk:
   setting_accessibility_mode_for_anonymous: Enable accessibility mode for anonymous
     users
   setting_user_format: Users display format
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: Predvolená časová zóna užívateľa
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
   setting_welcome_text: Welcome block text
@@ -2312,8 +2318,8 @@ sk:
   setting_wiki_compression: Wiki history compression
   setting_work_package_group_assignment: Povoliť priradenie skupinám
   setting_work_package_list_default_highlighting_mode: Predvolený režim zvýraznenia
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighted_attributes: Predvolené inline zvýraznené
+    atribúty
   settings:
     general: Všeobecné
     other: Ostatné
@@ -2321,20 +2327,20 @@ sk:
     session: Relácie
     brute_force_prevention: Automatizované blokovanie používateľa
     user:
-      default_preferences: Default preferences
-      deletion: Deletion
+      default_preferences: Predvolené nastavenia
+      deletion: Vymazanie
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
-        none: No highlighting
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        inline: Inline zvýraznené atribút(y)
+        none: Bez zvýraznenia
+        status: Celý riadok podľa Stavu
+        type: Celý riadok podľa typu
+        priority: Celý riadok podľa Priority
   text_formatting:
     markdown: Markdown
-    plain: Plain text
+    plain: Obyčajný text
   status_active: active
-  status_archived: archived
+  status_archived: archivované
   status_invited: invited
   status_locked: zamknuté
   status_registered: registrovaný
@@ -2388,7 +2394,7 @@ sk:
     obrázok nemá transparentné pozadie, inak bude zle vyzerať na iOS.
 
 '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: Databáza umožňuje TSVector (voliteľné)
   text_default_administrator_account_changed: Default administrator account changed
   text_default_encoding: 'Default: UTF-8'
   text_destroy: Odstrániť
@@ -2424,8 +2430,8 @@ sk:
   text_journal_aggregation_time_explanation: Combine journals for display if their
     age difference is less than the specified timespan. This will also delay mail
     notifications by the same amount of time.
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_changed: "%{label} zmenený z %{old} <br/><strong>na</strong> %{new}"
+  text_journal_changed_plain: "%{label} zmenený z %{old} \nna %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
@@ -2476,8 +2482,8 @@ sk:
   text_user_wrote: "%{value} wrote:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
-  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
-    comment
+  text_what_did_you_change_click_to_add_comment: Čo ste zmenili? Kliknutím pridáte
+    komentár
   text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all
     its content?
   text_wiki_page_destroy_children: Delete child pages and all their descendants
@@ -2593,7 +2599,7 @@ sk:
       outline: Initial outline expansion
       parent: Show subprojects of
       work_package_filters: Filter work packages
-      work_package_responsible: Show work packages with accountable
+      work_package_responsible: Zobraziť pracovné balíčky so zodpovednou osobou
       work_package_assignee: Zobraziť pracovné balíčky s priradenou osobou
       types: Show types
       status: Show status
@@ -2606,7 +2612,7 @@ sk:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filter projects
-      project_responsible: Show projects with accountable
+      project_responsible: Zobraziť projekt so zodpovednou osobou
       project_status: Show project status
       timeframe: Show timeframe
       timeframe_end: do
@@ -2670,9 +2676,9 @@ sk:
       years: Roky
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
-  title_enterprise_upgrade: Upgrade to unlock more users.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  title_enterprise_upgrade: Upgradujte pre odomknutie viac užívateľov.
+  tooltip_user_default_timezone: 'Predvolené časové pásmo pre nových používateľov.
+    Môže byť zmenené v nastaveniach užívateľa.
 
 '
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
@@ -2744,23 +2750,25 @@ sk:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Upozornenie
   warning_attachments_not_saved: "%{count} súbor (súborov) nebolo možné uložiť."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'Pozvali ste viac užívateľov, než je podporované vašim
+    aktuálnym predplateným plánom. Pozvaný užívatelia nemusia byť schopný pripojiť
+    sa do OpenProject prostredia. Prosím <a href="%{upgrade_url}">upgradujte váš plán</a>
+    alebo zablokujte aktuálnych užívateľov, aby se pozvaný a registrovaný užívatelia
+    mohli pripojiť.
 
 '
   warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+    Platnosť aktivačného emailu vypršala. Poslali sme vám nový %{email}.
+    Kliknite prosím na odkaz vnútri pre aktiváciu vášho účtu.
+  warning_user_limit_reached: 'Váš limit počtu užívateľov bol dosiahnutý. Nie je možné
+    aktivovať viac užívateľov. Prosím <a href="%{upgrade_url}">upgradujte váš cenový
+    plán</a> alebo zablokujte niektorých stávajúcich členov aby bolo možné pridanie
+    ďalších užívateľov.
 
 '
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached_instructions: 'Limit počtu užívateľov (%{current}/%{max}
+    aktívnych užívateľov) dosiahnutý. Prosím kontaktujte sales@openproject.com a upgradujte
+    Vašu Enterprise Edition a pridajte ďalších užívateľov.
 
 '
   menu_item: Položka menu
@@ -2874,8 +2882,8 @@ sk:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Prosím aktualizujte svoj prehliadač.
+    close_warning: Ignorovať toto upozornenie.
   oauth:
     application:
       singular: OAuth application
@@ -2921,13 +2929,15 @@ sk:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Oprávnenia
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      few: "%{count} active token"
+      many: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2945,7 +2955,5 @@ sk:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Odstrániť widget
-  label_my_page_block: Blok mojich strán
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Viditeľné prvky
+  label_and_its_subprojects: "%{value} a jemu podriadené projekty"
+  label_search_titles_only: Vyhľadať iba tituly

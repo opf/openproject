@@ -106,6 +106,10 @@ ar:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: لا يوجد حالياً مجموعات.
@@ -1244,7 +1248,6 @@ ar:
   label_all_open_wps: All open
   label_always_visible: معروض دائمًا
   label_announcement: إعلان
-  label_and_its_subprojects: "%{value} والمشاريع الفرعية الخاصة به"
   label_api_access_key: مفتاح الوصول إلى API
   label_api_access_key_created_on: مفتاح الوصول إلى API تم إنشاؤها %{value} قبل ذلك
   label_api_access_key_type: API
@@ -1613,7 +1616,6 @@ ar:
   label_role_search: تعيين دور للأعضاء الجدد
   label_scm: اختصاراً لِ:"Supply Chain Management" إدارة سلسة الإمداد
   label_search: البحث
-  label_search_titles_only: البحث في العناوين فقط
   label_send_information: إرسال معلومات الحساب إلى المستخدم
   label_send_test_email: إرسال رسالة اختبار
   label_settings: إعدادات
@@ -2877,8 +2879,8 @@ ar:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: من فضلك قم بتحديث متصفِّحك.
+    close_warning: تجاهل هذا التحذير.
   oauth:
     application:
       singular: OAuth application
@@ -2924,13 +2926,17 @@ ar:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: السماحيات
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      zero: "%{count} active token"
+      two: "%{count} active token"
+      few: "%{count} active token"
+      many: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2948,7 +2954,5 @@ ar:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: إزالة الأداة
-  label_my_page_block: حظر الصفحة الخاصة بي
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: العناصر المرئية
+  label_and_its_subprojects: "%{value} والمشاريع الفرعية الخاصة به"
+  label_search_titles_only: البحث في العناوين فقط

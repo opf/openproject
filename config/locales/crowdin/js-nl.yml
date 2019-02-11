@@ -38,6 +38,7 @@ nl:
     button_duplicate: Dupliceren
     button_edit: Wijzig
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Lijstweergave
     button_show_view: Fullscreen weergave
     button_log_time: Gelogde tijd
@@ -218,7 +219,7 @@ nl:
     label_menu_collapse: samenvouwen
     label_menu_expand: uitbreiden
     label_more_than_ago: meer dan dagen geleden
-    label_my_page: My page
+    label_my_page: Mijn pagina
     label_next: Volgende
     label_no_data: Geen gegevens om weer te geven
     label_no_due_date: geen einddatum
@@ -408,9 +409,9 @@ nl:
           requires: vereisen
           required: vereist door
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Activiteit
+      comment: Commentaar
+      hours: Uren
     watchers:
       label_loading: volgers worden geladen...
       label_error_loading: Er is een fout opgetreden tijdens het laden van de volgers
@@ -778,8 +779,6 @@ nl:
         days: dagen
         weeks: weken
         months: maanden
-      label_switch_to_single_select: Overschakelen naar enkele selectie
-      label_switch_to_multi_select: Overschakelen naar meerdere selectie
     toolbar:
       settings:
         configure_view: Weergave instellingen...
@@ -863,11 +862,12 @@ nl:
     zen_mode:
       button_activate: Zen-modus activeren
       button_deactivate: Deactiveren van zen modus
-    unsupported_browser:
-      title: Uw browserversie wordt niet ondersteund
-      message: De browserversie die u gebruikt wordt niet meer ondersteund door OpenProject.
-      update_message: Gebruik een recentere versie van uw browser.
-      update_ie_user: Gebruik Mozilla Firefox of Google Chrome, of upgrade naar Microsoft
-        Edge.
-      learn_more: Leer meer
-      close_warning: Negeer deze waarschuwing.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

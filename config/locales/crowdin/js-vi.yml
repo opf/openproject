@@ -38,6 +38,7 @@ vi:
     button_duplicate: Nhân đôi
     button_edit: Chỉnh sửa
     button_filter: Bộ lọc
+    button_advanced_filter: Advanced filter
     button_list_view: Xem kiểu danh sách
     button_show_view: Xem toàn màn hình
     button_log_time: Thời gian truy cập
@@ -217,7 +218,7 @@ vi:
     label_menu_collapse: thu lại
     label_menu_expand: mở rộng
     label_more_than_ago: nhiều hơn mấy ngày trước
-    label_my_page: My page
+    label_my_page: Trang của tôi
     label_next: Tiếp
     label_no_data: Không có dữ liệu để hiển thị
     label_no_due_date: không có ngày kết thúc
@@ -401,9 +402,9 @@ vi:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Hoạt động
+      comment: Nhận xét
+      hours: Giờ
     watchers:
       label_loading: lấy danh sách người theo dõi...
       label_error_loading: Lỗi khi tải về danh sách người theo dõi
@@ -762,8 +763,6 @@ vi:
         days: ngày
         weeks: weeks
         months: months
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Định cấu hình chế độ xem...
@@ -846,11 +845,12 @@ vi:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: Your browser version is not supported
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Learn more
-      close_warning: Ignore this warning.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

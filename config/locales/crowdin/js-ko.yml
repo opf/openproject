@@ -37,6 +37,7 @@ ko:
     button_duplicate: 복제
     button_edit: 편집
     button_filter: 필터
+    button_advanced_filter: Advanced filter
     button_list_view: 목록 보기
     button_show_view: 전체화면 보기
     button_log_time: 작업시간 기록
@@ -207,7 +208,7 @@ ko:
     label_menu_collapse: 숨기기
     label_menu_expand: 넓히기
     label_more_than_ago: 일 이상 전
-    label_my_page: My page
+    label_my_page: 내 페이지
     label_next: 다음
     label_no_data: 표시할 데이터가 없습니다.
     label_no_due_date: 종료일이 지정되지 않음
@@ -371,9 +372,9 @@ ko:
           requires: 요구
           required: '다음에 의해 요구됨:'
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: 활동
+      comment: 코멘트
+      hours: 시간
     watchers:
       label_loading: 관찰자 로딩 중...
       label_error_loading: 관찰자를 로드하는 동안 오류가 발생 했습니다.
@@ -705,8 +706,6 @@ ko:
         days: 일
         weeks: 주
         months: 개월
-      label_switch_to_single_select: 단일 선택으로 전환
-      label_switch_to_multi_select: 다중 선택으로 전환
     toolbar:
       settings:
         configure_view: 보기 구성...
@@ -787,10 +786,12 @@ ko:
     zen_mode:
       button_activate: Zen 모드 활성화
       button_deactivate: Zen 모드 비활성화
-    unsupported_browser:
-      title: 이 브라우저 버전은 지원되지 않습니다.
-      message: OpenProject에서 더 이상 지원되지 않는 브라우저 버전을 사용하고 계십니다.
-      update_message: 브라우저를 업데이트하시기 바랍니다.
-      update_ie_user: Mozilla Firefox 또는 Google Chrome으로 전환하거나, Microsoft Edge로 업그레이드하십시오.
-      learn_more: 자세히 알아보기
-      close_warning: 이 경고를 무시하십시오.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
