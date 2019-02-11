@@ -47,6 +47,7 @@ module OpenProject
       pref = user.pref.clone
 
       pref[:comments_sorting] = user.pref.comments_sorting
+      pref[:auto_hide_popups] = user.pref.auto_hide_popups?
       map_timezone_to_tz!(pref)
     end
 
