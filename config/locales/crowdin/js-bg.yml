@@ -215,7 +215,7 @@ bg:
     label_menu_collapse: събери
     label_menu_expand: разтвори
     label_more_than_ago: повече от преди дни
-    label_my_page: Моята страница
+    label_my_page: My page
     label_next: Следващо
     label_no_data: Няма данни за показване
     label_no_due_date: Няма крайна дата
@@ -400,9 +400,9 @@ bg:
           requires: requiring
           required: required by
     time_entry:
-      activity: Активност
-      comment: Коментар
-      hours: Часове
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: Зареждане на наблюдаващи...
       label_error_loading: Възникна грешка при зареждане на наблюдатели
@@ -766,6 +766,8 @@ bg:
         days: дни
         weeks: седмици
         months: месеци
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -858,3 +860,11 @@ bg:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
+    unsupported_browser:
+      title: Версията на вашият браузър не се поддържа
+      message: The browser version you are using is no longer supported by OpenProject.
+      update_message: Please update your browser.
+      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
+        to Microsoft Edge.
+      learn_more: Научете повече
+      close_warning: Ignore this warning.

@@ -400,9 +400,9 @@ hi:
           requires: requiring
           required: required by
     time_entry:
-      activity: गतिविधी
-      comment: टिप्पणी
-      hours: घंटे
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -765,6 +765,8 @@ hi:
         days: days
         weeks: weeks
         months: months
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -857,3 +859,11 @@ hi:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
+    unsupported_browser:
+      title: Your browser version is not supported
+      message: The browser version you are using is no longer supported by OpenProject.
+      update_message: Please update your browser.
+      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
+        to Microsoft Edge.
+      learn_more: Learn more
+      close_warning: Ignore this warning.

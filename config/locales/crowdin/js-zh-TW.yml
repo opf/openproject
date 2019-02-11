@@ -205,7 +205,7 @@ zh-TW:
     label_menu_collapse: 收合
     label_menu_expand: 展開
     label_more_than_ago: 很多天之前
-    label_my_page: 我的首頁
+    label_my_page: My page
     label_next: 下一個
     label_no_data: 沒有資料可顯示
     label_no_due_date: 無結束日期
@@ -360,9 +360,9 @@ zh-TW:
           requires: 需要
           required: 被以下需要
     time_entry:
-      activity: 活動
-      comment: 評論
-      hours: 小時
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: 正在載入關注者...
       label_error_loading: 而發生錯誤裝載的觀察家
@@ -690,6 +690,8 @@ zh-TW:
         days: 天
         weeks: 週
         months: 月
+      label_switch_to_single_select: 切換為單選
+      label_switch_to_multi_select: 切換為複選
     toolbar:
       settings:
         configure_view: 設定檢視...
@@ -782,3 +784,10 @@ zh-TW:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
+    unsupported_browser:
+      title: 系統不支援您的瀏覽器版本
+      message: Openproject 不再支援您正在使用的瀏覽器版本。
+      update_message: 請升級您的瀏覽器。
+      update_ie_user: 請改用Mozilla Firefox或Google Chrome，或者升級到Microsoft Edge。
+      learn_more: 了解更多
+      close_warning: 忽略此警告。

@@ -220,7 +220,7 @@ it:
     label_menu_collapse: collassa
     label_menu_expand: espandi
     label_more_than_ago: più di qualche giorno fa
-    label_my_page: La mia pagina
+    label_my_page: My page
     label_next: Prossimo
     label_no_data: Nessun dato da visualizzare
     label_no_due_date: nessuna data di fine
@@ -409,9 +409,9 @@ it:
           requires: che richiedono
           required: richiesto dalla
     time_entry:
-      activity: Attività
-      comment: Commento
-      hours: Ore
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: caricamento osservatori in corso...
       label_error_loading: Si è verificato un errore nel caricamento degli osservatori
@@ -780,6 +780,8 @@ it:
         days: giorni
         weeks: Settimane
         months: mesi
+      label_switch_to_single_select: Passa a selezione singola
+      label_switch_to_multi_select: Passa a selezione multipla
     toolbar:
       settings:
         configure_view: Configura la vista...
@@ -872,3 +874,11 @@ it:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
+    unsupported_browser:
+      title: La versione del browser non è supportata
+      message: La versione del browser in uso non è più supportata da OpenProject.
+      update_message: Aggiornare il browser, prego.
+      update_ie_user: Passare a Mozilla Firefox o Google Chrome, oppure aggiornare
+        a Microsoft Edge.
+      learn_more: Scopri di più
+      close_warning: Ignora questo avviso.
