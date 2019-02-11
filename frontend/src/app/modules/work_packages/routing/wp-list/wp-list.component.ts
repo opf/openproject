@@ -107,7 +107,7 @@ export class WorkPackagesListComponent extends WorkPackagesSetComponent implemen
   updateTitle(query:QueryResource) {
     if (query.id) {
       this.selectedTitle = query.name;
-      this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');;
+      this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
     } else {
       this.selectedTitle =  this.wpStaticQueries.getStaticName(query);
       this.titleEditingEnabled = false;

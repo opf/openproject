@@ -18,7 +18,6 @@ import {WorkPackageEmbeddedTableComponent} from "core-components/wp-table/embedd
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {OpTableActionsService} from "core-components/wp-table/table-actions/table-actions.service";
 import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
 import {WorkPackageTablePaginationService} from "core-components/wp-fast-table/state/wp-table-pagination.service";
@@ -217,7 +216,7 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
           this.activeInlineCreateWp = undefined;
 
           // Add this item to the results
-          this.reorderService.add(this.tableState, wp.id, index)
+          this.reorderService.add(this.tableState, wp.id, index);
 
           // Notify inline create service
           this.wpInlineCreate.newInlineWorkPackageCreated.next(wp.id);
