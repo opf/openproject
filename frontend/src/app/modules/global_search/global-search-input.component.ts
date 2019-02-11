@@ -172,8 +172,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   private autocompleteWorkPackages(query:string):Promise<(any)[]> {
     this.dynamicCssService.requireHighlighting();
 
-    // hide empty dropdown while spinner is shown
-    setTimeout( () => this.$element.find('.ng-dropdown-panel').hide());
     this.$element.find('.ui-autocomplete--loading').show();
 
     let idOnly:boolean = false;
@@ -262,7 +260,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   private hideSpinner():void {
     this.$element.find('.ui-autocomplete--loading').hide();
-    this.$element.find('.ng-dropdown-panel').show();
   }
 
   private get searchValue() {

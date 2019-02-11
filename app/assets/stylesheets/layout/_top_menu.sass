@@ -190,7 +190,9 @@ $search-input-width-expanded: 300px
     color: $header-search-field-font-color
 
   .top-menu-search--loading
-    top: $header-height
+    top: $header-height - 11px  // display directly under ng-input field
+    height: 46px                // ng-option height + 1px border
+    z-index: 1051
 
   .ng-select#q
     width: $search-input-width
@@ -234,12 +236,6 @@ $search-input-width-expanded: 300px
       border-radius: 4px
       color: $header-search-field-font-color
 
-      .ng-select-container
-        border-radius: 4px !important
-
-      .ng-select-bottom
-        top: calc(100% + 12px)
-
       .ng-placeholder,
       .ng-clear-wrapper,
       input
@@ -253,6 +249,7 @@ $search-input-width-expanded: 300px
         .ng-option
           border-bottom: 1px solid #EAEAEA
           white-space: normal
+          padding: 5px 10px
           &:last-child
             border-bottom: none
           &.ng-option-marked
