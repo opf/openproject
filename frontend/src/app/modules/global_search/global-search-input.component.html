@@ -15,15 +15,16 @@
                 [class.-expanded]="expanded"
                 placeholder="{{text.search}}"
                 bindLabel="subject"
-                (search)="handleUserInput($event)"
                 (focus)="onFocus()"
                 (focusout)="onFocusOut()"
-                (open)="toggleMenu()"
+                (search)="toggleMenu($event)"
+                (open)="toggleMenu(searchTerm)"
                 (change)="onChange($event)"
                 [virtualScroll]="true"
-                [searchFn]="customSearchFn">
+                [searchFn]="customSearchFn"
+                [typeahead]="searchTermChanged$">
         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-          <div *ngIf="!item.id; else isWorkPackageItem">
+          <div *ngIf="!item.id; else workPackageItemTemplate">
             <div tabindex="-1" class="ui-menu-item">
               <div class="ui-menu-item-wrapper">
                 <span class="search-autocomplete--search-term"> {{searchTerm}} </span>
@@ -31,7 +32,7 @@
               </div>
             </div>
           </div>
-          <ng-template #isWorkPackageItem>
+          <ng-template #workPackageItemTemplate>
             <div tabindex="-1" class="ui-menu-item">
               <div class="ui-menu-item-wrapper" tabindex="-1">
                 <span class="search-autocomplete--wp-id __hl_dot_status_{{item.statusId}}" title="{{item.status}}"> #{{item.id}} </span>

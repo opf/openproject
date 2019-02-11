@@ -26,7 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, OnInit, ViewChild, HostListener} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  HostListener,
+  ChangeDetectorRef
+} from '@angular/core';
 import {ContainHelpers} from 'app/modules/common/focus/contain-helpers';
 import {I18nService} from 'app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
@@ -38,6 +46,9 @@ import {DynamicCssService} from "app/modules/common/dynamic-css/dynamic-css.serv
 import {GlobalSearchService} from "app/modules/global_search/global-search.service";
 import {CurrentProjectService} from "app/components/projects/current-project.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
+import {debounceTime, distinctUntilChanged} from "rxjs/operators";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {Subject} from "rxjs";
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -46,7 +57,7 @@ export const globalSearchSelector = 'global-search-input';
   templateUrl: './global-search-input.component.html'
 })
 
-export class GlobalSearchInputComponent implements OnInit {
+export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   @ViewChild('btn') btn:ElementRef;
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
@@ -55,7 +66,11 @@ export class GlobalSearchInputComponent implements OnInit {
   public results:any[];
   public suggestions:any[];
 
+  public searchTermChanged$:Subject<string> = new Subject<string>();
+
   private $element:JQuery;
+
+  private unregisterGlobalListener:Function | undefined;
 
   public text:{ [key:string]:string } = {
     all_projects: this.I18n.t('js.global_search.all_projects'),
@@ -70,13 +85,36 @@ export class GlobalSearchInputComponent implements OnInit {
               readonly halResourceService:HalResourceService,
               readonly dynamicCssService:DynamicCssService,
               readonly globalSearchService:GlobalSearchService,
-              readonly currentProjectService:CurrentProjectService) {
+              readonly currentProjectService:CurrentProjectService,
+              readonly cdRef:ChangeDetectorRef) {
   }
 
   private projectScopeTypes = ['all_projects', 'this_project', 'this_project_and_all_descendants'];
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
+
+    this.searchTermChanged$
+      .pipe(
+        distinctUntilChanged(),
+        debounceTime(250),
+        untilComponentDestroyed(this)
+      )
+      .subscribe((searchTerm:string) => {
+        this.searchTerm = searchTerm;
+        this.globalSearchService.searchTerm = this.searchTerm;
+
+        // load result list for searched term
+        if (this.searchTerm.trim().length > 0) {
+          this.getSearchResult(this.searchTerm);
+        }
+
+        this.cdRef.detectChanges();
+      });
+  }
+
+  ngOnDestroy() {
+    this.unregister();
   }
 
   // detect if click is outside or inside the element
@@ -101,25 +139,9 @@ export class GlobalSearchInputComponent implements OnInit {
     }
   }
 
-  // load result list for searched term
-  public handleUserInput($event:any) {
-    this.searchTerm = $event;
-    this.globalSearchService.searchTerm = this.searchTerm;
-
-    if (this.searchTerm.length > 0) {
-      this.getSearchResult(this.searchTerm);
-    }
-
-    this.toggleMenu();
-  }
-
-  public toggleMenu() {
-    // close menu when input field is empty
-    if (this.searchTerm.length > 0) {
-      this.ngSelectComponent.isOpen = true;
-    } else {
-      this.ngSelectComponent.isOpen = false;
-    }
+  // close menu when input field is empty
+  public toggleMenu(searchedTerm:string) {
+    (searchedTerm.trim().length > 0) ? this.ngSelectComponent.isOpen = true : this.ngSelectComponent.isOpen = false;
   }
 
   public onFocus() {
@@ -141,13 +163,9 @@ export class GlobalSearchInputComponent implements OnInit {
     });
   }
 
+  // return all project scope items and all items which contain the search term
   public customSearchFn(term:string, item:any):boolean {
-    // return all project scope items and all items which contain the search term
-    if (item.id === undefined || item.subject.toLowerCase().indexOf(term.toLowerCase()) !== -1) {
-      return true;
-    } else {
-      return false;
-    }
+    return item.id === undefined || item.subject.toLowerCase().indexOf(term.toLowerCase()) !== -1;
   }
 
   private autocompleteWorkPackages(query:string):Promise<(any)[]> {
@@ -196,7 +214,6 @@ export class GlobalSearchInputComponent implements OnInit {
   }
 
   private searchInScope(scope:string) {
-    console.log("Search in scope! ", scope);
     switch (scope) {
       case 'all_projects': {
         let forcePageLoad = false;
@@ -217,9 +234,6 @@ export class GlobalSearchInputComponent implements OnInit {
         this.globalSearchService.projectScope = '';
         this.submitNonEmptySearch();
         break;
-      }
-      default: {
-        // do nothing
       }
     }
   }
@@ -252,6 +266,13 @@ export class GlobalSearchInputComponent implements OnInit {
 
   private get searchValue() {
     return this.searchTerm ? this.searchTerm : '';
+  }
+
+  private unregister() {
+    if (this.unregisterGlobalListener) {
+      this.unregisterGlobalListener();
+      this.unregisterGlobalListener = undefined;
+    }
   }
 }
 

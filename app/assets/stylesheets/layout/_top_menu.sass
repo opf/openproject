@@ -247,7 +247,7 @@ $search-input-width-expanded: 300px
 
       .scroll-host
         @include styled-scroll-bar-vertical
-        max-height: 70vh
+        max-height: 80vh
         height: auto
 
         .ng-option
@@ -268,6 +268,7 @@ $search-input-width-expanded: 300px
         .ui-menu-item-wrapper
           padding: 5px 5px
           line-height: 25px
+          min-height: 35px  // line-height + padding
           word-break: break-word
 
         .search-autocomplete--project-scope
