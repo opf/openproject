@@ -14,7 +14,7 @@ import {
 } from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {Observable, Subject} from "rxjs";
-import {debounceTime, distinctUntilChanged, shareReplay, skip, skipUntil, withLatestFrom} from "rxjs/operators";
+import {debounceTime, distinctUntilChanged, filter, shareReplay, skip, skipUntil, withLatestFrom} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {BoardInlineCreateService} from "core-app/modules/boards/board/board-list/board-inline-create.service";
@@ -23,6 +23,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {StateService} from "@uirouter/core";
 import {Board} from "core-app/modules/boards/board/board";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
 @Component({
   selector: 'board-list',
@@ -38,15 +39,22 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   @ViewChild('loadingIndicator') indicator:ElementRef;
 
   /** The query resource being loaded */
-  public query$:Observable<QueryResource>;
+  public query:QueryResource;
 
   /** Rename events */
   public rename$ = new Subject<string>();
+
+  /** Rename inFlight */
+  public inFlight:boolean;
 
   public readonly columnsQueryProps = {
     'columns[]': ['id', 'subject'],
     'showHierarchies': false,
     'pageSize': 500,
+  };
+
+  public text = {
+    updateSuccessful: this.I18n.t('js.notice_successful_update'),
   };
 
   public boardTableConfiguration = {
@@ -62,14 +70,16 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly I18n:I18nService,
               private readonly state:StateService,
               private readonly boardCache:BoardCacheService,
+              private readonly notifications:NotificationsService,
               private readonly cdRef:ChangeDetectorRef,
               private readonly loadingIndicator:LoadingIndicatorService) {
     super(I18n);
   }
 
   ngOnInit():void {
-    let first = true;
     const boardId:number = this.state.params.board_id;
+
+    this.loadQuery();
 
     this.boardCache
       .state(boardId.toString())
@@ -78,8 +88,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         untilComponentDestroyed(this)
       )
       .subscribe((board) => {
-        this.initialize(board, first);
-        first = false;
+        this.boardTableConfiguration = {
+          ...this.boardTableConfiguration,
+          isCardView: board.displayMode === 'cards'
+        };
       });
   }
 
@@ -87,40 +99,27 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     // Interface compatibility
   }
 
-  private initialize(board:Board, first:boolean) {
-    this.boardTableConfiguration = {
-      ...this.boardTableConfiguration,
-      isCardView: board.displayMode === 'cards'
-    };
-
-    this.loadQuery();
-
-    if (!first) {
-      return;
-    }
-
-    this.rename$
-      .pipe(
-        untilComponentDestroyed(this),
-        debounceTime(1000),
-        distinctUntilChanged(),
-        withLatestFrom(this.query$)
-      )
-      .subscribe(([newName, query]) => {
-        query.name = newName;
-        this.QueryDm.patch(query.id, {name: newName});
-      });
+  public renameQuery(query:QueryResource, value:string) {
+    this.inFlight = true;
+    this.query.name = value;
+    this.QueryDm
+      .patch(this.query.id, {name: value})
+      .then(() => {
+        this.inFlight = false;
+        this.notifications.addSuccess(this.text.updateSuccessful);
+      })
+      .catch(() => this.inFlight = false);
   }
 
   private loadQuery() {
     const queryId:number = this.resource.options.query_id as number;
 
-    this.query$ = this.QueryDm
+    this.QueryDm
       .stream(this.columnsQueryProps, queryId)
       .pipe(
         withLoadingIndicator(this.indicatorInstance, 50),
-        shareReplay(1)
-      );
+      )
+      .subscribe(query => this.query = query);
   }
 
   private get indicatorInstance() {

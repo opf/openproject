@@ -1,12 +1,12 @@
 <div #loadingIndicator
      class="board-list--container loading-indicator--location">
-  <ng-container *ngIf="(query$ | async) as query">
-    <input autocomplete="off"
-           [ngModel]="query.name"
-           (ngModelChange)="rename$.next($event)"
-           class="toolbar--editable-toolbar -border-on-hover-only form--text-field"
-           name="board_list_name"
-           type="text" />
+  <ng-container *ngIf="query">
+
+    <editable-toolbar-title [title]="query.name"
+                            [inFlight]="inFlight"
+                            (onSave)="renameQuery(query, $event)"
+                            [editable]="!!query.updateImmediately">
+    </editable-toolbar-title>
 
     <div class="board-list--query-container">
       <wp-embedded-table *ngIf="boardTableConfiguration.isEmbedded && !boardTableConfiguration.isCardView"
