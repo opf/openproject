@@ -102,8 +102,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
       )
       .subscribe((searchTerm:string) => {
         this.searchTerm = searchTerm;
-        this.globalSearchService.searchTerm = this.searchTerm;
-
         // load result list for searched term
         if (this.searchTerm.trim().length > 0) {
           this.getSearchResult(this.searchTerm);
@@ -131,6 +129,9 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   // load selected item
   public onChange($event:any) {
+    // update embeeded table and title when new search is submitted
+    this.globalSearchService.searchTerm = this.searchTerm;
+
     let selectedOption = $event;
     if (selectedOption.id) {  // item is a work package element
       this.redirectToWp(selectedOption.id);
