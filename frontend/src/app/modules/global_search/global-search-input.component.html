@@ -20,7 +20,6 @@
                 (search)="toggleMenu($event)"
                 (open)="toggleMenu(searchTerm)"
                 (change)="onChange($event)"
-                [virtualScroll]="true"
                 [searchFn]="customSearchFn"
                 [typeahead]="searchTermChanged$">
         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
