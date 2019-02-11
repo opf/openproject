@@ -35,12 +35,16 @@ export class BoardComponent implements OnInit, OnDestroy {
   /** Whether this is a new board just created */
   public isNew:boolean = !!this.state.params.isNew;
 
+  /** Whether we're in flight of updating the board */
+  public inFlight = false;
+
 
   public text = {
     button_more: this.I18n.t('js.button_more'),
     delete: this.I18n.t('js.button_delete'),
     areYouSure: this.I18n.t('js.text_are_you_sure'),
     deleteSuccessful: this.I18n.t('js.notice_successful_delete'),
+    updateSuccessful: this.I18n.t('js.notice_successful_update'),
     unnamedBoard: this.I18n.t('js.boards.label_unnamed_board'),
     loadingError: 'No such board found',
     addList: 'Add list'
@@ -84,11 +88,16 @@ export class BoardComponent implements OnInit, OnDestroy {
       )
       .subscribe(([newName, board]) => {
         let b = board as Board;
+        this.inFlight = true;
 
         b.name = newName;
         this.Boards
           .save(b)
-          .then(board => this.BoardCache.update(board));
+          .then(board => {
+            this.BoardCache.update(board);
+            this.notifications.addSuccess(this.text.updateSuccessful);
+            this.inFlight = false;
+          });
       });
   }
 

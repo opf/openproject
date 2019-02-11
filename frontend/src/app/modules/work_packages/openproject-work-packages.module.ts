@@ -52,7 +52,6 @@ import {OpSettingsMenuDirective} from 'core-components/op-context-menu/handlers/
 import {WorkPackageStatusDropdownDirective} from 'core-components/op-context-menu/handlers/wp-status-dropdown-menu.directive';
 import {WorkPackageCreateSettingsMenuDirective} from 'core-components/op-context-menu/handlers/wp-create-settings-menu.directive';
 import {WorkPackageSingleContextMenuDirective} from 'core-components/op-context-menu/wp-context-menu/wp-single-context-menu';
-import {WorkPackageQuerySelectableTitleComponent} from 'core-components/wp-query-select/wp-query-selectable-title.component';
 import {WorkPackageQuerySelectDropdownComponent} from 'core-components/wp-query-select/wp-query-select-dropdown.component';
 import {WorkPackageTimelineHeaderController} from 'core-components/wp-table/timeline/header/wp-timeline-header.directive';
 import {WorkPackageTableTimelineRelations} from 'core-components/wp-table/timeline/global-elements/wp-timeline-relations.directive';
@@ -335,7 +334,6 @@ import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card
     WorkPackageStatusDropdownDirective,
     WorkPackageCreateSettingsMenuDirective,
     WorkPackageSingleContextMenuDirective,
-    WorkPackageQuerySelectableTitleComponent,
     WorkPackageQuerySelectDropdownComponent,
 
     // Timeline

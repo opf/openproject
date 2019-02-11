@@ -43,9 +43,15 @@ export class WorkPackagesListComponent extends WorkPackagesSetComponent implemen
     'button_settings': this.I18n.t('js.button_settings')
   };
 
+  /** Whether the title can be edited */
   titleEditingEnabled:boolean;
+
+  /** Current query title to render */
   selectedTitle?:string;
   currentQuery:QueryResource;
+
+  /** Whether we're saving the query */
+  querySaving:boolean;
   unRegisterTitleListener:Function;
 
   private readonly titleService:OpTitleService = this.injector.get(OpTitleService);
@@ -90,10 +96,18 @@ export class WorkPackagesListComponent extends WorkPackagesSetComponent implemen
     return this.authorisationService.can(model, permission);
   }
 
+  public updateQueryName(val:string) {
+    this.querySaving = true;
+    this.currentQuery.name = val;
+    this.wpListService.save(this.currentQuery)
+      .then(() => this.querySaving = false)
+      .catch(() => this.querySaving = false);
+  }
+
   updateTitle(query:QueryResource) {
     if (query.id) {
       this.selectedTitle = query.name;
-      this.titleEditingEnabled = true;
+      this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');;
     } else {
       this.selectedTitle =  this.wpStaticQueries.getStaticName(query);
       this.titleEditingEnabled = false;

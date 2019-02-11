@@ -25,35 +25,46 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Injector,
+  Input,
+  OnChanges,
+  OnInit,
+  Output, SimpleChanges,
+  ViewChild
+} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
-import {StateService, TransitionService} from '@uirouter/core';
-import {States} from 'core-components/states.service';
-import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 import {ContainHelpers} from "core-app/modules/common/focus/contain-helpers";
 
 export const triggerEditingEvent = 'op:selectableTitle:trigger';
-export const selectableTitleIdentifier = 'wp-query-selectable-title';
+export const selectableTitleIdentifier = 'editable-toolbar-title';
 
 @Component({
-  selector: 'wp-query-selectable-title',
-  templateUrl: './wp-query-selectable-title.html',
-  styleUrls: ['./wp-query-selectable-title.sass'],
-  // Don't encapsulate styles because we're styling within other components
-  encapsulation: ViewEncapsulation.None,
+  selector: 'editable-toolbar-title',
+  templateUrl: './editable-toolbar-title.html',
+  styleUrls: ['./editable-toolbar-title.sass'],
   host: { 'class': 'title-container' }
 })
-export class WorkPackageQuerySelectableTitleComponent implements OnInit {
-  @Input() public selectedTitle:string;
-  @Input() public currentQuery:QueryResource;
-  @Input() queryEditable:boolean = true;
+export class EditableToolbarTitleComponent implements OnInit, OnChanges {
+  @Input('title') public inputTitle:string;
+  @Input() public editable:boolean = true;
+  @Input() public inFlight:boolean = false;
+  @Input() public showSaveCondition:boolean = false;
+  @Input() public initialFocus:boolean = false;
+
+  @Output() public onSave = new EventEmitter<string>();
+  @Output() public onEmptySubmit = new EventEmitter<void>();
 
   @ViewChild('editableTitleInput') inputField?:ElementRef;
 
-  public inFlight:boolean = false;
+  public selectedTitle:string;
   public selectableTitleIdentifier = selectableTitleIdentifier;
+
+  protected readonly elementRef:ElementRef = this.injector.get(ElementRef);
+  protected readonly I18n:I18nService = this.injector.get(I18nService);
 
   public text = {
     click_to_edit: this.I18n.t('js.work_packages.query.click_to_edit_query_name'),
@@ -66,13 +77,7 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
     duplicate_query_title: this.I18n.t('js.work_packages.query.errors.duplicate_query_title')
   };
 
-
-  constructor(readonly elementRef:ElementRef,
-              readonly I18n:I18nService,
-              readonly wpListService:WorkPackagesListService,
-              readonly authorisationService:AuthorisationService,
-              readonly $state:StateService,
-              readonly states:States) {
+  constructor(protected readonly injector:Injector) {
   }
 
   ngOnInit() {
@@ -86,12 +91,19 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
 
       this.selectedTitle = val;
       setTimeout(() => {
-        let field = jQuery(this.inputField!.nativeElement);
+        const field:HTMLInputElement = this.inputField!.nativeElement;
         field.focus();
       }, 20);
 
       evt.stopPropagation();
     });
+  }
+
+  ngOnChanges(changes:SimpleChanges):void {
+
+    if (changes.inputTitle) {
+      this.selectedTitle = changes.inputTitle.currentValue;
+    }
   }
 
   public resetWhenFocusOutside($event:FocusEvent) {
@@ -100,19 +112,13 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
 
   public reset() {
     this.resetInputField();
-    this.selectedTitle = this.currentTitle;
-  }
-
-  public get editable() {
-    return this.queryEditable &&
-      this.authorisationService.can('query', 'updateImmediately');
+    this.selectedTitle = this.inputTitle;
   }
 
   public get showSave() {
-    return this.editable && this.$state.params.query_props;
+    return this.editable && this.showSaveCondition;
   }
 
-  // Element looses focus on click outside and is not editable anymore
   public save($event:Event, force = false) {
     $event.preventDefault();
 
@@ -121,37 +127,35 @@ export class WorkPackageQuerySelectableTitleComponent implements OnInit {
 
     // If the title is empty, show an error
     if (this.isEmpty) {
-      this.updateItemInMenu();  // Throws an error message, when name is empty
-      this.focusInputOnError();
+      this.onEmptyError();
       return;
     }
 
-    if (!force && this.currentTitle === this.selectedTitle) {
+    if (!force && this.inputTitle === this.selectedTitle) {
       return; // Nothing changed
     }
 
-    this.updateItemInMenu();
+    this.emitSave(this.selectedTitle);
   }
 
-  // Check if title of query is empty
   public get isEmpty():boolean {
     return this.selectedTitle === '';
   }
 
   /**
-   * The current saved title
+   * Called when saving the changed title
    */
-  private get currentTitle():string {
-    return this.currentQuery.name;
+  private emitSave(title:string) {
+    this.onSave.emit(title);
   }
 
-  // Send new query name to service to update the name in the menu
-  private updateItemInMenu() {
-    this.inFlight = true;
-    this.currentQuery.name = this.selectedTitle;
-    this.wpListService.save(this.currentQuery)
-      .then(() => this.inFlight = false)
-      .catch(() => this.inFlight = false);
+  /**
+   * Called when trying to save an empty text
+   */
+  private onEmptyError() {
+    // this.updateItemInMenu();  // Throws an error message, when name is empty
+    this.onEmptySubmit.emit();
+    this.focusInputOnError();
   }
 
   private focusInputOnError() {

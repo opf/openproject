@@ -10,17 +10,14 @@
             <op-icon icon-classes="button--icon icon-back-up"></op-icon>
           </accessible-by-keyboard>
         </div>
-        <span class="form--text-field-container">
-          <input class="toolbar--editable-toolbar board--editable-toolbar -border-on-hover-only form--text-field"
-                 autocomplete="off"
-                 type="text"
-                 [focus]="isNew"
-                 (focus)="selectIfNew($event)"
-                 [placeholder]="text.unnamedBoard"
-                 [ngModel]="board.name"
-                 (ngModelChange)="rename$.next($event)"
-                 name="board_name" />
-        </span>
+
+        <editable-toolbar-title [title]="board.name"
+                                [inFlight]="inFlight"
+                                [initialFocus]="isNew"
+                                (onSave)="rename$.next($event)"
+                                [editable]="board.isEditable">
+        </editable-toolbar-title>
+
         <ul class="toolbar-items">
           <li class="toolbar-item">
             <zen-mode-toggle-button></zen-mode-toggle-button>

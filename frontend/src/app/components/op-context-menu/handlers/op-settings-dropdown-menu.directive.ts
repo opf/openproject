@@ -42,11 +42,11 @@ import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-e
 import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
 import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
+import {TableState} from "core-components/wp-table/table-state/table-state";
 import {
   selectableTitleIdentifier,
   triggerEditingEvent
-} from "core-components/wp-query-select/wp-query-selectable-title.component";
-import {TableState} from "core-components/wp-table/table-state/table-state";
+} from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
 
 @Directive({
   selector: '[opSettingsContextMenu]'

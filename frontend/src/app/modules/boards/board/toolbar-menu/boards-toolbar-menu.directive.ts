@@ -28,31 +28,19 @@
 
 import {Directive, ElementRef, Input, OnDestroy} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
-import {States} from 'core-components/states.service';
-import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {takeUntil} from 'rxjs/operators';
-import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-export.modal";
-import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
-import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
-import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
-import {
-  selectableTitleIdentifier,
-  triggerEditingEvent
-} from "core-components/wp-query-select/wp-query-selectable-title.component";
-import {TableState} from "core-components/wp-table/table-state/table-state";
 import {Board} from "core-app/modules/boards/board/board";
 import {BoardConfigurationModal} from "core-app/modules/boards/board/configuration-modal/board-configuration.modal";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {StateService} from "@uirouter/core";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
+import {
+  selectableTitleIdentifier,
+  triggerEditingEvent
+} from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
 
 @Directive({
   selector: '[boardsToolbarMenu]'
@@ -113,7 +101,7 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger implements 
         icon: 'icon-edit',
         onClick: ($event:JQueryEventObject) => {
           if (!!this.board.grid.updateImmediately) {
-            jQuery('.board--editable-toolbar').val('').trigger('focus');
+            jQuery(`#${selectableTitleIdentifier}`).trigger(triggerEditingEvent);
           }
 
           return true;

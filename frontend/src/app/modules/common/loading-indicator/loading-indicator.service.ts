@@ -46,6 +46,7 @@ export function withLoadingIndicator<T>(indicator:LoadingIndicator, delayStopTim
     );
   };
 }
+
 export class LoadingIndicator {
 
   private indicatorTemplate:string =

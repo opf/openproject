@@ -15,6 +15,10 @@ export class Board {
     return this.grid.name;
   }
 
+  public get isEditable() {
+    return !!this.grid.updateImmediately;
+  }
+
   public get displayMode():BoardDisplayMode {
     const mode = this.grid.options.display_mode;
     return (mode === 'table') ? 'table' : 'cards';

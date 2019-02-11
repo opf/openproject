@@ -1,18 +1,20 @@
 <div *ngIf="editable"
      (focusout)="resetWhenFocusOutside($event)"
-     class="wp-query-selectable-title--container">
-  <accessible-by-keyboard *ngIf="showSave"
-                          (execute)="save($event, true)"
-                          [linkAriaLabel]="text.query_has_changed_click_to_save"
-                          [linkTitle]="text.query_has_changed_click_to_save"
-                          linkClass="wp-query-selectable-title--save"
-                          spanClass="icon icon-save">
-  </accessible-by-keyboard>
+     class="editable-toolbar-title--container">
+  <a *ngIf="showSave"
+     role="link"
+     class="editable-toolbar-title--save"
+     (accessibleClick)="save($event, true)"
+     [attr.aria-label]="text.query_has_changed_click_to_save"
+     [attr.title]="text.query_has_changed_click_to_save">
+    <span aria-hidden="true" class="icon icon-save"></span>
+  </a>
   <input #editableTitleInput
          type="text"
          aria-required="true"
          [attr.name]="selectableTitleIdentifier"
          [attr.id]="selectableTitleIdentifier"
+         [focus]="this.initialFocus || undefined"
          (keydown.escape)="reset($event)"
          (keydown.enter)="save($event)"
          [attr.placeholder]="text.input_placeholder"
@@ -20,10 +22,10 @@
          [(ngModel)]="selectedTitle"
          [disabled]="inFlight"
          [ngClass]="{ '-error': isEmpty, '-changed': showSave }"
-         class="wp-query--selectable-title -border-on-hover-only toolbar--editable-toolbar ellipsis"/>
+         class="editable-toolbar-title--input -border-on-hover-only toolbar--editable-toolbar ellipsis"/>
 </div>
 <h2 *ngIf="!editable"
     [attr.title]="selectedTitle"
     [ngClass]="{ '-disabled': disabled }"
-    class="wp-query-selectable-title--fixed"> {{ selectedTitle | slice:0:50 }}
+    class="editable-toolbar-title--fixed"> {{ selectedTitle | slice:0:50 }}
 </h2>
