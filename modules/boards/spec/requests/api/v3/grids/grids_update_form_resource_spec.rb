@@ -40,7 +40,7 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
     FactoryBot.create(:user, member_in_project: project, member_with_permissions: [:manage_board_views])
   end
   shared_let(:prohibited_user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: [:view_boards])
+    FactoryBot.create(:user, member_in_project: project, member_with_permissions: [:show_board_views])
   end
 
   let(:grid) do

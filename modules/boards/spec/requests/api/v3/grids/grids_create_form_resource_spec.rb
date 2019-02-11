@@ -44,7 +44,7 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
   end
 
   shared_let(:prohibited_user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: [:view_boards])
+    FactoryBot.create(:user, member_in_project: project, member_with_permissions: [:show_board_views])
   end
 
   let(:path) { api_v3_paths.create_grid_form }

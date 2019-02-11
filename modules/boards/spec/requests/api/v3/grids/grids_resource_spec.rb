@@ -34,9 +34,9 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
   include API::V3::Utilities::PathHelper
 
   shared_let(:manage_board_views_project) { FactoryBot.create(:project) }
-  shared_let(:view_boards_project) { FactoryBot.create(:project) }
+  shared_let(:show_board_views_project) { FactoryBot.create(:project) }
   shared_let(:other_project) { FactoryBot.create(:project) }
-  shared_let(:view_boards_role) { FactoryBot.create(:role, permissions: [:view_boards]) }
+  shared_let(:show_board_views_role) { FactoryBot.create(:role, permissions: [:show_board_views]) }
   shared_let(:manage_board_views_role) { FactoryBot.create(:role, permissions: [:manage_board_views]) }
   shared_let(:other_role) { FactoryBot.create(:role, permissions: []) }
   shared_let(:current_user) do
@@ -50,7 +50,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
   let(:manage_board_views_grid) do
     FactoryBot.create(:board_grid, project: manage_board_views_project)
   end
-  let(:view_boards_grid) do
+  let(:show_board_views_grid) do
     FactoryBot.create(:board_grid, project: view_boards_project)
   end
   let(:other_board_grid) do
@@ -97,7 +97,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
     context 'with a filter on the scope attribute for all boards of a project' do
       # The user would be able to see both boards
-      shared_let(:other_role) { FactoryBot.create(:role, permissions: [:view_boards]) }
+      shared_let(:other_role) { FactoryBot.create(:role, permissions: [:show_board_views]) }
 
       let(:path) do
         filter = [{ 'scope' =>

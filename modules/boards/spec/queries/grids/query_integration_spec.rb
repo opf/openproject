@@ -33,7 +33,7 @@ describe Grids::Query, type: :model do
 
   shared_let(:project) { FactoryBot.create(:project) }
   shared_let(:other_project) { FactoryBot.create(:project) }
-  shared_let(:view_boards_role) { FactoryBot.create(:role, permissions: [:view_boards]) }
+  shared_let(:show_board_views_role) { FactoryBot.create(:role, permissions: [:show_board_views]) }
   shared_let(:other_role) { FactoryBot.create(:role, permissions: []) }
   shared_let(:current_user) do
     FactoryBot.create(:user).tap do |user|

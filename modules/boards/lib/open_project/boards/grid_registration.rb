@@ -24,7 +24,7 @@ module OpenProject
         end
 
         def all_scopes
-          view_allowed = Project.allowed_to(User.current, :view_boards)
+          view_allowed = Project.allowed_to(User.current, :show_board_views)
           manage_allowed = Project.allowed_to(User.current, :manage_board_views)
 
           board_projects = Project
@@ -39,7 +39,7 @@ module OpenProject
         alias_method :super_visible, :visible
 
         def visible(user = User.current)
-          in_project_with_permission(user, :view_boards)
+          in_project_with_permission(user, :show_board_views)
             .or(in_project_with_permission(user, :manage_board_views))
         end
 

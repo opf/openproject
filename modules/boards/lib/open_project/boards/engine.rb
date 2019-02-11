@@ -28,7 +28,7 @@ module OpenProject::Boards
              name: 'OpenProject Boards' do
 
       project_module :board_view do
-        permission :view_boards, 'boards/boards': %i[index]
+        permission :show_board_views, 'boards/boards': %i[index]
         permission :manage_board_views, 'boards/boards': %i[index]
       end
 
