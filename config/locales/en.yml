@@ -128,6 +128,11 @@ en:
     calendar:
       removal: "Please note: This module is going to be removed with OpenProject 8.0."
 
+  global_search:
+    overwritten_tabs:
+      wiki_pages: "Wiki"
+      messages: "Forum"
+
   groups:
     index:
       no_results_title_text: There are currently no groups.
@@ -1135,7 +1140,6 @@ en:
   label_all_open_wps: "All open"
   label_always_visible: "Always displayed"
   label_announcement: "Announcement"
-  label_and_its_subprojects: "%{value} and its subprojects"
   label_api_access_key: "API access key"
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_api_access_key_type: "API"
@@ -1500,7 +1504,6 @@ en:
   label_role_search: "Assign role to new members"
   label_scm: "SCM"
   label_search: "Search"
-  label_search_titles_only: "Search titles only"
   label_send_information: "Send account information to the user"
   label_send_test_email: "Send a test email"
   label_settings: "Settings"

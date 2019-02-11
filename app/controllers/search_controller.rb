@@ -35,15 +35,11 @@ class SearchController < ApplicationController
   def index
     @question = search_params[:q] || ''
     @question.strip!
-    @all_words = search_params[:all_words] || !search_params[:submit]
-    @titles_only = !search_params[:titles_only].nil?
 
     projects_to_search =
       case search_params[:scope]
       when 'all'
         nil
-      when 'my_projects'
-        User.current.memberships.map(&:project)
       when 'current_project'
         @project
       else
@@ -67,7 +63,8 @@ class SearchController < ApplicationController
       @object_types = @object_types.select { |o| User.current.allowed_to?("view_#{o}".to_sym, projects_to_search) }
     end
 
-    @scope = @object_types.select { |t| search_params[t] }
+    # The work package search is done differntly, so put it into the search scope.
+    @scope = @object_types.select { |t| search_params[t] && t != 'work_packages' }
     @scope = @object_types if @scope.empty?
 
     # extract tokens from the question
@@ -86,8 +83,6 @@ class SearchController < ApplicationController
       limit = 10
       @scope.each do |s|
         r, c = s.singularize.camelcase.constantize.search(@tokens, projects_to_search,
-                                                          all_words: @all_words,
-                                                          titles_only: @titles_only,
                                                           limit: (limit + 1),
                                                           offset: offset,
                                                           before: search_params[:previous].nil?)
@@ -111,6 +106,20 @@ class SearchController < ApplicationController
     else
       @question = ''
     end
+
+    @available_search_types = Redmine::Search.available_search_types.dup.push('all')
+    gon.global_search = {
+      search_term: @question,
+      project_scope: search_params[:scope].to_s,
+      available_search_types: @available_search_types.map do |search_type|
+        {
+          id: search_type,
+          name: OpenProject::GlobalSearch.tab_name(search_type)
+        }
+      end,
+      current_tab: @available_search_types.select { |search_type| search_params[search_type] }.first || 'all'
+    }
+
     render layout: layout_non_or_no_menu
   end
 

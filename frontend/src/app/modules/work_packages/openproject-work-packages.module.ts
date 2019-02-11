@@ -506,6 +506,8 @@ import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card
     WorkPackageCardViewComponent,
   ],
   exports: [
+    WorkPackagesTableController,
+    WorkPackageTablePaginationComponent,
     WorkPackageEmbeddedTableComponent,
     WorkPackageCardViewComponent,
     WorkPackageFilterButtonComponent,

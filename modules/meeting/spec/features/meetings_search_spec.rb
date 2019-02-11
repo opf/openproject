@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,28 +25,29 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require 'webmock/rspec'
 
-RSpec.configure do |config|
-  config.before(:suite) do
-    # As we're using WebMock to mock and test remote HTTP requests,
-    # we require specs to selectively enable mocking of Net::HTTP et al. when the example desires.
-    # Otherwise, all requests are being mocked by default.
-    WebMock.disable!
+require 'spec_helper'
+
+describe 'Meeting search', type: :feature, js: true do
+  let(:project) { FactoryBot.create :project }
+  let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  let(:role) { FactoryBot.create :role, permissions: %i(view_meetings) }
+
+  let!(:meeting) { FactoryBot.create(:meeting, project: project) }
+
+  before do
+    login_as user
+
+    visit project_path(project)
   end
 
-  # When we enable webmock, no connections other than stubbed ones are allowed.
-  # We will exempt local connections from this block, since selenium etc.
-  # uses localhost to communicate with the browser.
-  # Leaving this off will randomly fail some specs with WebMock::NetConnectNotAllowedError
-  WebMock.disable_net_connect!(allow_localhost: true)
-
-  config.around(:example, webmock: true) do |example|
-    begin
-      WebMock.enable!
-      example.run
-    ensure
-      WebMock.disable!
+  context 'global search' do
+    it 'works' do
+      global_search_field = page.find('.top-menu-search--input')
+      global_search_field.set("Meeting")
+      global_search_field.send_keys(:enter)
+      page.find('[tab-id="meetings"]').click
+      expect(page).to have_text(meeting.title)
     end
   end
 end

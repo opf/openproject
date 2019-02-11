@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, Injector, Input, OnDestroy, OnInit} from '@angular/core';
-import {CurrentProjectService} from '../../projects/current-project.service';
 import {TableState} from '../table-state/table-state';
 import {WorkPackageStatesInitializationService} from '../../wp-list/wp-states-initialization.service';
 import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-table/state/wp-table-relation-columns.service';
@@ -18,19 +17,17 @@ import { WorkPackageTableConfiguration } from 'core-components/wp-table/wp-table
 import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
 import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
-import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedded/wp-embedded-base.component";
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
+import {WorkPackageTableFilters} from "core-components/wp-fast-table/wp-table-filters";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -65,24 +62,20 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   @Input() public compactTableStyle:boolean = false;
   @Input() public externalHeight:boolean = false;
 
+  public show:boolean = true;
   public tableInformationLoaded = false;
   public showTablePagination = false;
   public configuration:WorkPackageTableConfiguration;
   public error:string|null = null;
 
-  constructor(readonly QueryDm:QueryDmService,
-              readonly tableState:TableState,
-              readonly injector:Injector,
-              readonly opModalService:OpModalService,
-              readonly I18n:I18nService,
-              readonly urlParamsHelper:UrlParamsHelperService,
-              readonly loadingIndicatorService:LoadingIndicatorService,
-              readonly tableActionsService:OpTableActionsService,
-              readonly wpTableTimeline:WorkPackageTableTimelineService,
-              readonly wpTablePagination:WorkPackageTablePaginationService,
-              readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-              readonly currentProject:CurrentProjectService) {
-    super(QueryDm, tableState, I18n, urlParamsHelper, loadingIndicatorService, wpStatesInitialization, currentProject);
+  readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
+  readonly opModalService:OpModalService = this.injector.get(OpModalService);
+  readonly tableActionsService:OpTableActionsService = this.injector.get(OpTableActionsService);
+  readonly wpTableTimeline:WorkPackageTableTimelineService = this.injector.get(WorkPackageTableTimelineService);
+  readonly wpTablePagination:WorkPackageTablePaginationService = this.injector.get(WorkPackageTablePaginationService);
+
+  constructor(injector:Injector) {
+    super(injector);
   }
 
   ngAfterViewInit():void {
@@ -135,12 +128,16 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     });
   }
 
-  protected loadQuery(visible:boolean = true) {
+  public onFiltersChanged(filters:WorkPackageTableFilters) {
+    // Nop
+  }
+
+  protected loadQuery(visible:boolean = true):Promise<QueryResource> {
     if (this.loadedQuery) {
       const query = this.loadedQuery;
       this.loadedQuery = undefined;
       this.initializeStates(query, query.results);
-      return Promise.resolve(this.loadedQuery);
+      return Promise.resolve(this.loadedQuery!);
     }
 
 

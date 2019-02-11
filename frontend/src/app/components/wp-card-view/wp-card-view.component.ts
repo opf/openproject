@@ -2,7 +2,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef, Inject,
+  ElementRef,
+  Inject,
   Injector,
   OnInit,
   ViewChild
@@ -14,10 +15,7 @@ import {QueryColumn} from "app/components/wp-query/query-column";
 import {combine} from "reactivestates/dist";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WorkPackageEmbeddedTableComponent} from "core-components/wp-table/embedded/wp-embedded-table.component";
-import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {UrlParamsHelperService} from "app/components/wp-query/url-params-helper";
-import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
@@ -91,17 +89,9 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
   /** Whether the card view has an active inline created wp */
   public activeInlineCreateWp?:WorkPackageResource;
 
-  constructor(readonly QueryDm:QueryDmService,
-              readonly tableState:TableState,
+  constructor(readonly tableState:TableState,
               readonly injector:Injector,
-              readonly opModalService:OpModalService,
               readonly I18n:I18nService,
-              readonly urlParamsHelper:UrlParamsHelperService,
-              readonly loadingIndicatorService:LoadingIndicatorService,
-              readonly tableActionsService:OpTableActionsService,
-              readonly wpTableTimeline:WorkPackageTableTimelineService,
-              readonly wpTablePagination:WorkPackageTablePaginationService,
-              readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               readonly currentProject:CurrentProjectService,
               @Inject(IWorkPackageCreateServiceToken) readonly wpCreate:WorkPackageCreateService,
               readonly wpInlineCreate:WorkPackageInlineCreateService,
@@ -109,18 +99,8 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
               readonly reorderService:ReorderQueryService,
               readonly wpTableRefresh:WorkPackageTableRefreshService,
               readonly cdRef:ChangeDetectorRef) {
-    super(QueryDm,
-          tableState,
-          injector,
-          opModalService,
-          I18n,
-          urlParamsHelper,
-          loadingIndicatorService,
-          tableActionsService,
-          wpTableTimeline,
-          wpTablePagination,
-          wpStatesInitialization,
-          currentProject);
+
+    super(injector);
   }
 
   ngOnInit() {

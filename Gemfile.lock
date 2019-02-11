@@ -471,7 +471,7 @@ GEM
       rack-accept
       virtus (>= 1.0.0)
     gravatar_image_tag (1.2.0)
-    hashdiff (0.3.7)
+    hashdiff (0.3.8)
     hashery (2.1.2)
     hashie (3.6.0)
     health_check (3.0.0)
@@ -512,10 +512,6 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.7.0)
       launchy (~> 2.2)
-    listen (3.1.5)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
-      ruby_dep (~> 1.2)
     livingstyleguide (2.0.3)
       minisyntax (>= 0.2.5)
       redcarpet
@@ -761,7 +757,6 @@ GEM
     ruby-rc4 (0.1.5)
     ruby-saml (1.9.0)
       nokogiri (>= 1.5.10)
-    ruby_dep (1.5.0)
     rubyzip (1.2.2)
     safe_yaml (1.0.4)
     sanitize (5.0.0)
@@ -874,7 +869,7 @@ GEM
     webfinger (1.1.0)
       activesupport
       httpclient (>= 2.4)
-    webmock (3.1.0)
+    webmock (3.5.1)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
@@ -940,7 +935,6 @@ DEPENDENCIES
   json_spec (~> 1.1.4)
   launchy (~> 2.4.3)
   letter_opener
-  listen (~> 3.1)
   livingstyleguide (~> 2.0.1)
   lograge (~> 0.10.0)
   meta-tags (~> 2.11.0)
@@ -1043,11 +1037,11 @@ DEPENDENCIES
   unicorn-worker-killer
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
-  webmock (~> 3.1.0)
+  webmock (~> 3.5.0)
   will_paginate (~> 3.1.0)
 
 RUBY VERSION
-   ruby 2.5.1p57
+   ruby 2.6.1p33
 
 BUNDLED WITH
    2.0.1

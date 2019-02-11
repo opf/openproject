@@ -42,7 +42,6 @@ import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {CurrentProjectService} from 'core-components/projects/current-project.service';
 import {ProjectCacheService} from 'core-components/projects/project-cache.service';
 import {States} from 'core-components/states.service';
-import {ExpandableSearchComponent} from 'core-components/expandable-search/expandable-search.component';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {UserCacheService} from 'core-components/user/user-cache.service';
 import {MainMenuResizerComponent} from 'core-components/resizer/main-menu-resizer.component';
@@ -81,6 +80,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
 import {FullCalendarModule} from "ng-fullcalendar";
 import {OpenprojectBoardsModule} from "core-app/modules/boards/openproject-boards.module";
+import {OpenprojectGlobalSearchModule} from "core-app/modules/global_search/openproject-global-search.module";
 
 @NgModule({
   imports: [
@@ -109,6 +109,9 @@ import {OpenprojectBoardsModule} from "core-app/modules/boards/openproject-board
     // Calendar module
     OpenprojectCalendarModule,
     FullCalendarModule,
+
+    // Global Search
+    OpenprojectGlobalSearchModule,
 
     // Plugin hooks and modules
     OpenprojectPluginsModule,
@@ -151,9 +154,6 @@ import {OpenprojectBoardsModule} from "core-app/modules/boards/openproject-board
   declarations: [
     OpContextMenuTrigger,
 
-    // Searchbar
-    ExpandableSearchComponent,
-
     // Modals
     ConfirmDialogModal,
     DynamicContentModal,
@@ -171,9 +171,6 @@ import {OpenprojectBoardsModule} from "core-app/modules/boards/openproject-board
     ConfirmFormSubmitController,
   ],
   entryComponents: [
-    // Searchbar
-    ExpandableSearchComponent,
-
     // Project Auto completer
     ProjectMenuAutocompleteComponent,
 
