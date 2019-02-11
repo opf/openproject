@@ -1,6 +1,8 @@
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 
+export type BoardDisplayMode = 'table'|'cards';
+
 export class Board {
   constructor(public grid:GridResource) {
   }
@@ -11,6 +13,15 @@ export class Board {
 
   public get name() {
     return this.grid.name;
+  }
+
+  public get displayMode():BoardDisplayMode {
+    const mode = this.grid.options.display_mode;
+    return (mode === 'table') ? 'table' : 'cards';
+  }
+
+  public set displayMode(value:BoardDisplayMode) {
+    this.grid.options.display_mode = value;
   }
 
   public set name(name:string) {

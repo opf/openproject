@@ -62,7 +62,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit():void {
-    const id:number = this.state.params.id;
+    const id:number = this.state.params.board_id;
 
     this.BoardCache.require(id.toString());
     this.board$ = from(this.BoardCache.observe(id.toString()))

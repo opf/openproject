@@ -58,9 +58,9 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   },
   {
     name: 'boards.show',
-    url: '/{id}',
+    url: '/{board_id}',
     params: {
-      id: { type: 'int' },
+      board_id: { type: 'int' },
       isNew: { type: 'bool' }
     },
     component: BoardComponent

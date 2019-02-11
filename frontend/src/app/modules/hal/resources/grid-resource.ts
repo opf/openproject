@@ -43,7 +43,7 @@ export interface GridResourceLinks {
 export class GridResource extends HalResource {
   public widgets:GridWidgetResource[];
   public name:string;
-  public options:Object;
+  public options:{[key:string]:unknown};
 
   public $initialize(source:any) {
     super.$initialize(source);

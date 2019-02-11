@@ -3,7 +3,7 @@
     <li *ngFor="let board of boards;trackBy:trackById">
       <a [textContent]="board.name"
          uiSref="boards.show"
-         [uiParams]="{ id: board.id }"
+         [uiParams]="{ board_id: board.id }"
          class="main-menu--children-sub-item ellipsis">
       </a>
     </li>

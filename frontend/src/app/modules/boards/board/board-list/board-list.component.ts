@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from "@angular/core";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {
   LoadingIndicatorService,
@@ -6,18 +14,20 @@ import {
 } from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {Observable, Subject} from "rxjs";
-import {debounceTime, distinctUntilChanged, shareReplay, withLatestFrom} from "rxjs/operators";
+import {debounceTime, distinctUntilChanged, shareReplay, skip, skipUntil, withLatestFrom} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {BoardInlineCreateService} from "core-app/modules/boards/board/board-list/board-inline-create.service";
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
+import {StateService} from "@uirouter/core";
+import {Board} from "core-app/modules/boards/board/board";
 
 @Component({
   selector: 'board-list',
   templateUrl: './board-list.component.html',
   styleUrls: ['./board-list.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService}
   ]
@@ -39,7 +49,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     'pageSize': 500,
   };
 
-  public readonly boardTableConfiguration = {
+  public boardTableConfiguration = {
     hierarchyToggleEnabled: false,
     columnMenuEnabled: false,
     actionsColumnEnabled: false,
@@ -50,19 +60,44 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   constructor(private readonly QueryDm:QueryDmService,
               private readonly I18n:I18nService,
+              private readonly state:StateService,
+              private readonly boardCache:BoardCacheService,
+              private readonly cdRef:ChangeDetectorRef,
               private readonly loadingIndicator:LoadingIndicatorService) {
     super(I18n);
   }
 
   ngOnInit():void {
-    const queryId:number = this.resource.options.query_id as number;
+    let first = true;
+    const boardId:number = this.state.params.board_id;
 
-    this.query$ = this.QueryDm
-      .stream(this.columnsQueryProps, queryId)
+    this.boardCache
+      .state(boardId.toString())
+      .values$()
       .pipe(
-        withLoadingIndicator(this.indicatorInstance, 50),
-        shareReplay()
-      );
+        untilComponentDestroyed(this)
+      )
+      .subscribe((board) => {
+        this.initialize(board, first);
+        first = false;
+      });
+  }
+
+  ngOnDestroy():void {
+    // Interface compatibility
+  }
+
+  private initialize(board:Board, first:boolean) {
+    this.boardTableConfiguration = {
+      ...this.boardTableConfiguration,
+      isCardView: board.displayMode === 'cards'
+    };
+
+    this.loadQuery();
+
+    if (!first) {
+      return;
+    }
 
     this.rename$
       .pipe(
@@ -77,8 +112,15 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       });
   }
 
-  ngOnDestroy():void {
-    // Interface compatibility
+  private loadQuery() {
+    const queryId:number = this.resource.options.query_id as number;
+
+    this.query$ = this.QueryDm
+      .stream(this.columnsQueryProps, queryId)
+      .pipe(
+        withLoadingIndicator(this.indicatorInstance, 50),
+        shareReplay(1)
+      );
   }
 
   private get indicatorInstance() {

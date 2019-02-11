@@ -2,7 +2,7 @@ import {Component, Inject, Injector} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
-import {Board} from "core-app/modules/boards/board/board";
+import {Board, BoardDisplayMode} from "core-app/modules/boards/board/board";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 
 @Component({
@@ -14,7 +14,7 @@ export class BoardConfigurationDisplaySettingsTab implements TabComponent {
   public board:Board;
 
   // Display mode
-  public displayMode:'list'|'cards' = 'cards';
+  public displayMode:BoardDisplayMode = 'cards';
 
   public text = {
     choose_mode: this.I18n.t('js.work_packages.table_configuration.choose_display_mode'),
@@ -29,9 +29,11 @@ export class BoardConfigurationDisplaySettingsTab implements TabComponent {
   }
 
   public onSave() {
+    this.board.displayMode = this.displayMode;
   }
 
   ngOnInit() {
     this.board = this.locals.board;
+    this.displayMode = this.board.displayMode;
   }
 }
