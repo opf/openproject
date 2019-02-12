@@ -220,6 +220,9 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
       this.suggestions.push('this_project_and_all_descendants');
       this.suggestions.push('this_project');
     }
+    if (this.globalSearchService.projectScope === 'current_project') {
+      this.suggestions.reverse();
+    }
     this.suggestions.push('all_projects');
 
     this.suggestions = this.suggestions.map((suggestion:string) => {

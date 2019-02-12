@@ -34,7 +34,7 @@
             </div>
           </div>
           <ng-template #workPackageItemTemplate>
-            <div tabindex="-1" class="ui-menu-item">
+            <div tabindex="-1" class="ui-menu-item" [ngOptionHighlight]="currentValue">
               <div class="ui-menu-item-wrapper" tabindex="-1">
                 <span class="search-autocomplete--wp-id __hl_dot_status_{{item.statusId}}" title="{{item.status}}"> #{{item.id}} </span>
                 <span class="search-autocomplete--subject"> {{item.subject}} </span>
