@@ -50,6 +50,7 @@ module API
         self_link title_getter: ->(*) { nil }
 
         link :updateImmediately do
+          next unless write_allowed?
           {
             href: api_v3_paths.grid(represented.id),
             method: :patch
@@ -57,6 +58,7 @@ module API
         end
 
         link :update do
+          next unless write_allowed?
           {
             href: api_v3_paths.grid_form(represented.id),
             method: :post
@@ -122,8 +124,11 @@ module API
         private
 
         def delete_allowed?
+          represented.user_deletable? && write_allowed?
+        end
+
+        def write_allowed?
           !represented.new_record? &&
-            represented.user_deletable? &&
             ::Grids::Configuration.writable?(represented, current_user)
         end
 

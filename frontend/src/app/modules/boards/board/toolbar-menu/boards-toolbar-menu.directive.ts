@@ -84,7 +84,6 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger implements 
     this.items = [
       {
         // Configuration modal
-        disabled: false,
         linkText: this.I18n.t('js.toolbar.settings.configure_view'),
         icon: 'icon-settings',
         onClick: ($event:JQueryEventObject) => {
@@ -96,7 +95,6 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger implements 
       },
       {
         // Rename query shortcut
-        disabled: !this.board.grid.updateImmediately,
         linkText: this.I18n.t('js.toolbar.settings.page_settings'),
         icon: 'icon-edit',
         onClick: ($event:JQueryEventObject) => {
@@ -109,7 +107,6 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger implements 
       },
       {
         // Delete query
-        disabled: !this.board.grid.delete,
         linkText: this.I18n.t('js.toolbar.settings.delete'),
         icon: 'icon-delete',
         onClick: ($event:JQueryEventObject) => {

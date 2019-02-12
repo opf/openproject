@@ -15,7 +15,7 @@ export class Board {
     return this.grid.name;
   }
 
-  public get isEditable() {
+  public get editable() {
     return !!this.grid.updateImmediately;
   }
 

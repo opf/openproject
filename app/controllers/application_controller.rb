@@ -339,7 +339,7 @@ class ApplicationController < ActionController::Base
 
     @project = Project.find(params[:project_id]) unless params[:project_id].blank?
     allowed = User.current.allowed_to?({ controller: controller_name, action: params[:action] },
-                                       @project, global: true)
+                                       @project, global: @project.nil?)
     allowed ? true : deny_access
   end
 

@@ -1,4 +1,5 @@
 <div *ngIf="board"
+     [ngClass]="{ '-editable': board.editable }"
      class="board--container">
 
   <div class="toolbar-container -editable">
@@ -6,7 +7,7 @@
       <div class="title-container board--header-container">
         <div class="wp-show--back-button hide-when-print">
           <accessible-by-keyboard (execute)="goBack()"
-                                  linkClass="work-packages-list-view-button button">
+                                  linkClass="board--back-button button">
             <op-icon icon-classes="button--icon icon-back-up"></op-icon>
           </accessible-by-keyboard>
         </div>
@@ -15,17 +16,17 @@
                                 [inFlight]="inFlight"
                                 [initialFocus]="isNew"
                                 (onSave)="renameBoard(board, $event)"
-                                [editable]="board.isEditable">
+                                [editable]="board.editable">
         </editable-toolbar-title>
 
         <ul class="toolbar-items">
           <li class="toolbar-item">
             <zen-mode-toggle-button></zen-mode-toggle-button>
           </li>
-          <li class="toolbar-item hidden-for-mobile">
-            <button id="work-packages-settings-button"
-                    title="{{ text.button_more }}"
-                    class="button last work-packages-settings-button toolbar-icon"
+          <li *ngIf="board.editable"
+              class="toolbar-item hidden-for-mobile">
+            <button title="{{ text.button_more }}"
+                    class="button last board--settings-dropdown toolbar-icon"
                     boardsToolbarMenu
                     [boardsToolbarMenu-resource]="board">
               <op-icon icon-classes="button--icon icon-show-more"></op-icon>
@@ -38,18 +39,20 @@
 
   <div class="boards-list--container"
        cdkDropList
+       [cdkDropListDisabled]="!board.editable"
        cdkDropListOrientation="horizontal"
        (cdkDropListDropped)="moveList(board, $event)"
        >
     <div class="boards-list--item"
          *ngFor="let query of board.queries; trackBy:trackByQueryId"
          cdkDrag>
-      <span class="boards-list-item-handle icon icon-drag-handle"
+      <span *ngIf="board.editable"
+            class="boards-list-item-handle icon icon-drag-handle"
             cdkDragHandle></span>
       <board-list [resource]="query"></board-list>
     </div>
 
-    <div class="boards-list--add-item"
+    <div class="boards-list--add-item -no-text-select"
          *ngIf="board.queries.length < maxCount"
          (click)="addList(board)">
       <div class="boards-list--add-item-text">

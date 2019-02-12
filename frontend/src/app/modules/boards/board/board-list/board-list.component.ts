@@ -61,7 +61,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     hierarchyToggleEnabled: false,
     columnMenuEnabled: false,
     actionsColumnEnabled: false,
-    dragAndDropEnabled: true,
+    // Drag & Drop is enabled when editable
+    dragAndDropEnabled: false,
     isEmbedded: true,
     isCardView: true
   };
@@ -90,7 +91,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .subscribe((board) => {
         this.boardTableConfiguration = {
           ...this.boardTableConfiguration,
-          isCardView: board.displayMode === 'cards'
+          isCardView: board.displayMode === 'cards',
+          dragAndDropEnabled: board.editable,
         };
       });
   }

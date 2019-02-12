@@ -65,10 +65,10 @@
           </td>
         </tr>
         <tr *ngFor="let board of boards">
-          <td>
+          <td class="name">
            <a [textContent]="board.name"
-                 uiSref="boards.show"
-                 [uiParams]="{ board_id: board.id }">
+              uiSref="boards.show"
+              [uiParams]="{ board_id: board.id }">
            </a>
           </td>
           <td>

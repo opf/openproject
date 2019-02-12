@@ -38,7 +38,6 @@
   flex: 0 0 auto
   border: 1px dashed #ccc
   height: 200px
-  cursor: pointer
   margin-left: 30px
 
   // Center child text
@@ -51,3 +50,8 @@
 
   .boards-list--add-item-text
     transform: rotate(90deg)
+
+// Changes when container is editable
+.board--container.-editable
+  .boards-list--add-item
+    cursor: pointer

@@ -42,7 +42,7 @@
   </div>
 </div>
 <div class="wp-inline-create-button" *ngIf="!activeInlineCreateWp">
-  <accessible-by-keyboard linkClass="wp-inline-create--add-link"
+  <accessible-by-keyboard linkClass="wp-inline-create--add-link -no-text-select"
                           (execute)="addNewCard()">
     <op-icon icon-classes="icon3 icon-add"></op-icon>
     {{ text.addNewCard }}

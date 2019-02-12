@@ -66,6 +66,7 @@ export class BoardListsService {
     return {
       name: name,
       hidden: true,
+      public: true,
       filters:
         [
           {
