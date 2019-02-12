@@ -62,6 +62,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
   public searchTerm:string = '';
+  public currentValue:string = '';
   public expanded:boolean = false;
   public results:any[];
   public suggestions:any[];
@@ -69,6 +70,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   public searchTermChanged$:Subject<string> = new Subject<string>();
 
   private $element:JQuery;
+  private isFirstFocus:boolean = true;
 
   private unregisterGlobalListener:Function | undefined;
 
@@ -93,6 +95,8 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
+    this.ngSelectComponent.filterValue = this.currentValue = this.globalSearchService.searchTerm;
+    this.expanded = (this.ngSelectComponent.filterValue.length > 0);
 
     this.searchTermChanged$
       .pipe(
@@ -102,6 +106,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
       )
       .subscribe((searchTerm:string) => {
         this.searchTerm = searchTerm;
+
         // load result list for searched term
         if (this.searchTerm.trim().length > 0) {
           this.getSearchResult(this.searchTerm);
@@ -129,28 +134,41 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   // load selected item
   public onChange($event:any) {
+    console.log("onChange", $event);
     let selectedOption = $event;
     if (selectedOption.id) {  // item is a work package element
       this.redirectToWp(selectedOption.id);
     } else {                  // item is a 'scope' element
-      // update embeeded table and title when new search is submitted
-      this.globalSearchService.searchTerm = this.searchTerm;
+      // update embedded table and title when new search is submitted
+      this.globalSearchService.searchTerm = this.currentValue;
       this.searchInScope(selectedOption.projectScope);
     }
   }
 
+  public search($event:string) {
+    console.log("search", $event);
+    this.currentValue = this.ngSelectComponent.filterValue;
+    this.toggleMenu($event);
+  }
+
   // close menu when input field is empty
   public toggleMenu(searchedTerm:string) {
-    (searchedTerm.trim().length > 0) ? this.ngSelectComponent.isOpen = true : this.ngSelectComponent.isOpen = false;
+    console.log("toggleMenu", "searchedTerm: " + searchedTerm, "filterValue: " + this.ngSelectComponent.filterValue, searchedTerm.trim().length);
+    this.ngSelectComponent.isOpen = (searchedTerm.trim().length > 0);
   }
 
   public onFocus() {
     this.expanded = true;
-    this.ngSelectComponent.filterValue = this.searchTerm;
+    console.log("onFocus", this.isFirstFocus, this.currentValue.length);
+    if (this.isFirstFocus && this.currentValue.length > 0) {
+      this.isFirstFocus = false;
+      this.getSearchResult(this.ngSelectComponent.filterValue);
+    }
+    this.toggleMenu(this.currentValue);
   }
 
   public onFocusOut() {
-    this.expanded = false;
+    this.expanded = (this.ngSelectComponent.filterValue.length > 0);
     this.ngSelectComponent.isOpen = false;
   }
 
@@ -207,7 +225,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     this.suggestions.push('all_projects');
 
     this.suggestions = this.suggestions.map((suggestion:string) => {
-      return { projectScope: suggestion, text: this.text[suggestion] }
+      return { projectScope: suggestion, text: this.text[suggestion] };
     });
   }
 
@@ -237,14 +255,17 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 
   public submitNonEmptySearch(forcePageLoad:boolean = false) {
-    if (this.searchValue.length > 0) {
+    console.log("submitNonEmptySearch", this.currentValue);
+    this.globalSearchService.searchTerm = this.currentValue;
+    if (this.currentValue.length > 0) {
+      this.ngSelectComponent.close();
       // Work package results can update without page reload.
       if (!forcePageLoad &&
           this.globalSearchService.isAfterSearch() &&
           this.globalSearchService.currentTab === 'work_packages') {
         window.history
           .replaceState({},
-            `${I18n.t('global_search.search')}: ${this.searchValue}`,
+            `${I18n.t('global_search.search')}: ${this.ngSelectComponent.filterValue}`,
             this.globalSearchService.searchPath());
 
         return;
@@ -259,10 +280,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   private hideSpinner():void {
     this.$element.find('.ui-autocomplete--loading').hide();
-  }
-
-  private get searchValue() {
-    return this.searchTerm ? this.searchTerm : '';
   }
 
   private unregister() {
