@@ -34,6 +34,11 @@
         </div>
       </div>
     </wp-edit-field-group>
+    <user-avatar *ngIf="hasAssignee(wp)"
+                 [attr.data-user-id]="wp.assignee.idFromLink"
+                 data-class-list="avatar-mini"
+                 class="work-package--card--assignee">
+    </user-avatar>
   </div>
 </div>
 <div class="wp-inline-create-button" *ngIf="!activeInlineCreateWp">

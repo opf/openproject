@@ -2,8 +2,8 @@
 
 .work-package--cards-container
   display: flex
-  flex-wrap: wrap
   flex-direction: column
+  overflow: auto
   // Full height - inline create
   height: calc(100% - 55px)
 
@@ -15,6 +15,11 @@
   margin-top: 10px
   background-color: #eeeeee6e
   position: relative
+
+  .work-package--card--assignee
+    position: absolute
+    bottom: 5px
+    right: 0
 
 .work-package--card--subject .wp-edit-field--container
   margin-left: -5px
