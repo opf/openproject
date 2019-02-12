@@ -35,7 +35,7 @@
       </div>
     </wp-edit-field-group>
     <user-avatar *ngIf="hasAssignee(wp)"
-                 [attr.data-user-id]="wp.assignee.idFromLink"
+                 [attr.data-user]="wp.assignee.$href"
                  data-class-list="avatar-mini"
                  class="work-package--card--assignee">
     </user-avatar>

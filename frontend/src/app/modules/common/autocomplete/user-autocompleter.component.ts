@@ -42,7 +42,7 @@ import {NgSelectComponent} from "@ng-select/ng-select/dist";
                (search)="onSearch($event)"
                (change)="onModelChange($event)" >
       <ng-template ng-option-tmp let-item="item" let-index="index">
-        <user-avatar [attr.data-user-id]="item.id"
+        <user-avatar [attr.data-user]="item.$href"
                      data-class-list="avatar-mini">
         </user-avatar>
         {{ item.name }}

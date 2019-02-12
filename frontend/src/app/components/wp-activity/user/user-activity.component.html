@@ -4,7 +4,7 @@
      [attr.aria-label]="fieldLabel || activityLabel"
      (mouseenter)="focus()"
      (mouseleave)="blur()">
-  <user-avatar [attr.data-user-id]="activity.user.idFromLink" data-class-list="avatar"></user-avatar>
+  <user-avatar [attr.data-user]="activity.user.$href" data-class-list="avatar"></user-avatar>
   <span class="user" *ngIf="userActive">
     <a [attr.href]="userPath"
        [attr.aria-label]="userLabel"
