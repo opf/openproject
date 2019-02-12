@@ -185,9 +185,8 @@ $search-input-width-expanded: 20vw
     @include varprop(color, header-item-font-color)
     &:hover
       text-decoration: none
-
-  .top-menu-search--button.-input-focused
-    color: $header-search-field-font-color
+    &.-input-focused
+      color: $header-search-field-font-color
 
   .top-menu-search--loading
     top: $header-height - 11px  // display directly under ng-input field
@@ -214,11 +213,14 @@ $search-input-width-expanded: 20vw
         @include varprop(border-color, header-item-font-hover-color)
 
     .ng-arrow-wrapper
-      opacity: 0
+      display: none
 
     .ng-clear-wrapper
       @include varprop(color, header-item-font-color)
       top: 1px
+      width: 30px
+      right: 25px
+      text-align: center
 
     .ng-input
       top: 0

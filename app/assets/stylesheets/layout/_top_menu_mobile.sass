@@ -64,47 +64,51 @@
       .nosidebar &
         left: 0px
 
-    .top-menu-search
-      &.-mobile
-        width: 100vw
-        margin: 0
-        padding-right: 15px
+  .top-menu-search
+    &.-mobile
+      width: 100vw
+      margin: 0
+      padding-right: 15px
 
-        .top-menu-search--button
-          display: none
-          @include varprop(color, header-item-font-color)
-
-      .ng-select#q.-expanded
-        width: 100%
-        position: unset
-
-        .scroll-host
-          max-height: calc(100vh - #{$header-height})
-          position: unset
-
-        .ng-clear-wrapper
-          width: 40px
-          right: -25px
-          text-align: center
-
-        .ng-select-bottom
-          top: $header-height
-          height: calc(100vh - #{$header-height})
-          overflow-y: auto
-          margin: 0
-
-        .ng-select-container
-          max-height: unset
-
-        .ng-input input
-          height: 36px
-
-      #top-menu-search-back-button
-        width: 50px
-        text-align: center
+      .top-menu-search--button
+        display: none
         @include varprop(color, header-item-font-color)
-        &:hover, &:focus, &:active
-          text-decoration: none
+
+    #global-search-input.-expanded
+      width: 100%
+      position: unset
+
+      .scroll-host
+        max-height: calc(100vh - #{$header-height})
+
+      .ng-clear-wrapper
+        width: 40px
+        right: 0
+
+      .ng-select-bottom
+        height: calc(100vh - #{$header-height})
+        overflow-y: auto
+        margin: 0
+
+      .ng-select-container
+        max-height: unset
+        border-radius: 4px
+
+      .ng-input input
+        height: 36px
+
+    #top-menu-search-back-button
+      width: 50px
+      text-align: center
+      @include varprop(color, header-item-font-color)
+      &:hover, &:focus, &:active
+        text-decoration: none
+
+    .top-menu-search--loading
+      top: $header-height + 1px
+
+    .top-menu-search--button.-input-focused
+      @include varprop(color, header-item-font-color)
 
   #account-nav-right
     > li ul
