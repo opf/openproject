@@ -232,6 +232,7 @@
 <li><span class="icon icon-view-fullscreen"></span>view-fullscreen</li>
 <li><span class="icon icon-view-list"></span>view-list</li>
 <li><span class="icon icon-view-split"></span>view-split</li>
+<li><span class="icon icon-view-timeline"></span>view-timeline</li>
 <li><span class="icon icon-warning"></span>warning</li>
 <li><span class="icon icon-watched"></span>watched</li>
 <li><span class="icon icon-wiki-edit"></span>wiki-edit</li>

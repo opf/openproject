@@ -127,7 +127,6 @@ module Components
 
       def expect_value(id, value)
         within_values(id) do |is_select|
-          binding.pry
           if is_select
             expect(page).to have_select("values-#{id}", selected: value)
           else

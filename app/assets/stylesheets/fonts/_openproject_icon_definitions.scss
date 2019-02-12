@@ -1378,75 +1378,81 @@
 .icon-view-split:before {
 	content: "\f1e5";
 }
-@mixin icon-mixin-warning {
+@mixin icon-mixin-view-timeline {
     content: "\f1e6";
 }
-.icon-warning:before {
+.icon-view-timeline:before {
 	content: "\f1e6";
 }
-@mixin icon-mixin-watched {
+@mixin icon-mixin-warning {
     content: "\f1e7";
 }
-.icon-watched:before {
+.icon-warning:before {
 	content: "\f1e7";
 }
-@mixin icon-mixin-wiki-edit {
+@mixin icon-mixin-watched {
     content: "\f1e8";
 }
-.icon-wiki-edit:before {
+.icon-watched:before {
 	content: "\f1e8";
 }
-@mixin icon-mixin-wiki {
+@mixin icon-mixin-wiki-edit {
     content: "\f1e9";
 }
-.icon-wiki:before {
+.icon-wiki-edit:before {
 	content: "\f1e9";
 }
-@mixin icon-mixin-wiki2 {
+@mixin icon-mixin-wiki {
     content: "\f1ea";
 }
-.icon-wiki2:before {
+.icon-wiki:before {
 	content: "\f1ea";
 }
-@mixin icon-mixin-work-packages {
+@mixin icon-mixin-wiki2 {
     content: "\f1eb";
 }
-.icon-work-packages:before {
+.icon-wiki2:before {
 	content: "\f1eb";
 }
-@mixin icon-mixin-workflow {
+@mixin icon-mixin-work-packages {
     content: "\f1ec";
 }
-.icon-workflow:before {
+.icon-work-packages:before {
 	content: "\f1ec";
 }
-@mixin icon-mixin-yes {
+@mixin icon-mixin-workflow {
     content: "\f1ed";
 }
-.icon-yes:before {
+.icon-workflow:before {
 	content: "\f1ed";
 }
-@mixin icon-mixin-zen-mode {
+@mixin icon-mixin-yes {
     content: "\f1ee";
 }
-.icon-zen-mode:before {
+.icon-yes:before {
 	content: "\f1ee";
 }
-@mixin icon-mixin-zoom-auto {
+@mixin icon-mixin-zen-mode {
     content: "\f1ef";
 }
-.icon-zoom-auto:before {
+.icon-zen-mode:before {
 	content: "\f1ef";
 }
-@mixin icon-mixin-zoom-in {
+@mixin icon-mixin-zoom-auto {
     content: "\f1f0";
 }
-.icon-zoom-in:before {
+.icon-zoom-auto:before {
 	content: "\f1f0";
 }
-@mixin icon-mixin-zoom-out {
+@mixin icon-mixin-zoom-in {
     content: "\f1f1";
 }
-.icon-zoom-out:before {
+.icon-zoom-in:before {
 	content: "\f1f1";
+}
+@mixin icon-mixin-zoom-out {
+    content: "\f1f2";
+}
+.icon-zoom-out:before {
+	content: "\f1f2";
 }
