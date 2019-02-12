@@ -10,8 +10,8 @@
     </div>
      <ng-select #select
                 [items]="results"
-                name="q"
-                id="q"
+                name="global-search-input"
+                id="global-search-input"
                 placeholder="{{text.search}}"
                 [ngClass]="'top-menu-search--input'"
                 [class.-expanded]="expanded"
@@ -21,23 +21,23 @@
                 (focus)="onFocus()"
                 (focusout)="onFocusOut()"
                 (search)="search($event)"
-                (open)="toggleMenu(currentValue)"
+                (open)="openCloseMenu(currentValue)"
                 (close)="select.filterValue = currentValue"
                 (change)="onChange($event)">
         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
           <div *ngIf="!item.id; else workPackageItemTemplate">
-            <div tabindex="-1" class="ui-menu-item">
-              <div class="ui-menu-item-wrapper">
-                <span class="search-autocomplete--search-term"> {{currentValue}} </span>
-                <span class="search-autocomplete--project-scope" title="{{item.projectScope}}"> {{item.text}} ↵ </span>
+            <div tabindex="-1" class="global-search--option">
+              <div class="global-search--option-wrapper">
+                <span class="global-search--search-term"> {{currentValue}} </span>
+                <span class="global-search--project-scope" title="{{item.projectScope}}"> {{item.text}} ↵ </span>
               </div>
             </div>
           </div>
           <ng-template #workPackageItemTemplate>
-            <div tabindex="-1" class="ui-menu-item" [ngOptionHighlight]="currentValue">
-              <div class="ui-menu-item-wrapper" tabindex="-1">
-                <span class="search-autocomplete--wp-id __hl_dot_status_{{item.statusId}}" title="{{item.status}}"> #{{item.id}} </span>
-                <span class="search-autocomplete--subject"> {{item.subject}} </span>
+            <div tabindex="-1" class="global-search--option">
+              <div class="global-search--option-wrapper" tabindex="-1">
+                <span class="global-search--wp-id __hl_dot_status_{{item.statusId}}" title="{{item.status}}" [ngOptionHighlight]="currentValue"> #{{item.id}} </span>
+                <span class="global-search--wp-subject" [ngOptionHighlight]="currentValue"> {{item.subject}} </span>
               </div>
             </div>
         </ng-template>
@@ -51,7 +51,7 @@
        tabindex="0"
        role="button"
        [class.-input-focused]="expanded"
-       (accessibleClick)="handleClick($event)" >
+       (accessibleClick)="handleClick($event)">
        <op-icon icon-classes="icon5 icon-search ellipsis"></op-icon>
     </a>
 </div>

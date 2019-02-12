@@ -61,7 +61,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   @ViewChild('btn') btn:ElementRef;
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
-  public searchTerm:string = '';
   public currentValue:string = '';
   public expanded:boolean = false;
   public results:any[];
@@ -76,8 +75,8 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   public text:{ [key:string]:string } = {
     all_projects: this.I18n.t('js.global_search.all_projects'),
-    this_project: this.I18n.t('js.global_search.this_project'),
-    this_project_and_all_descendants: this.I18n.t('js.global_search.this_project_and_all_descendants'),
+    current_project: this.I18n.t('js.global_search.current_project'),
+    current_project_and_all_descendants: this.I18n.t('js.global_search.current_project_and_all_descendants'),
     search: this.I18n.t('js.global_search.search') + ' ...'
   };
 
@@ -91,7 +90,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
               readonly cdRef:ChangeDetectorRef) {
   }
 
-  private projectScopeTypes = ['all_projects', 'this_project', 'this_project_and_all_descendants'];
+  private projectScopeTypes = ['all_projects', 'current_project', 'current_project_and_all_descendants'];
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
@@ -132,7 +131,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   // load selected item
   public onChange($event:any) {
-    console.log("onChange", $event);
     let selectedOption = $event;
     if (selectedOption.id) {  // item is a work package element
       this.redirectToWp(selectedOption.id);
@@ -144,25 +142,23 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 
   public search($event:string) {
-    console.log("search", $event);
     this.currentValue = this.ngSelectComponent.filterValue;
-    this.toggleMenu($event);
+    this.openCloseMenu($event);
   }
 
   // close menu when input field is empty
-  public toggleMenu(searchedTerm:string) {
-    console.log("toggleMenu", "searchedTerm: " + searchedTerm, "filterValue: " + this.ngSelectComponent.filterValue, searchedTerm.trim().length);
+  public openCloseMenu(searchedTerm:string) {
     this.ngSelectComponent.isOpen = (searchedTerm.trim().length > 0);
   }
 
   public onFocus() {
     this.expanded = true;
-    console.log("onFocus", this.isFirstFocus, this.currentValue.length);
+    // load result list after page reload
     if (this.isFirstFocus && this.currentValue.length > 0) {
       this.isFirstFocus = false;
       this.getSearchResult(this.ngSelectComponent.filterValue);
     }
-    this.toggleMenu(this.currentValue);
+    this.openCloseMenu(this.currentValue);
   }
 
   public onFocusOut() {
@@ -174,7 +170,13 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   private getSearchResult(term:string) {
     this.autocompleteWorkPackages(term).then((values) => {
       this.results = this.suggestions.concat(values.map((wp:any) => {
-        return { id: wp.id, subject: wp.subject, status: wp.status.name, statusId: wp.status.idFromLink, $href: wp.$href };
+        return {
+          id: wp.id,
+          subject: wp.subject,
+          status: wp.status.name,
+          statusId: wp.status.idFromLink,
+          $href: wp.$href
+        };
       }));
     });
   }
@@ -217,8 +219,8 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     // add all options when searching within a project
     // otherwise search in 'all projects'
     if (this.currentProjectService.path) {
-      this.suggestions.push('this_project_and_all_descendants');
-      this.suggestions.push('this_project');
+      this.suggestions.push('current_project_and_all_descendants');
+      this.suggestions.push('current_project');
     }
     if (this.globalSearchService.projectScope === 'current_project') {
       this.suggestions.reverse();
@@ -242,12 +244,12 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
         this.submitNonEmptySearch(forcePageLoad);
         break;
       }
-      case 'this_project': {
+      case 'current_project': {
         this.globalSearchService.projectScope = 'current_project';
         this.submitNonEmptySearch();
         break;
       }
-      case 'this_project_and_all_descendants': {
+      case 'current_project_and_all_descendants': {
         this.globalSearchService.projectScope = '';
         this.submitNonEmptySearch();
         break;
@@ -256,7 +258,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 
   public submitNonEmptySearch(forcePageLoad:boolean = false) {
-    console.log("submitNonEmptySearch", this.currentValue);
     this.globalSearchService.searchTerm = this.currentValue;
     if (this.currentValue.length > 0) {
       this.ngSelectComponent.close();
