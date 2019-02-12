@@ -104,12 +104,10 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
         debounceTime(250),
         untilComponentDestroyed(this)
       )
-      .subscribe((searchTerm:string) => {
-        this.searchTerm = searchTerm;
-
+      .subscribe((_searchTerm:string) => {
         // load result list for searched term
-        if (this.searchTerm.trim().length > 0) {
-          this.getSearchResult(this.searchTerm);
+        if (this.currentValue.trim().length > 0) {
+          this.getSearchResult(this.currentValue);
         }
 
         this.cdRef.detectChanges();

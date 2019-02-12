@@ -23,8 +23,7 @@
                 (search)="search($event)"
                 (open)="toggleMenu(currentValue)"
                 (close)="select.filterValue = currentValue"
-                (change)="onChange($event)"
-                (keydown.enter)="submitNonEmptySearch()">
+                (change)="onChange($event)">
         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
           <div *ngIf="!item.id; else workPackageItemTemplate">
             <div tabindex="-1" class="ui-menu-item">
