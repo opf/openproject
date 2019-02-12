@@ -37,6 +37,7 @@ RSpec.feature 'Query menu items', js: true do
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:notification) { PageObjects::Notifications.new(page) }
+  let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
   let(:status) { FactoryBot.create :status }
 
   def visit_index_page(query)
@@ -95,8 +96,8 @@ RSpec.feature 'Query menu items', js: true do
     before do
       visit_index_page(query_b)
 
-      expect(page).to have_field('wp-query-selectable-title', with: 'zzzz')
-      input = find('.wp-query--selectable-title')
+      query_title.expect_title 'zzzz'
+      input = query_title.input_field
       input.set new_name
       input.send_keys :return
     end

@@ -42,7 +42,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
   shared_let(:current_user) do
     FactoryBot.create(:user).tap do |user|
       FactoryBot.create(:member, user: user, project: manage_board_views_project, roles: [manage_board_views_role])
-      FactoryBot.create(:member, user: user, project: view_boards_project, roles: [view_boards_role])
+      FactoryBot.create(:member, user: user, project: show_board_views_project, roles: [show_board_views_role])
       FactoryBot.create(:member, user: user, project: other_project, roles: [other_role])
     end
   end
@@ -51,7 +51,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
     FactoryBot.create(:board_grid, project: manage_board_views_project)
   end
   let(:show_board_views_grid) do
-    FactoryBot.create(:board_grid, project: view_boards_project)
+    FactoryBot.create(:board_grid, project: show_board_views_project)
   end
   let(:other_board_grid) do
     FactoryBot.create(:board_grid, project: other_project)
@@ -313,10 +313,10 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
     context 'without the manage_board_views permission' do
       let(:stored_grids) do
-        view_boards_grid
+        show_board_views_grid
       end
 
-      let(:path) { api_v3_paths.grid(view_boards_grid.id) }
+      let(:path) { api_v3_paths.grid(show_board_views_grid.id) }
 
       it 'responds with 404 NOT FOUND' do
         expect(subject.status).to eql 404
@@ -475,7 +475,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
           }],
           "_links": {
             "scope": {
-              "href": project_work_package_boards_path(view_boards_project)
+              "href": project_work_package_boards_path(show_board_views_project)
             }
           }
         }.with_indifferent_access

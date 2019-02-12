@@ -91,7 +91,7 @@ module Pages
 
     def expect_title(name, editable: true)
       if editable
-        expect(page).to have_field('wp-query-selectable-title', with: name, wait: 10)
+        expect(page).to have_field('editable-toolbar-title', with: name, wait: 10)
       else
         expect(page)
           .to have_selector('.toolbar-container', text: name, wait: 10)

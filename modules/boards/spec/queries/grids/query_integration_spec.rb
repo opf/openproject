@@ -37,7 +37,7 @@ describe Grids::Query, type: :model do
   shared_let(:other_role) { FactoryBot.create(:role, permissions: []) }
   shared_let(:current_user) do
     FactoryBot.create(:user).tap do |user|
-      FactoryBot.create(:member, user: user, project: project, roles: [view_boards_role])
+      FactoryBot.create(:member, user: user, project: project, roles: [show_board_views_role])
       FactoryBot.create(:member, user: user, project: other_project, roles: [other_role])
     end
   end
