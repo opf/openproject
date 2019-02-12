@@ -140,6 +140,10 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
     this.dragService.remove(this.container.nativeElement);
   }
 
+  public hasAssignee(wp:WorkPackageResource) {
+    return !!wp.assignee;
+  }
+
   public get isDraggable() {
     return this.configuration.dragAndDropEnabled;
   }
