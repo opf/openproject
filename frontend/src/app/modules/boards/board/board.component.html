@@ -53,7 +53,7 @@
     </div>
 
     <div class="boards-list--add-item -no-text-select"
-         *ngIf="board.queries.length < maxCount"
+         *ngIf="board.editable && board.queries.length < maxCount"
          (click)="addList(board)">
       <div class="boards-list--add-item-text">
         <op-icon icon-classes="icon-add icon-context"></op-icon>

@@ -27,34 +27,42 @@
 #++
 
 require 'support/pages/page'
-require 'support/pages/abstract_work_package_create'
+require 'support/pages/work_packages/abstract_work_package'
 
 module Pages
-  class SplitWorkPackageCreate < AbstractWorkPackageCreate
-    attr_reader :project
+  class AbstractWorkPackageCreate < AbstractWorkPackage
+    attr_reader :original_work_package,
+                :project,
+                :parent_work_package
 
-    def initialize(project:, original_work_package: nil, parent_work_package: nil)
-      @project = project
-
-      super(original_work_package: original_work_package,
-            parent_work_package: parent_work_package)
+    def initialize(original_work_package: nil, parent_work_package: nil)
+      # in case of copy, the original work package can be provided
+      @original_work_package = original_work_package
+      @parent_work_package = parent_work_package
     end
 
-    def container
-      find('.work-packages--new')
-    end
-
-    private
-
-    def path
-      if original_work_package
-        project_work_packages_path(project) + "/details/#{original_work_package.id}/copy"
-      else
-        path = project_work_packages_path(project) + '/create_new'
-        path += "?parent_id=#{parent_work_package.id}" if parent_work_package
-
-        path
+    def update_attributes(attribute_map)
+      attribute_map.each do |label, value|
+        work_package_field(label.downcase).set_value(value)
       end
+    end
+
+    def select_attribute(property, value)
+      element = page.first(".wp-edit-field.#{property.downcase} select")
+
+      element.select(value)
+      element
+    rescue Capybara::ExpectationNotMet
+      nil
+    end
+
+    def expect_fully_loaded
+      expect_angular_frontend_initialized
+      expect(page).to have_selector '#wp-new-inline-edit--field-subject', wait: 20
+    end
+
+    def save!
+      click_button I18n.t('js.button_save')
     end
   end
 end

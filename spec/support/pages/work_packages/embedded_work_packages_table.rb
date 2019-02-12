@@ -26,50 +26,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/abstract_work_package'
-require 'support/pages/split_work_package_create'
+require 'support/pages/page'
+require 'support/pages/work_packages/work_packages_table'
 
 module Pages
-  class SplitWorkPackage < Pages::AbstractWorkPackage
-    attr_reader :selector
+  class EmbeddedWorkPackagesTable < WorkPackagesTable
+    attr_reader :container
 
-    def initialize(work_package, project = nil)
-      super work_package, project
-      @selector = '.work-packages--details'
+    def initialize(container, project = nil)
+      super(project)
+      @container = container
     end
 
-    def switch_to_tab(tab:)
-      find('.tabrow li a', text: tab.upcase).click
-    end
-
-    def switch_to_fullscreen
-      find('.work-packages--details-fullscreen-icon').click
-      FullWorkPackage.new(work_package, project)
-    end
-
-    def closed?
-      expect(page).to have_no_selector(@selector)
-    end
-
-    def container
-      find(@selector)
-    end
-
-    private
-
-    def path(tab = 'overview')
-      state = "#{work_package.id}/#{tab}"
-
-      if project
-        project_work_packages_path(project, "details/#{state}")
-      else
-        details_work_packages_path(state)
-      end
-    end
-
-    def create_page(args)
-      args.merge!(project: project || work_package.project)
-      SplitWorkPackageCreate.new(args)
+    def table_container
+      container.find('.work-package-table')
     end
   end
 end

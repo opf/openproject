@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,33 +26,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'grids/grid'
+require 'support/pages/page'
 
-module Boards
-  class Grid < ::Grids::Grid
-    belongs_to :project
-    validates_presence_of :name
+module Pages
+  class WorkPackageCard < Page
+    attr_reader :project, :work_package
 
-    before_destroy :delete_queries
-
-    def user_deletable?
-      true
+    def initialize(work_package, project = nil)
+      @work_package = work_package
+      @project = project
     end
 
-    def contained_queries
-      ::Query.where(id: contained_query_ids)
-    end
-
-    private
-
-    def delete_queries
-      contained_queries.delete_all
-    end
-
-    def contained_query_ids
-      widgets
-        .map { |w| w.options['query_id'] }
-        .compact
-    end
   end
 end

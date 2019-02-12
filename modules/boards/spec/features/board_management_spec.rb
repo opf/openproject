@@ -47,8 +47,11 @@ describe 'Board management spec', type: :feature, js: true do
   end
 
   context 'with full boards permissions' do
-    let(:permissions) { %i[show_board_views manage_board_views view_work_packages manage_public_queries] }
+    let(:permissions) { %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries] }
     let(:board_view) { FactoryBot.create :board_grid_with_query, project: project }
+
+    let!(:priority) { FactoryBot.create :default_priority }
+    let!(:status) { FactoryBot.create :default_status }
 
     it 'allows management of boards' do
       board_view
@@ -60,6 +63,47 @@ describe 'Board management spec', type: :feature, js: true do
       board_page.back_to_index
 
       board_index.expect_board board_view
+
+      # Create new board
+      board_page = board_index.create_board
+      board_page.rename_board 'Board foo'
+
+      board_page.rename_list 'New list', 'First'
+      board_page.board(reload: true) do |board|
+        expect(board.name).to eq 'Board foo'
+        queries = board.contained_queries
+        expect(queries.count).to eq(1)
+        expect(queries.first.name).to eq 'First'
+      end
+
+      # Create new list
+      board_page.add_list 'Second'
+
+      # Add item
+      board_page.add_card 'First', 'Task 1'
+
+      # Expect added to query
+      queries = board_page.board(reload: true).contained_queries
+      first = queries.find_by(name: 'First')
+      second = queries.find_by(name: 'Second')
+      expect(first.ordered_work_packages.count).to eq(1)
+      expect(second.ordered_work_packages).to be_empty
+
+      # Expect work package to be saved in query first
+      subjects = WorkPackage.where(id: first.ordered_work_packages).pluck(:subject)
+      expect(subjects).to match_array ['Task 1']
+
+      # Move item to Second list
+      board_page.move_card(0, from: 'First', to: 'Second')
+      board_page.expect_card('First', 'Task 1', present: false)
+      board_page.expect_card('Second', 'Task 1', present: true)
+
+      # Expect work package to be saved in query second
+      expect(first.reload.ordered_work_packages).to be_empty
+      expect(second.reload.ordered_work_packages.count).to eq(1)
+
+      subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject)
+      expect(subjects).to match_array ['Task 1']
     end
   end
 
@@ -86,6 +130,8 @@ describe 'Board management spec', type: :feature, js: true do
     it 'does not allow viewing of boards' do
       board_index.visit!
       expect(page).to have_selector('#errorExplanation', text: I18n.t(:notice_not_authorized))
+
+      board_index.expect_editable false
     end
   end
 

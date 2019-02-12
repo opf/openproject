@@ -27,19 +27,34 @@
 #++
 
 require 'support/pages/page'
-require 'support/pages/work_packages_table'
+require 'support/pages/work_packages/abstract_work_package_create'
 
 module Pages
-  class EmbeddedWorkPackagesTable < WorkPackagesTable
-    attr_reader :container
+  class SplitWorkPackageCreate < AbstractWorkPackageCreate
+    attr_reader :project
 
-    def initialize(container, project = nil)
-      super(project)
-      @container = container
+    def initialize(project:, original_work_package: nil, parent_work_package: nil)
+      @project = project
+
+      super(original_work_package: original_work_package,
+            parent_work_package: parent_work_package)
     end
 
-    def table_container
-      container.find('.work-package-table')
+    def container
+      find('.work-packages--new')
+    end
+
+    private
+
+    def path
+      if original_work_package
+        project_work_packages_path(project) + "/details/#{original_work_package.id}/copy"
+      else
+        path = project_work_packages_path(project) + '/create_new'
+        path += "?parent_id=#{parent_work_package.id}" if parent_work_package
+
+        path
+      end
     end
   end
 end

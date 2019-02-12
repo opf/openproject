@@ -45,8 +45,22 @@ module Pages
       end
     end
 
+    def expect_editable(editable)
+      # Editable / draggable check
+      expect(page).to have_conditional_selector(editable, '.buttons a.icon-delete')
+
+      # TODO create button
+      # expect(page).to have_conditional_selector('.toolbar-item a', text: 'Board')
+    end
+
     def expect_board(board)
       expect(page).to have_selector('td.name', text: board.name)
+    end
+
+    def create_board
+      page.find('.toolbar-item a', text: 'Board').click
+      expect(page).to have_selector('.boards-list--item', wait: 10)
+      ::Pages::Board.new ::Boards::Grid.last
     end
 
     def open_board(board)

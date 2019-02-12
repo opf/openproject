@@ -27,7 +27,7 @@
 #++
 
 require 'support/pages/page'
-require 'support/pages/work_packages_table'
+require 'support/pages/work_packages/work_packages_table'
 
 module Pages
   class WorkPackagesTimeline < WorkPackagesTable

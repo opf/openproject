@@ -144,6 +144,10 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
     return !!wp.assignee;
   }
 
+  public get canAdd() {
+    return this.wpInlineCreate.canAdd;
+  }
+
   public get isDraggable() {
     return this.configuration.dragAndDropEnabled;
   }

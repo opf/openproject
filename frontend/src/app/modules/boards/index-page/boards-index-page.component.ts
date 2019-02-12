@@ -38,7 +38,7 @@ export class BoardsIndexPageComponent {
       .create()
       .then((board) => {
         this.boardCache.update(board);
-        this.state.go('boards.show', { id: board.id, isNew: true });
+        this.state.go('boards.show', { board_id: board.id, isNew: true });
       });
   }
 

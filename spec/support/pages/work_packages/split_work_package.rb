@@ -26,43 +26,50 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
-require 'support/pages/abstract_work_package'
+require 'support/pages/work_packages/abstract_work_package'
+require 'support/pages/work_packages/split_work_package_create'
 
 module Pages
-  class AbstractWorkPackageCreate < AbstractWorkPackage
-    attr_reader :original_work_package,
-                :project,
-                :parent_work_package
+  class SplitWorkPackage < Pages::AbstractWorkPackage
+    attr_reader :selector
 
-    def initialize(original_work_package: nil, parent_work_package: nil)
-      # in case of copy, the original work package can be provided
-      @original_work_package = original_work_package
-      @parent_work_package = parent_work_package
+    def initialize(work_package, project = nil)
+      super work_package, project
+      @selector = '.work-packages--details'
     end
 
-    def update_attributes(attribute_map)
-      attribute_map.each do |label, value|
-        work_package_field(label.downcase).set_value(value)
+    def switch_to_tab(tab:)
+      find('.tabrow li a', text: tab.upcase).click
+    end
+
+    def switch_to_fullscreen
+      find('.work-packages--details-fullscreen-icon').click
+      FullWorkPackage.new(work_package, project)
+    end
+
+    def closed?
+      expect(page).to have_no_selector(@selector)
+    end
+
+    def container
+      find(@selector)
+    end
+
+    private
+
+    def path(tab = 'overview')
+      state = "#{work_package.id}/#{tab}"
+
+      if project
+        project_work_packages_path(project, "details/#{state}")
+      else
+        details_work_packages_path(state)
       end
     end
 
-    def select_attribute(property, value)
-      element = page.first(".wp-edit-field.#{property.downcase} select")
-
-      element.select(value)
-      element
-    rescue Capybara::ExpectationNotMet
-      nil
-    end
-
-    def expect_fully_loaded
-      expect_angular_frontend_initialized
-      expect(page).to have_selector '#wp-new-inline-edit--field-subject', wait: 20
-    end
-
-    def save!
-      click_button I18n.t('js.button_save')
+    def create_page(args)
+      args.merge!(project: project || work_package.project)
+      SplitWorkPackageCreate.new(args)
     end
   end
 end

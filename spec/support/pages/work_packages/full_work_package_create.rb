@@ -26,26 +26,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/abstract_work_package'
+require 'support/pages/page'
+require 'support/pages/work_packages/abstract_work_package_create'
 
 module Pages
-  class FullWorkPackage < Pages::AbstractWorkPackage
+  class FullWorkPackageCreate < AbstractWorkPackageCreate
     private
 
     def container
       find('.work-packages--show-view')
     end
 
-    def path(tab = 'activity')
-      if project
-        project_work_package_path(project, work_package.id, tab)
-      else
-        work_package_path(work_package.id, tab)
+    def path
+      if original_work_package
+        project_work_package_path(original_work_package.project, original_work_package.id) + '/copy'
+      elsif parent_work_package
+        new_project_work_packages_path(parent_work_package.project.identifier,
+                                       parent_id: parent_work_package.id)
       end
-    end
-
-    def create_page(args)
-      Pages::FullWorkPackageCreate.new(args)
     end
   end
 end

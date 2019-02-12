@@ -1,10 +1,10 @@
 <div #container
-     class="work-package--cards-container -small-font"
-     [ngClass]="{ '-draggable': isDraggable }">
+     class="work-package--cards-container -small-font">
   <div class="work-package--card"
        *ngFor="let wp of workPackages; trackBy:trackByHref"
        [attr.data-is-new]="wp.isNew || undefined"
-       [attr.data-work-package-id]="wp.id">
+       [attr.data-work-package-id]="wp.id"
+       [ngClass]="{ '-draggable': isDraggable }">
 
     <wp-edit-field-group [workPackage]="wp" [inEditMode]="wp.isNew">
       <accessible-by-keyboard *ngIf="wp.isNew"
@@ -41,7 +41,7 @@
     </user-avatar>
   </div>
 </div>
-<div class="wp-inline-create-button" *ngIf="!activeInlineCreateWp">
+<div class="wp-inline-create-button" *ngIf="!activeInlineCreateWp && canAdd">
   <accessible-by-keyboard linkClass="wp-inline-create--add-link -no-text-select"
                           (execute)="addNewCard()">
     <op-icon icon-classes="icon3 icon-add"></op-icon>
