@@ -6,13 +6,11 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
   let(:avatar_stub) { FactoryBot.build_stubbed(:avatar_attachment) }
 
   let(:enable_gravatars) { false }
-  let(:gravatar_default) { '' }
   let(:enable_local_avatars) { false }
   let(:plugin_settings) do
     {
       'enable_gravatars' => enable_gravatars,
-      'enable_local_avatars' => enable_local_avatars,
-      'gravatar_default' => gravatar_default
+      'enable_local_avatars' => enable_local_avatars
     }
   end
 

@@ -28,7 +28,6 @@ module OpenProject::Avatars
              settings: {
                default: {
                  enable_gravatars: true,
-                 gravatar_default: '404',
                  enable_local_avatars: true
                },
                partial: 'settings/openproject_avatars'
