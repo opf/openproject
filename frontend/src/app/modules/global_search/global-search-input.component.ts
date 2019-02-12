@@ -130,29 +130,23 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
         this.toggleMobileSearch();
         // open ng-select menu on default
         jQuery('.ng-input input').focus();
-        this.ngSelectComponent.isOpen = true;
       } else {
         this.submitNonEmptySearch();
       }
     }
   }
 
-  // if window is resized while mobile search is still open close search
   @HostListener('window:resize', ['$event'])
   onResize(event:any) {
     if (event.target.innerWidth > 680 && this.mobileSearch) {
-      this.ngSelectComponent.close();
       this.toggleMobileSearch();
     }
   }
 
   // open or close mobile search
   public toggleMobileSearch() {
-    // show / hide DOM elements
     jQuery('.ng-select, #account-nav-right, #account-nav-left, #main-menu-toggle').toggleClass('hidden-for-mobile');
-    // set correct classes
     this.mobileSearch = !this.mobileSearch;
-    this.expanded = !this.expanded;
   }
 
   // load selected item
