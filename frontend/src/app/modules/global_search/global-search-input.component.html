@@ -23,7 +23,8 @@
                 (search)="search($event)"
                 (open)="openCloseMenu(currentValue)"
                 (close)="select.filterValue = currentValue"
-                (change)="onChange($event)">
+                (change)="onChange($event)"
+                (clear)="clearSearch()">
         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
           <div *ngIf="!item.id; else workPackageItemTemplate">
             <div tabindex="-1" class="global-search--option">

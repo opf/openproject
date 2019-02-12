@@ -166,6 +166,11 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     this.ngSelectComponent.isOpen = false;
   }
 
+  public clearSearch() {
+    this.currentValue = this.ngSelectComponent.filterValue = '';
+    this.openCloseMenu(this.currentValue);
+  }
+
   // get work packages result list and append it to suggestions
   private getSearchResult(term:string) {
     this.autocompleteWorkPackages(term).then((values) => {
