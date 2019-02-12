@@ -33,4 +33,5 @@
 module Queries::Queries
   Queries::Register.filter Queries::Queries::QueryQuery, Queries::Queries::Filters::ProjectFilter
   Queries::Register.filter Queries::Queries::QueryQuery, Queries::Queries::Filters::ProjectIdentifierFilter
+  Queries::Register.filter Queries::Queries::QueryQuery, Queries::Queries::Filters::HiddenFilter
 end

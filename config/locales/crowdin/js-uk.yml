@@ -770,6 +770,8 @@ uk:
         days: days
         weeks: weeks
         months: months
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -868,3 +870,11 @@ uk:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
+    unsupported_browser:
+      title: Версія вашого браузера не підтримується
+      message: Версія браузера, яку ви використовуєте, більше не підтримується OpenProject.
+      update_message: Будь ласка, оновіть ваш браузер.
+      update_ie_user: Будь ласка, перейдіть на Mozilla Firefox чи Google Chrome, або
+        оновіться до Microsoft Edge.
+      learn_more: Learn more
+      close_warning: Ігнорувати це попередження.

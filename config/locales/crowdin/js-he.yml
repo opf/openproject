@@ -400,9 +400,9 @@ he:
           requires: requiring
           required: required by
     time_entry:
-      activity: פעילות
-      comment: תגובה
-      hours: שעות
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -766,6 +766,8 @@ he:
         days: ימים
         weeks: שבועות
         months: חודשים
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -864,3 +866,11 @@ he:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
+    unsupported_browser:
+      title: הדפדפן שלך אינו נתמך
+      message: The browser version you are using is no longer supported by OpenProject.
+      update_message: Please update your browser.
+      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
+        to Microsoft Edge.
+      learn_more: למידע נוסף
+      close_warning: Ignore this warning.

@@ -62,6 +62,14 @@ describe Query, type: :model do
     end
   end
 
+  describe 'hidden' do
+    it 'sets the hidden property' do
+      expect(query.hidden).to eq(false)
+      query.hidden = true
+      expect(query.hidden).to eq(true)
+    end
+  end
+
   describe 'timeline' do
     it 'has a property for timeline visible' do
       expect(query.timeline_visible).to be_falsey

@@ -214,7 +214,7 @@ th:
     label_menu_collapse: ยุบ
     label_menu_expand: expand
     label_more_than_ago: มากกว่าวันที่ผ่านมา
-    label_my_page: หน้าของฉัน
+    label_my_page: My page
     label_next: ถัดไป
     label_no_data: ไม่มีข้อมูลให้แสดง
     label_no_due_date: no end date
@@ -400,9 +400,9 @@ th:
           requires: requiring
           required: required by
     time_entry:
-      activity: กิจกรรม
-      comment: ความคิดเห็น
-      hours: ชั่วโมง
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -761,6 +761,8 @@ th:
         days: วัน
         weeks: สัปดาห์
         months: เดือน
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -853,3 +855,11 @@ th:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
+    unsupported_browser:
+      title: ไม่รองรับเบราว์เซอร์รุ่นที่คุณใช้
+      message: เบราว์เซอร์รุ่นที่คุณใช้ไม่ได้รับการรองรับโดย OpenProject
+      update_message: กรุณาปรับรุ่นเบราว์เซอร์ของคุณ
+      update_ie_user: กรุณาเปลี่ยนไปใช้ Mozilla Firefox หรือ Google Chrome หรือปรับรุ่นเป็น
+        Microsoft Edge
+      learn_more: เรียนรู้เพิ่มเติม
+      close_warning: ไม่สนใจคำเตือนนี้
