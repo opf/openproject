@@ -36,7 +36,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
 
   def default_expected_user_avatar_tag(user)
     tag_options = { 'data-use-fallback': "true",
-                    'data-user': ::API::V3::Utilities::PathHelper::ApiV3Path.user(user.id),
+                    'data-user-name': user.name,
                     'data-class-list': 'avatar avatar-default' }
 
     content_tag 'user-avatar', '', tag_options

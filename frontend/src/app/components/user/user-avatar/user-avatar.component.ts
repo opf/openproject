@@ -76,7 +76,7 @@ export class UserAvatarComponent implements AfterViewInit {
 
   public showUserAvatar() {
     // When a user url is given,
-    // we have to get the information from the database
+    // we have to get the information from the database.
     if (this.user) {
       this.userID = WorkPackageResource.idFromLink(this.user);
       this.userCacheService
@@ -136,7 +136,10 @@ export class UserAvatarComponent implements AfterViewInit {
   private isUserAGroup() {
     // When an ID or an avatar is given, it must be a user.
     // Otherwise we have to check the url
-    return !this.userID && !this.userAvatar && this.user.includes('group');
+    return !this.userID &&
+           !this.userAvatar &&
+           !!this.user &&
+           this.user.includes('group');
   }
 }
 
