@@ -164,6 +164,7 @@ describe 'Search', type: :feature, js: true do
 
         # Expect that a fresh global search will reset the advanced filters, i.e. that they are closed
         global_search_field.set(work_packages[10].subject)
+        sleep(1)
         global_search_field.send_keys(:enter)
         table.expect_work_package_not_listed(work_packages[9], wait: 20)
         table.expect_work_package_subject(work_packages[10].subject)
@@ -175,6 +176,7 @@ describe 'Search', type: :feature, js: true do
         # Expect that changing the search term without using the autocompleter will leave the project scope unchanged
         # at current_project.
         global_search_field.set(other_work_package.subject)
+        sleep(1)
         global_search_field.send_keys(:enter)
         expect(current_url).to match(/\/#{project.identifier}\/search\?q=Other%20work%20package&work_packages=1&scope=current_project$/)
 
