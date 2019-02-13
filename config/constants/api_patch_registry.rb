@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
+module Constants
   class APIPatchRegistry
     class << self
       def add_patch(class_name, path, &block)
