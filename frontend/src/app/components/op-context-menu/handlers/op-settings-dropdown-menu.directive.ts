@@ -180,7 +180,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         onClick: ($event:JQueryEventObject) => {
           if (this.allowQueryAction($event, 'update')) {
             this.focusAfterClose = false;
-            jQuery(`#${selectableTitleIdentifier}`).trigger(triggerEditingEvent);
+            jQuery(`${selectableTitleIdentifier}`).trigger(triggerEditingEvent);
           }
 
           return true;
