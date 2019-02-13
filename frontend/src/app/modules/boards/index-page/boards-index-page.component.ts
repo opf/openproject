@@ -33,6 +33,10 @@ export class BoardsIndexPageComponent {
     this.boardService.loadAllBoards();
   }
 
+  get canManage() {
+    return this.boardService.canManage;
+  }
+
   newBoard() {
     this.boardService
       .create()

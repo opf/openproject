@@ -78,6 +78,7 @@ import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-t
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 import {EditableToolbarTitleComponent} from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
 import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.component";
+import {GonService} from "core-app/modules/common/gon/gon.service";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -248,6 +249,7 @@ export function bootstrapModule(injector:Injector) {
     HTMLSanitizeService,
     TimezoneService,
     BrowserDetector,
+    GonService,
   ]
 })
 export class OpenprojectCommonModule { }

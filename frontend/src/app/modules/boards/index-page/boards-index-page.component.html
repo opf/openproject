@@ -4,7 +4,8 @@
     </h2>
   </div>
   <ul class="toolbar-items">
-    <li class="toolbar-item">
+    <li *ngIf="canManage"
+        class="toolbar-item">
       <a class="button -alt-highlight"
          (click)="newBoard()">
         <op-icon icon-classes="icon-add icon4">

@@ -48,9 +48,8 @@ module Pages
     def expect_editable(editable)
       # Editable / draggable check
       expect(page).to have_conditional_selector(editable, '.buttons a.icon-delete')
-
-      # TODO create button
-      # expect(page).to have_conditional_selector('.toolbar-item a', text: 'Board')
+      # Create button
+      expect(page).to have_conditional_selector(editable, '.toolbar-item a', text: 'Board')
     end
 
     def expect_board(name, present: true)

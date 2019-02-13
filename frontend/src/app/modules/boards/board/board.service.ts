@@ -7,6 +7,7 @@ import {Board} from "core-app/modules/boards/board/board";
 import {BoardDmService} from "core-app/modules/boards/board/board-dm.service";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
+import {GonService} from "core-app/modules/common/gon/gon.service";
 
 @Injectable()
 export class BoardService {
@@ -15,6 +16,7 @@ export class BoardService {
 
   constructor(protected boardDm:BoardDmService,
               protected PathHelper:PathHelperService,
+              protected Gon:GonService,
               protected CurrentProject:CurrentProjectService,
               protected halResourceService:HalResourceService,
               protected boardCache:BoardCacheService,
@@ -39,6 +41,14 @@ export class BoardService {
         return boards;
       });
   }
+
+  /**
+   * Check whether the current user can manage board-type grids.
+   */
+  public get canManage():boolean {
+    return !!this.Gon.get('permission_flags', 'manage_board_views');
+  }
+
 
   /**
    * Save the changes to the board
