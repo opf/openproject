@@ -36,6 +36,7 @@ zh-TW:
     button_duplicate: 複本
     button_edit: 編輯
     button_filter: 篩選器
+    button_advanced_filter: Advanced filter
     button_list_view: 清單檢視
     button_show_view: 全螢幕瀏覽
     button_log_time: 日誌的時間
@@ -774,6 +775,15 @@ zh-TW:
     zen_mode:
       button_activate: 啟動 zen 模式
       button_deactivate: 停用 zen 模式
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: 系統不支援您的瀏覽器版本
       message: Openproject 不再支援您正在使用的瀏覽器版本。

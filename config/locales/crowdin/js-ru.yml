@@ -38,6 +38,7 @@ ru:
     button_duplicate: Дублировать
     button_edit: Правка
     button_filter: Фильтр
+    button_advanced_filter: Advanced filter
     button_list_view: Представление списком
     button_show_view: Полноэкранный просмотр
     button_log_time: Учет времени
@@ -861,6 +862,15 @@ ru:
     zen_mode:
       button_activate: Включить дзен-режим
       button_deactivate: Отключить дзен-режим
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: Ваша версия браузера не поддерживается
       message: Версия вашего браузера больше не поддерживается OpenProject.

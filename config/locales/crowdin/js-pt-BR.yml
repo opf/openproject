@@ -39,6 +39,7 @@ pt-BR:
     button_duplicate: Duplicar
     button_edit: Editar
     button_filter: Filtro
+    button_advanced_filter: Advanced filter
     button_list_view: Lista
     button_show_view: Visualização em tela cheia
     button_log_time: Registro de tempo
@@ -857,6 +858,15 @@ pt-BR:
     zen_mode:
       button_activate: Ativar modo zen
       button_deactivate: Desativar modo zen
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: Sua versão de navegador não é suportada
       message: A versão do navegador que você está usando não é mais suportada pelo

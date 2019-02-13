@@ -73,6 +73,8 @@ describe 'Filter by budget', js: true do
 
     wp_table.save_as('Some query name')
 
+    wp_table.expect_and_dismiss_notification message: 'Successful creation.'
+
     filters.remove_filter 'costObject'
 
     wp_table.expect_work_package_listed work_package_with_budget, work_package_without_budget

@@ -104,6 +104,10 @@ hu:
       further_information_after: ''
     calendar:
       removal: 'Kérjük, vegye figyelembe: Ez a modul az OpenProject 8.0-tól megszűnik.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Jelenleg nincsenek csoportok.
@@ -1184,7 +1188,6 @@ hu:
   label_all_open_wps: Nyitottak
   label_always_visible: Mindig látható
   label_announcement: Hirdetmény
-  label_and_its_subprojects: "%{value} és az alprojektjei"
   label_api_access_key: API-hozzáférés kulcs
   label_api_access_key_created_on: 'APIhozzáférési kulcs készítette: %{value} ezelőtt'
   label_api_access_key_type: API
@@ -1554,7 +1557,6 @@ hu:
   label_role_search: Szerep hozzárendelése az új tagokhoz
   label_scm: SCM
   label_search: Keresés
-  label_search_titles_only: Keresés csak a címekben
   label_send_information: Fiókinformációkat küldése a felhasználónak
   label_send_test_email: Teszt levél küldése
   label_settings: Beállítások
@@ -2900,6 +2902,14 @@ hu:
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
   button_remove_widget: Widget eltávolítása
+  label_and_its_subprojects: "%{value} és az alprojektjei"
   label_my_page_block: Az én oldalam blokkolva
   label_responsible_for_work_packages: Feladatcsoportok, amelyért én vagyok a felelős
+  label_search_titles_only: Keresés csak a címekben
   label_visible_elements: Látható elemek
+  setting_security_badge_displayed: Display security badge
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'

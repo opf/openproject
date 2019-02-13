@@ -38,6 +38,7 @@ fil:
     button_duplicate: Kapareha
     button_edit: I-edit
     button_filter: Salain
+    button_advanced_filter: Advanced filter
     button_list_view: Tingnan ang listahan
     button_show_view: Tanawin sa buong screen
     button_log_time: Ang oras ng tala
@@ -863,6 +864,15 @@ fil:
     zen_mode:
       button_activate: I-aktibo ang zen mode
       button_deactivate: I-deactive ang zen mode
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: Ang iyong bersyong browser ay hindi suportado
       message: Ang bersyon ng browser na ginagamit mo ay hindi na suportado ng OpenProject.

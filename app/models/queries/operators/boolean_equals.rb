@@ -36,13 +36,6 @@ module Queries::Operators
     def self.sql_for_field(values, db_table, db_field)
       sql = ''
 
-      # special case for old timeline where
-      # -1 is still used
-      # TODO: remove once old timeline is removed
-      if values.include?('-1')
-        return "#{db_table}.#{db_field} IS NULL"
-      end
-
       if values.include?('f')
         sql = "#{db_table}.#{db_field} IS NULL OR "
       end

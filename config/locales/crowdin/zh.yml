@@ -89,6 +89,10 @@ zh:
       further_information_after: ''
     calendar:
       removal: '请注意: 这个模块将与OpenProject 8.0一起移除。'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: 目前没有组。
@@ -1082,7 +1086,6 @@ zh:
   label_all_open_wps: 全部打开
   label_always_visible: 总是显示
   label_announcement: 公告
-  label_and_its_subprojects: "%{value} 及其子项目"
   label_api_access_key: API 访问键
   label_api_access_key_created_on: API 访问密钥创建于 %{value} 前
   label_api_access_key_type: API
@@ -1447,7 +1450,6 @@ zh:
   label_role_search: 将角色分配给新成员
   label_scm: SCM
   label_search: 搜索
-  label_search_titles_only: 仅搜索标题
   label_send_information: 将帐户信息发送给用户
   label_send_test_email: 发送测试电子邮件
   label_settings: 设置
@@ -2609,6 +2611,14 @@ zh:
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
   button_remove_widget: 删除部件
+  label_and_its_subprojects: "%{value} 及其子项目"
   label_my_page_block: 我的页块
   label_responsible_for_work_packages: 我负责的工作包
+  label_search_titles_only: 仅搜索标题
   label_visible_elements: 可见的元素
+  setting_security_badge_displayed: Display security badge
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'

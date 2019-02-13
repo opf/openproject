@@ -38,6 +38,7 @@ sv-SE:
     button_duplicate: Duplicera
     button_edit: Redigera
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Listvy
     button_show_view: Helskärmsläge
     button_log_time: Logga tid
@@ -847,6 +848,15 @@ sv-SE:
     zen_mode:
       button_activate: Aktivera zen-läge
       button_deactivate: Inaktivera avskalat läge
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: Din version av webbläsaren stöds inte
       message: Den webbläsarversion som du använder stöds inte längre av OpenProject.

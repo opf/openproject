@@ -37,6 +37,7 @@ ko:
     button_duplicate: 복제
     button_edit: 편집
     button_filter: 필터
+    button_advanced_filter: Advanced filter
     button_list_view: 목록 보기
     button_show_view: 전체화면 보기
     button_log_time: 작업시간 기록
@@ -787,6 +788,15 @@ ko:
     zen_mode:
       button_activate: Zen 모드 활성화
       button_deactivate: Zen 모드 비활성화
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: 이 브라우저 버전은 지원되지 않습니다.
       message: OpenProject에서 더 이상 지원되지 않는 브라우저 버전을 사용하고 계십니다.

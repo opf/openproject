@@ -36,6 +36,7 @@ zh:
     button_duplicate: 复制
     button_edit: 编辑
     button_filter: 筛选器
+    button_advanced_filter: Advanced filter
     button_list_view: 列表视图
     button_show_view: 全屏视图
     button_log_time: 记录时间
@@ -767,6 +768,15 @@ zh:
     zen_mode:
       button_activate: 激活 zen 模式
       button_deactivate: 取消激活 zen 模式
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: 不支持您的浏览器版本
       message: OpenProject不再支持您现在所使用的浏览器版本。

@@ -38,6 +38,7 @@ nl:
     button_duplicate: Dupliceren
     button_edit: Wijzig
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Lijstweergave
     button_show_view: Fullscreen weergave
     button_log_time: Gelogde tijd
@@ -863,6 +864,15 @@ nl:
     zen_mode:
       button_activate: Zen-modus activeren
       button_deactivate: Deactiveren van zen modus
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: Uw browserversie wordt niet ondersteund
       message: De browserversie die u gebruikt wordt niet meer ondersteund door OpenProject.

@@ -113,6 +113,7 @@ class BaseTypeService
         .call(attributes.with_indifferent_access)
 
       query.show_hierarchies = false
+      query.hidden = true
 
       groups[index][1] = [query]
     end

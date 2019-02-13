@@ -39,6 +39,7 @@ fr:
     button_duplicate: Dupliquer
     button_edit: Éditer
     button_filter: Filtre
+    button_advanced_filter: Advanced filter
     button_list_view: Vue en liste
     button_show_view: Affichage plein écran
     button_log_time: Consigner temps
@@ -873,6 +874,15 @@ fr:
     zen_mode:
       button_activate: Activer le mode zen
       button_deactivate: Désactiver le mode zen
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: La version de votre navigateur n'est pas prise en charge
       message: La version du navigateur que vous utilisez n'est plus supportée par

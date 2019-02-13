@@ -36,6 +36,7 @@ ja:
     button_duplicate: 複製
     button_edit: 編集
     button_filter: フィルタ
+    button_advanced_filter: Advanced filter
     button_list_view: 一覧表示
     button_show_view: 全画面表示
     button_log_time: 時間を記録
@@ -772,6 +773,15 @@ ja:
     zen_mode:
       button_activate: マナーモードをアクティブにする
       button_deactivate: マナーモードを非アクティブにする
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: このブラウザーのバージョンはサポートされていません。
       message: 使用しているブラウザのバージョンは、OpenProjectではサポートされなくなりました。

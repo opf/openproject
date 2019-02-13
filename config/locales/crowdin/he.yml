@@ -106,6 +106,10 @@ he:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: There are currently no groups.
@@ -1200,7 +1204,6 @@ he:
   label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
-  label_and_its_subprojects: "%{value}, פרוייקטי המשנה שלו"
   label_api_access_key: מפתח גישה API
   label_api_access_key_created_on: API מקשים שנוצרה לפני %{value}
   label_api_access_key_type: API
@@ -1566,7 +1569,6 @@ he:
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: חיפוש
-  label_search_titles_only: Search titles only
   label_send_information: Send account information to the user
   label_send_test_email: Send a test email
   label_settings: הגדרות
@@ -2909,6 +2911,14 @@ he:
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
   button_remove_widget: הסר רכיב
+  label_and_its_subprojects: "%{value}, פרוייקטי המשנה שלו"
   label_my_page_block: My page block
   label_responsible_for_work_packages: Work packages I am accountable for
+  label_search_titles_only: Search titles only
   label_visible_elements: Visible elements
+  setting_security_badge_displayed: Display security badge
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'

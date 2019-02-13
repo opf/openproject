@@ -38,6 +38,7 @@ pl:
     button_duplicate: Duplikat
     button_edit: Edycja
     button_filter: Filtr
+    button_advanced_filter: Advanced filter
     button_list_view: Widok listy
     button_show_view: Tryb pełnoekranowy
     button_log_time: Rejestruj czas pracy
@@ -854,6 +855,15 @@ pl:
     zen_mode:
       button_activate: Włącz tryb zen
       button_deactivate: Wyłącz tryb zen
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: Twoja wersja przeglądarki nie jest obsługiwana
       message: Wersja przeglądarki, której używasz nie jest już wspierana przez OpenProject.

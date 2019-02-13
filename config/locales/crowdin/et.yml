@@ -106,6 +106,10 @@ et:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: There are currently no groups.
@@ -1179,7 +1183,6 @@ et:
   label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
-  label_and_its_subprojects: "%{value} ja selle alamprojektid"
   label_api_access_key: API ligipääsutunnus
   label_api_access_key_created_on: API ligipääsutunnus on loodud %{value} tagasi
   label_api_access_key_type: API
@@ -1546,7 +1549,6 @@ et:
   label_role_search: Assign role to new members
   label_scm: Lähtekoodi haldusvahendid
   label_search: Otsi
-  label_search_titles_only: Ainult pealkirjadest
   label_send_information: Saada konto andmed kasutajale
   label_send_test_email: Saada kontrollkiri
   label_settings: Seaded
@@ -2865,6 +2867,14 @@ et:
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
   button_remove_widget: Eemalda vidin
+  label_and_its_subprojects: "%{value} ja selle alamprojektid"
   label_my_page_block: Uus blokk
   label_responsible_for_work_packages: Work packages I am accountable for
+  label_search_titles_only: Ainult pealkirjadest
   label_visible_elements: Visible elements
+  setting_security_badge_displayed: Display security badge
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'

@@ -38,6 +38,7 @@ ca:
     button_duplicate: Duplicar
     button_edit: Editar
     button_filter: Filtre
+    button_advanced_filter: Advanced filter
     button_list_view: Vista de llista
     button_show_view: Vista de pantalla completa
     button_log_time: Temps de registre
@@ -852,6 +853,15 @@ ca:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: La versió del navegador no és compatible
       message: The browser version you are using is no longer supported by OpenProject.

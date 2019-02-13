@@ -37,6 +37,7 @@ th:
     button_duplicate: ทำซ้ำ
     button_edit: แก้ไข
     button_filter: ตัวกรอง
+    button_advanced_filter: Advanced filter
     button_list_view: List view
     button_show_view: มุมมองแบบเต็มหน้าจอ
     button_log_time: เวลาที่ถูกบันทึก
@@ -845,6 +846,15 @@ th:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: ไม่รองรับเบราว์เซอร์รุ่นที่คุณใช้
       message: เบราว์เซอร์รุ่นที่คุณใช้ไม่ได้รับการรองรับโดย OpenProject

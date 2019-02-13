@@ -38,6 +38,7 @@ hu:
     button_duplicate: Másolás ide
     button_edit: Szerkesztés
     button_filter: Szűrő
+    button_advanced_filter: Advanced filter
     button_list_view: Lista nézet
     button_show_view: Teljes képernyős nézet
     button_log_time: Eltöltött idő rögzítése
@@ -847,6 +848,15 @@ hu:
     zen_mode:
       button_activate: Zen mód aktiválása
       button_deactivate: Zen mód kikapcsolása
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: Az ön böngészője nem támogatott
       message: Az ön által használt böngésző verzióját már nem támogatja az OpenProject.

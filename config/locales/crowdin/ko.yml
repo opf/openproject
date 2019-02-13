@@ -93,6 +93,10 @@ ko:
       further_information_after: ''
     calendar:
       removal: '참고: 이 모듈은 OpenProject 8.0에서 제거될 것입니다.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: 그룹이 없습니다.
@@ -1135,7 +1139,6 @@ ko:
   label_all_open_wps: 모두 열림
   label_always_visible: 항상 표시
   label_announcement: 공지 사항
-  label_and_its_subprojects: "%{value} 및 하위 프로젝트"
   label_api_access_key: API 액세스 키
   label_api_access_key_created_on: API 액세스 키가 %{value} 전에 생성되었습니다.
   label_api_access_key_type: API
@@ -1500,7 +1503,6 @@ ko:
   label_role_search: 새 멤버에게 역할 할당
   label_scm: SCM
   label_search: 검색
-  label_search_titles_only: 제목만 검색
   label_send_information: 사용자에게 계정 정보 보내기
   label_send_test_email: 테스트 이메일 보내기
   label_settings: 설정
@@ -2731,6 +2733,14 @@ ko:
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
   button_remove_widget: 위젯 제거
+  label_and_its_subprojects: "%{value} 및 하위 프로젝트"
   label_my_page_block: 내 페이지 블록
   label_responsible_for_work_packages: 내가 담당하는 작업 패키지
+  label_search_titles_only: 제목만 검색
   label_visible_elements: 표시되는 요소
+  setting_security_badge_displayed: Display security badge
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'

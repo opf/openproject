@@ -39,6 +39,7 @@ de:
     button_duplicate: Duplizieren
     button_edit: Bearbeiten
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Listenansicht
     button_show_view: Vollbildansicht
     button_log_time: Zeit buchen
@@ -864,6 +865,15 @@ de:
     zen_mode:
       button_activate: Zen-Modus aktivieren
       button_deactivate: Zen-Modus deaktivieren
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: Ihre Browserversion wird nicht unterstützt
       message: Die von Ihnen verwendete Browser-Version wird nicht mehr von OpenProject

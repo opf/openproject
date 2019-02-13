@@ -7,12 +7,9 @@
                    [activityNo]="activityNo">
     </activity-link>
   </div>
-  <div *ngIf="userAvatar">
-    <img class="avatar"
-         [attr.src]="userAvatar"
-         [attr.title]="userName"
-         alt="Avatar" />
-  </div>
+
+  <user-avatar [attr.data-user-id]="userId" data-class-list="avatar"></user-avatar>
+
   <span class="user" *ngIf="userActive">
     <a [attr.href]="userPath"
        [attr.aria-label]="userLabel"

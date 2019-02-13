@@ -38,6 +38,7 @@ az:
     button_duplicate: Duplicate
     button_edit: Edit
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Siyahı baxışı
     button_show_view: Fullscreen view
     button_log_time: Log time
@@ -849,6 +850,15 @@ az:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: Your browser version is not supported
       message: The browser version you are using is no longer supported by OpenProject.

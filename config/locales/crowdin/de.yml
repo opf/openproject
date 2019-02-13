@@ -108,6 +108,10 @@ de:
     calendar:
       removal: 'Bitte beachten Sie: Dieses Modul wird mit OpenProject 8.0 entfernt
         werden.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Derzeit gibt es keine Gruppen.
@@ -1217,7 +1221,6 @@ de:
   label_all_open_wps: Alle offenen
   label_always_visible: Immer angezeigt
   label_announcement: Ankündigung
-  label_and_its_subprojects: "%{value} und dessen Unterprojekte"
   label_api_access_key: API-Zugriffsschlüssel
   label_api_access_key_created_on: Der API-Zugriffsschlüssel wurde vor %{value} erstellt
   label_api_access_key_type: Schnittstelle (API)
@@ -1586,7 +1589,6 @@ de:
   label_role_search: Rolle für neue Mitglieder zuweisen
   label_scm: Versionskontrollsystem
   label_search: Suche
-  label_search_titles_only: Nur Titel durchsuchen
   label_send_information: Sende Kontoinformationen zum Benutzer
   label_send_test_email: Test-E-Mail senden
   label_settings: Konfiguration
@@ -2970,6 +2972,14 @@ de:
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
   button_remove_widget: Infobox löschen
+  label_and_its_subprojects: "%{value} und dessen Unterprojekte"
   label_my_page_block: Bereich "Meine Seite"
   label_responsible_for_work_packages: Von mir verantwortete Arbeitspakete
+  label_search_titles_only: Nur Titel durchsuchen
   label_visible_elements: Sichtbare Elemente
+  setting_security_badge_displayed: Display security badge
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'

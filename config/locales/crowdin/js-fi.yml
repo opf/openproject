@@ -38,6 +38,7 @@ fi:
     button_duplicate: Kahdenna
     button_edit: Muokkaa
     button_filter: Suodata
+    button_advanced_filter: Advanced filter
     button_list_view: Luettelonäkymä
     button_show_view: Koko näytön tila
     button_log_time: Kirjaa lokiin aika
@@ -843,6 +844,15 @@ fi:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: Selaimesi versiota ei tueta
       message: Selaimesi versiota ei enää tueta.

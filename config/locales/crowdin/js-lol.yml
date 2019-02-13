@@ -36,6 +36,7 @@ lol:
     button_duplicate: crwdns106988:0crwdne106988:0
     button_edit: crwdns106990:0crwdne106990:0
     button_filter: crwdns106992:0crwdne106992:0
+    button_advanced_filter: Advanced filter
     button_list_view: crwdns106994:0crwdne106994:0
     button_show_view: crwdns106996:0crwdne106996:0
     button_log_time: crwdns106998:0crwdne106998:0
@@ -684,8 +685,8 @@ lol:
         days: crwdns107996:0crwdne107996:0
         weeks: crwdns107998:0crwdne107998:0
         months: crwdns108000:0crwdne108000:0
-      label_switch_to_single_select: crwdns113498:0crwdne113498:0
-      label_switch_to_multi_select: crwdns113500:0crwdne113500:0
+      label_switch_to_single_select: crwdns113978:0crwdne113978:0
+      label_switch_to_multi_select: crwdns113980:0crwdne113980:0
     toolbar:
       settings:
         configure_view: crwdns108002:0crwdne108002:0
@@ -766,10 +767,19 @@ lol:
     zen_mode:
       button_activate: crwdns108124:0crwdne108124:0
       button_deactivate: crwdns108126:0crwdne108126:0
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
-      title: crwdns113486:0crwdne113486:0
-      message: crwdns113488:0crwdne113488:0
-      update_message: crwdns113490:0crwdne113490:0
-      update_ie_user: crwdns113492:0crwdne113492:0
-      learn_more: crwdns113494:0crwdne113494:0
-      close_warning: crwdns113496:0crwdne113496:0
+      title: crwdns113966:0crwdne113966:0
+      message: crwdns113968:0crwdne113968:0
+      update_message: crwdns113970:0crwdne113970:0
+      update_ie_user: crwdns113972:0crwdne113972:0
+      learn_more: crwdns113974:0crwdne113974:0
+      close_warning: crwdns113976:0crwdne113976:0

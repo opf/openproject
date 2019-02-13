@@ -38,6 +38,7 @@ tr:
     button_duplicate: Çoğalt
     button_edit: Düzenle
     button_filter: Filtre
+    button_advanced_filter: Advanced filter
     button_list_view: Liste görünümü
     button_show_view: Tam Ekran görünümü
     button_log_time: Zaman kaydet
@@ -847,6 +848,15 @@ tr:
     zen_mode:
       button_activate: Zen modunu etkinleştir
       button_deactivate: Zen modunu devre dışı bırak
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: Tarayıcı sürümü desteklenmiyor
       message: Kullanmakta olduğunuz tarayıcı sürümü OpenProject tarafından artık

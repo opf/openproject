@@ -38,6 +38,7 @@ id:
     button_duplicate: Duplikasi
     button_edit: Edit
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Tampilan tabel
     button_show_view: Tampilan layar penuh
     button_log_time: Catatan waktu
@@ -849,6 +850,15 @@ id:
     zen_mode:
       button_activate: Mengaktifkan modus zen
       button_deactivate: Menonaktifkan modus zen
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: Versi peramban Anda tidak didukung
       message: Versi browser yang anda gunakan terlalu usang untuk OpenProject.

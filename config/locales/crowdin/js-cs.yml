@@ -38,6 +38,7 @@ cs:
     button_duplicate: Kopie
     button_edit: Upravit
     button_filter: Filtr
+    button_advanced_filter: Advanced filter
     button_list_view: Zobrazit jako seznam
     button_show_view: Celá obrazovka
     button_log_time: Čas protokolu
@@ -858,6 +859,15 @@ cs:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    global_search:
+      all_projects: In all projects
+      search: Search
+      this_project: In this project
+      this_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     unsupported_browser:
       title: Verze vašeho prohlížeče není podporována
       message: Verze prohlížeče, který používáte, již není OpenProject podporována.
