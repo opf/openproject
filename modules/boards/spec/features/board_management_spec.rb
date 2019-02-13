@@ -62,7 +62,7 @@ describe 'Board management spec', type: :feature, js: true do
       board_page.expect_editable true
       board_page.back_to_index
 
-      board_index.expect_board board_view
+      board_index.expect_board board_view.name
 
       # Create new board
       board_page = board_index.create_board
@@ -104,6 +104,17 @@ describe 'Board management spec', type: :feature, js: true do
 
       subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject)
       expect(subjects).to match_array ['Task 1']
+
+      # Remove query
+      board_page.remove_list 'Second'
+      queries = board_page.board(reload: true).contained_queries
+      expect(queries.count).to eq(1)
+      expect(queries.first.name).to eq 'First'
+      expect(queries.first.ordered_work_packages).to be_empty
+
+      # Remove entire board
+      board_page.delete_board
+      board_index.expect_board 'Board foo', present: false
     end
   end
 
@@ -120,7 +131,7 @@ describe 'Board management spec', type: :feature, js: true do
       board_page.expect_editable false
       board_page.back_to_index
 
-      board_index.expect_board board_view
+      board_index.expect_board board_view.name
     end
   end
 

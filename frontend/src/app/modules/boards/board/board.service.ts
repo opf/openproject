@@ -6,6 +6,7 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {Board} from "core-app/modules/boards/board/board";
 import {BoardDmService} from "core-app/modules/boards/board/board-dm.service";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
+import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 
 @Injectable()
 export class BoardService {
@@ -43,6 +44,7 @@ export class BoardService {
    * Save the changes to the board
    */
   public save(board:Board) {
+    this.reorderWidgets(board);
     return this.boardDm.save(board)
       .then(board => {
         this.boardCache.update(board);
@@ -67,5 +69,17 @@ export class BoardService {
     return this.boardDm
       .delete(board)
       .then(() => this.boardCache.clearSome(board.id));
+  }
+
+  /**
+   * Reorders the widgets to correspond to the available columns
+   * @param board
+   */
+  private reorderWidgets(board:Board) {
+    board.grid.widgets.map((el:GridWidgetResource, index:number) => {
+      el.startColumn = index + 1;
+      el.endColumn = index + 2;
+      return el;
+    });
   }
 }

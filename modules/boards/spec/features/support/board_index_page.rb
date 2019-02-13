@@ -53,8 +53,8 @@ module Pages
       # expect(page).to have_conditional_selector('.toolbar-item a', text: 'Board')
     end
 
-    def expect_board(board)
-      expect(page).to have_selector('td.name', text: board.name)
+    def expect_board(name, present: true)
+      expect(page).to have_conditional_selector(present, 'td.name', text: name)
     end
 
     def create_board

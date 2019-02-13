@@ -1,4 +1,5 @@
 <div #loadingIndicator
+     [attr.data-query-name]="listName"
      class="board-list--container loading-indicator--location">
   <ng-container *ngIf="query">
 
@@ -8,10 +9,16 @@
                               (onSave)="renameQuery(query, $event)"
                               [editable]="!!query.updateImmediately">
       </editable-toolbar-title>
+      <div class="board-list--delete-icon">
+        <accessible-by-keyboard *ngIf="!!query.delete"
+                                linkClass="-no-decoration"
+                                (execute)="deleteList(query)">
+          <op-icon icon-classes="button--icon icon-delete icon-no-color"></op-icon>
+        </accessible-by-keyboard>
+      </div>
     </div>
 
-    <div class="board-list--query-container"
-         [attr.data-query-name]="query.name">
+    <div class="board-list--query-container">
       <wp-embedded-table *ngIf="boardTableConfiguration.isEmbedded && !boardTableConfiguration.isCardView"
                          [queryId]="query.id"
                          [loadedQuery]="query"

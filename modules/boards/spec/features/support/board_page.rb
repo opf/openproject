@@ -57,7 +57,7 @@ module Pages
     end
 
     def list_selector(name)
-      ".board-list--query-container[data-query-name='#{name}']"
+      ".board-list--container[data-query-name='#{name}']"
     end
 
     def add_card(list_name, card_title)
@@ -110,12 +110,31 @@ module Pages
       rename_list 'New list', name
     end
 
+    def remove_list(name)
+      list = page.find list_selector(name)
+      list.hover
+
+      page.find('.board-list--delete-icon a').click
+      accept_alert_dialog!
+      expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+
+      expect(page).to have_no_selector list_selector(name)
+    end
+
     def visit!
       if board.project
         visit project_work_package_boards_path(project_id: board.project.id, state: board.id)
       else
         visit work_package_boards_path(state: board.id)
       end
+    end
+
+    def delete_board
+      page.find('.board--settings-dropdown').click
+      page.find('.menu-item', text: 'Delete').click
+
+      accept_alert_dialog!
+      expect_and_dismiss_notification message: I18n.t('js.notice_successful_delete')
     end
 
     def back_to_index

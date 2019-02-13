@@ -36,6 +36,10 @@ export class Board {
     this.grid.widgets.push(widget);
   }
 
+  public removeQuery(widget:GridWidgetResource) {
+    this.grid.widgets = this.grid.widgets.filter(el => el.options.query_id !== widget.options.query_id);
+  }
+
   public get queries():GridWidgetResource[] {
     return this.grid.widgets;
   }

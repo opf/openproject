@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
+  ElementRef, EventEmitter,
   OnDestroy,
-  OnInit,
+  OnInit, Output,
   ViewChild
 } from "@angular/core";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
@@ -34,6 +34,8 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
   ]
 })
 export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {
+  /** Output fired upon query removal */
+  @Output() onRemove = new EventEmitter<void>();
 
   /** Access to the loading indicator element */
   @ViewChild('loadingIndicator') indicator:ElementRef;
@@ -55,6 +57,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public text = {
     updateSuccessful: this.I18n.t('js.notice_successful_update'),
+    areYouSure: this.I18n.t('js.text_are_you_sure'),
   };
 
   public boardTableConfiguration = {
@@ -101,6 +104,16 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     // Interface compatibility
   }
 
+  public deleteList(query:QueryResource) {
+    if (!window.confirm(this.text.areYouSure)) {
+      return;
+    }
+
+    this.QueryDm
+      .delete(query)
+      .then(() => this.onRemove.emit());
+  }
+
   public renameQuery(query:QueryResource, value:string) {
     this.inFlight = true;
     this.query.name = value;
@@ -111,6 +124,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         this.notifications.addSuccess(this.text.updateSuccessful);
       })
       .catch(() => this.inFlight = false);
+  }
+
+  public get listName() {
+    return this.query && this.query.name;
   }
 
   private loadQuery() {

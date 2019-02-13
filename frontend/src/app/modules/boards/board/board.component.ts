@@ -77,9 +77,16 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   renameBoard(board:Board, newName:string) {
-    this.inFlight = true;
-
     board.name = newName;
+    return this.saveBoard(board);
+  }
+
+  showError(text = this.text.loadingError) {
+    this.notifications.addError(text);
+  }
+
+  saveBoard(board:Board) {
+    this.inFlight = true;
     this.Boards
       .save(board)
       .then(board => {
@@ -87,10 +94,6 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.notifications.addSuccess(this.text.updateSuccessful);
         this.inFlight = false;
       });
-  }
-
-  showError(text = this.text.loadingError) {
-    this.notifications.addError(text);
   }
 
   addList(board:Board) {
@@ -107,6 +110,11 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   moveList(board:Board, event:CdkDragDrop<GridWidgetResource[]>) {
     moveItemInArray(board.queries, event.previousIndex, event.currentIndex);
-    this.Boards.save(board);
+    return this.saveBoard(board);
+  }
+
+  removeList(board:Board, query:GridWidgetResource) {
+    board.removeQuery(query);
+    return this.saveBoard(board);
   }
 }

@@ -14,6 +14,7 @@
          aria-required="true"
          [attr.name]="selectableTitleIdentifier"
          [focus]="this.initialFocus || undefined"
+         (focus)="selectInput($event)"
          (keydown.escape)="reset($event)"
          (keydown.enter)="save($event)"
          [attr.placeholder]="text.input_placeholder"

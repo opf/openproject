@@ -27,7 +27,7 @@
 // ++
 
 import {StateService, Transition, TransitionService, UIRouter, UrlService} from '@uirouter/core';
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {INotification, NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {Injector} from "@angular/core";
 import {FirstRouteService} from "core-app/modules/router/first-route-service";
@@ -45,6 +45,9 @@ export const OPENPROJECT_ROUTES = [
       // squash: true avoids duplicate slashes when the parameter is not provided
       projectPath: {type: 'path', value: null, squash: true},
       projects: {type: 'path', value: null, squash: true},
+
+      // Allow passing of flash messages after routes load
+      flash_message: { dynamic: true, value: null, inherit: false }
     }
   },
   // We could lazily load work packages module already,
@@ -152,6 +155,11 @@ export function initializeUiRouterListeners(injector:Injector) {
       // Clear all notifications when actually moving between states.
       if (transition.to().name !== transition.from().name) {
         notificationsService.clear();
+      }
+
+      // Add new notifications if passed to params
+      if (toParams.flash_message) {
+        notificationsService.add(toParams.flash_message as INotification);
       }
 
       const projectIdentifier = toParams.projectPath || currentProject.identifier;
