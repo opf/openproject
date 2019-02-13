@@ -30,7 +30,7 @@
 
 # Root class of the API v3
 # This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+# rescuing, mounting of different API versions etc.
 
 module API
   module V3
