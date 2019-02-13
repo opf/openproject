@@ -219,7 +219,7 @@ sk:
       no_results_title_text: Momentálne neexistujú žiadne toky činností.
   work_packages:
     x_descendants:
-      one: One descendant work package
+      one: Podradený pracovný balíček
       other: "%{count} work package descendants"
       few: "%{count} work package descendants"
       many: "%{count} work package descendants"
@@ -1086,9 +1086,9 @@ sk:
   error_pdf_export_too_many_columns: Vybraných príliš veľa stĺpcov pre export do PDF.
     Znížte počet stĺpcov.
   error_pdf_failed_to_export: 'PDF export nie je možné uložiť: %{error}'
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
-    you try to submit data on multiple browsers or tabs? Please close all tabs and
-    try again.
+  error_token_authenticity: Nepodarilo sa overiť Token medzi lokalitami. Ak ste sa
+    pokúsili uložiť údaje na viaceré karty alebo prehliadače, zatvorte ich a opätovne
+    načítajte túto stránku a skúste to znova.
   error_work_package_done_ratios_not_updated: Pracovný balíček dokončený, štatistiky
     neboli prerátané.
   error_work_package_not_found_in_project: Pracovný balíček nebol nájdený alebo nepatrí
@@ -1534,13 +1534,14 @@ sk:
   label_preview: Náhľad
   label_previous: Predošlý
   label_previous_week: Predchádzajúci týždeň
-  label_principal_invite_via_email: " or invite new users via email"
-  label_principal_search: Add existing users or groups
+  label_principal_invite_via_email: " alebo pozvať nových užívateľov prostredníctvom
+    e-mailu"
+  label_principal_search: Pridanie existujúcich užívateľov alebo skupín
   label_product_version: Verzia produktu
-  label_professional_support: Professional support
+  label_professional_support: Profesionálna podpora
   label_profile: Profil
   label_project_all: Všetky projekty
-  label_project_count: Total number of projects
+  label_project_count: Celkový počet projektov
   label_project_copy_notifications: Odoslať e-mail notifikácie počas kopírovania projektu
   label_project_latest: Najnovšie projekty
   label_project_default_type: Povoliť prázdny typ
@@ -1663,7 +1664,7 @@ sk:
   label_user_mail_option_only_my_events: Len pre veci, ktoré sledujem, alebo v ktorých
     som zapojený
   label_user_mail_option_only_owner: Len pre veci, ktorých som vlastníkom
-  label_user_mail_option_selected: For any event on the selected projects only
+  label_user_mail_option_selected: Pre každú udalosť len na vybraných projektoch
   label_user_new: Nový uživateľ
   label_user_plural: Užívatelia
   label_user_search: Hľadať používateľa
@@ -1711,7 +1712,7 @@ sk:
   label_work_package_status: Stav pracovného balíčka
   label_work_package_status_new: Nový stav
   label_work_package_status_plural: Stavy pracovného balíčka
-  label_work_package_types: Work package types
+  label_work_package_types: Typy pracovného balíčka
   label_work_package_updated: Pracovný balík bol aktualizovaný
   label_work_package_tracking: Sledovanie Pracovného balíka
   label_work_package_view_all: Zobraziť všetky pracovné balíčky
@@ -1800,12 +1801,12 @@ sk:
     errors:
       missing_or_invalid_parameter: Chýbajúce alebo neplatné parametre makra.
     legacy_warning:
-      timeline: This legacy timeline macro has been removed and is no longer available.
-        You can replace the functionality with an embedded table macro.
+      timeline: Staré makro časovej osi bolo odstránené a už nie je k dispozícii.
+        Funkcie môžete nahradiť makrom vloženého do tabuľky.
     include_wiki_page:
       errors:
         page_not_found: Wiki stránka '%{name}' sa nedá nájsť.
-        circular_inclusion: Circular inclusion of pages detected.
+        circular_inclusion: Cyklické vkladanie rozpoznaných stránok.
     create_work_package_link:
       errors:
         no_project_context: Volanie create_work_package_link makra z kontextu mimo
@@ -1850,8 +1851,8 @@ sk:
   notice_accessibility_mode: Režim prístupov môžete sprístupniť vo vašich [account
     settings](url).
   notice_account_activated: Váš účet bol aktivovaný. Teraz se môžete prihlásiť.
-  notice_account_already_activated: The account has already been activated.
-  notice_account_invalid_token: Invalid activation token
+  notice_account_already_activated: Účet už bol aktivovaný.
+  notice_account_invalid_token: Neplatný aktivačný token
   notice_account_invalid_credentials: Nesprávne meno alebo heslo
   notice_account_invalid_credentials_or_blocked: Neplatný používateľ alebo heslo alebo
     účet bol zablokovaný kvôli viacerým neúspešným pokusom o prihlásenie. Ak áno,
@@ -1872,7 +1873,7 @@ sk:
   notice_account_wrong_password: Nesprávne heslo
   notice_account_registered_and_logged_in: Vitajte, váš účet bol aktivovaný. Teraz
     ste prihlásení.
-  notice_activation_failed: The account could not be activated.
+  notice_activation_failed: Účet nemohol byť aktivovaný.
   notice_auth_stage_verification_error: Nepodarilo sa overiť úroveň '%{stage}'.
   notice_auth_stage_wrong_stage: Očakávané dokončenie overovacej fáze '%{expected}',
     ale '%{actual}' se vrátil.
@@ -1892,7 +1893,7 @@ sk:
   notice_internal_server_error: Vyskytla sa chyba na stránke, ku ktorej ste sa pokúšali
     pristupovať. Ak sa naďalej vyskytnú problémy, obráťte sa na správcu %{app_title}
     o pomoc.
-  notice_work_package_done_ratios_updated: Work package done ratios updated.
+  notice_work_package_done_ratios_updated: Stav pracovného balíčka bol aktualizovaný.
   notice_locking_conflict: Informácia bola medzičasom aktualizovaná aspoň jedným iným
     používateľom.
   notice_locking_conflict_additional_information: Aktualizácia (-e) pochádza z %{users}.
@@ -1921,10 +1922,10 @@ sk:
   notice_to_many_principals_to_display: |-
     Existuje príliš veľa výsledkov.
     Upresnite vyhľadávanie zadaním názvu nového člena (alebo skupiny).
-  notice_unable_delete_time_entry: Unable to delete time log entry.
+  notice_unable_delete_time_entry: Položka sledovania času sa nedala odstrániť.
   notice_unable_delete_version: Verzia nemôže byť zmazaná.
-  notice_user_missing_authentication_method: User has yet to choose a password or
-    another way to sign in.
+  notice_user_missing_authentication_method: Užívateľ si ešte nevybral heslo alebo
+    iný spôsob, ako sa prihlásiť.
   notice_user_invitation_resent: Pozvánka bola odoslaná na %{email}.
   present_access_key_value: 'Your %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Nastaviť štandardný typ automaticky.
@@ -1973,8 +1974,8 @@ sk:
   permission_add_subprojects: Vytvoriť podprojekty
   permission_add_work_package_watchers: Pridať pozorovateľov
   permission_browse_repository: Read-only access to repository (browse and checkout)
-  permission_change_wiki_parent_page: Change parent wiki page
-  permission_comment_news: Comment news
+  permission_change_wiki_parent_page: Zmeniť nadradenú wiki stránku
+  permission_comment_news: Komentovanie noviniek
   permission_commit_access: Read/write access to repository (commit)
   permission_copy_projects: Kopírovať projekty
   permission_delete_work_package_watchers: Zmazať sledujúcich užívateľov
@@ -1988,49 +1989,49 @@ sk:
   permission_edit_work_package_notes: Upraviť poznámky
   permission_edit_work_packages: Upraviť pracovné balíčky
   permission_edit_messages: Upraviť správy
-  permission_edit_own_work_package_notes: Edit own notes
+  permission_edit_own_work_package_notes: Upraviť vlastné poznámky
   permission_edit_own_messages: Úprava vlastných správ
-  permission_edit_own_time_entries: Edit own time logs
+  permission_edit_own_time_entries: Upraviť vlastné časové záznamy
   permission_edit_project: Upraviť projekt
-  permission_edit_reportings: Edit reportings
-  permission_edit_time_entries: Edit time logs
-  permission_edit_timelines: Edit timelines
-  permission_edit_wiki_pages: Edit wiki pages
-  permission_export_work_packages: Export work packages
+  permission_edit_reportings: Upraviť prehľady
+  permission_edit_time_entries: Upraviť časové záznamy
+  permission_edit_timelines: Úprava časovej osi
+  permission_edit_wiki_pages: Úprava wiki stránok
+  permission_export_work_packages: Export pracovných balíčkov
   permission_export_wiki_pages: Export wiki stránok
-  permission_list_attachments: List attachments
-  permission_log_time: Log spent time
+  permission_list_attachments: Zoznam príloh
+  permission_log_time: Protokolovať strávený čas
   permission_manage_boards: Spravovať diskusie
-  permission_manage_categories: Manage work package categories
-  permission_manage_work_package_relations: Manage work package relations
+  permission_manage_categories: Spravovať kategórie pracovného balíčku
+  permission_manage_work_package_relations: Spravovať vzťahy pracovných balíčkov
   permission_manage_members: Spravovať členov
   permission_manage_news: Spravovať novinky
-  permission_manage_project_activities: Manage project activities
+  permission_manage_project_activities: Správa aktivít projektu
   permission_manage_public_queries: Spravovať verejné zobrazenia
   permission_manage_repository: Spravovať repozitár
   permission_manage_subtasks: Spravovať podúlohy
-  permission_manage_versions: Manage versions
+  permission_manage_versions: Spravovať verzie
   permission_manage_wiki: Spravovať Wiki
-  permission_manage_wiki_menu: Manage wiki menu
-  permission_move_work_packages: Move work packages
-  permission_protect_wiki_pages: Protect wiki pages
-  permission_rename_wiki_pages: Rename wiki pages
+  permission_manage_wiki_menu: Správa wiki menu
+  permission_move_work_packages: Presunúť pracovné balíčky
+  permission_protect_wiki_pages: Ochrana wikistránok
+  permission_rename_wiki_pages: Premenovanie wikistránok
   permission_save_queries: Uložiť zobrazenia
   permission_select_project_modules: Vyberte moduly projektu
-  permission_manage_types: Select types
+  permission_manage_types: Vyberte typy
   permission_view_calendar: Zobrazenie kalendára
   permission_view_changesets: View repository revisions in OpenProject
   permission_view_commit_author_statistics: Zobraziť štatistiky o odovzdávkach do
     repozitára za autora
-  permission_view_work_package_watchers: View watchers list
-  permission_view_work_packages: View work packages
+  permission_view_work_package_watchers: Zobrazenie zoznamu pozorovateľov
+  permission_view_work_packages: Zobraziť pracovné balíčky
   permission_view_messages: Zobrazenie správ
   permission_view_members: Zobraziť členov
-  permission_view_reportings: View reportings
-  permission_view_time_entries: View spent time
-  permission_view_timelines: View timelines
-  permission_view_wiki_edits: View wiki history
-  permission_view_wiki_pages: View wiki
+  permission_view_reportings: Zobraziť prehľady
+  permission_view_time_entries: Zobrazenie stráveného času
+  permission_view_timelines: Zobrazenie časovej osi
+  permission_view_wiki_edits: Zobrazenie histórie wiki
+  permission_view_wiki_pages: Zobraziť wiki
   placeholders:
     default: "-"
   project:
@@ -2054,14 +2055,14 @@ sk:
   project_module_news: Novinky
   project_module_repository: Repozitár
   project_module_time_tracking: Sledovanie času
-  project_module_timelines: Timelines
+  project_module_timelines: Časové osy
   project_module_wiki: Wiki
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
     active_or_archived: Aktívne alebo archivované
     assigned_to_role: Priradená rola
-    member_of_group: Assignee's group
+    member_of_group: Skupina priradeného používateľa
     assignee_or_group: Priradené používateľovi alebo jeho skupine
     subproject_id: Podprojekt
     name_or_identifier: Meno alebo identifikátor
@@ -2214,30 +2215,30 @@ sk:
   setting_smtp_password: SMTP heslo
   setting_smtp_domain: SMTP HELLO Doména
   setting_activity_days_default: Počet zobrazovaných dní v rámci projektovej aktivity
-  setting_app_subtitle: Application subtitle
-  setting_app_title: Application title
-  setting_attachment_max_size: Attachment max. size
+  setting_app_subtitle: Podtitulok aplikácie
+  setting_app_title: Názov aplikácie
+  setting_attachment_max_size: Maximálna veľkosť prílohy
   setting_autofetch_changesets: Autofetch repository changes
   setting_autologin: Automatické prihlasovanie
   setting_available_languages: Dostupné jazyky
-  setting_bcc_recipients: Blind carbon copy recipients (bcc)
+  setting_bcc_recipients: Poslať e-maily ako skrytú kópiu (bcc)
   setting_brute_force_block_after_failed_logins: Block user after this number of failed
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
-  setting_cache_formatted_text: Cache formatted text
+  setting_cache_formatted_text: Uložiť formátovaný text do vyrovnávacej pamäte
   setting_use_wysiwyg_description: Vyberte, ak chcete povoliť editor CKEditor5 WYSIWYG
     pre všetkých používateľov predvolene. CKEditor má obmedzené funkcie pre GFM Markdown.
-  setting_column_options: Customize the appearance of the work package lists
-  setting_commit_fix_keywords: Fixing keywords
+  setting_column_options: Prispôsobenie vzhľadu zoznamov pracovného balíčka
+  setting_commit_fix_keywords: Kľúčové slová (stav)
   setting_commit_logs_encoding: Commit messages encoding
-  setting_commit_logtime_activity_id: Activity for logged time
-  setting_commit_logtime_enabled: Enable time logging
+  setting_commit_logtime_activity_id: Aktivita pre prihlásený čas
+  setting_commit_logtime_enabled: Povoliť zaznamenávanie času
   setting_commit_ref_keywords: Referencing keywords
   setting_consent_time: Čas súhlasu
   setting_consent_info: Informačný text súhlasu
   setting_consent_required: Vyžadovaný súhlas
   setting_consent_decline_mail: Kontaktná e-mailová adresa pre udelenie súhlasu
-  setting_cross_project_work_package_relations: Allow cross-project work package relations
+  setting_cross_project_work_package_relations: Povoliť prepojenia úloh naprieč projektmi
   setting_date_format: Date format
   setting_default_language: Default language
   setting_default_notification_option: Default notification option
@@ -2309,17 +2310,17 @@ sk:
   setting_sys_api_enabled: Enable repository management web service
   setting_sys_api_description: The repository management web service provides integration
     and user authorization for accessing repositories.
-  setting_time_format: Time format
-  setting_accessibility_mode_for_anonymous: Enable accessibility mode for anonymous
-    users
-  setting_user_format: Users display format
+  setting_time_format: Formát času
+  setting_accessibility_mode_for_anonymous: Zapnúť režim prístupnosti pre anonymných
+    používateľov
+  setting_user_format: Formát zobrazenia používateľa
   setting_user_default_timezone: Predvolená časová zóna užívateľa
-  setting_users_deletable_by_admins: User accounts deletable by admins
-  setting_users_deletable_by_self: Users allowed to delete their accounts
+  setting_users_deletable_by_admins: Užívateľské účty možné odstrániť administrátorom
+  setting_users_deletable_by_self: Užívatelia môžu odstrániť svoje účty
   setting_welcome_text: Welcome block text
   setting_welcome_title: Welcome block title
   setting_welcome_on_homescreen: Display welcome block on homescreen
-  setting_wiki_compression: Wiki history compression
+  setting_wiki_compression: Kompresia histórie Wiki
   setting_work_package_group_assignment: Povoliť priradenie skupinám
   setting_work_package_list_default_highlighting_mode: Predvolený režim zvýraznenia
   setting_work_package_list_default_highlighted_attributes: Predvolené inline zvýraznené
@@ -2343,14 +2344,14 @@ sk:
   text_formatting:
     markdown: Markdown
     plain: Obyčajný text
-  status_active: active
+  status_active: aktívny
   status_archived: archivované
   status_invited: invited
   status_locked: zamknuté
   status_registered: registrovaný
   support:
     array:
-      sentence_connector: and
+      sentence_connector: a
       skip_last_comma: 'false'
   text_accessibility_hint: Režim prístupnosti je určený pre používateľov, ktorí sú
     slepí, s pohyblivým postihnutím alebo majú zlý zrak. Na to sú zamerané špeciálne
@@ -2358,9 +2359,10 @@ sk:
   text_access_token_hint: Access tokens allow you to grant external applications access
     to resources in OpenProject.
   text_analyze: 'Further analyze: %{subject}'
-  text_are_you_sure: Are you sure?
-  text_are_you_sure_with_children: Delete work package and all child work packages?
-  text_assign_to_project: Assign to the project
+  text_are_you_sure: Ste si istí?
+  text_are_you_sure_with_children: Zmazať pracovný balíček a všetky podradené pracovné
+    balíčky?
+  text_assign_to_project: Priradiť k projektu
   text_form_configuration: 'Môžete prispôsobiť, ktoré polia sa zobrazia vo formulári
     v pracovnom balíku. Môžete si voľne zoskupovať polia tak aby napĺňali potreby
     vašej domény.
@@ -2372,9 +2374,9 @@ sk:
     je vždy zobrazený
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: Must be at least %{count} characters long.
-  text_comma_separated: Multiple values allowed (comma separated).
+  text_comma_separated: Povolené viaceré hodnoty (oddelené čiarkou).
   text_comment_wiki_page: 'Komentár k stránke wiki: %{page}'
-  text_custom_field_possible_values_info: One line for each value
+  text_custom_field_possible_values_info: Každá hodnota na samostatný riadok
   text_custom_field_hint_activate_per_project: 'Ak používate vlastné polia: Upozorňujeme,
     že tieto musia byť tiež aktivované na každý projekt.
 
@@ -2399,35 +2401,36 @@ sk:
 
 '
   text_database_allows_tsv: Databáza umožňuje TSVector (voliteľné)
-  text_default_administrator_account_changed: Default administrator account changed
-  text_default_encoding: 'Default: UTF-8'
+  text_default_administrator_account_changed: Predvolené nastavenie administrátorského
+    účtu bolo zmenené
+  text_default_encoding: 'Predvolené: UTF-8'
   text_destroy: Odstrániť
   text_destroy_with_associated: 'There are additional objects assossociated with the
     work package(s) that are to be deleted. Those objects are of the following types:'
-  text_destroy_what_to_do: What do you want to do?
+  text_destroy_what_to_do: Čo chcete urobiť?
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum
     size that can be displayed."
   text_email_delivery_not_configured: |-
-    Email delivery is not configured, and notifications are disabled.
-    Configure your SMTP server in config/configuration.yml and restart the application to enable them.
+    Doručovanie e-mailov nie je nakonfigurované a upozornenia sú zakázané.
+    Nakonfigurujte server SMTP v konfigurácii / configuration.yml a reštartujte aplikáciu, aby ste ich povolili.
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
   text_enumeration_destroy_question: "%{count} objects are assigned to this value."
-  text_file_repository_writable: Attachments directory writable
+  text_file_repository_writable: Povolený zápis do priečinka s prílohami
   text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
   text_hint_date_format: Enter a date in the form of YYYY-MM-DD. Other formats may
     be changed to an unwanted date.
   text_hint_disable_with_0: 'Note: Disable with 0'
   text_hours_between: Medzi %{min} a %{max} hodinami.
   text_work_package_added: Work package %{id} has been reported by %{author}.
-  text_work_package_category_destroy_assignments: Remove category assignments
+  text_work_package_category_destroy_assignments: Odstrániť priradenia kategórie
   text_work_package_category_destroy_question: Some work packages (%{count}) are assigned
     to this category. What do you want to do?
   text_work_package_category_reassign_to: Reassign work packages to this category
   text_work_package_updated: Work package %{id} has been updated by %{author}.
   text_work_package_watcher_added: You have been added as a watcher to Work package
     %{id} by %{watcher_setter}.
-  text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
-    work package(s)?
+  text_work_packages_destroy_confirmation: Naozaj chcete odstrániť vybraný pracovný
+    balíček(y)?
   text_work_packages_ref_in_commit_messages: Referencing and fixing work packages
     in commit messages
   text_journal_added: "%{label} %{value} added"
@@ -2445,20 +2448,20 @@ sk:
   text_latest_note: 'The latest comment is: %{note}'
   text_length_between: Dĺžka medzi %{min} až %{max} znakov.
   text_line_separated: Multiple values allowed (one line for each value).
-  text_load_default_configuration: Load the default configuration
-  text_min_max_length_info: 0 means no restriction
+  text_load_default_configuration: Nahrať predvolenú konfiguráciu
+  text_min_max_length_info: 0 znamená bez obmedzení
   text_no_roles_defined: There are no roles defined.
   text_no_access_tokens_configurable: There are no access tokens which can be configured.
   text_no_configuration_data: Roly, typy, pracovný balík stavy a pracovný postup zatiaľ
     neboli nakonfigurované. Doporučujeme načítať predvolenú konfiguráciu. Po je jnačítaní
     ju budete mať možnosť zmeniť podľa Vašich potrieb.
   text_no_notes: There are no comments available for this work package.
-  text_notice_too_many_values_are_inperformant: 'Note: Displaying more than 100 items
-    per page can increase the page load time.'
+  text_notice_too_many_values_are_inperformant: 'Poznámka: Zobrazenie viac ako 100
+    položiek na stránku môže zvýšiť čas načítania stránky.'
   text_own_membership_delete_confirmation: Chystáte sa odstrániť jedno respektíve
     viac vašich povolení, pričom po aplikovaní zmien môžte stratiť možnosť naďalej
     upravovať nastavenia projektu. Naozaj chcete pokračovať?
-  text_plugin_assets_writable: Plugin assets directory writable
+  text_plugin_assets_writable: Povolený zápis do priečinka pre pluginy
   text_powered_by: Powered by %{link}
   text_project_identifier_info: Sú povolené len malé písmená (a-z), čísla, pomlčky
     a podčiarkovníky, hodnota musí začínať malým písmenom.
@@ -2666,7 +2669,7 @@ sk:
     start: Začiatok
     timeline: Timeline report
     timelines: Timeline reports
-    settings: Timelines
+    settings: Časové osy
     vertical_work_package: Vertical work packages
     you_are_viewing_the_selected_timeline: You are viewing the selected timeline report
     zoom:
@@ -2705,7 +2708,7 @@ sk:
   total_progress: Celkový priebeh
   user:
     all: Všetky
-    active: active
+    active: aktívny
     activate: Aktivovať
     activate_and_reset_failed_logins: Activate and reset failed logins
     authentication_provider: Poskytovateľ služby overovania identity
@@ -2741,7 +2744,7 @@ sk:
       mail_project_explanaition: Pri projektoch, ktoré neboli vybrané, budete dostávať
         upozornenia týkajúce sa iba vašich alebo vami sledovaných vecí (napr. vecí,
         ktorých ste autor, alebo ku ktorým ste priradení).
-      mail_self_notified: I want to be notified of changes that I make myself
+      mail_self_notified: Chcem byť upozornený na zmeny, ktoré som urobil sám
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: Zmena stavu
     unlock: Odomknúť
