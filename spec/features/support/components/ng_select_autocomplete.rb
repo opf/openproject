@@ -44,7 +44,7 @@ module Components
           page.find(results_selector)
         else
           within(element) do
-            page.find('ng-select .scroll-host')
+            page.find('ng-select .ng-dropdown-panel')
           end
         end
 
@@ -52,7 +52,7 @@ module Components
       list
     end
 
-    def select_autocomplete(element, query:, results_selector: nil, select_text: nil)
+    def select_autocomplete(element, query:, results_selector: nil, select_text: nil, option_selector: nil)
       target_dropdown = search_autocomplete(element, results_selector: results_selector, query: query)
 
       ##
@@ -61,7 +61,7 @@ module Components
       text = select_text.presence || query
 
       # click the element to select it
-      target_dropdown.find('.ui-menu-item', text: text).click
+      target_dropdown.find('.ng-option', text: text).click
     end
   end
 end
