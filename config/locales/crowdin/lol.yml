@@ -2590,11 +2590,11 @@ lol:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: crwdns114190:0crwdne114190:0
-  label_and_its_subprojects: crwdns114192:0%{value}crwdne114192:0
-  label_my_page_block: crwdns114194:0crwdne114194:0
-  label_responsible_for_work_packages: crwdns114196:0crwdne114196:0
-  label_search_titles_only: crwdns114198:0crwdne114198:0
-  label_visible_elements: crwdns114200:0crwdne114200:0
-  setting_security_badge_displayed: crwdns114202:0crwdne114202:0
-  text_notice_security_badge_displayed_html: crwdns114204:0%{information_panel_path}crwdnd114204:0%{information_panel_label}crwdne114204:0
+  button_remove_widget: crwdns114430:0crwdne114430:0
+  label_and_its_subprojects: crwdns114432:0%{value}crwdne114432:0
+  label_my_page_block: crwdns114434:0crwdne114434:0
+  label_responsible_for_work_packages: crwdns114436:0crwdne114436:0
+  label_search_titles_only: crwdns114438:0crwdne114438:0
+  label_visible_elements: crwdns114440:0crwdne114440:0
+  setting_security_badge_displayed: crwdns114442:0crwdne114442:0
+  text_notice_security_badge_displayed_html: crwdns114444:0%{information_panel_path}crwdnd114444:0%{information_panel_label}crwdne114444:0
