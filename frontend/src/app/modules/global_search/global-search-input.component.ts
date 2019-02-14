@@ -27,15 +27,15 @@
 // ++
 
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener,
+  OnInit,
   OnDestroy,
-  ViewChild
+  ViewChild,
+  HostListener,
+  ChangeDetectorRef
 } from '@angular/core';
 import {ContainHelpers} from 'app/modules/common/focus/contain-helpers';
-import {FocusHelperService} from 'app/modules/common/focus/focus-helper';
 import {I18nService} from 'app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
 import {PathHelperService} from "app/modules/common/path-helper/path-helper.service";
@@ -44,9 +44,10 @@ import {WorkPackageResource} from "app/modules/hal/resources/work-package-resour
 import {CollectionResource} from "app/modules/hal/resources/collection-resource";
 import {DynamicCssService} from "app/modules/common/dynamic-css/dynamic-css.service";
 import {GlobalSearchService} from "app/modules/global_search/global-search.service";
+import {CurrentProjectService} from "app/components/projects/current-project.service";
+import {NgSelectComponent} from "@ng-select/ng-select";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {CurrentProjectService} from "app/components/projects/current-project.service";
 import {Subject} from "rxjs";
 
 export const globalSearchSelector = 'global-search-input';
@@ -56,141 +57,64 @@ export const globalSearchSelector = 'global-search-input';
   templateUrl: './global-search-input.component.html'
 })
 
-export class GlobalSearchInputComponent implements OnDestroy {
-  @ViewChild('inputEl') input:ElementRef;
+export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   @ViewChild('btn') btn:ElementRef;
+  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
-  public focused:boolean = false;
-  public noResults = false;
-  public searchTerm:string = '';
+  public currentValue:string = '';
   public expanded:boolean = false;
+  public results:any[];
+  public suggestions:any[];
 
-  private searchTermChanged:Subject<string> = new Subject<string>();
+  public searchTermChanged$:Subject<string> = new Subject<string>();
 
   private $element:JQuery;
-  private $input:JQuery;
+  private isFirstFocus:boolean = true;
 
   private unregisterGlobalListener:Function | undefined;
 
   public text:{ [key:string]:string } = {
     all_projects: this.I18n.t('js.global_search.all_projects'),
-    this_project: this.I18n.t('js.global_search.this_project'),
-    this_project_and_all_descendants: this.I18n.t('js.global_search.this_project_and_all_descendants'),
+    current_project: this.I18n.t('js.global_search.current_project'),
+    current_project_and_all_descendants: this.I18n.t('js.global_search.current_project_and_all_descendants'),
     search: this.I18n.t('js.global_search.search') + ' ...'
   };
 
-  constructor(readonly FocusHelper:FocusHelperService,
-              readonly elementRef:ElementRef,
+  constructor(readonly elementRef:ElementRef,
               readonly I18n:I18nService,
               readonly PathHelperService:PathHelperService,
               readonly halResourceService:HalResourceService,
               readonly dynamicCssService:DynamicCssService,
               readonly globalSearchService:GlobalSearchService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly currentProjectService:CurrentProjectService) {
+              readonly currentProjectService:CurrentProjectService,
+              readonly cdRef:ChangeDetectorRef) {
   }
 
-  private projectScopeTypes = ['all_projects', 'this_project', 'this_project_and_all_descendants'];
+  private projectScopeTypes = ['all_projects', 'current_project', 'current_project_and_all_descendants'];
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
-    this.$input = jQuery(this.input.nativeElement);
+    this.ngSelectComponent.filterValue = this.currentValue = this.globalSearchService.searchTerm;
+    this.expanded = (this.ngSelectComponent.filterValue.length > 0);
 
-    this.searchTermChanged
+    this.searchTermChanged$
       .pipe(
         distinctUntilChanged(),
         debounceTime(250),
         untilComponentDestroyed(this)
       )
-      .subscribe((searchTerm:string) => {
-        this.searchTerm = searchTerm;
-        this.determineExpansion();
-        this.cdRef.detectChanges();
-      });
-
-    this.globalSearchService.searchTerm$
-      .pipe(
-        distinctUntilChanged(),
-        untilComponentDestroyed(this)
-      )
-      .subscribe((searchTerm:string) => {
-        this.searchTerm = searchTerm;
-        this.determineExpansion();
-        this.cdRef.detectChanges();
-      });
-
-    let selected = false;
-
-    this.$input.autocomplete({
-      delay: 250,
-      autoFocus: true,
-      appendTo: '#top-menu',
-      classes: {
-        'ui-autocomplete': 'search-autocomplete--results'
-      },
-      position: {
-        my: 'left top+9',
-        at: 'left bottom'
-      },
-      source: (request:{ term:string }, response:Function) => {
-        this.autocompleteWorkPackages(request.term).then((values) => {
-          selected = false;
-          response(values.map(wp => {
-            return { item: wp };
-          }));
-        });
-      },
-      focus: (_evt:any, _ui:any) => {
-        // Stop propagation of this event to not overwrite the user's input.
-        return false;
-      },
-      select: (_evt:any, ui:any) => {
-        selected = true;
-
-        switch (ui.item.item) {
-          case 'all_projects': {
-            let forcePageLoad = false;
-            if (this.globalSearchService.projectScope !== 'all') {
-              forcePageLoad = true;
-              this.globalSearchService.resultsHidden = true;
-            }
-            this.globalSearchService.projectScope = 'all';
-            this.submitNonEmptySearch(forcePageLoad);
-            break;
-          }
-          case 'this_project': {
-            this.globalSearchService.projectScope = 'current_project';
-            this.submitNonEmptySearch();
-            break;
-          }
-          case 'this_project_and_all_descendants': {
-            this.globalSearchService.projectScope = '';
-            this.submitNonEmptySearch();
-            break;
-          }
-          default: {
-            const workPackage = ui.item.item;
-            this.redirectToWp(workPackage.id);
-          }
+      .subscribe((_searchTerm:string) => {
+        // load result list for searched term
+        if (this.currentValue.trim().length > 0) {
+          this.getSearchResult(this.currentValue);
         }
-        // Stop propagation of this event to not overwrite the user's input.
-        return false;
-      },
-      minLength: 1
-    })
-    .data('ui-autocomplete')._renderItem = (ul:JQuery, item:{item:string|WorkPackageResource}) => {
-      if (_.includes(this.projectScopeTypes, item.item)) {
-        return this.renderProjectScopeItem(item.item as string).appendTo(ul);
-      } else {
-        return this.renderWorkPackageItem(item.item as WorkPackageResource).appendTo(ul);
-      }
-    };
 
-    this.$input.on('focus', () => {
-      if (this.searchValue.length > 0) {
-        this.$input.autocomplete('search', this.searchValue);
-      }
-    });
+        this.cdRef.detectChanges();
+      });
+  }
+
+  ngOnDestroy() {
+    this.unregister();
   }
 
   // detect if click is outside or inside the element
@@ -199,54 +123,79 @@ export class GlobalSearchInputComponent implements OnDestroy {
     event.stopPropagation();
     event.preventDefault();
 
+    // handle click on search button
     if (ContainHelpers.insideOrSelf(this.btn.nativeElement, event.target)) {
       this.submitNonEmptySearch();
     }
   }
 
-  public redirectToWp(id:string) {
-    window.location = this.PathHelperService.workPackagePath(id) as unknown as Location;
-  }
-
-  private unregister() {
-    if (this.unregisterGlobalListener) {
-      this.unregisterGlobalListener();
-      this.unregisterGlobalListener = undefined;
+  // load selected item
+  public onChange($event:any) {
+    let selectedOption = $event;
+    if (selectedOption.id) {  // item is a work package element
+      this.redirectToWp(selectedOption.id);
+    } else {                  // item is a 'scope' element
+      // update embedded table and title when new search is submitted
+      this.globalSearchService.searchTerm = this.currentValue;
+      this.searchInScope(selectedOption.projectScope);
     }
   }
 
-  public submitNonEmptySearch(forcePageLoad:boolean = false) {
-    this.globalSearchService.searchTerm = this.searchValue;
-    if (this.searchValue !== '') {
-      // Work package results can update without page reload.
-      if (!forcePageLoad &&
-          this.globalSearchService.isAfterSearch() &&
-          this.globalSearchService.currentTab === 'work_packages') {
-        window.history
-          .replaceState({},
-            `${I18n.t('global_search.search')}: ${this.searchValue}`,
-            this.globalSearchService.searchPath());
+  public search($event:string) {
+    this.currentValue = this.ngSelectComponent.filterValue;
+    this.openCloseMenu($event);
+  }
 
-        return;
-      }
+  // close menu when input field is empty
+  public openCloseMenu(searchedTerm:string) {
+    this.ngSelectComponent.isOpen = (searchedTerm.trim().length > 0);
+  }
 
-      this.globalSearchService.submitSearch();
+  public onFocus() {
+    this.expanded = true;
+    // load result list after page reload
+    if (this.isFirstFocus && this.currentValue.length > 0) {
+      this.isFirstFocus = false;
+      this.getSearchResult(this.ngSelectComponent.filterValue);
     }
+    this.openCloseMenu(this.currentValue);
   }
 
-  private get searchValue() {
-    return this.input.nativeElement.value;
+  public onFocusOut() {
+    this.expanded = (this.ngSelectComponent.filterValue.length > 0);
+    this.ngSelectComponent.isOpen = false;
   }
 
-  ngOnDestroy():void {
-    this.$input.autocomplete('destroy');
-    this.unregister();
+  public clearSearch() {
+    this.currentValue = this.ngSelectComponent.filterValue = '';
+    this.openCloseMenu(this.currentValue);
   }
 
-  private autocompleteWorkPackages(query:string):Promise<(WorkPackageResource|string)[]> {
+  // get work packages result list and append it to suggestions
+  private getSearchResult(term:string) {
+    this.autocompleteWorkPackages(term).then((values) => {
+      this.results = this.suggestions.concat(values.map((wp:any) => {
+        return {
+          id: wp.id,
+          subject: wp.subject,
+          status: wp.status.name,
+          statusId: wp.status.idFromLink,
+          $href: wp.$href
+        };
+      }));
+    });
+  }
+
+  // return all project scope items and all items which contain the search term
+  public customSearchFn(term:string, item:any):boolean {
+    return item.id === undefined || item.subject.toLowerCase().indexOf(term.toLowerCase()) !== -1;
+  }
+
+  private autocompleteWorkPackages(query:string):Promise<(any)[]> {
     this.dynamicCssService.requireHighlighting();
 
     this.$element.find('.ui-autocomplete--loading').show();
+
     let idOnly:boolean = false;
 
     if (query.match(/^#\d+$/)) {
@@ -256,80 +205,96 @@ export class GlobalSearchInputComponent implements OnDestroy {
 
     let href:string = this.PathHelperService.api.v3.wpBySubjectOrId(query, idOnly);
 
-    let suggestions:(string|WorkPackageResource)[] = [];
-
-    if (this.currentProjectService.path) {
-      suggestions.push('this_project_and_all_descendants');
-      suggestions.push('this_project');
-    }
-
-    suggestions.push('all_projects');
+    this.addSuggestions();
 
     return this.halResourceService
       .get<CollectionResource<WorkPackageResource>>(href)
       .toPromise()
       .then((collection) => {
-        this.noResults = collection.count === 0;
         this.hideSpinner();
-        return suggestions.concat(collection.elements);
+        return collection.elements;
       }).catch(() => {
         this.hideSpinner();
-        return suggestions;
+        return [];
       });
+  }
+
+  // set the possible 'search in scope' options for the current project path
+  private addSuggestions() {
+    this.suggestions = [];
+    // add all options when searching within a project
+    // otherwise search in 'all projects'
+    if (this.currentProjectService.path) {
+      this.suggestions.push('current_project_and_all_descendants');
+      this.suggestions.push('current_project');
+    }
+    if (this.globalSearchService.projectScope === 'current_project') {
+      this.suggestions.reverse();
+    }
+    this.suggestions.push('all_projects');
+
+    this.suggestions = this.suggestions.map((suggestion:string) => {
+      return { projectScope: suggestion, text: this.text[suggestion] };
+    });
+  }
+
+  private searchInScope(scope:string) {
+    switch (scope) {
+      case 'all_projects': {
+        let forcePageLoad = false;
+        if (this.globalSearchService.projectScope !== 'all') {
+          forcePageLoad = true;
+          this.globalSearchService.resultsHidden = true;
+        }
+        this.globalSearchService.projectScope = 'all';
+        this.submitNonEmptySearch(forcePageLoad);
+        break;
+      }
+      case 'current_project': {
+        this.globalSearchService.projectScope = 'current_project';
+        this.submitNonEmptySearch();
+        break;
+      }
+      case 'current_project_and_all_descendants': {
+        this.globalSearchService.projectScope = '';
+        this.submitNonEmptySearch();
+        break;
+      }
+    }
+  }
+
+  public submitNonEmptySearch(forcePageLoad:boolean = false) {
+    this.globalSearchService.searchTerm = this.currentValue;
+    if (this.currentValue.length > 0) {
+      this.ngSelectComponent.close();
+      // Work package results can update without page reload.
+      if (!forcePageLoad &&
+          this.globalSearchService.isAfterSearch() &&
+          this.globalSearchService.currentTab === 'work_packages') {
+        window.history
+          .replaceState({},
+            `${I18n.t('global_search.search')}: ${this.ngSelectComponent.filterValue}`,
+            this.globalSearchService.searchPath());
+
+        return;
+      }
+      this.globalSearchService.submitSearch();
+    }
+  }
+
+  private redirectToWp(id:string) {
+    window.location = this.PathHelperService.workPackagePath(id) as unknown as Location;
   }
 
   private hideSpinner():void {
     this.$element.find('.ui-autocomplete--loading').hide();
   }
 
-  private renderProjectScopeItem(scope:string):JQuery {
-    return jQuery("<li>")
-      .attr('data-value', scope)
-      .attr('tabindex', -1)
-      .append(
-        jQuery('<div>')
-          .addClass( 'ui-menu-item-wrapper')
-          .append(
-            jQuery('<span>')
-              .addClass('search-autocomplete--search-term')
-              .append(this.searchValue)
-          ).append(
-            jQuery('<span>')
-              .addClass('search-autocomplete--project-scope')
-              .append(`${this.text[scope]} ↵`)
-          )
-      );
-  }
-
-  private renderWorkPackageItem(workPackage:WorkPackageResource) {
-    return jQuery("<li>")
-      .attr('data-value', workPackage.id)
-      .attr('tabindex', -1)
-      .append(
-        jQuery('<div>')
-          .addClass( 'ui-menu-item-wrapper')
-          .append(
-            jQuery('<span>')
-              .addClass('search-autocomplete--wp-id')
-              .addClass(`__hl_dot_status_${workPackage.status.idFromLink}`)
-              .attr('title', workPackage.status.name)
-              .append(`#${workPackage.id}`)
-          )
-          .append(
-            jQuery('<span>')
-              .addClass('search-autocomplete--subject')
-              .append(` ${workPackage.subject}`)
-          )
-      );
-  }
-
-  public resize() {
-    this.focused = !this.focused;
-    this.determineExpansion();
-  }
-
-  private determineExpansion():void {
-    this.expanded = (this.focused || this.searchValue.length > 0 || this.searchTerm.length > 0);
+  private unregister() {
+    if (this.unregisterGlobalListener) {
+      this.unregisterGlobalListener();
+      this.unregisterGlobalListener = undefined;
+    }
   }
 }
 

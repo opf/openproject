@@ -26,38 +26,27 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Components
-  module NgSelectAutocompleteHelpers
-    def search_autocomplete(element, query:, results_selector: nil)
-      # Open the element
-      element.click
-      # Insert the text to find
-      element.set(query)
-      sleep(0.5)
+module Constants
+  class APIPatchRegistry
+    class << self
+      def add_patch(class_name, path, &block)
+        patch_maps_by_class[class_name] = {} unless patch_maps_by_class[class_name]
+        patch_map = patch_maps_by_class[class_name]
 
-      ##
-      # Find the open dropdown
-      list =
-        if results_selector
-          page.find(results_selector)
-        else
-          page.find('.ng-dropdown-panel')
-        end
+        path = ":#{path}" if path.is_a?(Symbol)
+        patch_map[path] = [] unless patch_map[path]
+        patch_map[path] << block
+      end
 
-      scroll_to_element(list)
-      list
-    end
+      def patches_for(klass)
+        patch_maps_by_class[klass.to_s] || {}
+      end
 
-    def select_autocomplete(element, query:, results_selector: nil, select_text: nil)
-      target_dropdown = search_autocomplete(element, results_selector: results_selector, query: query)
+      private
 
-      ##
-      # If a specific select_text is given, use that to locate the match,
-      # otherwise use the query
-      text = select_text.presence || query
-
-      # click the element to select it
-      target_dropdown.find('.ng-option', text: text).click
+      def patch_maps_by_class
+        @patch_maps_by_class ||= {}
+      end
     end
   end
 end

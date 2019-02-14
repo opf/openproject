@@ -149,6 +149,7 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
   private setQueryProps():void {
     let filters:any[] = [];
 
+    console.log("setQueryProps", this.globalSearchService.searchTerm);
     if (this.globalSearchService.searchTerm.length > 0) {
       filters.push({ search: {
           operator: '**',

@@ -1,9 +1,5 @@
 require 'spec_helper'
 
-require 'features/work_packages/work_packages_page'
-require 'support/work_packages/work_package_field'
-require 'features/support/components/ngselect_autocompleter'
-
 describe 'Watcher tab', js: true, selenium: true do
   include ::Components::NgSelectAutocompleteHelpers
 
@@ -63,7 +59,7 @@ describe 'Watcher tab', js: true, selenium: true do
 
     it 'modifying the watcher list modifies the watch button' do
       # Add user as watcher
-      autocomplete = find('.wp-watcher--autocomplete input')
+      autocomplete = find('.wp-watcher--autocomplete')
       select_autocomplete autocomplete,
                           query: user.firstname,
                           select_text: user.name
@@ -96,7 +92,7 @@ describe 'Watcher tab', js: true, selenium: true do
       }
 
       it 'escapes the user name' do
-        autocomplete = find('.wp-watcher--autocomplete input')
+        autocomplete = find('.wp-watcher--autocomplete')
         target_dropdown = search_autocomplete autocomplete,
                                               query: 'foo'
 
