@@ -42,7 +42,8 @@ import {NgSelectComponent} from "@ng-select/ng-select/dist";
                (search)="onSearch($event)"
                (change)="onModelChange($event)" >
       <ng-template ng-option-tmp let-item="item" let-index="index">
-        <user-avatar [attr.data-user-id]="item.id"
+        <user-avatar [attr.data-user-name]="item.name"
+                     [attr.data-user-avatar-src]="item.avatar"
                      data-class-list="avatar-mini">
         </user-avatar>
         {{ item.name }}
@@ -94,7 +95,7 @@ export class UserAutocompleterComponent implements OnInit {
     this.halResourceService.get(url, filters)
       .subscribe(res => {
         this.options = res.elements.map((el:any) => {
-          return {name: el.name, id: el.id, href: el.href};
+          return {name: el.name, id: el.id, href: el.href, avatar: el.avatar};
         });
       });
   }
