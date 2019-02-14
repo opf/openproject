@@ -21,7 +21,7 @@ import {
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
@@ -74,7 +74,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
               readonly appRef:ApplicationRef,
               readonly componentFactoryResolver:ComponentFactoryResolver,
               readonly loadingIndicator:LoadingIndicatorService,
-              readonly tableState:TableState,
+              readonly querySpace:IsolatedQuerySpace,
               readonly queryFormDm:QueryFormDmService,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               readonly wpNotificationsService:WorkPackageNotificationService,
@@ -144,7 +144,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   }
 
   protected loadForm() {
-    const query = this.tableState.query.value!;
+    const query = this.querySpace.query.value!;
     return this.queryFormDm
       .load(query)
       .then((form:QueryFormResource) => {

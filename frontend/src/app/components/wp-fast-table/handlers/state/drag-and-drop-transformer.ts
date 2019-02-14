@@ -1,6 +1,6 @@
 import {Injector} from '@angular/core';
 import {WorkPackageTable} from '../../wp-fast-table';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {States} from 'core-components/states.service';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
@@ -12,7 +12,7 @@ import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder
 
 export class DragAndDropTransformer {
 
-  private readonly tableState:TableState = this.injector.get(TableState);
+  private readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
   private readonly states:States = this.injector.get(States);
   private readonly pathHelper = this.injector.get(PathHelperService);
   private readonly dragService = this.injector.get(DragAndDropService, null);
@@ -30,14 +30,14 @@ export class DragAndDropTransformer {
     }
 
     this.inlineCreateService.newInlineWorkPackageCreated
-      .pipe(takeUntil(this.tableState.stopAllSubscriptions))
+      .pipe(takeUntil(this.querySpace.stopAllSubscriptions))
       .subscribe((wpId) => {
         this.reorderService
-          .add(this.tableState, wpId)
+          .add(this.querySpace, wpId)
           .then(() => this.wpTableRefresh.request('Drag and Drop added item'));
       });
 
-    this.tableState.stopAllSubscriptions
+    this.querySpace.stopAllSubscriptions
       .pipe(take(1))
       .subscribe(() => {
         this.dragService
@@ -53,19 +53,19 @@ export class DragAndDropTransformer {
       onMoved: (row:HTMLTableRowElement) => {
         const wpId:string = row.dataset.workPackageId!;
         this.reorderService
-          .move(this.tableState, wpId, row.rowIndex - 1)
+          .move(this.querySpace, wpId, row.rowIndex - 1)
           .then(() => this.wpTableRefresh.request('Drag and Drop moved item'));
       },
       onRemoved: (row:HTMLTableRowElement) => {
         const wpId:string = row.dataset.workPackageId!;
         this.reorderService
-          .remove(this.tableState, wpId)
+          .remove(this.querySpace, wpId)
           .then(() => this.wpTableRefresh.request('Drag and Drop removed item'));
       },
       onAdded: (row:HTMLTableRowElement) => {
         const wpId:string = row.dataset.workPackageId!;
         this.reorderService
-          .add(this.tableState, wpId, row.rowIndex - 1)
+          .add(this.querySpace, wpId, row.rowIndex - 1)
           .then(() => this.wpTableRefresh.request('Drag and Drop added item'));
       }
     });

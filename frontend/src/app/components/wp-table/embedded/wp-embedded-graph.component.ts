@@ -1,6 +1,5 @@
-import {AfterViewInit, Component, Injector, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {CurrentProjectService} from 'core-components/projects/current-project.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {AfterViewInit, Component, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
 import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-table/state/wp-table-relation-columns.service';
 import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
@@ -12,16 +11,12 @@ import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/stat
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
 import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
-import { WorkPackageTableConfiguration } from 'core-components/wp-table/wp-table-configuration';
+import {WorkPackageTableConfiguration} from 'core-components/wp-table/wp-table-configuration';
 import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
-import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
-import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import { Chart } from 'chart.js';
+import {Chart} from 'chart.js';
 import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedded/wp-embedded-base.component";
 
 export interface WorkPackageEmbeddedGraphDataset {
@@ -35,7 +30,7 @@ export interface WorkPackageEmbeddedGraphDataset {
   selector: 'wp-embedded-graph',
   templateUrl: './wp-embedded-graph.html',
   providers: [
-    TableState,
+    IsolatedQuerySpace,
     OpTableActionsService,
     WorkPackageStatesInitializationService,
     WorkPackageTableRelationColumnsService,

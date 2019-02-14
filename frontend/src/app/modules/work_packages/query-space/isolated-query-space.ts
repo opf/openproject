@@ -25,13 +25,13 @@ import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 
 @Injectable()
-export class TableState extends StatesGroup {
+export class IsolatedQuerySpace extends StatesGroup {
 
   constructor() {
     super();
   }
 
-  name = 'TableStore';
+  name = 'IsolatedQuerySpace';
 
   // The query that results in this table state
   query:InputState<QueryResource> = input<QueryResource>();
@@ -97,34 +97,34 @@ export class TableState extends StatesGroup {
 }
 
 export class TableRenderingStates {
-  constructor(private tableState:TableState) {
+  constructor(private querySpace:IsolatedQuerySpace) {
   }
 
   // State when all required input states for the current query are ready
-  private combinedTableStates = combine(
-    this.tableState.rows,
-    this.tableState.columns,
-    this.tableState.sum,
-    this.tableState.groupBy,
-    this.tableState.sortBy,
-    this.tableState.additionalRequiredWorkPackages
+  private combinedquerySpaces = combine(
+    this.querySpace.rows,
+    this.querySpace.columns,
+    this.querySpace.sum,
+    this.querySpace.groupBy,
+    this.querySpace.sortBy,
+    this.querySpace.additionalRequiredWorkPackages
   );
 
   onQueryUpdated:DerivedState<[WorkPackageResource[], WorkPackageTableColumns, WorkPackageTableSum, WorkPackageTableGroupBy, WorkPackageTableSortBy, null], [undefined], null, undefined> =
-    derive(this.combinedTableStates, ($,) => $.pipe(mapTo(null)));
+    derive(this.combinedquerySpaces, ($,) => $.pipe(mapTo(null)));
 }
 
 export class UserUpdaterStates {
 
-  constructor(private tableState:TableState) {
+  constructor(private querySpace:IsolatedQuerySpace) {
   }
 
-  columnsUpdates = this.tableState.ready.fireOnStateChange(this.tableState.columns,
+  columnsUpdates = this.querySpace.ready.fireOnStateChange(this.querySpace.columns,
     'Query loaded');
 
-  hierarchyUpdates = this.tableState.ready.fireOnStateChange(this.tableState.hierarchies,
+  hierarchyUpdates = this.querySpace.ready.fireOnStateChange(this.querySpace.hierarchies,
     'Query loaded');
 
-  relationUpdates = this.tableState.ready.fireOnStateChange(this.tableState.relationColumns,
+  relationUpdates = this.querySpace.ready.fireOnStateChange(this.querySpace.relationColumns,
     'Query loaded');
 }

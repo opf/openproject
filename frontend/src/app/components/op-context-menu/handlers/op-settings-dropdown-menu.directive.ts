@@ -42,7 +42,7 @@ import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-e
 import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
 import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
-import {TableState} from "core-components/wp-table/table-state/table-state";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {
   selectableTitleIdentifier,
   triggerEditingEvent
@@ -63,7 +63,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
               readonly wpListService:WorkPackagesListService,
               readonly authorisationService:AuthorisationService,
               readonly states:States,
-              readonly tableState:TableState,
+              readonly querySpace:IsolatedQuerySpace,
               readonly I18n:I18nService) {
 
     super(elementRef, opContextMenu);
@@ -76,7 +76,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
   ngAfterViewInit():void {
     super.ngAfterViewInit();
 
-    this.tableState.query.values$()
+    this.querySpace.query.values$()
       .pipe(
         takeUntil(componentDestroyed(this))
       )
@@ -84,9 +84,9 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         this.query = queryUpdate;
       });
 
-    this.loadingPromise = this.tableState.queryForm.valuesPromise();
+    this.loadingPromise = this.querySpace.queryForm.valuesPromise();
 
-    this.tableState.queryForm.values$()
+    this.querySpace.queryForm.values$()
       .pipe(
         takeUntil(componentDestroyed(this))
       )

@@ -28,7 +28,7 @@
 
 import {Injectable} from '@angular/core';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {InputState} from 'reactivestates';
 import {Observable} from 'rxjs';
 import {distinctUntilChanged, filter, map} from 'rxjs/operators';
@@ -45,7 +45,7 @@ export class WorkPackageTableFocusService {
   public state:InputState<WPFocusState>;
 
   constructor(public states:States,
-              public tableState:TableState,
+              public querySpace:IsolatedQuerySpace,
               public wpTableSelection:WorkPackageTableSelection) {
     this.state = states.focusedWorkPackage;
     this.observeToUpdateFocused();
@@ -101,7 +101,7 @@ export class WorkPackageTableFocusService {
    */
   private observeToUpdateFocused() {
     this
-      .tableState.rendered
+      .querySpace.rendered
       .values$()
       .pipe(
         map(state => _.find(state, (row:any) => row.workPackageId)),

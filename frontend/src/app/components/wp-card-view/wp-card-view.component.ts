@@ -9,7 +9,7 @@ import {
   ViewChild
 } from "@angular/core";
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {TableState} from "core-components/wp-table/table-state/table-state";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {QueryColumn} from "app/components/wp-query/query-column";
 import {combine} from "reactivestates/dist";
@@ -48,7 +48,7 @@ import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-ch
   templateUrl: './wp-card-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    TableState,
+    IsolatedQuerySpace,
     OpTableActionsService,
     WorkPackageInlineCreateService,
     WorkPackageTableRelationColumnsService,
@@ -88,7 +88,7 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
   /** Whether the card view has an active inline created wp */
   public activeInlineCreateWp?:WorkPackageResource;
 
-  constructor(readonly tableState:TableState,
+  constructor(readonly querySpace:IsolatedQuerySpace,
               readonly injector:Injector,
               readonly I18n:I18nService,
               readonly currentProject:CurrentProjectService,
@@ -110,8 +110,8 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
     this.registerCreationCallback();
 
     combine(
-      this.tableState.columns,
-      this.tableState.results
+      this.querySpace.columns,
+      this.querySpace.results
     )
     .values$()
     .pipe(
@@ -173,14 +173,14 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
         const toIndex = this.getIndex(card);
 
         this.reorderService
-          .move(this.tableState, wpId, toIndex)
+          .move(this.querySpace, wpId, toIndex)
           .then(() => this.wpTableRefresh.request('Drag and Drop moved item'));
       },
       onRemoved: (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;
 
         this.reorderService
-          .remove(this.tableState, wpId)
+          .remove(this.querySpace, wpId)
           .then(() => this.wpTableRefresh.request('Drag and Drop removed item'));
       },
       onAdded: (card:HTMLElement) => {
@@ -190,7 +190,7 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
         const toIndex = this.getIndex(card);
 
         this.reorderService
-          .add(this.tableState, wpId, toIndex)
+          .add(this.querySpace, wpId, toIndex)
           .then(() => this.wpTableRefresh.request('Drag and Drop added item'));
       }
     });
@@ -224,7 +224,7 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
           this.activeInlineCreateWp = undefined;
 
           // Add this item to the results
-          this.reorderService.add(this.tableState, wp.id, index);
+          this.reorderService.add(this.querySpace, wp.id, index);
 
           // Notify inline create service
           this.wpInlineCreate.newInlineWorkPackageCreated.next(wp.id);

@@ -169,7 +169,7 @@ import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-c
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageChildrenQueryComponent} from "core-components/wp-relations/embedded/children/wp-children-query.component";
@@ -187,6 +187,7 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
 import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
 import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
+import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
 
 @NgModule({
   imports: [
@@ -270,8 +271,10 @@ import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card
     WorkPackageContextMenuHelperService,
 
     QueryFormDmService,
-    TableState,
     ReorderQueryService,
+
+    // Isolated query space store
+    IsolatedQuerySpace,
 
     WpTableConfigurationService,
   ],
@@ -279,6 +282,9 @@ import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card
     // Routing
     WorkPackagesBaseComponent,
     WorkPackagesListComponent,
+
+    // Query injector isolation
+    WorkPackageIsolatedQuerySpaceDirective,
 
     // WP New
     WorkPackageNewFullViewComponent,

@@ -40,7 +40,7 @@ import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
-import {TableState} from "core-components/wp-table/table-state/table-state";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 
 @Injectable()
 export class WorkPackageCreateService implements IWorkPackageCreateService {
@@ -54,7 +54,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
               protected wpCacheService:WorkPackageCacheService,
               protected halResourceService:HalResourceService,
               @Inject(IWorkPackageEditingServiceToken) protected readonly wpEditing:WorkPackageEditingService,
-              protected readonly tableState:TableState,
+              protected readonly querySpace:IsolatedQuerySpace,
               protected apiWorkPackages:ApiWorkPackagesService) {
   }
 
@@ -203,7 +203,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
   private applyDefaults(changeset:WorkPackageChangeset, wp:WorkPackageResource, except:string[]) {
     // Not using WorkPackageTableFiltersService here as the embedded table does not load the form
     // which will result in that service having empty current filters.
-    let query = this.tableState.query.value;
+    let query = this.querySpace.query.value;
 
     if (query) {
       const filter = new WorkPackageFilterValues(this.injector, changeset, query.filters, except);

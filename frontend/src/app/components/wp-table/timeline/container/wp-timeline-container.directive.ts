@@ -30,7 +30,7 @@ import {AfterViewInit, Component, ElementRef, Injector, OnDestroy} from '@angula
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {INotification, NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import * as moment from 'moment';
 import {Moment} from 'moment';
 import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -67,7 +67,7 @@ import {Subject} from "rxjs";
 })
 export class WorkPackageTimelineTableController implements AfterViewInit, OnDestroy {
 
-  private readonly tableState:TableState = this.injector.get(TableState);
+  private readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
 
   private $element:JQuery;
 
@@ -136,9 +136,9 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     window.addEventListener('wp-resize.timeline', () => this.refreshRequest.putValue(undefined));
 
     // Refresh timeline view after table rendered
-    this.tableState.rendered.values$()
+    this.querySpace.rendered.values$()
       .pipe(
-        takeUntil(this.tableState.stopAllSubscriptions),
+        takeUntil(this.querySpace.stopAllSubscriptions),
         filter(() => this.initialized)
       )
       .subscribe((orderedRows) => {
@@ -148,7 +148,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       });
 
     // Refresh timeline view when becoming visible
-    this.tableState.timeline.values$()
+    this.querySpace.timeline.values$()
       .pipe(
         filter((timelineState:WorkPackageTableTimelineState) => timelineState.isVisible),
         takeUntil(componentDestroyed(this))
@@ -210,7 +210,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   }
 
   get initialized():boolean {
-    return this.workPackageTable && this.tableState.rendered.hasValue();
+    return this.workPackageTable && this.querySpace.rendered.hasValue();
   }
 
   refreshView() {
@@ -249,7 +249,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   updateOnWorkPackageChanges() {
     this.states.workPackages.observeChange()
       .pipe(
-        withLatestFrom(this.tableState.timeline.values$()),
+        withLatestFrom(this.querySpace.timeline.values$()),
         takeUntil(componentDestroyed(this)),
         filter(([, timelineState]) => this.initialized && timelineState.isVisible),
         map(([[wpId]]) => wpId),

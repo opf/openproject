@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, Injector, Input, OnDestroy, OnInit} from '@angular/core';
-import {TableState} from '../table-state/table-state';
 import {WorkPackageStatesInitializationService} from '../../wp-list/wp-states-initialization.service';
 import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-table/state/wp-table-relation-columns.service';
 import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
@@ -28,12 +27,13 @@ import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {WorkPackageTableFilters} from "core-components/wp-fast-table/wp-table-filters";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 
 @Component({
   selector: 'wp-embedded-table',
   templateUrl: './wp-embedded-table.html',
   providers: [
-    TableState,
+    IsolatedQuerySpace,
     OpTableActionsService,
     WorkPackageTableRelationColumnsService,
     WorkPackageTablePaginationService,
@@ -87,10 +87,10 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     }
 
     // Reload results on changes to pagination
-    this.tableState.ready.fireOnStateChange(this.wpTablePagination.state,
+    this.querySpace.ready.fireOnStateChange(this.wpTablePagination.state,
       'Query loaded').values$().pipe(
       untilComponentDestroyed(this),
-      withLatestFrom(this.tableState.query.values$())
+      withLatestFrom(this.querySpace.query.values$())
     ).subscribe(([pagination, query]) => {
       this.loadingIndicator = this.QueryDm.loadResults(query, this.wpTablePagination.paginationObject)
         .then((results) => this.initializeStates(query, results));
@@ -98,7 +98,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   }
 
   public openConfigurationModal(onUpdated:() => void) {
-    this.tableState.query
+    this.querySpace.query
       .valuesPromise()
       .then(() => {
         const modal = this.opModalService
@@ -110,12 +110,12 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   }
 
   private initializeStates(query:QueryResource, results:WorkPackageCollectionResource) {
-    this.tableState.ready.doAndTransition('Query loaded', () => {
+    this.querySpace.ready.doAndTransition('Query loaded', () => {
       this.wpStatesInitialization.clearStates();
       this.wpStatesInitialization.initializeFromQuery(query, results);
-      this.wpStatesInitialization.updateTableState(query, results);
+      this.wpStatesInitialization.updatequerySpace(query, results);
 
-      return this.tableState.tableRendering.onQueryUpdated.valuesPromise()
+      return this.querySpace.tableRendering.onQueryUpdated.valuesPromise()
         .then(() => {
           this.showTablePagination = results.total > results.count;
           this.setLoaded();

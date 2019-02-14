@@ -37,7 +37,7 @@ import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {QuerySharingChange} from "core-components/modals/share-modal/query-sharing-form.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {TableState} from "core-components/wp-table/table-state/table-state";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 
 @Component({
   templateUrl: './query-sharing.modal.html'
@@ -63,7 +63,7 @@ export class QuerySharingModal extends OpModalComponent implements OnInit {
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly I18n:I18nService,
               readonly states:States,
-              readonly tableState:TableState,
+              readonly querySpace:IsolatedQuerySpace,
               readonly cdRef:ChangeDetectorRef,
               readonly wpListService:WorkPackagesListService,
               readonly wpNotificationsService:WorkPackageNotificationService,
@@ -74,7 +74,7 @@ export class QuerySharingModal extends OpModalComponent implements OnInit {
   ngOnInit() {
     super.ngOnInit();
 
-    this.query = this.tableState.query.value!;
+    this.query = this.querySpace.query.value!;
 
     this.isStarred = this.query.starred;
     this.isPublic = this.query.public;

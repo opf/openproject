@@ -31,12 +31,12 @@ import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {WorkPackageTableFiltersService} from "app/components/wp-fast-table/state/wp-table-filters.service";
 import {QueryFilterResource} from "app/modules/hal/resources/query-filter-resource";
 import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {TableState} from "app/components/wp-table/table-state/table-state";
 import {WorkPackageCacheService} from "app/components/work-packages/work-package-cache.service";
 import {Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
 import {WorkPackageTableFilters} from "core-components/wp-fast-table/wp-table-filters";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 
 @Component({
   selector: 'wp-filter-by-text-input',
@@ -59,7 +59,7 @@ export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy 
   private availableSearchFilter:QueryFilterResource;
 
   constructor(readonly I18n:I18nService,
-              readonly tableState:TableState,
+              readonly querySpace:IsolatedQuerySpace,
               readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly wpCacheService:WorkPackageCacheService) {
     this.searchTermChanged

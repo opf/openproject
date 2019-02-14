@@ -31,7 +31,7 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageTableColumns} from '../wp-table-columns';
 import {QueryColumn, queryColumnTypes} from '../../wp-query/query-column';
 import {InputState} from 'reactivestates';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {States} from 'core-components/states.service';
 import {Injectable} from '@angular/core';
 import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
@@ -39,12 +39,12 @@ import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resou
 @Injectable()
 export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<WorkPackageTableColumns> implements WorkPackageQueryStateService {
 
-  public constructor(readonly states:States, readonly tableState:TableState) {
-    super(tableState);
+  public constructor(readonly states:States, readonly querySpace:IsolatedQuerySpace) {
+    super(querySpace);
   }
 
   public get state():InputState<WorkPackageTableColumns> {
-    return this.tableState.columns;
+    return this.querySpace.columns;
   }
 
   public valueFromQuery(query:QueryResource):WorkPackageTableColumns {

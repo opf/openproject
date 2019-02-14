@@ -34,7 +34,7 @@ import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {States} from '../../states.service';
 import {WorkPackageTableColumns} from '../../wp-fast-table/wp-table-columns';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 
@@ -49,7 +49,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
 
   constructor(public readonly injector:Injector,
               public readonly elementRef:ElementRef,
-              public readonly tableState:TableState,
+              public readonly querySpace:IsolatedQuerySpace,
               private states:States,
               private displayFieldService:DisplayFieldService,
               readonly I18n:I18nService) {
@@ -64,13 +64,13 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
     this.$element = jQuery(this.elementRef.nativeElement);
 
     combine(
-      this.tableState.columns,
-      this.tableState.results,
-      this.tableState.sum
+      this.querySpace.columns,
+      this.querySpace.results,
+      this.querySpace.sum
     )
       .values$()
       .pipe(
-        takeUntil(this.tableState.stopAllSubscriptions)
+        takeUntil(this.querySpace.stopAllSubscriptions)
       )
       .subscribe(([columns, resource, sum]) => {
         if (sum.isEnabled && resource.sumsSchema) {

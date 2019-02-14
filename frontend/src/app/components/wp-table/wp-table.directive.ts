@@ -40,7 +40,7 @@ import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-b
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs';
 import {States} from '../states.service';
@@ -109,7 +109,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   constructor(readonly elementRef:ElementRef,
               readonly  injector:Injector,
               readonly states:States,
-              readonly tableState:TableState,
+              readonly querySpace:IsolatedQuerySpace,
               readonly opModalService:OpModalService,
               readonly opContextMenu:OPContextMenuService,
               readonly I18n:I18nService,
@@ -125,7 +125,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     this.scrollSyncUpdate = createScrollSync(this.$element);
 
     // Clear any old table subscribers
-    this.tableState.stopAllSubscriptions.next();
+    this.querySpace.stopAllSubscriptions.next();
 
     this.locale = I18n.locale;
 
@@ -149,7 +149,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     };
 
     let statesCombined = combineLatest(
-      this.tableState.results.values$(),
+      this.querySpace.results.values$(),
       this.wpTableGroupBy.state.values$(),
       this.wpTableColumns.state.values$(),
       this.wpTableTimeline.state.values$());
@@ -157,7 +157,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     statesCombined.pipe(
       untilComponentDestroyed(this)
     ).subscribe(([results, groupBy, columns, timelines]) => {
-      this.query = this.tableState.query.value!;
+      this.query = this.querySpace.query.value!;
       this.rowcount = results.count;
 
       this.groupBy = groupBy.current;

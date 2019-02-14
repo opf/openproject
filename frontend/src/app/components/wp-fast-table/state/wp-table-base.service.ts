@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {InputState, State} from 'reactivestates';
 import {mapTo, take, takeUntil} from 'rxjs/operators';
 import {Observable} from 'rxjs';
@@ -36,7 +36,7 @@ import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-c
 
 export abstract class WorkPackageTableBaseService<T> {
 
-  constructor(readonly tableState:TableState) {
+  constructor(readonly querySpace:IsolatedQuerySpace) {
   }
 
   /**

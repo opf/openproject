@@ -2,17 +2,17 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {InputState} from 'reactivestates';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {WorkPackageTableHierarchies} from '../wp-table-hierarchies';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 
 @Injectable()
 export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseService<WorkPackageTableHierarchies> implements WorkPackageQueryStateService {
-  public constructor(tableState:TableState) {
-    super(tableState);
+  public constructor(querySpace:IsolatedQuerySpace) {
+    super(querySpace);
   }
 
   public get state():InputState<WorkPackageTableHierarchies> {
-    return this.tableState.hierarchies;
+    return this.querySpace.hierarchies;
   }
 
   public valueFromQuery(query:QueryResource):WorkPackageTableHierarchies|undefined {
@@ -44,14 +44,14 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
 
     if (active) {
       // hierarchies and group by are mutually exclusive
-      var groupBy = this.tableState.groupBy.value!;
+      var groupBy = this.querySpace.groupBy.value!;
       groupBy.current = undefined;
-      this.tableState.groupBy.putValue(groupBy);
+      this.querySpace.groupBy.putValue(groupBy);
 
       // hierarchies and sort by are mutually exclusive
-      var sortBy = this.tableState.sortBy.value!;
+      var sortBy = this.querySpace.sortBy.value!;
       sortBy.current = [];
-      this.tableState.sortBy.putValue(sortBy);
+      this.querySpace.sortBy.putValue(sortBy);
     }
 
     this.state.putValue(state);
