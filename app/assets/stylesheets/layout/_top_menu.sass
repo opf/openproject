@@ -166,103 +166,121 @@ $search-input-width-expanded: 300px
     left: 260px
     @include varprop(color, font-color-on-primary)
 
-.top-menu-search
-  display: inline-block
-  position: relative
-  height: $header-height
-  line-height: $header-height
-  margin: 0 15px
-  > div
-    padding-top: 9px
 
 .top-menu-search--wrapper
   float: left
 
-.top-menu-search--button
-  line-height: $header-height
+.top-menu-search
+  display: flex
+  align-items: center
+  position: relative
   height: $header-height
-  padding: 0 5px
-  @include varprop(font-size, header-item-font-size)
-  font-weight: normal
-  background: transparent
-  &:hover
-    text-decoration: none
+  line-height: $header-height
+  margin: 0 15px
 
-  .top-menu-search &
+  .top-menu-search--button
     position: absolute
-    top: 1px
-    right: 0
-    z-index: 10
+    right: 2px
+    @include varprop(font-size, header-item-font-size)
     @include varprop(color, header-item-font-color)
-
-.top-menu-search--button.-input-focused
-  color: $header-search-field-font-color
-
-input[type="text"].top-menu-search--input
-  margin: 0
-  padding: 0 20px 0 10px
-  display: inline-block
-  border-width: 1px
-  border-style: solid
-  @include varprop(border-color, header-item-font-color)
-  border-radius: 4px
-  height: 31px
-  width: $search-input-width
-  outline: 0
-  font-size: 0.9rem
-  background: transparent
-  @include varprop(color, header-item-font-color)
-  -webkit-transition: width 0.2s ease-in-out
-  transition: width 0.2s ease-in-out
-  &::-ms-clear
-    margin-right: 5px
-    width: 20px
-  &:focus
-    background: white
-    border-width: 1px
-    border-style: solid
-    @include varprop(border-color, header-item-font-color)
-    color: $header-search-field-font-color
     &:hover
+      text-decoration: none
+
+  .top-menu-search--button.-input-focused
+    color: $header-search-field-font-color
+
+  .top-menu-search--loading
+    top: $header-height - 11px  // display directly under ng-input field
+    height: 46px                // ng-option height + 1px border
+    z-index: 1051
+
+  #global-search-input
+    width: $search-input-width
+    font-size: 0.9rem
+    -webkit-transition: width 0.2s ease-in-out
+    transition: width 0.2s ease-in-out
+    &::-ms-clear
+      margin-right: 5px
+      width: 20px
+
+    .ng-select-container
+      background: transparent
+      border-width: 1px
+      border-style: solid
+      @include varprop(border-color, header-item-font-color)
+      max-height: 32px
+      min-height: unset
+      &:hover
+        @include varprop(border-color, header-item-font-hover-color)
+
+    .ng-arrow-wrapper
+      opacity: 0
+
+    .ng-clear-wrapper
+      @include varprop(color, header-item-font-color)
+      top: 1px
+
+    .ng-input
+      top: 0
+      input
+        @include varprop(color, header-item-font-color)
+        height: 30px
+        cursor: text
+
+    .ng-placeholder
+      @include varprop(color, header-item-font-color)
+
+    &.-expanded
+      width: $search-input-width-expanded
       background: white
-  &:hover
-    background: unset
-    border-width: 1px
-    border-style: solid
-    @include varprop(border-color, header-item-font-color)
+      border-radius: 4px
+      color: $header-search-field-font-color
 
-input.top-menu-search--input.-expanded
-  width: $search-input-width-expanded
-  background: white
-  border-width: 1px
-  border-style: solid
-  @include varprop(border-color, header-item-font-color)
-  color: $header-search-field-font-color
-  &:hover
-    background: white
+      .ng-placeholder,
+      .ng-clear-wrapper,
+      input
+        @include varprop(color, header-search-field-font-color)
 
-.search-autocomplete--results
-  width: 300px
+      .scroll-host
+        @include styled-scroll-bar-vertical
+        max-height: 80vh
+        height: auto
 
-.search-autocomplete--project-scope
-  display: inline-block
+        .ng-option
+          border-bottom: 1px solid #EAEAEA
+          white-space: normal
+          padding: 5px 10px
+          &:last-child
+            border-bottom: none
+          &.ng-option-marked
+            @include varprop(background-color, drop-down-hover-bg-color)
+            @include varprop(color, header-drop-down-item-font-hover-color)
+          &.ng-option-disabled
+            display: none
+          &.ng-option-selected
+            @include varprop(background-color, drop-down-selected-bg-color)
+            @include varprop(color, header-drop-down-item-font-hover-color)
+
+.global-search--wp-id
+  color: $gray-dark
+  font-size: 13px
+  white-space: nowrap
+
+.global-search--option-wrapper
+  padding: 5px 5px
+  line-height: 25px
+  min-height: 35px  // line-height + padding
+  word-break: break-word
+
+.global-search--project-scope
   position: absolute
   right: 7px
   border: 1px solid $button--border-color
   font-size: 13px
   background: $button--background-color
   border-radius: 2px
-  padding: 3px 4px
-  margin-left: 5px
-
-.top-menu-search--loading
-  top: $header-height
-  left: 0
-
-.search-autocomplete--wp-id
-  color: $gray-dark
-  font-size: 13px
-  white-space: nowrap
+  padding: 0 4px
+  color: $body-font-color
 
 #quick-search
   float: right
@@ -357,7 +375,7 @@ input.top-menu-search--input.-expanded
 
   .nosidebar &
     display: none
-    
+
   &:hover
     @extend %top-menu-hover-styles
 

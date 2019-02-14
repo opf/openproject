@@ -32,7 +32,9 @@ module Components
       # Open the element
       element.click
       # Insert the text to find
-      element.set(query)
+      within(element) do
+        page.find('input').set(query)
+      end
       sleep(0.5)
 
       ##
@@ -41,14 +43,16 @@ module Components
         if results_selector
           page.find(results_selector)
         else
-          page.find('.ng-dropdown-panel')
+          within(element) do
+            page.find('ng-select .ng-dropdown-panel')
+          end
         end
 
       scroll_to_element(list)
       list
     end
 
-    def select_autocomplete(element, query:, results_selector: nil, select_text: nil)
+    def select_autocomplete(element, query:, results_selector: nil, select_text: nil, option_selector: nil)
       target_dropdown = search_autocomplete(element, results_selector: results_selector, query: query)
 
       ##
@@ -60,4 +64,8 @@ module Components
       target_dropdown.find('.ng-option', text: text).click
     end
   end
+end
+
+shared_context 'ng-select-autocomplete helpers' do
+  include ::Components::NgSelectAutocompleteHelpers
 end
