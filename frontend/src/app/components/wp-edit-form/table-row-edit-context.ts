@@ -83,6 +83,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
 
         return this.wpEditingPortalService.create(
           cell,
+          this.injector,
           form,
           schema,
           fieldName,

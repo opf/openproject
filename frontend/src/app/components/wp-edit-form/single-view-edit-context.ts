@@ -66,6 +66,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
       const container = ctrl.editContainer.nativeElement;
       return this.wpEditingPortalService.create(
         container,
+        this.injector,
         form,
         schema,
         fieldName,
