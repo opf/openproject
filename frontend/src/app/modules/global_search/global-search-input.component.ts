@@ -215,6 +215,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
         return collection.elements;
       }).catch(() => {
         this.hideSpinner();
+        return [];
       });
   }
 
