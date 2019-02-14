@@ -3,8 +3,7 @@ zh-TW:
   no_results_title_text: 目前無資料可以顯示
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within
-        this time frame.
+      no_results_title_text: 在這一時限內, 該專案沒有任何活動。
   admin:
     plugins:
       no_results_title_text: 目前沒有外掛可以使用
@@ -53,13 +52,13 @@ zh-TW:
     index:
       no_results_title_text: 目前沒有顏色
       no_results_content_text: 建立一個新顏色
-    label_no_color: No color
+    label_no_color: 無顏色
   custom_actions:
     actions:
       name: 操作
       add: 新增動作
       assigned_to:
-        executing_user_value: "(Assign to executing user)"
+        executing_user_value: "(分配給執行使用者)"
     conditions: 條件
     plural: 自訂動作
     new: 新增自訂操作
@@ -80,7 +79,7 @@ zh-TW:
       no_results_title_text: 目前沒有自定義的欄位
       no_results_content_text: 建立一個新的自定義欄位
   concatenation:
-    single: or
+    single: 或者
   deprecations:
     old_timeline:
       replacement: 此時間軸模組正在被嵌入在工作項目模組的互動式時間軸所取代。
@@ -140,8 +139,8 @@ zh-TW:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        按一下以分配或更改此優先順序的顏色。
+        它可用於突出顯示表中的工作包。
   reportings:
     index:
       no_results_title_text: 目前沒有狀態可以回報
@@ -149,13 +148,13 @@ zh-TW:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
-        <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        選中此選項可將具有此狀態的工作包標記為唯讀。
+        不能更改任何屬性, 但狀態除外。
+        123 _ 2 _
+        <strong>筆記</strong>: 繼承的值 (例如, 來自子項或關係) 仍將適用。
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        按一下以分配或更改此優先順序的顏色。
+        它可用於突出顯示表中的工作包。
     index:
       no_results_title_text: 目前沒有工作項目狀態
       no_results_content_text: 新增一個狀態
@@ -169,9 +168,9 @@ zh-TW:
       projects: 專案
       enabled_projects: 已啟用的專案
       add_group: 添加屬性組
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: 添加相關工作包的表格
+      edit_query: 編輯表格
+      query_group_placeholder: 給表格命名
       reset: 重設為預設值
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -200,8 +199,7 @@ zh-TW:
       reported:
         no_results_title_text: 目前沒有我已經報告的工作項目
       responsible:
-        no_results_title_text: There are currently no work packages that I am accountable
-          for.
+        no_results_title_text: 目前沒有我負責的工作項目
       watched:
         no_results_title_text: 目前沒有我在關注的工作項目
     summary:
@@ -310,7 +308,7 @@ zh-TW:
         to: 相關的工作項目
       status:
         is_closed: 工作項目關閉
-        is_readonly: Work package read-only
+        is_readonly: 工作包 唯讀
       journal:
         notes: 備註
       member:
@@ -342,7 +340,7 @@ zh-TW:
       type:
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
-        is_default: Activated for new projects by default
+        is_default: 新專案的預設啟動類型
         is_milestone: 是里程碑
         color: 顏色
       user:
@@ -364,7 +362,7 @@ zh-TW:
         auto_hide_popups: 自動隱藏成功通知
         warn_on_leaving_unsaved: 離開尚未儲存的工作包時提示我
       version:
-        effective_date: Finish date
+        effective_date: 完成日期
         sharing: 分享
       wiki_content:
         text: 文字
@@ -462,7 +460,7 @@ zh-TW:
             project:
               error_not_found: 未找到
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "- 此用戶沒有建立公共查詢的權限。"
           group_by_hierarchies_exclusive: 與按照 "%{group_by}" 分組的群組相互排斥。不能同時啟動兩者。
           filters:
             custom_fields:
@@ -512,8 +510,7 @@ zh-TW:
           attributes:
             attribute_groups:
               attribute_unknown: 使用了無效的工作包屬性。
-              duplicate_group: The group name '%{group}' is used more than once. Group
-                names must be unique.
+              duplicate_group: 群組名稱 %{group} 已被使用，群組名稱不可重複。
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
               group_without_name: 不允許未命名的群組。
         user:
@@ -596,7 +593,7 @@ zh-TW:
     default_columns: 預設欄
     description: 說明
     display_sums: 顯示加總
-    due_date: Finish date
+    due_date: 完成日期
     estimated_hours: 預估時間
     estimated_time: 預估時間
     firstname: 名字
@@ -926,7 +923,7 @@ zh-TW:
   error_dependent_work_package: '相關工作包中的錯誤%{related_id} %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: 無法啟動您的帳戶 (已達到使用者限制)。請與管理員聯繫以獲取存取權限。
   error_failed_to_delete_entry: 刪除此項目失敗。
-  error_invalid_selected_value: Invalid selected value.
+  error_invalid_selected_value: 不合法的項目數值。
   error_invalid_group_by: 無法按照 %{value} 分組
   error_invalid_query_column: 無效的查詢欄：%{value}
   error_invalid_sort_criterion: 無法按照 %{value} 排序
@@ -958,7 +955,7 @@ zh-TW:
 
 '
   error_external_authentication_failed: 外部身份驗證錯誤。請再次一次。
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: '無法凸顯的屬性: %{attributes}'
   events:
     project: 專案已編輯
     changeset: 已編輯變更
@@ -1001,14 +998,14 @@ zh-TW:
   homescreen:
     additional:
       projects: 最新的可見專案
-      no_visible_projects: There are no visible projects in this instance.
+      no_visible_projects: 最新的可見專案
       users: 最新註冊的使用者
     blocks:
       community: OpenProject 社群
       upsale:
         become_hero: 成為英雄!
         title: 升級到企業版
-        description: What are the benefits?
+        description: 有什麼好處？
         more_info: 更多資訊
         additional_features: 其他強大的高級功能
         professional_support: 由 OpenProject 專家提供專業支援
@@ -1083,7 +1080,7 @@ zh-TW:
   label_auth_source_plural: 身份驗證模式
   label_authentication: 身份驗證
   label_available_project_work_package_categories: 可用的工作項目類別
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: 可用的工作包類型
   label_available_project_boards: 可用的佈告欄
   label_available_project_versions: 可用的版本
   label_available_project_repositories: 可用的版本庫
@@ -1224,7 +1221,7 @@ zh-TW:
   label_group_by: 分組依據
   label_group_new: 新增群組
   label_group: 群組
-  label_group_named: Group %{name}
+  label_group_named: 群組名稱 %{name}
   label_group_plural: 群組
   label_help: 説明
   label_here: 這裡
@@ -1252,7 +1249,7 @@ zh-TW:
   label_journal_diff: 內容對比
   label_language: 語言
   label_jump_to_a_project: 前往一個專案...
-  label_keyword_plural: Keywords
+  label_keyword_plural: 關鍵字
   label_language_based: 根據使用者的語言
   label_last_activity: 最後的活動
   label_last_change_on: 最後一次更改在
@@ -1412,7 +1409,7 @@ zh-TW:
   label_repository_plural: Repositories
   label_required: 必要
   label_requires: 要求
-  label_responsible_for_work_packages: Work packages I am accountable for
+  label_responsible_for_work_packages: 我負責的工作項目
   label_result_plural: 結果
   label_reverse_chronological_order: 在反序排列
   label_revision: 修訂
@@ -1485,7 +1482,7 @@ zh-TW:
   label_used_by_types: 被類別使用中
   label_used_in_projects: 被專案使用中
   label_user: 使用者
-  label_user_named: User %{name}
+  label_user_named: 用戶名 %{name}
   label_user_activity: "%{value} 的活動"
   label_user_anonymous: 匿名者
   label_user_mail_option_all: 對於我所有的專案的任何事件
@@ -1546,8 +1543,7 @@ zh-TW:
   label_work_package_view_all: 檢視所有工作項目
   label_work_package_view_all_assigned_to_me: 檢視所有分配給我的工作項目
   label_work_package_view_all_reported_by_me: 檢視所有由我提出的工作項目
-  label_work_package_view_all_responsible_for: View all work packages that I am accountable
-    for
+  label_work_package_view_all_responsible_for: 查看所有我負責的工作項目
   label_work_package_view_all_watched: 檢視所有監看的工作項目
   label_work_package_watchers: 監看者
   label_workflow: 工作流程
@@ -1744,7 +1740,7 @@ zh-TW:
     text_getting_started_description: 用 OpenProject 取得專案管理和團隊協作的快速概覽。
     text_show_again: 您可以從 "説明" 功能表中重新開啟此影片
     welcome: 歡迎來到 OpenProject
-    select_language: Please select your language
+    select_language: 請選擇您的語言
   permission_add_work_package_notes: 增加註釋
   permission_add_work_packages: 新增工作項目
   permission_add_messages: 張貼訊息
@@ -1785,7 +1781,7 @@ zh-TW:
   permission_manage_members: 管理成員
   permission_manage_news: 管理消息
   permission_manage_project_activities: 管理專案活動
-  permission_manage_public_queries: Manage public views
+  permission_manage_public_queries: 管理公開查詢
   permission_manage_repository: 管理版本庫
   permission_manage_subtasks: 管理子任務
   permission_manage_versions: 管理版本
@@ -1955,7 +1951,7 @@ zh-TW:
   setting_email_delivery_method: 電子郵件傳遞方法
   setting_sendmail_location: Sendmail 的執行位置
   setting_smtp_enable_starttls_auto: 如果可用將自動使用 STARTTLS
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: SSL 連線
   setting_smtp_address: SMTP 伺服器
   setting_smtp_port: SMTP 埠
   setting_smtp_authentication: SMTP 驗證
@@ -2029,6 +2025,7 @@ zh-TW:
   setting_per_page_options: 每頁顯示項目個數的設置
   setting_plain_text_mail: 純文字郵件（不含 HTML）
   setting_protocol: Protocol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: 註冊頁腳
   setting_repositories_automatic_managed_vendor: 自動版本控制類型
   setting_repositories_encodings: 儲存庫編碼
@@ -2059,9 +2056,8 @@ zh-TW:
   setting_welcome_on_homescreen: 在主頁面上顯示歡迎區塊
   setting_wiki_compression: 維基歷史壓縮
   setting_work_package_group_assignment: 允許分配給群組
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighting_mode: 預設突出顯示模式
+  setting_work_package_list_default_highlighted_attributes: 預設內聯突出顯示的屬性
   settings:
     general: 一般
     other: 其他
@@ -2073,11 +2069,11 @@ zh-TW:
       deletion: 消除
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
-        none: No highlighting
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        inline: 顯示內聯屬性
+        none: 無突顯
+        status: 按狀態的整個行
+        type: 按類型劃分的整行
+        priority: 按優先順序的整個行
   text_formatting:
     markdown: Markdown
     plain: 純文字
@@ -2151,7 +2147,7 @@ zh-TW:
   text_journal_added: "%{label} %{value} 已增加"
   text_journal_aggregation_time_explanation: 合併日誌顯示，如果他們的建立時間差小於某固定時間。這也會減慢郵件通知相同時間。
   text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_changed_plain: "%{label} 從 %{old} 改為 %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_changed_with_diff: "%{label} 已改變 (%{link})"
   text_journal_deleted: "%{label}已刪除 (%{old})"
@@ -2170,6 +2166,11 @@ zh-TW:
     強烈建議先載入預設值，然後再修改它們。
   text_no_notes: 這個工作項目沒有評論
   text_notice_too_many_values_are_inperformant: '注意: 每頁顯示超過100個項目會增加頁面載入時間。'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'
   text_own_membership_delete_confirmation: |-
     您將要刪除部分或全部權限, 之後可能無法再編輯此專案。
     是否要繼續？
@@ -2299,7 +2300,7 @@ zh-TW:
       outline: 初始大綱擴展
       parent: 顯示子專案屬於
       work_package_filters: 篩選的工作項目
-      work_package_responsible: Show work packages with accountable
+      work_package_responsible: 顯示帶有負責執行者的工作項目
       work_package_assignee: 顯示帶有負責執行者的工作項目
       types: 顯示類型
       status: 顯示狀態
@@ -2311,7 +2312,7 @@ zh-TW:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} 之前,
         %{end_label} %{endspan}%{endspanunit} 從現在起"
       project_filters: 篩選專案
-      project_responsible: Show projects with accountable
+      project_responsible: 顯示帶有負責執行者的工作項目
       project_status: 顯示專案狀態
       timeframe: 顯示時間
       timeframe_end: 到
@@ -2474,7 +2475,7 @@ zh-TW:
         You are not authorized to access this resource.
         您未被授權使用這個資源。
       code_404: 找不到請求的資源。
-      code_409: Could not update the resource because of conflicting modifications.
+      code_409: 由於修改衝突, 無法更新資源。
       code_500: 發生內部錯誤
       expected:
         date: YYYY-MM-DD (僅適用於 ISO 8601 日期)
@@ -2500,7 +2501,7 @@ zh-TW:
           無法找到本文對應的資源。
       validation:
         done_ratio: 在所屬工作包中, 當按狀態或禁用時, 無法設置完成比率。
-        due_date: Finish date cannot be set on parent work packages.
+        due_date: 無法在所屬工作包上設置截止日期。
         estimated_hours: 無法在所屬工作包上設置估計小時數。
         invalid_user_assigned_to_work_package: 所指定的使用者不允許成為工作項目的 '%{property}' 。
         start_date: 無法在所屬工作包上設置開始日期。

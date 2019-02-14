@@ -58,6 +58,7 @@ module OpenProject::TextFormatting::Formats::Markdown
         :pattern_matcher,
         :syntax_highlight,
         :attachment,
+        :relative_link,
         :autolink
       ]
     end

@@ -63,7 +63,7 @@ lt:
     index:
       no_results_title_text: Nėra nurodytų spalvų.
       no_results_content_text: Sukurti naują spalvą
-    label_no_color: No color
+    label_no_color: Be spalvų
   custom_actions:
     actions:
       name: Veiksmai
@@ -94,7 +94,7 @@ lt:
       no_results_title_text: Nėra jokių pasirinktinų laukų.
       no_results_content_text: Sukurti naują pasirinktinį lauką
   concatenation:
-    single: or
+    single: arba
   deprecations:
     old_timeline:
       replacement: Šis laiko juostos modulis buvo pakeistas nauju, kuris integruotas
@@ -1182,7 +1182,7 @@ lt:
   label_all: visi
   label_all_time: visas laikas
   label_all_words: Visi žodžiai
-  label_all_open_wps: All open
+  label_all_open_wps: Visi atviri
   label_always_visible: Visada rodomas
   label_announcement: Skelbimas
   label_and_its_subprojects: "%{value} ir jo sub-projektai"
@@ -1346,7 +1346,7 @@ lt:
   label_group_by: Grupuoti pagal
   label_group_new: Nauja grupė
   label_group: Grupė
-  label_group_named: Group %{name}
+  label_group_named: Grupė %{name}
   label_group_plural: Grupės
   label_help: Pagalba
   label_here: čia
@@ -2254,6 +2254,7 @@ lt:
   setting_per_page_options: Įrašų puslapyje nustatymai
   setting_plain_text_mail: Tik tekstas laiške (be HTML)
   setting_protocol: Protokolas
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registracijos poraštė
   setting_repositories_automatic_managed_vendor: Automatinis repozitorijos tiekėjo
     tipas
@@ -2305,7 +2306,7 @@ lt:
     highlighting:
       mode_long:
         inline: Paryškinti tik konkrečius atributus
-        none: No highlighting
+        none: Be paryškinimų
         status: Visa eilutė pagal būseną
         type: Visa eilutė pagal tipą
         priority: Visa eilutė pagal prioritetą
@@ -2426,6 +2427,11 @@ lt:
   text_no_notes: Šis darbų paketas neturi komentarų.
   text_notice_too_many_values_are_inperformant: 'Pastaba: Rodant daugiau nei 100 įrašų
     puslapyje gali prailginti puslapio įkėlimo laiką.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'
   text_own_membership_delete_confirmation: |-
     Jūs ketinate pašalinti keletą ar visus leidimus ir gali būti, kad nebegalėsite redaguoti šio projekto po to.
     Ar jūs tikrai norite tęsti?

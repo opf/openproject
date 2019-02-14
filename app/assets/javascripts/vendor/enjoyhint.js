@@ -1288,7 +1288,7 @@ var EnjoyHint;
                             top: label_y + label_height + 20
                         });
 
-                        var left_skip = next_btn_x + that.$next_btn.width() + 10;
+                        var left_skip = next_btn_x + that.$next_btn.width() + 30;
 
                         if (that.nextBtn == "hide"){
 

@@ -44,6 +44,7 @@ class ApplicationController < ActionController::Base
   include HookHelper
   include ::OpenProject::Authentication::SessionExpiry
   include AdditionalUrlHelpers
+  include OpenProjectErrorHelper
 
   layout 'base'
 
@@ -100,6 +101,9 @@ class ApplicationController < ActionController::Base
       # greeted with the CSRF error upon login.
       message = I18n.t(:error_token_authenticity)
       message << ' ' + I18n.t(:error_cookie_missing) if openproject_cookie_missing?
+
+      log_csrf_failure
+
       render_error status: 422, message: message
     end
   end
@@ -217,6 +221,15 @@ class ApplicationController < ActionController::Base
     request.cookies[OpenProject::Configuration['session_cookie_name']].nil?
   end
   helper_method :openproject_cookie_missing?
+
+  ##
+  # Create CSRF issue
+  def log_csrf_failure
+    message = 'CSRF validation error'
+    message << ' (No session cookie present)' if openproject_cookie_missing?
+
+    op_handle_error message, reference: :csrf_validation_failed
+  end
 
   def log_requesting_user
     return unless Setting.log_requesting_user?
@@ -504,6 +517,8 @@ class ApplicationController < ActionController::Base
     @message = l(@message) if @message.is_a?(Symbol)
     @status = arg[:status] || 500
 
+    op_handle_error "[Error #@status] #@message"
+
     respond_to do |format|
       format.html do
         render template: 'common/error', layout: use_layout, status: @status
@@ -648,7 +663,7 @@ class ApplicationController < ActionController::Base
       self.logged_user = nil
 
       flash[:warning] = I18n.t('notice_forced_logout', ttl_time: Setting.session_ttl)
-      redirect_to(controller: 'account', action: 'login', back_url: login_back_url)
+      redirect_to(controller: '/account', action: 'login', back_url: login_back_url)
     end
     session[:updated_at] = Time.now
   end

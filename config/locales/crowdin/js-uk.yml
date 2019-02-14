@@ -55,8 +55,8 @@ uk:
     button_export-atom: Завантажити Atom
     calendar:
       title: Calendar
-      too_many: There are more work packages (%{count}) than can be displayed by the
-        calendar (%{max}). Add filters to focus on the relevant ones.
+      too_many: Пакетів робіт більше (%{count}), ніж може відобразити calendar (%{max}).
+        Застосуйте фільтри для відображення релевантных пакетів.
     description_available_columns: Available Columns
     description_current_position: 'You are here:'
     description_select_work_package: 'Виберіть пакет робіт #%{id}'
@@ -66,7 +66,7 @@ uk:
       preview: Toggle preview mode
       source_code: Toggle Markdown source mode
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      error_initialization_failed: Failed to initialize CKEditor!
+      error_initialization_failed: Не вдалося ініціалізувати CKEditor!
       mode:
         manual: Switch to Markdown source
         wysiwyg: Switch to WYSIWYG editor
@@ -113,7 +113,7 @@ uk:
           button: Embed work package table
           text: "[Placeholder] Embedded work package table"
         embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
+          text: "[Placeholder] вбудований календар"
     custom_actions:
       date:
         specific: на
@@ -272,8 +272,8 @@ uk:
     label_attachments: Files
     label_drop_files: Перетягніть файли сюди
     label_drop_files_hint: або клацніть, щоб додати файли
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
-      single files.
+    label_drop_folders_hint: Ви не можете завантажувати теки як вкладення. Будь ласка,
+      оберіть окремі файли.
     label_add_attachments: Додати вкладення
     label_formattable_attachment_hint: Attach and link files by dropping on this field,
       or pasting from the clipboard.
@@ -294,10 +294,14 @@ uk:
     help_texts:
       show_modal: Show attribute help text entry
     onboarding:
+      buttons:
+        skip: Пропустити
+        next: Next
+        got_it: Got it
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
+        welcome: Здійсніть трихвилинний ознайомчий огляд для вивчення <b>найважливішого
+          функціоналу</b>. <br> Ми рекомендуємо пройти всі кроки до завершення огляду.
+          Ви можете повернутися до цього огляду повторно в будь-який час.
         project_selection: Please select one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
           management, while the <b>Scrum project</b> is better for Agile project management.
@@ -335,7 +339,6 @@ uk:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: Вам необхідно ввести пароль облікового запису, щоб підтвердити
         цю зміну.

@@ -87,11 +87,11 @@ export class WpResizerDirective implements OnInit, OnDestroy {
         untilComponentDestroyed(this)
       )
       .subscribe( changeData => {
-        jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width()! > 750);
+        this.toggleFullscreenColumns();
       });
     let that = this;
     jQuery(window).resize(function() {
-      jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width()! > 750);
+      that.toggleFullscreenColumns();
     });
   }
 
@@ -191,11 +191,22 @@ export class WpResizerDirective implements OnInit, OnDestroy {
   private applyColumnLayout(element:HTMLElement, newWidth:number) {
     // Apply two column layout in fullscreen view of a workpackage
     if (element === jQuery('.work-packages-full-view--split-right')[0]) {
-      jQuery('.-can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width()! > 750);
+      this.toggleFullscreenColumns();
     }
     // Apply two column layout when details view of wp is open
     else {
-      element.classList.toggle('-columns-2', newWidth > 700);
+      this.toggleColumns(element, 700);
     }
+  }
+
+  private toggleColumns(element:HTMLElement, checkWidth:number = 750) {
+    if (element) {
+      jQuery(element).toggleClass('-can-have-columns', element.offsetWidth > checkWidth);
+    }
+  }
+
+  private toggleFullscreenColumns() {
+    let fullScreenLeftView = jQuery('.work-packages-full-view--split-left')[0];
+    this.toggleColumns(fullScreenLeftView);
   }
 }

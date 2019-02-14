@@ -167,10 +167,10 @@ nl:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Schakel deze optie in om de werkpakketten met deze status alleen-lezen te markeren.
+        geen kenmerken kunnen worden gewijzigd met uitzondering van de status.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong></strong>Opmerking: overgenomen waarden (bijvoorbeeld van kinderen of betrekkingen) blijft van toepassing.
       status_color_text: |
         Klik op toewijzen of wijzigen van de kleur van deze status.
         het wordt weergegeven in de statusknop en kan worden gebruikt voor het benadrukken van de werkpakketten in de tabel.
@@ -187,9 +187,9 @@ nl:
       projects: Projecten
       enabled_projects: Ingeschakelde projecten
       add_group: Toevoegen van nieuwe attribuutgroepen
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Tabel van verwante werkpakketten toevoegen
+      edit_query: Tabel bewerken
+      query_group_placeholder: Geef de tabel een naam
       reset: Standaardinstellingen herstellen
       type_color_text: |
         Klik op toewijzen of wijzigen van de kleur van dit type. De geselecteerde kleur onderscheidt werk pakketten
@@ -358,7 +358,7 @@ nl:
         to: Verwante werkpakket
       status:
         is_closed: Werkpakket gesloten
-        is_readonly: Work package read-only
+        is_readonly: Werkpakket is alleen-lezen
       journal:
         notes: Notities
       member:
@@ -1058,7 +1058,7 @@ nl:
 '
   error_external_authentication_failed: Er heeft zich een fout voorgedaan bij de externe
     authenticatie. Probeer het opnieuw.
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: 'Attribute(s) niet markeerbaar: %{attributes}'
   events:
     project: Project bewerkt
     changeset: Wijzigingsset bewerkt
@@ -1108,7 +1108,7 @@ nl:
       upsale:
         become_hero: Word een held!
         title: Upgrade naar Enterprise Edition
-        description: What are the benefits?
+        description: Wat zijn de voordelen?
         more_info: Meer informatie
         additional_features: Extra krachtige premium functies
         professional_support: Professionele ondersteuning van de OpenProject experts
@@ -1189,7 +1189,7 @@ nl:
   label_auth_source_plural: Verificatiemodi
   label_authentication: Verificatie
   label_available_project_work_package_categories: Beschikbare werkpakket categorieën
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Beschikbare werkpakkettypes
   label_available_project_boards: Beschikbare borden
   label_available_project_versions: Beschikbare versies
   label_available_project_repositories: Beschikbare opslagplaatsen
@@ -1360,7 +1360,7 @@ nl:
   label_journal_diff: Beschrijving vergelijking
   label_language: Taal
   label_jump_to_a_project: Ga naar een project...
-  label_keyword_plural: Keywords
+  label_keyword_plural: Trefwoorden
   label_language_based: Op basis van de taal van gebruiker
   label_last_activity: Laatste activiteit
   label_last_change_on: Laatste wijziging op
@@ -1897,7 +1897,7 @@ nl:
       team samenwerking met OpenProject.
     text_show_again: U kunt deze video van het helpmenu opnieuw starten
     welcome: Welkom bij OpenProject
-    select_language: Please select your language
+    select_language: Gelieve uw taal te kiezen
   permission_add_work_package_notes: Notities toevoegen
   permission_add_work_packages: Werkpakketten toevoegen
   permission_add_messages: Berichten posten
@@ -2146,7 +2146,7 @@ nl:
   setting_sendmail_location: Locatie van het uitvoerbare sendmail
   setting_smtp_enable_starttls_auto: Gebruik STARTTLS automatisch wanneer deze beschikbaar
     is
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: SSL-verbinding gebruikt
   setting_smtp_address: SMTP server
   setting_smtp_port: SMTP-port
   setting_smtp_authentication: SMTP-authenticatie
@@ -2231,6 +2231,7 @@ nl:
   setting_per_page_options: Objecten per Pagina-opties
   setting_plain_text_mail: Tekst zonder opmaak (geen HTML)
   setting_protocol: Protocol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registratie voettekst
   setting_repositories_automatic_managed_vendor: Automatisch repostiroy leveranciers
     type
@@ -2266,9 +2267,8 @@ nl:
   setting_welcome_on_homescreen: Toon het Welkom blok op thuisscherm
   setting_wiki_compression: Compressie van wiki geschiedenis
   setting_work_package_group_assignment: Sta toewijzingen een groepen toe
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighting_mode: Standaardmodus markeren
+  setting_work_package_list_default_highlighted_attributes: Inline gemarkeerd standaardkenmerken
   settings:
     general: Algemeen
     other: Overig
@@ -2280,11 +2280,11 @@ nl:
       deletion: Verwijdering
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
+        inline: Markeer attribute(s) inline
         none: Geen markering
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: Hele rij per Status
+        type: Hele rij per Type
+        priority: Hele rij door prioriteit
   text_formatting:
     markdown: Markdown
     plain: Onopgemaakte tekst
@@ -2403,6 +2403,11 @@ nl:
   text_no_notes: Er is geen commentaar beschikbaar voor dit werkpakket.
   text_notice_too_many_values_are_inperformant: 'Opmerking: Meer dan 100 items per
     pagina weergeven kan de laadtijd van de pagina verhogen.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'
   text_own_membership_delete_confirmation: U bent bezig met het verwijderen van sommige
     of alle van uw machtigingen en kan het project hierna misschien niet meer bewerken.
     \nWilt doorgaan?
@@ -2757,7 +2762,7 @@ nl:
       code_401_wrong_credentials: U heeft niet de juiste referenties opgeven.
       code_403: U bent niet gemachtigd om toegang te hebben tot deze resource.
       code_404: De gevraagde resource kan niet worden gevonden.
-      code_409: Could not update the resource because of conflicting modifications.
+      code_409: De bron kan niet worden bijgewerkt vanwege conflicterende wijzigingen.
       code_500: Een interne fout is opgetreden.
       expected:
         date: JJJJ-MM-DD (alleen ISO 8601 datum)

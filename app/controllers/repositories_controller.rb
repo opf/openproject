@@ -153,7 +153,7 @@ class RepositoriesController < ApplicationController
   def revisions
     @changesets = @repository.changesets
                   .includes(:user, :repository)
-                  .page(params[:page])
+                  .page(page_param)
                   .per_page(per_page_param)
 
     respond_to do |format|

@@ -187,9 +187,9 @@ pt-BR:
       projects: Projetos
       enabled_projects: Projetos habilitados
       add_group: Adicionar grupo de atributo
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Adicionar tabela de pacotes de trabalho relacionados
+      edit_query: Editar tabela
+      query_group_placeholder: Nomear tabela
       reset: Redefinir para os padrões
       type_color_text: 'Clique para atribuir ou alterar a cor deste tipo. A cor selecionada
         diferencia pacotes de trabalho em gráficos de Gantt.
@@ -2143,7 +2143,7 @@ pt-BR:
   setting_bcc_recipients: Destinatários de cópia oculta (Cco)
   setting_brute_force_block_after_failed_logins: Bloquear usuário após este número
     de tentativas de login
-  setting_brute_force_block_minutes: Tempo que o usuário está bloqueado para
+  setting_brute_force_block_minutes: Tempo que o usuário ficará bloqueado
   setting_cache_formatted_text: Texto formatado em cache
   setting_use_wysiwyg_description: Selecione para habilitar o CKEditor5 para todos
     os usuários por padrão. O CKEditor tem funcionalidades limitadas para o GFM Markdown.
@@ -2189,8 +2189,8 @@ pt-BR:
     dos novos pacotes de trabalho
   setting_work_packages_export_limit: Limite de exportação de pacotes de trabalho
   setting_journal_aggregation_time_minutes: Exibir diários como agregados dentro
-  setting_log_requesting_user: Log de acesso do usuário, nome e endereço de e-mail
-    para todas as solicitações
+  setting_log_requesting_user: Registrar início de sessão do usuário, nome e endereço
+    de e-mail para todas as requisições
   setting_login_required: Autenticação Requerida
   setting_mail_from: Endereço de e-mail de saída
   setting_mail_handler_api_enabled: Habilitar serviço web de entrada de e-mails
@@ -2212,6 +2212,7 @@ pt-BR:
   setting_per_page_options: Opções de objetos por página
   setting_plain_text_mail: Mensagens de texto simples (sem HTML)
   setting_protocol: Protocolo
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Rodapé de registro
   setting_repositories_automatic_managed_vendor: Tipo de fornecedor de repositório
     automático
@@ -2230,7 +2231,7 @@ pt-BR:
   setting_self_registration: Auto-registro
   setting_sequential_project_identifiers: Gerar identificadores sequenciais de projeto
   setting_session_ttl: Tempo de expiração de sessão após inatividade
-  setting_session_ttl_hint: Valor abaixo de 5 trabalhos como desativado
+  setting_session_ttl_hint: Valor abaixo de 5 funciona como desativado
   setting_session_ttl_enabled: Sessão expira
   setting_start_of_week: A semana começa em
   setting_sys_api_enabled: Habilitar o serviço web de gerenciamento de repositório
@@ -2256,7 +2257,7 @@ pt-BR:
     other: Outro
     passwords: Senhas
     session: Sessão
-    brute_force_prevention: Bloqueio de usuário automatizado
+    brute_force_prevention: Bloqueio automatizado de usuário
     user:
       default_preferences: Preferências padrão
       deletion: Exclusão
@@ -2385,6 +2386,11 @@ pt-BR:
   text_no_notes: Não há comentários disponíveis para este pacote de trabalho.
   text_notice_too_many_values_are_inperformant: 'Nota: Exibição de mais de 100 itens
     por página pode aumentar o tempo de carregamento da página.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'
   text_own_membership_delete_confirmation: Você está prestes a remover algumas ou
     todas as permissões e você pode não ser capaz de editar este projeto depois disso.
     Tem certeza que deseja continuar?

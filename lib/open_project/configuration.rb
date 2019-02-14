@@ -124,7 +124,10 @@ module OpenProject
       # Allow in-context translations to be loaded with CSP
       'crowdin_in_context_translations' => true,
 
-      'registration_footer' => {}
+      'registration_footer' => {},
+
+      'installation_type' => "manual",
+      'security_badge_url' => "https://releases.openproject.com/v1/check.svg"
     }
 
     @config = nil

@@ -185,9 +185,9 @@ ru:
       projects: Проекты
       enabled_projects: Доступные проекты
       add_group: Добавить группу атрибутов
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Добавить таблицу связанных пакетов работ
+      edit_query: Изменить таблицу
+      query_group_placeholder: Дайте таблице название
       reset: Восстановить значения по умолчанию
       type_color_text: 'Щелкните, чтобы задать или изменить цвет этого типа. Выбранный
         цвет позволяет различать пакеты работ на диаграммах Ганта.
@@ -222,8 +222,7 @@ ru:
         no_results_title_text: В настоящее время нет рабочих пакетов, о которых я
           сообщал.
       responsible:
-        no_results_title_text: На данный момент нет пакетов работ, за которые я несу
-          ответственность.
+        no_results_title_text: На данный момент нет пакетов работ, в которых я подотчетен.
       watched:
         no_results_title_text: На данный момент у меня нет рабочих пакетов, за которыми
           я наблюдаю.
@@ -687,7 +686,7 @@ ru:
     password: Пароль
     priority: Приоритет
     project: Проект
-    responsible: Ответственность
+    responsible: Подотчетный
     role: Роль
     roles: Роли
     start_date: Дата начала
@@ -1545,7 +1544,7 @@ ru:
   label_repository_plural: Репозитории
   label_required: требуется
   label_requires: требуется
-  label_responsible_for_work_packages: Пакеты работ, за которые я несу ответственность
+  label_responsible_for_work_packages: Пакеты работ, в которых я подотчетен
   label_result_plural: Результаты
   label_reverse_chronological_order: В обратном хронологическом порядке
   label_revision: Редакция
@@ -1682,8 +1681,8 @@ ru:
     работ
   label_work_package_view_all_reported_by_me: Посмотреть все комплексы работ, описанные
     мной
-  label_work_package_view_all_responsible_for: Посмотреть все пакеты работ, за которые
-    я отвечаю
+  label_work_package_view_all_responsible_for: Посмотреть все пакеты работ, в которых
+    я подотчетен
   label_work_package_view_all_watched: Посмотреть все наблюдаемые пакеты работ
   label_work_package_watchers: Наблюдатель
   label_workflow: Рабочий поток
@@ -2255,6 +2254,7 @@ ru:
   setting_per_page_options: Количество объектов на страницу
   setting_plain_text_mail: Обычный текст электронной почты (не HTML)
   setting_protocol: Протокол
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Нижний колонтитул регистрации
   setting_repositories_automatic_managed_vendor: Автоматический тип поставщика репозитория
   setting_repositories_encodings: Кодировка репозиториев
@@ -2430,6 +2430,11 @@ ru:
   text_no_notes: Комментарии для этого пакета работ отсутствуют.
   text_notice_too_many_values_are_inperformant: 'Примечание: Отображение более чем
     100 элементов на странице может увеличить время загрузки.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'
   text_own_membership_delete_confirmation: Вы собираетесь удалить все или некоторые
     разрешения, доступные Вам. Вы не сможете редактировать проект после этого действия.
     Вы уверены?
@@ -2578,7 +2583,7 @@ ru:
       outline: Первоначальная схема детализации
       parent: Показывать подпроекты
       work_package_filters: Фильтровать пакеты работ
-      work_package_responsible: Показать пакеты работ с ответственным
+      work_package_responsible: Показать пакеты работ с подотчетными
       work_package_assignee: Показать пакеты работ с назначениями
       types: Показать типы
       status: Показать состояние
@@ -2591,7 +2596,7 @@ ru:
       project_time_filter_relative: "%{start_label} %{startspan} %{startspanunit}
         назад, %{end_label} %{endspan} %{endspanunit} с этого момента"
       project_filters: Фильтр проектов
-      project_responsible: Показать проекты с ответственным
+      project_responsible: Показать проекты с подотчетными
       project_status: Показать статус проекта
       timeframe: Показать сроки
       timeframe_end: до

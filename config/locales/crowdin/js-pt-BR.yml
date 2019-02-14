@@ -276,8 +276,8 @@ pt-BR:
     label_attachments: Arquivos
     label_drop_files: Solte os arquivos aqui
     label_drop_files_hint: ou clique para adicionar arquivos
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
-      single files.
+    label_drop_folders_hint: Você não pode enviar pastas como anexo. Por favor, selecione
+      arquivos individuais.
     label_add_attachments: Adicionar anexos
     label_formattable_attachment_hint: Anexar e vincular arquivos soltando neste campo,
       ou colando da área de transferência.
@@ -299,10 +299,14 @@ pt-BR:
     help_texts:
       show_modal: Mostrar entrada para o texto de ajuda de atributos
     onboarding:
+      buttons:
+        skip: Pular
+        next: Próxima
+        got_it: Entendi
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
+        welcome: Acompanhe um tour de apresentação de 3 minutos para descobrir mais
+          <b>recursos importantes</b>.<br> Recomendamos que você conclua as etapas
+          até o final. Você pode reiniciar o tour a qualquer momento.
         project_selection: Por favor, selecione um dos projetos com dados de demonstração
           útil para começar. <br> O <b>Projeto Demo</b> é o melhor para gerenciamento
           de projetos clássico, enquanto o <b>projeto Scrum</b> é melhor para gerenciamento
@@ -312,12 +316,13 @@ pt-BR:
         members: Convide novos <b>Membros</b> para participar de seu projeto.
         wiki: Na <b>Wiki</b> você pode documentar e compartilhar conhecimento com
           sua equipe.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
+        backlogs_overview: Gerencie seu trabalho na visão de <b>Backlogs</b>.<br>
+          À direita você possui o Backlog do produto ou um Backlog de Bug, à esquerda
+          você terá sprints respectivos. Aqui você pode criar <b>épicos, histórias
+          de usuários e bugs</b>, priorizar através de arrastar e soltar e adicioná-los
+          a um sprint.
+        backlogs_task_board_arrow: Para visualizar seu <b>Quadro de tarefas</b>, abra
+          o menu suspenso de Sprint...
         backlogs_task_board_select: "... e selecione <b>Quadro de tarefas</b>."
         backlogs_task_board: O <b>Quadro de tarefas</b> visualiza o progresso do sprint.
           Adicione novas tarefas ou impedimentos com o + ícone ao lado de uma história
@@ -328,9 +333,9 @@ pt-BR:
           dentro de seu projeto, tais como tarefas, recursos, marcos, bugs e muito
           mais. <br>Você pode criar ou editar um pacote de trabalho diretamente dentro
           desta lista. Para ver seus detalhes você pode clicar duas vezes em uma linha.
-        wp_full_view: Within the <b>Work package details</b> you find all relevant
-          information, such as description, status and priority, activities, dependencies
-          or comments.
+        wp_full_view: Nos <b>detalhes do pacote de trabalho</b> você encontra todas
+          as informações pertinentes, tais como descrição, estado e prioridade, atividades,
+          dependências ou comentários.
         wp_back_button: Com a seta você pode navegar de volta para a lista de pacotes
           de trabalho.
         wp_create_button: O botão <b>Criar</b> irá adicionar um novo pacote de trabalho
@@ -342,7 +347,6 @@ pt-BR:
           atualizar o plano mais recente a qualquer momento.
         help_menu: No menu <b>Ajuda</b> você vai encontrar um guia do usuário e recursos
           adicionais de ajuda. <br> Aprecie o seu trabalho com OpenProject!
-        got_it: Entendi
     password_confirmation:
       field_description: Você precisa digitar sua senha para confirmar essa alteração.
       title: Confirme sua senha para continuar
@@ -369,7 +373,7 @@ pt-BR:
       attribute_groups:
         error_duplicate_group_name: O nome %{group} foi usado mais de uma vez. Nomes
           de Grupos devem ser únicos.
-        error_no_table_configured: Please configure a table for %{group}.
+        error_no_table_configured: Por favor, configure uma tabela para %{group}.
         reset_title: Voltar para a configuração padrão do formulário
         confirm_reset: 'Aviso: Tem certeza de que deseja redefinir a configuração
           de formulário? Isto irá redefinir os atributos para o grupo padrão e desativar
@@ -383,18 +387,18 @@ pt-BR:
         more_information: Mais informações
         nevermind: Deixa pra lá
         filter_types:
-          parent: being child of
-          precedes: preceding
-          follows: following
-          relates: relating to
-          duplicates: duplicating
+          parent: sendo filho de
+          precedes: anterior
+          follows: posterior
+          relates: relativo a
+          duplicates: duplicando
           duplicated: duplicado por
-          blocks: blocking
+          blocks: bloqueando
           blocked: bloqueado por
-          partof: being part of
-          includes: including
-          requires: requiring
-          required: required by
+          partof: sendo parte de
+          includes: incluindo
+          requires: exigindo
+          required: exigido por
     watchers:
       label_loading: carregando observadores...
       label_error_loading: Ocorreu um erro ao carregar os observadores
@@ -422,19 +426,19 @@ pt-BR:
       hierarchy_headline: Hierarquia
       children_headline: Filhos
     relation_buttons:
-      set_parent: Set parent
+      set_parent: Definir pai
       change_parent: Alterar pai
       remove_parent: Remover pai
       group_by_wp_type: Agrupar por tipo de pacote de trabalho
       group_by_relation_type: Agrupar por tipo de relação
       add_parent: Adicionar pai existente
       add_new_child: Criar novo filho
-      create_new: Create new
-      add_existing: Add existing
+      create_new: Criar novo
+      add_existing: Adicionar existente
       add_existing_child: Adicionar ao filho existente
       remove_child: Remover filho
       add_new_relation: Criar nova relação
-      add_existing_relation: Add existing relation
+      add_existing_relation: Adicionar relação existente
       update_description: Definir ou atualizar a descrição desta relação
       toggle_description: Alternar descrição da relação
       update_relation: Clique para alterar o tipo de relação
@@ -753,8 +757,8 @@ pt-BR:
           relation_columns: Necessário ver as relações na lista de pacote de trabalho?
           check_out_link: Confira a versão Enterprise Edition.
         relation_filters:
-          first_part: Show all work packages
-          second_part: the current work package
+          first_part: Exibir todos os pacotes de trabalho
+          second_part: o pacote de trabalho atual
       tabs:
         overview: Visão geral
         activity: Atividade

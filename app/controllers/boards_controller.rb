@@ -96,7 +96,7 @@ class BoardsController < ApplicationController
                .topics
                .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
                .includes(:author, last_reply: :author)
-               .page(params[:page])
+               .page(page_param)
                .per_page(per_page_param)
   end
 

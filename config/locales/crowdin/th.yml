@@ -896,7 +896,7 @@ th:
   default_status_in_specification: In specification
   default_status_in_testing: In testing
   default_status_new: ใหม่
-  default_status_on_hold: On hold
+  default_status_on_hold: คงค้าง
   default_status_rejected: ถูกปฏิเสธ
   default_status_scheduled: Scheduled
   default_status_specified: Specified
@@ -1251,7 +1251,7 @@ th:
   label_download_plural: มี %{count} ดาวโหลด
   label_downloads_abbr: D/L
   label_duplicated_by: ทำซ้ำโดย
-  label_duplicate: duplicate
+  label_duplicate: ทำซ้ำ
   label_duplicates: ซ้ำ
   label_edit: แก้ไข
   label_enable_multi_select: สลับไปเลือกหลายค่า
@@ -1261,7 +1261,7 @@ th:
   label_end_to_end: ตลอด
   label_end_to_start: สิ้นสุดไปยังเริ่มต้น
   label_enumeration_new: ค่าการแจกแจงใหม่
-  label_enumeration_value: Enumeration value
+  label_enumeration_value: ค่าชุดตัวแปร
   label_enumerations: การระบุหมายเลข
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
@@ -1321,7 +1321,7 @@ th:
   label_invite_user: Invite user
   label_show_hide: แสดง/ซ่อน
   label_show_all_registered_users: Show all registered users
-  label_journal: Journal
+  label_journal: บันทึก
   label_journal_diff: เปรียบเทียบคำอธิบาย
   label_language: ภาษา
   label_jump_to_a_project: ไปยังโครงการ...
@@ -2154,6 +2154,7 @@ th:
   setting_per_page_options: ตัวเลือกออบเจคต่อหน้าเพจ
   setting_plain_text_mail: จดหมายข้อความล้วน (ไม่ใช้ HTML)
   setting_protocol: โปรโทคอล
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: Automatic repository vendor type
   setting_repositories_encodings: แหล่งเก็บข้อมูลที่มีการเข้ารหัส
@@ -2316,6 +2317,11 @@ th:
   text_no_notes: There are no comments available for this work package.
   text_notice_too_many_values_are_inperformant: 'Note: Displaying more than 100 items
     per page can increase the page load time.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'
   text_own_membership_delete_confirmation: คุณกำลังลบการอนุญาตบางส่วนหรือทั้งหมด และไม่สามารถแก้ไขโครงการได้หลังจากนั้น
     \n คุณแน่ใจว่าจะดำเนินการต่อหรือไม่?
   text_plugin_assets_writable: สามารถบันทึก ไดเรคทอรี่ของ Plugin asset ได้

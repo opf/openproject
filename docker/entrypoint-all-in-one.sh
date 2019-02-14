@@ -6,6 +6,7 @@ set -o pipefail
 PGDATA=${PGDATA:=/var/lib/postgresql/9.6/main}
 PGUSER=${PGUSER:=postgres}
 PGPASSWORD=${PGPASSWORD:=postgres}
+PG_STARTUP_WAIT_TIME=${PG_STARTUP_WAIT_TIME:=10}
 PGBIN="/usr/lib/postgresql/9.6/bin"
 
 if [ ! -z "$ATTACHMENTS_STORAGE_PATH" ]; then
@@ -52,12 +53,24 @@ install_plugins() {
 }
 
 migrate() {
+	wait_for_postgres
 	pushd /usr/src/app
 	/etc/init.d/memcached start
-	rake db:migrate db:seed
+	bundle exec rake db:migrate db:seed db:structure:dump
 	/etc/init.d/memcached stop
 	chown app:app db/structure.sql
 	popd
+}
+
+wait_for_postgres() {
+	retries=${PG_STARTUP_WAIT_TIME}
+
+	echo "Trying to contact PostgreSQL server instance or waiting for it to come online."
+
+	until su postgres -c "$PGBIN/psql $DATABASE_URL -c 'select 1;' > /dev/null 2>&1" || [ $retries -eq 0 ]; do
+		echo "Waiting for postgres server, $((retries--)) remaining attempts..."
+		sleep 3
+	done
 }
 
 if [ "$dbhost" = "127.0.0.1" ]; then
@@ -88,3 +101,4 @@ echo "       On first installation, the default admin credentials are login: adm
 
 echo "-----> Launching supervisord..."
 exec /usr/bin/supervisord
+

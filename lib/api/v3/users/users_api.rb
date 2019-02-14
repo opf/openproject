@@ -47,32 +47,18 @@ module API
               fail ::API::Errors::InvalidUserStatusTransition
             end
           end
-
-          def current_user_if_logged
-            if User.current.logged?
-              User.current
-            else
-              fail ::API::Errors::Unauthorized
-            end
-          end
-
-          def allow_only_admin
-            unless current_user.admin?
-              fail ::API::Errors::Unauthorized
-            end
-          end
         end
 
         resources :users do
           helpers ::API::V3::Users::CreateUser
 
           post do
-            allow_only_admin
+            authorize_admin
             create_user(request_body, current_user)
           end
 
           get do
-            allow_only_admin
+            authorize_admin
 
             query = ParamsToQueryService.new(User, current_user).call(params)
 
@@ -97,7 +83,7 @@ module API
             before do
               @user =
                 if params[:id] == 'me'
-                  current_user_if_logged
+                  User.current
                 else
                   User.find_by_unique!(params[:id])
                 end
@@ -108,12 +94,12 @@ module API
             end
 
             patch do
-              allow_only_admin
+              authorize_admin
               update_user(request_body, current_user)
             end
 
             delete do
-              if DeleteUserService.new(@user, current_user).call
+              if ::Users::DeleteService.new(@user, current_user).call
                 status 202
               else
                 fail ::API::Errors::Unauthorized
@@ -123,7 +109,7 @@ module API
             namespace :lock do
               # Authenticate lock transitions
               before do
-                allow_only_admin
+                authorize_admin
               end
 
               desc 'Set lock on user account'

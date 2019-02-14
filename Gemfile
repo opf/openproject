@@ -123,6 +123,9 @@ gem 'secure_headers', '~> 5.0.5'
 # Providing health checks
 gem 'okcomputer', '~> 1.16.0'
 
+# Lograge to provide sane and non-verbose logging
+gem 'lograge', '~> 0.10.0'
+
 gem 'gon', '~> 6.2.0'
 
 # catch exceptions and send them to any airbrake compatible backend

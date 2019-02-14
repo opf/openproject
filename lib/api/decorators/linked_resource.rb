@@ -147,7 +147,7 @@ module API
 
           ->(*) do
             if embed_links && represented.send(name)
-              representer.new(represented.send(name), current_user: current_user)
+              representer.create(represented.send(name), current_user: current_user)
             end
           end
         end

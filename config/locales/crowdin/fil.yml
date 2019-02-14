@@ -2265,6 +2265,7 @@ fil:
   setting_per_page_options: Ang mga bagay kada pahina ng pagpipilian
   setting_plain_text_mail: Plain text mail (walang HTML)
   setting_protocol: Protocol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Footer ng pagrerehistro
   setting_repositories_automatic_managed_vendor: Awtomatiko na uri ng repository vendor
   setting_repositories_encodings: Pag-eencode ng repositoryo
@@ -2446,6 +2447,11 @@ fil:
   text_no_notes: Walang mga komento na available para sa work package na ito.
   text_notice_too_many_values_are_inperformant: 'Tandaan: Pagpapakita ng mahigit isang
     daan aytem bawat pahina bay maaring lalaki ang pahina ng load na oras.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'
   text_own_membership_delete_confirmation: |-
     Kinakailangan mong alisin ang ilan o lahat ng iyong perniso at hindi na maaring magagawa na i-edit ang itong proyekto pagkatapos na iyan.
     Sigurado ka ba gusto mong magpatuloy?

@@ -72,12 +72,12 @@ export class WorkPackageStaticQueriesService {
       {
       identifier: 'gantt',
       label: this.text.gantt,
-      query_props: '{"c":["id","subject"], "tv":true,"hi":true}'
+      query_props: '{"c":["id","subject"],"tv":true,"tzl":"years","hi":true,"g":"","t":"parent:asc","f":[{"n":"status","o":"o","v":[]}]}'
     },
     {
       identifier: 'recently_created',
       label: this.text.recently_created,
-      query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc,","f":[{"n":"status","o":"o","v":[]}]}'
+      query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}'
     },
     {
       identifier: 'all_open',
@@ -100,12 +100,12 @@ export class WorkPackageStaticQueriesService {
         {
           identifier: 'created_by_me',
           label: this.text.created_by_me,
-          query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"tzl":"days","hi":false,"g":"","t":"updatedAt:desc,parent:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}],"pa":1,"pp":20}'
+          query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,parent:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}'
         },
         {
           identifier: 'assigned_to_me',
           label: this.text.assigned_to_me,
-          query_props: '{"c":["id","subject","type","status", "author", "updatedAt"],"t":"updatedAt:desc,parent:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assignee","o":"=","v":["me"]}]}'
+          query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,parent:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assignee","o":"=","v":["me"]}]}'
         }
       ]);
     }
@@ -114,12 +114,18 @@ export class WorkPackageStaticQueriesService {
   }
 
   public getStaticName(query:QueryResource) {
-    const matched = _.find(this.all, item =>
-      item.query_props && item.query_props === decodeURIComponent(this.$state.params.query_props)
-    );
+    if(this.$state.params.query_props) {
+      let queryProps = JSON.parse(this.$state.params.query_props);
+      delete queryProps.pp;
+      delete queryProps.pa;
 
-    if (matched) {
-      return matched.label;
+      const matched = _.find(this.all, item =>
+        item.query_props && item.query_props === JSON.stringify(queryProps)
+      );
+
+      if (matched) {
+        return matched.label;
+      }
     }
 
     // Try to detect the all open filter

@@ -167,10 +167,10 @@ uk:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Відмітьте цю опцію, щоб позначити пакети робіт з таким статусом, як доступні лише для перегляду.
+        Жоден атрибут не можуть бути змінені за виключенням статусу.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Примітки</strong>: Будуть застосовані успадковані значення (наприклад, елементів попередників чи нащадків).
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -187,9 +187,9 @@ uk:
       projects: Projects
       enabled_projects: Enabled projects
       add_group: Add attribute group
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Додати таблицю пов'язаних пакетів робіт
+      edit_query: Редагувати таблицю
+      query_group_placeholder: Найменувати таблицю
       reset: Reset to defaults
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -339,10 +339,10 @@ uk:
         multi_value: Allow multi-select
         possible_values: Можливі значення
         regexp: Регулярний вираз
-        searchable: Searchable
-        visible: Visible
+        searchable: Доступно для пошуку
+        visible: Видиме
       custom_value:
-        value: Value
+        value: Значення
       enterprise_token:
         starts_at: Valid since
         expires_at: Expires at
@@ -355,7 +355,7 @@ uk:
         to: Related work package
       status:
         is_closed: Work package closed
-        is_readonly: Work package read-only
+        is_readonly: Пакет робіт лише для перегляду
       journal:
         notes: Нотатки
       member:
@@ -953,7 +953,7 @@ uk:
   default_role_non_member: Non member
   default_role_reader: Читач
   default_role_member: Member
-  default_type: Work Package
+  default_type: Пакет робіт
   default_type_bug: Bug
   default_type_deliverable: Доставляємо
   default_type_epic: Epic
@@ -1205,7 +1205,7 @@ uk:
   label_auth_source_plural: Authentication modes
   label_authentication: Authentication
   label_available_project_work_package_categories: Available work package categories
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Доступні типи пакетів робіт
   label_available_project_boards: Available boards
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
@@ -1375,7 +1375,7 @@ uk:
   label_journal_diff: Description Comparison
   label_language: Мова
   label_jump_to_a_project: Jump to a project...
-  label_keyword_plural: Keywords
+  label_keyword_plural: Ключові слова
   label_language_based: Based on user's language
   label_last_activity: Last activity
   label_last_change_on: Остання зміна
@@ -2234,6 +2234,7 @@ uk:
   setting_per_page_options: Objects per page options
   setting_plain_text_mail: Plain text mail (no HTML)
   setting_protocol: Protocol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: Automatic repository vendor type
   setting_repositories_encodings: Repositories encodings
@@ -2404,6 +2405,11 @@ uk:
   text_no_notes: There are no comments available for this work package.
   text_notice_too_many_values_are_inperformant: 'Примітка: Відображення понад 100
     елементів на сторінці може збільшити час завантаження сторінки.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'
   text_own_membership_delete_confirmation: |-
     You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
     Are you sure you want to continue?

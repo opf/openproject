@@ -39,28 +39,45 @@ module OpenProject::TextFormatting
 
       def call
         attachments = get_attachments
-        return doc if attachments.nil?
+
+        rewriter = ::OpenProject::TextFormatting::Helpers::LinkRewriter.new context
 
         doc.css('img[src]').each do |node|
-          # We allow linking to filenames that are replaced with their attachment URL
-          filename = node['src'].downcase
 
-          # We only match a specific set of attributes as before
-          next unless filename =~ matched_filenames_regex
-
-          # Try to find the attachment
-          if found = attachments.detect { |att| att.filename.downcase == filename }
-            node['src'] = url_for only_path: context[:only_path],
-                                  controller: '/attachments',
-                                  action: 'download',
-                                  id: found
-
-            # Replace alt text with description, unless it has one already
-            node['alt'] = node['alt'].presence || found.description
+          # Check for relative URLs and replace them if needed
+          if rewriter.applicable? node['src']
+            node['src'] = rewriter.replace node['src']
+            next
           end
+
+          # Don't try to lookup attachments if we don't have any
+          next if attachments.nil?
+
+          # We allow linking to filenames that are replaced with their attachment URL
+          lookup_attachment_by_name node, attachments
         end
 
         doc
+      end
+
+      ##
+      # Lookup a local attachment name
+      def lookup_attachment_by_name(node, attachments)
+        filename = node['src'].downcase
+
+        # We only match a specific set of attributes as before
+        return unless filename =~ matched_filenames_regex
+
+        # Try to find the attachment
+        if found = attachments.detect { |att| att.filename.downcase == filename }
+          node['src'] = url_for only_path: context[:only_path],
+                                controller: '/attachments',
+                                action: 'download',
+                                id: found
+
+          # Replace alt text with description, unless it has one already
+          node['alt'] = node['alt'].presence || found.description
+        end
       end
 
       def get_attachments

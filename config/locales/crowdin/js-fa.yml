@@ -295,6 +295,10 @@ fa:
     help_texts:
       show_modal: Show attribute help text entry
     onboarding:
+      buttons:
+        skip: Skip
+        next: Next
+        got_it: متوجه شدم
       steps:
         welcome: یک تور معرفی سه دقیقه‌ای را برای یادگیری <b>مهم‌ترین ویژگی ها</b>
           در پیش گیرید. <br>وصیه می‌کنیم مراحل را تا پایان کامل کنید. شما می توانید
@@ -337,7 +341,6 @@ fa:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: متوجه شدم
     password_confirmation:
       field_description: You need to enter your account password to confirm this change.
       title: Confirm your password to continue

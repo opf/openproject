@@ -187,9 +187,9 @@ fr:
       projects: Projets
       enabled_projects: Projets activés
       add_group: Ajouter un groupe d’attributs
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Ajouter un tableau des lots de travaux associés
+      edit_query: Modifier le tableau
+      query_group_placeholder: Donner un nom au tableau
       reset: Rétablir les valeurs par défaut
       type_color_text: 'Cliquez pour assigner ou modifier la couleur de ce type. La
         couleur sélectionnée distingue les lots de travaux dans les diagrammes de
@@ -1774,7 +1774,7 @@ fr:
     à échéance dans les %{days} prochains jours:"
   mail_body_wiki_content_added: La page wiki '%{id}' a été ajouté par %{author}.
   mail_body_wiki_content_updated: La page wiki '%{id}' a été mise à jour par %{author}.
-  mail_subject_account_activation_request: Réquete pour l'activation du compte %{value}
+  mail_subject_account_activation_request: Requête pour l'activation du compte %{value}
   mail_subject_lost_password: Votre mot de passe %{value}
   mail_subject_register: Votre activation du compte %{value}
   mail_subject_reminder: "%{count} lot(s) de travaux à échéance dans les %{days} prochains
@@ -2179,7 +2179,7 @@ fr:
   setting_brute_force_block_after_failed_logins: Bloquer l'utilisateur après ce nombre
     de tentatives de connexion échouées
   setting_brute_force_block_minutes: Temps de bloquage de l'utilisateur
-  setting_cache_formatted_text: Mettre le text formatté en memoire cache
+  setting_cache_formatted_text: Mettre le texte formaté en mémoire cache
   setting_use_wysiwyg_description: Sélectionnez cette option pour activer l’éditeur
     CKEditor5 WYSIWYG pour tous les utilisateurs par défaut. CKEditor a des fonctionnalités
     limitées pour GFM Markdown.
@@ -2250,6 +2250,7 @@ fr:
   setting_per_page_options: Options des objets par page
   setting_plain_text_mail: Courriel au format texte (pas de HTML)
   setting_protocol: Protocole
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Pied de page d’inscription
   setting_repositories_automatic_managed_vendor: Type de fournisseur de dépôt automatique
   setting_repositories_encodings: Encodages de référentiels
@@ -2425,6 +2426,11 @@ fr:
   text_no_notes: Il n'existe aucun commentaire pour ce lot de travaux.
   text_notice_too_many_values_are_inperformant: 'Remarque : L''affichage de plus de
     100 articles par page peut augmenter le temps de chargement de la page.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'
   text_own_membership_delete_confirmation: |-
     Vous êtes sur le point de retirer tout ou partie de vos permissions et ne pourrez peut-être plus modifier le projet par la suite.
     Êtes vous sûr de vouloir continuer?

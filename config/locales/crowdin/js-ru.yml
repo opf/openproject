@@ -273,8 +273,8 @@ ru:
     label_attachments: Файлы
     label_drop_files: Перетащите файлы сюда
     label_drop_files_hint: или кликните для добавления файлов
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
-      single files.
+    label_drop_folders_hint: Вы не можете загрузить папку. Выберите пожалуйста один
+      файл.
     label_add_attachments: Добавить вложения
     label_formattable_attachment_hint: Прикрепите и связать файлы, перетащив их на
       это поле, или вставив из буфера обмена.
@@ -295,6 +295,10 @@ ru:
     help_texts:
       show_modal: Показать содержимое атрибута текста справки
     onboarding:
+      buttons:
+        skip: Пропустить
+        next: Следующие
+        got_it: Принять
       steps:
         welcome: Совершите вводный трехминутный тур для знакомства с наиболее <b>важными
           особенностями</b>. <br>Рекомендуем пройти все шаги до конца. Пройти вводный
@@ -336,7 +340,6 @@ ru:
           любым членом вашей команды в любое время.
         help_menu: В меню <b>Справка</b> руководство пользователя и дополнительные
           справочные материалы. <br>Приятной работы с OpenProject!
-        got_it: Принять
     password_confirmation:
       field_description: Необходимо ввести свой пароль для подтверждения изменений.
       title: Для продолжения введите свой пароль
@@ -415,7 +418,7 @@ ru:
       hierarchy_headline: Иерархии
       children_headline: Дочерние элементы
     relation_buttons:
-      set_parent: Set parent
+      set_parent: Установить родителя
       change_parent: Сменить родителя
       remove_parent: Удалить родителя
       group_by_wp_type: Группировать по типу комплекса работ
@@ -458,7 +461,7 @@ ru:
         one: Вы можете выбрать только один элемент
         other: Вы можете выбрать только {{limit}} элементов
         zero: You cannot select any items
-        few: Вы можете выбрать только {{limit}} элемента
+        few: Можно выбрать {{limit}} элементов
         many: You can only select {{limit}} items
     project_menu_details: Детали
     sort:
@@ -847,7 +850,7 @@ ru:
         one: 1 час
         other: "%{count} часов"
         zero: 0 hours
-        few: "%{count} часа"
+        few: 'Кол-во часов: %{count}'
         many: "%{count} hours"
     zen_mode:
       button_activate: Включить дзен-режим

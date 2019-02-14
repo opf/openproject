@@ -25,7 +25,7 @@ fi:
     button_add_watcher: Lisää seuraaja
     button_back_to_list_view: Back to list view
     button_cancel: Peruuta
-    button_close: Close
+    button_close: Sulje
     button_check_all: Valitse kaikki
     button_configure-form: Configure form
     button_confirm: Vahvista
@@ -58,7 +58,7 @@ fi:
       too_many: There are more work packages (%{count}) than can be displayed by the
         calendar (%{max}). Add filters to focus on the relevant ones.
     description_available_columns: Käytettävissä olevat sarakkeet
-    description_current_position: 'You are here:'
+    description_current_position: 'Olet täällä:'
     description_select_work_package: 'Valitse työpaketti #%{id}'
     description_selected_columns: Valitut sarakkeet
     description_subwork_package: 'Alipaketti työpaketille #%{id}'
@@ -291,6 +291,10 @@ fi:
     help_texts:
       show_modal: Show attribute help text entry
     onboarding:
+      buttons:
+        skip: Ohita
+        next: Seuraava
+        got_it: Got it
       steps:
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -332,7 +336,6 @@ fi:
           at any time.
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
-        got_it: Got it
     password_confirmation:
       field_description: Sinun täytyy syöttää tilisi salasana vahvistaaksesi tämän
         muutoksen.

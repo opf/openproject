@@ -165,10 +165,10 @@ tr:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Bu durumdaki iş paketlereni salt okunur olarak işaretlemek için bu seçeneği işaretleyin.
+        Durum haricindeki başka özellikler değiştirilemez.
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Uyarı</strong>: Devralınan değerler (örneğin; çocuklardan ve bağlantılardan) hala geçerli olacaktır.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -185,9 +185,9 @@ tr:
       projects: Projeler
       enabled_projects: Etkin projeler
       add_group: Add attribute group
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Bağlantılı iş paketlerinin tablosunu ekle
+      edit_query: Tabloyu düzenle
+      query_group_placeholder: Tabloya bir ad verin
       reset: Varsayılanlara geri yükle
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -348,7 +348,7 @@ tr:
         to: İlgili iş paketi
       status:
         is_closed: İş paketi kapalı
-        is_readonly: İş paketleri salt okunur
+        is_readonly: İş paketi salt okunur
       journal:
         notes: Notlar
       member:
@@ -754,9 +754,9 @@ tr:
     checkbox_label: Yukarıdakilere dikkat ettim ve onay verdim.
     failure_message: Rıza alımı başarısız oldu, işlenemedi.
     title: Kullanıcı Rızası
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
+    decline_warning_message: Onay vermeyi reddettiniz ve çıkış yaptınız.
+    user_has_consented: Kullanıcı, belirtilen zamanda yapılandırılmış ifadenize izin
+      verdi.
     not_yet_consented: User has not consented yet, will be requested upon next login.
     contact_mail_instructions: Define the mail address that users can reach a data
       controller to perform data change or removal requests.
@@ -1168,14 +1168,14 @@ tr:
   label_auth_source_plural: Kimlik doğrulama modları
   label_authentication: Kimlik Doğrulaması
   label_available_project_work_package_categories: Uygun iş paketi kategorileri
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Uygun iş paketi tipleri
   label_available_project_boards: Uygun panolar
   label_available_project_versions: Uygun sürümler
   label_available_project_repositories: Uygun depolar
   label_api_documentation: API belgelendirmesi
   label_between: arasında
-  label_blocked_by: tarafından engellendi
-  label_blocks: bloklar
+  label_blocked_by: bağlı
+  label_blocks: engeller
   label_blog: Blog
   label_board_locked: Kilitlendi
   label_board_new: Yeni forum
@@ -1264,9 +1264,9 @@ tr:
   label_download: "%{count} indirme"
   label_download_plural: "%{count} indirme"
   label_downloads_abbr: D/L
-  label_duplicated_by: yineleyen
+  label_duplicated_by: tarafından çoğaltılır
   label_duplicate: kopya
-  label_duplicates: Çoğalt
+  label_duplicates: çoğaltır
   label_edit: Düzenle
   label_enable_multi_select: Çoklu seçimi etkinleştir
   label_enabled_project_custom_fields: Etkin özel alanlar
@@ -1299,7 +1299,7 @@ tr:
   label_filters_toggle: Filtreleri göster / gizle
   label_float: Ondalık
   label_folder: Klasör
-  label_follows: öncesi
+  label_follows: takip eder
   label_force_user_language_to_default: Varsayılan olmayan izin verildi bir dil olan
     kullanıcı dilini ayarlama
   label_form_configuration: Formu yapılandırma
@@ -1430,7 +1430,7 @@ tr:
   label_overall_spent_time: Genel harcanan zaman
   label_overview: Genel Bakış
   label_page_title: Sayfa başlığı
-  label_part_of: parçası
+  label_part_of: bölümü
   label_password_lost: Parolanızı mı unuttunuz?
   label_password_rule_lowercase: Küçük harf
   label_password_rule_numeric: Sayısal karakterler
@@ -1446,7 +1446,7 @@ tr:
   label_planning: Planlanıyor
   label_please_login: Lütfen giriş yapın
   label_plugins: Eklentiler
-  label_precedes: sonrası
+  label_precedes: iletletir
   label_preferences: Seçenekler
   label_preview: Ön İzleme
   label_previous: Önceki
@@ -2130,8 +2130,8 @@ tr:
   setting_commit_logtime_activity_id: Kaydedilen zaman için faaliyet
   setting_commit_logtime_enabled: Zaman kaydını etkinleştir
   setting_commit_ref_keywords: Anahtar kelimeleri referansla
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
+  setting_consent_time: Rıza süresi
+  setting_consent_info: Rıza bilgi metni
   setting_consent_required: Consent required
   setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Projeler arası iş paketi ilişkilerine
@@ -2189,6 +2189,7 @@ tr:
   setting_per_page_options: Sayfa başı nesne seçenekleri
   setting_plain_text_mail: Düz metin postası (HTML yok)
   setting_protocol: Protokol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Kayıt alt bilgisi
   setting_repositories_automatic_managed_vendor: Otomatik depo satıcısı türü
   setting_repositories_encodings: Depolar kodlamaları
@@ -2356,6 +2357,11 @@ tr:
   text_no_notes: Bu çalışma paketi için bir yorum bulunmuyor.
   text_notice_too_many_values_are_inperformant: 'Not: Her sayfada 100''den fazla öğe
     gösterildiğinde, sayfa yükleme süresi artabilir.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'
   text_own_membership_delete_confirmation: İzinlerinizden bazılarını veya tümünü kaldırmak
     üzeresiniz ve bundan sonra bu projeyi düzenleyemeyebilirsiniz. Devam etmek istediğine
     emin misin?

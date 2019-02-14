@@ -148,10 +148,10 @@ zh:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        选中此选项可将此状态的工作包标记为只读。
+        除状态外，不能更改任何属性。
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>注</strong>：继承值（例如，来自子级或关系的值）仍然适用。
       status_color_text: |
         单击可以分配或更改此状态的颜色。
         颜色显示在状态按钮中，可用于突出显示表中的工作包。
@@ -168,9 +168,9 @@ zh:
       projects: 项目
       enabled_projects: 已启用的项目
       add_group: 增加属性组
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: 添加相关工作包表
+      edit_query: 编辑表
+      query_group_placeholder: 为表命名
       reset: 重置为默认值
       type_color_text: '单击可以分配或更改此类型的颜色。选定颜色可区分甘特图中的工作包。
 
@@ -307,7 +307,7 @@ zh:
         to: 相关的工作包
       status:
         is_closed: 工作包已关闭
-        is_readonly: Work package read-only
+        is_readonly: 只读工作包
       journal:
         notes: 备注
       member:
@@ -947,7 +947,7 @@ zh:
 
 '
   error_external_authentication_failed: 在外部身份验证期间出错。请再试一次。
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: 未突出显示的属性：%{attributes}
   events:
     project: 编辑项目
     changeset: 编辑变更集
@@ -997,7 +997,7 @@ zh:
       upsale:
         become_hero: 成为英雄！
         title: 升级到企业版
-        description: What are the benefits?
+        description: 有什么好处？
         more_info: 更多信息
         additional_features: 其他强大的高级功能
         professional_support: 由 OpenProject 专家提供专业支持
@@ -1072,7 +1072,7 @@ zh:
   label_auth_source_plural: 身份验证模式
   label_authentication: 身份验证
   label_available_project_work_package_categories: 可用的工作包类别
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: 可用的工作包类型
   label_available_project_boards: 可用的公告板
   label_available_project_versions: 可用版本
   label_available_project_repositories: 可用存储库
@@ -1241,7 +1241,7 @@ zh:
   label_journal_diff: 描述的对比
   label_language: 语言
   label_jump_to_a_project: 跳转到一个项目...
-  label_keyword_plural: Keywords
+  label_keyword_plural: 关键词
   label_language_based: 基于用户的语言
   label_last_activity: 最近一次活动
   label_last_change_on: 最后一次修改时间
@@ -1732,7 +1732,7 @@ zh:
     text_getting_started_description: 开放项目的项目部门和合作团队概览
     text_show_again: 您可以从帮助菜单重新启动此视频
     welcome: 欢迎来到 OpenProject
-    select_language: Please select your language
+    select_language: 请选择您的语言
   permission_add_work_package_notes: 添加注释
   permission_add_work_packages: 添加工作包
   permission_add_messages: 发布消息
@@ -1934,7 +1934,7 @@ zh:
   setting_email_delivery_method: 电子邮件发送方法
   setting_sendmail_location: Sendmail 的执行位置
   setting_smtp_enable_starttls_auto: 如果可用，自动使用 STARTTLS
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: 使用 SSL 连接
   setting_smtp_address: SMTP 服务器
   setting_smtp_port: SMTP 端口
   setting_smtp_authentication: SMTP 身份验证
@@ -2009,6 +2009,7 @@ zh:
   setting_per_page_options: 每页对象选项
   setting_plain_text_mail: 纯文本邮件 (没有 HTML)
   setting_protocol: 协议
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: 注册页脚
   setting_repositories_automatic_managed_vendor: 自动存储库供应商类型
   setting_repositories_encodings: 代码库的编码
@@ -2039,9 +2040,8 @@ zh:
   setting_welcome_on_homescreen: 在主屏幕上显示欢迎信息
   setting_wiki_compression: Wiki 历史压缩
   setting_work_package_group_assignment: 允许分配到组
-  setting_work_package_list_default_highlighting_mode: Default highlighting mode
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighting_mode: 默认突出显示模式
+  setting_work_package_list_default_highlighted_attributes: 默认内联突出显示属性
   settings:
     general: 通用
     other: 其他
@@ -2053,11 +2053,11 @@ zh:
       deletion: 删除
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
+        inline: 突出显示属性内联
         none: 无突出显示
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: 整行按状态
+        type: 整行按类型
+        priority: 整行按优先级
   text_formatting:
     markdown: Markdown
     plain: 纯文本
@@ -2145,6 +2145,11 @@ zh:
   text_no_configuration_data: 角色、 类型、 工作包状态和工作流有尚未配置。 \n强烈建议加载默认配置。加载完成后你将能够修改它。
   text_no_notes: 没有注释可用于此工作包。
   text_notice_too_many_values_are_inperformant: 注意： 每个页面显示超过 100 个项目会增加页面加载时间。
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'
   text_own_membership_delete_confirmation: 您将要删除部分或全部的权限，可能不能够在那之后编辑此项目。 \n您确定要继续吗？
   text_plugin_assets_writable: 插件资产目录可写
   text_powered_by: Powered by %{link}
@@ -2439,7 +2444,7 @@ zh:
       code_401_wrong_credentials: 你没有提供正确的凭据。
       code_403: 您无权访问此资源。
       code_404: 找不到所请求的资源。
-      code_409: Could not update the resource because of conflicting modifications.
+      code_409: 无法更新资源，因为发生冲突的修改。
       code_500: 发生了内部错误。
       expected:
         date: YYYY-MM-DD（仅适用于 ISO 8601 日期）
