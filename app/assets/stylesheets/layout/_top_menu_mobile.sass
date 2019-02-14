@@ -29,6 +29,8 @@
 @include breakpoint(680px down)
   $hamburger-right: -3px
   $hamburger-width: 50px
+  $search-input-height-mobile: 36px
+
   #logo
     background-color: transparent
 
@@ -92,7 +94,7 @@
         margin: 0
 
       .ng-select-container
-        max-height: unset
+        height: $search-input-height-mobile !important
         border-radius: 4px
 
       .ng-input input
