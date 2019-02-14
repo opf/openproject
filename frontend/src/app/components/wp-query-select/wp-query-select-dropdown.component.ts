@@ -118,8 +118,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
               readonly loadingIndicator:LoadingIndicatorService,
               readonly pathHelper:PathHelperService,
               readonly wpStaticQueries:WorkPackageStaticQueriesService,
-              readonly toggleService:MainMenuToggleService,
-              readonly wpStatesInitialization:WorkPackageStatesInitializationService) {
+              readonly toggleService:MainMenuToggleService) {
   }
 
   public ngOnInit() {
@@ -440,7 +439,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
     // Ensure we're reloading the query
     if (isSameItem) {
-      this.wpStatesInitialization.clearStates();
       this.wpListChecksumService.clear();
       opts.reload = true;
     }

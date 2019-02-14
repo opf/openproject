@@ -50,7 +50,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     parent: 'root',
     component: WorkPackagesBaseComponent,
     url: '/work_packages?query_id&query_props',
-    abstract: true,
+    redirectTo: 'work-packages.list',
     params: {
       query_id: { type: 'query', dynamic: true },
       // Use custom encoder/decoder that ensures validity of URL string

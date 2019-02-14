@@ -37,6 +37,9 @@ export interface IDisplayFieldType extends IFieldType<DisplayField> {
 }
 
 export interface DisplayFieldContext {
+  /** The injector to use for the context of this field. Relevant for embedded service injection */
+  injector:Injector;
+
   /** Where will the field be rendered? This may result in different styles (Multi select field, e.g.,) */
   container: 'table'|'single-view'|'timeline';
 

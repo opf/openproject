@@ -107,7 +107,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   public readonly uniqueTableIdentifier = `wp-table--container-${randomString(16)}`;
 
   constructor(readonly elementRef:ElementRef,
-              readonly  injector:Injector,
+              readonly injector:Injector,
               readonly states:States,
               readonly querySpace:IsolatedQuerySpace,
               readonly opModalService:OpModalService,

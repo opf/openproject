@@ -39,7 +39,7 @@ import {
 export class WorkPackageCommentFieldComponent extends FormattableEditFieldComponent implements OnInit {
   public isBusy:boolean = false;
 
-  public ConfigurationService:ConfigurationService = this.$injector.get(ConfigurationService);
+  public ConfigurationService:ConfigurationService = this.injector.get(ConfigurationService);
 
   public get name() {
     return 'comment';

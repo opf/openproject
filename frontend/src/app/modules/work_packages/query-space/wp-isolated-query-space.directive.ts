@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Directive} from '@angular/core';
+import {Directive, Injector} from '@angular/core';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {OpTableActionsService} from "core-components/wp-table/table-actions/table-actions.service";
 import {WorkPackageTableRelationColumnsService} from "core-components/wp-fast-table/state/wp-table-relation-columns.service";
@@ -51,6 +51,14 @@ import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
+import {WorkPackageService} from "core-components/work-packages/work-package.service";
+import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
+import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
+import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
+import {WorkPackageContextMenuHelperService} from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
+import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
+import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
+import {WpRelationInlineCreateService} from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy
@@ -82,6 +90,17 @@ import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
     WorkPackageTableRefreshService,
     WorkPackageTableFocusService,
     WorkPackageTableHighlightingService,
+    WorkPackageService,
+    WorkPackageRelationsService,
+    WorkPackageRelationsHierarchyService,
+    WorkPackageFiltersService,
+    WorkPackageContextMenuHelperService,
+
+    // Provide a separate service for creation events of WP Inline create
+    // This can be hierarchically injected to provide isolated events on an embedded table
+    WorkPackageInlineCreateService,
+    WpChildrenInlineCreateService,
+    WpRelationInlineCreateService,
 
     // Provide both serves with tokens to avoid tight dependency cycles
     { provide: IWorkPackageCreateServiceToken, useClass: WorkPackageCreateService },
@@ -93,4 +112,8 @@ import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
   ]
 })
 export class WorkPackageIsolatedQuerySpaceDirective {
+
+  constructor(private injector:Injector) {
+    console.log(injector.get(IsolatedQuerySpace));
+  }
 }

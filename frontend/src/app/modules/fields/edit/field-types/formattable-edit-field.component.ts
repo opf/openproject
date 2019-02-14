@@ -57,7 +57,7 @@ export const formattableFieldTemplate = `
   template: formattableFieldTemplate
 })
 export class FormattableEditFieldComponent extends EditFieldComponent implements OnInit {
-  readonly pathHelper:PathHelperService = this.$injector.get(PathHelperService);
+  readonly pathHelper:PathHelperService = this.injector.get(PathHelperService);
 
   public readonly field = this;
 

@@ -56,7 +56,6 @@ import {WorkPackageTimelineHeaderController} from 'core-components/wp-table/time
 import {WorkPackageTableTimelineRelations} from 'core-components/wp-table/timeline/global-elements/wp-timeline-relations.directive';
 import {WorkPackageTableTimelineStaticElements} from 'core-components/wp-table/timeline/global-elements/wp-timeline-static-elements.directive';
 import {WorkPackageTableTimelineGrid} from 'core-components/wp-table/timeline/grid/wp-timeline-grid.directive';
-import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageTimelineButtonComponent} from 'core-components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component';
 import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
 import {WorkPackageStatusButtonComponent} from 'core-components/wp-buttons/wp-status-button/wp-status-button.component';
@@ -135,7 +134,6 @@ import {ExternalRelationQueryConfigurationService} from "core-components/wp-tabl
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
 import {WorkPackageInlineCreateService} from 'core-components/wp-inline-create/wp-inline-create.service';
-import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageContextMenuHelperService} from 'core-components/wp-table/context-menu-helper/wp-context-menu-helper.service';
@@ -191,24 +189,13 @@ import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_pack
       multi: true
     },
 
-    // Timeline
-    WorkPackageTableTimelineService,
-
     // External query configuration
     ExternalQueryConfigurationService,
     ExternalRelationQueryConfigurationService,
 
     // Global work package states / services
-    WorkPackageService,
     WorkPackageCacheService,
     SchemaCacheService,
-
-    // Provide a separate service for creation events of WP Inline create
-    // This can be hierarchically injected to provide isolated events on an embedded table
-    WorkPackageInlineCreateService,
-    WpChildrenInlineCreateService,
-    WpRelationInlineCreateService,
-    WorkPackageRelationsService,
 
     // Global query/table state services
     // For any service that depends on the isolated query space,
@@ -220,14 +207,10 @@ import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_pack
     KeepTabService,
     WorkPackageNotificationService,
     WorkPackagesListChecksumService,
-    WorkPackageRelationsHierarchyService,
-    WorkPackageFiltersService,
     ApiWorkPackagesService,
 
     WorkPackagesActivityService,
     WorkPackageWatchersService,
-
-    WorkPackageContextMenuHelperService,
 
     QueryFormDmService,
   ],
