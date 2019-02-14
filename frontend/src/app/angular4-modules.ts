@@ -80,6 +80,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
 import {FullCalendarModule} from "ng-fullcalendar";
 import {OpenprojectGlobalSearchModule} from "core-app/modules/global_search/openproject-global-search.module";
+import {DeviceService} from "core-app/modules/common/browser/device.service";
 
 @NgModule({
   imports: [
@@ -134,6 +135,7 @@ import {OpenprojectGlobalSearchModule} from "core-app/modules/global_search/open
     PaginationService,
     OpenProjectFileUploadService,
     CurrentProjectService,
+    DeviceService,
     // Split view
     CommentService,
     // Context menus

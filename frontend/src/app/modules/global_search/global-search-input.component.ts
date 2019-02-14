@@ -45,6 +45,7 @@ import {CollectionResource} from "app/modules/hal/resources/collection-resource"
 import {DynamicCssService} from "app/modules/common/dynamic-css/dynamic-css.service";
 import {GlobalSearchService} from "app/modules/global_search/global-search.service";
 import {CurrentProjectService} from "app/components/projects/current-project.service";
+import {DeviceService} from "app/modules/common/browser/device.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
@@ -78,7 +79,8 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     all_projects: this.I18n.t('js.global_search.all_projects'),
     current_project: this.I18n.t('js.global_search.current_project'),
     current_project_and_all_descendants: this.I18n.t('js.global_search.current_project_and_all_descendants'),
-    search: this.I18n.t('js.global_search.search') + ' ...'
+    search: this.I18n.t('js.global_search.search') + ' ...',
+    close_search: this.I18n.t('js.global_search.close_search')
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -88,6 +90,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
               readonly dynamicCssService:DynamicCssService,
               readonly globalSearchService:GlobalSearchService,
               readonly currentProjectService:CurrentProjectService,
+              readonly deviceService:DeviceService,
               readonly cdRef:ChangeDetectorRef) {
   }
 
@@ -126,7 +129,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
     // handle click on search button
     if (ContainHelpers.insideOrSelf(this.btn.nativeElement, event.target)) {
-      if (this.isMobile) {
+      if (this.deviceService.isMobile) {
         this.toggleMobileSearch();
         // open ng-select menu on default
         jQuery('.ng-input input').focus();
@@ -138,7 +141,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   onResize(event:any) {
-    if (event.target.innerWidth > 680 && this.mobileSearch) {
+    if (event.target.innerWidth > this.deviceService.mobileWidthTreshold && this.mobileSearch) {
       this.toggleMobileSearch();
     }
   }
@@ -182,7 +185,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 
   public onFocusOut() {
-    if (!this.isMobile) {
+    if (!this.deviceService.isMobile) {
       this.expanded = (this.ngSelectComponent.filterValue.length > 0);
       this.ngSelectComponent.isOpen = false;
     }
@@ -310,10 +313,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   private hideSpinner():void {
     this.$element.find('.ui-autocomplete--loading').hide();
-  }
-
-  private get isMobile():boolean {
-    return (window.innerWidth < 680);
   }
 
   private unregister() {
