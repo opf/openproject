@@ -66,7 +66,7 @@ export interface IAutocompleteItem {
 }
 
 interface IQueryAutocompleteJQuery extends JQuery {
-  querycomplete({}):void;
+  querycomplete(...args:any[]):void;
 }
 
 
@@ -165,7 +165,8 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     this.initialized = true;
     this.buttonArrowLeft.focus();
     this.setupAutoCompletion(this.searchInput);
-    this.updateMenuOnChanges(this.searchInput);
+    this.updateMenuOnChanges();
+    this.loadQueries();
   }
 
   private transformQueries(collection:CollectionResource<QueryResource>) {
@@ -233,7 +234,25 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   private loadQueries() {
     return this.loadingPromise = this.QueryDm
       .all(this.CurrentProject.identifier)
-      .toPromise();
+      .toPromise()
+      .then(collection => {
+
+      // Update the complete collection
+      this.searchInput.querycomplete("option", {source: this.transformQueries(collection)});
+
+      // To visibly show the changes, we need to search again
+      this.searchInput.querycomplete("search", this.searchInput.val());
+
+      // To search an empty string would expand all categories again every time
+      // Remember all previously hidden categories and set them again after updating the menu
+      _.each(this.hiddenCategories, category => {
+        let thisCategory:string = jQuery(category).attr("category")!;
+        this.expandCollapseCategory(thisCategory);
+      });
+
+      // Update view
+      this.ref.detectChanges();
+    });
   }
 
   private set loadingPromise(promise:Promise<any>) {
@@ -396,27 +415,12 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   // Listens on all changes of queries (via an observable in the service), e.g. delete, create, rename, toggle starred
   // Update collection in autocompleter
   // Search again for the current value in input field to update the menu without loosing the current search results
-  private updateMenuOnChanges(input:any) {
+  private updateMenuOnChanges() {
     this.states.changes.queries
       .pipe(
         untilComponentDestroyed(this)
       )
-      .subscribe(() => {
-        this.loadQueries().then(collection => {
-          // Update the complete collection
-          input.querycomplete("option", {source: this.transformQueries(collection)});
-          // To visibly show the changes, we need to search again
-          input.querycomplete("search", input.val());
-          // To search an empty string would expand all categories again every time
-          // Remember all previously hidden categories and set them again after updating the menu
-          _.each(this.hiddenCategories, category => {
-            let thisCategory:string = jQuery(category).attr("category")!;
-            this.expandCollapseCategory(thisCategory);
-          });
-          // Update view
-          this.ref.detectChanges();
-        });
-      });
+      .subscribe(() => this.loadQueries());
   }
 
   private expandCollapseCategory(category:string) {
