@@ -40,7 +40,6 @@ import {HookService} from 'core-app/modules/plugins/hook-service';
 import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
 import {WorkPackageEmbeddedTableEntryComponent} from 'core-components/wp-table/embedded/wp-embedded-table-entry.component';
 import {WorkPackagesTableController} from 'core-components/wp-table/wp-table.directive';
-import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 import {WpResizerDirective} from 'core-components/resizer/wp-resizer.component';
 import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
@@ -133,28 +132,9 @@ import {ExternalQueryConfigurationComponent} from 'core-components/wp-table/exte
 import {ExternalQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
 import {ExternalRelationQueryConfigurationComponent} from "core-components/wp-table/external-configuration/external-relation-query-configuration.component";
 import {ExternalRelationQueryConfigurationService} from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
-import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-table/state/wp-table-relation-columns.service';
-import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
-import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
-import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
-import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
-import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
-import {WorkPackageTableHighlightingService} from 'core-components/wp-fast-table/state/wp-table-highlighting.service';
-import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
-import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
-import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
-import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
-import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
-import {IWorkPackageCreateServiceToken} from 'core-components/wp-new/wp-create.service.interface';
-import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
-import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
-import {IWorkPackageEditingServiceToken} from 'core-components/wp-edit-form/work-package-editing.service.interface';
 import {WorkPackageInlineCreateService} from 'core-components/wp-inline-create/wp-inline-create.service';
-import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
@@ -169,8 +149,6 @@ import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-c
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageChildrenQueryComponent} from "core-components/wp-relations/embedded/children/wp-children-query.component";
 import {WpRelationInlineAddExistingComponent} from "core-components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
@@ -185,7 +163,6 @@ import {AttachmentsUploadComponent} from 'core-app/modules/attachments/attachmen
 import {AttachmentListComponent} from 'core-app/modules/attachments/attachment-list/attachment-list.component';
 import {WorkPackageFilterByTextInputComponent} from "core-components/filters/quick-filter-by-text-input/quick-filter-by-text-input.component";
 import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
-import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
 
@@ -213,7 +190,6 @@ import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_pack
       deps: [Injector],
       multi: true
     },
-    WorkPackageTablePaginationService,
 
     // Timeline
     WorkPackageTableTimelineService,
@@ -222,47 +198,30 @@ import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_pack
     ExternalQueryConfigurationService,
     ExternalRelationQueryConfigurationService,
 
-    // Table and query states services
-    WorkPackageTableRelationColumnsService,
-    WorkPackageTableGroupByService,
-    WorkPackageTableHierarchiesService,
-    WorkPackageTableSortByService,
-    WorkPackageTableColumnsService,
-    WorkPackageTableFiltersService,
-    QueryFiltersService,
-    WorkPackageTableSumService,
-    WorkPackageTableHighlightingService,
-    WorkPackageStatesInitializationService,
-    WorkPackagesListService,
-    WorkPackageStaticQueriesService,
-    WorkPackageTableRefreshService,
-    WorkPackageTableAdditionalElementsService,
-    WorkPackagesListInvalidQueryService,
-    WorkPackageTableFocusService,
-    WorkPackageTableSelection,
-
-    // Provide both serves with tokens to avoid tight dependency cycles
-    { provide: IWorkPackageCreateServiceToken, useClass: WorkPackageCreateService },
-    { provide: IWorkPackageEditingServiceToken, useClass: WorkPackageEditingService },
+    // Global work package states / services
+    WorkPackageService,
+    WorkPackageCacheService,
+    SchemaCacheService,
 
     // Provide a separate service for creation events of WP Inline create
     // This can be hierarchically injected to provide isolated events on an embedded table
     WorkPackageInlineCreateService,
     WpChildrenInlineCreateService,
     WpRelationInlineCreateService,
-
-    OpTableActionsService,
-
     WorkPackageRelationsService,
-    WorkPackageCacheService,
-    SchemaCacheService,
+
+    // Global query/table state services
+    // For any service that depends on the isolated query space,
+    // they should be provided in wp-isolated-query-space.directive instead
+    QueryFiltersService,
+    WorkPackageStaticQueriesService,
+    WorkPackagesListInvalidQueryService,
 
     KeepTabService,
     WorkPackageNotificationService,
     WorkPackagesListChecksumService,
     WorkPackageRelationsHierarchyService,
     WorkPackageFiltersService,
-    WorkPackageService,
     ApiWorkPackagesService,
 
     WorkPackagesActivityService,
@@ -271,12 +230,6 @@ import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_pack
     WorkPackageContextMenuHelperService,
 
     QueryFormDmService,
-    ReorderQueryService,
-
-    // Isolated query space store
-    IsolatedQuerySpace,
-
-    WpTableConfigurationService,
   ],
   declarations: [
     // Routing

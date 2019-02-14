@@ -45,16 +45,29 @@ import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
+import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
+import {WpTableConfigurationService} from "core-components/wp-table/configuration-modal/wp-table-configuration.service";
+import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
+import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
+import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy
  * that provides access to query-bound data and services, especially around the querySpace services.
+ *
+ * If you add services that depend on a table state, they should be provided here, not globally
+ * in a module.
  */
 @Directive({
   selector: '[wp-isolated-query-space]',
   providers: [
+    // Open the isolated space first, order is important here
     IsolatedQuerySpace,
     OpTableActionsService,
+
+    // Work package table services
+    WorkPackagesListService,
     WorkPackageTableRelationColumnsService,
     WorkPackageTablePaginationService,
     WorkPackageTableGroupByService,
@@ -67,11 +80,16 @@ import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp
     WorkPackageTableSumService,
     WorkPackageTableAdditionalElementsService,
     WorkPackageTableRefreshService,
+    WorkPackageTableFocusService,
     WorkPackageTableHighlightingService,
+
+    // Provide both serves with tokens to avoid tight dependency cycles
     { provide: IWorkPackageCreateServiceToken, useClass: WorkPackageCreateService },
-    // Order is important here, to avoid this service
-    // getting global injections
+    { provide: IWorkPackageEditingServiceToken, useClass: WorkPackageEditingService },
+
     WorkPackageStatesInitializationService,
+    WpTableConfigurationService,
+    ReorderQueryService,
   ]
 })
 export class WorkPackageIsolatedQuerySpaceDirective {

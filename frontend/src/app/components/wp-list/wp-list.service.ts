@@ -84,9 +84,6 @@ export class WorkPackagesListService {
       share()
     );
 
-  private queryChanges = new BehaviorSubject<string>('');
-  public queryChanges$ = this.queryChanges.asObservable();
-
   constructor(protected NotificationsService:NotificationsService,
               readonly I18n:I18nService,
               protected UrlParamsHelper:UrlParamsHelperService,
@@ -242,7 +239,7 @@ export class WorkPackagesListService {
 
         // Reload the query, and then reload the menu
         this.reloadQuery(query).then(() => {
-          this.queryChanges.next(query.name);
+          this.states.changes.queries.next(query.id);
         });
 
         return query;
@@ -270,7 +267,7 @@ export class WorkPackagesListService {
 
         this.loadDefaultQuery(id);
 
-        this.queryChanges.next(query.name);
+        this.states.changes.queries.next(query.id);
       });
 
 
@@ -289,7 +286,7 @@ export class WorkPackagesListService {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
         this.$state.go('.', { query_id: query!.id, query_props: null }, { reload: true });
-        this.queryChanges.next(query!.name);
+        this.states.changes.queries.next(query!.id);
       })
       .catch((error:ErrorResource) => {
         this.NotificationsService.addError(error.message);
@@ -306,7 +303,7 @@ export class WorkPackagesListService {
 
       this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
-      this.queryChanges.next(query.name);
+      this.states.changes.queries.next(query!.id);
     });
 
     return promise;

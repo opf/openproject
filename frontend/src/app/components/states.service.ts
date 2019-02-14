@@ -12,6 +12,7 @@ import {WikiPageResource} from 'core-app/modules/hal/resources/wiki-page-resourc
 import {PostResource} from 'core-app/modules/hal/resources/post-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
+import {Subject} from "rxjs";
 
 export class States extends StatesGroup {
   [key:string]:any;
@@ -45,6 +46,9 @@ export class States extends StatesGroup {
   // Work Package query states
   queries = new QueryAvailableDataStates();
 
+  // Global events to isolated changes
+  changes = new GlobalStateChanges();
+
   // Current focused work package (e.g, row preselected for details button)
   focusedWorkPackage:InputState<WPFocusState> = input<WPFocusState>();
 
@@ -57,6 +61,11 @@ export class States extends StatesGroup {
   public add(name:string, state:MultiInputState<HalResource>) {
     this[name] = state;
   }
+}
+
+export class GlobalStateChanges {
+  // Global subject on changes to the given query ID
+  queries = new Subject<number>();
 }
 
 export class QueryAvailableDataStates {

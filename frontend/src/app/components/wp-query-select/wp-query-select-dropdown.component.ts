@@ -114,7 +114,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
               readonly I18n:I18nService,
               readonly states:States,
               readonly CurrentProject:CurrentProjectService,
-              readonly wpListService:WorkPackagesListService,
               readonly wpListChecksumService:WorkPackagesListChecksumService,
               readonly loadingIndicator:LoadingIndicatorService,
               readonly pathHelper:PathHelperService,
@@ -399,7 +398,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   // Update collection in autocompleter
   // Search again for the current value in input field to update the menu without loosing the current search results
   private updateMenuOnChanges(input:any) {
-    this.wpListService.queryChanges$
+    this.states.changes.queries
       .pipe(
         untilComponentDestroyed(this)
       )
