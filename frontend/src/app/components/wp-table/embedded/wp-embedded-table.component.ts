@@ -102,7 +102,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       .valuesPromise()
       .then(() => {
         const modal = this.opModalService
-          .show<WpTableConfigurationModalComponent>(WpTableConfigurationModalComponent, {}, this.injector);
+          .show(WpTableConfigurationModalComponent, this.injector);
 
         // Detach this component when the modal closes and pass along the query data
         modal.onDataUpdated.subscribe(onUpdated);

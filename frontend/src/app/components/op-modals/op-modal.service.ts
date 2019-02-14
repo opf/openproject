@@ -65,8 +65,12 @@ export class OpModalService {
 
   /**
    * Open a Modal reference and append it to the portal
+   *
+   * @param modal The modal component class to show
+   * @param injector The injector to pass into the component. Ensure this is the hierarchical injector if needed.
+   * @param locals A map to be injected via token into the component.
    */
-  public show<T extends OpModalComponent>(modal:ComponentType<T>, locals:any = {}, injector:Injector = this.injector):T {
+  public show<T extends OpModalComponent>(modal:ComponentType<T>, injector:Injector, locals:any = {}):T {
     this.close();
 
     // Prevent closing events during the opening time frame.

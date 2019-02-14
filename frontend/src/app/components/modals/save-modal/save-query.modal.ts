@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {States} from '../../states.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
@@ -38,6 +37,7 @@ import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {QuerySharingChange} from "core-components/modals/share-modal/query-sharing-form.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 
 @Component({
   templateUrl: './save-query.modal.html'

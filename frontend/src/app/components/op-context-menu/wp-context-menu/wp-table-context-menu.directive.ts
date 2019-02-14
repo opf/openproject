@@ -18,6 +18,7 @@ import {PERMITTED_CONTEXT_MENU_ACTIONS} from "core-components/op-context-menu/wp
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
 import {StateService} from "@uirouter/core";
+import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
 
 export class OpWorkPackageContextMenu extends OpContextMenuHandler {
 
@@ -91,7 +92,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
 
   private deleteSelectedWorkPackages() {
     var selected = this.getSelectedWorkPackages();
-    this.opModalService.show(WpDestroyModal, {workPackages: selected});
+    this.opModalService.show(WpDestroyModal, this.injector, { workPackages: selected });
   }
 
   private editSelectedWorkPackages(link:any) {

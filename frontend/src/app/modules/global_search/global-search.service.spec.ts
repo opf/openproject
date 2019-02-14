@@ -34,7 +34,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {async, TestBed} from "@angular/core/testing";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
-fdescribe('Global search service', function() {
+describe('Global search service', function() {
   let service:GlobalSearchService;
   let CurrentProject:CurrentProjectService;
   let CurrentProjectSpy;

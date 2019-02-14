@@ -78,7 +78,7 @@ describe('wpTablePagination Directive', () => {
         WorkPackageTablePaginationService,
         HalResourceService,
         ConfigurationDmService,
-        querySpace,
+        IsolatedQuerySpace,
         I18nService
       ]
     }).compileComponents();
