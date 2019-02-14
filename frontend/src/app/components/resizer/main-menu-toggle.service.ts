@@ -30,6 +30,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, fromEvent, Observable, Subscription} from 'rxjs';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {DeviceService} from "app/modules/common/browser/device.service";
 import {Injector} from "@angular/core";
 
 @Injectable()
@@ -58,7 +59,8 @@ export class MainMenuToggleService {
   private resizeSubscription$:Subscription;
 
   constructor(protected I18n:I18nService,
-              protected injector:Injector) {
+              protected injector:Injector,
+              readonly deviceService:DeviceService) {
   }
 
   public initializeMenu():void {
@@ -78,7 +80,7 @@ export class MainMenuToggleService {
     }
 
     // mobile version default: hide menu on initialization
-    if (this.isMobile) {
+    if (this.deviceService.isMobile) {
       this.closeMenu();
     }
   }
@@ -91,7 +93,7 @@ export class MainMenuToggleService {
     }
 
     if (!this.showNavigation) { // sidebar is hidden -> show menu
-      if (this.isMobile) { // mobile version
+      if (this.deviceService.isMobile) { // mobile version
         this.setWidth(window.innerWidth);
         // On mobile the main menu shall close whenever you click outside the menu.
         this.setupAutocloseMainMenu();
@@ -113,7 +115,7 @@ export class MainMenuToggleService {
   }
 
   public closeMenu():void {
-    if (this.isMobile) {
+    if (this.deviceService.isMobile) {
       this.saveWidth(0);
     } else {
       this.setWidth(0);
@@ -122,7 +124,7 @@ export class MainMenuToggleService {
   }
 
   public closeWhenOnMobile():void {
-    if (this.isMobile) {
+    if (this.deviceService.isMobile) {
       this.closeMenu()
     };
   }
@@ -204,10 +206,6 @@ export class MainMenuToggleService {
     if (this.elementWidth >= viewportWidth - 150) {
       this.elementWidth = viewportWidth - 150;
     }
-  }
-
-  public get isMobile():boolean {
-    return (window.innerWidth < 680);
   }
 
   public get showNavigation():boolean {

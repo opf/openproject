@@ -33,12 +33,13 @@ import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {MainMenuResizerComponent} from "core-components/resizer/main-menu-resizer.component";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {DeviceService} from "app/modules/common/browser/device.service";
 import {Injector} from "@angular/core";
 
 @Component({
   selector: 'main-menu-toggle',
   template: `
-    <div *ngIf="this.currentProject.id !== null || toggleService.isMobile" id="main-menu-toggle"
+    <div *ngIf="this.currentProject.id !== null || this.deviceService.isMobile" id="main-menu-toggle"
         aria-haspopup="true"
         [attr.title]="toggleTitle"
         (accessibleClick)="toggleService.toggleNavigation($event)"
@@ -50,18 +51,13 @@ import {Injector} from "@angular/core";
   `
 })
 
-/*
-* Groesse des Menus feststellen
-* pruefen, ob kleiner 10 -> Groesse der Sidebar setzen
-* collapsed boolean setzen, label im resizer und hamburger icon setzen
-*
-*/
 export class MainMenuToggleComponent implements OnInit, OnDestroy {
   toggleTitle:string = "";
   currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
 
   constructor(readonly toggleService:MainMenuToggleService,
               readonly cdRef:ChangeDetectorRef,
+              readonly deviceService:DeviceService,
               protected injector:Injector) {
   }
 
