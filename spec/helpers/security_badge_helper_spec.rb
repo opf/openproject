@@ -26,43 +26,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
-require 'support/pages/abstract_work_package'
+require 'spec_helper'
 
-module Pages
-  class AbstractWorkPackageCreate < AbstractWorkPackage
-    attr_reader :original_work_package,
-                :project,
-                :parent_work_package
-
-    def initialize(original_work_package: nil, parent_work_package: nil)
-      # in case of copy, the original work package can be provided
-      @original_work_package = original_work_package
-      @parent_work_package = parent_work_package
-    end
-
-    def update_attributes(attribute_map)
-      attribute_map.each do |label, value|
-        work_package_field(label.downcase).set_value(value)
-      end
-    end
-
-    def select_attribute(property, value)
-      element = page.first(".wp-edit-field.#{property.downcase} select")
-
-      element.select(value)
-      element
-    rescue Capybara::ExpectationNotMet
-      nil
-    end
-
-    def expect_fully_loaded
-      expect_angular_frontend_initialized
-      expect(page).to have_selector '#wp-new-inline-edit--field-subject', wait: 20
-    end
-
-    def save!
-      scroll_to_and_click find('.button', text: I18n.t('js.button_save'))
+describe SecurityBadgeHelper, type: :helper do
+  describe '#security_badge_url', with_settings: { installation_uuid: 'abcd1234' } do
+    it "generates a URL with the release API path and the details of the installation" do
+      uri = URI.parse(helper.security_badge_url)
+      query = Rack::Utils.parse_nested_query(uri.query)
+      expect(uri.host).to eq("releases.openproject.com")
+      expect(query.keys).to match_array(["uuid", "type", "version", "db", "lang", "ee"])
+      expect(query["uuid"]).to eq("abcd1234")
+      expect(query["version"]).to eq(OpenProject::VERSION.to_s)
+      expect(query["type"]).to eq("manual")
+      expect(query["ee"]).to eq("false")
     end
   end
 end

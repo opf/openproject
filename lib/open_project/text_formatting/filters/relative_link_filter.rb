@@ -28,43 +28,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::TextFormatting::Formats::Markdown
-  class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
-    attr_reader :context,
-                :pipeline
+module OpenProject::TextFormatting
+  module Filters
+    class RelativeLinkFilter < HTML::Pipeline::Filter
 
-    def initialize(context)
-      @context = context
-      @pipeline = ::HTML::Pipeline.new(located_filters, context)
-    end
+      def call
+        # We only care for absolute rendering
+        unless context[:only_path] == false
+          return doc
+        end
 
-    def to_html(text)
-      result = pipeline.call(text, context)
-      output = result[:output].to_s
+        rewriter = ::OpenProject::TextFormatting::Helpers::LinkRewriter.new context
+        doc.css('a[href^="/"]').each do |node|
+          node['href'] = rewriter.replace node['href']
+        end
 
-      output.html_safe
-    end
-
-    def to_document(text)
-      pipeline.to_document text, context
-    end
-
-    def filters
-      [
-        :markdown,
-        :sanitization,
-        HTML::Pipeline::TableOfContentsFilter,
-        :macro,
-        :pattern_matcher,
-        :syntax_highlight,
-        :attachment,
-        :relative_link,
-        :autolink
-      ]
-    end
-
-    def self.format
-      :markdown
+        doc
+      end
     end
   end
 end

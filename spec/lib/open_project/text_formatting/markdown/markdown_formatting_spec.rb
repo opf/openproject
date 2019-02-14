@@ -97,14 +97,14 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
     end
 
     context 'when visible user exists' do
-      let(:project) { FactoryBot.create :project }
-      let(:role) { FactoryBot.create(:role, permissions: %i(view_work_packages)) }
-      let(:current_user) do
+      shared_let(:project) { FactoryBot.create :project }
+      shared_let(:role) { FactoryBot.create(:role, permissions: %i(view_work_packages)) }
+      shared_let(:current_user) do
         FactoryBot.create(:user,
                           member_in_project: project,
                           member_through_role: role)
       end
-      let(:user) do
+      shared_let(:user) do
         FactoryBot.create(:user,
                           login: 'foo@bar.com',
                           firstname: 'Foo',
@@ -124,14 +124,38 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
             'Link to user:"foo@bar.com"' => %(Link to <a class="user-mention" href="/users/#{user.id}" title="User Foo Barrit">Foo Barrit</a>)
           )
         end
+
+        it 'does not replace all relative hrefs and images' do
+          assert_html_output(
+            {
+              'Link to [relative path](/foo/bar)' =>
+                %(Link to <a href="/foo/bar">relative path</a>),
+              'An inline image ![](/attachments/123/foobar.png)' =>
+                %(An inline image <img src="/attachments/123/foobar.png" alt="" />)
+            },
+            only_path: true
+          )
+        end
       end
 
-      context 'with absolute URLs (path_only is false)', with_settings: { host_name: "openproject.org" } do
+      context 'with relative URLs (path_only is false)', with_settings: { host_name: "openproject.org" } do
         it 'outputs the reference' do
           assert_html_output(
             {
               'Link to user:"foo@bar.com"' =>
                 %(Link to <a class="user-mention" href="http://openproject.org/users/#{user.id}" title="User Foo Barrit">Foo Barrit</a>)
+            },
+            only_path: false
+          )
+        end
+
+        it 'replaces all relative hrefs and images' do
+          assert_html_output(
+            {
+              'Link to [relative path](/foo/bar)' =>
+                %(Link to <a href="http://openproject.org/foo/bar">relative path</a>),
+              'An inline image ![](/attachments/123/foobar.png)' =>
+                %(An inline image <img src="http://openproject.org/attachments/123/foobar.png" alt="" />)
             },
             only_path: false
           )
