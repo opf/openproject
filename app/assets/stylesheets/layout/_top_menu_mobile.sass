@@ -75,7 +75,8 @@
         @include varprop(color, header-item-font-color)
 
     #global-search-input.-expanded
-      width: 100%
+      width: calc(100vw - 50px)
+      min-width: unset
       position: unset
 
       .scroll-host
