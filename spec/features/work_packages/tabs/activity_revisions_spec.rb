@@ -67,7 +67,8 @@ describe 'Activity tab', js: true, selenium: true do
     changeset = FactoryBot.build(:changeset,
                                  comments: 'A comment on a changeset',
                                  committed_on: 2.days.ago.to_date.to_s(:db),
-                                 repository: repo)
+                                 repository: repo,
+                                 committer: 'cool@person.org')
 
     work_package.changesets << changeset
 

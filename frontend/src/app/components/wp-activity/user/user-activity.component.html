@@ -4,7 +4,8 @@
      [attr.aria-label]="fieldLabel || activityLabel"
      (mouseenter)="focus()"
      (mouseleave)="blur()">
-  <user-avatar [attr.data-user-name]="userName"
+  <user-avatar *ngIf="userName"
+               [attr.data-user-name]="userName"
                [attr.data-user-avatar-src]="userAvatar"
                data-class-list="avatar">
   </user-avatar>
