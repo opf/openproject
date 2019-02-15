@@ -121,4 +121,15 @@ export class WorkPackageIsolatedQuerySpaceDirective {
               private injector:Injector) {
     debugLog("Opening isolated query space %O in %O", injector, elementRef.nativeElement);
   }
+
+  /**
+   * Perform a run-time handler executed in the contxt of the isolated work package space.
+   * This can be used to peek into the isolated space and get injected services without wrapping
+   * a component within the space again.
+   *
+   * @param handler
+   */
+  public runInSpace(callback:(injector:Readonly<Injector>) => void) {
+    callback(this.injector);
+  }
 }

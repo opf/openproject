@@ -66,10 +66,11 @@ export class WorkPackageTableConfiguration {
   /** Whether this table provides a UI for filters*/
   public withFilters:boolean = false;
 
+  /** Whether the filters are expanded */
+  public filtersExpanded:boolean = false;
+
   /** Whether the button to open filters shall be visible*/
   public showFilterButton:boolean = false;
-  /** Whether the filters shall be visible*/
-  public showFilters:boolean = false;
 
   /** Whether this table provides a UI for filters*/
   public filterButtonText:string = I18n.t("js.button_filter");

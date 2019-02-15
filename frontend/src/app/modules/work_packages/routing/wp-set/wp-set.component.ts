@@ -51,6 +51,7 @@ import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 import {WorkPackageQueryStateService} from "core-components/wp-fast-table/state/wp-table-base.service";
 import {debugLog} from "core-app/helpers/debug_output";
+import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
 
 export class WorkPackagesSetComponent implements OnInit, OnDestroy {
 
@@ -75,6 +76,7 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
               readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
               readonly wpTablePagination:WorkPackageTablePaginationService,
               readonly wpListService:WorkPackagesListService,
+              readonly wpFilters:WorkPackageFiltersService,
               readonly wpListChecksumService:WorkPackagesListChecksumService,
               readonly loadingIndicator:LoadingIndicatorService,
               readonly $transitions:TransitionService,

@@ -17,7 +17,7 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
   @Input() public uniqueEmbeddedTableName:string = `embedded-table-${Date.now()}`;
   @Input() public initialLoadingIndicator:boolean = true;
 
-  public tableInformationLoaded = false;
+  public renderTable = false;
   public showTablePagination = false;
   public configuration:WorkPackageTableConfiguration;
   public error:string|null = null;
@@ -58,7 +58,7 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
   }
 
   ngOnChanges(changes:SimpleChanges) {
-    if (this.initialized) {
+    if (this.initialized && (changes.queryId || changes.queryProps)) {
       this.refresh(this.initialLoadingIndicator);
     }
   }
@@ -83,7 +83,7 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
   }
 
   protected setLoaded() {
-    this.tableInformationLoaded = this.configuration.tableVisible;
+    this.renderTable = this.configuration.tableVisible;
   }
 
   public refresh(visible:boolean = true):Promise<any> {

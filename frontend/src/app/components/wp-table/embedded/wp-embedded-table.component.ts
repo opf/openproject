@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Injector, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {WorkPackageStatesInitializationService} from '../../wp-list/wp-states-initialization.service';
 import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-table/state/wp-table-relation-columns.service';
 import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
@@ -28,6 +28,8 @@ import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {WorkPackageTableFilters} from "core-components/wp-fast-table/wp-table-filters";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
+import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -62,19 +64,16 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   @Input() public compactTableStyle:boolean = false;
   @Input() public externalHeight:boolean = false;
 
-  public show:boolean = true;
-  public tableInformationLoaded = false;
-  public showTablePagination = false;
-  public configuration:WorkPackageTableConfiguration;
-  public error:string|null = null;
+  @Output() public onFiltersChanged = new EventEmitter<WorkPackageTableFilters>();
 
   readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
   readonly opModalService:OpModalService = this.injector.get(OpModalService);
   readonly tableActionsService:OpTableActionsService = this.injector.get(OpTableActionsService);
   readonly wpTableTimeline:WorkPackageTableTimelineService = this.injector.get(WorkPackageTableTimelineService);
   readonly wpTablePagination:WorkPackageTablePaginationService = this.injector.get(WorkPackageTablePaginationService);
+  readonly QueryFormDm:QueryFormDmService = this.injector.get(QueryFormDmService);
 
-  constructor(injector:Injector) {
+  constructor(readonly injector:Injector) {
     super(injector);
   }
 
@@ -110,6 +109,12 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   }
 
   private initializeStates(query:QueryResource, results:WorkPackageCollectionResource) {
+
+    // If the configuration requests filters, we need to load the query form as well.
+    if (this.configuration.withFilters) {
+      this.loadForm(query);
+    }
+
     this.querySpace.ready.doAndTransition('Query loaded', () => {
       this.wpStatesInitialization.clearStates();
       this.wpStatesInitialization.initializeFromQuery(query, results);
@@ -128,8 +133,11 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     });
   }
 
-  public onFiltersChanged(filters:WorkPackageTableFilters) {
-    // Nop
+  private loadForm(query:QueryResource):Promise<QueryFormResource> {
+    return this.QueryFormDm.load(query).then((form:QueryFormResource) => {
+      this.wpStatesInitialization.updateStatesFromForm(query, form);
+      return form;
+    });
   }
 
   protected loadQuery(visible:boolean = true):Promise<QueryResource> {

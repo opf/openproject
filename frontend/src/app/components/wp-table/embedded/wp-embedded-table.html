@@ -2,16 +2,17 @@
      [ngClass]="{ '-hierarchy-disabled': !configuration.hierarchyToggleEnabled,
                   '-compact-tables': compactTableStyle,
                   '-external-height': externalHeight }"
-     [attr.data-indicator-name]="uniqueEmbeddedTableName"
-      *ngIf="show">
+     [attr.data-indicator-name]="uniqueEmbeddedTableName">
 
-  <ng-container *ngIf="configuration.withFilters">
-    <filter-container [showFilterButton]="configuration.showFilterButton"
+  <ng-container *ngIf="renderTable">
+    <!-- Filter container (if requested) -->
+    <filter-container *ngIf="configuration.withFilters"
+                      [showFilterButton]="configuration.showFilterButton"
                       [filterButtonText]="configuration.filterButtonText"
-                      (filtersChanged)="onFiltersChanged($event)"></filter-container>
-  </ng-container>
+                      (filtersChanged)="onFiltersChanged.emit($event)">
 
-  <ng-container *ngIf="tableInformationLoaded">
+    </filter-container>
+
     <!-- TABLE + TIMELINE horizontal split -->
     <wp-table [projectIdentifier]="projectIdentifier"
               [configuration]="configuration"
@@ -22,6 +23,7 @@
       <wp-table-pagination [hideForSinglePageResults]="true"></wp-table-pagination>
     </div>
   </ng-container>
+
   <div class="notification-box -error" *ngIf="error">
     <span [textContent]="error.message || error"></span>
   </div>
