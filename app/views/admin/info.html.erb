@@ -48,13 +48,18 @@ See docs/COPYRIGHT.rdoc for more details.
         <span><strong><%= OpenProject::Info.versioned_name %></strong> (<%= @db_adapter_name %>)</span>
       </div>
     </div>
-    <% if Setting.security_badge_displayed? %>
+    <% if display_security_badge_graphic? %>
       <div class="attributes-key-value--key"></div>
       <div class="attributes-key-value--value-container">
         <div class="attributes-key-value--value -text">
-          <%= content_tag :span do %>
+          <div class="security-badge--container">
             <%= content_tag :object, nil, data: security_badge_url, type: "image/svg+xml" %>
-          <% end %>
+            <%= link_to '',
+                        ::OpenProject::Static::Links[:security_badge_documentation][:href],
+                        title: t(:label_what_is_this),
+                        class: 'security-badge--help-icon icon-context icon-help1',
+                        target: '_blank' %>
+          </div>
         </div>
       </div>
     <% end %>

@@ -310,6 +310,21 @@ default:
       password: admin
 ```
 
+## Security badge
+
+OpenProject now provides a release indicator (security badge) that will inform administrators of an OpenProject
+installation on whether new releases or security updates are available for your platform.
+
+If enabled, this option will display a badge with your installation status at Administration &gt; Information right next to the release version,
+and on the home screen. It is only displayed to administrators.
+
+The badge will match your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
+To ensure the newest available update can be returned, the check will include your installation type, current version, database type, enterprise status and an anonymous unique ID of the instance.
+To localize the badge, the user's locale is sent.
+
+To disable rendering the badge, uncheck the setting at Administration &gt; System settings &gt; General or pass
+the configuration flag `security_badge_displayed: false` .
+
 ## Email configuration
 
 * `email_delivery_method`: The way emails should be delivered. Possible values: `smtp` or `sendmail`
