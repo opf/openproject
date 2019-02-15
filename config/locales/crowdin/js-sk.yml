@@ -132,7 +132,7 @@ sk:
         text_open_filter: Otvorte tento filter pomocou „Alt“ a šípok.
         text_close_filter: Na výber záznamu opustite režim zamerania napríklad stlačením
           Enter. Na opustenie bez filtra vyberte prvý (prázdny) záznam.
-      noneElement: "(none)"
+      noneElement: "(žiadny)"
       time_zone_converted:
         two_values: "%{from} - %{to} vo vašom miestnom čase."
         only_start: Od %{from} v miestnom čase.
@@ -506,22 +506,20 @@ sk:
       button_activate: Zobraziť Ganttov graf
       button_deactivate: Skryť Ganttov graf
       cancel: Zrušíť
-      change: Change in planning
+      change: Zmena v plánovaní
       due_date: Dátum dokončenia
-      empty: "(empty)"
+      empty: "(prázdny)"
       error: Vyskytla sa chyba.
       errors:
-        not_implemented: The timeline could not be rendered because it uses a feature
-          that is not yet implemented.
-        report_comparison: The timeline could not render the configured comparisons.
-          Please check the appropriate section in the configuration, resetting it
-          can help solve this problem.
-        report_epicfail: The timeline could not be loaded due to an unexpected error.
-        report_timeout: The timeline could not be loaded in a reasonable amount of
-          time.
+        not_implemented: Časovú os nebolo možné zobraziť, pretože používa funkciu,
+          ktorá ešte nie je implementovaná.
+        report_comparison: Časová os nemôže vykresliť konfigurované porovnania. Skontrolujte
+          príslušnú časť v konfigurácii, vynulovanie môže pomôcť vyriešiť tento problém.
+        report_epicfail: Časovú os nebolo možné načítať kvôli neočakávanej chybe.
+        report_timeout: Časovú os nebolo možné načítať v primeranom čase.
       filter:
         grouping_other: Ostatné
-        noneSelection: "(none)"
+        noneSelection: "(žiadny)"
       name: Názov
       outline: Reset Outline
       outlines:
@@ -864,8 +862,8 @@ sk:
     global_search:
       all_projects: In all projects
       search: Search
-      this_project: In this project
-      this_project_and_all_descendants: In this project + subprojects
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects

@@ -28,43 +28,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::TextFormatting::Formats::Markdown
-  class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
-    attr_reader :context,
-                :pipeline
+module OpenProject::TextFormatting
+  module Helpers
 
-    def initialize(context)
-      @context = context
-      @pipeline = ::HTML::Pipeline.new(located_filters, context)
-    end
+    ##
+    # Rewrite relative URLs to their absolute paths
+    # when only_path is false.
+    class LinkRewriter
+      attr_reader :context
 
-    def to_html(text)
-      result = pipeline.call(text, context)
-      output = result[:output].to_s
+      def initialize(context)
+        @context = context
+      end
 
-      output.html_safe
-    end
+      ##
+      # Test whether the given URL is relative and we need to replace it
+      def applicable?(url)
+        context[:only_path] == false && url.start_with?('/')
+      end
 
-    def to_document(text)
-      pipeline.to_document text, context
-    end
+      ##
+      # Replace the given relative_url to an absolute URL
+      # from the current context
+      def replace(relative_url)
+        protocol, host_with_port = determine_url_segments
+        return relative_url unless protocol && host_with_port
 
-    def filters
-      [
-        :markdown,
-        :sanitization,
-        HTML::Pipeline::TableOfContentsFilter,
-        :macro,
-        :pattern_matcher,
-        :syntax_highlight,
-        :attachment,
-        :relative_link,
-        :autolink
-      ]
-    end
+        "#{protocol}#{host_with_port}#{relative_url}"
+      end
 
-    def self.format
-      :markdown
+      def determine_url_segments
+        if context[:request]
+          return [request.protocol, request.host_with_port]
+        end
+
+        url_opts = url_helpers.default_url_options
+        ["#{url_opts[:protocol]}://", url_opts[:host]]
+      end
+
+      def url_helpers
+        @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
+      end
     end
   end
 end

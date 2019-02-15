@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,43 +27,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
-require 'support/pages/abstract_work_package'
-
-module Pages
-  class AbstractWorkPackageCreate < AbstractWorkPackage
-    attr_reader :original_work_package,
-                :project,
-                :parent_work_package
-
-    def initialize(original_work_package: nil, parent_work_package: nil)
-      # in case of copy, the original work package can be provided
-      @original_work_package = original_work_package
-      @parent_work_package = parent_work_package
-    end
-
-    def update_attributes(attribute_map)
-      attribute_map.each do |label, value|
-        work_package_field(label.downcase).set_value(value)
-      end
-    end
-
-    def select_attribute(property, value)
-      element = page.first(".wp-edit-field.#{property.downcase} select")
-
-      element.select(value)
-      element
-    rescue Capybara::ExpectationNotMet
-      nil
-    end
-
-    def expect_fully_loaded
-      expect_angular_frontend_initialized
-      expect(page).to have_selector '#wp-new-inline-edit--field-subject', wait: 20
-    end
-
-    def save!
-      scroll_to_and_click find('.button', text: I18n.t('js.button_save'))
-    end
+module SecurityBadgeHelper
+  def security_badge_url(args = {})
+    uri = URI.parse(OpenProject::Configuration[:security_badge_url])
+    info = {
+      uuid: Setting.installation_uuid,
+      type: OpenProject::Configuration[:installation_type],
+      version: OpenProject::VERSION.to_s,
+      db: ActiveRecord::Base.connection.adapter_name.downcase,
+      lang: User.current.try(:language),
+      ee: EnterpriseToken.current.present?,
+    }.merge(args.symbolize_keys)
+    uri.query = info.to_query
+    uri.to_s
   end
 end

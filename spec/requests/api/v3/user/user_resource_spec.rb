@@ -213,12 +213,6 @@ describe 'API v3 User resource', type: :request, content_type: :json do
     it_behaves_like 'handling anonymous user' do
       let(:path) { api_v3_paths.user user.id }
     end
-
-    context 'locked admin' do
-      let(:current_user) { locked_admin }
-
-      it_behaves_like 'unauthorized access'
-    end
   end
 
   describe '#delete' do
