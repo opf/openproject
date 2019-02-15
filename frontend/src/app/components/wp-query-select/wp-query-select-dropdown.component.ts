@@ -28,8 +28,6 @@
 
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {States} from '../states.service';
-import {WorkPackagesListService} from '../wp-list/wp-list.service';
-import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.service';
 import {StateService, TransitionService} from '@uirouter/core';
 import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
@@ -44,7 +42,6 @@ import {LinkHandling} from "core-app/modules/common/link-handling/link-handling"
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {keyCodes} from "../../../../legacy/app/components/keyCodes.enum";
 import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
-import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 
 export type QueryCategory = 'starred' | 'public' | 'private' | 'default';
 
@@ -114,7 +111,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
               readonly I18n:I18nService,
               readonly states:States,
               readonly CurrentProject:CurrentProjectService,
-              readonly wpListChecksumService:WorkPackagesListChecksumService,
               readonly loadingIndicator:LoadingIndicatorService,
               readonly pathHelper:PathHelperService,
               readonly wpStaticQueries:WorkPackageStaticQueriesService,
@@ -443,7 +439,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
 
     // Ensure we're reloading the query
     if (isSameItem) {
-      this.wpListChecksumService.clear();
       opts.reload = true;
     }
 

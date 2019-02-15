@@ -3,7 +3,6 @@ import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-ta
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {States} from 'core-components/states.service';
-import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import {DynamicCssService} from "../../../modules/common/dynamic-css/dynamic-css.service";
 import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";

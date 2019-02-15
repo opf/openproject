@@ -20,7 +20,6 @@ import {
   WorkPackageCollectionResource
 } from 'core-app/modules/hal/resources/wp-collection-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 

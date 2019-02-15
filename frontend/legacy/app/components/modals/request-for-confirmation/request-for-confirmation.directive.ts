@@ -56,7 +56,7 @@ export class RequestForConfirmationController {
   }
 
   public openConfirmationDialog() {
-    const confirmModal = this.opModalService.show(this.passwordConfirmationModal);
+    const confirmModal = this.opModalService.show(this.passwordConfirmationModal, 'global');
     confirmModal.openingEvent.subscribe((modal:any) => {
       setTimeout(() => {
         //HACK: need to trigger an angular digest in order to have the

@@ -85,12 +85,10 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const loadingRequired = this.wpListChecksumService.isUninitialized();
-
     // Listen to changes on the query state objects
     this.setupQueryObservers();
 
-    this.initialQueryLoading(loadingRequired);
+    this.initialQueryLoading();
 
     // Listen for refresh changes
     this.setupRefreshObserver();
@@ -210,11 +208,9 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
     });
   }
 
-  protected initialQueryLoading(loadingRequired:boolean) {
-    if (loadingRequired) {
-      this.wpTableRefresh.clear('Impending query loading.');
-      this.loadCurrentQuery();
-    }
+  protected initialQueryLoading() {
+    this.wpTableRefresh.clear('Impending query loading.');
+    this.loadCurrentQuery();
   }
 
   protected loadCurrentQuery():Promise<any> {

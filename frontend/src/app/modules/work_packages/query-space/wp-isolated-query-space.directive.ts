@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Directive, Injector} from '@angular/core';
+import {Directive, ElementRef, Injector} from '@angular/core';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {OpTableActionsService} from "core-components/wp-table/table-actions/table-actions.service";
 import {WorkPackageTableRelationColumnsService} from "core-components/wp-fast-table/state/wp-table-relation-columns.service";
@@ -59,6 +59,8 @@ import {WorkPackageContextMenuHelperService} from "core-components/wp-table/cont
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
 import {WpRelationInlineCreateService} from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
+import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
+import {debugLog} from "core-app/helpers/debug_output";
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy
@@ -74,7 +76,10 @@ import {WpRelationInlineCreateService} from "core-components/wp-relations/embedd
     IsolatedQuerySpace,
     OpTableActionsService,
 
+    WorkPackageTableRefreshService,
+
     // Work package table services
+    WorkPackagesListChecksumService,
     WorkPackagesListService,
     WorkPackageTableRelationColumnsService,
     WorkPackageTablePaginationService,
@@ -86,12 +91,11 @@ import {WpRelationInlineCreateService} from "core-components/wp-relations/embedd
     WorkPackageTableTimelineService,
     WorkPackageTableSelection,
     WorkPackageTableSumService,
+    WorkPackageRelationsService,
     WorkPackageTableAdditionalElementsService,
-    WorkPackageTableRefreshService,
     WorkPackageTableFocusService,
     WorkPackageTableHighlightingService,
     WorkPackageService,
-    WorkPackageRelationsService,
     WorkPackageRelationsHierarchyService,
     WorkPackageFiltersService,
     WorkPackageContextMenuHelperService,
@@ -113,7 +117,8 @@ import {WpRelationInlineCreateService} from "core-components/wp-relations/embedd
 })
 export class WorkPackageIsolatedQuerySpaceDirective {
 
-  constructor(private injector:Injector) {
-    console.log(injector.get(IsolatedQuerySpace));
+  constructor(private elementRef:ElementRef,
+              private injector:Injector) {
+    debugLog("Opening isolated query space %O in %O", injector, elementRef.nativeElement);
   }
 }

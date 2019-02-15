@@ -133,17 +133,11 @@ import {ExternalRelationQueryConfigurationComponent} from "core-components/wp-ta
 import {ExternalRelationQueryConfigurationService} from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
-import {WorkPackageInlineCreateService} from 'core-components/wp-inline-create/wp-inline-create.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
-import {WorkPackageContextMenuHelperService} from 'core-components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
-import {WorkPackageService} from 'core-components/work-packages/work-package.service';
-import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
-import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
-import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
@@ -151,8 +145,6 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageChildrenQueryComponent} from "core-components/wp-relations/embedded/children/wp-children-query.component";
 import {WpRelationInlineAddExistingComponent} from "core-components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
 import {WorkPackageRelationQueryComponent} from "core-components/wp-relations/embedded/relations/wp-relation-query.component";
-import {WpRelationInlineCreateService} from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
-import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 import {WorkPackagesListComponent} from "core-app/modules/work_packages/routing/wp-list/wp-list.component";
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
@@ -206,7 +198,6 @@ import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_pack
 
     KeepTabService,
     WorkPackageNotificationService,
-    WorkPackagesListChecksumService,
     ApiWorkPackagesService,
 
     WorkPackagesActivityService,
@@ -449,6 +440,7 @@ import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_pack
     WorkPackageCardViewComponent,
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
+    WorkPackageIsolatedQuerySpaceDirective,
   ]
 })
 export class OpenprojectWorkPackagesModule {

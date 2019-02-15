@@ -52,10 +52,14 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
   }
 
   public hasChanged(query:QueryResource) {
+    return !this.isCurrentlyEqualTo(query.columns);
+  }
+
+  public isCurrentlyEqualTo(a:QueryColumn[]) {
     const comparer = (columns:QueryColumn[]) => columns.map(c => c.href);
 
-    return !_.isEqual(
-      comparer(query.columns),
+    return _.isEqual(
+      comparer(a),
       comparer(this.getColumns())
     );
   }
@@ -150,6 +154,13 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
    * Update the selected columns to a new set of columns.
    */
   public setColumns(columns:QueryColumn[]) {
+
+    // Don't publish if this is the same content
+    if (this.isCurrentlyEqualTo(columns)) {
+      return;
+    }
+
+
     let currentState = this.currentState;
 
     currentState.current = columns;

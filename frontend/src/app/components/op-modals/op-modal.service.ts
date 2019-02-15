@@ -68,13 +68,19 @@ export class OpModalService {
    *
    * @param modal The modal component class to show
    * @param injector The injector to pass into the component. Ensure this is the hierarchical injector if needed.
+   *                 Can be passed 'global' to take the default (global!) injector of this service.
    * @param locals A map to be injected via token into the component.
    */
-  public show<T extends OpModalComponent>(modal:ComponentType<T>, injector:Injector, locals:any = {}):T {
+  public show<T extends OpModalComponent>(modal:ComponentType<T>, injector:Injector|'global', locals:any = {}):T {
     this.close();
 
     // Prevent closing events during the opening time frame.
     this.opening = true;
+
+    // Allow users to pass the global injector when deliberately requested.
+    if (injector === 'global') {
+      injector = this.injector;
+    }
 
     // Create a portal for the given component class and render it
     const portal = new ComponentPortal(modal, null, this.injectorFor(injector, locals));

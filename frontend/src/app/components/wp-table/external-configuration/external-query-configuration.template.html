@@ -1,4 +1,6 @@
-<wp-embedded-table #embeddedTableForConfiguration
-  [queryProps]="locals.currentQuery || {}"
-  [configuration]="{ tableVisible: false }">
-</wp-embedded-table>
+<ng-container wp-isolated-query-space>
+  <wp-embedded-table #embeddedTableForConfiguration
+    [queryProps]="locals.currentQuery || {}"
+    [configuration]="{ tableVisible: false }">
+  </wp-embedded-table>
+</ng-container>

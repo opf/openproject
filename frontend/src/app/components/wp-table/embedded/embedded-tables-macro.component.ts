@@ -33,10 +33,12 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 @Component({
   selector: 'macro.embedded-table',
   template: `
-    <wp-embedded-table [queryProps]="queryProps"
-                       [compactTableStyle]="true"
-                       [configuration]="configuration">
-    </wp-embedded-table>
+    <ng-container wp-isolated-query-space>
+      <wp-embedded-table [queryProps]="queryProps"
+                         [compactTableStyle]="true"
+                         [configuration]="configuration">
+      </wp-embedded-table>
+    </ng-container>
   `
 })
 export class EmbeddedTablesMacroComponent {
