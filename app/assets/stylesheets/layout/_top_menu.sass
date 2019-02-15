@@ -30,7 +30,8 @@ $hamburger-right: -3px
 $hamburger-width: 50px
 
 $search-input-width: 200px
-$search-input-width-expanded: 300px
+$search-input-width-expanded: 20vw
+$search-input-height: 30px
 
 %top-menu-hover-styles
   @include varprop(background, header-item-bg-hover-color)
@@ -178,6 +179,9 @@ $search-input-width-expanded: 300px
   line-height: $header-height
   margin: 0 15px
 
+  .top-menu-search--back-button
+    display: none
+  
   .top-menu-search--button
     position: absolute
     right: 2px
@@ -185,9 +189,8 @@ $search-input-width-expanded: 300px
     @include varprop(color, header-item-font-color)
     &:hover
       text-decoration: none
-
-  .top-menu-search--button.-input-focused
-    color: $header-search-field-font-color
+    &.-input-focused
+      color: $header-search-field-font-color
 
   .top-menu-search--loading
     top: $header-height - 11px  // display directly under ng-input field
@@ -205,26 +208,25 @@ $search-input-width-expanded: 300px
 
     .ng-select-container
       background: transparent
-      border-width: 1px
-      border-style: solid
       @include varprop(border-color, header-item-font-color)
-      max-height: 32px
-      min-height: unset
       &:hover
         @include varprop(border-color, header-item-font-hover-color)
 
     .ng-arrow-wrapper
-      opacity: 0
+      display: none
 
     .ng-clear-wrapper
       @include varprop(color, header-item-font-color)
       top: 1px
+      width: 30px
+      right: 25px
+      text-align: center
 
     .ng-input
       top: 0
       input
         @include varprop(color, header-item-font-color)
-        height: 30px
+        height: $search-input-height
         cursor: text
 
     .ng-placeholder
@@ -232,6 +234,7 @@ $search-input-width-expanded: 300px
 
     &.-expanded
       width: $search-input-width-expanded
+      min-width: 250px
       background: white
       border-radius: 4px
       color: $header-search-field-font-color
