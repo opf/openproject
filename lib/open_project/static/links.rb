@@ -117,6 +117,9 @@ module OpenProject
             client_credentials_code_flow: {
               href: 'https://oauth.net/2/grant-types/client-credentials/',
               label: 'oauth.flows.client_credentials'
+            },
+            security_badge_documentation: {
+              href: 'https://github.com/opf/openproject/blob/dev/docs/configuration/configuration.md#security-badge'
             }
           }
         end
