@@ -27,6 +27,7 @@
 #++
 
 require_dependency 'open_project/ui/extensible_tabs'
+require_dependency 'config/constants/api_patch_registry'
 
 module OpenProject::Plugins
   module ActsAsOpEngine
@@ -225,7 +226,7 @@ module OpenProject::Plugins
           # 1. it does not seem possible to pass it as constant (auto loader not ready yet)
           # 2. we can't constantize it here, because that would evaluate
           #    the API before it can be patched
-          ::API::APIPatchRegistry.add_patch base_endpoint, path, &block
+          ::Constants::APIPatchRegistry.add_patch base_endpoint, path, &block
         end
       end
 

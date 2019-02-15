@@ -2862,8 +2862,8 @@ cs:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Aktualizujte svůj prohlížeč prosím.
-    close_warning: Ignorovat toto upozornění.
+    update_message: Please update your browser.
+    close_warning: Ignore this warning.
   oauth:
     application:
       singular: OAuth application
@@ -2909,15 +2909,13 @@ cs:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Práva
+      scopes: Permissions
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
-      few: "%{count} active token"
-      many: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2935,5 +2933,15 @@ cs:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  button_remove_widget: Odstranit widget
   label_and_its_subprojects: "%{value} a její dílčí projekty"
+  label_my_page_block: My page block
+  label_responsible_for_work_packages: Work packages I am accountable for
   label_search_titles_only: Vyhledávat jen tituly
+  label_visible_elements: Viditelné prvky
+  setting_security_badge_displayed: Display security badge
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. The badge will run a check of your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.'

@@ -205,7 +205,7 @@ ja:
     label_menu_collapse: 以下を非表示
     label_menu_expand: 展開
     label_more_than_ago: 今日より○日前以前
-    label_my_page: 個人ページ
+    label_my_page: My page
     label_next: 次へ
     label_no_data: 表示できるデータがありません。
     label_no_due_date: 完了日なし
@@ -360,9 +360,9 @@ ja:
           requires: 要求する
           required: に必要
     time_entry:
-      activity: 活動
-      comment: コメント
-      hours: 時間
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: ウォッチャーを読み込み中...
       label_error_loading: ウォッチャーを読み込み中にエラーが発生しました。
@@ -691,6 +691,8 @@ ja:
         days: " 日"
         weeks: 週間
         months: ヶ月間
+      label_switch_to_single_select: 単一選択に切り替え
+      label_switch_to_multi_select: 複数選択に切り替え
     toolbar:
       settings:
         configure_view: 表示設定...
@@ -774,9 +776,16 @@ ja:
     global_search:
       all_projects: In all projects
       search: Search
-      this_project: In this project
-      this_project_and_all_descendants: In this project + subprojects
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
+    unsupported_browser:
+      title: このブラウザーのバージョンはサポートされていません。
+      message: 使用しているブラウザのバージョンは、OpenProjectではサポートされなくなりました。
+      update_message: ブラウザを更新してください。
+      update_ie_user: Mozilla FirefoxまたはGoogle Chromeに切り替えるか、Microsoft Edgeにアップグレードしてください。
+      learn_more: もっと詳しく
+      close_warning: この警告を無視する。

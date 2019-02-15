@@ -18,6 +18,7 @@ SecureHeaders::Configuration.default do |config|
 
   # Valid for iframes
   frame_src = %w['self' https://player.vimeo.com]
+  frame_src << OpenProject::Configuration[:security_badge_url]
 
   # Default src
   default_src = %w('self')
@@ -61,8 +62,8 @@ SecureHeaders::Configuration.default do |config|
     script_src: script_src,
     # Allow unsafe-inline styles
     style_src: assets_src + %w('unsafe-inline'),
-    # disallow all object-src
-    object_src: %w('none'),
+    # Allow object-src from Release API
+    object_src: [OpenProject::Configuration[:security_badge_url]],
 
     # Connect sources for CLI in dev mode
     connect_src: connect_src

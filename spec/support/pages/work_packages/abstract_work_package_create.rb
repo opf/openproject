@@ -62,7 +62,7 @@ module Pages
     end
 
     def save!
-      click_button I18n.t('js.button_save')
+      scroll_to_and_click find('.button', text: I18n.t('js.button_save'))
     end
   end
 end

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Search', type: :feature, js: true do
-  include ::Components::UIAutocompleteHelpers
+  include ::Components::NgSelectAutocompleteHelpers
   let(:project) { FactoryBot.create :project }
   let(:user) { FactoryBot.create :admin }
 
@@ -66,8 +66,7 @@ describe 'Search', type: :feature, js: true do
 
     it 'provides suggestions' do
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
-                                        query: query,
-                                        results_selector: '.search-autocomplete--results')
+                                        query: query)
       # Suggestions shall show latest WPs first.
       expect(suggestions).to have_text('No. 23', wait: 10)
       #  and show maximum 10 suggestions.
@@ -80,22 +79,19 @@ describe 'Search', type: :feature, js: true do
       # Expect redirection when WP is selected from results
       select_autocomplete(page.find('.top-menu-search--input'),
                           query: target_work_package.subject,
-                          select_text: "##{target_work_package.id}",
-                          results_selector: '.search-autocomplete--results')
+                          select_text: "##{target_work_package.id}")
       expect(current_path).to match /work_packages\/#{target_work_package.id}\//
 
       first_wp = work_packages.first
 
       # Typing a work package id shall find that work package
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
-                                        query: first_wp.id.to_s,
-                                        results_selector: '.search-autocomplete--results')
+                                        query: first_wp.id.to_s)
       expect(suggestions).to have_text('No. 1', wait: 10)
 
       # Typing a hash sign before an ID shall only suggest that work package and (no hits within the subject)
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
-                                        query: "##{first_wp.id}",
-                                        results_selector: '.search-autocomplete--results')
+                                        query: "##{first_wp.id}")
       expect(suggestions).to have_text("Subject", count: 1)
 
       # Expect to have 3 project scope selecting menu entries
@@ -106,8 +102,7 @@ describe 'Search', type: :feature, js: true do
       # Selection project scope 'In all projects' redirects away from current project.
       select_autocomplete(page.find('.top-menu-search--input'),
                           query: query,
-                          select_text: "In all projects ↵",
-                          results_selector: '.search-autocomplete--results')
+                          select_text: "In all projects ↵")
       expect(current_path).to match(/\/search/)
       expect(current_url).to match(/\/search\?q=#{query}&work_packages=1&scope=all$/)
     end
@@ -127,8 +122,7 @@ describe 'Search', type: :feature, js: true do
         # Search without subprojects
         select_autocomplete(page.find('.top-menu-search--input'),
                             query: query,
-                            select_text: 'In this project ↵',
-                            results_selector: '.search-autocomplete--results')
+                            select_text: 'In this project ↵')
         # Expect that the project scope is set to current_project and no module (this is the "all" tab) is requested.
         expect(current_url).to match(/\/#{project.identifier}\/search\?q=#{query}&scope=current_project$/)
 
@@ -165,11 +159,12 @@ describe 'Search', type: :feature, js: true do
         table.expect_work_package_not_listed(work_packages.last)
 
         # Expect that changing the advanced filters will not affect the global search input.
-        global_search_field = page.find('.top-menu-search--input')
+        global_search_field = page.find('.top-menu-search--input input')
         expect(global_search_field.value).to eq query
 
         # Expect that a fresh global search will reset the advanced filters, i.e. that they are closed
         global_search_field.set(work_packages[10].subject)
+        sleep(1)
         global_search_field.send_keys(:enter)
         table.expect_work_package_not_listed(work_packages[9], wait: 20)
         table.expect_work_package_subject(work_packages[10].subject)
@@ -181,6 +176,7 @@ describe 'Search', type: :feature, js: true do
         # Expect that changing the search term without using the autocompleter will leave the project scope unchanged
         # at current_project.
         global_search_field.set(other_work_package.subject)
+        sleep(1)
         global_search_field.send_keys(:enter)
         expect(current_url).to match(/\/#{project.identifier}\/search\?q=Other%20work%20package&work_packages=1&scope=current_project$/)
 
@@ -190,8 +186,7 @@ describe 'Search', type: :feature, js: true do
         # Change to project scope to include subprojects
         select_autocomplete(page.find('.top-menu-search--input'),
                             query: other_work_package.subject,
-                            select_text: 'In this project + subprojects ↵',
-                            results_selector: '.search-autocomplete--results')
+                            select_text: 'In this project + subprojects ↵')
         # Expect that the project scope is not set and work_packages module continues to stay selected.
         expect(current_url).to match(/\/#{project.identifier}\/search\?q=Other%20work%20package&work_packages=1$/)
         # Expect that the "Work packages" tab is selected.

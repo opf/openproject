@@ -81,8 +81,6 @@ module API
             helpers ::API::V3::Users::UpdateUser
 
             before do
-              authorize_logged_in
-
               @user =
                 if params[:id] == 'me'
                   User.current

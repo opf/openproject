@@ -29,15 +29,17 @@
 module API
   module PatchableAPI
     def self.included(base)
-      base.extend ClassMethods
+      base.class_eval do
+        prepend ClassMethods
+      end
     end
 
     module ClassMethods
-      def inherited(subclass)
+      def inherited(api, base_instance_parent = Grape::API::Instance)
         super
 
         # run unscoped patches (i.e. patches that are on the class root, not in a namespace)
-        subclass.send(:execute_patches_for, nil)
+        api.send(:execute_patches_for, nil)
       end
 
       def namespace(name, *args, &block)
@@ -64,7 +66,7 @@ module API
       end
 
       def patches
-        ::API::APIPatchRegistry.patches_for(self)
+        ::Constants::APIPatchRegistry.patches_for(self)
       end
     end
   end

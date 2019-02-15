@@ -213,7 +213,7 @@ ar:
     label_menu_collapse: طي
     label_menu_expand: وسّع
     label_more_than_ago: منذ أكثر من أيام
-    label_my_page: صفحتي
+    label_my_page: My page
     label_next: التالي
     label_no_data: لا يوجد بيانات لعرضها
     label_no_due_date: لا يوجد تاريخ انتهاء
@@ -395,9 +395,9 @@ ar:
           requires: requiring
           required: required by
     time_entry:
-      activity: النشاط
-      comment: تعليق
-      hours: الساعات
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: تحميل مشاهدين...
       label_error_loading: حدث خطأ خلال تحميل المشاهدين
@@ -761,6 +761,8 @@ ar:
         days: أيام
         weeks: أسابيع
         months: أشهر
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -858,9 +860,17 @@ ar:
     global_search:
       all_projects: In all projects
       search: Search
-      this_project: In this project
-      this_project_and_all_descendants: In this project + subprojects
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
+    unsupported_browser:
+      title: إصدار متصفحك غير مدعوم
+      message: إصدار المتصفِّح الذي تستخدمة لم يعُد مدعومًا من قِبل أوبِن بروجِكت.
+      update_message: من فضلك قم بتحديث متصفِّحك.
+      update_ie_user: من فضلك حوّل إلى موزيلّا فايرفوكس أو جوجل كروم، أو قم بالتحديث
+        إلى مايكروسوفت إدج.
+      learn_more: التعرف على المزيد
+      close_warning: تجاهل هذا التحذير.

@@ -26,39 +26,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  class OpenProjectAPI < ::Grape::API
-    class << self
-      def inherited(api, *)
-        super
+require 'spec_helper'
 
-        # run unscoped patches (i.e. patches that are on the class root, not in a namespace)
-        api.apply_patches(nil)
-      end
+describe SecurityBadgeHelper, type: :helper do
+  describe '#security_badge_url', with_settings: { installation_uuid: 'abcd1234' } do
+    it "generates a URL with the release API path and the details of the installation" do
+      uri = URI.parse(helper.security_badge_url)
+      query = Rack::Utils.parse_nested_query(uri.query)
+      expect(uri.host).to eq("releases.openproject.com")
+      expect(query.keys).to match_array(["uuid", "type", "version", "db", "lang", "ee"])
+      expect(query["uuid"]).to eq("abcd1234")
+      expect(query["version"]).to eq(OpenProject::VERSION.to_s)
+      expect(query["type"]).to eq("manual")
+      expect(query["ee"]).to eq("false")
     end
-  end
-end
-
-Grape::DSL::Routing::ClassMethods.module_eval do
-  # Be reload safe. otherwise, an infinite loop occurs on reload.
-  unless instance_methods.include?(:orig_namespace)
-    alias :orig_namespace :namespace
-  end
-
-  def namespace(space = nil, options = {}, &block)
-    orig_namespace(space, options) do
-      instance_eval(&block)
-      apply_patches(space)
-    end
-  end
-
-  def apply_patches(path)
-    (patches[path] || []).each do |patch|
-      instance_eval(&patch)
-    end
-  end
-
-  def patches
-    ::Constants::APIPatchRegistry.patches_for(base)
   end
 end

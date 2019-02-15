@@ -26,39 +26,27 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  class OpenProjectAPI < ::Grape::API
+module Constants
+  class APIPatchRegistry
     class << self
-      def inherited(api, *)
-        super
+      def add_patch(class_name, path, &block)
+        patch_maps_by_class[class_name] = {} unless patch_maps_by_class[class_name]
+        patch_map = patch_maps_by_class[class_name]
 
-        # run unscoped patches (i.e. patches that are on the class root, not in a namespace)
-        api.apply_patches(nil)
+        path = ":#{path}" if path.is_a?(Symbol)
+        patch_map[path] = [] unless patch_map[path]
+        patch_map[path] << block
+      end
+
+      def patches_for(klass)
+        patch_maps_by_class[klass.to_s] || {}
+      end
+
+      private
+
+      def patch_maps_by_class
+        @patch_maps_by_class ||= {}
       end
     end
-  end
-end
-
-Grape::DSL::Routing::ClassMethods.module_eval do
-  # Be reload safe. otherwise, an infinite loop occurs on reload.
-  unless instance_methods.include?(:orig_namespace)
-    alias :orig_namespace :namespace
-  end
-
-  def namespace(space = nil, options = {}, &block)
-    orig_namespace(space, options) do
-      instance_eval(&block)
-      apply_patches(space)
-    end
-  end
-
-  def apply_patches(path)
-    (patches[path] || []).each do |patch|
-      instance_eval(&patch)
-    end
-  end
-
-  def patches
-    ::Constants::APIPatchRegistry.patches_for(base)
   end
 end

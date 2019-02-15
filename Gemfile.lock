@@ -149,6 +149,11 @@ PATH
     grids (8.2.1)
 
 PATH
+  remote: modules/ldap_groups
+  specs:
+    openproject-ldap_groups (8.2.1)
+
+PATH
   remote: modules/meeting
   specs:
     openproject-meeting (8.2.1)
@@ -463,7 +468,7 @@ GEM
       actionpack (>= 3.0)
       multi_json
       request_store (>= 1.0)
-    grape (1.1.0)
+    grape (1.2.3)
       activesupport
       builder
       mustermann-grape (~> 1.0.0)
@@ -508,6 +513,8 @@ GEM
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
     kgio (2.11.2)
+    ladle (1.0.1)
+      open4 (~> 1.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     letter_opener (1.7.0)
@@ -567,6 +574,7 @@ GEM
     omniauth-saml (1.10.1)
       omniauth (~> 1.3, >= 1.3.2)
       ruby-saml (~> 1.7)
+    open4 (1.3.4)
     openid_connect (1.1.6)
       activemodel
       attr_required (>= 1.0.0)
@@ -926,13 +934,14 @@ DEPENDENCIES
   friendly_id (~> 5.2.1)
   fuubar (~> 2.3.2)
   gon (~> 6.2.1)
-  grape (~> 1.1)
+  grape (~> 1.2.3)
   grids!
   health_check
   html-pipeline (~> 2.8.0)
   htmldiff
   i18n-js (~> 3.2.0)
   json_spec (~> 1.1.4)
+  ladle
   launchy (~> 2.4.3)
   letter_opener
   livingstyleguide (~> 2.0.1)
@@ -958,6 +967,7 @@ DEPENDENCIES
   openproject-documents!
   openproject-github_integration!
   openproject-global_roles!
+  openproject-ldap_groups!
   openproject-meeting!
   openproject-my_project_page!
   openproject-openid_connect!

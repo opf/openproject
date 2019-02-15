@@ -216,7 +216,7 @@ sv-SE:
     label_menu_collapse: fäll ihop
     label_menu_expand: expandera
     label_more_than_ago: mer än dagar sedan
-    label_my_page: Min sida
+    label_my_page: My page
     label_next: Nästa
     label_no_data: Ingen data att visa
     label_no_due_date: inget slutdatum
@@ -401,9 +401,9 @@ sv-SE:
           requires: requiring
           required: required by
     time_entry:
-      activity: Aktivitet
-      comment: Kommentar
-      hours: Timmar
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: laddar bevakare...
       label_error_loading: Ett fel inträffade när bevakarna laddades
@@ -763,6 +763,8 @@ sv-SE:
         days: dagar
         weeks: veckor
         months: månader
+      label_switch_to_single_select: Växla till enkelvalsläge
+      label_switch_to_multi_select: Växla till flervalsläge
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -849,9 +851,17 @@ sv-SE:
     global_search:
       all_projects: In all projects
       search: Search
-      this_project: In this project
-      this_project_and_all_descendants: In this project + subprojects
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
+    unsupported_browser:
+      title: Din version av webbläsaren stöds inte
+      message: Den webbläsarversion som du använder stöds inte längre av OpenProject.
+      update_message: Vänligen uppdatera din webbläsare.
+      update_ie_user: Vänligen byt till Mozilla Firefox eller Google Chrome, eller
+        uppgradera till Microsoft Edge.
+      learn_more: Lär dig mer
+      close_warning: Bortse från denna varning.

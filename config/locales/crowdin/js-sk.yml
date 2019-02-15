@@ -28,9 +28,9 @@ sk:
     button_cancel: Zrušíť
     button_close: Zatvoriť
     button_check_all: Označiť všetko
-    button_configure-form: Configure form
+    button_configure-form: Konfigurácia formulára
     button_confirm: Potvrdiť
-    button_continue: Continue
+    button_continue: Pokračovať
     button_copy: Kopírovať
     button_custom-fields: Vlastné polia
     button_delete: Odstrániť
@@ -46,7 +46,7 @@ sk:
     button_more: Viac
     button_move: Presunúť
     button_open_details: Zobraziť podrobnosti
-    button_close_details: Close details view
+    button_close_details: Zavrieť podrobnosti
     button_open_fullscreen: Otvorené zobrazenie na celú obrazovku
     button_quote: Citovať
     button_save: Uložiť
@@ -132,11 +132,11 @@ sk:
         text_open_filter: Otvorte tento filter pomocou „Alt“ a šípok.
         text_close_filter: Na výber záznamu opustite režim zamerania napríklad stlačením
           Enter. Na opustenie bez filtra vyberte prvý (prázdny) záznam.
-      noneElement: "(none)"
+      noneElement: "(žiadny)"
       time_zone_converted:
-        two_values: "%{from} - %{to} in your local time."
-        only_start: From %{from} in your local time.
-        only_end: Till %{to} in your local time.
+        two_values: "%{from} - %{to} vo vašom miestnom čase."
+        only_start: Od %{from} v miestnom čase.
+        only_end: Do %{to} v miestnom čase.
       value_spacer: "-"
       sorting:
         criteria:
@@ -155,7 +155,7 @@ sk:
       komentár)
     label_add_column_after: Add column after
     label_add_column_before: Add column before
-    label_add_columns: Add columns
+    label_add_columns: Pridať stĺpce
     label_add_comment: Pridať komentár
     label_add_comment_title: Komentujte a napíšte @ pre upozornenie ďalších ľudí
     label_add_row_after: Add row after
@@ -166,10 +166,10 @@ sk:
     label_ago: dní späť
     label_all: Všetky
     label_all_work_packages: všetky pracovné balíčky
-    label_and: and
+    label_and: a
     label_ascending: Vzostupne
     label_author: 'Autor: %{user}'
-    label_between: between
+    label_between: medzi
     label_board_locked: Uzamknuté
     label_board_sticky: Sticky
     label_create_work_package: Vytvoriť nový pracovný balíček
@@ -216,7 +216,7 @@ sk:
     label_menu_collapse: zbaliť
     label_menu_expand: rozbaliť
     label_more_than_ago: pred viac než dňom
-    label_my_page: Moja stránka
+    label_my_page: My page
     label_next: Ďalšie
     label_no_data: Žiadne dáta na zobrazenie
     label_no_due_date: bez dátumu ukončenia
@@ -369,24 +369,24 @@ sk:
       click_to_switch_context: Otvoriť tento pracovný balík v danom projekte.
       autocompleter:
         label: Automatické doplňovanie projektu
-    text_are_you_sure: Are you sure?
+    text_are_you_sure: Ste si istí?
     types:
       attribute_groups:
-        error_duplicate_group_name: The name %{group} is used more than once. Group
-          names must be unique.
+        error_duplicate_group_name: Názov skupiny %{group} sa používa viackrát. Názvy
+          skupín musia byť jedinečné.
         error_no_table_configured: Prosím nastavte tabuľku pre %{group}.
-        reset_title: Reset form configuration
+        reset_title: Obnoviť konfiguráciu formulára
         confirm_reset: 'Upozornenie: Naozaj chcete resetovať konfiguráciu formulára?
           Týmto sa obnovia atribúty na ich predvolenú skupinu a vypnú sa VŠETKY vlastné
           polia.
 
 '
         upgrade_to_ee: Upgrade na Enterprise Edition
-        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
-          you mind supporting us OpenSource developers by becoming an Enterprise Edition
-          client?
-        more_information: More information
-        nevermind: Nevermind
+        upgrade_to_ee_text: Wow! Ak potrebujete túto funkciu, ste super profesionál!
+          Mohli by ste podporiť vývojárov Open Source tým, že sa staneme klientom
+          Enterprise Edition?
+        more_information: Viac informácií
+        nevermind: Nie ďakujem
         filter_types:
           parent: podradený
           precedes: predchádzajúci
@@ -401,16 +401,16 @@ sk:
           requires: vyžaduje
           required: požadované
     time_entry:
-      activity: Činnosť
-      comment: Komentár
-      hours: Hodín
+      activity: Activity
+      comment: Comment
+      hours: Hours
     watchers:
       label_loading: načítanie pozorovateľov...
       label_error_loading: Vyskytla sa chyba pri načítavaní pozorovateľov
       label_search_watchers: Hľadať pozorovateľov
       label_add: Pridať pozorovateľov
       label_discard: Zrušiť výber
-      typeahead_placeholder: Search for possible watchers
+      typeahead_placeholder: Vyhľadajte možných pozorovateľov
     relation_labels:
       parent: Nadradený balíček
       children: Potomkovia
@@ -447,8 +447,8 @@ sk:
       update_description: Nastavte alebo aktualizujte popis tohto vzťahu
       toggle_description: Prepnúť popis vzťahu
       update_relation: Kliknite na tlačidlo zmeniť typ vzťahu
-      add_follower: Add follower
-      add_predecessor: Add predecessor
+      add_follower: Pridať follower
+      add_predecessor: Pridať predchodcu
       remove: Odstrániť vzťah
       save: Uložiť vzťah
       abort: Zrušiť
@@ -478,15 +478,15 @@ sk:
         many: You can only select {{limit}} items
     project_menu_details: Podrobnosti
     sort:
-      sorted_asc: 'Ascending sort applied, '
-      sorted_dsc: 'Descending sort applied, '
-      sorted_no: 'No sort applied, '
-      sorting_disabled: sorting is disabled
-      activate_asc: activate to apply an ascending sort
-      activate_dsc: activate to apply a descending sort
-      activate_no: activate to remove the sort
-    text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
-      work package(s)?
+      sorted_asc: 'Použiť vzostupné zoradenie, '
+      sorted_dsc: 'Použiť zostupné zoradenie, '
+      sorted_no: 'Žiadne použité zoradenie, '
+      sorting_disabled: zoradenie nie je povolené
+      activate_asc: aktivovať pre použitie vzostupného zoradenia
+      activate_dsc: aktivovať pre použitie zostupného zoradenia
+      activate_no: aktivovať odstránenie zoradenia
+    text_work_packages_destroy_confirmation: Naozaj chcete odstrániť vybraný pracovný
+      balíček(y)?
     text_query_destroy_confirmation: Naozaj chcete odstrániť vybraté zobrazenie?
     text_attachment_destroy_confirmation: Naozaj chcete odstrániť prílohu?
     timelines:
@@ -506,22 +506,20 @@ sk:
       button_activate: Zobraziť Ganttov graf
       button_deactivate: Skryť Ganttov graf
       cancel: Zrušíť
-      change: Change in planning
+      change: Zmena v plánovaní
       due_date: Dátum dokončenia
-      empty: "(empty)"
+      empty: "(prázdny)"
       error: Vyskytla sa chyba.
       errors:
-        not_implemented: The timeline could not be rendered because it uses a feature
-          that is not yet implemented.
-        report_comparison: The timeline could not render the configured comparisons.
-          Please check the appropriate section in the configuration, resetting it
-          can help solve this problem.
-        report_epicfail: The timeline could not be loaded due to an unexpected error.
-        report_timeout: The timeline could not be loaded in a reasonable amount of
-          time.
+        not_implemented: Časovú os nebolo možné zobraziť, pretože používa funkciu,
+          ktorá ešte nie je implementovaná.
+        report_comparison: Časová os nemôže vykresliť konfigurované porovnania. Skontrolujte
+          príslušnú časť v konfigurácii, vynulovanie môže pomôcť vyriešiť tento problém.
+        report_epicfail: Časovú os nebolo možné načítať kvôli neočakávanej chybe.
+        report_timeout: Časovú os nebolo možné načítať v primeranom čase.
       filter:
         grouping_other: Ostatné
-        noneSelection: "(none)"
+        noneSelection: "(žiadny)"
       name: Názov
       outline: Reset Outline
       outlines:
@@ -632,16 +630,16 @@ sk:
       copy:
         title: Kopírovať pracovný balíček
       hierarchy:
-        show: Show hierarchy mode
-        hide: Hide hierarchy mode
-        toggle_button: Click to toggle hierarchy mode.
-        leaf: Work package leaf at level %{level}.
-        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
-          filtered children
-        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
-          filtered children
+        show: Zobraziť režim hierarchie
+        hide: Skryť režim hierarchie
+        toggle_button: Tlačidlo na prepnutie režimu hierarchie.
+        leaf: Pracovný balíček na úrovni %{level}.
+        children_collapsed: Úroveň hierarchie %{level}, zbalené. Kliknutím zobrazíte
+          filtrované podradené položky.
+        children_expanded: Úroveň hierarchie %{level}, rozbalené. Kliknutím zbalíte
+          filtrované podradené položky.
       faulty_query:
-        title: Work packages could not be loaded.
+        title: Pracovný balíček nebolo možné načítať.
         description: Tento pohľad je zlý a nemôže byť spracovaný.
       no_results:
         title: Žiadne pracovné balíčky na zobrazenie.
@@ -684,8 +682,8 @@ sk:
         pagination: Prejsť na stránkovanie tabuľky
         label_pagination: Kliknite sem pre preskočenie tabuľky pracovných balíčkov
           a zobrazenie stránkovania
-        content: Jump to content
-        label_content: Click here to skip over the menu and go to the content
+        content: Prejsť na obsah
+        label_content: Kliknite tu pre preskočenie menu a prejdite na obsah
       placeholders:
         default: "-"
         description: Kliknutím zadajte popis...
@@ -693,10 +691,10 @@ sk:
         column_names: Stĺpce
         group_by: zoskupiť výsledky podľa
         group: Zoskupiť podľa
-        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
-          mode being active.
-        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
-          being grouped by %{column}.
+        group_by_disabled_by_hierarchy: Skupina je zakázaná v dôsledku aktívneho režimu
+          hierarchie.
+        hierarchy_disabled_by_group_by: Režim hierarchie je zakázaný, pretože výsledky
+          sú zoskupené podľa %{column}.
         sort_ascending: Zoradiť vzostupne
         sort_descending: Zoradiť zostupne
         move_column_left: Presunúť stĺpec vľavo
@@ -770,6 +768,8 @@ sk:
         days: dní
         weeks: týždne
         months: mesiace
+      label_switch_to_single_select: Prepnúť na jednoduchý výber
+      label_switch_to_multi_select: Prepnúť na viacnásobný výber
     toolbar:
       settings:
         configure_view: Konfigurovať zobrazenie...
@@ -777,8 +777,8 @@ sk:
         sort_by: Zoradiť podľa ...
         group_by: Zoskupiť podľa ...
         display_sums: Zobraziť súčty
-        display_hierarchy: Display hierarchy
-        hide_hierarchy: Hide hierarchy
+        display_hierarchy: Zobrazenie hierarchie
+        hide_hierarchy: Skryť hierarchiu
         hide_sums: Skryť súčty
         save: Uložiť
         save_as: Uložiť ako ...
@@ -800,8 +800,8 @@ sk:
       button_submit: Odoslať
       button_cancel: Zrušíť
       form_submit:
-        title: Confirm to continue
-        text: Are you sure you want to perform this action?
+        title: Potvrdiť a pokračovať
+        text: Ste si istý, že chcete vykonať túto akciu?
       destroy_work_package:
         title: Potvrďte zmazanie %{label}
         text: Ste si istí, že chcete zmazať %{label}?
@@ -857,14 +857,23 @@ sk:
         few: "%{count} hodiny"
         many: "%{count} hours"
     zen_mode:
-      button_activate: Activate zen mode
-      button_deactivate: Deactivate zen mode
+      button_activate: Aktivovať zen režim
+      button_deactivate: Deaktivovať zen režim
     global_search:
       all_projects: In all projects
       search: Search
-      this_project: In this project
-      this_project_and_all_descendants: In this project + subprojects
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
+    unsupported_browser:
+      title: Prehliadač, ktorý aktuálne používate nie je podporovaný projektom OpenProject
+      message: Verzia prehliadača, ktorú aktuálne používate už nie je podporovaná
+        projektom OpenProject. Prosím aktualizujte svoj prehliadač.
+      update_message: Prosím aktualizujte svoj prehliadač.
+      update_ie_user: Prepnúť na Mozilla Firefox alebo Google Chrome, alebo upgrade
+        na Microsoft Edge.
+      learn_more: Zistiť viac
+      close_warning: Ignorovať toto upozornenie.

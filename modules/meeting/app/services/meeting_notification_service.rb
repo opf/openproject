@@ -7,16 +7,16 @@ class MeetingNotificationService
     @content_type = content_type
   end
 
-  def call(content, action)
-    recipients_with_errors = send_notifications!(content, action)
+  def call(content, action, include_author: false)
+    recipients_with_errors = send_notifications!(content, action, include_author: include_author)
     ServiceResult.new(success: recipients_with_errors.empty?, errors: recipients_with_errors)
   end
 
   private
 
-  def send_notifications!(content, action)
+  def send_notifications!(content, action, include_author:)
     author_mail = meeting.author.mail
-    do_not_notify_author = meeting.author.pref[:no_self_notified]
+    do_not_notify_author = meeting.author.pref[:no_self_notified] && !include_author
 
     recipients_with_errors = []
     meeting.participants.each do |recipient|

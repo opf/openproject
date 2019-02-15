@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,39 +27,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  class OpenProjectAPI < ::Grape::API
-    class << self
-      def inherited(api, *)
-        super
-
-        # run unscoped patches (i.e. patches that are on the class root, not in a namespace)
-        api.apply_patches(nil)
-      end
-    end
-  end
-end
-
-Grape::DSL::Routing::ClassMethods.module_eval do
-  # Be reload safe. otherwise, an infinite loop occurs on reload.
-  unless instance_methods.include?(:orig_namespace)
-    alias :orig_namespace :namespace
-  end
-
-  def namespace(space = nil, options = {}, &block)
-    orig_namespace(space, options) do
-      instance_eval(&block)
-      apply_patches(space)
-    end
-  end
-
-  def apply_patches(path)
-    (patches[path] || []).each do |patch|
-      instance_eval(&patch)
-    end
-  end
-
-  def patches
-    ::Constants::APIPatchRegistry.patches_for(base)
+module SecurityBadgeHelper
+  def security_badge_url(args = {})
+    uri = URI.parse(OpenProject::Configuration[:security_badge_url])
+    info = {
+      uuid: Setting.installation_uuid,
+      type: OpenProject::Configuration[:installation_type],
+      version: OpenProject::VERSION.to_s,
+      db: ActiveRecord::Base.connection.adapter_name.downcase,
+      lang: User.current.try(:language),
+      ee: EnterpriseToken.current.present?,
+    }.merge(args.symbolize_keys)
+    uri.query = info.to_query
+    uri.to_s
   end
 end
