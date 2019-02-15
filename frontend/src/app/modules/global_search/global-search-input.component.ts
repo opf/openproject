@@ -139,13 +139,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     }
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event:any) {
-    if (event.target.innerWidth > this.deviceService.mobileWidthTreshold && this.mobileSearch) {
-      this.toggleMobileSearch();
-    }
-  }
-
   // open or close mobile search
   public toggleMobileSearch() {
     jQuery('.ng-select, #account-nav-right, #account-nav-left, #main-menu-toggle').toggleClass('hidden-for-mobile');
