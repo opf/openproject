@@ -320,7 +320,7 @@ and on the home screen. It is only displayed to administrators.
 
 The badge will match your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
 To ensure the newest available update can be returned, the check will include your installation type, current version, database type, enterprise status and an anonymous unique ID of the instance.
-To localize the badge, the user's locale is sent.
+To localize the badge, the user's locale is sent. No personal information of your installation or any user within is transmitted, processed, or stored.
 
 To disable rendering the badge, uncheck the setting at Administration &gt; System settings &gt; General or pass
 the configuration flag `security_badge_displayed: false` .
