@@ -38,39 +38,22 @@ class WorkPackages::BulkController < ApplicationController
   include IssuesHelper
 
   def edit
-    @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject { |memo, w| memo & w }
-    @custom_fields = @projects.map(&:all_work_package_custom_fields).inject { |memo, c| memo & c }
-    @assignables = @projects.map(&:possible_assignees).inject { |memo, a| memo & a }
-    @responsibles = @projects.map(&:possible_responsibles).inject { |memo, a| memo & a }
-    @types = @projects.map(&:types).inject { |memo, t| memo & t }
+    setup_edit
   end
 
   def update
-    unsaved_work_package_ids = []
-    saved_work_packages = []
+    @call = ::WorkPackages::Bulk::UpdateService
+      .new(user: current_user, work_packages: @work_packages)
+      .call(params: params)
 
-    @work_packages.each do |work_package|
-      work_package.reload
-      work_package.add_journal(User.current, params[:notes])
-
-      # filter parameters by whitelist and add defaults
-      attributes = parse_params_for_bulk_work_package_attributes params, work_package.project
-
-      call_hook(:controller_work_packages_bulk_edit_before_save, params: params, work_package: work_package)
-
-      service_call = WorkPackages::UpdateService
-        .new(user: user, work_package: work_package)
-        .call(attributes: attributes, send_notifications: params[:send_notification] == '1')
-
-      if service_call.success?
-        saved_work_packages << service_call.result
-      else
-        unsaved_work_package_ids << work_package.id
-      end
+    if @call.success?
+      flash[:notice] = t(:notice_successful_update)
+      redirect_back_or_default(controller: '/work_packages', action: :index, project_id: @project)
+    else
+      @bulk_errors = @call.errors
+      setup_edit
+      render action: :edit
     end
-
-    set_flash_from_bulk_save(@work_packages, unsaved_work_package_ids)
-    redirect_back_or_default(controller: '/work_packages', action: :index, project_id: @project)
   end
 
   def destroy
@@ -103,6 +86,14 @@ class WorkPackages::BulkController < ApplicationController
 
   private
 
+  def setup_edit
+    @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject { |memo, w| memo & w }
+    @custom_fields = @projects.map(&:all_work_package_custom_fields).inject { |memo, c| memo & c }
+    @assignables = @projects.map(&:possible_assignees).inject { |memo, a| memo & a }
+    @responsibles = @projects.map(&:possible_responsibles).inject { |memo, a| memo & a }
+    @types = @projects.map(&:types).inject { |memo, t| memo & t }
+  end
+
   def destroy_work_packages(work_packages)
     work_packages.each do |work_package|
       begin
@@ -113,34 +104,6 @@ class WorkPackages::BulkController < ApplicationController
         # raised by #reload if work package no longer exists
         # nothing to do, work package was already deleted (eg. by a parent)
       end
-    end
-  end
-
-  def parse_params_for_bulk_work_package_attributes(params, project)
-    return {} unless params.has_key? :work_package
-
-    safe_params = permitted_params.update_work_package project: project
-    attributes = safe_params.reject { |_k, v| v.blank? }
-    attributes.keys.each do |k|
-      attributes[k] = '' if attributes[k] == 'none'
-    end
-    attributes[:custom_field_values].reject! { |_k, v| v.blank? } if attributes[:custom_field_values]
-    attributes.delete :custom_field_values if not attributes.has_key?(:custom_field_values) or attributes[:custom_field_values].empty?
-    attributes
-  end
-
-  # Sets the `flash` notice or error based the number of work packages that did not save
-  #
-  # @param [Array, WorkPackage] work_packages all of the saved and unsaved WorkPackages
-  # @param [Array, Integer] unsaved_work_package_ids the WorkPackage ids that were not saved
-  def set_flash_from_bulk_save(work_packages, unsaved_work_package_ids)
-    if unsaved_work_package_ids.empty?
-      flash[:notice] = l(:notice_successful_update) unless work_packages.empty?
-    else
-      flash[:error] = l(:notice_failed_to_save_work_packages,
-                        count: unsaved_work_package_ids.size,
-                        total: work_packages.size,
-                        ids: '#' + unsaved_work_package_ids.join(', #'))
     end
   end
 
