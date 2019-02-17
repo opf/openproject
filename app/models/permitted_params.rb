@@ -108,7 +108,10 @@ class PermittedParams
   end
 
   def group
-    params.require(:group).permit(*self.class.permitted_attributes[:group])
+    permitted_params = params.require(:group).permit(*self.class.permitted_attributes[:group])
+    permitted_params = permitted_params.merge(custom_field_values(:group))
+
+    permitted_params
   end
 
   def group_membership
