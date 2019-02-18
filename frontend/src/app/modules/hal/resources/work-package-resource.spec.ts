@@ -34,7 +34,6 @@ import {States} from 'core-components/states.service';
 import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
-import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
@@ -80,7 +79,7 @@ describe('WorkPackage', () => {
         LoadingIndicatorService,
         PathHelperService,
         I18nService,
-        { provide: ApiWorkPackagesService, useValue: {} },
+        { provide: WorkPackageDmService, useValue: {} },
         { provide: IWorkPackageCreateServiceToken, useValue: {} },
         { provide: StateService, useValue: {} },
         { provide: SchemaCacheService, useValue: {} },

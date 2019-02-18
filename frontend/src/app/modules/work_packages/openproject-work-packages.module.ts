@@ -137,7 +137,6 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
@@ -155,6 +154,7 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
 import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
+import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 
 @NgModule({
   imports: [
@@ -198,7 +198,7 @@ import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_pack
 
     KeepTabService,
     WorkPackageNotificationService,
-    ApiWorkPackagesService,
+    WorkPackageDmService,
 
     WorkPackagesActivityService,
     WorkPackageWatchersService,
