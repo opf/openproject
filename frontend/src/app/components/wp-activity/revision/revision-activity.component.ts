@@ -53,7 +53,6 @@ export class RevisionActivityComponent implements OnInit {
 
   public project:ProjectResource;
   public revision:string;
-  public formattedRevision:string;
   public message:string;
 
   public revisionLink:string;
