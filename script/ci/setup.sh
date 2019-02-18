@@ -69,7 +69,7 @@ if [ $1 = 'units' ]; then
 fi
 
 if [ $1 = 'spec_legacy' ]; then
-  run "bundle exec rake test:scm:setup:all"
+  run "bundle exec rake"
 fi
 
 run "cp -rp public/assets/frontend_assets.manifest.json config/frontend_assets.manifest.json"
