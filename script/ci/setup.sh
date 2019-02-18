@@ -68,8 +68,4 @@ if [ $1 = 'units' ]; then
   run "sudo apt-get install -qq pandoc"
 fi
 
-if [ $1 = 'spec_legacy' ]; then
-  run "bundle exec rake"
-fi
-
 run "cp -rp public/assets/frontend_assets.manifest.json config/frontend_assets.manifest.json"
