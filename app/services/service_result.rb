@@ -38,6 +38,7 @@ class ServiceResult
   def initialize(success: false,
                  errors: nil,
                  context: {},
+                 dependent_results: [],
                  result: nil)
     self.success = success
     self.result = result
@@ -50,7 +51,7 @@ class ServiceResult
                     ActiveModel::Errors.new(self)
                   end
 
-    self.dependent_results = []
+    self.dependent_results = dependent_results
   end
 
   alias success? :success
@@ -65,7 +66,9 @@ class ServiceResult
   end
 
   def all_results
-    [result] + dependent_results.map(&:result)
+    dependent_results.map(&:result).tap do |results|
+      results.unshift result unless result.nil?
+    end
   end
 
   def all_errors
