@@ -87,10 +87,11 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
   }
 
   /**
-   * Retrieve the QueryColumn objects for the selected columns
+   * Retrieve the QueryColumn objects for the selected columns.
+   * Returns a shallow copy with the original column objects.
    */
   public getColumns():any[] {
-    return (this.currentState && this.currentState.getColumns()) || [];
+    return [ ...this.currentState.getColumns() ];
   }
 
   /**
@@ -154,12 +155,10 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
    * Update the selected columns to a new set of columns.
    */
   public setColumns(columns:QueryColumn[]) {
-
     // Don't publish if this is the same content
     if (this.isCurrentlyEqualTo(columns)) {
       return;
     }
-
 
     let currentState = this.currentState;
 
