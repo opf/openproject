@@ -69,12 +69,13 @@ export class UserAvatarComponent implements AfterViewInit {
           this.userAvatar = user.avatar;
           this.userName = user.name;
           this.colorCode = this.computeColor(user.name);
+          this.ref.detectChanges();
         });
     } else {
       this.userInitials = this.getInitials(this.userName);
       this.colorCode = this.computeColor(this.userName);
+      this.ref.detectChanges();
     }
-    this.ref.detectChanges();
   }
 
   public replaceWithDefault() {
