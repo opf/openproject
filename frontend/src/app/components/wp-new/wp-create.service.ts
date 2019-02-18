@@ -67,13 +67,13 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
     return this.newWorkPackageCreatedSubject.asObservable();
   }
 
-  public createNewWorkPackage(projectIdentifier:string) {
+  public createNewWorkPackage(projectIdentifier:string|undefined|null) {
     return this.getEmptyForm(projectIdentifier).then(form => {
       return this.fromCreateForm(form);
     });
   }
 
-  public createNewTypedWorkPackage(projectIdentifier:string, type:number) {
+  public createNewTypedWorkPackage(projectIdentifier:string|undefined|null, type:number) {
     return this.apiWorkPackages.typedCreateForm(type, projectIdentifier).then(form => {
       return this.fromCreateForm(form);
     });
@@ -115,7 +115,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
     });
   }
 
-  public getEmptyForm(projectIdentifier:string|null):Promise<HalResource> {
+  public getEmptyForm(projectIdentifier:string|null|undefined):Promise<HalResource> {
     if (!this.form) {
       this.form = this.apiWorkPackages.emptyCreateForm({}, projectIdentifier);
     }
@@ -135,7 +135,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
       .values$();
   }
 
-  public createOrContinueWorkPackage(projectIdentifier:string, type?:number) {
+  public createOrContinueWorkPackage(projectIdentifier:string|null|undefined, type?:number) {
     let changesetPromise = this.continueExistingEdit(type);
 
     if (!changesetPromise) {
@@ -167,7 +167,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
     return null;
   }
 
-  protected createNewWithDefaults(projectIdentifier:string, type?:number) {
+  protected createNewWithDefaults(projectIdentifier:string|null|undefined, type?:number) {
     let changesetPromise = null;
 
     if (type) {

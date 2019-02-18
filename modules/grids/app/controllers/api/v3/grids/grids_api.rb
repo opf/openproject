@@ -74,14 +74,19 @@ module API
           mount ::API::V3::Grids::Schemas::GridSchemaAPI
 
           route_param :id do
+            helpers do
+              def raise_if_lacking_manage_permission
+                unless ::Grids::UpdateContract.new(@grid, current_user).edit_allowed?
+                  raise ActiveRecord::RecordNotFound
+                end
+              end
+            end
+
             before do
               @grid = ::Grids::Query
                       .new(user: current_user)
                       .results
-                      .where(id: params['id'])
-                      .first
-
-              raise ActiveRecord::RecordNotFound unless @grid
+                      .find(params['id'])
             end
 
             get do
@@ -90,10 +95,16 @@ module API
             end
 
             patch do
+              raise_if_lacking_manage_permission
+
               params = API::V3::ParseResourceParamsService
                        .new(current_user, representer: GridRepresenter)
                        .call(request_body)
                        .result
+
+              if params[:scope]
+                params[:type] = ::Grids::Configuration.class_from_scope(params.delete(:scope)).to_s
+              end
 
               call = ::Grids::UpdateService
                      .new(user: current_user,
@@ -104,6 +115,20 @@ module API
                 GridRepresenter.create(call.result,
                                        current_user: current_user,
                                        embed_links: true)
+              else
+                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+              end
+            end
+
+            delete do
+              raise_if_lacking_manage_permission
+
+              call = ::Grids::DeleteService
+                .new(user: current_user, grid: @grid)
+                .call
+
+              if call.success?
+                status 204
               else
                 fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
               end

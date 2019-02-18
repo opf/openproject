@@ -23,11 +23,8 @@ export class GroupedRowsBuilder extends RowsBuilder {
   public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
   public I18n:I18nService = this.injector.get(I18nService);
 
-  private headerBuilder:GroupHeaderBuilder;
-
   constructor(public readonly injector:Injector, workPackageTable:WorkPackageTable) {
     super(injector, workPackageTable);
-    this.headerBuilder = new GroupHeaderBuilder(this.injector);
   }
 
   /**
@@ -56,11 +53,12 @@ export class GroupedRowsBuilder extends RowsBuilder {
   }
 
   public buildRows() {
+    const builder = new GroupHeaderBuilder(this.injector);
     return new GroupedRenderPass(
       this.injector,
       this.workPackageTable,
       this.getGroupData(),
-      this.headerBuilder,
+      builder,
       this.colspan
     ).render();
   }
@@ -72,6 +70,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
     const groups = this.getGroupData();
     const colspan = this.wpTableColumns.columnCount + 1;
     const rendered = this.tableState.rendered.value!;
+    const builder = new GroupHeaderBuilder(this.injector);
 
     jQuery(this.workPackageTable.container)
       .find(`.${rowGroupClassName}`)
@@ -80,7 +79,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
       let group = groups[groupIndex];
 
       // Refresh the group header
-      let newRow = this.headerBuilder.buildGroupRow(group, colspan);
+      let newRow = builder.buildGroupRow(group, colspan);
 
       if (oldRow.parentNode) {
         oldRow.parentNode.replaceChild(newRow, oldRow);

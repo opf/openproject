@@ -71,11 +71,14 @@ import {PortalModule} from "@angular/cdk/portal";
 import {CommonModule} from "@angular/common";
 import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
 import {NoResultsComponent} from "core-app/modules/common/no-results/no-results.component";
+import {DragDropModule} from "@angular/cdk/drag-drop";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {UserAutocompleterComponent} from "app/modules/common/autocomplete/user-autocompleter.component";
 import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
+import {EditableToolbarTitleComponent} from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
 import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.component";
+import {GonService} from "core-app/modules/common/gon/gon.service";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -98,6 +101,7 @@ export function bootstrapModule(injector:Injector) {
     FormsModule,
     // Angular CDK
     PortalModule,
+    DragDropModule,
     // Our own A11y module
     OpenprojectAccessibilityModule,
     NgSelectModule,
@@ -109,6 +113,7 @@ export function bootstrapModule(injector:Injector) {
     CommonModule,
     FormsModule,
     PortalModule,
+    DragDropModule,
     OpenprojectAccessibilityModule,
 
     OpDatePickerComponent,
@@ -154,6 +159,8 @@ export function bootstrapModule(injector:Injector) {
     UserAutocompleterComponent,
 
     ScrollableTabsComponent,
+
+    EditableToolbarTitleComponent,
 
     // User Avatar
     UserAvatarComponent,
@@ -206,6 +213,8 @@ export function bootstrapModule(injector:Injector) {
 
     ScrollableTabsComponent,
 
+    EditableToolbarTitleComponent,
+
     // User Avatar
     UserAvatarComponent,
   ],
@@ -240,6 +249,7 @@ export function bootstrapModule(injector:Injector) {
     HTMLSanitizeService,
     TimezoneService,
     BrowserDetector,
+    GonService,
   ]
 })
 export class OpenprojectCommonModule { }

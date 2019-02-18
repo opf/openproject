@@ -32,6 +32,7 @@ require_relative './shared_model'
 
 describe Grids::MyPage, type: :model do
   let(:instance) { described_class.new }
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   it_behaves_like 'grid attributes'
 

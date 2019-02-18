@@ -334,12 +334,10 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  def find_optional_project_and_raise_error(controller_name = nil)
-    controller_name = params[:controller] if controller_name.nil?
-
+  def find_optional_project_and_raise_error
     @project = Project.find(params[:project_id]) unless params[:project_id].blank?
-    allowed = User.current.allowed_to?({ controller: controller_name, action: params[:action] },
-                                       @project, global: true)
+    allowed = User.current.allowed_to?({ controller: params[:controller], action: params[:action] },
+                                       @project, global: @project.nil?)
     allowed ? true : deny_access
   end
 

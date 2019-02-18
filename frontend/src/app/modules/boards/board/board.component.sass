@@ -1,0 +1,57 @@
+.boards-list--container
+  display: flex
+  flex-direction: row
+  flex-wrap: nowrap
+
+.boards-list--item
+  flex: 0 0 20%
+  border: 1px solid #ccc
+  margin-left: 2rem
+  position: relative
+
+  &:first-child
+    margin-left: 0
+
+.board--header-container
+  display: flex
+  align-items: flex-start
+
+.board--name-header
+  list-style: none
+
+.boards-list-item-handle
+  position: absolute
+  left: 0
+  top: 20px
+  z-index: 1000
+  opacity: 0
+  cursor: grab
+
+  &:before
+    padding: 0
+    color: #888
+
+  .boards-list--item:hover &
+    opacity: 1
+
+.boards-list--add-item
+  flex: 0 0 auto
+  border: 1px dashed #ccc
+  height: 200px
+  margin-left: 30px
+
+  // Center child text
+  display: flex
+  align-items: center
+  justify-items: center
+
+  // Center self in lists
+  align-self: center
+
+  .boards-list--add-item-text
+    transform: rotate(90deg)
+
+// Changes when container is editable
+.board--container.-editable
+  .boards-list--add-item
+    cursor: pointer

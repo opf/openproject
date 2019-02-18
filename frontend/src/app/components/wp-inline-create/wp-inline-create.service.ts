@@ -28,7 +28,7 @@
 
 import {Injectable, Injector, OnDestroy} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {Subject} from "rxjs";
+import {Observable, of, Subject} from "rxjs";
 import {ComponentType} from "@angular/cdk/portal";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
@@ -46,7 +46,6 @@ export class WorkPackageInlineCreateService implements OnDestroy {
    * A separate reference pane for the inline create component
    */
   public readonly referenceComponentClass:ComponentType<any>|null = null;
-
 
   /**
    * A related work package for the inline create context
@@ -86,5 +85,4 @@ export class WorkPackageInlineCreateService implements OnDestroy {
     this.newInlineWorkPackageCreated.complete();
     this.newInlineWorkPackageReferenced.complete();
   }
-
 }

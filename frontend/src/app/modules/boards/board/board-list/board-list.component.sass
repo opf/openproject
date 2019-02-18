@@ -1,0 +1,28 @@
+.board-list--query-container
+  padding: 20px
+  height: 75vh
+  overflow-y: auto
+
+.board-list--header
+  padding: 10px 20px
+  border-bottom: 1px solid #ccc
+  display: flex
+  align-items: center
+
+  editable-toolbar-title
+    flex: 1
+
+  .board-list--delete-icon
+    opacity: 0
+    position: relative
+    top: -4px
+    left: 4px
+
+    .board-list--container:hover &
+      opacity: 1
+
+wp-embedded-table
+  wp-card-view
+
+  height: 100%
+  display: block

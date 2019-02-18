@@ -1,3 +1,5 @@
+import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+
 export class SimpleResourceCollection<T extends SimpleResource = SimpleResource> {
   // Base path
   public readonly path:string;
@@ -24,6 +26,10 @@ export class SimpleResourceCollection<T extends SimpleResource = SimpleResource>
 
   public toPath():string {
     return this.path;
+  }
+
+  public filtered(filters:ApiV3FilterBuilder) {
+    return this.toString() + '/?' + filters.toParams();
   }
 }
 

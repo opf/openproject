@@ -32,9 +32,9 @@ module API
       class GridRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
 
-        resource_link :page,
+        resource_link :scope,
                       getter: ->(*) {
-                        path = ::Grids::Configuration.grid_for_class(represented.class)
+                        path = scope_path
 
                         next unless path
 
@@ -44,12 +44,13 @@ module API
                         }
                       },
                       setter: ->(fragment:, **) {
-                        represented.page = fragment['href']
+                        represented.scope = fragment['href']
                       }
 
         self_link title_getter: ->(*) { nil }
 
         link :updateImmediately do
+          next unless write_allowed?
           {
             href: api_v3_paths.grid(represented.id),
             method: :patch
@@ -57,17 +58,31 @@ module API
         end
 
         link :update do
+          next unless write_allowed?
           {
             href: api_v3_paths.grid_form(represented.id),
             method: :post
           }
         end
 
+        link :delete do
+          next unless delete_allowed?
+
+          {
+            href: api_v3_paths.grid(represented.id),
+            method: :delete
+          }
+        end
+
         property :id
+
+        property :name, render_nil: false
 
         property :row_count
 
         property :column_count
+
+        property :options
 
         property :widgets,
                  exec_context: :decorator,
@@ -89,6 +104,7 @@ module API
                  writeable: false,
                  getter: ->(*) {
                    next unless represented.created_at
+
                    datetime_formatter.format_datetime(represented.created_at)
                  }
 
@@ -97,11 +113,47 @@ module API
                  writeable: false,
                  getter: ->(*) {
                    next unless represented.updated_at
+
                    datetime_formatter.format_datetime(represented.updated_at)
                  }
 
         def _type
           'Grid'
+        end
+
+        private
+
+        def delete_allowed?
+          represented.user_deletable? && write_allowed?
+        end
+
+        def write_allowed?
+          !represented.new_record? &&
+            ::Grids::Configuration.writable?(represented, current_user)
+        end
+
+        def scope_path
+          path = ::Grids::Configuration.to_scope(represented.class,
+                                                 scope_path_attributes)
+
+          # Remove all query params
+          # Those are added when the path does not actually require
+          # project or user
+          path&.gsub(/(\?.+)|(\.\d+)\z/, '')
+        end
+
+        def scope_path_attributes
+          path_attributes = []
+
+          if represented.respond_to?(:project)
+            path_attributes << represented.project
+          end
+
+          if represented.respond_to?(:user)
+            path_attributes << represented.user
+          end
+
+          path_attributes.compact
         end
       end
     end

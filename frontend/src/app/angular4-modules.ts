@@ -79,6 +79,7 @@ import {OpenprojectWorkPackageRoutesModule} from "core-app/modules/work_packages
 import {BrowserModule} from "@angular/platform-browser";
 import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
 import {FullCalendarModule} from "ng-fullcalendar";
+import {OpenprojectBoardsModule} from "core-app/modules/boards/openproject-boards.module";
 import {OpenprojectGlobalSearchModule} from "core-app/modules/global_search/openproject-global-search.module";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
 
@@ -92,6 +93,8 @@ import {DeviceService} from "core-app/modules/common/browser/device.service";
     OpenprojectRouterModule,
     // Hal Module
     OpenprojectHalModule,
+    // Boards module
+    OpenprojectBoardsModule,
 
     // CKEditor
     OpenprojectEditorModule,

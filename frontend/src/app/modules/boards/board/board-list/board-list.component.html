@@ -1,0 +1,36 @@
+<div #loadingIndicator
+     [attr.data-query-name]="listName"
+     class="board-list--container loading-indicator--location">
+  <ng-container *ngIf="query">
+
+    <div class="board-list--header">
+      <editable-toolbar-title [title]="query.name"
+                              [inFlight]="inFlight"
+                              (onSave)="renameQuery(query, $event)"
+                              [editable]="!!query.updateImmediately">
+      </editable-toolbar-title>
+      <div class="board-list--delete-icon">
+        <accessible-by-keyboard *ngIf="!!query.delete"
+                                linkClass="-no-decoration"
+                                (execute)="deleteList(query)">
+          <op-icon icon-classes="button--icon icon-delete icon-no-color"></op-icon>
+        </accessible-by-keyboard>
+      </div>
+    </div>
+
+    <div class="board-list--query-container">
+      <wp-embedded-table *ngIf="boardTableConfiguration.isEmbedded && !boardTableConfiguration.isCardView"
+                         [queryId]="query.id"
+                         [loadedQuery]="query"
+                         [queryProps]="columnsQueryProps"
+                         [configuration]="boardTableConfiguration">
+      </wp-embedded-table>
+
+      <wp-card-view *ngIf="boardTableConfiguration.isCardView"
+                    [loadedQuery]="query"
+                    [queryId]="query.id"
+                    [configuration]="boardTableConfiguration"
+                    [queryProps]="columnsQueryProps"></wp-card-view>
+    </div>
+  </ng-container>
+</div>

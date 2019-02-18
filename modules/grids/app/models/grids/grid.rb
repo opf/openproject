@@ -32,16 +32,14 @@ module Grids
   class Grid < ActiveRecord::Base
     self.table_name = :grids
 
+    serialize :options, Hash
+
     has_many :widgets,
              class_name: 'Widget',
              autosave: true
 
-    def self.new_default(_user)
-      new(
-        row_count: 4,
-        column_count: 5,
-        widgets: []
-      )
+    def user_deletable?
+      false
     end
   end
 end

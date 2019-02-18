@@ -28,6 +28,7 @@
 
 import {Injectable} from '@angular/core';
 import {ConfigurationDmService} from 'core-app/modules/hal/dm-services/configuration-dm.service';
+import {take} from "rxjs/operators";
 
 export const DEFAULT_PAGINATION_OPTIONS = {
   maxVisiblePageOptions: 6,
@@ -113,7 +114,10 @@ export class PaginationService {
   }
 
   public loadPaginationOptions() {
-    return this.ConfigurationDm.load().then((configuration:any) => {
+    return this.ConfigurationDm
+      .load()
+      .toPromise()
+      .then((configuration:any) => {
       this.setPerPageOptions(configuration.perPageOptions);
       return this.paginationOptions;
     });

@@ -54,8 +54,14 @@ export class WorkPackageTableConfiguration {
   /** Whether the hierarchy toggler item in the subject column is enabled */
   public hierarchyToggleEnabled:boolean = true;
 
+  /** Whether this table supports drag and drop */
+  public dragAndDropEnabled:boolean = false;
+
   /** Whether this table is in an embedded context*/
   public isEmbedded:boolean = false;
+
+  /** Whether the work packages shall be shown in cards instead of a table */
+  public isCardView:boolean = false;
 
   /** Whether this table provides a UI for filters*/
   public withFilters:boolean = false;

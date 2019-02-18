@@ -87,8 +87,20 @@ module Components
         expect(page).to have_selector("#{selector} .tab-show.-disabled", text: name)
       end
 
+      def selected_tab(name)
+        page.find("#{selector} .tab-show.selected", text: name)
+        page.find("#{selector} .tab-content[data-tab-name='#{name}']")
+      end
+
       def switch_to(target)
-        find("#{selector} .tab-show", text: target).click
+        # Switching too fast may result in the click handler not yet firing
+        # so wait a bit initially
+        sleep 1
+
+        retry_block do
+          find("#{selector} .tab-show", text: target, wait: 10).click
+          selected_tab(target)
+        end
       end
 
       def selector

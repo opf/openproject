@@ -189,6 +189,10 @@
 .icon-small:before
   @include icon-small-rules
 
+// used for non-linked color icons
+.icon-no-color
+  @include varprop(color, body-font-color)
+
 
 #errorExplanation:before
   @include icon-common

@@ -33,6 +33,7 @@ require_relative './shared_examples'
 
 describe Grids::CreateContract do
   include_context 'grid contract'
+  include_context 'model contract'
 
   it_behaves_like 'shared grid contract attributes'
 
@@ -44,18 +45,15 @@ describe Grids::CreateContract do
   end
 
   describe 'user_id' do
-    let(:grid) do
-      FactoryBot.build_stubbed(:grid, default_values)
-    end
+    let(:grid) { FactoryBot.build_stubbed(:grid, default_values) }
+
     it_behaves_like 'is not writable' do
       let(:attribute) { :user_id }
       let(:value) { 5 }
     end
 
     context 'for a Grids::MyPage' do
-      let(:grid) do
-        FactoryBot.build_stubbed(:my_page, default_values)
-      end
+      let(:grid) { FactoryBot.build_stubbed(:my_page, default_values) }
 
       it_behaves_like 'is writable' do
         let(:attribute) { :user_id }
@@ -64,14 +62,40 @@ describe Grids::CreateContract do
     end
   end
 
-  describe '#assignable_values' do
-    context 'for page' do
-      it 'returns the array of supported pages' do
-        expect(instance.assignable_values(:page, user))
-          .to match_array [OpenProject::StaticRouting::StaticUrlHelpers.new.my_page_path]
-      end
+  describe 'project_id' do
+    let(:grid) { FactoryBot.build_stubbed(:grid, default_values) }
 
-      it 'returns the nil for something else' do
+    it_behaves_like 'is not writable' do
+      let(:attribute) { :project_id }
+      let(:value) { 5 }
+    end
+
+    context 'for a Grids::MyPage' do
+      let(:grid) { FactoryBot.build_stubbed(:my_page, default_values) }
+
+      it_behaves_like 'is not writable' do
+        let(:attribute) { :project_id }
+        let(:value) { 5 }
+      end
+    end
+  end
+
+  describe '#assignable_values' do
+    context 'for scope' do
+      it 'calls the grid configuration for the available values' do
+        scopes = double('scopes')
+
+        allow(Grids::Configuration)
+          .to receive(:all_scopes)
+          .and_return(scopes)
+
+        expect(instance.assignable_values(:scope, user))
+          .to eql scopes
+      end
+    end
+
+    context 'for something else' do
+      it 'returns nil' do
         expect(instance.assignable_values(:something, user))
           .to be_nil
       end

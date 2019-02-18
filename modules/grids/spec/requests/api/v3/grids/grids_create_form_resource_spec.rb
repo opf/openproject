@@ -68,7 +68,7 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
 
       expect(subject.body)
         .to be_json_eql(my_page_path.to_json)
-        .at_path('_embedded/schema/page/_links/allowedValues/0/href')
+        .at_path('_embedded/schema/scope/_links/allowedValues/0/href')
     end
 
     it 'contains default data in the payload' do
@@ -76,6 +76,7 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
         "rowCount": 4,
         "columnCount": 5,
         "widgets": [],
+        "options": {},
         "_links": {}
       }
 
@@ -84,10 +85,10 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
         .at_path('_embedded/payload')
     end
 
-    it 'has a validation error on page' do
+    it 'has a validation error on scope' do
       expect(subject.body)
-        .to be_json_eql("Page is not set to one of the allowed values.".to_json)
-        .at_path('_embedded/validationErrors/page/message')
+        .to be_json_eql("Scope is not set to one of the allowed values.".to_json)
+        .at_path('_embedded/validationErrors/scope/message')
     end
 
     it 'does not have a commit link' do
@@ -95,11 +96,11 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
         .not_to have_json_path('_links/commit')
     end
 
-    context 'with /my/page for the page value' do
+    context 'with /my/page for the scope value' do
       let(:params) do
         {
           '_links': {
-            'page': {
+            'scope': {
               'href': my_page_path
             }
           }
@@ -110,10 +111,12 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
         expected = {
           "rowCount": 7,
           "columnCount": 4,
+          "options": {},
           "widgets": [
             {
               "_type": "GridWidget",
               identifier: 'work_packages_assigned',
+              "options": {},
               startRow: 1,
               endRow: 7,
               startColumn: 1,
@@ -122,6 +125,7 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
             {
               "_type": "GridWidget",
               identifier: 'work_packages_created',
+              "options": {},
               startRow: 1,
               endRow: 7,
               startColumn: 3,
@@ -129,7 +133,7 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
             }
           ],
           "_links": {
-            "page": {
+            "scope": {
               "href": "/my/page",
               "type": "text/html"
             }
@@ -158,7 +162,7 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
       let(:params) do
         {
           '_links': {
-            'page': {
+            'scope': {
               'href': my_page_path
             }
           },
@@ -179,6 +183,46 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
         expect(subject.body)
           .to be_json_eql("Widgets is not set to one of the allowed values.".to_json)
           .at_path('_embedded/validationErrors/widgets/message')
+      end
+    end
+
+    context 'with name set' do
+      let(:params) do
+        {
+          name: 'My custom grid 1',
+          '_links': {
+            'scope': {
+              'href': my_page_path
+            }
+          }
+        }
+      end
+
+      it 'feeds it back' do
+        expect(subject.body)
+          .to be_json_eql("My custom grid 1".to_json)
+          .at_path('_embedded/payload/name')
+      end
+    end
+
+    context 'with options set' do
+      let(:params) do
+        {
+          options: {
+            foo: 'bar'
+          },
+          '_links': {
+            'scope': {
+              'href': my_page_path
+            }
+          }
+        }
+      end
+
+      it 'feeds them back' do
+        expect(subject.body)
+          .to be_json_eql("bar".to_json)
+          .at_path('_embedded/payload/options/foo')
       end
     end
   end

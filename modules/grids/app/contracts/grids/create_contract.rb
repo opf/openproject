@@ -33,21 +33,24 @@ require 'grids/base_contract'
 module Grids
   class CreateContract < BaseContract
     attribute :user_id,
-              writeable: -> { model.class.reflect_on_association(:user) }
+              writeable: -> { !!model.class.reflect_on_association(:user) }
+
+    attribute :project_id,
+              writeable: -> { !!model.class.reflect_on_association(:project) }
 
     attribute :type
 
     def assignable_values(column, _user)
       case column
-      when :page
-        Grids::Configuration.registered_pages
+      when :scope
+        Grids::Configuration.all_scopes
       else
         super
       end
     end
 
     def writable?(attribute)
-      attribute == :page || super
+      attribute == :scope || super
     end
   end
 end

@@ -142,7 +142,7 @@ AvatarHelper.class_eval do
     content_tag 'user-avatar',
                 '',
                 'data-class-list': tag_options[:class],
-                'data-user-id': user.id.to_s,
+                'data-user-name': user.name,
                 'data-use-fallback': 'true'
   end
 

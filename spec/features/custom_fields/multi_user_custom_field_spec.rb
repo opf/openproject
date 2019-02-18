@@ -1,5 +1,5 @@
 require "spec_helper"
-require "support/pages/abstract_work_package"
+require "support/pages/work_packages/abstract_work_package"
 
 describe "multi select custom values", js: true do
   let(:type) { FactoryBot.create :type }

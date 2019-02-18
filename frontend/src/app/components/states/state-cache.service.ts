@@ -28,6 +28,7 @@
 
 import {InputState, MultiInputState, State} from 'reactivestates';
 import {Observable} from "rxjs";
+import {auditTime, debounceTime, map, startWith, throttleTime} from "rxjs/operators";
 
 export abstract class StateCacheService<T> {
   private cacheDurationInMs:number;
@@ -66,6 +67,28 @@ export abstract class StateCacheService<T> {
   }
 
   /**
+   * Observe the entire set of loaded results
+   */
+  public observeAll():Observable<T[]> {
+    return this.multiState
+      .observeChange()
+      .pipe(
+        startWith([]),
+        auditTime(250),
+        map(() => {
+          let mapped:T[] = [];
+          _.each(this.multiState.getValueOr({}), (state:State<T>) => {
+            if (state.value) {
+              mapped.push(state.value);
+            }
+          });
+
+          return mapped;
+        })
+      );
+  }
+
+  /**
    * Clear a set of cached states.
    * @param ids
    */
@@ -90,6 +113,27 @@ export abstract class StateCacheService<T> {
     }
 
     return state.valuesPromise() as Promise<T>;
+  }
+
+  /**
+   * Require the value to be loaded either when forced or the value is stale
+   * according to the cache interval specified for this service.
+   *
+   * Returns an observable to the values stream of the state.
+   *
+   * @param id The value's identifier.
+   * @param force Load the value anyway.
+   */
+  public requireAndStream(id:string, force:boolean = false):Observable<T> {
+    const state = this.multiState.get(id);
+
+    // Refresh when stale or being forced
+    if (this.stale(state) || force) {
+      state.clear();
+      state.putFromPromiseIfPristine(() => this.load(id));
+    }
+
+    return state.values$();
   }
 
   /**

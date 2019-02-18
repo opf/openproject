@@ -44,7 +44,6 @@ export class PathHelperService {
   public get staticBase() {
     return this.appBasePath;
   }
-
   public attachmentDownloadPath(attachmentIdentifier:string, slug:string|undefined) {
     let path = this.staticBase + '/attachments/' + attachmentIdentifier;
 
@@ -59,8 +58,8 @@ export class PathHelperService {
     return this.staticBase + '/highlighting/styles';
   }
 
-  public boardPath(projectIdentifier:string, boardIdentifier:string) {
-    return this.projectBoardsPath(projectIdentifier) + '/' + boardIdentifier;
+  public forumPath(projectIdentifier:string, forumIdentifier:string) {
+    return this.projectForumPath(projectIdentifier) + '/' + forumIdentifier;
   }
 
   public keyboardShortcutsHelpPath() {
@@ -91,7 +90,7 @@ export class PathHelperService {
     return this.projectPath(projectIdentifier) + '/activity';
   }
 
-  public projectBoardsPath(projectIdentifier:string) {
+  public projectForumPath(projectIdentifier:string) {
     return this.projectPath(projectIdentifier) + '/boards';
   }
 
@@ -125,6 +124,14 @@ export class PathHelperService {
 
   public projectWorkPackageNewPath(projectId:string) {
     return this.projectWorkPackagesPath(projectId) + '/new';
+  }
+
+  public projectBoardsPath(projectIdentifier:string | null) {
+    if (projectIdentifier) {
+      return this.projectWorkPackagesPath(projectIdentifier) + '/boards';
+    } else {
+      return this.workPackagesPath() + '/boards';
+    }
   }
 
   public timeEntriesPath(workPackageId:string|number) {
@@ -184,4 +191,5 @@ export class PathHelperService {
   public textFormattingHelp() {
     return this.staticBase + '/help/text_formatting';
   }
+
 }

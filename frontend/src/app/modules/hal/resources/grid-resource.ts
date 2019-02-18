@@ -28,9 +28,22 @@
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
+import {
+  WorkPackageBaseResource,
+  WorkPackageResourceEmbedded,
+  WorkPackageResourceLinks
+} from "core-app/modules/hal/resources/work-package-resource";
+
+export interface GridResourceLinks {
+  update(payload:unknown):Promise<unknown>;
+  updateImmediately(payload:unknown):Promise<unknown>;
+  delete():Promise<unknown>;
+}
 
 export class GridResource extends HalResource {
   public widgets:GridWidgetResource[];
+  public name:string;
+  public options:{[key:string]:unknown};
 
   public $initialize(source:any) {
     super.$initialize(source);
@@ -46,4 +59,7 @@ export class GridResource extends HalResource {
         )
       );
   }
+}
+
+export interface GridResource extends Partial<GridResourceLinks> {
 }
