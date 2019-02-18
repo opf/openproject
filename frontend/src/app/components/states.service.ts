@@ -49,9 +49,6 @@ export class States extends StatesGroup {
   // Global events to isolated changes
   changes = new GlobalStateChanges();
 
-  // Current focused work package (e.g, row preselected for details button)
-  focusedWorkPackage:InputState<WPFocusState> = input<WPFocusState>();
-
   forResource(resource:HalResource):InputState<HalResource> {
     let stateName = _.camelCase(resource._type) + 's';
 

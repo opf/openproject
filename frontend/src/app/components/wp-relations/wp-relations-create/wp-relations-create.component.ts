@@ -5,6 +5,7 @@ import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.serv
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {Component, ElementRef, Inject, Input, ViewChild} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 
 @Component({
   selector: 'wp-relations-create',
@@ -31,6 +32,7 @@ export class WorkPackageRelationsCreateComponent {
   constructor(readonly I18n:I18nService,
               protected wpRelations:WorkPackageRelationsService,
               protected wpNotificationsService:WorkPackageNotificationService,
+              protected wpTableRefresh:WorkPackageTableRefreshService,
               protected wpCacheService:WorkPackageCacheService) {
   }
 
@@ -56,6 +58,7 @@ export class WorkPackageRelationsCreateComponent {
       this.selectedRelationType,
       this.selectedWpId)
       .then(relation => {
+        this.wpTableRefresh.request(`Added relation ${relation.id}`, true);
         this.wpNotificationsService.showSave(this.workPackage);
         this.toggleRelationsCreateForm();
       })

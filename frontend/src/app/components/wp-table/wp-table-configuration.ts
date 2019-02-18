@@ -33,6 +33,9 @@ export class WorkPackageTableConfiguration {
   /** Render the table results, set to false when only wanting the table initialization */
   public tableVisible:boolean = true;
 
+  /** Render the table as compact style */
+  public compactTableStyle:boolean = false;
+
   /** Render the action column (last column) with the actions defined in the TableActionsService */
   public actionsColumnEnabled:boolean = true;
 
@@ -75,7 +78,7 @@ export class WorkPackageTableConfiguration {
   /** Whether this table provides a UI for filters*/
   public filterButtonText:string = I18n.t("js.button_filter");
 
-  constructor(private providedConfig:WorkPackageTableConfigurationObject) {
+  constructor(providedConfig:WorkPackageTableConfigurationObject) {
     _.each(providedConfig, (value, k) => {
       let key = (k as keyof WorkPackageTableConfiguration);
       this[key] = value as any;

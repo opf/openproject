@@ -155,6 +155,7 @@ import {QueryFiltersService} from "core-components/wp-query/query-filters.servic
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
+import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 
 @NgModule({
   imports: [
@@ -201,6 +202,7 @@ import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-packag
     WorkPackageDmService,
 
     WorkPackagesActivityService,
+    WorkPackageRelationsService,
     WorkPackageWatchersService,
 
     QueryFormDmService,
@@ -437,6 +439,7 @@ import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-packag
     WorkPackagesTableController,
     WorkPackageTablePaginationComponent,
     WorkPackageEmbeddedTableComponent,
+    WorkPackageEmbeddedTableEntryComponent,
     WorkPackageCardViewComponent,
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,

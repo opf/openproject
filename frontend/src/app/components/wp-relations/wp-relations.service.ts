@@ -29,7 +29,6 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
 
   /*@ngInject*/
   constructor(private relationsDm:RelationsDmService,
-              private wpTableRefresh:WorkPackageTableRefreshService,
               private PathHelper:PathHelperService,
               private halResource:HalResourceService) {
     super();
@@ -95,10 +94,6 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   public removeRelation(relation:RelationResource) {
     return relation.delete().then(() => {
       this.removeFromStates(relation);
-      this.wpTableRefresh.request(
-        `Removing relation (${relation.ids.from} to ${relation.ids.to})`,
-        true
-      );
     });
   }
 
@@ -121,10 +116,6 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     return relation.updateImmediately(params)
       .then((savedRelation:RelationResource) => {
         this.insertIntoStates(savedRelation);
-        this.wpTableRefresh.request(
-          `Updating relation (${relation.ids.from} to ${relation.ids.to})`,
-          true
-        );
         return savedRelation;
       });
   }
@@ -145,10 +136,6 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       .toPromise()
       .then((relation:RelationResource) => {
       this.insertIntoStates(relation);
-      this.wpTableRefresh.request(
-        `Adding relation (${relation.ids.from} to ${relation.ids.to})`,
-        true
-      );
       return relation;
     });
   }

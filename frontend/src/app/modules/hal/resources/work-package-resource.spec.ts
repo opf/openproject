@@ -45,6 +45,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {StateService} from "@uirouter/core";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
+import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;

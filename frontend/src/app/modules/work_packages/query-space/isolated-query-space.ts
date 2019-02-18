@@ -22,6 +22,7 @@ import {
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
+import {WPFocusState} from "core-components/wp-fast-table/state/wp-table-focus.service";
 
 @Injectable()
 export class IsolatedQuerySpace extends StatesGroup {
@@ -71,6 +72,9 @@ export class IsolatedQuerySpace extends StatesGroup {
   renderedWorkPackages:State<RenderedRow[]> = derive(this.rendered, $ => $.pipe(
     map(rows => rows.filter(row => !!row.workPackageId)))
   );
+
+  // Current focused work package (e.g, row preselected for details button)
+  focusedWorkPackage:InputState<WPFocusState> = input<WPFocusState>();
 
   // State to determine timeline visibility
   timeline = input<WorkPackageTableTimelineState>();

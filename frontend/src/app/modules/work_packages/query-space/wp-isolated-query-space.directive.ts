@@ -46,13 +46,11 @@ import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.s
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
-import {WpTableConfigurationService} from "core-components/wp-table/configuration-modal/wp-table-configuration.service";
 import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {WorkPackageService} from "core-components/work-packages/work-package.service";
-import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
 import {WorkPackageContextMenuHelperService} from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
@@ -91,7 +89,6 @@ import {debugLog} from "core-app/helpers/debug_output";
     WorkPackageTableTimelineService,
     WorkPackageTableSelection,
     WorkPackageTableSumService,
-    WorkPackageRelationsService,
     WorkPackageTableAdditionalElementsService,
     WorkPackageTableFocusService,
     WorkPackageTableHighlightingService,
@@ -117,6 +114,7 @@ import {debugLog} from "core-app/helpers/debug_output";
 export class WorkPackageIsolatedQuerySpaceDirective {
 
   constructor(private elementRef:ElementRef,
+              private querySpace:IsolatedQuerySpace,
               private injector:Injector) {
     debugLog("Opening isolated query space %O in %O", injector, elementRef.nativeElement);
   }
@@ -128,7 +126,7 @@ export class WorkPackageIsolatedQuerySpaceDirective {
    *
    * @param handler
    */
-  public runInSpace(callback:(injector:Readonly<Injector>) => void) {
-    callback(this.injector);
+  public runInSpace<T>(callback:(injector:Readonly<Injector>, querySpace:Readonly<IsolatedQuerySpace>) => T):T {
+    return callback(this.injector, this.querySpace);
   }
 }

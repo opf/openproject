@@ -31,37 +31,24 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener, Injector,
-  OnDestroy, OnInit,
+  OnDestroy,
+  OnInit,
   Renderer2,
   ViewChild
 } from '@angular/core';
-import {ContainHelpers} from 'app/modules/common/focus/contain-helpers';
 import {FocusHelperService} from 'app/modules/common/focus/focus-helper';
 import {I18nService} from 'app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
-import {PathHelperService} from "app/modules/common/path-helper/path-helper.service";
 import {HalResourceService} from "app/modules/hal/services/hal-resource.service";
-import {WorkPackageResource} from "app/modules/hal/resources/work-package-resource";
-import {CollectionResource} from "app/modules/hal/resources/collection-resource";
-import {DynamicCssService} from "app/modules/common/dynamic-css/dynamic-css.service";
 import {GlobalSearchService} from "app/modules/global_search/global-search.service";
-import {debounceTime, distinctUntilChanged} from "rxjs/operators";
-import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {CurrentProjectService} from "app/components/projects/current-project.service";
-import {GlobalSearchInputComponent} from "app/modules/global_search/global-search-input.component";
-import {Subscription} from "rxjs";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageTableFilters} from "app/components/wp-fast-table/wp-table-filters";
-import {WorkPackageTableFiltersService} from "app/components/wp-fast-table/state/wp-table-filters.service";
-import {QueryFiltersComponent} from "app/components/filters/query-filters/query-filters.component";
-import {WorkPackageEmbeddedTableComponent} from "app/components/wp-table/embedded/wp-embedded-table.component";
 import {QueryResource} from "app/modules/hal/resources/query-resource";
-import {QueryFormResource} from "app/modules/hal/resources/query-form-resource";
-import {QueryFormDmService} from "app/modules/hal/dm-services/query-form-dm.service";
 import {WorkPackageFiltersService} from "app/components/filters/wp-filters/wp-filters.service";
 import {UrlParamsHelperService} from "app/components/wp-query/url-params-helper";
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
 import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
+import {cloneHalResource} from "core-app/modules/hal/helpers/hal-resource-builder";
 
 export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 
@@ -80,8 +67,6 @@ export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 
 export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(WorkPackageIsolatedQuerySpaceDirective) isolatedQueryDirective:WorkPackageIsolatedQuerySpaceDirective;
-
-  private query:QueryResource;
 
   public filters:WorkPackageTableFilters;
   public queryProps:{ [key:string]:any };
@@ -145,8 +130,9 @@ export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, Aft
 
   public onFiltersChanged(filters:WorkPackageTableFilters) {
     if (filters.isComplete()) {
-      this.query.filters = filters.current;
-      this.queryProps = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(this.query);
+      const query = this.isolatedQueryDirective.runInSpace((i, querySpace) => cloneHalResource(querySpace.query.value!)) as QueryResource;
+      query.filters = filters.current;
+      this.queryProps = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query);
     }
   }
 

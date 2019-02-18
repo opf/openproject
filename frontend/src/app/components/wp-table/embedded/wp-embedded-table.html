@@ -1,6 +1,6 @@
 <div class="work-packages-embedded-view--container loading-indicator--location"
      [ngClass]="{ '-hierarchy-disabled': !configuration.hierarchyToggleEnabled,
-                  '-compact-tables': compactTableStyle,
+                  '-compact-tables': configuration.compactTableStyle,
                   '-external-height': externalHeight }"
      [attr.data-indicator-name]="uniqueEmbeddedTableName">
 

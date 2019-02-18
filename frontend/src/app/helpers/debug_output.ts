@@ -14,8 +14,8 @@ export function whenDebugging(cb:Function) {
  * Log with console.log when DEBUG is defined
  * through webpack.
  */
-export function debugLog(...args:any[]) {
-  whenDebugging(() => console.log('[DEBUG] ', args.join('-- ')));
+export function debugLog(message:string, ...args:any[]) {
+  whenDebugging(() => console.log(`[DEBUG] ${message}`, ...args));
 }
 
 export function timeOutput(msg:string, cb:() => void):any {

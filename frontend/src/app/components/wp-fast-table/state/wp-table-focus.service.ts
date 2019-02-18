@@ -32,7 +32,6 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {InputState} from 'reactivestates';
 import {Observable} from 'rxjs';
 import {distinctUntilChanged, filter, map} from 'rxjs/operators';
-import {States} from '../../states.service';
 
 export interface WPFocusState {
   workPackageId:string;
@@ -44,10 +43,9 @@ export class WorkPackageTableFocusService {
 
   public state:InputState<WPFocusState>;
 
-  constructor(public states:States,
-              public querySpace:IsolatedQuerySpace,
+  constructor(public querySpace:IsolatedQuerySpace,
               public wpTableSelection:WorkPackageTableSelection) {
-    this.state = states.focusedWorkPackage;
+    this.state = querySpace.focusedWorkPackage;
     this.observeToUpdateFocused();
   }
 
