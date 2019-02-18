@@ -463,6 +463,7 @@ ko:
         too_long: 은(는) 너무 깁니다 (최대 %{count}자까지 가능합니다)
         too_short: 은(는) 너무 짧습니다. (최소 %{count} 자 이상이어야 합니다)
         unchangeable: "- 변경할 수 없습니다."
+        unremovable: cannot be removed.
         wrong_length: 너무 짧습니다 (최소 %{count} 자 이상이어야 합니다).
       models:
         custom_field:
@@ -1582,6 +1583,7 @@ ko:
   label_view_diff: 차이점 보기
   label_view_revisions: 수정 보기
   label_watched_work_packages: 주시하는 작업 패키지
+  label_what_is_this: What is this?
   label_week: 주
   label_wiki_content_added: 위키 페이지 추가됨
   label_wiki_content_updated: 위키 페이지 업데이트됨
@@ -2126,6 +2128,7 @@ ko:
   setting_per_page_options: 페이지당 개체 옵션
   setting_plain_text_mail: 일반 텍스트 메일(HTML 없음)
   setting_protocol: 프로토콜
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: 등록 꼬리말
   setting_repositories_automatic_managed_vendor: 자동 리포지토리 공급업체 유형
   setting_repositories_encodings: 리포지토리 인코딩
@@ -2275,6 +2278,16 @@ ko:
   text_no_notes: 이 작업 패키지에 사용할 수 있는 코멘트가 없습니다.
   text_notice_too_many_values_are_inperformant: '참고: 페이지당 100개가 넘는 항목을 표시하면 페이지 로드
     시간이 늘어날 수 있습니다.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     권한의 일부 또는 전부를 삭제하려고 합니다. 이렇게 한 후에는 이 프로젝트를 더 이상 편집하지 못할 수 있습니다.
     계속하시겠습니까?

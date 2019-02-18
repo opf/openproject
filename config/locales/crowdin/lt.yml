@@ -501,6 +501,7 @@ lt:
         too_long: yra per ilgas (daugiausiai galima %{count} simbolių).
         too_short: yra per trumpas (mažiausiai %{count} simbolių).
         unchangeable: cannot be changed.
+        unremovable: cannot be removed.
         wrong_length: yra neteisingo ilgio (turi būti %{count} simbolių).
       models:
         custom_field:
@@ -1666,6 +1667,7 @@ lt:
   label_view_diff: Peržiūrėti skirtumus
   label_view_revisions: Peržiūrėti revizijas
   label_watched_work_packages: Stebėti darbų paketus
+  label_what_is_this: What is this?
   label_week: Savaitė
   label_wiki_content_added: Wiki puslapis pridėtas
   label_wiki_content_updated: Wiki puslapis atnaujintas
@@ -2284,6 +2286,7 @@ lt:
   setting_per_page_options: Įrašų puslapyje nustatymai
   setting_plain_text_mail: Tik tekstas laiške (be HTML)
   setting_protocol: Protokolas
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registracijos poraštė
   setting_repositories_automatic_managed_vendor: Automatinis repozitorijos tiekėjo
     tipas
@@ -2456,6 +2459,16 @@ lt:
   text_no_notes: Šis darbų paketas neturi komentarų.
   text_notice_too_many_values_are_inperformant: 'Pastaba: Rodant daugiau nei 100 įrašų
     puslapyje gali prailginti puslapio įkėlimo laiką.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Jūs ketinate pašalinti keletą ar visus leidimus ir gali būti, kad nebegalėsite redaguoti šio projekto po to.
     Ar jūs tikrai norite tęsti?

@@ -497,6 +497,7 @@ id:
         too_long: panjang karakter maksimal %{count}.
         too_short: minimal %{count} karakter.
         unchangeable: cannot be changed.
+        unremovable: cannot be removed.
         wrong_length: panjang tidak sesuai (harus %{count} karakter).
       models:
         custom_field:
@@ -1626,6 +1627,7 @@ id:
   label_view_diff: Lihat perbedaan
   label_view_revisions: Lihat revisi
   label_watched_work_packages: Paket-Penugasan yang telah diakses
+  label_what_is_this: What is this?
   label_week: Minggu
   label_wiki_content_added: Halaman Wiki ditambahkan
   label_wiki_content_updated: Halaman Wiki diupdate
@@ -2208,6 +2210,7 @@ id:
   setting_per_page_options: Opsi objek per halaman
   setting_plain_text_mail: Teks (no HTML)
   setting_protocol: Protocol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Footer pendaftaran
   setting_repositories_automatic_managed_vendor: Automatic repository vendor type
   setting_repositories_encodings: Encoding repositori
@@ -2379,6 +2382,16 @@ id:
   text_no_notes: There are no comments available for this work package.
   text_notice_too_many_values_are_inperformant: 'Catatan: Menampilkan lebih dari 100
     item per halaman dapat meningkatkan delay waktu membuka halaman.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: Anda akan menghapus hak akses Anda dan
     mungkin Anda tidak dapat lagi mengedit Project ini. Apakah Anda yakin Anda ingin
     melanjutkan?

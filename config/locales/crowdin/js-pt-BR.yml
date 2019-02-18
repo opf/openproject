@@ -173,7 +173,9 @@ pt-BR:
     label_ascending: Ascendente
     label_author: 'Autor: %{user}'
     label_between: entre
+    label_board: Board
     label_board_locked: Bloqueado
+    label_board_plural: Boards
     label_board_sticky: Afixado
     label_create_work_package: Criar novo pacote de trabalho
     label_created_by: Criado por
@@ -297,6 +299,7 @@ pt-BR:
     label_upload_notification: Enviando arquivos...
     label_work_package_upload_notification: 'Enviando arquivos para o pacote de trabalho
       #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Estes arquivos serão enviados:'
     label_rejected_files: 'Estes arquivos não podem ser enviados:'
     label_rejected_files_reason: Estes arquivos não podem ser enviados, pois seu tamanho
@@ -813,6 +816,7 @@ pt-BR:
           pacotes de trabalho listados serão removidos recursivamente.
         deletes_children: Todos os pacotes de trabalho filhos e seus descendentes
           também serão excluídos recursivamente.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Criado com sucesso.
     notice_successful_delete: Excluído com sucesso.
     notice_successful_update: Atualizado com sucesso.

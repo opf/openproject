@@ -159,7 +159,9 @@ zh-TW:
     label_ascending: 昇冪
     label_author: '作者: %{user}'
     label_between: 介於
+    label_board: Board
     label_board_locked: 鎖定
+    label_board_plural: Boards
     label_board_sticky: 附著
     label_create_work_package: 建立新的工作項目
     label_created_by: 建立由
@@ -278,6 +280,7 @@ zh-TW:
     label_add_description: 添加 %{file} 的說明
     label_upload_notification: 上傳檔案中...
     label_work_package_upload_notification: '上傳檔案到工作包 #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: '將上傳這些檔案:'
     label_rejected_files: '不能上傳這些檔案:'
     label_rejected_files_reason: 這些檔案不能上傳，因為它們的大小大於 %{maximumFilesize}
@@ -730,6 +733,7 @@ zh-TW:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: 建立成功
     notice_successful_delete: 刪除成功
     notice_successful_update: 更新成功

@@ -169,7 +169,9 @@ ca:
     label_ascending: Ascendent
     label_author: 'Autor: %{user}'
     label_between: between
+    label_board: Board
     label_board_locked: Bloquejat
+    label_board_plural: Boards
     label_board_sticky: Fixa't
     label_create_work_package: Crear paquet de treball nou
     label_created_by: Created by
@@ -293,6 +295,7 @@ ca:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Pujada d''arxius per al paquet de treball
       #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Es pujaran aquests fitxers:'
     label_rejected_files: 'Aquests arxius no es poden pujar:'
     label_rejected_files_reason: Aquests arxius no es poden carregar perquè la seva
@@ -808,6 +811,7 @@ ca:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Creat correctament.
     notice_successful_delete: Esborrat correctament.
     notice_successful_update: S'ha modificat correctament.

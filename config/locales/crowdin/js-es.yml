@@ -173,7 +173,9 @@ es:
     label_ascending: Ascendente
     label_author: 'Autor: %{user}'
     label_between: entre
+    label_board: Board
     label_board_locked: Bloqueado
+    label_board_plural: Boards
     label_board_sticky: Adhesivo
     label_create_work_package: Crear un nuevo paquete de trabajo
     label_created_by: Creado por
@@ -297,6 +299,7 @@ es:
     label_upload_notification: Cargando archivos…
     label_work_package_upload_notification: 'Subiendo archivos para el paquete de
       trabajo #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Estos archivos se cargarán:'
     label_rejected_files: 'Estos archivos no pueden ser cargados:'
     label_rejected_files_reason: Estos archivos no pueden cargarse debido a que su
@@ -821,6 +824,7 @@ es:
           de trabajo enumerados se eliminarán recursivamente.
         deletes_children: También se eliminarán de forma recursiva todos los paquetes
           de trabajo secundarios y sus descendientes.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Creación exitosa.
     notice_successful_delete: Eliminado con éxito.
     notice_successful_update: Actualización correcta.

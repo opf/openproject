@@ -498,6 +498,7 @@ ar:
         too_long: طويل جداً (الحد الأقصى من الأحرف %{count}).
         too_short: قصيرة جداً (الحد الأدنى هو الأحرف %{count}).
         unchangeable: cannot be changed.
+        unremovable: cannot be removed.
         wrong_length: هو طول خاطئ (يجب أن تكون الأحرف %{count}).
       models:
         custom_field:
@@ -1695,6 +1696,7 @@ ar:
   label_view_diff: عرض الاختلافات
   label_view_revisions: عرض المراجعات
   label_watched_work_packages: مجموعات العمل المراقبة
+  label_what_is_this: What is this?
   label_week: أسبوع
   label_wiki_content_added: تم إضافة صفحة wiki
   label_wiki_content_updated: تم تحديث صفحة wiki
@@ -2293,6 +2295,7 @@ ar:
   setting_per_page_options: الكائنات لكل خيارات الصفحة
   setting_plain_text_mail: بريد النص العادي (لا إتش تي أم ال)
   setting_protocol: البروتوكول Protocol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: نوع المورد مستودع التلقائي
   setting_repositories_encodings: ترميزات مستودعات
@@ -2458,6 +2461,16 @@ ar:
   text_no_notes: لا تتوفر أية تعليقات متاحة لمجموعة العمل هذه.
   text_notice_too_many_values_are_inperformant: 'ملاحظة: عرض أكثر من 100 عنصر في الصفحة
     الواحدة يمكن أن يزيد وقت تحميل الصفحة.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: أنت على وشك إزالة بعض أو كافة الأذونات
     الخاصة بك، وقد لن تكون قادراً على تحرير هذا المشروع بعد ذلك. هل أنت متأكد من أنك
     تريد المتابعة؟

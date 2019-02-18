@@ -446,6 +446,7 @@ lol:
         too_long: crwdns115312:0%{count}crwdne115312:0
         too_short: crwdns115314:0%{count}crwdne115314:0
         unchangeable: crwdns115316:0crwdne115316:0
+        unremovable: cannot be removed.
         wrong_length: crwdns115318:0%{count}crwdne115318:0
       models:
         custom_field:
@@ -1521,6 +1522,7 @@ lol:
   label_view_diff: crwdns117224:0crwdne117224:0
   label_view_revisions: crwdns117226:0crwdne117226:0
   label_watched_work_packages: crwdns117228:0crwdne117228:0
+  label_what_is_this: What is this?
   label_week: crwdns117230:0crwdne117230:0
   label_wiki_content_added: crwdns117232:0crwdne117232:0
   label_wiki_content_updated: crwdns117234:0crwdne117234:0
@@ -2022,6 +2024,7 @@ lol:
   setting_per_page_options: crwdns118106:0crwdne118106:0
   setting_plain_text_mail: crwdns118108:0crwdne118108:0
   setting_protocol: crwdns118110:0crwdne118110:0
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: crwdns118112:0crwdne118112:0
   setting_repositories_automatic_managed_vendor: crwdns118114:0crwdne118114:0
   setting_repositories_encodings: crwdns118116:0crwdne118116:0
@@ -2156,6 +2159,16 @@ lol:
   text_no_configuration_data: crwdns118336:0crwdne118336:0
   text_no_notes: crwdns118338:0crwdne118338:0
   text_notice_too_many_values_are_inperformant: crwdns118340:0crwdne118340:0
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: crwdns118342:0crwdne118342:0
   text_plugin_assets_writable: crwdns118344:0crwdne118344:0
   text_powered_by: crwdns118346:0%{link}crwdne118346:0

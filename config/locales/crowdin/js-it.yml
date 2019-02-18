@@ -173,7 +173,9 @@ it:
     label_ascending: Crescente
     label_author: 'Autore: %{user}'
     label_between: tra
+    label_board: Board
     label_board_locked: Chiuso
+    label_board_plural: Boards
     label_board_sticky: In evidenza
     label_create_work_package: Crea una nuova macro-attività (work package)
     label_created_by: Creato da
@@ -296,6 +298,7 @@ it:
     label_upload_notification: Caricamento dei file...
     label_work_package_upload_notification: 'Caricamento dei file per la macro-attività
       #%{id}: %{subject} in corso'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Verranno caricati questi files:'
     label_rejected_files: 'Questi file non possono essere caricati:'
     label_rejected_files_reason: Questi file non possono essere caricati perchè la
@@ -820,6 +823,7 @@ it:
           elencate verranno eliminati in modo ricorsivo.
         deletes_children: Tutte le macro-attività ed i relativi discendenti verranno
           eliminati ricorsivamente.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Creato con successo.
     notice_successful_delete: Cancellato con successo.
     notice_successful_update: Aggiornato con successo.

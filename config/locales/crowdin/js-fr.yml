@@ -172,7 +172,9 @@ fr:
     label_ascending: Croissant
     label_author: 'Auteur : %{user}'
     label_between: entre
+    label_board: Board
     label_board_locked: Verrouillé
+    label_board_plural: Boards
     label_board_sticky: Epinglé
     label_create_work_package: Créer un nouveau Lot de Travaux
     label_created_by: Créé par
@@ -297,6 +299,7 @@ fr:
     label_upload_notification: Chargement des fichiers...
     label_work_package_upload_notification: 'Transfert en cours des fichiers pour
       le lot de travaux #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Ces fichiers vont être transférés:'
     label_rejected_files: 'Ces fichiers ne peuvent pas être transférés:'
     label_rejected_files_reason: Ces fichiers ne peuvent pas être transférés car leur
@@ -829,6 +832,7 @@ fr:
           de travaux de la liste seront supprimés récursivement.
         deletes_children: Tous les lots de travaux enfants et leurs descendants seront
           également supprimés récursivement.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Création réussie.
     notice_successful_delete: Suppression réussie.
     notice_successful_update: Mise à jour réussie.
