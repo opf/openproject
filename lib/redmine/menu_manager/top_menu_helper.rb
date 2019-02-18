@@ -64,8 +64,9 @@ module Redmine::MenuManager::TopMenuHelper
     link = link_to url,
                    class: 'login',
                    title: l(:label_login) do
-      concat(t(:label_login))
-      concat('<i class="button--dropdown-indicator"></i>'.html_safe)
+      concat('<span class="button--dropdown-text hidden-for-mobile">'.concat(l(:label_login)).concat('</span>').html_safe)
+      concat('<i class="button--dropdown-indicator hidden-for-mobile"></i>'.html_safe)
+      concat('<i class="icon2 icon-user hidden-for-desktop"></i>'.html_safe)
     end
 
     render_menu_dropdown(link, menu_item_class: 'drop-down last-child') do

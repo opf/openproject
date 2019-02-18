@@ -91,8 +91,8 @@ zh:
       removal: '请注意: 这个模块将与OpenProject 8.0一起移除。'
   global_search:
     overwritten_tabs:
-      wiki_pages: Wiki
-      messages: Forum
+      wiki_pages: 维基
+      messages: 论坛
   groups:
     index:
       no_results_title_text: 目前没有组。
@@ -2539,8 +2539,8 @@ zh:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: 请升级您的浏览器。
+    close_warning: 请忽略这个警告。
   oauth:
     application:
       singular: OAuth application
@@ -2586,7 +2586,7 @@ zh:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: 权限
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2610,15 +2610,3 @@ zh:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: 删除部件
-  label_and_its_subprojects: "%{value} 及其子项目"
-  label_my_page_block: 我的页块
-  label_responsible_for_work_packages: 我负责的工作包
-  label_search_titles_only: 仅搜索标题
-  label_visible_elements: 可见的元素
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
-    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
-    administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'

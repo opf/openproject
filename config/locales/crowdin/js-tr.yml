@@ -216,7 +216,7 @@ tr:
     label_menu_collapse: daralt
     label_menu_expand: genişlet
     label_more_than_ago: günler önce
-    label_my_page: My page
+    label_my_page: Benim sayfam
     label_next: Sonraki
     label_no_data: Görüntülenecek veri yok
     label_no_due_date: bitiş tarihi yok
@@ -401,9 +401,9 @@ tr:
           requires: requiring
           required: tarafından gerekli
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Etkinlik
+      comment: Yorum
+      hours: Saat
     watchers:
       label_loading: takipçiler yükleniyor...
       label_error_loading: Takipçileri yüklerken bir hata oluştu
@@ -764,8 +764,6 @@ tr:
         days: gün
         weeks: hafta
         months: ay
-      label_switch_to_single_select: Tekli seçime geç
-      label_switch_to_multi_select: Çoklu seçime geç
     toolbar:
       settings:
         configure_view: Görünümü yapılandır ...
@@ -850,19 +848,11 @@ tr:
       button_deactivate: Zen modunu devre dışı bırak
     global_search:
       all_projects: In all projects
-      search: Search
+      search: Ara
+      close_search: Close search
       current_project: In this project
       current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    unsupported_browser:
-      title: Tarayıcı sürümü desteklenmiyor
-      message: Kullanmakta olduğunuz tarayıcı sürümü OpenProject tarafından artık
-        desteklenmemektedir. Lütfen tarayıcınızın güncelleştirin.
-      update_message: Lütfen tarayıcınızı güncelleyin.
-      update_ie_user: Lütfen Mozilla Firefox'a veya Google Chrome'a geçiş yapın ya
-        da Microsoft Edge'e yükseltin.
-      learn_more: Daha fazla bilgi edin
-      close_warning: Bu uyarıyı yoksay.

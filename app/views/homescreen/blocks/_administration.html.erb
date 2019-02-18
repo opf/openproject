@@ -47,9 +47,14 @@
     <%= link_to t(:label_custom_style), custom_style_path,
                title: t(:label_custom_style) %>
   </li>
-  <%= content_tag :li do %>
-    <%= content_tag :object, nil, data: security_badge_url, type: "image/svg+xml", style: "vertical-align:top;" %>
-  <% end if Setting.security_badge_displayed? %>
-
   <%= call_hook(:homescreen_administration_links) %>
 </ul>
+
+<%= content_tag :div, class: 'security-badge--container' do %>
+  <%= content_tag :object, nil, data: security_badge_url, type: "image/svg+xml" %>
+  <%= link_to '',
+              ::OpenProject::Static::Links[:security_badge_documentation][:href],
+              title: t(:label_what_is_this),
+              class: 'security-badge--help-icon icon-context icon-help1',
+              target: '_blank' %>
+<% end if display_security_badge_graphic? %>

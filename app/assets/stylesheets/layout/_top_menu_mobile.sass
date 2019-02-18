@@ -26,12 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-@include breakpoint(778px down)
-  .top-menu-search--wrapper
-    display: none
 @include breakpoint(680px down)
   $hamburger-right: -3px
   $hamburger-width: 50px
+  $search-input-height-mobile: 36px
+
   #logo
     background-color: transparent
 
@@ -67,27 +66,63 @@
       .nosidebar &
         left: 0px
 
+  .top-menu-search
+    &.-mobile
+      width: 100vw
+      margin: 0
+      padding-right: 15px
+
+      .top-menu-search--button
+        display: none
+        @include varprop(color, header-item-font-color)
+
+    #global-search-input.-expanded
+      width: calc(100vw - 50px)
+      min-width: unset
+      position: unset
+
+      .scroll-host
+        max-height: calc(100vh - #{$header-height})
+
+      .ng-clear-wrapper
+        width: 40px
+        right: 0
+
+      .ng-select-bottom
+        height: calc(100vh - #{$header-height})
+        overflow-y: auto
+        margin: 0
+
+      .ng-select-container
+        height: $search-input-height-mobile !important
+        border-radius: 4px
+
+      .ng-input input
+        height: 36px
+
+    .top-menu-search--back-button
+      display: initial
+      width: 50px
+      text-align: center
+      @include varprop(color, header-item-font-color)
+      &:hover, &:focus, &:active
+        text-decoration: none
+
+    .top-menu-search--loading
+      top: $header-height + 1px
+
+    .top-menu-search--button.-input-focused
+      @include varprop(color, header-item-font-color)
+
   #account-nav-right
-    > li
-      display: none
+    > li ul
+      top: $header-height-mobile
+      width: 100vw
+      box-shadow: 1px 1px 4px #cccccc
+      border: solid 1px rgba(0, 0, 0, 0.2)
 
-      &.drop-down,
-      &:last-child
-        display: block
-
-      &.last-child
-        > a
-          display: block
-          text-align: center
-
-      > ul
-        top: $header-height-mobile
-        width: 100vw
-        box-shadow: 1px 1px 4px #cccccc
-        border: solid 1px rgba(0, 0, 0, 0.2)
-
-        li
-          max-width: none
+      li
+        max-width: none
 
     #more-menu.drop-down--modules
       // 58 = Width of one menu item
@@ -123,4 +158,3 @@
       border-left: none !important
     .project-menu-autocomplete--results
       border-bottom: 2px solid $header-drop-down-border-color !important
-

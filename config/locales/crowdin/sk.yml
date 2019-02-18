@@ -108,7 +108,7 @@ sk:
   global_search:
     overwritten_tabs:
       wiki_pages: Wiki
-      messages: Forum
+      messages: Diskusia
   groups:
     index:
       no_results_title_text: Momentálne nie sú k dispozícií žiadne skupiny.
@@ -1264,7 +1264,7 @@ sk:
   label_board_locked: Uzamknuté
   label_board_new: Nová diskusia
   label_board_plural: Diskusie
-  label_board_sticky: Sticky
+  label_board_sticky: Dôležité (vždy vyššie)
   label_boolean: Booleovská hodnota (pavda/nepravda)
   label_branch: Vetva
   label_browse: Prechádzať
@@ -2234,7 +2234,7 @@ sk:
   setting_commit_logs_encoding: Commit messages encoding
   setting_commit_logtime_activity_id: Aktivita pre prihlásený čas
   setting_commit_logtime_enabled: Povoliť zaznamenávanie času
-  setting_commit_ref_keywords: Referencing keywords
+  setting_commit_ref_keywords: Odkazovanie na kľúčové slová
   setting_consent_time: Čas súhlasu
   setting_consent_info: Informačný text súhlasu
   setting_consent_required: Vyžadovaný súhlas
@@ -2245,7 +2245,7 @@ sk:
   setting_default_notification_option: Predvolené nastavenie upozornení
   setting_default_projects_modules: Predvolené moduly novovytváraných projektov
   setting_default_projects_public: Nové projekty nastaviť ako verejné
-  setting_diff_max_lines_displayed: Max number of diff lines displayed
+  setting_diff_max_lines_displayed: Maximálny počet rozdielových riadkov na zobrazenie
   setting_display_subprojects_work_packages: Automaticky zobraziť úlohy podprojektu
     v hlavnom projekte
   setting_emails_footer: E-mail päta
@@ -2256,14 +2256,14 @@ sk:
   setting_feeds_limit: Limit obsahu informačných kanálov
   setting_file_max_size_displayed: Maximálna veľkosť textových súborov zobrazených
     priamo na stránke
-  setting_host_name: Host name
+  setting_host_name: Názov serveru (Host name)
   setting_invitation_expiration_days: Platnosť aktivačného E-Mailu uplynie po
   setting_work_package_done_ratio: Vyrátať mieru vypracovania pracovného balíčka pomocou
   setting_work_package_done_ratio_field: Použite pole pracovného balíčka
   setting_work_package_done_ratio_status: Použite stav pracovného balíčka
   setting_work_package_done_ratio_disabled: Vypnúť (Skryť priebeh)
   setting_work_package_list_default_columns: Predvolené zobrazenie
-  setting_work_package_list_summable_columns: Summable
+  setting_work_package_list_summable_columns: Sčítateľné
   setting_work_package_properties: Vlastnosti pracovného balíčka
   setting_work_package_startdate_is_adddate: Použiť aktuálny dátum ako počiatočný
     dátum pre nové pracovné balíčky
@@ -2280,7 +2280,8 @@ sk:
   setting_mail_handler_body_delimiters: Skráťte emaily po jednom z týchto riadkov
   setting_mail_handler_body_delimiter_regex: Skrátiť e-maily zodpovedajúce tomuto
     regex
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
+  setting_new_project_user_role_id: Rola priradená užívateľovi bez práv administrátora,
+    ktorý projekt vytvoril
   setting_password_active_rules: Aktívny charakter tried
   setting_password_count_former_banned: Počet posledných použitých hesiel, ktoré nie
     je možné opätovne použiť
@@ -2304,14 +2305,14 @@ sk:
   setting_repository_truncate_at: Maximálny počet súborov, ktoré sú zobrazené v prehliadači
   setting_rest_api_enabled: Zapnúť webovú službu REST
   setting_self_registration: Povoliť automatickú registráciu
-  setting_sequential_project_identifiers: Generate sequential project identifiers
+  setting_sequential_project_identifiers: Generovať sekvenčné identifikátory projektov
   setting_session_ttl: Čas ukončenia relácie po nečinnosti
   setting_session_ttl_hint: Hodnota pod 5 funguje ako zakázaná
   setting_session_ttl_enabled: Relácia vypršala
   setting_start_of_week: Týždeň začína dňom
   setting_sys_api_enabled: Povoliť webovú službu pre správu úložiska
-  setting_sys_api_description: The repository management web service provides integration
-    and user authorization for accessing repositories.
+  setting_sys_api_description: Webová služba pre správu úložiska umožňuje integráciu
+    a autorizáciu používateľa na prístup k repozitárom.
   setting_time_format: Formát času
   setting_accessibility_mode_for_anonymous: Zapnúť režim prístupnosti pre anonymných
     používateľov
@@ -2354,13 +2355,13 @@ sk:
   support:
     array:
       sentence_connector: a
-      skip_last_comma: 'false'
+      skip_last_comma: nesprávny
   text_accessibility_hint: Režim prístupnosti je určený pre používateľov, ktorí sú
     slepí, s pohyblivým postihnutím alebo majú zlý zrak. Na to sú zamerané špeciálne
     prvky. Upozorňujeme, že v tomto režime nie je modul Backlogs dostupný.
   text_access_token_hint: Access tokens allow you to grant external applications access
     to resources in OpenProject.
-  text_analyze: 'Further analyze: %{subject}'
+  text_analyze: 'Ďalej analyzovať: %{subject}'
   text_are_you_sure: Ste si istí?
   text_are_you_sure_with_children: Zmazať pracovný balíček a všetky podradené pracovné
     balíčky?
@@ -2374,8 +2375,8 @@ sk:
     ich
   text_form_configuration_required_attribute: Atribút je označený ako povinný a preto
     je vždy zobrazený
-  text_caracters_maximum: "%{count} characters maximum."
-  text_caracters_minimum: Must be at least %{count} characters long.
+  text_caracters_maximum: maximálne %{count} znakov.
+  text_caracters_minimum: Musí byť najmenej %{count} znakov.
   text_comma_separated: Povolené viaceré hodnoty (oddelené čiarkou).
   text_comment_wiki_page: 'Komentár k stránke wiki: %{page}'
   text_custom_field_possible_values_info: Každá hodnota na samostatný riadok
@@ -2407,28 +2408,28 @@ sk:
     účtu bolo zmenené
   text_default_encoding: 'Predvolené: UTF-8'
   text_destroy: Odstrániť
-  text_destroy_with_associated: 'There are additional objects assossociated with the
-    work package(s) that are to be deleted. Those objects are of the following types:'
+  text_destroy_with_associated: 'Existujú ďalšie objekty spojené s pracovným balíčkom(-ami),
+    ktoré sa majú vymazať. Tieto objekty sú z týchto typov:'
   text_destroy_what_to_do: Čo chcete urobiť?
-  text_diff_truncated: "... This diff was truncated because it exceeds the maximum
-    size that can be displayed."
+  text_diff_truncated: "... Tento výpis rozdielov bol skrátený, pretože prekračuje
+    maximálny počet riadkov, ktorý môže byť zobrazený."
   text_email_delivery_not_configured: |-
     Doručovanie e-mailov nie je nakonfigurované a upozornenia sú zakázané.
     Nakonfigurujte server SMTP v konfigurácii / configuration.yml a reštartujte aplikáciu, aby ste ich povolili.
-  text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
+  text_enumeration_category_reassign_to: 'Znova ich priradiť k tejto hodnote:'
+  text_enumeration_destroy_question: "%{count} objekty sú priradené k tejto hodnote."
   text_file_repository_writable: Povolený zápis do priečinka s prílohami
-  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  text_git_repo_example: zdieľané lokálne úložisko (z.B. /gitrepo, c:\gitrepo)
   text_hint_date_format: Enter a date in the form of YYYY-MM-DD. Other formats may
     be changed to an unwanted date.
   text_hint_disable_with_0: 'Note: Disable with 0'
   text_hours_between: Medzi %{min} a %{max} hodinami.
-  text_work_package_added: Work package %{id} has been reported by %{author}.
+  text_work_package_added: Pracovný balíček %{id} bol vytvorený %{author}.
   text_work_package_category_destroy_assignments: Odstrániť priradenia kategórie
-  text_work_package_category_destroy_question: Some work packages (%{count}) are assigned
-    to this category. What do you want to do?
-  text_work_package_category_reassign_to: Reassign work packages to this category
-  text_work_package_updated: Work package %{id} has been updated by %{author}.
+  text_work_package_category_destroy_question: Niektoré pracovné balíčky (%{count})
+    sú priradené k tejto kategórii. Čo chcete urobiť?
+  text_work_package_category_reassign_to: Priraďte pracovné balíčky do tejto kategórie
+  text_work_package_updated: Pracovný balíček %{id} bol aktualizovaný %{author}.
   text_work_package_watcher_added: Byli ste pridaný ako pozorovateľ pre pracovný balíček
     %{id} užívateľom %{watcher_setter}.
   text_work_packages_destroy_confirmation: Naozaj chcete odstrániť vybraný pracovný
@@ -2449,7 +2450,8 @@ sk:
   text_journal_set_with_diff: "%{label} nastavený (%{link})"
   text_latest_note: 'Posledný komentár je: %{note}'
   text_length_between: Dĺžka medzi %{min} až %{max} znakov.
-  text_line_separated: Multiple values allowed (one line for each value).
+  text_line_separated: Je povolené zadať viaceré hodnoty (každú hodnotu na samostatný
+    riadok).
   text_load_default_configuration: Nahrať predvolenú konfiguráciu
   text_min_max_length_info: 0 znamená bez obmedzení
   text_no_roles_defined: Nie sú definované žiadne role.
@@ -2486,26 +2488,25 @@ sk:
   text_tip_work_package_begin_end_day: pracovný balíček štartuje aj finišuje dnes
   text_tip_work_package_end_day: pracovný balíček finišuje dnes
   text_type_no_workflow: Pre tento typ nie je definovaný žiadny pracovný postup
-  text_unallowed_characters: Unallowed characters
+  text_unallowed_characters: Nepovolené znaky
   text_user_invited: Používateľ bol pozvaný a čaká na registráciu.
   text_user_wrote: "%{value} napísal:"
   text_warn_on_leaving_unsaved: Pracovný balíček obsahuje neuložený text, ktorý sa
     stratí, ak opustíte túto stránku.
   text_what_did_you_change_click_to_add_comment: Čo ste zmenili? Kliknutím pridáte
     komentár
-  text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all
-    its content?
+  text_wiki_destroy_confirmation: Naozaj si želáte vymazať túto Wiki a celý jej obsah?
   text_wiki_page_destroy_children: Delete child pages and all their descendants
   text_wiki_page_destroy_question: This page has %{descendants} child page(s) and
     descendant(s). What do you want to do?
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
+  text_wiki_page_nullify_children: Zachovať podstránky ako hlavné stránky
+  text_wiki_page_reassign_children: Preradiť podstránky k tejto nadradenej stránke
   text_workflow_edit: Pre úpravu pracovného postupu vyberte rolu a typ
   text_zoom_in: Priblížiť
   text_zoom_out: Vzdialiť
   text_setup_mail_configuration: Nakonfigurujte svoju e-mailovú službu
   time:
-    am: am
+    am: ráno
     formats:
       default: "%m/%d/%Y %I:%M %p"
       long: "%B %d, %Y %H:%M"
@@ -2540,8 +2541,8 @@ sk:
       many: "%{count} days"
     edit_color: Upraviť farbu
     edit_thing: Upraviť
-    edit_timeline: Edit timeline report %{timeline}
-    delete_timeline: Delete timeline report %{timeline}
+    edit_timeline: Upraviť prehľad časovej osi %{timeline}
+    delete_timeline: Odstrániť prehľad časovej osi %{timeline}
     empty: "(prázdny)"
     enable_type_in_project: Povolenie typu "%{type}"
     end: Koniec
@@ -2605,11 +2606,11 @@ sk:
       noneElement: "(žiadny)"
       noneSelection: "(žiadny)"
       outline: Initial outline expansion
-      parent: Show subprojects of
+      parent: Zobraziť podprojekty z
       work_package_filters: Filter pracovných balíčkov
       work_package_responsible: Zobraziť pracovné balíčky so zodpovednou osobou
       work_package_assignee: Zobraziť pracovné balíčky s priradenou osobou
-      types: Show types
+      types: Zobraziť typy
       status: Zobraziť stav
       project_time_filter: Projekty s pracovným balíčkom určitého typu v určitom časovom
         rámci
@@ -2619,26 +2620,26 @@ sk:
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} pred,
         %{end_label} %{endspan}%{endspanunit} od teraz"
-      project_filters: Filter projects
+      project_filters: Filtrovať projekty
       project_responsible: Zobraziť projekt so zodpovednou osobou
-      project_status: Show project status
+      project_status: Zobraziť stav projektu
       timeframe: Zobraziť časový rámec
       timeframe_end: do
       timeframe_start: od
       timeline: Všeobecné nastavenia
-      zoom: Zoom factor
+      zoom: Faktor zväčšenia
     history: História
     new_color: Nová farba
     new_association: Nová závislosť
     new_work_package: Nový pracovný balíček
-    new_reporting: New reporting
-    new_timeline: New timeline report
-    no_projects_for_reporting_available: There are no projects to which a reporting
-      association can be created.
-    no_right_to_view_timeline: You do not have the necessary permission to view the
-      linked timeline.
-    no_timeline_for_id: There is no timeline with ID %{id}.
-    notice_successful_deleted_all_elements: Successfully deleted all elements
+    new_reporting: Nový prehľad stavu
+    new_timeline: Nová správa časovej osi
+    no_projects_for_reporting_available: Neexistujú žiadne projekty, pre ktoré by
+      sa mohla vytvoriť správa o aktuálnom stave.
+    no_right_to_view_timeline: Na zobrazenie prepojenej časovej osi nemáte potrebné
+      povolenie.
+    no_timeline_for_id: Neexistuje žiadna časová os s ID %{id}.
+    notice_successful_deleted_all_elements: Všetky prvky boli úspešne odstránené
     outline: Reset Outline
     outlines:
       aggregation: Show aggregations only
@@ -2647,7 +2648,7 @@ sk:
       level3: Expand level 3
       level4: Expand level 4
       level5: Expand level 5
-      all: Show all
+      all: Zobraziť všetko
     reporting_for_project:
       show: 'Status reported to project: %{title}'
       edit_delete: 'status report for project: %{title}'
@@ -2659,9 +2660,9 @@ sk:
     planning_element_update: 'Update: %{title}'
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved
-    properties: Properties
-    really_delete_color: 'Are you sure, you want to delete the following color? Types
-      using this color will not be deleted.
+    properties: Vlastnosti
+    really_delete_color: 'Naozaj chcete odstrániť nasledujúcu farbu? Typy používajúce
+      túto farbu nebudú odstránené.
 
 '
     really_delete_reporting: 'Are you sure, you want to delete the following reporting?
@@ -2670,7 +2671,7 @@ sk:
 '
     start: Začiatok
     timeline: Timeline report
-    timelines: Timeline reports
+    timelines: Prehľady časovej osy
     settings: Časové osy
     vertical_work_package: Vertical work packages
     you_are_viewing_the_selected_timeline: Zobrazí sa vám vybraná správa o plánovaní
@@ -2890,8 +2891,8 @@ sk:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Prosím aktualizujte svoj prehliadač.
+    close_warning: Ignorovať toto upozornenie.
   oauth:
     application:
       singular: OAuth application
@@ -2937,13 +2938,15 @@ sk:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Oprávnenia
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      few: "%{count} active token"
+      many: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2961,15 +2964,3 @@ sk:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Odstrániť widget
-  label_and_its_subprojects: "%{value} a jemu podriadené projekty"
-  label_my_page_block: Blok mojich strán
-  label_responsible_for_work_packages: Pracovné balíčky, za ktoré som zodpovedný(a)
-  label_search_titles_only: Vyhľadať iba tituly
-  label_visible_elements: Viditeľné prvky
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
-    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
-    administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'

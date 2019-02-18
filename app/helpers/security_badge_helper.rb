@@ -41,4 +41,8 @@ module SecurityBadgeHelper
     uri.query = info.to_query
     uri.to_s
   end
+
+  def display_security_badge_graphic?
+    OpenProject::Configuration.security_badge_displayed? && Setting.security_badge_displayed?
+  end
 end

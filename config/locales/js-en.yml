@@ -833,6 +833,7 @@ en:
     global_search:
       all_projects: "In all projects"
       search: "Search"
+      close_search: "Close search"
       current_project: "In this project"
       current_project_and_all_descendants: "In this project + subprojects"
       title:

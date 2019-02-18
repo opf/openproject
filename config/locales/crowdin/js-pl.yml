@@ -214,7 +214,7 @@ pl:
     label_menu_collapse: Zwiń
     label_menu_expand: Rozwiń
     label_more_than_ago: Więcej niż dni temu
-    label_my_page: My page
+    label_my_page: Moja strona
     label_next: Następny
     label_no_data: Brak danych do pokazania
     label_no_due_date: brak daty zakończenia
@@ -397,9 +397,9 @@ pl:
           requires: wymagające
           required: wymagane przez
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Działanie
+      comment: Komentarz
+      hours: Godziny
     watchers:
       label_loading: ładowanie obserwatorów...
       label_error_loading: Wystąpił błąd podczas ładowania obserwatorów.
@@ -764,8 +764,6 @@ pl:
         days: dni
         weeks: tygodnie
         months: miesiące
-      label_switch_to_single_select: fff
-      label_switch_to_multi_select: Przełącz na zaznaczanie wielu rzeczy
     toolbar:
       settings:
         configure_view: Konfigurowanie widoku...
@@ -857,18 +855,11 @@ pl:
       button_deactivate: Wyłącz tryb zen
     global_search:
       all_projects: In all projects
-      search: Search
+      search: Szukaj
+      close_search: Close search
       current_project: In this project
       current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    unsupported_browser:
-      title: Twoja wersja przeglądarki nie jest obsługiwana
-      message: Wersja przeglądarki, której używasz nie jest już wspierana przez OpenProject.
-      update_message: Prosimy uaktualnić przeglądarkę.
-      update_ie_user: Proszę przejść do programu Mozilla Firefox lub Google Chrome,
-        lub zaistalować przeglądarkę Microsoft Edge.
-      learn_more: Dowiedz się więcej
-      close_warning: Zignoruj to ostrzeżenie.
