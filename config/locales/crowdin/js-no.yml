@@ -214,7 +214,7 @@
     label_menu_collapse: skjul
     label_menu_expand: utvid
     label_more_than_ago: mer enn dager siden
-    label_my_page: My page
+    label_my_page: Min side
     label_next: Neste
     label_no_data: Ingen data å vise
     label_no_due_date: ingen sluttdato
@@ -399,9 +399,9 @@
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Aktivitet
+      comment: Kommentar
+      hours: Timer
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -761,8 +761,6 @@
         days: dager
         weeks: uker
         months: måneder
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -848,18 +846,11 @@
       button_deactivate: Deactivate zen mode
     global_search:
       all_projects: In all projects
-      search: Search
+      search: Søk
+      close_search: Close search
       current_project: In this project
       current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    unsupported_browser:
-      title: Din nettleserversjon er ikke støttet
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Mer informasjon
-      close_warning: Ignore this warning.

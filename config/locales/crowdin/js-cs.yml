@@ -215,7 +215,7 @@ cs:
     label_menu_collapse: sbalit
     label_menu_expand: rozbalit
     label_more_than_ago: před více jak (dny)
-    label_my_page: My page
+    label_my_page: Moje stránka
     label_next: Další
     label_no_data: No data to display
     label_no_due_date: žádné datum ukončení
@@ -400,9 +400,9 @@ cs:
           requires: vyžaduje
           required: vyžadováno
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Aktivita
+      comment: Komentář
+      hours: Hodiny
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -768,8 +768,6 @@ cs:
         days: dnů
         weeks: týdny
         months: mesice
-      label_switch_to_single_select: Přepnout na jednoduchý výběr
-      label_switch_to_multi_select: Přepnout na vícenásobný výběr
     toolbar:
       settings:
         configure_view: Nastavit zobrazení ...
@@ -861,18 +859,11 @@ cs:
       button_deactivate: Deactivate zen mode
     global_search:
       all_projects: In all projects
-      search: Search
+      search: Vyhledávání
+      close_search: Close search
       current_project: In this project
       current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    unsupported_browser:
-      title: Verze vašeho prohlížeče není podporována
-      message: Verze prohlížeče, který používáte, již není OpenProject podporována.
-      update_message: Aktualizujte svůj prohlížeč prosím.
-      update_ie_user: Prosím přepněte do Mozilla Firefox nebo Google Chrome, nebo
-        upgradujte na Microsoft Edge.
-      learn_more: Více informací
-      close_warning: Ignorovat toto upozornění.

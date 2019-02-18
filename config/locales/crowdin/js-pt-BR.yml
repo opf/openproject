@@ -220,7 +220,7 @@ pt-BR:
     label_menu_collapse: recolher
     label_menu_expand: expandir
     label_more_than_ago: mais do que dias atrás
-    label_my_page: My page
+    label_my_page: Minha página
     label_next: Próxima
     label_no_data: Sem dados para exibir
     label_no_due_date: nenhuma data de término
@@ -409,9 +409,9 @@ pt-BR:
           requires: exigindo
           required: exigido por
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Atividade
+      comment: Comentário
+      hours: Horas
     watchers:
       label_loading: carregando observadores...
       label_error_loading: Ocorreu um erro ao carregar os observadores
@@ -773,8 +773,6 @@ pt-BR:
         days: dias
         weeks: semanas
         months: meses
-      label_switch_to_single_select: Alternar para seleção única
-      label_switch_to_multi_select: Alternar para seleção múltipla
     toolbar:
       settings:
         configure_view: Configurar visualização...
@@ -860,19 +858,11 @@ pt-BR:
       button_deactivate: Desativar modo zen
     global_search:
       all_projects: In all projects
-      search: Search
+      search: Pesquisar
+      close_search: Close search
       current_project: In this project
       current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    unsupported_browser:
-      title: Sua versão de navegador não é suportada
-      message: A versão do navegador que você está usando não é mais suportada pelo
-        OpenProject.
-      update_message: Por favor, atualize seu navegador.
-      update_ie_user: Por favor mude para o Mozilla Firefox ou Google Chrome, ou atualize
-        para o Microsoft Edge.
-      learn_more: Saiba mais
-      close_warning: Ignorar este aviso.

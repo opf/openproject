@@ -216,7 +216,7 @@ id:
     label_menu_collapse: runtuh
     label_menu_expand: expand
     label_more_than_ago: lusa yang lalu
-    label_my_page: My page
+    label_my_page: My Homepage
     label_next: Lanjut
     label_no_data: Tidak ada data untuk ditampilkan
     label_no_due_date: tidak ada tanggal berakhir
@@ -402,8 +402,8 @@ id:
           required: required by
     time_entry:
       activity: Activity
-      comment: Comment
-      hours: Hours
+      comment: Komentar
+      hours: Jam
     watchers:
       label_loading: memuat pengamat...
       label_error_loading: An error occurred while loading the watchers
@@ -765,8 +765,6 @@ id:
         days: hari
         weeks: minggu
         months: bulan
-      label_switch_to_single_select: Beralih ke pilihan tunggal
-      label_switch_to_multi_select: Beralih ke pilihan majemuk
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -852,18 +850,11 @@ id:
       button_deactivate: Menonaktifkan modus zen
     global_search:
       all_projects: In all projects
-      search: Search
+      search: Cari
+      close_search: Close search
       current_project: In this project
       current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    unsupported_browser:
-      title: Versi peramban Anda tidak didukung
-      message: Versi browser yang anda gunakan terlalu usang untuk OpenProject.
-      update_message: Mohon tingkatkan browsermu.
-      update_ie_user: Mohon ubah ke Mozzila atau Google Chrome, atau tingkatkan Microsoft
-        Edge.
-      learn_more: Pelajari lebih lanjut
-      close_warning: Abaikan peringatan ini.

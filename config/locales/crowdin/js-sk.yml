@@ -171,7 +171,7 @@ sk:
     label_author: 'Autor: %{user}'
     label_between: medzi
     label_board_locked: Uzamknuté
-    label_board_sticky: Sticky
+    label_board_sticky: Dôležité (vždy vyššie)
     label_create_work_package: Vytvoriť nový pracovný balíček
     label_created_by: Vytvoril(a)
     label_date: Dátum
@@ -216,7 +216,7 @@ sk:
     label_menu_collapse: zbaliť
     label_menu_expand: rozbaliť
     label_more_than_ago: pred viac než dňom
-    label_my_page: My page
+    label_my_page: Moja stránka
     label_next: Ďalšie
     label_no_data: Žiadne dáta na zobrazenie
     label_no_due_date: bez dátumu ukončenia
@@ -401,9 +401,9 @@ sk:
           requires: vyžaduje
           required: požadované
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Činnosť
+      comment: Komentár
+      hours: Hodín
     watchers:
       label_loading: načítanie pozorovateľov...
       label_error_loading: Vyskytla sa chyba pri načítavaní pozorovateľov
@@ -529,7 +529,7 @@ sk:
         level3: Expand level 3
         level4: Expand level 4
         level5: Expand level 5
-        all: Show all
+        all: Zobraziť všetko
       project_status: Stav projektu
       really_close_dialog: Naozaj chcete zatvoriť dialógové okno a prísť o zadané
         údaje?
@@ -768,8 +768,6 @@ sk:
         days: dní
         weeks: týždne
         months: mesiace
-      label_switch_to_single_select: Prepnúť na jednoduchý výber
-      label_switch_to_multi_select: Prepnúť na viacnásobný výber
     toolbar:
       settings:
         configure_view: Konfigurovať zobrazenie...
@@ -861,19 +859,11 @@ sk:
       button_deactivate: Deaktivovať zen režim
     global_search:
       all_projects: In all projects
-      search: Search
+      search: Vyhľadávanie
+      close_search: Close search
       current_project: In this project
       current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    unsupported_browser:
-      title: Prehliadač, ktorý aktuálne používate nie je podporovaný projektom OpenProject
-      message: Verzia prehliadača, ktorú aktuálne používate už nie je podporovaná
-        projektom OpenProject. Prosím aktualizujte svoj prehliadač.
-      update_message: Prosím aktualizujte svoj prehliadač.
-      update_ie_user: Prepnúť na Mozilla Firefox alebo Google Chrome, alebo upgrade
-        na Microsoft Edge.
-      learn_more: Zistiť viac
-      close_warning: Ignorovať toto upozornenie.
