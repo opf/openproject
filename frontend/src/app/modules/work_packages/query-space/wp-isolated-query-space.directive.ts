@@ -111,7 +111,6 @@ import {debugLog} from "core-app/helpers/debug_output";
     { provide: IWorkPackageEditingServiceToken, useClass: WorkPackageEditingService },
 
     WorkPackageStatesInitializationService,
-    WpTableConfigurationService,
     ReorderQueryService,
   ]
 })

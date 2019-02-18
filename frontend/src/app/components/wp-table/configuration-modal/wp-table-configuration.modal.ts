@@ -66,10 +66,13 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;
 
+  // Try to load an optional provided configuration service, and fall back to the default one
+  private wpTableConfigurationService:WpTableConfigurationService =
+    this.injector.get(WpTableConfigurationService, new WpTableConfigurationService(this.I18n));
+
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               @Optional() @Inject(WpTableConfigurationModalPrependToken) public prependModalComponent:ComponentType<any>|null,
               readonly I18n:I18nService,
-              readonly wpTableConfigurationService:WpTableConfigurationService,
               readonly injector:Injector,
               readonly appRef:ApplicationRef,
               readonly componentFactoryResolver:ComponentFactoryResolver,
