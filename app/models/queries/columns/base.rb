@@ -53,6 +53,10 @@ class Queries::Columns::Base
     end
   end
 
+  def sortable_join_statement(query)
+    sortable_join
+  end
+
   def caption
     raise NotImplementedError
   end

@@ -148,7 +148,7 @@ class ::Query::Results
   end
 
   def all_joins
-    query.sort_criteria_columns.map { |column, _direction| column.sortable_join }.compact
+    query.sort_criteria_columns.map { |column, _direction| column.sortable_join_statement(query) }.compact
   end
 
   def includes_for_columns(column_names)
