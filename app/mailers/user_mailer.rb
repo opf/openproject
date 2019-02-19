@@ -177,6 +177,11 @@ class UserMailer < BaseMailer
     @comment = comment
     @news    = @comment.commented
 
+    # How would this change to take custom template changes? 
+    #  - Move template-definitions to db? 
+    #  - How to account for the needed data-fields? 
+    #  - at least the user-mailer but probably the whole *mailer would have to be changed?
+    # Maybe a bad idea?
     open_project_headers 'Project' => @news.project.identifier if @news.project
 
     message_id @comment, user
