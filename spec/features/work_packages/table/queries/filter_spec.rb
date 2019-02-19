@@ -274,12 +274,17 @@ describe 'filter work packages', js: true do
       wp_with_attachment_b
       ExtractFulltextJob.new(attachment_b.id).perform
       wp_without_attachment
-
-      wp_table.visit!
     end
 
-    if OpenProject::Database::allows_tsv?
+    context 'with full text search capabilities' do
+      before do
+        skip("Database does not support full text search.") unless OpenProject::Database::allows_tsv?
+      end
+
       it 'allows filtering and retrieving and altering the saved filter' do
+        wp_table.visit!
+        wp_table.expect_work_package_listed wp_with_attachment_a, wp_with_attachment_b
+
         filters.open
 
         # content contains with multiple hits
@@ -353,7 +358,6 @@ describe 'filter work packages', js: true do
         wp_table.expect_work_package_not_listed wp_with_attachment_a
       end
     end
-
   end
 
   context 'DB does not offer TSVector support' do

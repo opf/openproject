@@ -30,6 +30,11 @@
 .wp--row
   user-select: none
 
+// A placeholder row when the table is empty
+.wp--placeholder-row
+  height: 5px
+  border-bottom: none !important
+
 .wp-table--row
   cursor: pointer
 
@@ -80,11 +85,13 @@ html:not(.-browser-mobile)
     // Override the default td line-height
     line-height: initial !important
 
-  .wp-table-context-menu-icon
+  .wp-table-context-menu-icon,
+  .wp-table--drag-and-drop-handle
     // Hide from viewers, but allow to be focused
     opacity: 0
 
   .issue:hover .wp-table-context-menu-icon,
+  .issue:hover .wp-table--drag-and-drop-handle,
   .wp-table--context-menu-td:focus,
   .wp-table-context-menu-icon:focus
     // Hide by default
@@ -133,7 +140,7 @@ html:not(.-browser-mobile)
 
 // Some padding for the inner cells of the display fields
 .wp-table--cell-span
-  padding: 2px 5px 2px 5px
+  padding: 2px
 
 // On edge, pointer-events only work on
 // block or inline-block elements

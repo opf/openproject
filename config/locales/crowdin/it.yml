@@ -506,6 +506,7 @@ it:
         too_long: è troppo lungo (il massimo è %{count} caratteri).
         too_short: è troppo breve (il minimo è %{count} caratteri).
         unchangeable: non può essere modificato.
+        unremovable: cannot be removed.
         wrong_length: è della lunghezza sbagliata (dovrebbe essere %{count} caratteri).
       models:
         custom_field:
@@ -1659,6 +1660,7 @@ it:
   label_view_diff: Mostra le differenze
   label_view_revisions: Vedi revisioni
   label_watched_work_packages: Macro-attività (work package) osservate
+  label_what_is_this: What is this?
   label_week: Settimana
   label_wiki_content_added: Pagina wiki aggiunta
   label_wiki_content_updated: Pagina wiki aggiornata
@@ -2284,6 +2286,7 @@ it:
   setting_per_page_options: Opzioni degli oggetti per pagina
   setting_plain_text_mail: Posta in formato testo semplice (no HTML)
   setting_protocol: Protocollo
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Piè di pagina registrazione
   setting_repositories_automatic_managed_vendor: Tipo automatico di gestore dell'archivio
     di progetto
@@ -2465,6 +2468,16 @@ it:
   text_no_notes: Non ci sono commenti disponibili per questa macro-attività.
   text_notice_too_many_values_are_inperformant: 'Nota: La visualizzazione di più di
     100 elementi per pagina può aumentare il tempo di caricamento della pagina.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Stai per rimuovere qualcuno o tutti i tuoi permessi e potresti non essere più in grado di modificare questo progetto dopo questo passo.
     Sei sicuro di voler continuare?

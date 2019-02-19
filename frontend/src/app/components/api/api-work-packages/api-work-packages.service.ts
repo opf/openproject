@@ -91,7 +91,7 @@ export class ApiWorkPackagesService {
    * @param projectIdentifier: The project to which the work package is initialized
    * @returns An empty work package form resource.
    */
-  public typedCreateForm(typeId:number, projectIdentifier?:string):Promise<HalResource> {
+  public typedCreateForm(typeId:number, projectIdentifier:string|undefined|null):Promise<HalResource> {
 
     const typeUrl = this.pathHelper.api.v3.types.id(typeId).toString();
     const request = { _links: { type: { href: typeUrl } } };
@@ -113,7 +113,7 @@ export class ApiWorkPackagesService {
       .toPromise();
   }
 
-  private workPackagesFormPath(projectIdentifier?:string|null):string {
+  private workPackagesFormPath(projectIdentifier:string|null|undefined):string {
     if (projectIdentifier) {
       return this.pathHelper.api.v3.projects.id(projectIdentifier).work_packages.form.toString();
     } else {

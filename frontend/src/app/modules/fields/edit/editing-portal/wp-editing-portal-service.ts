@@ -82,8 +82,6 @@ export class WorkPackageEditingPortalService {
       this.injector
     );
   }
-
-
 }
 
 

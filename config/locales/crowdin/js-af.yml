@@ -168,7 +168,9 @@ af:
     label_ascending: Stygende
     label_author: 'Author: %{user}'
     label_between: between
+    label_board: Board
     label_board_locked: Gesluit
+    label_board_plural: Boards
     label_board_sticky: Klewerig
     label_create_work_package: Create new work package
     label_created_by: Created by
@@ -291,6 +293,7 @@ af:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Uploading files for Work package #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'These files will be uploaded:'
     label_rejected_files: 'These files cannot be uploaded:'
     label_rejected_files_reason: These files cannot be uploaded as their size is greater
@@ -803,6 +806,7 @@ af:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Successful creation.
     notice_successful_delete: Successful deletion.
     notice_successful_update: Successful update.

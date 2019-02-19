@@ -497,6 +497,7 @@ tr:
         too_long: çok uzun (en fazla %{count} karakterdir).
         too_short: çok kısa (en az %{count} karakterdir).
         unchangeable: değiştirilemez.
+        unremovable: cannot be removed.
         wrong_length: uzunluğu yanlıştır (%{count} karakter olmalıdır).
       models:
         custom_field:
@@ -1631,6 +1632,7 @@ tr:
   label_view_diff: Farklılıkları gör
   label_view_revisions: Düzeltmeleri izle
   label_watched_work_packages: İzlenen iş paketleri
+  label_what_is_this: What is this?
   label_week: Hafta
   label_wiki_content_added: Viki sayfası eklendi
   label_wiki_content_updated: Viki sayfası güncellendi
@@ -2219,6 +2221,7 @@ tr:
   setting_per_page_options: Sayfa başı nesne seçenekleri
   setting_plain_text_mail: Düz metin postası (HTML yok)
   setting_protocol: Protokol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Kayıt alt bilgisi
   setting_repositories_automatic_managed_vendor: Otomatik depo satıcısı türü
   setting_repositories_encodings: Depolar kodlamaları
@@ -2386,6 +2389,16 @@ tr:
   text_no_notes: Bu çalışma paketi için bir yorum bulunmuyor.
   text_notice_too_many_values_are_inperformant: 'Not: Her sayfada 100''den fazla öğe
     gösterildiğinde, sayfa yükleme süresi artabilir.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: İzinlerinizden bazılarını veya tümünü kaldırmak
     üzeresiniz ve bundan sonra bu projeyi düzenleyemeyebilirsiniz. Devam etmek istediğine
     emin misin?

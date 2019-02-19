@@ -158,7 +158,9 @@ lol:
     label_ascending: crwdns119228:0crwdne119228:0
     label_author: crwdns119230:0%{user}crwdne119230:0
     label_between: crwdns119232:0crwdne119232:0
+    label_board: Board
     label_board_locked: crwdns119234:0crwdne119234:0
+    label_board_plural: Boards
     label_board_sticky: crwdns119236:0crwdne119236:0
     label_create_work_package: crwdns119238:0crwdne119238:0
     label_created_by: crwdns119240:0crwdne119240:0
@@ -277,6 +279,7 @@ lol:
     label_add_description: crwdns119466:0%{file}crwdne119466:0
     label_upload_notification: crwdns119468:0crwdne119468:0
     label_work_package_upload_notification: crwdns119470:0%{id}crwdnd119470:0%{subject}crwdne119470:0
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: crwdns119472:0crwdne119472:0
     label_rejected_files: crwdns119474:0crwdne119474:0
     label_rejected_files_reason: crwdns119476:0%{maximumFilesize}crwdne119476:0
@@ -723,6 +726,7 @@ lol:
         has_children: crwdns120212:0%{childUnits}crwdne120212:0
         confirm_deletion_children: crwdns120214:0crwdne120214:0
         deletes_children: crwdns120216:0crwdne120216:0
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: crwdns120218:0crwdne120218:0
     notice_successful_delete: crwdns120220:0crwdne120220:0
     notice_successful_update: crwdns120222:0crwdne120222:0

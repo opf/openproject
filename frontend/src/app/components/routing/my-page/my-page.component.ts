@@ -33,7 +33,7 @@ export class MyPageComponent implements OnInit {
   private loadMyPage():Promise<GridResource> {
     return this
              .gridDm
-             .list({ filters: [['page', '=', [this.pathHelper.myPagePath()]]] })
+             .list({ filters: [['scope', '=', [this.pathHelper.myPagePath()]]] })
              .then(collection => {
                if (collection.total === 0) {
                  return this.myPageForm();
@@ -47,7 +47,7 @@ export class MyPageComponent implements OnInit {
     return new Promise<GridResource>((resolve, reject) => {
       let payload = {
         '_links': {
-          'page': {
+          'scope': {
             'href': this.pathHelper.myPagePath()
           }
         }

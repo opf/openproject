@@ -510,6 +510,7 @@ ca:
         too_long: és massa llarg (el màxim són %{count} caràcters).
         too_short: és massa curt (el mínim són %{count} caràcters).
         unchangeable: cannot be changed.
+        unremovable: cannot be removed.
         wrong_length: la longitud és incorrecta (haurien de ser %{count} caràcters).
       models:
         custom_field:
@@ -1648,6 +1649,7 @@ ca:
   label_view_diff: Visualitza les diferències
   label_view_revisions: Visualitzar revisions
   label_watched_work_packages: Paquets de treball observats
+  label_what_is_this: What is this?
   label_week: Setmana
   label_wiki_content_added: S'ha afegit la pàgina wiki
   label_wiki_content_updated: S'ha actualitzat la pàgina wiki
@@ -2269,6 +2271,7 @@ ca:
   setting_per_page_options: Opcions d'objectes per pàgina
   setting_plain_text_mail: Només text pla (no HTML)
   setting_protocol: Protocol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: Tipus de proveïdor de repositori
     automàtic
@@ -2443,6 +2446,16 @@ ca:
   text_no_notes: No hi ha cap comentari disponible per a aquest paquet de treball.
   text_notice_too_many_values_are_inperformant: 'Nota: Mostrar més de 100 articles
     per pàgina pot augmentar el temps de càrrega de la pàgina.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Esteu a punt de suprimir algun o tots els vostres permisos i potser no podreu editar més aquest projecte.
     Segur que voleu continuar?

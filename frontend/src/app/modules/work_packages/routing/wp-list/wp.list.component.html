@@ -1,10 +1,13 @@
 <div class="work-packages-list-view--container">
   <div class="toolbar-container -editable">
     <div class="toolbar">
-      <wp-query-selectable-title [currentQuery]="currentQuery"
-                                 [selectedTitle]="selectedTitle"
-                                 [queryEditable]="titleEditingEnabled">
-      </wp-query-selectable-title>
+      <editable-toolbar-title [title]="selectedTitle"
+                              [inFlight]="querySaving"
+                              [showSaveCondition]="!!$state.params.query_props"
+                              (onSave)="updateQueryName($event)"
+                              (onEmptySubmit)="updateQueryName('')"
+                              [editable]="titleEditingEnabled">
+      </editable-toolbar-title>
 
       <ul class="toolbar-items hide-when-print"
           *ngIf="tableInformationLoaded">

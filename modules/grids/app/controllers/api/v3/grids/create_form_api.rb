@@ -41,8 +41,7 @@ module API
                      .call(request_body)
                      .result
 
-            grid_class = ::Grids::Configuration.grid_for_page(params.delete(:page))
-            grid = grid_class.new_default(current_user)
+            grid = ::Grids::Factory.build(params.delete(:scope), current_user)
 
             call = ::Grids::SetAttributesService
                    .new(user: current_user,

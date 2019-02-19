@@ -11,11 +11,16 @@ import {CellBuilder, wpCellTdClassName} from '../cell-builder';
 import {RelationCellbuilder} from '../relation-cell-builder';
 import {checkedClassName} from '../ui-state-link-builder';
 import {TableActionRenderer} from 'core-components/wp-fast-table/builders/table-action-renderer';
+import {DragDropHandleBuilder} from "core-components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-builder";
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
 // Work package and timeline rows
 export const commonRowClassName = 'wp--row';
+
+export const internalSortColumn = {
+  id: '__internal-sorthandle'
+} as QueryColumn;
 
 export const internalContextMenuColumn = {
   id: '__internal-contextMenu'
@@ -36,6 +41,12 @@ export class SingleRowBuilder {
   // Details Link builder
   protected contextLinkBuilder = new TableActionRenderer(this.injector);
 
+  // Drag & Drop handle builder
+  protected dragDropHandleBuilder = new DragDropHandleBuilder();
+
+  // Build the augmented columns set to render with
+  protected readonly augmentedColumns:QueryColumn[] = this.buildAugmentedColumns();
+
   constructor(public readonly injector:Injector,
               protected workPackageTable:WorkPackageTable) {
   }
@@ -51,8 +62,14 @@ export class SingleRowBuilder {
    * Returns the current set of columns, augmented by the internal columns
    * we add for buttons and timeline.
    */
-  public get augmentedColumns():QueryColumn[] {
-    return this.columns.concat([internalContextMenuColumn]);
+  private buildAugmentedColumns():QueryColumn[] {
+    let columns = [...this.columns, internalContextMenuColumn];
+
+    if (this.workPackageTable.configuration.dragAndDropEnabled) {
+      columns.unshift(internalSortColumn);
+    }
+
+    return columns;
   }
 
   public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLElement|null {
@@ -63,6 +80,8 @@ export class SingleRowBuilder {
 
     // Handle property types
     switch (column.id) {
+      case internalSortColumn.id:
+        return this.dragDropHandleBuilder.build(workPackage);
       case internalContextMenuColumn.id:
         if (this.workPackageTable.configuration.actionsColumnEnabled) {
           return this.contextLinkBuilder.build(workPackage);
@@ -102,6 +121,21 @@ export class SingleRowBuilder {
       `${identifier}-table`,
       'issue'
     );
+
+    return tr;
+  }
+
+  /**
+   * In case the table will end up empty, we insert a placeholder
+   * row to provide some space within the tbody.
+   */
+  public get placeholderRow() {
+    const tr:HTMLTableRowElement = document.createElement('tr');
+    const td:HTMLTableCellElement = document.createElement('td');
+
+    tr.classList.add('wp--placeholder-row');
+    td.colSpan = this.augmentedColumns.length;
+    tr.appendChild(td);
 
     return tr;
   }

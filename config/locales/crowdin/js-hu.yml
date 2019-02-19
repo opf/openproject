@@ -169,7 +169,9 @@ hu:
     label_ascending: Növekvő
     label_author: 'Szerző: %{user}'
     label_between: között
+    label_board: Board
     label_board_locked: Zárolva
+    label_board_plural: Boards
     label_board_sticky: Kiemelt
     label_create_work_package: Új munkacsomag létrehozása
     label_created_by: Létrehozta
@@ -292,6 +294,7 @@ hu:
     label_upload_notification: Fájl feltöltése folyamatban
     label_work_package_upload_notification: 'Fájlok feltöltése a #%{id}: %{subject}
       feladatcsoporthoz'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Ezek a fájlok kerülnek feltöltésre:'
     label_rejected_files: 'Ezeket a fájlokat nem lehet felölteni:'
     label_rejected_files_reason: Ezeket a fájlokat nem lehet feltölteni, mert a méretük
@@ -803,6 +806,7 @@ hu:
           work packages will be recursively removed.
         deletes_children: Minden al feladatcsoportot és leszármazottait is rekurzívan
           törli.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Sikeres létrehozás.
     notice_successful_delete: Sikeres törlés.
     notice_successful_update: Sikeres frissítés.

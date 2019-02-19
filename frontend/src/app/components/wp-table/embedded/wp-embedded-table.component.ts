@@ -57,6 +57,7 @@ import {WorkPackageTableFilters} from "core-components/wp-fast-table/wp-table-fi
 export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input('queryId') public queryId?:number;
   @Input('queryProps') public queryProps:any = {};
+  @Input('loadedQuery') public loadedQuery?:QueryResource;
   @Input() public tableActions:OpTableActionFactory[] = [];
   @Input() public compactTableStyle:boolean = false;
   @Input() public externalHeight:boolean = false;
@@ -131,7 +132,14 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     // Nop
   }
 
-  protected loadQuery(visible:boolean = true) {
+  protected loadQuery(visible:boolean = true):Promise<QueryResource> {
+    if (this.loadedQuery) {
+      const query = this.loadedQuery;
+      this.loadedQuery = undefined;
+      this.initializeStates(query, query.results);
+      return Promise.resolve(this.loadedQuery!);
+    }
+
 
     // HACK: Decrease loading time of queries when results are not needed.
     // We should allow the backend to disable results embedding instead.

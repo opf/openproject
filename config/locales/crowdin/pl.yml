@@ -499,6 +499,7 @@ pl:
         too_long: jest zbyt długi (maksymalnie %{count} znaków).
         too_short: jest zbyt krótkie (min. %{count} znaków).
         unchangeable: nie można zmienić.
+        unremovable: cannot be removed.
         wrong_length: ma nieprawidłową długość (powinno mieć %{count} znaków).
       models:
         custom_field:
@@ -1667,6 +1668,7 @@ pl:
   label_view_diff: Widok różnic
   label_view_revisions: Widok rewizji
   label_watched_work_packages: Obserwowane pakiety robocze
+  label_what_is_this: What is this?
   label_week: Tydzień
   label_wiki_content_added: Dodano stronę wiki
   label_wiki_content_updated: Zaktualizowano stronę wiki
@@ -2285,6 +2287,7 @@ pl:
   setting_per_page_options: Obiektów na stronie
   setting_plain_text_mail: Poczta czystym tekstem (bez HTML)
   setting_protocol: Protokół
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Rejestracja stopki
   setting_repositories_automatic_managed_vendor: Typ automatycznego producenta repozytorium
   setting_repositories_encodings: Kodowanie repozytorium
@@ -2454,6 +2457,16 @@ pl:
   text_no_notes: Nie ma żadnych komentarzy dostępnych dla tego zestawu Zadań.
   text_notice_too_many_values_are_inperformant: 'Uwaga: Wyświetlanie ponad 100 pozycji
     na stronie może zwiększyć czas wczytywania strony.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Chcesz usunąć niektóre lub wszystkie swoje uprawnienia, przez które możesz nie być w stanie edytować tego projektu.
     Czy na pewno chcesz kontynuować?

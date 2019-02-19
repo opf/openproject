@@ -5,7 +5,7 @@
      [alt]="userName"
      (error)="replaceWithDefault()" />
 
-<div *ngIf="!userAvatar || useFallback"
+<div *ngIf="(!userAvatar || useFallback) && userInitials"
      [class]="'avatar-default ' + classes"
      [textContent]="userInitials"
      [style.background]="colorCode">

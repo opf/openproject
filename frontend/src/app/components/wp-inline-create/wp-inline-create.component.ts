@@ -43,7 +43,6 @@ import {filter} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
-import {TimelineRowBuilder} from '../wp-fast-table/builders/timeline/timeline-row-builder';
 import {onClickOrEnter} from '../wp-fast-table/handlers/click-or-enter-handler';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
@@ -84,9 +83,6 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
   private workPackageEditForm:WorkPackageEditForm | undefined;
 
-  private rowBuilder:InlineCreateRowBuilder;
-
-  private timelineBuilder:TimelineRowBuilder;
   private editingSubscription:Subscription|undefined;
 
   private $element:JQuery;
@@ -120,9 +116,6 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     if (_.isNil(this.table)) {
       return;
     }
-
-    this.rowBuilder = new InlineCreateRowBuilder(this.injector, this.table);
-    this.timelineBuilder = new TimelineRowBuilder(this.injector, this.table);
 
     // Mirror the row height in timeline
     const container = jQuery(this.table.timelineBody);
@@ -251,10 +244,11 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
   }
 
   private refreshRow() {
+    const builder = new InlineCreateRowBuilder(this.injector, this.table);
     const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
 
     if (rowElement.length && this.currentWorkPackage) {
-      this.rowBuilder.refreshRow(this.currentWorkPackage, rowElement);
+      builder.refreshRow(this.currentWorkPackage, rowElement);
     }
   }
 
@@ -266,9 +260,10 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
    * @returns The work package form of the row
    */
   private renderInlineCreateRow(wp:WorkPackageResource):WorkPackageEditForm {
-    const form = this.table.editing.startEditing(wp, this.rowBuilder.classIdentifier(wp));
+    const builder = new InlineCreateRowBuilder(this.injector, this.table);
+    const form = this.table.editing.startEditing(wp, builder.classIdentifier(wp));
 
-    const [row, ] = this.rowBuilder.buildNew(wp, form);
+    const [row, ] = builder.buildNew(wp, form);
     this.$element.append(row);
 
     return form;

@@ -502,6 +502,7 @@ ru:
         too_long: слишком длинно (максимум — %{count} знаков).
         too_short: слишком коротко (минимум — %{count} знаков).
         unchangeable: изменить нельзя.
+        unremovable: cannot be removed.
         wrong_length: неправильная длина (должно быть %{count} знаков).
       models:
         custom_field:
@@ -1673,6 +1674,7 @@ ru:
   label_view_diff: Посмотреть различия
   label_view_revisions: Просмотр версий
   label_watched_work_packages: Наблюдаемые пакеты работ
+  label_what_is_this: What is this?
   label_week: Неделя
   label_wiki_content_added: Wiki-страница добавлена
   label_wiki_content_updated: Wiki-страница обновлена
@@ -2284,6 +2286,7 @@ ru:
   setting_per_page_options: Количество объектов на страницу
   setting_plain_text_mail: Обычный текст электронной почты (не HTML)
   setting_protocol: Протокол
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Нижний колонтитул регистрации
   setting_repositories_automatic_managed_vendor: Автоматический тип поставщика репозитория
   setting_repositories_encodings: Кодировка репозиториев
@@ -2459,6 +2462,16 @@ ru:
   text_no_notes: Комментарии для этого пакета работ отсутствуют.
   text_notice_too_many_values_are_inperformant: 'Примечание: Отображение более чем
     100 элементов на странице может увеличить время загрузки.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: Вы собираетесь удалить все или некоторые
     разрешения, доступные Вам. Вы не сможете редактировать проект после этого действия.
     Вы уверены?

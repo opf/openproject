@@ -451,6 +451,7 @@ zh-TW:
         too_long: 太長 (最長是 %{count} 個字元)
         too_short: 太短 (最少 %{count} 個字元)
         unchangeable: 無法更改。
+        unremovable: cannot be removed.
         wrong_length: 長度錯誤 (應該要有 %{count} 個字元)
       models:
         custom_field:
@@ -1537,6 +1538,7 @@ zh-TW:
   label_view_diff: 檢視差異
   label_view_revisions: 檢視修訂
   label_watched_work_packages: 監看的工作項目
+  label_what_is_this: What is this?
   label_week: 週
   label_wiki_content_added: 維基頁面已新增
   label_wiki_content_updated: 維基頁面已更新
@@ -2055,6 +2057,7 @@ zh-TW:
   setting_per_page_options: 每頁顯示項目個數的設置
   setting_plain_text_mail: 純文字郵件（不含 HTML）
   setting_protocol: Protocol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: 註冊頁腳
   setting_repositories_automatic_managed_vendor: 自動版本控制類型
   setting_repositories_encodings: 儲存庫編碼
@@ -2195,6 +2198,16 @@ zh-TW:
     強烈建議先載入預設值，然後再修改它們。
   text_no_notes: 這個工作項目沒有評論
   text_notice_too_many_values_are_inperformant: '注意: 每頁顯示超過100個項目會增加頁面載入時間。'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     您將要刪除部分或全部權限, 之後可能無法再編輯此專案。
     是否要繼續？

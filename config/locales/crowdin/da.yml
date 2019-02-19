@@ -500,6 +500,7 @@ da:
         too_long: 'er for lang (maks.: %{count} tegn).'
         too_short: 'er for kort (min.: %{count} tegn).'
         unchangeable: cannot be changed.
+        unremovable: cannot be removed.
         wrong_length: har forkert længde (burde være %{count} tegn).
       models:
         custom_field:
@@ -1627,6 +1628,7 @@ da:
   label_view_diff: Se forskelle
   label_view_revisions: Se ændringer
   label_watched_work_packages: Arbejdspakker, der er tilset
+  label_what_is_this: What is this?
   label_week: Uge
   label_wiki_content_added: Wikiside tilføjet
   label_wiki_content_updated: Wikiside opdateret
@@ -2216,6 +2218,7 @@ da:
   setting_per_page_options: Mulige objekter per side
   setting_plain_text_mail: Simpel tekst mails (ingen HTML)
   setting_protocol: Protokol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: Automatisk repositorie-leverandørtype
   setting_repositories_encodings: Kodning af projektarkiv
@@ -2384,6 +2387,16 @@ da:
   text_no_notes: Der er ingen kommentarer tilgængelige til denne arbejdspakke.
   text_notice_too_many_values_are_inperformant: 'Bemærk: Det kan forøge indlæsningstiden
     hvis der skal vises mere end 100 tegn pr side.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Du er ved at fjerne nogle af, eller alle dine tilladelser og vil muligvis ikke kunne redigere projektet herefter.
     Er du sikker på, du vil fortsætte?

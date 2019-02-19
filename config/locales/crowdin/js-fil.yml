@@ -167,7 +167,9 @@ fil:
     label_ascending: Pataas
     label_author: 'May-Akda: %{user}'
     label_between: sa pagitan ng
+    label_board: Board
     label_board_locked: Naka-lock
+    label_board_plural: Boards
     label_board_sticky: Malagkit
     label_create_work_package: Lumikha ng bagong work package
     label_created_by: Nilikha ni
@@ -291,6 +293,7 @@ fil:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Pag-upload ng mga file para sa Work package
       #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Itong mga file ay naka-upload:'
     label_rejected_files: 'Itong mga fike ay hindi ma-upload:'
     label_rejected_files_reason: Itong mga file ay hindi ma-upload kung ang laki ay
@@ -818,6 +821,7 @@ fil:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Matagumpay pagkalikha.
     notice_successful_delete: Matagumpay ang pagtanggal.
     notice_successful_update: Matagumpay nai-update.

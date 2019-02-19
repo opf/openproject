@@ -105,7 +105,7 @@ describe 'Query name inline edit', js: true do
     # Rename query through context menu
     wp_table.click_setting_item 'Rename view ...'
 
-    expect(page).to have_focus_on('#wp-query-selectable-title')
+    expect(page).to have_focus_on('.editable-toolbar-title--input')
     page.driver.browser.switch_to.active_element.send_keys('Some other name')
     page.driver.browser.switch_to.active_element.send_keys(:return)
 

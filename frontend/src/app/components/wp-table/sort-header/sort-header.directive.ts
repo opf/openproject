@@ -58,14 +58,15 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
 
   directionClass:string;
 
-  text:{ toggleHierarchy:string, openMenu:string } = {
-    toggleHierarchy: '',
-    openMenu: ''
+  public text = {
+    toggleHierarchy: this.I18n.t('js.work_packages.hierarchy.show'),
+    openMenu: this.I18n.t('js.label_open_menu'),
+    sortColumn: 'Sorting column' // TODO
   };
 
   isHierarchyColumn:boolean;
 
-  columnType:'hierarchy' | 'relation';
+  columnType:'hierarchy' | 'relation' | 'sort';
 
   columnName:string;
 
@@ -117,14 +118,12 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
         this.directionClass = this.getDirectionClass();
       });
 
-    this.text = {
-      toggleHierarchy: I18n.t('js.work_packages.hierarchy.show'),
-      openMenu: I18n.t('js.label_open_menu')
-    };
-
     // Place the hierarchy icon left to the subject column
     this.isHierarchyColumn = this.headerColumn.id === 'subject';
 
+    if (this.headerColumn.id === 'sortHandle') {
+      this.columnType = 'sort';
+    }
     if (this.isHierarchyColumn) {
       this.columnType = 'hierarchy';
     } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn) === 'toType') {

@@ -12,6 +12,7 @@
       </caption>
       <thead class="-sticky">
         <tr>
+          <th *ngIf="configuration.dragAndDropEnabled" class="wp-table--manual-sort-th -short hide-when-print"></th>
           <th *ngFor="let column of columns"
               class="wp-table--table-header">
             <sortHeader [headerColumn]="column"
@@ -56,8 +57,7 @@
         </td>
       </tr>
       </tbody>
-      <tbody class="results-tbody work-package--results-tbody">
-      </tbody>
+      <tbody class="results-tbody work-package--results-tbody"></tbody>
       <tbody *ngIf="tableElement && configuration.inlineCreateEnabled"
              wpInlineCreate
              [wp-inline-create--table]="workPackageTable"

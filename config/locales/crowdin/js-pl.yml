@@ -168,7 +168,9 @@ pl:
     label_ascending: Rosnąco
     label_author: 'Autor: %{user}'
     label_between: pomiędzy
+    label_board: Board
     label_board_locked: Zablokowany
+    label_board_plural: Boards
     label_board_sticky: Przyklejony
     label_create_work_package: Utwórz nowy pakiet roboczy
     label_created_by: Utworzony przez
@@ -290,6 +292,7 @@ pl:
     label_upload_notification: Przesyłanie plików...
     label_work_package_upload_notification: 'Wgrywanie plików dla Zestawu Zadań #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Pliki te zostaną przesłane:'
     label_rejected_files: 'Pliki nie mogą być przesłane:'
     label_rejected_files_reason: Wymienione pliki nie mogą być przesłane gdyż ich
@@ -804,6 +807,7 @@ pl:
           roboczych z listy będą rekurencyjnie usuwane.
         deletes_children: Wszystkie pakiety podrzędne i ich elementy potomne również
           będą rekursywnie usuwane.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Tworzenie zakończone sukcesem.
     notice_successful_delete: Usuwanie zakończone sukcesem.
     notice_successful_update: Aktualizacja zakończona sukcesem.

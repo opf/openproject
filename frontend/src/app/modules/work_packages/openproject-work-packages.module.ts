@@ -28,7 +28,6 @@
 
 import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
-import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
 import {OpenprojectFieldsModule} from 'core-app/modules/fields/openproject-fields.module';
 import {ChartsModule} from 'ng2-charts';
 import {DynamicModule} from 'ng-dynamic-component';
@@ -53,7 +52,6 @@ import {OpSettingsMenuDirective} from 'core-components/op-context-menu/handlers/
 import {WorkPackageStatusDropdownDirective} from 'core-components/op-context-menu/handlers/wp-status-dropdown-menu.directive';
 import {WorkPackageCreateSettingsMenuDirective} from 'core-components/op-context-menu/handlers/wp-create-settings-menu.directive';
 import {WorkPackageSingleContextMenuDirective} from 'core-components/op-context-menu/wp-context-menu/wp-single-context-menu';
-import {WorkPackageQuerySelectableTitleComponent} from 'core-components/wp-query-select/wp-query-selectable-title.component';
 import {WorkPackageQuerySelectDropdownComponent} from 'core-components/wp-query-select/wp-query-select-dropdown.component';
 import {WorkPackageTimelineHeaderController} from 'core-components/wp-table/timeline/header/wp-timeline-header.directive';
 import {WorkPackageTableTimelineRelations} from 'core-components/wp-table/timeline/global-elements/wp-timeline-relations.directive';
@@ -91,7 +89,6 @@ import {WorkPackageRelationRowComponent} from 'core-components/wp-relations/wp-r
 import {WorkPackageRelationsCreateComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-create.component';
 import {WorkPackageRelationsHierarchyComponent} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.directive';
 import {WorkPackageCreateButtonComponent} from 'core-components/wp-buttons/wp-create-button/wp-create-button.component';
-import {FullCalendarModule} from 'ng-fullcalendar';
 import {WorkPackageBreadcrumbParentComponent} from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb-parent.component';
 import {WorkPackageFilterButtonComponent} from 'core-components/wp-buttons/wp-filter-button/wp-filter-button.component';
 import {WorkPackageFilterContainerComponent} from 'core-components/filters/filter-container/filter-container.directive';
@@ -187,6 +184,9 @@ import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/rout
 import {AttachmentsUploadComponent} from 'core-app/modules/attachments/attachments-upload/attachments-upload.component';
 import {AttachmentListComponent} from 'core-app/modules/attachments/attachment-list/attachment-list.component';
 import {WorkPackageFilterByTextInputComponent} from "core-components/filters/quick-filter-by-text-input/quick-filter-by-text-input.component";
+import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
+import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
+import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 
 @NgModule({
   imports: [
@@ -228,6 +228,7 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
     WorkPackageTableSortByService,
     WorkPackageTableColumnsService,
     WorkPackageTableFiltersService,
+    QueryFiltersService,
     WorkPackageTableSumService,
     WorkPackageTableHighlightingService,
     WorkPackageStatesInitializationService,
@@ -270,6 +271,7 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
 
     QueryFormDmService,
     TableState,
+    ReorderQueryService,
 
     WpTableConfigurationService,
   ],
@@ -331,7 +333,6 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
     WorkPackageStatusDropdownDirective,
     WorkPackageCreateSettingsMenuDirective,
     WorkPackageSingleContextMenuDirective,
-    WorkPackageQuerySelectableTitleComponent,
     WorkPackageQuerySelectDropdownComponent,
 
     // Timeline
@@ -421,6 +422,9 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
     // editor module to avoid circular dependencies
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
+
+    // Card view
+    WorkPackageCardViewComponent,
   ],
   entryComponents: [
     // Split view
@@ -492,11 +496,15 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
     // editor module to avoid circular dependencies
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
+
+    // Card view
+    WorkPackageCardViewComponent,
   ],
   exports: [
     WorkPackagesTableController,
     WorkPackageTablePaginationComponent,
     WorkPackageEmbeddedTableComponent,
+    WorkPackageCardViewComponent,
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
   ]

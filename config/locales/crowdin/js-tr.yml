@@ -169,7 +169,9 @@ tr:
     label_ascending: Azalan
     label_author: 'Yazar: %{user}'
     label_between: arasında
+    label_board: Board
     label_board_locked: Kilitlendi
+    label_board_plural: Boards
     label_board_sticky: Sabit
     label_create_work_package: Yeni iş paketi oluştur
     label_created_by: Oluşturan
@@ -292,6 +294,7 @@ tr:
     label_upload_notification: Dosyalar yükleniyor...
     label_work_package_upload_notification: "#%{id}: %{subject} iş paketi için dosyalar
       yükleniyor"
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Bu dosyalar yüklenecek:'
     label_rejected_files: 'Bu dosyalar yüklenemiyor:'
     label_rejected_files_reason: Dosyaların boyutu %{maximumFilesize} boyutunu aştığı
@@ -804,6 +807,7 @@ tr:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Oluşturma başarılı.
     notice_successful_delete: Silme başarılı.
     notice_successful_update: Güncelleme başarılı.

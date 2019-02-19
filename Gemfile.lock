@@ -118,6 +118,11 @@ PATH
       openproject-pdf_export (= 8.3.0)
 
 PATH
+  remote: modules/boards
+  specs:
+    openproject-boards (8.3.0)
+
+PATH
   remote: modules/costs
   specs:
     openproject-costs (8.3.0)
@@ -250,6 +255,8 @@ GEM
       activemodel (= 5.2.2)
       activesupport (= 5.2.2)
       arel (>= 9.0)
+    activerecord-import (0.28.1)
+      activerecord (>= 3.2)
     activerecord-session_store (1.1.1)
       actionpack (>= 4.0)
       activerecord (>= 4.0)
@@ -887,6 +894,7 @@ PLATFORMS
 DEPENDENCIES
   actionpack-xml_parser (~> 2.0.0)
   activemodel-serializers-xml (~> 1.0.1)
+  activerecord-import (~> 0.28.1)
   activerecord-session_store (~> 1.1.0)
   acts_as_list (~> 0.9.9)
   acts_as_tree (~> 2.8.0)
@@ -954,6 +962,7 @@ DEPENDENCIES
   openproject-auth_saml!
   openproject-avatars!
   openproject-backlogs!
+  openproject-boards!
   openproject-costs!
   openproject-documents!
   openproject-github_integration!

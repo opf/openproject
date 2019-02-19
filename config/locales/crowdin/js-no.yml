@@ -168,7 +168,9 @@
     label_ascending: Stigende
     label_author: 'Author: %{user}'
     label_between: mellom
+    label_board: Board
     label_board_locked: Låst
+    label_board_plural: Boards
     label_board_sticky: Sticky
     label_create_work_package: Opprett ny arbeidspakke
     label_created_by: Created by
@@ -290,6 +292,7 @@
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Uploading files for Work package #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'These files will be uploaded:'
     label_rejected_files: 'These files cannot be uploaded:'
     label_rejected_files_reason: These files cannot be uploaded as their size is greater
@@ -801,6 +804,7 @@
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Opprettelsen var vellykket.
     notice_successful_delete: Slettingen var vellykket.
     notice_successful_update: Oppdateringen var vellykket.

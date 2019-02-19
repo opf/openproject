@@ -167,7 +167,9 @@ ar:
     label_ascending: ترتيب تصاعدي
     label_author: الكاتب%{user}
     label_between: between
+    label_board: Board
     label_board_locked: مقفل
+    label_board_plural: Boards
     label_board_sticky: مثبت
     label_create_work_package: إنشاء حزمة جديدة
     label_created_by: أنشئ بواسطة
@@ -288,6 +290,7 @@ ar:
     label_add_description: إضافة توصيفات إلى%{file}
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: تحميل ملفات إلى حزمة العمل%{id}:%{subject}
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'هذه الملفات ستحمل:'
     label_rejected_files: 'هذه الملفات لا يمكن أن تحمل:'
     label_rejected_files_reason: هذه الملفات لا يمكن تحميلها بينما حجمها أكبر من%{maximumFilesize}
@@ -801,6 +804,7 @@ ar:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: إنشاء ناجح.
     notice_successful_delete: حذف ناجح.
     notice_successful_update: تحديث ناجح.

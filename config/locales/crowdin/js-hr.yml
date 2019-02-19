@@ -168,7 +168,9 @@ hr:
     label_ascending: Uzlazno
     label_author: 'Autor: %{user}'
     label_between: between
+    label_board: Board
     label_board_locked: Zaključano
+    label_board_plural: Boards
     label_board_sticky: Zaljepljeno
     label_create_work_package: Kreirajte novi radni paket
     label_created_by: Kreirao korisnik
@@ -292,6 +294,7 @@ hr:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Prijenos datoteka za Radni paket #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Ove datoteke će biti prenešene:'
     label_rejected_files: 'Ove datoteke ne mogu biti prenešene:'
     label_rejected_files_reason: Ove datoteke ne mogu biti prenešeno zato što je njihova
@@ -806,6 +809,7 @@ hr:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Uspješno kreirano.
     notice_successful_delete: Brisanje uspješno.
     notice_successful_update: Ažuriranje je uspješno završeno.

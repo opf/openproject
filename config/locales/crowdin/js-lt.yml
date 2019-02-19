@@ -170,7 +170,9 @@ lt:
     label_ascending: Didėjančia tvarka
     label_author: 'Autorius: %{user}'
     label_between: tarp
+    label_board: Board
     label_board_locked: Užrakinta
+    label_board_plural: Boards
     label_board_sticky: Lipnus
     label_create_work_package: Sukurti naują darbų paketą
     label_created_by: Sukurta
@@ -291,6 +293,7 @@ lt:
     label_add_description: Pridėti %{file} aprašymą
     label_upload_notification: Įkeliu failus...
     label_work_package_upload_notification: 'Įkelti failus darbų paketui #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Šie failai bus įkelti:'
     label_rejected_files: 'Negalima įkelti šių failų:'
     label_rejected_files_reason: Šių failų neįmanoma nusiųsti, nes jų dydis yra didesnis
@@ -807,6 +810,7 @@ lt:
           bus rekursiškai ištrinti.
         deletes_children: Visi darbų paketo vaikai ir jų palikuoniai taip pat bus
           rekursiškai ištrinti.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Sėkmingas sukūrimas.
     notice_successful_delete: Sėkmingas panaikinimas.
     notice_successful_update: Sėkmingas atnaujinimas.

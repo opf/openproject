@@ -1,0 +1,10 @@
+# English strings go here
+en:
+  js:
+    boards:
+      label_unnamed_board: 'Unnamed board'
+      configuration_modal:
+        title: 'Configure this board'
+        display_settings:
+          card_mode: "Display as cards"
+          table_mode: "Display as table"

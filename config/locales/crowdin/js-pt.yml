@@ -170,7 +170,9 @@ pt:
     label_ascending: Ascendente
     label_author: 'Autor: %{user}'
     label_between: entre
+    label_board: Board
     label_board_locked: Bloqueado
+    label_board_plural: Boards
     label_board_sticky: Pegajoso
     label_create_work_package: Criar nova tarefa
     label_created_by: Criado por
@@ -294,6 +296,7 @@ pt:
     label_upload_notification: A carregar ficheiros...
     label_work_package_upload_notification: 'Upload de ficheiros para a tarefa #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Esses ficheiros serão enviados:'
     label_rejected_files: 'Esses ficheiros não podem ser carregados:'
     label_rejected_files_reason: Esses ficheiros não podem ser carregados enquanto
@@ -804,6 +807,7 @@ pt:
           de trabalho listados serão recursivamente removidos.
         deletes_children: Todos os pacotes de trabalho filhos e seus descendentes
           serão também recursivamente apagados.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Criado com sucesso.
     notice_successful_delete: Eliminado com sucesso.
     notice_successful_update: Actualizado com sucesso.

@@ -75,6 +75,9 @@ export abstract class PrimaryRenderPass {
 
       // Render into the table fragment
       this.doRender();
+
+      // Post render
+      this.postRender();
     });
 
     // Render subsequent passes
@@ -144,7 +147,6 @@ export abstract class PrimaryRenderPass {
     this.renderedOrder.splice(index + 1, 0, renderedInfo);
   }
 
-
   protected prepare() {
     this.timeline = new TimelineRenderPass(this.injector, this.workPackageTable, this);
     this.relations = new RelationsRenderPass(this.injector, this.workPackageTable, this);
@@ -157,6 +159,15 @@ export abstract class PrimaryRenderPass {
    * The actual render function of this renderer.
    */
   protected abstract doRender():void;
+
+  /**
+   * Post render shared among all sub passes
+   */
+  protected postRender():void {
+    if (this.renderedOrder.length === 0 && this.workPackageTable.renderPlaceholderRow) {
+      this.tableBody.appendChild(this.rowBuilder.placeholderRow);
+    }
+  }
 
   /**
    * Append a work package row to both containers

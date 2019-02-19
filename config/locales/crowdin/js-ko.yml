@@ -162,7 +162,9 @@ ko:
     label_ascending: 오름차순
     label_author: '작성자: %{user}'
     label_between: 사이에
+    label_board: Board
     label_board_locked: 잠김
+    label_board_plural: Boards
     label_board_sticky: 스티커형
     label_create_work_package: 새 작업 패키지 만들기
     label_created_by: 작성자
@@ -281,6 +283,7 @@ ko:
     label_add_description: "%{file} 의 설명 추가"
     label_upload_notification: 파일 업로드 중...
     label_work_package_upload_notification: '작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 이 파일들이 업로드 됩니다.
     label_rejected_files: 파일들이 업로드 할 수 없습니다.
     label_rejected_files_reason: 파일 사이즈가 %{maximumFilesize} 보다 크기 때문에 업로드할 수 없습니다.
@@ -744,6 +747,7 @@ ko:
         has_children: 작업 패키지에 %{childUnits}이(가) 있습니다.
         confirm_deletion_children: 나는 작업 패키지의 모든 하위 목록이 재귀적으로 제거되는 것을 인정합니다.
         deletes_children: 모든 하위 작업 패키지 및 그 하위 항목도 재귀적으로 삭제됩니다.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: 생성에 성공했습니다.
     notice_successful_delete: 삭제에 성공했습니다.
     notice_successful_update: 업데이트에 성공했습니다.

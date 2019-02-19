@@ -158,7 +158,9 @@ zh:
     label_ascending: 升序
     label_author: '作者: %{user}'
     label_between: 介于
+    label_board: Board
     label_board_locked: 锁定
+    label_board_plural: Boards
     label_board_sticky: 置顶
     label_create_work_package: 创建新的工作包
     label_created_by: 创建者
@@ -277,6 +279,7 @@ zh:
     label_add_description: 为%{file} 添加说明
     label_upload_notification: 正在上传文件…
     label_work_package_upload_notification: '正在为 #%{id}: %{subject} 工作包上传文件'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: '这些文件将被上传:'
     label_rejected_files: '这些文件无法上传:'
     label_rejected_files_reason: 这些文件不能上传，因为它们大于 %{maximumFilesize}
@@ -724,6 +727,7 @@ zh:
         has_children: '工作包有 %{childUnits}:'
         confirm_deletion_children: 我确认所列工作包的全部子工作包都将递归移除。
         deletes_children: 所有子工作包及其子级也将递归删除。
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: 成功创建。
     notice_successful_delete: 成功删除。
     notice_successful_update: 成功更新。
