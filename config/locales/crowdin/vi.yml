@@ -222,6 +222,8 @@ vi:
     x_descendants:
       one: One descendant work package
       other: "%{count} gói sản phẩm phụ thuộc"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Có là tình trạng không có sẵn cho tất cả các gói
         đã chọn công việc. Tình trạng của họ không thể thay đổi.

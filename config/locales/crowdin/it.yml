@@ -123,12 +123,12 @@ it:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
         will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      schedule_failed: 'Il progetto non può essere eliminato: %{errors}'
+      failed: Eliminazione del progetto %{name} non riuscita
+      failed_text: La richiesta di eliminare il progetto %{name} non è riuscita. Il
+        progetto è stato archiviato.
+      completed: Eliminazione del progetto %{name} completata
+      completed_text: La richiesta di cancellare il progetto '%{name}' è stata completata.
     index:
       no_results_title_text: Al momento non esistono progetti
       no_results_content_text: Crea un nuovo progetto
@@ -223,6 +223,8 @@ it:
     x_descendants:
       one: Una macro-attività discendente
       other: "%{count} macro-attività discendenti"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Nessuno stato disponibile per tutte le macro-attività
         selezionate. Non è possibile cambiare lo stato.
@@ -458,11 +460,11 @@ it:
       doorkeeper/application:
         uid: Client ID
         secret: Client secret
-        owner: Owner
+        owner: Proprietario
         redirect_uri: Redirect URI
         client_credentials_user_id: Client Credentials User ID
-        scopes: Scopes
-        confidential: Confidential
+        scopes: Ambiti
+        confidential: Confidenziale
     errors:
       messages:
         accepted: deve essere accettato.
@@ -524,11 +526,11 @@ it:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
-              secured_uri: must be an HTTPS/SSL URI.
-              forbidden_uri: is forbidden by the server.
+              fragment_present: non può contenere un frammento.
+              invalid_uri: deve essere un URI valido.
+              relative_uri: deve essere un URI assoluto.
+              secured_uri: deve essere un URI HTTPS/SSL.
+              forbidden_uri: è vietato dal server.
             scopes:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
@@ -2286,7 +2288,7 @@ it:
   setting_per_page_options: Opzioni degli oggetti per pagina
   setting_plain_text_mail: Posta in formato testo semplice (no HTML)
   setting_protocol: Protocollo
-  setting_security_badge_displayed: Display security badge
+  setting_security_badge_displayed: Mostra badge di sicurezza
   setting_registration_footer: Piè di pagina registrazione
   setting_repositories_automatic_managed_vendor: Tipo automatico di gestore dell'archivio
     di progetto
@@ -2910,10 +2912,10 @@ it:
           authorization server.
         invalid_token:
           revoked: The access token was revoked
-          expired: The access token expired
-          unknown: The access token is invalid
+          expired: Il token di accesso è scaduto
+          unknown: Il token di accesso non è valido
   unsupported_browser:
-    title: Your browser is outdated and unsupported.
+    title: Il tuo browser è obsoleto e non supportato.
     message: You may run into errors and degraded experience on this page.
     update_message: Aggiornare il browser, prego.
     close_warning: Ignora questo avviso.

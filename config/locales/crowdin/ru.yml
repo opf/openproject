@@ -119,14 +119,14 @@ ru:
       no_results_title_text: На данный момент проектов этой группы нет.
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      scheduled: Удаление было запланировано и исполнено в фоновом режиме. О результатах
+        вы будете уведомлены.
+      schedule_failed: 'Проект удален быть не может: %{errors}'
+      failed: Удаление проекта %{name} не удалось
+      failed_text: Запрос на удаление проекта %{name} не удался. Проект был оставлен
+        в архиве.
+      completed: Удаление проекта %{name} завершено
+      completed_text: Запрос на удаление проекта '%{name}' был завершен.
     index:
       no_results_title_text: На данный момент проектов нет
       no_results_content_text: Создать новый проект
@@ -222,6 +222,8 @@ ru:
       other: 'Пакетов работ, являющихся потомками: %{count}'
       few: 'Пакетов работ, являющихся потомками: %{count}'
       many: 'Пакетов работ, являющихся потомками: %{count}'
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Статус не доступен для всех выбранных пакетов работ.
         Их статус изменен быть не может.
@@ -451,13 +453,13 @@ ru:
         type: Тип
         watcher: Наблюдатель
       doorkeeper/application:
-        uid: Client ID
-        secret: Client secret
-        owner: Owner
-        redirect_uri: Redirect URI
-        client_credentials_user_id: Client Credentials User ID
-        scopes: Scopes
-        confidential: Confidential
+        uid: ID клиента
+        secret: Секрет клиента
+        owner: Владелец
+        redirect_uri: Перенаправить URI
+        client_credentials_user_id: ID пользователя клиента
+        scopes: Области
+        confidential: Конфиденциально
     errors:
       messages:
         accepted: нужно подтвердить.
@@ -519,13 +521,13 @@ ru:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
-              secured_uri: must be an HTTPS/SSL URI.
-              forbidden_uri: is forbidden by the server.
+              fragment_present: не может содержать фрагмент.
+              invalid_uri: должен быть допустимым URI.
+              relative_uri: должен быть абсолютным URI.
+              secured_uri: должен быть HTTPS/SSL URI.
+              forbidden_uri: запрещен сервером.
             scopes:
-              not_match_configured: doesn't match available scopes.
+              not_match_configured: не соответствует доступным областям.
         enterprise_token:
           unreadable: невозможно прочитать. Вы уверены, что это маркер поддержки?
         parse_schema_filter_params_service:
@@ -671,7 +673,7 @@ ru:
       wiki_page: Wiki-страница
       workflow: Рабочий поток
       work_package: Пакет работ
-      doorkeeper/application: OAuth application
+      doorkeeper/application: Приложение OAuth
   errors:
     header_invalid_fields: 'Были проблемы со следующими полями:'
     field_erroneous_label: 'Значение этого поля неверно: %{full_errors}. Пожалуйста,
@@ -746,7 +748,7 @@ ru:
   button_change_password: Смена пароля
   button_check_all: Выделить все
   button_clear: Очистить
-  button_click_to_reveal: Click to reveal
+  button_click_to_reveal: Нажмите, чтобы раскрыть
   button_close: Закрыть
   button_collapse_all: Свернуть все
   button_configure: Настройка
@@ -776,7 +778,7 @@ ru:
   button_remove: Удалить
   button_rename: Переименовать
   button_replace: Заменить
-  button_revoke: Revoke
+  button_revoke: Отозвать
   button_reply: Ответить
   button_reset: Сброс
   button_rollback: Откатиться до этого этапа
@@ -1356,7 +1358,7 @@ ru:
   label_environment: Переменные среды
   label_estimates_and_time: Оценки и время
   label_equals: "—"
-  label_everywhere: everywhere
+  label_everywhere: везде
   label_example: Пример
   label_export_to: 'Также доступна на:'
   label_expanded_click_to_collapse: Развернуто. Кликните для сворачивания
@@ -1394,7 +1396,7 @@ ru:
   label_history: История
   label_hierarchy_leaf: Уровень иерархии
   label_home: Главная
-  label_subject_or_id: Subject or ID
+  label_subject_or_id: Тема или ID
   label_in: в
   label_in_less_than: менее чем
   label_in_more_than: более чем
@@ -2286,7 +2288,7 @@ ru:
   setting_per_page_options: Количество объектов на страницу
   setting_plain_text_mail: Обычный текст электронной почты (не HTML)
   setting_protocol: Протокол
-  setting_security_badge_displayed: Display security badge
+  setting_security_badge_displayed: Отображать бейджик безопасности
   setting_registration_footer: Нижний колонтитул регистрации
   setting_repositories_automatic_managed_vendor: Автоматический тип поставщика репозитория
   setting_repositories_encodings: Кодировка репозиториев
@@ -2866,19 +2868,19 @@ ru:
       schema: Схема
   doorkeeper:
     pre_authorization:
-      status: Pre-authorization
+      status: Предавторизация
     errors:
       messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
-        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
-          client redirect URI.
-        unauthorized_client: The client is not authorized to perform this request
-          using this method.
-        access_denied: The resource owner or authorization server denied the request.
-        invalid_scope: The requested scope is invalid, unknown, or malformed.
-        invalid_code_challenge_method: The code challenge method must be plain or
-          S256.
+        invalid_request: В запросе нет обязательного параметра, значение параметра
+          не поддерживается или не соответствует требованиям.
+        invalid_redirect_uri: Запрашиваемый редирект uri является неверным или не
+          соответствует URI перенаправления клиента.
+        unauthorized_client: Клиент не уполномочен выполнить этот запрос с помощью
+          этого метода.
+        access_denied: Владелец ресурса или сервер авторизации отклонил запрос.
+        invalid_scope: Запрашиваемая область является недопустимой, неизвестной или
+          неправильной.
+        invalid_code_challenge_method: Метод вызова кода должен быть простым или S256.
         server_error: The authorization server encountered an unexpected condition
           which prevented it from fulfilling the request.
         temporarily_unavailable: The authorization server is currently unable to handle
@@ -2909,14 +2911,14 @@ ru:
     close_warning: Игнорировать это предупреждение.
   oauth:
     application:
-      singular: OAuth application
-      plural: OAuth applications
-      named: OAuth application '%{name}'
-      new: New OAuth application
-      default_scopes: "(Default scopes)"
+      singular: Приложение OAuth
+      plural: OAuth приложения
+      named: OAuth приложение '%{name}'
+      new: Новое приложение OAuth
+      default_scopes: "(Области по умолчанию)"
       instructions:
-        name: The name of your application. This will be displayed to other users
-          upon authorization.
+        name: Название вашего приложения. Будет отображаться другим пользователям
+          после авторизации.
         redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
           One entry per line. <br/> If you''re registering a desktop application,
           use the following URL.
@@ -2930,7 +2932,7 @@ ru:
         register_intro: If you are developing an OAuth API client application for
           OpenProject, you can register it using this form for all users to use.
         default_scopes: ''
-    client_id: Client ID
+    client_id: ID клиента
     client_secret_notice: 'This is the only time we can print the client secret, please
       note it down and keep it secure. It should be treated as a password and cannot
       be retrieved by OpenProject at a later time.

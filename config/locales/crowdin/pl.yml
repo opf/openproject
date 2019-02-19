@@ -224,6 +224,8 @@ pl:
       other: Wiele potomnych pakietów roboczych (%{count})
       few: Wiele potomnych pakietów roboczych (%{count})
       many: Wiele potomnych pakietów roboczych (%{count})
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Brak stanu dostępnego dla wszystkich wybranych pakietów
         roboczych. Ich stanu nie można zmienić.

@@ -227,6 +227,8 @@ de:
     x_descendants:
       one: Ein untergeordnetes Arbeitspaket
       other: "%{count} untergeordnete Arbeitspakete"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Es gibt keine gemeinsamen Status für die ausgewählten
         Arbeitspakete. Ihr Status kann daher nicht verändert werden.

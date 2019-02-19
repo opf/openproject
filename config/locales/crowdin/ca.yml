@@ -224,6 +224,8 @@ ca:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
