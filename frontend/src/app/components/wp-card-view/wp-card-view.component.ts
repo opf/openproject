@@ -127,7 +127,7 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
 
       this.removeDragged();
 
-      this.columns = columns.current;
+      this.columns = columns;
       this.availableColumns = this.columns.filter(function (column) {
         return column.id !== 'id' && column.id !== 'subject' && column.id !== 'author';
       });

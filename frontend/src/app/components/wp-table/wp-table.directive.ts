@@ -161,7 +161,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       this.rowcount = results.count;
 
       this.groupBy = groupBy.current;
-      this.columns = columns.current;
+      this.columns = columns;
       // Total columns = all available columns + id + checkbox
       this.numTableColumns = this.columns.length + 2;
 

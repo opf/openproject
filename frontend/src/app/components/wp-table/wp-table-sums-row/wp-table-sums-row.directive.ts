@@ -33,10 +33,10 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {States} from '../../states.service';
-import {WorkPackageTableColumns} from '../../wp-fast-table/wp-table-columns';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {QueryColumn} from "core-components/wp-query/query-column";
 
 @Directive({
   selector: '[wpTableSumsRow]'
@@ -87,16 +87,16 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
     this.$element.empty();
   }
 
-  private refresh(columns:WorkPackageTableColumns, resource:WorkPackageCollectionResource, schema:SchemaResource) {
+  private refresh(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {
     this.clear();
     this.render(columns, resource, schema);
   }
 
-  private render(columns:WorkPackageTableColumns, resource:WorkPackageCollectionResource, schema:SchemaResource) {
+  private render(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {
     this.elementRef.nativeElement.classList.add('sum', 'group', 'all', 'issue', 'work_package');
 
     // build
-    columns.getColumns().forEach((column, i:number) => {
+    columns.forEach((column, i:number) => {
       const td = document.createElement('td');
       const div = this.renderContent(resource.totalSums!, column.id, schema[column.id]);
 

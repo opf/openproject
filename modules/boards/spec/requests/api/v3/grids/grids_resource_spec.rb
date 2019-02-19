@@ -56,6 +56,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
   let(:other_board_grid) do
     FactoryBot.create(:board_grid, project: other_project)
   end
+  let(:before_hook) { nil }
 
   before do
     login_as(current_user)
@@ -73,6 +74,8 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
     before do
       stored_grids
+
+      before_hook&.call
 
       get path
     end
@@ -170,6 +173,14 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
     context 'with the scope not existing' do
       let(:path) { api_v3_paths.grid(5) }
+      let(:before_hook) do
+        ->(*) do
+          expect_any_instance_of(::Grids::Query)
+            .to receive(:find)
+            .with(1234)
+            .and_raise(ActiveRecord::RecordNotFound)
+        end
+      end
 
       it 'responds with 404 NOT FOUND' do
         expect(subject.status).to eql 404

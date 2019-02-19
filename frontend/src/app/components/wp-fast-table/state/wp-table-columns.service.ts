@@ -28,7 +28,6 @@
 
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageTableColumns} from '../wp-table-columns';
 import {QueryColumn, queryColumnTypes} from '../../wp-query/query-column';
 import {InputState} from 'reactivestates';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
@@ -37,18 +36,18 @@ import {Injectable} from '@angular/core';
 import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 @Injectable()
-export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<WorkPackageTableColumns> implements WorkPackageQueryStateService {
+export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<QueryColumn[]> implements WorkPackageQueryStateService {
 
   public constructor(readonly states:States, readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);
   }
 
-  public get state():InputState<WorkPackageTableColumns> {
+  public get state():InputState<QueryColumn[]> {
     return this.querySpace.columns;
   }
 
-  public valueFromQuery(query:QueryResource):WorkPackageTableColumns {
-    return new WorkPackageTableColumns(query);
+  public valueFromQuery(query:QueryResource):QueryColumn[] {
+    return [...query.columns];
   }
 
   public hasChanged(query:QueryResource) {
@@ -91,7 +90,7 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
    * Returns a shallow copy with the original column objects.
    */
   public getColumns():any[] {
-    return [ ...this.currentState.getColumns() ];
+    return [ ...this.currentState ];
   }
 
   /**
@@ -160,11 +159,7 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
       return;
     }
 
-    let currentState = this.currentState;
-
-    currentState.current = columns;
-
-    this.state.putValue(currentState);
+    this.state.putValue(columns);
   }
 
   public setColumnsById(columnIds:string[]) {
@@ -244,8 +239,8 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
   }
 
   // only exists to cast the state
-  protected get currentState():WorkPackageTableColumns {
-    return this.state.value as WorkPackageTableColumns;
+  protected get currentState() {
+    return this.state.getValueOr([]);
   }
 
   // Get the available state
