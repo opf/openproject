@@ -399,7 +399,7 @@ describe WorkPackages::BulkController, type: :controller do
             include_context 'update_request'
 
             it 'does not succeed' do
-              expect(flash[:error]).to include(work_package_ids.join(', #'))
+              expect(assigns[:bulk_errors].keys).to match_array(work_package_ids)
               expect(subject).to match_array [user.id]
             end
           end

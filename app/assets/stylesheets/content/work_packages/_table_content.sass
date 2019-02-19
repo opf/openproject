@@ -66,8 +66,10 @@
   color: $nm-color-error-icon
 
 // Remove padding from grouping rows (exceeds allowed width of 41px)
-.wp-table--group-header td
-  padding: 0 !important
+.wp-table--group-header
+  height: $table-timeline--row-height
+  td
+    padding: 0 !important
 
 // Shrink column of details / inline-create icons
 .wp-table--configuration-modal--trigger
