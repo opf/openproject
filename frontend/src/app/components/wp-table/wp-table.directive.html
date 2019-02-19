@@ -27,14 +27,16 @@
           <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th -short hide-when-print"
               *ngIf="configuration.columnMenuEnabled || configuration.actionsColumnEnabled">
             <div class="generic-table--sort-header-outer">
-              <accessible-by-keyboard
-                  (execute)="openTableConfigurationModal()"
-                  linkClass="wp-table--columns-selection"
-                  [linkTitle]="text.configureTable"
-                  [linkAriaLabel]="text.configureTable"
-                  *ngIf="configuration.columnMenuEnabled">
-                <op-icon icon-classes="icon-button icon-small icon-settings"></op-icon>
-              </accessible-by-keyboard>
+              <span class="generic-table--sort-header">
+                <accessible-by-keyboard
+                    (execute)="openTableConfigurationModal()"
+                    linkClass="wp-table--columns-selection"
+                    [linkTitle]="text.configureTable"
+                    [linkAriaLabel]="text.configureTable"
+                    *ngIf="configuration.columnMenuEnabled">
+                  <op-icon icon-classes="icon-button icon-small icon-settings"></op-icon>
+                </accessible-by-keyboard>
+              </span>
             </div>
           </th>
         </tr>

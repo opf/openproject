@@ -210,11 +210,9 @@ thead.-sticky th
 
 .generic-table--header-outer,
 .generic-table--sort-header-outer
-  padding:      0 12px 0 6px
   line-height:  $generic-table--header-height
   height:  $generic-table--header-height
   z-index:      1
-  border-bottom: 1px solid $table-row-border-color
 
   &:hover,
   &.hover
@@ -247,6 +245,8 @@ thead.-sticky th
   clear:   both
   min-width: 40px
   display: flex
+  padding: 0 12px 0 6px
+  border-bottom: 1px solid $table-row-border-color
 
   & > a
     flex: 1 1
