@@ -49,25 +49,22 @@ import {UrlParamsHelperService} from "app/components/wp-query/url-params-helper"
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
 import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
 import {cloneHalResource} from "core-app/modules/hal/helpers/hal-resource-builder";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 
 export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 
 @Component({
   selector: globalSearchWorkPackagesSelector,
   template: `
-    <ng-container wp-isolated-query-space>
-     <wp-embedded-table *ngIf="!resultsHidden"
-                        [queryProps]="queryProps"
-                        (onFiltersChanged)="onFiltersChanged($event)"
-                        [configuration]="tableConfiguration">
-      </wp-embedded-table>
-    </ng-container>
+   <wp-embedded-table *ngIf="!resultsHidden"
+                      [queryProps]="queryProps"
+                      (onFiltersChanged)="onFiltersChanged($event)"
+                      [configuration]="tableConfiguration">
+    </wp-embedded-table>
   `
 })
 
 export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(WorkPackageIsolatedQuerySpaceDirective) isolatedQueryDirective:WorkPackageIsolatedQuerySpaceDirective;
-
   public filters:WorkPackageTableFilters;
   public queryProps:{ [key:string]:any };
   public resultsHidden = false;
@@ -88,6 +85,8 @@ export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, Aft
               readonly I18n:I18nService,
               readonly halResourceService:HalResourceService,
               readonly globalSearchService:GlobalSearchService,
+              readonly querySpace:IsolatedQuerySpace,
+              readonly wpFilters:WorkPackageFiltersService,
               readonly cdRef:ChangeDetectorRef,
               private UrlParamsHelper:UrlParamsHelperService) {
   }
@@ -98,10 +97,8 @@ export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, Aft
       .pipe(
         untilComponentDestroyed(this)
       )
-      .subscribe((_searchTerm) => {
-        this.isolatedQueryDirective.runInSpace((injector) => {
-          injector.get(WorkPackageFiltersService).visible = false;
-        });
+      .subscribe(() => {
+        this.wpFilters.visible = false;
         this.setQueryProps();
       });
 
@@ -130,21 +127,10 @@ export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, Aft
 
   public onFiltersChanged(filters:WorkPackageTableFilters) {
     if (filters.isComplete()) {
-      const query = this.isolatedQueryDirective.runInSpace((i, querySpace) => cloneHalResource(querySpace.query.value!)) as QueryResource;
+      const query = cloneHalResource(this.querySpace.query.value!) as QueryResource;
       query.filters = filters.current;
       this.queryProps = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query);
     }
-  }
-
-  /**
-   * Ensure change detection compatible update of table configuration object
-   * @param update
-   */
-  private setConfiguration(update:WorkPackageTableConfigurationObject) {
-    this.tableConfiguration = {
-      ...this.tableConfiguration,
-      ...update
-    };
   }
 
   private setQueryProps():void {

@@ -304,7 +304,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
     end
 
     context 'with the grid not existing' do
-      let(:path) { api_v3_paths.grid(5) }
+      let(:path) { api_v3_paths.grid(1234) }
 
       it 'responds with 404 NOT FOUND' do
         expect(subject.status).to eql 404
