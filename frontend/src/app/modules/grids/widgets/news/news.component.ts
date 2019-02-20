@@ -40,6 +40,10 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
         this.entriesLoaded = true;
 
         this.entries.forEach((entry) => {
+          if (!entry.author) {
+            return;
+          }
+
           this.userCache
             .require(entry.author.idFromLink)
             .then((user:UserResource) => {
