@@ -58,10 +58,7 @@ export class WorkPackageTableConfiguration {
   public isEmbedded:boolean = false;
 
   /** Whether the number of shown WP per page shall be calculated based on the available height */
-  public calculatePerPage:boolean = false;
-
-  /** The calculated number of shown WP per page based on the available height */
-  public calculatedPerPageOption:number = 20;
+  public forcePerPageOption:number|false = false;
 
   /** Whether this table provides a UI for filters*/
   public withFilters:boolean = false;
