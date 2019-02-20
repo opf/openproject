@@ -51,6 +51,7 @@
            (click)="remove.widget(area)">
       </div>
       <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area.widget)"
+                   [ndcDynamicInputs]="{ resource: area.widget }"
                    [ndcDynamicOutputs]="{}">
       </ndc-dynamic>
     </div>
