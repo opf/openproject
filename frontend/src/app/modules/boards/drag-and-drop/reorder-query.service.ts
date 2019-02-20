@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {TableState} from "core-components/wp-table/table-state/table-state";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {debugLog} from "core-app/helpers/debug_output";
 
 @Injectable()
 export class ReorderQueryService {
@@ -61,6 +62,8 @@ export class ReorderQueryService {
     if (query && !!query.updateImmediately) {
       const orderedWorkPackages = orderedIds
         .map(id => this.pathHelper.api.v3.work_packages.id(id).toString());
+
+      debugLog("New order: " + orderedIds.join(", "));
 
       return query.updateImmediately({orderedWorkPackages: orderedWorkPackages});
     } else {

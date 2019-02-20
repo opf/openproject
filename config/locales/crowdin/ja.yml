@@ -198,6 +198,8 @@ ja:
     x_descendants:
       one: One descendant work package
       other: "%{count} つの作業項目の子孫"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: 選択されたすべての項目に利用可能なステータスはありません。 それらの状態は変更できません。
       unsupported_for_multiple_projects: 複数のプロジェクトから、作業項目の一括移動/コピーはサポートされていません
@@ -2051,7 +2053,7 @@ ja:
   setting_per_page_options: オプションページごとの項目数
   setting_plain_text_mail: テキストメール（HTMLなし）
   setting_protocol: プロトコル
-  setting_security_badge_displayed: Display security badge
+  setting_security_badge_displayed: セキュリティバッジを表示する
   setting_registration_footer: 登録フッター
   setting_repositories_automatic_managed_vendor: 自動リポジトリ ベンダー種類
   setting_repositories_encodings: リポジトリのエンコーディング

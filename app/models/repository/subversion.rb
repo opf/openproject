@@ -94,13 +94,16 @@ class Repository::Subversion < Repository
   def fetch_changesets
     scm_info = scm.info
     if scm_info
-      # latest revision found in database
-      db_revision = latest_changeset ? latest_changeset.revision.to_i : 0
+      # latest revision found in database, may be nil
+      db_revision = latest_changeset&.revision&.to_i
+
+      # first revision to fetch
+      identifier_from  = db_revision ? db_revision + 1 : scm.start_revision
+
       # latest revision in the repository
       scm_revision = scm_info.lastrev.identifier.to_i
-      if db_revision < scm_revision
-        logger.debug "Fetching changesets for repository #{url}" if logger && logger.debug?
-        identifier_from = db_revision + 1
+      if db_revision.nil? || db_revision < scm_revision
+        Rails.logger.debug { "Fetching changesets for repository #{url}" }
         while (identifier_from <= scm_revision)
           # loads changesets by batches of 200
           identifier_to = [identifier_from + 199, scm_revision].min

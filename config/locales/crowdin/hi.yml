@@ -226,6 +226,8 @@ hi:
     x_descendants:
       one: एक वंशज काम पैकेज
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: सभी चयनित कार्य पैकेज के लिए कोई स्थिति उपलब्ध नहीं
         है । उनकी हैसियत नहीं बदली जा सकती ।

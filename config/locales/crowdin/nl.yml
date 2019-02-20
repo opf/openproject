@@ -120,14 +120,14 @@ nl:
       no_results_title_text: Er zijn momenteel projecten deel van deze groep.
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      scheduled: Het verwijderen staat gepland en wordt uigevoerd in de achtergrond.
+        U wordt op de hoogte gehouden van het resultaat.
+      schedule_failed: 'Project kan niet worden verwijderd: %{errors}'
+      failed: Verwijderen van project %{name} is mislukt
+      failed_text: Het verzoek om het project %{name} verwijderen is mislukt. Het
+        project is gearchiveerd gebleven.
+      completed: Verwijderen van project %{name} is gelukt
+      completed_text: Het verzoek om het verwijderen van project '%{name}' is voltooid.
     index:
       no_results_title_text: Er zijn momenteel geen projecten
       no_results_content_text: Maak een nieuw project
@@ -222,6 +222,8 @@ nl:
     x_descendants:
       one: One descendant work package
       other: "%{count} werk pakket afstammelingen"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Er is geen status beschikbaar voor alle geselecteerde
         werkpakketten. Hun status kan niet worden gewijzigd.
@@ -456,13 +458,13 @@ nl:
         type: Type
         watcher: Kijker
       doorkeeper/application:
-        uid: Client ID
+        uid: Client-ID
         secret: Client secret
-        owner: Owner
-        redirect_uri: Redirect URI
-        client_credentials_user_id: Client Credentials User ID
-        scopes: Scopes
-        confidential: Confidential
+        owner: Eigenaar
+        redirect_uri: URI omleiden
+        client_credentials_user_id: Client referenties gebruiker ID
+        scopes: Reikwijdte
+        confidential: Vertrouwelijke
     errors:
       messages:
         accepted: moet geaccepteerd worden.
@@ -525,13 +527,13 @@ nl:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
-              secured_uri: must be an HTTPS/SSL URI.
-              forbidden_uri: is forbidden by the server.
+              fragment_present: kan geen fragment bevatten.
+              invalid_uri: moet een geldige URI zijn.
+              relative_uri: moet een absolute URI zijn.
+              secured_uri: moet een HTTPS/SSL URI zijn.
+              forbidden_uri: is verboden door de server.
             scopes:
-              not_match_configured: doesn't match available scopes.
+              not_match_configured: komt niet overeen met beschikbare scopes.
         enterprise_token:
           unreadable: kan niet worden gelezen. Weet u zeer dat het een support token
             is?
@@ -669,7 +671,7 @@ nl:
       wiki_page: Wikipagina
       workflow: Werkstroom
       work_package: Werkpakket
-      doorkeeper/application: OAuth application
+      doorkeeper/application: OAuth-authenticatie
   errors:
     header_invalid_fields: 'Er waren problemen met de volgende velden:'
     field_erroneous_label: "Dit veld is ongeldig: %{full_errors} \nVoer alstublieft
@@ -744,7 +746,7 @@ nl:
   button_change_password: Wijzig wachtwoord
   button_check_all: Selecteer alles
   button_clear: Wissen
-  button_click_to_reveal: Click to reveal
+  button_click_to_reveal: Klik om te onthullen
   button_close: Sluiten
   button_collapse_all: Alles inklappen
   button_configure: Configureer
@@ -774,7 +776,7 @@ nl:
   button_remove: Verwijder
   button_rename: Naam wijzigen
   button_replace: Vervang
-  button_revoke: Revoke
+  button_revoke: Intrekken
   button_reply: Beantwoorden
   button_reset: Herstel
   button_rollback: Terugdraaien naar deze versie
@@ -1336,7 +1338,7 @@ nl:
   label_environment: Omgeving
   label_estimates_and_time: Schattingen en tijden
   label_equals: is
-  label_everywhere: everywhere
+  label_everywhere: overal
   label_example: Voorbeeld
   label_export_to: 'Ook verkrijgbaar in:'
   label_expanded_click_to_collapse: Uitgebreid. Klik op samenvouwen
@@ -1374,7 +1376,7 @@ nl:
   label_history: Geschiedenis
   label_hierarchy_leaf: Hiërarchie blad
   label_home: Home
-  label_subject_or_id: Subject or ID
+  label_subject_or_id: Onderwerp of ID
   label_in: in
   label_in_less_than: in minder dan
   label_in_more_than: in meer dan
@@ -2262,7 +2264,7 @@ nl:
   setting_per_page_options: Objecten per Pagina-opties
   setting_plain_text_mail: Tekst zonder opmaak (geen HTML)
   setting_protocol: Protocol
-  setting_security_badge_displayed: Display security badge
+  setting_security_badge_displayed: Toon beveiligingsbadge
   setting_registration_footer: Registratie voettekst
   setting_repositories_automatic_managed_vendor: Automatisch repostiroy leveranciers
     type
@@ -2839,104 +2841,109 @@ nl:
       schema: Schema
   doorkeeper:
     pre_authorization:
-      status: Pre-authorization
+      status: Pre-autorisatie
     errors:
       messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
-        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
-          client redirect URI.
-        unauthorized_client: The client is not authorized to perform this request
-          using this method.
-        access_denied: The resource owner or authorization server denied the request.
-        invalid_scope: The requested scope is invalid, unknown, or malformed.
-        invalid_code_challenge_method: The code challenge method must be plain or
-          S256.
-        server_error: The authorization server encountered an unexpected condition
-          which prevented it from fulfilling the request.
-        temporarily_unavailable: The authorization server is currently unable to handle
-          the request due to a temporary overloading or maintenance of the server.
-        credential_flow_not_configured: Resource Owner Password Credentials flow failed
-          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
-        resource_owner_authenticator_not_configured: Resource Owner find failed due
-          to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
-        admin_authenticator_not_configured: Access to admin panel is forbidden due
-          to Doorkeeper.configure.admin_authenticator being unconfigured.
-        unsupported_response_type: The authorization server does not support this
-          response type.
-        invalid_client: Client authentication failed due to unknown client, no client
-          authentication included, or unsupported authentication method.
-        invalid_grant: The provided authorization grant is invalid, expired, revoked,
-          does not match the redirection URI used in the authorization request, or
-          was issued to another client.
-        unsupported_grant_type: The authorization grant type is not supported by the
-          authorization server.
+        invalid_request: De aanvraag ontbreekt een vereiste parameter, bevat een niet-ondersteunde
+          parameter waarde, of is anders niet geconfigureerd.
+        invalid_redirect_uri: De gevraagde omleiding uri is ongeldig of komt niet
+          overeen met client redirect URI.
+        unauthorized_client: De client is niet gemachtigd voor het uitvoeren van dit
+          verzoek met behulp van deze methode.
+        access_denied: De resource eigenaar of autorisatie server heeft het verzoek
+          geweigerd.
+        invalid_scope: De gevraagde reikwijdte is ongeldig, onbekend of ongeldig.
+        invalid_code_challenge_method: De uitdaging van de code methode moet gewoon
+          of S256.
+        server_error: De autorisatieserver heeft een onverwachte voorwaarde ondervonden
+          die het onmogelijk maakte het verzoek te vervullen.
+        temporarily_unavailable: De autorisatieserver is momenteel niet in staat om
+          het verzoek te behandelen vanwege een tijdelijke overbelasting of onderhoud
+          van de server.
+        credential_flow_not_configured: Resource Owner Password Credentials flow mislukt
+          door Doorkeeper.configureer.resource_eigenaar_from_credentials die niet
+          zijn geconfigureerd.
+        resource_owner_authenticator_not_configured: Resource eigenaar zoeken mislukt
+          vanwege Doorkeeper.configure.resource_owner_authenticator wordt ongeconfigureerd.
+        admin_authenticator_not_configured: Toegang tot admin paneel is verboden omdat
+          Doorkeeper.configure.admin_authenticator niet is geconfigureerd.
+        unsupported_response_type: De autorisatieserver ondersteunt dit reactietype
+          niet.
+        invalid_client: Client authenticatie is mislukt vanwege onbekende client,
+          geen client authenticatie inbegrepen, of niet-ondersteunde authenticatie
+          methode.
+        invalid_grant: De verstrekte machtiging is ongeldig, verlopen, ingetrokken,
+          komt niet overeen met de omleiding URI die in het autorisatieverzoek wordt
+          gebruikt, of is uitgegeven aan een andere client.
+        unsupported_grant_type: Het autorisatietype wordt niet ondersteund door de
+          autorisatieserver.
         invalid_token:
-          revoked: The access token was revoked
-          expired: The access token expired
-          unknown: The access token is invalid
+          revoked: De toegangstoken is ingetrokken
+          expired: De toegangstoken is verlopen
+          unknown: De toegangstoken is ongeldig
   unsupported_browser:
-    title: Your browser is outdated and unsupported.
-    message: You may run into errors and degraded experience on this page.
+    title: Uw browser is verouderd en niet ondersteund.
+    message: U kan lopen in fouten en gedegradeerd ervaring op deze pagina.
     update_message: Gebruik een recentere versie van uw browser.
     close_warning: Negeer deze waarschuwing.
   oauth:
     application:
-      singular: OAuth application
-      plural: OAuth applications
-      named: OAuth application '%{name}'
-      new: New OAuth application
-      default_scopes: "(Default scopes)"
+      singular: OAuth-authenticatie
+      plural: OAuth toepassingen
+      named: OAuth applicatie '%{name}'
+      new: Nieuwe OAuth applicatie
+      default_scopes: "(Standaard scopen)"
       instructions:
-        name: The name of your application. This will be displayed to other users
-          upon authorization.
-        redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
-          One entry per line. <br/> If you''re registering a desktop application,
-          use the following URL.
+        name: De naam van uw applicatie. Dit wordt getoond aan andere gebruikers bij
+          autorisatie.
+        redirect_uri_html: 'De toegestane URLs waar toegestane gebruikers kunnen worden
+          doorgestuurd naar. Eén item per regel. <br/> Als u een desktop-applicatie
+          registreert, gebruik dan de volgende URL.
 
 '
-        confidential: Check if the application will be used where the client secret
-          can be kept confidential. Native mobile apps and Single Page Apps are assumed
-          non-confidential.
-        client_credential_user_id: Optional user ID to impersonate when clients use
-          this application. Leave empty to allow public access only
-        register_intro: If you are developing an OAuth API client application for
-          OpenProject, you can register it using this form for all users to use.
+        confidential: Controleer of de toepassing zal worden gebruikt waar het cliëntgeheim
+          vertrouwelijk kan worden gehouden. Native mobiele apps en Single Page Apps
+          worden verondersteld niet-vertrouwelijk.
+        client_credential_user_id: Optionele gebruikersID om te impersoneren wanneer
+          klanten deze applicatie gebruiken. Laat leeg om alleen openbare toegang
+          toe te staan
+        register_intro: Als u een OAuth API client applicatie voor OpenProject ontwikkelt,
+          kunt u het registreren met dit formulier voor alle gebruikers om te gebruiken.
         default_scopes: ''
-    client_id: Client ID
-    client_secret_notice: 'This is the only time we can print the client secret, please
-      note it down and keep it secure. It should be treated as a password and cannot
-      be retrieved by OpenProject at a later time.
+    client_id: Client-ID
+    client_secret_notice: 'Dit is de enige keer dat we het cliënt geheim kunnen drukken,
+      let het op en houd het veilig. Het moet als wachtwoord worden behandeld en kan
+      niet later door OpenProject worden opgehaald.
 
 '
     authorization_dialog:
-      authorize: Authorize
-      cancel: Cancel and deny authorization.
-      prompt_html: Authorize <strong>%{application_name}</strong> to use your account
-        <em>%{login}</em>?
-      title: Authorize %{application_name}
-      wants_to_access_html: 'This application requests access to your OpenProject
-        account. <br/> <strong>It has requested the following permissions:</strong>
+      authorize: Autoriseer
+      cancel: Annuleren en weigeren van de authorisatie.
+      prompt_html: Autoriseer <strong>%{application_name}</strong> om uw account <em>%{login}</em>
+        te gebruiken?
+      title: Autoriseer %{application_name}
+      wants_to_access_html: 'Deze applicatie vraagt toegang tot uw OpenProject account.
+        <br/> <strong>heeft de volgende machtigingen aangevraagd:</strong>
 
 '
     scopes:
-      api_v3: Full API access
-      api_v3_text: Application will receive full read & write access to the OpenProject
-        API to perform actions on your behalf.
+      api_v3: Volledige API toegang
+      api_v3_text: Toepassing zal volledige lees en schrijf toegang krijgen tot de
+        OpenProject API om acties namens u uit te voeren.
     grants:
-      created_date: Approved on
+      created_date: Goedgekeurd op
       scopes: Machtigingen
-      successful_application_revocation: Revocation of application %{application_name}
-        successful.
-      none_given: No OAuth applications have been granted access to your user account.
+      successful_application_revocation: Intrekking van toepassing %{application_name}
+        succesvol.
+      none_given: Geen OAuth-toepassingen zijn toegang verleend tot uw gebruikersaccount.
     x_active_tokens:
-      one: one active token
-      other: "%{count} active token"
+      one: één actieve token
+      other: "%{count} actieve token"
     flows:
-      authorization_code: Authorization code flow
-      client_credentials: Client credentials flow
-    client_credentials: User used for Client credentials
-    client_credentials_impersonation_set_to: Client credentials user set to
+      authorization_code: Autorisatiecode stroom
+      client_credentials: Client referenties stroom
+    client_credentials: Gebruiker gebruikt voor Client referenties
+    client_credentials_impersonation_set_to: Klant referentiegebruiker ingesteld op
     client_credentials_impersonation_warning: 'Note: Clients using the ''Client credentials''
       flow in this application will have the rights of this user'
     client_credentials_impersonation_html: 'By default, OpenProject provides OAuth

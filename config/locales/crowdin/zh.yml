@@ -202,6 +202,8 @@ zh:
     x_descendants:
       one: One descendant work package
       other: "%{count} 个子工作包"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: 所有选中的工作包都没有可用的状态，因此无法更改其状态。
       unsupported_for_multiple_projects: 不支持多个项目工作包的大批量移动/复制

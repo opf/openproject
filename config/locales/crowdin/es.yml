@@ -228,6 +228,8 @@ es:
     x_descendants:
       one: Un paquete de trabajo descendiente
       other: "%{count} paquetes de trabajo descendientes"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: No hay ningún estado disponible para todos los paquetes
         de trabajo seleccionados. Su estado no se puede cambiar.

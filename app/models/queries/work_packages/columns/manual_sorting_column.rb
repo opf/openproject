@@ -29,15 +29,15 @@
 #++
 
 class Queries::WorkPackages::Columns::ManualSortingColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+  include ::Queries::WorkPackages::Common::ManualSorting
+
   def initialize
     super :manual_sorting,
           default_order: 'asc',
-          sortable: %w[ordered_work_packages.position],
-          sortable_join: <<-SQL
-              LEFT OUTER JOIN
-                ordered_work_packages
-              ON
-                ordered_work_packages.work_package_id = work_packages.id
-          SQL
+          sortable: %w[ordered_work_packages.position]
+  end
+
+  def sortable_join_statement(query)
+    ordered_work_packages_join(query)
   end
 end

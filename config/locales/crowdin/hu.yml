@@ -219,6 +219,8 @@ hu:
     x_descendants:
       one: Egy leszármazott feladatcsoport
       other: "%{count} munkacsomag leszármazottai"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Az összes kiválasztott feladatcsoporthoz nincs elérhető
         állapot. Státuszuk nem változtatható meg.

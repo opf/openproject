@@ -224,6 +224,8 @@ fr:
     x_descendants:
       one: Un lot de travaux descendant
       other: "%{count} lots de travaux descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Il n’y a pas de statut disponible pour tous les lots
         de travaux sélectionnés. Ce statut ne peut pas être changé.

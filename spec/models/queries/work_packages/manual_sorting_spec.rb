@@ -57,4 +57,28 @@ describe Query, "manual sorting ", type: :model do
       expect(query.ordered_work_packages).to eq [wp_1.id]
     end
   end
+
+  describe 'with a second query on the same work package' do
+    let(:query2) { FactoryBot.create :query, user: user, project: project }
+
+    before do
+      login_as user
+      ::OrderedWorkPackage.create(query: query, work_package: wp_1, position: 0)
+      ::OrderedWorkPackage.create(query: query, work_package: wp_2, position: 1)
+
+      ::OrderedWorkPackage.create(query: query2, work_package: wp_1, position: 4)
+      ::OrderedWorkPackage.create(query: query2, work_package: wp_2, position: 3)
+    end
+
+    it 'returns the correct number of work packages' do
+      query.add_filter('manual_sort', 'ow', [])
+      query2.add_filter('manual_sort', 'ow', [])
+
+      query.sort_criteria = [[:manual_sorting, 'asc']]
+      query2.sort_criteria = [[:manual_sorting, 'asc']]
+
+      expect(query.results.sorted_work_packages.pluck(:id)).to eq [wp_1.id, wp_2.id]
+      expect(query2.results.sorted_work_packages.pluck(:id)).to eq [wp_2.id, wp_1.id]
+    end
+  end
 end

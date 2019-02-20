@@ -222,6 +222,8 @@ pt-BR:
     x_descendants:
       one: Um pacote de trabalho descendente
       other: "%{count} pacotes de trabalho descendentes"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Não há situação disponível para todos os pacotes
         de trabalho selecionados. Sua situação não pode ser alterada.

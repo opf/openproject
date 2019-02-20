@@ -223,6 +223,8 @@ sv-SE:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Det finns ingen status för alla valda arbetspaket.
         Deras status kan inte ändras.

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,38 +28,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'legacy_spec_helper'
+module Queries::WorkPackages
+  module Common
+    module ManualSorting
 
-describe OpenProject::Scm::Adapters::Subversion, type: :model do
-  if repository_configured?('subversion')
-    before do
-      @adapter = OpenProject::Scm::Adapters::Subversion.new(self.class.subversion_repository_url)
-    end
+      ##
+      # We depend on ordered_work_packages association
+      # for determining sort and filter for manual sorting.
+      #
+      # We could restrict the join result with where(query_id: context.id) later
+      # but that prevents the execution planner from optimizing on the explicit join clause.
+      def ordered_work_packages_join(query)
+        join_sql = <<-SQL
+          LEFT OUTER JOIN
+            ordered_work_packages
+          ON
+            ordered_work_packages.work_package_id = work_packages.id
+            AND ordered_work_packages.query_id = :query_id
+        SQL
 
-    it 'should client version' do
-      v = @adapter.client_version
-      assert v.is_a?(Array)
-    end
-
-    it 'should scm version' do
-      to_test = { "svn, version 1.6.13 (r1002816)\n"  => [1, 6, 13],
-                  "svn, versione 1.6.13 (r1002816)\n" => [1, 6, 13],
-                  "1.6.1\n1.7\n1.8"                   => [1, 6, 1],
-                  "1.6.2\r\n1.8.1\r\n1.9.1"           => [1, 6, 2] }
-      to_test.each do |s, v|
-        test_scm_version_for(s, v)
+        ::OpenProject::SqlSanitization
+          .sanitize join_sql, query_id: query.id
       end
     end
-
-    private
-
-    def test_scm_version_for(scm_version, version)
-      expect(@adapter).to receive(:scm_version_from_command_line).and_return(scm_version)
-      assert_equal version, @adapter.svn_binary_version
-    end
-
-  else
-    puts 'Subversion test repository NOT FOUND. Skipping unit tests !!!'
-    it 'should fake' do; assert true end
   end
 end
