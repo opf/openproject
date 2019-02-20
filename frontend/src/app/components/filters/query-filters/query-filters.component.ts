@@ -120,6 +120,12 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
     this.updateRemainingFilters();
   }
 
+  public get isSecondSpacerVisible():boolean {
+    return _.reject(this.filters.current, (filter) => {
+      return (filter.id === 'search');
+    }).length > 0;
+  }
+
   private updateRemainingFilters() {
     this.remainingFilters = _.sortBy(this.filters.remainingVisibleFilters, 'name');
   }
