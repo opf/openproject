@@ -29,8 +29,9 @@
 $hamburger-right: -3px
 $hamburger-width: 50px
 
-$search-input-width: 15vw
-$search-input-width-expanded: 25vw
+// search bar has a min-width of 160px and should adapt to every screen size
+$search-input-width: calc(160px + 3vw)
+$search-input-width-expanded: calc(160px + 13vw)
 $search-input-height: 30px
 
 %top-menu-hover-styles
@@ -389,18 +390,3 @@ $search-input-height: 30px
 @media only screen and (max-width: 1210px)
   #logo
     display: none
-
-  // increase width of search input on tablet screen size
-  #global-search-input
-    min-width: 20vw
-    &.-expanded
-      min-width: 30vw
-
-  #account-nav-left .drop-down
-    // minus 170px teaser width
-    max-width: calc((100vW/2) - 170px - #{$hamburger-width + $hamburger-right})
-
-@media only screen and (max-width: 900px)
-  #account-nav-left .drop-down
-    // increase size again (teaser not displayed)
-    max-width: 30vw
