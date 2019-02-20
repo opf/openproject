@@ -71,7 +71,8 @@
     </ul>
   </nav>
 
-  <div class="pagination--options" *ngIf="perPageOptions.length > 0 && pagination.total > perPageOptions[0]">
+  <div class="pagination--options"
+       *ngIf="showPerPageOptions()">
     <ul class="pagination--items">
       <li class="pagination--label" [textContent]="text.per_page" title="{{ text.per_page }}"></li>
 
