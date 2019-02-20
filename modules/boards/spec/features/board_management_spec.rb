@@ -66,7 +66,10 @@ describe 'Board management spec', type: :feature, js: true do
 
       # Create new board
       board_page = board_index.create_board
-      board_page.rename_board 'Board foo'
+      board_page.rename_board 'Board test'
+
+      # Rename through toolbar
+      board_page.rename_board 'Board foo', through_dropdown: true
 
       board_page.rename_list 'New list', 'First'
       board_page.board(reload: true) do |board|

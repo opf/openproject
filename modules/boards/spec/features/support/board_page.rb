@@ -130,8 +130,7 @@ module Pages
     end
 
     def delete_board
-      page.find('.board--settings-dropdown').click
-      page.find('.menu-item', text: 'Delete').click
+      click_dropdown_entry 'Delete'
 
       accept_alert_dialog!
       expect_and_dismiss_notification message: I18n.t('js.notice_successful_delete')
@@ -158,18 +157,32 @@ module Pages
       end
     end
 
-    def rename_board(new_name)
-      page.within('.board--header-container') do
-        input = page.find('.editable-toolbar-title--input').click
+    def rename_board(new_name, through_dropdown: false)
+      if through_dropdown
+        click_dropdown_entry 'Rename view'
+        expect(page).to have_focus_on('.board--header-container .editable-toolbar-title--input')
+        input = page.find('.board--header-container .editable-toolbar-title--input')
         input.set new_name
         input.send_keys :enter
+      else
+        page.within('.board--header-container') do
+          input = page.find('.editable-toolbar-title--input').click
+          input.set new_name
+          input.send_keys :enter
+        end
       end
+
 
       expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
 
       page.within('.board--header-container') do
         expect(page).to have_field('editable-toolbar-title', with: new_name)
       end
+    end
+
+    def click_dropdown_entry(name)
+      page.find('.board--settings-dropdown').click
+      page.find('.menu-item', text: name).click
     end
 
     def rename_list(from, to)

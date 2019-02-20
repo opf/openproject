@@ -99,7 +99,7 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger implements 
         icon: 'icon-edit',
         onClick: ($event:JQueryEventObject) => {
           if (!!this.board.grid.updateImmediately) {
-            jQuery(`#${selectableTitleIdentifier}`).trigger(triggerEditingEvent);
+            jQuery(`.board--header-container .editable-toolbar-title--input`).trigger(triggerEditingEvent);
           }
 
           return true;
