@@ -145,6 +145,9 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     // We should allow the backend to disable results embedding instead.
     if (!this.configuration.tableVisible) {
       this.queryProps.pageSize = 1;
+    } else if (this.configuration.forcePerPageOption) {
+      // Limit the number of visible work packages
+      this.queryProps.pageSize = this.configuration.forcePerPageOption;
     }
 
     this.error = null;

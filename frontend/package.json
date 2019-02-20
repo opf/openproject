@@ -36,7 +36,7 @@
     "@angular/cli": "^7.2.3",
     "@angular/common": "7.2.2",
     "@angular/compiler": "7.2.2",
-    "@angular/compiler-cli": "7.2.2",
+    "@angular/compiler-cli": "^7.2.5",
     "@angular/core": "7.2.2",
     "@angular/forms": "7.2.2",
     "@angular/http": "7.2.2",

@@ -63,6 +63,9 @@ export class WorkPackageTableConfiguration {
   /** Whether the work packages shall be shown in cards instead of a table */
   public isCardView:boolean = false;
 
+  /** Whether the number of shown WP per page shall be calculated based on the available height */
+  public forcePerPageOption:number|false = false;
+
   /** Whether this table provides a UI for filters*/
   public withFilters:boolean = false;
 
