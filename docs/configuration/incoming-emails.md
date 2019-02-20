@@ -22,6 +22,21 @@ openproject run bundle exec rake redmine:email:receive_imap host='imap.gmail.com
 bundle exec rake redmine:email:receive_imap host='imap.gmail.com' username='test_user' password='password' port=993 ssl=true allow_override=type,project project=test_project
 ```
 
+**Docker installation**
+
+The docker installation has a ["cron-like" daemon](https://github.com/opf/openproject/blob/dev/docker/cron) that will immitate the above cron job. You need to specify the following ENV variables (e.g., to your env list file)
+
+- `IMAP_SSL` set to true or false depending on whether the ActionMailer IMAP connection requires implicit TLS/SSL
+- `IMAP_PORT` `IMAP_HOST` set to the IMAP host and port of your connection
+- `IMAP_USERNAME` and `IMAP_PASSWORD`
+
+Optional ENV variables:
+
+- `IMAP_CHECK_INTERVAL=600` Interval in seconds to check for new mails (defaults to 10minutes)
+- `IMAP_ALLOW_OVERRIDE` Attributes writable (true for all), comma-separated list as specified in `allow_override` configuration.
+
+
+
 Available arguments for this rake task that specify the email behavior are
 
 |key | description|
@@ -65,6 +80,12 @@ openproject run bundle exec rake redmine:email:receive_imap host='imap.gmail.com
 ```bash
 bundle exec rake redmine:email:receive_pop3 host='pop.gmail.com' username='test_user' password='password' port=995 allow_override=priority
 ```
+
+**Docker installation**
+
+POP3 fetching of incoming mails is currently not supported. We welcome a pull request submission if you're interested in integrating it!
+
+
 
 Available options that specifiy the email behavior are:
 
