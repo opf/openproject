@@ -199,7 +199,7 @@ lol:
       one: crwdns114938:1crwdne114938:1
       other: crwdns114938:5%{count}crwdne114938:5
     bulk:
-      could_not_be_saved: 'The following work packages could not be saved:'
+      could_not_be_saved: crwdns121564:0crwdne121564:0
     move:
       no_common_statuses_exists: crwdns114940:0crwdne114940:0
       unsupported_for_multiple_projects: crwdns114942:0crwdne114942:0

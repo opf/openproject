@@ -39,7 +39,7 @@ de:
     button_duplicate: Duplizieren
     button_edit: Bearbeiten
     button_filter: Filter
-    button_advanced_filter: Advanced filter
+    button_advanced_filter: Erweiterte Filter
     button_list_view: Listenansicht
     button_show_view: Vollbildansicht
     button_log_time: Zeit buchen
@@ -158,14 +158,14 @@ de:
     label_activate: Aktivieren
     label_activity_no: 'Aktivitäts-Nummer: %{activityNo}'
     label_activity_with_comment_no: 'Aktivitäts-Nummer: %{activityNo}. Hat einen Benutzerkommentar.'
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
+    label_add_column_after: Spalte danach hinzufügen
+    label_add_column_before: Spalte davor hinzufügen
     label_add_columns: Spalte hinzufügen
     label_add_comment: Kommentar hinzufügen
     label_add_comment_title: Kommentieren und @-Zeichen eingeben, um andere Nutzer
       zu informieren
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
+    label_add_row_after: Zeile danach hinzufügen
+    label_add_row_before: Zeile davor hinzufügen
     label_add_selected_columns: Ausgewählte Spalten hinzufügen
     label_added_by: hinzugefügt von
     label_added_time_by: Von %{author} %{age} hinzugefügt
@@ -243,9 +243,9 @@ de:
     label_visibility_settings: Sichtbarkeits-Einstellungen
     label_quote_comment: Diesen Kommentar zitieren
     label_reset: Zurücksetzen
-    label_remove_column: Remove column
+    label_remove_column: Spalte entfernen
     label_remove_columns: Ausgewählte Spalten entfernen
-    label_remove_row: Remove row
+    label_remove_row: Zeile entfernen
     label_save_as: Speichern unter
     label_select_watcher: Beobachter auswählen ...
     label_selected_filter_list: Ausgewählte Filter
@@ -267,7 +267,7 @@ de:
     label_activity_show_only_comments: Nur Aktivitäten mit Kommentaren
     label_activity_show_all: Alle Aktivitäten anzeigen
     label_total_progress: "%{percent}% Gesamtfortschritt"
-    label_total_amount: 'Total: %{amount}'
+    label_total_amount: 'Gesamt: %{amount}'
     label_updated_on: aktualisiert am
     label_warning: Warnung
     label_work_package: Arbeitspaket
@@ -301,7 +301,7 @@ de:
     label_upload_notification: Dateien werden hochgeladen...
     label_work_package_upload_notification: 'Hochladen von Dateien für Arbeitspaket
       #%{id}: %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} erstellt von %{author}"
     label_files_to_upload: 'Diese Dateien werden hochgeladen:'
     label_rejected_files: 'Diese Dateien können nicht hochgeladen werden:'
     label_rejected_files_reason: Diese Dateien können nicht hochgeladen werden, da
@@ -616,7 +616,7 @@ de:
       label_enable_multi_select: Mehrfachauswahl aktivieren
       label_disable_multi_select: Mehrfachauswahl deaktivieren
       label_filter_add: Filter hinzufügen
-      label_filter_by_text: Filter by text
+      label_filter_by_text: Nach Text filtern
       label_options: Optionen
       label_column_multiselect: 'Kombiniertes Eingabefeld: Auswahl mit Pfeiltasten,
         Auslösen mit Enter, Löschen mit Backspace'
@@ -628,7 +628,7 @@ de:
       message_work_package_read_only: Das Arbeitspaket ist in diesem Status gesperrt.
         Kein Attribut außer dem Status selbst kann darin verändert werden.
       no_value: Kein Wert
-      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholder_filter_by_text: Title, Beschreibung, Kommentare, ...
       inline_create:
         title: Klicken Sie hier, um ein neues Arbeitspaket zu dieser Liste hinzufügen
       create:
@@ -823,7 +823,7 @@ de:
           der hier aufgeführten Arbeitspakete rekursiv entfernt werden.
         deletes_children: Alle untergeordneten Arbeitspaketen und deren Nachkommen
           werden auch rekursiv gelöscht.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Keine sichtbaren Ergebnisse.
     notice_successful_create: Erfolgreich angelegt.
     notice_successful_delete: Erfolgreich gelöscht.
     notice_successful_update: Erfolgreich aktualisiert.
@@ -868,12 +868,12 @@ de:
       button_activate: Zen-Modus aktivieren
       button_deactivate: Zen-Modus deaktivieren
     global_search:
-      all_projects: In all projects
+      all_projects: In allen Projekten
       search: Suche
-      close_search: Close search
-      current_project: In this project
-      current_project_and_all_descendants: In this project + subprojects
+      close_search: Suche schließen
+      current_project: In diesem Projekt
+      current_project_and_all_descendants: In diesem Projekt + Unterprojekte
       title:
-        all_projects: all projects
-        project_and_subprojects: and all subprojects
-        search_for: Search for
+        all_projects: alle Projekte
+        project_and_subprojects: und alle Unterprojekte
+        search_for: Suche nach
