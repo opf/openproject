@@ -809,7 +809,7 @@ en:
 
     error_could_not_resolve_version_name: "Couldn't resolve version name"
     error_could_not_resolve_user_name: "Couldn't resolve user name"
-    error_attachment_upload: "File '%{name}' failed to upload: %{error}"
+    error_attachment_upload: "File failed to upload: %{error}"
     error_attachment_upload_permission: "You don't have the permission to upload files on this resource."
 
     units:
