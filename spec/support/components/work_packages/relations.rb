@@ -173,10 +173,12 @@ module Components
       end
 
       def openChildrenAutocompleter
-        find('.wp-inline-create--reference-link', text: I18n.t('js.relation_buttons.add_existing_child')).click
+        retry_block do
+          find('.wp-inline-create--reference-link', text: I18n.t('js.relation_buttons.add_existing_child')).click
 
-        # Security check to be sure that the autocompleter has finished loading
-        expect(page).to have_selector '.wp-relations-autocomplete--results'
+          # Security check to be sure that the autocompleter has finished loading
+          page.find '.wp-relations-autocomplete--results'
+        end
       end
 
       def add_existing_child(work_package)
