@@ -119,6 +119,11 @@ ca:
     memberships:
       no_results_title_text: Actualment no hi ha projectes que formin part d'aquest
         grup.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -2262,6 +2267,7 @@ ca:
     després d'una d'aquestes línies
   setting_mail_handler_body_delimiter_regex: Trunca els missatges de correu electrònic
     que coincideixen amb aquesta expressió regular
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rol donat per un usuari no-admin que crea un projecte
   setting_password_active_rules: Classes de caràcters actius
   setting_password_count_former_banned: Nombre de contrasenyes utilitzades més recentment

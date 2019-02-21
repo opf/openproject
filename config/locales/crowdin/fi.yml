@@ -117,6 +117,11 @@ fi:
       no_results_title_text: Tällä hetkellä tähän ryhmään ei kuulu yhtään käyttäjää.
     memberships:
       no_results_title_text: Tällä hetkellä tähän ryhmään ei kuulu projekteja.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -2204,6 +2209,7 @@ fi:
   setting_mail_handler_api_key: API avain
   setting_mail_handler_body_delimiters: Katkaise sähköpostit tällaisen rivin jälkeen
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rooli joka annetaan projektin luojalle, joka ei
     ole hallinnoija (admin)
   setting_password_active_rules: Aktiiviset merkistöluokat

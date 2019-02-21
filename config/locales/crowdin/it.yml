@@ -119,6 +119,11 @@ it:
       no_results_title_text: Al momento nessun utente fa parte di questo gruppo.
     memberships:
       no_results_title_text: Al momento nessun progetto fa parte di questo gruppo.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: L'eliminazione è stata programmata e verrà eseguita in background.
@@ -2276,6 +2281,7 @@ it:
   setting_mail_handler_body_delimiters: Troncare le email dopo una di queste linee
   setting_mail_handler_body_delimiter_regex: Troncare le email che corrispondono a
     questa espressione regolare
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Ruolo assegnato ad un utente non amministratore
     che crea un progetto
   setting_password_active_rules: Insiemi di caratteri attivi

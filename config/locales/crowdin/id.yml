@@ -119,6 +119,11 @@ id:
       no_results_title_text: Tidak ada pengguna yang menjadi anggota grup ini.
     memberships:
       no_results_title_text: Saat ini tidak ada proyek yang menjadi bagian grup.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -2201,6 +2206,7 @@ id:
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Potong email setelah baris ini
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Role yang diberikan kepada user non-admin yang
     membuat Project
   setting_password_active_rules: Character classes aktif

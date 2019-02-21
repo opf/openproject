@@ -118,6 +118,11 @@ nl:
       no_results_title_text: Er zijn momenteel geen gebruikers deel van deze groep.
     memberships:
       no_results_title_text: Er zijn momenteel projecten deel van deze groep.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Het verwijderen staat gepland en wordt uigevoerd in de achtergrond.
@@ -223,7 +228,7 @@ nl:
       one: One descendant work package
       other: "%{count} werk pakket afstammelingen"
     bulk:
-      could_not_be_saved: 'The following work packages could not be saved:'
+      could_not_be_saved: 'De volgende werkpakketten konden niet worden opgeslagen:'
     move:
       no_common_statuses_exists: Er is geen status beschikbaar voor alle geselecteerde
         werkpakketten. Hun status kan niet worden gewijzigd.
@@ -507,7 +512,7 @@ nl:
         too_long: is te lang (maximaal %{count} karakters).
         too_short: is te kort (minimum is %{count} karakters).
         unchangeable: kan niet worden gewijzigd.
-        unremovable: cannot be removed.
+        unremovable: kan niet verwijderd worden.
         wrong_length: is de verkeerde lengte (dient %{count} karakters te zijn).
       models:
         custom_field:
@@ -1656,7 +1661,7 @@ nl:
   label_view_diff: Bekijk verschillen
   label_view_revisions: Bekijk revisies
   label_watched_work_packages: Gevolgde werkpakketten
-  label_what_is_this: What is this?
+  label_what_is_this: Wat is dit?
   label_week: Week
   label_wiki_content_added: Wiki-pagina toegevoegd
   label_wiki_content_updated: Wiki-pagina bijgewerkt
@@ -2253,6 +2258,7 @@ nl:
   setting_mail_handler_body_delimiters: Afkappen e-mails na een van deze lijnen
   setting_mail_handler_body_delimiter_regex: E-mails die overeenkomen met deze regex
     afkappen
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rol gegeven aan een niet-admin-gebruiker die een
     project maakt
   setting_password_active_rules: Actieve tekenklassen
@@ -2436,14 +2442,14 @@ nl:
   text_no_notes: Er is geen commentaar beschikbaar voor dit werkpakket.
   text_notice_too_many_values_are_inperformant: 'Opmerking: Meer dan 100 items per
     pagina weergeven kan de laadtijd van de pagina verhogen.'
-  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
-    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
-    administration panel, and on the home page. It is displayed to administrators
-    only. <br/> The badge will check your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide
-    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
-    configuration documentation</a>.
+  text_notice_security_badge_displayed_html: 'Opmerking: indien ingeschakeld zal dit
+    een badge weergeven met uw installatiestatus in de <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administratie paneel, en op de homepage. Deze wordt alleen getoond aan beheerders.
+    <br/> De badge zal uw huidige OpenProject versie controleren tegen de officiële
+    OpenProject-database om u te waarschuwen voor updates of bekende kwetsbaarheden.
+    Voor meer informatie over wat de controle biedt, welke gegevens nodig zijn om
+    beschikbare updates te verstrekken en hoe deze controle kan worden uitgeschakeld,
+    bezoek <a href="%{more_info_url}">de configuratiedocumentatie</a>.
 
 '
   text_own_membership_delete_confirmation: U bent bezig met het verwijderen van sommige
@@ -2944,15 +2950,16 @@ nl:
       client_credentials: Client referenties stroom
     client_credentials: Gebruiker gebruikt voor Client referenties
     client_credentials_impersonation_set_to: Klant referentiegebruiker ingesteld op
-    client_credentials_impersonation_warning: 'Note: Clients using the ''Client credentials''
-      flow in this application will have the rights of this user'
-    client_credentials_impersonation_html: 'By default, OpenProject provides OAuth
-      2.0 authorization via %{authorization_code_flow_link}. You can optionally enable
-      %{client_credentials_flow_link}, but you must provide a user on whose behalf
-      requests will be performed.
+    client_credentials_impersonation_warning: 'Opmerking: Clienten die gebruik maken
+      van de ''Client referenties'' stroom in deze applicatie zullen de rechten van
+      deze gebruiker hebben'
+    client_credentials_impersonation_html: 'Standaard biedt OpenProject OAuth 2.0
+      autorisatie via %{authorization_code_flow_link}. U kunt optioneel %{client_credentials_flow_link}
+      inschakelen, maar u moet een gebruiker geven wier verzoeken namens zullen worden
+      uitgevoerd.
 
 '
-    authorization_error: An authorization error has occurred.
-    revoke_my_application_confirmation: Do you really want to remove this application?
-      This will revoke %{token_count} active for it.
-    my_registered_applications: Registered OAuth applications
+    authorization_error: Er is een autorisatiefout opgetreden.
+    revoke_my_application_confirmation: Weet u zeker dat u deze applicatie wilt verwijderen?
+      Dit zal %{token_count} actief voor deze verwijderen.
+    my_registered_applications: Geregistreerde OAuth toepassingen

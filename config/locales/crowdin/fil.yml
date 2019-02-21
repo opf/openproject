@@ -125,6 +125,11 @@ fil:
     memberships:
       no_results_title_text: Sa kasalukuyan ay walang parte ng mga proyekto sa grupong
         ito.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -2287,6 +2292,7 @@ fil:
     linyang ito
   setting_mail_handler_body_delimiter_regex: Ang nga truncate email ay nagkakatugma
     sa regex na ito
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Ibinigay na tungkulin para sa non-admin na gumagamit
     isa sa mga lumilikha ng proyekto
   setting_password_active_rules: Ang mga klase ng aktibong karakter

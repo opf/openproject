@@ -117,6 +117,11 @@ ru:
       no_results_title_text: На данный момент пользователи этой группы отсутствуют.
     memberships:
       no_results_title_text: На данный момент проектов этой группы нет.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Удаление было запланировано и исполнено в фоновом режиме. О результатах
@@ -223,7 +228,7 @@ ru:
       few: 'Пакетов работ, являющихся потомками: %{count}'
       many: 'Пакетов работ, являющихся потомками: %{count}'
     bulk:
-      could_not_be_saved: 'The following work packages could not be saved:'
+      could_not_be_saved: 'Не удалось сохранить следующие пакеты работ:'
     move:
       no_common_statuses_exists: Статус не доступен для всех выбранных пакетов работ.
         Их статус изменен быть не может.
@@ -2278,6 +2283,7 @@ ru:
   setting_mail_handler_body_delimiters: Усечение сообщений после одной из этих линий
   setting_mail_handler_body_delimiter_regex: Сообщение усекается по этому регулярному
     выражению
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Роль, назначаемая пользователю-создателю проекта
   setting_password_active_rules: Активные классы символов
   setting_password_count_former_banned: Количество паролей, запрещенных для повторного

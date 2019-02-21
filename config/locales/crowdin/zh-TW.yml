@@ -101,6 +101,11 @@ zh-TW:
       no_results_title_text: 目前沒有使用者在這個群組
     memberships:
       no_results_title_text: 目前沒有專案在這個群組
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: 刪除已經排程並且會在背景執行。你將會收到結果通知。
@@ -2042,6 +2047,7 @@ zh-TW:
   setting_mail_handler_api_key: API 金鑰
   setting_mail_handler_body_delimiters: 在這些行之後截斷電子郵件
   setting_mail_handler_body_delimiter_regex: 清空符合正規表達式的電子郵件
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: 非管理員用户新建專案時將被赋予的（在該專案中的）角色
   setting_password_active_rules: 啟用字元類別
   setting_password_count_former_banned: 禁止重複使用最近被使用的密碼次數

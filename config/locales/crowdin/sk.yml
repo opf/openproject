@@ -117,6 +117,11 @@ sk:
       no_results_title_text: Momentálne nie sú členmi tejto skupiny žiadni používatelia.
     memberships:
       no_results_title_text: Pre túto skupinu nie sú momentálne vytvorené žiadne projekty.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Vymazanie bolo naplánované a uskutočňuje sa na pozadí. O výsledku
@@ -2284,6 +2289,7 @@ sk:
   setting_mail_handler_body_delimiters: Skráťte emaily po jednom z týchto riadkov
   setting_mail_handler_body_delimiter_regex: Skrátiť e-maily zodpovedajúce tomuto
     regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rola priradená užívateľovi bez práv administrátora,
     ktorý projekt vytvoril
   setting_password_active_rules: Aktívny charakter tried

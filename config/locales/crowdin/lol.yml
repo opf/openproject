@@ -101,6 +101,11 @@ lol:
       no_results_title_text: crwdns114834:0crwdne114834:0
     memberships:
       no_results_title_text: crwdns114836:0crwdne114836:0
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: crwdns114838:0crwdne114838:0
@@ -2017,6 +2022,7 @@ lol:
   setting_mail_handler_api_key: crwdns118088:0crwdne118088:0
   setting_mail_handler_body_delimiters: crwdns118090:0crwdne118090:0
   setting_mail_handler_body_delimiter_regex: crwdns118092:0crwdne118092:0
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: crwdns118094:0crwdne118094:0
   setting_password_active_rules: crwdns118096:0crwdne118096:0
   setting_password_count_former_banned: crwdns118098:0crwdne118098:0
