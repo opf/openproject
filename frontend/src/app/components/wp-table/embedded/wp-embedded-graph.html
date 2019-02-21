@@ -1,6 +1,6 @@
 <div class="work-packages-embedded-view--container loading-indicator--location"
      [attr.data-indicator-name]="uniqueEmbeddedTableName">
-    <ng-container *ngIf="tableInformationLoaded">
+    <ng-container *ngIf="renderTable">
         <canvas baseChart
                 [datasets]="chartData"
                 [labels]="chartLabels"

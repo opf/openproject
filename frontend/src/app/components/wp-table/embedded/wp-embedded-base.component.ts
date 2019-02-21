@@ -44,7 +44,7 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
 
   ngAfterViewInit():void {
     // Load initially
-    this.loadQuery(this.initialLoadingIndicator);
+    this.refresh(this.initialLoadingIndicator);
 
     // Reload results on refresh requests
     this.querySpace.refreshRequired

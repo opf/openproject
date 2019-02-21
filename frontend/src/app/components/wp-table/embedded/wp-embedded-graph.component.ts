@@ -51,7 +51,6 @@ export interface WorkPackageEmbeddedGraphDataset {
 export class WorkPackageEmbeddedGraphComponent extends WorkPackageEmbeddedBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public datasets:WorkPackageEmbeddedGraphDataset[];
 
-  public tableInformationLoaded = false;
   public showTablePagination = false;
   public configuration:WorkPackageTableConfiguration;
   public error:string|null = null;
