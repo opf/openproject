@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Directive, ElementRef, Input, OnDestroy} from '@angular/core';
+import {Directive, ElementRef, Injector, Input, OnDestroy} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
@@ -59,6 +59,7 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger implements 
               readonly BoardCache:BoardCacheService,
               readonly Notifications:NotificationsService,
               readonly State:StateService,
+              readonly injector:Injector,
               readonly I18n:I18nService) {
 
     super(elementRef, opContextMenu);
@@ -88,7 +89,7 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger implements 
         icon: 'icon-settings',
         onClick: ($event:JQueryEventObject) => {
           this.opContextMenu.close();
-          this.opModalService.show(BoardConfigurationModal, { board: this.board });
+          this.opModalService.show(BoardConfigurationModal, this.injector, { board: this.board });
 
           return true;
         }

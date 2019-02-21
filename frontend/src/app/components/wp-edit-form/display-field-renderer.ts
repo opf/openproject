@@ -79,7 +79,7 @@ export class DisplayFieldRenderer {
   }
 
   private getFieldForCurrentContext(workPackage:WorkPackageResource, fieldSchema:IFieldSchema, name:string):DisplayField {
-    const context:DisplayFieldContext = { container: this.container, options: this.options };
+    const context:DisplayFieldContext = { container: this.container, injector: this.injector, options: this.options };
 
     // We handle multi value fields differently in the single view context
     const isMultiLinesField = ['[]CustomOption', '[]User'].indexOf(fieldSchema.type) >= 0;

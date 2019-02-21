@@ -26,32 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
-import {WorkPackageTableBaseState} from './wp-table-base';
-import {QueryColumn} from '../wp-query/query-column';
-import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
+import {Component} from '@angular/core';
+import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
 
-export class WorkPackageTableColumns extends WorkPackageTableBaseState<QueryColumn[]> {
+export const globalSearchWorkPackagesSelectorEntry = 'global-search-work-packages-entry';
 
-  // The selected columns state of the current table instance
-  public current:QueryColumn[];
-
-  constructor(query:QueryResource) {
-    super();
-    this.update(query);
-  }
-
-  public update(query:QueryResource|null, schema?:QuerySchemaResource) {
-    if (query) {
-      this.current = cloneHalResourceCollection<QueryColumn>(query.columns);
-    }
-  }
-
-  /**
-   * Retrieve the QueryColumn objects for the selected columns
-   */
-  public getColumns():QueryColumn[] {
-    return this.current;
-  }
+/**
+ * An entry component to be rendered by Rails which opens an isolated query space
+ * for the work package search embedded table.
+ */
+@Component({
+  selector: globalSearchWorkPackagesSelectorEntry,
+  template: `
+    <ng-container wp-isolated-query-space>
+      <global-search-work-packages></global-search-work-packages>
+    </ng-container>
+  `
+})
+export class GlobalSearchWorkPackagesEntryComponent {
 }
+
+DynamicBootstrapper.register({
+  selector: globalSearchWorkPackagesSelectorEntry, cls: GlobalSearchWorkPackagesEntryComponent
+});

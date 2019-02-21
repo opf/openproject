@@ -67,7 +67,7 @@ export class WorkPackagesListComponent extends WorkPackagesSetComponent implemen
     });
 
     // Update the title whenever the query changes
-    this.tableState.query.values$().pipe(
+    this.querySpace.query.values$().pipe(
       untilComponentDestroyed(this)
     ).subscribe((query) => {
       this.updateTitle(query);
@@ -122,7 +122,7 @@ export class WorkPackagesListComponent extends WorkPackagesSetComponent implemen
   protected loadCurrentQuery() {
     return super.loadCurrentQuery()
                 .then(() => {
-                  return this.tableState.rendered.valuesPromise();
+                  return this.querySpace.rendered.valuesPromise();
                 });
   }
 }

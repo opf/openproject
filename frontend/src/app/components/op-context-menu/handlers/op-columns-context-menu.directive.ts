@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Directive, ElementRef, Input} from '@angular/core';
+import {Directive, ElementRef, Injector, Input} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
@@ -40,6 +40,7 @@ import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 import {QueryColumn} from 'core-components/wp-query/query-column';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
+import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
 
 @Directive({
   selector: '[opColumnsContextMenu]'
@@ -55,6 +56,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
               readonly wpTableGroupBy:WorkPackageTableGroupByService,
               readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
               readonly opModalService:OpModalService,
+              readonly injector:Injector,
               readonly I18n:I18nService) {
 
     super(elementRef, opContextMenu);
@@ -83,7 +85,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
    */
   public positionArgs(evt:JQueryEventObject) {
     let additionalPositionArgs = {
-      of:  this.$element.find('.generic-table--sort-header-outer'),
+      of: this.$element.find('.generic-table--sort-header-outer'),
     };
 
     let position = super.positionArgs(evt);
@@ -173,7 +175,8 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         onClick: () => {
           this.opModalService.show<WpTableConfigurationModalComponent>(
             WpTableConfigurationModalComponent,
-            {initialTab: 'columns'}
+            this.injector,
+            { initialTab: 'columns' }
           );
           return true;
         }

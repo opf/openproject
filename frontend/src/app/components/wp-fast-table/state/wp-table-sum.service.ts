@@ -30,19 +30,19 @@ import {InputState} from 'reactivestates';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageTableSum} from '../wp-table-sum';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 
 @Injectable()
 export class WorkPackageTableSumService extends WorkPackageTableBaseService<WorkPackageTableSum> implements WorkPackageQueryStateService {
 
-  public constructor(tableState:TableState) {
-    super(tableState);
+  public constructor(querySpace:IsolatedQuerySpace) {
+    super(querySpace);
   }
 
 
   public get state():InputState<WorkPackageTableSum> {
-    return this.tableState.sum;
+    return this.querySpace.sum;
   }
 
   public valueFromQuery(query:QueryResource) {

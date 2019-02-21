@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component} from "@angular/core";
+import {Component, Injector} from "@angular/core";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 export const wpBaseSelector = 'work-packages-base';
@@ -34,7 +34,7 @@ export const wpBaseSelector = 'work-packages-base';
 @Component({
   selector: wpBaseSelector,
   template: `
-    <div class="work-packages-page--ui-view">
+    <div class="work-packages-page--ui-view" wp-isolated-query-space>
       <ui-view></ui-view>
     </div>
   `

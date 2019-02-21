@@ -52,7 +52,7 @@ import {
   InlineCreateRowBuilder,
   inlineCreateRowClassName
 } from './inline-create-row-builder';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
@@ -91,7 +91,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
               protected readonly elementRef:ElementRef,
               protected readonly FocusHelper:FocusHelperService,
               protected readonly I18n:I18nService,
-              protected readonly tableState:TableState,
+              protected readonly querySpace:IsolatedQuerySpace,
               protected readonly currentUser:CurrentUserService,
               @Inject(IWorkPackageCreateServiceToken) protected readonly wpCreate:WorkPackageCreateService,
               protected readonly wpInlineCreate:WorkPackageInlineCreateService,
@@ -151,7 +151,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
    * we need to manually ensure the inline create row gets refreshed as well.
    */
   private refreshOnColumnChanges() {
-    this.tableState.columns
+    this.querySpace.columns
       .values$()
       .pipe(
         filter(() => this.isActive), // Take only when row is inserted

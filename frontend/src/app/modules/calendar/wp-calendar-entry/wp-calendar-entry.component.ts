@@ -35,7 +35,7 @@ import {WorkPackagesSetComponent} from "core-app/modules/work_packages/routing/w
 
 export class WorkPackagesCalendarEntryComponent extends WorkPackagesSetComponent {
   // overrides super
-  protected initialQueryLoading(loadingRequired:boolean) {
+  protected initialQueryLoading() {
     // nothing
   }
 }

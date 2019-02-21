@@ -33,19 +33,19 @@ import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-r
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {WorkPackageTableFilters} from '../wp-table-filters';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {InputState} from 'reactivestates';
 import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 @Injectable()
 export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<WorkPackageTableFilters> implements WorkPackageQueryStateService {
 
-  constructor(readonly tableState:TableState) {
-    super(tableState);
+  constructor(readonly querySpace:IsolatedQuerySpace) {
+    super(querySpace);
   }
 
   public get state():InputState<WorkPackageTableFilters> {
-    return this.tableState.filters;
+    return this.querySpace.filters;
   }
 
   public valueFromQuery(query:QueryResource):WorkPackageTableFilters|undefined {

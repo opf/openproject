@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {States} from '../../states.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
@@ -37,7 +36,8 @@ import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {QuerySharingChange} from "core-components/modals/share-modal/query-sharing-form.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {TableState} from "core-components/wp-table/table-state/table-state";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 
 @Component({
   templateUrl: './save-query.modal.html'
@@ -65,7 +65,7 @@ export class SaveQueryModal extends OpModalComponent {
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly I18n:I18nService,
               readonly states:States,
-              readonly tableState:TableState,
+              readonly querySpace:IsolatedQuerySpace,
               readonly wpListService:WorkPackagesListService,
               readonly wpNotificationsService:WorkPackageNotificationService,
               readonly cdRef:ChangeDetectorRef,
@@ -92,7 +92,7 @@ export class SaveQueryModal extends OpModalComponent {
     }
 
     this.isBusy = true;
-    const query = this.tableState.query.value!;
+    const query = this.querySpace.query.value!;
     query.public = this.isPublic;
 
     this.wpListService

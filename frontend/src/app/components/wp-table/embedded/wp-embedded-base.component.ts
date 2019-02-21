@@ -1,6 +1,5 @@
 import {AfterViewInit, Injector, Input, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {CurrentProjectService} from '../../projects/current-project.service';
-import {TableState} from '../table-state/table-state';
 import {WorkPackageStatesInitializationService} from '../../wp-list/wp-states-initialization.service';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {
@@ -11,13 +10,14 @@ import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 
 export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input('configuration') protected providedConfiguration:WorkPackageTableConfigurationObject;
   @Input() public uniqueEmbeddedTableName:string = `embedded-table-${Date.now()}`;
   @Input() public initialLoadingIndicator:boolean = true;
 
-  public tableInformationLoaded = false;
+  public renderTable = false;
   public showTablePagination = false;
   public configuration:WorkPackageTableConfiguration;
   public error:string|null = null;
@@ -25,7 +25,7 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
   private initialized:boolean = false;
 
   readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
-  readonly tableState:TableState  = this.injector.get(TableState);
+  readonly querySpace:IsolatedQuerySpace  = this.injector.get(IsolatedQuerySpace);
   readonly I18n:I18nService = this.injector.get(I18nService);
   readonly urlParamsHelper:UrlParamsHelperService = this.injector.get(UrlParamsHelperService);
   readonly loadingIndicatorService:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);
@@ -44,10 +44,10 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
 
   ngAfterViewInit():void {
     // Load initially
-    this.loadQuery(this.initialLoadingIndicator);
+    this.refresh(this.initialLoadingIndicator);
 
     // Reload results on refresh requests
-    this.tableState.refreshRequired
+    this.querySpace.refreshRequired
       .values$()
       .pipe(untilComponentDestroyed(this))
       .subscribe(() => this.refresh(false));
@@ -58,7 +58,7 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
   }
 
   ngOnChanges(changes:SimpleChanges) {
-    if (this.initialized) {
+    if (this.initialized && (changes.queryId || changes.queryProps)) {
       this.refresh(this.initialLoadingIndicator);
     }
   }
@@ -76,14 +76,14 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
   }
 
   public buildQueryProps() {
-    const query = this.tableState.query.value!;
+    const query = this.querySpace.query.value!;
     this.wpStatesInitialization.applyToQuery(query);
 
     return this.urlParamsHelper.buildV3GetQueryFromQueryResource(query);
   }
 
   protected setLoaded() {
-    this.tableInformationLoaded = this.configuration.tableVisible;
+    this.renderTable = this.configuration.tableVisible;
   }
 
   public refresh(visible:boolean = true):Promise<any> {

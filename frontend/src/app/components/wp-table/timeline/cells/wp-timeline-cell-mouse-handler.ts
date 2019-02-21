@@ -37,7 +37,7 @@ import {WorkPackageTimelineTableController} from '../container/wp-timeline-conta
 import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {WorkPackageCellLabels} from './wp-timeline-cell';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import Moment = moment.Moment;
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
@@ -63,7 +63,7 @@ export function registerWorkPackageMouseHandler(this:void,
                                                 renderer:TimelineCellRenderer,
                                                 renderInfo:RenderInfo) {
 
-  const tableState:TableState = injector.get(TableState);
+  const querySpace:IsolatedQuerySpace = injector.get(IsolatedQuerySpace);
 
   let mouseDownStartDay:number | null = null; // also flag to signal active drag'n'drop
   renderInfo.changeset = new WorkPackageChangeset(injector, renderInfo.workPackage);
@@ -249,7 +249,7 @@ export function registerWorkPackageMouseHandler(this:void,
     return loadingIndicator.table.promise = changeset.save()
       .then((wp) => {
         wpNotificationsService.showSave(wp);
-        const ids = _.map(tableState.rendered.value!, row => row.workPackageId);
+        const ids = _.map(querySpace.rendered.value!, row => row.workPackageId);
         loadingIndicator.table.promise =
           queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
             wpCacheService.updateWorkPackageList(workPackageCollection.elements);

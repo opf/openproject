@@ -1,6 +1,6 @@
 import {Injector} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {debugLog} from '../../helpers/debug_output';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
@@ -19,7 +19,7 @@ import {WorkPackageTableConfiguration, WorkPackageTableConfigurationObject} from
 
 export class WorkPackageTable {
 
-  private readonly tableState:TableState = this.injector.get(TableState);
+  private readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
 
   public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   public states:States = this.injector.get(States);
@@ -52,7 +52,7 @@ export class WorkPackageTable {
   }
 
   public get renderedRows() {
-    return this.tableState.rendered.getValueOr([]);
+    return this.querySpace.rendered.getValueOr([]);
   }
 
   public findRenderedRow(classIdentifier:string):[number, RenderedRow] {
@@ -101,7 +101,7 @@ export class WorkPackageTable {
     this.timelineBody.innerHTML = '';
     this.timelineBody.appendChild(renderPass.timeline.timelineBody);
 
-    this.tableState.rendered.putValue(renderPass.result);
+    this.querySpace.rendered.putValue(renderPass.result);
   }
 
   /**
@@ -109,7 +109,7 @@ export class WorkPackageTable {
    */
   public redrawTable() {
     const renderPass = this.performRenderPass();
-    this.tableState.rendered.putValue(renderPass.result);
+    this.querySpace.rendered.putValue(renderPass.result);
   }
 
   /**

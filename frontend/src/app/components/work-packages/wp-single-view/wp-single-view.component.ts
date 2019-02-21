@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -126,6 +126,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected displayFieldService:DisplayFieldService,
               protected wpCacheService:WorkPackageCacheService,
               protected hook:HookService,
+              protected injector:Injector,
               readonly elementRef:ElementRef) {
   }
 
@@ -356,7 +357,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
       resource,
       name,
       resource.schema[name],
-      { container: 'single-view', options: {} }
+      { container: 'single-view', injector: this.injector, options: {} }
     ) as DisplayField;
   }
 

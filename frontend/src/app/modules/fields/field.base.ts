@@ -40,7 +40,6 @@ export interface IFieldSchema {
 
 export class Field {
   public static type:string;
-  public static $injector:Injector;
   public resource:any;
   public name:string;
   public schema:IFieldSchema;
@@ -76,9 +75,5 @@ export class Field {
 
   public get unknownAttribute():boolean {
     return this.isEmpty && !this.schema;
-  }
-
-  protected get $injector():Injector {
-    return (this.constructor as typeof Field).$injector;
   }
 }

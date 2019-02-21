@@ -51,7 +51,7 @@ export class WorkPackageByVersionGraphComponent implements OnInit {
     }
 
     if (this.currentGraph) {
-      this.currentGraph.tableState.refreshRequired.putValue([false, false], '');
+      this.currentGraph.querySpace.refreshRequired.putValue([false, false], '');
     }
   }
 

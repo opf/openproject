@@ -8,14 +8,14 @@ import {WorkPackageTableSelection} from '../../state/wp-table-selection.service'
 import {WorkPackageTable} from '../../wp-fast-table';
 import {WPTableRowSelectionState} from '../../wp-table.interfaces';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 
 export class SelectionTransformer {
 
   public wpTableSelection:WorkPackageTableSelection = this.injector.get(WorkPackageTableSelection);
   public wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
-  public tableState:TableState = this.injector.get(TableState);
+  public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
   public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
   public opContextMenu:OPContextMenuService = this.injector.get(OPContextMenuService);
 
@@ -23,9 +23,9 @@ export class SelectionTransformer {
               public readonly table:WorkPackageTable) {
 
     // Focus a single selection when active
-    this.tableState.rendered.values$()
+    this.querySpace.rendered.values$()
       .pipe(
-        takeUntil(this.tableState.stopAllSubscriptions)
+        takeUntil(this.querySpace.stopAllSubscriptions)
       )
       .subscribe(() => {
 
@@ -42,7 +42,7 @@ export class SelectionTransformer {
     // Update selection state
     this.wpTableSelection.selectionState.values$()
       .pipe(
-        takeUntil(this.tableState.stopAllSubscriptions)
+        takeUntil(this.querySpace.stopAllSubscriptions)
       )
       .subscribe((state:WPTableRowSelectionState) => {
         this.renderSelectionState(state);

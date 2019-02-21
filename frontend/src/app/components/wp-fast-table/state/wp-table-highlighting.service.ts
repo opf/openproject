@@ -1,9 +1,8 @@
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {States} from 'core-components/states.service';
-import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import {DynamicCssService} from "../../../modules/common/dynamic-css/dynamic-css.service";
 import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
@@ -14,8 +13,8 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
   public constructor(readonly states:States,
                      readonly Banners:BannersService,
                      readonly dynamicCssService:DynamicCssService,
-                     readonly tableState:TableState) {
-    super(tableState);
+                     readonly querySpace:IsolatedQuerySpace) {
+    super(querySpace);
   }
 
   /**
@@ -39,7 +38,7 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
   }
 
   public get state() {
-    return this.tableState.highlighting;
+    return this.querySpace.highlighting;
   }
 
   public get current():WorkPackageTableHighlight {

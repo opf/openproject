@@ -100,7 +100,7 @@ export class LoadingIndicatorService {
   // Return an indicator by name or element
   public indicator(indicator:string|JQuery):LoadingIndicator {
     if (typeof indicator === 'string') {
-      indicator = this.getIndicatorAt(name) as JQuery;
+      indicator = this.getIndicatorAt(indicator) as JQuery;
     }
 
     return new LoadingIndicator(indicator);

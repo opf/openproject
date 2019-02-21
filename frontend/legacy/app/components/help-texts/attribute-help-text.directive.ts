@@ -82,7 +82,7 @@ export class AttributeHelpTextController {
 
   public handleClick() {
     this.load().then((resource:any) => {
-      let modal = this.opModal.show(this.attributeHelpTextsModal, { helpText: resource });
+      let modal = this.opModal.show(this.attributeHelpTextsModal, 'global', { helpText: resource });
       modal.openingEvent.subscribe((modal:any) => {
         setTimeout(() => {
           //HACK: need to trigger an angular digest in order to have the

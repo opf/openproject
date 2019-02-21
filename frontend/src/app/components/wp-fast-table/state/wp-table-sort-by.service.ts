@@ -32,7 +32,7 @@ import {mapTo} from 'rxjs/operators';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageTableSortBy} from '../wp-table-sort-by';
 import {QueryColumn} from '../../wp-query/query-column';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {Observable} from 'rxjs';
@@ -46,13 +46,13 @@ import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resou
 export class WorkPackageTableSortByService extends WorkPackageTableBaseService<WorkPackageTableSortBy> implements WorkPackageQueryStateService {
 
   constructor(readonly states:States,
-              readonly tableState:TableState) {
-    super(tableState);
+              readonly querySpace:IsolatedQuerySpace) {
+    super(querySpace);
   }
 
 
   public get state():InputState<WorkPackageTableSortBy> {
-    return this.tableState.sortBy;
+    return this.querySpace.sortBy;
   }
 
   public valueFromQuery(query:QueryResource) {
@@ -79,10 +79,10 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService<W
   public applyToQuery(query:QueryResource) {
     if (this.current.current.length > 0) {
       // hierarchies and sort by are mutually exclusive
-      var hierarchies = this.tableState.hierarchies.value!;
+      var hierarchies = this.querySpace.hierarchies.value!;
       hierarchies.current = false;
       hierarchies.last = null;
-      this.tableState.hierarchies.putValue(hierarchies);
+      this.querySpace.hierarchies.putValue(hierarchies);
       query.hierarchies = hierarchies.current;
     }
     query.sortBy = cloneHalResourceCollection<QuerySortByResource>(this.current.current);

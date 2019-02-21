@@ -19,6 +19,7 @@
     </div>
 
     <div class="board-list--query-container">
+      <ng-container wp-isolated-query-space>
       <wp-embedded-table *ngIf="boardTableConfiguration.isEmbedded && !boardTableConfiguration.isCardView"
                          [queryId]="query.id"
                          [loadedQuery]="query"
@@ -31,6 +32,7 @@
                     [queryId]="query.id"
                     [configuration]="boardTableConfiguration"
                     [queryProps]="columnsQueryProps"></wp-card-view>
+      </ng-container>
     </div>
   </ng-container>
 </div>

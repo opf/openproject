@@ -2,7 +2,7 @@ import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, SecurityCont
 import {CalendarComponent} from 'ng-fullcalendar';
 import {Options} from 'fullcalendar';
 import {States} from "core-components/states.service";
-import {TableState} from "core-components/wp-table/table-state/table-state";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
@@ -31,7 +31,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
               readonly $state:StateService,
               readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly wpListService:WorkPackagesListService,
-              readonly tableState:TableState,
+              readonly querySpace:IsolatedQuerySpace,
               readonly urlParamsHelper:UrlParamsHelperService,
               private element:ElementRef,
               readonly i18n:I18nService,
@@ -40,7 +40,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Clear any old subscribers
-    this.tableState.stopAllSubscriptions.next();
+    this.querySpace.stopAllSubscriptions.next();
 
     this.setCalendarOptions();
   }
@@ -58,7 +58,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     let startDate = (calendarView.start as Moment).format('YYYY-MM-DD');
     let endDate = (calendarView.end as Moment).format('YYYY-MM-DD');
 
-    if (!this.wpTableFilters.currentState && this.tableState.query.value) {
+    if (!this.wpTableFilters.currentState && this.querySpace.query.value) {
       // nothing to do
     } else if (!this.wpTableFilters.currentState) {
       let queryProps = this.defaultQueryProps(startDate, endDate);
@@ -107,7 +107,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   }
 
   private setCalendarsDate() {
-    const query = this.tableState.query.value;
+    const query = this.querySpace.query.value;
     if (!query) {
       return;
     }
@@ -137,7 +137,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   }
 
   private setupWorkPackagesListener() {
-    this.tableState.results.values$().pipe(
+    this.querySpace.results.values$().pipe(
       untilComponentDestroyed(this)
     ).subscribe((collection:WorkPackageCollectionResource) => {
       this.warnOnTooManyResults(collection);

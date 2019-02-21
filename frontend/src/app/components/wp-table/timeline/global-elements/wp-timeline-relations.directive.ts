@@ -27,7 +27,7 @@
 // ++
 
 import {Component, ElementRef, Injector, OnDestroy, OnInit} from '@angular/core';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {State} from 'reactivestates';
 import {combineLatest} from 'rxjs';
@@ -81,7 +81,7 @@ function newSegment(vp:TimelineViewParameters,
 })
 export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
 
-  private readonly tableState:TableState = this.injector.get(TableState);
+  private readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
 
   private container:JQuery;
 
@@ -122,8 +122,8 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
   private setupRelationSubscription() {
     // for all visible WorkPackage rows...
     combineLatest(
-      this.tableState.renderedWorkPackages.values$(),
-      this.tableState.timeline.values$()
+      this.querySpace.renderedWorkPackages.values$(),
+      this.querySpace.timeline.values$()
     )
       .pipe(
         filter(([rendered, timeline]) => timeline.isVisible),
@@ -154,7 +154,7 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
     this.states.workPackages.observeChange()
       .pipe(
         takeUntil(componentDestroyed(this)),
-        filter(() => this.tableState.timeline.mapOr(v => v.visible, false))
+        filter(() => this.querySpace.timeline.mapOr(v => v.visible, false))
       )
       .subscribe(([workPackageId]) => {
         this.renderWorkPackagesRelations([workPackageId]);

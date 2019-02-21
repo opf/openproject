@@ -3,13 +3,13 @@ import {debugLog} from '../../../../helpers/debug_output';
 import {GroupedRowsBuilder} from '../../builders/modes/grouped/grouped-rows-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {TableEventHandler} from '../table-handler-registry';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {rowGroupClassName} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 
 export class GroupRowHandler implements TableEventHandler {
 
   // Injections
-  public tableState:TableState = this.injector.get(TableState);
+  public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
 
   private builder:GroupedRowsBuilder;
 
@@ -48,6 +48,6 @@ export class GroupRowHandler implements TableEventHandler {
   }
 
   private get collapsedState() {
-    return this.tableState.collapsedGroups;
+    return this.querySpace.collapsedGroups;
   }
 }

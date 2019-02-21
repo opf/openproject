@@ -34,6 +34,7 @@ import {GlobalSearchWorkPackagesComponent} from "core-app/modules/global_search/
 import {GlobalSearchTabsComponent} from "core-app/modules/global_search/global-search-tabs.component";
 import {GlobalSearchTitleComponent} from "core-app/modules/global_search/global-search-title.component";
 import {GlobalSearchService} from "core-app/modules/global_search/global-search.service";
+import {GlobalSearchWorkPackagesEntryComponent} from "core-app/modules/global_search/global-search-work-packages-entry.component";
 
 @NgModule({
   imports: [
@@ -45,13 +46,14 @@ import {GlobalSearchService} from "core-app/modules/global_search/global-search.
   ],
   declarations: [
     GlobalSearchInputComponent,
+    GlobalSearchWorkPackagesEntryComponent,
     GlobalSearchWorkPackagesComponent,
     GlobalSearchTabsComponent,
     GlobalSearchTitleComponent,
   ],
   entryComponents: [
     GlobalSearchInputComponent,
-    GlobalSearchWorkPackagesComponent,
+    GlobalSearchWorkPackagesEntryComponent,
     GlobalSearchTabsComponent,
     GlobalSearchTitleComponent
   ]

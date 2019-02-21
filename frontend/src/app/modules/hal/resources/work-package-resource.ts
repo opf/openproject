@@ -38,13 +38,13 @@ import {
 } from 'core-components/api/op-file-upload/op-file-upload.service';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {States} from 'core-components/states.service';
-import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
+import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -125,7 +125,7 @@ export class WorkPackageBaseResource extends HalResource {
 
   readonly I18n:I18nService = this.injector.get(I18nService);
   readonly states:States = this.injector.get(States);
-  readonly apiWorkPackages:ApiWorkPackagesService = this.injector.get(ApiWorkPackagesService);
+  readonly workPackageDmService = this.injector.get(WorkPackageDmService);
   readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   readonly schemaCacheService:SchemaCacheService = this.injector.get(SchemaCacheService);
   readonly NotificationsService:NotificationsService = this.injector.get(NotificationsService);
@@ -273,7 +273,7 @@ export class WorkPackageBaseResource extends HalResource {
     this['update'] = this.$links.update = form.$links.self;
     // Use POST /work_packages for saving link
     this['updateImmediately'] = this.$links.updateImmediately = (payload) => {
-      return this.apiWorkPackages.createWorkPackage(payload);
+      return this.workPackageDmService.createWorkPackage(payload);
     };
   }
 

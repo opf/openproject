@@ -31,53 +31,53 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener, Injector,
   OnDestroy,
+  OnInit,
   Renderer2,
   ViewChild
 } from '@angular/core';
-import {ContainHelpers} from 'app/modules/common/focus/contain-helpers';
 import {FocusHelperService} from 'app/modules/common/focus/focus-helper';
 import {I18nService} from 'app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
-import {PathHelperService} from "app/modules/common/path-helper/path-helper.service";
 import {HalResourceService} from "app/modules/hal/services/hal-resource.service";
-import {WorkPackageResource} from "app/modules/hal/resources/work-package-resource";
-import {CollectionResource} from "app/modules/hal/resources/collection-resource";
-import {DynamicCssService} from "app/modules/common/dynamic-css/dynamic-css.service";
 import {GlobalSearchService} from "app/modules/global_search/global-search.service";
-import {debounceTime, distinctUntilChanged} from "rxjs/operators";
-import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {CurrentProjectService} from "app/components/projects/current-project.service";
-import {GlobalSearchInputComponent} from "app/modules/global_search/global-search-input.component";
-import {Subscription} from "rxjs";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageTableFilters} from "app/components/wp-fast-table/wp-table-filters";
-import {WorkPackageTableFiltersService} from "app/components/wp-fast-table/state/wp-table-filters.service";
-import {QueryFiltersComponent} from "app/components/filters/query-filters/query-filters.component";
-import {WorkPackageEmbeddedTableComponent} from "app/components/wp-table/embedded/wp-embedded-table.component";
 import {QueryResource} from "app/modules/hal/resources/query-resource";
-import {QueryFormResource} from "app/modules/hal/resources/query-form-resource";
-import {QueryFormDmService} from "app/modules/hal/dm-services/query-form-dm.service";
 import {WorkPackageFiltersService} from "app/components/filters/wp-filters/wp-filters.service";
 import {UrlParamsHelperService} from "app/components/wp-query/url-params-helper";
+import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
+import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
+import {cloneHalResource} from "core-app/modules/hal/helpers/hal-resource-builder";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 
 export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 
 @Component({
   selector: globalSearchWorkPackagesSelector,
-  templateUrl: '/app/components/wp-table/embedded/wp-embedded-table.html'
+  template: `
+   <wp-embedded-table *ngIf="!resultsHidden"
+                      [queryProps]="queryProps"
+                      (onFiltersChanged)="onFiltersChanged($event)"
+                      [configuration]="tableConfiguration">
+    </wp-embedded-table>
+  `
 })
 
-export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableComponent implements OnDestroy, AfterViewInit {
-  @ViewChild('wpTable') wpTable:WorkPackageEmbeddedTableComponent;
-
-  private searchTermSub:Subscription;
-  private projectScopeSub:Subscription;
-  private resultsHiddenSub:Subscription;
-  private query:QueryResource;
-
+export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, AfterViewInit {
   public filters:WorkPackageTableFilters;
   public queryProps:{ [key:string]:any };
+  public resultsHidden = false;
+
+  public tableConfiguration:WorkPackageTableConfigurationObject = {
+    actionsColumnEnabled: false,
+    columnMenuEnabled: true,
+    contextMenuEnabled: false,
+    inlineCreateEnabled: false,
+    withFilters: true,
+    showFilterButton: true,
+    filterButtonText: this.I18n.t('js.button_advanced_filter')
+  };
 
   constructor(readonly FocusHelper:FocusHelperService,
               readonly elementRef:ElementRef,
@@ -85,71 +85,57 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
               readonly I18n:I18nService,
               readonly halResourceService:HalResourceService,
               readonly globalSearchService:GlobalSearchService,
+              readonly querySpace:IsolatedQuerySpace,
+              readonly wpFilters:WorkPackageFiltersService,
               readonly cdRef:ChangeDetectorRef,
-              injector:Injector,
-              private QueryFormDm:QueryFormDmService,
-              private wpTableFilters:WorkPackageTableFiltersService,
-              private UrlParamsHelper:UrlParamsHelperService,
-              private WpFilter:WorkPackageFiltersService) {
-    super(injector);
+              private UrlParamsHelper:UrlParamsHelperService) {
   }
 
-  ngOnInit() {
-    super.ngOnInit();
-
-    this.configuration.actionsColumnEnabled = false;
-    this.configuration.columnMenuEnabled = true;
-    this.configuration.contextMenuEnabled = false;
-    this.configuration.inlineCreateEnabled = false;
-    this.configuration.withFilters = true;
-    this.configuration.showFilterButton = true;
-    this.configuration.filterButtonText = I18n.t('js.button_advanced_filter');
-
-    this.searchTermSub = this.globalSearchService
+  ngAfterViewInit() {
+    this.globalSearchService
       .searchTerm$
-      .subscribe((_searchTerm) => {
-        this.WpFilter.visible = false;
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe(() => {
+        this.wpFilters.visible = false;
         this.setQueryProps();
       });
 
-    this.projectScopeSub = this.globalSearchService
+    this.globalSearchService
       .projectScope$
+      .pipe(
+        untilComponentDestroyed(this)
+      )
       .subscribe((_projectScope) => this.setQueryProps());
 
-    this.resultsHiddenSub = this.globalSearchService
+    this.globalSearchService
       .resultsHidden$
-      .subscribe((resultsHidden:boolean) => this.show = !resultsHidden);
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe((resultsHidden:boolean) => this.resultsHidden = resultsHidden);
+  }
 
+  ngOnInit():void {
     this.setQueryProps();
+  }
+
+  ngOnDestroy():void {
+    // Nothing to do
   }
 
   public onFiltersChanged(filters:WorkPackageTableFilters) {
     if (filters.isComplete()) {
-      this.query.filters = filters.current;
-      this.queryProps = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(this.query);
-      this.refresh();
+      const query = cloneHalResource(this.querySpace.query.value!) as QueryResource;
+      query.filters = filters.current;
+      this.queryProps = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query);
     }
-  }
-
-  protected loadQuery(visible:boolean = true) {
-    return super.loadQuery(visible).then((query:QueryResource) => {
-      this.loadForm(query);
-      this.query = query;
-      return query;
-    });
-  }
-
-  private loadForm(query:QueryResource):Promise<QueryFormResource> {
-    return this.QueryFormDm.load(query).then((form:QueryFormResource) => {
-      this.wpStatesInitialization.updateStatesFromForm(query, form);
-      return form;
-    });
   }
 
   private setQueryProps():void {
     let filters:any[] = [];
 
-    console.log("setQueryProps", this.globalSearchService.searchTerm);
     if (this.globalSearchService.searchTerm.length > 0) {
       filters.push({ search: {
           operator: '**',
@@ -174,13 +160,6 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
       sortBy: JSON.stringify([['updatedAt', 'desc']]),
       showHierarchies: false
     };
-
-    this.refresh();
-  }
-
-  ngOnDestroy():void {
-    this.searchTermSub.unsubscribe();
-    this.projectScopeSub.unsubscribe();
   }
 }
 
