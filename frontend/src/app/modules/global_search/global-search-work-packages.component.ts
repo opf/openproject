@@ -60,7 +60,6 @@ import {QueryFormResource} from "app/modules/hal/resources/query-form-resource";
 import {QueryFormDmService} from "app/modules/hal/dm-services/query-form-dm.service";
 import {WorkPackageFiltersService} from "app/components/filters/wp-filters/wp-filters.service";
 import {UrlParamsHelperService} from "app/components/wp-query/url-params-helper";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 
