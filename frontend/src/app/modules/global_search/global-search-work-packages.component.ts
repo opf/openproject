@@ -50,7 +50,7 @@ import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {CurrentProjectService} from "app/components/projects/current-project.service";
 import {GlobalSearchInputComponent} from "app/modules/global_search/global-search-input.component";
-import {Subscription} from "rxjs";
+import {combineLatest, Subscription} from "rxjs";
 import {WorkPackageTableFilters} from "app/components/wp-fast-table/wp-table-filters";
 import {WorkPackageTableFiltersService} from "app/components/wp-fast-table/state/wp-table-filters.service";
 import {QueryFiltersComponent} from "app/components/filters/query-filters/query-filters.component";
@@ -60,6 +60,7 @@ import {QueryFormResource} from "app/modules/hal/resources/query-form-resource";
 import {QueryFormDmService} from "app/modules/hal/dm-services/query-form-dm.service";
 import {WorkPackageFiltersService} from "app/components/filters/wp-filters/wp-filters.service";
 import {UrlParamsHelperService} from "app/components/wp-query/url-params-helper";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 
@@ -75,6 +76,7 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
   private projectScopeSub:Subscription;
   private resultsHiddenSub:Subscription;
   private query:QueryResource;
+  private firstTimeLoadForm:boolean = false;
 
   public filters:WorkPackageTableFilters;
   public queryProps:{ [key:string]:any };
@@ -116,6 +118,7 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
     )
     .subscribe(([newSearchTerm, newProjectScope]) => {
       this.WpFilter.visible = false;
+      this.firstTimeLoadForm = true;
       this.setQueryProps();
     });
 
@@ -140,7 +143,10 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
 
   protected loadQuery(visible:boolean = true) {
     return super.loadQuery(visible).then((query:QueryResource) => {
-      this.loadForm(query);
+      if (this.firstTimeLoadForm) {
+        this.firstTimeLoadForm = false;
+        this.loadForm(query);
+      }
       this.query = query;
       return query;
     });
@@ -156,7 +162,6 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
   private setQueryProps():void {
     let filters:any[] = [];
 
-    console.log("setQueryProps", this.globalSearchService.searchTerm);
     if (this.globalSearchService.searchTerm.length > 0) {
       filters.push({ search: {
           operator: '**',
