@@ -105,19 +105,26 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
     this.configuration.showFilterButton = true;
     this.configuration.filterButtonText = I18n.t('js.button_advanced_filter');
 
-    this.searchTermSub = this.globalSearchService
-      .searchTerm$
-      .subscribe((_searchTerm) => {
-        this.WpFilter.visible = false;
-        this.setQueryProps();
-      });
+    combineLatest(
+      this.globalSearchService.searchTerm$,
+      this.globalSearchService.projectScope$
+    )
+    .pipe(
+      distinctUntilChanged(),
+      debounceTime(10),
+      untilComponentDestroyed(this)
+    )
+    .subscribe(([newSearchTerm, newProjectScope]) => {
+      this.WpFilter.visible = false;
+      this.setQueryProps();
+    });
 
-    this.projectScopeSub = this.globalSearchService
-      .projectScope$
-      .subscribe((_projectScope) => this.setQueryProps());
-
-    this.resultsHiddenSub = this.globalSearchService
+    this.globalSearchService
       .resultsHidden$
+      .pipe(
+        distinctUntilChanged(),
+        untilComponentDestroyed(this)
+      )
       .subscribe((resultsHidden:boolean) => this.show = !resultsHidden);
 
     this.setQueryProps();
@@ -179,8 +186,7 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
   }
 
   ngOnDestroy():void {
-    this.searchTermSub.unsubscribe();
-    this.projectScopeSub.unsubscribe();
+    // Nothing to do.
   }
 }
 
