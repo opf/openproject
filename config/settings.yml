@@ -248,6 +248,8 @@ notified_events:
   - wiki_content_updated
 mail_handler_body_delimiters:
   default: ''
+mail_handler_ignore_filenames:
+  default: 'signature.asc'
 mail_handler_body_delimiter_regex:
   default: ''
 mail_handler_api_enabled:
