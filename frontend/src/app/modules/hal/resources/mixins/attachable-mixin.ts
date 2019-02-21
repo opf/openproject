@@ -134,8 +134,21 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
           return result;
         })
         .catch((error:HttpErrorResponse) => {
-          this.wpNotificationsService.handleRawError(error);
-          return _.get(error, 'message', I18n.t('js.error.internal'));
+          let message:undefined|string;
+          console.error("Error while uploading: %O", error);
+
+          if (error.error instanceof ErrorEvent) {
+            // A client-side or network error occurred.
+            message = this.I18n.t('js.error_attachment_upload', { error: error });
+          } else if (_.get(error, 'error._type') === 'Error') {
+            message = error.error.message;
+          } else {
+            // The backend returned an unsuccessful response code.
+            message = error.error;
+          }
+
+          this.wpNotificationsService.handleRawError(message);
+          return message || I18n.t('js.error.internal');
         });
     }
 

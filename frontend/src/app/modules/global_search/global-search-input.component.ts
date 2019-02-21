@@ -66,7 +66,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   public expanded:boolean = false;
   public results:any[];
   public suggestions:any[];
-  public mobileSearch:boolean = false;
 
   public searchTermChanged$:Subject<string> = new Subject<string>();
 
@@ -141,8 +140,8 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   // open or close mobile search
   public toggleMobileSearch() {
-    jQuery('.ng-select, #account-nav-right, #account-nav-left, #main-menu-toggle').toggleClass('hidden-for-mobile');
-    this.mobileSearch = !this.mobileSearch;
+    jQuery('#top-menu').toggleClass('-global-search-expanded');
+    this.expanded = !this.expanded;
   }
 
   // load selected item
@@ -169,6 +168,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   public onFocus() {
     this.expanded = true;
+    jQuery('#top-menu').addClass('-global-search-expanded');
     // load result list after page reload
     if (this.isFirstFocus && this.currentValue.length > 0) {
       this.isFirstFocus = false;
@@ -181,6 +181,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     if (!this.deviceService.isMobile) {
       this.expanded = (this.ngSelectComponent.filterValue.length > 0);
       this.ngSelectComponent.isOpen = false;
+      jQuery('#top-menu').toggleClass('-global-search-expanded', this.expanded);
     }
   }
 

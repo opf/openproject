@@ -15,6 +15,7 @@ import * as moment from "moment";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {DomSanitizer} from "@angular/platform-browser";
+import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -32,6 +33,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
               readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly wpListService:WorkPackagesListService,
               readonly querySpace:IsolatedQuerySpace,
+              readonly wpListChecksumService:WorkPackagesListChecksumService,
               readonly urlParamsHelper:UrlParamsHelperService,
               private element:ElementRef,
               readonly i18n:I18nService,
@@ -99,7 +101,13 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     // do not display the tooltip on the wp show page
     this.removeTooltip($event.detail.jsEvent.currentTarget);
 
-    this.$state.go('work-packages.show', { workPackageId: workPackage.id });
+    // Ensure checksum is removed to allow queries to load
+    this.wpListChecksumService.clear();
+
+    this.$state.go(
+      'work-packages.show',
+      { workPackageId: workPackage.id },
+      { inherit: false });
   }
 
   private get calendarElement() {

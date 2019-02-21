@@ -81,7 +81,6 @@ export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy 
           this.wpTableFilters.currentState.remove(currentSearchFilter);
         }
 
-        this.wpTableFilters.replace(this.wpTableFilters.currentState);
         this.filterChanged.emit(this.wpTableFilters.currentState);
       });
   }
