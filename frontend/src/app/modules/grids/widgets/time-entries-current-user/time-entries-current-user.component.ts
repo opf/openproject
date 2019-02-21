@@ -152,8 +152,13 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
     //entries
   }
 
-  private formatNumber(value:number) {
-    return formatNumber(value, this.i18n.locale, '1.2-2');
+  private formatNumber(value:number):string {
+    try {
+      return formatNumber(value, this.i18n.locale, '1.2-2');
+    } catch(e) {
+      console.error("Failed to format number with Angular (missing locale?): " + e);
+      return value.toLocaleString();
+    }
   }
 
   public get noEntries() {
