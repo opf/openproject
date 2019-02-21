@@ -192,7 +192,12 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
    */
   public shouldHideGroup(group:GroupDescriptor) {
     // Hide if the group is empty
-    return group.members.length === 0;
+    const isEmpty = group.members.length === 0;
+
+    // Is a query in a new screen
+    const queryInNew = this.workPackage.isNew && !!group.query;
+
+    return isEmpty || queryInNew
   }
 
   /**
