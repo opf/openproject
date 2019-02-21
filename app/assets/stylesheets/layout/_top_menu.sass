@@ -29,8 +29,9 @@
 $hamburger-right: -3px
 $hamburger-width: 50px
 
-$search-input-width: 200px
-$search-input-width-expanded: 20vw
+// search bar has a min-width of 160px and should adapt to every screen size
+$search-input-width: calc(160px + 3vw)
+$search-input-width-expanded: calc(160px + 13vw)
 $search-input-height: 30px
 
 %top-menu-hover-styles
@@ -73,7 +74,7 @@ $search-input-height: 30px
     float: left
     height: $header-height
     border-top: 0
-    position: relative
+    flex: 1 1 auto
   li.drop-down,
   li.help-menu--overridden-link,
   .accessibility-mode & #account-nav-left li
@@ -234,7 +235,6 @@ $search-input-height: 30px
 
     &.-expanded
       width: $search-input-width-expanded
-      min-width: 250px
       background: white
       border-radius: 4px
       color: $header-search-field-font-color
@@ -290,8 +290,10 @@ $search-input-height: 30px
 
 #top-menu-items
   padding-top: 0
+  display: flex
+  align-items: center
   .top-menu-items-right
-    float: right
+    display: flex
 
 #header
   .chzn-container .chzn-results .highlighted
@@ -312,7 +314,6 @@ $search-input-height: 30px
     .nosidebar &
       max-width: calc((100vW/2) - 115px)
   #projects-menu
-    padding-right: 30px
     font-weight: bold
     padding-left: 6px
     .nosidebar &
@@ -320,7 +321,6 @@ $search-input-height: 30px
 
     .button--dropdown-text
       @include text-shortener
-      float: left
       // Half viewport width minus half logo minus margins.
       max-width: calc((100vW/2) - 115px - 50px - #{$hamburger-width + $hamburger-right})
       .nosidebar &
@@ -335,6 +335,7 @@ $search-input-height: 30px
   overflow: hidden
 
 #account-nav-right
+  display: flex
   .drop-down.last-child
     .avatar
       // To accommodate the padding of the help icon which exists because of the circle

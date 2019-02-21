@@ -1,4 +1,4 @@
-<div class="top-menu-search" [class.-mobile]="mobileSearch">
+<div class="top-menu-search">
     <div class="top-menu-search--loading ui-autocomplete--loading" style="display: none">
       <div class="loading-indicator -small">
         <div class="block-1"></div>
@@ -8,7 +8,7 @@
         <div class="block-5"></div>
       </div>
     </div>
-    <a *ngIf="mobileSearch"
+    <a *ngIf="expanded"
        (click)="toggleMobileSearch()"
        class="top-menu-search--back-button"
        href="#"
@@ -20,7 +20,7 @@
               name="global-search-input"
               id="global-search-input"
               placeholder="{{text.search}}"
-              [ngClass]="'top-menu-search--input hidden-for-mobile'"
+              [ngClass]="'top-menu-search--input'"
               [class.-expanded]="expanded"
               [openOnEnter]="false"
               [searchFn]="customSearchFn"
