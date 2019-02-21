@@ -1,6 +1,10 @@
 class MigrateMyPageLayout < ActiveRecord::Migration[5.2]
   def up
     UserPreference.transaction do
+
+      # Remove all my page grids
+      ::Grids::MyPage.destroy_all
+
       user_my_page_prefs.find_each do |pref|
         old_layout = pref.others.with_indifferent_access[:my_page_layout]
         next unless old_layout
@@ -64,7 +68,7 @@ class MigrateMyPageLayout < ActiveRecord::Migration[5.2]
                  start_column: 3,
                  end_column: 5
 
-      left_row += widget_height
+      right_row += widget_height
     end
 
     my_page.row_count = [left_row, right_row].max - 1
@@ -84,13 +88,9 @@ class MigrateMyPageLayout < ActiveRecord::Migration[5.2]
   # Get all preferences with my page set that do not have
   # a grid
   def user_my_page_prefs
-    grid_table = Grids::MyPage.table_name
     pref_table = UserPreference.table_name
 
-    ::UserPreference
-      .joins("LEFT OUTER JOIN #{grid_table} ON #{grid_table}.user_id = #{pref_table}.user_id")
-      .where("#{pref_table}.others LIKE '%my_page_layout%'")
-      .where("#{grid_table}.user_id IS NULL")
+    ::UserPreference.where("#{pref_table}.others LIKE '%my_page_layout%'")
   end
 
   ##
@@ -121,7 +121,7 @@ class MigrateMyPageLayout < ActiveRecord::Migration[5.2]
       issuesreportedbyme: :work_packages_created,
       issueswatched: :work_packages_watched,
       news: :news,
-      calendar: :news,
+      calendar: :calendar,
       timelog: :time_entries_current_user,
       documents: :documents
     }
