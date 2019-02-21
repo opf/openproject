@@ -98,6 +98,11 @@ export class WorkPackageNotificationService {
       return this.handleErrorResponse(resource, workPackage);
     }
 
+    if (typeof(response) === 'string') {
+      this.NotificationsService.addError(response);
+      return;
+    }
+
     this.showGeneralError(errorBody || response);
   }
 
