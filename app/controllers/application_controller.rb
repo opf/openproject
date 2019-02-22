@@ -362,10 +362,10 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  def find_model_object_and_project
-    if params[:id]
+  def find_model_object_and_project(object_id = :id)
+    if params[object_id]
       model_object = self.class._model_object
-      instance = model_object.find(params[:id])
+      instance = model_object.find(params[object_id])
       @project = instance.project
       instance_variable_set('@' + model_object.to_s.underscore, instance)
     else

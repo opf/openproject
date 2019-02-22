@@ -20,14 +20,6 @@
 module CostlogHelper
   include TimelogHelper
 
-  def render_costlog_breadcrumb
-    links = []
-    links << link_to(t(:label_project_all), project_id: nil, work_package_id: nil)
-    links << link_to(h(@project), project_id: @project, work_package_id: nil) if @project
-    links << link_to_work_package(@work_package, subject: false) if @work_package
-    breadcrumb links
-  end
-
   def cost_types_collection_for_select_options(selected_type = nil)
     cost_types = CostType.active.sort
 
