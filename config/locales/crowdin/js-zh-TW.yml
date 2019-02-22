@@ -758,7 +758,7 @@ zh-TW:
         messages_on_field: '此欄位無效: %{messages}'
     error_could_not_resolve_version_name: 無法解析版本名稱
     error_could_not_resolve_user_name: 無法解析使用者名稱
-    error_attachment_upload: '檔 "%{name}" 未能上傳: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: 您沒有在此資源上載檔案的許可權。
     units:
       workPackage:

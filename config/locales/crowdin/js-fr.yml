@@ -859,7 +859,7 @@ fr:
         messages_on_field: 'Ce champ n’est pas valide : %{messages}'
     error_could_not_resolve_version_name: Ne peut résoudre le nom de version
     error_could_not_resolve_user_name: Impossible de trouver l'utilisateur
-    error_attachment_upload: 'Erreur de chargement du fichier "%{name}" : %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: Vous n’avez pas l'autorisation de charger
       des fichiers sur cette ressource.
     units:

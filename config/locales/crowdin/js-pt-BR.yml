@@ -39,7 +39,7 @@ pt-BR:
     button_duplicate: Duplicar
     button_edit: Editar
     button_filter: Filtro
-    button_advanced_filter: Advanced filter
+    button_advanced_filter: Filtro avançado
     button_list_view: Lista
     button_show_view: Visualização em tela cheia
     button_log_time: Registro de tempo
@@ -156,13 +156,13 @@ pt-BR:
     label_activity_no: Número da atividade %{activityNo}
     label_activity_with_comment_no: Atividade número %{activityNo}. Tem um comentário
       de um usuário.
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
+    label_add_column_after: Adicionar coluna depois
+    label_add_column_before: Adicionar coluna antes
     label_add_columns: Adicionar colunas
     label_add_comment: Adicionar comentário
     label_add_comment_title: Comente e digite @ para notificar outras pessoas
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
+    label_add_row_after: Adicionar linha depois
+    label_add_row_before: Adicionar linha antes
     label_add_selected_columns: Adicionar colunas selecionadas
     label_added_by: adicionado por
     label_added_time_by: Adicionado por %{author} %{age}
@@ -173,9 +173,9 @@ pt-BR:
     label_ascending: Ascendente
     label_author: 'Autor: %{user}'
     label_between: entre
-    label_board: Board
+    label_board: Quadro
     label_board_locked: Bloqueado
-    label_board_plural: Boards
+    label_board_plural: Quadros
     label_board_sticky: Afixado
     label_create_work_package: Criar novo pacote de trabalho
     label_created_by: Criado por
@@ -241,9 +241,9 @@ pt-BR:
     label_visibility_settings: Configurações de visibilidade
     label_quote_comment: Citar este comentário
     label_reset: Reiniciar
-    label_remove_column: Remove column
+    label_remove_column: Remover coluna
     label_remove_columns: Remover colunas selecionadas
-    label_remove_row: Remove row
+    label_remove_row: Remover linha
     label_save_as: Salvar como
     label_select_watcher: Selecione um observador...
     label_selected_filter_list: Filtros selecionados
@@ -299,7 +299,7 @@ pt-BR:
     label_upload_notification: Enviando arquivos...
     label_work_package_upload_notification: 'Enviando arquivos para o pacote de trabalho
       #%{id}: %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} adicionado por %{author}"
     label_files_to_upload: 'Estes arquivos serão enviados:'
     label_rejected_files: 'Estes arquivos não podem ser enviados:'
     label_rejected_files_reason: Estes arquivos não podem ser enviados, pois seu tamanho
@@ -612,7 +612,7 @@ pt-BR:
       label_enable_multi_select: Ativar seleção múltipla
       label_disable_multi_select: Desativar seleção múltipla
       label_filter_add: Adicionar filtro
-      label_filter_by_text: Filter by text
+      label_filter_by_text: Filtrar texto
       label_options: Opções
       label_column_multiselect: 'Campo dropdown combinado: selecione com as teclas
         de seta, confirme a seleção com enter, apague com backspace'
@@ -625,7 +625,7 @@ pt-BR:
       message_work_package_read_only: Pacote de trabalho está bloqueado na presente
         situação. Nenhum atributo que não seja a situação pode ser alterado.
       no_value: Nenhum valor
-      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholder_filter_by_text: Assunto, descrição, comentários, ...
       inline_create:
         title: Clique aqui para adicionar um novo pacote de trabalho a esta lista
       create:
@@ -816,7 +816,7 @@ pt-BR:
           pacotes de trabalho listados serão removidos recursivamente.
         deletes_children: Todos os pacotes de trabalho filhos e seus descendentes
           também serão excluídos recursivamente.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Nenhum resultado visível para exibir.
     notice_successful_create: Criado com sucesso.
     notice_successful_delete: Excluído com sucesso.
     notice_successful_update: Atualizado com sucesso.
@@ -843,7 +843,7 @@ pt-BR:
         messages_on_field: 'Este campo é inválido: %{messages}'
     error_could_not_resolve_version_name: Não foi possível identificar o nome da versão
     error_could_not_resolve_user_name: Não foi possível identificar o nome do usuário
-    error_attachment_upload: 'Arquivo ''%{name}'' falhou no envio: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: Você não tem permissão para enviar arquivos
       nesse recurso.
     units:
@@ -861,12 +861,12 @@ pt-BR:
       button_activate: Ativar modo zen
       button_deactivate: Desativar modo zen
     global_search:
-      all_projects: In all projects
+      all_projects: Em todos os projetos
       search: Pesquisar
-      close_search: Close search
-      current_project: In this project
-      current_project_and_all_descendants: In this project + subprojects
+      close_search: Fechar pesquisa
+      current_project: Neste projeto
+      current_project_and_all_descendants: Neste projeto + subprojetos
       title:
-        all_projects: all projects
-        project_and_subprojects: and all subprojects
-        search_for: Search for
+        all_projects: todos os projetos
+        project_and_subprojects: e todos os subprojetos
+        search_for: Pesquisar por

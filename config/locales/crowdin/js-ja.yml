@@ -759,7 +759,7 @@ ja:
         messages_on_field: 'このフィールドは無効です: %{messages}'
     error_could_not_resolve_version_name: バージョン名を解決できませんでした。
     error_could_not_resolve_user_name: ユーザ名を特定できません
-    error_attachment_upload: 'ファイル ''%{name}'' のアップロードに失敗しました: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: このリソースでファイルをアップロードする権限がありません。
     units:
       workPackage:

@@ -831,7 +831,7 @@ ar:
         messages_on_field: 'هذا الحقل غير صالح: %{messages}'
     error_could_not_resolve_version_name: تعثّر حل اسم الإصدار
     error_could_not_resolve_user_name: تعذر حل اسم المستخدم
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:

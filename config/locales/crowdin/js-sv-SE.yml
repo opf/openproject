@@ -833,7 +833,7 @@ sv-SE:
         messages_on_field: 'Fältet är ogiltigt: %{messages}'
     error_could_not_resolve_version_name: Kunde inte fastställa versionsnamn
     error_could_not_resolve_user_name: Kunde inte fastställa användarnamn
-    error_attachment_upload: 'Filen ''%{name}'' misslyckades att laddas upp: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: Du har inte rättigheter att ladda upp filer
       i den här resursen.
     units:

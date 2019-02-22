@@ -837,7 +837,7 @@ hr:
     error_could_not_resolve_version_name: Neuspjeli pokušaj razriješavanja imena verzije
     error_could_not_resolve_user_name: Neuspijeli pokušaj razrješavanja korisničkog
       imena
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:

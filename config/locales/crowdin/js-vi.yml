@@ -832,7 +832,7 @@ vi:
         messages_on_field: 'Mục này không hợp lệ: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
-    error_attachment_upload: 'Tập tin ''%{name}'' tải lên thất bại: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: Bạn không có quyền tải lên tập tin vào tài
       nguyên này.
     units:

@@ -754,7 +754,7 @@ zh:
         messages_on_field: 此字段无效：%{messages}
     error_could_not_resolve_version_name: 无法解析版本名称
     error_could_not_resolve_user_name: 不能确定用户名
-    error_attachment_upload: 文件“%{name}”传输失败：%{error}
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: 您没有上传此资源上文件的权限。
     units:
       workPackage:
