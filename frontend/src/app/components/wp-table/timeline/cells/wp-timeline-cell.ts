@@ -120,19 +120,23 @@ export class WorkPackageTimelineCell {
     return this.workPackageTimeline.timelineBody;
   }
 
-  private get cellElement() {
+  private get cellElement():JQuery {
     return this.cellContainer.find(`.${this.classIdentifier}`);
   }
 
-  private lazyInit(renderer:TimelineCellRenderer, renderInfo:RenderInfo):JQuery {
+  private lazyInit(renderer:TimelineCellRenderer, renderInfo:RenderInfo) {
     const body = this.workPackageTimeline.timelineBody[0];
     const cell = this.cellElement;
+
+    if (!cell.length) {
+      return;
+    }
 
     const wasRendered = this.wpElement !== null && body.contains(this.wpElement);
 
     // If already rendered with correct shape, ignore
     if (wasRendered && (this.elementShape === renderer.type)) {
-      return cell;
+      return;
     }
 
     // Remove the element first if we're redrawing
@@ -164,8 +168,6 @@ export class WorkPackageTimelineCell {
         renderer,
         renderInfo);
     }
-
-    return cell;
   }
 
   private cellRenderer(workPackage:WorkPackageResource):TimelineCellRenderer {
@@ -181,7 +183,7 @@ export class WorkPackageTimelineCell {
     const renderer = this.cellRenderer(renderInfo.workPackage);
 
     // Render initial element if necessary
-    const cell = this.lazyInit(renderer, renderInfo);
+    this.lazyInit(renderer, renderInfo);
 
     // Render the upgrade from renderInfo
     const shouldBeDisplayed = renderer.update(

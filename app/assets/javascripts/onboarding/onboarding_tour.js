@@ -118,7 +118,7 @@
         function workPackageTour() {
             initializeTour('wpFinished');
 
-            waitForElement('.work-package--results-tbody', '.work-packages-split-view--tabletimeline-side', function() {
+            waitForElement('.work-package--results-tbody', '#content', function() {
                 startTour(wpOnboardingTourSteps);
             });
         }

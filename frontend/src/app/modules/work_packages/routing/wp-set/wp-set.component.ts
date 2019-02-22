@@ -30,7 +30,7 @@ import {Injector, OnDestroy, OnInit} from '@angular/core';
 import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {auditTime, filter, take, withLatestFrom} from 'rxjs/operators';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
@@ -51,6 +51,7 @@ import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 import {WorkPackageQueryStateService} from "core-components/wp-fast-table/state/wp-table-base.service";
 import {debugLog} from "core-app/helpers/debug_output";
+import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
 
 export class WorkPackagesSetComponent implements OnInit, OnDestroy {
 
@@ -62,7 +63,7 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
 
   constructor(readonly injector:Injector,
               readonly states:States,
-              readonly tableState:TableState,
+              readonly querySpace:IsolatedQuerySpace,
               readonly authorisationService:AuthorisationService,
               readonly wpTableRefresh:WorkPackageTableRefreshService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
@@ -75,6 +76,7 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
               readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
               readonly wpTablePagination:WorkPackageTablePaginationService,
               readonly wpListService:WorkPackagesListService,
+              readonly wpFilters:WorkPackageFiltersService,
               readonly wpListChecksumService:WorkPackagesListChecksumService,
               readonly loadingIndicator:LoadingIndicatorService,
               readonly $transitions:TransitionService,
@@ -85,12 +87,10 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const loadingRequired = this.wpListChecksumService.isUninitialized();
-
     // Listen to changes on the query state objects
     this.setupQueryObservers();
 
-    this.initialQueryLoading(loadingRequired);
+    this.initialQueryLoading();
 
     // Listen for refresh changes
     this.setupRefreshObserver();
@@ -106,16 +106,16 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
   }
 
   private setupQueryObservers() {
-    this.tableState.tableRendering.onQueryUpdated.values$()
+    this.querySpace.tableRendering.onQueryUpdated.values$()
       .pipe(
         take(1)
       )
       .subscribe(() => this.tableInformationLoaded = true);
 
-    this.tableState.ready.fireOnStateChange(this.wpTablePagination.state,
+    this.querySpace.ready.fireOnStateChange(this.wpTablePagination.state,
       'Query loaded').values$().pipe(
       untilComponentDestroyed(this),
-      withLatestFrom(this.tableState.query.values$())
+      withLatestFrom(this.querySpace.query.values$())
     ).subscribe(([pagination, query]) => {
       if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
         this.wpListChecksumService.update(query, pagination);
@@ -134,15 +134,15 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
   }
 
   setupChangeObserver(service:WorkPackageQueryStateService, firstPage:boolean = false) {
-    const queryState = this.tableState.query;
+    const queryState = this.querySpace.query;
 
-    this.tableState.ready.fireOnStateChange(service.state, 'Query loaded').values$().pipe(
+    this.querySpace.ready.fireOnStateChange(service.state, 'Query loaded').values$().pipe(
       untilComponentDestroyed(this),
       filter(() => queryState.hasValue() && service.hasChanged(queryState.value!))
     ).subscribe(() => {
       const newQuery = queryState.value!;
       const triggerUpdate = service.applyToQuery(newQuery);
-      this.tableState.query.putValue(newQuery);
+      this.querySpace.query.putValue(newQuery);
 
       // Update the current checksum
       this.wpListChecksumService.updateIfDifferent(newQuery, this.wpTablePagination.current);
@@ -210,11 +210,9 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
     });
   }
 
-  protected initialQueryLoading(loadingRequired:boolean) {
-    if (loadingRequired) {
-      this.wpTableRefresh.clear('Impending query loading.');
-      this.loadCurrentQuery();
-    }
+  protected initialQueryLoading() {
+    this.wpTableRefresh.clear('Impending query loading.');
+    this.loadCurrentQuery();
   }
 
   protected loadCurrentQuery():Promise<any> {

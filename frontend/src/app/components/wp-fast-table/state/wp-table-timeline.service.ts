@@ -29,7 +29,7 @@
 import {Injectable} from '@angular/core';
 import {QueryResource, TimelineLabels, TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {InputState} from 'reactivestates';
 import {zoomLevelOrder} from '../../wp-table/timeline/wp-timeline';
 import {WorkPackageTableTimelineState} from './../wp-table-timeline';
@@ -38,13 +38,13 @@ import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-ta
 @Injectable()
 export class WorkPackageTableTimelineService extends WorkPackageTableBaseService<WorkPackageTableTimelineState> implements WorkPackageQueryStateService {
 
-  public constructor(tableState:TableState) {
-    super(tableState);
+  public constructor(querySpace:IsolatedQuerySpace) {
+    super(querySpace);
   }
 
 
   public get state():InputState<WorkPackageTableTimelineState> {
-    return this.tableState.timeline;
+    return this.querySpace.timeline;
   }
 
   public valueFromQuery(query:QueryResource) {

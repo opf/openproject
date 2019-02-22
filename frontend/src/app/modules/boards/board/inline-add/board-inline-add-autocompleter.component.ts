@@ -35,7 +35,7 @@ import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/w
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {WorkPackageInlineCreateComponent} from "core-components/wp-inline-create/wp-inline-create.component";
-import {TableState} from "core-components/wp-table/table-state/table-state";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
@@ -75,7 +75,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterContentInit {
   );
 
   constructor(private readonly parent:WorkPackageInlineCreateComponent,
-              private readonly tableState:TableState,
+              private readonly querySpace:IsolatedQuerySpace,
               private readonly pathHelper:PathHelperService,
               private readonly wpTableRefresh:WorkPackageTableRefreshService,
               private readonly wpInlineCreateService:WorkPackageInlineCreateService,
@@ -96,14 +96,14 @@ export class BoardInlineAddAutocompleterComponent implements AfterContentInit {
 
   public addWorkPackageToQuery(wpId:string) {
     this.reorderQueryService
-      .add(this.tableState, wpId)
+      .add(this.querySpace, wpId)
       .then(() => this.wpTableRefresh.request('Row added'));
   }
 
   private autocompleteWorkPackages(query:string):Observable<WorkPackageResource[]> {
     const path = this.pathHelper.api.v3.withOptionalProject(this.CurrentProject.id).work_packages;
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
-    const rows:WorkPackageResource[] = this.tableState.rows.getValueOr([]);
+    const rows:WorkPackageResource[] = this.querySpace.rows.getValueOr([]);
 
     filters.add('subjectOrId', '**', [query]);
 

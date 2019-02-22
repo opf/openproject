@@ -1,11 +1,11 @@
 import {InputState} from 'reactivestates';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 
 @Injectable()
 export class WorkPackageTableRefreshService {
 
-  constructor(public tableState:TableState) {
+  constructor(public querySpace:IsolatedQuerySpace) {
   }
 
   /**
@@ -25,7 +25,7 @@ export class WorkPackageTableRefreshService {
   }
 
   public get state():InputState<boolean[]> {
-    return this.tableState.refreshRequired;
+    return this.querySpace.refreshRequired;
   }
 }
 

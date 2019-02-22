@@ -118,6 +118,11 @@ et:
       no_results_title_text: There are currently no users part of this group.
     memberships:
       no_results_title_text: There are currently no projects part of this group.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -2204,6 +2209,7 @@ et:
   setting_mail_handler_api_key: Veebiteenuse API võti
   setting_mail_handler_body_delimiters: Kärbi e-kirja lõpp peale sellist rida
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Projekti looja vaikimisi roll oma loodud projektis
   setting_password_active_rules: Võimaldatud tähemärgid
   setting_password_count_former_banned: Arv kordi kui eelnevalt kasutatud parooli

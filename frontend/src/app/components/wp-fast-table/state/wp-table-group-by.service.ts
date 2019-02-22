@@ -34,7 +34,7 @@ import {QueryColumn} from '../../wp-query/query-column';
 import {InputState} from 'reactivestates';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {States} from 'core-components/states.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {cloneHalResource} from 'core-app/modules/hal/helpers/hal-resource-builder';
@@ -42,12 +42,12 @@ import {cloneHalResource} from 'core-app/modules/hal/helpers/hal-resource-builde
 @Injectable()
 export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<WorkPackageTableGroupBy> implements WorkPackageQueryStateService {
   public constructor(readonly states:States,
-                     readonly tableState:TableState) {
-    super(tableState);
+                     readonly querySpace:IsolatedQuerySpace) {
+    super(querySpace);
   }
 
   public get state():InputState<WorkPackageTableGroupBy> {
-    return this.tableState.groupBy;
+    return this.querySpace.groupBy;
   }
 
   valueFromQuery(query:QueryResource) {
@@ -79,9 +79,9 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<
 
     // hierarchies and group by are mutually exclusive
     if (groupBy) {
-      var hierarchy = this.tableState.hierarchies.value!;
+      var hierarchy = this.querySpace.hierarchies.value!;
       hierarchy.current = false;
-      this.tableState.hierarchies.putValue(hierarchy);
+      this.querySpace.hierarchies.putValue(hierarchy);
     }
 
     this.state.putValue(currentState);

@@ -36,9 +36,8 @@ export class KeepTabService {
 
   protected subject = new ReplaySubject<{ [tab:string]:string; }>(1);
 
-  constructor(public $state:StateService,
+  constructor(protected $state:StateService,
               protected $transitions:TransitionService) {
-    'ngInject';
 
     this.updateTabs();
     $transitions.onSuccess({}, (transition:Transition) => {

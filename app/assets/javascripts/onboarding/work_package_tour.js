@@ -27,7 +27,18 @@
                 'next .add-work-package': I18n.t('js.onboarding.steps.wp_create_button'),
                 'showSkip': false,
                 'nextButton': {text: I18n.t('js.onboarding.buttons.next')},
-                'shape': 'circle'
+                'shape': 'circle',
+                'timeout': function() {
+                    return new Promise(function(resolve) {
+                        // We are waiting here for the badge to appear,
+                        // because its the last that appears and it shifts the WP create button to the left.
+                        // Thus it is important that the tour rendering starts after the badge is visible
+                        waitForElement('#work-packages-filter-toggle-button .badge', '#content', function() {
+                            resolve();
+                        });
+                    });
+
+                }
             },
             {
                 'next .timeline-toolbar--button': I18n.t('js.onboarding.steps.wp_timeline_button'),

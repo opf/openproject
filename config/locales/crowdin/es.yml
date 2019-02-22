@@ -121,6 +121,11 @@ es:
     memberships:
       no_results_title_text: Actualmente no hay proyectos que formen parte de este
         grupo.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -2285,6 +2290,7 @@ es:
     una de estas líneas
   setting_mail_handler_body_delimiter_regex: Truncar correos que coincidan con esta
     expresión regular
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Papel ortorgado a usuario no administrador que
     crea un proyecto
   setting_password_active_rules: Activar clases de personajes

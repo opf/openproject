@@ -32,8 +32,9 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 @Component({
   selector: 'wp-embedded-calendar',
   template: `
-    <wp-calendar [static]="true">
-    </wp-calendar>
+    <ng-container wp-isolated-query-space>
+      <wp-calendar [static]="true"></wp-calendar>
+    <ng-container wp-isolated-query-space>
   `
 })
 export class WorkPackagesEmbeddedCalendarEntryComponent implements OnInit {

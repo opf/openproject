@@ -7,19 +7,19 @@ import {collapsedGroupClass, hierarchyGroupClass, hierarchyRootClass} from '../.
 import {WorkPackageTable} from '../../wp-fast-table';
 import {WorkPackageTableHierarchies} from '../../wp-table-hierarchies';
 import {WorkPackageTableHierarchiesService} from './../../state/wp-table-hierarchy.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 
 export class HierarchyTransformer {
 
   public wpTableHierarchies = this.injector.get(WorkPackageTableHierarchiesService);
-  public tableState:TableState = this.injector.get(TableState);
+  public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
-    this.tableState.updates.hierarchyUpdates
+    this.querySpace.updates.hierarchyUpdates
       .values$('Refreshing hierarchies on user request')
       .pipe(
-        takeUntil(this.tableState.stopAllSubscriptions),
+        takeUntil(this.querySpace.stopAllSubscriptions),
         map((state) => state.isEnabled),
         distinctUntilChanged()
       )
@@ -33,7 +33,7 @@ export class HierarchyTransformer {
     let lastValue = this.wpTableHierarchies.isEnabled;
 
     this.wpTableHierarchies
-      .observeUntil(this.tableState.stopAllSubscriptions)
+      .observeUntil(this.querySpace.stopAllSubscriptions)
       .subscribe((state:WorkPackageTableHierarchies) => {
 
         if (state.isEnabled === lastValue) {
@@ -48,7 +48,7 @@ export class HierarchyTransformer {
    * Update all currently visible rows to match the selection state.
    */
   private renderHierarchyState(state:WorkPackageTableHierarchies) {
-    const rendered = this.tableState.rendered.value!;
+    const rendered = this.querySpace.rendered.value!;
 
     // Show all hierarchies
     jQuery('[class^="__hierarchy-group-"]').removeClass((i:number, classNames:string):string => {
@@ -91,6 +91,6 @@ export class HierarchyTransformer {
     }
 
 
-    this.tableState.rendered.putValue(rendered, 'Updated hidden state of rows after hierarchy change.');
+    this.querySpace.rendered.putValue(rendered, 'Updated hidden state of rows after hierarchy change.');
   }
 }

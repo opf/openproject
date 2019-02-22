@@ -115,10 +115,19 @@ var EnjoyHint;
                 step_data.onBeforeStart();
             }
 
-            var timeout = step_data.timeout || 0;
+            // Allow a wait function in as timout parameter
+            if(step_data.timeout && typeof step_data.timeout === 'function') {
+                step_data.timeout().then(function() {
+                    toggleNext();
+                })
+            } else {
+                var timeout = step_data.timeout || 0;
+                setTimeout(function () {
+                    toggleNext();
+                }, timeout);
+            }
 
-            setTimeout(function () {
-
+            function toggleNext() {
                 if (!step_data.selector) {
 
                     for (var prop in step_data) {
@@ -297,7 +306,7 @@ var EnjoyHint;
 
                     $body.enjoyhint('render_label_with_shape', shape_data, that.stop);
                 }, step_data.scrollAnimationSpeed + 20 || 270);
-            }, timeout);
+            }
         };
 
         var nextStep = function() {

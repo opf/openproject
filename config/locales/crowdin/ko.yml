@@ -105,6 +105,11 @@ ko:
       no_results_title_text: 이 그룹에 사용자 파트가 없습니다.
     memberships:
       no_results_title_text: 이 그룹에 프로젝트 파트가 없습니다.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -2121,6 +2126,7 @@ ko:
   setting_mail_handler_api_key: API 키
   setting_mail_handler_body_delimiters: 이러한 줄 중 하나 다음에 이메일 자르기
   setting_mail_handler_body_delimiter_regex: 이 정규식에 일치하는 이메일을 자름
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: 프로젝트를 만드는 비관리자 사용자에게 지정된 역할
   setting_password_active_rules: 활성 문자 클래스
   setting_password_count_former_banned: 재사용 금지된 최근에 사용한 암호 수

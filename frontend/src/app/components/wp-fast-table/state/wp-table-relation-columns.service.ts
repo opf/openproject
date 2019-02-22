@@ -42,7 +42,7 @@ import {
   RelationsStateValue,
   WorkPackageRelationsService
 } from '../../wp-relations/wp-relations.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
@@ -52,16 +52,16 @@ export type RelationColumnType = 'toType' | 'ofType';
 
 @Injectable()
 export class WorkPackageTableRelationColumnsService extends WorkPackageTableBaseService<WorkPackageTableRelationColumns> {
-  constructor(public tableState:TableState,
+  constructor(public querySpace:IsolatedQuerySpace,
               public wpTableColumns:WorkPackageTableColumnsService,
               public halResourceService:HalResourceService,
               public wpCacheService:WorkPackageCacheService,
               public wpRelations:WorkPackageRelationsService) {
-      super(tableState);
+      super(querySpace);
   }
 
   public get state():InputState<WorkPackageTableRelationColumns> {
-    return this.tableState.relationColumns;
+    return this.querySpace.relationColumns;
   }
 
   public valueFromQuery(query:QueryResource):WorkPackageTableRelationColumns|undefined {

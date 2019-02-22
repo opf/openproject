@@ -22,7 +22,7 @@
       </div>
     </li>
 
-    <li class="advanced-filters--spacer" *ngIf="filters.anyCurrentlyVisibleFilters"></li>
+    <li class="advanced-filters--spacer"></li>
 
     <ng-container *ngFor="let filter of filters.current; trackBy: trackByName ; let index = index">
       <li id="filter_{{filter.id}}"
@@ -35,7 +35,7 @@
       </li>
     </ng-container>
 
-    <li class="advanced-filters--spacer" *ngIf="filters.current.length > 0"></li>
+    <li class="advanced-filters--spacer" *ngIf="isSecondSpacerVisible"></li>
 
     <li class="advanced-filters--add-filter">
       <!-- Add filters -->

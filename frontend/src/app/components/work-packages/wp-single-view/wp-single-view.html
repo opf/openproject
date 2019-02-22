@@ -104,11 +104,13 @@
       </div>
     </div>
 
-    <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
-                 [ndcDynamicInputs]="{ workPackage: workPackage,
-                                       group: group,
-                                       query: group.query }" >
-    </ndc-dynamic>
+    <ng-container wp-isolated-query-space>
+      <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
+                   [ndcDynamicInputs]="{ workPackage: workPackage,
+                                         group: group,
+                                         query: group.query }" >
+      </ndc-dynamic>
+    </ng-container>
   </div>
 </div>
 

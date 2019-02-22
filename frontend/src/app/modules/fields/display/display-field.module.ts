@@ -36,17 +36,26 @@ export class DisplayField extends Field {
   public mode:string | null = null;
   public changeset:WorkPackageChangeset|null = null;
 
-  protected I18n:I18nService
+  protected I18n:I18nService = this.$injector.get(I18nService);
+
   constructor(public resource:any,
               public name:string,
               public schema:IFieldSchema,
               public context:DisplayFieldContext) {
     super();
-    this.I18n = this.$injector.get(I18nService);
   }
 
   public get isFormattable():boolean {
     return false;
+  }
+
+  /**
+   * Return the provided local injector,
+   * which is relevant to provide the display field
+   * the current space context.
+   */
+  protected get $injector() {
+    return this.context.injector;
   }
 
   public get value() {

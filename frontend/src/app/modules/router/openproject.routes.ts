@@ -126,6 +126,13 @@ export function initializeUiRouterListeners(injector:Injector) {
       const fromState = transition.from();
       const toState = transition.to();
 
+      // Remove start_onboarding_tour param if set
+      if (toParams.start_onboarding_tour && toState.name !== 'work-packages.list') {
+        const paramsCopy = Object.assign({}, transition.params());
+        paramsCopy.start_onboarding_tour = undefined;
+        return $state.target(transition.to(), paramsCopy);
+      }
+
       // Reset profiler, if we're actually profiling
       const profiler:any = (window as any).MiniProfiler;
       profiler && profiler.pageTransition();

@@ -116,6 +116,11 @@ hu:
       no_results_title_text: Jelenleg egy felhasználó sem tagja a csoportnak.
     memberships:
       no_results_title_text: Jelenleg egy projekt sem tagja a csoportnak.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -2224,6 +2229,7 @@ hu:
   setting_mail_handler_api_key: API-kulcs
   setting_mail_handler_body_delimiters: E-mailek csonkolása e sorok után
   setting_mail_handler_body_delimiter_regex: E-mailek csonkítása a megegyező kifejezéssel
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Szerepkör a  nem admin felhasználónak, aki létrehoz
     egy projektet,
   setting_password_active_rules: Választható karakter típusok

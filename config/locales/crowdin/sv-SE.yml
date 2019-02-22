@@ -118,6 +118,11 @@ sv-SE:
       no_results_title_text: Det finns för närvarande inga användare i denna grupp.
     memberships:
       no_results_title_text: Det finns för närvarande inga projekt i denna grupp.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -737,7 +742,7 @@ sv-SE:
   button_check_all: Markera alla
   button_clear: Rensa
   button_click_to_reveal: Click to reveal
-  button_close: Close
+  button_close: Stäng
   button_collapse_all: Fäll ihop alla
   button_configure: Konfigurera
   button_continue: Fortsätt
@@ -2211,6 +2216,7 @@ sv-SE:
   setting_mail_handler_body_delimiters: Trunkera E-post efter en av dessa rader
   setting_mail_handler_body_delimiter_regex: Trunkera e-postmeddelanden enligt följande
     regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Roll som ges till en icke-administratör som skapar
     ett projekt
   setting_password_active_rules: Aktiva teckenklasser

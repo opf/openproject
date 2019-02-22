@@ -171,9 +171,9 @@ ru:
     label_ascending: По возрастанию
     label_author: 'Автор: %{user}'
     label_between: между
-    label_board: Board
+    label_board: Доска
     label_board_locked: Заперто
-    label_board_plural: Boards
+    label_board_plural: Доски
     label_board_sticky: Стикер
     label_create_work_package: Создать новый пакет работ
     label_created_by: Автор
@@ -296,7 +296,7 @@ ru:
     label_upload_notification: Загрузка файлов...
     label_work_package_upload_notification: 'Загрузка файлов для пакета работ #%{id}:
       %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} добавил(а) %{author}"
     label_files_to_upload: 'Эти файлы будут загружены:'
     label_rejected_files: 'Эти файлы не могут быть загружены:'
     label_rejected_files_reason: Эти файлы не могут быть загружены, как их размер
@@ -814,7 +814,7 @@ ru:
           пакетов работ будут рекурсивно удалены.
         deletes_children: Все дочерние пакеты работ и их потомки будут также рекурсивно
           удалены.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Нет видимых результатов для отображения.
     notice_successful_create: Создание выполнено.
     notice_successful_delete: Удаление выполнено.
     notice_successful_update: Обновление выполнено.

@@ -1,7 +1,7 @@
 import {WPTableRowSelectionState} from '../wp-table.interfaces';
 import {RenderedRow} from '../builders/primary-render-pass';
 import {InputState} from 'reactivestates';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {Injectable} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
@@ -12,10 +12,10 @@ export class WorkPackageTableSelection {
 
   public selectionState:InputState<WPTableRowSelectionState>;
 
-  public constructor(readonly tableState:TableState,
+  public constructor(readonly querySpace:IsolatedQuerySpace,
                      readonly states:States,
                      readonly wpCacheService:WorkPackageCacheService) {
-    this.selectionState = tableState.selection;
+    this.selectionState = querySpace.selection;
 
     if (this.selectionState.isPristine()) {
       this.reset();

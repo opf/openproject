@@ -121,6 +121,11 @@ ro:
     memberships:
       no_results_title_text: În acest moment nu există proiecte care să facă parte
         din acest grup.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -2265,6 +2270,7 @@ ro:
     linii
   setting_mail_handler_body_delimiter_regex: Trunchiaţi email-uri care se potrivesc
     cu acest regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rol atribuit unui utilizator non-administrator
     care crează un proiect
   setting_password_active_rules: Clase de caractere active

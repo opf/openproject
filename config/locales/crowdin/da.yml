@@ -118,6 +118,11 @@ da:
       no_results_title_text: Der er i øjeblikket ingen brugere i denne gruppe.
     memberships:
       no_results_title_text: Der er i øjeblikket ingen projekter i denne gruppe.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -2209,6 +2214,7 @@ da:
   setting_mail_handler_api_key: API-nøgle
   setting_mail_handler_body_delimiters: Afkort mails efter en af disse linier
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rolle givet til bruger der opretter projekt uden
     at være administrator
   setting_password_active_rules: Aktive typer af tegn

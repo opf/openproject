@@ -28,12 +28,13 @@
 
 import {ConfirmDialogModal, ConfirmDialogOptions} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {Injectable} from "@angular/core";
+import {Injectable, Injector} from "@angular/core";
 
 @Injectable()
 export class ConfirmDialogService {
 
-  constructor(readonly opModalService:OpModalService) {
+  constructor(readonly opModalService:OpModalService,
+              readonly injector:Injector) {
   }
 
   /**
@@ -41,7 +42,7 @@ export class ConfirmDialogService {
    */
   public confirm(options:ConfirmDialogOptions):Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      const confirmModal = this.opModalService.show(ConfirmDialogModal, { options: options });
+      const confirmModal = this.opModalService.show(ConfirmDialogModal, this.injector, { options: options });
       confirmModal.closingEvent.subscribe((modal:ConfirmDialogModal) => {
         if (modal.confirmed) {
           resolve();

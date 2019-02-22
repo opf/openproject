@@ -42,6 +42,7 @@ export class WorkPackageFilterContainerComponent implements OnDestroy {
   @Input('filterButtonText') filterButtonText:string = I18n.t('js.button_filter');
   @Output() public filtersChanged = new DebouncedEventEmitter<WorkPackageTableFilters>(componentDestroyed(this));
 
+  public visible = false;
   public filters = this.wpTableFilters.currentState;
 
   constructor(readonly wpTableFilters:WorkPackageTableFiltersService,
@@ -51,6 +52,12 @@ export class WorkPackageFilterContainerComponent implements OnDestroy {
       .subscribe(() => {
         this.filters = this.wpTableFilters.currentState;
     });
+
+    this.wpFiltersService
+      .observeUntil(componentDestroyed(this))
+      .subscribe((visible) => {
+        this.visible = visible;
+      });
   }
 
   ngOnDestroy() {

@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input} from '@angular/core';
+import {Directive, ElementRef, Injector, Input} from '@angular/core';
 import {StateService} from '@uirouter/core';
 import {LinkHandling} from 'core-app/modules/common/link-handling/link-handling';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
@@ -22,6 +22,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
   constructor(readonly HookService:HookService,
               readonly $state:StateService,
+              readonly injector:Injector,
               readonly PathHelper:PathHelperService,
               readonly elementRef:ElementRef,
               readonly opModalService:OpModalService,
@@ -47,10 +48,10 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
     switch (key) {
       case 'copy':
-        this.$state.go('work-packages.copy', {copiedFromWorkPackageId: this.workPackage.id});
+        this.$state.go('work-packages.copy', { copiedFromWorkPackageId: this.workPackage.id });
         break;
       case 'delete':
-        this.opModalService.show(WpDestroyModal, {workPackages: [this.workPackage]});
+        this.opModalService.show(WpDestroyModal, this.injector, { workPackages: [this.workPackage] });
         break;
 
       default:

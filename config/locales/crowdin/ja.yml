@@ -101,6 +101,11 @@ ja:
       no_results_title_text: 現在、このグループのメンバーはいません。
     memberships:
       no_results_title_text: 現在、このグループのプロジェクトはありません。
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: 削除は予定されており、バックグラウンドで実行されます。 結果が通知されます。
@@ -199,7 +204,7 @@ ja:
       one: One descendant work package
       other: "%{count} つの作業項目の子孫"
     bulk:
-      could_not_be_saved: 'The following work packages could not be saved:'
+      could_not_be_saved: '次の作業項目を保存できませんでした:'
     move:
       no_common_statuses_exists: 選択されたすべての項目に利用可能なステータスはありません。 それらの状態は変更できません。
       unsupported_for_multiple_projects: 複数のプロジェクトから、作業項目の一括移動/コピーはサポートされていません
@@ -450,7 +455,7 @@ ja:
         too_long: は%{count}文字以内を入力してください。
         too_short: は%{count}文字以上を入力してください。
         unchangeable: 変更できません。
-        unremovable: cannot be removed.
+        unremovable: 削除できません。
         wrong_length: は%{count}文字を入力してください。
       models:
         custom_field:
@@ -1533,7 +1538,7 @@ ja:
   label_view_diff: 差分を表示
   label_view_revisions: リビジョンを表示
   label_watched_work_packages: ウォッチしている作業項目
-  label_what_is_this: What is this?
+  label_what_is_this: これは何ですか?
   label_week: 週
   label_wiki_content_added: Wikiページが追加されました。
   label_wiki_content_updated: Wikiページが更新されました。
@@ -2044,6 +2049,7 @@ ja:
   setting_mail_handler_api_key: APIキー
   setting_mail_handler_body_delimiters: メール本文から一致する行以降を切り捨てる
   setting_mail_handler_body_delimiter_regex: この正規表現に一致するメールを切り捨てる
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: システム管理者以外のプロジェクト作成者に設定するロール
   setting_password_active_rules: 有効な文字種類
   setting_password_count_former_banned: 再利用を禁止される最近使用済みパスワードの数
@@ -2196,14 +2202,9 @@ ja:
     デフォルト設定のロードを強くお勧めします。ロードした後、それを修正することができます。
   text_no_notes: この作業項目に有効なコメントはありません.
   text_notice_too_many_values_are_inperformant: '注: 1ページあたり100以上の項目を表示すると読み込み時間が増加することがあります。'
-  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
-    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
-    administration panel, and on the home page. It is displayed to administrators
-    only. <br/> The badge will check your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide
-    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
-    configuration documentation</a>.
+  text_notice_security_badge_displayed_html: '602/5000 注：有効にすると、<a href="%{information_panel_path}">%{information_panel_label}</a>管理パネルとホームページに、インストールステータスのバッジが表示されます。
+    管理者のみに表示されます。 <br/>バッジは、最新のOpenProjectバージョンを公式のOpenProjectリリースデータベースと照合して、アップデートや既知の脆弱性について警告します。
+    チェックの内容、利用可能なアップデートを提供するために必要なデータ、およびこのチェックを無効にする方法の詳細については、<a href="%{more_info_url}">設定ドキュメント</a>をご覧ください。
 
 '
   text_own_membership_delete_confirmation: |-

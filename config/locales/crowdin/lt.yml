@@ -119,6 +119,11 @@ lt:
       no_results_title_text: Nėra šios grupės vartotojų.
     memberships:
       no_results_title_text: Nėra projektų šiai grupei.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -2277,6 +2282,7 @@ lt:
   setting_mail_handler_body_delimiters: Trumpinti laiškus po vienos iš šių eilučių
   setting_mail_handler_body_delimiter_regex: Sutrumpinti laiškus, atitinkančius šią
     reguliarią išraišką
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rolė suteikta vartotojui, kuris nėra administratorius
     ir kuris kuria projektą
   setting_password_active_rules: Aktyvios savybių klasės

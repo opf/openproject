@@ -27,16 +27,16 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {States} from '../../states.service';
-import {buildApiV3Filter} from '../api-v3/api-v3-filter-builder';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {Inject, Injectable} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {Injectable} from "@angular/core";
+import {States} from "core-components/states.service";
+import {buildApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 
 @Injectable()
-export class ApiWorkPackagesService {
+export class WorkPackageDmService {
   constructor(protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService,
               protected states:States) {

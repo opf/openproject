@@ -38,7 +38,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <global-search-tabs></global-search-tabs>
 
 <% if params[:work_packages].present? %>
-  <global-search-work-packages></global-search-work-packages>
+  <global-search-work-packages-entry></global-search-work-packages-entry>
 <% else %>
   <h3><%= l(:label_result_plural) %> (<%= @results_by_type&.values&.sum || '0' %>)</h3>
   <% if @results %>

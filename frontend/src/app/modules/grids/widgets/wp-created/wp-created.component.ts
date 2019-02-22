@@ -1,19 +1,17 @@
 import {Component, OnInit} from "@angular/core";
-import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+import {WidgetWpListComponent} from "core-app/modules/grids/widgets/wp-widget/wp-widget.component";
 
 @Component({
   templateUrl: '../wp-widget/wp-widget.component.html',
   styleUrls: ['../wp-widget/wp-widget.component.css']
 })
-export class WidgetWpCreatedComponent extends AbstractWidgetComponent implements OnInit {
+export class WidgetWpCreatedComponent extends WidgetWpListComponent implements OnInit {
   public text = { title: this.i18n.t('js.grid.widgets.work_packages_created.title') };
   public queryProps:any;
-  public configuration = { "actionsColumnEnabled": false,
-                           "columnMenuEnabled": false,
-                           "contextMenuEnabled": false };
 
   ngOnInit() {
+    super.ngOnInit();
     let filters = new ApiV3FilterBuilder();
     filters.add('author', '=', ["me"]);
     filters.add('status', 'o', []);

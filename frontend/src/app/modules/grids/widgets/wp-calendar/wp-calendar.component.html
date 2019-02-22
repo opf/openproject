@@ -3,5 +3,6 @@
   <span class="widget-box--header-title" [textContent]="text.title"></span>
 </h3>
 
-<wp-calendar [static]="true">
-</wp-calendar>
+<ng-container wp-isolated-query-space>
+  <wp-calendar [static]="true"></wp-calendar>
+</ng-container>

@@ -41,20 +41,19 @@ import {Ng2StateDeclaration} from "@uirouter/angular";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 import {MyPageComponent} from "core-components/routing/my-page/my-page.component";
 
-
-
-
 export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'work-packages',
     parent: 'root',
     component: WorkPackagesBaseComponent,
-    url: '/work_packages?query_id&query_props',
-    abstract: true,
+    url: '/work_packages?query_id&query_props&start_onboarding_tour',
+    redirectTo: 'work-packages.list',
     params: {
       query_id: { type: 'query', dynamic: true },
       // Use custom encoder/decoder that ensures validity of URL string
-      query_props: { type: 'opQueryString' }
+      query_props: { type: 'opQueryString' },
+      // Optional initial tour param
+      start_onboarding_tour: { type: 'query', squash: true, value: undefined },
     }
   },
   {

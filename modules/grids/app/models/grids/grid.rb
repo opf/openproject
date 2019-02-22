@@ -36,6 +36,7 @@ module Grids
 
     has_many :widgets,
              class_name: 'Widget',
+             dependent: :destroy,
              autosave: true
 
     def user_deletable?
