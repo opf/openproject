@@ -71,9 +71,6 @@ export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableComponent implements OnDestroy, AfterViewInit {
   @ViewChild('wpTable') wpTable:WorkPackageEmbeddedTableComponent;
 
-  private searchTermSub:Subscription;
-  private projectScopeSub:Subscription;
-  private resultsHiddenSub:Subscription;
   private query:QueryResource;
   private firstTimeLoadForm:boolean = false;
 
