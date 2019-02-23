@@ -838,7 +838,7 @@ sk:
         messages_on_field: 'Nasledujúce pole je nesprávne: %{messages}'
     error_could_not_resolve_version_name: Nebolo možné zistiť názov verzie
     error_could_not_resolve_user_name: Nebolo možné zistiť užívateľské meno
-    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload: 'Súbor sa nepodarilo nahrať: %{error}'
     error_attachment_upload_permission: Nemáte povolenie na nahranie súborov do tohto
       zdroja.
     units:

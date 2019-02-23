@@ -118,8 +118,9 @@ sk:
     memberships:
       no_results_title_text: Pre túto skupinu nie sú momentálne vytvorené žiadne projekty.
   incoming_mails:
-    ignore_filenames: 'Specify a list of names to ignore when processing attachments
-      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+    ignore_filenames: 'Zadajte zoznam názvov, ktoré chcete ignorovať pri spracovávaní
+      príloh prichádzajúcich e-mailov (napr. podpisy alebo ikony). Zadajte jeden názov
+      súboru na riadok.
 
 '
   projects:
@@ -229,7 +230,7 @@ sk:
       few: "%{count} work package descendants"
       many: "%{count} work package descendants"
     bulk:
-      could_not_be_saved: 'The following work packages could not be saved:'
+      could_not_be_saved: 'Nasledujúce pracovné balíčky sa nepodarilo uložiť:'
     move:
       no_common_statuses_exists: Pre všetky vybraté pracovné balíčky nie je k dispozícii
         žiadny stav. Ich stav nemožno zmeniť.
@@ -530,7 +531,7 @@ sk:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: cannot contain a fragment.
+              fragment_present: nemôže obsahovať fragment.
               invalid_uri: musí byť platný identifikátor URI.
               relative_uri: musí byť absolútna URI.
               secured_uri: musí byť HTTPS/SSL URI.
@@ -685,7 +686,7 @@ sk:
       wiki_page: Wiki stránka
       workflow: Pracovný postup
       work_package: Pracovný balíček
-      doorkeeper/application: OAuth application
+      doorkeeper/application: OAuth aplikácia
   errors:
     header_invalid_fields: 'Nastali problémy s nasledujúcimi poliami:'
     field_erroneous_label: 'Toto pole je neplatné: %{full_errors}. Prosím zadajte
@@ -2101,8 +2102,8 @@ sk:
         subversion: |-
           Údaje obsiahnuté v tomto úložisku je možné prevziať do počítača pomocou funkcie Subversion.
           Prosím konzultujte dokumentáciu Subversion ak potrebujte viac informácii o kontrolných procedúrach a dostupných klientoch.
-      enable_instructions_text: Displays checkout instructions defined below on all
-        repository-related pages.
+      enable_instructions_text: Zobrazí kontrolné pokyny definované nižšie týkajúce
+        všetkých stránok súvisiacich s úložiskom.
       instructions: Overovacie inštrukcie
       show_instructions: Zobraziť overovacie inštrukcie
       text_instructions: Tento text je zobrazený vedľa overovacej adresy URL, kde
@@ -2146,11 +2147,11 @@ sk:
         dispozícii pre poskytovateľa riadenia verzií %{vendor}.
       disabled_or_unknown_vendor: Poskytovateľ systému pre správu verzií %{vendor}
         je zakázaná alebo už nie je k dispozícii.
-      remote_call_failed: 'Calling the managed remote failed with message ''%{message}''
+      remote_call_failed: 'Volanie vzdialenej správy zlyhalo, zobrazená správa ''%{message}''
         (Code: %{code})'
-      remote_invalid_response: Received an invalid response from the managed remote.
-      remote_save_failed: Could not save the repository with the parameters retrieved
-        from the remote.
+      remote_invalid_response: Prijatá neplatná odpoveď zo vzdialenej správy.
+      remote_save_failed: Nemožno uložiť úložisko s parametrami získanými zo vzdialenej
+        správy.
     git:
       instructions:
         managed_url: Toto je adresa URL spravovaného (lokálneho) úložiska Git.
@@ -2169,15 +2170,15 @@ sk:
       path: Cesta k úložisku Git
       path_encoding: Kódovanie cesty
     go_to_revision: Prejdite na revíziu
-    managed_remote: Managed repositories for this vendor are handled remotely.
+    managed_remote: Spravované úložiská tohto poskytovateľa sú spravované na diaľku.
     managed_remote_note: Informácie o adrese URL a ceste tohto úložiska nie sú k dispozícii
       pred jeho vytvorením.
     managed_url: Spravovaná adresa URL
     settings:
       automatic_managed_repos_disabled: Zakázať automatické vytváranie
       automatic_managed_repos: Automatické vytváranie spravovaných úložísk
-      automatic_managed_repos_text: By setting a vendor here, newly created projects
-        will automatically receive a managed repository of this vendor.
+      automatic_managed_repos_text: Definovaním poskytovateľa novo vytvorené projekty
+        automaticky dostanú spravované úložisko tohto poskytovateľa.
     scm_vendor: Systém správy riadenia zdrojov
     scm_type: Typ úložiska
     scm_types:
@@ -2197,8 +2198,8 @@ sk:
       instructions:
         managed_url: This is the URL of the managed (local) Subversion repository.
         url: |-
-          Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.
-          The following URL schemes are supported:
+          Zadajte URL úložiska. To môže byť smerované na lokálne úložisko (začínajúce s %{local_proto} ) alebo vzdialené úložisko.
+          Podporované sú nasledujúce schémy adries URL:
       managed_title: Subversion repository integrated into OpenProject
       managed_introduction: Let OpenProject create and integrate a local Subversion
         repository automatically.
@@ -2289,7 +2290,7 @@ sk:
   setting_mail_handler_body_delimiters: Skráťte emaily po jednom z týchto riadkov
   setting_mail_handler_body_delimiter_regex: Skrátiť e-maily zodpovedajúce tomuto
     regex
-  setting_mail_handler_ignore_filenames: Ignored mail attachments
+  setting_mail_handler_ignore_filenames: Ignorované prílohy e-mailu
   setting_new_project_user_role_id: Rola priradená užívateľovi bez práv administrátora,
     ktorý projekt vytvoril
   setting_password_active_rules: Aktívny charakter tried
@@ -2303,7 +2304,7 @@ sk:
   setting_protocol: Protokol
   setting_security_badge_displayed: Zobrazte znaky zabezpečenia
   setting_registration_footer: Registrácia zápätia
-  setting_repositories_automatic_managed_vendor: Automatic repository vendor type
+  setting_repositories_automatic_managed_vendor: Automatický typ poskytovateľa úložiska
   setting_repositories_encodings: Kódovania znakov vrámci repozitárov
   setting_repository_authentication_caching_enabled: Aktivujte vyrovnávaciu pamäť
     pre autentifikáciu pomocou softvéru na riadenie verzií
@@ -2915,10 +2916,10 @@ sk:
     close_warning: Ignorovať toto upozornenie.
   oauth:
     application:
-      singular: OAuth application
-      plural: OAuth applications
-      named: OAuth application '%{name}'
-      new: New OAuth application
+      singular: OAuth aplikácia
+      plural: OAuth aplikácie
+      named: OAuth aplikácia '%{name}'
+      new: Nová aplikácia OAuth
       default_scopes: "(Predvolený rozsah)"
       instructions:
         name: Názov vašej aplikácie. Toto sa po autorizácii zobrazí ostatným používateľom.
@@ -2957,7 +2958,7 @@ sk:
       api_v3_text: Application will receive full read & write access to the OpenProject
         API to perform actions on your behalf.
     grants:
-      created_date: Approved on
+      created_date: Schválené
       scopes: Oprávnenia
       successful_application_revocation: Revocation of application %{application_name}
         successful.
