@@ -843,7 +843,7 @@ pt-BR:
         messages_on_field: 'Este campo é inválido: %{messages}'
     error_could_not_resolve_version_name: Não foi possível identificar o nome da versão
     error_could_not_resolve_user_name: Não foi possível identificar o nome do usuário
-    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload: 'Arquivo falhou ao ser enviado: %{error}'
     error_attachment_upload_permission: Você não tem permissão para enviar arquivos
       nesse recurso.
     units:
