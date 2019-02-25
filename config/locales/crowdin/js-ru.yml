@@ -841,7 +841,7 @@ ru:
         messages_on_field: 'Это поле является недопустимым: %{messages}'
     error_could_not_resolve_version_name: Не удалось определить название этапа
     error_could_not_resolve_user_name: Не удалось найти такое имя пользователя
-    error_attachment_upload: 'Файл «%{name}» загрузить не удалось: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: У вас нет прав для загрузки файлов на этом
       ресурсе.
     units:

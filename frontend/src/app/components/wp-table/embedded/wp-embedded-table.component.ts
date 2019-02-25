@@ -14,6 +14,7 @@ import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedde
 import {WorkPackageTableFilters} from "core-components/wp-fast-table/wp-table-filters";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -34,6 +35,9 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   readonly wpTableTimeline:WorkPackageTableTimelineService = this.injector.get(WorkPackageTableTimelineService);
   readonly wpTablePagination:WorkPackageTablePaginationService = this.injector.get(WorkPackageTablePaginationService);
   readonly QueryFormDm:QueryFormDmService = this.injector.get(QueryFormDmService);
+
+  // Cache the form promise
+  private formPromise:Promise<QueryFormResource>|undefined;
 
   constructor(readonly injector:Injector) {
     super(injector);
@@ -96,10 +100,17 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   }
 
   private loadForm(query:QueryResource):Promise<QueryFormResource> {
-    return this.QueryFormDm.load(query).then((form:QueryFormResource) => {
-      this.wpStatesInitialization.updateStatesFromForm(query, form);
-      return form;
-    });
+    if (this.formPromise) {
+      return this.formPromise;
+    }
+
+    return this.formPromise = this.QueryFormDm
+      .load(query)
+      .then((form:QueryFormResource) => {
+        this.wpStatesInitialization.updateStatesFromForm(query, form);
+        return form;
+      })
+      .catch(() => this.formPromise = undefined);
   }
 
   protected loadQuery(visible:boolean = true):Promise<QueryResource> {

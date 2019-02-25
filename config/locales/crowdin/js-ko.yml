@@ -774,7 +774,7 @@ ko:
         messages_on_field: "%{messages} 는 유효하지 않습니다."
     error_could_not_resolve_version_name: 버전 이름을 확인할 수 없습니다.
     error_could_not_resolve_user_name: 사용자 이름을 확인할 수 없습니다.
-    error_attachment_upload: "'%{name}' 파일 업로드 실패: %{error}"
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: 이 리소스에서 파일을 업로드할 수 있는 권한이 없습니다.
     units:
       workPackage:

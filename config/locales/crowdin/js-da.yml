@@ -831,7 +831,7 @@ da:
         messages_on_field: 'Dette felt er ugyldigt: %{messages}'
     error_could_not_resolve_version_name: Kunne ikke fastslå versionsnavn
     error_could_not_resolve_user_name: Kunne ikke finde brugernavnet
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:

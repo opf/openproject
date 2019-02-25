@@ -834,8 +834,7 @@ pt:
         messages_on_field: 'Este campo é inválido: %{messages}'
     error_could_not_resolve_version_name: Não consegui resolver o nome da versão
     error_could_not_resolve_user_name: Não consegui resolver o nome do utilizador
-    error_attachment_upload: 'Ocorreu um erro ao carregar o ficheiro ''%{name}'':
-      %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: Não tem permissão para carregar ficheiros
       para este recurso.
     units:

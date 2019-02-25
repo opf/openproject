@@ -829,7 +829,7 @@ fi:
         messages_on_field: 'Tämä kenttä on virheellinen: %{messages}'
     error_could_not_resolve_version_name: Version nimeä ei voitu ratkaista
     error_could_not_resolve_user_name: Käyttäjän nimeä ei voitu ratkaista
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:

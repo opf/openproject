@@ -834,7 +834,7 @@ tr:
         messages_on_field: 'Bu alan geçersiz: %{messages}'
     error_could_not_resolve_version_name: Sürüm adı çözümlenemedi
     error_could_not_resolve_user_name: Kullanıcı adı çözümlenemedi
-    error_attachment_upload: "'%{name}' dosyası yüklenemedi: %{error}"
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: Bu kaynakta dosya yüklemek için izniniz bulunmamaktadır.
     units:
       workPackage:

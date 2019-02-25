@@ -834,7 +834,7 @@ pl:
         messages_on_field: 'To pole jest nieprawidłowe: %{messages}'
     error_could_not_resolve_version_name: Nie można rozpoznać wersji
     error_could_not_resolve_user_name: Nie można rozpoznać nazwy użytkownika
-    error_attachment_upload: 'Załadowanie pliku %{name} nie powiodło się: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: Nie masz uprawnień do przesyłania plików do
       tego zasobu.
     units:

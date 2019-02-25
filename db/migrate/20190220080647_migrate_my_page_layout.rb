@@ -121,7 +121,7 @@ class MigrateMyPageLayout < ActiveRecord::Migration[5.2]
       issuesreportedbyme: :work_packages_created,
       issueswatched: :work_packages_watched,
       news: :news,
-      calendar: :calendar,
+      calendar: :work_packages_calendar,
       timelog: :time_entries_current_user,
       documents: :documents
     }

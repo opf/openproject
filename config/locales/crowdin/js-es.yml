@@ -851,7 +851,7 @@ es:
         messages_on_field: 'Este campo no es válido: %{messages}'
     error_could_not_resolve_version_name: No se puede resolver el nombre de la versión
     error_could_not_resolve_user_name: No se pudo identificar el nombre de usuario
-    error_attachment_upload: 'No se pudo cargar el archivo “%{name}”: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: No tiene permiso para cargar archivos en este
       recurso.
     units:
