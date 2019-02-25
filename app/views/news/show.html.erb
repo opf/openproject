@@ -67,7 +67,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% if @news.summary.present? %>
   <%= format_text(@news.summary, object: @news) %>
 <% end %>
-  <span class="author"><%= authoring @news.created_on, @news.author %></span></p>
+  <p><span class="author"><%= authoring @news.created_on, @news.author %></span></p>
 <div class="wiki">
   <%= format_text(@news.description, object: @news) %>
 </div>
