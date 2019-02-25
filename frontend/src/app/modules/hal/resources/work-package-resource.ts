@@ -153,14 +153,23 @@ export class WorkPackageBaseResource extends HalResource {
   }
 
   /**
-   * Return "<type name>: <subject>" if the type is known.
+   * Return "<type name>: <subject> (#<id>)" if type and id are known.
    */
   public subjectWithType(truncateSubject:number = 40):string {
     const type = this.type ? `${this.type.name}: ` : '';
+    const subject = this.subjectWithId(truncateSubject);
+
+    return `${type}${subject}`;
+  }
+
+  /**
+   * Return "<subject> (#<id>)" if the id is known.
+   */
+  public subjectWithId(truncateSubject:number = 40):string {
     const id = this.isNew ? '' : ` (#${this.id})`;
     const subject = _.truncate(this.subject, { length: truncateSubject });
 
-    return `${type}${subject}${id}`;
+    return `${subject}${id}`;
   }
 
   public get isNew():boolean {
