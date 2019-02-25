@@ -147,10 +147,6 @@ export function registerWidgets(injector:Injector) {
           component: WidgetWpCalendarComponent
         },
         {
-          identifier: 'calendar',
-          component: WidgetWpCalendarComponent
-        },
-        {
           identifier: 'time_entries_current_user',
           component: WidgetTimeEntriesCurrentUserComponent
         },
