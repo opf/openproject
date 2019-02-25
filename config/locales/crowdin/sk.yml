@@ -108,7 +108,7 @@ sk:
   global_search:
     overwritten_tabs:
       wiki_pages: Wiki
-      messages: Forum
+      messages: Diskusia
   groups:
     index:
       no_results_title_text: Momentálne nie sú k dispozícií žiadne skupiny.
@@ -117,16 +117,22 @@ sk:
       no_results_title_text: Momentálne nie sú členmi tejto skupiny žiadni používatelia.
     memberships:
       no_results_title_text: Pre túto skupinu nie sú momentálne vytvorené žiadne projekty.
+  incoming_mails:
+    ignore_filenames: 'Zadajte zoznam názvov, ktoré chcete ignorovať pri spracovávaní
+      príloh prichádzajúcich e-mailov (napr. podpisy alebo ikony). Zadajte jeden názov
+      súboru na riadok.
+
+'
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      scheduled: Vymazanie bolo naplánované a uskutočňuje sa na pozadí. O výsledku
+        budete informovaný.
+      schedule_failed: 'Projekt nie je možné odstrániť: %{errors}'
+      failed: Odstránenie projektu %{name} zlyhalo
+      failed_text: Požiadavka na odstránenie projektu %{name} zlyhala. Projekt zostal
+        archivovaný.
+      completed: Odstránenie projektu %{name} dokončené
+      completed_text: Požiadavka na odstránenie projektu '%{name}' bola ukončená.
     index:
       no_results_title_text: V súčasnosti neexistujú žiadne projekty
       no_results_content_text: Vytvoriť nový projekt
@@ -223,6 +229,8 @@ sk:
       other: "%{count} work package descendants"
       few: "%{count} work package descendants"
       many: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'Nasledujúce pracovné balíčky sa nepodarilo uložiť:'
     move:
       no_common_statuses_exists: Pre všetky vybraté pracovné balíčky nie je k dispozícii
         žiadny stav. Ich stav nemožno zmeniť.
@@ -456,13 +464,13 @@ sk:
         type: Typ
         watcher: Pozorovateľ
       doorkeeper/application:
-        uid: Client ID
-        secret: Client secret
-        owner: Owner
-        redirect_uri: Redirect URI
-        client_credentials_user_id: Client Credentials User ID
+        uid: ID klienta
+        secret: Klient neverejné
+        owner: Vlastník
+        redirect_uri: Presmerovať URI
+        client_credentials_user_id: ID poverenia klienta
         scopes: Scopes
-        confidential: Confidential
+        confidential: Dôverné
     errors:
       messages:
         accepted: musí byť akceptovaný.
@@ -507,6 +515,7 @@ sk:
         too_short: je príliš krátky (minimum je %{count} znakov).
         unchangeable: nie je možné zmeniť.
         wrong_length: má chybnú dĺžku (správne má byť %{count} znakov).
+        unremovable: nie je možné zmazať.
       models:
         custom_field:
           at_least_one_custom_option: Musí byť k dispozícii aspoň jedna možnosť.
@@ -522,13 +531,13 @@ sk:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
-              secured_uri: must be an HTTPS/SSL URI.
-              forbidden_uri: is forbidden by the server.
+              fragment_present: nemôže obsahovať fragment.
+              invalid_uri: musí byť platný identifikátor URI.
+              relative_uri: musí byť absolútna URI.
+              secured_uri: musí byť HTTPS/SSL URI.
+              forbidden_uri: je zakázané na serveri.
             scopes:
-              not_match_configured: doesn't match available scopes.
+              not_match_configured: nezodpovedá dostupným rozsahom.
         enterprise_token:
           unreadable: nedá sa čítať. Ste si istý, že máte správny Token podpory Enterprise
             Edition?
@@ -627,12 +636,12 @@ sk:
               reused:
                 one: už bol použitý predtým. Prosím, vyberte odlišnú voľbu ako tú,
                   ktorá bola zvolená naposledy.
-                other: už bol použitý predtým. Prosím, vyberte odlišnú voľbu ako tú,
-                  ktorá bola zvolená posledných %{count} krát.
+                other: už bolo použité. Vyberte heslo, ktoré sa líši od posledných
+                  %{count}.
                 few: už bol použitý predtým. Prosím, vyberte odlišnú voľbu ako tú,
                   ktorá bola zvolená posledných %{count} krát.
-                many: has been used before. Please choose one that is different from
-                  your last %{count}.
+                many: už bola použité. Vyberte heslo, ktoré sa líši od posledného
+                  %{count}.
               match:
                 confirm: Potvrdiť nové heslo.
                 description: '"Potvrdenie hesla" musí byť rovnaké ako v poli "Nové
@@ -677,7 +686,7 @@ sk:
       wiki_page: Wiki stránka
       workflow: Pracovný postup
       work_package: Pracovný balíček
-      doorkeeper/application: OAuth application
+      doorkeeper/application: OAuth aplikácia
   errors:
     header_invalid_fields: 'Nastali problémy s nasledujúcimi poliami:'
     field_erroneous_label: 'Toto pole je neplatné: %{full_errors}. Prosím zadajte
@@ -752,7 +761,7 @@ sk:
   button_change_password: Zmeniť heslo
   button_check_all: Označiť všetko
   button_clear: Vyčistiť
-  button_click_to_reveal: Click to reveal
+  button_click_to_reveal: Kliknutím zobrazíte
   button_close: Zatvoriť
   button_collapse_all: Zbaliť všetko
   button_configure: Konfigurovať
@@ -782,7 +791,7 @@ sk:
   button_remove: Vymazať
   button_rename: Premenovať
   button_replace: Nahradiť
-  button_revoke: Revoke
+  button_revoke: Odvolať
   button_reply: Odpoveď
   button_reset: Vynulovať
   button_rollback: Vrátenie k tejto verzii
@@ -894,20 +903,20 @@ sk:
         one: približne 1 hodina
         other: približne %{count} hodín
         few: približne %{count} hodiny
-        many: about %{count} hours
+        many: približne %{count} hodín
       about_x_months:
         one: približne 1 mesiac
-        other: približne %{count} mesiacov
+        other: približne %{count} mesiace
         few: približne %{count} mesiace
         many: about %{count} months
       about_x_years:
         one: približne 1 rok
-        other: približne %{count} rokov
+        other: približne %{count} roky
         few: približne %{count} roky
         many: about %{count} years
       almost_x_years:
         one: skoro 1 rok
-        other: skoro %{count} rokov
+        other: viac ako %{count} rokov
         few: skoro %{count} roky
         many: almost %{count} years
       half_a_minute: pol minúty
@@ -915,43 +924,43 @@ sk:
         one: menej než 1 minúta
         other: menej než %{count} minút
         few: menej než %{count} minúty
-        many: less than %{count} minutes
+        many: menej než %{count} minút
       less_than_x_seconds:
         one: menej než 1 sekunda
         other: menej než %{count} sekúnd
         few: menej než %{count} sekundy
-        many: less than %{count} seconds
+        many: menej než %{count} sekúnd
       over_x_years:
         one: viac ako 1 rok
         other: viac ako %{count} rokov
         few: viac ako %{count} roky
-        many: over %{count} years
+        many: viac ako %{count} rokov
       x_days:
         one: 1 deň
         other: "%{count} dní"
         few: "%{count} dni"
-        many: "%{count} days"
+        many: "%{count} dní"
       x_minutes:
         one: 1 minúta
         other: "%{count} minút"
         few: "%{count} minúty"
-        many: "%{count} minutes"
+        many: "%{count} minút"
       x_months:
         one: 1 mesiac
         other: "%{count} mesiacov"
         few: "%{count} mesiace"
-        many: "%{count} months"
+        many: "%{count} mesiacov"
       x_seconds:
         one: 1 sekunda
         other: "%{count} sekúnd"
         few: "%{count} sekundy"
-        many: "%{count} seconds"
+        many: "%{count} sekúnd"
     units:
       hour:
         one: hodina
         other: hodín
         few: hodiny
-        many: hours
+        many: hodín
   default_activity_development: Vývoj
   default_activity_management: Riadenie
   default_activity_other: Ostatné
@@ -1264,7 +1273,7 @@ sk:
   label_board_locked: Uzamknuté
   label_board_new: Nová diskusia
   label_board_plural: Diskusie
-  label_board_sticky: Sticky
+  label_board_sticky: Dôležité (vždy vyššie)
   label_boolean: Booleovská hodnota (pavda/nepravda)
   label_branch: Vetva
   label_browse: Prechádzať
@@ -1365,7 +1374,7 @@ sk:
   label_environment: Prostredie
   label_estimates_and_time: Odhady a čas
   label_equals: je
-  label_everywhere: everywhere
+  label_everywhere: všade
   label_example: Príklad
   label_export_to: 'K dispozícii tiež ako:'
   label_expanded_click_to_collapse: Rozbalené. Kliknutí zbalíte
@@ -1403,7 +1412,7 @@ sk:
   label_history: História
   label_hierarchy_leaf: Úroveň hierarchie
   label_home: Úvod
-  label_subject_or_id: Subject or ID
+  label_subject_or_id: Predmet alebo ID
   label_in: v
   label_in_less_than: v menej ako
   label_in_more_than: vo viac ako
@@ -1549,7 +1558,8 @@ sk:
   label_project_new: Nový projekt
   label_project_plural: Projekty
   label_project_settings: Nastavenia projektu
-  label_projects_storage_information: "%{count} projects using %{storage} disk storage"
+  label_projects_storage_information: projekty %{count} využívajú celkom %{storage}
+    diskového priestoru
   label_project_view_all: Zobraziť všetky projekty
   label_project_show_details: Zobraziť detaily projektu
   label_project_hide_details: Skryť detaily projektu
@@ -1680,6 +1690,7 @@ sk:
   label_view_diff: Zobraziť rozdiely
   label_view_revisions: Zobraziť revízie
   label_watched_work_packages: Pozorované pracovné balíčky
+  label_what_is_this: Čo je to?
   label_week: Týždeň
   label_wiki_content_added: Wikistránka bola pridaná
   label_wiki_content_updated: Wikistránka bola aktualizovaná
@@ -1732,31 +1743,31 @@ sk:
     other: "%{count} uzatvorených"
     zero: 0 closed
     few: "%{count} uzatvorené"
-    many: "%{count} closed"
+    many: "%{count} uzatvorených"
   label_x_comments:
     one: 1 komentár
     other: "%{count} komentárov"
     zero: no comments
     few: "%{count} komentáre"
-    many: "%{count} comments"
+    many: "%{count} komentárov"
   label_x_open_work_packages_abbr:
     one: 1 otvorený
     other: "%{count} otvorených"
     zero: 0 open
     few: "%{count} otvorené"
-    many: "%{count} open"
+    many: "%{count} otvorených"
   label_x_open_work_packages_abbr_on_total:
     one: otvorený 1 / %{total}
     other: otvorených %{count} / %{total}
     zero: 0 open / %{total}
     few: otvorené %{count} / %{total}
-    many: "%{count} open / %{total}"
+    many: otvorených %{count} / %{total}
   label_x_projects:
     one: 1 projekt
     other: "%{count} projektov"
     zero: no projects
     few: "%{count} projekty"
-    many: "%{count} projects"
+    many: "%{count} projektov"
   label_year: Rok
   label_yesterday: včera
   label_keyboard_function: Funkcia
@@ -1884,8 +1895,8 @@ sk:
     boli odstránené.
   notice_email_error: Pri odosielaní emailu sa vyskytla chyba (%{value})
   notice_email_sent: Na adresu %{value} bol odoslaný email
-  notice_failed_to_save_work_packages: 'Failed to save %{count} work package(s) on
-    %{total} selected: %{ids}.'
+  notice_failed_to_save_work_packages: 'Nepodarilo sa uložiť %{count} pracovných balíčkov
+    z %{total} vybraných: %{ids}.'
   notice_failed_to_save_members: 'Nepodarilo sa uložiť člena / členov: %{errors}.'
   notice_file_not_found: Stránka, ktorú se pokúšate zobraziť, neexistuje, alebo bola
     odstránená.
@@ -1955,7 +1966,7 @@ sk:
             one: Bajt
             other: Bajtov
             few: Bajty
-            many: Bytes
+            many: Bajtov
           gb: GB
           kb: kB
           mb: MB
@@ -2021,7 +2032,7 @@ sk:
   permission_select_project_modules: Vyberte moduly projektu
   permission_manage_types: Vyberte typy
   permission_view_calendar: Zobrazenie kalendára
-  permission_view_changesets: View repository revisions in OpenProject
+  permission_view_changesets: Zobraziť revízie úložiska v programe OpenProject
   permission_view_commit_author_statistics: Zobraziť štatistiky o odovzdávkach do
     repozitára za autora
   permission_view_work_package_watchers: Zobrazenie zoznamu pozorovateľov
@@ -2041,12 +2052,12 @@ sk:
         údaje budú natrvalo odstránené.
       info: Odstránenie projektu je nevratná akcia.
       project_verification: Zadajte názov projektu %{name} pre potvrdenie odstránenia.
-      subprojects_confirmation: 'Its subproject(s): %{value} will also be deleted.'
+      subprojects_confirmation: 'Podprojekt (podprojekty): %{value} budú taktiež odstránené.'
       title: Odstrániť projekt %{name}
     identifier:
-      warning_one: Members of the project will have to relocate the project's repositories.
-      warning_two: Existing links to the project will no longer work.
-      title: Change the project's identifier
+      warning_one: Členovia projektu musia presunúť projektové archívy projektu.
+      warning_two: Existujúce prepojenia na projekt už nebudú fungovať.
+      title: Zmeniť identifikátor projektu
     archive:
       are_you_sure: Naozaj chcete archivovať projekt "%{name}"?
   project_module_activity: Činnosť
@@ -2068,109 +2079,107 @@ sk:
     subproject_id: Podprojekt
     name_or_identifier: Meno alebo identifikátor
   repositories:
-    at_identifier: at %{identifier}
-    atom_revision_feed: Atom revision feed
+    at_identifier: na %{identifier}
+    atom_revision_feed: Revízia ako Atom Feed
     autofetch_information: |-
-      Check this if you want repositories to be updated automatically when accessing the repository module page.
-      This encompasses the retrieval of commits from the repository and refreshing the required disk storage.
+      Začiarknite, ak chcete, aby sa úložiská aktualizovali automaticky pri prístupe na stránku modulu úložiska.
+      Toto zahŕňa vyhľadávanie podrobnejších vysvetľujúcich textov z úložiska a obnovenie požadovaného úložného priestoru na disku.
     checkout:
       access:
         readwrite: Čítanie a Zápis
         read: Iba na čítanie
-        none: No checkout access, you may only view the repository through this application.
-      access_permission: Your permissions on this repository
-      url: Checkout URL
+        none: Bez overenia prístupu, môžete si prezerať úložisko iba prostredníctvom
+          tejto aplikácie.
+      access_permission: Vaše povolenia k tomuto úložisku
+      url: Overenie URL
       base_url_text: |-
-        The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).
-        Note: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered.
+        Základná webová adresa, ktorá sa má použiť pre generovanie overených URL (napr. Https://myserver.example.org/repos/).
+        Poznámka: Základná adresa URL sa používa iba na prepisovanie overených URL v spravovaných archívoch. Ostatné úložiská sa nezmenia.
       default_instructions:
         git: |-
-          The data contained in this repository can be downloaded to your computer with Git.
-          Please consult the documentation of Git if you need more information on the checkout procedure and available clients.
+          Údaje v tomto úložisku môžete preniesť do počítača cez Git.
+          Ďalšie informácie o kontrole projektových archívov a dostupných klientských softvéroch nájdete v dokumentácii Git.
         subversion: |-
-          The data contained in this repository can be downloaded to your computer with Subversion.
-          Please consult the documentation of Subversion if you need more information on the checkout procedure and available clients.
-      enable_instructions_text: Displays checkout instructions defined below on all
-        repository-related pages.
-      instructions: Checkout instructions
-      show_instructions: Display checkout instructions
-      text_instructions: This text is displayed alongside the checkout URL for guidance
-        on how to check out the repository.
-      not_available: Checkout instructions are not defined for this repository. Ask
-        your administrator to enable them for this repository in the system settings.
-    create_managed_delay: 'Please note: The repository is managed, it is created asynchronously
-      on the disk and will be available shortly.'
-    create_successful: The repository has been registered.
-    delete_sucessful: The repository has been deleted.
+          Údaje obsiahnuté v tomto úložisku je možné prevziať do počítača pomocou funkcie Subversion.
+          Prosím konzultujte dokumentáciu Subversion ak potrebujte viac informácii o kontrolných procedúrach a dostupných klientoch.
+      enable_instructions_text: Zobrazí kontrolné pokyny definované nižšie týkajúce
+        všetkých stránok súvisiacich s úložiskom.
+      instructions: Overovacie inštrukcie
+      show_instructions: Zobraziť overovacie inštrukcie
+      text_instructions: Tento text je zobrazený vedľa overovacej adresy URL, kde
+        nájdete pokyny na kontrolu úložiska.
+      not_available: Overovacie inštrukcie nie sú definované pre toto úložisko. Požiadajte
+        správcu, aby ich povolil v systémových nastaveniach pre dané úložisko.
+    create_managed_delay: 'Vezmite prosím na vedomie: Úložisko je spravované, je vytvorené
+      asynchrónne na disku a bude k dispozícii krátko.'
+    create_successful: Úložisko bolo zaregistrované.
+    delete_sucessful: Úložisko bolo odstránené.
     destroy:
-      confirmation: If you continue, this will permanently delete the managed repository.
-      info: Deleting the repository is an irreversible action.
-      info_not_managed: 'Note: This will NOT delete the contents of this repository,
-        as it is not managed by OpenProject.'
-      managed_path_note: 'The following directory will be erased: %{path}'
-      repository_verification: Enter the project's identifier %{identifier} to verify
-        the deletion of its repository.
-      subtitle: Do you really want to delete the %{repository_type} of the project
-        %{project_name}?
-      subtitle_not_managed: Do you really want to remove the linked %{repository_type}
-        %{url} from the project %{project_name}?
-      title: Delete the %{repository_type}
-      title_not_managed: Remove the linked %{repository_type}?
+      confirmation: Ak budete pokračovať, spravované úložisko bude na trvalo vymazané.
+      info: Vymazanie úložiska je nezvratná akcia.
+      info_not_managed: 'Poznámka: Obsah úložiska sa neodstráni, pretože ide o externé
+        úložisko.'
+      managed_path_note: 'Nasledujúci adresár bude vymazaný: %{path}'
+      repository_verification: Zadajte identifikátor projektu %{identifier} na overenie
+        vymazania jeho úložiska.
+      subtitle: Naozaj chcete odstrániť %{repository_type} projektu %{project_name}?
+      subtitle_not_managed: Naozaj chcete odstrániť odkaz %{repository_type} %{url}
+        z projektu %{project_name}?
+      title: Zmazať %{repository_type}
+      title_not_managed: Zmazať prepojenie %{repository_type}?
     errors:
-      build_failed: Unable to create the repository with the selected configuration.
-        %{reason}
-      managed_delete: Unable to delete the managed repository.
-      managed_delete_local: 'Unable to delete the local repository on filesystem at
-        ''%{path}'': %{error_message}'
-      empty_repository: The repository exists, but is empty. It does not contain any
-        revisions yet.
-      exists_on_filesystem: The repository directory already exists in the filesystem.
-      filesystem_access_failed: 'An error occurred while accessing the repository
-        in the filesystem: %{message}'
-      not_manageable: This repository vendor cannot be managed by OpenProject.
-      path_permission_failed: 'An error occurred trying to create the following path:
-        %{path}. Please ensure that OpenProject may write to that folder.'
-      unauthorized: You're not authorized to access the repository or the credentials
-        are invalid.
-      unavailable: The repository is unavailable.
-      exception_title: 'Cannot access the repository: %{message}'
-      disabled_or_unknown_type: The selected type %{type} is disabled or no longer
-        available for the SCM vendor %{vendor}.
-      disabled_or_unknown_vendor: The SCM vendor %{vendor} is disabled or no longer
-        available.
-      remote_call_failed: 'Calling the managed remote failed with message ''%{message}''
+      build_failed: Nepodarilo sa vytvoriť úložisko s vybranou konfiguráciou. %{reason}
+      managed_delete: Nie je možné odstrániť spravované úložisko.
+      managed_delete_local: 'Nie je možné odstrániť miestne úložisko súborového systému
+        na ''%{path}'': %{error_message}'
+      empty_repository: Úložisko existuje, ale je prázdne. Neobsahuje žiadne revízie.
+      exists_on_filesystem: Adresár úložiska už existuje v súborovom systéme.
+      filesystem_access_failed: 'Vyskytla sa chyba pri prístupe k úložisku v systéme
+        súborov: %{message}'
+      not_manageable: Daná osoba nemôže spravovať toto úložisko OpenProject.
+      path_permission_failed: 'Pri pokuse o vytvorenie nasledujúcej cesty sa vyskytla
+        chyba: %{path}. Uistite sa, že program OpenProject môže zapisovať do tohto
+        priečinka.'
+      unauthorized: Nie ste oprávnení na prístup k úložisku alebo poverenia sú neplatné.
+      unavailable: Úložisko je nedostupné.
+      exception_title: 'Nemôže získať prístup k úložisku: %{message}'
+      disabled_or_unknown_type: Zvolený typ %{type} je zakázaný alebo už nie je k
+        dispozícii pre poskytovateľa riadenia verzií %{vendor}.
+      disabled_or_unknown_vendor: Poskytovateľ systému pre správu verzií %{vendor}
+        je zakázaná alebo už nie je k dispozícii.
+      remote_call_failed: 'Volanie vzdialenej správy zlyhalo, zobrazená správa ''%{message}''
         (Code: %{code})'
-      remote_invalid_response: Received an invalid response from the managed remote.
-      remote_save_failed: Could not save the repository with the parameters retrieved
-        from the remote.
+      remote_invalid_response: Prijatá neplatná odpoveď zo vzdialenej správy.
+      remote_save_failed: Nemožno uložiť úložisko s parametrami získanými zo vzdialenej
+        správy.
     git:
       instructions:
-        managed_url: This is the URL of the managed (local) Git repository.
+        managed_url: Toto je adresa URL spravovaného (lokálneho) úložiska Git.
         path: Zadajte cestu k Vášmu lokálnemu úložisku Git (napr. %{example_path}
           ). Môžete použiť aj vzdialené úložiská, ktoré sú klonované do lokálnej kópie
           pomocou hodnoty začínajúcej s http(s):// alebo file://.
-        path_encoding: 'Override Git path encoding (Default: UTF-8)'
-      local_title: Link existing local Git repository
+        path_encoding: 'Overiť kódovanie cesty Git (predvolené: UTF-8)'
+      local_title: Prepojenie existujúceho lokálneho úložiska Git
       local_url: Lokálna adresa URL
-      local_introduction: If you have an existing local Git repository, you can link
-        it with OpenProject to access it from within the application.
-      managed_introduction: Let OpenProject create and integrate a local Git repository
-        automatically.
-      managed_title: Git repository integrated into OpenProject
+      local_introduction: Ak máte existujúce lokálne úložisko Git, môžete ho prepojiť
+        s OpenProject a získať tak prístup z aplikácie.
+      managed_introduction: Nech OpenProject automaticky vytvorí a integruje miestne
+        úložisko Git.
+      managed_title: Git úložisko integrované do OpenProject
       managed_url: Spravovaná adresa URL
-      path: Path to Git repository
+      path: Cesta k úložisku Git
       path_encoding: Kódovanie cesty
     go_to_revision: Prejdite na revíziu
-    managed_remote: Managed repositories for this vendor are handled remotely.
-    managed_remote_note: Information on the URL and path of this repository is not
-      available prior to its creation.
+    managed_remote: Spravované úložiská tohto poskytovateľa sú spravované na diaľku.
+    managed_remote_note: Informácie o adrese URL a ceste tohto úložiska nie sú k dispozícii
+      pred jeho vytvorením.
     managed_url: Spravovaná adresa URL
     settings:
       automatic_managed_repos_disabled: Zakázať automatické vytváranie
-      automatic_managed_repos: Automatic creation of managed repositories
-      automatic_managed_repos_text: By setting a vendor here, newly created projects
-        will automatically receive a managed repository of this vendor.
-    scm_vendor: Source control management system
+      automatic_managed_repos: Automatické vytváranie spravovaných úložísk
+      automatic_managed_repos_text: Definovaním poskytovateľa novo vytvorené projekty
+        automaticky dostanú spravované úložisko tohto poskytovateľa.
+    scm_vendor: Systém správy riadenia zdrojov
     scm_type: Typ úložiska
     scm_types:
       local: Prepojenie existujúceho lokálneho úložiska
@@ -2179,8 +2188,8 @@ sk:
     storage:
       not_available: Spotreba úložného priestoru pre toto úložisko nie je k dispozícii.
       update_timeout: |-
-        Keep the last required disk space information for a repository for N minutes.
-        As counting the required disk space of a repository may be costly, increase this value to reduce performance impact.
+        Uchovávajte posledné požadované informácie o diskovom priestore pre úložisko po dobu minúty N.
+        Keď je potrebné počítať požadovaný priestor na disku úložiska, môžete túto hodnotu zvýšiť, aby sa znížil vplyv na výkon.
     subversion:
       existing_title: Existing Subversion repository
       existing_introduction: If you have an existing Subversion repository, you can
@@ -2189,8 +2198,8 @@ sk:
       instructions:
         managed_url: This is the URL of the managed (local) Subversion repository.
         url: |-
-          Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.
-          The following URL schemes are supported:
+          Zadajte URL úložiska. To môže byť smerované na lokálne úložisko (začínajúce s %{local_proto} ) alebo vzdialené úložisko.
+          Podporované sú nasledujúce schémy adries URL:
       managed_title: Subversion repository integrated into OpenProject
       managed_introduction: Let OpenProject create and integrate a local Subversion
         repository automatically.
@@ -2199,11 +2208,11 @@ sk:
       username: Užívateľské meno úložiska
     truncated: Je nám ľúto, museli sme tento adresár skrátiť na %{limit} súborov.
       Počet položiek %{truncated} bolo zo zoznamu vynechaných.
-    named_repository: "%{vendor_name} repository"
-    update_settings_successful: The settings have been sucessfully saved.
+    named_repository: "%{vendor_name} úložiska"
+    update_settings_successful: Nastavenia boli úspešne uložené.
     url: URL úložiska
     warnings:
-      cannot_annotate: This file cannot be annotated.
+      cannot_annotate: Tento súbor nie je možné komentovať.
   search_input_placeholder: Hľadať...
   setting_email_delivery_method: Spôsob doručenia e-mailu
   setting_sendmail_location: Umiestnenie sendmail spustiteľného programu
@@ -2219,22 +2228,22 @@ sk:
   setting_app_subtitle: Podtitulok aplikácie
   setting_app_title: Názov aplikácie
   setting_attachment_max_size: Maximálna veľkosť prílohy
-  setting_autofetch_changesets: Autofetch repository changes
+  setting_autofetch_changesets: Automaticky načítať zmeny úložiska
   setting_autologin: Automatické prihlasovanie
   setting_available_languages: Dostupné jazyky
   setting_bcc_recipients: Poslať e-maily ako skrytú kópiu (bcc)
-  setting_brute_force_block_after_failed_logins: Block user after this number of failed
-    login attempts
-  setting_brute_force_block_minutes: Time the user is blocked for
+  setting_brute_force_block_after_failed_logins: Zablokujte používateľa po tomto počte
+    neúspešných pokusov o prihlásenie
+  setting_brute_force_block_minutes: Doba, na ktorú bude používateľ zablokovaný
   setting_cache_formatted_text: Uložiť formátovaný text do vyrovnávacej pamäte
   setting_use_wysiwyg_description: Vyberte, ak chcete povoliť editor CKEditor5 WYSIWYG
     pre všetkých používateľov predvolene. CKEditor má obmedzené funkcie pre GFM Markdown.
   setting_column_options: Prispôsobenie vzhľadu zoznamov pracovného balíčka
   setting_commit_fix_keywords: Kľúčové slová (stav)
-  setting_commit_logs_encoding: Commit messages encoding
+  setting_commit_logs_encoding: Podrobnejšie vysvetľujúce texty kódovanie
   setting_commit_logtime_activity_id: Aktivita pre prihlásený čas
   setting_commit_logtime_enabled: Povoliť zaznamenávanie času
-  setting_commit_ref_keywords: Referencing keywords
+  setting_commit_ref_keywords: Odkazovanie na kľúčové slová
   setting_consent_time: Čas súhlasu
   setting_consent_info: Informačný text súhlasu
   setting_consent_required: Vyžadovaný súhlas
@@ -2245,7 +2254,7 @@ sk:
   setting_default_notification_option: Predvolené nastavenie upozornení
   setting_default_projects_modules: Predvolené moduly novovytváraných projektov
   setting_default_projects_public: Nové projekty nastaviť ako verejné
-  setting_diff_max_lines_displayed: Max number of diff lines displayed
+  setting_diff_max_lines_displayed: Maximálny počet rozdielových riadkov na zobrazenie
   setting_display_subprojects_work_packages: Automaticky zobraziť úlohy podprojektu
     v hlavnom projekte
   setting_emails_footer: E-mail päta
@@ -2256,20 +2265,21 @@ sk:
   setting_feeds_limit: Limit obsahu informačných kanálov
   setting_file_max_size_displayed: Maximálna veľkosť textových súborov zobrazených
     priamo na stránke
-  setting_host_name: Host name
+  setting_host_name: Názov serveru (Host name)
   setting_invitation_expiration_days: Platnosť aktivačného E-Mailu uplynie po
   setting_work_package_done_ratio: Vyrátať mieru vypracovania pracovného balíčka pomocou
   setting_work_package_done_ratio_field: Použite pole pracovného balíčka
   setting_work_package_done_ratio_status: Použite stav pracovného balíčka
   setting_work_package_done_ratio_disabled: Vypnúť (Skryť priebeh)
   setting_work_package_list_default_columns: Predvolené zobrazenie
-  setting_work_package_list_summable_columns: Summable
+  setting_work_package_list_summable_columns: Sčítateľné
   setting_work_package_properties: Vlastnosti pracovného balíčka
   setting_work_package_startdate_is_adddate: Použiť aktuálny dátum ako počiatočný
     dátum pre nové pracovné balíčky
   setting_work_packages_export_limit: Limit exportu pracovných balíčkov
   setting_journal_aggregation_time_minutes: Display journals as aggregated within
-  setting_log_requesting_user: Log user login, name, and mail address for all requests
+  setting_log_requesting_user: Zaznamenať prihlasovacie meno používateľa, meno a e-mailovú
+    adresu pre všetky požiadavky
   setting_login_required: Vyžaduje sa overenie
   setting_mail_from: Odosielať emaily z adresy
   setting_mail_handler_api_enabled: Povoliť webovú službu prichádzajúcich e-mailov
@@ -2280,38 +2290,42 @@ sk:
   setting_mail_handler_body_delimiters: Skráťte emaily po jednom z týchto riadkov
   setting_mail_handler_body_delimiter_regex: Skrátiť e-maily zodpovedajúce tomuto
     regex
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
+  setting_mail_handler_ignore_filenames: Ignorované prílohy e-mailu
+  setting_new_project_user_role_id: Rola priradená užívateľovi bez práv administrátora,
+    ktorý projekt vytvoril
   setting_password_active_rules: Aktívny charakter tried
   setting_password_count_former_banned: Počet posledných použitých hesiel, ktoré nie
     je možné opätovne použiť
-  setting_password_days_valid: Number of days, after which to enforce a password change
+  setting_password_days_valid: Počet dní, po ktorých požadovať zmenu hesla
   setting_password_min_length: Minimálna dĺžka
   setting_password_min_adhered_rules: Minimálny počet požadovaných tried
   setting_per_page_options: Povolené množstvo položiek na stránku
   setting_plain_text_mail: Len jednoduchý text (bez HTML)
   setting_protocol: Protokol
+  setting_security_badge_displayed: Zobrazte znaky zabezpečenia
   setting_registration_footer: Registrácia zápätia
-  setting_repositories_automatic_managed_vendor: Automatic repository vendor type
+  setting_repositories_automatic_managed_vendor: Automatický typ poskytovateľa úložiska
   setting_repositories_encodings: Kódovania znakov vrámci repozitárov
   setting_repository_authentication_caching_enabled: Aktivujte vyrovnávaciu pamäť
     pre autentifikáciu pomocou softvéru na riadenie verzií
-  setting_repository_storage_cache_minutes: Repository disk size cache
-  setting_repository_checkout_display: Show checkout instructions
-  setting_repository_checkout_base_url: Checkout base URL
-  setting_repository_checkout_text: Checkout instruction text
+  setting_repository_storage_cache_minutes: Odkladací priestor disku veľkosť vyrovnávacej
+    pamäte
+  setting_repository_checkout_display: Zobraziť overovacie inštrukcie
+  setting_repository_checkout_base_url: Overiť základnú URL
+  setting_repository_checkout_text: Text overovacej inštrukcie
   setting_repository_log_display_limit: Maximálny počet revízií zobrazených v log
     súbore
   setting_repository_truncate_at: Maximálny počet súborov, ktoré sú zobrazené v prehliadači
   setting_rest_api_enabled: Zapnúť webovú službu REST
   setting_self_registration: Povoliť automatickú registráciu
-  setting_sequential_project_identifiers: Generate sequential project identifiers
+  setting_sequential_project_identifiers: Generovať sekvenčné identifikátory projektov
   setting_session_ttl: Čas ukončenia relácie po nečinnosti
   setting_session_ttl_hint: Hodnota pod 5 funguje ako zakázaná
   setting_session_ttl_enabled: Relácia vypršala
   setting_start_of_week: Týždeň začína dňom
   setting_sys_api_enabled: Povoliť webovú službu pre správu úložiska
-  setting_sys_api_description: The repository management web service provides integration
-    and user authorization for accessing repositories.
+  setting_sys_api_description: Webová služba pre správu úložiska umožňuje integráciu
+    a autorizáciu používateľa na prístup k repozitárom.
   setting_time_format: Formát času
   setting_accessibility_mode_for_anonymous: Zapnúť režim prístupnosti pre anonymných
     používateľov
@@ -2348,19 +2362,19 @@ sk:
     plain: Obyčajný text
   status_active: aktívny
   status_archived: archivované
-  status_invited: invited
+  status_invited: pozvaný
   status_locked: zamknuté
   status_registered: registrovaný
   support:
     array:
       sentence_connector: a
-      skip_last_comma: 'false'
+      skip_last_comma: nesprávny
   text_accessibility_hint: Režim prístupnosti je určený pre používateľov, ktorí sú
     slepí, s pohyblivým postihnutím alebo majú zlý zrak. Na to sú zamerané špeciálne
     prvky. Upozorňujeme, že v tomto režime nie je modul Backlogs dostupný.
-  text_access_token_hint: Access tokens allow you to grant external applications access
-    to resources in OpenProject.
-  text_analyze: 'Further analyze: %{subject}'
+  text_access_token_hint: Prístupové tokeny umožňujú udeliť externých aplikácií prístup
+    k zdrojom v OpenProject.
+  text_analyze: 'Ďalej analyzovať: %{subject}'
   text_are_you_sure: Ste si istí?
   text_are_you_sure_with_children: Zmazať pracovný balíček a všetky podradené pracovné
     balíčky?
@@ -2374,8 +2388,8 @@ sk:
     ich
   text_form_configuration_required_attribute: Atribút je označený ako povinný a preto
     je vždy zobrazený
-  text_caracters_maximum: "%{count} characters maximum."
-  text_caracters_minimum: Must be at least %{count} characters long.
+  text_caracters_maximum: maximálne %{count} znakov.
+  text_caracters_minimum: Musí byť najmenej %{count} znakov.
   text_comma_separated: Povolené viaceré hodnoty (oddelené čiarkou).
   text_comment_wiki_page: 'Komentár k stránke wiki: %{page}'
   text_custom_field_possible_values_info: Každá hodnota na samostatný riadok
@@ -2407,34 +2421,34 @@ sk:
     účtu bolo zmenené
   text_default_encoding: 'Predvolené: UTF-8'
   text_destroy: Odstrániť
-  text_destroy_with_associated: 'There are additional objects assossociated with the
-    work package(s) that are to be deleted. Those objects are of the following types:'
+  text_destroy_with_associated: 'Existujú ďalšie objekty spojené s pracovným balíčkom(-ami),
+    ktoré sa majú vymazať. Tieto objekty sú z týchto typov:'
   text_destroy_what_to_do: Čo chcete urobiť?
-  text_diff_truncated: "... This diff was truncated because it exceeds the maximum
-    size that can be displayed."
+  text_diff_truncated: "... Tento výpis rozdielov bol skrátený, pretože prekračuje
+    maximálny počet riadkov, ktorý môže byť zobrazený."
   text_email_delivery_not_configured: |-
     Doručovanie e-mailov nie je nakonfigurované a upozornenia sú zakázané.
     Nakonfigurujte server SMTP v konfigurácii / configuration.yml a reštartujte aplikáciu, aby ste ich povolili.
-  text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
+  text_enumeration_category_reassign_to: 'Znova ich priradiť k tejto hodnote:'
+  text_enumeration_destroy_question: "%{count} objekty sú priradené k tejto hodnote."
   text_file_repository_writable: Povolený zápis do priečinka s prílohami
-  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
-  text_hint_date_format: Enter a date in the form of YYYY-MM-DD. Other formats may
-    be changed to an unwanted date.
-  text_hint_disable_with_0: 'Note: Disable with 0'
+  text_git_repo_example: zdieľané lokálne úložisko (z.B. /gitrepo, c:\gitrepo)
+  text_hint_date_format: Zadajte dátum vo forme YYYY-MM-DD. Iné formáty môžu viesť
+    k nesprávnemu zobrazeniu dátumu.
+  text_hint_disable_with_0: 'Poznámka: Vypnúť s 0'
   text_hours_between: Medzi %{min} a %{max} hodinami.
-  text_work_package_added: Work package %{id} has been reported by %{author}.
+  text_work_package_added: Pracovný balíček %{id} bol vytvorený %{author}.
   text_work_package_category_destroy_assignments: Odstrániť priradenia kategórie
-  text_work_package_category_destroy_question: Some work packages (%{count}) are assigned
-    to this category. What do you want to do?
-  text_work_package_category_reassign_to: Reassign work packages to this category
-  text_work_package_updated: Work package %{id} has been updated by %{author}.
+  text_work_package_category_destroy_question: Niektoré pracovné balíčky (%{count})
+    sú priradené k tejto kategórii. Čo chcete urobiť?
+  text_work_package_category_reassign_to: Priraďte pracovné balíčky do tejto kategórie
+  text_work_package_updated: Pracovný balíček %{id} bol aktualizovaný %{author}.
   text_work_package_watcher_added: Byli ste pridaný ako pozorovateľ pre pracovný balíček
     %{id} užívateľom %{watcher_setter}.
   text_work_packages_destroy_confirmation: Naozaj chcete odstrániť vybraný pracovný
     balíček(y)?
-  text_work_packages_ref_in_commit_messages: Referencing and fixing work packages
-    in commit messages
+  text_work_packages_ref_in_commit_messages: Odkazovanie a oprava pracovných balíčkov
+    v podrobnejšom vysvetľujúcom texte
   text_journal_added: "%{label} %{value} pridaných"
   text_journal_aggregation_time_explanation: Combine journals for display if their
     age difference is less than the specified timespan. This will also delay mail
@@ -2449,7 +2463,8 @@ sk:
   text_journal_set_with_diff: "%{label} nastavený (%{link})"
   text_latest_note: 'Posledný komentár je: %{note}'
   text_length_between: Dĺžka medzi %{min} až %{max} znakov.
-  text_line_separated: Multiple values allowed (one line for each value).
+  text_line_separated: Je povolené zadať viaceré hodnoty (každú hodnotu na samostatný
+    riadok).
   text_load_default_configuration: Nahrať predvolenú konfiguráciu
   text_min_max_length_info: 0 znamená bez obmedzení
   text_no_roles_defined: Nie sú definované žiadne role.
@@ -2461,6 +2476,16 @@ sk:
   text_no_notes: Neexistujú žiadne komentáre pre tento pracovný balíček.
   text_notice_too_many_values_are_inperformant: 'Poznámka: Zobrazenie viac ako 100
     položiek na stránku môže zvýšiť čas načítania stránky.'
+  text_notice_security_badge_displayed_html: 'Poznámka: Ak je táto možnosť povolená,
+    zobrazí sa v štýle <a href="%{information_panel_path}">%{information_panel_label}</a>
+    na panely správcu, a na domovskej stránke. Zobrazuje sa iba administrátorom. <br/>
+    Znak skontroluje vašu aktuálnu verziu OpenProject s oficiálnou verziu databázy
+    OpenProject, ktorá vás upozorní na akékoľvek aktualizácie alebo známe chyby. Ďalšie
+    informácie o tom, čo daná kontrola poskytuje, aké údaje sú potrebné na poskytovanie
+    dostupných aktualizácií a ako zakázať túto kontrolu, prosím navštívte <a href="%{more_info_url}">dokumentáciu
+    konfigurácie</a>.
+
+'
   text_own_membership_delete_confirmation: Chystáte sa odstrániť jedno respektíve
     viac vašich povolení, pričom po aplikovaní zmien môžte stratiť možnosť naďalej
     upravovať nastavenia projektu. Naozaj chcete pokračovať?
@@ -2473,8 +2498,8 @@ sk:
   text_regexp_multiline: Regex je aplikovaný v režime s viacerými riadkami. napríklad
     ^---\s+
   text_repository_usernames_mapping: |-
-    Select or update the OpenProject user mapped to each username found in the repository log.
-    Users with the same OpenProject and repository username or email are automatically mapped.
+    Vyberte alebo aktualizujte priradenie používateľov systému OpenProject k menám používateľov nájdených v zázname repozitára.
+    Používatelia s rovnakým prihlasovacím menom alebo emailom v systéme OpenProject a repozitári sú priradení automaticky.
   text_select_mail_notifications: Vyberte akcie, pre ktoré sa majú posielať e-mailové
     upozornenia.
   text_status_changed_by_changeset: Aplikované v súbore zmien %{value}.
@@ -2486,26 +2511,25 @@ sk:
   text_tip_work_package_begin_end_day: pracovný balíček štartuje aj finišuje dnes
   text_tip_work_package_end_day: pracovný balíček finišuje dnes
   text_type_no_workflow: Pre tento typ nie je definovaný žiadny pracovný postup
-  text_unallowed_characters: Unallowed characters
+  text_unallowed_characters: Nepovolené znaky
   text_user_invited: Používateľ bol pozvaný a čaká na registráciu.
   text_user_wrote: "%{value} napísal:"
   text_warn_on_leaving_unsaved: Pracovný balíček obsahuje neuložený text, ktorý sa
     stratí, ak opustíte túto stránku.
   text_what_did_you_change_click_to_add_comment: Čo ste zmenili? Kliknutím pridáte
     komentár
-  text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all
-    its content?
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  text_wiki_page_destroy_question: This page has %{descendants} child page(s) and
-    descendant(s). What do you want to do?
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
+  text_wiki_destroy_confirmation: Naozaj si želáte vymazať túto Wiki a celý jej obsah?
+  text_wiki_page_destroy_children: Odstrániť všetky podstránky
+  text_wiki_page_destroy_question: Táto stránka má %{descendants} všetkých podstránok.
+    Čo si želáte urobiť?
+  text_wiki_page_nullify_children: Zachovať podstránky ako hlavné stránky
+  text_wiki_page_reassign_children: Preradiť podstránky k tejto nadradenej stránke
   text_workflow_edit: Pre úpravu pracovného postupu vyberte rolu a typ
   text_zoom_in: Priblížiť
   text_zoom_out: Vzdialiť
   text_setup_mail_configuration: Nakonfigurujte svoju e-mailovú službu
   time:
-    am: am
+    am: ráno
     formats:
       default: "%m/%d/%Y %I:%M %p"
       long: "%B %d, %Y %H:%M"
@@ -2528,8 +2552,8 @@ sk:
     color_could_not_be_saved: Farbu nie je možné uložiť
     current_planning: Aktuálne plánovanie
     dates: Dátumy
-    dates_are_calculated_based_on_sub_elements: Dates are calculated based on sub
-      elements.
+    dates_are_calculated_based_on_sub_elements: Dátumy boli vypočítané na základe
+      podradených prvkov.
     delete_all: Odstrániť všetky
     delete_thing: Odstrániť
     duration: Trvanie
@@ -2537,11 +2561,11 @@ sk:
       one: 1 deň
       other: "%{count} dní"
       few: "%{count} dni"
-      many: "%{count} days"
+      many: "%{count} dní"
     edit_color: Upraviť farbu
     edit_thing: Upraviť
-    edit_timeline: Edit timeline report %{timeline}
-    delete_timeline: Delete timeline report %{timeline}
+    edit_timeline: Upraviť prehľad časovej osi %{timeline}
+    delete_timeline: Odstrániť prehľad časovej osi %{timeline}
     empty: "(prázdny)"
     enable_type_in_project: Povolenie typu "%{type}"
     end: Koniec
@@ -2569,7 +2593,7 @@ sk:
       sort:
         sortation: Zoradiť podľa
         alphabet: abeceda
-        explicit_order: explicit order
+        explicit_order: explicitne zoradiť
         project_sortation: Zoradiť projekty podľa
         date: dátum
         default: predvolené
@@ -2604,12 +2628,12 @@ sk:
       hide_chart: Skryť graf
       noneElement: "(žiadny)"
       noneSelection: "(žiadny)"
-      outline: Initial outline expansion
-      parent: Show subprojects of
+      outline: Rozbaľte primárny osnovu
+      parent: Zobraziť podprojekty z
       work_package_filters: Filter pracovných balíčkov
       work_package_responsible: Zobraziť pracovné balíčky so zodpovednou osobou
       work_package_assignee: Zobraziť pracovné balíčky s priradenou osobou
-      types: Show types
+      types: Zobraziť typy
       status: Zobraziť stav
       project_time_filter: Projekty s pracovným balíčkom určitého typu v určitom časovom
         rámci
@@ -2619,60 +2643,60 @@ sk:
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} pred,
         %{end_label} %{endspan}%{endspanunit} od teraz"
-      project_filters: Filter projects
+      project_filters: Filtrovať projekty
       project_responsible: Zobraziť projekt so zodpovednou osobou
-      project_status: Show project status
+      project_status: Zobraziť stav projektu
       timeframe: Zobraziť časový rámec
       timeframe_end: do
       timeframe_start: od
       timeline: Všeobecné nastavenia
-      zoom: Zoom factor
+      zoom: Faktor zväčšenia
     history: História
     new_color: Nová farba
     new_association: Nová závislosť
     new_work_package: Nový pracovný balíček
-    new_reporting: New reporting
-    new_timeline: New timeline report
-    no_projects_for_reporting_available: There are no projects to which a reporting
-      association can be created.
-    no_right_to_view_timeline: You do not have the necessary permission to view the
-      linked timeline.
-    no_timeline_for_id: There is no timeline with ID %{id}.
-    notice_successful_deleted_all_elements: Successfully deleted all elements
-    outline: Reset Outline
+    new_reporting: Nový prehľad stavu
+    new_timeline: Nová správa časovej osi
+    no_projects_for_reporting_available: Neexistujú žiadne projekty, pre ktoré by
+      sa mohla vytvoriť správa o aktuálnom stave.
+    no_right_to_view_timeline: Na zobrazenie prepojenej časovej osi nemáte potrebné
+      povolenie.
+    no_timeline_for_id: Neexistuje žiadna časová os s ID %{id}.
+    notice_successful_deleted_all_elements: Všetky prvky boli úspešne odstránené
+    outline: Obnoviť osnovu
     outlines:
-      aggregation: Show aggregations only
-      level1: Expand level 1
-      level2: Expand level 2
-      level3: Expand level 3
-      level4: Expand level 4
-      level5: Expand level 5
-      all: Show all
+      aggregation: Zobraziť iba vyznačené zoskupenia
+      level1: Rozbaľte položky úrovne 1
+      level2: Rozbaľte položky do úrovne 2
+      level3: Rozbaľte položky do úrovne 3
+      level4: Rozbaľte položky do úrovne 4
+      level5: Rozbaľte položky do úrovne 5
+      all: Zobraziť všetko
     reporting_for_project:
-      show: 'Status reported to project: %{title}'
-      edit_delete: 'status report for project: %{title}'
-      history: 'History for status for project: %{title}'
+      show: 'Správa o stave k projektu: %{title}'
+      edit_delete: 'správa o stave pre projekt: %{title}'
+      history: 'História stavov pre projektu: %{title}'
     reporting:
-      delete: 'Delete status: %{comment}'
-      edit: 'Edit status: %{comment}'
-      show: 'Status: %{comment}'
-    planning_element_update: 'Update: %{title}'
-    type_could_not_be_saved: Type could not be saved
-    reporting_could_not_be_saved: Reporting could not be saved
-    properties: Properties
-    really_delete_color: 'Are you sure, you want to delete the following color? Types
-      using this color will not be deleted.
+      delete: 'Odstrániť správu o stave: %{comment}'
+      edit: 'Upraviť stav: %{comment}'
+      show: 'Stav: %{comment}'
+    planning_element_update: 'Aktualizované: %{title}'
+    type_could_not_be_saved: Typ nie je možné uložiť
+    reporting_could_not_be_saved: Hlásenia nie je možné uložiť
+    properties: Vlastnosti
+    really_delete_color: 'Naozaj chcete odstrániť nasledujúcu farbu? Typy používajúce
+      túto farbu nebudú odstránené.
 
 '
-    really_delete_reporting: 'Are you sure, you want to delete the following reporting?
-      Previous reporting statuses will be deleted, too.
+    really_delete_reporting: 'Ste si istý, že chcete odstrániť tieto správy? Predchádzajúce
+      vykazovanie stavov sa odstráni tiež.
 
 '
     start: Začiatok
-    timeline: Timeline report
-    timelines: Timeline reports
+    timeline: Prehľady časovej osy
+    timelines: Prehľady časovej osy
     settings: Časové osy
-    vertical_work_package: Vertical work packages
+    vertical_work_package: Vertikálne pracovné balíčky
     you_are_viewing_the_selected_timeline: Zobrazí sa vám vybraná správa o plánovaní
     zoom:
       in: Priblížiť
@@ -2712,7 +2736,7 @@ sk:
     all: Všetky
     active: aktívny
     activate: Aktivovať
-    activate_and_reset_failed_logins: Activate and reset failed logins
+    activate_and_reset_failed_logins: Aktivovať a resetovať chybné prihlásenia
     authentication_provider: Poskytovateľ služby overovania identity
     authentication_settings_disabled_due_to_external_authentication: 'Tento používateľ
       sa overuje za pomoci externého poskytovateľa autentifikácie, takže jeho heslo
@@ -2727,20 +2751,20 @@ sk:
       one: dočasne zamknuté (jeden neúspešný pokus o prihlásenie)
       other: dočasne zamknuté (%{count} neúspešných pokusov o prihlásenie)
       few: dočasne zamknuté (%{count} neúspešné pokusy o prihlásenie)
-      many: locked temporarily (%{count} failed login attempts)
+      many: dočasne zamknuté (%{count} neúspešných pokusov o prihlásenie)
     confirm_status_change: Chystáte sa zmeniť stav "%{name}". Naozaj chcete pokračovať?
     deleted: Odstránený používateľ
     error_status_change_failed: 'Uloženie dokumentu zlyhalo s nasledujúcou chybou:
       %{errors}'
     invite: Pozvať používateľa prostredníctvom e-mailu
-    invited: invited
+    invited: pozvaný
     lock: Zamknúť natrvalo
     locked: zamknuté natrvalo
     no_login: Tento používateľ sa overuje prostredníctvom prihlasovacieho hesla. Keďže
       je zakázané, nemôže sa prihlásiť.
     password_change_unsupported: Zmena hesla nie je podporovaná.
     registered: registrovaný
-    reset_failed_logins: Reset failed logins
+    reset_failed_logins: Resetovať chybné prihlásenia
     settings:
       mail_notifications: Posielať e-mailové oznámenia
       mail_project_explanaition: Pri projektoch, ktoré neboli vybrané, budete dostávať
@@ -2750,7 +2774,7 @@ sk:
     status_user_and_brute_force: "%{user} a %{brute_force}"
     status_change: Zmena stavu
     unlock: Odomknúť
-    unlock_and_reset_failed_logins: Unlock and reset failed logins
+    unlock_and_reset_failed_logins: Odomknúť a resetovať chybné prihlásenia
   version_status_closed: uzatvorené
   version_status_locked: zamknuté
   version_status_open: otvorené
@@ -2783,13 +2807,13 @@ sk:
   menu_item_setting: Viditeľnosť
   wiki_menu_item_for: Položka menu pre wiki "%{title}"
   wiki_menu_item_setting: Viditeľnosť
-  wiki_menu_item_new_main_item_explanation: 'You are deleting the only main wiki menu
-    item. You now have to choose a wiki page for which a new main item will be generated.
-    To delete the wiki the wiki module can be deactivated by project administrators.
+  wiki_menu_item_new_main_item_explanation: 'Zmažete iba hlavnú položku menu wiki.
+    Teraz musíte vybrať stránku wiki, pre ktorú bude vytvorená nová hlavná položka.
+    Modul pre odstránenie wiki môže byť deaktivovaný správcami projektu.
 
 '
-  wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot
-    be deleted.
+  wiki_menu_item_delete_not_permitted: Položku ponuky wiki na stránke s jednou wiki
+    nemožno odstrániť.
   query_menu_item_for: Položka menu pre dopyt "%{title}"
   work_package:
     updated_automatically_by_child_changes: '_Modifikované automaticky z dôvodu zmeny
@@ -2851,60 +2875,57 @@ sk:
       schema: Schéma
   doorkeeper:
     pre_authorization:
-      status: Pre-authorization
+      status: Pre-Autorizácia
     errors:
       messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
-        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
-          client redirect URI.
-        unauthorized_client: The client is not authorized to perform this request
-          using this method.
-        access_denied: The resource owner or authorization server denied the request.
-        invalid_scope: The requested scope is invalid, unknown, or malformed.
+        invalid_request: V žiadosti chýba požadovaný parameter, obsahuje nepodporovanú
+          hodnotu parametra alebo inak je chybný.
+        invalid_redirect_uri: Požadovane presmerovanie uri je poškodený alebo sa nezhoduje
+          s URI presmerovania klienta.
+        unauthorized_client: Klient nie je oprávnený vykonať túto požiadavku pomocou
+          tejto metódy.
+        access_denied: Vlastník zdroja alebo autorizačný server žiadosť zamietol.
+        invalid_scope: Požadovaný rozsah je neplatný, neznámy alebo chybný.
         invalid_code_challenge_method: The code challenge method must be plain or
           S256.
-        server_error: The authorization server encountered an unexpected condition
-          which prevented it from fulfilling the request.
-        temporarily_unavailable: The authorization server is currently unable to handle
-          the request due to a temporary overloading or maintenance of the server.
+        server_error: Autorizačný server narazil na neočakávaný stav, ktorý mu bránil
+          v splnení požiadavky.
+        temporarily_unavailable: Autorizačný server momentálne nemôže spracovať žiadosť
+          v dôsledku dočasného preťaženia alebo údržby servera.
         credential_flow_not_configured: Resource Owner Password Credentials flow failed
           due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
         resource_owner_authenticator_not_configured: Resource Owner find failed due
           to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
-        admin_authenticator_not_configured: Access to admin panel is forbidden due
-          to Doorkeeper.configure.admin_authenticator being unconfigured.
-        unsupported_response_type: The authorization server does not support this
-          response type.
-        invalid_client: Client authentication failed due to unknown client, no client
-          authentication included, or unsupported authentication method.
-        invalid_grant: The provided authorization grant is invalid, expired, revoked,
-          does not match the redirection URI used in the authorization request, or
-          was issued to another client.
-        unsupported_grant_type: The authorization grant type is not supported by the
-          authorization server.
+        admin_authenticator_not_configured: Prístup k administrátorskému panelu je
+          zakázaný, pretože Doorkeeper.configure.admin_authenticator nie je nakonfigurovaný.
+        unsupported_response_type: Autorizačný server tento typ odpovede nepodporuje.
+        invalid_client: Overenie klienta zlyhalo z dôvodu neznámeho klienta, nebolo
+          zahrnuté overenie klienta, alebo nie je podporovaná metóda overovania.
+        invalid_grant: Poskytnutý grant na autorizáciu je neplatný, vypršal, zrušil,
+          nezodpovedal URI presmerovania použitému v žiadosti o autorizáciu alebo
+          bol vydaný inému klientovi.
+        unsupported_grant_type: Typ autorizácie nie je podporovaný autorizačným serverom.
         invalid_token:
-          revoked: The access token was revoked
-          expired: The access token expired
-          unknown: The access token is invalid
+          revoked: Prístupový token bol zrušený
+          expired: Platnosť prístupového tokenu vypršala
+          unknown: Prístupový token je nesprávny
   unsupported_browser:
-    title: Your browser is outdated and unsupported.
+    title: Váš prehliadač je zastaraný a nepodporovaný.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Prosím aktualizujte svoj prehliadač.
+    close_warning: Ignorovať toto upozornenie.
   oauth:
     application:
-      singular: OAuth application
-      plural: OAuth applications
-      named: OAuth application '%{name}'
-      new: New OAuth application
-      default_scopes: "(Default scopes)"
+      singular: OAuth aplikácia
+      plural: OAuth aplikácie
+      named: OAuth aplikácia '%{name}'
+      new: Nová aplikácia OAuth
+      default_scopes: "(Predvolený rozsah)"
       instructions:
-        name: The name of your application. This will be displayed to other users
-          upon authorization.
-        redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
-          One entry per line. <br/> If you''re registering a desktop application,
-          use the following URL.
+        name: Názov vašej aplikácie. Toto sa po autorizácii zobrazí ostatným používateľom.
+        redirect_uri_html: 'Povolené adresy URL môžu byť presmerované na oprávnených
+          používateľov. Jeden záznam na riadok.<br/> Ak registrujete aplikáciu pre
+          stolné počítače, použite nasledujúcu adresu URL.
 
 '
         confidential: Check if the application will be used where the client secret
@@ -2915,15 +2936,16 @@ sk:
         register_intro: If you are developing an OAuth API client application for
           OpenProject, you can register it using this form for all users to use.
         default_scopes: ''
-    client_id: Client ID
-    client_secret_notice: 'This is the only time we can print the client secret, please
-      note it down and keep it secure. It should be treated as a password and cannot
-      be retrieved by OpenProject at a later time.
+    client_id: ID klienta
+    client_secret_notice: 'Toto je jediný čas, kedy môžeme vytlačiť neverejné klientské
+      údaje, berte to prosím na vedomie a zabezpečte to. Mali by ste s danými informáciami
+      zaobchádzať ako s heslom, v neskoršej dobe dané údaje nie je možné načítať pomocou
+      OpenProject.
 
 '
     authorization_dialog:
-      authorize: Authorize
-      cancel: Cancel and deny authorization.
+      authorize: Autorizovať
+      cancel: Zrušiť a odmietnuť autorizáciu.
       prompt_html: Authorize <strong>%{application_name}</strong> to use your account
         <em>%{login}</em>?
       title: Authorize %{application_name}
@@ -2932,18 +2954,20 @@ sk:
 
 '
     scopes:
-      api_v3: Full API access
+      api_v3: Úplný prístup API
       api_v3_text: Application will receive full read & write access to the OpenProject
         API to perform actions on your behalf.
     grants:
-      created_date: Approved on
-      scopes: Permissions
+      created_date: Schválené
+      scopes: Oprávnenia
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
-      other: "%{count} active token"
+      other: "%{count} aktívnych tokenov"
+      few: "%{count} active token"
+      many: "%{count} aktívnych tokenov"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2961,16 +2985,3 @@ sk:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Odstrániť widget
-  label_and_its_subprojects: "%{value} a jemu podriadené projekty"
-  label_my_page_block: Blok mojich strán
-  label_responsible_for_work_packages: Pracovné balíčky, za ktoré som zodpovedný(a)
-  label_search_titles_only: Vyhľadať iba tituly
-  label_visible_elements: Viditeľné prvky
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

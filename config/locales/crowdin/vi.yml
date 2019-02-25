@@ -109,7 +109,7 @@ vi:
   global_search:
     overwritten_tabs:
       wiki_pages: Wiki
-      messages: Forum
+      messages: Diễn đàn
   groups:
     index:
       no_results_title_text: Hiện có không có nhóm.
@@ -118,6 +118,11 @@ vi:
       no_results_title_text: Hiện có không có người sử dụng thuộc nhóm này.
     memberships:
       no_results_title_text: Hiện có không có dự án thuộc nhóm này.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -222,6 +227,8 @@ vi:
     x_descendants:
       one: One descendant work package
       other: "%{count} gói sản phẩm phụ thuộc"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Có là tình trạng không có sẵn cho tất cả các gói
         đã chọn công việc. Tình trạng của họ không thể thay đổi.
@@ -501,6 +508,7 @@ vi:
         too_short: is too short (minimum is %{count} characters).
         unchangeable: không thể thay đổi.
         wrong_length: is the wrong length (should be %{count} characters).
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: Ít nhất một lựa chọn cần phải được cung cấp.
@@ -1631,6 +1639,7 @@ vi:
   label_view_diff: View differences
   label_view_revisions: View revisions
   label_watched_work_packages: Watched work packages
+  label_what_is_this: What is this?
   label_week: Week
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
@@ -2210,6 +2219,7 @@ vi:
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   setting_mail_handler_body_delimiter_regex: Xén các email phù hợp với biểu thức này
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   setting_password_active_rules: Active character classes
   setting_password_count_former_banned: Number of most recently used passwords banned
@@ -2220,6 +2230,7 @@ vi:
   setting_per_page_options: Objects per page options
   setting_plain_text_mail: Plain text mail (no HTML)
   setting_protocol: Protocol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: Automatic repository vendor type
   setting_repositories_encodings: Repositories encodings
@@ -2390,6 +2401,16 @@ vi:
   text_no_notes: There are no comments available for this work package.
   text_notice_too_many_values_are_inperformant: 'Note: Displaying more than 100 items
     per page can increase the page load time.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
     Are you sure you want to continue?
@@ -2859,7 +2880,7 @@ vi:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Phân Quyền
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2883,16 +2904,3 @@ vi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Xóa widget
-  label_and_its_subprojects: "%{value} và các dự án con của nó"
-  label_my_page_block: Block trang của tôi
-  label_responsible_for_work_packages: Gói công việc mà tôi có trách nhiệm
-  label_search_titles_only: Search titles only
-  label_visible_elements: Visible elements
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

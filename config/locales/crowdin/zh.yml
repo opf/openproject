@@ -91,8 +91,8 @@ zh:
       removal: '请注意: 这个模块将与OpenProject 8.0一起移除。'
   global_search:
     overwritten_tabs:
-      wiki_pages: Wiki
-      messages: Forum
+      wiki_pages: 维基
+      messages: 论坛
   groups:
     index:
       no_results_title_text: 目前没有组。
@@ -101,6 +101,11 @@ zh:
       no_results_title_text: 这个组目前没有用户。
     memberships:
       no_results_title_text: 这个组目前没有项目。
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -202,6 +207,8 @@ zh:
     x_descendants:
       one: One descendant work package
       other: "%{count} 个子工作包"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: 所有选中的工作包都没有可用的状态，因此无法更改其状态。
       unsupported_for_multiple_projects: 不支持多个项目工作包的大批量移动/复制
@@ -451,6 +458,7 @@ zh:
         too_short: 太短 (最低是 %{count} 个字符)。
         unchangeable: 不能更改。
         wrong_length: 长度不正确 (应该是 %{count} 个字符)。
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: 至少有需要一个可用选项。
@@ -1529,6 +1537,7 @@ zh:
   label_view_diff: 查看差异
   label_view_revisions: 查看修订版本
   label_watched_work_packages: 受关注的工作包
+  label_what_is_this: What is this?
   label_week: 周
   label_wiki_content_added: 添加 Wiki 页面
   label_wiki_content_updated: 更新 Wiki 页面
@@ -2030,6 +2039,7 @@ zh:
   setting_mail_handler_api_key: API 密钥
   setting_mail_handler_body_delimiters: 在这些行之后截断电子邮件
   setting_mail_handler_body_delimiter_regex: 清空符合此正则表达式的电子邮件
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: 给创建项目的非管理员用户的角色
   setting_password_active_rules: 激活支付类型
   setting_password_count_former_banned: 禁止重复使用最近使用密码的数量
@@ -2039,6 +2049,7 @@ zh:
   setting_per_page_options: 每页对象选项
   setting_plain_text_mail: 纯文本邮件 (没有 HTML)
   setting_protocol: 协议
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: 注册页脚
   setting_repositories_automatic_managed_vendor: 自动存储库供应商类型
   setting_repositories_encodings: 代码库的编码
@@ -2174,6 +2185,16 @@ zh:
   text_no_configuration_data: 角色、 类型、 工作包状态和工作流有尚未配置。 \n强烈建议加载默认配置。加载完成后你将能够修改它。
   text_no_notes: 没有注释可用于此工作包。
   text_notice_too_many_values_are_inperformant: 注意： 每个页面显示超过 100 个项目会增加页面加载时间。
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: 您将要删除部分或全部的权限，可能不能够在那之后编辑此项目。 \n您确定要继续吗？
   text_plugin_assets_writable: 插件资产目录可写
   text_powered_by: Powered by %{link}
@@ -2539,8 +2560,8 @@ zh:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: 请升级您的浏览器。
+    close_warning: 请忽略这个警告。
   oauth:
     application:
       singular: OAuth application
@@ -2586,7 +2607,7 @@ zh:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: 权限
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2610,16 +2631,3 @@ zh:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: 删除部件
-  label_and_its_subprojects: "%{value} 及其子项目"
-  label_my_page_block: 我的页块
-  label_responsible_for_work_packages: 我负责的工作包
-  label_search_titles_only: 仅搜索标题
-  label_visible_elements: 可见的元素
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

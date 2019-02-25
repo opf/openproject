@@ -217,7 +217,7 @@ pt:
     label_menu_collapse: ocultar
     label_menu_expand: expandir
     label_more_than_ago: mais do que dias atrás
-    label_my_page: My page
+    label_my_page: A minha página
     label_next: Próxima
     label_no_data: Sem dados para apresentar
     label_no_due_date: sem data fim
@@ -401,9 +401,9 @@ pt:
           requires: a necessitar
           required: exigido por
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Atividade
+      comment: Comentario
+      hours: Horas
     watchers:
       label_loading: carregando observadores...
       label_error_loading: Ocorreu um erro ao carregar os observadores
@@ -764,8 +764,6 @@ pt:
         days: dias
         weeks: semanas
         months: meses
-      label_switch_to_single_select: Mudar para seleção individual
-      label_switch_to_multi_select: Mudar para multiseleção
     toolbar:
       settings:
         configure_view: Configurar a visualização...
@@ -832,8 +830,7 @@ pt:
         messages_on_field: 'Este campo é inválido: %{messages}'
     error_could_not_resolve_version_name: Não consegui resolver o nome da versão
     error_could_not_resolve_user_name: Não consegui resolver o nome do utilizador
-    error_attachment_upload: 'Ocorreu um erro ao carregar o ficheiro ''%{name}'':
-      %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: Não tem permissão para carregar ficheiros
       para este recurso.
     units:
@@ -852,18 +849,15 @@ pt:
       button_deactivate: Desativar modo zen
     global_search:
       all_projects: In all projects
-      search: Search
+      search: Pesquisar
+      close_search: Close search
       current_project: In this project
       current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    unsupported_browser:
-      title: A versão do seu browser não é suportada
-      message: A versão do seu browser já não é suportada pelo OpenProject.
-      update_message: Por favor, atualize o seu browser.
-      update_ie_user: Por favor mude para o Mozilla Firefox ou Google Chrome, ou atualize
-        para o Microsoft Edge.
-      learn_more: Saber mais
-      close_warning: Ignore este aviso.
+    label_board: Board
+    label_board_plural: Boards
+    label_wp_id_added_by: "#%{id} added by %{author}"
+    notice_no_results_to_display: No visible results to display.

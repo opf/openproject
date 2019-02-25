@@ -215,7 +215,7 @@ da:
     label_menu_collapse: Fold menu sammen
     label_menu_expand: Fold menu ud
     label_more_than_ago: mere end dage siden
-    label_my_page: My page
+    label_my_page: Min side
     label_next: Næste
     label_no_data: Ingen data at vise
     label_no_due_date: ingen slutdato
@@ -399,9 +399,9 @@ da:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Aktivitet
+      comment: Kommentar
+      hours: Timer
     watchers:
       label_loading: indlæser iagttagere...
       label_error_loading: En fejl opstod under indlæsning af seere
@@ -761,8 +761,6 @@ da:
         days: dage
         weeks: uger
         months: måneder
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -829,7 +827,7 @@ da:
         messages_on_field: 'Dette felt er ugyldigt: %{messages}'
     error_could_not_resolve_version_name: Kunne ikke fastslå versionsnavn
     error_could_not_resolve_user_name: Kunne ikke finde brugernavnet
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -848,18 +846,15 @@ da:
       button_deactivate: Deactivate zen mode
     global_search:
       all_projects: In all projects
-      search: Search
+      search: Søg
+      close_search: Close search
       current_project: In this project
       current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    unsupported_browser:
-      title: Din version af browseren understøttes ikke
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Få mere at vide
-      close_warning: Ignore this warning.
+    label_board: Board
+    label_board_plural: Boards
+    label_wp_id_added_by: "#%{id} added by %{author}"
+    notice_no_results_to_display: No visible results to display.

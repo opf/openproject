@@ -216,7 +216,7 @@ hu:
     label_menu_collapse: összecsuk
     label_menu_expand: kibont
     label_more_than_ago: több, nappal ezelőtt
-    label_my_page: My page
+    label_my_page: Az én oldalam
     label_next: " Következő"
     label_no_data: Nincs megjelenítendő adat
     label_no_due_date: nincs záró dátuma
@@ -401,9 +401,9 @@ hu:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Tevékenység
+      comment: Vélemény
+      hours: Óra
     watchers:
       label_loading: megfigyelők betöltése...
       label_error_loading: Hiba történt a megfigyelők betöltése közben
@@ -763,8 +763,6 @@ hu:
         days: nap
         weeks: hetek
         months: hónap
-      label_switch_to_single_select: Váltás az egyszeri kiválasztásra
-      label_switch_to_multi_select: Váltás a többszörös kiválasztásra
     toolbar:
       settings:
         configure_view: Nézet beállítása
@@ -831,7 +829,7 @@ hu:
         messages_on_field: 'Ez a mező érvénytelen: %{messages}'
     error_could_not_resolve_version_name: Nem sikerült a verziószám visszafejtése
     error_could_not_resolve_user_name: Nem sikerült a felhasználó visszafejtése
-    error_attachment_upload: '"%{name}" fájlt nem sikerült feltölteni: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -850,19 +848,15 @@ hu:
       button_deactivate: Zen mód kikapcsolása
     global_search:
       all_projects: In all projects
-      search: Search
+      search: Keresés
+      close_search: Close search
       current_project: In this project
       current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    unsupported_browser:
-      title: Az ön böngészője nem támogatott
-      message: Az ön által használt böngésző verzióját már nem támogatja az OpenProject.
-        Kérjük frissítse böngészőjét.
-      update_message: Kérjük frissítse a böngészőjét.
-      update_ie_user: Kérjük frissítse böngészőjét Mozilla Firefox, Google Chrome
-        vagy Microsoft Edge-re.
-      learn_more: További információ
-      close_warning: Figyelmeztetés figyelmen kívül hagyása.
+    label_board: Board
+    label_board_plural: Boards
+    label_wp_id_added_by: "#%{id} added by %{author}"
+    notice_no_results_to_display: No visible results to display.

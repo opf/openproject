@@ -204,7 +204,7 @@ zh:
     label_menu_collapse: 折叠
     label_menu_expand: 展开
     label_more_than_ago: 更多天前
-    label_my_page: My page
+    label_my_page: 我的页面
     label_next: 下一个
     label_no_data: 没有要显示的数据
     label_no_due_date: 没有结束日期
@@ -356,9 +356,9 @@ zh:
           requires: 要求
           required: 要求于
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: 活动
+      comment: 评论
+      hours: 小时
     watchers:
       label_loading: 正在加载关注者...
       label_error_loading: 加载关注者时出错
@@ -686,8 +686,6 @@ zh:
         days: 天
         weeks: 周
         months: 月
-      label_switch_to_single_select: 切换为单选
-      label_switch_to_multi_select: 切换为多选
     toolbar:
       settings:
         configure_view: 配置视图…
@@ -752,7 +750,7 @@ zh:
         messages_on_field: 此字段无效：%{messages}
     error_could_not_resolve_version_name: 无法解析版本名称
     error_could_not_resolve_user_name: 不能确定用户名
-    error_attachment_upload: 文件“%{name}”传输失败：%{error}
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: 您没有上传此资源上文件的权限。
     units:
       workPackage:
@@ -770,17 +768,15 @@ zh:
       button_deactivate: 取消激活 zen 模式
     global_search:
       all_projects: In all projects
-      search: Search
+      search: 搜索
+      close_search: Close search
       current_project: In this project
       current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    unsupported_browser:
-      title: 不支持您的浏览器版本
-      message: OpenProject不再支持您现在所使用的浏览器版本。
-      update_message: 请升级您的浏览器。
-      update_ie_user: 请使用Mozilla Firefox或者Google Chrome浏览器，或者升级到Microsoft Edge浏览器。
-      learn_more: 了解更多信息
-      close_warning: 请忽略这个警告。
+    label_board: Board
+    label_board_plural: Boards
+    label_wp_id_added_by: "#%{id} added by %{author}"
+    notice_no_results_to_display: No visible results to display.

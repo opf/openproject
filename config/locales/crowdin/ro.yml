@@ -121,6 +121,11 @@ ro:
     memberships:
       no_results_title_text: În acest moment nu există proiecte care să facă parte
         din acest grup.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -227,6 +232,8 @@ ro:
       one: One descendant work package
       other: "%{count} work package descendants"
       few: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -511,6 +518,7 @@ ro:
         too_short: este prea scurt (minimum admis este de %{count} caractere).
         unchangeable: cannot be changed.
         wrong_length: nu are lungimea corectă (ar trebui să fie de %{count} characters).
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -1663,6 +1671,7 @@ ro:
   label_view_diff: Afișare diferențe
   label_view_revisions: Afișare revizii
   label_watched_work_packages: Pachete de lucru urmărite
+  label_what_is_this: What is this?
   label_week: Săptămână
   label_wiki_content_added: Pagină wiki adăugată
   label_wiki_content_updated: Pagină wiki actualizată
@@ -2261,6 +2270,7 @@ ro:
     linii
   setting_mail_handler_body_delimiter_regex: Trunchiaţi email-uri care se potrivesc
     cu acest regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rol atribuit unui utilizator non-administrator
     care crează un proiect
   setting_password_active_rules: Clase de caractere active
@@ -2273,6 +2283,7 @@ ro:
   setting_per_page_options: Opțiuni pentru obiecte pe pagină
   setting_plain_text_mail: Text e-mail simplu (fără HTML)
   setting_protocol: Protocol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: Tipul de furnizor pentru repo-urile
     automate
@@ -2451,6 +2462,16 @@ ro:
   text_no_notes: Nu sunt comentarii disponibile pentru acest pachet de lucru.
   text_notice_too_many_values_are_inperformant: 'Atenție: Afişarea unui număr mai
     mare de 100 de articole pe pagină poate creşte durata de încărcare.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: "Sunteţi cale de a elimina unele sau toate
     permisiunile şi e posibil să nu mai puteți edita acest proiect după aceea. \nSunteţi
     sigur că doriţi să continuaţi?"
@@ -2878,8 +2899,8 @@ ro:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Vă rugăm să actualizaţi browser-ul.
+    close_warning: Ignoră acest avertisment.
   oauth:
     application:
       singular: OAuth application
@@ -2925,13 +2946,14 @@ ro:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Drepturi
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      few: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2949,16 +2971,3 @@ ro:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Elimină secțiune
-  label_and_its_subprojects: "%{value} şi subproiectele sale"
-  label_my_page_block: Bloc pentru pagina mea
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_search_titles_only: Căutare doar în titluri
-  label_visible_elements: Elemente vizibile
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

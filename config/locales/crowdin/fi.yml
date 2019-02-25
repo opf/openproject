@@ -108,7 +108,7 @@ fi:
   global_search:
     overwritten_tabs:
       wiki_pages: Wiki
-      messages: Forum
+      messages: Keskustelupalsta
   groups:
     index:
       no_results_title_text: Tällä hetkellä ei ole ryhmiä.
@@ -117,6 +117,11 @@ fi:
       no_results_title_text: Tällä hetkellä tähän ryhmään ei kuulu yhtään käyttäjää.
     memberships:
       no_results_title_text: Tällä hetkellä tähän ryhmään ei kuulu projekteja.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -220,6 +225,8 @@ fi:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -502,6 +509,7 @@ fi:
         too_short: on liian lyhyt (minimi on %{count} merkkiä).
         unchangeable: cannot be changed.
         wrong_length: on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä).
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -1627,6 +1635,7 @@ fi:
   label_view_diff: Näytä erot
   label_view_revisions: Näytä versiot
   label_watched_work_packages: Seuratut työpaketit
+  label_what_is_this: What is this?
   label_week: Viikko
   label_wiki_content_added: Wiki-sivu lisätty
   label_wiki_content_updated: Wiki-sivu päivitetty
@@ -2200,6 +2209,7 @@ fi:
   setting_mail_handler_api_key: API avain
   setting_mail_handler_body_delimiters: Katkaise sähköpostit tällaisen rivin jälkeen
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rooli joka annetaan projektin luojalle, joka ei
     ole hallinnoija (admin)
   setting_password_active_rules: Aktiiviset merkistöluokat
@@ -2211,6 +2221,7 @@ fi:
   setting_per_page_options: Sivun objektien määrän asetukset
   setting_plain_text_mail: vain muotoilematonta tekstiä (ei HTML)
   setting_protocol: Protokolla
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Rekisteröinnin alatunniste
   setting_repositories_automatic_managed_vendor: Automatic repository vendor type
   setting_repositories_encodings: Tietovaraston koodaus
@@ -2378,6 +2389,16 @@ fi:
   text_no_notes: Tähän työpakettiin ei ole saatavilla kommentteja.
   text_notice_too_many_values_are_inperformant: 'Huomautus: Näyttää yli 100 kohteita
     sivulla voi lisätä sivu kuormitus aika.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: Olet aikeissa poistaa yhden tai useamman
     käyttöoikeuden ja et ehkä voi enää muokata tätä projektia sen jälkeen. Haluatko
     varmasti jatkaa?
@@ -2794,8 +2815,8 @@ fi:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Päivitäthän selaimesi.
+    close_warning: Ohita tämä varoitus.
   oauth:
     application:
       singular: OAuth application
@@ -2841,7 +2862,7 @@ fi:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Oikeudet
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2865,16 +2886,3 @@ fi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Poista widgetti
-  label_and_its_subprojects: "%{value} ja aliprojektit"
-  label_my_page_block: Minun sivu
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_search_titles_only: Hae vain otsikot
-  label_visible_elements: Näkyvät elementit
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

@@ -216,7 +216,7 @@ lt:
     label_menu_collapse: suskleisti
     label_menu_expand: išskleisti
     label_more_than_ago: daugiau nei prieš dieną
-    label_my_page: My page
+    label_my_page: Mano puslapis
     label_next: Kitas
     label_no_data: Nėra rodytinų duomenų
     label_no_due_date: nėra pabaigos datos
@@ -397,9 +397,9 @@ lt:
           requires: reikalauja
           required: reikalingas
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Veikla
+      comment: Komentaras
+      hours: Valandų
     watchers:
       label_loading: Įkeliami stebėtojai...
       label_error_loading: Įkeliant stebėtojus įvyko klaida
@@ -767,8 +767,6 @@ lt:
         days: dienas(-ų)
         weeks: savaitės(-ių)
         months: mėnesiai(-ių)
-      label_switch_to_single_select: Perjungti į žymėjimą po vieną
-      label_switch_to_multi_select: Perjungti į žymėjimą po daug
     toolbar:
       settings:
         configure_view: Konfigūruokite vaizdą...
@@ -835,7 +833,7 @@ lt:
         messages_on_field: 'Šio laukelio reikšmė netinkama: %{messages}'
     error_could_not_resolve_version_name: Nepavyko nustatyti versijos pavadinimo
     error_could_not_resolve_user_name: Nepavyko nustatyti vartotojo vardo
-    error_attachment_upload: 'Failo ''%{name}'' nepavyko įkelti: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: Jūs neturite teisės įkelti failus į šį resursą.
     units:
       workPackage:
@@ -859,19 +857,15 @@ lt:
       button_deactivate: Išjungti Zen režimą
     global_search:
       all_projects: In all projects
-      search: Search
+      search: Paieška
+      close_search: Close search
       current_project: In this project
       current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    unsupported_browser:
-      title: Jūsų naršyklės versija nepalaikoma
-      message: Jūsų naudojama naršyklės versija daugiau nebepalaikoma OpenProject
-        sistemos.
-      update_message: Prašome atnaujinti savo naršyklę.
-      update_ie_user: Prašome pasikeisti į Mozilla Firefox ar Google Chrome arba atsinaujinti
-        į Microsoft Edge.
-      learn_more: Sužinoti daugiau
-      close_warning: Ignoruoti šį perspėjimą.
+    label_board: Board
+    label_board_plural: Boards
+    label_wp_id_added_by: "#%{id} added by %{author}"
+    notice_no_results_to_display: No visible results to display.

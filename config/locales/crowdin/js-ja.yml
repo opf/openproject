@@ -36,7 +36,7 @@ ja:
     button_duplicate: 複製
     button_edit: 編集
     button_filter: フィルタ
-    button_advanced_filter: Advanced filter
+    button_advanced_filter: 詳細フィルター
     button_list_view: 一覧表示
     button_show_view: 全画面表示
     button_log_time: 時間を記録
@@ -142,13 +142,13 @@ ja:
     label_activate: 有効にする
     label_activity_no: アクティビティのエントリ番号 %{activityNo}
     label_activity_with_comment_no: アクティビティのエントリ番号 %{activityNo}。ユーザー コメントがあります。
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
+    label_add_column_after: 後に列を追加
+    label_add_column_before: 前に列を追加
     label_add_columns: 列を追加
     label_add_comment: コメントを追加
     label_add_comment_title: コメントで@ を入力して人に通知する
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
+    label_add_row_after: 後に行を追加
+    label_add_row_before: 前に行を追加
     label_add_selected_columns: 選択した列を追加
     label_added_by: 追加した人
     label_added_time_by: "%{author} %{age}によって追加されました。"
@@ -205,7 +205,7 @@ ja:
     label_menu_collapse: 以下を非表示
     label_menu_expand: 展開
     label_more_than_ago: 今日より○日前以前
-    label_my_page: My page
+    label_my_page: 個人ページ
     label_next: 次へ
     label_no_data: 表示できるデータがありません。
     label_no_due_date: 完了日なし
@@ -224,9 +224,9 @@ ja:
     label_visibility_settings: 表示の設定
     label_quote_comment: このコメントを引用
     label_reset: リセット
-    label_remove_column: Remove column
+    label_remove_column: 列を削除
     label_remove_columns: 選択した列を削除
-    label_remove_row: Remove row
+    label_remove_row: 行を削除
     label_save_as: 名前をつけて保存
     label_select_watcher: ウォッチャーを選択...
     label_selected_filter_list: 選択されたフィルタ
@@ -248,7 +248,7 @@ ja:
     label_activity_show_only_comments: コメントのみのアクティビティを表示
     label_activity_show_all: すべてのアクティビティを表示
     label_total_progress: "%{percent}% 進行状況"
-    label_total_amount: 'Total: %{amount}'
+    label_total_amount: '合計: %{amount}'
     label_updated_on: 更新日時
     label_warning: 注意
     label_work_package: 作業項目
@@ -360,9 +360,9 @@ ja:
           requires: 要求する
           required: に必要
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: 活動
+      comment: コメント
+      hours: 時間
     watchers:
       label_loading: ウォッチャーを読み込み中...
       label_error_loading: ウォッチャーを読み込み中にエラーが発生しました。
@@ -548,7 +548,7 @@ ja:
       label_enable_multi_select: 複数の選択を許可
       label_disable_multi_select: 複数の選択を禁止
       label_filter_add: フィルタを追加
-      label_filter_by_text: Filter by text
+      label_filter_by_text: テキストで絞り込む
       label_options: オプション
       label_column_multiselect: '結合されたドロップダウンフィールド: 矢印キーで選択する、エンターキーで選択を確認する、バックスペースキーで削除する'
       message_error_during_bulk_delete: 作業項目を削除する際にエラーが発生しました。
@@ -557,7 +557,7 @@ ja:
       message_view_spent_time: このワークパッケージに費やした時間を表示する
       message_work_package_read_only: 作業項目はこの状態でロックされています。 ステータス以外の属性は変更できません。
       no_value: 値なし
-      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholder_filter_by_text: 件名、説明、コメント、...
       inline_create:
         title: クリックしてこのリストに新しい作業項目を追加します
       create:
@@ -691,8 +691,6 @@ ja:
         days: " 日"
         weeks: 週間
         months: ヶ月間
-      label_switch_to_single_select: 単一選択に切り替え
-      label_switch_to_multi_select: 複数選択に切り替え
     toolbar:
       settings:
         configure_view: 表示設定...
@@ -757,7 +755,7 @@ ja:
         messages_on_field: 'このフィールドは無効です: %{messages}'
     error_could_not_resolve_version_name: バージョン名を解決できませんでした。
     error_could_not_resolve_user_name: ユーザ名を特定できません
-    error_attachment_upload: 'ファイル ''%{name}'' のアップロードに失敗しました: %{error}'
+    error_attachment_upload: 'ファイルのアップロードに失敗しました: %{error}'
     error_attachment_upload_permission: このリソースでファイルをアップロードする権限がありません。
     units:
       workPackage:
@@ -774,18 +772,16 @@ ja:
       button_activate: マナーモードをアクティブにする
       button_deactivate: マナーモードを非アクティブにする
     global_search:
-      all_projects: In all projects
-      search: Search
-      current_project: In this project
-      current_project_and_all_descendants: In this project + subprojects
+      all_projects: すべてのプロジェクトで
+      search: 検索
+      close_search: 検索を閉じる
+      current_project: このプロジェクトでは
+      current_project_and_all_descendants: このプロジェクト+サブプロジェクトでは
       title:
-        all_projects: all projects
-        project_and_subprojects: and all subprojects
-        search_for: Search for
-    unsupported_browser:
-      title: このブラウザーのバージョンはサポートされていません。
-      message: 使用しているブラウザのバージョンは、OpenProjectではサポートされなくなりました。
-      update_message: ブラウザを更新してください。
-      update_ie_user: Mozilla FirefoxまたはGoogle Chromeに切り替えるか、Microsoft Edgeにアップグレードしてください。
-      learn_more: もっと詳しく
-      close_warning: この警告を無視する。
+        all_projects: すべてのプロジェクト
+        project_and_subprojects: そしてすべてのサブプロジェクト
+        search_for: 検索対象
+    label_board: ボード
+    label_board_plural: ボード
+    label_wp_id_added_by: "#%{id}が%{author}によって追加されました"
+    notice_no_results_to_display: 表示結果はありません。

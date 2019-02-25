@@ -118,6 +118,11 @@
       no_results_title_text: There are currently no users part of this group.
     memberships:
       no_results_title_text: There are currently no projects part of this group.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -222,6 +227,8 @@
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -500,6 +507,7 @@
         too_short: is too short (minimum is %{count} characters).
         unchangeable: cannot be changed.
         wrong_length: is the wrong length (should be %{count} characters).
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -1627,6 +1635,7 @@
   label_view_diff: Vis forskjeller
   label_view_revisions: Vis revisjoner
   label_watched_work_packages: Overvåkede arbeidspakker
+  label_what_is_this: What is this?
   label_week: Uke
   label_wiki_content_added: Wiki-side lagt til
   label_wiki_content_updated: Wiki-side oppdatert
@@ -2203,6 +2212,7 @@
   setting_mail_handler_body_delimiters: Avkort e-post etter en av disse linjene
   setting_mail_handler_body_delimiter_regex: Avkort e-post som samsvarer med denne
     regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rolle gitt til en ikke-administrativ bruker som
     oppretter et prosjekt
   setting_password_active_rules: Aktive tegnklasser
@@ -2214,6 +2224,7 @@
   setting_per_page_options: Alternativer for oppføringer pr. side
   setting_plain_text_mail: Ren tekst (ingen HTML)
   setting_protocol: Protokoll
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registrerings bunntekst
   setting_repositories_automatic_managed_vendor: Automatic repository vendor type
   setting_repositories_encodings: Koding av pakkebrønner
@@ -2382,6 +2393,16 @@
   text_no_notes: There are no comments available for this work package.
   text_notice_too_many_values_are_inperformant: 'Merk: Visning av mer enn 100 elementer
     pr. side kan medføre at siden bruker lenger tid på å laste.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Du er i ferd med å fjerne noen eller alle dine egne rettigheter og du vil kanskje ikke kunne redigere dette prosjektet etterpå.
     Er du sikker på at du vil fortsette?
@@ -2851,7 +2872,7 @@
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Tilganger
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2875,16 +2896,3 @@
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Fjern widget
-  label_and_its_subprojects: "%{value} og dens underprosjekter"
-  label_my_page_block: Min side-blokk
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_search_titles_only: Bare søk i titler
-  label_visible_elements: Synlige elementer
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

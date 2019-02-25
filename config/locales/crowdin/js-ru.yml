@@ -38,7 +38,7 @@ ru:
     button_duplicate: Дублировать
     button_edit: Правка
     button_filter: Фильтр
-    button_advanced_filter: Advanced filter
+    button_advanced_filter: Расширенный фильтр
     button_list_view: Представление списком
     button_show_view: Полноэкранный просмотр
     button_log_time: Учет времени
@@ -154,13 +154,13 @@ ru:
     label_activity_no: Деятельность номер %{activityNo}
     label_activity_with_comment_no: Деятельность номер %{activityNo}. Есть комментарий
       пользователя.
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
+    label_add_column_after: Добавить столбец после
+    label_add_column_before: Добавить столбец перед
     label_add_columns: Добавить столбец
     label_add_comment: Добавить комментарий
     label_add_comment_title: Комментарий и тип @ для уведомления других людей
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
+    label_add_row_after: Добавить строку после
+    label_add_row_before: Добавить строку перед
     label_add_selected_columns: Добавить выбранные столбцы
     label_added_by: Добавил(-а)
     label_added_time_by: Добавил(-а) %{author} %{age}
@@ -218,7 +218,7 @@ ru:
     label_menu_collapse: свернуть
     label_menu_expand: развернуть
     label_more_than_ago: больше, чем дней назад
-    label_my_page: My page
+    label_my_page: Моя страница
     label_next: Следующие
     label_no_data: Нет данных для отображения
     label_no_due_date: без даты окончания
@@ -237,9 +237,9 @@ ru:
     label_visibility_settings: Параметры видимости
     label_quote_comment: Цитировать этот комментарий
     label_reset: Сброс
-    label_remove_column: Remove column
+    label_remove_column: Удалить столбец
     label_remove_columns: Удалить выбранные столбцы
-    label_remove_row: Remove row
+    label_remove_row: Удалить строку
     label_save_as: Сохранить как
     label_select_watcher: Выберите наблюдателя...
     label_selected_filter_list: Выбранные фильтры
@@ -261,7 +261,7 @@ ru:
     label_activity_show_only_comments: Показать только деятельности с комментариями
     label_activity_show_all: Показать все активности
     label_total_progress: "%{percent}% общего прогресса"
-    label_total_amount: 'Total: %{amount}'
+    label_total_amount: 'Всего: %{amount}'
     label_updated_on: Обновлено
     label_warning: Предупреждение
     label_work_package: Пакет работ
@@ -401,9 +401,9 @@ ru:
           requires: требование
           required: необходим для
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Деятельность
+      comment: Комментарий
+      hours: Часы
     watchers:
       label_loading: Загрузка наблюдателей...
       label_error_loading: При загрузке наблюдателей произошла ошибка
@@ -606,7 +606,7 @@ ru:
       label_enable_multi_select: Разрешить множественный выбор
       label_disable_multi_select: Отключить множественный выбор
       label_filter_add: Добавить фильтр
-      label_filter_by_text: Filter by text
+      label_filter_by_text: Фильтр по тексту
       label_options: Опции
       label_column_multiselect: 'Комбинированные ниспадающие поле: выбор  клавишами
         со стрелками, подтвержднение выбора нажатием клавиши enter, удаление  клавишей
@@ -620,7 +620,7 @@ ru:
       message_work_package_read_only: В этом статусе пакет работ заблокирован. Никакой
         атрибут, отличный от статуса, изменен быть не может.
       no_value: Значение отсутствует
-      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholder_filter_by_text: Тема, описание, комментарии, ...
       inline_create:
         title: Кликните здесь, чтобы добавить новый пакет работ в этот список
       create:
@@ -771,8 +771,6 @@ ru:
         days: дней
         weeks: недели
         months: месяцев
-      label_switch_to_single_select: Переключиться на одиночный выбор
-      label_switch_to_multi_select: Переключиться на множественный выбор
     toolbar:
       settings:
         configure_view: Настроить вид ...
@@ -839,7 +837,7 @@ ru:
         messages_on_field: 'Это поле является недопустимым: %{messages}'
     error_could_not_resolve_version_name: Не удалось определить название этапа
     error_could_not_resolve_user_name: Не удалось найти такое имя пользователя
-    error_attachment_upload: 'Файл «%{name}» загрузить не удалось: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: У вас нет прав для загрузки файлов на этом
       ресурсе.
     units:
@@ -863,19 +861,16 @@ ru:
       button_activate: Включить дзен-режим
       button_deactivate: Отключить дзен-режим
     global_search:
-      all_projects: In all projects
-      search: Search
-      current_project: In this project
-      current_project_and_all_descendants: In this project + subprojects
+      all_projects: Во всех проектах
+      search: Поиск
+      close_search: Закрыть поиск
+      current_project: В этом проекте
+      current_project_and_all_descendants: В этом проекте + подпроекты
       title:
-        all_projects: all projects
-        project_and_subprojects: and all subprojects
-        search_for: Search for
-    unsupported_browser:
-      title: Ваша версия браузера не поддерживается
-      message: Версия вашего браузера больше не поддерживается OpenProject.
-      update_message: Пожалуйста, обновите свой браузер.
-      update_ie_user: Пожалуйста перейдите на Mozilla Firefox или Google Chrome, или
-        обновитесь до Microsoft Edge.
-      learn_more: Узнать больше
-      close_warning: Игнорировать это предупреждение.
+        all_projects: все проекты
+        project_and_subprojects: и все подпроекты
+        search_for: Поиск по
+    label_board: Доска
+    label_board_plural: Доски
+    label_wp_id_added_by: "#%{id} добавил(а) %{author}"
+    notice_no_results_to_display: Нет видимых результатов для отображения.

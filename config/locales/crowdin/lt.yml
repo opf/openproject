@@ -110,7 +110,7 @@ lt:
   global_search:
     overwritten_tabs:
       wiki_pages: Wiki
-      messages: Forum
+      messages: Forumas
   groups:
     index:
       no_results_title_text: Nėra jokių grupių.
@@ -119,6 +119,11 @@ lt:
       no_results_title_text: Nėra šios grupės vartotojų.
     memberships:
       no_results_title_text: Nėra projektų šiai grupei.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -224,6 +229,8 @@ lt:
       other: "%{count} work package descendants"
       few: "%{count} work package descendants"
       many: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -502,6 +509,7 @@ lt:
         too_short: yra per trumpas (mažiausiai %{count} simbolių).
         unchangeable: cannot be changed.
         wrong_length: yra neteisingo ilgio (turi būti %{count} simbolių).
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: Turi būti prieinama bent viena savybė.
@@ -1666,6 +1674,7 @@ lt:
   label_view_diff: Peržiūrėti skirtumus
   label_view_revisions: Peržiūrėti revizijas
   label_watched_work_packages: Stebėti darbų paketus
+  label_what_is_this: What is this?
   label_week: Savaitė
   label_wiki_content_added: Wiki puslapis pridėtas
   label_wiki_content_updated: Wiki puslapis atnaujintas
@@ -2273,6 +2282,7 @@ lt:
   setting_mail_handler_body_delimiters: Trumpinti laiškus po vienos iš šių eilučių
   setting_mail_handler_body_delimiter_regex: Sutrumpinti laiškus, atitinkančius šią
     reguliarią išraišką
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rolė suteikta vartotojui, kuris nėra administratorius
     ir kuris kuria projektą
   setting_password_active_rules: Aktyvios savybių klasės
@@ -2284,6 +2294,7 @@ lt:
   setting_per_page_options: Įrašų puslapyje nustatymai
   setting_plain_text_mail: Tik tekstas laiške (be HTML)
   setting_protocol: Protokolas
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registracijos poraštė
   setting_repositories_automatic_managed_vendor: Automatinis repozitorijos tiekėjo
     tipas
@@ -2456,6 +2467,16 @@ lt:
   text_no_notes: Šis darbų paketas neturi komentarų.
   text_notice_too_many_values_are_inperformant: 'Pastaba: Rodant daugiau nei 100 įrašų
     puslapyje gali prailginti puslapio įkėlimo laiką.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Jūs ketinate pašalinti keletą ar visus leidimus ir gali būti, kad nebegalėsite redaguoti šio projekto po to.
     Ar jūs tikrai norite tęsti?
@@ -2887,8 +2908,8 @@ lt:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Prašome atnaujinti savo naršyklę.
+    close_warning: Ignoruoti šį perspėjimą.
   oauth:
     application:
       singular: OAuth application
@@ -2934,13 +2955,15 @@ lt:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Leidimai
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      few: "%{count} active token"
+      many: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2958,16 +2981,3 @@ lt:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Pašalinti valdiklį
-  label_and_its_subprojects: "%{value} ir jo sub-projektai"
-  label_my_page_block: Mano puslapio blokas
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_search_titles_only: Ieškoti tik pavadinimų
-  label_visible_elements: Matomi elementai
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

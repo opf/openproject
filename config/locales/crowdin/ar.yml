@@ -109,7 +109,7 @@ ar:
   global_search:
     overwritten_tabs:
       wiki_pages: Wiki
-      messages: Forum
+      messages: المنتدى
   groups:
     index:
       no_results_title_text: لا يوجد حالياً مجموعات.
@@ -118,6 +118,11 @@ ar:
       no_results_title_text: لا يوجد حالياً قسم للمستخدمين في هذه المجموعة.
     memberships:
       no_results_title_text: لا يوجد حالياً قسم للمشاريع في هذه المجموعة.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -225,6 +230,8 @@ ar:
       two: "%{count} work package descendants"
       few: "%{count} work package descendants"
       many: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -499,6 +506,7 @@ ar:
         too_short: قصيرة جداً (الحد الأدنى هو الأحرف %{count}).
         unchangeable: cannot be changed.
         wrong_length: هو طول خاطئ (يجب أن تكون الأحرف %{count}).
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -1695,6 +1703,7 @@ ar:
   label_view_diff: عرض الاختلافات
   label_view_revisions: عرض المراجعات
   label_watched_work_packages: مجموعات العمل المراقبة
+  label_what_is_this: What is this?
   label_week: أسبوع
   label_wiki_content_added: تم إضافة صفحة wiki
   label_wiki_content_updated: تم تحديث صفحة wiki
@@ -2282,6 +2291,7 @@ ar:
     هذه الخطوط
   setting_mail_handler_body_delimiter_regex: حذف رسائل البريد الإلكتروني المطابقة
     لهذا التعبير الاعتيادي
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: الدور الممنوح لمستخدم غير مسؤول الذي يقوم بإنشاء
     مشروع
   setting_password_active_rules: صفوف المحارف النشطة
@@ -2293,6 +2303,7 @@ ar:
   setting_per_page_options: الكائنات لكل خيارات الصفحة
   setting_plain_text_mail: بريد النص العادي (لا إتش تي أم ال)
   setting_protocol: البروتوكول Protocol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: نوع المورد مستودع التلقائي
   setting_repositories_encodings: ترميزات مستودعات
@@ -2458,6 +2469,16 @@ ar:
   text_no_notes: لا تتوفر أية تعليقات متاحة لمجموعة العمل هذه.
   text_notice_too_many_values_are_inperformant: 'ملاحظة: عرض أكثر من 100 عنصر في الصفحة
     الواحدة يمكن أن يزيد وقت تحميل الصفحة.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: أنت على وشك إزالة بعض أو كافة الأذونات
     الخاصة بك، وقد لن تكون قادراً على تحرير هذا المشروع بعد ذلك. هل أنت متأكد من أنك
     تريد المتابعة؟
@@ -2879,8 +2900,8 @@ ar:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: من فضلك قم بتحديث متصفِّحك.
+    close_warning: تجاهل هذا التحذير.
   oauth:
     application:
       singular: OAuth application
@@ -2926,13 +2947,17 @@ ar:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: السماحيات
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      zero: "%{count} active token"
+      two: "%{count} active token"
+      few: "%{count} active token"
+      many: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2950,16 +2975,3 @@ ar:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: إزالة الأداة
-  label_and_its_subprojects: "%{value} والمشاريع الفرعية الخاصة به"
-  label_my_page_block: حظر الصفحة الخاصة بي
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_search_titles_only: البحث في العناوين فقط
-  label_visible_elements: العناصر المرئية
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

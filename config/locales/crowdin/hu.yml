@@ -107,7 +107,7 @@ hu:
   global_search:
     overwritten_tabs:
       wiki_pages: Wiki
-      messages: Forum
+      messages: Fórum
   groups:
     index:
       no_results_title_text: Jelenleg nincsenek csoportok.
@@ -116,6 +116,11 @@ hu:
       no_results_title_text: Jelenleg egy felhasználó sem tagja a csoportnak.
     memberships:
       no_results_title_text: Jelenleg egy projekt sem tagja a csoportnak.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -219,6 +224,8 @@ hu:
     x_descendants:
       one: Egy leszármazott feladatcsoport
       other: "%{count} munkacsomag leszármazottai"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Az összes kiválasztott feladatcsoporthoz nincs elérhető
         állapot. Státuszuk nem változtatható meg.
@@ -498,6 +505,7 @@ hu:
         too_short: túl rövid (legalább %{count} karakter kell legyen).
         unchangeable: nem módosítható.
         wrong_length: nem megfelelő hosszúságú (%{count} karakter szükséges).
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: Minimum egy opciónak elérhetőnek kell lennie.
@@ -1638,6 +1646,7 @@ hu:
   label_view_diff: A különbségek megtekintése
   label_view_revisions: A változtatások megtekintése
   label_watched_work_packages: Megfigyelt munkacsomagok
+  label_what_is_this: What is this?
   label_week: Hét
   label_wiki_content_added: Wiki oldal hozzáadva
   label_wiki_content_updated: Wiki oldal frissítve
@@ -2220,6 +2229,7 @@ hu:
   setting_mail_handler_api_key: API-kulcs
   setting_mail_handler_body_delimiters: E-mailek csonkolása e sorok után
   setting_mail_handler_body_delimiter_regex: E-mailek csonkítása a megegyező kifejezéssel
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Szerepkör a  nem admin felhasználónak, aki létrehoz
     egy projektet,
   setting_password_active_rules: Választható karakter típusok
@@ -2231,6 +2241,7 @@ hu:
   setting_per_page_options: Objektum per oldal opció
   setting_plain_text_mail: Egyszerű szöveges e-mail (nem HTML)
   setting_protocol: Protokol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Regisztráció lábléc
   setting_repositories_automatic_managed_vendor: Automatikus tároló típus
   setting_repositories_encodings: Tárolók kódolásai
@@ -2402,6 +2413,16 @@ hu:
   text_no_notes: Ehhez a munkacsomaghoz nincsenek megjegyzések.
   text_notice_too_many_values_are_inperformant: 'Megjegyzés: Az oldalanként több mint
     100 elem megjelenítésekor az oldal betöltési ideje  növekedhet.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: Értesítem arról, hogy eltávolít néhány
     vagy az összes jogosultságot, és ezt követően már nem lehet szerkeszteni ezt a
     projektet. Biztosan folytatni kívánja?
@@ -2830,8 +2851,8 @@ hu:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Kérjük frissítse a böngészőjét.
+    close_warning: Figyelmeztetés figyelmen kívül hagyása.
   oauth:
     application:
       singular: OAuth application
@@ -2877,7 +2898,7 @@ hu:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Jogosultságok
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2901,16 +2922,3 @@ hu:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Widget eltávolítása
-  label_and_its_subprojects: "%{value} és az alprojektjei"
-  label_my_page_block: Az én oldalam blokkolva
-  label_responsible_for_work_packages: Feladatcsoportok, amelyért én vagyok a felelős
-  label_search_titles_only: Keresés csak a címekben
-  label_visible_elements: Látható elemek
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

@@ -214,7 +214,7 @@ fil:
     label_menu_collapse: bumagsak
     label_menu_expand: palawakin
     label_more_than_ago: mahigit sa araw nakalipas
-    label_my_page: My page
+    label_my_page: Ang aking pahina
     label_next: Susunod
     label_no_data: Walang data upang ipakita
     label_no_due_date: walang katapusan petsa
@@ -403,9 +403,9 @@ fil:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Aktibidad
+      comment: Komento
+      hours: Mga oras
     watchers:
       label_loading: naglo-load ang mga manunuod...
       label_error_loading: Isang mali ang naganap habang naglo-load ng mga manunuod
@@ -778,8 +778,6 @@ fil:
         days: mga araw
         weeks: mga linggo
         months: mga buwan
-      label_switch_to_single_select: Lumipat sa napiling solo
-      label_switch_to_multi_select: Lumipat sa maramihang pagpili
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -847,7 +845,7 @@ fil:
         messages_on_field: 'Ito patlang ay hindi balido: %{messages}'
     error_could_not_resolve_version_name: Hindi ma resolba ang bersyon na pangalan
     error_could_not_resolve_user_name: Hindi mairesolba ang pangalan ng gumagamit
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -866,18 +864,15 @@ fil:
       button_deactivate: I-deactive ang zen mode
     global_search:
       all_projects: In all projects
-      search: Search
+      search: Hanapin
+      close_search: Close search
       current_project: In this project
       current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    unsupported_browser:
-      title: Ang iyong bersyong browser ay hindi suportado
-      message: Ang bersyon ng browser na ginagamit mo ay hindi na suportado ng OpenProject.
-      update_message: Magyaring i-update ang iyong broswer.
-      update_ie_user: Mangyaring lumipat sa Mozilla Firefox o Google Chromw, o i-upgrade
-        sa Microsoft Edge.
-      learn_more: Matuto ng higit pa
-      close_warning: Huwag pansinin ang babala ito.
+    label_board: Board
+    label_board_plural: Boards
+    label_wp_id_added_by: "#%{id} added by %{author}"
+    notice_no_results_to_display: No visible results to display.

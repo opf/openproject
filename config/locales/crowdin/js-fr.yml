@@ -219,7 +219,7 @@ fr:
     label_menu_collapse: réduire
     label_menu_expand: développer
     label_more_than_ago: il y a plus de quelques jours
-    label_my_page: My page
+    label_my_page: Ma page
     label_next: Suivante
     label_no_data: Aucune donnée à afficher
     label_no_due_date: pas d'échéance
@@ -415,9 +415,9 @@ fr:
           requires: requérant
           required: requis par
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Activité
+      comment: Commentaire
+      hours: Heures
     watchers:
       label_loading: observateurs en cours de chargement…
       label_error_loading: Une erreur s'est produite lors du chargement des observateurs
@@ -789,8 +789,6 @@ fr:
         days: jours
         weeks: semaines
         months: mois
-      label_switch_to_single_select: Commuter en sélection unique
-      label_switch_to_multi_select: Commuter en sélection multiple
     toolbar:
       settings:
         configure_view: Configurer la vue...
@@ -857,7 +855,7 @@ fr:
         messages_on_field: 'Ce champ n’est pas valide : %{messages}'
     error_could_not_resolve_version_name: Ne peut résoudre le nom de version
     error_could_not_resolve_user_name: Impossible de trouver l'utilisateur
-    error_attachment_upload: 'Erreur de chargement du fichier "%{name}" : %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: Vous n’avez pas l'autorisation de charger
       des fichiers sur cette ressource.
     units:
@@ -876,19 +874,15 @@ fr:
       button_deactivate: Désactiver le mode zen
     global_search:
       all_projects: In all projects
-      search: Search
+      search: Recherche
+      close_search: Close search
       current_project: In this project
       current_project_and_all_descendants: In this project + subprojects
       title:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    unsupported_browser:
-      title: La version de votre navigateur n'est pas prise en charge
-      message: La version du navigateur que vous utilisez n'est plus supportée par
-        OpenProject.
-      update_message: Veuillez mettre à jour votre navigateur.
-      update_ie_user: Veuillez passer à Mozilla Firefox ou Google Chrome, ou mettre
-        à niveau vers Microsoft Edge.
-      learn_more: En savoir plus
-      close_warning: Ignorer cet avertissement.
+    label_board: Board
+    label_board_plural: Boards
+    label_wp_id_added_by: "#%{id} added by %{author}"
+    notice_no_results_to_display: No visible results to display.
