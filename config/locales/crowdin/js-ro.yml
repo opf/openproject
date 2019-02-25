@@ -870,7 +870,3 @@ ro:
         all_projects: toate proiectele
         project_and_subprojects: si toate subproiectele
         search_for: Cauta dupa
-    label_board: Board
-    label_board_plural: Boards
-    label_wp_id_added_by: "#%{id} adaugat de %{author}"
-    notice_no_results_to_display: Fara rezultate vizibile de afisat.

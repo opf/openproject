@@ -453,7 +453,6 @@ lol:
         too_short: crwdns115314:0%{count}crwdne115314:0
         unchangeable: crwdns115316:0crwdne115316:0
         wrong_length: crwdns115318:0%{count}crwdne115318:0
-        unremovable: crwdns121548:0crwdne121548:0
       models:
         custom_field:
           at_least_one_custom_option: crwdns115320:0crwdne115320:0

@@ -524,7 +524,6 @@ es:
         too_short: es demasiado corto (el mínimo de caracteres es %{count}).
         unchangeable: no se puede cambiar.
         wrong_length: la longitud es incorrecta (debe ser %{count} caracteres).
-        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: Como mínimo, tiene que estar disponible una

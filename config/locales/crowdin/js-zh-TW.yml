@@ -780,7 +780,3 @@ zh-TW:
         all_projects: 所有專案
         project_and_subprojects: 和所有的子專案
         search_for: 搜尋
-    label_board: Board
-    label_board_plural: Boards
-    label_wp_id_added_by: "#%{id} added by %{author}"
-    notice_no_results_to_display: No visible results to display.

@@ -872,7 +872,3 @@ nl:
         all_projects: alle projecten
         project_and_subprojects: en alle subprojecten
         search_for: Zoeken naar
-    label_board: Bord
-    label_board_plural: Borden
-    label_wp_id_added_by: "#%{id} toegevoegd door %{author}"
-    notice_no_results_to_display: Geen zichtbare resultaten om weer te geven.

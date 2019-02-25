@@ -870,7 +870,3 @@ ru:
         all_projects: все проекты
         project_and_subprojects: и все подпроекты
         search_for: Поиск по
-    label_board: Доска
-    label_board_plural: Доски
-    label_wp_id_added_by: "#%{id} добавил(а) %{author}"
-    notice_no_results_to_display: Нет видимых результатов для отображения.

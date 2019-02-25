@@ -775,7 +775,3 @@ lol:
         all_projects: crwdns120288:0crwdne120288:0
         project_and_subprojects: crwdns120290:0crwdne120290:0
         search_for: crwdns120292:0crwdne120292:0
-    label_board: crwdns121556:0crwdne121556:0
-    label_board_plural: crwdns121558:0crwdne121558:0
-    label_wp_id_added_by: crwdns121560:0%{id}crwdnd121560:0%{author}crwdne121560:0
-    notice_no_results_to_display: crwdns121562:0crwdne121562:0

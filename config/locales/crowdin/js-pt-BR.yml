@@ -866,7 +866,3 @@ pt-BR:
         all_projects: todos os projetos
         project_and_subprojects: e todos os subprojetos
         search_for: Pesquisar por
-    label_board: Quadro
-    label_board_plural: Quadros
-    label_wp_id_added_by: "#%{id} adicionado por %{author}"
-    notice_no_results_to_display: Nenhum resultado visível para exibir.

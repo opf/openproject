@@ -518,7 +518,6 @@ ca:
         too_short: és massa curt (el mínim són %{count} caràcters).
         unchangeable: cannot be changed.
         wrong_length: la longitud és incorrecta (haurien de ser %{count} caràcters).
-        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.

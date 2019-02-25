@@ -510,7 +510,6 @@ cs:
         too_short: je příliš krátký (minimum je %{count} znaků).
         unchangeable: nelze změnit.
         wrong_length: má chybnou délku (měla by být %{count} znaků).
-        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.

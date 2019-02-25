@@ -873,7 +873,3 @@ it:
         all_projects: tutti i progetti
         project_and_subprojects: e tutti i sottoprogetti
         search_for: Cerca per
-    label_board: Scheda
-    label_board_plural: Schede
-    label_wp_id_added_by: "#%{id} aggiunto da%{author}"
-    notice_no_results_to_display: Nessun risultato visibile da mostrare.

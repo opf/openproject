@@ -867,7 +867,3 @@ sk:
         all_projects: všetky projekty
         project_and_subprojects: a všetky podprojekty
         search_for: Hľadať
-    label_board: Nástenka
-    label_board_plural: Nástenky
-    label_wp_id_added_by: "#%{id} pridané %{author}"
-    notice_no_results_to_display: Žiadne viditeľné výsledky na zobrazenie.

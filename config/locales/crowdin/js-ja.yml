@@ -781,7 +781,3 @@ ja:
         all_projects: すべてのプロジェクト
         project_and_subprojects: そしてすべてのサブプロジェクト
         search_for: 検索対象
-    label_board: ボード
-    label_board_plural: ボード
-    label_wp_id_added_by: "#%{id}が%{author}によって追加されました"
-    notice_no_results_to_display: 表示結果はありません。

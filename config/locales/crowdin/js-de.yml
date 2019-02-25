@@ -873,7 +873,3 @@ de:
         all_projects: alle Projekte
         project_and_subprojects: und alle Unterprojekte
         search_for: Suche nach
-    label_board: Board
-    label_board_plural: Boards
-    label_wp_id_added_by: "#%{id} erstellt von %{author}"
-    notice_no_results_to_display: Keine sichtbaren Ergebnisse.

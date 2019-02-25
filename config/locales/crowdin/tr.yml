@@ -505,7 +505,6 @@ tr:
         too_short: çok kısa (en az %{count} karakterdir).
         unchangeable: değiştirilemez.
         wrong_length: uzunluğu yanlıştır (%{count} karakter olmalıdır).
-        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: En az bir seçeneğin uygun olması gerekir.

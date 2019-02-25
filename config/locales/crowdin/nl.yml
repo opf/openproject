@@ -513,7 +513,6 @@ nl:
         too_short: is te kort (minimum is %{count} karakters).
         unchangeable: kan niet worden gewijzigd.
         wrong_length: is de verkeerde lengte (dient %{count} karakters te zijn).
-        unremovable: kan niet verwijderd worden.
       models:
         custom_field:
           at_least_one_custom_option: Ten minste één optie moet beschikbaar zijn.

@@ -505,7 +505,6 @@ id:
         too_short: minimal %{count} karakter.
         unchangeable: cannot be changed.
         wrong_length: panjang tidak sesuai (harus %{count} karakter).
-        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: Paling tidak, satu pilihan dibutuhkan untuk

@@ -521,7 +521,6 @@ de:
         too_short: ist zu kurz (nicht weniger als %{count} Zeichen).
         unchangeable: kann nicht geändert werden.
         wrong_length: hat die falsche Länge (muss genau %{count} Zeichen haben).
-        unremovable: ann nicht entfernt werden.
       models:
         custom_field:
           at_least_one_custom_option: Mindestens ein Wert muss verfügbar sein.
