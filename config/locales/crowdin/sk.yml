@@ -514,7 +514,7 @@ sk:
         too_long: je príliš dlhý (maximum je %{count} znakov).
         too_short: je príliš krátky (minimum je %{count} znakov).
         unchangeable: nie je možné zmeniť.
-        unremovable: nie je možné zmazať.
+        unremovable: cannot be removed.
         wrong_length: má chybnú dĺžku (správne má byť %{count} znakov).
       models:
         custom_field:

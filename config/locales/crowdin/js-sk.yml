@@ -170,9 +170,9 @@ sk:
     label_ascending: Vzostupne
     label_author: 'Autor: %{user}'
     label_between: medzi
-    label_board: Nástenka
+    label_board: Board
     label_board_locked: Uzamknuté
-    label_board_plural: Nástenky
+    label_board_plural: Boards
     label_board_sticky: Dôležité (vždy vyššie)
     label_create_work_package: Vytvoriť nový pracovný balíček
     label_created_by: Vytvoril(a)
@@ -295,7 +295,7 @@ sk:
     label_upload_notification: Nahrávanie súborov...
     label_work_package_upload_notification: 'Nahrávanie súborov pre Pracovný balík
       #%{id}: %{subject}'
-    label_wp_id_added_by: "#%{id} pridané %{author}"
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Tieto súbory budú odovzdané:'
     label_rejected_files: 'Tieto súbory nie je možné odovzdať:'
     label_rejected_files_reason: Tieto súbory nie je možné odovzdať, pretože ich veľkosť
@@ -811,7 +811,7 @@ sk:
           balíčkov, ktoré sú tu uvedené, budú odstránené rekurzívne.
         deletes_children: Všetky podradené pracovné balíčky a s nimi súvisiace budú
           rekurzívne odstránené.
-    notice_no_results_to_display: Žiadne viditeľné výsledky na zobrazenie.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Úspešne vytvorené.
     notice_successful_delete: Úspešne zmazané.
     notice_successful_update: Úspešne aktualizované.

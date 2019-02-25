@@ -513,7 +513,7 @@ it:
         too_long: è troppo lungo (il massimo è %{count} caratteri).
         too_short: è troppo breve (il minimo è %{count} caratteri).
         unchangeable: non può essere modificato.
-        unremovable: impossibile rimuovere.
+        unremovable: cannot be removed.
         wrong_length: è della lunghezza sbagliata (dovrebbe essere %{count} caratteri).
       models:
         custom_field:

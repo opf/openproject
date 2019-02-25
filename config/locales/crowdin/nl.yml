@@ -512,7 +512,7 @@ nl:
         too_long: is te lang (maximaal %{count} karakters).
         too_short: is te kort (minimum is %{count} karakters).
         unchangeable: kan niet worden gewijzigd.
-        unremovable: kan niet verwijderd worden.
+        unremovable: cannot be removed.
         wrong_length: is de verkeerde lengte (dient %{count} karakters te zijn).
       models:
         custom_field:

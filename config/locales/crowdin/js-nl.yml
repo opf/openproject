@@ -172,9 +172,9 @@ nl:
     label_ascending: Oplopend
     label_author: 'Auteur: %{user}'
     label_between: tussen
-    label_board: Bord
+    label_board: Board
     label_board_locked: Vergrendeld
-    label_board_plural: Borden
+    label_board_plural: Boards
     label_board_sticky: Sticky
     label_create_work_package: Nieuw werkpakket maken
     label_created_by: Gemaakt door
@@ -298,7 +298,7 @@ nl:
     label_upload_notification: Uploaden van bestanden...
     label_work_package_upload_notification: 'Uploaden van bestanden voor werk pakket
       #%{id}: %{subject}'
-    label_wp_id_added_by: "#%{id} toegevoegd door %{author}"
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Deze bestanden worden geüpload:'
     label_rejected_files: 'Deze bestanden kunnen niet worden geüpload:'
     label_rejected_files_reason: Deze bestanden kunnen niet worden geüpload gezien
@@ -822,7 +822,7 @@ nl:
           de weergegeven werkpakketten verwijderd worden.
         deletes_children: Alle onderliggende werkpakketten en hun nakomelingen ook
           worden verwijderd.
-    notice_no_results_to_display: Geen zichtbare resultaten om weer te geven.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Aanmaak geslaagd.
     notice_successful_delete: Verwijdering geslaagd.
     notice_successful_update: Succesvolle wijziging.

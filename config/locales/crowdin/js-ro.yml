@@ -296,7 +296,7 @@ ro:
     label_upload_notification: Se încarcă fișierele...
     label_work_package_upload_notification: 'Fişierele pentru pachetul de lucru #%{id}:
       %{subject} sunt în curs de încărcare'
-    label_wp_id_added_by: "#%{id} adaugat de %{author}"
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Următoarele fişiere vor fi încărcate:'
     label_rejected_files: 'Următoarele fişiere nu pot fi încărcate:'
     label_rejected_files_reason: Aceste fişiere nu pot fi încărcate deoarece mărimea
@@ -817,7 +817,7 @@ ro:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
-    notice_no_results_to_display: Fara rezultate vizibile de afisat.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Creare reuşită.
     notice_successful_delete: Ştergere reuşită.
     notice_successful_update: Actualizare reușită.
