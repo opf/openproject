@@ -41,6 +41,18 @@ $search-input-height: 30px
   @include varprop(border-bottom-color, header-border-bottom-color)
   border-bottom-style: solid
 
+%top-menu-link-styles
+  display: block
+  height: $header-height
+  line-height: $header-height
+  zoom: 1
+  @include varprop(color, header-item-font-color)
+  @include varprop(font-size, header-item-font-size)
+  text-decoration: none
+  padding: 0 15px
+  &:hover
+    @extend %top-menu-hover-styles
+
 #logo
   width: 230px
   @include varprop(height, header-height)
@@ -80,16 +92,10 @@ $search-input-height: 30px
     z-index: 5
     padding: 0
     > a
-      height: $header-height
-      line-height: $header-height
-      zoom: 1
-      @include varprop(color, header-item-font-color)
-      @include varprop(font-size, header-item-font-size)
-      text-decoration: none
-      padding: 0 15px
+      @extend %top-menu-link-styles
 
-    > a:hover
-      @extend %top-menu-hover-styles
+      &:hover .icon-help:before
+        @include varprop(border-color, header-item-font-hover-color)
 
     > ul
       min-width: 270px
@@ -346,8 +352,6 @@ $search-input-height: 30px
     height: 26px
     display: inline-block
 
-  .icon-help:hover:before
-    @include varprop(border-color, header-item-font-hover-color)
   .icon-user
     font-size: 18px
   [class*="icon-"]:before
@@ -361,20 +365,11 @@ $search-input-height: 30px
   float: left
   text-align: center
   margin-right: $hamburger-right
-  a
-    height: $header-height-mobile
-    line-height: $header-height-mobile
-    zoom: 1
-    @include varprop(color, header-item-font-color)
-    @include varprop(font-size, header-item-font-size)
-    text-decoration: none
-    padding: 0 15px
+  > a
+    @extend %top-menu-link-styles
 
   .nosidebar &
     display: none
-
-  &:hover
-    @extend %top-menu-hover-styles
 
 @media only screen and (max-width: 18.75rem)
   #logo
