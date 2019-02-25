@@ -850,7 +850,7 @@ de:
         messages_on_field: 'Dieses Feld ist ungültig: %{messages}'
     error_could_not_resolve_version_name: Versionsname konnte nicht aufgelöst werden
     error_could_not_resolve_user_name: Benutzername konnte nicht aufgelöst werden
-    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload: 'Konnte Datei nicht hochladen: %{error}'
     error_attachment_upload_permission: Sie haben keine Berechtigung zum Hochladen
       von Dateien auf dieser Resource.
     units:

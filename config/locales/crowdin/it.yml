@@ -2281,7 +2281,7 @@ it:
   setting_mail_handler_body_delimiters: Troncare le email dopo una di queste linee
   setting_mail_handler_body_delimiter_regex: Troncare le email che corrispondono a
     questa espressione regolare
-  setting_mail_handler_ignore_filenames: Ignored mail attachments
+  setting_mail_handler_ignore_filenames: Allegati email ignorati
   setting_new_project_user_role_id: Ruolo assegnato ad un utente non amministratore
     che crea un progetto
   setting_password_active_rules: Insiemi di caratteri attivi
