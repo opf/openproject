@@ -34,9 +34,9 @@ describe 'Work Package group by progress', js: true do
 
     # Expect table to be grouped as WP created above
     expect(page).to have_selector('.group--value .count', count: 3)
-    expect(page).to have_selector('.group--value', text: '0 (1)')
-    expect(page).to have_selector('.group--value', text: '10 (2)')
-    expect(page).to have_selector('.group--value', text: '50 (1)')
+    expect(page).to have_selector('.group--value', text: '0% (1)')
+    expect(page).to have_selector('.group--value', text: '10% (2)')
+    expect(page).to have_selector('.group--value', text: '50% (1)')
 
     # Update category of wp_none
     cat = wp_table.edit_field(wp_1, :percentageDone)
@@ -46,8 +46,8 @@ describe 'Work Package group by progress', js: true do
 
     # Expect changed groups
     expect(page).to have_selector('.group--value .count', count: 2)
-    expect(page).to have_selector('.group--value', text: '10 (2)')
-    expect(page).to have_selector('.group--value', text: '50 (2)')
+    expect(page).to have_selector('.group--value', text: '10% (2)')
+    expect(page).to have_selector('.group--value', text: '50% (2)')
   end
 
   context 'with grouped query' do
