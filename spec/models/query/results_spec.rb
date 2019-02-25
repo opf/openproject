@@ -87,6 +87,18 @@ describe ::Query::Results, type: :model do
         expect { query_results.work_package_count_by_group }.not_to raise_error
       end
     end
+
+    context 'when grouping and filtering by text' do
+      let(:group_by) { 'responsible' }
+
+      before do
+        query.add_filter('search', '**', ['asdf'])
+      end
+
+      it 'should produce a valid SQL statement (Regression #29598)' do
+        expect { query_results.work_package_count_by_group }.not_to raise_error
+      end
+    end
   end
 
   describe '#work_packages' do

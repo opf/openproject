@@ -165,7 +165,7 @@ class ::Query::Results
     WorkPackage
       .group(query.group_by_statement)
       .visible
-      .includes(:status, :project)
+      .includes(all_includes)
       .references(:statuses, :projects)
       .where(query.statement)
       .count
