@@ -53,65 +53,45 @@ import {WorkPackageQueryStateService} from "core-components/wp-fast-table/state/
 import {debugLog} from "core-app/helpers/debug_output";
 import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
 
-export class WorkPackagesSetComponent implements OnInit, OnDestroy {
+export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
-  projectIdentifier = this.$state.params['projectPath'] || null;
+  readonly $state:StateService = this.injector.get(StateService);
+  readonly states:States = this.injector.get(States);
+  readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
+  readonly authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
+  readonly wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
+  readonly wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
+  readonly wpTableHighlighting:WorkPackageTableHighlightingService = this.injector.get(WorkPackageTableHighlightingService);
+  readonly wpTableSortBy:WorkPackageTableSortByService = this.injector.get(WorkPackageTableSortByService);
+  readonly wpTableGroupBy:WorkPackageTableGroupByService = this.injector.get(WorkPackageTableGroupByService);
+  readonly wpTableFilters:WorkPackageTableFiltersService = this.injector.get(WorkPackageTableFiltersService);
+  readonly wpTableSum:WorkPackageTableSumService = this.injector.get(WorkPackageTableSumService);
+  readonly wpTableTimeline:WorkPackageTableTimelineService = this.injector.get(WorkPackageTableTimelineService);
+  readonly wpTableHierarchies:WorkPackageTableHierarchiesService = this.injector.get(WorkPackageTableHierarchiesService);
+  readonly wpTablePagination:WorkPackageTablePaginationService = this.injector.get(WorkPackageTablePaginationService);
+  readonly wpListService:WorkPackagesListService = this.injector.get(WorkPackagesListService);
+  readonly wpListChecksumService:WorkPackagesListChecksumService = this.injector.get(WorkPackagesListChecksumService);
+  readonly loadingIndicatorService:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);
+  readonly $transitions:TransitionService = this.injector.get(TransitionService);
+  readonly I18n:I18nService = this.injector.get(I18nService);
+  readonly wpStaticQueries:WorkPackageStaticQueriesService = this.injector.get(WorkPackageStaticQueriesService);
 
-  tableInformationLoaded = false;
-
-  private removeTransitionSubscription:Function;
-
-  constructor(readonly injector:Injector,
-              readonly states:States,
-              readonly querySpace:IsolatedQuerySpace,
-              readonly authorisationService:AuthorisationService,
-              readonly wpTableRefresh:WorkPackageTableRefreshService,
-              readonly wpTableColumns:WorkPackageTableColumnsService,
-              readonly wpTableHighlighting:WorkPackageTableHighlightingService,
-              readonly wpTableSortBy:WorkPackageTableSortByService,
-              readonly wpTableGroupBy:WorkPackageTableGroupByService,
-              readonly wpTableFilters:WorkPackageTableFiltersService,
-              readonly wpTableSum:WorkPackageTableSumService,
-              readonly wpTableTimeline:WorkPackageTableTimelineService,
-              readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
-              readonly wpTablePagination:WorkPackageTablePaginationService,
-              readonly wpListService:WorkPackagesListService,
-              readonly wpFilters:WorkPackageFiltersService,
-              readonly wpListChecksumService:WorkPackagesListChecksumService,
-              readonly loadingIndicator:LoadingIndicatorService,
-              readonly $transitions:TransitionService,
-              readonly $state:StateService,
-              readonly I18n:I18nService,
-              readonly wpStaticQueries:WorkPackageStaticQueriesService) {
-
+  constructor(protected injector:Injector) {
   }
 
   ngOnInit() {
     // Listen to changes on the query state objects
     this.setupQueryObservers();
 
-    this.initialQueryLoading();
-
     // Listen for refresh changes
     this.setupRefreshObserver();
-
-    this.updateQueryOnParamsChanges();
   }
 
   ngOnDestroy():void {
-    if (this.removeTransitionSubscription) {
-      this.removeTransitionSubscription();
-    }
     this.wpTableRefresh.clear('Table controller scope destroyed.');
   }
 
   private setupQueryObservers() {
-    this.querySpace.tableRendering.onQueryUpdated.values$()
-      .pipe(
-        take(1)
-      )
-      .subscribe(() => this.tableInformationLoaded = true);
-
     this.querySpace.ready.fireOnStateChange(this.wpTablePagination.state,
       'Query loaded').values$().pipe(
       untilComponentDestroyed(this),
@@ -119,7 +99,7 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
     ).subscribe(([pagination, query]) => {
       if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
         this.wpListChecksumService.update(query, pagination);
-        this.updateResultsVisibly();
+        this.refresh(true, false);
       }
     });
 
@@ -133,13 +113,23 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
     this.setupChangeObserver(this.wpTableHighlighting);
   }
 
-  setupChangeObserver(service:WorkPackageQueryStateService, firstPage:boolean = false) {
+  /**
+   * Listen to changes in the given service and reload the query / results if
+   * the service requests that.
+   *
+   * @param service Work package query state service to listento
+   * @param firstPage If the service requests a change, load the first page
+   */
+  protected setupChangeObserver(service:WorkPackageQueryStateService, firstPage:boolean = false) {
     const queryState = this.querySpace.query;
 
-    this.querySpace.ready.fireOnStateChange(service.state, 'Query loaded').values$().pipe(
-      untilComponentDestroyed(this),
-      filter(() => queryState.hasValue() && service.hasChanged(queryState.value!))
-    ).subscribe(() => {
+    this.querySpace.ready
+      .fireOnStateChange(service.state, 'Query loaded')
+      .values$()
+      .pipe(
+        untilComponentDestroyed(this),
+        filter(() => queryState.hasValue() && service.hasChanged(queryState.value!))
+      ).subscribe(() => {
       const newQuery = queryState.value!;
       const triggerUpdate = service.applyToQuery(newQuery);
       this.querySpace.query.putValue(newQuery);
@@ -158,68 +148,30 @@ export class WorkPackagesSetComponent implements OnInit, OnDestroy {
    * Setup the listener for members of the table to request a refresh of the entire table
    * through the refresh service.
    */
-  setupRefreshObserver() {
-    this.wpTableRefresh.state.values$('Refresh listener in wp-list.controller').pipe(
+  protected setupRefreshObserver() {
+    this.wpTableRefresh.state.values$('Refresh listener in wp-set.component').pipe(
       untilComponentDestroyed(this),
       auditTime(20)
     ).subscribe(([refreshVisibly, firstPage]) => {
-      if (refreshVisibly) {
-        debugLog('Refreshing work package results visibly.');
-        this.updateResultsVisibly(firstPage);
-      } else {
-        debugLog('Refreshing work package results in the background.');
-        this.updateResults();
-      }
+      debugLog('Refreshing work package results.');
+      this.refresh(refreshVisibly, firstPage);
     });
   }
 
-  updateResults():Promise<WorkPackageCollectionResource> {
-    return this.wpListService.reloadCurrentResultsList();
-  }
 
-  updateResultsVisibly(firstPage:boolean = false) {
-    if (firstPage) {
-      this.loadingIndicator.table.promise = this.updateToFirstResultsPage();
-    } else {
-      this.loadingIndicator.table.promise = this.updateResults();
-    }
-  }
+  /**
+   * Refresh the set of results,
+   * showing the loading indicator if visibly is set.
+   *
+   * @param visibly Set true when desiring the loading indicator
+   * @param firstPage Reload the page to first page.
+   */
+  public abstract refresh(visibly:boolean, firstPage:boolean):Promise<unknown>;
 
-  updateToFirstResultsPage():Promise<WorkPackageCollectionResource> {
-    return this.wpListService.loadCurrentResultsListFirstPage();
-  }
 
-  private updateQueryOnParamsChanges() {
-    // Listen for param changes
-    this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
-      let options = transition.options();
-
-      // Avoid performing any changes when we're going to reload
-      if (options.reload || (options.custom && options.custom.notify === false)) {
-        return true;
-      }
-
-      const params = transition.params('to');
-      let newChecksum = this.wpListService.getCurrentQueryProps(params);
-      let newId = params.query_id && parseInt(params.query_id);
-
-      this.wpListChecksumService
-        .executeIfOutdated(newId,
-          newChecksum,
-          () => this.loadCurrentQuery());
-    });
-  }
-
-  protected initialQueryLoading() {
-    this.wpTableRefresh.clear('Impending query loading.');
-    this.loadCurrentQuery();
-  }
-
-  protected loadCurrentQuery():Promise<any> {
-    let loadingPromise = this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
-
-    this.loadingIndicator.table.promise = loadingPromise;
-
-    return loadingPromise;
-  }
+  /**
+   * Set the loading indicator for this set instance
+   * @param promise
+   */
+  protected abstract set loadingIndicator(promise:Promise<unknown>);
 }

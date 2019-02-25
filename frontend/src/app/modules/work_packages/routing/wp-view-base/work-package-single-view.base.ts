@@ -45,7 +45,7 @@ import {
   IWorkPackageEditingServiceToken
 } from "core-components/wp-edit-form/work-package-editing.service.interface";
 
-export class WorkPackageViewController implements OnDestroy {
+export class WorkPackageSingleViewBase implements OnDestroy {
 
   public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   public states:States = this.injector.get(States);

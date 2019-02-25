@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Injector, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {withLatestFrom} from 'rxjs/operators';
@@ -14,7 +14,6 @@ import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedde
 import {WorkPackageTableFilters} from "core-components/wp-fast-table/wp-table-filters";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -39,10 +38,6 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   // Cache the form promise
   private formPromise:Promise<QueryFormResource>|undefined;
 
-  constructor(readonly injector:Injector) {
-    super(injector);
-  }
-
   ngAfterViewInit():void {
     super.ngAfterViewInit();
 
@@ -50,16 +45,6 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     if (this.tableActions) {
       this.tableActionsService.setActions(...this.tableActions);
     }
-
-    // Reload results on changes to pagination
-    this.querySpace.ready.fireOnStateChange(this.wpTablePagination.state,
-      'Query loaded').values$().pipe(
-      untilComponentDestroyed(this),
-      withLatestFrom(this.querySpace.query.values$())
-    ).subscribe(([pagination, query]) => {
-      this.loadingIndicator = this.QueryDm.loadResults(query, this.wpTablePagination.paginationObject)
-        .then((results) => this.initializeStates(query, results));
-    });
   }
 
   public openConfigurationModal(onUpdated:() => void) {
@@ -113,7 +98,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       .catch(() => this.formPromise = undefined);
   }
 
-  protected loadQuery(visible:boolean = true):Promise<QueryResource> {
+  protected loadQuery(visible:boolean = true, firstPage:boolean = false):Promise<QueryResource> {
     if (this.loadedQuery) {
       const query = this.loadedQuery;
       this.loadedQuery = undefined;
@@ -129,6 +114,11 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     } else if (this.configuration.forcePerPageOption) {
       // Limit the number of visible work packages
       this.queryProps.pageSize = this.configuration.forcePerPageOption;
+    }
+
+    // Set first page
+    if (firstPage) {
+      this.queryProps.page = 1;
     }
 
     this.error = null;

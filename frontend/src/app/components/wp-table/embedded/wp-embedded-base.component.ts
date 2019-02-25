@@ -11,8 +11,9 @@ import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service'
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
 
-export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterViewInit, OnDestroy {
+export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewBase implements AfterViewInit {
   @Input('configuration') protected providedConfiguration:WorkPackageTableConfigurationObject;
   @Input() public uniqueEmbeddedTableName:string = `embedded-table-${Date.now()}`;
   @Input() public initialLoadingIndicator:boolean = true;
@@ -32,10 +33,9 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
   readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
   readonly currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
 
-  protected constructor(protected injector:Injector) {
-  }
-
   ngOnInit() {
+    super.ngOnInit();
+
     this.configuration = new WorkPackageTableConfiguration(this.providedConfiguration);
     // Set embedded status in configuration
     this.configuration.isEmbedded = true;
@@ -45,16 +45,10 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
   ngAfterViewInit():void {
     // Load initially
     this.refresh(this.initialLoadingIndicator);
-
-    // Reload results on refresh requests
-    this.querySpace.refreshRequired
-      .values$()
-      .pipe(untilComponentDestroyed(this))
-      .subscribe(() => this.refresh(false));
   }
 
   ngOnDestroy():void {
-    // noting to do
+    super.ngOnInit();
   }
 
   ngOnChanges(changes:SimpleChanges) {
@@ -86,8 +80,8 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
     this.renderTable = this.configuration.tableVisible;
   }
 
-  public refresh(visible:boolean = true):Promise<any> {
-    return this.loadQuery(visible);
+  public refresh(visible:boolean = true, firstPage:boolean = false):Promise<any> {
+    return this.loadQuery(visible, firstPage);
   }
 
   public get isInitialized() {
@@ -102,7 +96,7 @@ export abstract class WorkPackageEmbeddedBaseComponent implements OnInit, AfterV
     }
   }
 
-  protected abstract loadQuery(visible:boolean):Promise<any>;
+  protected abstract loadQuery(visible:boolean, firstPage:boolean):Promise<any>;
 
   protected get queryProjectScope() {
     if (!this.configuration.projectContext) {
