@@ -77,6 +77,12 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
+
+    this.filters.current.forEach((filter:QueryFilterInstanceResource) => {
+      if (!this.isFilterAvailable(filter.id)) {
+        this.filters.remove(filter);
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -150,4 +156,7 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
     return this.filters.current[index];
   }
 
+  public isFilterAvailable(id:string):boolean {
+    return (this.filters.availableFilters.some(filter => filter.id === id));
+  }
 }
