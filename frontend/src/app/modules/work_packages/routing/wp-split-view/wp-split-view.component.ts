@@ -31,17 +31,17 @@ import {StateService} from '@uirouter/core';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
-import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
 import {States} from "core-components/states.service";
 import {FirstRouteService} from "core-app/modules/router/first-route-service";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
+import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";
 
 @Component({
   templateUrl: './wp-split-view.html',
   selector: 'wp-split-view-entry',
 })
-export class WorkPackageSplitViewComponent extends WorkPackageViewController {
+export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase {
 
   constructor(public injector:Injector,
               public states:States,
