@@ -27,8 +27,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h1><%= link_to @source_project.name, project_url(@source_project) %></h1>
-
-<p><%= t('copy_project.text.failed', source_project_name: @source_project.name, target_project_name: @target_project_name) %></p>
-
-<%= @errors.join("<br/>".html_safe) %>
+<%= Setting.localized_emails_header %>
+<%= call_hook(:view_layouts_mailer_plain_before_content, self.assigns) %>
+<%= yield %>
+<%= call_hook(:view_layouts_mailer_plain_after_content, self.assigns) %>
+--
+<%= Setting.localized_emails_footer %>
