@@ -41,7 +41,7 @@ module Pages::Messages
     end
 
     def expect_content(content)
-      expect(page).to have_selector('.message .wiki', text: content)
+      expect(page).to have_selector('.forum-message .wiki', text: content)
     end
 
     def expect_no_replies
@@ -64,7 +64,7 @@ module Pages::Messages
 
     def quote(quoted_message: nil, subject: nil, content:)
       if quoted_message
-        within "#message-#{quoted_message.id} .message-reply-menu" do
+        within "#message-#{quoted_message.id} .contextual" do
           click_on 'Quote'
         end
       else
@@ -88,7 +88,7 @@ module Pages::Messages
     end
 
     def expect_reply(subject:, content:, reply: nil)
-      selector = '.message.reply'
+      selector = '.comment'
       selector += "#message-#{reply.id}" if reply
 
       within(selector) do
