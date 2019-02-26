@@ -112,7 +112,9 @@ module API
       end
 
       def value
-        if represented == true || represented == false
+        if query.group_by_column.name == :done_ratio
+          "#{represented}%"
+        elsif represented == true || represented == false
           represented
         else
           represented ? represented.to_s : nil
