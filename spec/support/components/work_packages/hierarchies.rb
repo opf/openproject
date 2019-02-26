@@ -44,6 +44,10 @@ module Components
         page.find('.wp-table--table-header .icon-no-hierarchy').click
       end
 
+      def disable_via_header
+        page.find('.wp-table--table-header .icon-hierarchy').click
+      end
+
       def disable_hierarchy
         ::Components::WorkPackages::TableConfigurationModal.do_and_save do |modal|
           modal.open_and_set_display_mode :default
