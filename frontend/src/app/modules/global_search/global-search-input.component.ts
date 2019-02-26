@@ -64,6 +64,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   public currentValue:string = '';
   public expanded:boolean = false;
+  public noResults:boolean = true;
   public results:any[];
   public suggestions:any[];
 
@@ -190,6 +191,13 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     this.openCloseMenu(this.currentValue);
   }
 
+  // If Enter key is pressed before result list is loaded submit search in current scope
+  public onEnterBeforeResultsLoaded() {
+    if (this.noResults) {
+      this.searchInScope(this.currentScope);
+    }
+  }
+
   // get work packages result list and append it to suggestions
   private getSearchResult(term:string) {
     this.autocompleteWorkPackages(term).then((values) => {
@@ -214,6 +222,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     this.dynamicCssService.requireHighlighting();
 
     this.$element.find('.ui-autocomplete--loading').show();
+    this.noResults = true;
 
     let idOnly:boolean = false;
 
@@ -306,7 +315,13 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 
   private hideSpinner():void {
-    this.$element.find('.ui-autocomplete--loading').hide();
+    this.$element.find('.ui-autocomplete--loading').hide()
+    this.noResults = false;
+  }
+
+  private get currentScope():string {
+    let serviceScope = this.globalSearchService.projectScope;
+    return (serviceScope === '') ? 'current_project_and_all_descendants' : serviceScope;
   }
 
   private unregister() {
