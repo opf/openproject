@@ -102,8 +102,8 @@ ja:
     memberships:
       no_results_title_text: 現在、このグループのプロジェクトはありません。
   incoming_mails:
-    ignore_filenames: 'Specify a list of names to ignore when processing attachments
-      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+    ignore_filenames: '受信メールの添付ファイルを処理するとき、無視する名前の一覧を指定します (例えば、署名またはアイコン)。1 行につき
+      1 つのファイル名を入力してください。
 
 '
   projects:
@@ -2049,7 +2049,7 @@ ja:
   setting_mail_handler_api_key: APIキー
   setting_mail_handler_body_delimiters: メール本文から一致する行以降を切り捨てる
   setting_mail_handler_body_delimiter_regex: この正規表現に一致するメールを切り捨てる
-  setting_mail_handler_ignore_filenames: Ignored mail attachments
+  setting_mail_handler_ignore_filenames: 無視するメールの添付ファイル
   setting_new_project_user_role_id: システム管理者以外のプロジェクト作成者に設定するロール
   setting_password_active_rules: 有効な文字種類
   setting_password_count_former_banned: 再利用を禁止される最近使用済みパスワードの数
