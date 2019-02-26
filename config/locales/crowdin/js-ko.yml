@@ -142,6 +142,30 @@ ko:
     general_text_yes: 예
     general_text_No: 아니요
     general_text_Yes: 예
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: News
+          at: at
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Work packages assigned to me
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendar
     label_activate: 활성화
     label_activity_no: 활동 항목 번호 %{activityNo}
     label_activity_with_comment_no: 활동 항목 번호 %{activityNo}. 사용자 의견 포함.

@@ -155,6 +155,30 @@ de:
     general_text_yes: ja
     general_text_No: Nein
     general_text_Yes: Ja
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: News
+          at: at
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Work packages assigned to me
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendar
     label_activate: Aktivieren
     label_activity_no: 'Aktivitäts-Nummer: %{activityNo}'
     label_activity_with_comment_no: 'Aktivitäts-Nummer: %{activityNo}. Hat einen Benutzerkommentar.'

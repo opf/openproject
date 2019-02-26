@@ -333,6 +333,11 @@ ko:
         subscriber: 구독자
         encoded_token: 엔터프라이즈 지원 토큰
         active_user_count_restriction: 최대 활성 사용자
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: 지연
         from: 작업 패키지
@@ -494,6 +499,10 @@ ko:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: 읽을 수 없습니다. 지원하는 토큰이 확실한가요?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:

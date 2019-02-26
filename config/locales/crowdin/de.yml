@@ -378,6 +378,11 @@ de:
         subscriber: Abonnent
         encoded_token: Enterprise-Edition Support Token
         active_user_count_restriction: Maximale aktive Nutzer
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Pufferzeit
         from: Arbeitspaket
@@ -549,6 +554,10 @@ de:
         enterprise_token:
           unreadable: kann nicht gelesen werden. Ist dies ein Enterprise-Edition Support
             Token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:

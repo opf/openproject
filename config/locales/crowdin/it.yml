@@ -372,6 +372,11 @@ it:
         subscriber: Iscritto
         encoded_token: Token di assistenza Enterprise
         active_user_count_restriction: Numero massimo di utenti attivi
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Ritardo
         from: Macro-attività
@@ -540,6 +545,10 @@ it:
         enterprise_token:
           unreadable: non può essere letto. Sei sicuro che si tratta di un token di
             assistenza?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:

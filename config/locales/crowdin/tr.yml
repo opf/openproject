@@ -362,6 +362,11 @@ tr:
         subscriber: Abone
         encoded_token: Kurumsal Destek anahtarı
         active_user_count_restriction: En çok aktif kullanıcı
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Gecikme
         from: İş paketi
@@ -530,6 +535,10 @@ tr:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: okunamıyor. Desteklenen bir destek anahtarı olduğuna emin misiniz?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:

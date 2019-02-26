@@ -382,6 +382,11 @@ es:
         subscriber: Suscriptor
         encoded_token: Token de apoyo de versión corporativa
         active_user_count_restriction: Máximo de usuarios activos
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Retraso
         from: Paquete de trabajo
@@ -550,6 +555,10 @@ es:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: no se puede leer. ¿Seguro que es un token de apoyo?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:

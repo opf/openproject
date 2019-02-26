@@ -321,6 +321,11 @@ zh:
         subscriber: 订阅者
         encoded_token: 企业版支持令牌
         active_user_count_restriction: 最大活动用户数
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: 延迟
         from: 工作包
@@ -481,6 +486,10 @@ zh:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: 无法读取。是否确定为支持令牌？
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:

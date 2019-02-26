@@ -319,6 +319,11 @@ zh-TW:
         subscriber: 訂閱者
         encoded_token: Enterprise support token
         active_user_count_restriction: 最大活動使用者數
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: 延時
         from: 工作項目
@@ -479,6 +484,10 @@ zh-TW:
               not_match_configured: 與可用的範圍不吻合。
         enterprise_token:
           unreadable: 無法讀取，確定是一個 support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:

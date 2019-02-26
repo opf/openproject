@@ -366,6 +366,11 @@ sv-SE:
         subscriber: Prenumerant
         encoded_token: Enterprise support-nyckel
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Fördröjning
         from: Arbetspaket
@@ -533,6 +538,10 @@ sv-SE:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: kan inte läsas. Är du säker på att det är en support-nyckel?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:

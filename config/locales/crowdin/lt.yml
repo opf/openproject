@@ -367,6 +367,11 @@ lt:
         subscriber: Prenumeruotojas
         encoded_token: "„Enterprise“ paramos raktas"
         active_user_count_restriction: Maksimalus aktyvių vartotojų skaičius
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Vėlavimas
         from: Darbų paketas
@@ -533,6 +538,10 @@ lt:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: neįmanoma perskaityti. Ar tai tikrai yra paramos raktas?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:

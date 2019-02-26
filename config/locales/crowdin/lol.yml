@@ -316,6 +316,11 @@ lol:
         subscriber: crwdns115080:0crwdne115080:0
         encoded_token: crwdns115082:0crwdne115082:0
         active_user_count_restriction: crwdns115084:0crwdne115084:0
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: crwdns115086:0crwdne115086:0
         from: crwdns115088:0crwdne115088:0
@@ -476,6 +481,10 @@ lol:
               not_match_configured: crwdns115346:0crwdne115346:0
         enterprise_token:
           unreadable: crwdns115348:0crwdne115348:0
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:

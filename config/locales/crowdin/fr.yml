@@ -374,6 +374,11 @@ fr:
         subscriber: Abonné
         encoded_token: Licence Entreprise
         active_user_count_restriction: Nombre maximal d’utilisateurs actif
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Délai
         from: Lot de travaux
@@ -542,6 +547,10 @@ fr:
         enterprise_token:
           unreadable: ne peut être lu. Êtes-vous sûr qu'il s'agisse d'une licence
             Entreprise ?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:

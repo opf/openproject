@@ -365,6 +365,11 @@ pl:
         subscriber: Subskrybent
         encoded_token: Token wsparcia Enterprise
         active_user_count_restriction: Maksymalna liczba aktywnych użytkowników
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Opóźnienie
         from: Pakiet roboczy
@@ -533,6 +538,10 @@ pl:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: nie można odczytać. Czy na pewno jest to token wsparcia?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
