@@ -310,6 +310,10 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     }
   }
 
+  public blur() {
+    (<HTMLInputElement> document.activeElement).blur();
+  }
+
   private redirectToWp(id:string) {
     window.location = this.PathHelperService.workPackagePath(id) as unknown as Location;
   }
