@@ -301,7 +301,7 @@ de:
     label_upload_notification: Dateien werden hochgeladen...
     label_work_package_upload_notification: 'Hochladen von Dateien für Arbeitspaket
       #%{id}: %{subject}'
-    label_wp_id_added_by: "#%{id} erstellt von %{author}"
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Diese Dateien werden hochgeladen:'
     label_rejected_files: 'Diese Dateien können nicht hochgeladen werden:'
     label_rejected_files_reason: Diese Dateien können nicht hochgeladen werden, da
@@ -823,7 +823,7 @@ de:
           der hier aufgeführten Arbeitspakete rekursiv entfernt werden.
         deletes_children: Alle untergeordneten Arbeitspaketen und deren Nachkommen
           werden auch rekursiv gelöscht.
-    notice_no_results_to_display: Keine sichtbaren Ergebnisse.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Erfolgreich angelegt.
     notice_successful_delete: Erfolgreich gelöscht.
     notice_successful_update: Erfolgreich aktualisiert.
@@ -850,7 +850,7 @@ de:
         messages_on_field: 'Dieses Feld ist ungültig: %{messages}'
     error_could_not_resolve_version_name: Versionsname konnte nicht aufgelöst werden
     error_could_not_resolve_user_name: Benutzername konnte nicht aufgelöst werden
-    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload: 'Konnte Datei nicht hochladen: %{error}'
     error_attachment_upload_permission: Sie haben keine Berechtigung zum Hochladen
       von Dateien auf dieser Resource.
     units:

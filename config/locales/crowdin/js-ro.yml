@@ -38,7 +38,7 @@ ro:
     button_duplicate: Duplicare
     button_edit: Editare
     button_filter: Filtrare
-    button_advanced_filter: Advanced filter
+    button_advanced_filter: Filtru avansat
     button_list_view: Vizualizare listă
     button_show_view: Vizualizare pe tot ecranul
     button_log_time: Consum timp
@@ -153,13 +153,13 @@ ro:
     label_activity_no: Acțiunea cu numărul %{activityNo}
     label_activity_with_comment_no: Acțiunea cu numărul %{activityNo}. Are un comentariu
       de utilizator.
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
+    label_add_column_after: Adauga o coloana dupa
+    label_add_column_before: Adauga o coloana inainte
     label_add_columns: Adaugați coloane
     label_add_comment: Adăugare comentariu
     label_add_comment_title: Comentați şi tastaţi @ pentru a notifica alte persoane
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
+    label_add_row_after: Adauga un rand dupa
+    label_add_row_before: Adauga un rand inainte
     label_add_selected_columns: Adăugați coloanele selectate
     label_added_by: adăugat de
     label_added_time_by: Adăugat de %{author} %{age}
@@ -238,9 +238,9 @@ ro:
     label_visibility_settings: Setări de vizibilitate
     label_quote_comment: Citare comentariu
     label_reset: Resetare
-    label_remove_column: Remove column
+    label_remove_column: Elimina colana
     label_remove_columns: Eliminare coloane selectate
-    label_remove_row: Remove row
+    label_remove_row: Elimina rand
     label_save_as: Salvare ca
     label_select_watcher: Selectaţi un observator...
     label_selected_filter_list: Filtre selectate
@@ -613,7 +613,7 @@ ro:
       label_enable_multi_select: Activare selecție multiplă
       label_disable_multi_select: Dezactivare selecție multiplă
       label_filter_add: Adăugare filtru
-      label_filter_by_text: Filter by text
+      label_filter_by_text: Filtreaza dupa text
       label_options: Opțiuni
       label_column_multiselect: 'Câmp desfășurat combinat: selectaţi cu săgețile,
         confirmați alegerea cu enter, ştergeţi cu backspace'
@@ -626,7 +626,7 @@ ro:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Nici o valoare
-      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholder_filter_by_text: Subiect, descriere, comentarii, ...
       inline_create:
         title: Click aici pentru a adăuga un nou pachet de lucru în listă
       create:
@@ -844,7 +844,7 @@ ro:
         messages_on_field: 'Acest câmp este invalid: %{messages}'
     error_could_not_resolve_version_name: Nu a putut fi detectat numele versiunii
     error_could_not_resolve_user_name: Nu a putut fi detectat numele utilizatorului
-    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload: 'Fisierul nu a putut fi incarcat: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -865,12 +865,12 @@ ro:
       button_activate: Activați modul zen
       button_deactivate: Dezactivați modul zen
     global_search:
-      all_projects: In all projects
+      all_projects: In toate proiectele
       search: Căutare
-      close_search: Close search
-      current_project: In this project
-      current_project_and_all_descendants: In this project + subprojects
+      close_search: Inchide cautarea
+      current_project: In acest proiect
+      current_project_and_all_descendants: In acest proiect + subproiecte
       title:
-        all_projects: all projects
-        project_and_subprojects: and all subprojects
-        search_for: Search for
+        all_projects: toate proiectele
+        project_and_subprojects: si toate subproiectele
+        search_for: Cauta dupa

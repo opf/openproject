@@ -509,7 +509,7 @@ ru:
         too_long: слишком длинно (максимум — %{count} знаков).
         too_short: слишком коротко (минимум — %{count} знаков).
         unchangeable: изменить нельзя.
-        unremovable: удалить нельзя.
+        unremovable: cannot be removed.
         wrong_length: неправильная длина (должно быть %{count} знаков).
       models:
         custom_field:

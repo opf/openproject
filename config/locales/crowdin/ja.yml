@@ -455,7 +455,7 @@ ja:
         too_long: は%{count}文字以内を入力してください。
         too_short: は%{count}文字以上を入力してください。
         unchangeable: 変更できません。
-        unremovable: 削除できません。
+        unremovable: cannot be removed.
         wrong_length: は%{count}文字を入力してください。
       models:
         custom_field:

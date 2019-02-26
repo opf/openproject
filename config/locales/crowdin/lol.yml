@@ -452,7 +452,7 @@ lol:
         too_long: crwdns115312:0%{count}crwdne115312:0
         too_short: crwdns115314:0%{count}crwdne115314:0
         unchangeable: crwdns115316:0crwdne115316:0
-        unremovable: crwdns121548:0crwdne121548:0
+        unremovable: cannot be removed.
         wrong_length: crwdns115318:0%{count}crwdne115318:0
       models:
         custom_field:
