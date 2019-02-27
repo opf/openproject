@@ -19,6 +19,10 @@ module ::Boards
       render layout: 'angular'
     end
 
+    current_menu_item :index do
+      :board_view
+    end
+
     private
 
     def pass_gon

@@ -50,6 +50,10 @@ class BoardsController < ApplicationController
     end
   end
 
+  current_menu_item [:index, :show] do
+    :boards
+  end
+
   def show
     sort_init 'updated_on', 'desc'
     sort_update 'created_on' => "#{Message.table_name}.created_on",
