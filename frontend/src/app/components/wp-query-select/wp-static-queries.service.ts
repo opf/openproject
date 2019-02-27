@@ -105,7 +105,7 @@ export class WorkPackageStaticQueriesService {
         {
           identifier: 'assigned_to_me',
           label: this.text.assigned_to_me,
-          query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,parent:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assignee","o":"=","v":["me"]}]}'
+          query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,parent:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}'
         }
       ]);
     }
