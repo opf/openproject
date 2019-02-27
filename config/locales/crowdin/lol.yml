@@ -317,10 +317,10 @@ lol:
         encoded_token: crwdns115082:0crwdne115082:0
         active_user_count_restriction: crwdns115084:0crwdne115084:0
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
+        page: crwdns121592:0crwdne121592:0
+        row_count: crwdns121594:0crwdne121594:0
+        column_count: crwdns121596:0crwdne121596:0
+        widgets: crwdns121598:0crwdne121598:0
       relation:
         delay: crwdns115086:0crwdne115086:0
         from: crwdns115088:0crwdne115088:0
@@ -482,9 +482,9 @@ lol:
         enterprise_token:
           unreadable: crwdns115348:0crwdne115348:0
         grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          overlaps: crwdns121600:0crwdne121600:0
+          outside: crwdns121602:0crwdne121602:0
+          end_before_start: crwdns121604:0crwdne121604:0
         parse_schema_filter_params_service:
           attributes:
             base:

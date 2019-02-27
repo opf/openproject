@@ -140,28 +140,28 @@ lol:
     general_text_Yes: crwdns119192:0crwdne119192:0
     grid:
       add_modal:
-        choose_widget: Choose widget
+        choose_widget: crwdns121606:0crwdne121606:0
       widgets:
         documents:
-          title: Documents
-          no_results: No documents yet.
+          title: crwdns121608:0crwdne121608:0
+          no_results: crwdns121610:0crwdne121610:0
         news:
-          title: News
-          at: at
-          no_results: Nothing new to report.
+          title: crwdns121612:0crwdne121612:0
+          at: crwdns121614:0crwdne121614:0
+          no_results: crwdns121616:0crwdne121616:0
         time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
+          title: crwdns121618:0crwdne121618:0
+          no_results: crwdns121620:0crwdne121620:0
         work_packages_accountable:
-          title: Work packages I am accountable for
+          title: crwdns121622:0crwdne121622:0
         work_packages_assigned:
-          title: Work packages assigned to me
+          title: crwdns121624:0crwdne121624:0
         work_packages_created:
-          title: Work packages created by me
+          title: crwdns121626:0crwdne121626:0
         work_packages_watched:
-          title: Work packages watched by me
+          title: crwdns121628:0crwdne121628:0
         work_packages_calendar:
-          title: Calendar
+          title: crwdns121630:0crwdne121630:0
     label_activate: crwdns119194:0crwdne119194:0
     label_activity_no: crwdns119196:0%{activityNo}crwdne119196:0
     label_activity_with_comment_no: crwdns119198:0%{activityNo}crwdne119198:0

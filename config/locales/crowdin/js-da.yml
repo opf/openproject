@@ -155,7 +155,7 @@ da:
           title: Documents
           no_results: No documents yet.
         news:
-          title: News
+          title: Nyheder
           at: at
           no_results: Nothing new to report.
         time_entries_current_user:
@@ -164,13 +164,13 @@ da:
         work_packages_accountable:
           title: Work packages I am accountable for
         work_packages_assigned:
-          title: Work packages assigned to me
+          title: Mine tilknyttede arbejdspakker
         work_packages_created:
           title: Work packages created by me
         work_packages_watched:
           title: Work packages watched by me
         work_packages_calendar:
-          title: Calendar
+          title: Kalender
     label_activate: Aktiver
     label_activity_no: Aktivitetsindlægsnummer %{activityNo}
     label_activity_with_comment_no: Aktivitetsindlægsnummer %{activityNo}. Har en

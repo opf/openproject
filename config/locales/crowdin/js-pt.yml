@@ -157,22 +157,22 @@ pt:
           title: Documents
           no_results: No documents yet.
         news:
-          title: News
+          title: Noticias
           at: at
-          no_results: Nothing new to report.
+          no_results: Nada de novo no relatório.
         time_entries_current_user:
           title: Spent time (last 7 days)
           no_results: No time entries for the last 7 days.
         work_packages_accountable:
-          title: Work packages I am accountable for
+          title: Pacotes de trabalho pelos quais sou responsável
         work_packages_assigned:
-          title: Work packages assigned to me
+          title: Tarefas atribuídas a mim
         work_packages_created:
           title: Work packages created by me
         work_packages_watched:
           title: Work packages watched by me
         work_packages_calendar:
-          title: Calendar
+          title: Calendário
     label_activate: Ativar
     label_activity_no: Número de entrada da atividade %{activityNo}
     label_activity_with_comment_no: Número de entrada da atividade %{activityNo}.

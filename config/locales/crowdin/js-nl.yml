@@ -158,22 +158,22 @@ nl:
           title: Documents
           no_results: No documents yet.
         news:
-          title: News
+          title: Nieuws
           at: at
-          no_results: Nothing new to report.
+          no_results: Niets nieuws om te rapporteren.
         time_entries_current_user:
           title: Spent time (last 7 days)
           no_results: No time entries for the last 7 days.
         work_packages_accountable:
-          title: Work packages I am accountable for
+          title: Werkpakketten waar ik verantwoordelijk voor ben
         work_packages_assigned:
-          title: Work packages assigned to me
+          title: Werkpakketten toegewezen aan mij
         work_packages_created:
           title: Work packages created by me
         work_packages_watched:
           title: Work packages watched by me
         work_packages_calendar:
-          title: Calendar
+          title: Agenda
     label_activate: Activeren
     label_activity_no: Activiteit ingangsnummer %{activityNo}
     label_activity_with_comment_no: Activiteit ingangsnummer %{activityNo}. Bevat

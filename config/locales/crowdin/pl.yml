@@ -461,13 +461,13 @@ pl:
         type: Typ
         watcher: Obserwator
       doorkeeper/application:
-        uid: Client ID
-        secret: Client secret
-        owner: Owner
-        redirect_uri: Redirect URI
+        uid: Numer klienta
+        secret: Hasło klienta
+        owner: Właściciel
+        redirect_uri: Przekieruj URI
         client_credentials_user_id: Client Credentials User ID
-        scopes: Scopes
-        confidential: Confidential
+        scopes: Zakresy
+        confidential: Poufne
     errors:
       messages:
         accepted: musi być zaakceptowane.
@@ -530,7 +530,7 @@ pl:
           attributes:
             redirect_uri:
               fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
+              invalid_uri: musi być prawidłowym adres URI.
               relative_uri: must be an absolute URI.
               secured_uri: must be an HTTPS/SSL URI.
               forbidden_uri: is forbidden by the server.
@@ -679,7 +679,7 @@ pl:
       wiki_page: Strony wiki
       workflow: Przepływ pracy
       work_package: Pakiet roboczy
-      doorkeeper/application: OAuth application
+      doorkeeper/application: Aplikacje OAuth
   errors:
     header_invalid_fields: 'Wystąpił problem z następującymi polami:'
     field_erroneous_label: 'To pole jest nieprawidłowe: %{full_errors} proszę podać
@@ -754,7 +754,7 @@ pl:
   button_change_password: Zmiana hasła
   button_check_all: Zaznacz wszystko
   button_clear: Wyczyść
-  button_click_to_reveal: Click to reveal
+  button_click_to_reveal: Kliknij aby pokazać
   button_close: Zamknij
   button_collapse_all: Zwiń wszystko
   button_configure: Konfigurowanie
@@ -1368,7 +1368,7 @@ pl:
   label_environment: Środowisko
   label_estimates_and_time: Szacowany czas
   label_equals: jest
-  label_everywhere: everywhere
+  label_everywhere: wszędzie
   label_example: Przykład
   label_export_to: 'Dostępne również w:'
   label_expanded_click_to_collapse: Rozwinięto. Kliknij, aby zwinąć
@@ -1683,7 +1683,7 @@ pl:
   label_view_diff: Widok różnic
   label_view_revisions: Widok rewizji
   label_watched_work_packages: Obserwowane pakiety robocze
-  label_what_is_this: What is this?
+  label_what_is_this: Co to jest?
   label_week: Tydzień
   label_wiki_content_added: Dodano stronę wiki
   label_wiki_content_updated: Zaktualizowano stronę wiki
@@ -2303,7 +2303,7 @@ pl:
   setting_per_page_options: Obiektów na stronie
   setting_plain_text_mail: Poczta czystym tekstem (bez HTML)
   setting_protocol: Protokół
-  setting_security_badge_displayed: Display security badge
+  setting_security_badge_displayed: Wyświetl plakietkę bezpieczeństwa
   setting_registration_footer: Rejestracja stopki
   setting_repositories_automatic_managed_vendor: Typ automatycznego producenta repozytorium
   setting_repositories_encodings: Kodowanie repozytorium
@@ -2872,7 +2872,7 @@ pl:
       schema: Schemat
   doorkeeper:
     pre_authorization:
-      status: Pre-authorization
+      status: Pre-Autoryzacja
     errors:
       messages:
         invalid_request: The request is missing a required parameter, includes an
@@ -2906,8 +2906,8 @@ pl:
           authorization server.
         invalid_token:
           revoked: The access token was revoked
-          expired: The access token expired
-          unknown: The access token is invalid
+          expired: Ten token wygasł
+          unknown: Ten token jest nieprawidłowy
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
@@ -2915,7 +2915,7 @@ pl:
     close_warning: Zignoruj to ostrzeżenie.
   oauth:
     application:
-      singular: OAuth application
+      singular: Aplikacje OAuth
       plural: OAuth applications
       named: OAuth application '%{name}'
       new: New OAuth application
@@ -2936,7 +2936,7 @@ pl:
         register_intro: If you are developing an OAuth API client application for
           OpenProject, you can register it using this form for all users to use.
         default_scopes: ''
-    client_id: Client ID
+    client_id: Numer klienta
     client_secret_notice: 'This is the only time we can print the client secret, please
       note it down and keep it secure. It should be treated as a password and cannot
       be retrieved by OpenProject at a later time.

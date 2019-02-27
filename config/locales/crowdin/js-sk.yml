@@ -157,22 +157,22 @@ sk:
           title: Documents
           no_results: No documents yet.
         news:
-          title: News
+          title: Novinky
           at: at
-          no_results: Nothing new to report.
+          no_results: Nič nové pre nahlásenie.
         time_entries_current_user:
           title: Spent time (last 7 days)
           no_results: No time entries for the last 7 days.
         work_packages_accountable:
-          title: Work packages I am accountable for
+          title: Pracovné balíčky, za ktoré som zodpovedný(a)
         work_packages_assigned:
-          title: Work packages assigned to me
+          title: Mne priradené pracovné balíčky
         work_packages_created:
           title: Work packages created by me
         work_packages_watched:
           title: Work packages watched by me
         work_packages_calendar:
-          title: Calendar
+          title: Kalendár
     label_activate: Aktivovať
     label_activity_no: Záznam aktivity číslo %{activityNo}
     label_activity_with_comment_no: Záznam aktivity číslo %{activityNo} (obsahuje
