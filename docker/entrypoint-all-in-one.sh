@@ -16,8 +16,8 @@ fi
 
 dbhost=$(ruby -ruri -e 'puts URI(ENV.fetch("DATABASE_URL")).host')
 pwfile=$(mktemp)
-chown postgres $pwfile
 echo "$PGPASSWORD" > $pwfile
+chown postgres $pwfile
 
 PLUGIN_GEMFILE_TMP=$(mktemp)
 PLUGIN_GEMFILE=/usr/src/app/Gemfile.local
@@ -84,7 +84,7 @@ if [ "$dbhost" = "127.0.0.1" ]; then
 		echo "-----> Database cluster not found. Creating a new one in $PGDATA..."
 		chown -R postgres:postgres $PGDATA
 		su postgres -c "$PGBIN/initdb --pgdata=${PGDATA} --username=${PGUSER} --encoding=unicode --auth=trust --pwfile=$pwfile" | indent
-		rm -f $pwfile
+		su postgres -c "rm -f $pwfile"
 		/etc/init.d/postgresql start | indent
 		su postgres -c "$PGBIN/psql --command \"CREATE USER openproject WITH SUPERUSER PASSWORD 'openproject';\"" | indent
 		su postgres -c "$PGBIN/createdb -O openproject openproject" | indent
