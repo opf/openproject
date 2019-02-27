@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -25,36 +27,34 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require_relative './base_service'
 
-require 'spec_helper'
+module Sessions
+  class InitializeSessionService < BaseService
+    class << self
+      ##
+      # Initializes a new session for the given user.
+      # This services provides very little for what it is called,
+      # mainly caused due to the many ways a user can login.
+      def call(user, session)
+        session[:user_id] = user.id
+        session[:updated_at] = Time.now
 
-describe 'my routes', type: :routing do
-  it '/my/account GET routes to my#account' do
-    expect(get('/my/account')).to route_to('my#account')
+        if drop_old_sessions?
+          ::UserSession.where(user_id: user.id).delete_all
+        end
+
+        ServiceResult.new(success: true, result: session)
+      end
+
+      private
+
+      ##
+      # We can only drop old sessions if they're stored in the database
+      # and enabled by configuration.
+      def drop_old_sessions?
+        active_record_sessions? && OpenProject::Configuration.drop_old_sessions_on_login?
+      end
+    end
   end
-
-  it '/my/account PATCH routes to my#update_account' do
-    expect(patch('/my/account')).to route_to('my#update_account')
-  end
-
-  it '/my/settings GET routes to my#settings' do
-    expect(get('/my/settings')).to route_to('my#settings')
-  end
-
-  it '/my/settings PATCH routes to my#update_account' do
-    expect(patch('/my/settings')).to route_to('my#update_settings')
-  end
-
-  it '/my/generate_rss_key POST routes to my#generate_rss_key' do
-    expect(post('/my/generate_rss_key')).to route_to('my#generate_rss_key')
-  end
-
-  it '/my/generate_api_key POST routes to my#generate_api_key' do
-    expect(post('/my/generate_api_key')).to route_to('my#generate_api_key')
-  end
-
-  it {
-    expect(get('/my/deletion_info')).to route_to(controller: 'users',
-                                                 action: 'deletion_info')
-  }
 end

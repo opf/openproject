@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -25,36 +27,24 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require_relative './base_service'
 
-require 'spec_helper'
+module Sessions
+  class DropOtherSessionsService < BaseService
+    class << self
+      ##
+      # Drop all other sessions for the current user.
+      # This can only be done when active record sessions are used.
+      def call(user, session)
+        return false unless active_record_sessions?
 
-describe 'my routes', type: :routing do
-  it '/my/account GET routes to my#account' do
-    expect(get('/my/account')).to route_to('my#account')
+        ::UserSession
+          .where(user_id: user.id)
+          .where.not(session_id: session.id)
+          .delete_all
+
+        true
+      end
+    end
   end
-
-  it '/my/account PATCH routes to my#update_account' do
-    expect(patch('/my/account')).to route_to('my#update_account')
-  end
-
-  it '/my/settings GET routes to my#settings' do
-    expect(get('/my/settings')).to route_to('my#settings')
-  end
-
-  it '/my/settings PATCH routes to my#update_account' do
-    expect(patch('/my/settings')).to route_to('my#update_settings')
-  end
-
-  it '/my/generate_rss_key POST routes to my#generate_rss_key' do
-    expect(post('/my/generate_rss_key')).to route_to('my#generate_rss_key')
-  end
-
-  it '/my/generate_api_key POST routes to my#generate_api_key' do
-    expect(post('/my/generate_api_key')).to route_to('my#generate_api_key')
-  end
-
-  it {
-    expect(get('/my/deletion_info')).to route_to(controller: 'users',
-                                                 action: 'deletion_info')
-  }
 end

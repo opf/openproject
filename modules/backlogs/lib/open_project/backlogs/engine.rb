@@ -124,7 +124,6 @@ module OpenProject::Backlogs
              :WorkPackage,
              :Status,
              :Type,
-             :MyController,
              :Project,
              :ProjectsController,
              :ProjectsHelper,
@@ -240,6 +239,7 @@ module OpenProject::Backlogs
 
     initializer 'backlogs.register_hooks' do
       require 'open_project/backlogs/hooks'
+      require 'open_project/backlogs/hooks/user_settings_hook'
     end
 
     config.to_prepare do
