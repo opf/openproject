@@ -312,6 +312,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 
   public blur() {
+    this.ngSelectComponent.filterValue = '';
     (<HTMLInputElement> document.activeElement).blur();
   }
 
