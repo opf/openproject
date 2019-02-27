@@ -236,10 +236,10 @@ class Member < ActiveRecord::Base
   end
 
   def save_notification
-    ::OpenProject::Notifications.send(:member_updated, member: self)
+    ::OpenProject::Notifications.send('member_updated', member: self)
   end
 
   def destroy_notification
-    ::OpenProject::Notifications.send(:member_removed, member: self)
+    ::OpenProject::Notifications.send('member_removed', member: self)
   end
 end
