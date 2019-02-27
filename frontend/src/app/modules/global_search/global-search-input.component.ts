@@ -79,7 +79,8 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     all_projects: this.I18n.t('js.global_search.all_projects'),
     current_project: this.I18n.t('js.global_search.current_project'),
     current_project_and_all_descendants: this.I18n.t('js.global_search.current_project_and_all_descendants'),
-    search: this.I18n.t('js.global_search.search') + ' ...',
+    search: this.I18n.t('js.global_search.search'),
+    search_dots: this.I18n.t('js.global_search.search') + ' ...',
     close_search: this.I18n.t('js.global_search.close_search')
   };
 
@@ -311,6 +312,11 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
       }
       this.globalSearchService.submitSearch();
     }
+  }
+
+  public blur() {
+    this.ngSelectComponent.filterValue = '';
+    (<HTMLInputElement> document.activeElement).blur();
   }
 
   private redirectToWp(id:string) {
