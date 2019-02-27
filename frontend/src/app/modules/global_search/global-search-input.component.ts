@@ -98,8 +98,11 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
+
+    // check searchterm on init, expand / collapse search bar and set correct classes
     this.ngSelectComponent.filterValue = this.currentValue = this.globalSearchService.searchTerm;
     this.expanded = (this.ngSelectComponent.filterValue.length > 0);
+    jQuery('#top-menu').toggleClass('-global-search-expanded', this.expanded);
 
     this.searchTermChanged$
       .pipe(
@@ -141,8 +144,8 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   // open or close mobile search
   public toggleMobileSearch() {
-    jQuery('#top-menu').toggleClass('-global-search-expanded');
     this.expanded = !this.expanded;
+    jQuery('#top-menu').toggleClass('-global-search-expanded', this.expanded);
   }
 
   // load selected item
