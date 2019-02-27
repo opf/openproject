@@ -14,8 +14,9 @@
 
   li
     display: table-cell
+    box-sizing: content-box
     position: relative
-    line-height: 37px
+    line-height: 38px
     margin: 0
     padding: 0
     text-align: center
@@ -65,12 +66,14 @@
 .scrollable-tabs
   position: relative
   overflow: hidden
+  box-sizing: content-box
   height: 40px
   border-bottom: 1px solid #DDDDDD
   .tabrow
     display: block
     overflow-x: auto
     white-space: nowrap
+    // Padding for hiding the scroll bar
     padding-bottom: 17px
     height: 57px
     li
@@ -84,7 +87,7 @@
   width: 20px
   position: absolute
   top: 0px
-  line-height: 39px
+  line-height: 38px
   background: white
   color: $light-gray
   font-size: 0.7rem
