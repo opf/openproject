@@ -327,6 +327,13 @@ fieldset.form--fieldset
     input.form--text-field:invalid
       // avoids the box-shadow from Firefox at required input fields
       box-shadow: none
+
+    .form--label:after
+      @include default-transition
+      @include varprop(color, primary-color-dark)
+      content:  '*'
+      padding: 0 0.325rem
+
   &.-reduced-margin
     margin-bottom: 0.5rem
 
@@ -374,11 +381,6 @@ fieldset.form--fieldset
   &.-top
     align-self: flex-start
     line-height: 2.15rem
-
-.form--label-required
-  @include default-transition
-  @include varprop(color, primary-color-dark)
-  padding: 0 0.325rem
 
   .form--label.-error &
     color: $content-form-error-color

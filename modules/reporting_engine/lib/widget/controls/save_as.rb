@@ -36,15 +36,10 @@ class Widget::Controls::SaveAs < Widget::Controls
 
   def render_popup_form
     name = content_tag :p,
-                       class: 'form--field -wide-label' do
+                       class: 'form--field -required -wide-label' do
       label_tag(:query_name,
-                class: 'form--label -transparent -required') do
-        (Query.human_attribute_name(:name) +
-          content_tag(:span,
-                      '*',
-                      class: 'form--label-required',
-                      'aria-hidden': true)).html_safe
-      end +
+                Query.human_attribute_name(:name),
+                class: 'form--label -transparent')
       content_tag(:span,
                   class: 'form--field-container') do
         content_tag(:span,
