@@ -8,7 +8,7 @@
     <img class="avatar" title="OpenProject Admin" src="https://s3.amazonaws.com/uifaces/faces/twitter/jamesslock/128.jpg" alt="Avatar">
     <a href="/news/5-important-news">More news</a>
   </h3>
-  <p class="author">Added by <a title="User OpenProject Admin" href="">OpenProject Admin</a>
+  <p class="author additional-information">Added by <a title="User OpenProject Admin" href="">OpenProject Admin</a>
     <a title="10/31/2018 09:15 AM" href="/projects/demo-project/activity?from=2018-10-31">3 months</a> ago
   </p>
   <div class="wiki">
@@ -57,10 +57,10 @@
   <a title="10/31/2018 09:15 AM" href="">3 months</a> ago
 </p>
 
-<div class="news--comments">
+<div class="comments">
   <h3 class="icon-context icon-quote">Comments</h3>
 
-  <div class="news--comment">
+  <div class="comment">
     <div class="contextual">
       <a data-confirm="Are you sure?" class="no-decoration-on-hover" title="Delete" alt="Delete" href="">
         <i class="icon-context icon-delete"></i>
@@ -77,7 +77,7 @@
     </p>
   </div>
 
-  <div class="news--comment">
+  <div class="comment">
     <div class="contextual">
       <a data-confirm="Are you sure?" class="no-decoration-on-hover" title="Delete" alt="Delete" href="">
         <i class="icon-context icon-delete"></i>
