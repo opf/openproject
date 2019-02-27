@@ -96,14 +96,17 @@ See docs/COPYRIGHT.rdoc for more details.
   <% if authorize_for 'news/comments', 'create' %>
     <p><%= toggle_link l(:label_comment_add), "add_comment_form", focus: "comment_comments" %></p>
     <%= form_for([@news, Comment.new], html: { id: "add_comment_form", style: "display:none;" }) do %>
-      <div class="box">
+      <div>
         <%= label_tag 'comment_comments', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
         <%= text_area 'comment',
                       'comments',
                       class: 'wiki-edit' %>
         <%= wikitoolbar_for 'comment_comments', preview_context: preview_context(@news) %>
       </div>
-      <p><%= submit_tag l(:button_add), class: 'button -highlight' %></p>
+      <p>
+        <%= submit_tag l(:button_add), class: 'button -highlight' %>
+        <%= toggle_link t(:button_cancel), "add_comment_form", {}, { class: 'button' } %>
+      </p>
     <% end %>
   <% end %>
   <% html_title h(@news.title) -%>

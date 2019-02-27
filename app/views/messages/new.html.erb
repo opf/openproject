@@ -39,6 +39,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <hr class="form--separator" />
 
   <%= f.button t(:button_create), class: 'button -highlight -with-icon icon-checkmark' %>
+  <%= link_to t(:button_cancel), project_board_path(@project, @board), class: 'button -with-icon icon-cancel' %>
 <% end %>
 
 <div id="preview"></div>

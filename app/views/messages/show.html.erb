@@ -136,11 +136,11 @@ See docs/COPYRIGHT.rdoc for more details.
         <hr class="form--separator" />
 
         <%= f.button t(:button_submit), class: 'button -highlight -highlight -with-icon icon-checkmark' %>
+        <%= toggle_link t(:button_cancel), "reply", {}, { class: 'button' } %>
       <% end %>
       <div id="preview"></div>
     </div>
   <% end %>
-
 </div>
 
 <% html_title h(@topic.subject) %>
