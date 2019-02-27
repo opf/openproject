@@ -49,7 +49,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <h2><%= t(:label_register) %></h2>
       <section class="form--section">
         <% if @user.auth_source_id.nil? %>
-          <div class="form--field -wide-label">
+          <div class="form--field -required -wide-label">
             <% if Setting.email_login? %>
               <%= email_field(f) %>
             <% else %>
@@ -57,16 +57,16 @@ See docs/COPYRIGHT.rdoc for more details.
             <% end %>
           </div>
         <% end %>
-        <div class="form--field -wide-label">
+        <div class="form--field -required -wide-label">
           <%= f.text_field :firstname, required: true %>
         </div>
 
-        <div class="form--field -wide-label">
+        <div class="form--field -required -wide-label">
           <%= f.text_field :lastname,  required: true %>
         </div>
 
         <% if registration_show_email? %>
-          <div class="form--field -wide-label">
+          <div class="form--field -required -wide-label">
             <%= email_field(f) %>
           </div>
         <% end %>
@@ -82,7 +82,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
         <br/><br/>
         <% if @user.change_password_allowed? %>
-          <div class="form--field -wide-label -reduced-margin">
+          <div class="form--field -required -wide-label -reduced-margin">
             <%= f.password_field :password,
                                  required: true,
                                  size: 25,
@@ -91,7 +91,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <%= password_complexity_requirements %>
             </div>
           </div>
-          <div class="form--field -wide-label">
+          <div class="form--field -required -wide-label">
             <%= f.password_field :password_confirmation,
                                  required: true,
                                  size: 25,

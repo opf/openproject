@@ -30,13 +30,13 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= error_messages_for_contract @application, @errors %>
 
 <section class="form--section">
-  <div class="form--field">
+  <div class="form--field -required">
     <%= f.text_field :name, required: true, size: 25, container_class: '-middle' %>
     <span class="form--field-instructions">
       <%= t('oauth.application.instructions.name') %>
     </span>
   </div>
-  <div class="form--field">
+  <div class="form--field -required">
     <%= f.text_area :redirect_uri, required: true, container_class: '-middle' %>
     <span class="form--field-instructions">
       <%= t('oauth.application.instructions.redirect_uri_html') %>
