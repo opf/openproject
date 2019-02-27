@@ -69,10 +69,8 @@ class SearchController < ApplicationController
 
     # extract tokens from the question
     # eg. hello "bye bye" => ["hello", "bye bye"]
-    @tokens = scan_query_tokens @question
-    # tokens must be at least 2 characters long
-    @tokens = @tokens.uniq.select { |w| w.length > 1 }
-
+    @tokens = scan_query_tokens(@question).uniq
+    
     if @tokens.any?
       # no more than 5 tokens to search for
       @tokens.slice! 5..-1 if @tokens.size > 5
