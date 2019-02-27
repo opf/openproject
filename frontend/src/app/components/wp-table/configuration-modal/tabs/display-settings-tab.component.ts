@@ -1,10 +1,11 @@
-import {Component, Inject, Injector} from '@angular/core';
+
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
 import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
 import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
 import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
+import {Component, Injector} from "@angular/core";
 
 @Component({
   templateUrl: './display-settings-tab.component.html'
@@ -15,7 +16,7 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
   public displayMode:'hierarchy'|'grouped'|'default' = 'default';
 
   // Grouping
-  public currentGroup:QueryGroupByResource|undefined;
+  public currentGroup:QueryGroupByResource|null;
   public availableGroups:QueryGroupByResource[] = [];
 
   // Sums row display
@@ -50,8 +51,8 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
     this.wpTableHierarchies.setEnabled(this.displayMode === 'hierarchy');
 
     // Update grouping state
-    let group = this.displayMode === 'grouped' ? this.currentGroup : undefined;
-    this.wpTableGroupBy.set(group);
+    let group = this.displayMode === 'grouped' ? this.currentGroup : null;
+    this.wpTableGroupBy.update(group);
 
     // Update sums state
     this.wpTableSums.setEnabled(this.displaySums);
@@ -59,7 +60,7 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
 
   public updateGroup(href:string) {
     this.displayMode = 'grouped';
-    this.currentGroup = _.find(this.availableGroups, group => group.href === href);
+    this.currentGroup = _.find(this.availableGroups, group => group.href === href) || null;
   }
 
   ngOnInit() {
@@ -69,7 +70,7 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
       this.displayMode = 'grouped';
     }
 
-    this.displaySums = this.wpTableSums.currentSum || false;
+    this.displaySums = this.wpTableSums.current;
 
     this.wpTableGroupBy
       .onReady()

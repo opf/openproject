@@ -1,13 +1,17 @@
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {InputState} from 'reactivestates';
-import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
+import {WorkPackageQueryStateService} from './wp-table-base.service';
 import {WorkPackageTableHierarchies} from '../wp-table-hierarchies';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
+import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
+import {WorkPackageTableGroupByService} from "core-components/wp-fast-table/state/wp-table-group-by.service";
 
 @Injectable()
-export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseService<WorkPackageTableHierarchies> implements WorkPackageQueryStateService {
-  public constructor(querySpace:IsolatedQuerySpace) {
+export class WorkPackageTableHierarchiesService extends WorkPackageQueryStateService<WorkPackageTableHierarchies> {
+  public constructor(protected readonly querySpace:IsolatedQuerySpace,
+                     protected wpTableGroupBy:WorkPackageTableGroupByService,
+                     protected wpTableSortBy:WorkPackageTableSortByService) {
     super(querySpace);
   }
 
@@ -15,7 +19,7 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
     return this.querySpace.hierarchies;
   }
 
-  public valueFromQuery(query:QueryResource):WorkPackageTableHierarchies|undefined {
+  public valueFromQuery(query:QueryResource):WorkPackageTableHierarchies {
     return new WorkPackageTableHierarchies(query.showHierarchies);
   }
 
@@ -34,27 +38,21 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
    * Return whether the current hierarchy mode is active
    */
   public get isEnabled():boolean {
-    return this.currentState.isEnabled;
+    return !!(this.current && this.current.isVisible);
   }
 
   public setEnabled(active:boolean = true) {
-    const state = this.currentState;
-    state.current = active;
-    state.last = null;
+    const state = { collapsed: {}, ...this.current, isVisible: active, last: null };
 
     if (active) {
       // hierarchies and group by are mutually exclusive
-      var groupBy = this.querySpace.groupBy.value!;
-      groupBy.current = undefined;
-      this.querySpace.groupBy.putValue(groupBy);
+      this.wpTableGroupBy.update(null);
 
       // hierarchies and sort by are mutually exclusive
-      var sortBy = this.querySpace.sortBy.value!;
-      sortBy.current = [];
-      this.querySpace.sortBy.putValue(sortBy);
+      this.wpTableSortBy.update([]);
     }
 
-    this.state.putValue(state);
+    this.update(state);
   }
 
   /**

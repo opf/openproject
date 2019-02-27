@@ -33,8 +33,8 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  Renderer2,
-  ViewChild
+  Query,
+  Renderer2
 } from '@angular/core';
 import {FocusHelperService} from 'app/modules/common/focus/focus-helper';
 import {I18nService} from 'app/modules/common/i18n/i18n.service';
@@ -42,14 +42,14 @@ import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
 import {HalResourceService} from "app/modules/hal/services/hal-resource.service";
 import {GlobalSearchService} from "app/modules/global_search/global-search.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {WorkPackageTableFilters} from "app/components/wp-fast-table/wp-table-filters";
 import {QueryResource} from "app/modules/hal/resources/query-resource";
 import {WorkPackageFiltersService} from "app/components/filters/wp-filters/wp-filters.service";
 import {UrlParamsHelperService} from "app/components/wp-query/url-params-helper";
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
-import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
 import {cloneHalResource} from "core-app/modules/hal/helpers/hal-resource-builder";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
+import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
 
 export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 
@@ -65,7 +65,6 @@ export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 })
 
 export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, AfterViewInit {
-  public filters:WorkPackageTableFilters;
   public queryProps:{ [key:string]:any };
   public resultsHidden = false;
 
@@ -85,6 +84,7 @@ export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, Aft
               readonly I18n:I18nService,
               readonly halResourceService:HalResourceService,
               readonly globalSearchService:GlobalSearchService,
+              readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly querySpace:IsolatedQuerySpace,
               readonly wpFilters:WorkPackageFiltersService,
               readonly cdRef:ChangeDetectorRef,
@@ -125,10 +125,10 @@ export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, Aft
     // Nothing to do
   }
 
-  public onFiltersChanged(filters:WorkPackageTableFilters) {
-    if (filters.isComplete()) {
+  public onFiltersChanged(filters:QueryFilterInstanceResource[]) {
+    if (this.wpTableFilters.isComplete(filters)) {
       const query = cloneHalResource(this.querySpace.query.value!) as QueryResource;
-      query.filters = filters.current;
+      query.filters = filters;
       this.queryProps = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query);
     }
   }

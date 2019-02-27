@@ -1,16 +1,16 @@
-import {Component, Inject, Injector} from '@angular/core';
+import {Component, Injector} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
-import {WorkPackageTableFilters} from 'core-components/wp-fast-table/wp-table-filters';
+import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 
 @Component({
   templateUrl: './filters-tab.component.html'
 })
 export class WpTableConfigurationFiltersTab implements TabComponent {
 
-  public filters:WorkPackageTableFilters|undefined;
+  public filters:QueryFilterInstanceResource[] = [];
   public eeShowBanners:boolean = false;
 
   public text = {
@@ -32,7 +32,7 @@ export class WpTableConfigurationFiltersTab implements TabComponent {
     this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
     this.wpTableFilters
       .onReady()
-      .then(() => this.filters = this.wpTableFilters.currentState.$copy());
+      .then(() => this.filters = this.wpTableFilters.current);
   }
 
   public onSave() {

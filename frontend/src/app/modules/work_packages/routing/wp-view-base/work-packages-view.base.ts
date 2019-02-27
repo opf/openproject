@@ -120,11 +120,11 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
    * @param service Work package query state service to listento
    * @param firstPage If the service requests a change, load the first page
    */
-  protected setupChangeObserver(service:WorkPackageQueryStateService, firstPage:boolean = false) {
+  protected setupChangeObserver(service:WorkPackageQueryStateService<unknown>, firstPage:boolean = false) {
     const queryState = this.querySpace.query;
 
     this.querySpace.ready
-      .fireOnStateChange(service.state, 'Query loaded')
+      .fireOnStateChange(service.readonlyState, 'Query loaded')
       .values$()
       .pipe(
         untilComponentDestroyed(this),

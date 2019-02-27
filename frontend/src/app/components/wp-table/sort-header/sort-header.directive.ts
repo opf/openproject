@@ -102,7 +102,7 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
         takeUntil(componentDestroyed(this))
       )
       .subscribe(() => {
-        let latestSortElement = this.wpTableSortBy.currentSortBys[0];
+        let latestSortElement = this.wpTableSortBy.current[0];
 
         if (!latestSortElement || this.headerColumn.$href !== latestSortElement.column.$href) {
           this.currentSortDirection = null;
@@ -140,10 +140,8 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
       this.isHierarchyDisabled = this.wpTableGroupBy.isEnabled;
 
       // Disable hierarchy mode when group by is active
-      this.wpTableGroupBy.state.values$()
-        .pipe(
-          takeUntil(componentDestroyed(this))
-        )
+      this.wpTableGroupBy
+        .observeUntil(componentDestroyed(this))
         .subscribe(() => {
           this.isHierarchyDisabled = this.wpTableGroupBy.isEnabled;
         });

@@ -1,5 +1,5 @@
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
+import {WorkPackageQueryStateService} from './wp-table-base.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {States} from 'core-components/states.service';
@@ -9,7 +9,7 @@ import {BannersService} from "core-app/modules/common/enterprise/banners.service
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Injectable()
-export class WorkPackageTableHighlightingService extends WorkPackageTableBaseService<WorkPackageTableHighlight> implements WorkPackageQueryStateService {
+export class WorkPackageTableHighlightingService extends WorkPackageQueryStateService<WorkPackageTableHighlight>{
   public constructor(readonly states:States,
                      readonly Banners:BannersService,
                      readonly dynamicCssService:DynamicCssService,
@@ -42,7 +42,7 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
   }
 
   public get current():WorkPackageTableHighlight {
-    let value = this.state.getValueOr(new WorkPackageTableHighlight('inline'));
+    let value = this.state.getValueOr({ mode: 'inline' } as WorkPackageTableHighlight);
     return this.filteredValue(value);
   }
 
@@ -55,6 +55,10 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
   }
 
   public update(value:WorkPackageTableHighlight) {
+    if (_.isEmpty(value.selectedAttributes)) {
+      value.selectedAttributes = undefined;
+    }
+
     super.update(this.filteredValue(value));
 
     // Load dynamic highlighting CSS if enabled
@@ -64,7 +68,8 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
   }
 
   public valueFromQuery(query:QueryResource):WorkPackageTableHighlight {
-    return this.filteredValue(new WorkPackageTableHighlight(query.highlightingMode, query.highlightedAttributes));
+    const highlight = { mode: query.highlightingMode || 'inline', highlightedAttributes: query.highlightedAttributes };
+    return this.filteredValue(highlight);
   }
 
   public hasChanged(query:QueryResource) {

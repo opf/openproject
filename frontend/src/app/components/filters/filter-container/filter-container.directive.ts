@@ -28,10 +28,10 @@
 
 import {Component, Input, OnDestroy, Output} from '@angular/core';
 import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
-import {WorkPackageTableFilters} from 'core-components/wp-fast-table/wp-table-filters';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
+import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 
 @Component({
   templateUrl: './filter-container.directive.html',
@@ -40,17 +40,17 @@ import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emi
 export class WorkPackageFilterContainerComponent implements OnDestroy {
   @Input('showFilterButton') showFilterButton:boolean = false;
   @Input('filterButtonText') filterButtonText:string = I18n.t('js.button_filter');
-  @Output() public filtersChanged = new DebouncedEventEmitter<WorkPackageTableFilters>(componentDestroyed(this));
+  @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
 
   public visible = false;
-  public filters = this.wpTableFilters.currentState;
+  public filters = this.wpTableFilters.current;
 
   constructor(readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly wpFiltersService:WorkPackageFiltersService) {
     this.wpTableFilters
       .observeUntil(componentDestroyed(this))
       .subscribe(() => {
-        this.filters = this.wpTableFilters.currentState;
+        this.filters = this.wpTableFilters.current;
     });
 
     this.wpFiltersService
@@ -64,7 +64,7 @@ export class WorkPackageFilterContainerComponent implements OnDestroy {
     // Nothing to do, added for interface compatibility
   }
 
-  public replaceIfComplete(filters:WorkPackageTableFilters) {
+  public replaceIfComplete(filters:QueryFilterInstanceResource[]) {
     this.wpTableFilters.replaceIfComplete(filters);
     this.filtersChanged.emit(this.filters);
   }

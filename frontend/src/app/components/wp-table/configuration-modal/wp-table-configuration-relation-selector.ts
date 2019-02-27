@@ -64,13 +64,13 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
     this.wpTableFilters
       .onReady()
       .then(() => {
-        self.availableRelationFilters = self.relationFiltersOf(self.wpTableFilters.currentState.availableFilters) as QueryFilterResource[];
+        self.availableRelationFilters = self.relationFiltersOf(self.wpTableFilters.availableFilters) as QueryFilterResource[];
         self.setSelectedRelationFilter();
       });
   }
 
   private setSelectedRelationFilter():void {
-    let currentRelationFilters:QueryFilterInstanceResource[] = this.relationFiltersOf(this.wpTableFilters.currentState.current) as QueryFilterInstanceResource[];
+    let currentRelationFilters:QueryFilterInstanceResource[] = this.relationFiltersOf(this.wpTableFilters.current) as QueryFilterInstanceResource[];
     if (currentRelationFilters.length > 0) {
       this.selectedRelationFilter = _.find(this.availableRelationFilters, { id: currentRelationFilters[0].id }) as QueryFilterResource;
     } else {
@@ -87,8 +87,8 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
   }
 
   private removeRelationFiltersFromCurrentState() {
-    let filtersToRemove:QueryFilterInstanceResource[] = this.relationFiltersOf(this.wpTableFilters.currentState.current) as QueryFilterInstanceResource[];
-    _.each(filtersToRemove, (filter) => this.wpTableFilters.currentState.remove(filter));
+    let filtersToRemove = this.relationFiltersOf(this.wpTableFilters.current) as QueryFilterInstanceResource[];
+    this.wpTableFilters.remove(...filtersToRemove);
   }
 
   private relationFiltersOf(filters:QueryFilterResource[]|QueryFilterInstanceResource[]):QueryFilterResource[]|QueryFilterInstanceResource[] {
@@ -96,10 +96,12 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
   }
 
   private addFilterToCurrentState(filter:QueryFilterResource):void {
-    let addedFilter = this.wpTableFilters.currentState.add(filter);
-    let operator:QueryOperatorResource = this.getOperatorForId(addedFilter, '=');
-    addedFilter.operator = operator;
-    addedFilter.values = [{href: '/api/v3/work_packages/{id}'}] as HalResource[];
+    let newFilter = this.wpTableFilters.instantiate(filter);
+    let operator:QueryOperatorResource = this.getOperatorForId(newFilter, '=');
+    newFilter.operator = operator;
+    newFilter.values = [{href: '/api/v3/work_packages/{id}'}] as HalResource[];
+
+    this.wpTableFilters.add(newFilter);
   }
 
   private getOperatorForId(filter:QueryFilterResource, id:string):QueryOperatorResource {

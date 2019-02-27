@@ -104,7 +104,7 @@ export class WorkPackageStatesInitializationService {
 
     this.wpTablePagination.initialize(query, results);
 
-    this.wpTableRelationColumns.initialize();
+    this.wpTableRelationColumns.initialize(query, results);
 
     this.wpTableAdditionalElements.initialize(results.elements);
   }

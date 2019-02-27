@@ -16,6 +16,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
+import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -59,10 +60,11 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     let calendarView = this.calendarElement.fullCalendar('getView')!;
     let startDate = (calendarView.start as Moment).format('YYYY-MM-DD');
     let endDate = (calendarView.end as Moment).format('YYYY-MM-DD');
+    let filtersEmpty = this.wpTableFilters.isEmpty;
 
-    if (!this.wpTableFilters.currentState && this.querySpace.query.value) {
+    if (filtersEmpty && this.querySpace.query.value) {
       // nothing to do
-    } else if (!this.wpTableFilters.currentState) {
+    } else if (filtersEmpty) {
       let queryProps = this.defaultQueryProps(startDate, endDate);
 
       if (this.$state.params.query_props) {
@@ -72,14 +74,11 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       this.wpListService.fromQueryParams({ query_props: queryProps }, this.projectIdentifier).toPromise();
     } else {
       let params = this.$state.params;
-      let filtersState = this.wpTableFilters.currentState;
 
-      let datesIntervalFilter = _.find(filtersState.current, {'id': 'datesInterval'}) as any;
-
-      datesIntervalFilter.values[0] = startDate;
-      datesIntervalFilter.values[1] = endDate;
-
-      this.wpTableFilters.replace(filtersState);
+      this.wpTableFilters.modify('datesInterval', (datesIntervalFilter) => {
+        datesIntervalFilter.values[0] = startDate;
+        datesIntervalFilter.values[1] = endDate;
+      });
     }
   }
 
