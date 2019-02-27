@@ -471,6 +471,11 @@ sk:
         client_credentials_user_id: ID poverenia klienta
         scopes: Scopes
         confidential: Dôverné
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: musí byť akceptovaný.
@@ -653,6 +658,10 @@ sk:
         member:
           principal_blank: Vyberte aspoň jedného používateľa alebo skupinu.
           role_blank: Vyberte aspoň jednu rolu.
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 'Skontrolujte nasledujúce polia:'
         header:

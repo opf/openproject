@@ -470,6 +470,11 @@ hi:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: must be accepted.
@@ -643,6 +648,10 @@ hi:
         member:
           principal_blank: कृपया कम से कम एक समूह या उपयोगकर्ता चुनें।
           role_blank: कृपया कम से कम एक भूमिका टेबल चुनें
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 'कृपया निंनलिखित क्षेत्रों की जांच करें:'
         header:

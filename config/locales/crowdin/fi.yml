@@ -465,6 +465,11 @@ fi:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: täytyy olla hyväksytty.
@@ -634,6 +639,10 @@ fi:
         member:
           principal_blank: Valitse vähintään yksi käyttäjä tai ryhmä.
           role_blank: Valitse vähintään yksi rooli.
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 'Tarkista seuraavat kentät:'
         header:

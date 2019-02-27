@@ -415,6 +415,11 @@ ja:
         client_credentials_user_id: クライアント資格情報ユーザーID
         scopes: 範囲
         confidential: 機密
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: は受諾しなければなりません。
@@ -569,6 +574,10 @@ ja:
         member:
           principal_blank: 一つ以上のユーザまたはグループを選択してください。
           role_blank: 1つ以上のロールを選択してください。
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 次のフィールドをチェックしてください：
         header:

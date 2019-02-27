@@ -474,6 +474,11 @@ ro:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: trebuie acceptat.
@@ -645,6 +650,10 @@ ro:
         member:
           principal_blank: Trebuie să alegeţi cel puţin un utilizator sau grup.
           role_blank: Trebuie să alegeţi cel puţin un rol.
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 'Verificaţi următoarele câmpuri:'
         header:

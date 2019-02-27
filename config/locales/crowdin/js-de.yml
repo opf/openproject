@@ -877,3 +877,27 @@ de:
         all_projects: alle Projekte
         project_and_subprojects: und alle Unterprojekte
         search_for: Suche nach
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Neuigkeiten
+          at: at
+          no_results: Nichts Neues zu berichten.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Von mir verantwortete Arbeitspakete
+        work_packages_assigned:
+          title: Mir zugewiesene Arbeitspakete
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalender

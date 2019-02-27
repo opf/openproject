@@ -465,6 +465,11 @@ lt:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: turi būti patvirtinta.
@@ -638,6 +643,10 @@ lt:
         member:
           principal_blank: Prašome pasirinkti bent vieną vartotoją ar grupę.
           role_blank: Prašome pasirinkti bent vieną rolę.
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 'Prašome patikrinti šiuos laukelius:'
         header:

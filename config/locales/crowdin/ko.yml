@@ -429,6 +429,11 @@ ko:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: 허용 되어야 합니다.
@@ -590,6 +595,10 @@ ko:
         member:
           principal_blank: 하나 이상의 사용자 또는 그룹을 선택 하십시오.
           role_blank: 하나 이상의 역할을 선택 하십시오.
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 다음 필드를 확인 하십시오.
         header:

@@ -859,3 +859,27 @@ vi:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Tin tức
+          at: at
+          no_results: Không có gì mới để báo cáo.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Gói công việc mà tôi có trách nhiệm
+        work_packages_assigned:
+          title: Work package được chỉ định cho tôi
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Lịch

@@ -118,8 +118,9 @@ ru:
     memberships:
       no_results_title_text: На данный момент проектов этой группы нет.
   incoming_mails:
-    ignore_filenames: 'Specify a list of names to ignore when processing attachments
-      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+    ignore_filenames: 'Укажите список имен для игнорирования при обработке вложений
+      для входящих почтовых сообщений (например, подписей или значков). Введите одно
+      имя файла в строке.
 
 '
   projects:
@@ -465,6 +466,11 @@ ru:
         client_credentials_user_id: ID пользователя клиента
         scopes: Области
         confidential: Конфиденциально
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: нужно подтвердить.
@@ -645,6 +651,10 @@ ru:
           principal_blank: Пожалуйста, выберите по крайней мере одного пользователя
             или группу.
           role_blank: Пожалуйста, выберите по крайней мере одну роль.
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 'Пожалуйста, проверьте следующие поля:'
         header:
@@ -2283,7 +2293,7 @@ ru:
   setting_mail_handler_body_delimiters: Усечение сообщений после одной из этих линий
   setting_mail_handler_body_delimiter_regex: Сообщение усекается по этому регулярному
     выражению
-  setting_mail_handler_ignore_filenames: Ignored mail attachments
+  setting_mail_handler_ignore_filenames: Игнорируемые вложения почты
   setting_new_project_user_role_id: Роль, назначаемая пользователю-создателю проекта
   setting_password_active_rules: Активные классы символов
   setting_password_count_former_banned: Количество паролей, запрещенных для повторного

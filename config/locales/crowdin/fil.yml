@@ -484,6 +484,11 @@ fil:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: kailangang tanggapin.
@@ -662,6 +667,10 @@ fil:
         member:
           principal_blank: Mangayring pumili na kahit isang gumagamit o grupo.
           role_blank: Mangyaring pumili ng kahit isang tungkulin.
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 'Mangyaring suriin ang mga sumusunod na mga patlang:'
         header:

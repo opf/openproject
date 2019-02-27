@@ -876,3 +876,27 @@ nl:
         all_projects: alle projecten
         project_and_subprojects: en alle subprojecten
         search_for: Zoeken naar
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Nieuws
+          at: at
+          no_results: Niets nieuws om te rapporteren.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Werkpakketten waar ik verantwoordelijk voor ben
+        work_packages_assigned:
+          title: Werkpakketten toegewezen aan mij
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Agenda
