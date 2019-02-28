@@ -28,13 +28,12 @@
 
 import {performAnchorHijacking} from "./global-listeners/link-hijacking";
 import {augmentedDatePicker} from "./global-listeners/augmented-date-picker";
+import {refreshOnFormChanges} from 'core-app/globals/global-listeners/refresh-on-form-changes';
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
  */
 (function($:JQueryStatic) {
-
-
   $(function() {
     $(document.documentElement!)
       .on('click', (evt:JQueryEventObject) => {
@@ -56,5 +55,8 @@ import {augmentedDatePicker} from "./global-listeners/augmented-date-picker";
         evt.preventDefault();
         return false;
       });
+
+    refreshOnFormChanges();
   });
+
 }(jQuery));

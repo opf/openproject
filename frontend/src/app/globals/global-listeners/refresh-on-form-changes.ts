@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,23 +24,20 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
+export function refreshOnFormChanges() {
+  document
+    .querySelectorAll('.augment--refresh-on-form-changes')
+    .forEach((element:HTMLFormElement) => {
+      const form = jQuery(element);
+      const url = form.data('refreshUrl');
+      const inputId = form.data('inputSelector');
 
-import {openprojectLegacyModule} from "../../openproject-legacy-app";
-
-function opIcon() {
-  return {
-    restrict: 'EA',
-    scope: { iconClasses: '@', title: '@iconTitle' },
-    link: (_scope:ng.IScope, element:ng.IAugmentedJQuery) => {
-        element.addClass('op-icon--wrapper');
-    },
-    template: `
-    <i class="{{iconClasses}}" aria-hidden="true"></i>
-    <span class="hidden-for-sighted" ng-bind="title" ng-if="title"></span>
-    `
-  };
+      form
+        .find(inputId)
+        .on('click', () => {
+          window.location.href = url + '?' + form.serialize();
+        });
+    });
 }
-
-openprojectLegacyModule.directive('opIcon', opIcon);

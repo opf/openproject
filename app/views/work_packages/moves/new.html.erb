@@ -45,12 +45,10 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= activate_angular_js do %>
 <%= styled_form_tag({action: 'create'},
                     id: 'move_form',
-                    class: '-wide-labels') do %>
+                    data: { 'refresh-url': url_for(action: 'new'), 'input-selector': '#new_project_id' },
+                    class: '-wide-labels augment--refresh-on-form-changes') do %>
   <%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
   <%= back_url_hidden_field_tag %>
-  <refresh-on-form-changes
-    url="<%= url_for(action: 'new') %>"
-    input-selector="#new_project_id">
     <section class="form--section">
       <fieldset class="form--fieldset">
         <legend class="form--fieldset-legend"><%= l(:label_change_properties) %></legend>
@@ -130,7 +128,6 @@ See docs/COPYRIGHT.rdoc for more details.
       </fieldset>
       <%= call_hook(:view_work_packages_move_bottom, work_packages: @work_packages, target_project: @target_project, copy: !!@copy) %>
     </section>
-  </refresh-on-form-changes>
   <% if @copy %>
     <%= hidden_field_tag("copy") %>
     <%= styled_submit_tag l(:button_copy), class: '-highlight' %>
