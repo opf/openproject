@@ -35,13 +35,13 @@ See doc/COPYRIGHT.rdoc for more details.
                                                             current_user: current_user,
                                                             embed_links: true) %>
 
-<div class="form--field">
+<div class="form--field -required">
   <%= f.select :category_id,
                DocumentCategory.all.map { |c| [c.name, c.id] },
                required: true,
                container_class: '-slim' %>
 </div>
-<div class="form--field">
+<div class="form--field -required">
   <%= f.text_field :title, required: true, container_class: '-wide' %>
 </div>
 <div class="form--field">

@@ -38,8 +38,9 @@ class Widget::Controls::SaveAs < Widget::Controls
     name = content_tag :p,
                        class: 'form--field -required -wide-label' do
       label_tag(:query_name,
-                Query.human_attribute_name(:name),
-                class: 'form--label -transparent')
+                class: 'form--label -transparent') do
+        Query.human_attribute_name(:name).html_safe
+      end +
       content_tag(:span,
                   class: 'form--field-container') do
         content_tag(:span,

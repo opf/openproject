@@ -115,10 +115,7 @@ describe 'Login', type: :feature do
       expect(page)
         .to have_field('Login')
 
-      fill_in('Login', with: user.login)
-      fill_in('Password', with: user_password)
-
-      click_button(I18n.t(:button_login))
+      login_with(user.login, user_password)
 
       expect(page)
         .to have_current_path my_page_path

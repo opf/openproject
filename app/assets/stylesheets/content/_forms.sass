@@ -47,6 +47,12 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
   height: 40px
   line-height: 22px
 
+%required-star
+  @include default-transition
+  @include varprop(color, primary-color-dark)
+  content:  '*'
+  padding: 0 0.325rem
+
 form
   display: inline
 
@@ -329,10 +335,7 @@ fieldset.form--fieldset
       box-shadow: none
 
     .form--label:after
-      @include default-transition
-      @include varprop(color, primary-color-dark)
-      content:  '*'
-      padding: 0 0.325rem
+      @extend %required-star
 
   &.-reduced-margin
     margin-bottom: 0.5rem
@@ -763,10 +766,7 @@ input[readonly].-clickable
     &.-required,
     .form--field.-required > &
       &::after
-        @include default-transition
-        content:  '*'
-        @include varprop(color, primary-color-dark)
-        padding:  0 0.325rem
+        @extend %required-star
       &:hover::after
         @include varprop(color, primary-color)
 
@@ -800,6 +800,9 @@ input[readonly].-clickable
 
     input[type="checkbox"]
       vertical-align: middle
+
+  &.-required:after
+    @extend %required-star
 
 .form--field-affix
   flex:           0 0 auto
