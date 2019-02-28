@@ -8,6 +8,7 @@
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 // Copyright (C) 2006-2013 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
+//
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
@@ -25,36 +26,31 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {BehaviorSubject} from 'rxjs';
-import {openprojectLegacyModule} from "../../openproject-legacy-app";
-import {GonRef} from '../gon-ref/gon-ref';
+import {Component, ElementRef, OnInit} from "@angular/core";
+import {HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
-export interface HideSectionDefinition {
-  key:string;
-  label:string;
-}
+@Component({
+  selector: 'hide-section-link',
+  templateUrl: './hide-section-link.component.html',
+})
+export class HideSectionLinkComponent implements OnInit {
+  displayed:boolean = true;
 
-export class HideSectionService {
-  private displayed = new BehaviorSubject<HideSectionDefinition[]>([]);
-  private all = new BehaviorSubject<HideSectionDefinition[]>([]);
+  public sectionName:string;
 
-  public displayed$ = this.displayed.asObservable();
-  public all$ = this.all.asObservable();
+  constructor(protected elementRef:ElementRef,
+              protected hideSectionService:HideSectionService) {}
 
-  constructor(protected GonRef:GonRef) {
-    this.all.next(this.GonRef.get('hideSections').all);
-    this.displayed.next(this.GonRef.get('hideSections').active);
+  ngOnInit():void {
+    this.sectionName = this.elementRef.nativeElement.dataset.sectionName;
   }
 
-  hide(key:string) {
-    let newDisplayed = _.filter(this.displayed.getValue(), (candidate) => candidate.key !== key);
-    this.displayed.next(newDisplayed);
-  }
-
-  show(section:HideSectionDefinition) {
-    let newDisplayed = _.concat(this.displayed.getValue(), section);
-    this.displayed.next(newDisplayed);
+  hideSection() {
+    this.hideSectionService.hide(this.sectionName);
+    return false;
   }
 }
 
-openprojectLegacyModule.service('HideSectionService', HideSectionService);
+DynamicBootstrapper.register({ cls: HideSectionLinkComponent, selector: 'hide-section-link'});
+

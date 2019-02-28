@@ -80,6 +80,10 @@ import {EditableToolbarTitleComponent} from "core-app/modules/common/editable-to
 import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.component";
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {PersistentToggleComponent} from "core-app/modules/common/persistent-toggle/persistent-toggle.component";
+import {AutocompleteSelectDecorationComponent} from "core-app/modules/common/autocomplete/autocomplete-select-decoration.component";
+import {AddSectionDropdownComponent} from "core-app/modules/common/hide-section/add-section-dropdown/add-section-dropdown.component";
+import {HideSectionLinkComponent} from "core-app/modules/common/hide-section/hide-section-link/hide-section-link.component";
+import {HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -220,6 +224,9 @@ export function bootstrapModule(injector:Injector) {
     UserAvatarComponent,
 
     PersistentToggleComponent,
+    AutocompleteSelectDecorationComponent,
+    HideSectionLinkComponent,
+    AddSectionDropdownComponent,
   ],
   entryComponents: [
     OpDateTimeComponent,
@@ -237,6 +244,9 @@ export function bootstrapModule(injector:Injector) {
     UserAutocompleterComponent,
     UserAvatarComponent,
     PersistentToggleComponent,
+    AutocompleteSelectDecorationComponent,
+    HideSectionLinkComponent,
+    AddSectionDropdownComponent,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
@@ -254,6 +264,7 @@ export function bootstrapModule(injector:Injector) {
     TimezoneService,
     BrowserDetector,
     GonService,
+    HideSectionService,
   ]
 })
 export class OpenprojectCommonModule { }

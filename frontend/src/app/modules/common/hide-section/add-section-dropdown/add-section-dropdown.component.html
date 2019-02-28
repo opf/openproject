@@ -1,0 +1,7 @@
+<select [attr.id]="htmlId"
+        class="form--select"
+        (change)="show($event)">
+  <option [textContent]="placeholder" selected disabled></option>
+  <option *ngFor="let entry of selectable" [ngValue]="entry.key" [textContent]="entry.label"></option>
+</select>
+
