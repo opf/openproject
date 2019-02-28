@@ -56,6 +56,22 @@ sk:
     index:
       no_results_content_title: Momentálne nie sú žiadne metódy overovania identity.
       no_results_content_text: Vytvoriť novú metódu overovania identity
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: none
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: Panel v súčasnosti nemá žiadne príspevky.
@@ -474,7 +490,7 @@ sk:
         owner: Vlastník
         redirect_uri: Presmerovať URI
         client_credentials_user_id: ID poverenia klienta
-        scopes: Scopes
+        scopes: Rozsahy
         confidential: Dôverné
     errors:
       messages:
@@ -2199,18 +2215,18 @@ sk:
         Uchovávajte posledné požadované informácie o diskovom priestore pre úložisko po dobu minúty N.
         Keď je potrebné počítať požadovaný priestor na disku úložiska, môžete túto hodnotu zvýšiť, aby sa znížil vplyv na výkon.
     subversion:
-      existing_title: Existing Subversion repository
-      existing_introduction: If you have an existing Subversion repository, you can
-        link it with OpenProject to access it from within the application.
+      existing_title: Existujúce úložisko Subversion (verzia softvéru a kontrola revízie)
+      existing_introduction: Ak máte existujúce lokálne úložisko Subversion, môžete
+        ho prepojiť s OpenProject a získať tak prístup z aplikácie.
       existing_url: Existujúca adresa URL
       instructions:
-        managed_url: This is the URL of the managed (local) Subversion repository.
+        managed_url: Toto je adresa URL spravovaného (lokálneho) úložiska Subversion.
         url: |-
           Zadajte URL úložiska. To môže byť smerované na lokálne úložisko (začínajúce s %{local_proto} ) alebo vzdialené úložisko.
           Podporované sú nasledujúce schémy adries URL:
-      managed_title: Subversion repository integrated into OpenProject
-      managed_introduction: Let OpenProject create and integrate a local Subversion
-        repository automatically.
+      managed_title: Subversion úložisko integrované do OpenProject
+      managed_introduction: Nechajte OpenProject automaticky vytvárať a integrovať
+        lokálne úložiská Subversion.
       managed_url: Spravovaná adresa URL
       password: Heslo úložiska
       username: Užívateľské meno úložiska
@@ -2285,7 +2301,7 @@ sk:
   setting_work_package_startdate_is_adddate: Použiť aktuálny dátum ako počiatočný
     dátum pre nové pracovné balíčky
   setting_work_packages_export_limit: Limit exportu pracovných balíčkov
-  setting_journal_aggregation_time_minutes: Display journals as aggregated within
+  setting_journal_aggregation_time_minutes: Zobraziť koncepty ako zložky v rámci
   setting_log_requesting_user: Zaznamenať prihlasovacie meno používateľa, meno a e-mailovú
     adresu pre všetky požiadavky
   setting_login_required: Vyžaduje sa overenie
@@ -2458,9 +2474,9 @@ sk:
   text_work_packages_ref_in_commit_messages: Odkazovanie a oprava pracovných balíčkov
     v podrobnejšom vysvetľujúcom texte
   text_journal_added: "%{label} %{value} pridaných"
-  text_journal_aggregation_time_explanation: Combine journals for display if their
-    age difference is less than the specified timespan. This will also delay mail
-    notifications by the same amount of time.
+  text_journal_aggregation_time_explanation: Kompilácia konceptov na zobrazenie, ak
+    je medzi nimi menej času. Týmto sa taktiež oneskorí zasielanie e-mailov o rovnaké
+    množstvo času.
   text_journal_changed: "%{label} zmenený z %{old} <br/><strong>na</strong> %{new}"
   text_journal_changed_plain: "%{label} zmenený z %{old} \nna %{new}"
   text_journal_changed_no_detail: "%{label} aktualizované"
@@ -2894,16 +2910,17 @@ sk:
           tejto metódy.
         access_denied: Vlastník zdroja alebo autorizačný server žiadosť zamietol.
         invalid_scope: Požadovaný rozsah je neplatný, neznámy alebo chybný.
-        invalid_code_challenge_method: The code challenge method must be plain or
+        invalid_code_challenge_method: Metóda kódovej výzvy musí byť jednoduchá alebo
           S256.
         server_error: Autorizačný server narazil na neočakávaný stav, ktorý mu bránil
           v splnení požiadavky.
         temporarily_unavailable: Autorizačný server momentálne nemôže spracovať žiadosť
           v dôsledku dočasného preťaženia alebo údržby servera.
-        credential_flow_not_configured: Resource Owner Password Credentials flow failed
-          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
-        resource_owner_authenticator_not_configured: Resource Owner find failed due
-          to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
+        credential_flow_not_configured: Protokol poverení vlastníka prostriedkov narazil
+          na chybu z dôvodu nesprávnej konfigurácie Doorkeeper.configure.resource_owner_from_credentials.
+        resource_owner_authenticator_not_configured: Vyhľadávanie vlastníkov zdrojov
+          zlyhalo, pretože Doorkeeper.configure.resource_owner_authenticator nie je
+          nakonfigurovaný.
         admin_authenticator_not_configured: Prístup k administrátorskému panelu je
           zakázaný, pretože Doorkeeper.configure.admin_authenticator nie je nakonfigurovaný.
         unsupported_response_type: Autorizačný server tento typ odpovede nepodporuje.
@@ -2919,7 +2936,7 @@ sk:
           unknown: Prístupový token je nesprávny
   unsupported_browser:
     title: Váš prehliadač je zastaraný a nepodporovaný.
-    message: You may run into errors and degraded experience on this page.
+    message: Na tejto stránke môžete naraziť na chyby a neúplné/znehodnotené skúseností.
     update_message: Prosím aktualizujte svoj prehliadač.
     close_warning: Ignorovať toto upozornenie.
   oauth:
@@ -2936,13 +2953,13 @@ sk:
           stolné počítače, použite nasledujúcu adresu URL.
 
 '
-        confidential: Check if the application will be used where the client secret
-          can be kept confidential. Native mobile apps and Single Page Apps are assumed
-          non-confidential.
-        client_credential_user_id: Optional user ID to impersonate when clients use
-          this application. Leave empty to allow public access only
-        register_intro: If you are developing an OAuth API client application for
-          OpenProject, you can register it using this form for all users to use.
+        confidential: Overte, či sa aplikácia používa tam, kde môže byť dôverné tajomstvo
+          klienta. Natívne mobilné aplikácie a aplikácie na jednej stránke nie sú
+          dôverné.
+        client_credential_user_id: Voliteľný používateľ, ktorý je súčasťou používania
+          tejto aplikácie. Nechajte prázdne, ak chcete povoliť iba verejný prístup
+        register_intro: Ak vyvíjate klientskú aplikáciu OAuth API pre OpenProject,
+          môžete ju zaregistrovať pomocou tohto formulára pre všetkých používateľov.
         default_scopes: ''
     client_id: ID klienta
     client_secret_notice: 'Toto je jediný čas, kedy môžeme vytlačiť neverejné klientské
@@ -2954,42 +2971,44 @@ sk:
     authorization_dialog:
       authorize: Autorizovať
       cancel: Zrušiť a odmietnuť autorizáciu.
-      prompt_html: Authorize <strong>%{application_name}</strong> to use your account
+      prompt_html: Povoliť <strong>%{application_name}</strong> prístup k Vašemu účtu
         <em>%{login}</em>?
-      title: Authorize %{application_name}
-      wants_to_access_html: 'This application requests access to your OpenProject
-        account. <br/> <strong>It has requested the following permissions:</strong>
+      title: Povoliť %{application_name}
+      wants_to_access_html: 'Táto aplikácia vyžaduje prístup k vášmu účtu OpenProject.
+        <br/> <strong>Požiadala o nasledujúce povolenia:</strong>
 
 '
     scopes:
       api_v3: Úplný prístup API
-      api_v3_text: Application will receive full read & write access to the OpenProject
-        API to perform actions on your behalf.
+      api_v3_text: Aplikácia dostane plný prístup na čítanie a zápis do rozhrania
+        OpenProject API na vykonanie akcií vo vašom mene.
     grants:
       created_date: Schválené
       scopes: Oprávnenia
-      successful_application_revocation: Revocation of application %{application_name}
-        successful.
-      none_given: No OAuth applications have been granted access to your user account.
+      successful_application_revocation: Zrušenie aplikácie %{application_name} bolo
+        úspešné.
+      none_given: Žiadnym aplikáciám OAuth nebol udelený prístup k vášmu používateľskému
+        účtu.
     x_active_tokens:
       one: one active token
-      other: "%{count} aktívnych tokenov"
-      few: "%{count} active token"
+      other: "%{count} aktívne tokeny"
+      few: "%{count} aktívnych tokenov"
       many: "%{count} aktívnych tokenov"
     flows:
-      authorization_code: Authorization code flow
-      client_credentials: Client credentials flow
-    client_credentials: User used for Client credentials
-    client_credentials_impersonation_set_to: Client credentials user set to
-    client_credentials_impersonation_warning: 'Note: Clients using the ''Client credentials''
-      flow in this application will have the rights of this user'
-    client_credentials_impersonation_html: 'By default, OpenProject provides OAuth
-      2.0 authorization via %{authorization_code_flow_link}. You can optionally enable
-      %{client_credentials_flow_link}, but you must provide a user on whose behalf
-      requests will be performed.
+      authorization_code: Tok autorizácie
+      client_credentials: Tok klientských poverení
+    client_credentials: Užívateľ používa poverenia klienta
+    client_credentials_impersonation_set_to: Používateľské poverenie klienta nastavené
+      na
+    client_credentials_impersonation_warning: 'Poznámka: Klienti používajúci ''Klientske
+      poverenie'' tok v tejto aplikácii bude mať práva tohto používateľa'
+    client_credentials_impersonation_html: 'V predvolenom nastavení OpenProject poskytuje
+      autorizáciu OAuth 2.0 cez %{authorization_code_flow_link}. Môžete voliteľne
+      povoliť %{client_credentials_flow_link}, ale musíte určiť používateľa, v mene
+      ktorého budú žiadosti vykonávané.
 
 '
-    authorization_error: An authorization error has occurred.
-    revoke_my_application_confirmation: Do you really want to remove this application?
-      This will revoke %{token_count} active for it.
-    my_registered_applications: Registered OAuth applications
+    authorization_error: Vyskytla sa chyba autorizácie.
+    revoke_my_application_confirmation: Naozaj chcete odstrániť túto aplikáciu? Týmto
+      sa zrušia aktívne tokeny %{token_count}.
+    my_registered_applications: Registrované aplikácie OAuth

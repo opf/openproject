@@ -45,6 +45,22 @@ lol:
     index:
       no_results_content_title: crwdns114766:0crwdne114766:0
       no_results_content_text: crwdns114768:0crwdne114768:0
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: none
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: crwdns114770:0crwdne114770:0
@@ -317,10 +333,10 @@ lol:
         encoded_token: crwdns115082:0crwdne115082:0
         active_user_count_restriction: crwdns115084:0crwdne115084:0
       grids/grid:
-        page: crwdns121592:0crwdne121592:0
-        row_count: crwdns121594:0crwdne121594:0
-        column_count: crwdns121596:0crwdne121596:0
-        widgets: crwdns121598:0crwdne121598:0
+        page: crwdns121642:0crwdne121642:0
+        row_count: crwdns121644:0crwdne121644:0
+        column_count: crwdns121646:0crwdne121646:0
+        widgets: crwdns121648:0crwdne121648:0
       relation:
         delay: crwdns115086:0crwdne115086:0
         from: crwdns115088:0crwdne115088:0
@@ -482,9 +498,9 @@ lol:
         enterprise_token:
           unreadable: crwdns115348:0crwdne115348:0
         grids/grid:
-          overlaps: crwdns121600:0crwdne121600:0
-          outside: crwdns121602:0crwdne121602:0
-          end_before_start: crwdns121604:0crwdne121604:0
+          overlaps: crwdns121650:0crwdne121650:0
+          outside: crwdns121652:0crwdne121652:0
+          end_before_start: crwdns121654:0crwdne121654:0
         parse_schema_filter_params_service:
           attributes:
             base:
