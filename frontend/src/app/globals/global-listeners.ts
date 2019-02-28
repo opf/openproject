@@ -29,6 +29,7 @@
 import {performAnchorHijacking} from "./global-listeners/link-hijacking";
 import {augmentedDatePicker} from "./global-listeners/augmented-date-picker";
 import {refreshOnFormChanges} from 'core-app/globals/global-listeners/refresh-on-form-changes';
+import {registerRequestForConfirmation} from "core-app/globals/global-listeners/request-for-confirmation";
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
@@ -57,6 +58,10 @@ import {refreshOnFormChanges} from 'core-app/globals/global-listeners/refresh-on
       });
 
     refreshOnFormChanges();
+
+    // Allow forms with [request-for-confirmation]
+    // to show the password confirmation dialog
+    registerRequestForConfirmation($);
   });
 
 }(jQuery));
