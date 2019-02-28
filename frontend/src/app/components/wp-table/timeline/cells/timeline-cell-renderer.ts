@@ -219,7 +219,8 @@ export class TimelineCellRenderer {
 
     // only start date, fade out bar to the right
     if (_.isNaN(due.valueOf()) && !_.isNaN(start.valueOf())) {
-      due = start.clone();
+      // Set due date to today
+      due = moment();
       bar.style.backgroundImage = `linear-gradient(90deg, rgba(255,255,255,0) 0%, #F1F1F1 100%)`;
     }
 
