@@ -31,8 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= javascript_include_tag 'repository_navigation' %>
 <% end %>
 
-<%= activate_angular_js do %>
-<persistent-toggle identifier="repository.checkout_instructions">
+<persistent-toggle data-identifier="repository.checkout_instructions"></persistent-toggle>
 <%= toolbar title: l('repositories.named_repository',
                      vendor_name: @repository.class.vendor_name) do %>
   <% if @instructions && @instructions.available? %>
@@ -87,8 +86,6 @@ See docs/COPYRIGHT.rdoc for more details.
 <% if @instructions %>
   <%= render partial: 'checkout_instructions',
              locals: { repository: @repository, instructions: @instructions } %>
-<% end %>
-</persistent-toggle>
 <% end %>
 
 

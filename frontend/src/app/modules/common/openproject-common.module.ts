@@ -79,6 +79,7 @@ import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.
 import {EditableToolbarTitleComponent} from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
 import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.component";
 import {GonService} from "core-app/modules/common/gon/gon.service";
+import {PersistentToggleComponent} from "core-app/modules/common/persistent-toggle/persistent-toggle.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -217,6 +218,8 @@ export function bootstrapModule(injector:Injector) {
 
     // User Avatar
     UserAvatarComponent,
+
+    PersistentToggleComponent,
   ],
   entryComponents: [
     OpDateTimeComponent,
@@ -232,7 +235,8 @@ export function bootstrapModule(injector:Injector) {
     ZenModeButtonComponent,
     CollapsibleSectionComponent,
     UserAutocompleterComponent,
-    UserAvatarComponent
+    UserAvatarComponent,
+    PersistentToggleComponent,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
