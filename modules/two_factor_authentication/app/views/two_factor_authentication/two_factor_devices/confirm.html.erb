@@ -8,7 +8,7 @@
   <p><%= message.html_safe %></p>
   <hr class="form--separator">
   <%= back_url_hidden_field_tag %>
-  <div class="form--field -wide-label">
+  <div class="form--field -required -wide-label">
     <%= styled_label_tag 'otp', l(:field_otp) %>
     <div class="form--field-container">
       <%= styled_text_field_tag 'otp', nil, required: true, autocomplete: 'off', size: 6, maxlength: 6, tabindex: 1, focus: true  %>

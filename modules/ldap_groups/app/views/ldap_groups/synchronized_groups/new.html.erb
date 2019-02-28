@@ -11,7 +11,7 @@
   <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend"><%= @group.class.human_attribute_name 'auth_source'  %></legend>
 
-    <div class="form--field">
+    <div class="form--field -required">
       <%= f.select :auth_source_id,
                    LdapAuthSource.pluck(:name, :id),
                    required: true,
@@ -25,7 +25,7 @@
   <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend"><%= @group.class.model_name.human  %></legend>
 
-    <div class="form--field">
+    <div class="form--field -required">
       <%= f.text_field :entry,
                        required: true,
                        container_class: '-middle',
@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <div class="form--field">
+    <div class="form--field -required">
       <%= f.select :group_id,
                    Group.pluck(:lastname, :id),
                    required: true,

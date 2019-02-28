@@ -30,7 +30,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <div class="grid-block">
   <div class="grid-content">
     <!--[form:type]-->
-    <div class="form--field -wide-label"><%= f.text_field :name, required: true, disabled: @type.is_standard?, container_class: '-middle' %></div>
+    <div class="form--field -required -wide-label"><%= f.text_field :name, required: true, disabled: @type.is_standard?, container_class: '-middle' %></div>
     <div class="form--field -wide-label"><%= f.check_box :is_in_roadmap %></div>
     <%= render partial: '/colors/color_autocomplete_field',
                locals: {
