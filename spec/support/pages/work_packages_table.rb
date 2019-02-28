@@ -80,7 +80,8 @@ module Pages
 
     def expect_work_package_order(*ids)
       rows = page.all '.wp-table--row'
-      expect(rows.map { |el| el['data-work-package-id'] }).to match_array(ids.map(&:to_s))
+      ids = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
+      expect(rows.map { |el| el['data-work-package-id'] }).to match_array(ids)
     end
 
     def expect_no_work_package_listed
