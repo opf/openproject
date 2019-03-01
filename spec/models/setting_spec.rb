@@ -85,6 +85,33 @@ describe Setting, type: :model do
     end
   end
 
+  describe ".installation_uuid" do
+    it "returns unknown if the settings table isn't available yet" do
+      Setting.stub(settings_table_exists_yet?: false)
+      expect(Setting.installation_uuid).to eq("unknown")
+    end
+
+    context "with settings table ready" do
+      it "returns the existing value if any", with_settings: { installation_uuid: "abcd1234" } do
+        expect(Setting.installation_uuid).to eq("abcd1234")
+      end
+
+      context "with no existing value" do
+        it "returns 'test' as the UUID if environment == test" do
+          expect(Setting.installation_uuid).to eq("test")
+        end
+
+        it "returns a random UUID if environment != test" do
+          Rails.env.stub(test?: false)
+          installation_uuid = Setting.installation_uuid
+          expect(installation_uuid).not_to eq("test")
+          expect(installation_uuid.size).to eq(36)
+          expect(Setting.installation_uuid).to eq(installation_uuid)
+        end
+      end
+    end
+  end
+
   # Check that when reading certain setting values that they get overwritten if needed.
   describe "filter saved settings" do
     before do

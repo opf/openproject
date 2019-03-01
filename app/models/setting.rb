@@ -187,6 +187,22 @@ class Setting < ActiveRecord::Base
     @@available_settings.has_key?(name)
   end
 
+  def self.installation_uuid
+    if settings_table_exists_yet?
+      self[:installation_uuid] ||= generate_installation_uuid
+    else
+      "unknown"
+    end
+  end
+
+  def self.generate_installation_uuid
+    if Rails.env.test?
+      "test"
+    else
+      SecureRandom.uuid
+    end
+  end
+
   [:emails_header, :emails_footer].each do |mail|
     src = <<-END_SRC
     def self.localized_#{mail}
