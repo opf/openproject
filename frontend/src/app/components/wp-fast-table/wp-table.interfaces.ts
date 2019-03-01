@@ -14,14 +14,6 @@ export interface WorkPackageTableRow {
   group:GroupObject|null;
 }
 
-export interface GroupableColumn {
-  name:string;
-  title:string;
-  sortable:boolean;
-  groupable:boolean;
-  custom_field:boolean;
-}
-
 export interface WPTableRowSelectionState {
   // Map of selected rows
   selected:{[workPackageId:string]:boolean};

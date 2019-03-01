@@ -1,13 +1,16 @@
 import {Injector} from '@angular/core';
 import {scrollTableRowIntoView} from 'core-components/wp-fast-table/helpers/wp-table-row-helpers';
 import {distinctUntilChanged, map, takeUntil} from 'rxjs/operators';
-import {indicatorCollapsedClass} from '../../builders/modes/hierarchy/single-hierarchy-row-builder';
-import {tableRowClassName} from '../../builders/rows/single-row-builder';
-import {collapsedGroupClass, hierarchyGroupClass, hierarchyRootClass} from '../../helpers/wp-table-hierarchy-helpers';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {WorkPackageTableHierarchies} from '../../wp-table-hierarchies';
-import {WorkPackageTableHierarchiesService} from './../../state/wp-table-hierarchy.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
+import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
+import {WorkPackageTableHierarchies} from "core-components/wp-fast-table/wp-table-hierarchies";
+import {
+  collapsedGroupClass, hierarchyGroupClass,
+  hierarchyRootClass
+} from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
+import {indicatorCollapsedClass} from "core-components/wp-fast-table/builders/modes/hierarchy/single-hierarchy-row-builder";
+import {tableRowClassName} from "core-components/wp-fast-table/builders/rows/single-row-builder";
 
 export class HierarchyTransformer {
 
@@ -20,7 +23,7 @@ export class HierarchyTransformer {
       .values$('Refreshing hierarchies on user request')
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions),
-        map((state) => state.isEnabled),
+        map((state) => state.isVisible),
         distinctUntilChanged()
       )
       .subscribe(() => {
@@ -36,11 +39,11 @@ export class HierarchyTransformer {
       .observeUntil(this.querySpace.stopAllSubscriptions)
       .subscribe((state:WorkPackageTableHierarchies) => {
 
-        if (state.isEnabled === lastValue) {
+        if (state.isVisible === lastValue) {
           this.renderHierarchyState(state);
         }
 
-        lastValue = state.isEnabled;
+        lastValue = state.isVisible;
       });
   }
 

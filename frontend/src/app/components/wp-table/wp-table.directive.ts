@@ -96,15 +96,13 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public rowcount:number;
 
-  public groupBy:QueryGroupByResource | undefined;
+  public groupBy:QueryGroupByResource | null;
 
   public columns:QueryColumn[];
 
   public numTableColumns:number;
 
   public timelineVisible:boolean;
-
-  public readonly uniqueTableIdentifier = `wp-table--container-${randomString(16)}`;
 
   constructor(readonly elementRef:ElementRef,
               readonly injector:Injector,
@@ -135,10 +133,6 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
         title: I18n.t('js.work_packages.no_results.title'),
         description: I18n.t('js.work_packages.no_results.description')
       },
-      faultyQuery: {
-        title: I18n.t('js.work_packages.faulty_query.title'),
-        description: I18n.t('js.work_packages.faulty_query.description')
-      },
       configureTable: I18n.t('js.toolbar.settings.configure_view'),
       tableSummary: I18n.t('js.work_packages.table.summary'),
       tableSummaryHints: [
@@ -160,15 +154,15 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       this.query = this.querySpace.query.value!;
       this.rowcount = results.count;
 
-      this.groupBy = groupBy.current;
+      this.groupBy = groupBy;
       this.columns = columns;
       // Total columns = all available columns + id + checkbox
       this.numTableColumns = this.columns.length + 2;
 
-      if (this.timelineVisible !== timelines.current) {
-        this.scrollSyncUpdate(timelines.current);
+      if (this.timelineVisible !== timelines.visible) {
+        this.scrollSyncUpdate(timelines.visible);
       }
-      this.timelineVisible = timelines.current;
+      this.timelineVisible = timelines.visible;
     });
 
     // Locate table and timeline elements

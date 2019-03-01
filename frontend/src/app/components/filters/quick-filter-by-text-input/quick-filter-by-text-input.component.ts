@@ -35,8 +35,8 @@ import {WorkPackageCacheService} from "app/components/work-packages/work-package
 import {Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
-import {WorkPackageTableFilters} from "core-components/wp-fast-table/wp-table-filters";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 
 @Component({
   selector: 'wp-filter-by-text-input',
@@ -44,7 +44,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 })
 
 export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy {
-  @Output() public filterChanged = new DebouncedEventEmitter<WorkPackageTableFilters>(componentDestroyed(this));
+  @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
 
   public text = {
     createWithDropdown: this.I18n.t('js.work_packages.create.button'),
@@ -70,18 +70,22 @@ export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy 
       )
       .subscribe(term => {
         this.searchTerm = term;
-        let currentSearchFilter = this.wpTableFilters.find('search');
+        let filters = this.wpTableFilters.current;
+        let searchFilter = this.wpTableFilters.find('search');
         if (this.searchTerm.length > 0) {
-          if (!currentSearchFilter) {
-            currentSearchFilter = this.wpTableFilters.currentState.add(this.availableSearchFilter);
+          if (!searchFilter) {
+            searchFilter = this.wpTableFilters.instantiate(this.availableSearchFilter);
           }
-          currentSearchFilter.operator = currentSearchFilter.findOperator('**')!;
-          currentSearchFilter.values = [this.searchTerm];
-        } else if (currentSearchFilter) {
-          this.wpTableFilters.currentState.remove(currentSearchFilter);
+          searchFilter.operator = searchFilter.findOperator('**')!;
+          searchFilter.values = [this.searchTerm];
+          filters.push(searchFilter);
+
+        } else if (searchFilter) {
+          let id = searchFilter.id;
+          _.remove(filters, f => f.id === id);
         }
 
-        this.filterChanged.emit(this.wpTableFilters.currentState);
+        this.filterChanged.emit(filters);
       });
   }
 
@@ -100,8 +104,7 @@ export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy 
           this.searchTerm = '';
         }
 
-        self.availableSearchFilter = _.find(self.wpTableFilters.currentState.availableFilters,
-                                            { id: 'search' }) as QueryFilterResource;
+        self.availableSearchFilter = this.wpTableFilters.findAvailableFilter('search')!;
       });
   }
 

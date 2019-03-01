@@ -470,6 +470,11 @@ nl:
         client_credentials_user_id: Client referenties gebruiker ID
         scopes: Reikwijdte
         confidential: Vertrouwelijke
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: moet geaccepteerd worden.
@@ -647,6 +652,10 @@ nl:
         member:
           principal_blank: Kies ten minste één gebruiker of groep.
           role_blank: Kies ten minste één rol.
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 'Controleer de volgende velden:'
         header:

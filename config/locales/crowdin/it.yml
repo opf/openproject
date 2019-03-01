@@ -470,6 +470,11 @@ it:
         client_credentials_user_id: ID utente credenziali client
         scopes: Ambiti
         confidential: Confidenziale
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: deve essere accettato.
@@ -649,6 +654,10 @@ it:
         member:
           principal_blank: Si prega di scegliere almeno un utente o un gruppo.
           role_blank: Si prega di scegliere almeno un ruolo.
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 'Perfavore controlla i seguenti campi:'
         header:

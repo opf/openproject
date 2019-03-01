@@ -466,6 +466,11 @@ cs:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: must be accepted.
@@ -640,6 +645,10 @@ cs:
         member:
           principal_blank: Zvolte alespoň jednoho uživatele nebo skupinu.
           role_blank: Vyberte prosím alespoň jednu roli.
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 'Zkontrolujte, prosím, následující pole:'
         header:

@@ -476,6 +476,11 @@ de:
         client_credentials_user_id: Client Credentials User-ID
         scopes: Geltungsbereiche
         confidential: Vertraulich
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: muss akzeptiert werden.
@@ -657,6 +662,10 @@ de:
         member:
           principal_blank: Bitte wählen Sie mindestens einen Benutzer oder eine Gruppe.
           role_blank: Bitte wählen Sie mindestens eine Rolle.
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 'Bitte überprüfen Sie die folgenden Felder:'
         header:

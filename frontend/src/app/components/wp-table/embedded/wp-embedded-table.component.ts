@@ -1,8 +1,6 @@
-import {AfterViewInit, Component, EventEmitter, Injector, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
-import {withLatestFrom} from 'rxjs/operators';
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
@@ -11,10 +9,9 @@ import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-c
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedded/wp-embedded-base.component";
-import {WorkPackageTableFilters} from "core-components/wp-fast-table/wp-table-filters";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -27,7 +24,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   @Input() public tableActions:OpTableActionFactory[] = [];
   @Input() public externalHeight:boolean = false;
 
-  @Output() public onFiltersChanged = new EventEmitter<WorkPackageTableFilters>();
+  @Output() public onFiltersChanged = new EventEmitter<QueryFilterInstanceResource[]>();
 
   readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
   readonly opModalService:OpModalService = this.injector.get(OpModalService);
@@ -39,10 +36,6 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   // Cache the form promise
   private formPromise:Promise<QueryFormResource>|undefined;
 
-  constructor(readonly injector:Injector) {
-    super(injector);
-  }
-
   ngAfterViewInit():void {
     super.ngAfterViewInit();
 
@@ -50,16 +43,6 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     if (this.tableActions) {
       this.tableActionsService.setActions(...this.tableActions);
     }
-
-    // Reload results on changes to pagination
-    this.querySpace.ready.fireOnStateChange(this.wpTablePagination.state,
-      'Query loaded').values$().pipe(
-      untilComponentDestroyed(this),
-      withLatestFrom(this.querySpace.query.values$())
-    ).subscribe(([pagination, query]) => {
-      this.loadingIndicator = this.QueryDm.loadResults(query, this.wpTablePagination.paginationObject)
-        .then((results) => this.initializeStates(query, results));
-    });
   }
 
   public openConfigurationModal(onUpdated:() => void) {
@@ -113,7 +96,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       .catch(() => this.formPromise = undefined);
   }
 
-  protected loadQuery(visible:boolean = true):Promise<QueryResource> {
+  protected loadQuery(visible:boolean = true, firstPage:boolean = false):Promise<QueryResource> {
     if (this.loadedQuery) {
       const query = this.loadedQuery;
       this.loadedQuery = undefined;
@@ -129,6 +112,11 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     } else if (this.configuration.forcePerPageOption) {
       // Limit the number of visible work packages
       this.queryProps.pageSize = this.configuration.forcePerPageOption;
+    }
+
+    // Set first page
+    if (firstPage) {
+      this.queryProps.page = 1;
     }
 
     this.error = null;

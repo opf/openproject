@@ -841,7 +841,7 @@ ru:
         messages_on_field: 'Это поле является недопустимым: %{messages}'
     error_could_not_resolve_version_name: Не удалось определить название этапа
     error_could_not_resolve_user_name: Не удалось найти такое имя пользователя
-    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload: 'Не удалось загрузить файл: %{error}'
     error_attachment_upload_permission: У вас нет прав для загрузки файлов на этом
       ресурсе.
     units:
@@ -874,3 +874,27 @@ ru:
         all_projects: все проекты
         project_and_subprojects: и все подпроекты
         search_for: Поиск по
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Новости
+          at: at
+          no_results: Ничего нового для отчета.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Пакеты работ, в которых я подотчетен
+        work_packages_assigned:
+          title: Переданные мне пакеты работ
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Календарь

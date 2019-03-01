@@ -16,7 +16,7 @@ export class TimelineTransformer {
         takeUntil(this.querySpace.stopAllSubscriptions)
       )
       .subscribe((state:WorkPackageTableTimelineState) => {
-        this.renderVisibility(state.isVisible);
+        this.renderVisibility(state.visible);
       });
   }
 

@@ -41,14 +41,11 @@ export class RelationsCellHandler extends ClickOrEnterHandler implements TableEv
     const rowElement = jQuery(evt.target).closest(`.${tableRowClassName}`);
     const workPackageId = rowElement.data('workPackageId');
 
-    // Get any existing edit state for this work package
-    let state = this.wpTableRelationColumns.current;
-
     // If currently expanded
-    if (state.getExpandFor(workPackageId) === columnId) {
+    if (this.wpTableRelationColumns.getExpandFor(workPackageId) === columnId) {
       this.wpTableRelationColumns.collapse(workPackageId);
     } else {
-      this.wpTableRelationColumns.expandFor(workPackageId, columnId);
+      this.wpTableRelationColumns.setExpandFor(workPackageId, columnId);
     }
 
     return false;

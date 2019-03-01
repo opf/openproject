@@ -39,20 +39,15 @@
           </th>
         </tr>
       </thead>
-      <tbody class="work-package--empty-tbody" *ngIf="!isEmbedded && (query.hasError || rowcount === 0)">
+      <tbody class="work-package--empty-tbody" *ngIf="!isEmbedded && query && rowcount === 0">
       <tr id="empty-row-notification">
         <td [attr.colspan]="columns.length + 1">
-          <span *ngIf="!query.hasError">
+          <span>
             <op-icon icon-classes="icon-info1 icon-context"></op-icon>
             <span>
               <strong>{{text.noResults.title}}</strong>
               {{text.noResults.description}}
             </span>
-          </span>
-          <span *ngIf="query.hasError">
-            <op-icon icon-classes="wp-table--faulty-query-icon icon-warning icon-context"></op-icon>
-            <strong>{{text.faultyQuery.title}}</strong>
-            <span>{{text.faultyQuery.description}}</span>
           </span>
         </td>
       </tr>

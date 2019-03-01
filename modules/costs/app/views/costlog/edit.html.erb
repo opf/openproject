@@ -40,7 +40,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     <%= f.hidden_field :element_id, value: 'cost_entry', class: 'remote-field--input', data: { :'remote-field-key' =>'element_id' } %>
 
     <div class="box">
-      <div class="form--field">
+      <div class="form--field -required">
         <%= f.text_field :work_package_id,
                          size: 6,
                          required: true,
@@ -53,7 +53,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
           </div>
         <% end %>
       </div>
-      <div class="form--field">
+      <div class="form--field -required">
         <%= f.text_field :spent_on,
                          size: 10,
                          required: true,
@@ -74,7 +74,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       <% else %>
         <%= f.hidden_field :user_id, value: User.current.id %>
       <% end %>
-      <div class="form--field">
+      <div class="form--field -required">
         <%# see above %>
         <%= f.select :cost_type_id,
                      cost_types_collection_for_select_options,
@@ -86,7 +86,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                        data: { :'remote-field-key' => 'cost_type_id' }
                      } %></p>
       </div>
-      <div class="form--field">
+      <div class="form--field -required">
         <% if @cost_entry.cost_type.nil? %>
             <%= f.text_field :units, size: 6, required: true, container_class: '-slim' %>
         <% else %>

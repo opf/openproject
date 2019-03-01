@@ -36,6 +36,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
   let!(:assigned_work_package) do
     FactoryBot.create :work_package,
                       project: project,
+                      subject: 'Assigned to me',
                       type: type,
                       author: user,
                       assigned_to: user
@@ -43,6 +44,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
   let!(:assigned_to_other_work_package) do
     FactoryBot.create :work_package,
                       project: project,
+                      subject: 'Not assigend to me',
                       type: type,
                       author: user,
                       assigned_to: other_user
@@ -61,16 +63,61 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
   let(:my_page) do
     Pages::My::Page.new
   end
+  let(:assigned_area) { Components::Grids::GridArea.new('.grid--area', text: 'Work packages assigned to me') }
+  let(:embedded_table) { Pages::EmbeddedWorkPackagesTable.new(assigned_area.area) }
+  let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
 
   before do
     login_as user
+  end
 
-    my_page.visit!
+  context 'with parent work package' do
+    let!(:assigned_work_package_child) do
+      FactoryBot.create :work_package,
+                        subject: 'Child',
+                        parent: assigned_work_package,
+                        project: project,
+                        type: type,
+                        author: user,
+                        assigned_to: user
+    end
+
+    it 'can toggle hierarchy mode in embedded tables (Regression test #29578)' do
+      my_page.visit!
+
+      # exists as default
+      assigned_area.expect_to_exist
+
+      page.within(assigned_area.area) do
+        # expect hierarchy in child
+        hierarchies.expect_mode_enabled
+
+        hierarchies.expect_hierarchy_at assigned_work_package
+        hierarchies.expect_leaf_at assigned_work_package_child
+
+        # toggle parent
+        hierarchies.toggle_row assigned_work_package
+        hierarchies.expect_hierarchy_at assigned_work_package, collapsed: true
+
+        # disable
+        hierarchies.disable_via_header
+        hierarchies.expect_no_hierarchies
+
+        # re-enable
+        hierarchies.enable_via_header
+
+        hierarchies.expect_mode_enabled
+        # Re-enabling resets collapsed state for now
+        hierarchies.expect_hierarchy_at assigned_work_package, collapsed: false
+        hierarchies.expect_leaf_at assigned_work_package_child
+      end
+    end
   end
 
   it 'can create a new ticket with correct me values (Regression test #28488)' do
+    my_page.visit!
+
     # exists as default
-    assigned_area = Components::Grids::GridArea.new('.grid--area', text: 'Work packages assigned to me')
     assigned_area.expect_to_exist
 
     expect(assigned_area.area)
@@ -79,7 +126,6 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
     expect(assigned_area.area)
       .to have_no_selector('.subject', text: assigned_to_other_work_package.subject)
 
-    embedded_table = Pages::EmbeddedWorkPackagesTable.new(assigned_area.area)
     embedded_table.click_inline_create
 
     subject_field = embedded_table.edit_field(nil, :subject)

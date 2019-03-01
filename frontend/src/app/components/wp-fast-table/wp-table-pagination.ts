@@ -27,14 +27,12 @@
 // ++
 
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource'
-import {WorkPackageTableBaseState} from './wp-table-base';
 import {PaginationInstance} from 'core-components/table-pagination/pagination-instance';
 
-export class WorkPackageTablePagination extends WorkPackageTableBaseState<PaginationInstance> {
+export class WorkPackageTablePagination {
   public current:PaginationInstance;
 
   constructor(results:WorkPackageCollectionResource) {
-    super();
     this.current = new PaginationInstance(results.offset, results.total, results.pageSize);
   }
 

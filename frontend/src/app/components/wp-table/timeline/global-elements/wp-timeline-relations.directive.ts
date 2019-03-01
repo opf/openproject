@@ -126,7 +126,7 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
       this.querySpace.timeline.values$()
     )
       .pipe(
-        filter(([rendered, timeline]) => timeline.isVisible),
+        filter(([rendered, timeline]) => timeline.visible),
         takeUntil(componentDestroyed(this)),
         map(([rendered, _]) => rendered)
       )

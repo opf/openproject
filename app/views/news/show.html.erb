@@ -65,18 +65,20 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
 <% end %>
 <% if @news.summary.present? %>
-  <%= format_text(@news.summary, object: @news) %>
+  <div class="summary">
+    <%= format_text(@news.summary, object: @news) %>
+  </div>
 <% end %>
-  <span class="author"><%= authoring @news.created_on, @news.author %></span></p>
+  <p class="author additional-information"><%= authoring @news.created_on, @news.author %></p>
 <div class="wiki">
   <%= format_text(@news.description, object: @news) %>
 </div>
 <br />
-<div id="comments" class="news--comments">
+<div id="comments" class="news--comments comments">
   <h3 class="icon-context icon-quote"><%= l(:label_comment_plural) %></h3>
   <% @comments.each do |comment| %>
     <% next if comment.new_record? %>
-      <div class="news--comment">
+      <div class="comment">
         <div class="contextual">
           <%= link_to_if_authorized icon_wrapper('icon-context icon-delete', l(:button_delete)),
                                 {controller: '/news/comments', action: 'destroy', id: comment},
@@ -86,7 +88,7 @@ See docs/COPYRIGHT.rdoc for more details.
                                 title: l(:button_delete),
                                 alt: l(:button_delete) %>
         </div>
-        <h4 class="comment author"><%= avatar(comment.author) %><%= authoring comment.created_on, comment.author %></h4>
+        <h4 class="author additional-information"><%= avatar(comment.author) %><%= authoring comment.created_on, comment.author %></h4>
         <%= format_text(comment.comments, object: comment) %>
       </div>
     <% end %>
@@ -94,14 +96,17 @@ See docs/COPYRIGHT.rdoc for more details.
   <% if authorize_for 'news/comments', 'create' %>
     <p><%= toggle_link l(:label_comment_add), "add_comment_form", focus: "comment_comments" %></p>
     <%= form_for([@news, Comment.new], html: { id: "add_comment_form", style: "display:none;" }) do %>
-      <div class="box">
+      <div>
         <%= label_tag 'comment_comments', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
         <%= text_area 'comment',
                       'comments',
                       class: 'wiki-edit' %>
         <%= wikitoolbar_for 'comment_comments', preview_context: preview_context(@news) %>
       </div>
-      <p><%= submit_tag l(:button_add), class: 'button -highlight' %></p>
+      <p>
+        <%= submit_tag l(:button_add), class: 'button -highlight' %>
+        <%= toggle_link t(:button_cancel), "add_comment_form", {}, { class: 'button' } %>
+      </p>
     <% end %>
   <% end %>
   <% html_title h(@news.title) -%>

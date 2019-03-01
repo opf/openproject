@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
+import {WorkPackageQueryStateService} from './wp-table-base.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QueryColumn, queryColumnTypes} from '../../wp-query/query-column';
 import {InputState} from 'reactivestates';
@@ -36,7 +36,7 @@ import {Injectable} from '@angular/core';
 import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 @Injectable()
-export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<QueryColumn[]> implements WorkPackageQueryStateService {
+export class WorkPackageTableColumnsService extends WorkPackageQueryStateService<QueryColumn[]> {
 
   public constructor(readonly states:States, readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);
@@ -110,7 +110,7 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
 
   /**
    * Return the previous column of the given column name
-   * @param name
+   * @param column
    */
   public previous(column:QueryColumn):QueryColumn|null {
     let index = this.index(column.id);
@@ -124,7 +124,7 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
 
   /**
    * Return the next column of the given column name
-   * @param name
+   * @param column
    */
   public next(column:QueryColumn):QueryColumn|null {
     let index = this.index(column.id);
@@ -159,7 +159,7 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
       return;
     }
 
-    this.state.putValue(columns);
+    this.current = columns;
   }
 
   public setColumnsById(columnIds:string[]) {

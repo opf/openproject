@@ -464,6 +464,11 @@ he:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: must be accepted.
@@ -633,6 +638,10 @@ he:
         member:
           principal_blank: נא לבחור לפחות משתמש אחד או קבוצה.
           role_blank: נא לבחור תפקיד אחד לפחות.
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 'אנא בדוק את השדות הבאים:'
         header:

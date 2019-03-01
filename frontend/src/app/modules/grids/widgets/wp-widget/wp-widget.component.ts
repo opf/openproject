@@ -15,7 +15,7 @@ export class WidgetWpListComponent extends AbstractWidgetComponent implements On
   public configuration:Partial<WorkPackageTableConfiguration> = {
     actionsColumnEnabled: false,
     columnMenuEnabled: false,
-    hierarchyToggleEnabled: false,
+    hierarchyToggleEnabled: true,
     contextMenuEnabled: false
   };
 

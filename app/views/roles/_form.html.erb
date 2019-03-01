@@ -30,7 +30,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'role' %>
 
 <% unless @role.builtin? %>
-  <div class="form--field"><%= f.text_field :name, required: true, container_class: '-middle' %></div>
+  <div class="form--field -required"><%= f.text_field :name, required: true, container_class: '-middle' %></div>
   <div class="form--field"><%= f.check_box :assignable %></div>
   <% if @role.new_record? && @roles.any? %>
     <div id="member_attributes">

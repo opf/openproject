@@ -30,13 +30,14 @@ import {Component, OnDestroy} from "@angular/core";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {OpTitleService} from "core-components/html/op-title.service";
-import {WorkPackagesSetComponent} from "core-app/modules/work_packages/routing/wp-set/wp-set.component";
+import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
+import {take} from "rxjs/operators";
 
 @Component({
   selector: 'wp-list',
   templateUrl: './wp.list.component.html'
 })
-export class WorkPackagesListComponent extends WorkPackagesSetComponent implements OnDestroy {
+export class WorkPackagesListComponent extends WorkPackagesViewBase implements OnDestroy {
   text = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
     'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination'),
@@ -52,12 +53,31 @@ export class WorkPackagesListComponent extends WorkPackagesSetComponent implemen
 
   /** Whether we're saving the query */
   querySaving:boolean;
+
+  /** Listener callbacks */
   unRegisterTitleListener:Function;
+  removeTransitionSubscription:Function;
+
+  /** Determine when query is initially loaded */
+  tableInformationLoaded = false;
+
+  /** Project identifier of the list */
+  projectIdentifier = this.$state.params['projectPath'] || null;
 
   private readonly titleService:OpTitleService = this.injector.get(OpTitleService);
 
   ngOnInit() {
     super.ngOnInit();
+
+    // Load query initially
+    this.wpTableRefresh.clear('Impending query loading.');
+    this.loadCurrentQuery();
+
+    // Load query on URL transitions
+    this.updateQueryOnParamsChanges();
+
+    // Mark tableInformationLoaded when initially loading done
+    this.setupInformationLoadedListener();
 
     // Update title on entering this state
     this.unRegisterTitleListener = this.$transitions.onSuccess({to: 'work-packages.list'}, () => {
@@ -78,6 +98,7 @@ export class WorkPackagesListComponent extends WorkPackagesSetComponent implemen
   ngOnDestroy():void {
     super.ngOnDestroy();
     this.unRegisterTitleListener();
+    this.removeTransitionSubscription();
   }
 
   public setAnchorToNextElement() {
@@ -119,10 +140,60 @@ export class WorkPackagesListComponent extends WorkPackagesSetComponent implemen
     }
   }
 
-  protected loadCurrentQuery() {
-    return super.loadCurrentQuery()
-                .then(() => {
-                  return this.querySpace.rendered.valuesPromise();
-                });
+  public refresh(visibly:boolean = false, firstPage:boolean = false):Promise<unknown> {
+    let promise:Promise<unknown>;
+
+    if (firstPage) {
+      promise = this.wpListService.loadCurrentResultsListFirstPage();
+    } else {
+      promise = this.wpListService.reloadCurrentResultsList();
+    }
+
+    if (visibly) {
+      this.loadingIndicator = promise;
+    }
+
+    return promise;
+  }
+
+  protected updateQueryOnParamsChanges() {
+    // Listen for param changes
+    this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
+      let options = transition.options();
+
+      // Avoid performing any changes when we're going to reload
+      if (options.reload || (options.custom && options.custom.notify === false)) {
+        return true;
+      }
+
+      const params = transition.params('to');
+      let newChecksum = this.wpListService.getCurrentQueryProps(params);
+      let newId = params.query_id && parseInt(params.query_id);
+
+      this.wpListChecksumService
+        .executeIfOutdated(newId,
+          newChecksum,
+          () => this.loadCurrentQuery());
+    });
+  }
+
+  protected setupInformationLoadedListener() {
+    this.querySpace.tableRendering.onQueryUpdated
+      .values$()
+      .pipe(
+        take(1)
+      )
+      .subscribe(() => this.tableInformationLoaded = true);
+  }
+
+  protected set loadingIndicator(promise:Promise<unknown>) {
+    this.loadingIndicatorService.table.promise = promise;
+  }
+
+  protected loadCurrentQuery():Promise<unknown> {
+    return this.loadingIndicator =
+      this.wpListService
+        .loadCurrentQueryFromParams(this.projectIdentifier)
+        .then(() => this.querySpace.rendered.valuesPromise());
   }
 }

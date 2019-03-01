@@ -466,6 +466,11 @@ pt-BR:
         client_credentials_user_id: ID do usuário de credenciais do cliente
         scopes: Escopos
         confidential: Confidencial
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: deve ser aceito.
@@ -637,6 +642,10 @@ pt-BR:
         member:
           principal_blank: Por favor, escolha ao menos um usuário ou grupo.
           role_blank: Por favor, escolha ao menos um papel.
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 'Por favor, verifique os seguintes campos:'
         header:

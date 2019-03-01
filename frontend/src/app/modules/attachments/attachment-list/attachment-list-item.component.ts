@@ -109,7 +109,7 @@ export class AttachmentListItemComponent {
     }
 
     _.pull(this.resource.attachments.elements, this.attachment);
-    this.states.forResource(this.resource!).putValue(this.resource);
+    this.states.forResource(this.resource!)!.putValue(this.resource);
 
     if (!!this.selfDestroy) {
       this

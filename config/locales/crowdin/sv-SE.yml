@@ -464,6 +464,11 @@ sv-SE:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: måste accepteras.
@@ -636,6 +641,10 @@ sv-SE:
         member:
           principal_blank: Välj minst en användare eller grupp.
           role_blank: Välj minst en roll.
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 'Kontrollera följande fält:'
         header:

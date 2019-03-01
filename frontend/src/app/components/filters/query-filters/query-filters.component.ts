@@ -32,7 +32,6 @@ import {Component, Inject, Input, OnChanges, OnDestroy, OnInit, Output} from '@a
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {WorkPackageTableFilters} from 'core-components/wp-fast-table/wp-table-filters';
 import {QueryFilterResource} from  'core-app/modules/hal/resources/query-filter-resource';
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
@@ -46,9 +45,9 @@ const ADD_FILTER_SELECT_INDEX = -1;
 })
 export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
-  @Input() public filters:WorkPackageTableFilters;
+  @Input() public filters:QueryFilterInstanceResource[];
   @Input() public showCloseFilter:boolean = false;
-  @Output() public filtersChanged = new DebouncedEventEmitter<WorkPackageTableFilters>(componentDestroyed(this));
+  @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
 
 
   public filterToBeAdded:QueryFilterResource|undefined;
@@ -89,7 +88,8 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   public onFilterAdded(filterToBeAdded:QueryFilterResource) {
     if (filterToBeAdded) {
-      let newFilter = this.filters.add(filterToBeAdded);
+      let newFilter = this.wpTableFilters.instantiate(filterToBeAdded);
+      this.filters.push(newFilter);
       this.filterToBeAdded = undefined;
 
       const index = this.currentFilterLength();
@@ -105,13 +105,13 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public isHiddenFilter(filter:QueryFilterResource) {
-    return _.includes(this.filters.hidden, filter.id);
+    return _.includes(this.wpTableFilters.hidden, filter.id);
   }
 
   public deactivateFilter(removedFilter:QueryFilterInstanceResource) {
-    let index = this.filters.current.indexOf(removedFilter);
+    let index = this.filters.indexOf(removedFilter);
+    _.remove(this.filters, f => f.id === removedFilter.id);
 
-    this.filters.remove(removedFilter);
     if (removedFilter.isCompletelyDefined()) {
       this.filtersChanged.emit(this.filters);
     }
@@ -121,13 +121,13 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public get isSecondSpacerVisible():boolean {
-    return _.reject(this.filters.current, (filter) => {
-      return (filter.id === 'search');
-    }).length > 0;
+    return this.filters
+      .filter((f) => f.id === 'search')
+      .length > 0;
   }
 
   private updateRemainingFilters() {
-    this.remainingFilters = _.sortBy(this.filters.remainingVisibleFilters, 'name');
+    this.remainingFilters = _.sortBy(this.wpTableFilters.remainingVisibleFilters(this.filters), 'name');
   }
 
   private updateFilterFocus(index:number) {
@@ -138,16 +138,16 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       const filterIndex = (index < activeFilterCount) ? index : activeFilterCount - 1;
       const filter = this.currentFilterAt(filterIndex);
-      this.focusElementIndex = this.filters.current.indexOf(filter);
+      this.focusElementIndex = this.filters.indexOf(filter);
     }
   }
 
   public currentFilterLength() {
-    return this.filters.current.length;
+    return this.filters.length;
   }
 
   public currentFilterAt(index:number) {
-    return this.filters.current[index];
+    return this.filters[index];
   }
 
 }

@@ -34,14 +34,11 @@ See docs/COPYRIGHT.rdoc for more details.
 <fieldset class="form--fieldset">
   <legend class="form--fieldset-legend"><%= t('timelines.properties') %></legend>
 
-  <div class="form--field">
+  <div class="form--field -required">
     <%= f.text_field :name, required: true, container_class: '-slim' %>
   </div>
-  <div class="form--field">
-    <label class="form--label -required">
-      <%= t('activerecord.attributes.color.hexcode') %>
-      <span class="form--label-required" aria-hidden="true">*</span>
-    </label>
+  <div class="form--field -required">
+    <label class="form--label"><%= t('activerecord.attributes.color.hexcode') %></label>
     <span class="form--field-container">
       <span class="form--text-field-container -xslim">
         <%= text_field_tag "color_hexcode",

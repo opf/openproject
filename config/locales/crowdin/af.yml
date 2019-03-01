@@ -465,6 +465,11 @@ af:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: must be accepted.
@@ -635,6 +640,10 @@ af:
         member:
           principal_blank: Kies asseblief ten minste een gebruiker of groep.
           role_blank: Kies asseblief ten minste een rol.
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 'Kontroleer asseblief die volgende velde:'
         header:

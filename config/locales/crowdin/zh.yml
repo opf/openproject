@@ -417,6 +417,11 @@ zh:
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
         confidential: Confidential
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
     errors:
       messages:
         accepted: 必须接受。
@@ -571,6 +576,10 @@ zh:
         member:
           principal_blank: 请选择至少一个用户或组。
           role_blank: 请选择至少一个角色。
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
       template:
         body: 请检查以下字段：
         header:

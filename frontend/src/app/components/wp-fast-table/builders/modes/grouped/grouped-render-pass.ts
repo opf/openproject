@@ -69,6 +69,11 @@ export class GroupedRenderPass extends PlainRenderPass {
       // Otherwise, fall back to simple value comparison.
       let value = group.value === '' ? null : group.value;
 
+      if (value) {
+        // For matching we have to remove the % sign which is shown when grouping after progress
+        value = value.replace('%', '');
+      }
+
       // Values provided by the API are always string
       // so avoid triple equal here
       // tslint:disable-next-line

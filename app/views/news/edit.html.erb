@@ -34,5 +34,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= render partial: 'form', locals: { f: f } %>
   <hr class="form--separator" />
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= link_to t(:button_cancel), news_path(@news), class: 'button -with-icon icon-cancel' %>
 <% end %>
 <div id="preview"></div>

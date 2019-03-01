@@ -35,9 +35,9 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= error_messages_for :auth_source %>
 
 <section class="form--section">
-  <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
-  <div class="form--field"><%= f.text_field 'host', required: true, container_class: '-middle' %></div>
-  <div class="form--field"><%= f.text_field 'port', required: true, size: 6, container_class: '-xslim' %></div>
+  <div class="form--field -required"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+  <div class="form--field -required"><%= f.text_field 'host', required: true, container_class: '-middle' %></div>
+  <div class="form--field -required"><%= f.text_field 'port', required: true, size: 6, container_class: '-xslim' %></div>
   <div class="form--field"><%= f.check_box 'tls', label: 'LDAPS' %> </div>
   <div class="form--field"><%= f.text_field 'account', container_class: '-middle'  %></div>
   <div class="form--field"><%= f.password_field 'account_password',
@@ -50,7 +50,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <fieldset class="form--fieldset">
   <legend class="form--fieldset-legend"><%=t(:label_attribute_plural)%></legend>
-  <div class="form--field"><%= f.text_field 'attr_login', label: AuthSource.human_attribute_name(:login), required: true, size: 20, container_class: '-middle'  %></div>
+  <div class="form--field -required"><%= f.text_field 'attr_login', label: AuthSource.human_attribute_name(:login), required: true, size: 20, container_class: '-middle'  %></div>
   <div class="form--field"><%= f.text_field 'attr_firstname', label: AuthSource.human_attribute_name(:firstname), size: 20, container_class: '-middle'  %></div>
   <div class="form--field"><%= f.text_field 'attr_lastname', label: AuthSource.human_attribute_name(:lastname), size: 20, container_class: '-middle'  %></div>
   <div class="form--field"><%= f.text_field 'attr_mail', label: AuthSource.human_attribute_name(:mail), size: 20, container_class: '-middle'  %></div>
