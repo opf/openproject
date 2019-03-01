@@ -492,6 +492,7 @@ ko:
         too_short: 은(는) 너무 짧습니다. (최소 %{count} 자 이상이어야 합니다)
         unchangeable: "- 변경할 수 없습니다."
         wrong_length: 너무 짧습니다 (최소 %{count} 자 이상이어야 합니다).
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: 하나 이상의 옵션을 사용할 수 있어야 합니다.

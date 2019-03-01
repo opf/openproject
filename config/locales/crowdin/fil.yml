@@ -549,6 +549,7 @@ fil:
         too_short: ay masyadong mababa (pinakamaliit ay ang mga %{count} karakter.
         unchangeable: cannot be changed.
         wrong_length: ay ang maling haba (dapat ay %{count} ang mga karakter).
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: Kahit isang opsyon lang ang kinakailangan na

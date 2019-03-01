@@ -140,28 +140,28 @@ lol:
     general_text_Yes: crwdns119192:0crwdne119192:0
     grid:
       add_modal:
-        choose_widget: crwdns121656:0crwdne121656:0
+        choose_widget: Choose widget
       widgets:
         documents:
-          title: crwdns121658:0crwdne121658:0
-          no_results: crwdns121660:0crwdne121660:0
+          title: Documents
+          no_results: No documents yet.
         news:
-          title: crwdns121662:0crwdne121662:0
-          at: crwdns121664:0crwdne121664:0
-          no_results: crwdns121666:0crwdne121666:0
+          title: News
+          at: at
+          no_results: Nothing new to report.
         time_entries_current_user:
-          title: crwdns121668:0crwdne121668:0
-          no_results: crwdns121670:0crwdne121670:0
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
         work_packages_accountable:
-          title: crwdns121672:0crwdne121672:0
+          title: Work packages I am accountable for
         work_packages_assigned:
-          title: crwdns121674:0crwdne121674:0
+          title: Work packages assigned to me
         work_packages_created:
-          title: crwdns121676:0crwdne121676:0
+          title: Work packages created by me
         work_packages_watched:
-          title: crwdns121678:0crwdne121678:0
+          title: Work packages watched by me
         work_packages_calendar:
-          title: crwdns121680:0crwdne121680:0
+          title: Calendar
     label_activate: crwdns119194:0crwdne119194:0
     label_activity_no: crwdns119196:0%{activityNo}crwdne119196:0
     label_activity_with_comment_no: crwdns119198:0%{activityNo}crwdne119198:0
@@ -799,3 +799,7 @@ lol:
         all_projects: crwdns120288:0crwdne120288:0
         project_and_subprojects: crwdns120290:0crwdne120290:0
         search_for: crwdns120292:0crwdne120292:0
+    label_board: crwdns121750:0crwdne121750:0
+    label_board_plural: crwdns121752:0crwdne121752:0
+    label_wp_id_added_by: crwdns121754:0%{id}crwdnd121754:0%{author}crwdne121754:0
+    notice_no_results_to_display: crwdns121756:0crwdne121756:0

@@ -530,6 +530,7 @@ fi:
         too_short: on liian lyhyt (minimi on %{count} merkkiä).
         unchangeable: cannot be changed.
         wrong_length: on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä).
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.

@@ -532,6 +532,7 @@ bg:
         too_short: е твърде кратък (минимум е %{count} знаци).
         unchangeable: cannot be changed.
         wrong_length: е грешна дължина (трябва да бъде %{count} знаци).
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.

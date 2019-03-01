@@ -36,7 +36,7 @@ zh:
     button_duplicate: 复制
     button_edit: 编辑
     button_filter: 筛选器
-    button_advanced_filter: Advanced filter
+    button_advanced_filter: 高级筛选
     button_list_view: 列表视图
     button_show_view: 全屏视图
     button_log_time: 记录时间
@@ -146,22 +146,22 @@ zh:
           title: Documents
           no_results: No documents yet.
         news:
-          title: 新闻
+          title: News
           at: at
-          no_results: 没有新消息报告。
+          no_results: Nothing new to report.
         time_entries_current_user:
           title: Spent time (last 7 days)
           no_results: No time entries for the last 7 days.
         work_packages_accountable:
-          title: 我负责的工作包
+          title: Work packages I am accountable for
         work_packages_assigned:
-          title: 分配给我的工作包
+          title: Work packages assigned to me
         work_packages_created:
           title: Work packages created by me
         work_packages_watched:
           title: Work packages watched by me
         work_packages_calendar:
-          title: 日历
+          title: Calendar
     label_activate: 激活
     label_activity_no: 活动条目编号 %{activityNo}
     label_activity_with_comment_no: 活动条目编号 %{activityNo}，有用户评论。
@@ -794,9 +794,13 @@ zh:
       all_projects: In all projects
       search: 搜索
       close_search: Close search
-      current_project: In this project
-      current_project_and_all_descendants: In this project + subprojects
+      current_project: 在当前项目中
+      current_project_and_all_descendants: 在当前项目和子项目中
       title:
-        all_projects: all projects
-        project_and_subprojects: and all subprojects
-        search_for: Search for
+        all_projects: 所有项目
+        project_and_subprojects: 和所有子项目
+        search_for: 搜索
+    label_board: Board
+    label_board_plural: Boards
+    label_wp_id_added_by: "#%{id} added by %{author}"
+    notice_no_results_to_display: No visible results to display.

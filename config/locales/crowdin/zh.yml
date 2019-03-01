@@ -479,6 +479,7 @@ zh:
         too_short: 太短 (最低是 %{count} 个字符)。
         unchangeable: 不能更改。
         wrong_length: 长度不正确 (应该是 %{count} 个字符)。
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: 至少有需要一个可用选项。

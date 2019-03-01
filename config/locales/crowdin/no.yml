@@ -528,6 +528,7 @@
         too_short: is too short (minimum is %{count} characters).
         unchangeable: cannot be changed.
         wrong_length: is the wrong length (should be %{count} characters).
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.

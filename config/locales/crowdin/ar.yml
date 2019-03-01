@@ -527,6 +527,7 @@ ar:
         too_short: قصيرة جداً (الحد الأدنى هو الأحرف %{count}).
         unchangeable: cannot be changed.
         wrong_length: هو طول خاطئ (يجب أن تكون الأحرف %{count}).
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.

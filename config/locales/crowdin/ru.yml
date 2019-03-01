@@ -532,6 +532,7 @@ ru:
         too_short: слишком коротко (минимум — %{count} знаков).
         unchangeable: изменить нельзя.
         wrong_length: неправильная длина (должно быть %{count} знаков).
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: По крайней мере один параметр должен быть доступен.

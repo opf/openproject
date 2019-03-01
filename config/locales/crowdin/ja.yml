@@ -477,6 +477,7 @@ ja:
         too_short: は%{count}文字以上を入力してください。
         unchangeable: 変更できません。
         wrong_length: は%{count}文字を入力してください。
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: 少なくとも 1 つオプションが有効である必要があります。

@@ -528,6 +528,7 @@ pl:
         too_short: jest zbyt krótkie (min. %{count} znaków).
         unchangeable: nie można zmienić.
         wrong_length: ma nieprawidłową długość (powinno mieć %{count} znaków).
+        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: Przynajmniej jedna opcja musi być dostępna.

@@ -156,22 +156,22 @@ ca:
           title: Documents
           no_results: No documents yet.
         news:
-          title: Notícies
+          title: News
           at: at
-          no_results: Res de nou a informar.
+          no_results: Nothing new to report.
         time_entries_current_user:
           title: Spent time (last 7 days)
           no_results: No time entries for the last 7 days.
         work_packages_accountable:
           title: Work packages I am accountable for
         work_packages_assigned:
-          title: Paquets de treball assignats a mi
+          title: Work packages assigned to me
         work_packages_created:
           title: Work packages created by me
         work_packages_watched:
           title: Work packages watched by me
         work_packages_calendar:
-          title: Calendari
+          title: Calendar
     label_activate: Activar
     label_activity_no: Número d'entrada d'activitat %{activityNo}
     label_activity_with_comment_no: Número d'entrada d'activitat %{activityNo}. Disposa
@@ -885,3 +885,7 @@ ca:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
+    label_board: Board
+    label_board_plural: Boards
+    label_wp_id_added_by: "#%{id} added by %{author}"
+    notice_no_results_to_display: No visible results to display.

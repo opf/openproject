@@ -163,22 +163,22 @@ de:
           title: Documents
           no_results: No documents yet.
         news:
-          title: Neuigkeiten
+          title: News
           at: at
-          no_results: Nichts Neues zu berichten.
+          no_results: Nothing new to report.
         time_entries_current_user:
           title: Spent time (last 7 days)
           no_results: No time entries for the last 7 days.
         work_packages_accountable:
-          title: Von mir verantwortete Arbeitspakete
+          title: Work packages I am accountable for
         work_packages_assigned:
-          title: Mir zugewiesene Arbeitspakete
+          title: Work packages assigned to me
         work_packages_created:
           title: Work packages created by me
         work_packages_watched:
           title: Work packages watched by me
         work_packages_calendar:
-          title: Kalender
+          title: Calendar
     label_activate: Aktivieren
     label_activity_no: 'Aktivitäts-Nummer: %{activityNo}'
     label_activity_with_comment_no: 'Aktivitäts-Nummer: %{activityNo}. Hat einen Benutzerkommentar.'
@@ -897,3 +897,7 @@ de:
         all_projects: alle Projekte
         project_and_subprojects: und alle Unterprojekte
         search_for: Suche nach
+    label_board: Board
+    label_board_plural: Boards
+    label_wp_id_added_by: "#%{id} added by %{author}"
+    notice_no_results_to_display: No visible results to display.
