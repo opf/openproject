@@ -177,7 +177,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     this.expanded = true;
     jQuery('#top-menu').addClass('-global-search-expanded');
     // load result list after page reload
-    if (this.isFirstFocus && this.currentValue.length > 0) {
+    if (this.isFirstFocus && (this.currentValue || '').length > 0) {
       this.isFirstFocus = false;
       this.getSearchResult(this.ngSelectComponent.filterValue);
     }
