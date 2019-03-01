@@ -72,7 +72,7 @@ export class WorkPackageStaticQueriesService {
       {
       identifier: 'gantt',
       label: this.text.gantt,
-      query_props: '{"c":["id","subject"],"tv":true,"tzl":"years","hi":true,"g":"","t":"parent:asc","f":[{"n":"status","o":"o","v":[]}]}'
+      query_props: '{"c":["id","subject","startDate","dueDate"],"tv":true,"tzl":"years","hi":true,"g":"","t":"parent:asc","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}'
     },
     {
       identifier: 'recently_created',
