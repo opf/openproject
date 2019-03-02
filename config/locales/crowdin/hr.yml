@@ -532,7 +532,6 @@ hr:
         too_short: je prekratko (minimalno %{count} znakova).
         unchangeable: cannot be changed.
         wrong_length: je krive duljine (mora biti %{count} znakova).
-        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.

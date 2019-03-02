@@ -58,7 +58,7 @@ hu:
   ldap_auth_sources:
     connection_encryption: Connection encryption
     tls_mode:
-      plain: none
+      plain: Nincs
       simple_tls: simple_tls
       start_tls: start_tls
       plain_description: Plain unencrypted connection, no TLS negotiation.
@@ -526,7 +526,6 @@ hu:
         too_short: túl rövid (legalább %{count} karakter kell legyen).
         unchangeable: nem módosítható.
         wrong_length: nem megfelelő hosszúságú (%{count} karakter szükséges).
-        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: Minimum egy opciónak elérhetőnek kell lennie.

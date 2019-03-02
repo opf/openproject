@@ -156,22 +156,22 @@ hu:
           title: Documents
           no_results: No documents yet.
         news:
-          title: News
+          title: Hírek
           at: at
-          no_results: Nothing new to report.
+          no_results: Semmi új jelenteni való.
         time_entries_current_user:
           title: Spent time (last 7 days)
           no_results: No time entries for the last 7 days.
         work_packages_accountable:
-          title: Work packages I am accountable for
+          title: Feladatcsoportok, amelyért én vagyok a felelős
         work_packages_assigned:
-          title: Work packages assigned to me
+          title: Magamhoz rendelt feladatcsoportok
         work_packages_created:
           title: Work packages created by me
         work_packages_watched:
           title: Work packages watched by me
         work_packages_calendar:
-          title: Calendar
+          title: Naptár
     label_activate: Aktivál
     label_activity_no: Tevékenységi bejegyzések száma %{activityNo}
     label_activity_with_comment_no: Tevékenységi bejegyzések száma %{activityNo}.
@@ -880,7 +880,3 @@ hu:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    label_board: Board
-    label_board_plural: Boards
-    label_wp_id_added_by: "#%{id} added by %{author}"
-    notice_no_results_to_display: No visible results to display.

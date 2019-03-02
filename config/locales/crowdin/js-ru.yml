@@ -158,22 +158,22 @@ ru:
           title: Documents
           no_results: No documents yet.
         news:
-          title: News
+          title: Новости
           at: at
-          no_results: Nothing new to report.
+          no_results: Ничего нового для отчета.
         time_entries_current_user:
           title: Spent time (last 7 days)
           no_results: No time entries for the last 7 days.
         work_packages_accountable:
-          title: Work packages I am accountable for
+          title: Пакеты работ, в которых я подотчетен
         work_packages_assigned:
-          title: Work packages assigned to me
+          title: Переданные мне пакеты работ
         work_packages_created:
           title: Work packages created by me
         work_packages_watched:
           title: Work packages watched by me
         work_packages_calendar:
-          title: Calendar
+          title: Календарь
     label_activate: Активировать
     label_activity_no: Деятельность номер %{activityNo}
     label_activity_with_comment_no: Деятельность номер %{activityNo}. Есть комментарий
@@ -894,7 +894,3 @@ ru:
         all_projects: все проекты
         project_and_subprojects: и все подпроекты
         search_for: Поиск по
-    label_board: Board
-    label_board_plural: Boards
-    label_wp_id_added_by: "#%{id} added by %{author}"
-    notice_no_results_to_display: No visible results to display.

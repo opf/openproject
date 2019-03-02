@@ -160,22 +160,22 @@ pt-BR:
           title: Documents
           no_results: No documents yet.
         news:
-          title: News
+          title: Notícias
           at: at
-          no_results: Nothing new to report.
+          no_results: Nada de novo para relatar.
         time_entries_current_user:
           title: Spent time (last 7 days)
           no_results: No time entries for the last 7 days.
         work_packages_accountable:
-          title: Work packages I am accountable for
+          title: Pacotes de trabalho sob minha responsabilidade
         work_packages_assigned:
-          title: Work packages assigned to me
+          title: Pacotes de trabalho atribuídos a mim
         work_packages_created:
           title: Work packages created by me
         work_packages_watched:
           title: Work packages watched by me
         work_packages_calendar:
-          title: Calendar
+          title: Calendário
     label_activate: Ativar
     label_activity_no: Número da atividade %{activityNo}
     label_activity_with_comment_no: Atividade número %{activityNo}. Tem um comentário
@@ -890,7 +890,3 @@ pt-BR:
         all_projects: todos os projetos
         project_and_subprojects: e todos os subprojetos
         search_for: Pesquisar por
-    label_board: Board
-    label_board_plural: Boards
-    label_wp_id_added_by: "#%{id} added by %{author}"
-    notice_no_results_to_display: No visible results to display.

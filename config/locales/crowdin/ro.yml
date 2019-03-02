@@ -60,7 +60,7 @@ ro:
   ldap_auth_sources:
     connection_encryption: Connection encryption
     tls_mode:
-      plain: none
+      plain: niciunul
       simple_tls: simple_tls
       start_tls: start_tls
       plain_description: Plain unencrypted connection, no TLS negotiation.
@@ -539,7 +539,6 @@ ro:
         too_short: este prea scurt (minimum admis este de %{count} caractere).
         unchangeable: cannot be changed.
         wrong_length: nu are lungimea corectă (ar trebui să fie de %{count} characters).
-        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.

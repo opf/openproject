@@ -59,7 +59,7 @@ sk:
   ldap_auth_sources:
     connection_encryption: Connection encryption
     tls_mode:
-      plain: none
+      plain: žiadne
       simple_tls: simple_tls
       start_tls: start_tls
       plain_description: Plain unencrypted connection, no TLS negotiation.
@@ -536,7 +536,6 @@ sk:
         too_short: je príliš krátky (minimum je %{count} znakov).
         unchangeable: nie je možné zmeniť.
         wrong_length: má chybnú dĺžku (správne má byť %{count} znakov).
-        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: Musí byť k dispozícii aspoň jedna možnosť.

@@ -58,7 +58,7 @@ ru:
   ldap_auth_sources:
     connection_encryption: Connection encryption
     tls_mode:
-      plain: none
+      plain: нет
       simple_tls: simple_tls
       start_tls: start_tls
       plain_description: Plain unencrypted connection, no TLS negotiation.
@@ -532,7 +532,6 @@ ru:
         too_short: слишком коротко (минимум — %{count} знаков).
         unchangeable: изменить нельзя.
         wrong_length: неправильная длина (должно быть %{count} знаков).
-        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: По крайней мере один параметр должен быть доступен.

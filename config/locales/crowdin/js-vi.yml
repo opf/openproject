@@ -158,22 +158,22 @@ vi:
           title: Documents
           no_results: No documents yet.
         news:
-          title: News
+          title: Tin tức
           at: at
-          no_results: Nothing new to report.
+          no_results: Không có gì mới để báo cáo.
         time_entries_current_user:
           title: Spent time (last 7 days)
           no_results: No time entries for the last 7 days.
         work_packages_accountable:
-          title: Work packages I am accountable for
+          title: Gói công việc mà tôi có trách nhiệm
         work_packages_assigned:
-          title: Work packages assigned to me
+          title: Work package được chỉ định cho tôi
         work_packages_created:
           title: Work packages created by me
         work_packages_watched:
           title: Work packages watched by me
         work_packages_calendar:
-          title: Calendar
+          title: Lịch
     label_activate: Activate
     label_activity_no: Số chỉ mục hoạt động %{activityNo}
     label_activity_with_comment_no: Số chỉ mục hoạt động %{activityNo}. Có một nhận
@@ -879,7 +879,3 @@ vi:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    label_board: Board
-    label_board_plural: Boards
-    label_wp_id_added_by: "#%{id} added by %{author}"
-    notice_no_results_to_display: No visible results to display.

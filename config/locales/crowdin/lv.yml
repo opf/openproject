@@ -526,7 +526,6 @@ lv:
         too_short: ir pārāk īss (minimums ir %{count} rakstzīmes).
         unchangeable: cannot be changed.
         wrong_length: ir nepareizs garums (vajadzētu būt %{count} rakstzīmes).
-        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.

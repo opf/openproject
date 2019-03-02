@@ -46,19 +46,15 @@ lol:
       no_results_content_title: crwdns114766:0crwdne114766:0
       no_results_content_text: crwdns114768:0crwdne114768:0
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: crwdns121758:0crwdne121758:0
     tls_mode:
-      plain: none
-      simple_tls: simple_tls
-      start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      plain: crwdns121760:0crwdne121760:0
+      simple_tls: crwdns121762:0crwdne121762:0
+      start_tls: crwdns121764:0crwdne121764:0
+      plain_description: crwdns121766:0crwdne121766:0
+      simple_tls_description: crwdns121768:0crwdne121768:0
+      start_tls_description: crwdns121770:0crwdne121770:0
+      section_more_info_link_html: 'crwdns121772:0%{link}crwdne121772:0
 
 '
   boards:
@@ -333,10 +329,10 @@ lol:
         encoded_token: crwdns115082:0crwdne115082:0
         active_user_count_restriction: crwdns115084:0crwdne115084:0
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
+        page: crwdns121774:0crwdne121774:0
+        row_count: crwdns121776:0crwdne121776:0
+        column_count: crwdns121778:0crwdne121778:0
+        widgets: crwdns121780:0crwdne121780:0
       relation:
         delay: crwdns115086:0crwdne115086:0
         from: crwdns115088:0crwdne115088:0
@@ -474,7 +470,6 @@ lol:
         too_short: crwdns115314:0%{count}crwdne115314:0
         unchangeable: crwdns115316:0crwdne115316:0
         wrong_length: crwdns115318:0%{count}crwdne115318:0
-        unremovable: crwdns121748:0crwdne121748:0
       models:
         custom_field:
           at_least_one_custom_option: crwdns115320:0crwdne115320:0
@@ -499,9 +494,9 @@ lol:
         enterprise_token:
           unreadable: crwdns115348:0crwdne115348:0
         grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          overlaps: crwdns121782:0crwdne121782:0
+          outside: crwdns121784:0crwdne121784:0
+          end_before_start: crwdns121786:0crwdne121786:0
         parse_schema_filter_params_service:
           attributes:
             base:

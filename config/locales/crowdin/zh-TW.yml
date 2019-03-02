@@ -48,7 +48,7 @@ zh-TW:
   ldap_auth_sources:
     connection_encryption: Connection encryption
     tls_mode:
-      plain: none
+      plain: 無
       simple_tls: simple_tls
       start_tls: start_tls
       plain_description: Plain unencrypted connection, no TLS negotiation.
@@ -477,7 +477,6 @@ zh-TW:
         too_short: 太短 (最少 %{count} 個字元)
         unchangeable: 無法更改。
         wrong_length: 長度錯誤 (應該要有 %{count} 個字元)
-        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: 需要至少一個選項可用。

@@ -59,7 +59,7 @@ tr:
   ldap_auth_sources:
     connection_encryption: Connection encryption
     tls_mode:
-      plain: none
+      plain: hiçbiri
       simple_tls: simple_tls
       start_tls: start_tls
       plain_description: Plain unencrypted connection, no TLS negotiation.
@@ -526,7 +526,6 @@ tr:
         too_short: çok kısa (en az %{count} karakterdir).
         unchangeable: değiştirilemez.
         wrong_length: uzunluğu yanlıştır (%{count} karakter olmalıdır).
-        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: En az bir seçeneğin uygun olması gerekir.

@@ -147,22 +147,22 @@ zh-TW:
           title: Documents
           no_results: No documents yet.
         news:
-          title: News
+          title: 新知
           at: at
-          no_results: Nothing new to report.
+          no_results: 沒有新的消息可以報告
         time_entries_current_user:
           title: Spent time (last 7 days)
           no_results: No time entries for the last 7 days.
         work_packages_accountable:
-          title: Work packages I am accountable for
+          title: 我負責的工作項目
         work_packages_assigned:
-          title: Work packages assigned to me
+          title: 分配給我的工作項目
         work_packages_created:
           title: Work packages created by me
         work_packages_watched:
           title: Work packages watched by me
         work_packages_calendar:
-          title: Calendar
+          title: 行事曆
     label_activate: 啟用
     label_activity_no: 活動條目編號 %{activityNo}
     label_activity_with_comment_no: 活動條目編號 %{activityNo}。有的使用者評論。
@@ -804,7 +804,3 @@ zh-TW:
         all_projects: 所有專案
         project_and_subprojects: 和所有的子專案
         search_for: 搜尋
-    label_board: Board
-    label_board_plural: Boards
-    label_wp_id_added_by: "#%{id} added by %{author}"
-    notice_no_results_to_display: No visible results to display.

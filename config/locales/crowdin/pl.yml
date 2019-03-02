@@ -59,7 +59,7 @@ pl:
   ldap_auth_sources:
     connection_encryption: Connection encryption
     tls_mode:
-      plain: none
+      plain: Brak
       simple_tls: simple_tls
       start_tls: start_tls
       plain_description: Plain unencrypted connection, no TLS negotiation.
@@ -528,7 +528,6 @@ pl:
         too_short: jest zbyt krótkie (min. %{count} znaków).
         unchangeable: nie można zmienić.
         wrong_length: ma nieprawidłową długość (powinno mieć %{count} znaków).
-        unremovable: cannot be removed.
       models:
         custom_field:
           at_least_one_custom_option: Przynajmniej jedna opcja musi być dostępna.
