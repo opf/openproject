@@ -413,10 +413,10 @@ lol:
         scopes: crwdns115238:0crwdne115238:0
         confidential: crwdns115240:0crwdne115240:0
       grids/grid:
-        page: crwdns121642:0crwdne121642:0
-        row_count: crwdns121644:0crwdne121644:0
-        column_count: crwdns121646:0crwdne121646:0
-        widgets: crwdns121648:0crwdne121648:0
+        page: crwdns121840:0crwdne121840:0
+        row_count: crwdns121842:0crwdne121842:0
+        column_count: crwdns121844:0crwdne121844:0
+        widgets: crwdns121846:0crwdne121846:0
     errors:
       messages:
         accepted: crwdns115242:0crwdne115242:0
@@ -571,9 +571,9 @@ lol:
           principal_blank: crwdns115442:0crwdne115442:0
           role_blank: crwdns115444:0crwdne115444:0
         grids/grid:
-          overlaps: crwdns121650:0crwdne121650:0
-          outside: crwdns121652:0crwdne121652:0
-          end_before_start: crwdns121654:0crwdne121654:0
+          overlaps: crwdns121848:0crwdne121848:0
+          outside: crwdns121850:0crwdne121850:0
+          end_before_start: crwdns121852:0crwdne121852:0
       template:
         body: crwdns115446:0crwdne115446:0
         header:
@@ -2578,3 +2578,15 @@ lol:
     authorization_error: crwdns118974:0crwdne118974:0
     revoke_my_application_confirmation: crwdns118976:0%{token_count}crwdne118976:0
     my_registered_applications: crwdns118978:0crwdne118978:0
+  ldap_auth_sources:
+    connection_encryption: crwdns121824:0crwdne121824:0
+    tls_mode:
+      plain: crwdns121826:0crwdne121826:0
+      simple_tls: crwdns121828:0crwdne121828:0
+      start_tls: crwdns121830:0crwdne121830:0
+      plain_description: crwdns121832:0crwdne121832:0
+      simple_tls_description: crwdns121834:0crwdne121834:0
+      start_tls_description: crwdns121836:0crwdne121836:0
+      section_more_info_link_html: 'crwdns121838:0%{link}crwdne121838:0
+
+'
