@@ -781,25 +781,25 @@ lol:
         search_for: crwdns120292:0crwdne120292:0
     grid:
       add_modal:
-        choose_widget: crwdns121788:0crwdne121788:0
+        choose_widget: crwdns121854:0crwdne121854:0
       widgets:
         documents:
-          title: crwdns121790:0crwdne121790:0
-          no_results: crwdns121792:0crwdne121792:0
+          title: crwdns121856:0crwdne121856:0
+          no_results: crwdns121858:0crwdne121858:0
         news:
-          title: crwdns121794:0crwdne121794:0
-          at: crwdns121796:0crwdne121796:0
-          no_results: crwdns121798:0crwdne121798:0
+          title: crwdns121860:0crwdne121860:0
+          at: crwdns121862:0crwdne121862:0
+          no_results: crwdns121864:0crwdne121864:0
         time_entries_current_user:
-          title: crwdns121800:0crwdne121800:0
-          no_results: crwdns121802:0crwdne121802:0
+          title: crwdns121866:0crwdne121866:0
+          no_results: crwdns121868:0crwdne121868:0
         work_packages_accountable:
-          title: crwdns121804:0crwdne121804:0
+          title: crwdns121870:0crwdne121870:0
         work_packages_assigned:
-          title: crwdns121806:0crwdne121806:0
+          title: crwdns121872:0crwdne121872:0
         work_packages_created:
-          title: crwdns121808:0crwdne121808:0
+          title: crwdns121874:0crwdne121874:0
         work_packages_watched:
-          title: crwdns121810:0crwdne121810:0
+          title: crwdns121876:0crwdne121876:0
         work_packages_calendar:
-          title: crwdns121812:0crwdne121812:0
+          title: crwdns121878:0crwdne121878:0
