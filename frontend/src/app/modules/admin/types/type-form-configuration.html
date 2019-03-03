@@ -1,0 +1,43 @@
+<div class="grid-block wrap">
+  <div class="grid-content small-12 medium-6 large-5">
+    <div class="type-form-query" [attr.data-query]='no_filter_query'>
+      <span class="type-form-query-group--edit-button" (click)="editQuery($event)">
+        <op-icon icon-classes="button--icon icon-edit"></op-icon>
+        {{ text.edit_query }}
+      </span>
+    </div>
+  </div>
+  <div id="draggable-groups" dragula='"groups"'>
+    <ng-container *ngFor="let group of groups">
+      <type-form-attribute-group *ngIf="group.type === 'attribute" [group]="group"></type-form-attribute-group>
+      <type-form-query-group *ngIf="group.type === 'query" [group]="group"></type-form-query-group>
+    </ng-container>
+  </div>
+</div>
+<div class="grid-content small-12 medium-6 large-5">
+  <div id="type-form-conf-inactive-group">
+    <div class="group-head">
+      <span class="group-name" [textContent]="text.label_inactive"></span>
+      <span class="advice">
+          ({{ text.drag_to_activate }})
+        </span>
+    </div>
+    <div class="attributes" dragula='"attributes"'>
+      <div *ngFor="let inactive_attribute of inactives"
+           class="type-form-conf-attribute"
+           [attr.data-key]="inactive_attribute.key">
+        <span class="attribute-handle icon-toggle"></span>
+        <span class="attribute-name">
+            {{ inactive_attribute.translation }}
+            <span *ngIf="inactive_attribute.is_cf"
+                  class="attribute-cf-label"
+                  [textContent]="text.custom_field">
+              <%= CustomField.model_name.human %>
+            </span>
+          </span>
+        <span class="delete-group icon-small icon-close" (click)="deactivateAttribute($event)"></span>
+      </div>
+    </div>
+  </div><!-- END type form configurator -->
+</div>
+</div>

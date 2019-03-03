@@ -84,6 +84,8 @@ import {AutocompleteSelectDecorationComponent} from "core-app/modules/common/aut
 import {AddSectionDropdownComponent} from "core-app/modules/common/hide-section/add-section-dropdown/add-section-dropdown.component";
 import {HideSectionLinkComponent} from "core-app/modules/common/hide-section/hide-section-link/hide-section-link.component";
 import {HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
+import {RemoteFieldUpdaterComponent} from 'core-app/modules/common/remote-field-updater/remote-field-updater.component';
+import {AutofocusDirective} from 'core-app/modules/common/autofocus/autofocus.directive';
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -169,6 +171,8 @@ export function bootstrapModule(injector:Injector) {
 
     // User Avatar
     UserAvatarComponent,
+
+    AutofocusDirective,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -227,6 +231,8 @@ export function bootstrapModule(injector:Injector) {
     AutocompleteSelectDecorationComponent,
     HideSectionLinkComponent,
     AddSectionDropdownComponent,
+    RemoteFieldUpdaterComponent,
+    AutofocusDirective,
   ],
   entryComponents: [
     OpDateTimeComponent,
@@ -247,6 +253,8 @@ export function bootstrapModule(injector:Injector) {
     AutocompleteSelectDecorationComponent,
     HideSectionLinkComponent,
     AddSectionDropdownComponent,
+    RemoteFieldUpdaterComponent,
+    AutofocusDirective,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },

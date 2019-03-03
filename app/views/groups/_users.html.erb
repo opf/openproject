@@ -27,7 +27,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= activate_angular_js do %>
 <div class="grid-block">
   <div class="grid-content">
     <% if @group.users.any? %>
@@ -48,7 +47,9 @@ See docs/COPYRIGHT.rdoc for more details.
                .limit(100) %>
     <% if users.any? %>
       <%= styled_form_tag(members_of_group_path(@group), method: :post) do |f| %>
-        <remote-field-updater url="<%= url_for(controller: '/groups', action: 'autocomplete_for_user', id: @group)%>">
+        <remote-field-updater data-url="<%= url_for(controller: '/groups', action: 'autocomplete_for_user', id: @group)%>"
+                              data-mode="html">
+        </remote-field-updater>
           <fieldset class="form--fieldset">
             <legend class="form--fieldset-legend"><%=l(:label_user_new)%></legend>
               <div class="form--field -vertical">
@@ -66,7 +67,6 @@ See docs/COPYRIGHT.rdoc for more details.
                 </div>
               </div>
           </fieldset>
-        </remote-field-updater>
         <div>
           <%= styled_button_tag l(:button_add),
                                 class: '-highlight -with-icon icon-checkmark' %>
@@ -75,4 +75,3 @@ See docs/COPYRIGHT.rdoc for more details.
     <% end %>
   </div>
 </div>
-<% end %>

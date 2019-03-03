@@ -42,7 +42,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end -%>
 </ul>
 
-<%= activate_angular_js do %>
 <%= styled_form_tag({action: 'create'},
                     id: 'move_form',
                     data: { 'refresh-url': url_for(action: 'new'), 'input-selector': '#new_project_id' },
@@ -139,5 +138,4 @@ See docs/COPYRIGHT.rdoc for more details.
 <% end %>
 <% content_for :header_tags do %>
   <%= robot_exclusion_tag %>
-<% end %>
 <% end %>
