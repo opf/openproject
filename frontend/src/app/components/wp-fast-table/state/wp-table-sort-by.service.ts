@@ -77,14 +77,6 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService<W
   }
 
   public applyToQuery(query:QueryResource) {
-    if (this.current.current.length > 0) {
-      // hierarchies and sort by are mutually exclusive
-      var hierarchies = this.tableState.hierarchies.value!;
-      hierarchies.current = false;
-      hierarchies.last = null;
-      this.tableState.hierarchies.putValue(hierarchies);
-      query.hierarchies = hierarchies.current;
-    }
     query.sortBy = cloneHalResourceCollection<QuerySortByResource>(this.current.current);
     return true;
   }
