@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,31 +28,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class InitializeSessionService
-  class << self
-    ##
-    # Initializes a new session for the given user.
-    # This services provides very little for what it is called,
-    # mainly caused due to the many ways a user can login.
-    def call(user, session)
-      session[:user_id] = user.id
-      session[:updated_at] = Time.now
+module Sessions
+  class BaseService
+    class << self
 
-      if drop_old_sessions?
-        ::UserSession.where(user_id: user.id).delete_all
+      protected
+
+      ##
+      # Can we work on SQL sessions?
+      def active_record_sessions?
+        OpenProject::Configuration.session_store.to_s == 'active_record_store'
       end
-
-      ServiceResult.new(success: true, result: session)
-    end
-
-    private
-
-    ##
-    # We can only drop old sessions if they're stored in the database
-    # and enabled by configuration.
-    def drop_old_sessions?
-      OpenProject::Configuration.session_store.to_s == 'active_record_store' &&
-        OpenProject::Configuration.drop_old_sessions_on_login?
     end
   end
 end

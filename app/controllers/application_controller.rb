@@ -202,7 +202,7 @@ class ApplicationController < ActionController::Base
 
     if user && user.is_a?(User)
       User.current = user
-      InitializeSessionService.call(user, session)
+      Sessions::InitializeSessionService.call(user, session)
     else
       User.current = User.anonymous
     end

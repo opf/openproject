@@ -526,9 +526,15 @@ OpenProject::Application.routes.draw do
     get '/my/password', action: 'password'
     post '/my/change_password', action: 'change_password'
     get '/my/page', action: 'page'
-    match '/my/account', action: 'account', via: %i[get patch]
-    match '/my/settings', action: 'settings', via: %i[get patch]
-    match '/my/mail_notifications', action: 'mail_notifications', via: %i[get patch]
+
+    get '/my/account', action: 'account'
+    get '/my/settings', action: 'settings'
+    get '/my/mail_notifications', action: 'mail_notifications'
+
+    patch '/my/account', action: 'update_account'
+    patch '/my/settings', action: 'update_settings'
+    patch '/my/mail_notifications', action: 'update_mail_notifications'
+
     post '/my/generate_rss_key', action: 'generate_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'
     get '/my/access_token', action: 'access_token'
