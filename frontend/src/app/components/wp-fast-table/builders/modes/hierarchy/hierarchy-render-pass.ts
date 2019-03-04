@@ -115,11 +115,14 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
       if (inTable) {
         // Get the current elements
-        const elements = this.deferred[parent.id] || [];
+        let elements = this.deferred[parent.id] || [];
         // Append to them the child and all children below
         let newElements:WorkPackageResource[] = ancestorChain.slice(i + 1, ancestorChain.length);
         newElements = newElements.map(child => this.wpCacheService.state(child.id).value!);
-        this.deferred[parent.id] = elements.concat(newElements);
+        // Append all new elements
+        elements = elements.concat(newElements);
+        // Remove duplicates (Regression #29652)
+        this.deferred[parent.id] = _.uniqBy(elements, el => el.id);
         return true;
       }
       // Otherwise, continue the chain upwards
