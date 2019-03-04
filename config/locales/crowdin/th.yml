@@ -1812,6 +1812,8 @@ th:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: ปรับปรุงบัญชีสำเร็จ
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: รหัสผ่านไม่ถูกต้อง
   notice_account_registered_and_logged_in: ยินดีต้อนรับ, ได้มีการเปิดใช้บัญชีของคุณแล้ว
     คุณสามารถล็อกอินได้ทันที

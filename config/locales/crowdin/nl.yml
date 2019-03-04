@@ -1868,6 +1868,8 @@ nl:
   notice_account_update_failed: Account instelling kan niet worden opgeslagen. Kijk
     op uw accountpagina.
   notice_account_updated: Account is bijgewerkt.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Verkeerde wachtwoord
   notice_account_registered_and_logged_in: Welkom, uw acount is geactiveerd. U bent
     nu ingelogd.

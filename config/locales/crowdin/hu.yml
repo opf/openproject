@@ -1851,6 +1851,8 @@ hu:
   notice_account_update_failed: A felhasználói beállítások nem menthetők. Kérem, vessen
     egy pillantást a fiók oldalra.
   notice_account_updated: A hozzáférési adatok sikeresen frissítve.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Hibás jelszó
   notice_account_registered_and_logged_in: Üdvözöljük a fiókja aktiválva van. Most
     bejelentkezhet.

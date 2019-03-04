@@ -1863,6 +1863,8 @@ ca:
   notice_account_update_failed: No s'ha pogut desar la configuració del compte. Si
     us plau, revisi la pàgina del compte.
   notice_account_updated: El compte s'ha actualitzat correctament.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Contrasenya errònia
   notice_account_registered_and_logged_in: Benvingut, el seu compte s'ha activat.
     Ara ja està vostè connectat.

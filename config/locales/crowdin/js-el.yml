@@ -175,13 +175,13 @@ el:
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
       comment.
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
+    label_add_column_after: Προσθήκη στήλης μετά
+    label_add_column_before: Προσθήκη στήλης πριν
     label_add_columns: Add columns
     label_add_comment: Add comment
     label_add_comment_title: Comment and type @ to notify other people
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
+    label_add_row_after: Προσθήκη γραμμής μετά
+    label_add_row_before: Προσθήκη γραμμής πριν
     label_add_selected_columns: Add selected columns
     label_added_by: added by
     label_added_time_by: Added by %{author} %{age}
@@ -258,9 +258,9 @@ el:
     label_visibility_settings: Visibility settings
     label_quote_comment: Quote this comment
     label_reset: Reset
-    label_remove_column: Remove column
+    label_remove_column: Κατάργηση στήλης
     label_remove_columns: Remove selected columns
-    label_remove_row: Remove row
+    label_remove_row: Κατάργηση γραμμής
     label_save_as: Save as
     label_select_watcher: Select a watcher...
     label_selected_filter_list: Selected filters
@@ -282,7 +282,7 @@ el:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Total progress"
-    label_total_amount: 'Total: %{amount}'
+    label_total_amount: 'Σύνολο: %{amount}'
     label_updated_on: updated on
     label_warning: Warning
     label_work_package: Work package
@@ -626,7 +626,7 @@ el:
       label_enable_multi_select: Enable multiselect
       label_disable_multi_select: Disable multiselect
       label_filter_add: Add filter
-      label_filter_by_text: Filter by text
+      label_filter_by_text: Φίλτρο βάσει κειμένου
       label_options: Options
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
         confirm selection with enter, delete with backspace'
@@ -639,7 +639,7 @@ el:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: No value
-      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholder_filter_by_text: Θέμα, περιγραφή, σχόλια,...
       inline_create:
         title: Click here to add a new work package to this list
       create:
@@ -855,7 +855,7 @@ el:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
-    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload: 'Απέτυχε το ανέβασμα του αρχείου: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -873,12 +873,12 @@ el:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
     global_search:
-      all_projects: In all projects
+      all_projects: Σε όλα τα έργα
       search: Search
-      close_search: Close search
-      current_project: In this project
-      current_project_and_all_descendants: In this project + subprojects
+      close_search: Κλείσιμο αναζήτησης
+      current_project: Σε αυτό το έργο
+      current_project_and_all_descendants: Σε αυτό το έργο + υποέργα
       title:
-        all_projects: all projects
-        project_and_subprojects: and all subprojects
-        search_for: Search for
+        all_projects: όλα τα έργα
+        project_and_subprojects: και όλα τα υποέργα
+        search_for: Αναζήτηση για

@@ -1719,6 +1719,8 @@ ja:
   notice_account_unknown_email: ユーザが存在しません。
   notice_account_update_failed: アカウントの設定は保存できませんでした。個人ページをご確認ください。
   notice_account_updated: アカウントが正常に更新されました。
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: パスワードが正しくありません。
   notice_account_registered_and_logged_in: ようこそ、アカウントが有効になりました。只今ログイン中ます。
   notice_activation_failed: アカウントをアクティブ化できませんでした。

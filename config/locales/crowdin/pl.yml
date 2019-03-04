@@ -1890,6 +1890,8 @@ pl:
   notice_account_update_failed: Nie można zapisać ustawień konta. Sprawdź swojego
     konta.
   notice_account_updated: Konto zostało pomyślnie zaktualizowane.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Nieprawidłowe hasło
   notice_account_registered_and_logged_in: Witaj Twoje konto zostało aktywowane. Zostałeś
     zalogowany.

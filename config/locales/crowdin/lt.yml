@@ -1888,6 +1888,8 @@ lt:
   notice_account_update_failed: Vartotojo paskyros nustatymai negali būti išsaugoti.
     Prašome peržvelgti savo paskyros puslapį.
   notice_account_updated: Paskyra buvo sėkmingai atnaujinta.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Neteisingas slaptažodis
   notice_account_registered_and_logged_in: Sveiki, Jūsų paskyra sėkmingai aktyvuota.
     Dabar esate prisijungę.

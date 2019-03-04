@@ -1839,6 +1839,8 @@ vi:
   notice_account_update_failed: Không thể lưu thiết đặt tài khoản. Xin vui lòng kiểm
     tra trong trang tài khoản của bạn.
   notice_account_updated: Account was successfully updated.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Wrong password
   notice_account_registered_and_logged_in: Welcome, your account has been activated.
     You are logged in now.

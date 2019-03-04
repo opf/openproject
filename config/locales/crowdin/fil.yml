@@ -1887,6 +1887,8 @@ fil:
   notice_account_update_failed: Ang akwant setting ay hindi pwede mai-save. Mangyaring
     paki-tingnan sa iyong akwant na pahina.
   notice_account_updated: Ang akawnt ay matagumpay naka-update.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Maling ang password
   notice_account_registered_and_logged_in: Maligayang pagdating, ang iyong akwant
     ay naka-aktibo na. Ikaw ay naka-log in na.

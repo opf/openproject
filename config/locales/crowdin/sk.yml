@@ -1905,6 +1905,8 @@ sk:
   notice_account_update_failed: Nastavenie konta sa nepodarilo uložiť. Prosím, skontrolujte
     si stránku účtu.
   notice_account_updated: Účet bol úspešne aktualizovaný.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Nesprávne heslo
   notice_account_registered_and_logged_in: Vitajte, váš účet bol aktivovaný. Teraz
     ste prihlásení.

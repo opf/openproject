@@ -1833,6 +1833,8 @@ fi:
   notice_account_update_failed: Tilin asetusten tallentaminen ei onnistunut. Palaa
     takaisin tilisi sivulle.
   notice_account_updated: Tilin päivitys onnistui.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Väärä salasana
   notice_account_registered_and_logged_in: Tervetuloa, tilisi on aktivoitu. Olet kirjautunut
     sisään nyt.

@@ -1781,6 +1781,8 @@ ko:
   notice_account_unknown_email: 알 수 없는 사용자입니다.
   notice_account_update_failed: 계정 설정을 저장할 수 없습니다. 계정 페이지를 살펴 보십시오.
   notice_account_updated: 계정이 업데이트되었습니다.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: 잘못된 암호
   notice_account_registered_and_logged_in: 환영합니다. 계정이 활성화되었습니다 이제 로그인되었습니다.
   notice_activation_failed: 계정이 활성화 되지 못했습니다.

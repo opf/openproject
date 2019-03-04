@@ -1895,6 +1895,8 @@ ru:
   notice_account_update_failed: Настройки учетной записи не могут быть сохранены.
     Пожалуйста, просмотрите страницу Вашей учетной записи ещё раз.
   notice_account_updated: Учетная запись успешно обновлёна.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Неправильный пароль
   notice_account_registered_and_logged_in: Добро пожаловать. Ваш аккаунт активирован.
     Вы вошли в систему.

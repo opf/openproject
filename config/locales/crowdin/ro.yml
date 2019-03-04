@@ -1879,6 +1879,8 @@ ro:
   notice_account_update_failed: Setările contului nu au putut fi salvate. Vă rugăm
     să verificați datele din cont.
   notice_account_updated: Contul a fost actualizat cu succes.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Parolă greşită
   notice_account_registered_and_logged_in: Bun venit, contul a fost activat. Sunteți
     autentificat.

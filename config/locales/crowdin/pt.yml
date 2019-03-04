@@ -1867,6 +1867,8 @@ pt:
   notice_account_update_failed: A definição de conta não pôde ser guardada. Por favor
     confira a página da sua conta.
   notice_account_updated: Conta foi actualizada com sucesso.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Senha errada
   notice_account_registered_and_logged_in: Bem-vindo, sua conta foi ativada. Agora
     você está autenticado.

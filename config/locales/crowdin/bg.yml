@@ -1846,6 +1846,8 @@ bg:
   notice_account_update_failed: Настройка на акаунт не могат да бъдат записани. Моля
     погледнете страницата на акаунта си.
   notice_account_updated: Account was successfully updated.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Грешна парола
   notice_account_registered_and_logged_in: Добре дошли вашият акаунт е активиран.
     Вие сте влезли в момента.

@@ -1885,6 +1885,8 @@ es:
   notice_account_update_failed: No se pudieron salvar los ajustes de la cuenta. Por
     favor revise en la página de su cuenta.
   notice_account_updated: Cuenta se actualizó correctamente.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Contraseña incorrecta
   notice_account_registered_and_logged_in: Bienvenido, tu cuenta ha sido activada.
     Ahora estás logueado.
