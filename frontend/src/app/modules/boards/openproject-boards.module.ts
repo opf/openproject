@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
@@ -44,6 +44,10 @@ import {BoardConfigurationModal} from "core-app/modules/boards/board/configurati
 import {BoardsIndexPageComponent} from "core-app/modules/boards/index-page/boards-index-page.component";
 import {BoardsMenuComponent} from "core-app/modules/boards/boards-sidebar/boards-menu.component";
 import {BoardDmService} from "core-app/modules/boards/board/board-dm.service";
+import {NewBoardModalComponent} from "core-app/modules/boards/new-board-modal/new-board-modal.component";
+import {BoardStatusActionService} from "core-app/modules/boards/board/board-actions/status-action.service";
+import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
+import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
 
 export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -68,6 +72,15 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   }
 ];
 
+export function registerActionServices(injector:Injector) {
+  return () => {
+    const registry = injector.get(BoardActionsRegistryService);
+    const statusAction = injector.get(BoardStatusActionService);
+
+    registry.add('status', statusAction);
+  };
+}
+
 @NgModule({
   imports: [
     OpenprojectCommonModule,
@@ -82,6 +95,14 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     BoardListsService,
     BoardCacheService,
     BoardConfigurationService,
+    BoardActionsRegistryService,
+    BoardStatusActionService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: registerActionServices,
+      deps: [Injector],
+      multi: true
+    },
   ],
   declarations: [
     BoardsIndexPageComponent,
@@ -93,12 +114,16 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     BoardConfigurationDisplaySettingsTab,
     BoardConfigurationModal,
     BoardsToolbarMenuDirective,
+    NewBoardModalComponent,
+    AddListModalComponent,
   ],
   entryComponents: [
     BoardInlineAddAutocompleterComponent,
     BoardsMenuComponent,
     BoardConfigurationModal,
     BoardConfigurationDisplaySettingsTab,
+    NewBoardModalComponent,
+    AddListModalComponent,
   ]
 })
 export class OpenprojectBoardsModule { }

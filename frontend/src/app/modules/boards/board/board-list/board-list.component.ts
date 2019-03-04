@@ -1,10 +1,11 @@
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef, EventEmitter,
+  ElementRef,
+  EventEmitter,
   OnDestroy,
-  OnInit, Output,
+  OnInit,
+  Output,
   ViewChild
 } from "@angular/core";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
@@ -13,8 +14,6 @@ import {
   withLoadingIndicator
 } from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {Observable, Subject} from "rxjs";
-import {debounceTime, distinctUntilChanged, filter, shareReplay, skip, skipUntil, withLatestFrom} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {BoardInlineCreateService} from "core-app/modules/boards/board/board-list/board-inline-create.service";
@@ -22,8 +21,8 @@ import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-w
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {StateService} from "@uirouter/core";
-import {Board} from "core-app/modules/boards/board/board";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 
 @Component({
   selector: 'board-list',
@@ -42,9 +41,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   /** The query resource being loaded */
   public query:QueryResource;
-
-  /** Rename events */
-  public rename$ = new Subject<string>();
 
   /** Rename inFlight */
   public inFlight:boolean;
@@ -76,6 +72,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly boardCache:BoardCacheService,
               private readonly notifications:NotificationsService,
               private readonly cdRef:ChangeDetectorRef,
+              private readonly querySpace:IsolatedQuerySpace,
               private readonly loadingIndicator:LoadingIndicatorService) {
     super(I18n);
   }
@@ -84,6 +81,13 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     const boardId:number = this.state.params.board_id;
 
     this.loadQuery();
+
+    this.querySpace.query
+      .values$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe((query) => this.query = query);
 
     this.boardCache
       .state(boardId.toString())

@@ -117,7 +117,6 @@ export class TableRowEditContext implements WorkPackageEditContext {
   }
 
   public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResource) {
-    // Nothing to do here.
   }
 
   // Ensure the given field is visible.

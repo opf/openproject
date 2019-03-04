@@ -109,7 +109,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
     this.wpInlineCreate
       .add(this.workPackage, toId)
       .then(() => {
-        this.wpTableRefresh.request(`Added relation ${toId}`, true);
+        this.wpTableRefresh.request(`Added relation ${toId}`, 'reference', { visible: true });
       })
       .catch(error => this.wpNotifications.handleRawError(error, this.workPackage));
   }

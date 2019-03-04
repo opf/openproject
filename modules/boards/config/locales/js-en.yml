@@ -3,6 +3,23 @@ en:
   js:
     boards:
       label_unnamed_board: 'Unnamed board'
+      label_unnamed_list: 'Unnamed list'
+      label_board_type: 'Board type'
+
+      new_board: 'New board'
+      add_list: 'Add list'
+      board_type:
+        free: 'Free board'
+        free_text: >
+          Create a board in which you can freely create lists and order your work packages within.
+          Moving work packages between lists do not change the work package itself
+        action: 'Action board'
+        action_by_attribute: 'Action board (%{attribute})'
+        action_text: >
+          Create a board with filtered lists on a single attribute. Moving work packages to other lists
+          will update their attribute.
+        select_attribute: "Action attribute"
+
       configuration_modal:
         title: 'Configure this board'
         display_settings:

@@ -28,6 +28,7 @@
           <col highlight-col>
           <col highlight-col>
           <col highlight-col>
+          <col highlight-col>
           <col>
         </colgroup>
         <thead>
@@ -36,6 +37,14 @@
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
                  <span [textContent]="text.name">
+                 </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                 <span [textContent]="text.type">
                  </span>
                 </div>
               </div>
@@ -71,6 +80,9 @@
               uiSref="boards.show"
               [uiParams]="{ board_id: board.id }">
            </a>
+          </td>
+          <td>
+
           </td>
           <td>
             <op-date-time [dateTimeValue]="board.createdAt"></op-date-time>

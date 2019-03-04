@@ -43,8 +43,9 @@
        cdkDropListOrientation="horizontal"
        (cdkDropListDropped)="moveList(board, $event)"
        >
-    <div class="boards-list--item"
-         *ngFor="let query of board.queries; trackBy:trackByQueryId"
+    <div *ngFor="let query of board.queries; trackBy:trackByQueryId"
+         class="boards-list--item"
+         wp-isolated-query-space
          cdkDrag>
       <span *ngIf="board.editable"
             class="boards-list-item-handle icon icon-drag-handle"

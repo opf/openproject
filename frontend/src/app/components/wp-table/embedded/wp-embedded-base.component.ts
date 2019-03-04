@@ -1,7 +1,6 @@
-import {AfterViewInit, Injector, Input, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {AfterViewInit, Input, SimpleChanges} from '@angular/core';
 import {CurrentProjectService} from '../../projects/current-project.service';
 import {WorkPackageStatesInitializationService} from '../../wp-list/wp-states-initialization.service';
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {
   WorkPackageTableConfiguration,
   WorkPackageTableConfigurationObject

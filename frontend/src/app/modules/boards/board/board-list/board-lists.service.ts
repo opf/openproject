@@ -7,11 +7,13 @@ import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {Board} from "core-app/modules/boards/board/board";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {QueryFilterBuilder} from "core-components/api/api-v3/query-filter-builder";
 
 @Injectable()
 export class BoardListsService {
 
   private readonly v3 = this.pathHelper.api.v3;
+  private queryFilterBuilder = new QueryFilterBuilder(this.v3);
 
   constructor(private readonly CurrentProject:CurrentProjectService,
               private readonly pathHelper:PathHelperService,
@@ -21,13 +23,13 @@ export class BoardListsService {
 
   }
 
-  private create(name:string = 'New list'):Promise<QueryResource> {
+  private create(params:Object, filters:unknown[]):Promise<QueryResource> {
     return this.QueryFormDm
       .loadWithParams(
-        { pageSize: 0 },
+        {pageSize: 0},
         undefined,
         this.CurrentProject.identifier,
-        this.buildQueryRequest(name)
+        this.buildQueryRequest(params, filters)
       )
       .then(form => {
         const query = this.QueryFormDm.buildQueryResource(form);
@@ -36,13 +38,21 @@ export class BoardListsService {
   }
 
   /**
+   * Add a free query to the board
+   */
+  public addFreeQuery(board:Board, queryParams:Object) {
+   const filter = this.queryFilterBuilder.build('manualSort', 'ow', []);
+   return this.addQuery(board, queryParams, [filter]);
+  }
+
+  /**
    * Add an empty query to the board
    * @param board
    * @param query
    */
-  public async addQuery(board:Board):Promise<Board> {
+  public async addQuery(board:Board, queryParams:Object, filters:unknown[]):Promise<Board> {
     const count = board.queries.length;
-    const query = await this.create();
+    const query = await this.create(queryParams, filters);
 
     let source = {
       _type: 'GridWidget',
@@ -62,33 +72,15 @@ export class BoardListsService {
     return board;
   }
 
-  private buildQueryRequest(name:string) {
+  private buildQueryRequest(params:Object, filters:unknown[]) {
     return {
-      name: name,
       hidden: true,
       public: true,
-      filters:
-        [
-          {
-            "_type": "QueryFilter",
-            "_links": {
-              "filter": {
-                "href": this.v3.resource("/queries/filters/manualSort")
-              },
-              "schema": {
-                "href": this.v3.resource("/queries/filter_instance_schemas/manualSort")
-              },
-              "operator": {
-                "href": this.v3.resource("/queries/operators/ow")
-              },
-              "values": []
-            }
-          }
-        ],
-      "_links":
-        {
-          "sortBy": [{ "href": this.v3.resource("/queries/sort_bys/manualSorting-asc") }]
-        }
+      "_links": {
+        "sortBy": [{"href": this.v3.resource("/queries/sort_bys/manualSorting-asc")}]
+      },
+      ...params,
+      filters: filters
     };
   }
 }

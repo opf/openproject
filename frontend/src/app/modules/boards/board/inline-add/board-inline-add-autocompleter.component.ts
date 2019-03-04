@@ -97,7 +97,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterContentInit {
   public addWorkPackageToQuery(wpId:string) {
     this.reorderQueryService
       .add(this.querySpace, wpId)
-      .then(() => this.wpTableRefresh.request('Row added'));
+      .then(() => this.wpTableRefresh.request('Row added', 'update'));
   }
 
   private autocompleteWorkPackages(query:string):Observable<WorkPackageResource[]> {

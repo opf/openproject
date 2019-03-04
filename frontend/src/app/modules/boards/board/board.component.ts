@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, Injector, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from "@angular/core";
 import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -11,6 +11,11 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {StateService} from "@uirouter/core";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
+import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
+import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
+import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
+
 
 @Component({
   selector: 'board',
@@ -21,6 +26,9 @@ import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
   ]
 })
 export class BoardComponent implements OnInit, OnDestroy {
+
+  /** Reference all query children to extract current actions */
+  @ViewChildren(BoardListComponent) lists:QueryList<BoardListComponent>;
 
   // We only support 4 columns for now while the grid does not autoscale
   readonly maxCount = 4;
@@ -43,7 +51,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     updateSuccessful: this.I18n.t('js.notice_successful_update'),
     unnamedBoard: this.I18n.t('js.boards.label_unnamed_board'),
     loadingError: 'No such board found',
-    addList: 'Add list'
+    addList: this.I18n.t('js.boards.add_list')
   };
 
   trackByQueryId = (index:number, widget:GridWidgetResource) => widget.options.query_id;
@@ -53,6 +61,9 @@ export class BoardComponent implements OnInit, OnDestroy {
               private readonly notifications:NotificationsService,
               private readonly BoardList:BoardListsService,
               private readonly QueryDm:QueryDmService,
+              private readonly opModalService:OpModalService,
+              private readonly injector:Injector,
+              private readonly boardActions:BoardActionsRegistryService,
               private readonly BoardCache:BoardCacheService,
               private readonly Boards:BoardService) {
   }
@@ -96,16 +107,23 @@ export class BoardComponent implements OnInit, OnDestroy {
       });
   }
 
-  addList(board:Board) {
-    this.BoardList
-      .addQuery(board)
-      .then(board => this.Boards.save(board))
-      .then(saved => {
-        this.BoardCache.update(saved);
-      })
-      .catch(error => {
-        this.notifications.addError(error);
-      });
+  addList(board:Board):any {
+    if (board.isFree) {
+      return this.BoardList
+        .addFreeQuery(board, { name: 'New list '})
+        .then(board => this.Boards.save(board))
+        .then(saved => {
+          this.BoardCache.update(saved);
+        })
+        .catch(error => this.showError(error));
+    } else {
+      const queries = this.lists.map(list => list.query);
+      this.opModalService.show(
+        AddListModalComponent,
+        this.injector,
+        { board: board, queries: queries }
+      );
+    }
   }
 
   moveList(board:Board, event:CdkDragDrop<GridWidgetResource[]>) {

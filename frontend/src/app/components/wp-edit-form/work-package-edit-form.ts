@@ -182,7 +182,10 @@ export class WorkPackageEditForm {
           this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
           this.editMode = false;
           this.editContext.onSaved(isInitial, savedWorkPackage);
-          this.wpTableRefresh.request(`Saved work package ${savedWorkPackage.id}`);
+          this.wpTableRefresh.request(
+            `Saved work package ${savedWorkPackage.id}`,
+            isInitial ? 'create' : 'update'
+          );
         })
         .catch((error:ErrorResource|Object) => {
           this.wpNotificationsService.handleRawError(error, this.workPackage);

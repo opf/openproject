@@ -1,6 +1,5 @@
 import {Inject, Injectable, OnDestroy} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
-import {keyCodes} from "core-app/modules/common/keyCodes.enum";
 
 export interface DragMember {
   container:HTMLElement;

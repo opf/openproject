@@ -1,13 +1,23 @@
-import {Injectable} from "@angular/core";
+import {Inject, Injectable, Injector} from "@angular/core";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {debugLog} from "core-app/helpers/debug_output";
+import {States} from "core-components/states.service";
+import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
+import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
+import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 @Injectable()
 export class ReorderQueryService {
 
-  constructor(readonly pathHelper:PathHelperService) {
+  constructor(readonly states:States,
+              readonly pathHelper:PathHelperService,
+              readonly injector:Injector,
+              @Inject(IWorkPackageEditingServiceToken) protected readonly wpEditing:WorkPackageEditingService,
+              readonly wpNotifications:WorkPackageNotificationService) {
   }
 
   /**
@@ -40,7 +50,7 @@ export class ReorderQueryService {
    * @param querySpace
    * @param toIndex index to add to or -1 to push to the end.
    */
-  public add(querySpace:IsolatedQuerySpace, wpId:string, toIndex:number = -1) {
+  public async add(querySpace:IsolatedQuerySpace, wpId:string, toIndex:number = -1) {
     const order = this.getCurrentOrder(querySpace);
 
     if (toIndex === -1) {
@@ -49,7 +59,29 @@ export class ReorderQueryService {
       order.splice(toIndex, 0, wpId);
     }
 
-    return this.updateQuery(querySpace.query.value, order);
+    const workPackage = this.states.workPackages.get(wpId).value!;
+    try {
+      await this.updateWorkPackage(querySpace, workPackage);
+      return this.updateQuery(querySpace.query.value, order);
+    } catch (error) {
+      console.error(`Failed to add ${wpId}: ${error}`);
+      this.wpNotifications.handleRawError(error, workPackage);
+      return Promise.reject();
+    }
+  }
+
+  protected async updateWorkPackage(querySpace:IsolatedQuerySpace, workPackage:WorkPackageResource) {
+    let query = querySpace.query.value;
+
+    if (query) {
+      const changeset = this.wpEditing.changesetFor(workPackage);
+      const filter = new WorkPackageFilterValues(this.injector, changeset, query.filters);
+      filter.applyDefaultsFromFilters();
+
+      return changeset.save();
+    }
+
+    return Promise.resolve();
   }
 
   protected getCurrentOrder(querySpace:IsolatedQuerySpace):string[] {

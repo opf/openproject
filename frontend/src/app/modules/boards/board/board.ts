@@ -2,6 +2,7 @@ import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-res
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 
 export type BoardDisplayMode = 'table'|'cards';
+export type BoardType = 'free'|'action';
 
 export class Board {
   constructor(public grid:GridResource) {
@@ -17,6 +18,22 @@ export class Board {
 
   public get editable() {
     return !!this.grid.updateImmediately;
+  }
+
+  public get isFree() {
+    return !this.isAction;
+  }
+
+  public get isAction() {
+    return this.grid.options.type === 'action';
+  }
+
+  public get actionAttribute():string|undefined {
+    if (this.isFree) {
+      return undefined;
+    }
+
+    return this.grid.options.attribute as string;
   }
 
   public get displayMode():BoardDisplayMode {

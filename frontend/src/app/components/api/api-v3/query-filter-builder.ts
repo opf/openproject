@@ -26,17 +26,36 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {InputState} from 'reactivestates';
+import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
+import {ApiV3Paths} from "core-app/modules/common/path-helper/apiv3/apiv3-paths";
 
-export class StatusResource extends HalResource {
+export class QueryFilterBuilder {
 
-  isClosed:boolean;
-  isDefault:boolean;
+  constructor(readonly v3:ApiV3Paths) {
+  }
 
-  public get state():InputState<this> {
-    return this.states.statuses.get(this.href as string) as any;
+  /**
+   * Build a query filter object by hand.
+   *
+   * @param id
+   * @param operator
+   * @param values
+   */
+  public build(id:string, operator:FilterOperator, values:any[]):Object {
+    return {
+      "_type": "QueryFilter",
+      "_links": {
+        "filter": {
+          "href": this.v3.resource("/queries/filters/" + id)
+        },
+        "schema": {
+          "href": this.v3.resource("/queries/filter_instance_schemas/" + id)
+        },
+        "operator": {
+          "href": this.v3.resource("/queries/operators/" + operator)
+        },
+        "values": values
+      }
+    };
   }
 }
-

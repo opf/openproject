@@ -31,7 +31,10 @@ import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state
 import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
 import {WorkPackageTableSumService} from "core-components/wp-fast-table/state/wp-table-sum.service";
 import {WorkPackageTableAdditionalElementsService} from "core-components/wp-fast-table/state/wp-table-additional-elements.service";
-import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
+import {
+  WorkPackageTableRefreshRequest,
+  WorkPackageTableRefreshService
+} from "core-components/wp-table/wp-table-refresh-request.service";
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
@@ -140,6 +143,10 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
     this.dragService.remove(this.container.nativeElement);
   }
 
+  protected filterRefreshRequest(request:WorkPackageTableRefreshRequest):boolean {
+    return request.origin !== 'create';
+  }
+
   public hasAssignee(wp:WorkPackageResource) {
     return !!wp.assignee;
   }
@@ -218,16 +225,18 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
     this.wpCreate
       .onNewWorkPackage()
       .pipe(untilComponentDestroyed(this))
-      .subscribe((wp:WorkPackageResource) => {
+      .subscribe(async (wp:WorkPackageResource) => {
         if (this.activeInlineCreateWp && this.activeInlineCreateWp.__initialized_at === wp.__initialized_at) {
           const index = this.workPackages.indexOf(this.activeInlineCreateWp);
           this.activeInlineCreateWp = undefined;
 
           // Add this item to the results
-          this.reorderService.add(this.querySpace, wp.id, index);
+          await this.reorderService.add(this.querySpace, wp.id, index);
 
           // Notify inline create service
           this.wpInlineCreate.newInlineWorkPackageCreated.next(wp.id);
+
+          this.refresh();
         }
       });
   }

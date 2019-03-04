@@ -192,6 +192,7 @@ export class WorkPackageChangeset {
                 // Initialize any potentially new HAL values
                 savedWp.retainFrom(this.workPackage);
                 this.workPackage = savedWp;
+                this.wpCacheService.updateWorkPackage(this.workPackage, true);
 
                 if (wasNew) {
                   this.workPackage.overriddenSchema = undefined;
@@ -204,7 +205,6 @@ export class WorkPackageChangeset {
                 if (this.workPackage.parent) {
                   this.wpCacheService.loadWorkPackage(this.workPackage.parent.id.toString(), true);
                 }
-                this.wpCacheService.updateWorkPackage(this.workPackage);
                 this.resource = null;
                 this.clear();
                 resolve(this.workPackage);

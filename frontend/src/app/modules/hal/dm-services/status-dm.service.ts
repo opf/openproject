@@ -26,17 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {InputState} from 'reactivestates';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {Injectable} from '@angular/core';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {StatusResource} from "core-app/modules/hal/resources/status-resource";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 
-export class StatusResource extends HalResource {
-
-  isClosed:boolean;
-  isDefault:boolean;
-
-  public get state():InputState<this> {
-    return this.states.statuses.get(this.href as string) as any;
+@Injectable()
+export class StatusDmService {
+  constructor(protected halResourceService:HalResourceService,
+              protected pathHelper:PathHelperService) {
   }
-}
 
+  public one(id:number):Promise<StatusResource> {
+    return this.halResourceService
+      .get<StatusResource>(this.pathHelper.api.v3.statuses.id(id).toString())
+      .toPromise();
+  }
+
+  public list():Promise<CollectionResource<StatusResource>> {
+    return this.halResourceService
+      .get<CollectionResource<StatusResource>>(this.pathHelper.api.v3.statuses.toString())
+      .toPromise();
+  }
+
+
+}

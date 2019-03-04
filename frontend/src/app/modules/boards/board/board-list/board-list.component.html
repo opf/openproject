@@ -19,7 +19,6 @@
     </div>
 
     <div class="board-list--query-container">
-      <ng-container wp-isolated-query-space>
       <wp-embedded-table *ngIf="boardTableConfiguration.isEmbedded && !boardTableConfiguration.isCardView"
                          [queryId]="query.id"
                          [loadedQuery]="query"
@@ -30,9 +29,9 @@
       <wp-card-view *ngIf="boardTableConfiguration.isCardView"
                     [loadedQuery]="query"
                     [queryId]="query.id"
-                    [configuration]="boardTableConfiguration"
-                    [queryProps]="columnsQueryProps"></wp-card-view>
-      </ng-container>
+                    [queryProps]="columnsQueryProps"
+                    [configuration]="boardTableConfiguration">
+      </wp-card-view>
     </div>
   </ng-container>
 </div>
