@@ -156,6 +156,7 @@ import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card
 import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
+import {WpModalViewComponent} from "core-components/wp-modal-view/wp-modal-view.component";
 
 @NgModule({
   imports: [
@@ -343,6 +344,7 @@ import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relat
     QuerySharingModal,
     SaveQueryModal,
     WpDestroyModal,
+    WpModalViewComponent,
 
     // CustomActions
     WpCustomActionComponent,
@@ -420,6 +422,7 @@ import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relat
     QuerySharingModal,
     SaveQueryModal,
     WpDestroyModal,
+    WpModalViewComponent,
 
     // Queries in menu
     WorkPackageQuerySelectDropdownComponent,

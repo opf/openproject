@@ -1,0 +1,20 @@
+<div class="op-modal--portal">
+  <div class="op-modal--modal-container confirm-dialog--modal loading-indicator--location"
+       data-indicator-name="modal"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button">
+        <i class="icon-close"
+           (click)="closeMe($event)"
+           [attr.title]="text.close_popup">
+        </i>
+      </a>
+    </div>
+
+    <div class="op-modal--modal-body" wp-isolated-query-space>
+      <wp-edit-field-group [workPackage]="workPackage">
+        <wp-single-view [workPackage]="workPackage"></wp-single-view>
+      </wp-edit-field-group>
+    </div>
+  </div>
+</div>

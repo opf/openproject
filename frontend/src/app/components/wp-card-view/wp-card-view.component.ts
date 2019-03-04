@@ -40,6 +40,7 @@ import {CardReorderQueryService} from "core-components/wp-card-view/card-reorder
 import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
+import {WpModalViewComponent} from "core-components/wp-modal-view/wp-modal-view.component";
 
 
 @Component({
@@ -138,6 +139,10 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
 
   ngOnDestroy():void {
     this.dragService.remove(this.container.nativeElement);
+  }
+
+  public onDblClick(wp:WorkPackageResource) {
+    this.opModalService.show(WpModalViewComponent, this.injector, { workPackage: wp });
   }
 
   public hasAssignee(wp:WorkPackageResource) {
