@@ -36,7 +36,8 @@ import {randomString} from "core-app/helpers/random-string";
 
 @Component({
   selector: 'wp-subject',
-  templateUrl: './wp-subject.html'
+  templateUrl: './wp-subject.html',
+  styleUrls: ['./wp-subject.sass'],
 })
 export class WorkPackageSubjectComponent implements OnInit, OnDestroy {
   @Input('workPackage') workPackage:WorkPackageResource;
