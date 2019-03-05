@@ -30,16 +30,31 @@ require 'spec_helper'
 require_relative './support/board_index_page'
 require_relative './support/board_page'
 
-describe 'Board management spec', type: :feature, js: true do
+describe 'Status action board', type: :feature, js: true do
   let(:user) do
     FactoryBot.create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
+  let(:type) { FactoryBot.create(:type) }
+  let(:project) { FactoryBot.create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
+
+  let(:permissions) { %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries] }
+  let(:board_view) { FactoryBot.create :board_grid_with_query, project: project }
+
+  let!(:priority) { FactoryBot.create :default_priority }
+  let!(:status) { FactoryBot.create :default_status, name: 'Open' }
+  let!(:closed_status) { FactoryBot.create :status, is_closed: true, name: 'Closed' }
+
+  let!(:workflow_type) {
+    FactoryBot.create(:workflow, type: type, role: role, old_status_id: status.id, new_status_id: closed_status.id)
+  }
+  let!(:workflow_type2) {
+    FactoryBot.create(:workflow, type: type, role: role, old_status_id: closed_status.id, new_status_id: status.id)
+  }
 
   before do
     project
@@ -47,11 +62,6 @@ describe 'Board management spec', type: :feature, js: true do
   end
 
   context 'with full boards permissions' do
-    let(:permissions) { %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries] }
-    let(:board_view) { FactoryBot.create :board_grid_with_query, project: project }
-
-    let!(:priority) { FactoryBot.create :default_priority }
-    let!(:status) { FactoryBot.create :default_status }
 
     it 'allows management of boards' do
       board_view

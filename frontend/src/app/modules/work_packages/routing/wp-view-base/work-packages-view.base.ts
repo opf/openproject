@@ -185,8 +185,9 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   /**
    * Filter the given refresh request?
    * @param request {WorkPackageTableRefreshRequest}
+   * @return {boolean} whether the request should be processed.
    */
   protected filterRefreshRequest(request:WorkPackageTableRefreshRequest):boolean {
-    return false;
+    return true;
   }
 }

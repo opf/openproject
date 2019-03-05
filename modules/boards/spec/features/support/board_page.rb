@@ -44,6 +44,18 @@ module Pages
       @board
     end
 
+    def free?
+      @board.options.type == 'free'
+    end
+
+    def action?
+      !(free? || action_attribute.nil?)
+    end
+
+    def action_attribute
+      @board.options.attribute
+    end
+
     def card_view?
       board.options['display_mode'] == 'cards'
     end
@@ -102,7 +114,11 @@ module Pages
         .perform
     end
 
-    def add_list(name)
+    def add_list(name, value: nil)
+      if value.nil? && action?
+        raise "Must pass value option for action boards"
+      end
+
       count = list_count
       page.find('.boards-list--add-item').click
       expect(page).to have_selector('.board-list--container', count: count + 1)

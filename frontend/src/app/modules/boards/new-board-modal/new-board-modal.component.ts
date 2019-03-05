@@ -35,6 +35,7 @@ import {BoardType} from "core-app/modules/boards/board/board";
 import {StateService} from "@uirouter/core";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
+import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 
 @Component({
   templateUrl: './new-board-modal.html'
@@ -46,10 +47,7 @@ export class NewBoardModalComponent extends OpModalComponent {
 
   public confirmed = false;
 
-  public available = [
-    { value: 'status', text: this.I18n.t('js.work_packages.properties.status') },
-    { value: 'version', text: this.I18n.t('js.work_packages.properties.version') },
-  ];
+  public available = this.boardActions.available();
 
   public text:any = {
     title: this.I18n.t('js.boards.new_board'),
@@ -72,6 +70,7 @@ export class NewBoardModalComponent extends OpModalComponent {
               readonly cdRef:ChangeDetectorRef,
               readonly state:StateService,
               readonly boardService:BoardService,
+              readonly boardActions:BoardActionsRegistryService,
               readonly boardCache:BoardCacheService,
               readonly I18n:I18nService) {
 

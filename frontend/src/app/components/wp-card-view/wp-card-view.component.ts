@@ -43,6 +43,8 @@ import {CardReorderQueryService} from "core-components/wp-card-view/card-reorder
 import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
+import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
+import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 
 
 @Component({
@@ -97,6 +99,7 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
               readonly currentProject:CurrentProjectService,
               @Inject(IWorkPackageCreateServiceToken) readonly wpCreate:WorkPackageCreateService,
               readonly wpInlineCreate:WorkPackageInlineCreateService,
+              readonly wpNotifications:WorkPackageNotificationService,
               readonly dragService:DragAndDropService,
               readonly reorderService:ReorderQueryService,
               readonly wpTableRefresh:WorkPackageTableRefreshService,
@@ -177,7 +180,7 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
       moves: (card:HTMLElement) => !card.dataset.isNew,
       onMoved: (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;
-        const toIndex = this.getIndex(card);
+        const toIndex = DragAndDropHelpers.findIndex(card);
 
         this.reorderService
           .move(this.querySpace, wpId, toIndex)
@@ -190,15 +193,24 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
           .remove(this.querySpace, wpId)
           .then(() => this.wpTableRefresh.request('Drag and Drop removed item'));
       },
-      onAdded: (card:HTMLElement) => {
+      onAdded: async (card:HTMLElement) => {
         // Fix to ensure items that are virtually added get removed quickly
         card.classList.add('__was_dragged');
         const wpId:string = card.dataset.workPackageId!;
-        const toIndex = this.getIndex(card);
+        const toIndex = DragAndDropHelpers.findIndex(card);
 
-        this.reorderService
-          .add(this.querySpace, wpId, toIndex)
-          .then(() => this.wpTableRefresh.request('Drag and Drop added item'));
+        const workPackage = this.states.workPackages.get(wpId).value!;
+
+        try {
+          await this.reorderService.updateWorkPackage(this.querySpace, workPackage);
+          await this.reorderService.add(this.querySpace, wpId, toIndex);
+          this.wpTableRefresh.request('Drag and Drop added item');
+          return true;
+        } catch (e) {
+          this.wpNotifications.handleRawError(e, workPackage);
+        }
+
+        return false;
       }
     });
   }
@@ -250,9 +262,4 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
     this.activeInlineCreateWp = undefined;
     this.cdRef.detectChanges();
   }
-
-  private getIndex(card:HTMLElement) {
-    return _.findIndex(card.parentElement!.children, el => card === el);
-  }
-
 }

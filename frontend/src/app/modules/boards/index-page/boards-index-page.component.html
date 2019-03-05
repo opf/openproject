@@ -82,7 +82,8 @@
            </a>
           </td>
           <td>
-
+            <span *ngIf="board.isFree" [textContent]="text.type_free"></span>
+            <span *ngIf="board.isAction" [textContent]="text.action_by_attribute(board.actionAttribute)"></span>
           </td>
           <td>
             <op-date-time [dateTimeValue]="board.createdAt"></op-date-time>

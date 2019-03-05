@@ -34,7 +34,7 @@
               <select #actionAttributeSelect
                       name="new_board_action_select"
                       class="new-board--action-select">
-                <option *ngFor="let item of available" [value]="item.value" [textContent]="item.text"></option>
+                <option *ngFor="let item of available" [value]="item.attribute" [textContent]="item.text"></option>
               </select>
             </div>
           </div>

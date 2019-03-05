@@ -59,18 +59,10 @@ export class ReorderQueryService {
       order.splice(toIndex, 0, wpId);
     }
 
-    const workPackage = this.states.workPackages.get(wpId).value!;
-    try {
-      await this.updateWorkPackage(querySpace, workPackage);
-      return this.updateQuery(querySpace.query.value, order);
-    } catch (error) {
-      console.error(`Failed to add ${wpId}: ${error}`);
-      this.wpNotifications.handleRawError(error, workPackage);
-      return Promise.reject();
-    }
+    return this.updateQuery(querySpace.query.value, order);
   }
 
-  protected async updateWorkPackage(querySpace:IsolatedQuerySpace, workPackage:WorkPackageResource) {
+  public updateWorkPackage(querySpace:IsolatedQuerySpace, workPackage:WorkPackageResource) {
     let query = querySpace.query.value;
 
     if (query) {
@@ -78,7 +70,8 @@ export class ReorderQueryService {
       const filter = new WorkPackageFilterValues(this.injector, changeset, query.filters);
       filter.applyDefaultsFromFilters();
 
-      return changeset.save();
+      return changeset
+        .save();
     }
 
     return Promise.resolve();

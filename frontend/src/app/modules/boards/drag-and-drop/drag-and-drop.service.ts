@@ -1,12 +1,17 @@
 import {Inject, Injectable, OnDestroy} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
+import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
 
 export interface DragMember {
   container:HTMLElement;
-  moves:(element:HTMLElement, fromContainer:HTMLElement, handle:HTMLElement, sibling:HTMLElement|null) => boolean;
-  onMoved:(row:HTMLTableRowElement, target:any, source:HTMLTableRowElement, sibling:HTMLTableRowElement|null) => void;
-  onAdded:(row:HTMLTableRowElement, target:any, source:HTMLTableRowElement, sibling:HTMLTableRowElement|null) => void;
-  onRemoved:(row:HTMLTableRowElement, target:any, source:HTMLTableRowElement, sibling:HTMLTableRowElement|null) => void;
+  /** Whether this element moves */
+  moves:(element:HTMLElement, fromContainer:HTMLElement, handle:HTMLElement, sibling?:HTMLElement|null) => boolean;
+  /** Move element in container */
+  onMoved:(row:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => void;
+  /** Add element to this container */
+  onAdded:(row:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => Promise<boolean>;
+  /** Remove element from this container */
+  onRemoved:(row:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => void;
 }
 
 @Injectable()
@@ -78,16 +83,30 @@ export class DragAndDropService implements OnDestroy {
       ignoreInputTextSelection: true     // allows users to select input text, see details below
     });
 
-    this.drake.on('drop', (row:HTMLTableRowElement, target:HTMLElement, source:HTMLTableRowElement, sibling:HTMLTableRowElement|null) => {
+    this.drake.on('drag', (el:HTMLElement, source:HTMLElement) => {
+      el.dataset.sourceIndex = DragAndDropHelpers.findIndex(el).toString();
+    });
+
+    this.drake.on('drop', async (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) => {
       const to = this.member(target);
       const from = this.member(source);
 
-      if (to && to === from) {
-        return to.onMoved(row, target, source, sibling);
+      if (!(to && from)) {
+        return;
       }
 
-      to && to.onAdded(row, target, source, sibling);
-      from && from.onRemoved(row, target, source, sibling);
+      if (to === from) {
+        return to.onMoved(el, target, source, sibling);
+      }
+
+      const result = await to.onAdded(el, target, source, sibling);
+
+      if (result) {
+        from.onRemoved(el, target, source, sibling);
+      } else {
+        // Restore element in from container
+        DragAndDropHelpers.reinsert(el, el.dataset.sourceIndex || -1, source);
+      }
     });
   }
 }
