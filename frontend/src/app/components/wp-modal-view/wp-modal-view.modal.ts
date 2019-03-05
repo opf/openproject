@@ -6,9 +6,10 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageResource} from "app/modules/hal/resources/work-package-resource";
 
 @Component({
-  templateUrl: './wp-modal-view.component.html'
+  templateUrl: './wp-modal-view.modal.html'
 })
 export class WpModalViewComponent extends OpModalComponent implements OnInit {
+  public closeOnOutsideClick = false;
   public workPackage:WorkPackageResource;
 
   text = { close_popup: this.i18n.t('js.button_close') };
@@ -25,5 +26,4 @@ export class WpModalViewComponent extends OpModalComponent implements OnInit {
     super.ngOnInit();
     this.workPackage = this.locals.workPackage;
   }
-
 }
