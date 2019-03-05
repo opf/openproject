@@ -2938,3 +2938,5 @@ lv:
         Net::LDAP documentation</a>.
 
 '
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
