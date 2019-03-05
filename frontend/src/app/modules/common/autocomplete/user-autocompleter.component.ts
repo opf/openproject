@@ -42,7 +42,8 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
                [ngModel]="initialSelection"
                [virtualScroll]="true"
                (search)="onSearch($event)"
-               (change)="onModelChange($event)" >
+               (change)="onModelChange($event)"
+               (focus)="onFocus()">
       <ng-template ng-option-tmp let-item="item" let-index="index">
         <user-avatar *ngIf="item.href"
                      [attr.data-user-name]="item.name"
@@ -95,6 +96,7 @@ export class UserAutocompleterComponent implements OnInit {
   public onModelChange(user:any) {
     if (user) {
       this.onChange.emit(user);
+      this.setAvailableUsers(this.url, '');
 
       if (this.clearAfterSelection) {
         this.ngSelectComponent.clearItem(user);
@@ -115,6 +117,12 @@ export class UserAutocompleterComponent implements OnInit {
     }
 
     this.setAvailableUsers(this.url, urlQuery);
+  }
+
+  public onFocus(){
+    // For dynamic changes of the available users
+    // we have to reload them on focus (e.g. watchers)
+    this.setAvailableUsers(this.url, '');
   }
 
   private setAvailableUsers(url:string, filters:any) {
