@@ -135,16 +135,17 @@ fr:
     memberships:
       no_results_title_text: Aucun projet dans ce groupe pour le moment.
   incoming_mails:
-    ignore_filenames: 'Specify a list of names to ignore when processing attachments
-      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+    ignore_filenames: 'Spécifiez une liste de noms à ignorer lors du traitement des
+      pièces jointes aux messages entrants (par exemple, signatures ou icônes). Entrez
+      un nom de fichier par ligne.
 
 '
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
+      scheduled: La suppression a été planifiée et est exécutée en arrière-plan. Vous
+        serez informé du résultat.
+      schedule_failed: 'Le projet ne peut pas être supprimé : %{errors}'
+      failed: La suppression du projet %{name} a échoué
       failed_text: The request to delete project %{name} has failed. The project was
         left archived.
       completed: Deletion of project %{name} completed
@@ -489,11 +490,11 @@ fr:
       doorkeeper/application:
         uid: Client ID
         secret: Client secret
-        owner: Owner
-        redirect_uri: Redirect URI
+        owner: Propriétaire
+        redirect_uri: URL de redirection
         client_credentials_user_id: Client Credentials User ID
-        scopes: Scopes
-        confidential: Confidential
+        scopes: Portées
+        confidential: Confidentielle
     errors:
       messages:
         accepted: doi(ven)t être accepté(e)(s).
@@ -553,11 +554,11 @@ fr:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
-              secured_uri: must be an HTTPS/SSL URI.
-              forbidden_uri: is forbidden by the server.
+              fragment_present: ne peut pas contenir un fragment.
+              invalid_uri: doit être une URL valide.
+              relative_uri: doit être une URI absolue.
+              secured_uri: doit être une URI HTTPS/SSL.
+              forbidden_uri: est interdit par le serveur.
             scopes:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
@@ -705,7 +706,7 @@ fr:
       wiki_page: Page wiki
       workflow: Flux de travail
       work_package: Lot de travaux
-      doorkeeper/application: OAuth application
+      doorkeeper/application: Applications OAuth
   errors:
     header_invalid_fields: 'Des problèmes ont été rencontrés avec les champs suivants
       :'
@@ -812,7 +813,7 @@ fr:
   button_remove: Supprimer
   button_rename: Renommer
   button_replace: Remplacer
-  button_revoke: Revoke
+  button_revoke: Révoquer
   button_reply: Répondre
   button_reset: Réinitialiser
   button_rollback: Revenir à cette version
@@ -1379,7 +1380,7 @@ fr:
   label_environment: Environement
   label_estimates_and_time: Estimations et temps
   label_equals: est
-  label_everywhere: everywhere
+  label_everywhere: partout
   label_example: Exemple
   label_export_to: 'Aussi disponible en :'
   label_expanded_click_to_collapse: Déplié. Cliquez pour replier
@@ -1696,7 +1697,7 @@ fr:
   label_view_diff: Afficher les différences
   label_view_revisions: Afficher les révisions
   label_watched_work_packages: Lots de travaux suivis
-  label_what_is_this: What is this?
+  label_what_is_this: Qu'est-ce que c est?
   label_week: Semaine
   label_wiki_content_added: Page wiki ajoutée
   label_wiki_content_updated: Page wiki mise à jour
@@ -2303,7 +2304,7 @@ fr:
     ces lignes
   setting_mail_handler_body_delimiter_regex: Tronquer les courriels correspondant
     à cette expression régulière
-  setting_mail_handler_ignore_filenames: Ignored mail attachments
+  setting_mail_handler_ignore_filenames: Pièces jointes du courrier ignorées
   setting_new_project_user_role_id: Rôle donné à un utilisateur non administrateur
     qui crée un projet
   setting_password_active_rules: Les classes de caractère activées
@@ -2492,14 +2493,16 @@ fr:
   text_no_notes: Il n'existe aucun commentaire pour ce lot de travaux.
   text_notice_too_many_values_are_inperformant: 'Remarque : L''affichage de plus de
     100 articles par page peut augmenter le temps de chargement de la page.'
-  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
-    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
-    administration panel, and on the home page. It is displayed to administrators
-    only. <br/> The badge will check your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide
-    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
-    configuration documentation</a>.
+  text_notice_security_badge_displayed_html: 'Remarque : si cette option est activée,
+    un badge indiquant l''état de votre installation s''affichera dans le panneau
+    <a href="%{information_panel_path}">%{information_panel_label}</a> administration
+    et sur la page d''accueil. Il n''est affiché que pour les administrateurs. <br/>Le
+    badge vérifiera votre version actuelle d''OpenProject par rapport à la base de
+    données officielle d''OpenProject pour vous avertir de toute mise à jour ou vulnérabilité
+    connue. Pour plus d''informations sur ce que la vérification fournit, quelles
+    données sont nécessaires pour fournir les mises à jour disponibles, et comment
+    désactiver cette vérification, veuillez visiter <a href="%{more_info_url}">la
+    documentation de configuration</a>.
 
 '
   text_own_membership_delete_confirmation: |-
@@ -2908,13 +2911,14 @@ fr:
       status: Pre-authorization
     errors:
       messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
-        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
-          client redirect URI.
-        unauthorized_client: The client is not authorized to perform this request
-          using this method.
-        access_denied: The resource owner or authorization server denied the request.
+        invalid_request: Il manque à la requête un paramètre requis, inclut une valeur
+          de paramètre non supportée ou est malformée d'une autre manière.
+        invalid_redirect_uri: L'uri de redirection demandée est malformée ou ne correspond
+          pas à l'URI de redirection client.
+        unauthorized_client: Le client n'est pas autorisé à effectuer cette demande
+          en utilisant cette méthode.
+        access_denied: Le propriétaire de la ressource ou le serveur d'autorisation
+          a refusé la demande.
         invalid_scope: The requested scope is invalid, unknown, or malformed.
         invalid_code_challenge_method: The code challenge method must be plain or
           S256.
@@ -2948,7 +2952,7 @@ fr:
     close_warning: Ignorer cet avertissement.
   oauth:
     application:
-      singular: OAuth application
+      singular: Applications OAuth
       plural: OAuth applications
       named: OAuth application '%{name}'
       new: New OAuth application
@@ -2981,20 +2985,22 @@ fr:
       prompt_html: Authorize <strong>%{application_name}</strong> to use your account
         <em>%{login}</em>?
       title: Authorize %{application_name}
-      wants_to_access_html: 'This application requests access to your OpenProject
-        account. <br/> <strong>It has requested the following permissions:</strong>
+      wants_to_access_html: 'Cette application demande l''accès à votre compte OpenProject.
+        <br/> <strong>Il a demandé les autorisations suivantes:</strong>Il a demandé
+        les autorisations suivantes
 
 '
     scopes:
       api_v3: Full API access
-      api_v3_text: Application will receive full read & write access to the OpenProject
-        API to perform actions on your behalf.
+      api_v3_text: L'application recevra un accès complet en lecture et écriture à
+        l'API OpenProject pour effectuer des actions en votre nom.
     grants:
-      created_date: Approved on
+      created_date: Approuvée le
       scopes: Autorisations
-      successful_application_revocation: Revocation of application %{application_name}
-        successful.
-      none_given: No OAuth applications have been granted access to your user account.
+      successful_application_revocation: Révocation de l'application %{application_name}
+        réussie.
+      none_given: Aucune application OAuth n'a été autorisée à accéder à votre compte
+        utilisateur.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"

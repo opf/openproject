@@ -46,15 +46,15 @@ lol:
       no_results_content_title: crwdns114766:0crwdne114766:0
       no_results_content_text: crwdns114768:0crwdne114768:0
   ldap_auth_sources:
-    connection_encryption: crwdns121890:0crwdne121890:0
+    connection_encryption: crwdns121956:0crwdne121956:0
     tls_mode:
-      plain: crwdns121892:0crwdne121892:0
-      simple_tls: crwdns121894:0crwdne121894:0
-      start_tls: crwdns121896:0crwdne121896:0
-      plain_description: crwdns121898:0crwdne121898:0
-      simple_tls_description: crwdns121900:0crwdne121900:0
-      start_tls_description: crwdns121902:0crwdne121902:0
-      section_more_info_link_html: 'crwdns121904:0%{link}crwdne121904:0
+      plain: crwdns121958:0crwdne121958:0
+      simple_tls: crwdns121960:0crwdne121960:0
+      start_tls: crwdns121962:0crwdne121962:0
+      plain_description: crwdns121964:0crwdne121964:0
+      simple_tls_description: crwdns121966:0crwdne121966:0
+      start_tls_description: crwdns121968:0crwdne121968:0
+      section_more_info_link_html: 'crwdns121970:0%{link}crwdne121970:0
 
 '
   boards:
@@ -329,10 +329,10 @@ lol:
         encoded_token: crwdns115082:0crwdne115082:0
         active_user_count_restriction: crwdns115084:0crwdne115084:0
       grids/grid:
-        page: crwdns121906:0crwdne121906:0
-        row_count: crwdns121908:0crwdne121908:0
-        column_count: crwdns121910:0crwdne121910:0
-        widgets: crwdns121912:0crwdne121912:0
+        page: crwdns121972:0crwdne121972:0
+        row_count: crwdns121974:0crwdne121974:0
+        column_count: crwdns121976:0crwdne121976:0
+        widgets: crwdns121978:0crwdne121978:0
       relation:
         delay: crwdns115086:0crwdne115086:0
         from: crwdns115088:0crwdne115088:0
@@ -494,9 +494,9 @@ lol:
         enterprise_token:
           unreadable: crwdns115348:0crwdne115348:0
         grids/grid:
-          overlaps: crwdns121914:0crwdne121914:0
-          outside: crwdns121916:0crwdne121916:0
-          end_before_start: crwdns121918:0crwdne121918:0
+          overlaps: crwdns121980:0crwdne121980:0
+          outside: crwdns121982:0crwdne121982:0
+          end_before_start: crwdns121984:0crwdne121984:0
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -1705,8 +1705,7 @@ lol:
   notice_account_unknown_email: crwdns117480:0crwdne117480:0
   notice_account_update_failed: crwdns117482:0crwdne117482:0
   notice_account_updated: crwdns117484:0crwdne117484:0
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: crwdns121986:0crwdne121986:0
   notice_account_wrong_password: crwdns117486:0crwdne117486:0
   notice_account_registered_and_logged_in: crwdns117488:0crwdne117488:0
   notice_activation_failed: crwdns117490:0crwdne117490:0
