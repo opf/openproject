@@ -57,29 +57,22 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   public halSorting:HalResourceSortingService;
 
   protected initialize() {
-    this.handler
-      .$onUserActivate
-      .pipe(
-        untilComponentDestroyed(this)
-      )
-      .subscribe(() => this.openAutocompleteSelectField());
-
     this.halSorting = this.injector.get(HalResourceSortingService);
-
     this.text = {
       requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
       placeholder: this.I18n.t('js.placeholders.default')
     };
 
-    if (Array.isArray(this.schema.allowedValues)) {
-      this.setValues(this.schema.allowedValues);
-    } else if (this.schema.allowedValues) {
-      this.schema.allowedValues.$load().then((values:CollectionResource) => {
-        this.setValues(values.elements);
+    const loadingPromise = this.loadValues();
+    this.handler
+      .$onUserActivate
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe(() => {
+       loadingPromise.then(() => this.openAutocompleteSelectField())
       });
-    } else {
-      this.setValues([]);
-    }
+
   }
 
   public ngOnInit() {
@@ -112,6 +105,20 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     });
   }
 
+  private loadValues() {
+    let allowedValues = this.schema.allowedValues;
+    if (Array.isArray(allowedValues)) {
+      this.setValues(allowedValues);
+    } else if (allowedValues) {
+      return allowedValues.$load().then((values:CollectionResource) => {
+        this.setValues(values.elements);
+      });
+    } else {
+      this.setValues([]);
+    }
+    return Promise.resolve();
+  }
+
   public get currentValueInvalid():boolean {
     return !!(
       (this.value && !_.some(this.options, (option:HalResource) => (option.$href === this.value.$href)))
@@ -129,7 +136,12 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   private openAutocompleteSelectField() {
-    this.ngSelectComponent.open();
+    // The timeout takes care that the opening is added to the end of the current call stack.
+    // Thus we can be sure that the autocompleter is rendered and ready to be opened.
+    let that = this;
+    window.setTimeout(function () {
+      that.ngSelectComponent.open();
+    }, 0);
   }
 
   private addEmptyOption() {
