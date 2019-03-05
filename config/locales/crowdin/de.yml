@@ -121,8 +121,9 @@ de:
     memberships:
       no_results_title_text: Diese Gruppe ist zur Zeit keinem Projekt zugewiesen.
   incoming_mails:
-    ignore_filenames: 'Specify a list of names to ignore when processing attachments
-      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+    ignore_filenames: 'Geben Sie eine Liste von Dateinamen an, die beim Verarbeiten
+      von Anhängen für eingehende Mails (z.B. Signaturen oder Symbole) ignoriert werden
+      sollen. Geben Sie einen Dateinamen pro Zeile ein.
 
 '
   projects:
@@ -233,7 +234,7 @@ de:
       one: Ein untergeordnetes Arbeitspaket
       other: "%{count} untergeordnete Arbeitspakete"
     bulk:
-      could_not_be_saved: 'The following work packages could not be saved:'
+      could_not_be_saved: 'Die folgenden Arbeitspakete konnten nicht gespeichert werden:'
     move:
       no_common_statuses_exists: Es gibt keine gemeinsamen Status für die ausgewählten
         Arbeitspakete. Ihr Status kann daher nicht verändert werden.
@@ -2293,7 +2294,7 @@ de:
     ab
   setting_mail_handler_body_delimiter_regex: Schneide E-Mails nach Zeile ab, die diesem
     regulären Ausdruck entspricht
-  setting_mail_handler_ignore_filenames: Ignored mail attachments
+  setting_mail_handler_ignore_filenames: Ignorierte E-Mail-Anhänge
   setting_new_project_user_role_id: Rolle, die einem Nicht-Administrator zugeordnet
     wird, der ein Projekt erstellt
   setting_password_active_rules: Aktive Zeichenklassen
