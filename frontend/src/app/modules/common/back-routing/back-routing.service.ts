@@ -1,12 +1,12 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2006-2013 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
 //
 // This program is free software; you can redistribute it and/or
@@ -23,53 +23,29 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
-//++
+// See doc/COPYRIGHT.rdoc for more details.
+// ++
 
+import {Injectable, Injector} from '@angular/core';
+import {StateService} from "@uirouter/core";
 
-#wrapper
-  @include default-transition
-  display: grid
-  grid-template-rows: auto 1fr
+@Injectable()
+export class BackRoutingService {
+  public backRoute:string|undefined;
+  private $state:StateService = this.injector.get(StateService);
 
+  constructor(protected injector:Injector) {
+  }
 
-#main
-  display: grid
-  grid-template-columns: auto 1fr
-  z-index:  20
-  overflow: auto
+  public goBack() {
+    if (this.backRoute){
+      this.$state.go(this.backRoute, this.$state.params);
+    } else {
+      this.$state.go('work-packages.list', this.$state.params);
+    }
+  }
 
-  &.nomenus
-    padding-bottom: 0
-    overflow: hidden
-
-  &.nosidebar
-    grid-template-columns: auto
-
-#content-wrapper
-  @include default-transition
-  margin: 0 0 0 0
-  padding: 10px 20px
-  // Needed for Safari
-  height: calc(100vh - #{$header-height})
-  overflow-y: auto
-  overflow-x: hidden
-  background-color: #fff
-
-  &.nosidebar
-    margin-left: 0
-    padding: 20px 40px
-
-  &.nomenus
-    margin:     0
-    padding:    0
-
-#content
-  padding: 0
-  margin: 0
-  width: 100%
-  z-index: 10
-  background-color: $body-background
-
-.-draggable
-  cursor: grab
+  public setBackRoute(route:string|undefined) {
+    this.backRoute = route;
+  }
+}
