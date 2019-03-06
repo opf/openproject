@@ -152,6 +152,17 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
     return this.configuration.dragAndDropEnabled;
   }
 
+  public handleDblClick(wp:WorkPackageResource) {
+    this.goToWpFullView(wp.id);
+  }
+
+  private goToWpFullView(wpId:string) {
+    this.$state.go(
+      'work-packages.show',
+      {workPackageId: wpId}
+    );
+  }
+
   removeDragged() {
     this.container.nativeElement
       .querySelectorAll('.__was_dragged')

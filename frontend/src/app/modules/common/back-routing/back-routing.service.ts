@@ -29,23 +29,28 @@
 import {Injectable, Injector} from '@angular/core';
 import {StateService} from "@uirouter/core";
 
+interface BackRouteOptions {
+  name:string;
+  params: {};
+}
+
 @Injectable()
 export class BackRoutingService {
-  public backRoute:string|undefined;
+  public backRoute:BackRouteOptions;
   private $state:StateService = this.injector.get(StateService);
 
   constructor(protected injector:Injector) {
   }
 
   public goBack() {
-    if (this.backRoute){
-      this.$state.go(this.backRoute, this.$state.params);
+    if (this.backRoute) {
+      this.$state.go(this.backRoute.name, this.backRoute.params);
     } else {
       this.$state.go('work-packages.list', this.$state.params);
     }
   }
 
-  public setBackRoute(route:string|undefined) {
+  public setBackRoute(route:BackRouteOptions) {
     this.backRoute = route;
   }
 }
