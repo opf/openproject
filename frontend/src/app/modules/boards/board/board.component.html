@@ -50,7 +50,9 @@
       <span *ngIf="board.editable"
             class="boards-list-item-handle icon icon-drag-handle"
             cdkDragHandle></span>
-      <board-list [resource]="query" (onRemove)="removeList(board, query)"></board-list>
+      <board-list [resource]="query"
+                  [board]="board"
+                  (onRemove)="removeList(board, query)"></board-list>
     </div>
 
     <div class="boards-list--add-item -no-text-select"

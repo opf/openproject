@@ -15,6 +15,8 @@ import {BoardListComponent} from "core-app/modules/boards/board/board-list/board
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
+import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
+import {init} from "protractor/built/launcher";
 
 
 @Component({
@@ -61,6 +63,7 @@ export class BoardComponent implements OnInit, OnDestroy {
               private readonly injector:Injector,
               private readonly boardActions:BoardActionsRegistryService,
               private readonly BoardCache:BoardCacheService,
+              private readonly dynamicCss:DynamicCssService,
               private readonly Boards:BoardService) {
   }
 
@@ -70,13 +73,21 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   ngOnInit():void {
     const id:string = this.state.params.board_id.toString();
+    let initialized = false;
 
     this.BoardCache
       .requireAndStream(id)
       .pipe(
         untilComponentDestroyed(this)
       )
-      .subscribe(board => this.board = board);
+      .subscribe(board => {
+        this.board = board;
+
+        if (board.isAction && !initialized) {
+          this.dynamicCss.requireHighlighting();
+          initialized = true;
+        }
+      });
   }
 
   ngOnDestroy():void {

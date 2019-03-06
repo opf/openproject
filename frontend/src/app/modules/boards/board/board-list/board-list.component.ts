@@ -2,7 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
+  EventEmitter, Input,
   OnDestroy,
   OnInit,
   Output,
@@ -23,6 +23,8 @@ import {BoardCacheService} from "core-app/modules/boards/board/board-cache.servi
 import {StateService} from "@uirouter/core";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {Board} from "core-app/modules/boards/board/board";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Component({
   selector: 'board-list',
@@ -35,6 +37,9 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {
   /** Output fired upon query removal */
   @Output() onRemove = new EventEmitter<void>();
+
+  /** Access to the board resource */
+  @Input() public board:Board;
 
   /** Access to the loading indicator element */
   @ViewChild('loadingIndicator') indicator:ElementRef;
@@ -128,6 +133,17 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         this.notifications.addSuccess(this.text.updateSuccessful);
       })
       .catch(() => this.inFlight = false);
+  }
+
+  public boardListActionColorClass(query:QueryResource):string {
+    const attribute = this.board.actionAttribute!;
+    const filter = _.find(query.filters, f => f.id === attribute);
+
+    if (!(filter && filter.values[0] instanceof HalResource)) {
+      return '';
+    }
+    const value = filter.values[0] as HalResource;
+    return `__hl_row_${attribute}_${value.getId()}`;
   }
 
   public get listName() {

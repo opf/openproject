@@ -1,7 +1,13 @@
 <div #loadingIndicator
      [attr.data-query-name]="listName"
-     class="board-list--container loading-indicator--location">
+     class="board-list--container loading-indicator--location"
+     [ngClass]="{ '-action-list': board.isAction }">
   <ng-container *ngIf="query">
+
+    <div *ngIf="board.isAction"
+         class="board-list--action-bar"
+         [ngClass]="boardListActionColorClass(query)">
+    </div>
 
     <div class="board-list--header">
       <editable-toolbar-title [title]="query.name"
