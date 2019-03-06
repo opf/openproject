@@ -119,8 +119,9 @@ nl:
     memberships:
       no_results_title_text: Er zijn momenteel projecten deel van deze groep.
   incoming_mails:
-    ignore_filenames: 'Specify a list of names to ignore when processing attachments
-      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+    ignore_filenames: 'Geef een lijst van namen op om te negeren bij het verwerken
+      van bijlagen voor inkomende mails (bijv. handtekeningen of iconen). Voer één
+      bestandsnaam per regel in.
 
 '
   projects:
@@ -2267,7 +2268,7 @@ nl:
   setting_mail_handler_body_delimiters: Afkappen e-mails na een van deze lijnen
   setting_mail_handler_body_delimiter_regex: E-mails die overeenkomen met deze regex
     afkappen
-  setting_mail_handler_ignore_filenames: Ignored mail attachments
+  setting_mail_handler_ignore_filenames: Genegeerde e-mailbijlagen
   setting_new_project_user_role_id: Rol gegeven aan een niet-admin-gebruiker die een
     project maakt
   setting_password_active_rules: Actieve tekenklassen
