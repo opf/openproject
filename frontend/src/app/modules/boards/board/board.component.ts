@@ -30,9 +30,6 @@ export class BoardComponent implements OnInit, OnDestroy {
   /** Reference all query children to extract current actions */
   @ViewChildren(BoardListComponent) lists:QueryList<BoardListComponent>;
 
-  // We only support 4 columns for now while the grid does not autoscale
-  readonly maxCount = 4;
-
   /** Board observable */
   public board:Board;
 
@@ -41,7 +38,6 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   /** Whether we're in flight of updating the board */
   public inFlight = false;
-
 
   public text = {
     button_more: this.I18n.t('js.button_more'),
