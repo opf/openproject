@@ -869,7 +869,7 @@ nl:
         messages_on_field: 'Het veld is ongeldig: %{messages}'
     error_could_not_resolve_version_name: Kan de verstane niet vinden
     error_could_not_resolve_user_name: Kan de gebruikersnaam niet vinden
-    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload: 'Bestand uploaden mislukt: %{error}'
     error_attachment_upload_permission: U bent niet gemachtigd om bestanden naar deze
       bron te uploaden.
     units:
