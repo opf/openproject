@@ -2,6 +2,12 @@ import {Inject, Injectable, OnDestroy} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
 import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
 
+const autoScroll:any = require('dom-autoscroller');
+export interface IAutoScroller {
+  add:(...elements:unknown[]) => void;
+  destroy:(animation:boolean) => void;
+}
+
 export interface DragMember {
   container:HTMLElement;
   /** Whether this element moves */
@@ -21,6 +27,8 @@ export class DragAndDropService implements OnDestroy {
 
   public members:DragMember[] = [];
 
+  private autoscroll:IAutoScroller|undefined;
+
   private escapeListener = (evt:KeyboardEvent) => {
     if (this.drake && evt.key === 'Escape') {
       this.drake.cancel(true);
@@ -29,10 +37,12 @@ export class DragAndDropService implements OnDestroy {
 
   constructor(@Inject(DOCUMENT) private document:Document) {
     this.document.documentElement.addEventListener('keydown', this.escapeListener);
+
   }
 
   ngOnDestroy():void {
     this.document.documentElement.removeEventListener('keydown', this.escapeListener);
+    this.autoscroll && this.autoscroll.destroy(true);
   }
 
   public remove(container:HTMLElement) {
@@ -53,6 +63,13 @@ export class DragAndDropService implements OnDestroy {
   public register(...members:DragMember[]) {
     this.members.push(...members);
     const containers = members.map(m => m.container);
+
+    if (this.autoscroll) {
+     this.autoscroll.add(...containers) ;
+    } else {
+      this.setupAutoscroll(containers);
+    }
+
     if (this.drake === null) {
       this.initializeDrake(containers);
     } else {
@@ -60,7 +77,27 @@ export class DragAndDropService implements OnDestroy {
     }
   }
 
-  protected initializeDrake(containers:any) {
+  protected setupAutoscroll(containers:Element[]) {
+    // Setup autoscroll
+    const that = this;
+
+    this.autoscroll = autoScroll(
+      containers,
+      {
+        margin: 20,
+        maxSpeed: 5,
+        scrollWhenOutside: true,
+        autoScroll: function(this:{ down:boolean }) {
+          if (!that.drake) {
+            return false;
+          }
+
+          return this.down && that.drake.dragging;
+        }
+      });
+  }
+
+  protected initializeDrake(containers:Element[]) {
     this.drake = dragula(containers, {
       moves: (el:any, container:any, handle:any, sibling:any) => {
         let result = false;
