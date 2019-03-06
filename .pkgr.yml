@@ -40,5 +40,5 @@ wizards:
   - https://github.com/finnlabs/addon-repositories.git
   - https://github.com/pkgr/addon-smtp.git
   - https://github.com/pkgr/addon-memcached.git
-  - https://github.com/opf/addon-openproject.git#dynamic-node-dependencies
+  - https://github.com/opf/addon-openproject.git
 buildpack: https://github.com/opf/heroku-buildpack-multi.git
