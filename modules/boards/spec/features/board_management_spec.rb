@@ -47,7 +47,16 @@ describe 'Board management spec', type: :feature, js: true do
   end
 
   context 'with full boards permissions' do
-    let(:permissions) { %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries] }
+    let(:permissions) do
+      %i[
+        show_board_views
+        manage_board_views
+        add_work_packages
+        view_work_packages
+        edit_work_packages
+        manage_public_queries
+      ]
+    end
     let(:board_view) { FactoryBot.create :board_grid_with_query, project: project }
 
     let!(:priority) { FactoryBot.create :default_priority }
@@ -71,7 +80,7 @@ describe 'Board management spec', type: :feature, js: true do
       # Rename through toolbar
       board_page.rename_board 'Board foo', through_dropdown: true
 
-      board_page.rename_list 'New list', 'First'
+      board_page.rename_list 'Unnamed list', 'First'
       board_page.board(reload: true) do |board|
         expect(board.name).to eq 'Board foo'
         queries = board.contained_queries
@@ -102,8 +111,11 @@ describe 'Board management spec', type: :feature, js: true do
       board_page.expect_card('Second', 'Task 1', present: true)
 
       # Expect work package to be saved in query second
-      expect(first.reload.ordered_work_packages).to be_empty
-      expect(second.reload.ordered_work_packages.count).to eq(1)
+      sleep 2
+      retry_block do
+        expect(first.reload.ordered_work_packages).to be_empty
+        expect(second.reload.ordered_work_packages.count).to eq(1)
+      end
 
       subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject)
       expect(subjects).to match_array ['Task 1']

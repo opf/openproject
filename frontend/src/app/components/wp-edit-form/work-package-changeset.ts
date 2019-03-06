@@ -189,6 +189,9 @@ export class WorkPackageChangeset {
               // Ensure the schema is loaded before updating
               this.schemaCacheService.ensureLoaded(savedWp).then(() => {
 
+                // Clear any previous activities
+                this.wpActivity.clear(this.workPackage.id);
+
                 // Initialize any potentially new HAL values
                 savedWp.retainFrom(this.workPackage);
                 this.workPackage = savedWp;
@@ -198,8 +201,6 @@ export class WorkPackageChangeset {
                   this.workPackage.overriddenSchema = undefined;
                   this.wpCreate.newWorkPackageCreated(this.workPackage);
                 }
-
-                this.wpActivity.clear(this.workPackage.id);
 
                 // If there is a parent, its view has to be updated as well
                 if (this.workPackage.parent) {

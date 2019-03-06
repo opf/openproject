@@ -117,7 +117,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   addList(board:Board):any {
     if (board.isFree) {
       return this.BoardList
-        .addFreeQuery(board, { name: 'New list '})
+        .addFreeQuery(board, { name: 'Unnamed list'})
         .then(board => this.Boards.save(board))
         .then(saved => {
           this.BoardCache.update(saved);

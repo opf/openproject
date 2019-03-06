@@ -36,24 +36,28 @@ describe 'Status action board', type: :feature, js: true do
                       member_in_project: project,
                       member_through_role: role)
   end
-  let(:type) { FactoryBot.create(:type) }
+  let(:type) { FactoryBot.create(:type_standard) }
   let(:project) { FactoryBot.create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
-  let(:permissions) { %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries] }
-  let(:board_view) { FactoryBot.create :board_grid_with_query, project: project }
+  let(:permissions) {
+    %i[show_board_views manage_board_views add_work_packages
+       edit_work_packages view_work_packages manage_public_queries]
+  }
 
   let!(:priority) { FactoryBot.create :default_priority }
-  let!(:status) { FactoryBot.create :default_status, name: 'Open' }
+  let!(:open_status) { FactoryBot.create :default_status, name: 'Open' }
+  let!(:other_status) { FactoryBot.create :status, name: 'Whatever' }
   let!(:closed_status) { FactoryBot.create :status, is_closed: true, name: 'Closed' }
 
   let!(:workflow_type) {
-    FactoryBot.create(:workflow, type: type, role: role, old_status_id: status.id, new_status_id: closed_status.id)
-  }
-  let!(:workflow_type2) {
-    FactoryBot.create(:workflow, type: type, role: role, old_status_id: closed_status.id, new_status_id: status.id)
+    FactoryBot.create(:workflow,
+                      type: type,
+                      role: role,
+                      old_status_id: open_status.id,
+                      new_status_id: closed_status.id)
   }
 
   before do
@@ -62,109 +66,88 @@ describe 'Status action board', type: :feature, js: true do
   end
 
   context 'with full boards permissions' do
-
     it 'allows management of boards' do
-      board_view
       board_index.visit!
 
-      board_page = board_index.open_board board_view
-      board_page.expect_query 'List 1', editable: true
-      board_page.expect_editable true
-      board_page.back_to_index
-
-      board_index.expect_board board_view.name
-
       # Create new board
-      board_page = board_index.create_board action: nil
-      board_page.rename_board 'Board test'
+      board_page = board_index.create_board action: :Status
 
-      # Rename through toolbar
-      board_page.rename_board 'Board foo', through_dropdown: true
+      # expect lists of default and closed status
+      board_page.expect_list 'Open'
+      board_page.expect_list 'Closed'
 
-      board_page.rename_list 'New list', 'First'
       board_page.board(reload: true) do |board|
-        expect(board.name).to eq 'Board foo'
+        expect(board.name).to eq 'Action board (status)'
         queries = board.contained_queries
-        expect(queries.count).to eq(1)
-        expect(queries.first.name).to eq 'First'
+        expect(queries.count).to eq(2)
+
+        open = queries.first
+        closed = queries.last
+
+        expect(open.name).to eq 'Open'
+        expect(closed.name).to eq 'Closed'
+
+        expect(open.filters.first.name).to eq :status_id
+        expect(open.filters.first.values).to eq [open_status.id.to_s]
+
+        expect(closed.filters.first.name).to eq :status_id
+        expect(closed.filters.first.values).to eq [closed_status.id.to_s]
       end
 
       # Create new list
-      board_page.add_list 'Second'
+      board_page.add_list nil, value: 'Whatever'
+      board_page.expect_list 'Whatever'
 
       # Add item
-      board_page.add_card 'First', 'Task 1'
+      board_page.add_card 'Open', 'Task 1'
 
       # Expect added to query
       queries = board_page.board(reload: true).contained_queries
-      first = queries.find_by(name: 'First')
-      second = queries.find_by(name: 'Second')
+      expect(queries.count).to eq 3
+      first = queries.find_by(name: 'Open')
+      second = queries.find_by(name: 'Closed')
       expect(first.ordered_work_packages.count).to eq(1)
       expect(second.ordered_work_packages).to be_empty
 
       # Expect work package to be saved in query first
-      subjects = WorkPackage.where(id: first.ordered_work_packages).pluck(:subject)
-      expect(subjects).to match_array ['Task 1']
+      subjects = WorkPackage.where(id: first.ordered_work_packages).pluck(:subject, :status_id)
+      expect(subjects).to match_array [['Task 1', open_status.id]]
 
-      # Move item to Second list
-      board_page.move_card(0, from: 'First', to: 'Second')
-      board_page.expect_card('First', 'Task 1', present: false)
-      board_page.expect_card('Second', 'Task 1', present: true)
+      # Move item to Closed
+      board_page.move_card(0, from: 'Open', to: 'Closed')
+      board_page.expect_card('Open', 'Task 1', present: false)
+      board_page.expect_card('Closed', 'Task 1', present: true)
 
       # Expect work package to be saved in query second
-      expect(first.reload.ordered_work_packages).to be_empty
-      expect(second.reload.ordered_work_packages.count).to eq(1)
+      sleep 2
+      retry_block do
+        expect(first.reload.ordered_work_packages).to be_empty
+        expect(second.reload.ordered_work_packages.count).to eq(1)
+      end
 
-      subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject)
-      expect(subjects).to match_array ['Task 1']
+      subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject, :status_id)
+      expect(subjects).to match_array [['Task 1', closed_status.id]]
+
+      # Try to drag to whatever, which has no workflow
+      board_page.move_card(0, from: 'Closed', to: 'Whatever')
+      board_page.expect_notification(
+        type: :error,
+        message: "Status is invalid because no valid transition exists from old to new status for the current user's roles."
+      )
+      board_page.expect_card('Open', 'Task 1', present: false)
+      board_page.expect_card('Whatever', 'Task 1', present: false)
+      board_page.expect_card('Closed', 'Task 1', present: true)
 
       # Remove query
-      board_page.remove_list 'Second'
+      board_page.remove_list 'Whatever'
       queries = board_page.board(reload: true).contained_queries
-      expect(queries.count).to eq(1)
-      expect(queries.first.name).to eq 'First'
+      expect(queries.count).to eq(2)
+      expect(queries.first.name).to eq 'Open'
+      expect(queries.last.name).to eq 'Closed'
       expect(queries.first.ordered_work_packages).to be_empty
 
-      # Remove entire board
-      board_page.delete_board
-      board_index.expect_board 'Board foo', present: false
-    end
-  end
-
-  context 'with view boards + work package permission' do
-    let(:permissions) { %i[show_board_views view_work_packages] }
-    let(:board_view) { FactoryBot.create :board_grid_with_query, project: project }
-
-    it 'allows viewing boards index and boards' do
-      board_view
-      board_index.visit!
-
-      board_page = board_index.open_board board_view
-      board_page.expect_query 'List 1', editable: false
-      board_page.expect_editable false
-      board_page.back_to_index
-
-      board_index.expect_board board_view.name
-    end
-  end
-
-  context 'with view permission only' do
-    let(:permissions) { %i[show_board_views] }
-
-    it 'does not allow viewing of boards' do
-      board_index.visit!
-      expect(page).to have_selector('#errorExplanation', text: I18n.t(:notice_not_authorized))
-
-      board_index.expect_editable false
-    end
-  end
-
-  context 'with no permission only' do
-    let(:permissions) { %i[] }
-
-    it 'does not allow viewing of boards' do
-      board_index.visit!
-      expect(page).to have_selector('#errorExplanation', text: I18n.t(:notice_not_authorized))
+      subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject, :status_id)
+      expect(subjects).to match_array [['Task 1', closed_status.id]]
     end
   end
 end

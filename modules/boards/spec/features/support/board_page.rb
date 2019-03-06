@@ -45,7 +45,7 @@ module Pages
     end
 
     def free?
-      @board.options.type == 'free'
+      @board.options['type'] == 'free'
     end
 
     def action?
@@ -121,9 +121,21 @@ module Pages
 
       count = list_count
       page.find('.boards-list--add-item').click
-      expect(page).to have_selector('.board-list--container', count: count + 1)
 
-      rename_list 'New list', name
+      if value.nil?
+        expect(page).to have_selector('.board-list--container', count: count + 1)
+      else
+        select value, from: 'new_board_action_select'
+        click_on 'Continue'
+      end
+
+      unless name.nil?
+        rename_list 'Unnamed list', name
+      end
+    end
+
+    def expect_list(name)
+      expect(page).to have_field('editable-toolbar-title', with: name)
     end
 
     def remove_list(name)
