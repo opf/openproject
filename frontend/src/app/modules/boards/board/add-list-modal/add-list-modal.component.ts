@@ -89,7 +89,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
               readonly cdRef:ChangeDetectorRef,
               readonly boardActions:BoardActionsRegistryService,
               readonly state:StateService,
-              readonly boardListService:BoardListsService,
+              readonly boardService:BoardService,
               readonly boardCache:BoardCacheService,
               readonly I18n:I18nService) {
 
@@ -114,6 +114,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   create() {
     this.actionService
       .addActionQuery(this.board, this.selectedAttribute!)
+      .then(board => this.boardService.save(board))
       .then((board) => {
         this.closeMe();
         this.boardCache.update(board);
