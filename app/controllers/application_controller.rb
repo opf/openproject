@@ -509,12 +509,14 @@ class ApplicationController < ActionController::Base
   def render_error(arg)
     arg = { message: arg } unless arg.is_a?(Hash)
 
-    @message = arg[:message]
-    @message = l(@message) if @message.is_a?(Symbol)
     @status = arg[:status] || 500
+    @message = arg[:message]
 
-    op_handle_error "[Error #@status] #@message"
+    if @status >= 500
+      op_handle_error "[Error #@status] #@message"
+    end
 
+    @message = l(@message) if @message.is_a?(Symbol)
     respond_to do |format|
       format.html do
         render template: 'common/error', layout: use_layout, status: @status
