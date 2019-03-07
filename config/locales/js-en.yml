@@ -520,6 +520,7 @@ en:
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
     text_attachment_destroy_confirmation: "Are you sure you want to delete the attachment?"
     timelines:
+      quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantt chart'
       labels:
         title: 'Label configuration'

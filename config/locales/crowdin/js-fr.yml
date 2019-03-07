@@ -525,6 +525,7 @@ fr:
     text_attachment_destroy_confirmation: Êtes-vous sûr de vouloir supprimer la pièce
       jointe ?
     timelines:
+      quarter_label: 'T%{quarter_number}'
       gantt_chart: Diagramme de Gantt
       labels:
         title: Configuration du label
