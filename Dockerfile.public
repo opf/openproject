@@ -1,4 +1,4 @@
-FROM openproject/community:edge-base
+FROM openproject/community:8-base
 MAINTAINER operations@openproject.com
 
 ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
