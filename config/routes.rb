@@ -93,6 +93,12 @@ OpenProject::Application.routes.draw do
   # don't understand why that should make sense.
   mount API::Root => '/'
 
+  # OAuth authorization routes
+  use_doorkeeper do
+    # Do not add global application controller
+    skip_controllers :applications, :authorized_applications
+  end
+
   get '/roles/workflow/:id/:role_id/:type_id' => 'roles#workflow'
 
   get   '/types/:id/edit/:tab' => "types#edit",
@@ -298,7 +304,8 @@ OpenProject::Application.routes.draw do
       get '(/revisions/:rev)/diff.:format', action: :diff
       get '(/revisions/:rev)/diff(/*repo_path)',
           action: :diff,
-          format: false
+          format: 'html',
+          constraints: { rev: /[\w0-9\.\-_]+/, repo_path: /.*/ }
 
       get '(/revisions/:rev)/:format/*repo_path',
           action: :entry,
@@ -377,6 +384,10 @@ OpenProject::Application.routes.draw do
     end
 
     resources :custom_actions, except: :show
+
+    namespace :oauth do
+      resources :applications
+    end
   end
 
   # We should fix this crappy routing (split up and rename controller methods)
@@ -508,19 +519,22 @@ OpenProject::Application.routes.draw do
   # alternate routes for the current user
   scope 'my' do
     match '/deletion_info' => 'users#deletion_info', via: :get, as: 'delete_my_account_info'
+    match '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', via: :post, as: 'revoke_my_oauth_application'
   end
 
   scope controller: 'my' do
-    post '/my/add_block', action: 'add_block'
-    post '/my/remove_block', action: 'remove_block'
-    post '/my/order_blocks', action: 'order_blocks'
-    get '/my/page_layout', action: 'page_layout'
     get '/my/password', action: 'password'
     post '/my/change_password', action: 'change_password'
     get '/my/page', action: 'page'
-    match '/my/account', action: 'account', via: %i[get patch]
-    match '/my/settings', action: 'settings', via: %i[get patch]
-    match '/my/mail_notifications', action: 'mail_notifications', via: %i[get patch]
+
+    get '/my/account', action: 'account'
+    get '/my/settings', action: 'settings'
+    get '/my/mail_notifications', action: 'mail_notifications'
+
+    patch '/my/account', action: 'update_account'
+    patch '/my/settings', action: 'update_settings'
+    patch '/my/mail_notifications', action: 'update_mail_notifications'
+
     post '/my/generate_rss_key', action: 'generate_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'
     get '/my/access_token', action: 'access_token'

@@ -38,15 +38,15 @@ require 'date'
 class Sprint < Version
   scope :open_sprints, lambda { |project|
     where(["versions.status = 'open' and versions.project_id = ?", project.id])
-      .order("COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC")
+      .order(Arel.sql("COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC"))
   }
 
   # null last ordering
   scope :order_by_date, -> {
-    order "COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC"
+    order Arel.sql("COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC")
   }
   scope :order_by_name, -> {
-    order "#{Version.table_name}.name ASC"
+    order Arel.sql("#{Version.table_name}.name ASC")
   }
 
   scope :apply_to, lambda { |project|
@@ -62,13 +62,27 @@ class Sprint < Version
   }
 
   scope :displayed_left, lambda { |project|
-    joins(sanitize_sql_array(["LEFT OUTER JOIN (SELECT * from #{VersionSetting.table_name}" +
-                                                           ' WHERE project_id = ? ) version_settings' +
-                                                           ' ON version_settings.version_id = versions.id',
-                                 project.id]))
-      .where(['(version_settings.project_id = ? AND version_settings.display = ?)' +
-              ' OR (version_settings.project_id is NULL)',
-              project.id, VersionSetting::DISPLAY_LEFT])
+    joins(sanitize_sql_array([
+      "LEFT OUTER JOIN (SELECT * from #{VersionSetting.table_name}" +
+        ' WHERE project_id = ? ) version_settings' +
+        ' ON version_settings.version_id = versions.id',
+      project.id])
+    )
+      .where([
+        '(version_settings.project_id = ? AND version_settings.display = ?)' +
+          ' OR (version_settings.project_id is NULL)',
+        project.id,
+        VersionSetting::DISPLAY_LEFT
+      ])
+      .joins("
+        LEFT OUTER JOIN (SELECT * FROM #{VersionSetting.table_name}) AS vs
+        ON vs.version_id = #{Version.table_name}.id AND vs.project_id = #{Version.table_name}.project_id
+      ") # next take only those versions which define 'display left' in their home project or the given project (or don't define anything)
+      .where(
+        "(version_settings.display = ? OR vs.display = ? OR vs.display IS NULL)",
+        VersionSetting::DISPLAY_LEFT,
+        VersionSetting::DISPLAY_LEFT
+      )
   }
 
   scope :displayed_right, lambda { |project|

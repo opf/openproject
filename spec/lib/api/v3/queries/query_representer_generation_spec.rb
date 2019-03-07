@@ -507,6 +507,17 @@ describe ::API::V3::Queries::QueryRepresenter do
         is_expected.to be_json_eql(query.is_public.to_json).at_path('public')
       end
 
+      describe 'hidden' do
+        it 'renders when the value is not set' do
+          is_expected.to be_json_eql(false.to_json).at_path('hidden')
+        end
+
+        it 'renders when the value is set' do
+          query.hidden = true
+          is_expected.to be_json_eql(true.to_json).at_path('hidden')
+        end
+      end
+
       describe 'highlighting' do
         context 'with EE', with_ee: %i[conditional_highlighting] do
           it 'renders when the value is set' do

@@ -58,7 +58,7 @@ describe ProjectsController, type: :controller do
 
       it 'renders show' do
         get 'show', params: @params
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'show'
       end
 
@@ -79,7 +79,7 @@ describe ProjectsController, type: :controller do
       describe 'without custom wiki menu items' do
         it 'renders show' do
           get 'show', params: @params
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template 'show'
         end
 
@@ -98,7 +98,7 @@ describe ProjectsController, type: :controller do
 
         it 'renders show' do
           get 'show', params: @params
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template 'show'
         end
 
@@ -124,7 +124,7 @@ describe ProjectsController, type: :controller do
 
       it 'renders show' do
         get 'show', params: @params
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'show'
       end
 
@@ -142,7 +142,7 @@ describe ProjectsController, type: :controller do
 
       it 'renders show' do
         get 'show', params: @params
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'show'
       end
 
@@ -156,7 +156,7 @@ describe ProjectsController, type: :controller do
   describe 'new' do
     it "renders 'new'" do
       get 'new', params: @params
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template 'new'
     end
   end
@@ -178,7 +178,7 @@ describe ProjectsController, type: :controller do
 
     shared_examples_for 'successful index' do
       it 'is success' do
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it 'renders the index template' do
@@ -291,6 +291,39 @@ describe ProjectsController, type: :controller do
 
         it 'redirects to settings#types' do
           expect(response).to redirect_to(settings_project_path(project.identifier, tab: 'types'))
+        end
+      end
+    end
+
+    describe '#destroy' do
+      let(:project) { FactoryBot.build_stubbed(:project) }
+      let(:request) { delete :destroy, params: { id: project.id } }
+
+      let(:service_result) { ::ServiceResult.new(success: success) }
+
+      before do
+        allow(Project).to receive(:find).and_return(project)
+        expect_any_instance_of(::Projects::DeleteProjectService)
+          .to receive(:call)
+          .with(delayed: true)
+          .and_return service_result
+      end
+
+      context 'when service call succeeds' do
+        let(:success) { true }
+        it 'prints success' do
+          request
+          expect(response).to be_redirect
+          expect(flash[:notice]).to be_present
+        end
+      end
+
+      context 'when service call fails' do
+        let(:success) { false }
+        it 'prints fail' do
+          request
+          expect(response).to be_redirect
+          expect(flash[:error]).to be_present
         end
       end
     end

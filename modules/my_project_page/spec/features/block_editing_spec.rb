@@ -158,7 +158,7 @@ describe 'My project page editing', type: :feature, js: true do
     find('#a-form-submit').click
 
     # expect changes to be saved
-    expect(page).to have_selector('.widget-box--header', text: 'My title')
+    expect(page).to have_selector('.widget-box--header', text: 'My title', wait: 20)
 
     custom_block = find_block(hidden, :a)
 
@@ -215,7 +215,7 @@ describe 'My project page editing', type: :feature, js: true do
 
         modal.expect_open
         modal.switch_to 'Filters'
-        filters.expect_filter_count 1
+        filters.expect_filter_count 2
         filters.add_filter_by('Type', 'is', work_package.type.name)
 
         modal.switch_to 'Columns'
@@ -254,7 +254,7 @@ describe 'My project page editing', type: :feature, js: true do
 
         modal.expect_open
         modal.switch_to 'Filters'
-        filters.expect_filter_count 2
+        filters.expect_filter_count 3
         modal.switch_to 'Columns'
         columns.assume_opened
         columns.expect_checked 'ID'

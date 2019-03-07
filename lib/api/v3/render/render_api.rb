@@ -36,8 +36,8 @@ module API
 
         resources :render do
           helpers do
-            SUPPORTED_CONTEXT_NAMESPACES = %w(work_packages projects news posts wiki_pages).freeze
-            SUPPORTED_MEDIA_TYPE = 'text/plain'.freeze
+            SUPPORTED_CONTEXT_NAMESPACES ||= %w(work_packages projects news posts wiki_pages).freeze
+            SUPPORTED_MEDIA_TYPE ||= 'text/plain'.freeze
 
             def allowed_content_types
               [SUPPORTED_MEDIA_TYPE]

@@ -1,0 +1,67 @@
+<div class="top-menu-search">
+    <div class="top-menu-search--loading ui-autocomplete--loading" style="display: none">
+      <div class="loading-indicator -small">
+        <div class="block-1"></div>
+        <div class="block-2"></div>
+        <div class="block-3"></div>
+        <div class="block-4"></div>
+        <div class="block-5"></div>
+      </div>
+    </div>
+    <a *ngIf="expanded"
+       (click)="toggleMobileSearch()"
+       class="top-menu-search--back-button"
+       href="#"
+       title="{{text.close_search}}">
+      <i class="icon-arrow-left1" aria-hidden="true"></i>
+    </a>
+    <ng-select #select
+              [items]="results"
+              name="global-search-input"
+              id="global-search-input"
+              placeholder="{{text.search_dots}}"
+              accesskey="4"
+              [ngClass]="'top-menu-search--input'"
+              [class.-expanded]="expanded"
+              [openOnEnter]="false"
+              [searchFn]="customSearchFn"
+              [typeahead]="searchTermChanged$"
+              (focus)="onFocus()"
+              (focusout)="onFocusOut()"
+              (search)="search($event)"
+              (open)="openCloseMenu(currentValue)"
+              (close)="select.filterValue = currentValue"
+              (change)="onChange($event)"
+              (keydown.enter)="onEnterBeforeResultsLoaded()"
+              (keydown.escape)="blur()"
+              (clear)="clearSearch()">
+        <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+          <div *ngIf="!item.id; else workPackageItemTemplate">
+            <div tabindex="-1" class="global-search--option">
+              <div class="global-search--option-wrapper">
+                <span class="global-search--search-term"> {{currentValue}} </span>
+                <span class="global-search--project-scope" title="{{item.projectScope}}"> {{item.text}} ↵ </span>
+              </div>
+            </div>
+          </div>
+          <ng-template #workPackageItemTemplate>
+            <div tabindex="-1" class="global-search--option">
+              <div class="global-search--option-wrapper" tabindex="-1">
+                <span class="global-search--wp-id __hl_dot_status_{{item.statusId}}" title="{{item.status}}" [ngOptionHighlight]="currentValue"> #{{item.id}} </span>
+                <span class="global-search--wp-subject" [ngOptionHighlight]="currentValue"> {{item.subject}} </span>
+              </div>
+            </div>
+        </ng-template>
+      </ng-template>
+    </ng-select>
+    <a #btn
+       id="top-menu-search-button"
+       class="top-menu-search--button search-form-normal"
+       title="{{text.search}}"
+       tabindex="0"
+       role="button"
+       [class.-input-focused]="expanded"
+       (accessibleClick)="handleClick($event)">
+       <op-icon icon-classes="icon5 icon-search ellipsis"></op-icon>
+    </a>
+</div>

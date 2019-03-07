@@ -41,7 +41,7 @@ describe Workflow, type: :model do
     shared_examples_for 'copied workflow' do
       before do Workflow.copy(type, role, type_target, role_target) end
 
-      subject { Workflow.order('id DESC').first }
+      subject { Workflow.order(Arel.sql('id DESC')).first }
 
       it { expect(subject.old_status).to eq(workflow_src.old_status) }
 

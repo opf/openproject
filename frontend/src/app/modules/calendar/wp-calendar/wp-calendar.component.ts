@@ -15,6 +15,8 @@ import * as moment from "moment";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {DomSanitizer} from "@angular/platform-browser";
+import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
+import {OpTitleService} from "core-components/html/op-title.service";
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -31,7 +33,9 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
               readonly $state:StateService,
               readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly wpListService:WorkPackagesListService,
+              readonly wpListChecksumService:WorkPackagesListChecksumService,
               readonly tableState:TableState,
+              readonly titleService:OpTitleService,
               readonly urlParamsHelper:UrlParamsHelperService,
               private element:ElementRef,
               readonly i18n:I18nService,
@@ -99,7 +103,16 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     // do not display the tooltip on the wp show page
     this.removeTooltip($event.detail.jsEvent.currentTarget);
 
-    this.$state.go('work-packages.show', { workPackageId: workPackage.id });
+    // Ensure checksum is removed to allow queries to load
+    this.wpListChecksumService.clear();
+
+    // Ensure current calendar URL is pushed to history
+    window.history.pushState({}, this.titleService.current, window.location.href);
+
+    this.$state.go(
+      'work-packages.show',
+      { workPackageId: workPackage.id },
+      { inherit: false });
   }
 
   private get calendarElement() {
@@ -210,9 +223,20 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   private get staticOptions() {
     return {
       editable: false,
-      eventLimit: 18,
+      eventLimit: false,
       locale: this.i18n.locale,
-      height: 400,
+      height: () => {
+        let heightElement = jQuery(this.element.nativeElement);
+
+        while (!heightElement.height() && heightElement.parent()) {
+          heightElement = heightElement.parent();
+        }
+
+        let topOfCalendar = jQuery(this.element.nativeElement).position().top;
+        let topOfHeightElement = heightElement.position().top;
+
+        return heightElement.height()! - (topOfCalendar - topOfHeightElement);
+      },
       header: false,
       defaultView: 'basicWeek'
     };

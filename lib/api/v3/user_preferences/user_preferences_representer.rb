@@ -64,9 +64,6 @@ module API
                  as: :commentSortDescending
         property :auto_hide_popups
 
-        property :impaired?,
-                 as: :accessibilityMode
-
         def _type
           'UserPreferences'
         end

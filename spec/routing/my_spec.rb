@@ -29,24 +29,20 @@
 require 'spec_helper'
 
 describe 'my routes', type: :routing do
-  it '/my/add_block POST routes to my#add_block' do
-    expect(post('/my/add_block')).to route_to('my#add_block')
-  end
-
-  it '/my/page_layout GET routes to my#page_layout' do
-    expect(get('/my/page_layout')).to route_to('my#page_layout')
-  end
-
-  it '/my/remove_block POST routes to my#remove_block' do
-    expect(post('/my/remove_block')).to route_to('my#remove_block')
-  end
-
   it '/my/account GET routes to my#account' do
     expect(get('/my/account')).to route_to('my#account')
   end
 
-  it '/my/account PATCH routes to my#account' do
-    expect(patch('/my/account')).to route_to('my#account')
+  it '/my/account PATCH routes to my#update_account' do
+    expect(patch('/my/account')).to route_to('my#update_account')
+  end
+
+  it '/my/settings GET routes to my#settings' do
+    expect(get('/my/settings')).to route_to('my#settings')
+  end
+
+  it '/my/settings PATCH routes to my#update_account' do
+    expect(patch('/my/settings')).to route_to('my#update_settings')
   end
 
   it '/my/generate_rss_key POST routes to my#generate_rss_key' do

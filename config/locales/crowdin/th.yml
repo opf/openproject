@@ -57,6 +57,22 @@ th:
     index:
       no_results_content_title: There are currently no authentication modes.
       no_results_content_text: Create a new authentication mode
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: ไม่มี
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: There are currently no posts for the board.
@@ -106,6 +122,10 @@ th:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: วิกิ
+      messages: ฟอรั่ม
   groups:
     index:
       no_results_title_text: ขณะนี้ยังไม่มีกลุ่มใดๆ
@@ -114,7 +134,21 @@ th:
       no_results_title_text: ขณะนี้ยังไม่มีผู้ใช้เป็นสมาชิกของกลุ่มนี้
     memberships:
       no_results_title_text: ขณะนี้ยังไม่มีโครงการที่เป็นส่วนหนึ่งของกลุ่มนี้
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: ขณะนี้ยังไม่มีโครงการใดๆ
       no_results_content_text: สร้างโครงการใหม่
@@ -209,6 +243,8 @@ th:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -343,6 +379,11 @@ th:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: ล่าช้า
         from: ชุดภารกิจ
@@ -433,6 +474,14 @@ th:
         time_entries: เวลาที่ถูกบันทึก
         type: ประเภท
         watcher: ผู้ดูข้อมูล
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: must be accepted.
@@ -489,8 +538,22 @@ th:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -618,6 +681,7 @@ th:
       wiki_page: หน้าวิกิ
       workflow: กระบวนการทำงาน
       work_package: ชุดภารกิจ
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'มีปัญหากับฟิลด์ต่อไปนี้:'
     field_erroneous_label: |-
@@ -693,6 +757,7 @@ th:
   button_change_password: เปลี่ยนรหัสผ่าน
   button_check_all: ตรวจสอบทั้งหมด
   button_clear: ล้างข้อมูล
+  button_click_to_reveal: Click to reveal
   button_close: Close
   button_collapse_all: ยุบทั้งหมด
   button_configure: กำหนดค่า
@@ -720,9 +785,9 @@ th:
   button_print: Print
   button_quote: อ้างถึง
   button_remove: Remove
-  button_remove_widget: เอาเครื่องมือออก
   button_rename: เปลี่ยนชื่อ
   button_replace: Replace
+  button_revoke: Revoke
   button_reply: ตอบกลับ
   button_reset: ตั้งค่าใหม่
   button_rollback: ย้อนกลับมาที่รุ่นนี้
@@ -1137,7 +1202,6 @@ th:
   label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
-  label_and_its_subprojects: "%{value} และโครงการย่อยที่เกี่ยวข้องทั้งหมด"
   label_api_access_key: คีย์การเข้าถึง API
   label_api_access_key_created_on: คีย์การเข้าถึง API ซึ่งสร้างเมื่อ %{value} ที่ผ่านมา
   label_api_access_key_type: API
@@ -1269,6 +1333,7 @@ th:
   label_environment: สภาพแวดล้อม
   label_estimates_and_time: Estimates and time
   label_equals: เป็น
+  label_everywhere: everywhere
   label_example: ตัวอย่าง
   label_export_to: 'ยังสามารถพบใน:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
@@ -1305,6 +1370,7 @@ th:
   label_history: ประวัติย้อนหลัง
   label_hierarchy_leaf: Hierarchy leaf
   label_home: หน้าหลัก
+  label_subject_or_id: Subject or ID
   label_in: ใน
   label_in_less_than: ในไม่เกิน
   label_in_more_than: ในมากกว่า
@@ -1378,7 +1444,6 @@ th:
   label_my_account: บัญชีของฉัน
   label_my_account_data: ข้อมูลบัญชีของฉัน
   label_my_page: หน้าของฉัน
-  label_my_page_block: หน้าบล็อกของฉัน
   label_my_projects: โครงการของฉัน
   label_my_queries: แบบสอบถามแบบกำหนดเองของฉัน
   label_never: Never
@@ -1485,7 +1550,6 @@ th:
   label_repository_plural: ที่เก็บ
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: ผลลัพธ์
   label_reverse_chronological_order: ในลำดับที่สลับ
   label_revision: การปรับปรุง
@@ -1502,7 +1566,6 @@ th:
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: ค้นหา
-  label_search_titles_only: ค้นหาเฉพาะชื่อ
   label_send_information: ส่งข้อมูลบัญชีให้ผู้ใช้
   label_send_test_email: ส่งอีเมลทดสอบ
   label_settings: การตั้งค่า
@@ -1582,6 +1645,7 @@ th:
   label_view_diff: ดูผลต่าง
   label_view_revisions: ดูการปรับปรุง
   label_watched_work_packages: เฝ้าดูชุดภารกิจ
+  label_what_is_this: What is this?
   label_week: สัปดาห์
   label_wiki_content_added: เพิ่มหน้าวิกิแล้ว
   label_wiki_content_updated: ปรับปรุงหน้าวิกิแล้ว
@@ -1673,7 +1737,6 @@ th:
   label_keyboard_shortcut_go_preview: ไปดูตัวอย่างการแก้ไขปัจจุบัน (ในหน้าแก้ไขเท่านั้น)
   label_keyboard_shortcut_focus_previous_item: เน้นรายการองค์ประกอบก่อนหน้านี้ (ในบางรายการเท่านั้น)
   label_keyboard_shortcut_focus_next_item: เน้นรายการองค์ประกอบถัดไป (ในบางรายการเท่านั้น)
-  label_visible_elements: Visible elements
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -1749,6 +1812,8 @@ th:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: ปรับปรุงบัญชีสำเร็จ
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: รหัสผ่านไม่ถูกต้อง
   notice_account_registered_and_logged_in: ยินดีต้อนรับ, ได้มีการเปิดใช้บัญชีของคุณแล้ว
     คุณสามารถล็อกอินได้ทันที
@@ -2145,6 +2210,7 @@ th:
   setting_mail_handler_api_key: คีย์ API
   setting_mail_handler_body_delimiters: ตัดข้อความอีเมลหลังจากเส้นนี้
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: 'บทบาทที่ให้กับผู้ใช้ที่สร้างโครงการ ซึ่งไม่ใช่ผู้ดูแลระบบ '
   setting_password_active_rules: ประเภทของตัวอักษรที่ใช้งานได้
   setting_password_count_former_banned: 'จำนวนรหัสผ่านที่ใช้ล่าสุดที่ห้ามนำมาใช้ซ้ำ '
@@ -2320,8 +2386,13 @@ th:
   text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
     a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
     administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: คุณกำลังลบการอนุญาตบางส่วนหรือทั้งหมด และไม่สามารถแก้ไขโครงการได้หลังจากนั้น
     \n คุณแน่ใจว่าจะดำเนินการต่อหรือไม่?
   text_plugin_assets_writable: สามารถบันทึก ไดเรคทอรี่ของ Plugin asset ได้
@@ -2725,8 +2796,8 @@ th:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: กรุณาปรับรุ่นเบราว์เซอร์ของคุณ
+    close_warning: ไม่สนใจคำเตือนนี้
   oauth:
     application:
       singular: OAuth application
@@ -2772,7 +2843,7 @@ th:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: สิทธิ์
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2796,16 +2867,3 @@ th:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: เอาเครื่องมือออก
-  label_and_its_subprojects: "%{value} และโครงการย่อยที่เกี่ยวข้องทั้งหมด"
-  label_my_page_block: หน้าบล็อกของฉัน
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_search_titles_only: ค้นหาเฉพาะชื่อ
-  label_visible_elements: Visible elements
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

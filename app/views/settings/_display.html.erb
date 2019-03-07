@@ -30,8 +30,6 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= styled_form_tag({action: 'edit', tab: 'display'}) do %>
 
   <section class="form--section">
-    <div class="form--field"><%= setting_check_box :accessibility_mode_for_anonymous %></div>
-
     <div class="form--field" id="setting_available_languages"><%= setting_multiselect :available_languages, all_lang_options_for_select(false) %></div>
 
     <div class="form--field"><%= setting_select :start_of_week, [[day_name(1),'1'], [day_name(6),'6'], [day_name(7),'7']], blank: :label_language_based, container_class: '-slim' %></div>

@@ -107,7 +107,7 @@ describe Repository, type: :model do
     assert_equal 5, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries.first
     assert_kind_of Mail::Message, mail
-    assert mail.subject.starts_with?("[#{fixed_work_package.project.name} - #{fixed_work_package.type.name} ##{fixed_work_package.id}]")
+    assert mail.subject.starts_with?("#{fixed_work_package.project.name} - #{fixed_work_package.status.name} #{fixed_work_package.type.name} ##{fixed_work_package.id}")
     assert mail.body.encoded.include?(
       "<strong>Status</strong> changed from <i title=\"#{old_status}\">#{old_status}</i> <br/><strong>to</strong> <i title=\"#{fixed_work_package.status}\">#{fixed_work_package.status}</i>"
     )

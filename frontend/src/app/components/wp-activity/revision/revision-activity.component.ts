@@ -46,14 +46,13 @@ export class RevisionActivityComponent implements OnInit {
 
   public userId:string | number;
   public userName:string;
-  public userAvatar:string;
   public userActive:boolean;
   public userPath:string | null;
   public userLabel:string;
+  public userAvatar:string;
 
   public project:ProjectResource;
   public revision:string;
-  public formattedRevision:string;
   public message:string;
 
   public revisionLink:string;
@@ -97,8 +96,8 @@ export class RevisionActivityComponent implements OnInit {
         .then((user:UserResource) => {
           this.userId = user.id;
           this.userName = user.name;
-          this.userAvatar = user.avatar;
           this.userActive = user.isActive;
+          this.userAvatar = user.avatar;
           this.userPath = user.showUser.href;
           this.userLabel = this.I18n.t('js.label_author', {user: this.userName});
         });

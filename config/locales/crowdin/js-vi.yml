@@ -38,6 +38,7 @@ vi:
     button_duplicate: Nhân đôi
     button_edit: Chỉnh sửa
     button_filter: Bộ lọc
+    button_advanced_filter: Advanced filter
     button_list_view: Xem kiểu danh sách
     button_show_view: Xem toàn màn hình
     button_log_time: Thời gian truy cập
@@ -149,13 +150,41 @@ vi:
     general_text_yes: có
     general_text_No: Không
     general_text_Yes: Có
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Tin tức
+          at: at
+          no_results: Không có gì mới để báo cáo.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Gói công việc mà tôi có trách nhiệm
+        work_packages_assigned:
+          title: Work package được chỉ định cho tôi
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Lịch
     label_activate: Activate
     label_activity_no: Số chỉ mục hoạt động %{activityNo}
     label_activity_with_comment_no: Số chỉ mục hoạt động %{activityNo}. Có một nhận
       xét của người dùng.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Add columns
     label_add_comment: Thêm bình luận
     label_add_comment_title: Comment and type @ to notify other people
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Thêm cột đang chọn
     label_added_by: được gửi bởi
     label_added_time_by: Thêm bởi %{author} %{age}
@@ -213,6 +242,7 @@ vi:
     label_menu_collapse: thu lại
     label_menu_expand: mở rộng
     label_more_than_ago: nhiều hơn mấy ngày trước
+    label_my_page: Trang của tôi
     label_next: Tiếp
     label_no_data: Không có dữ liệu để hiển thị
     label_no_due_date: không có ngày kết thúc
@@ -231,7 +261,9 @@ vi:
     label_visibility_settings: Cài đặt hiển thị
     label_quote_comment: Trích bình luận này
     label_reset: Reset
+    label_remove_column: Remove column
     label_remove_columns: Loại bỏ cột được chọn
+    label_remove_row: Remove row
     label_save_as: Lưu thành
     label_select_watcher: Chọn một người theo dõi...
     label_selected_filter_list: 'Các bộ lọc đã chọn: %s'
@@ -253,6 +285,7 @@ vi:
     label_activity_show_only_comments: Hiển thị các hoạt động với các bình luận
     label_activity_show_all: Hiển thị các hoạt động
     label_total_progress: "%{percent}% Tổng tiến độ"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: cập Nhật ngày
     label_warning: Warning
     label_work_package: Work Package
@@ -392,6 +425,10 @@ vi:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Hoạt động
+      comment: Nhận xét
+      hours: Giờ
     watchers:
       label_loading: lấy danh sách người theo dõi...
       label_error_loading: Lỗi khi tải về danh sách người theo dõi
@@ -473,6 +510,7 @@ vi:
     text_query_destroy_confirmation: Bạn muốn xóa các mục đã chọn?
     text_attachment_destroy_confirmation: Bạn có chắc bạn muốn xóa tập tin đính kèm?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Cấu hình nhãn
@@ -542,14 +580,6 @@ vi:
     tl_toolbar:
       zooms: Zoom level
       outlines: Hierarchy level
-    unsupported_browser:
-      title: Your browser version is not supported
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Learn more
-      close_warning: Ignore this warning.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -597,11 +627,10 @@ vi:
       label_enable_multi_select: Enable multiselect
       label_disable_multi_select: Disable multiselect
       label_filter_add: Thêm bộ lọc
+      label_filter_by_text: Filter by text
       label_options: Tuỳ chọn
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
         confirm selection with enter, delete with backspace'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: An error occurred while trying to delete work
         packages.
       message_successful_bulk_delete: Successfully deleted work packages.
@@ -611,6 +640,7 @@ vi:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: No value
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Click vào đây để thêm một work package mới vào danh sách này
       create:
@@ -823,7 +853,7 @@ vi:
         messages_on_field: 'Mục này không hợp lệ: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
-    error_attachment_upload: 'Tập tin ''%{name}'' tải lên thất bại: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: Bạn không có quyền tải lên tập tin vào tài
       nguyên này.
     units:
@@ -840,3 +870,13 @@ vi:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    global_search:
+      all_projects: In all projects
+      search: Search
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

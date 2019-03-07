@@ -228,7 +228,7 @@ describe Repository::Git, type: :model do
         # This test fails on macs since they count file changes to be 33, *nix system count 34
         expect(instance.file_changes.count).to be_between(33,34)
 
-        commit = instance.changesets.reorder('committed_on ASC').first
+        commit = instance.changesets.reorder(Arel.sql('committed_on ASC')).first
         expect(commit.comments).to eq("Initial import.\nThe repository contains 3 files.")
         expect(commit.committer).to eq('jsmith <jsmith@foo.bar>')
         # assert_equal User.find_by_login('jsmith'), commit.user
@@ -246,11 +246,11 @@ describe Repository::Git, type: :model do
 
       it 'should fetch changesets incremental' do
         # Remove the 3 latest changesets
-        instance.changesets.order('committed_on DESC').limit(8).each(&:destroy)
+        instance.changesets.order(Arel.sql('committed_on DESC')).limit(8).each(&:destroy)
         instance.reload
         expect(instance.changesets.count).to eq(14)
 
-        rev_a_commit = instance.changesets.order('committed_on DESC').first
+        rev_a_commit = instance.changesets.order(Arel.sql('committed_on DESC')).first
         expect(rev_a_commit.revision).to eq('ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
         expect(rev_a_commit.scmid).to eq('ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
         # Mon Jul 5 22:34:26 2010 +0200

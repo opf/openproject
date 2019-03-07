@@ -7,12 +7,19 @@
                    [activityNo]="activityNo">
     </activity-link>
   </div>
-  <div *ngIf="userAvatar">
-    <img class="avatar"
-         [attr.src]="userAvatar"
-         [attr.title]="userName"
-         alt="Avatar" />
-  </div>
+
+  <user-avatar *ngIf="activity.author && userName"
+               [attr.data-user-name]="userName"
+               [attr.data-user-avatar-src]="userAvatar"
+               data-class-list="avatar">
+  </user-avatar>
+
+  <user-avatar *ngIf="!activity.author && userName"
+               [attr.data-user-name]="userName"
+               [attr.data-use-fallback]="true"
+               data-class-list="avatar">
+  </user-avatar>
+
   <span class="user" *ngIf="userActive">
     <a [attr.href]="userPath"
        [attr.aria-label]="userLabel"

@@ -1,3 +1,2 @@
-https://github.com/pkgr/pkgr-buildpack-imagemagick.git
 https://github.com/heroku/heroku-buildpack-nodejs.git#v106
-https://github.com/pkgr/heroku-buildpack-ruby.git#v183-1
+https://github.com/pkgr/heroku-buildpack-ruby.git#v199-1

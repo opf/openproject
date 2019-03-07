@@ -38,33 +38,26 @@
   margin-right: 10px
   vertical-align: -5px
 
+  &.avatar-default
+    line-height: 20px
+    font-size: 10px
+
+.avatar-default
+  display: inline-block
+  line-height: 34px
+  font-size: 16px
+  text-align: center
+  vertical-align: middle
+  background-color: $user-avatar-default-bg-color
+  color: white
+  cursor: inherit
+  user-select: none
+
 h1, h2, h3, h4, tr
   .avatar, .avatar-mini
     vertical-align: middle
     margin-right: 7px
 
-
-.user-avatar--container
-  display: flex
-  align-items: flex-start
-  width: 100%
-
-.user-avatar--avatar
-  @extend .avatar-mini
-  margin-right: 0.5em
-
-.user-avatar--user-with-role
-  flex: 1
-
-.user-avatar--user
-  display:        block
-  word-wrap:      break-word
-  overflow-wrap:  break-word
-
-.user-avatar--role
-  display:      block
-  font-style:   italic
-  color:        #777777
 
 .user-link
   display: inline-block

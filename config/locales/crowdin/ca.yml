@@ -57,6 +57,22 @@ ca:
     index:
       no_results_content_title: Actualment no hi ha cap mode d'autenticació.
       no_results_content_text: Crear un nou mode d'autenticació
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: cap
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: Actualment no hi ha cap entrada al tauler.
@@ -106,6 +122,10 @@ ca:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Fòrum
   groups:
     index:
       no_results_title_text: Actualment no hi ha cap grup.
@@ -115,7 +135,21 @@ ca:
     memberships:
       no_results_title_text: Actualment no hi ha projectes que formin part d'aquest
         grup.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: Actualment no hi ha projectes
       no_results_content_text: Crear un nou projecte
@@ -211,6 +245,8 @@ ca:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -356,6 +392,11 @@ ca:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Retard
         from: Paquet de treball
@@ -447,6 +488,14 @@ ca:
         time_entries: Temps de registre
         type: Tipus
         watcher: Observador
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: hauran de ser acceptats.
@@ -502,8 +551,22 @@ ca:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -634,6 +697,7 @@ ca:
       wiki_page: Pàgina wiki
       workflow: Flux de treball
       work_package: Paquet de treball
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'S''han detectat problemes en els camps següents:'
     field_erroneous_label: 'Aquest camp no és vàlid: %{full_errors} si us plau, introduïu
@@ -708,6 +772,7 @@ ca:
   button_change_password: Canviar contrasenya
   button_check_all: Marcar-ho tot
   button_clear: Netejar
+  button_click_to_reveal: Click to reveal
   button_close: Close
   button_collapse_all: Replega-ho tot
   button_configure: Configurar
@@ -735,9 +800,9 @@ ca:
   button_print: Print
   button_quote: Citar
   button_remove: Suprimir
-  button_remove_widget: Treure els widgets
   button_rename: Renombrar
   button_replace: Replace
+  button_revoke: Revoke
   button_reply: Respon
   button_reset: Restablir
   button_rollback: Tornar a aquesta versió
@@ -1165,7 +1230,6 @@ ca:
   label_all_open_wps: All open
   label_always_visible: Sempre es mostren
   label_announcement: Avisos
-  label_and_its_subprojects: "%{value} i els seus subprojectes"
   label_api_access_key: Clau d'accés API
   label_api_access_key_created_on: Clau d'accés API creada fa %{value}
   label_api_access_key_type: API
@@ -1298,6 +1362,7 @@ ca:
   label_environment: Entorn
   label_estimates_and_time: Estimates and time
   label_equals: és
+  label_everywhere: everywhere
   label_example: Exemple
   label_export_to: 'També disponible en:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
@@ -1335,6 +1400,7 @@ ca:
   label_history: Història
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Inici
+  label_subject_or_id: Subject or ID
   label_in: en
   label_in_less_than: en menys de
   label_in_more_than: en més de
@@ -1408,7 +1474,6 @@ ca:
   label_my_account: El meu compte
   label_my_account_data: Dades del meu compte
   label_my_page: La meva pàgina
-  label_my_page_block: El meu bloc de pàgina
   label_my_projects: Els meus projectes
   label_my_queries: Les meves consultes personalitzades
   label_never: Mai
@@ -1517,7 +1582,6 @@ ca:
   label_repository_plural: Repositoris
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Resultats
   label_reverse_chronological_order: En ordre cronològic invers
   label_revision: Revisió
@@ -1534,7 +1598,6 @@ ca:
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: Cercar
-  label_search_titles_only: Cerca només per títol
   label_send_information: Envia la informació del compte a l'usuari
   label_send_test_email: Enviar correu electrònic de prova
   label_settings: Configuració
@@ -1617,6 +1680,7 @@ ca:
   label_view_diff: Visualitza les diferències
   label_view_revisions: Visualitzar revisions
   label_watched_work_packages: Paquets de treball observats
+  label_what_is_this: What is this?
   label_week: Setmana
   label_wiki_content_added: S'ha afegit la pàgina wiki
   label_wiki_content_updated: S'ha actualitzat la pàgina wiki
@@ -1717,7 +1781,6 @@ ca:
     (només en algunes llistes)
   label_keyboard_shortcut_focus_next_item: Activar l'element següent de la llista
     (només en algunes llistes)
-  label_visible_elements: Elements visibles
   auth_source:
     using_abstract_auth_source: No podeu utilitzar una font d'autenticació abstracte.
     ldap_error: 'Error LDAP: %{error_message}'
@@ -1800,6 +1863,8 @@ ca:
   notice_account_update_failed: No s'ha pogut desar la configuració del compte. Si
     us plau, revisi la pàgina del compte.
   notice_account_updated: El compte s'ha actualitzat correctament.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Contrasenya errònia
   notice_account_registered_and_logged_in: Benvingut, el seu compte s'ha activat.
     Ara ja està vostè connectat.
@@ -2228,6 +2293,7 @@ ca:
     després d'una d'aquestes línies
   setting_mail_handler_body_delimiter_regex: Trunca els missatges de correu electrònic
     que coincideixen amb aquesta expressió regular
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rol donat per un usuari no-admin que crea un projecte
   setting_password_active_rules: Classes de caràcters actius
   setting_password_count_former_banned: Nombre de contrasenyes utilitzades més recentment
@@ -2417,8 +2483,13 @@ ca:
   text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
     a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
     administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Esteu a punt de suprimir algun o tots els vostres permisos i potser no podreu editar més aquest projecte.
     Segur que voleu continuar?
@@ -2895,7 +2966,7 @@ ca:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Permisos
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2919,16 +2990,3 @@ ca:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Treure els widgets
-  label_and_its_subprojects: "%{value} i els seus subprojectes"
-  label_my_page_block: El meu bloc de pàgina
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_search_titles_only: Cerca només per títol
-  label_visible_elements: Elements visibles
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

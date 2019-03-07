@@ -39,6 +39,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 export class TablePaginationComponent implements OnInit {
   @Input() totalEntries:string;
   @Input() hideForSinglePageResults:boolean = false;
+  @Input() calculatePerPage:boolean = false;
   @Output() updateResults = new EventEmitter<PaginationInstance>();
 
   public pagination:PaginationInstance;
@@ -57,8 +58,6 @@ export class TablePaginationComponent implements OnInit {
 
   constructor(protected paginationService:PaginationService,
               readonly I18n:I18nService) {
-
-
   }
 
   ngOnInit():void {
@@ -81,6 +80,7 @@ export class TablePaginationComponent implements OnInit {
 
   public selectPerPage(perPage:number) {
     this.pagination.perPage = perPage;
+    this.paginationService.setPerPage(perPage);
     this.showPage(1);
   }
 
@@ -144,6 +144,12 @@ export class TablePaginationComponent implements OnInit {
     }
 
     this.pageNumbers = pageNumbers;
+  }
+
+  public showPerPageOptions() {
+    return !this.calculatePerPage &&
+           this.perPageOptions.length > 0 &&
+           this.pagination.total > this.perPageOptions[0]
   }
 
   private truncatePageNums(pageNumbers:any, perform:any, disectFrom:any, disectLength:any, truncateFrom:any) {

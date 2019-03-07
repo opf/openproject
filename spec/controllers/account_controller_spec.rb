@@ -47,7 +47,7 @@ describe AccountController, type: :controller do
 
     it 'renders the view' do
       expect(response).to render_template 'login'
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     context 'user already logged in' do
@@ -85,7 +85,7 @@ describe AccountController, type: :controller do
     describe 'wrong password' do
       it 'redirects back to login' do
         post :login, params: { username: 'admin', password: 'bad' }
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'login'
         expect(flash[:error]).to include 'Invalid user or password'
       end
@@ -342,9 +342,32 @@ describe AccountController, type: :controller do
       allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
     end
 
+
+    describe "Missing flash data for user initiated password change" do
+      before do
+        post 'change_password',
+             flash: {
+               _password_change_user_id: nil
+             },
+             params: {
+               username: admin.login,
+               password: 'whatever',
+               new_password: 'whatever',
+               new_password_confirmation: 'whatever2'
+             }
+      end
+
+      it 'should render 404' do
+        expect(response.status).to eq 404
+      end
+    end
+
     describe "User who is not allowed to change password can't login" do
       before do
         post 'change_password',
+             flash: {
+               _password_change_user_id: admin.id
+             },
              params: {
                username: admin.login,
                password: 'adminADMIN!',

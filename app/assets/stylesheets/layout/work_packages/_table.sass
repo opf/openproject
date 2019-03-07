@@ -33,7 +33,8 @@
     #main
       top: 12px
 
-.controller-work_packages.action-index:not(.action-show):not(.full-create)
+.controller-work_packages.action-index:not(.full-create),
+.controller-work_packages.action-show:not(.full-create)
   #content-wrapper
     padding: 0 0 0 20px
 
@@ -127,8 +128,8 @@
   position: relative
   // Hint browser that this will inner-scroll
   will-change: transform
-  // Hinter browser that the content of the flex is contained
-  contain: strict
+  // Hinter browser that the content of the flex is contained except for size
+  contain: layout style paint
 
   &.-timeline-visible
     // Show the horizontal scrollbar _always_ (same as timeline)
@@ -148,8 +149,8 @@
   display: none
   // Hint browser that this will inner-scroll
   will-change: transform
-  // Hinter browser that the content of the flex is contained
-  contain: strict
+  // Hinter browser that the content of the flex is contained except for size
+  contain: layout style paint
 
 .work-package--attachments--files
   margin-bottom: 1rem

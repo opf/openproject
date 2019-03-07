@@ -38,6 +38,7 @@ module Queries::Filters
     datetime_past: Queries::Filters::Strategies::DateTimePast,
     string: Queries::Filters::Strategies::String,
     text: Queries::Filters::Strategies::Text,
+    search: Queries::Filters::Strategies::Search,
     float: Queries::Filters::Strategies::Float,
     inexistent: Queries::Filters::Strategies::Inexistent
   }.freeze

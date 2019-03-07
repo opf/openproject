@@ -56,7 +56,7 @@ module API
               WorkPackage
                 .where(id: work_packages.map(&:id).uniq)
                 .left_joins(:status, :author, :responsible, :assigned_to, :fixed_version, :priority, :category, :type)
-                .pluck('work_packages.id', concat.squish)
+                .pluck('work_packages.id', Arel.sql(concat.squish))
                 .to_h
             end
 

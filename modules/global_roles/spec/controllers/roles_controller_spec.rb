@@ -31,7 +31,7 @@ describe RolesController, type: :controller do
   end
 
   shared_examples_for 'index' do
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
     it { expect(assigns(:roles)).to eql(@roles) }
     it { expect(response).to render_template 'roles/index' }
   end
@@ -54,7 +54,7 @@ describe RolesController, type: :controller do
   end
 
   shared_examples_for 'failed create' do
-    it { expect(response).to be_success }
+    it { expect(response).to be_successful }
     it { expect(response).to render_template 'new' }
   end
 
@@ -89,7 +89,7 @@ describe RolesController, type: :controller do
         get 'new'
       end
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(response).to render_template 'roles/new' }
       it { expect(assigns(:member_permissions)).to eql @member_role.setable_permissions }
       it { expect(assigns(:roles)).to eql @roles }
@@ -115,7 +115,7 @@ describe RolesController, type: :controller do
             describe 'html' do
               before { get :edit, params: @params }
 
-              it { expect(response).to be_success }
+              it { expect(response).to be_successful }
               it { expect(response).to render_template 'roles/edit' }
               it { expect(assigns(:role)).to eql @member_role }
               it { expect(assigns(:permissions)).to eql @member_role.setable_permissions }

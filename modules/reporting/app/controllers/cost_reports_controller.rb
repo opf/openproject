@@ -216,7 +216,7 @@ class CostReportsController < ApplicationController
   #   set the @cost_types -> this is used to determine which tabs to display
   def set_active_cost_types
     unless session[:report] && (@cost_types = session[:report][:filters][:values][:cost_type_id].try(:collect, &:to_i))
-      relevant_cost_types = CostType.select(:id).order('id ASC').select do |t|
+      relevant_cost_types = CostType.select(:id).order(Arel.sql('id ASC')).select do |t|
         t.cost_entries.count > 0
       end.collect(&:id)
       @cost_types = [-1, 0, *relevant_cost_types]
@@ -279,10 +279,10 @@ class CostReportsController < ApplicationController
   def public_queries
     if @project
       CostQuery.where(['is_public = ? AND (project_id IS NULL OR project_id = ?)', true, @project])
-               .order('name ASC')
+               .order(Arel.sql('name ASC'))
     else
       CostQuery.where(['is_public = ? AND project_id IS NULL', true])
-               .order('name ASC')
+               .order(Arel.sql('name ASC'))
     end
   end
 
@@ -292,10 +292,10 @@ class CostReportsController < ApplicationController
                        current_user,
                        false,
                        @project])
-               .order('name ASC')
+               .order(Arel.sql('name ASC'))
     else
       CostQuery.where(['user_id = ? AND is_public = ? AND project_id IS NULL', current_user, false])
-               .order('name ASC')
+               .order(Arel.sql('name ASC'))
     end
   end
 

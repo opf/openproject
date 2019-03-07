@@ -57,6 +57,22 @@ fr:
     index:
       no_results_content_title: Il n'y a actuellement aucun mode d'authentification.
       no_results_content_text: Créer un nouveau mode d'authentification
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: aucun(e)
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: Il n'y a actuellement aucun message pour le forum.
@@ -106,6 +122,10 @@ fr:
       further_information_after: ''
     calendar:
       removal: Veuillez noter que ce module sera supprimé avec OpenProject 8.0.
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Il n'y a actuellement aucun groupe.
@@ -114,7 +134,22 @@ fr:
       no_results_title_text: Aucun utilisateur dans ce groupe pour le moment.
     memberships:
       no_results_title_text: Aucun projet dans ce groupe pour le moment.
+  incoming_mails:
+    ignore_filenames: 'Spécifiez une liste de noms à ignorer lors du traitement des
+      pièces jointes aux messages entrants (par exemple, signatures ou icônes). Entrez
+      un nom de fichier par ligne.
+
+'
   projects:
+    delete:
+      scheduled: La suppression a été planifiée et est exécutée en arrière-plan. Vous
+        serez informé du résultat.
+      schedule_failed: 'Le projet ne peut pas être supprimé : %{errors}'
+      failed: La suppression du projet %{name} a échoué
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: Aucun projet pour le moment
       no_results_content_text: Créer un nouveau projet
@@ -211,6 +246,8 @@ fr:
     x_descendants:
       one: Un lot de travaux descendant
       other: "%{count} lots de travaux descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Il n’y a pas de statut disponible pour tous les lots
         de travaux sélectionnés. Ce statut ne peut pas être changé.
@@ -354,6 +391,11 @@ fr:
         subscriber: Abonné
         encoded_token: Licence Entreprise
         active_user_count_restriction: Nombre maximal d’utilisateurs actif
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Délai
         from: Lot de travaux
@@ -445,6 +487,14 @@ fr:
         time_entries: Consigner temps
         type: Type
         watcher: Observateur
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Propriétaire
+        redirect_uri: URL de redirection
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Portées
+        confidential: Confidentielle
     errors:
       messages:
         accepted: doi(ven)t être accepté(e)(s).
@@ -501,9 +551,23 @@ fr:
           not_an_integer: "(%{name}) n’est pas un nombre entier."
           smaller_than_or_equal_to: "(%{name}) doit être inférieure ou égale à %{count}."
           greater_than_or_equal_to: "(%{name}) doit être supérieur ou égal à %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: ne peut pas contenir un fragment.
+              invalid_uri: doit être une URL valide.
+              relative_uri: doit être une URI absolue.
+              secured_uri: doit être une URI HTTPS/SSL.
+              forbidden_uri: est interdit par le serveur.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: ne peut être lu. Êtes-vous sûr qu'il s'agisse d'une licence
             Entreprise ?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -642,6 +706,7 @@ fr:
       wiki_page: Page wiki
       workflow: Flux de travail
       work_package: Lot de travaux
+      doorkeeper/application: Applications OAuth
   errors:
     header_invalid_fields: 'Des problèmes ont été rencontrés avec les champs suivants
       :'
@@ -718,6 +783,7 @@ fr:
   button_change_password: Changer de mot de passe
   button_check_all: Tout cocher
   button_clear: Effacer
+  button_click_to_reveal: Click to reveal
   button_close: Fermer
   button_collapse_all: Tout replier
   button_configure: Configurer
@@ -745,9 +811,9 @@ fr:
   button_print: Imprimer
   button_quote: Citation
   button_remove: Supprimer
-  button_remove_widget: Supprimer widget
   button_rename: Renommer
   button_replace: Remplacer
+  button_revoke: Révoquer
   button_reply: Répondre
   button_reset: Réinitialiser
   button_rollback: Revenir à cette version
@@ -1182,7 +1248,6 @@ fr:
   label_all_open_wps: Tous les ouverts
   label_always_visible: Toujours affiché
   label_announcement: 'Annonce ou avis. '
-  label_and_its_subprojects: "%{value} et ses sous-projets"
   label_api_access_key: Clé d'accès API
   label_api_access_key_created_on: Clé d'accès API créé il y a %{value}
   label_api_access_key_type: API
@@ -1315,6 +1380,7 @@ fr:
   label_environment: Environement
   label_estimates_and_time: Estimations et temps
   label_equals: est
+  label_everywhere: partout
   label_example: Exemple
   label_export_to: 'Aussi disponible en :'
   label_expanded_click_to_collapse: Déplié. Cliquez pour replier
@@ -1352,6 +1418,7 @@ fr:
   label_history: Historique
   label_hierarchy_leaf: Feuille de hiérarchie
   label_home: Accueil
+  label_subject_or_id: Subject or ID
   label_in: dans
   label_in_less_than: en moins de
   label_in_more_than: en plus de
@@ -1425,7 +1492,6 @@ fr:
   label_my_account: Mon compte
   label_my_account_data: Info sur mon compte
   label_my_page: Ma page
-  label_my_page_block: Ma page bloc
   label_my_projects: Mes projets
   label_my_queries: Mes requêtes personnalisées
   label_never: Jamais
@@ -1533,7 +1599,6 @@ fr:
   label_repository_plural: Dépôts
   label_required: requis
   label_requires: requiert
-  label_responsible_for_work_packages: Lots de Travaux dont je suis responsable
   label_result_plural: Résultats
   label_reverse_chronological_order: Dans l'ordre chronologique inversé
   label_revision: Révision
@@ -1550,7 +1615,6 @@ fr:
   label_role_search: Assigner un rôle aux nouveaux membres
   label_scm: SCM
   label_search: Recherche
-  label_search_titles_only: Recherche uniquement de Titres
   label_send_information: Envoyer informations du compte à l'utilisateur
   label_send_test_email: Envoyer un courriel de test
   label_settings: Paramètres
@@ -1633,6 +1697,7 @@ fr:
   label_view_diff: Afficher les différences
   label_view_revisions: Afficher les révisions
   label_watched_work_packages: Lots de travaux suivis
+  label_what_is_this: Qu'est-ce que c est?
   label_week: Semaine
   label_wiki_content_added: Page wiki ajoutée
   label_wiki_content_updated: Page wiki mise à jour
@@ -1734,7 +1799,6 @@ fr:
     quelques listes seulement)
   label_keyboard_shortcut_focus_next_item: Focus sur l'élément suivant (sur quelques
     listes seulement)
-  label_visible_elements: Éléments visibles
   auth_source:
     using_abstract_auth_source: Impossible d'utiliser une source d'authentification
       abstraite.
@@ -1818,6 +1882,8 @@ fr:
   notice_account_update_failed: Le paramètre de compte n'a pas pu être enregistré.
     Veuillez consulter la page de votre compte.
   notice_account_updated: Le compte a été mis à jour avec succès.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Mot de passe incorrect
   notice_account_registered_and_logged_in: Bienvenue, votre compte a été activé. Vous
     êtes maintenant connecté.
@@ -2238,6 +2304,7 @@ fr:
     ces lignes
   setting_mail_handler_body_delimiter_regex: Tronquer les courriels correspondant
     à cette expression régulière
+  setting_mail_handler_ignore_filenames: Pièces jointes du courrier ignorées
   setting_new_project_user_role_id: Rôle donné à un utilisateur non administrateur
     qui crée un projet
   setting_password_active_rules: Les classes de caractère activées
@@ -2426,11 +2493,18 @@ fr:
   text_no_notes: Il n'existe aucun commentaire pour ce lot de travaux.
   text_notice_too_many_values_are_inperformant: 'Remarque : L''affichage de plus de
     100 articles par page peut augmenter le temps de chargement de la page.'
-  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
-    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
-    administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+  text_notice_security_badge_displayed_html: 'Remarque : si cette option est activée,
+    un badge indiquant l''état de votre installation s''affichera dans le panneau
+    <a href="%{information_panel_path}">%{information_panel_label}</a> administration
+    et sur la page d''accueil. Il n''est affiché que pour les administrateurs. <br/>Le
+    badge vérifiera votre version actuelle d''OpenProject par rapport à la base de
+    données officielle d''OpenProject pour vous avertir de toute mise à jour ou vulnérabilité
+    connue. Pour plus d''informations sur ce que la vérification fournit, quelles
+    données sont nécessaires pour fournir les mises à jour disponibles, et comment
+    désactiver cette vérification, veuillez visiter <a href="%{more_info_url}">la
+    documentation de configuration</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Vous êtes sur le point de retirer tout ou partie de vos permissions et ne pourrez peut-être plus modifier le projet par la suite.
     Êtes vous sûr de vouloir continuer?
@@ -2837,13 +2911,14 @@ fr:
       status: Pre-authorization
     errors:
       messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
-        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
-          client redirect URI.
-        unauthorized_client: The client is not authorized to perform this request
-          using this method.
-        access_denied: The resource owner or authorization server denied the request.
+        invalid_request: Il manque à la requête un paramètre requis, inclut une valeur
+          de paramètre non supportée ou est malformée d'une autre manière.
+        invalid_redirect_uri: L'uri de redirection demandée est malformée ou ne correspond
+          pas à l'URI de redirection client.
+        unauthorized_client: Le client n'est pas autorisé à effectuer cette demande
+          en utilisant cette méthode.
+        access_denied: Le propriétaire de la ressource ou le serveur d'autorisation
+          a refusé la demande.
         invalid_scope: The requested scope is invalid, unknown, or malformed.
         invalid_code_challenge_method: The code challenge method must be plain or
           S256.
@@ -2873,11 +2948,11 @@ fr:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Veuillez mettre à jour votre navigateur.
+    close_warning: Ignorer cet avertissement.
   oauth:
     application:
-      singular: OAuth application
+      singular: Applications OAuth
       plural: OAuth applications
       named: OAuth application '%{name}'
       new: New OAuth application
@@ -2910,20 +2985,22 @@ fr:
       prompt_html: Authorize <strong>%{application_name}</strong> to use your account
         <em>%{login}</em>?
       title: Authorize %{application_name}
-      wants_to_access_html: 'This application requests access to your OpenProject
-        account. <br/> <strong>It has requested the following permissions:</strong>
+      wants_to_access_html: 'Cette application demande l''accès à votre compte OpenProject.
+        <br/> <strong>Il a demandé les autorisations suivantes:</strong>Il a demandé
+        les autorisations suivantes
 
 '
     scopes:
       api_v3: Full API access
-      api_v3_text: Application will receive full read & write access to the OpenProject
-        API to perform actions on your behalf.
+      api_v3_text: L'application recevra un accès complet en lecture et écriture à
+        l'API OpenProject pour effectuer des actions en votre nom.
     grants:
-      created_date: Approved on
-      scopes: Permissions
-      successful_application_revocation: Revocation of application %{application_name}
-        successful.
-      none_given: No OAuth applications have been granted access to your user account.
+      created_date: Approuvée le
+      scopes: Autorisations
+      successful_application_revocation: Révocation de l'application %{application_name}
+        réussie.
+      none_given: Aucune application OAuth n'a été autorisée à accéder à votre compte
+        utilisateur.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
@@ -2944,16 +3021,3 @@ fr:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Supprimer widget
-  label_and_its_subprojects: "%{value} et ses sous-projets"
-  label_my_page_block: Ma page bloc
-  label_responsible_for_work_packages: Lots de Travaux dont je suis responsable
-  label_search_titles_only: Recherche uniquement de Titres
-  label_visible_elements: Éléments visibles
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

@@ -1,0 +1,100 @@
+<h3 class="widget-box--header" cdkDragHandle>
+  <i class="icon-context icon-time" aria-hidden="true"></i>
+  <span class="widget-box--header-title" [textContent]="text.title"></span>
+</h3>
+
+<no-results *ngIf="noEntries"
+            [title]="text.noResults">
+</no-results>
+
+<ng-container *ngIf="!noEntries">
+  <div class="total-hours">
+    <p>Total: <span [textContent]="total"></span></p>
+  </div>
+
+  <div class="generic-table--results-container" *ngIf="anyEntries">
+    <table class="generic-table time-entries">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col>
+      </colgroup>
+      <thead class="-sticky">
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span [textContent]="text.activity"></span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span [textContent]="text.workPackage"></span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span [textContent]="text.comment"></span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span [textContent]="text.hour"></span>
+              </div>
+            </div>
+          </th>
+          <th><div class="generic-table--empty-header"></div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="time-entry" *ngFor="let item of rows">
+          <td class="activity"
+              *ngIf="item.entry"
+              [textContent]="activityName(item.entry)">
+          </td>
+          <td colspan="3"
+              *ngIf="item.sum">
+            <strong [textContent]="item.date"></strong>
+          </td>
+          <td class="subject"
+              *ngIf="item.entry">
+              {{projectName(item.entry)}} - <a [href]="workPackagePath(item.entry)" [textContent]="workPackageName(item.entry)"></a>
+          </td>
+          <td class="comments"
+              *ngIf="item.entry"
+              [textContent]="comment(item.entry)">
+          </td>
+          <td class="hours"
+              *ngIf="item.entry"
+              [textContent]="hours(item.entry)">
+          </td>
+          <td class="hours"
+              *ngIf="item.sum">
+            <em [textContent]="item.sum  | number : '1.2-2'"></em>
+          </td>
+          <td class="buttons">
+            <a [href]="editPath(item.entry)"
+               *ngIf="item.entry && item.entry.updateImmediately"
+               [title]="text.edit">
+              <op-icon icon-classes="icon-context icon-edit"></op-icon>
+            </a>
+            <a [href]="deletePath(item.entry)"
+               *ngIf="item.entry && item.entry.delete"
+               (click)="deleteIfConfirmed($event, item.entry)"
+               [title]="text.delete" >
+              <op-icon icon-classes="icon-context icon-delete"></op-icon>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>

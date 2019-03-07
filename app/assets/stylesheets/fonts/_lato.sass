@@ -26,12 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-$lato-file-formats: woff woff2
+$lato-file-formats: ("woff" "woff2")
 
 +font-face(LatoLight, 'lato/Lato-Light', $file-formats: $lato-file-formats)
-+font-face(LatoLight, 'lato/Lato-LightItalic', normal, italic, $file-formats: $lato-file-formats)
++font-face(LatoLight, 'lato/Lato-LightItalic', $file-formats: $lato-file-formats)
+  font-style: italic
 
 +font-face(Lato, 'lato/Lato-Regular', $file-formats: $lato-file-formats)
-+font-face(Lato, 'lato/Lato-Italic', normal, italic, $file-formats: $lato-file-formats)
-+font-face(Lato, 'lato/Lato-Bold', bold, $file-formats: $lato-file-formats)
-+font-face(Lato, 'lato/Lato-BoldItalic', bold, italic, $file-formats: $lato-file-formats)
++font-face(Lato, 'lato/Lato-Italic', $file-formats: $lato-file-formats)
+  font-style: italic
+
++font-face(Lato, 'lato/Lato-Bold', $file-formats: $lato-file-formats)
+  font-weight: bold
+
++font-face(Lato, 'lato/Lato-BoldItalic', $file-formats: $lato-file-formats)
+  font-weight: bold
+  font-style: italic

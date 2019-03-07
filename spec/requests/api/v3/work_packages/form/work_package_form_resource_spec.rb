@@ -35,7 +35,7 @@ describe 'API v3 Work package form resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) { FactoryBot.create(:project, is_public: false) }
-  shared_let(:work_package, reload: true) { FactoryBot.create(:work_package, project: project) }
+  shared_let(:work_package) { FactoryBot.create(:work_package, project: project) }
   shared_let(:authorized_user) { FactoryBot.create(:user, member_in_project: project) }
   shared_let(:unauthorized_user) { FactoryBot.create(:user) }
 
@@ -172,7 +172,7 @@ describe 'API v3 Work package form resource', type: :request do
               end
 
               it_behaves_like 'parse error',
-                              'unexpected comma at line 1, column 3'
+                              'unexpected comma () at line 1, column 3'
             end
 
             describe 'lock version' do

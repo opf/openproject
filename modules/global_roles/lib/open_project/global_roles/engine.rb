@@ -31,6 +31,9 @@ module OpenProject::GlobalRoles
 
     assets %w(global_roles/global_roles.js)
 
+    # We still override version and project settings views from the core! URH
+    override_core_views!
+
     patches [:Principal, :Role, :User, :RolesController, :UsersController]
     patch_with_namespace :BasicData, :RoleSeeder
 

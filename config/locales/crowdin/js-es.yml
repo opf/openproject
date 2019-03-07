@@ -39,6 +39,7 @@ es:
     button_duplicate: Duplicar
     button_edit: Editar
     button_filter: Filtro
+    button_advanced_filter: Advanced filter
     button_list_view: Vista de lista
     button_show_view: Vista de pantalla completa
     button_log_time: Tiempo de registro
@@ -150,14 +151,42 @@ es:
     general_text_yes: sí
     general_text_No: 'No'
     general_text_Yes: Sí
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Noticias
+          at: at
+          no_results: Nada nuevo sobre lo que informar.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Paquetes de trabajo de los que soy responsable
+        work_packages_assigned:
+          title: Paquetes de trabajo asignados a mí
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendario
     label_activate: Activar
     label_activity_no: Entrada de actividad número %{activityNo}
     label_activity_with_comment_no: Entrada de actividad número %{activityNo} tiene
       un comentario.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Añadir columnas
     label_add_comment: Agregar comentario
     label_add_comment_title: Escriba un comentario y agregue @ para notificar a otras
       personas
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Agregar columnas seleccionadas
     label_added_by: agregado por
     label_added_time_by: Agregado por %{author} %{age}
@@ -215,6 +244,7 @@ es:
     label_menu_collapse: colapsar
     label_menu_expand: expandir
     label_more_than_ago: más días atrás
+    label_my_page: Mi página
     label_next: Siguiente
     label_no_data: No hay datos disponibles
     label_no_due_date: sin fecha de finalizacion
@@ -233,7 +263,9 @@ es:
     label_visibility_settings: Configuración de visibilidad
     label_quote_comment: Citar este comentario
     label_reset: Reiniciar
+    label_remove_column: Remove column
     label_remove_columns: Eliminar columnas seleccionadas
+    label_remove_row: Remove row
     label_save_as: Guardad como
     label_select_watcher: Selecciona un observador...
     label_selected_filter_list: Filtros seleccionados
@@ -255,6 +287,7 @@ es:
     label_activity_show_only_comments: Solo mostrar las actividades con comentarios
     label_activity_show_all: Mostrar todas las actividades
     label_total_progress: 'Progreso total: %{percent}%'
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: actualizado el
     label_warning: Alerta
     label_work_package: Paquete de trabajo
@@ -402,6 +435,10 @@ es:
           includes: incluido
           requires: requiere
           required: requerido por
+    time_entry:
+      activity: Actividad
+      comment: Comentario
+      hours: Horas
     watchers:
       label_loading: cargando observadores...
       label_error_loading: Se ha producido un error al cargar los observadores
@@ -486,6 +523,7 @@ es:
     text_attachment_destroy_confirmation: "¿Está seguro que desea eliminar el archivo
       adjunto?"
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Diagrama de Gantt
       labels:
         title: Configuración de etiquetas
@@ -554,15 +592,6 @@ es:
     tl_toolbar:
       zooms: nivel de Zoom
       outlines: Nivel de jerarquía
-    unsupported_browser:
-      title: La versión de su navegador no está soportada
-      message: La versión del navegador que estás utilizando ya no está soportada
-        por OpenProject.
-      update_message: Por favor, actualiza tu navegador.
-      update_ie_user: Por favor, cambia a Mozilla Firefox o Google Chrome, o actualiza
-        a Microsoft Edge.
-      learn_more: Saber más
-      close_warning: Ignore esta advertencia.
     upsale:
       ee_only: Característica exclusiva de Enterprise Edition
     wiki_formatting:
@@ -611,11 +640,10 @@ es:
       label_enable_multi_select: Habilitar selección múltiple
       label_disable_multi_select: Deshabilitar selección múltiple
       label_filter_add: Añadir filtro
+      label_filter_by_text: Filter by text
       label_options: Opciones
       label_column_multiselect: 'Campo de lista desplegable combinada: seleccione
         con las teclas de flecha, confirme la selección con enter, elimine con retroceso'
-      label_switch_to_single_select: Cambiar a selección única
-      label_switch_to_multi_select: Cambiar a multiselección
       message_error_during_bulk_delete: Ha ocurrido un error intentado eliminar los
         paquetes de trabajo.
       message_successful_bulk_delete: Paquetes de trabajo eliminados exitosamente.
@@ -625,6 +653,7 @@ es:
       message_work_package_read_only: El paquete de trabajo está bloqueado en este
         estado. Excepto el estado, ningún otro atributo se puede modificar.
       no_value: Sin valor
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista
       create:
@@ -843,7 +872,7 @@ es:
         messages_on_field: 'Este campo no es válido: %{messages}'
     error_could_not_resolve_version_name: No se puede resolver el nombre de la versión
     error_could_not_resolve_user_name: No se pudo identificar el nombre de usuario
-    error_attachment_upload: 'No se pudo cargar el archivo “%{name}”: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: No tiene permiso para cargar archivos en este
       recurso.
     units:
@@ -860,3 +889,13 @@ es:
     zen_mode:
       button_activate: Activar modo «zen»
       button_deactivate: Desactivar modo «zen»
+    global_search:
+      all_projects: In all projects
+      search: Buscar
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

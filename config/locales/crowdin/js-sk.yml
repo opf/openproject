@@ -39,6 +39,7 @@ sk:
     button_duplicate: Duplikovať
     button_edit: Upraviť
     button_filter: Filtrovať
+    button_advanced_filter: Rozšírený filter
     button_list_view: Zobraziť ako zoznam
     button_show_view: Zobrazenie na celú obrazovku
     button_log_time: Zaprotokoluj čas
@@ -131,7 +132,7 @@ sk:
         text_open_filter: Otvorte tento filter pomocou „Alt“ a šípok.
         text_close_filter: Na výber záznamu opustite režim zamerania napríklad stlačením
           Enter. Na opustenie bez filtra vyberte prvý (prázdny) záznam.
-      noneElement: "(none)"
+      noneElement: "(žiadny)"
       time_zone_converted:
         two_values: "%{from} - %{to} vo vašom miestnom čase."
         only_start: Od %{from} v miestnom čase.
@@ -148,13 +149,41 @@ sk:
     general_text_yes: áno
     general_text_No: Nie
     general_text_Yes: Áno
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Novinky
+          at: at
+          no_results: Nič nové pre nahlásenie.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Pracovné balíčky, za ktoré som zodpovedný(a)
+        work_packages_assigned:
+          title: Mne priradené pracovné balíčky
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalendár
     label_activate: Aktivovať
     label_activity_no: Záznam aktivity číslo %{activityNo}
     label_activity_with_comment_no: Záznam aktivity číslo %{activityNo} (obsahuje
       komentár)
+    label_add_column_after: Pridať stĺpec po
+    label_add_column_before: Pridať stĺpec pred
     label_add_columns: Pridať stĺpce
     label_add_comment: Pridať komentár
     label_add_comment_title: Komentujte a napíšte @ pre upozornenie ďalších ľudí
+    label_add_row_after: Pridať riadok po
+    label_add_row_before: Pridať riadok pred
     label_add_selected_columns: Pridať vybraté stĺpce
     label_added_by: Pridal
     label_added_time_by: Pridal %{author} %{age}
@@ -166,7 +195,7 @@ sk:
     label_author: 'Autor: %{user}'
     label_between: medzi
     label_board_locked: Uzamknuté
-    label_board_sticky: Sticky
+    label_board_sticky: Dôležité (vždy vyššie)
     label_create_work_package: Vytvoriť nový pracovný balíček
     label_created_by: Vytvoril(a)
     label_date: Dátum
@@ -211,6 +240,7 @@ sk:
     label_menu_collapse: zbaliť
     label_menu_expand: rozbaliť
     label_more_than_ago: pred viac než dňom
+    label_my_page: Moja stránka
     label_next: Ďalšie
     label_no_data: Žiadne dáta na zobrazenie
     label_no_due_date: bez dátumu ukončenia
@@ -229,7 +259,9 @@ sk:
     label_visibility_settings: Nastavenia viditeľnosti
     label_quote_comment: Citovať tento komentár
     label_reset: Vynulovať
+    label_remove_column: Odstrániť stĺpec
     label_remove_columns: Odstrániť vybraté stĺpce
+    label_remove_row: Odstrániť riadok
     label_save_as: Uložiť ako
     label_select_watcher: Vybrať pozorovateľa ...
     label_selected_filter_list: Vybrané filtre
@@ -251,6 +283,7 @@ sk:
     label_activity_show_only_comments: Zobraziť len aktivity s komentármi
     label_activity_show_all: Zobraziť všetky aktivity
     label_total_progress: "%{percent}% celkový priebeh"
+    label_total_amount: 'Celkom: %{amount}'
     label_updated_on: aktualizované
     label_warning: Upozornenie
     label_work_package: Pracovný balíček
@@ -391,6 +424,10 @@ sk:
           includes: vrátane
           requires: vyžaduje
           required: požadované
+    time_entry:
+      activity: Činnosť
+      comment: Komentár
+      hours: Hodín
     watchers:
       label_loading: načítanie pozorovateľov...
       label_error_loading: Vyskytla sa chyba pri načítavaní pozorovateľov
@@ -477,6 +514,7 @@ sk:
     text_query_destroy_confirmation: Naozaj chcete odstrániť vybraté zobrazenie?
     text_attachment_destroy_confirmation: Naozaj chcete odstrániť prílohu?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Ganttov diagram
       labels:
         title: Konfigurácia popisku
@@ -493,32 +531,30 @@ sk:
       button_activate: Zobraziť Ganttov graf
       button_deactivate: Skryť Ganttov graf
       cancel: Zrušíť
-      change: Change in planning
+      change: Zmena v plánovaní
       due_date: Dátum dokončenia
-      empty: "(empty)"
+      empty: "(prázdny)"
       error: Vyskytla sa chyba.
       errors:
-        not_implemented: The timeline could not be rendered because it uses a feature
-          that is not yet implemented.
-        report_comparison: The timeline could not render the configured comparisons.
-          Please check the appropriate section in the configuration, resetting it
-          can help solve this problem.
-        report_epicfail: The timeline could not be loaded due to an unexpected error.
-        report_timeout: The timeline could not be loaded in a reasonable amount of
-          time.
+        not_implemented: Časovú os nebolo možné zobraziť, pretože používa funkciu,
+          ktorá ešte nie je implementovaná.
+        report_comparison: Časová os nemôže vykresliť konfigurované porovnania. Skontrolujte
+          príslušnú časť v konfigurácii, vynulovanie môže pomôcť vyriešiť tento problém.
+        report_epicfail: Časovú os nebolo možné načítať kvôli neočakávanej chybe.
+        report_timeout: Časovú os nebolo možné načítať v primeranom čase.
       filter:
         grouping_other: Ostatné
-        noneSelection: "(none)"
+        noneSelection: "(žiadny)"
       name: Názov
-      outline: Reset Outline
+      outline: Obnoviť osnovu
       outlines:
-        aggregation: Show aggregations only
-        level1: Expand level 1
-        level2: Expand level 2
-        level3: Expand level 3
-        level4: Expand level 4
-        level5: Expand level 5
-        all: Show all
+        aggregation: Zobraziť iba vyznačené zoskupenia
+        level1: Rozbaľte položky úrovne 1
+        level2: Rozbaľte položky do úrovne 2
+        level3: Rozbaľte položky do úrovne 3
+        level4: Rozbaľte položky do úrovne 4
+        level5: Rozbaľte položky do úrovne 5
+        all: Zobraziť všetko
       project_status: Stav projektu
       really_close_dialog: Naozaj chcete zatvoriť dialógové okno a prísť o zadané
         údaje?
@@ -547,15 +583,6 @@ sk:
     tl_toolbar:
       zooms: Úroveň priblíženia
       outlines: Úroveň vnorenia
-    unsupported_browser:
-      title: Prehliadač, ktorý aktuálne používate nie je podporovaný projektom OpenProject
-      message: Verzia prehliadača, ktorú aktuálne používate už nie je podporovaná
-        projektom OpenProject. Prosím aktualizujte svoj prehliadač.
-      update_message: Prosím aktualizujte svoj prehliadač.
-      update_ie_user: Prepnúť na Mozilla Firefox alebo Google Chrome, alebo upgrade
-        na Microsoft Edge.
-      learn_more: Zistiť viac
-      close_warning: Ignorovať toto upozornenie.
     upsale:
       ee_only: Funkcie len pre Enterprise Edition
     wiki_formatting:
@@ -603,11 +630,10 @@ sk:
       label_enable_multi_select: Povoliť hromadný výber
       label_disable_multi_select: Zakázať hromadný výber
       label_filter_add: Pridať filter
+      label_filter_by_text: Filtrovať podľa textu
       label_options: Voľby
       label_column_multiselect: 'Kombinované rozbaľovacie pole: vyberte pomocou klávesov
         so šípkami, potvrďte stlačením ENTER, odstraňujte stlačením BACKSPACE'
-      label_switch_to_single_select: Prepnúť na jednoduchý výber
-      label_switch_to_multi_select: Prepnúť na viacnásobný výber
       message_error_during_bulk_delete: Chyba pri pokuse o odstránenie pracovných
         balíčkov.
       message_successful_bulk_delete: Pracovné balíčky boli úspešne odstránené.
@@ -617,6 +643,7 @@ sk:
       message_work_package_read_only: Pracovný balíček je v tomto stave uzamknutý.
         Nie je možné zmeniť iný atribút ako stav.
       no_value: Žiadna hodnota
+      placeholder_filter_by_text: Predmet, popis, komentáre, ...
       inline_create:
         title: Kliknutím sem pridajte nový pracovný balík do tohto zoznamu
       create:
@@ -832,7 +859,7 @@ sk:
         messages_on_field: 'Nasledujúce pole je nesprávne: %{messages}'
     error_could_not_resolve_version_name: Nebolo možné zistiť názov verzie
     error_could_not_resolve_user_name: Nebolo možné zistiť užívateľské meno
-    error_attachment_upload: 'Súbor ''%{name}'' sa nepodarilo nahrať: %{error}'
+    error_attachment_upload: 'Súbor sa nepodarilo nahrať: %{error}'
     error_attachment_upload_permission: Nemáte povolenie na nahranie súborov do tohto
       zdroja.
     units:
@@ -855,3 +882,13 @@ sk:
     zen_mode:
       button_activate: Aktivovať zen režim
       button_deactivate: Deaktivovať zen režim
+    global_search:
+      all_projects: Pre všetky projekty
+      search: Vyhľadávanie
+      close_search: Zavrieť vyhľadávanie
+      current_project: V tomto projekte
+      current_project_and_all_descendants: V tomto projekte + podprojektoch
+      title:
+        all_projects: všetky projekty
+        project_and_subprojects: a všetky podprojekty
+        search_for: Hľadať

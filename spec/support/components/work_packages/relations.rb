@@ -153,7 +153,6 @@ module Components
         expect(page).to have_no_selector '.wp-breadcrumb-parent', wait: 10
       end
 
-
       def remove_parent
         # Open the parent edit
         find('.wp-relation--parent-change').click
@@ -171,6 +170,15 @@ module Components
         subject = ::WorkPackageField.new(container, 'subject')
         subject.expect_active!
         subject.update subject_text
+      end
+
+      def openChildrenAutocompleter
+        retry_block do
+          find('.wp-inline-create--reference-link', text: I18n.t('js.relation_buttons.add_existing_child')).click
+
+          # Security check to be sure that the autocompleter has finished loading
+          page.find '.wp-relations-autocomplete--results'
+        end
       end
 
       def add_existing_child(work_package)

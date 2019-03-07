@@ -39,6 +39,7 @@ pt:
     button_duplicate: Duplicar
     button_edit: Editar
     button_filter: Filtro
+    button_advanced_filter: Filtro avançado
     button_list_view: Ver lista
     button_show_view: Ver em ecrã completo
     button_log_time: Tempo de registro
@@ -148,13 +149,41 @@ pt:
     general_text_yes: sim
     general_text_No: Não
     general_text_Yes: Sim
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Noticias
+          at: at
+          no_results: Nada de novo no relatório.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Pacotes de trabalho pelos quais sou responsável
+        work_packages_assigned:
+          title: Tarefas atribuídas a mim
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendário
     label_activate: Ativar
     label_activity_no: Número de entrada da atividade %{activityNo}
     label_activity_with_comment_no: Número de entrada da atividade %{activityNo}.
       Tem um comentário de utilizador.
+    label_add_column_after: Adicionar coluna após
+    label_add_column_before: Adicionar coluna antes
     label_add_columns: Adicionar colunas
     label_add_comment: Adicionar comentário
     label_add_comment_title: Comentar e escrever @ para notificar outras pessoas
+    label_add_row_after: Adicionar linha depois
+    label_add_row_before: Adicionar linha antes
     label_add_selected_columns: Adicionar colunas selecionadas
     label_added_by: adicionado por
     label_added_time_by: Adicionado por %{author} %{age}
@@ -212,6 +241,7 @@ pt:
     label_menu_collapse: ocultar
     label_menu_expand: expandir
     label_more_than_ago: mais do que dias atrás
+    label_my_page: A minha página
     label_next: Próxima
     label_no_data: Sem dados para apresentar
     label_no_due_date: sem data fim
@@ -230,7 +260,9 @@ pt:
     label_visibility_settings: Configurações de visibilidade
     label_quote_comment: Citar este comentário
     label_reset: Reiniciar
+    label_remove_column: Remover coluna
     label_remove_columns: Remover colunas selecionadas
+    label_remove_row: Remover linha
     label_save_as: Guardar como
     label_select_watcher: Selecione um "observador"...
     label_selected_filter_list: Filtros selecionados
@@ -252,6 +284,7 @@ pt:
     label_activity_show_only_comments: Mostrar apenas atividades com comentários
     label_activity_show_all: Mostrar todas as atividades
     label_total_progress: "%{percent}% Total de progresso"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: atualizado em
     label_warning: Aviso
     label_work_package: Pacote de trabalho
@@ -391,6 +424,10 @@ pt:
           includes: incluindo
           requires: a necessitar
           required: exigido por
+    time_entry:
+      activity: Atividade
+      comment: Comentario
+      hours: Horas
     watchers:
       label_loading: carregando observadores...
       label_error_loading: Ocorreu um erro ao carregar os observadores
@@ -473,6 +510,7 @@ pt:
     text_query_destroy_confirmation: Tem certeza que deseja excluir a vista selecionada?
     text_attachment_destroy_confirmation: Tem certeza de que deseja apagar o anexo?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gráfico de Gantt
       labels:
         title: Configuração de etiqueta
@@ -541,14 +579,6 @@ pt:
     tl_toolbar:
       zooms: Nível de zoom
       outlines: Nível da hierarquia
-    unsupported_browser:
-      title: A versão do seu browser não é suportada
-      message: A versão do seu browser já não é suportada pelo OpenProject.
-      update_message: Por favor, atualize o seu browser.
-      update_ie_user: Por favor mude para o Mozilla Firefox ou Google Chrome, ou atualize
-        para o Microsoft Edge.
-      learn_more: Saber mais
-      close_warning: Ignore este aviso.
     upsale:
       ee_only: Recurso exclusivo da Edição Empresarial
     wiki_formatting:
@@ -595,11 +625,10 @@ pt:
       label_enable_multi_select: Ativar seleção múltipla
       label_disable_multi_select: Desativar seleção múltipla
       label_filter_add: Adicionar filtro
+      label_filter_by_text: Filtrar por texto
       label_options: Opções
       label_column_multiselect: 'Campo dropdown combinada: selecione com as teclas
         de seta, confirmar a seleção com enter, apagar com backspace'
-      label_switch_to_single_select: Mudar para seleção individual
-      label_switch_to_multi_select: Mudar para multiseleção
       message_error_during_bulk_delete: Ocorreu um erro ao tentar eliminar tarefas.
       message_successful_bulk_delete: Tarefas eliminadas com sucesso.
       message_successful_show_in_fullscreen: Clique aqui para abrir este pacote de
@@ -608,6 +637,7 @@ pt:
       message_work_package_read_only: O pacote de trabalho está bloqueado no presente
         estado. Nenhum atributo que não seja o estado pode ser alterado.
       no_value: Sem valor
+      placeholder_filter_by_text: Assunto, descrição, comentários, ...
       inline_create:
         title: Clique aqui para adicionar um novo pacote de trabalho a esta lista
       create:
@@ -825,8 +855,7 @@ pt:
         messages_on_field: 'Este campo é inválido: %{messages}'
     error_could_not_resolve_version_name: Não consegui resolver o nome da versão
     error_could_not_resolve_user_name: Não consegui resolver o nome do utilizador
-    error_attachment_upload: 'Ocorreu um erro ao carregar o ficheiro ''%{name}'':
-      %{error}'
+    error_attachment_upload: 'Ocorreu um erro ao enviar o ficheiro: %{error}'
     error_attachment_upload_permission: Não tem permissão para carregar ficheiros
       para este recurso.
     units:
@@ -843,3 +872,13 @@ pt:
     zen_mode:
       button_activate: Ativar modo zen
       button_deactivate: Desativar modo zen
+    global_search:
+      all_projects: Em todos os projetos
+      search: Pesquisar
+      close_search: Fechar busca
+      current_project: Neste projeto
+      current_project_and_all_descendants: Neste projeto + subprojetos
+      title:
+        all_projects: todos os projetos
+        project_and_subprojects: e todos os subprojetos
+        search_for: Pesquisar por

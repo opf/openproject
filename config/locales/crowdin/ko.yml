@@ -47,6 +47,22 @@ ko:
     index:
       no_results_content_title: 사용인증 모드가 없습니다.
       no_results_content_text: 새 사용인증 모드 생성
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: 없음
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: 게시판에 포스트가 없습니다.
@@ -93,6 +109,10 @@ ko:
       further_information_after: ''
     calendar:
       removal: '참고: 이 모듈은 OpenProject 8.0에서 제거될 것입니다.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: 위키
+      messages: 포럼
   groups:
     index:
       no_results_title_text: 그룹이 없습니다.
@@ -101,7 +121,21 @@ ko:
       no_results_title_text: 이 그룹에 사용자 파트가 없습니다.
     memberships:
       no_results_title_text: 이 그룹에 프로젝트 파트가 없습니다.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: 프로젝트가 없습니다.
       no_results_content_text: 새 프로젝트 생성
@@ -192,6 +226,8 @@ ko:
     x_descendants:
       one: One descendant work package
       other: "%{count}개 작업 패키지 하위 항목"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: 선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다.
       unsupported_for_multiple_projects: 여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다.
@@ -313,6 +349,11 @@ ko:
         subscriber: 구독자
         encoded_token: 엔터프라이즈 지원 토큰
         active_user_count_restriction: 최대 활성 사용자
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: 지연
         from: 작업 패키지
@@ -401,6 +442,14 @@ ko:
         time_entries: 작업시간 기록
         type: 타입
         watcher: 주시자
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: 허용 되어야 합니다.
@@ -454,8 +503,22 @@ ko:
           not_an_integer: "(%{name})은(는) 정수가 아닙니다."
           smaller_than_or_equal_to: "(%{name})은(는) %{count}보다 작거나 같아야 합니다."
           greater_than_or_equal_to: "(%{name})은(는) %{count}보다 크거나 같아야 합니다."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: 읽을 수 없습니다. 지원하는 토큰이 확실한가요?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -580,6 +643,7 @@ ko:
       wiki_page: 위키 페이지
       workflow: 워크플로
       work_package: 작업 패키지
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 다음 필드에 문제가 있습니다.
     field_erroneous_label: "이 필드는 유효 하지 않습니다: %{full_errors} \n유효한 값을 입력 해 주십시오."
@@ -653,6 +717,7 @@ ko:
   button_change_password: 암호 변경
   button_check_all: 모두 선택
   button_clear: 선택 취소
+  button_click_to_reveal: Click to reveal
   button_close: 닫기
   button_collapse_all: 모두 축소
   button_configure: 구성
@@ -680,9 +745,9 @@ ko:
   button_print: 인쇄
   button_quote: 인용
   button_remove: 제거
-  button_remove_widget: 위젯 제거
   button_rename: 이름 바꾸기
   button_replace: 교체하기
+  button_revoke: Revoke
   button_reply: 회신
   button_reset: 재설정
   button_rollback: 이 버전으로 롤백
@@ -1106,7 +1171,6 @@ ko:
   label_all_open_wps: 모두 열림
   label_always_visible: 항상 표시
   label_announcement: 공지 사항
-  label_and_its_subprojects: "%{value} 및 하위 프로젝트"
   label_api_access_key: API 액세스 키
   label_api_access_key_created_on: API 액세스 키가 %{value} 전에 생성되었습니다.
   label_api_access_key_type: API
@@ -1238,6 +1302,7 @@ ko:
   label_environment: 환경
   label_estimates_and_time: 견적 및 시간
   label_equals: 일치함
+  label_everywhere: everywhere
   label_example: 예
   label_export_to: '다음에서도 사용 가능:'
   label_expanded_click_to_collapse: 확장되었습니다. 축소하려면 클릭하세요.
@@ -1274,6 +1339,7 @@ ko:
   label_history: 기록
   label_hierarchy_leaf: 계층 구조 리프
   label_home: 홈
+  label_subject_or_id: Subject or ID
   label_in: "-"
   label_in_less_than: 보다 작음
   label_in_more_than: 보다 큼
@@ -1347,7 +1413,6 @@ ko:
   label_my_account: 내 계정
   label_my_account_data: 내 계정 데이터
   label_my_page: 내 페이지
-  label_my_page_block: 내 페이지 블록
   label_my_projects: 내 프로젝트
   label_my_queries: 내 사용자 지정 쿼리
   label_never: 사용 안 함
@@ -1454,7 +1519,6 @@ ko:
   label_repository_plural: 리포지토리
   label_required: 필수
   label_requires: 필수
-  label_responsible_for_work_packages: 내가 담당하는 작업 패키지
   label_result_plural: 결과
   label_reverse_chronological_order: 시간 역순으로
   label_revision: 수정
@@ -1471,7 +1535,6 @@ ko:
   label_role_search: 새 멤버에게 역할 할당
   label_scm: SCM
   label_search: 검색
-  label_search_titles_only: 제목만 검색
   label_send_information: 사용자에게 계정 정보 보내기
   label_send_test_email: 테스트 이메일 보내기
   label_settings: 설정
@@ -1551,6 +1614,7 @@ ko:
   label_view_diff: 차이점 보기
   label_view_revisions: 수정 보기
   label_watched_work_packages: 주시하는 작업 패키지
+  label_what_is_this: What is this?
   label_week: 주
   label_wiki_content_added: 위키 페이지 추가됨
   label_wiki_content_updated: 위키 페이지 업데이트됨
@@ -1649,7 +1713,6 @@ ko:
   label_keyboard_shortcut_go_preview: 현재 편집을 미리 보려면 이동(편집 페이지에서만)
   label_keyboard_shortcut_focus_previous_item: 이전 목록 요소에 포커스 맞추기(일부 목록에서만)
   label_keyboard_shortcut_focus_next_item: 다음 목록 요소에 포커스 맞추기(일부 목록에서만)
-  label_visible_elements: 표시되는 요소
   auth_source:
     using_abstract_auth_source: 추상 인증 소스를 사용할 수 없습니다.
     ldap_error: 'LDAP 오류: %{error_message}'
@@ -1718,6 +1781,8 @@ ko:
   notice_account_unknown_email: 알 수 없는 사용자입니다.
   notice_account_update_failed: 계정 설정을 저장할 수 없습니다. 계정 페이지를 살펴 보십시오.
   notice_account_updated: 계정이 업데이트되었습니다.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: 잘못된 암호
   notice_account_registered_and_logged_in: 환영합니다. 계정이 활성화되었습니다 이제 로그인되었습니다.
   notice_activation_failed: 계정이 활성화 되지 못했습니다.
@@ -2087,6 +2152,7 @@ ko:
   setting_mail_handler_api_key: API 키
   setting_mail_handler_body_delimiters: 이러한 줄 중 하나 다음에 이메일 자르기
   setting_mail_handler_body_delimiter_regex: 이 정규식에 일치하는 이메일을 자름
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: 프로젝트를 만드는 비관리자 사용자에게 지정된 역할
   setting_password_active_rules: 활성 문자 클래스
   setting_password_count_former_banned: 재사용 금지된 최근에 사용한 암호 수
@@ -2249,8 +2315,13 @@ ko:
   text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
     a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
     administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     권한의 일부 또는 전부를 삭제하려고 합니다. 이렇게 한 후에는 이 프로젝트를 더 이상 편집하지 못할 수 있습니다.
     계속하시겠습니까?
@@ -2637,8 +2708,8 @@ ko:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: 브라우저를 업데이트하시기 바랍니다.
+    close_warning: 이 경고를 무시하십시오.
   oauth:
     application:
       singular: OAuth application
@@ -2684,7 +2755,7 @@ ko:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: 권한
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2708,16 +2779,3 @@ ko:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: 위젯 제거
-  label_and_its_subprojects: "%{value} 및 하위 프로젝트"
-  label_my_page_block: 내 페이지 블록
-  label_responsible_for_work_packages: 내가 담당하는 작업 패키지
-  label_search_titles_only: 제목만 검색
-  label_visible_elements: 표시되는 요소
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

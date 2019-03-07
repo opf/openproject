@@ -184,7 +184,9 @@ import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/
 import {WorkPackagesListComponent} from "core-app/modules/work_packages/routing/wp-list/wp-list.component";
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component";
-import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
+import {AttachmentsUploadComponent} from 'core-app/modules/attachments/attachments-upload/attachments-upload.component';
+import {AttachmentListComponent} from 'core-app/modules/attachments/attachment-list/attachment-list.component';
+import {WorkPackageFilterByTextInputComponent} from "core-components/filters/quick-filter-by-text-input/quick-filter-by-text-input.component";
 
 @NgModule({
   imports: [
@@ -341,6 +343,7 @@ import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-c
     WorkPackageTimelineTableController,
 
     WorkPackageCreateButtonComponent,
+    WorkPackageFilterByTextInputComponent,
 
     // Single view
     WorkPackageOverviewTabComponent,
@@ -491,6 +494,8 @@ import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-c
     WpButtonMacroModal,
   ],
   exports: [
+    WorkPackagesTableController,
+    WorkPackageTablePaginationComponent,
     WorkPackageEmbeddedTableComponent,
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
@@ -524,6 +529,14 @@ export class OpenprojectWorkPackagesModule {
         } else {
           return null;
         }
+      });
+
+      hookService.register('workPackageAttachmentUploadComponent', (workPackage:WorkPackageResource) => {
+        return AttachmentsUploadComponent;
+      });
+
+      hookService.register('workPackageAttachmentListComponent', (workPackage:WorkPackageResource) => {
+        return AttachmentListComponent;
       });
     };
   }

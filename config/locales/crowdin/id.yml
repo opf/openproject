@@ -57,6 +57,22 @@ id:
     index:
       no_results_content_title: Tidak ada mode otentikasi saat ini.
       no_results_content_text: Buat mode otentikasi baru
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: kosong
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: Tidak ada pos untuk papan saat ini.
@@ -107,6 +123,10 @@ id:
       further_information_after: ''
     calendar:
       removal: 'Harap dicatat: Modul ini akan dihilangkan dengan OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Tidak ada grup untuk saat ini.
@@ -115,7 +135,21 @@ id:
       no_results_title_text: Tidak ada pengguna yang menjadi anggota grup ini.
     memberships:
       no_results_title_text: Saat ini tidak ada proyek yang menjadi bagian grup.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: Tidak ada proyek saat ini
       no_results_content_text: Buat proyek baru
@@ -210,6 +244,8 @@ id:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -342,6 +378,11 @@ id:
         subscriber: Pelanggan
         encoded_token: Token pendukung perusahaan
         active_user_count_restriction: Pengguna aktif maksimum
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Jeda
         from: Paket-Penugasan
@@ -432,6 +473,14 @@ id:
         time_entries: Catatan waktu
         type: Tipe
         watcher: Pemantau
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: harus disetujui.
@@ -490,8 +539,22 @@ id:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: tidak dapat dibaca. Apakah Anda yakin ini adalah token pendukung?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -621,6 +684,7 @@ id:
       wiki_page: Halaman Wiki
       workflow: Workflow
       work_package: Paket-Penugasan
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'Eror pada isian berikut :'
     field_erroneous_label: 'Bidang ini tidak valid: %{full_errors} masukkan nilai
@@ -695,6 +759,7 @@ id:
   button_change_password: Ubah password
   button_check_all: Cek semua
   button_clear: Clear
+  button_click_to_reveal: Click to reveal
   button_close: Tutup
   button_collapse_all: Tutup semua
   button_configure: Konfigurasi
@@ -722,9 +787,9 @@ id:
   button_print: Cetak
   button_quote: Kutipan
   button_remove: Remove
-  button_remove_widget: Hapus widget
   button_rename: Ubah nama
   button_replace: Ganti
+  button_revoke: Revoke
   button_reply: Balas
   button_reset: Reset
   button_rollback: Kembali ke versi ini
@@ -1147,7 +1212,6 @@ id:
   label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
-  label_and_its_subprojects: "%{value} dan Sub Project yang"
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key dibuat %{value} yg lalu
   label_api_access_key_type: API
@@ -1280,6 +1344,7 @@ id:
   label_environment: Environment
   label_estimates_and_time: Perkiraan dan waktu
   label_equals: adalah
+  label_everywhere: everywhere
   label_example: Contoh
   label_export_to: 'Juga tersedia dalam:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
@@ -1316,6 +1381,7 @@ id:
   label_history: Histori
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
+  label_subject_or_id: Subject or ID
   label_in: dalam
   label_in_less_than: kurang dari
   label_in_more_than: lebih dari
@@ -1389,7 +1455,6 @@ id:
   label_my_account: Akun saya
   label_my_account_data: Data akun saya
   label_my_page: My Homepage
-  label_my_page_block: Blok halaman saya
   label_my_projects: Project saya
   label_my_queries: Query kustom saya
   label_never: Never
@@ -1497,7 +1562,6 @@ id:
   label_repository_plural: Repositori
   label_required: dibutuhkan
   label_requires: dibutuhkan
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Hasil
   label_reverse_chronological_order: Urutan kronologi terbalik
   label_revision: Revisi
@@ -1514,7 +1578,6 @@ id:
   label_role_search: Menetapkan role kepada anggota baru
   label_scm: SCM
   label_search: Cari
-  label_search_titles_only: Cari judul
   label_send_information: Kirim informasi akun ke user
   label_send_test_email: Kirim test email
   label_settings: Pengaturan
@@ -1595,6 +1658,7 @@ id:
   label_view_diff: Lihat perbedaan
   label_view_revisions: Lihat revisi
   label_watched_work_packages: Paket-Penugasan yang telah diakses
+  label_what_is_this: What is this?
   label_week: Minggu
   label_wiki_content_added: Halaman Wiki ditambahkan
   label_wiki_content_updated: Halaman Wiki diupdate
@@ -1690,7 +1754,6 @@ id:
     di daftar yang sama)
   label_keyboard_shortcut_focus_next_item: Fokus daftar elemen berikutnya (hanya di
     daftar yang sama)
-  label_visible_elements: Element tampak
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -1769,6 +1832,8 @@ id:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: Akun berhasil diperbarui.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Password salah
   notice_account_registered_and_logged_in: Selamat datang, akun Anda telah diaktifkan.
     Anda sudah login sekarang.
@@ -2167,6 +2232,7 @@ id:
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Potong email setelah baris ini
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Role yang diberikan kepada user non-admin yang
     membuat Project
   setting_password_active_rules: Character classes aktif
@@ -2353,8 +2419,13 @@ id:
   text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
     a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
     administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: Anda akan menghapus hak akses Anda dan
     mungkin Anda tidak dapat lagi mengedit Project ini. Apakah Anda yakin Anda ingin
     melanjutkan?
@@ -2773,8 +2844,8 @@ id:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Mohon tingkatkan browsermu.
+    close_warning: Abaikan peringatan ini.
   oauth:
     application:
       singular: OAuth application
@@ -2820,7 +2891,7 @@ id:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Hak akses
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2844,16 +2915,3 @@ id:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Hapus widget
-  label_and_its_subprojects: "%{value} dan Sub Project yang"
-  label_my_page_block: Blok halaman saya
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_search_titles_only: Cari judul
-  label_visible_elements: Element tampak
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

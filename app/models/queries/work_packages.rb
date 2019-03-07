@@ -70,6 +70,10 @@ module Queries::WorkPackages
   register.filter Query, filters_module::IncludesFilter
   register.filter Query, filters_module::RequiresFilter
   register.filter Query, filters_module::RequiredFilter
+  register.filter Query, filters_module::DescriptionFilter
+  register.filter Query, filters_module::SearchFilter
+  register.filter Query, filters_module::CommentFilter
+  register.filter Query, filters_module::SubjectOrIdFilter
 
   columns_module = Queries::WorkPackages::Columns
 

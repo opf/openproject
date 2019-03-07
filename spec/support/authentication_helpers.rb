@@ -41,8 +41,8 @@ module AuthenticationHelpers
     allow(User).to receive(:current).and_return(user)
   end
 
-  def login_with(login, password, autologin: false)
-    visit signin_path
+  def login_with(login, password, autologin: false, visit_signin_path: true)
+    visit signin_path if visit_signin_path
 
     within('#login-form') do
       fill_in 'username', with: login

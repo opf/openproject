@@ -56,6 +56,22 @@ lt:
     index:
       no_results_content_title: Šiuo metu nėra jokių autentifikacijos būdų.
       no_results_content_text: Sukurti naują autentifikacijos būdą
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: joks
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: Nėra jokių įrašų pranešimų lentoje.
@@ -107,6 +123,10 @@ lt:
     calendar:
       removal: 'Prašome atkreipti dėmesį: šis modulis bus pašalintas iš OpenProject
         8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forumas
   groups:
     index:
       no_results_title_text: Nėra jokių grupių.
@@ -115,7 +135,21 @@ lt:
       no_results_title_text: Nėra šios grupės vartotojų.
     memberships:
       no_results_title_text: Nėra projektų šiai grupei.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: Nėra jokių projektų
       no_results_content_text: Sukurti naują projektą
@@ -211,6 +245,8 @@ lt:
       other: "%{count} work package descendants"
       few: "%{count} work package descendants"
       many: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -347,6 +383,11 @@ lt:
         subscriber: Prenumeruotojas
         encoded_token: "„Enterprise“ paramos raktas"
         active_user_count_restriction: Maksimalus aktyvių vartotojų skaičius
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Vėlavimas
         from: Darbų paketas
@@ -437,6 +478,14 @@ lt:
         time_entries: Registruoti laiką
         type: Tipas
         watcher: Stebėtojas
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: turi būti patvirtinta.
@@ -493,8 +542,22 @@ lt:
           not_an_integer: "(%{name}) nėra sveikasis skaičius."
           smaller_than_or_equal_to: "(%{name}) turi būti mažesnis arba lygus %{count}."
           greater_than_or_equal_to: "(%{name}) turi būti didesnis arba lygus %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: neįmanoma perskaityti. Ar tai tikrai yra paramos raktas?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -632,6 +695,7 @@ lt:
       wiki_page: Wiki puslapis
       workflow: Darbų eiga
       work_package: Darbų paketas
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'Buvo problemų su šiais laukeliais:'
     field_erroneous_label: |-
@@ -707,6 +771,7 @@ lt:
   button_change_password: Pakeisti slaptažodį
   button_check_all: Žymėti visus
   button_clear: Išvalyti
+  button_click_to_reveal: Click to reveal
   button_close: Uždaryti
   button_collapse_all: Sutraukti visus
   button_configure: Konfigūruoti
@@ -734,9 +799,9 @@ lt:
   button_print: Spausdinti
   button_quote: Cituoti
   button_remove: Pašalinti
-  button_remove_widget: Pašalinti valdiklį
   button_rename: Pervardinti
   button_replace: Pakeisti
+  button_revoke: Revoke
   button_reply: Atsakyti
   button_reset: Nustatyti iš naujo
   button_rollback: Grąžinti į šią versiją
@@ -1185,7 +1250,6 @@ lt:
   label_all_open_wps: Visi atviri
   label_always_visible: Visada rodomas
   label_announcement: Skelbimas
-  label_and_its_subprojects: "%{value} ir jo sub-projektai"
   label_api_access_key: API prieigos raktas
   label_api_access_key_created_on: API prieigos raktas sukurtas prieš %{value}
   label_api_access_key_type: API
@@ -1317,6 +1381,7 @@ lt:
   label_environment: Aplinka
   label_estimates_and_time: Sąmatos ir laikas
   label_equals: yra
+  label_everywhere: everywhere
   label_example: Pavyzdys
   label_export_to: 'Taip pat galima rasti:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
@@ -1354,6 +1419,7 @@ lt:
   label_history: Istorija
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Namai
+  label_subject_or_id: Subject or ID
   label_in: " "
   label_in_less_than: mažiau nei
   label_in_more_than: daugiau nei
@@ -1427,7 +1493,6 @@ lt:
   label_my_account: Mano paskyra
   label_my_account_data: Mano paskyros duomenys
   label_my_page: Mano puslapis
-  label_my_page_block: Mano puslapio blokas
   label_my_projects: Mano projektai
   label_my_queries: Mano sukurtos užklausos
   label_never: Niekada
@@ -1537,7 +1602,6 @@ lt:
   label_repository_plural: Repozitorijos
   label_required: reikalingas
   label_requires: turi turėti
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Rezultatai
   label_reverse_chronological_order: Atbuline chronologine tvarka
   label_revision: Revizija
@@ -1554,7 +1618,6 @@ lt:
   label_role_search: Priskirti rolę naujiems nariams
   label_scm: SCM
   label_search: Paieška
-  label_search_titles_only: Ieškoti tik pavadinimų
   label_send_information: Nusiųsti vartotojui paskyros informaciją
   label_send_test_email: Siųsti bandomąjį el. laišką
   label_settings: Nustatymai
@@ -1635,6 +1698,7 @@ lt:
   label_view_diff: Peržiūrėti skirtumus
   label_view_revisions: Peržiūrėti revizijas
   label_watched_work_packages: Stebėti darbų paketus
+  label_what_is_this: What is this?
   label_week: Savaitė
   label_wiki_content_added: Wiki puslapis pridėtas
   label_wiki_content_updated: Wiki puslapis atnaujintas
@@ -1744,7 +1808,6 @@ lt:
     elementą (tik kai kuriuose sąrašuose)
   label_keyboard_shortcut_focus_next_item: Sutelkti dėmesį į sekantį sąrašo elementą
     (tik kai kuriuose sąrašuose)
-  label_visible_elements: Matomi elementai
   auth_source:
     using_abstract_auth_source: Negalima naudoti abstraktaus autentifikavimo šaltinio.
     ldap_error: 'LDAP-Klaida: %{error_message}'
@@ -1825,6 +1888,8 @@ lt:
   notice_account_update_failed: Vartotojo paskyros nustatymai negali būti išsaugoti.
     Prašome peržvelgti savo paskyros puslapį.
   notice_account_updated: Paskyra buvo sėkmingai atnaujinta.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Neteisingas slaptažodis
   notice_account_registered_and_logged_in: Sveiki, Jūsų paskyra sėkmingai aktyvuota.
     Dabar esate prisijungę.
@@ -2243,6 +2308,7 @@ lt:
   setting_mail_handler_body_delimiters: Trumpinti laiškus po vienos iš šių eilučių
   setting_mail_handler_body_delimiter_regex: Sutrumpinti laiškus, atitinkančius šią
     reguliarią išraišką
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rolė suteikta vartotojui, kuris nėra administratorius
     ir kuris kuria projektą
   setting_password_active_rules: Aktyvios savybių klasės
@@ -2430,8 +2496,13 @@ lt:
   text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
     a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
     administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Jūs ketinate pašalinti keletą ar visus leidimus ir gali būti, kad nebegalėsite redaguoti šio projekto po to.
     Ar jūs tikrai norite tęsti?
@@ -2863,8 +2934,8 @@ lt:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Prašome atnaujinti savo naršyklę.
+    close_warning: Ignoruoti šį perspėjimą.
   oauth:
     application:
       singular: OAuth application
@@ -2910,13 +2981,15 @@ lt:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Leidimai
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      few: "%{count} active token"
+      many: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2934,16 +3007,3 @@ lt:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Pašalinti valdiklį
-  label_and_its_subprojects: "%{value} ir jo sub-projektai"
-  label_my_page_block: Mano puslapio blokas
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_search_titles_only: Ieškoti tik pavadinimų
-  label_visible_elements: Matomi elementai
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

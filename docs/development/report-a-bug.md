@@ -1,10 +1,10 @@
 # Report a bug
 
-If you find a bug please create bug report.
+If you find a bug please create a bug report.
 
-1. Login to the [OpenProject developer plattform](https://community.openproject.com/login)
+1. Login to the [OpenProject developer platform](https://community.openproject.com/login).
 2. Open the [bug form](https://community.openproject.com/projects/openproject/work_packages/new?type=1).
-3. Add a precise subject
+3. Add a precise subject.
 3. Add a detailed description.
 4. Attach a file (optional).
 5. Press Create.
@@ -48,7 +48,7 @@ Example:
 
 ## Expected behavior
 
-* If known, the expected behavior of the application should be described concicesly.
+* If known, the expected behavior of the application should be described concisely.
 
 Example:
 

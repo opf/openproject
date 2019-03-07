@@ -200,6 +200,18 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         end
       end
 
+      describe 'hidden' do
+        let(:path) { 'hidden' }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'Boolean' }
+          let(:name) { Query.human_attribute_name('hidden') }
+          let(:required) { true }
+          let(:writable) { true }
+          let(:has_default) { true }
+        end
+      end
+
       describe 'sums' do
         let(:path) { 'sums' }
 

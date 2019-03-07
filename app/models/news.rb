@@ -52,11 +52,11 @@ class News < ActiveRecord::Base
   after_create :add_author_as_watcher,
                :send_news_added_mail
 
-  scope :visible, -> (*args) {
+  scope :visible, ->(*args) do
     includes(:project)
       .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_news))
-  }
+  end
 
   def visible?(user = User.current)
     !user.nil? && user.allowed_to?(:view_news, project)

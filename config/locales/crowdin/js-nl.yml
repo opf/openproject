@@ -38,6 +38,7 @@ nl:
     button_duplicate: Dupliceren
     button_edit: Wijzig
     button_filter: Filter
+    button_advanced_filter: Geavanceerd filter
     button_list_view: Lijstweergave
     button_show_view: Fullscreen weergave
     button_log_time: Gelogde tijd
@@ -149,14 +150,42 @@ nl:
     general_text_yes: Ja
     general_text_No: Nee
     general_text_Yes: Ja
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Nieuws
+          at: at
+          no_results: Niets nieuws om te rapporteren.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Werkpakketten waar ik verantwoordelijk voor ben
+        work_packages_assigned:
+          title: Werkpakketten toegewezen aan mij
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Agenda
     label_activate: Activeren
     label_activity_no: Activiteit ingangsnummer %{activityNo}
     label_activity_with_comment_no: Activiteit ingangsnummer %{activityNo}. Bevat
       gebruikerscommentaar.
+    label_add_column_after: Kolom toevoegen na
+    label_add_column_before: Kolom toevoegen voor
     label_add_columns: Kolommen toevoegen
     label_add_comment: Commentaar toevoegen
     label_add_comment_title: Plaats een opmerking en gebruik het @-teken om anderen
       te informeren
+    label_add_row_after: Rij toevoegen na
+    label_add_row_before: Rij voor toevoegen
     label_add_selected_columns: Geselecteerde kolommen toevoegen
     label_added_by: toegevoegd door
     label_added_time_by: Toegevoegd door %{author} %{age}
@@ -214,6 +243,7 @@ nl:
     label_menu_collapse: samenvouwen
     label_menu_expand: uitbreiden
     label_more_than_ago: meer dan dagen geleden
+    label_my_page: Mijn pagina
     label_next: Volgende
     label_no_data: Geen gegevens om weer te geven
     label_no_due_date: geen einddatum
@@ -232,7 +262,9 @@ nl:
     label_visibility_settings: Zichtbaarheidsinstellingen
     label_quote_comment: Citeer dit commentaar
     label_reset: Herstel
+    label_remove_column: Kolom verwijderen
     label_remove_columns: Verwijder geselecteerde kolommen
+    label_remove_row: Rij verwijderen
     label_save_as: Opslaan als
     label_select_watcher: Kies een toezichter...
     label_selected_filter_list: Geselecteerde filters
@@ -254,6 +286,7 @@ nl:
     label_activity_show_only_comments: Geef alleen activiteiten met commentaar weer
     label_activity_show_all: Geef alle activiteiten weer
     label_total_progress: "%{percent}% totale vooruitgang"
+    label_total_amount: 'Totaal: %{amount}'
     label_updated_on: bijgewerkt op
     label_warning: Waarschuwing
     label_work_package: Werkpakket
@@ -399,6 +432,10 @@ nl:
           includes: inclusief
           requires: vereisen
           required: vereist door
+    time_entry:
+      activity: Activiteit
+      comment: Commentaar
+      hours: Uren
     watchers:
       label_loading: volgers worden geladen...
       label_error_loading: Er is een fout opgetreden tijdens het laden van de volgers
@@ -482,6 +519,7 @@ nl:
       wilt verwijderen?
     text_attachment_destroy_confirmation: Weet u zeker dat u de bijlage wilt verwijderen?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt-grafiek
       labels:
         title: Label configuratie
@@ -553,14 +591,6 @@ nl:
     tl_toolbar:
       zooms: Zoom niveau
       outlines: Niveau van de hiërarchie
-    unsupported_browser:
-      title: Uw browserversie wordt niet ondersteund
-      message: De browserversie die u gebruikt wordt niet meer ondersteund door OpenProject.
-      update_message: Gebruik een recentere versie van uw browser.
-      update_ie_user: Gebruik Mozilla Firefox of Google Chrome, of upgrade naar Microsoft
-        Edge.
-      learn_more: Leer meer
-      close_warning: Negeer deze waarschuwing.
     upsale:
       ee_only: Functie alleen voor de Enterprise Editie
     wiki_formatting:
@@ -609,11 +639,10 @@ nl:
       label_enable_multi_select: Laat meerkeuze toe
       label_disable_multi_select: Laat meerkeuze niet toe
       label_filter_add: Filter toevoegen
+      label_filter_by_text: Filter op tekst
       label_options: Opties
       label_column_multiselect: 'Gecombineerd met dropdown-veld: Selecteer met richtingstoetsen,
         bevestig selectie met enter, verwijder met backspace'
-      label_switch_to_single_select: Overschakelen naar enkele selectie
-      label_switch_to_multi_select: Overschakelen naar meerdere selectie
       message_error_during_bulk_delete: Een fout is opgetreden bij het proberen verwijderen
         van werkpakketten.
       message_successful_bulk_delete: Werkpakketten succesvol verwijderd.
@@ -623,6 +652,7 @@ nl:
       message_work_package_read_only: Werkpakket is opgesloten in deze status. Geen
         kenmerk dan status kan worden gewijzigd.
       no_value: Geen waarde
+      placeholder_filter_by_text: Betreft, beschrijving, commentaar, ...
       inline_create:
         title: Klik hier om een nieuw werkpakket aan deze lijst toe te voegen
       create:
@@ -840,7 +870,7 @@ nl:
         messages_on_field: 'Het veld is ongeldig: %{messages}'
     error_could_not_resolve_version_name: Kan de verstane niet vinden
     error_could_not_resolve_user_name: Kan de gebruikersnaam niet vinden
-    error_attachment_upload: 'Uploaden van bestand ''%{name}'' is mislukt: %{error}'
+    error_attachment_upload: 'Bestand uploaden mislukt: %{error}'
     error_attachment_upload_permission: U bent niet gemachtigd om bestanden naar deze
       bron te uploaden.
     units:
@@ -857,3 +887,13 @@ nl:
     zen_mode:
       button_activate: Zen-modus activeren
       button_deactivate: Deactiveren van zen modus
+    global_search:
+      all_projects: Voor alle projecten
+      search: Zoeken
+      close_search: Sluit zoekopdracht
+      current_project: In dit project
+      current_project_and_all_descendants: In dit project + subprojecten
+      title:
+        all_projects: alle projecten
+        project_and_subprojects: en alle subprojecten
+        search_for: Zoeken naar

@@ -60,6 +60,7 @@ import {ColorsAutocompleter} from "core-app/modules/common/colors/colors-autocom
 import {DynamicCssService} from "./dynamic-css/dynamic-css.service";
 import {MultiToggledSelectComponent} from "core-app/modules/common/multi-toggled-select/multi-toggled-select.component";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
+import {ResizerComponent} from "core-app/modules/common/resizer/resizer.component";
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
 import {ZenModeButtonComponent} from 'core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
@@ -69,6 +70,12 @@ import {UIRouterModule} from "@uirouter/angular";
 import {PortalModule} from "@angular/cdk/portal";
 import {CommonModule} from "@angular/common";
 import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
+import {NoResultsComponent} from "core-app/modules/common/no-results/no-results.component";
+import {NgSelectModule} from "@ng-select/ng-select";
+import {UserAutocompleterComponent} from "app/modules/common/autocomplete/user-autocompleter.component";
+import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
+import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
+import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -93,6 +100,7 @@ export function bootstrapModule(injector:Injector) {
     PortalModule,
     // Our own A11y module
     OpenprojectAccessibilityModule,
+    NgSelectModule,
   ],
   exports: [
     // Re-export all commonly used
@@ -129,12 +137,26 @@ export function bootstrapModule(injector:Injector) {
     // Multi select component
     MultiToggledSelectComponent,
 
+    ResizerComponent,
+
     TablePaginationComponent,
     SortHeaderDirective,
 
     ZenModeButtonComponent,
 
     OPContextMenuComponent,
+
+    NoResultsComponent,
+
+    // Autocompleter Component
+    NgSelectModule,
+
+    UserAutocompleterComponent,
+
+    ScrollableTabsComponent,
+
+    // User Avatar
+    UserAvatarComponent,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -170,11 +192,22 @@ export function bootstrapModule(injector:Injector) {
 
     MultiToggledSelectComponent,
 
+    ResizerComponent,
+
     TablePaginationComponent,
     SortHeaderDirective,
 
     // Zen mode button
     ZenModeButtonComponent,
+
+    NoResultsComponent,
+
+    UserAutocompleterComponent,
+
+    ScrollableTabsComponent,
+
+    // User Avatar
+    UserAvatarComponent,
   ],
   entryComponents: [
     OpDateTimeComponent,
@@ -189,6 +222,8 @@ export function bootstrapModule(injector:Injector) {
     OPContextMenuComponent,
     ZenModeButtonComponent,
     CollapsibleSectionComponent,
+    UserAutocompleterComponent,
+    UserAvatarComponent
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
@@ -203,8 +238,8 @@ export function bootstrapModule(injector:Injector) {
     ConfigurationService,
     PathHelperService,
     HTMLSanitizeService,
-
     TimezoneService,
+    BrowserDetector,
   ]
 })
 export class OpenprojectCommonModule { }

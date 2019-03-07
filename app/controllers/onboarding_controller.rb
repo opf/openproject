@@ -33,9 +33,9 @@ class OnboardingController < ApplicationController
 
     result = Users::UpdateService
              .new(current_user: @user)
-             .call(request, permitted_params, params)
+             .call(permitted_params, params)
 
-    if result && result.success
+    if result.success?
       # Remove all query params:
       # the first_time_user param so that the modal is not shown again after redirect,
       # the welcome param so that the analytics is not fired again

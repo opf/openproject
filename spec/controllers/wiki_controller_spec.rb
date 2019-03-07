@@ -290,7 +290,7 @@ describe WikiController, type: :controller do
         it 'is inactive, when an unrelated page is shown' do
           get 'show', params: { id: @unrelated_page.slug, project_id: @project.id }
 
-          expect(response).to be_success
+          expect(response).to be_successful
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item"
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected", false
@@ -299,7 +299,7 @@ describe WikiController, type: :controller do
         it "is inactive, when another wiki menu item's page is shown" do
           get 'show', params: { id: @other_wiki_menu_item.name, project_id: @project.id }
 
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response.body).to have_selector('.main-menu--children a.selected', count: 0)
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item"
@@ -309,7 +309,7 @@ describe WikiController, type: :controller do
         it 'is active, when the given wiki menu item is shown' do
           get 'show', params: { id: @wiki_menu_item.name, project_id: @project.id }
 
-          expect(response).to be_success
+          expect(response).to be_successful
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
         end
@@ -320,7 +320,7 @@ describe WikiController, type: :controller do
         it 'is active on parents item, when new page is shown' do
           get 'new_child', params: { id: @wiki_menu_item.name, project_id: @project.identifier }
 
-          expect(response).to be_success
+          expect(response).to be_successful
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
         end
@@ -328,7 +328,7 @@ describe WikiController, type: :controller do
         it 'is active, when a toc page is shown' do
           get 'index', params: { id: @wiki_menu_item.name, project_id: @project.id }
 
-          expect(response).to be_success
+          expect(response).to be_successful
           assert_select '#content h2', text: 'Table of Contents'
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
         end
@@ -338,7 +338,7 @@ describe WikiController, type: :controller do
         it 'is active, when the given wiki menu item is an ancestor of the shown page' do
           get 'show', params: { id: @child_page.slug, project_id: @project.id }
 
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response.body).to have_selector('#main-menu a.selected', count: 1)
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
@@ -385,7 +385,7 @@ describe WikiController, type: :controller do
             it 'is visible' do
               get 'show', params: { project_id: @project.id }
 
-              expect(response).to be_success
+              expect(response).to be_successful
 
               assert_select '#content a', 'Configure menu item'
             end
@@ -399,7 +399,7 @@ describe WikiController, type: :controller do
             it 'is invisible' do
               get 'show', params: { project_id: @project.id }
 
-              expect(response).to be_success
+              expect(response).to be_successful
 
               assert_select '#content a', text: 'Configure menu item', count: 0
             end
@@ -413,7 +413,7 @@ describe WikiController, type: :controller do
             it 'is invisible' do
               get 'index', params: { project_id: @project.id }
 
-              expect(response).to be_success
+              expect(response).to be_successful
 
               assert_select '#content a', text: 'Wiki page', count: 0
             end
@@ -427,7 +427,7 @@ describe WikiController, type: :controller do
             it 'is invisible' do
               get 'index', params: { project_id: @project.id }
 
-              expect(response).to be_success
+              expect(response).to be_successful
 
               assert_select '#content a', text: 'Wiki page', count: 0
             end
@@ -441,7 +441,7 @@ describe WikiController, type: :controller do
                 get 'show',
                     params: { id: @page_with_content.title, project_id: @project.identifier }
 
-                expect(response).to be_success
+                expect(response).to be_successful
 
                 assert_select "#content a[href='#{new_child_project_wiki_path(project_id: @project, id: @page_with_content.slug)}']", 'Wiki page'
               end
@@ -451,7 +451,7 @@ describe WikiController, type: :controller do
               it 'is invisible' do
                 get 'show', params: { id: 'i-am-a-ghostpage', project_id: @project.identifier }
 
-                expect(response).to be_success
+                expect(response).to be_successful
 
                 assert_select "#content a[href='#{new_child_project_wiki_path(project_id: @project, id: 'i-am-a-ghostpage')}']",
                               text: 'Wiki page', count: 0
@@ -467,7 +467,7 @@ describe WikiController, type: :controller do
             it 'is invisible' do
               get 'show', params: { id: @page_with_content.title, project_id: @project.identifier }
 
-              expect(response).to be_success
+              expect(response).to be_successful
 
               assert_select '#content a', text: 'Wiki page', count: 0
             end
@@ -481,7 +481,7 @@ describe WikiController, type: :controller do
             it 'is visible' do
               get 'show', params: { project_id: @project.id }
 
-              expect(response).to be_success
+              expect(response).to be_successful
 
               assert_select ".toolbar-items a[href='#{new_child_project_wiki_path(project_id: @project, id: 'wiki')}']", 'Wiki page'
             end
@@ -495,7 +495,7 @@ describe WikiController, type: :controller do
             it 'is invisible' do
               get 'show', params: { project_id: @project.id }
 
-              expect(response).to be_success
+              expect(response).to be_successful
 
               assert_select '.toolbar-items a', text: 'Wiki page', count: 0
             end

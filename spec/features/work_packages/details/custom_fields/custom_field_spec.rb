@@ -76,12 +76,12 @@ describe 'custom field inplace editor', js: true do
     let(:custom_fields) { [custom_field1, custom_field2] }
     let(:field1) do
       f = wp_page.custom_edit_field(custom_field1)
-      f.field_type = 'select'
+      f.field_type = 'ng-select'
       f
     end
     let(:field2) do
       f = wp_page.custom_edit_field(custom_field2)
-      f.field_type = 'select'
+      f.field_type = 'ng-select'
       f
     end
     let(:initial_custom_values) { {} }

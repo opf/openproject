@@ -57,6 +57,22 @@ pt:
     index:
       no_results_content_title: Atualmente, não existem modos de autenticação.
       no_results_content_text: Criar um novo modo de autenticação
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: nenhum
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: Atualmente, não existem publicações para o quadro.
@@ -106,6 +122,10 @@ pt:
       further_information_after: ''
     calendar:
       removal: 'Atenção: Este módulo será removido com o OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Fórum
   groups:
     index:
       no_results_title_text: Atualmente, não existem grupos.
@@ -116,7 +136,21 @@ pt:
     memberships:
       no_results_title_text: Atualmente, não existem projetos pertencentes a este
         grupo.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: Atualmente, não existem projetos
       no_results_content_text: Crie um novo projeto
@@ -211,6 +245,8 @@ pt:
     x_descendants:
       one: Um pacote de trabalho descendente
       other: "%{count} pacotes de trabalho descendentes"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Não há nenhum status disponível para todos os pacotes
         de trabalho selecionados. O seu status não pode ser alterado.
@@ -356,6 +392,11 @@ pt:
         subscriber: Assinante
         encoded_token: Token de suporte da versão Enterprise
         active_user_count_restriction: Máximo de utilizadores ativos
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Atraso
         from: Pacote de trabalho
@@ -446,6 +487,14 @@ pt:
         time_entries: Tempo de registro
         type: Tipo
         watcher: Monitor
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: deve ser aceite.
@@ -501,8 +550,22 @@ pt:
           not_an_integer: "(%{name}) não é um íntegro."
           smaller_than_or_equal_to: "(%{name}) deve ser menor ou igual a %{count}."
           greater_than_or_equal_to: "(%{name}) deve ser maior ou igual a %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: não foi possível ler. Tem a certeza que é um token de suporte?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -636,6 +699,7 @@ pt:
       wiki_page: Página wiki
       workflow: Fluxo de trabalho
       work_package: Pacote de trabalho
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'Existem problemas com os seguintes campos:'
     field_erroneous_label: |-
@@ -711,6 +775,7 @@ pt:
   button_change_password: Alterar senha
   button_check_all: Seleccionar Todos
   button_clear: Limpar
+  button_click_to_reveal: Click to reveal
   button_close: Fechar
   button_collapse_all: Ocultar tudo
   button_configure: Configurar
@@ -738,9 +803,9 @@ pt:
   button_print: Imprimir
   button_quote: Citar
   button_remove: Remover
-  button_remove_widget: Remover o widget
   button_rename: Alterar o nome
   button_replace: Substituir
+  button_revoke: Revoke
   button_reply: Responder
   button_reset: Reiniciar
   button_rollback: Reverter para esta versão
@@ -1172,7 +1237,6 @@ pt:
   label_all_open_wps: Tudo aberto
   label_always_visible: Sempre exibido
   label_announcement: Aviso
-  label_and_its_subprojects: "%{value} e sub-projetos"
   label_api_access_key: API access key
   label_api_access_key_created_on: Chave de acesso API criada há %{value}
   label_api_access_key_type: API
@@ -1306,6 +1370,7 @@ pt:
   label_environment: Ambiente
   label_estimates_and_time: Valores estimados e tempo
   label_equals: é
+  label_everywhere: everywhere
   label_example: Exemplo
   label_export_to: 'Também disponível em:'
   label_expanded_click_to_collapse: Expandido. Clique para ocultar
@@ -1343,6 +1408,7 @@ pt:
   label_history: Histórico
   label_hierarchy_leaf: Folha da hierarquia
   label_home: Início
+  label_subject_or_id: Subject or ID
   label_in: em
   label_in_less_than: em menos de
   label_in_more_than: em mais de
@@ -1416,7 +1482,6 @@ pt:
   label_my_account: A minha conta
   label_my_account_data: Dados da minha conta
   label_my_page: A minha página
-  label_my_page_block: O meu bloco de página
   label_my_projects: Os meus projetos
   label_my_queries: As minhas consultas personalizadas
   label_never: Nunca
@@ -1525,7 +1590,6 @@ pt:
   label_repository_plural: Repositórios
   label_required: necessário
   label_requires: necessita
-  label_responsible_for_work_packages: Pacotes de trabalho pelos quais sou responsável
   label_result_plural: Resultados
   label_reverse_chronological_order: Em ordem cronológica inversa
   label_revision: Revisão
@@ -1542,7 +1606,6 @@ pt:
   label_role_search: Atribuir função aos novos membros
   label_scm: SCM
   label_search: Pesquisar
-  label_search_titles_only: Pesquisar apenas títulos
   label_send_information: Enviar informações da conta para o utilizador
   label_send_test_email: Enviar um e-mail de teste
   label_settings: Definições
@@ -1624,6 +1687,7 @@ pt:
   label_view_diff: Ver diferenças
   label_view_revisions: Ver revisões
   label_watched_work_packages: Pacotes de trabalho observados
+  label_what_is_this: What is this?
   label_week: Semana
   label_wiki_content_added: Página wiki adicionada
   label_wiki_content_updated: Página wiki atualizada
@@ -1723,7 +1787,6 @@ pt:
     algumas listas apenas)
   label_keyboard_shortcut_focus_next_item: Focar próxima lista de elementos (em algumas
     listas apenas)
-  label_visible_elements: Elementos visíveis
   auth_source:
     using_abstract_auth_source: Não é possível usar uma fonte de autenticação abstracta.
     ldap_error: 'Erro LDAP: %{error_message}'
@@ -1804,6 +1867,8 @@ pt:
   notice_account_update_failed: A definição de conta não pôde ser guardada. Por favor
     confira a página da sua conta.
   notice_account_updated: Conta foi actualizada com sucesso.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Senha errada
   notice_account_registered_and_logged_in: Bem-vindo, sua conta foi ativada. Agora
     você está autenticado.
@@ -2221,6 +2286,7 @@ pt:
   setting_mail_handler_body_delimiters: Truncar e-mails depois de uma destas linhas
   setting_mail_handler_body_delimiter_regex: Truncar emails com correspondência a
     este regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Função atribuída a um utilizador não-administrador
     que cria um projeto
   setting_password_active_rules: Ativar classes de caráter
@@ -2413,8 +2479,13 @@ pt:
   text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
     a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
     administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Está prestes a eliminar parcial ou totalmente as suas permissões. É possível que não possa editar o projeto após esta acção.
     Tem a certeza de que deseja continuar?
@@ -2847,8 +2918,8 @@ pt:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Por favor, atualize o seu browser.
+    close_warning: Ignore este aviso.
   oauth:
     application:
       singular: OAuth application
@@ -2894,7 +2965,7 @@ pt:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Permissões
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2918,16 +2989,3 @@ pt:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Remover o widget
-  label_and_its_subprojects: "%{value} e sub-projetos"
-  label_my_page_block: O meu bloco de página
-  label_responsible_for_work_packages: Pacotes de trabalho pelos quais sou responsável
-  label_search_titles_only: Pesquisar apenas títulos
-  label_visible_elements: Elementos visíveis
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

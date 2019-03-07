@@ -363,4 +363,107 @@ describe Repository::Subversion, type: :model do
   end
 
   it_behaves_like 'repository can be relocated', :subversion
+
+  describe 'ciphering' do
+    it 'password is encrypted' do
+      OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
+        r = FactoryBot.create(:repository_subversion, password: 'foo')
+        expect(r.password)
+          .to eql('foo')
+
+        expect(r.read_attribute(:password))
+          .to match(/\Aaes-256-cbc:.+\Z/)
+      end
+    end
+
+    it 'password is unencrypted with blank key' do
+      OpenProject::Configuration.with 'database_cipher_key' => '' do
+        r = FactoryBot.create(:repository_subversion, password: 'foo')
+        expect(r.password)
+          .to eql('foo')
+        expect(r.read_attribute(:password))
+          .to eql('foo')
+      end
+    end
+
+    it 'password is unencrypted with nil key' do
+      OpenProject::Configuration.with 'database_cipher_key' => nil do
+        r = FactoryBot.create(:repository_subversion, password: 'foo')
+
+        expect(r.password)
+          .to eql('foo')
+        expect(r.read_attribute(:password))
+          .to eql('foo')
+      end
+    end
+
+    it 'unciphered password is readable if activating cipher later' do
+      OpenProject::Configuration.with 'database_cipher_key' => nil do
+        FactoryBot.create(:repository_subversion, password: 'clear')
+      end
+
+      OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
+        r = Repository.last
+
+        expect(r.password)
+          .to eql('clear')
+      end
+    end
+
+    context '#encrypt_all' do
+      it 'encrypts formerly unencrypted passwords' do
+        Repository.delete_all
+        OpenProject::Configuration.with 'database_cipher_key' => nil do
+          FactoryBot.create(:repository_subversion, password: 'foo')
+          FactoryBot.create(:repository_subversion, password: 'bar')
+        end
+
+        OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
+          expect(Repository.encrypt_all(:password))
+            .to be_truthy
+
+          bar = Repository.last
+
+          expect(bar.password)
+            .to eql('bar')
+          expect(bar.read_attribute(:password))
+            .to match(/\Aaes-256-cbc:.+\Z/)
+
+          foo = Repository.first
+
+          expect(foo.password)
+            .to eql('foo')
+          expect(foo.read_attribute(:password))
+            .to match(/\Aaes-256-cbc:.+\Z/)
+        end
+      end
+    end
+
+    context '#decrypt_all' do
+      it 'removes cyphering from all passwords' do
+        Repository.delete_all
+        OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
+          foo = FactoryBot.create(:repository_subversion, password: 'foo')
+          bar = FactoryBot.create(:repository_subversion, password: 'bar')
+
+          expect(Repository.decrypt_all(:password))
+            .to be_truthy
+
+          bar.reload
+
+          expect(bar.password)
+            .to eql('bar')
+          expect(bar.read_attribute(:password))
+            .to eql('bar')
+
+          foo.reload
+
+          expect(foo.password)
+            .to eql('foo')
+          expect(foo.read_attribute(:password))
+            .to eql('foo')
+        end
+      end
+    end
+  end
 end

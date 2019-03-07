@@ -56,6 +56,22 @@ tr:
     index:
       no_results_content_title: Şu anda bir doğrulama modu bulunmamakta.
       no_results_content_text: Yeni bir doğrulama modu oluştur
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: hiçbiri
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: Şu anda panoda gösterilebilecek gönderi bulunmamakta.
@@ -105,6 +121,10 @@ tr:
       further_information_after: ''
     calendar:
       removal: 'Lütfen dikkat: Bu modül OpenProject 8.0 ile kaldırılacak.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Viki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Şu anda hiç grup bulunmamakta.
@@ -113,7 +133,21 @@ tr:
       no_results_title_text: Şu anda bu gruba kayıtlı kullanıcı bulunmamakta.
     memberships:
       no_results_title_text: Şu anda bu grubun bir parçası olan, bir proje bulunmamakta.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: Şu anda hiç proje bulunmamakta
       no_results_content_text: Yeni bir proje oluşturun
@@ -206,6 +240,8 @@ tr:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -342,6 +378,11 @@ tr:
         subscriber: Abone
         encoded_token: Kurumsal Destek anahtarı
         active_user_count_restriction: En çok aktif kullanıcı
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Gecikme
         from: İş paketi
@@ -433,6 +474,14 @@ tr:
         time_entries: Zaman kaydet
         type: Tür
         watcher: Takipçi
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: kabul edilmelidir.
@@ -490,8 +539,22 @@ tr:
           smaller_than_or_equal_to: "(%{name}) %{count} ' e eşit veya daha küçük olmalıdır."
           greater_than_or_equal_to: "(%{name}) sıfırdan büyük veya %{count} ' e eşit
             olması gerekir."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: okunamıyor. Desteklenen bir destek anahtarı olduğuna emin misiniz?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -623,6 +686,7 @@ tr:
       wiki_page: Viki sayfası
       workflow: İş akışı
       work_package: İş paketi
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'Aşağıdaki alanları ile ilgili sorunlar oluştu:'
     field_erroneous_label: |-
@@ -698,6 +762,7 @@ tr:
   button_change_password: Parolayı değiştir
   button_check_all: Tümünü işaretle
   button_clear: Temizle
+  button_click_to_reveal: Click to reveal
   button_close: Kapat
   button_collapse_all: Tümünü daralt
   button_configure: Düzenle
@@ -725,9 +790,9 @@ tr:
   button_print: Yazdır
   button_quote: Alıntı
   button_remove: Kaldır
-  button_remove_widget: Widgetleri kaldır
   button_rename: Yeniden adlandır
   button_replace: Değiştir
+  button_revoke: Revoke
   button_reply: Yanıt
   button_reset: Sıfırla
   button_rollback: Bu sürüme geri al
@@ -1149,7 +1214,6 @@ tr:
   label_all_open_wps: Tüm açık
   label_always_visible: Her zaman görüntüle
   label_announcement: Duyuru
-  label_and_its_subprojects: "%{value} ve onun alt projeler"
   label_api_access_key: API erişim anahtarı
   label_api_access_key_created_on: API erişim anahtarı %{value} önce oluşturuldu
   label_api_access_key_type: API
@@ -1283,6 +1347,7 @@ tr:
   label_environment: Ortam
   label_estimates_and_time: Tahminler & zaman
   label_equals: şuysa
+  label_everywhere: everywhere
   label_example: Örnek
   label_export_to: 'Ayrıca şu adreste bulunabilir:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
@@ -1320,6 +1385,7 @@ tr:
   label_history: Geçmiş
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Ana sayfa
+  label_subject_or_id: Subject or ID
   label_in: şurada
   label_in_less_than: daha azdır
   label_in_more_than: daha fazla
@@ -1393,7 +1459,6 @@ tr:
   label_my_account: Hesabım
   label_my_account_data: Hesap verilerim
   label_my_page: Benim sayfam
-  label_my_page_block: Sayfa bloğum
   label_my_projects: Projelerim
   label_my_queries: Özel sorgularım
   label_never: Hiçbir zaman
@@ -1501,7 +1566,6 @@ tr:
   label_repository_plural: Depolar
   label_required: gerekli
   label_requires: gerektirir
-  label_responsible_for_work_packages: Sorumlusu olduğum iş paketleri
   label_result_plural: Sonuçlar
   label_reverse_chronological_order: Ters tarih sırasına göre
   label_revision: Gözden geçirme
@@ -1518,7 +1582,6 @@ tr:
   label_role_search: Yeni üyelere rol atama
   label_scm: YKM
   label_search: Ara
-  label_search_titles_only: Sadece başlıkları ara
   label_send_information: Hesap bilgilerini kullanıcıya gönder
   label_send_test_email: Deneme e-postası gönder
   label_settings: Ayarlar
@@ -1600,6 +1663,7 @@ tr:
   label_view_diff: Farklılıkları gör
   label_view_revisions: Düzeltmeleri izle
   label_watched_work_packages: İzlenen iş paketleri
+  label_what_is_this: What is this?
   label_week: Hafta
   label_wiki_content_added: Viki sayfası eklendi
   label_wiki_content_updated: Viki sayfası güncellendi
@@ -1694,7 +1758,6 @@ tr:
     bazı listelerde)
   label_keyboard_shortcut_focus_next_item: Sonraki liste öğesine odakla (yalnızca
     bazı listelerde)
-  label_visible_elements: Görünür öğeler
   auth_source:
     using_abstract_auth_source: Özet kimlik doğrulama kaynağı kullanılamıyor.
     ldap_error: 'LDAP-Hatası: %{error_message}'
@@ -1773,6 +1836,8 @@ tr:
   notice_account_update_failed: Hesabı ayarları kaydedilemedi. Lütfen hesap sayfanızın
     bir göz atın.
   notice_account_updated: Hesap başarıyla güncellendi.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Hatalı parola
   notice_account_registered_and_logged_in: Hoş geldiniz, hesabınız etkinleştirildi.
     Şimdi giriş yaptınız.
@@ -2177,6 +2242,7 @@ tr:
     kısaltın
   setting_mail_handler_body_delimiter_regex: Bu düzenli ifade ile uyuşan e-postaları
     kırp
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Bir proje oluşturan yönetici olmayan bir kullanıcıya
     verilen rolü
   setting_password_active_rules: Aktif karakter sınıfları
@@ -2360,8 +2426,13 @@ tr:
   text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
     a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
     administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: İzinlerinizden bazılarını veya tümünü kaldırmak
     üzeresiniz ve bundan sonra bu projeyi düzenleyemeyebilirsiniz. Devam etmek istediğine
     emin misin?
@@ -2786,8 +2857,8 @@ tr:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Lütfen tarayıcınızı güncelleyin.
+    close_warning: Bu uyarıyı yoksay.
   oauth:
     application:
       singular: OAuth application
@@ -2833,7 +2904,7 @@ tr:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: İzinler
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2857,16 +2928,3 @@ tr:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Widgetleri kaldır
-  label_and_its_subprojects: "%{value} ve onun alt projeler"
-  label_my_page_block: Sayfa bloğum
-  label_responsible_for_work_packages: Sorumlusu olduğum iş paketleri
-  label_search_titles_only: Sadece başlıkları ara
-  label_visible_elements: Görünür öğeler
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

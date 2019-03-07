@@ -19,11 +19,11 @@
 
 class VariableCostObject < CostObject
   has_many :material_budget_items, -> {
-    includes(:cost_type).order('material_budget_items.id ASC')
+    includes(:cost_type).order(Arel.sql('material_budget_items.id ASC'))
   }, foreign_key: 'cost_object_id',
      dependent: :destroy
   has_many :labor_budget_items, -> {
-    includes(:user).order('labor_budget_items.id ASC')
+    includes(:user).order(Arel.sql('labor_budget_items.id ASC'))
   }, foreign_key: 'cost_object_id',
      dependent: :destroy
 

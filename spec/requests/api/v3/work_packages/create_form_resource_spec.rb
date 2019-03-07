@@ -34,11 +34,12 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  shared_let(:path) { api_v3_paths.create_work_package_form }
   shared_let(:status) { FactoryBot.create(:default_status) }
   shared_let(:priority) { FactoryBot.create(:default_priority) }
-  shared_let(:user) { FactoryBot.build(:admin) }
+  shared_let(:user) { FactoryBot.create(:admin) }
   shared_let(:project) { FactoryBot.create(:project_with_types) }
+
+  let(:path) { api_v3_paths.create_work_package_form }
   let(:parameters) { {} }
 
   before do

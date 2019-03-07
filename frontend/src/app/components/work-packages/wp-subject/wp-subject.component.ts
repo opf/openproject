@@ -32,6 +32,7 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../work-package-cache.service';
+import {randomString} from "core-app/helpers/random-string";
 
 @Component({
   selector: 'wp-subject',
@@ -39,6 +40,8 @@ import {WorkPackageCacheService} from '../work-package-cache.service';
 })
 export class WorkPackageSubjectComponent implements OnInit, OnDestroy {
   @Input('workPackage') workPackage:WorkPackageResource;
+
+  public readonly uniqueElementIdentifier = `work-packages--subject-type-row-${randomString(16)}`;
 
   constructor(protected uiRouterGlobals:UIRouterGlobals,
               protected wpCacheService:WorkPackageCacheService) {

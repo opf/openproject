@@ -78,6 +78,19 @@ en:
       no_results_content_title: There are currently no authentication modes.
       no_results_content_text: Create a new authentication mode
 
+  ldap_auth_sources:
+    connection_encryption: 'Connection encryption'
+    tls_mode:
+      plain: 'none'
+      simple_tls: 'simple_tls'
+      start_tls: 'start_tls'
+      plain_description: "Plain unencrypted connection, no TLS negotiation."
+      simple_tls_description: "Implicit TLS encryption, but no certificate validation. Use with caution and implicit trust of the LDAP connection."
+      start_tls_description: "Explicit TLS encryption with full validation. Use for LDAP over TLS/SSL."
+      section_more_info_link_html: >
+        This section concerns the connection security of this LDAP authentication source.
+        For more information, visit <a href="%{link}">the Net::LDAP documentation</a>.
+
   boards:
     show:
       no_results_title_text: There are currently no posts for the board.
@@ -128,6 +141,11 @@ en:
     calendar:
       removal: "Please note: This module is going to be removed with OpenProject 8.0."
 
+  global_search:
+    overwritten_tabs:
+      wiki_pages: "Wiki"
+      messages: "Forum"
+
   groups:
     index:
       no_results_title_text: There are currently no groups.
@@ -137,7 +155,19 @@ en:
     memberships:
       no_results_title_text: There are currently no projects part of this group.
 
+  incoming_mails:
+    ignore_filenames: >
+      Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons).
+      Enter one filename per line.
+
   projects:
+    delete:
+      scheduled: "Deletion has been scheduled and is perfomed in the background. You will be notified of the result."
+      schedule_failed: "Project cannot be deleted: %{errors}"
+      failed: "Deletion of project %{name} has failed"
+      failed_text: "The request to delete project %{name} has failed. The project was left archived."
+      completed: "Deletion of project %{name} completed"
+      completed_text: "The request to delete project '%{name}' has been completed."
     index:
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
@@ -242,6 +272,10 @@ en:
     x_descendants:
       one: 'One descendant work package'
       other: '%{count} work package descendants'
+
+    bulk:
+      could_not_be_saved: "The following work packages could not be saved:"
+
 
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
@@ -360,6 +394,11 @@ en:
         subscriber: "Subscriber"
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
+      grids/grid:
+        page: "Page"
+        row_count: "Number of rows"
+        column_count: "Number of columns"
+        widgets: "Widgets"
       relation:
         delay: "Delay"
         from: "Work package"
@@ -448,6 +487,15 @@ en:
         time_entries: "Log time"
         type: "Type"
         watcher: "Watcher"
+      'doorkeeper/application':
+        uid: "Client ID"
+        secret: "Client secret"
+        owner: "Owner"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Confidential"
+
     errors:
       messages:
         accepted: "must be accepted."
@@ -500,8 +548,22 @@ en:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: 'cannot contain a fragment.'
+              invalid_uri: 'must be a valid URI.'
+              relative_uri: 'must be an absolute URI.'
+              secured_uri: 'must be an HTTPS/SSL URI.'
+              forbidden_uri: 'is forbidden by the server.'
+            scopes:
+              not_match_configured: "doesn't match available scopes."
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
+        grids/grid:
+          overlaps: 'overlap.'
+          outside: 'is outside of the grid.'
+          end_before_start: 'end value needs to be larger than the start value.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -623,6 +685,7 @@ en:
       wiki_page: "Wiki page"
       workflow: "Workflow"
       work_package: "Work package"
+      'doorkeeper/application': "OAuth application"
 
   errors:
     header_invalid_fields: "There were problems with the following fields:"
@@ -702,6 +765,7 @@ en:
   button_change_password: "Change password"
   button_check_all: "Check all"
   button_clear: "Clear"
+  button_click_to_reveal: "Click to reveal"
   button_close: 'Close'
   button_collapse_all: "Collapse all"
   button_configure: "Configure"
@@ -729,9 +793,9 @@ en:
   button_print: "Print"
   button_quote: "Quote"
   button_remove: Remove
-  button_remove_widget: "Remove widget"
   button_rename: "Rename"
   button_replace: "Replace"
+  button_revoke: "Revoke"
   button_reply: "Reply"
   button_reset: "Reset"
   button_rollback: "Rollback to this version"
@@ -1108,7 +1172,6 @@ en:
   label_all_open_wps: "All open"
   label_always_visible: "Always displayed"
   label_announcement: "Announcement"
-  label_and_its_subprojects: "%{value} and its subprojects"
   label_api_access_key: "API access key"
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_api_access_key_type: "API"
@@ -1240,6 +1303,7 @@ en:
   label_environment: "Environment"
   label_estimates_and_time: "Estimates and time"
   label_equals: "is"
+  label_everywhere: "everywhere"
   label_example: "Example"
   label_export_to: "Also available in:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1276,6 +1340,7 @@ en:
   label_history: "History"
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Home"
+  label_subject_or_id: "Subject or ID"
   label_in: "in"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
@@ -1349,7 +1414,6 @@ en:
   label_my_account: "My account"
   label_my_account_data: "My account data"
   label_my_page: "My page"
-  label_my_page_block: "My page block"
   label_my_projects: "My projects"
   label_my_queries: "My custom queries"
   label_never: "Never"
@@ -1456,7 +1520,6 @@ en:
   label_repository_plural: "Repositories"
   label_required: 'required'
   label_requires: 'requires'
-  label_responsible_for_work_packages: "Work packages I am accountable for"
   label_result_plural: "Results"
   label_reverse_chronological_order: "In reverse chronological order"
   label_revision: "Revision"
@@ -1473,7 +1536,6 @@ en:
   label_role_search: "Assign role to new members"
   label_scm: "SCM"
   label_search: "Search"
-  label_search_titles_only: "Search titles only"
   label_send_information: "Send account information to the user"
   label_send_test_email: "Send a test email"
   label_settings: "Settings"
@@ -1644,7 +1706,6 @@ en:
   label_keyboard_shortcut_go_preview: "Go to preview the current edit (on edit pages only)"
   label_keyboard_shortcut_focus_previous_item: "Focus previous list element (on some lists only)"
   label_keyboard_shortcut_focus_next_item: "Focus next list element (on some lists only)"
-  label_visible_elements: Visible elements
 
   auth_source:
     using_abstract_auth_source: "Can't use an abstract authentication source."
@@ -1719,6 +1780,7 @@ en:
   notice_account_unknown_email: "Unknown user."
   notice_account_update_failed: "Account setting could not be saved. Please have a look at your account page."
   notice_account_updated: "Account was successfully updated."
+  notice_account_other_session_expired: "All other sessions tied to your account have been invalidated."
   notice_account_wrong_password: "Wrong password"
   notice_account_registered_and_logged_in: "Welcome, your account has been activated. You are logged in now."
   notice_activation_failed: The account could not be activated.
@@ -2077,6 +2139,7 @@ en:
   setting_mail_handler_api_key: "API key"
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
   setting_mail_handler_body_delimiter_regex: "Truncate emails matching this regex"
+  setting_mail_handler_ignore_filenames: "Ignored mail attachments"
   setting_new_project_user_role_id: "Role given to a non-admin user who creates a project"
   setting_password_active_rules: "Active character classes"
   setting_password_count_former_banned: "Number of most recently used passwords banned for reuse"
@@ -2581,3 +2644,97 @@ en:
       writing_read_only_attributes: "You must not write a read-only attribute."
     resources:
       schema: 'Schema'
+
+  doorkeeper:
+    pre_authorization:
+      status: 'Pre-authorization'
+
+    errors:
+      messages:
+        # Common error messages
+        invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        unauthorized_client: 'The client is not authorized to perform this request using this method.'
+        access_denied: 'The resource owner or authorization server denied the request.'
+        invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
+        invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
+        server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
+        temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+
+        # Configuration error messages
+        credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
+        resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
+        admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+
+        # Access grant errors
+        unsupported_response_type: 'The authorization server does not support this response type.'
+
+        # Access token errors
+        invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
+        invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
+        unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'
+
+        invalid_token:
+          revoked: "The access token was revoked"
+          expired: "The access token expired"
+          unknown: "The access token is invalid"
+
+  unsupported_browser:
+    title: "Your browser is outdated and unsupported."
+    message: "You may run into errors and degraded experience on this page."
+    update_message: 'Please update your browser.'
+    close_warning: "Ignore this warning."
+
+  oauth:
+    application:
+      singular: "OAuth application"
+      plural: "OAuth applications"
+      named: "OAuth application '%{name}'"
+      new: "New OAuth application"
+      default_scopes: "(Default scopes)"
+      instructions:
+        name: "The name of your application. This will be displayed to other users upon authorization."
+        redirect_uri_html: >
+          The allowed URLs authorized users can be redirected to. One entry per line.
+          <br/>
+          If you're registering a desktop application, use the following URL.
+        confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
+        client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
+        register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
+        default_scopes: ""
+    client_id: "Client ID"
+    client_secret_notice: >
+      This is the only time we can print the client secret, please note it down and keep it secure.
+      It should be treated as a password and cannot be retrieved by OpenProject at a later time.
+    authorization_dialog:
+      authorize: "Authorize"
+      cancel: "Cancel and deny authorization."
+      prompt_html: "Authorize <strong>%{application_name}</strong> to use your account <em>%{login}</em>?"
+      title: "Authorize %{application_name}"
+      wants_to_access_html: >
+        This application requests access to your OpenProject account.
+        <br/>
+        <strong>It has requested the following permissions:</strong>
+    scopes:
+      api_v3: "Full API access"
+      api_v3_text: "Application will receive full read & write access to the OpenProject API to perform actions on your behalf."
+    grants:
+      created_date: "Approved on"
+      scopes: "Permissions"
+      successful_application_revocation: "Revocation of application %{application_name} successful."
+      none_given: "No OAuth applications have been granted access to your user account."
+    x_active_tokens:
+      one: 'one active token'
+      other: '%{count} active token'
+    flows:
+      authorization_code: "Authorization code flow"
+      client_credentials: "Client credentials flow"
+    client_credentials: "User used for Client credentials"
+    client_credentials_impersonation_set_to: "Client credentials user set to"
+    client_credentials_impersonation_warning: "Note: Clients using the 'Client credentials' flow in this application will have the rights of this user"
+    client_credentials_impersonation_html: >
+      By default, OpenProject provides OAuth 2.0 authorization via %{authorization_code_flow_link}.
+      You can optionally enable %{client_credentials_flow_link}, but you must provide a user on whose behalf requests will be performed.
+    authorization_error: "An authorization error has occurred."
+    revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
+    my_registered_applications: "Registered OAuth applications"

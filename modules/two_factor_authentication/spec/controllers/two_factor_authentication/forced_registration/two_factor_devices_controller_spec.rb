@@ -62,7 +62,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
       let(:active_strategies) { [:developer] }
 
       it 'renders the new page' do
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'two_factor_authentication/two_factor_devices/new_type'
       end
     end
@@ -78,7 +78,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
         end
 
         it 'renders the new form' do
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template 'new_type'
         end
       end
@@ -89,7 +89,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
         end
 
         it 'renders the new form' do
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template 'new'
         end
       end
@@ -104,7 +104,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
         let(:params) { { identifier: 'foo' } }
 
         it 'renders action new' do
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template 'new'
           expect(assigns[:device]).to be_invalid
         end
@@ -138,7 +138,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
-            expect(response).to be_success
+            expect(response).to be_successful
             expect(response).to render_template 'confirm'
             expect(flash[:notice]).not_to be_present
           end
@@ -149,7 +149,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
-            expect(response).to be_success
+            expect(response).to be_successful
             expect(response).to render_template 'confirm'
           end
 

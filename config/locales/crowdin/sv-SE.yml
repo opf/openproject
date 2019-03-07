@@ -57,6 +57,22 @@ sv-SE:
     index:
       no_results_content_title: Det finns för närvarande inga autentiseringslägen.
       no_results_content_text: Skapa ett nytt autentiseringsläge
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: ingen
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: Det finns för närvarande inga inlägg på anslagstavlan.
@@ -106,6 +122,10 @@ sv-SE:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Det finns för närvarande inga grupper.
@@ -114,7 +134,21 @@ sv-SE:
       no_results_title_text: Det finns för närvarande inga användare i denna grupp.
     memberships:
       no_results_title_text: Det finns för närvarande inga projekt i denna grupp.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: Det finns för närvarande inga projekt
       no_results_content_text: Skapa ett nytt projekt
@@ -210,6 +244,8 @@ sv-SE:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Det finns ingen status för alla valda arbetspaket.
         Deras status kan inte ändras.
@@ -346,6 +382,11 @@ sv-SE:
         subscriber: Prenumerant
         encoded_token: Enterprise support-nyckel
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Fördröjning
         from: Arbetspaket
@@ -436,6 +477,14 @@ sv-SE:
         time_entries: Logga tid
         type: Typ
         watcher: Bevakare
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: måste accepteras.
@@ -493,8 +542,22 @@ sv-SE:
             %{count}."
           greater_than_or_equal_to: "(%{name}) måste vara större än eller lika med
             %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: kan inte läsas. Är du säker på att det är en support-nyckel?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -626,6 +689,7 @@ sv-SE:
       wiki_page: Wiki-sida
       workflow: Arbetsflöde
       work_package: Arbetspaket
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'Det fanns problem med följande fält:'
     field_erroneous_label: |-
@@ -701,7 +765,8 @@ sv-SE:
   button_change_password: Ändra lösenord
   button_check_all: Markera alla
   button_clear: Rensa
-  button_close: Close
+  button_click_to_reveal: Click to reveal
+  button_close: Stäng
   button_collapse_all: Fäll ihop alla
   button_configure: Konfigurera
   button_continue: Fortsätt
@@ -728,9 +793,9 @@ sv-SE:
   button_print: Print
   button_quote: Citat
   button_remove: Ta bort
-  button_remove_widget: Ta bort widget
   button_rename: Ändra namn
   button_replace: Ersätt
+  button_revoke: Revoke
   button_reply: Svara
   button_reset: Återställ
   button_rollback: Återgå till denna version
@@ -1150,7 +1215,6 @@ sv-SE:
   label_all_open_wps: Alla öppna
   label_always_visible: Visas alltid
   label_announcement: Meddelande
-  label_and_its_subprojects: "%{value} och dess delprojekt"
   label_api_access_key: API åtkomstnyckel
   label_api_access_key_created_on: API åtkomstnyckel skapade %{value} sedan
   label_api_access_key_type: API
@@ -1283,6 +1347,7 @@ sv-SE:
   label_environment: Miljö
   label_estimates_and_time: Uppskattningar och tid
   label_equals: är
+  label_everywhere: everywhere
   label_example: Exempel
   label_export_to: 'Finns även som:'
   label_expanded_click_to_collapse: Expanderat. Klicka för att dölja
@@ -1320,6 +1385,7 @@ sv-SE:
   label_history: Historik
   label_hierarchy_leaf: Hierarki-blad
   label_home: Hem
+  label_subject_or_id: Subject or ID
   label_in: i
   label_in_less_than: i mindre än
   label_in_more_than: i mer än
@@ -1393,7 +1459,6 @@ sv-SE:
   label_my_account: Mitt konto
   label_my_account_data: Min kontoinformation
   label_my_page: Min sida
-  label_my_page_block: Området "Min Sida"
   label_my_projects: Mina projekt
   label_my_queries: Min anpassade frågor
   label_never: Aldrig
@@ -1500,7 +1565,6 @@ sv-SE:
   label_repository_plural: Versionsarkiv
   label_required: obligatorisk
   label_requires: kräver
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Resultat
   label_reverse_chronological_order: I omvänd kronologisk ordning
   label_revision: Revision
@@ -1517,7 +1581,6 @@ sv-SE:
   label_role_search: Tilldela rollen till nya medlemmar
   label_scm: SCM
   label_search: Sök
-  label_search_titles_only: Sök endast i titlar
   label_send_information: Skicka kontoinformationen till användaren
   label_send_test_email: Skicka test E-post
   label_settings: Inställningar
@@ -1598,6 +1661,7 @@ sv-SE:
   label_view_diff: Visa skillnader
   label_view_revisions: Visa revisioner
   label_watched_work_packages: Bevakade arbetspaket
+  label_what_is_this: What is this?
   label_week: Vecka
   label_wiki_content_added: Wiki-sidan tillagd
   label_wiki_content_updated: Wiki-sidan uppdaterad
@@ -1695,7 +1759,6 @@ sv-SE:
     listor endast)
   label_keyboard_shortcut_focus_next_item: Fokusera nästa listelement (på vissa listor
     endast)
-  label_visible_elements: Synliga element
   auth_source:
     using_abstract_auth_source: Kan inte använda en abstrakt autentiseringskälla.
     ldap_error: 'LDAP-fel: %{error_message}'
@@ -1773,6 +1836,8 @@ sv-SE:
   notice_account_update_failed: Kontot kunde inte uppdateras. Gå till din profilsida
     och kontrollera inställningarna.
   notice_account_updated: Kontot har uppdaterats.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Felaktigt lösenord
   notice_account_registered_and_logged_in: Välkommen, ditt konto har aktiverats. Du
     är nu inloggad.
@@ -2177,6 +2242,7 @@ sv-SE:
   setting_mail_handler_body_delimiters: Trunkera E-post efter en av dessa rader
   setting_mail_handler_body_delimiter_regex: Trunkera e-postmeddelanden enligt följande
     regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Roll som ges till en icke-administratör som skapar
     ett projekt
   setting_password_active_rules: Aktiva teckenklasser
@@ -2358,8 +2424,13 @@ sv-SE:
   text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
     a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
     administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: Du håller på att ta bort några eller alla
     av dina behörigheter och kommer därefter inte längre att kunna redigera detta
     projekt. Är du säker på att du vill fortsätta?
@@ -2779,8 +2850,8 @@ sv-SE:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Vänligen uppdatera din webbläsare.
+    close_warning: Bortse från denna varning.
   oauth:
     application:
       singular: OAuth application
@@ -2826,7 +2897,7 @@ sv-SE:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Behörigheter
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2850,16 +2921,3 @@ sv-SE:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Ta bort widget
-  label_and_its_subprojects: "%{value} och dess delprojekt"
-  label_my_page_block: Området "Min Sida"
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_search_titles_only: Sök endast i titlar
-  label_visible_elements: Synliga element
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

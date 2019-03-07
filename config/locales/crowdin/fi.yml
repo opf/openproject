@@ -56,6 +56,22 @@ fi:
     index:
       no_results_content_title: Tällä hetkellä ei ole todennustiloja.
       no_results_content_text: Luo uusi todennustila
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: ei mitään
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: Tällä hetkellä taululla ei ole viestejä.
@@ -105,6 +121,10 @@ fi:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Keskustelupalsta
   groups:
     index:
       no_results_title_text: Tällä hetkellä ei ole ryhmiä.
@@ -113,7 +133,21 @@ fi:
       no_results_title_text: Tällä hetkellä tähän ryhmään ei kuulu yhtään käyttäjää.
     memberships:
       no_results_title_text: Tällä hetkellä tähän ryhmään ei kuulu projekteja.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: Tällä hetkellä ei ole projekteja
       no_results_content_text: Luo uusi projekti
@@ -207,6 +241,8 @@ fi:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -346,6 +382,11 @@ fi:
         subscriber: Tilaaja
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Viive
         from: Työpaketti
@@ -437,6 +478,14 @@ fi:
         time_entries: Kirjaa lokiin aika
         type: Tyyppi
         watcher: Seuraajat
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: täytyy olla hyväksytty.
@@ -493,8 +542,22 @@ fi:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -624,6 +687,7 @@ fi:
       wiki_page: Wiki-sivu
       workflow: Työnkulku
       work_package: Työpaketti
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'Seuraavissa kentissä oli ongelmia:'
     field_erroneous_label: 'Tämä kenttä on virheellinen: %{full_errors} Anna kelvollinen
@@ -698,6 +762,7 @@ fi:
   button_change_password: Vaihda salasana
   button_check_all: Valitse kaikki
   button_clear: Tyhjää
+  button_click_to_reveal: Click to reveal
   button_close: Sulje
   button_collapse_all: Tiivistä kaikki
   button_configure: Asetukset
@@ -725,9 +790,9 @@ fi:
   button_print: Tulosta
   button_quote: Siteeraa
   button_remove: Poista
-  button_remove_widget: Poista widgetti
   button_rename: Nimeä uudelleen
   button_replace: Korvaa
+  button_revoke: Revoke
   button_reply: Vastaa
   button_reset: Nollaus
   button_rollback: Siirry takaisin tähän versioon
@@ -1148,7 +1213,6 @@ fi:
   label_all_open_wps: All open
   label_always_visible: Aina näkyvissä
   label_announcement: Ilmoitus
-  label_and_its_subprojects: "%{value} ja aliprojektit"
   label_api_access_key: API avain
   label_api_access_key_created_on: API access key created %{value} ago
   label_api_access_key_type: API
@@ -1280,6 +1344,7 @@ fi:
   label_environment: Ympäristö
   label_estimates_and_time: Estimates and time
   label_equals: sama kuin
+  label_everywhere: everywhere
   label_example: Esimerkki
   label_export_to: Vie
   label_expanded_click_to_collapse: Expanded. Click to collapse
@@ -1317,6 +1382,7 @@ fi:
   label_history: Historia
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Koti
+  label_subject_or_id: Subject or ID
   label_in: tässä
   label_in_less_than: pienempi kuin
   label_in_more_than: suurempi kuin
@@ -1390,7 +1456,6 @@ fi:
   label_my_account: Oma tili
   label_my_account_data: Tilini tiedot
   label_my_page: Oma sivu
-  label_my_page_block: Minun sivu
   label_my_projects: Omat projektit
   label_my_queries: Omat hakuni
   label_never: Never
@@ -1498,7 +1563,6 @@ fi:
   label_repository_plural: Tietovarastot
   label_required: Required
   label_requires: edellyttää
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Tulokset
   label_reverse_chronological_order: Käänteisessä aikajärjestyksessä
   label_revision: Revisio
@@ -1515,7 +1579,6 @@ fi:
   label_role_search: Määritä rooli uusille jäsenille
   label_scm: SCM
   label_search: Haku
-  label_search_titles_only: Hae vain otsikot
   label_send_information: Lähetä tilin tiedot käyttäjälle
   label_send_test_email: Lähetä testi sähköposti
   label_settings: Asetukset
@@ -1596,6 +1659,7 @@ fi:
   label_view_diff: Näytä erot
   label_view_revisions: Näytä versiot
   label_watched_work_packages: Seuratut työpaketit
+  label_what_is_this: What is this?
   label_week: Viikko
   label_wiki_content_added: Wiki-sivu lisätty
   label_wiki_content_updated: Wiki-sivu päivitetty
@@ -1691,7 +1755,6 @@ fi:
     lists only)
   label_keyboard_shortcut_focus_next_item: Focus next list element (on some lists
     only)
-  label_visible_elements: Näkyvät elementit
   auth_source:
     using_abstract_auth_source: Voi käyttää abstrakti autentikointi lähde.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -1770,6 +1833,8 @@ fi:
   notice_account_update_failed: Tilin asetusten tallentaminen ei onnistunut. Palaa
     takaisin tilisi sivulle.
   notice_account_updated: Tilin päivitys onnistui.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Väärä salasana
   notice_account_registered_and_logged_in: Tervetuloa, tilisi on aktivoitu. Olet kirjautunut
     sisään nyt.
@@ -2170,6 +2235,7 @@ fi:
   setting_mail_handler_api_key: API avain
   setting_mail_handler_body_delimiters: Katkaise sähköpostit tällaisen rivin jälkeen
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rooli joka annetaan projektin luojalle, joka ei
     ole hallinnoija (admin)
   setting_password_active_rules: Aktiiviset merkistöluokat
@@ -2352,8 +2418,13 @@ fi:
   text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
     a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
     administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: Olet aikeissa poistaa yhden tai useamman
     käyttöoikeuden ja et ehkä voi enää muokata tätä projektia sen jälkeen. Haluatko
     varmasti jatkaa?
@@ -2770,8 +2841,8 @@ fi:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Päivitäthän selaimesi.
+    close_warning: Ohita tämä varoitus.
   oauth:
     application:
       singular: OAuth application
@@ -2817,7 +2888,7 @@ fi:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Oikeudet
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2841,16 +2912,3 @@ fi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Poista widgetti
-  label_and_its_subprojects: "%{value} ja aliprojektit"
-  label_my_page_block: Minun sivu
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_search_titles_only: Hae vain otsikot
-  label_visible_elements: Näkyvät elementit
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

@@ -38,6 +38,7 @@ fa:
     button_duplicate: نسخه برداری
     button_edit: ویرایش
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: نمای فهرستی
     button_show_view: Fullscreen view
     button_log_time: پیگیری زمان
@@ -146,14 +147,42 @@ fa:
     general_text_yes: 'yes'
     general_text_No: 'No'
     general_text_Yes: 'Yes'
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: News
+          at: at
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Work packages assigned to me
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendar
     label_activate: Activate
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
       comment.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Add columns
     label_add_comment: افزودن دیدگاه
     label_add_comment_title: کامنت بگذارید و برای اطلاع دادن به دیگران از @ استفاده
       کنید
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Add selected columns
     label_added_by: اضافه شده توسط
     label_added_time_by: اضافه شده توسط %{author} %{age}
@@ -211,6 +240,7 @@ fa:
     label_menu_collapse: فرو ریختن
     label_menu_expand: بست دادن
     label_more_than_ago: more than days ago
+    label_my_page: My page
     label_next: Next
     label_no_data: No data to display
     label_no_due_date: بدون تاریخ پایان
@@ -229,7 +259,9 @@ fa:
     label_visibility_settings: Visibility settings
     label_quote_comment: Quote this comment
     label_reset: تنظیم مجدد
+    label_remove_column: Remove column
     label_remove_columns: Remove selected columns
+    label_remove_row: Remove row
     label_save_as: ذخیره به عنوان
     label_select_watcher: یک ناظر را انتخاب کنید...
     label_selected_filter_list: فیلترهای انتخاب شده
@@ -251,6 +283,7 @@ fa:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} مجموع پیشرفت"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: updated on
     label_warning: Warning
     label_work_package: Work package
@@ -393,6 +426,10 @@ fa:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: فعالیت
+      comment: نظر
+      hours: ساعت‌‌‌‌‌‌
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -475,6 +512,7 @@ fa:
       view?
     text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: نمودار گانت
       labels:
         title: Label configuration
@@ -544,14 +582,6 @@ fa:
     tl_toolbar:
       zooms: سطح زوم
       outlines: سطح سلسله مراتب
-    unsupported_browser:
-      title: Your browser version is not supported
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Learn more
-      close_warning: Ignore this warning.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -599,11 +629,10 @@ fa:
       label_enable_multi_select: Enable multiselect
       label_disable_multi_select: Disable multiselect
       label_filter_add: Add filter
+      label_filter_by_text: Filter by text
       label_options: Options
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
         confirm selection with enter, delete with backspace'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: An error occurred while trying to delete work
         packages.
       message_successful_bulk_delete: Successfully deleted work packages.
@@ -613,6 +642,7 @@ fa:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: No value
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Click here to add a new work package to this list
       create:
@@ -828,7 +858,7 @@ fa:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: تطبیق نام نسخه میسر نشد
     error_could_not_resolve_user_name: Couldn't resolve user name
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -845,3 +875,13 @@ fa:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    global_search:
+      all_projects: In all projects
+      search: Search
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

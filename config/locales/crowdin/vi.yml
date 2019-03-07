@@ -57,6 +57,22 @@ vi:
     index:
       no_results_content_title: Không có hiện tại không có chế độ xác thực.
       no_results_content_text: Tạo một chế độ xác thực mới
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: không
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: Hiện có không có bài viết ở bảng điều khiển.
@@ -106,6 +122,10 @@ vi:
       further_information_after: ''
     calendar:
       removal: 'Chý ý: mô-đun này sẽ được gỡ bỏ với OpenProject 8.0'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Diễn đàn
   groups:
     index:
       no_results_title_text: Hiện có không có nhóm.
@@ -114,7 +134,21 @@ vi:
       no_results_title_text: Hiện có không có người sử dụng thuộc nhóm này.
     memberships:
       no_results_title_text: Hiện có không có dự án thuộc nhóm này.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: Không có dự án nào
       no_results_content_text: Tạo một dự án mới
@@ -209,6 +243,8 @@ vi:
     x_descendants:
       one: One descendant work package
       other: "%{count} gói sản phẩm phụ thuộc"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Có là tình trạng không có sẵn cho tất cả các gói
         đã chọn công việc. Tình trạng của họ không thể thay đổi.
@@ -346,6 +382,11 @@ vi:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Số người dùng hoạt động tối đa
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Trì hoãn
         from: Work Package
@@ -436,6 +477,14 @@ vi:
         time_entries: Thời gian truy cập
         type: Kiểu
         watcher: Người quan sát
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: must be accepted.
@@ -493,8 +542,22 @@ vi:
           not_an_integer: "(%{name}) không phải là một số nguyên."
           smaller_than_or_equal_to: "(%{name}) phải nhỏ hơn hoặc bằng %{count}."
           greater_than_or_equal_to: "(%{name}) phải nhỏ hơn hoặc bằng %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -626,6 +689,7 @@ vi:
       wiki_page: Trang wiki
       workflow: Quy trình làm việc
       work_package: Work Package
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'Đã có vấn đề với các mục sau đây:'
     field_erroneous_label: |-
@@ -701,6 +765,7 @@ vi:
   button_change_password: Thay đổi mật khẩu
   button_check_all: Đánh dấu tất cả
   button_clear: Xóa
+  button_click_to_reveal: Click to reveal
   button_close: Đóng
   button_collapse_all: Thu gọn tất cả
   button_configure: Thiết lập
@@ -728,9 +793,9 @@ vi:
   button_print: Print
   button_quote: Trích dẫn
   button_remove: Remove
-  button_remove_widget: Xóa widget
   button_rename: Đổi tên
   button_replace: Replace
+  button_revoke: Revoke
   button_reply: Trả lời
   button_reset: Reset
   button_rollback: Quay trở lại phiên bản này
@@ -1153,7 +1218,6 @@ vi:
   label_all_open_wps: Mở tất cả
   label_always_visible: Luôn luôn hiển thị
   label_announcement: Thông báo
-  label_and_its_subprojects: "%{value} và các dự án con của nó"
   label_api_access_key: Khoá truy cập API
   label_api_access_key_created_on: Khoá truy cập API đựơc tạo cách đây %{value}
   label_api_access_key_type: API
@@ -1285,6 +1349,7 @@ vi:
   label_environment: Environment
   label_estimates_and_time: Estimates and time
   label_equals: is
+  label_everywhere: everywhere
   label_example: Ví dụ
   label_export_to: 'Cũng có sẵn tại:'
   label_expanded_click_to_collapse: Mở rộng. Bấm vào để thu gọn
@@ -1322,6 +1387,7 @@ vi:
   label_history: Lịch sử
   label_hierarchy_leaf: Hệ thống phân cấp lá
   label_home: Home
+  label_subject_or_id: Subject or ID
   label_in: trong
   label_in_less_than: ít hơn
   label_in_more_than: nhiều hơn
@@ -1395,7 +1461,6 @@ vi:
   label_my_account: Tài khoản của tôi
   label_my_account_data: Dữ liệu tài khoản của tôi
   label_my_page: Trang của tôi
-  label_my_page_block: Block trang của tôi
   label_my_projects: Dự án của tôi
   label_my_queries: Các truy vấn tùy biến của tôi
   label_never: Never
@@ -1503,7 +1568,6 @@ vi:
   label_repository_plural: Repositories
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Gói công việc mà tôi có trách nhiệm
   label_result_plural: Results
   label_reverse_chronological_order: In reverse chronological order
   label_revision: Revision
@@ -1520,7 +1584,6 @@ vi:
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: Search
-  label_search_titles_only: Search titles only
   label_send_information: Send account information to the user
   label_send_test_email: Send a test email
   label_settings: Settings
@@ -1600,6 +1663,7 @@ vi:
   label_view_diff: View differences
   label_view_revisions: View revisions
   label_watched_work_packages: Watched work packages
+  label_what_is_this: What is this?
   label_week: Week
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
@@ -1696,7 +1760,6 @@ vi:
     lists only)
   label_keyboard_shortcut_focus_next_item: Focus next list element (on some lists
     only)
-  label_visible_elements: Visible elements
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -1776,6 +1839,8 @@ vi:
   notice_account_update_failed: Không thể lưu thiết đặt tài khoản. Xin vui lòng kiểm
     tra trong trang tài khoản của bạn.
   notice_account_updated: Account was successfully updated.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Wrong password
   notice_account_registered_and_logged_in: Welcome, your account has been activated.
     You are logged in now.
@@ -2180,6 +2245,7 @@ vi:
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   setting_mail_handler_body_delimiter_regex: Xén các email phù hợp với biểu thức này
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   setting_password_active_rules: Active character classes
   setting_password_count_former_banned: Number of most recently used passwords banned
@@ -2364,8 +2430,13 @@ vi:
   text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
     a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
     administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
     Are you sure you want to continue?
@@ -2835,7 +2906,7 @@ vi:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Phân Quyền
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2859,16 +2930,3 @@ vi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Xóa widget
-  label_and_its_subprojects: "%{value} và các dự án con của nó"
-  label_my_page_block: Block trang của tôi
-  label_responsible_for_work_packages: Gói công việc mà tôi có trách nhiệm
-  label_search_titles_only: Search titles only
-  label_visible_elements: Visible elements
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

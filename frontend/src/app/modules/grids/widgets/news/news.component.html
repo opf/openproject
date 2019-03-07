@@ -1,0 +1,40 @@
+<h3 class="widget-box--header" cdkDragHandle>
+  <i class="icon-context icon-news" aria-hidden="true"></i>
+  <span class="widget-box--header-title" [textContent]="text.title"></span>
+</h3>
+
+<div class="grid--widget-content">
+  <no-results *ngIf="noEntries"
+             [title]="text.noResults">
+  </no-results>
+  <ul class="widget-box--arrow-links">
+    <li class="-widget-box--arrow-multiline" *ngFor="let news of entries">
+      <div>
+        <ng-container *ngIf="news.author">
+        <img class="avatar avatar-mini avatar--fallback"
+             data-avatar-fallback-remove="true"
+             *ngIf="newsAuthorAvatar(news)"
+             [attr.src]="newsAuthorAvatar(news)"
+             [attr.title]="newsAuthorName(news)"
+             [attr.alt]="newsAuthorName(news)" />
+        </ng-container>
+        <a [href]="newsProjectPath(news)"
+           [textContent]="newsProjectName(news)">
+        </a>:
+        <a [href]="newsPath(news)"
+           [textContent]="news.title">
+        </a>
+
+        <p *ngIf="news.author"
+           class="widget-box--additional-info">
+          {{text.createdBy}}
+          <a [href]="newsAuthorPath(news)"
+             [textContent]="newsAuthorName(news)">
+          </a>
+          {{text.at}}
+          {{newsCreated(news)}}
+        </p>
+      </div>
+    </li>
+  </ul>
+</div>

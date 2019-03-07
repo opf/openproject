@@ -33,7 +33,10 @@ module OpenProject
     class Manager
       class << self
         def registered
-          @scms ||= {}
+          @scms ||= {
+            subversion: ::Repository::Subversion,
+            git: ::Repository::Git
+          }
         end
 
         ##
@@ -67,10 +70,8 @@ module OpenProject
         # { Vendor: <Path> }
         def managed_paths
           paths = {}
-          if @scms.present?
-            @scms.each do |vendor, klass|
-              paths[vendor] = klass.managed_root if klass.manageable?
-            end
+          registered.each do |vendor, klass|
+            paths[vendor] = klass.managed_root if klass.manageable?
           end
 
           paths

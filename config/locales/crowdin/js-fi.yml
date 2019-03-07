@@ -38,6 +38,7 @@ fi:
     button_duplicate: Kahdenna
     button_edit: Muokkaa
     button_filter: Suodata
+    button_advanced_filter: Advanced filter
     button_list_view: Luettelonäkymä
     button_show_view: Koko näytön tila
     button_log_time: Kirjaa lokiin aika
@@ -146,13 +147,41 @@ fi:
     general_text_yes: kyllä
     general_text_No: Ei
     general_text_Yes: Kyllä
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Uutiset
+          at: at
+          no_results: Ei mitään uutta raportoitavaksi.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Minulle määritetyt työpaketit
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalenteri
     label_activate: Aktivoi
     label_activity_no: Aktiviteettimerkinnän numero %{activityNo}
     label_activity_with_comment_no: Aktiviteettimerkinnän numero %{activityNo}. Sisältää
       käyttäjän kommentin.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Lisää sarakkeita
     label_add_comment: Lisää kommentti
     label_add_comment_title: Comment and type @ to notify other people
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Lisää valitut sarakkeet
     label_added_by: lisännyt
     label_added_time_by: Lisännyt %{author} %{age}
@@ -209,6 +238,7 @@ fi:
     label_menu_collapse: pienennä
     label_menu_expand: laajenna
     label_more_than_ago: enemän kuin päivää sitten
+    label_my_page: Oma sivu
     label_next: Seuraava
     label_no_data: Ei tietoa näytettäväksi
     label_no_due_date: ei päättymispäivää
@@ -227,7 +257,9 @@ fi:
     label_visibility_settings: Visibility settings
     label_quote_comment: Lainaa tämä kommentti
     label_reset: Nollaus
+    label_remove_column: Remove column
     label_remove_columns: Poista valitut sarakkeet
+    label_remove_row: Remove row
     label_save_as: Tallenna nimellä
     label_select_watcher: Valitse seuraaja...
     label_selected_filter_list: Valitut suodattimet
@@ -249,6 +281,7 @@ fi:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} % eteneminen"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: päivitetty vimeksi
     label_warning: Warning
     label_work_package: Työpaketti
@@ -389,6 +422,10 @@ fi:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Aktiviteetti
+      comment: Kommentti
+      hours: Tunnit
     watchers:
       label_loading: ladataan seuraajia...
       label_error_loading: Virhe ladattaessa seuraajia
@@ -471,6 +508,7 @@ fi:
       view?
     text_attachment_destroy_confirmation: Oletko varma, että haluat poistaa liitteen?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -539,14 +577,6 @@ fi:
     tl_toolbar:
       zooms: Lähennyksen taso
       outlines: Hierarkian taso
-    unsupported_browser:
-      title: Selaimesi versiota ei tueta
-      message: Selaimesi versiota ei enää tueta.
-      update_message: Päivitäthän selaimesi.
-      update_ie_user: Siirry selaimeen Mozilla Firefox tai Google Chrome, tai päivitä
-        Microsoft Edge.
-      learn_more: Learn more
-      close_warning: Ohita tämä varoitus.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -594,11 +624,10 @@ fi:
       label_enable_multi_select: Ota monivalinta käyttöön
       label_disable_multi_select: Poista monivalinta käytöstä
       label_filter_add: Lisää suodatin
+      label_filter_by_text: Filter by text
       label_options: Valinnat
       label_column_multiselect: 'Yhdistetty avattava kenttä: Valitse nuolinäppäimillä,
         vahvista Enter, backspace poistaa'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: Työpaketin poistossa tapahtui virhe.
       message_successful_bulk_delete: Poistetut työpaketit.
       message_successful_show_in_fullscreen: Klikkaa tästä avataksesi työpaketin kokonäyttötilaan.
@@ -606,6 +635,7 @@ fi:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Ei arvoa
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Napsauttamalla tätä voit lisätä luetteloon uuden työpaketin
       create:
@@ -820,7 +850,7 @@ fi:
         messages_on_field: 'Tämä kenttä on virheellinen: %{messages}'
     error_could_not_resolve_version_name: Version nimeä ei voitu ratkaista
     error_could_not_resolve_user_name: Käyttäjän nimeä ei voitu ratkaista
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -837,3 +867,13 @@ fi:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    global_search:
+      all_projects: In all projects
+      search: Haku
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

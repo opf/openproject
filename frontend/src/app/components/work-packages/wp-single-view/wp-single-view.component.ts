@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -44,6 +44,7 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {IWorkPackageEditingServiceToken} from '../../wp-edit-form/work-package-editing.service.interface';
 import {DynamicCssService} from '../../../modules/common/dynamic-css/dynamic-css.service';
 import {HookService} from 'core-app/modules/plugins/hook-service';
+import {randomString} from "core-app/helpers/random-string";
 
 export interface FieldDescriptor {
   name:string;
@@ -56,6 +57,7 @@ export interface FieldDescriptor {
 
 export interface GroupDescriptor {
   name:string;
+  id:string;
   members:FieldDescriptor[];
   query?:QueryResource;
   type:string;
@@ -66,6 +68,8 @@ export interface ResourceContextChange {
   schema:string|null;
   project:string|null;
 }
+
+export const overflowingContainerAttribute = 'overflowingIdentifier';
 
 @Component({
   templateUrl: './wp-single-view.html',
@@ -111,6 +115,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   };
 
   protected firstTimeFocused:boolean = false;
+  public $element:JQuery;
 
   constructor(readonly I18n:I18nService,
               protected currentProject:CurrentProjectService,
@@ -120,10 +125,13 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               protected displayFieldService:DisplayFieldService,
               protected wpCacheService:WorkPackageCacheService,
-              protected hook:HookService) {
+              protected hook:HookService,
+              readonly elementRef:ElementRef) {
   }
 
   public ngOnInit() {
+    this.$element = jQuery(this.elementRef.nativeElement);
+
     if (this.workPackage.attachments) {
       this.workPackage.attachments.updateElements();
     }
@@ -184,7 +192,12 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
    */
   public shouldHideGroup(group:GroupDescriptor) {
     // Hide if the group is empty
-    return group.members.length === 0;
+    const isEmpty = group.members.length === 0;
+
+    // Is a query in a new screen
+    const queryInNew = this.workPackage.isNew && !!group.query;
+
+    return isEmpty || queryInNew
   }
 
   /**
@@ -201,6 +214,18 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     // we take the last registered group component which means that
     // plugins will have their say if they register for it.
     return this.hook.call('attributeGroupComponent', group, this.workPackage).pop() || null;
+  }
+
+  public attachmentListComponent() {
+    // we take the last registered group component which means that
+    // plugins will have their say if they register for it.
+    return this.hook.call('workPackageAttachmentListComponent', this.workPackage).pop() || null;
+  }
+
+  public attachmentUploadComponent() {
+    // we take the last registered group component which means that
+    // plugins will have their say if they register for it.
+    return this.hook.call('workPackageAttachmentUploadComponent', this.workPackage).pop() || null;
   }
 
   /*
@@ -228,15 +253,19 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     }
 
     return attributeGroups.map((group:any) => {
+      let groupId = this.getAttributesGroupId(group);
+
       if (group._type === 'WorkPackageFormAttributeGroup') {
         return {
           name: group.name,
+          id: groupId || randomString(16),
           members: this.getFields(resource, group.attributes),
           type: group._type
         };
       } else {
         return {
           name: group.name,
+          id: groupId || randomString(16),
           query: group._embedded.query,
           relationType: group.relationType,
           members: [group._embedded.query],
@@ -334,5 +363,17 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
       resource.schema[name],
       { container: 'single-view', options: {} }
     ) as DisplayField;
+  }
+
+  private getAttributesGroupId(group:any):string {
+    let overflowingIdentifier = this.$element
+      .find("[data-group-name=\'" + group.name + "\']")
+      .data(overflowingContainerAttribute);
+
+    if (overflowingIdentifier) {
+      return overflowingIdentifier.replace('.__overflowing_','');
+    } else {
+      return ''
+    }
   }
 }

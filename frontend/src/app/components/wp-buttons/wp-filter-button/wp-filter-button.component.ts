@@ -90,7 +90,7 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
     this.wpTableFilters
       .observeUntil(componentDestroyed(this))
       .subscribe(state => {
-      this.count = state.currentVisibleFilters.length;
+      this.count = state.currentlyVisibleFilters.length;
       this.initialized = true;
     });
   }

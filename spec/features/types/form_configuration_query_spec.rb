@@ -119,6 +119,23 @@ describe 'form query configuration', type: :feature, js: true do
       end
     end
 
+    context 'visiting a new work package screen' do
+      let(:wp_page) { Pages::FullWorkPackageCreate.new }
+
+      it 'does not show a subgroup (Regression #29582)' do
+        form.add_query_group('Subtasks', :parent)
+        # Save changed query
+        form.save_changes
+        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+
+        # Visit new wp page
+        visit new_project_work_packages_path(project)
+
+        wp_page.expect_no_group 'Subtasks'
+        expect(page).to have_no_text 'Subtasks'
+      end
+    end
+
     it 'can modify and keep changed columns (Regression #27604)' do
       form.add_query_group('Columns Test', :parent)
       form.edit_query_group('Columns Test')
@@ -198,7 +215,7 @@ describe 'form query configuration', type: :feature, js: true do
         modal.expect_open
         modal.switch_to 'Filters'
         # the templated filter should be hidden in the Filters tab
-        filters.expect_filter_count 0
+        filters.expect_filter_count 1
         filters.add_filter_by('Type', 'is', type_task.name)
         filters.save
 
@@ -225,7 +242,7 @@ describe 'form query configuration', type: :feature, js: true do
         # Expect filter still there
         modal.expect_open
         modal.switch_to 'Filters'
-        filters.expect_filter_count 1
+        filters.expect_filter_count 2
         filters.expect_filter_by 'Type', 'is', type_task.name
 
         # Remove the filter again

@@ -3,7 +3,6 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {locateTableRowByIdentifier} from 'core-components/wp-fast-table/helpers/wp-table-row-helpers';
 import {debugLog} from '../../../../helpers/debug_output';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 import {isRelationColumn, QueryColumn} from '../../../wp-query/query-column';
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
@@ -67,6 +66,10 @@ export class SingleRowBuilder {
       case internalContextMenuColumn.id:
         if (this.workPackageTable.configuration.actionsColumnEnabled) {
           return this.contextLinkBuilder.build(workPackage);
+        } else if (this.workPackageTable.configuration.columnMenuEnabled) {
+          let td = document.createElement('td');
+          td.classList.add('hide-when-print');
+          return td;
         } else {
           return null;
         }
@@ -142,12 +145,8 @@ export class SingleRowBuilder {
 
   protected isColumnBeingEdited(workPackage:WorkPackageResource, column:QueryColumn) {
     const form = this.workPackageTable.editing.forms[workPackage.id];
-    const changeset = this.workPackageTable.editing.changeset(workPackage.id);
 
-    const isOpen = form && form.activeFields[column.id];
-    const isChanged = changeset && changeset.isOverridden(column.id);
-
-    return isOpen || isChanged;
+    return form && form.activeFields[column.id];
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLElement):[HTMLElement, boolean] {

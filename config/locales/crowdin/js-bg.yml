@@ -38,6 +38,7 @@ bg:
     button_duplicate: Дублиране
     button_edit: Редактиране
     button_filter: Филтър
+    button_advanced_filter: Advanced filter
     button_list_view: Изглед списък
     button_show_view: Изглед на цял екран
     button_log_time: Отчетено време
@@ -146,13 +147,41 @@ bg:
     general_text_yes: Да
     general_text_No: Не
     general_text_Yes: Да
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Новини
+          at: at
+          no_results: Нищо ново за отчитане.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Работни пакети, възложени на мен
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Календар
     label_activate: Activate
     label_activity_no: Дейност запис номер %{activityNo}
     label_activity_with_comment_no: Дейност запис номер %{activityNo}. Има коментар
       от потребител.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Add columns
     label_add_comment: Добави коментар
     label_add_comment_title: Comment and type @ to notify other people
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Добавяне на избраните колони
     label_added_by: добавен от
     label_added_time_by: Добавено от %{author} %{age}
@@ -210,6 +239,7 @@ bg:
     label_menu_collapse: събери
     label_menu_expand: разтвори
     label_more_than_ago: повече от преди дни
+    label_my_page: Моята страница
     label_next: Следващо
     label_no_data: Няма данни за показване
     label_no_due_date: Няма крайна дата
@@ -228,7 +258,9 @@ bg:
     label_visibility_settings: Visibility settings
     label_quote_comment: Цитиране на този коментар
     label_reset: Нулиране
+    label_remove_column: Remove column
     label_remove_columns: Премахване на избраните колони
+    label_remove_row: Remove row
     label_save_as: Запиши като
     label_select_watcher: Изберете наблюдаващ...
     label_selected_filter_list: Избрани филтри
@@ -250,6 +282,7 @@ bg:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} % Общ напредък"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: актуализиран на
     label_warning: Предупреждение
     label_work_package: Работен пакет
@@ -390,6 +423,10 @@ bg:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Активност
+      comment: Коментар
+      hours: Часове
     watchers:
       label_loading: Зареждане на наблюдаващи...
       label_error_loading: Възникна грешка при зареждане на наблюдатели
@@ -473,6 +510,7 @@ bg:
     text_attachment_destroy_confirmation: Наистина ли искате да изтриете прикачения
       файл?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -543,14 +581,6 @@ bg:
     tl_toolbar:
       zooms: Ниво на мащабиране
       outlines: Йерархично ниво
-    unsupported_browser:
-      title: Версията на вашият браузър не се поддържа
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Научете повече
-      close_warning: Ignore this warning.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -599,11 +629,10 @@ bg:
       label_enable_multi_select: Разреши множествено избиране
       label_disable_multi_select: Спиране на множествено избиране
       label_filter_add: Добавяне на филтър
+      label_filter_by_text: Filter by text
       label_options: Опции
       label_column_multiselect: 'Комбинирани падащо меню: изберете с клавишите със
         стрелки, потвърдете избора с enter, изтриване с backspace'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: Възникна грешка при опит за изтриване на работни
         пакети.
       message_successful_bulk_delete: Успешно изтрити работни пакети.
@@ -613,6 +642,7 @@ bg:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Няма стойност
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Щракнете тук, за да добавите нов работен пакет към този списък
       create:
@@ -827,7 +857,7 @@ bg:
         messages_on_field: 'Това поле е невалидно: %{messages}'
     error_could_not_resolve_version_name: Не можа да открие версия с име
     error_could_not_resolve_user_name: Не може да открие потребителско име
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -844,3 +874,13 @@ bg:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    global_search:
+      all_projects: In all projects
+      search: Търсене
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

@@ -38,7 +38,7 @@ describe 'Work Package table configuration modal filters spec', js: true do
       wp_table.expect_work_package_listed work_package_with_version, work_package_without_version
       filters.open
 
-      filters.expect_filter_count 1
+      filters.expect_filter_count 2
       filters.add_filter_by('Version', 'is', version.name)
       filters.save
 
@@ -48,7 +48,7 @@ describe 'Work Package table configuration modal filters spec', js: true do
       wp_table.save_as('Some query name')
 
       filters.open
-      filters.expect_filter_count 2
+      filters.expect_filter_count 3
       filters.remove_filter 'version'
       filters.save
 

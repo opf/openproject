@@ -28,7 +28,6 @@ import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {AvatarUploadFormComponent} from "./avatar-upload-form/avatar-upload-form.component";
 import {HookService} from "../../hook-service";
-import './globals/global-avatar-fallback'
 
 export function initializeAvatarsPlugin(injector:Injector) {
   return () => {

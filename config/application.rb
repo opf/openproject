@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
 require 'benchmark'
 module SimpleBenchmark
@@ -68,7 +68,6 @@ if defined?(Bundler)
   # Require the gems listed in Gemfile, including any gems
   # you've limited to :test, :development, or :production.
   Bundler.require(*Rails.groups(:opf_plugins))
-
 end
 
 require File.dirname(__FILE__) + '/../lib/open_project/configuration'
@@ -131,6 +130,31 @@ module OpenProject
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
 
+    # Make Active Record use stable #cache_key alongside new #cache_version method.
+    # This is needed for recyclable cache keys.
+    # We will want check https://blog.heroku.com/cache-invalidation-rails-5-2-dalli-store
+    # and test if we can enable this in the long run
+    # Rails.application.config.active_record.cache_versioning = true
+
+    # Use AES-256-GCM authenticated encryption for encrypted cookies.
+    # Also, embed cookie expiry in signed or encrypted cookies for increased security.
+    #
+    # This option is not backwards compatible with earlier Rails versions.
+    # It's best enabled when your entire app is migrated and stable on 5.2.
+    #
+    # Existing cookies will be converted on read then written with the new scheme.
+    Rails.application.config.action_dispatch.use_authenticated_cookie_encryption = true
+
+    # Use AES-256-GCM authenticated encryption as default cipher for encrypting messages
+    # instead of AES-256-CBC, when use_authenticated_message_encryption is set to true.
+    Rails.application.config.active_support.use_authenticated_message_encryption = true
+
+    # Use SHA-1 instead of MD5 to generate non-sensitive digests, such as the ETag header.
+    Rails.application.config.active_support.use_sha1_digests = true
+
+    # Make `form_with` generate id attributes for any generated HTML tags.
+    # Rails.application.config.action_view.form_with_generates_ids = true
+
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
     # like if you have constraints or database-specific column types
@@ -149,15 +173,6 @@ module OpenProject
     # This allows for setting the root either via config file or via environment variable.
     config.action_controller.relative_url_root = OpenProject::Configuration['rails_relative_url_root']
 
-    config.to_prepare do
-      # Rails loads app/views paths of all plugin on each request and appends it to the view_paths.
-      # Thus, they end up behind the core view path and core views are found before plugin views.
-      # To change this behaviour, we just reverse the view_path order on each request so plugin views
-      # take precedence.
-      ApplicationController.view_paths = ActionView::PathSet.new(ApplicationController.view_paths.to_ary.reverse)
-      ActionMailer::Base.view_paths = ActionView::PathSet.new(ActionMailer::Base.view_paths.to_ary.reverse)
-    end
-
     # Load API files
     config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
     config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
@@ -172,6 +187,13 @@ module OpenProject
 
     def self.root_url
       Setting.protocol + "://" + Setting.host_name
+    end
+
+    ##
+    # Load core and engine tasks we're interested in
+    def self.load_rake_tasks
+      load_tasks
+      Doorkeeper::Rake.load_tasks
     end
   end
 end

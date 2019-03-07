@@ -177,6 +177,25 @@ module OpenProject
           revisions
         end
 
+        ##
+        # For repositories that are actually checked-out sub directories of
+        # other repositories Repository#fetch_changesets will fail trying to
+        # go through revisions 1:200 because the lowest available revision
+        # can be greater than 200.
+        #
+        # To fix this we find out the earliest available revision here
+        # and start from there.
+        def start_revision
+          cmd = %w(log -r1:HEAD --limit 1) + [target('')]
+
+          rev = capture_svn(cmd).lines.map(&:strip)
+            .select { |line| line =~ /\Ar\d+ \|/ }
+            .map { |line| line.split(" ").first.sub(/\Ar/, "") }
+            .first
+
+          rev ? rev.to_i : 0
+        end
+
         def diff(path, identifier_from, identifier_to = nil, _type = 'inline')
           path ||= ''
 
@@ -185,7 +204,7 @@ module OpenProject
 
           cmd = ['diff', '-r', "#{identifier_to}:#{identifier_from}",
                  "#{target(path)}@#{identifier_from}"]
-          capture_svn(cmd).lines.map(&:chomp)
+          capture_svn(cmd).lines
         end
 
         def numeric_identifier(identifier, default = '')

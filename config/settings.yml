@@ -248,6 +248,8 @@ notified_events:
   - wiki_content_updated
 mail_handler_body_delimiters:
   default: ''
+mail_handler_ignore_filenames:
+  default: 'signature.asc'
 mail_handler_body_delimiter_regex:
   default: ''
 mail_handler_api_enabled:
@@ -304,8 +306,6 @@ commit_logs_encoding:
 repository_log_display_limit:
   format: int
   default: 100
-accessibility_mode_for_anonymous:
-  default: 0
 emails_footer:
   serialized: true
   default:
@@ -328,7 +328,7 @@ emails_header:
   default:
     en: ''
 work_package_startdate_is_adddate:
-  default: 1
+  default: 0
   format: boolean
 user_default_timezone:
   default: ""

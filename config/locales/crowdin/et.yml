@@ -57,6 +57,22 @@ et:
     index:
       no_results_content_title: There are currently no authentication modes.
       no_results_content_text: Create a new authentication mode
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: pole
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: There are currently no posts for the board.
@@ -106,6 +122,10 @@ et:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Viki
+      messages: Foorum
   groups:
     index:
       no_results_title_text: There are currently no groups.
@@ -114,7 +134,21 @@ et:
       no_results_title_text: There are currently no users part of this group.
     memberships:
       no_results_title_text: There are currently no projects part of this group.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
@@ -209,6 +243,8 @@ et:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -345,6 +381,11 @@ et:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Viivitus
         from: Teema
@@ -435,6 +476,14 @@ et:
         time_entries: Logi aeg
         type: Liik
         watcher: Jälgija
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: must be accepted.
@@ -491,8 +540,22 @@ et:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -623,6 +686,7 @@ et:
       wiki_page: Viki leht
       workflow: Töövoog
       work_package: Teema
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'Järgmiste väljadega esines tõrkeid:'
     field_erroneous_label: |-
@@ -698,6 +762,7 @@ et:
   button_change_password: Muuda parool
   button_check_all: Märgi kõik
   button_clear: Tühjenda
+  button_click_to_reveal: Click to reveal
   button_close: Close
   button_collapse_all: Ahenda kõik
   button_configure: Seadista
@@ -725,9 +790,9 @@ et:
   button_print: Print
   button_quote: Tsiteeri
   button_remove: Remove
-  button_remove_widget: Eemalda vidin
   button_rename: Nimeta ümber
   button_replace: Replace
+  button_revoke: Revoke
   button_reply: Vasta
   button_reset: Nulli
   button_rollback: Pöördu tagasi sellesse versiooni
@@ -1150,7 +1215,6 @@ et:
   label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
-  label_and_its_subprojects: "%{value} ja selle alamprojektid"
   label_api_access_key: API ligipääsutunnus
   label_api_access_key_created_on: API ligipääsutunnus on loodud %{value} tagasi
   label_api_access_key_type: API
@@ -1283,6 +1347,7 @@ et:
   label_environment: Keskkond
   label_estimates_and_time: Estimates and time
   label_equals: võrdub
+  label_everywhere: everywhere
   label_example: Näide
   label_export_to: 'Saadaval ka:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
@@ -1320,6 +1385,7 @@ et:
   label_history: Ajalugu
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Avaleht
+  label_subject_or_id: Subject or ID
   label_in: sisaldub hulgas
   label_in_less_than: on väiksem kui
   label_in_more_than: on suurem kui
@@ -1393,7 +1459,6 @@ et:
   label_my_account: Oma konto
   label_my_account_data: Oma konto andmed
   label_my_page: Minu esileht
-  label_my_page_block: Uus blokk
   label_my_projects: Minu projektid
   label_my_queries: Mu omaloodud päringud
   label_never: Mitte kunagi
@@ -1500,7 +1565,6 @@ et:
   label_repository_plural: Hoidlad
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Tulemused
   label_reverse_chronological_order: Pööratud ajalises järjestuses
   label_revision: Sissekanne
@@ -1517,7 +1581,6 @@ et:
   label_role_search: Assign role to new members
   label_scm: Lähtekoodi haldusvahendid
   label_search: Otsi
-  label_search_titles_only: Ainult pealkirjadest
   label_send_information: Saada konto andmed kasutajale
   label_send_test_email: Saada kontrollkiri
   label_settings: Seaded
@@ -1598,6 +1661,7 @@ et:
   label_view_diff: Vaata erinevusi
   label_view_revisions: Haru ajalugu
   label_watched_work_packages: Jälgitavad teemad
+  label_what_is_this: What is this?
   label_week: Nädal
   label_wiki_content_added: Viki leht on lisatud
   label_wiki_content_updated: Viki leht on uuendatud
@@ -1691,7 +1755,6 @@ et:
     vaid valitud loendites)
   label_keyboard_shortcut_focus_next_item: Liigu järgmisele loendi elemendile (töötab
     vaid valitud loendites)
-  label_visible_elements: Visible elements
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -1770,6 +1833,8 @@ et:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: Konto on õnnelikult uuendatud.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Vale parool
   notice_account_registered_and_logged_in: Tere, teie konto on aktiveeritud. Teid
     logitakse nüüd sisse.
@@ -2170,6 +2235,7 @@ et:
   setting_mail_handler_api_key: Veebiteenuse API võti
   setting_mail_handler_body_delimiters: Kärbi e-kirja lõpp peale sellist rida
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Projekti looja vaikimisi roll oma loodud projektis
   setting_password_active_rules: Võimaldatud tähemärgid
   setting_password_count_former_banned: Arv kordi kui eelnevalt kasutatud parooli
@@ -2356,8 +2422,13 @@ et:
   text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
     a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
     administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Sa võtad endalt ära osa või kõik õigused ega saa edaspidi seda projekti võib-olla enam muuta.
     Oled sa jätkamises kindel?
@@ -2818,7 +2889,7 @@ et:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Õigused
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2842,16 +2913,3 @@ et:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Eemalda vidin
-  label_and_its_subprojects: "%{value} ja selle alamprojektid"
-  label_my_page_block: Uus blokk
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_search_titles_only: Ainult pealkirjadest
-  label_visible_elements: Visible elements
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

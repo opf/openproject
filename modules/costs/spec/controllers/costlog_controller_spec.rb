@@ -93,7 +93,7 @@ describe CostlogController, type: :controller do
         get :new, params: params
       end
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it_should_behave_like 'assigns'
       it { expect(response).to render_template('edit') }
     end
@@ -157,7 +157,7 @@ describe CostlogController, type: :controller do
         get :edit, params: params
       end
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(assigns(:cost_entry)).to eq(cost_entry) }
       it { expect(assigns(:cost_entry)).not_to be_changed }
       it { expect(response).to render_template('edit') }
@@ -281,8 +281,7 @@ describe CostlogController, type: :controller do
         post :create, params: params
       end
 
-      # is this really usefull, shouldn't it redirect to the creating work_package by default?
-      it { expect(response).to redirect_to(controller: 'costlog', action: 'index', work_package_id: cost_entry.work_package.id) }
+      it { expect(response).to be_redirect }
       it { expect(assigns(:cost_entry)).not_to be_new_record }
       it_should_behave_like 'assigns'
       it { expect(flash[:notice]).to eql('Unit cost logged successfully.') }
@@ -293,7 +292,7 @@ describe CostlogController, type: :controller do
         post :create, params: params
       end
 
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it_should_behave_like 'assigns'
       it { expect(flash[:notice]).to be_nil }
     end
@@ -507,7 +506,7 @@ describe CostlogController, type: :controller do
         put :update, params: params
       end
 
-      it { expect(response).to redirect_to(controller: 'costlog', action: 'index', work_package_id: expected_work_package.id) }
+      it { expect(response).to be_redirect }
       it { expect(assigns(:cost_entry)).to eq(cost_entry) }
       it_should_behave_like 'assigns'
       it { expect(assigns(:cost_entry)).not_to be_changed }
@@ -520,7 +519,7 @@ describe CostlogController, type: :controller do
       end
 
       it_should_behave_like 'assigns'
-      it { expect(response).to be_success }
+      it { expect(response).to be_successful }
       it { expect(flash[:notice]).to be_nil }
     end
 

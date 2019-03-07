@@ -1,6 +1,16 @@
 <div class="work-packages-embedded-view--container loading-indicator--location"
-     [ngClass]="{ '-hierarchy-disabled': !configuration.hierarchyToggleEnabled,  '-compact-tables': compactTableStyle }"
-     [attr.data-indicator-name]="uniqueEmbeddedTableName">
+     [ngClass]="{ '-hierarchy-disabled': !configuration.hierarchyToggleEnabled,
+                  '-compact-tables': compactTableStyle,
+                  '-external-height': externalHeight }"
+     [attr.data-indicator-name]="uniqueEmbeddedTableName"
+      *ngIf="show">
+
+  <ng-container *ngIf="configuration.withFilters">
+    <filter-container [showFilterButton]="configuration.showFilterButton"
+                      [filterButtonText]="configuration.filterButtonText"
+                      (filtersChanged)="onFiltersChanged($event)"></filter-container>
+  </ng-container>
+
   <ng-container *ngIf="tableInformationLoaded">
     <!-- TABLE + TIMELINE horizontal split -->
     <wp-table [projectIdentifier]="projectIdentifier"
@@ -9,7 +19,9 @@
 
     <!-- Footer -->
     <div class="work-packages-split-view--tabletimeline-footer hide-when-print">
-      <wp-table-pagination [hideForSinglePageResults]="true"></wp-table-pagination>
+      <wp-table-pagination [hideForSinglePageResults]="true"
+                           [calculatePerPage]="configuration.forcePerPageOption">
+      </wp-table-pagination>
     </div>
   </ng-container>
   <div class="notification-box -error" *ngIf="error">

@@ -38,6 +38,7 @@ hu:
     button_duplicate: Másolás ide
     button_edit: Szerkesztés
     button_filter: Szűrő
+    button_advanced_filter: Advanced filter
     button_list_view: Lista nézet
     button_show_view: Teljes képernyős nézet
     button_log_time: Eltöltött idő rögzítése
@@ -147,13 +148,41 @@ hu:
     general_text_yes: igen
     general_text_No: Nem
     general_text_Yes: Igen
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Hírek
+          at: at
+          no_results: Semmi új jelenteni való.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Feladatcsoportok, amelyért én vagyok a felelős
+        work_packages_assigned:
+          title: Magamhoz rendelt feladatcsoportok
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Naptár
     label_activate: Aktivál
     label_activity_no: Tevékenységi bejegyzések száma %{activityNo}
     label_activity_with_comment_no: Tevékenységi bejegyzések száma %{activityNo}.
       Felhasználói megjegyzéssel.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Oszlopok hozzáadása
     label_add_comment: Megjegyzés hozzáadása
     label_add_comment_title: "@név beírásával értesíthetsz másokat a hozzászólásodról"
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: A kiválasztott oszlopok hozzáadása
     label_added_by: Hozzáadta
     label_added_time_by: Hozzáadva %{author} %{age}
@@ -211,6 +240,7 @@ hu:
     label_menu_collapse: összecsuk
     label_menu_expand: kibont
     label_more_than_ago: több, nappal ezelőtt
+    label_my_page: Az én oldalam
     label_next: " Következő"
     label_no_data: Nincs megjelenítendő adat
     label_no_due_date: nincs záró dátuma
@@ -229,7 +259,9 @@ hu:
     label_visibility_settings: Láthatósági beállítások
     label_quote_comment: Hozzászólás idézése
     label_reset: Visszaállít, reset
+    label_remove_column: Remove column
     label_remove_columns: Eltávolítja a kijelölt oszlopokat
+    label_remove_row: Remove row
     label_save_as: Mentés másként
     label_select_watcher: Megfigyelők választása...
     label_selected_filter_list: Szűrők választása
@@ -251,6 +283,7 @@ hu:
     label_activity_show_only_comments: Hozzászólással rendelkező tevékenységek mutatása
     label_activity_show_all: Minden tevékenység mutatása
     label_total_progress: "%{percent}% a teljes folyamatban"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: frissítve
     label_warning: Figyelem
     label_work_package: Feladatcsoport
@@ -391,6 +424,10 @@ hu:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Tevékenység
+      comment: Vélemény
+      hours: Óra
     watchers:
       label_loading: megfigyelők betöltése...
       label_error_loading: Hiba történt a megfigyelők betöltése közben
@@ -471,6 +508,7 @@ hu:
     text_query_destroy_confirmation: Biztosan törli a kijelölt megjelenítést?
     text_attachment_destroy_confirmation: Biztosan törli a mellékletet?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt-diagram
       labels:
         title: Címke konfiguráció
@@ -540,15 +578,6 @@ hu:
     tl_toolbar:
       zooms: Nagyítási szint
       outlines: Hierarchia szint
-    unsupported_browser:
-      title: Az ön böngészője nem támogatott
-      message: Az ön által használt böngésző verzióját már nem támogatja az OpenProject.
-        Kérjük frissítse böngészőjét.
-      update_message: Kérjük frissítse a böngészőjét.
-      update_ie_user: Kérjük frissítse böngészőjét Mozilla Firefox, Google Chrome
-        vagy Microsoft Edge-re.
-      learn_more: További információ
-      close_warning: Figyelmeztetés figyelmen kívül hagyása.
     upsale:
       ee_only: Ez csak az Enterprise Edition-ban elérhető
     wiki_formatting:
@@ -596,11 +625,10 @@ hu:
       label_enable_multi_select: Többszörös kijelölés engedélyezése
       label_disable_multi_select: Többszörös kijelölés tiltása
       label_filter_add: Szűrő hozzáadása
+      label_filter_by_text: Filter by text
       label_options: Beállítások
       label_column_multiselect: 'Kombinált legördülő mező: Nyilakkal jelöljön ki,
         enter-el hagyja jóvá, és backspace-vel töröljön'
-      label_switch_to_single_select: Váltás az egyszeri kiválasztásra
-      label_switch_to_multi_select: Váltás a többszörös kiválasztásra
       message_error_during_bulk_delete: Hiba történt a feladatcsoport törlése közben.
       message_successful_bulk_delete: Sikerült törölni a feladatcsoportokat.
       message_successful_show_in_fullscreen: Ide kattintva a munkacsomag részletei
@@ -609,6 +637,7 @@ hu:
       message_work_package_read_only: Ez Feladatcsomag ebben a státuszban zárolt.
         Nem lehet más attribútum segítségével megváltoztatni.
       no_value: Nincs érték
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Ide kattintva adhatsz új munkacsomagot a listához
       create:
@@ -825,7 +854,7 @@ hu:
         messages_on_field: 'Ez a mező érvénytelen: %{messages}'
     error_could_not_resolve_version_name: Nem sikerült a verziószám visszafejtése
     error_could_not_resolve_user_name: Nem sikerült a felhasználó visszafejtése
-    error_attachment_upload: '"%{name}" fájlt nem sikerült feltölteni: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -842,3 +871,13 @@ hu:
     zen_mode:
       button_activate: Zen mód aktiválása
       button_deactivate: Zen mód kikapcsolása
+    global_search:
+      all_projects: In all projects
+      search: Keresés
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

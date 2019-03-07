@@ -108,7 +108,10 @@ class PermittedParams
   end
 
   def group
-    params.require(:group).permit(*self.class.permitted_attributes[:group])
+    permitted_params = params.require(:group).permit(*self.class.permitted_attributes[:group])
+    permitted_params = permitted_params.merge(custom_field_values(:group))
+
+    permitted_params
   end
 
   def group_membership
@@ -128,6 +131,18 @@ class PermittedParams
 
   def member
     params.require(:member).permit(*self.class.permitted_attributes[:member])
+  end
+
+  def oauth_application
+    params.require(:application).permit(*self.class.permitted_attributes[:oauth_application]).tap do |app_params|
+      scopes = app_params[:scopes]
+
+      if scopes.present?
+        app_params[:scopes] = scopes.reject(&:blank?).join(" ")
+      end
+
+      app_params
+    end
   end
 
   def projects_type_ids
@@ -273,7 +288,7 @@ class PermittedParams
   end
 
   def pref
-    params.require(:pref).permit(:hide_mail, :time_zone, :impaired, :theme,
+    params.require(:pref).permit(:hide_mail, :time_zone, :theme,
                                  :comments_sorting, :warn_on_leaving_unsaved,
                                  :auto_hide_popups)
   end
@@ -437,7 +452,7 @@ class PermittedParams
           name
           host
           port
-          tls
+          tls_mode
           account
           account_password
           base_dn
@@ -547,6 +562,13 @@ class PermittedParams
           # attributes unique to :new_work_package
           :journal_notes,
           :lock_version],
+        oauth_application: [
+          :name,
+          :redirect_uri,
+          :confidential,
+          :client_credentials_user_id,
+          scopes: []
+        ],
         project_type: [
           :name,
           type_ids: []],
@@ -566,8 +588,6 @@ class PermittedParams
           offset
           previous
           scope
-          all_words
-          titles_only
           work_packages
           news
           changesets

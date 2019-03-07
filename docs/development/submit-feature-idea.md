@@ -2,8 +2,8 @@
 
 ## How to submit a feature idea?
 
-1. Login to the [OpenProject community platform](https://community.openproject.com/login)
-2. Open the [feature create form](https://community.openproject.com/projects/openproject/work_packages/create_new?type=6)
+1. Login to the [OpenProject community platform](https://community.openproject.com/login).
+2. Open the [feature create form](https://community.openproject.com/projects/openproject/work_packages/create_new?type=6).
 3. Add a subject and detailed description.
 4. Attach a file (optional).
 5. Set version to "Wish List".

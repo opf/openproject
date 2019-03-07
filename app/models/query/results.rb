@@ -131,9 +131,12 @@ class ::Query::Results
 
   def order_option
     order_option = [group_by_sort_order].reject(&:blank?).join(', ')
-    order_option = nil if order_option.blank?
 
-    order_option
+    if order_option.blank?
+      nil
+    else
+      Arel.sql(order_option)
+    end
   end
 
   private
@@ -162,7 +165,7 @@ class ::Query::Results
     WorkPackage
       .group(query.group_by_statement)
       .visible
-      .includes(:status, :project)
+      .includes(all_includes)
       .references(:statuses, :projects)
       .where(query.statement)
       .count
@@ -231,7 +234,7 @@ class ::Query::Results
     criteria = SortHelper::SortCriteria.new
     criteria.available_criteria = aliased_sorting_by_column_name
     criteria.criteria = query.sort_criteria
-    criteria.to_a
+    criteria.map_each { |criteria| criteria.map { |raw| Arel.sql raw } }
   end
 
   def aliased_sorting_by_column_name

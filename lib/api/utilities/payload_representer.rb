@@ -116,7 +116,7 @@ module API
       private
 
       def contract_class(represented)
-        return nil unless represented && represented.respond_to?(:new_record?)
+        return nil unless represented&.respond_to?(:new_record?)
 
         contract_namespace = represented.class.name.pluralize
 

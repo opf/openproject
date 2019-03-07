@@ -1,9 +1,8 @@
 require 'spec_helper'
 
-require 'features/work_packages/work_packages_page'
-require 'support/work_packages/work_package_field'
-
 describe 'Watcher tab', js: true, selenium: true do
+  include ::Components::NgSelectAutocompleteHelpers
+
   let(:project) { FactoryBot.create(:project) }
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
@@ -51,8 +50,6 @@ describe 'Watcher tab', js: true, selenium: true do
   end
 
   shared_examples 'watchers tab' do
-    include_context 'ui-autocomplete helpers'
-
     before do
       login_as(user)
       wp_page.visit_tab! :watchers
@@ -65,7 +62,6 @@ describe 'Watcher tab', js: true, selenium: true do
       autocomplete = find('.wp-watcher--autocomplete')
       select_autocomplete autocomplete,
                           query: user.firstname,
-                          results_selector: '.wp-watchers-autocomplete--results',
                           select_text: user.name
 
       # Expect the addition of the user to toggle WP watch button
@@ -98,11 +94,10 @@ describe 'Watcher tab', js: true, selenium: true do
       it 'escapes the user name' do
         autocomplete = find('.wp-watcher--autocomplete')
         target_dropdown = search_autocomplete autocomplete,
-                                              results_selector: '.wp-watchers-autocomplete--results',
                                               query: 'foo'
 
-        expect(target_dropdown).to have_selector(".ui-menu-item", text: html_user.firstname)
-        expect(target_dropdown).to have_no_selector(".ui-menu-item em")
+        expect(target_dropdown).to have_selector(".ng-option", text: html_user.firstname)
+        expect(target_dropdown).to have_no_selector(".ng-option em")
       end
     end
 

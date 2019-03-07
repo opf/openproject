@@ -38,6 +38,7 @@ da:
     button_duplicate: Lav dublet
     button_edit: Rediger
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Listevisning
     button_show_view: Fuldskærmsvisning
     button_log_time: Tidsregistrering
@@ -146,13 +147,41 @@ da:
     general_text_yes: ja
     general_text_No: Nej
     general_text_Yes: Ja
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Nyheder
+          at: at
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Mine tilknyttede arbejdspakker
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalender
     label_activate: Aktiver
     label_activity_no: Aktivitetsindlægsnummer %{activityNo}
     label_activity_with_comment_no: Aktivitetsindlægsnummer %{activityNo}. Har en
       brugerkommentar.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Add columns
     label_add_comment: Tilføj kommentar
     label_add_comment_title: Comment and type @ to notify other people
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Tilføj valgte kolonner
     label_added_by: tilføjet af
     label_added_time_by: Tilføjet af %{author} %{age}
@@ -210,6 +239,7 @@ da:
     label_menu_collapse: Fold menu sammen
     label_menu_expand: Fold menu ud
     label_more_than_ago: mere end dage siden
+    label_my_page: Min side
     label_next: Næste
     label_no_data: Ingen data at vise
     label_no_due_date: ingen slutdato
@@ -228,7 +258,9 @@ da:
     label_visibility_settings: Visibility settings
     label_quote_comment: Citér denne kommentar
     label_reset: Nulstil
+    label_remove_column: Remove column
     label_remove_columns: Fjern valgte kolonner
+    label_remove_row: Remove row
     label_save_as: Gem som
     label_select_watcher: Vælg en tilsynsførende...
     label_selected_filter_list: Valgte filtre
@@ -250,6 +282,7 @@ da:
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: 'Samlet fremskridt: %{percent}%'
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: opdateret d.
     label_warning: Advarsel
     label_work_package: Arbejdspakke
@@ -389,6 +422,10 @@ da:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Aktivitet
+      comment: Kommentar
+      hours: Timer
     watchers:
       label_loading: indlæser iagttagere...
       label_error_loading: En fejl opstod under indlæsning af seere
@@ -471,6 +508,7 @@ da:
       view?
     text_attachment_destroy_confirmation: Sikker på, at du vil slette vedhæftningen?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -539,14 +577,6 @@ da:
     tl_toolbar:
       zooms: Zoomniveau
       outlines: Niveau i hieraki
-    unsupported_browser:
-      title: Din version af browseren understøttes ikke
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Få mere at vide
-      close_warning: Ignore this warning.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -594,11 +624,10 @@ da:
       label_enable_multi_select: Tillad multimarkeringer
       label_disable_multi_select: Slå multimarkeringer fra
       label_filter_add: Tilføj filter
+      label_filter_by_text: Filter by text
       label_options: Muligheder
       label_column_multiselect: 'Kombineret rullegardinfelt: Vælg med piletaster,
         bekræft valg med ''Enter'' slet med ''Backspace'''
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: En fejl opstod under forsøg på at slette arbejdspakker.
       message_successful_bulk_delete: Slettet arbejdspakker med succes.
       message_successful_show_in_fullscreen: Click here to open this work package
@@ -607,6 +636,7 @@ da:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Ingen værdi tildelt
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Click here to add a new work package to this list
       create:
@@ -822,7 +852,7 @@ da:
         messages_on_field: 'Dette felt er ugyldigt: %{messages}'
     error_could_not_resolve_version_name: Kunne ikke fastslå versionsnavn
     error_could_not_resolve_user_name: Kunne ikke finde brugernavnet
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -839,3 +869,13 @@ da:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    global_search:
+      all_projects: In all projects
+      search: Søg
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

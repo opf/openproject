@@ -57,6 +57,22 @@ ro:
     index:
       no_results_content_title: În acest moment nu există moduri de autentificare.
       no_results_content_text: Creare mod de autentificare nou
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: niciunul
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: În acest moment nu există mesaje pentru acest forum.
@@ -107,6 +123,10 @@ ro:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: În acest moment nu există grupuri.
@@ -117,7 +137,21 @@ ro:
     memberships:
       no_results_title_text: În acest moment nu există proiecte care să facă parte
         din acest grup.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: În acest moment nu există proiecte
       no_results_content_text: Creare proiect nou
@@ -214,6 +248,8 @@ ro:
       one: One descendant work package
       other: "%{count} work package descendants"
       few: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -356,6 +392,11 @@ ro:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Număr maxim de utilizatori activi
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Întârziere
         from: Pachet de lucru
@@ -446,6 +487,14 @@ ro:
         time_entries: Consum timp
         type: Tip
         watcher: Observator
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: trebuie acceptat.
@@ -502,8 +551,22 @@ ro:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -637,6 +700,7 @@ ro:
       wiki_page: Pagină wiki
       workflow: Flux de lucru
       work_package: Pachet de lucru
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'Există probleme cu următoarele câmpuri:'
     field_erroneous_label: |-
@@ -712,6 +776,7 @@ ro:
   button_change_password: Modificare parolă
   button_check_all: Selectează tot
   button_clear: Inițializare
+  button_click_to_reveal: Click to reveal
   button_close: Închide
   button_collapse_all: Restrângere totală
   button_configure: Configurare
@@ -739,9 +804,9 @@ ro:
   button_print: Tipărește
   button_quote: Citare
   button_remove: Eliminare
-  button_remove_widget: Elimină secțiune
   button_rename: Redenumire
   button_replace: Replace
+  button_revoke: Revoke
   button_reply: Răspuns
   button_reset: Resetare
   button_rollback: Revenire la această versiune
@@ -1180,7 +1245,6 @@ ro:
   label_all_open_wps: All open
   label_always_visible: Afișat permanent
   label_announcement: Anunţ
-  label_and_its_subprojects: "%{value} şi subproiectele sale"
   label_api_access_key: Cheie de acces API
   label_api_access_key_created_on: Cheia de acces creată acum %{value}
   label_api_access_key_type: API
@@ -1313,6 +1377,7 @@ ro:
   label_environment: Mediu
   label_estimates_and_time: Estimates and time
   label_equals: este
+  label_everywhere: everywhere
   label_example: Exemplu
   label_export_to: 'Disponibil și în:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
@@ -1350,6 +1415,7 @@ ro:
   label_history: Istoric
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Pagina de start
+  label_subject_or_id: Subject or ID
   label_in: în
   label_in_less_than: în mai puțin de
   label_in_more_than: în mai mult de
@@ -1423,7 +1489,6 @@ ro:
   label_my_account: Contul meu
   label_my_account_data: Datele din contul meu
   label_my_page: Pagina mea
-  label_my_page_block: Bloc pentru pagina mea
   label_my_projects: Proiectele mele
   label_my_queries: Interogările mele
   label_never: Niciodată
@@ -1532,7 +1597,6 @@ ro:
   label_repository_plural: Repo-uri
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Rezultate
   label_reverse_chronological_order: În ordine invers cronologică
   label_revision: Revizie
@@ -1549,7 +1613,6 @@ ro:
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: Căutare
-  label_search_titles_only: Căutare doar în titluri
   label_send_information: Trimite utilizatorului informațiile despre cont
   label_send_test_email: Trimite e-mail de test
   label_settings: Setări
@@ -1632,6 +1695,7 @@ ro:
   label_view_diff: Afișare diferențe
   label_view_revisions: Afișare revizii
   label_watched_work_packages: Pachete de lucru urmărite
+  label_what_is_this: What is this?
   label_week: Săptămână
   label_wiki_content_added: Pagină wiki adăugată
   label_wiki_content_updated: Pagină wiki actualizată
@@ -1734,7 +1798,6 @@ ro:
     în cadrul anumitor liste)
   label_keyboard_shortcut_focus_next_item: Focalizare pe elementul următor (doar în
     cadrul anumitor liste)
-  label_visible_elements: Elemente vizibile
   auth_source:
     using_abstract_auth_source: Nu poate fi folosită o sursă de autentificare abstractă.
     ldap_error: 'Eroare LDAP: %{error_message}'
@@ -1816,6 +1879,8 @@ ro:
   notice_account_update_failed: Setările contului nu au putut fi salvate. Vă rugăm
     să verificați datele din cont.
   notice_account_updated: Contul a fost actualizat cu succes.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Parolă greşită
   notice_account_registered_and_logged_in: Bun venit, contul a fost activat. Sunteți
     autentificat.
@@ -2231,6 +2296,7 @@ ro:
     linii
   setting_mail_handler_body_delimiter_regex: Trunchiaţi email-uri care se potrivesc
     cu acest regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rol atribuit unui utilizator non-administrator
     care crează un proiect
   setting_password_active_rules: Clase de caractere active
@@ -2425,8 +2491,13 @@ ro:
   text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
     a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
     administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: "Sunteţi cale de a elimina unele sau toate
     permisiunile şi e posibil să nu mai puteți edita acest proiect după aceea. \nSunteţi
     sigur că doriţi să continuaţi?"
@@ -2854,8 +2925,8 @@ ro:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Vă rugăm să actualizaţi browser-ul.
+    close_warning: Ignoră acest avertisment.
   oauth:
     application:
       singular: OAuth application
@@ -2901,13 +2972,14 @@ ro:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Drepturi
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      few: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2925,16 +2997,3 @@ ro:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Elimină secțiune
-  label_and_its_subprojects: "%{value} şi subproiectele sale"
-  label_my_page_block: Bloc pentru pagina mea
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_search_titles_only: Căutare doar în titluri
-  label_visible_elements: Elemente vizibile
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

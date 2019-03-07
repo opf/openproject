@@ -55,7 +55,7 @@ Web sites should be:
 ## 3. Understandable - Content and interface are understandable
 
 ### 3.1. Texts
-* The language of the page is identified using the HTML lang attribute (<html lang="en">, for example).
+* The language of the page is identified using the HTML lang attribute (`<html lang="en">`, for example).
 * Words that may be ambiguous, unknown, or used in a very specific way are defined through adjacent text, a definition list, a glossary, or other suitable method.
 
 ### 3.2. Predictable

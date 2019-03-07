@@ -53,7 +53,7 @@ import {HttpErrorResponse} from "@angular/common/http/src/response";
 })
 export class UploadProgressComponent implements OnInit, OnDestroy {
   @Input() public upload:UploadInProgress;
-  @Output() public onError = new EventEmitter<string>();
+  @Output() public onError = new EventEmitter<HttpErrorResponse>();
   @Output() public onSuccess = new EventEmitter<undefined>();
 
   public file:UploadFile;
@@ -93,7 +93,7 @@ export class UploadProgressComponent implements OnInit, OnDestroy {
               return;
           }
         },
-        (error:HttpErrorResponse) => this.handleError(error, this.file)
+        (error:HttpErrorResponse) => this.handleError(error)
       );
   }
 
@@ -113,20 +113,9 @@ export class UploadProgressComponent implements OnInit, OnDestroy {
     }
   }
 
-  private handleError(error:HttpErrorResponse, file:UploadFile) {
-    let message:string;
-
-    console.error("Error while uploading: %O", error);
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred.
-      message = this.I18n.t('js.error_attachment_upload', {name: file.name, error: error});
-    } else {
-      // The backend returned an unsuccessful response code.
-      message = error.error;
-    }
-
+  private handleError(error:HttpErrorResponse) {
     this.error = true;
-    this.onError.emit(message);
+    this.onError.emit(error);
   }
 }
 

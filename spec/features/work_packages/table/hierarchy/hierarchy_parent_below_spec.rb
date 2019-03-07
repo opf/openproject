@@ -92,4 +92,53 @@ describe 'Work Package table hierarchy parent below', js: true do
       wp_table.expect_work_package_order(child.id, grandparent.id)
     end
   end
+
+  describe 'grand-parent of 2+ children visible anywhere on the page, but parent is not (Regression #29652)' do
+    let(:child) { FactoryBot.create(:work_package, subject: 'AA Child WP', project: project, type: type_task) }
+    let(:child2) { FactoryBot.create(:work_package, subject: 'BB Child WP', project: project, type: type_task) }
+    let(:parent) { FactoryBot.create(:work_package, subject: 'ZZ Parent WP', project: project, type: type_task) }
+    let(:grandparent) { FactoryBot.create(:work_package, subject: 'Grandparent', project: project, type: type_task) }
+
+    let(:query) do
+      query              = FactoryBot.build(:query, user: user, project: project)
+      query.column_names = %w(id subject)
+      query.sort_criteria = [%w(subject asc)]
+      query.show_hierarchies = true
+
+      query.save!
+      query
+    end
+
+    before do
+      child
+      parent
+      grandparent
+
+      child.update(parent_id: parent.id)
+      child2.update(parent_id: parent.id)
+      parent.update(parent_id: grandparent.id)
+
+      allow(Setting).to receive(:per_page_options).and_return '3'
+      query
+    end
+
+    it 'shows hierarchy correctly' do
+      wp_table.visit_query query
+
+      wp_table.expect_work_package_listed(child, child2, parent, grandparent)
+
+      # Expect pagination to be correct
+      expect(page).to have_selector('.pagination--item.-current', text: '3')
+
+      # Expect count to be correct (one additional parent shown)
+      expect(page).to have_selector('.wp-table--row', count: 4)
+
+      # Double order result from regression
+      wp_table.expect_work_package_order(grandparent.id, parent.id, child.id, child2.id)
+
+      # Enable hierarchy mode, should sort according to spec above
+      hierarchy.expect_hierarchy_at(grandparent, parent)
+      hierarchy.expect_leaf_at(child, child2)
+    end
+  end
 end

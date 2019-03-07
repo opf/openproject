@@ -20,43 +20,34 @@ export class WorkPackageFilterValues {
   }
 
   public applyDefaultsFromFilters() {
-    return this.changeset.getForm().then((form) => {
-      const promises:Promise<any>[] = [];
-      _.each(this.filters, filter => {
-        // Ignore any filters except =
-        if (filter.operator.id !== '=') {
-          return;
-        }
+    _.each(this.filters, filter => {
+      // Ignore any filters except =
+      if (filter.operator.id !== '=') {
+        return;
+      }
 
-        // Exclude filters specified in constructor
-        if (this.excluded.indexOf(filter.id) !== -1) {
-          return;
-        }
+      // Exclude filters specified in constructor
+      if (this.excluded.indexOf(filter.id) !== -1) {
+        return;
+      }
 
-        // Select the first value
-        var value = filter.values[0];
+      // Select the first value
+      let value = filter.values[0];
 
-        // Avoid empty values
-        if (!value) {
-          return;
-        }
-
-        promises.push(this.setAllowedValueFor(form, filter.id, value));
-      });
-
-      return Promise.all(promises);
+      // Avoid empty values
+      if (value) {
+        this.setValueFor(filter.id, value);
+      }
     });
   }
 
-  private setAllowedValueFor(form:FormResource, field:string, value:string|HalResource) {
-    return this.allowedValuesFor(form, field).then((allowedValues) => {
-      let newValue = this.findSpecialValue(value, field) || this.findAllowedValue(value, allowedValues);
+  private setValueFor(field:string, value:string|HalResource) {
+    let newValue = this.findSpecialValue(value, field) || value;
 
-      if (newValue) {
-        this.changeset.setValue(field, newValue);
-        this.changeset.workPackage[field] = newValue;
-      }
-    });
+    if (newValue) {
+      this.changeset.setValue(field, newValue);
+      this.changeset.workPackage[field] = newValue;
+    }
   }
 
   /**
@@ -74,34 +65,5 @@ export class WorkPackageFilterValues {
     }
 
     return undefined;
-  }
-
-  private findAllowedValue(value:string|HalResource, allowedValues:HalResource[]) {
-    if (value instanceof HalResource && !!value.$href) {
-      return _.find(allowedValues,
-        (entry:any) => entry.$href === value.$href);
-    } else if (allowedValues) {
-      return _.find(allowedValues, (entry:any) => entry === value);
-    } else {
-      return value;
-    }
-  }
-
-  private allowedValuesFor(form:FormResource, field:string):Promise<HalResource[]> {
-    const fieldSchema = form.schema[field];
-
-    return new Promise<HalResource[]>(resolve => {
-      if (!fieldSchema) {
-        resolve([]);
-      } else if (fieldSchema.allowedValues && fieldSchema.allowedValues['$load']) {
-        let allowedValues = fieldSchema.allowedValues;
-
-        return allowedValues.$load().then((loadedValues:CollectionResource) => {
-          resolve(loadedValues.elements);
-        });
-      } else {
-        resolve(fieldSchema.allowedValues);
-      }
-    });
   }
 }

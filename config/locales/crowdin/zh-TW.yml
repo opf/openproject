@@ -45,6 +45,22 @@ zh-TW:
     index:
       no_results_content_title: 目前沒有身份驗證模式
       no_results_content_text: 建立新身分驗證模式
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: 無
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: 目前沒有任何貼文在板上
@@ -89,6 +105,10 @@ zh-TW:
       further_information_after: ''
     calendar:
       removal: 請注意：此模組將會在 OpenProject 8.0 中被移除。
+  global_search:
+    overwritten_tabs:
+      wiki_pages: 維基
+      messages: 討論區
   groups:
     index:
       no_results_title_text: 目前沒有群組
@@ -97,7 +117,19 @@ zh-TW:
       no_results_title_text: 目前沒有使用者在這個群組
     memberships:
       no_results_title_text: 目前沒有專案在這個群組
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
+    delete:
+      scheduled: 刪除已經排程並且會在背景執行。你將會收到結果通知。
+      schedule_failed: '專案無法刪除: %{errors}'
+      failed: 專案 %{name} 的刪除失敗
+      failed_text: 刪除專案 %{name} 的請求失敗。該專案已封存。
+      completed: 專案 %{name} 已完成刪除
+      completed_text: 刪除專案 "%{name}" 的請求已經完成。
     index:
       no_results_title_text: 目前沒有專案
       no_results_content_text: 建立新專案
@@ -172,9 +204,9 @@ zh-TW:
       edit_query: 編輯表格
       query_group_placeholder: 給表格命名
       reset: 重設為預設值
-      type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+      type_color_text: '點擊來指定或變更工作項目類型的顏色。被選取的顏色將在甘特圖中用來區別工作項目。
+
+'
   versions:
     overview:
       no_results_title_text: 目前沒有工作包分配給此版本。
@@ -188,10 +220,11 @@ zh-TW:
   work_packages:
     x_descendants:
       one: One descendant work package
-      other: "%{count} work package descendants"
+      other: "%{count} 個子工作項目"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
-      no_common_statuses_exists: There is no status available for all selected work
-        packages. Their status cannot be changed.
+      no_common_statuses_exists: 被選取的工作項目沒有可用的狀態。他們的狀態不可以變更。
       unsupported_for_multiple_projects: 工作項目不支援從多個專案的大區塊的移動/複製
     list_simple:
       assigned:
@@ -302,6 +335,11 @@ zh-TW:
         subscriber: 訂閱者
         encoded_token: Enterprise support token
         active_user_count_restriction: 最大活動使用者數
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: 延時
         from: 工作項目
@@ -339,7 +377,7 @@ zh-TW:
         type: 類型
       type:
         attribute_groups: ''
-        is_in_roadmap: Displayed in roadmap by default
+        is_in_roadmap: 在 RoadMap 預設為顯示
         is_default: 新專案的預設啟動類型
         is_milestone: 是里程碑
         color: 顏色
@@ -390,6 +428,14 @@ zh-TW:
         time_entries: 日誌的時間
         type: 類型
         watcher: 監看者
+      doorkeeper/application:
+        uid: 用戶端 ID
+        secret: 用戶端密鑰
+        owner: 擁有者
+        redirect_uri: 轉址 uri
+        client_credentials_user_id: 用戶端憑證使用者 id
+        scopes: 範圍
+        confidential: 機密的
     errors:
       messages:
         accepted: 必須被接受
@@ -419,7 +465,7 @@ zh-TW:
         not_a_date: 不是有效的日期。
         not_a_datetime: 不是有效的日期時間。
         not_a_number: 不是數字
-        not_allowed: is invalid because of missing permissions.
+        not_allowed: 是無效的因為缺少權限
         not_an_integer: 不是整數
         not_an_iso_date: 不是有效日期。所需格式：YYYY-MM-DD。
         not_same_project: 不屬於相同的專案
@@ -438,13 +484,26 @@ zh-TW:
           only_one_allowed: "(%{name}) 只允許一個值。"
           empty: "(%{name}) 不可以為空值。"
           inclusion: "(%{name}) 沒有被設定為一個允許的值。"
-          not_logged_in: "(%{name}) value cannot be set because you are not logged
-            in."
+          not_logged_in: "(%{name}) 的值不可以被設定，因為你還沒有登入。"
           not_an_integer: "(%{name}) 不是一個整數。"
           smaller_than_or_equal_to: "(%{name}) 必須小於等於 %{count}。"
           greater_than_or_equal_to: "(%{name}) 必須大於等於 %{count}。"
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: 不能包含片段。
+              invalid_uri: 必須是有效的 uri。
+              relative_uri: 必須是絕對 uri。
+              secured_uri: 必須是 HTTPS/SSL uri。
+              forbidden_uri: 被伺服器禁止。
+            scopes:
+              not_match_configured: 與可用的範圍不吻合。
         enterprise_token:
           unreadable: 無法讀取，確定是一個 support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -497,8 +556,7 @@ zh-TW:
               status_transition_invalid: 無效，因為目前使用者的角色沒有從舊狀態到新狀態的有效過度狀態
               status_invalid_in_type: 無效, 因為此類型中不存在目前狀態。
             type:
-              cannot_be_milestone_due_to_children: cannot be a milestone because this
-                work package has children.
+              cannot_be_milestone_due_to_children: 不可以是 MileStone 因為這個工作項目有子項目。
             priority_id:
               only_active_priorities_allowed: 需要被啟用
             category:
@@ -511,7 +569,7 @@ zh-TW:
             attribute_groups:
               attribute_unknown: 使用了無效的工作包屬性。
               duplicate_group: 群組名稱 %{group} 已被使用，群組名稱不可重複。
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              query_invalid: '這個遷入的查詢 ''%{group}'' 是無效的: %{details}'
               group_without_name: 不允許未命名的群組。
         user:
           attributes:
@@ -564,6 +622,7 @@ zh-TW:
       wiki_page: 維基頁面
       workflow: 工作流程
       work_package: 工作項目
+      doorkeeper/application: Oauth 應用程式
   errors:
     header_invalid_fields: '以下的欄位有問題:'
     field_erroneous_label: |-
@@ -612,7 +671,7 @@ zh-TW:
     password: 密碼
     priority: 優先等級
     project: 專案
-    responsible: Accountable
+    responsible: 可信賴的
     role: 角色
     roles: 角色
     start_date: 起始日期
@@ -639,6 +698,7 @@ zh-TW:
   button_change_password: 變更密碼
   button_check_all: 勾選全部
   button_clear: 清除
+  button_click_to_reveal: 點擊顯示
   button_close: 關閉
   button_collapse_all: 全部摺疊
   button_configure: 設定
@@ -666,9 +726,9 @@ zh-TW:
   button_print: 列印
   button_quote: 引言
   button_remove: 刪除
-  button_remove_widget: 移除元件
   button_rename: 重新命名
   button_replace: 取代
+  button_revoke: 撤銷
   button_reply: 回應
   button_reset: 重置
   button_rollback: 回復到此版本
@@ -908,8 +968,7 @@ zh-TW:
   enumeration_system_activity: 系統活動
   enumeration_reported_project_statuses: 報告的專案狀態
   error_auth_source_sso_failed: 單一登入 (SSO) 使用者 '%{value}' 失敗
-  error_can_not_archive_project: 'This project cannot be archived: There is at least
-    one work package assigned to a version defined in this project.'
+  error_can_not_archive_project: 這個專案不能被封存。至少有一個工作項目被指派至這個專案的某一個版本中。
   error_can_not_delete_entry: 無法刪除項目
   error_can_not_delete_custom_field: 無法刪除自訂欄位
   error_can_not_delete_type: 這個類型還有工作項目在使用，無法刪除。
@@ -927,12 +986,10 @@ zh-TW:
   error_invalid_group_by: 無法按照 %{value} 分組
   error_invalid_query_column: 無效的查詢欄：%{value}
   error_invalid_sort_criterion: 無法按照 %{value} 排序
-  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
+  error_journal_attribute_not_present: Journal 不含有屬性 %{attribute}。
   error_pdf_export_too_many_columns: 為 PDF 匯出選擇的列太多。請減少列數。
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
-    you try to submit data on multiple browsers or tabs? Please close all tabs and
-    try again.
+  error_pdf_failed_to_export: '無法保存 pdf 匯出: %{error}'
+  error_token_authenticity: 無法驗證跨網域請求權杖。你是不是試圖在多個瀏覽器或者分頁上傳送資料？請關閉所有的分頁後再試一次。
   error_work_package_done_ratios_not_updated: 工作項目完成比例未更新
   error_work_package_not_found_in_project: 工作項目找不到或是不屬於這個專案
   error_must_be_project_member: 必須是專案的成員
@@ -973,8 +1030,8 @@ zh-TW:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: 有說明的 PDF 檔
-      pdf_with_descriptions_and_attachments: PDF with descriptions and attachments
-      pdf_with_attachments: PDF with attachments
+      pdf_with_descriptions_and_attachments: 帶有說明和附件的 pdf
+      pdf_with_attachments: 帶有附件的 pdf
   extraction:
     available:
       pdftotext: Pdftotext 可用 (非必要)
@@ -1061,7 +1118,6 @@ zh-TW:
   label_all_open_wps: 全部打開
   label_always_visible: 總是顯示
   label_announcement: 公告
-  label_and_its_subprojects: "%{value} 與它的子專案"
   label_api_access_key: API金鑰
   label_api_access_key_created_on: API金鑰在 %{value} 以前被建立
   label_api_access_key_type: API
@@ -1193,6 +1249,7 @@ zh-TW:
   label_environment: 環境
   label_estimates_and_time: 預估成本和時間
   label_equals: 是
+  label_everywhere: 全部
   label_example: 範例
   label_export_to: 也可匯出成
   label_expanded_click_to_collapse: 已擴大。按一下可折疊
@@ -1229,6 +1286,7 @@ zh-TW:
   label_history: 歷史
   label_hierarchy_leaf: 頁面結構頁
   label_home: Home
+  label_subject_or_id: 主旨或 id
   label_in: 在
   label_in_less_than: 少於
   label_in_more_than: 多於
@@ -1302,7 +1360,6 @@ zh-TW:
   label_my_account: 我的帳號
   label_my_account_data: 我的帳號資料
   label_my_page: 我的首頁
-  label_my_page_block: 我的首頁區塊
   label_my_projects: 我的專案
   label_my_queries: 我的自訂查詢
   label_never: 永不
@@ -1409,7 +1466,6 @@ zh-TW:
   label_repository_plural: Repositories
   label_required: 必要
   label_requires: 要求
-  label_responsible_for_work_packages: 我負責的工作項目
   label_result_plural: 結果
   label_reverse_chronological_order: 在反序排列
   label_revision: 修訂
@@ -1426,7 +1482,6 @@ zh-TW:
   label_role_search: 為新成員分配角色
   label_scm: SCM
   label_search: 搜尋
-  label_search_titles_only: 僅搜尋標題
   label_send_information: 傳送帳號資訊給使用者
   label_send_test_email: 發送測試電子郵件
   label_settings: 設定
@@ -1506,6 +1561,7 @@ zh-TW:
   label_view_diff: 檢視差異
   label_view_revisions: 檢視修訂
   label_watched_work_packages: 監看的工作項目
+  label_what_is_this: What is this?
   label_week: 週
   label_wiki_content_added: 維基頁面已新增
   label_wiki_content_updated: 維基頁面已更新
@@ -1596,7 +1652,6 @@ zh-TW:
   label_keyboard_shortcut_go_preview: 前往預覽目前編輯的項目 (只在詳細資訊頁面)
   label_keyboard_shortcut_focus_previous_item: 停駐在前一個清單元素 (只在某些清單)
   label_keyboard_shortcut_focus_next_item: 停駐在下一個清單元素 (只在某些清單)
-  label_visible_elements: 可見的元素
   auth_source:
     using_abstract_auth_source: 不能使用抽象的認證來源
     ldap_error: 'LDAP 錯誤: %{error_message}'
@@ -1604,7 +1659,7 @@ zh-TW:
   macro_execution_error: 執行巨集 (%{macro_name}) 錯誤
   macro_unavailable: 巨集 "%{macro_name}" 無法顯示
   macros:
-    placeholder: "[Placeholder] Macro %{macro_name}"
+    placeholder: "[Placeholder] 巨集 %{macro_name}"
     errors:
       missing_or_invalid_parameter: 丟失或無效的宏參數。
     legacy_warning:
@@ -1663,6 +1718,8 @@ zh-TW:
   notice_account_unknown_email: 未知的使用者
   notice_account_update_failed: 無法儲存帳戶設置。請檢查您的帳戶頁面。
   notice_account_updated: 帳號更新成功。
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: 密碼錯誤
   notice_account_registered_and_logged_in: 歡迎，您的帳號已被啟用。您現在已經登入了。
   notice_activation_failed: 這個帳號無法被啟用
@@ -1790,7 +1847,7 @@ zh-TW:
   permission_move_work_packages: 移動工作項目
   permission_protect_wiki_pages: 專案維基頁面
   permission_rename_wiki_pages: 重新命名維基頁面
-  permission_save_queries: Save views
+  permission_save_queries: 保存視圖
   permission_select_project_modules: 選擇專案的模組
   permission_manage_types: 選擇類型
   permission_view_calendar: 檢視行事曆
@@ -2016,6 +2073,7 @@ zh-TW:
   setting_mail_handler_api_key: API 金鑰
   setting_mail_handler_body_delimiters: 在這些行之後截斷電子郵件
   setting_mail_handler_body_delimiter_regex: 清空符合正規表達式的電子郵件
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: 非管理員用户新建專案時將被赋予的（在該專案中的）角色
   setting_password_active_rules: 啟用字元類別
   setting_password_count_former_banned: 禁止重複使用最近被使用的密碼次數
@@ -2025,7 +2083,7 @@ zh-TW:
   setting_per_page_options: 每頁顯示項目個數的設置
   setting_plain_text_mail: 純文字郵件（不含 HTML）
   setting_protocol: Protocol
-  setting_security_badge_displayed: Display security badge
+  setting_security_badge_displayed: 顯示安全徽章
   setting_registration_footer: 註冊頁腳
   setting_repositories_automatic_managed_vendor: 自動版本控制類型
   setting_repositories_encodings: 儲存庫編碼
@@ -2146,7 +2204,7 @@ zh-TW:
   text_work_packages_ref_in_commit_messages: 在提交訊息中引用和修復工作項目
   text_journal_added: "%{label} %{value} 已增加"
   text_journal_aggregation_time_explanation: 合併日誌顯示，如果他們的建立時間差小於某固定時間。這也會減慢郵件通知相同時間。
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} 從 %{old} <br/><strong>變成</strong> %{new}"
   text_journal_changed_plain: "%{label} 從 %{old} 改為 %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_changed_with_diff: "%{label} 已改變 (%{link})"
@@ -2169,8 +2227,13 @@ zh-TW:
   text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
     a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
     administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     您將要刪除部分或全部權限, 之後可能無法再編輯此專案。
     是否要繼續？
@@ -2195,8 +2258,7 @@ zh-TW:
   text_user_invited: 這個使用者已經被邀請而且正在等待註冊。
   text_user_wrote: "%{value} 寫道："
   text_warn_on_leaving_unsaved: 若離開當前頁面，則此工作包內未儲存的內容將遺失。
-  text_what_did_you_change_click_to_add_comment: What did you change? Click to add
-    comment
+  text_what_did_you_change_click_to_add_comment: 你改變了甚麼？點擊來新增說明
   text_wiki_destroy_confirmation: 您是否確定要刪除此 wiki 和它所有的內容？
   text_wiki_page_destroy_children: 刪除子頁面和所有他們的派生頁面
   text_wiki_page_destroy_question: 此頁有 %{descendants} 子頁面和派生頁面。您想進行何種操作？
@@ -2512,71 +2574,52 @@ zh-TW:
       schema: 架構
   doorkeeper:
     pre_authorization:
-      status: Pre-authorization
+      status: 提前授權
     errors:
       messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
-        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
-          client redirect URI.
-        unauthorized_client: The client is not authorized to perform this request
-          using this method.
-        access_denied: The resource owner or authorization server denied the request.
-        invalid_scope: The requested scope is invalid, unknown, or malformed.
-        invalid_code_challenge_method: The code challenge method must be plain or
-          S256.
-        server_error: The authorization server encountered an unexpected condition
-          which prevented it from fulfilling the request.
-        temporarily_unavailable: The authorization server is currently unable to handle
-          the request due to a temporary overloading or maintenance of the server.
-        credential_flow_not_configured: Resource Owner Password Credentials flow failed
-          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
-        resource_owner_authenticator_not_configured: Resource Owner find failed due
-          to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
-        admin_authenticator_not_configured: Access to admin panel is forbidden due
-          to Doorkeeper.configure.admin_authenticator being unconfigured.
-        unsupported_response_type: The authorization server does not support this
-          response type.
-        invalid_client: Client authentication failed due to unknown client, no client
-          authentication included, or unsupported authentication method.
-        invalid_grant: The provided authorization grant is invalid, expired, revoked,
-          does not match the redirection URI used in the authorization request, or
-          was issued to another client.
-        unsupported_grant_type: The authorization grant type is not supported by the
-          authorization server.
+        invalid_request: 請求缺少必需的參數, 包含不受支援的參數值, 或者格式不正確。
+        invalid_redirect_uri: 請求的轉址 uri 格式不正確或與用戶端轉址 uri 不吻合。
+        unauthorized_client: 用戶端沒有被授權使用此方法執行此請求。
+        access_denied: 資源擁有者或授權伺服器拒絕了該請求。
+        invalid_scope: 請求的範圍無效、未知或格式錯誤。
+        invalid_code_challenge_method: 密碼挑戰方法必須是純文字或 S256。
+        server_error: 授權伺服器遇到意外情況, 使其無法滿足請求。
+        temporarily_unavailable: 由於臨時超載或維護, 授權伺服器當前無法處理請求。
+        credential_flow_not_configured: 資源擁有者密碼憑據流程失敗, 原因是未配置 Doorkeeper.configure.resource_owner_from_credentials。
+        resource_owner_authenticator_not_configured: 資源擁有者發現失敗，因為 Doorkeeper.configure.resource_owner_authenticator
+          未配置。
+        admin_authenticator_not_configured: 訪問管理面板被禁止，因為 Doorkeeper.configure.admin_authenticator
+          未配置。
+        unsupported_response_type: 授權伺服器不支援此回應類型。
+        invalid_client: 由於用戶端未知、沒有包含用戶端身份驗證或不支援的身份驗證方法, 用戶端身份驗證失敗。
+        invalid_grant: 提供的授權授予無效、過期、已撤銷、與授權請求中使用的轉址 uri 不符合, 或已發給其他用戶端。
+        unsupported_grant_type: 授權伺服器不支援授權授予類型。
         invalid_token:
-          revoked: The access token was revoked
-          expired: The access token expired
-          unknown: The access token is invalid
+          revoked: 訪問權杖已被撤銷
+          expired: 訪問權杖已過期
+          unknown: 訪問權杖無效
   unsupported_browser:
-    title: Your browser is outdated and unsupported.
-    message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    title: 您的瀏覽器已過時且不受支援。
+    message: 您可能會在此頁面上遇到錯誤和降級的體驗。
+    update_message: 請升級您的瀏覽器。
+    close_warning: 忽略此警告。
   oauth:
     application:
-      singular: OAuth application
-      plural: OAuth applications
-      named: OAuth application '%{name}'
-      new: New OAuth application
-      default_scopes: "(Default scopes)"
+      singular: Oauth 應用程式
+      plural: Oauth 應用程式
+      named: OAuth 應用程式 '%{name}'
+      new: 新增 OAuth 應用程式
+      default_scopes: "(默認範圍)"
       instructions:
-        name: The name of your application. This will be displayed to other users
-          upon authorization.
-        redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
-          One entry per line. <br/> If you''re registering a desktop application,
-          use the following URL.
+        name: 您的應用程式名稱。它將會在其他使用者認證時顯示。
+        redirect_uri_html: '允許的 URLs 可被授權使用者轉址。一行一個URL。<br/> 如果你視註冊一個桌面應用程式，請使用下面的URL。
 
 '
-        confidential: Check if the application will be used where the client secret
-          can be kept confidential. Native mobile apps and Single Page Apps are assumed
-          non-confidential.
-        client_credential_user_id: Optional user ID to impersonate when clients use
-          this application. Leave empty to allow public access only
-        register_intro: If you are developing an OAuth API client application for
-          OpenProject, you can register it using this form for all users to use.
+        confidential: 檢查是否這個應用程式能夠保存客戶端密鑰的隱密性。原生行動應用程式和一頁式應用程式被認定是非保密的。
+        client_credential_user_id: 可選擇的 user id 使用戶端在使用此應用程式時保持唯一。保留空白表示只允許公眾訪問
+        register_intro: 如果你在開發一個 OAuth API 客戶端應用程式給 OpenProject，你可以用這個格式註冊它以便給所有使用者使用。
         default_scopes: ''
-    client_id: Client ID
+    client_id: 用戶端 ID
     client_secret_notice: 'This is the only time we can print the client secret, please
       note it down and keep it secure. It should be treated as a password and cannot
       be retrieved by OpenProject at a later time.
@@ -2598,7 +2641,7 @@ zh-TW:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: 權限
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2622,16 +2665,3 @@ zh-TW:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: 移除元件
-  label_and_its_subprojects: "%{value} 與它的子專案"
-  label_my_page_block: 我的首頁區塊
-  label_responsible_for_work_packages: 我負責的工作項目
-  label_search_titles_only: 僅搜尋標題
-  label_visible_elements: 可見的元素
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

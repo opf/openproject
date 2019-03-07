@@ -137,7 +137,7 @@ class TypesController < ApplicationController
   end
 
   def load_projects_and_types
-    @types = ::Type.order('position')
+    @types = ::Type.order(Arel.sql('position'))
     @projects = Project.all
   end
 

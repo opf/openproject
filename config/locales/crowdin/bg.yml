@@ -57,6 +57,22 @@ bg:
     index:
       no_results_content_title: В момента има няма режими на удостоверяване.
       no_results_content_text: Създаване на нов режим на удостоверяване
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: none
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: Понастоящем няма съобщения на дъската.
@@ -106,6 +122,10 @@ bg:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Форум
   groups:
     index:
       no_results_title_text: В момента няма групи.
@@ -114,7 +134,21 @@ bg:
       no_results_title_text: Има в момента няма потребители част от тази група.
     memberships:
       no_results_title_text: В момента има няма проекти част от тази група.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: В момента няма проекти
       no_results_content_text: Създаване на нов проект
@@ -208,6 +242,8 @@ bg:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -349,6 +385,11 @@ bg:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Забавяне
         from: Работен пакет
@@ -439,6 +480,14 @@ bg:
         time_entries: Отчетено време
         type: Тип
         watcher: Наблюдател
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: трябва да бъде одобрено.
@@ -495,8 +544,22 @@ bg:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -627,6 +690,7 @@ bg:
       wiki_page: Wiki страница
       workflow: Работен поток
       work_package: Работен пакет
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'Имаше проблеми със следните полета:'
     field_erroneous_label: 'Това поле е невалиднo: %{full_errors} Моля, въведете валидна
@@ -701,6 +765,7 @@ bg:
   button_change_password: Смяна на паролата
   button_check_all: Избери всички
   button_clear: Изчистване
+  button_click_to_reveal: Click to reveal
   button_close: Close
   button_collapse_all: Свиване на всички
   button_configure: Конфигуриране
@@ -728,9 +793,9 @@ bg:
   button_print: Print
   button_quote: Цитат
   button_remove: Премахване
-  button_remove_widget: Премахване на притурка
   button_rename: Преименуване
   button_replace: Replace
+  button_revoke: Revoke
   button_reply: Отговор
   button_reset: Нулиране
   button_rollback: Връщане към тази версия
@@ -1154,7 +1219,6 @@ bg:
   label_all_open_wps: All open
   label_always_visible: Винаги се показват
   label_announcement: Известие
-  label_and_its_subprojects: "%{value} и неговите подпроекти"
   label_api_access_key: API ключ за достъп
   label_api_access_key_created_on: API ключ за достъп е създаден преди %{value}
   label_api_access_key_type: API
@@ -1288,6 +1352,7 @@ bg:
   label_environment: Среда
   label_estimates_and_time: Estimates and time
   label_equals: е
+  label_everywhere: everywhere
   label_example: Пример
   label_export_to: 'Also available in:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
@@ -1325,6 +1390,7 @@ bg:
   label_history: История
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Начална страница
+  label_subject_or_id: Subject or ID
   label_in: в
   label_in_less_than: в по-малко от
   label_in_more_than: в повече от
@@ -1398,7 +1464,6 @@ bg:
   label_my_account: Моят профил
   label_my_account_data: Данни за моят акаунт
   label_my_page: Моята страница
-  label_my_page_block: Блок Моята страница
   label_my_projects: Моите проекти
   label_my_queries: Моите потребителски заявки
   label_never: Никога
@@ -1507,7 +1572,6 @@ bg:
   label_repository_plural: Хранилища
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Резултати
   label_reverse_chronological_order: В обратен хронологичен ред
   label_revision: Преразглеждане
@@ -1524,7 +1588,6 @@ bg:
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: Търсене
-  label_search_titles_only: Търси само заглавия
   label_send_information: Изпрати информация за акаунта на този потребител
   label_send_test_email: Изпрати пробен имейл
   label_settings: Настройки
@@ -1605,6 +1668,7 @@ bg:
   label_view_diff: Прегледай различията
   label_view_revisions: Изглед ревизии
   label_watched_work_packages: Наблюдавани работни пакети
+  label_what_is_this: What is this?
   label_week: Седмица
   label_wiki_content_added: Wiki страница добавена
   label_wiki_content_updated: Wiki страница обновена
@@ -1703,7 +1767,6 @@ bg:
     lists only)
   label_keyboard_shortcut_focus_next_item: Focus next list element (on some lists
     only)
-  label_visible_elements: Видими елементи
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -1783,6 +1846,8 @@ bg:
   notice_account_update_failed: Настройка на акаунт не могат да бъдат записани. Моля
     погледнете страницата на акаунта си.
   notice_account_updated: Account was successfully updated.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Грешна парола
   notice_account_registered_and_logged_in: Добре дошли вашият акаунт е активиран.
     Вие сте влезли в момента.
@@ -2182,6 +2247,7 @@ bg:
   setting_mail_handler_api_key: API ключ
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   setting_mail_handler_body_delimiter_regex: Съкрати мейл адресите от една област
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   setting_password_active_rules: Active character classes
   setting_password_count_former_banned: Number of most recently used passwords banned
@@ -2365,8 +2431,13 @@ bg:
   text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
     a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
     administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
     Are you sure you want to continue?
@@ -2835,7 +2906,7 @@ bg:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Права
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2859,16 +2930,3 @@ bg:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Премахване на притурка
-  label_and_its_subprojects: "%{value} и неговите подпроекти"
-  label_my_page_block: Блок Моята страница
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_search_titles_only: Търси само заглавия
-  label_visible_elements: Видими елементи
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

@@ -3,10 +3,6 @@
   display: flex
   font-size: 24px
 
-  // Set the correct height when editing these fields
-  .wp-inline-edit--field
-    height: 40px
-
   // Add some minor margin between active status and type field
   #wp-new-inline-edit--field-type,
   .work-packages--type-selector
@@ -19,3 +15,8 @@
   // Disable text decoration from toolbar span
   .wp-edit-field--display-field:hover
     text-decoration: none
+
+  .wp-new-top-row--status,
+  .wp-new-top-row--type
+    .wp-inline-edit--field
+      min-width: 125px

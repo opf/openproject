@@ -22,27 +22,28 @@ el:
       browser_error: Your browser doesn't support copying to clipboard. Please copy
         the selected text manually.
       copied_successful: Sucessfully copied to clipboard!
-    button_add_watcher: Add watcher
+    button_add_watcher: Προσθήκη παρατηρητή
     button_back_to_list_view: Back to list view
-    button_cancel: Cancel
+    button_cancel: Ακύρωση
     button_close: Close
-    button_check_all: Check all
+    button_check_all: Επιλογή όλων
     button_configure-form: Configure form
     button_confirm: Confirm
     button_continue: Continue
-    button_copy: Copy
+    button_copy: Αντιγραφή
     button_custom-fields: Custom fields
-    button_delete: Delete
+    button_delete: Διαγραφή
     button_delete_watcher: Delete watcher
     button_details_view: Details view
-    button_duplicate: Duplicate
-    button_edit: Edit
+    button_duplicate: Δημιουργία αντιγράφου
+    button_edit: Επεξεργασία
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: List view
     button_show_view: Fullscreen view
     button_log_time: Log time
     button_more: More
-    button_move: Move
+    button_move: Μετακίνηση
     button_open_details: Open details view
     button_close_details: Close details view
     button_open_fullscreen: Open fullscreen view
@@ -146,13 +147,41 @@ el:
     general_text_yes: 'yes'
     general_text_No: 'No'
     general_text_Yes: 'Yes'
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: News
+          at: at
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Work packages assigned to me
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendar
     label_activate: Activate
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
       comment.
+    label_add_column_after: Προσθήκη στήλης μετά
+    label_add_column_before: Προσθήκη στήλης πριν
     label_add_columns: Add columns
     label_add_comment: Add comment
     label_add_comment_title: Comment and type @ to notify other people
+    label_add_row_after: Προσθήκη γραμμής μετά
+    label_add_row_before: Προσθήκη γραμμής πριν
     label_add_selected_columns: Add selected columns
     label_added_by: added by
     label_added_time_by: Added by %{author} %{age}
@@ -177,8 +206,8 @@ el:
     label_closed_work_packages: closed
     label_collapse: Collapse
     label_collapsed: collapsed
-    label_collapse_all: Collapse all
-    label_comment: Comment
+    label_collapse_all: Σύμπτυξη όλων
+    label_comment: Σχόλιο
     label_committed_at: "%{committed_revision_link} at %{date}"
     label_committed_link: committed revision %{revision_identifier}
     label_contains: contains
@@ -188,11 +217,11 @@ el:
     label_equals: is
     label_expand: Expand
     label_expanded: expanded
-    label_expand_all: Expand all
+    label_expand_all: Ανάπτυξη όλων
     label_expand_project_menu: Expand project menu
     label_export: Export
-    label_filename: File
-    label_filesize: Size
+    label_filename: Aρχείο
+    label_filesize: Μέγεθος
     label_greater_or_equal: ">="
     label_group_by: Group by
     label_hide_attributes: Show less
@@ -210,6 +239,7 @@ el:
     label_menu_collapse: collapse
     label_menu_expand: expand
     label_more_than_ago: more than days ago
+    label_my_page: My page
     label_next: Next
     label_no_data: No data to display
     label_no_due_date: no end date
@@ -221,14 +251,16 @@ el:
     label_open_menu: Open menu
     label_open_context_menu: Open context menu
     label_open_work_packages: open
-    label_password: Password
+    label_password: Κωδικός
     label_previous: Previous
     label_per_page: 'Per page:'
     label_please_wait: Please wait
     label_visibility_settings: Visibility settings
     label_quote_comment: Quote this comment
-    label_reset: Reset
+    label_reset: Επαναφορά
+    label_remove_column: Κατάργηση στήλης
     label_remove_columns: Remove selected columns
+    label_remove_row: Κατάργηση γραμμής
     label_save_as: Save as
     label_select_watcher: Select a watcher...
     label_selected_filter_list: Selected filters
@@ -241,18 +273,19 @@ el:
     label_sorting: Sorting
     label_star_query: Favored
     label_press_enter_to_save: Press enter to save.
-    label_public_query: Public
+    label_public_query: Δημόσιο
     label_sum_for: Sum for
-    label_subject: Subject
+    label_subject: Θέμα
     label_this_week: this week
     label_today: today
     label_up: Up
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Total progress"
+    label_total_amount: 'Σύνολο: %{amount}'
     label_updated_on: updated on
     label_warning: Warning
-    label_work_package: Work package
+    label_work_package: Εργασία
     label_work_package_plural: Work packages
     label_watch: Watch
     label_watch_work_package: Watch work package
@@ -350,7 +383,7 @@ el:
     placeholders:
       default: "-"
       subject: Enter subject here
-      selection: Please select
+      selection: Παρακαλώ επιλέξτε
       relation_description: Click to add description for this relation
     project:
       required_outside_context: You are not within a project context. Please choose
@@ -391,6 +424,10 @@ el:
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Activity
+      comment: Σχόλιο
+      hours: Hours
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -473,6 +510,7 @@ el:
       view?
     text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -488,7 +526,7 @@ el:
 '
       button_activate: Show Gantt chart
       button_deactivate: Hide Gantt chart
-      cancel: Cancel
+      cancel: Ακύρωση
       change: Change in planning
       due_date: Finish date
       empty: "(empty)"
@@ -505,7 +543,7 @@ el:
       filter:
         grouping_other: Other
         noneSelection: "(none)"
-      name: Name
+      name: Όνομα
       outline: Reset Outline
       outlines:
         aggregation: Show aggregations only
@@ -520,7 +558,7 @@ el:
         data?
       responsible: Responsible
       save: Save
-      start_date: Start date
+      start_date: Ημερομηνία έναρξης
       tooManyProjects: More than %{count} Projects. Please use a better filter!
       selection_mode:
         notification: Click on any highlighted work package to create the relation.
@@ -542,14 +580,6 @@ el:
     tl_toolbar:
       zooms: Zoom level
       outlines: Hierarchy level
-    unsupported_browser:
-      title: Your browser version is not supported
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Learn more
-      close_warning: Ignore this warning.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -574,7 +604,7 @@ el:
         edit: Bulk edit
         copy: Bulk copy
         delete: Bulk delete
-      button_clear: Clear
+      button_clear: Εκκαθάριση
       comment_added: The comment was successfully added.
       comment_send_failed: An error has occurred. Could not submit the comment.
       comment_updated: The comment was successfully updated.
@@ -597,11 +627,10 @@ el:
       label_enable_multi_select: Enable multiselect
       label_disable_multi_select: Disable multiselect
       label_filter_add: Add filter
+      label_filter_by_text: Φίλτρο βάσει κειμένου
       label_options: Options
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
         confirm selection with enter, delete with backspace'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: An error occurred while trying to delete work
         packages.
       message_successful_bulk_delete: Successfully deleted work packages.
@@ -611,6 +640,7 @@ el:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: No value
+      placeholder_filter_by_text: Θέμα, περιγραφή, σχόλια,...
       inline_create:
         title: Click here to add a new work package to this list
       create:
@@ -618,7 +648,7 @@ el:
         header: New %{type}
         header_no_type: New work package (Type not yet set)
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
-        button: Create
+        button: Δημιουργία
       copy:
         title: Copy work package
       hierarchy:
@@ -643,7 +673,7 @@ el:
         estimatesAndTime: Estimates & Time
         other: Other
       properties:
-        assignee: Assignee
+        assignee: Ανάθεση σε
         author: Author
         createdAt: Created on
         description: Description
@@ -651,26 +681,26 @@ el:
         dueDate: Finish date
         estimatedTime: Estimated time
         spentTime: Spent time
-        category: Category
+        category: Κατηγορία
         percentageDone: Percentage done
         priority: Priority
         projectName: Project
         responsible: Responsible
-        startDate: Start date
-        status: Status
-        subject: Subject
-        title: Title
+        startDate: Ημερομηνία έναρξης
+        status: Κατάσταση
+        subject: Θέμα
+        title: Τίτλος
         type: Type
-        updatedAt: Updated on
-        versionName: Version
-        version: Version
+        updatedAt: Τροποποιήθηκε
+        versionName: Έκδοση
+        version: Έκδοση
       default_queries:
         latest_activity: Latest activity
         created_by_me: Created by me
         assigned_to_me: Assigned to me
         recently_created: Recently created
         all_open: All open
-        summary: Summary
+        summary: Περίληψη
       jump_marks:
         pagination: Jump to table pagination
         label_pagination: Click here to skip over the work packages table and go to
@@ -737,7 +767,7 @@ el:
           inline: Highlighted attribute(s)
           inline_all: All attributes
           entire_row_by: Entire row by
-          status: Status
+          status: Κατάσταση
           priority: Priority
           type: Type
         columns_help_text: Use the input above to add or remove columns to your table
@@ -775,20 +805,20 @@ el:
         export: Export ...
         visibility_settings: Visibility settings ...
         page_settings: Rename view ...
-        delete: Delete
+        delete: Διαγραφή
       filter: Filter
-      unselected_title: Work package
+      unselected_title: Εργασία
       search_query_label: Search saved views
       search_query_title: Click to search saved views
       placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
-      label_name: Name
+      label_name: Όνομα
       label_delete_page: Delete current page
-      button_apply: Apply
+      button_apply: Εφαρμογή
       button_save: Save
       button_submit: Submit
-      button_cancel: Cancel
+      button_cancel: Ακύρωση
       form_submit:
         title: Confirm to continue
         text: Are you sure you want to perform this action?
@@ -812,7 +842,7 @@ el:
       button_save: "%{attribute}: Save"
       button_cancel: "%{attribute}: Cancel"
       button_save_all: Save
-      button_cancel_all: Cancel
+      button_cancel_all: Ακύρωση
       link_formatting_help: Text formatting help
       btn_preview_enable: Preview
       btn_preview_disable: Disable preview
@@ -826,7 +856,7 @@ el:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'Απέτυχε το ανέβασμα του αρχείου: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -843,3 +873,13 @@ el:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    global_search:
+      all_projects: Σε όλα τα έργα
+      search: Search
+      close_search: Κλείσιμο αναζήτησης
+      current_project: Σε αυτό το έργο
+      current_project_and_all_descendants: Σε αυτό το έργο + υποέργα
+      title:
+        all_projects: όλα τα έργα
+        project_and_subprojects: και όλα τα υποέργα
+        search_for: Αναζήτηση για

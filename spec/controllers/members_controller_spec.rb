@@ -122,7 +122,7 @@ describe MembersController, type: :controller do
 
       it 'should be success' do
         post :autocomplete_for_member, xhr: true, params: params
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
 

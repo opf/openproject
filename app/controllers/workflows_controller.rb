@@ -116,10 +116,10 @@ class WorkflowsController < ApplicationController
   private
 
   def find_roles
-    @roles = Role.order('builtin, position')
+    @roles = Role.order(Arel.sql('builtin, position'))
   end
 
   def find_types
-    @types = ::Type.order('position')
+    @types = ::Type.order(Arel.sql('position'))
   end
 end

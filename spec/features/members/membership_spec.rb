@@ -33,7 +33,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
 
   let(:admin)     { FactoryBot.create :admin }
   let!(:peter)    { FactoryBot.create :user, firstname: 'Peter', lastname: 'Pan', mail: 'foo@example.org' }
-  let!(:hannibal) { FactoryBot.create :user, firstname: 'Hannibal', lastname: 'Smith', mail: 'foo@bar.org' }
+  let!(:hannibal) { FactoryBot.create :user, firstname: 'Hannibal', lastname: 'Smith', mail: 'boo@bar.org' }
   let!(:crash)    { FactoryBot.create :user, firstname: "<script>alert('h4x');</script>",
                                               lastname: "<script>alert('h4x');</script>" }
 
@@ -100,20 +100,40 @@ feature 'group memberships through groups page', type: :feature, js: true do
     end
   end
 
-  context 'with an impaired user' do
-    before do
-      admin.impaired = true
-      admin.save!
-    end
+  context 'with members in the project' do
+    let!(:member1) { FactoryBot.create(:member, principal: peter, project: project, roles: [manager]) }
+    let!(:member2) { FactoryBot.create(:member, principal: hannibal, project: project, roles: [developer]) }
+    let!(:member3) { FactoryBot.create(:member, principal: group, project: project, roles: [manager]) }
 
-    it_behaves_like 'adding and removing principals'
+    scenario 'sorting the page' do
+      members_page.visit!
+
+      members_page.sort_by 'last name'
+      members_page.expect_sorted_by 'last name'
+
+      expect(members_page.contents('lastname')).to eq ['', peter.lastname, hannibal.lastname]
+
+      members_page.sort_by 'last name'
+      members_page.expect_sorted_by 'last name', desc: true
+      expect(members_page.contents('lastname')).to eq [hannibal.lastname, peter.lastname, '']
+
+      members_page.sort_by 'first name'
+      members_page.expect_sorted_by 'first name'
+      expect(members_page.contents('firstname')).to eq ['', hannibal.firstname, peter.firstname]
+
+      members_page.sort_by 'email'
+      members_page.expect_sorted_by 'email'
+      expect(members_page.contents('email')).to eq ['', hannibal.mail, peter.mail]
+
+      # Cannot sort by group, roles or status
+      expect(page).to have_no_selector('.generic-table--sort-header a', text: 'ROLES')
+      expect(page).to have_no_selector('.generic-table--sort-header a', text: 'GROUP')
+      expect(page).to have_no_selector('.generic-table--sort-header a', text: 'STATUS')
+    end
   end
 
-  context 'with an un-impaired user' do
+  context 'with a user' do
     it_behaves_like 'adding and removing principals'
-
-    # The following scenario is only tested with an unimpaired user
-    # as it does not make a difference whether or not the user is impaired.
 
     scenario 'Escaping should work properly when selecting a user' do
       members_page.visit!

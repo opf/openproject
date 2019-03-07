@@ -92,7 +92,8 @@ Lastly, exit the system user
 
 ### Using MySQL instead
 
-We recommend against using MySQL. If you have to use MySQL instead, please ensure a version of  >= 5.7 as it supports special characters such as emojis (emoticons) out of the box.
+We recommend against using MySQL. If you have to use MySQL instead, please ensure a version of >= 5.7 
+(MariaDB version >= 10.2) as it supports special characters such as emojis (emoticons) out of the box.
 
 If your Linux distribution only provides older versions of MySQL it is worth considering
 [adding MySQL as an `apt` source](https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/).
@@ -116,7 +117,7 @@ the OpenProject database.
 You may replace the string `openproject` with the desired username and
 database name. The password `my_password` should definitely be changed.
 
-**On MySQL version 5.7 or greater (recommended)**
+**On MySQL version 5.7 (MariaDB 10.2) or greater (recommended)**
 
 ```sql
 mysql> CREATE DATABASE openproject CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -156,16 +157,16 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 2.5.3
+[openproject@host] rbenv install 2.6.1
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 2.5.3
+[openproject@host] rbenv global 2.6.1
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```
-ruby 2.5.3pXYZ (....) [x86_64-linux]
+ruby 2.6.1pXYZ (....) [x86_64-linux]
 ```
 
 ## Installation of Node
@@ -205,6 +206,8 @@ with OpenProject. For more information, see https://github.com/opf/openproject-c
 [openproject@host] cd ~
 [openproject@host] git clone https://github.com/opf/openproject-ce.git --branch stable/8 --depth 1
 [openproject@host] cd openproject-ce
+# Ensure rubygems is up-to-date for bundler 2
+[openproject@host] gem update --system
 [openproject@host] gem install bundler
 # Replace mysql with postgresql if you had to install MySQL
 [openproject@host] bundle install --deployment --without mysql2 sqlite development test therubyracer docker
@@ -234,7 +237,7 @@ production:
   password: openproject
 ```
 
-** MySQL installation: version 5.7 or greater (recommended)**
+** MySQL installation: version 5.7 (MariaDB 10.2) or greater (recommended)**
 
 The encoding should be set to `utf8mb4` as we created the DB with that encoding
 a few steps ago.

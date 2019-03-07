@@ -28,7 +28,10 @@
 
 require 'spec_helper'
 
-describe 'random password generation', type: :feature do
+describe 'random password generation',
+         with_config: { session_store: :active_record_store },
+         type: :feature,
+         js: true do
   let(:admin) { FactoryBot.create :admin }
   let(:auth_source) { FactoryBot.build :dummy_auth_source }
   let(:old_password) { 'old_Password!123' }
@@ -82,9 +85,16 @@ describe 'random password generation', type: :feature do
       fill_in 'password', with: password
       fill_in 'new_password', with: new_password
       fill_in 'new_password_confirmation', with: new_password
-      click_on 'Save'
 
+      # Expect other sessions to be deleted
+      ::UserSession.create!(data: { 'user_id' => user.id }, session_id: 'other')
+      expect(::UserSession.where(user_id: user.id).count).to be >= 1
+
+      click_on 'Save'
       expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_password_updated))
+
+      # The old session is removed
+      expect(::UserSession.where(user_id: user.id, session_id: 'other').count).to eq 0
 
       # Logout and sign in with outdated password
       visit signout_path

@@ -51,10 +51,10 @@ class Document < ActiveRecord::Base
   validates_presence_of :project, :title, :category
   validates_length_of :title, maximum: 60
 
-  scope :visible, lambda {
+  scope :visible, ->(user = User.current) {
     includes(:project)
       .references(:projects)
-      .merge(Project.allowed_to(User.current, :view_documents))
+      .merge(Project.allowed_to(user, :view_documents))
   }
 
   scope :with_attachments, lambda {
@@ -79,7 +79,7 @@ class Document < ActiveRecord::Base
       # attachments has a default order that conflicts with `created_on DESC`
       # #reorder removes that default order but rather than #unscoped keeps the
       # scoping by this document
-      a = attachments.reorder('created_at DESC').first
+      a = attachments.reorder(Arel.sql('created_at DESC')).first
       @updated_on = (a && a.created_at) || created_on
     end
     @updated_on

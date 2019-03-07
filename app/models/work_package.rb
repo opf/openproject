@@ -124,8 +124,20 @@ class WorkPackage < ActiveRecord::Base
   acts_as_searchable columns: ['subject',
                                "#{table_name}.description",
                                "#{Journal.table_name}.notes"],
-                     include: %i(project journals),
-                     references: %i(projects journals),
+                     tsv_columns: [
+                       {
+                         table_name: Attachment.table_name,
+                         column_name: 'fulltext',
+                         normalization_type: :text
+                       },
+                       {
+                         table_name: Attachment.table_name,
+                         column_name: 'file',
+                         normalization_type: :filename
+                       }
+                     ],
+                     include: %i(project journals attachments),
+                     references: %i(projects journals attachments),
                      date_column: "#{quoted_table_name}.created_at",
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
@@ -572,7 +584,7 @@ class WorkPackage < ActiveRecord::Base
                                  "MAX(hierarchy) AS depth")
 
     joins("LEFT OUTER JOIN (#{max_relation_depth.to_sql}) AS max_depth ON max_depth.to_id = work_packages.id")
-      .reorder("COALESCE(max_depth.depth, 0) #{direction}")
+      .reorder(Arel.sql("COALESCE(max_depth.depth, 0) #{direction}"))
       .select("#{table_name}.*, COALESCE(max_depth.depth, 0)")
   end
 
@@ -749,7 +761,7 @@ class WorkPackage < ActiveRecord::Base
       .new(user, self)
       .scope
       .where(id: id)
-      .pluck('SUM(hours)')
+      .pluck(Arel.sql('SUM(hours)'))
       .first
   end
 

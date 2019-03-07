@@ -30,12 +30,16 @@
 .wp-edit-field--display-field
   display: inline-block
   max-width: 100%
+  @include text-shortener
+  white-space: inherit
 
   &.-placeholder
     font-style: italic
 
   p
     word-wrap: break-word
+    font-size: 0.875rem
 
-.wp-edit-field--text
+.wp-edit-field--text,
+wp-edit-field
   width: 100%

@@ -42,7 +42,7 @@ import {
       states: OPENPROJECT_ROUTES,
       useHash: false,
       config: uiRouterConfiguration,
-    }),
+    } as any),
   ],
   providers: [
     {

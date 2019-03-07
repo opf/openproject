@@ -32,8 +32,9 @@
     <wp-custom-actions [workPackage]="workPackage" class="custom-actions"></wp-custom-actions>
   </div>
 
-  <div class="attributes-group -project-context"
-       *ngIf="projectContext.field">
+  <div class="attributes-group -project-context __overflowing_element_container __overflowing_project_context"
+       *ngIf="projectContext.field"
+       data-overflowing-identifier=".__overflowing_project_context">
     <div class="attributes-group--header">
       <div class="attributes-group--header-container"></div>
     </div>
@@ -92,7 +93,9 @@
   <div *ngFor="let group of groupedFields; trackBy:trackByName"
        [hidden]="shouldHideGroup(group)"
        [attr.data-group-name]="group.name"
-       class="attributes-group">
+       [ngClass]="'__overflowing_' + group.id"
+       [attr.data-overflowing-identifier]="'.__overflowing_' + group.id"
+       class="attributes-group __overflowing_element_container">
 
     <div class="attributes-group--header">
       <div class="attributes-group--header-container">
@@ -118,7 +121,13 @@
       </div>
     </div>
 
-    <attachment-list [resource]="workPackage" [selfDestroy]="true"></attachment-list>
-    <attachments-upload [resource]="workPackage" class="hide-when-print"></attachments-upload>
+    <ndc-dynamic [ndcDynamicComponent]="attachmentListComponent()"
+                 [ndcDynamicInputs]="{ resource: workPackage,
+                                       selfDestroy: true }">
+    </ndc-dynamic>
+
+    <ndc-dynamic [ndcDynamicComponent]="attachmentUploadComponent()"
+                 [ndcDynamicInputs]="{ resource: workPackage }">
+    </ndc-dynamic>
   </div>
 </div>

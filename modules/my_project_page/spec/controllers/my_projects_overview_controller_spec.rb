@@ -45,7 +45,7 @@ describe MyProjectsOverviewsController, type: :controller do
       end
 
       it 'renders the overview page' do
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'index'
       end
     end
@@ -68,7 +68,7 @@ describe MyProjectsOverviewsController, type: :controller do
     end
 
     it 'renders the overview page' do
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template 'page_layout'
     end
   end
@@ -122,7 +122,7 @@ describe MyProjectsOverviewsController, type: :controller do
       context 'save erroneous' do
         let(:save_result) { false }
         it 'assigns all blocks that exist' do
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(controller).to set_flash[:error].to "The changes could not be saved: Some error"
           expect(response).to render_template('page_layout')
         end
@@ -136,7 +136,7 @@ describe MyProjectsOverviewsController, type: :controller do
 
       it 'renders that block' do
         post :add_block, xhr: true, params: params.merge(block: 'calendar')
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template(partial: '_block')
         expect(response).to render_template(partial: 'my_projects_overviews/blocks/_calendar')
       end
@@ -160,7 +160,7 @@ describe MyProjectsOverviewsController, type: :controller do
         post :add_block, xhr: true, params: params.merge(block: 'custom_element')
 
         expect(hidden.length).to eq(1)
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template(partial: '_block_textilizable')
       end
 

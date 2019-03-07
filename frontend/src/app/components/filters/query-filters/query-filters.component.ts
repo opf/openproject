@@ -66,7 +66,8 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
     close_form: this.I18n.t('js.close_form_title'),
     selected_filter_list: this.I18n.t('js.label_selected_filter_list'),
     button_delete: this.I18n.t('js.button_delete'),
-    please_select: this.I18n.t('js.placeholders.selection')
+    please_select: this.I18n.t('js.placeholders.selection'),
+    filter_by_text: this.I18n.t('js.work_packages.label_filter_by_text')
   };
 
   constructor(readonly wpTableFilters:WorkPackageTableFiltersService,
@@ -76,6 +77,12 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
+
+    this.filters.current.forEach((filter:QueryFilterInstanceResource) => {
+      if (!this.isFilterAvailable(filter.id)) {
+        this.filters.remove(filter);
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -119,6 +126,12 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
     this.updateRemainingFilters();
   }
 
+  public get isSecondSpacerVisible():boolean {
+    return _.reject(this.filters.current, (filter) => {
+      return (filter.id === 'search');
+    }).length > 0;
+  }
+
   private updateRemainingFilters() {
     this.remainingFilters = _.sortBy(this.filters.remainingVisibleFilters, 'name');
   }
@@ -143,4 +156,7 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
     return this.filters.current[index];
   }
 
+  public isFilterAvailable(id:string):boolean {
+    return (this.filters.availableFilters.some(filter => filter.id === id));
+  }
 }

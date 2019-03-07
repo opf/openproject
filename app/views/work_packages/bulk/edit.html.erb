@@ -28,8 +28,35 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title l(:label_bulk_edit_selected_work_packages) %>
+
+<% if @bulk_errors.present? %>
+  <div class="notification-box -error">
+    <a title="close" class="notification-box--close icon-context icon-close"></a>
+    <div class="notification-box--content">
+      <p><strong><%= t('work_packages.bulk.could_not_be_saved') %></strong></p>
+
+      <ul>
+      <% @bulk_errors.each do |wpid, messages| %>
+        <li>
+          <%= link_to "##{wpid}", work_package_path(wpid) %>:
+          <%= safe_join messages, ', ' %>
+        </li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
 <h2><%= l(:label_bulk_edit_selected_work_packages) %></h2>
-<ul><%= @work_packages.collect {|i| content_tag('li', link_to(h("#{i.type} ##{i.id}"), work_package_path(i)) + h(": #{i.subject}")) }.join("\n").html_safe %></ul>
+<ul>
+  <% @work_packages.each do |wp| %>
+    <li>
+      <%= link_to(h("#{wp.type} ##{wp.id}"), work_package_path(wp)) %>:
+      <%= wp.subject %>
+    </li>
+  <% end %>
+</ul>
+
 <%= styled_form_tag(url_for(controller: '/work_packages/bulk', action: :update),
              method: :put, class: '-wide-labels') do %>
   <%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>

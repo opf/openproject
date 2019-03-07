@@ -49,6 +49,8 @@ describe 'Work Package cost fields', type: :feature, js: true do
     expect(page).to have_no_selector('.wp-edit-field--container.materialCosts')
     expect(page).to have_no_selector('.wp-edit-field--container.overallCosts')
 
-    select budget.name, from: 'wp-new-inline-edit--field-costObject'
+    field = split_create.edit_field(:costObject)
+    field.openSelectField
+    field.set_value budget.name
   end
 end

@@ -30,7 +30,7 @@
 
 # Root class of the API v3
 # This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+# rescuing, mounting of different API versions etc.
 
 module API
   module V3
@@ -42,6 +42,7 @@ module API
       mount ::API::V3::CustomActions::CustomActionsAPI
       mount ::API::V3::CustomOptions::CustomOptionsAPI
       mount ::API::V3::HelpTexts::HelpTextsAPI
+      mount ::API::V3::News::NewsAPI
       mount ::API::V3::Posts::PostsAPI
       mount ::API::V3::Principals::PrincipalsAPI
       mount ::API::V3::Priorities::PrioritiesAPI
@@ -61,6 +62,7 @@ module API
       mount ::API::V3::Versions::VersionsAPI
       mount ::API::V3::WorkPackages::WorkPackagesAPI
       mount ::API::V3::WikiPages::WikiPagesAPI
+      mount ::API::V3::Grids::GridsAPI
 
       get '/' do
         RootRepresenter.new({}, current_user: current_user)

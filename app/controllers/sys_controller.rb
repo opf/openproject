@@ -39,7 +39,7 @@ class SysController < ActionController::Base
     p = Project.active.has_module(:repository)
         .includes(:repository)
         .references(:repositories)
-        .order('identifier')
+        .order(Arel.sql('identifier'))
     respond_to do |format|
       format.json do
         render json: p.to_json(include: :repository)

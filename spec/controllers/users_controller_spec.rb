@@ -104,7 +104,7 @@ describe UsersController, type: :controller do
         end
       end
 
-      it do expect(response).to be_success end
+      it do expect(response).to be_successful end
       it do expect(assigns(:user)).to eq(user) end
       it { expect(response).to render_template('deletion_info') }
     end
@@ -153,7 +153,7 @@ describe UsersController, type: :controller do
         end
       end
 
-      it do expect(response).to be_success end
+      it do expect(response).to be_successful end
       it do expect(assigns(:user)).to eq(user) end
       it { expect(response).to render_template('deletion_info') }
     end
@@ -364,7 +364,7 @@ describe UsersController, type: :controller do
 
     shared_examples 'valid status info' do
       it 'renders the status info' do
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'users/change_status_info'
         expect(assigns(:user)).to eq(registered_user)
         expect(assigns(:status_change)).to eq(change_action)
@@ -680,7 +680,7 @@ describe UsersController, type: :controller do
       end
 
       it 'responds with success' do
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it 'renders the show template' do

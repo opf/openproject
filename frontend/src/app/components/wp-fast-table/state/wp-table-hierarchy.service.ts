@@ -47,11 +47,6 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
       var groupBy = this.tableState.groupBy.value!;
       groupBy.current = undefined;
       this.tableState.groupBy.putValue(groupBy);
-
-      // hierarchies and sort by are mutually exclusive
-      var sortBy = this.tableState.sortBy.value!;
-      sortBy.current = [];
-      this.tableState.sortBy.putValue(sortBy);
     }
 
     this.state.putValue(state);

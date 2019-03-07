@@ -26,12 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {EditFieldComponent} from "../edit-field.component";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {NgSelectComponent} from "@ng-select/ng-select";
 
 export interface ValueOption {
   name:string;
@@ -41,32 +43,41 @@ export interface ValueOption {
 @Component({
   templateUrl: './select-edit-field.component.html'
 })
-export class SelectEditFieldComponent extends EditFieldComponent {
+export class SelectEditFieldComponent extends EditFieldComponent implements OnInit {
+  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+
   public options:any[];
   public valueOptions:ValueOption[];
   public template:string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html';
   public text:{ requiredPlaceholder:string, placeholder:string };
 
+  public appendTo:any = null;
+  private hiddenOverflowContainer = '.__hidden_overflow_container';
+
   public halSorting:HalResourceSortingService;
-  public compareByHref = AngularTrackingHelpers.compareByHref;
 
   protected initialize() {
     this.halSorting = this.injector.get(HalResourceSortingService);
-
     this.text = {
       requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
       placeholder: this.I18n.t('js.placeholders.default')
     };
 
-    if (Array.isArray(this.schema.allowedValues)) {
-      this.setValues(this.schema.allowedValues);
-    } else if (this.schema.allowedValues) {
-      this.schema.allowedValues.$load().then((values:CollectionResource) => {
-        this.setValues(values.elements);
+    const loadingPromise = this.loadValues();
+    this.handler
+      .$onUserActivate
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe(() => {
+       loadingPromise.then(() => this.openAutocompleteSelectField())
       });
-    } else {
-      this.setValues([]);
-    }
+
+  }
+
+  public ngOnInit() {
+    super.ngOnInit();
+    this.appendTo = this.overflowingSelector;
   }
 
   public get selectedOption() {
@@ -94,12 +105,43 @@ export class SelectEditFieldComponent extends EditFieldComponent {
     });
   }
 
+  private loadValues() {
+    let allowedValues = this.schema.allowedValues;
+    if (Array.isArray(allowedValues)) {
+      this.setValues(allowedValues);
+    } else if (allowedValues) {
+      return allowedValues.$load().then((values:CollectionResource) => {
+        this.setValues(values.elements);
+      });
+    } else {
+      this.setValues([]);
+    }
+    return Promise.resolve();
+  }
+
   public get currentValueInvalid():boolean {
     return !!(
       (this.value && !_.some(this.options, (option:HalResource) => (option.$href === this.value.$href)))
       ||
       (!this.value && this.schema.required)
     );
+  }
+
+  public onOpen() {
+    jQuery(this.hiddenOverflowContainer).addClass('-hidden-overflow');
+  }
+
+  public onClose() {
+    jQuery(this.hiddenOverflowContainer).removeClass('-hidden-overflow');
+  }
+
+  private openAutocompleteSelectField() {
+    // The timeout takes care that the opening is added to the end of the current call stack.
+    // Thus we can be sure that the autocompleter is rendered and ready to be opened.
+    let that = this;
+    window.setTimeout(function () {
+      that.ngSelectComponent.open();
+    }, 0);
   }
 
   private addEmptyOption() {

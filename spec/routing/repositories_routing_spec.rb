@@ -166,7 +166,8 @@ describe RepositoriesController, type: :routing do
   describe 'diff' do
     it {
       expect(get('/projects/testproject/repository/revisions/2457/diff'))
-        .to route_to(controller: 'repositories',
+        .to route_to(format: 'html',
+                     controller: 'repositories',
                      action: 'diff',
                      project_id: 'testproject',
                      rev: '2457')
@@ -183,14 +184,16 @@ describe RepositoriesController, type: :routing do
 
     it {
       expect(get('/projects/testproject/repository/diff'))
-        .to route_to(controller: 'repositories',
+        .to route_to(format: 'html',
+                     controller: 'repositories',
                      action: 'diff',
                      project_id: 'testproject')
     }
 
     it {
       expect(get('/projects/testproject/repository/diff/path/to/file.c'))
-        .to route_to(controller: 'repositories',
+        .to route_to(format: 'html',
+                     controller: 'repositories',
                      action: 'diff',
                      project_id: 'testproject',
                      repo_path: 'path/to/file.c')
@@ -198,7 +201,8 @@ describe RepositoriesController, type: :routing do
 
     it {
       expect(get('/projects/testproject/repository/revisions/2/diff/path/to/file.c'))
-        .to route_to(controller: 'repositories',
+        .to route_to(format: 'html',
+                     controller: 'repositories',
                      action: 'diff',
                      project_id: 'testproject',
                      repo_path: 'path/to/file.c',

@@ -73,13 +73,6 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= select_tag :tag, options_for_select([''] + @repository.tags, @rev), id: 'revision-tag-select' %>
     </li>
     <% end %>
-    <% if User.current.impaired? %>
-    <li class="toolbar-item">
-      <div>
-        <%= button_tag l(:button_submit), type: :submit, class: 'button -highlight' %>
-      </div>
-    </li>
-    <% end %>
     <li class="toolbar-item -icon-only">
       <%= link_to({ url: { action: 'revisions', project_id: @project,
                            key: User.current.rss_key } },

@@ -35,6 +35,7 @@ class AccountController < ApplicationController
   include Concerns::AuthenticationStages
   include Concerns::UserConsent
   include Concerns::UserLimits
+  include Concerns::UserPasswordChange
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_action :check_if_login_required
@@ -80,16 +81,16 @@ class AccountController < ApplicationController
       redirect_to(home_url) && return unless @token and !@token.expired?
       @user = @token.user
       if request.post?
-        @user.password = params[:new_password]
-        @user.password_confirmation = params[:new_password_confirmation]
-        @user.force_password_change = false
-        if @user.save
+        call = ::Users::ChangePasswordService.new(current_user: @user, session: session).call(params)
+        call.apply_flash_message!(flash)
+
+        if call.success?
           @token.destroy
-          flash[:notice] = l(:notice_account_password_updated)
           redirect_to action: 'login'
           return
         end
       end
+
       render template: 'account/password_recovery'
     elsif request.post?
       mail = params[:mail]
@@ -200,8 +201,7 @@ class AccountController < ApplicationController
 
       if user.save
         token.destroy
-        flash[:notice] = with_accessibility_notice :notice_account_activated,
-                                                   locale: user.language
+        flash[:notice] = I18n.t(:notice_account_activated)
       else
         flash[:error] = I18n.t(:notice_activation_failed)
       end
@@ -260,32 +260,15 @@ class AccountController < ApplicationController
   # to change the password.
   # When making changes here, also check MyController.change_password
   def change_password
-    return render_404 if OpenProject::Configuration.disable_password_login?
+    # Retrieve user_id from session
+    @user = User.find(flash[:_password_change_user_id])
 
-    @user = User.find_by_login(params[:username])
-    @username = @user.login
-
-    # A JavaScript hides the force_password_change field for external
-    # auth sources in the admin UI, so this shouldn't normally happen.
-    return if redirect_if_password_change_not_allowed(@user)
-
-    if @user.check_password?(params[:password])
-      @user.password = params[:new_password]
-      @user.password_confirmation = params[:new_password_confirmation]
-      @user.force_password_change = false
-      if @user.save
-
-        result = password_authentication(params[:username], params[:new_password])
-        # password_authentication resets session including flash notices,
-        # so set afterwards.
-        flash[:notice] = l(:notice_account_password_updated)
-        return result
-      end
-    else
-      invalid_credentials
+    change_password_flow(user: @user, params: params, show_user_name: true) do
+      password_authentication(@user.login, params[:new_password])
     end
-    # Render the username to hint to a user in case of a forced password change
-    render 'my/password', locals: { show_user_name: @user.force_password_change_was }
+  rescue ActiveRecord::RecordNotFound
+    Rails.logger.error "Failed to find user for change_password request: #{flash[:_password_change_user_id]}"
+    render_404
   end
 
   def auth_source_sso_failed
@@ -312,7 +295,7 @@ class AccountController < ApplicationController
 
   def show_sso_error_for(user)
     if user.nil?
-      invalid_credentials
+      flash_and_log_invalid_credentials
     elsif not user.active?
       account_inactive user, flash_now: true
     end
@@ -415,19 +398,18 @@ class AccountController < ApplicationController
           account_inactive(user, flash_now: true)
         elsif user.force_password_change
           return if redirect_if_password_change_not_allowed(user)
-          render_password_change(I18n.t(:notice_account_new_password_forced))
+          render_password_change(user, I18n.t(:notice_account_new_password_forced), show_user_name: true)
         elsif user.password_expired?
           return if redirect_if_password_change_not_allowed(user)
-          render_password_change(I18n.t(:notice_account_password_expired,
-                                        days: Setting.password_days_valid.to_i))
+          render_password_change(user, I18n.t(:notice_account_password_expired, days: Setting.password_days_valid.to_i), show_user_name: true)
         else
-          invalid_credentials
+          flash_and_log_invalid_credentials
         end
       elsif user and user.invited?
         invited_account_not_activated(user)
       else
         # incorrect password
-        invalid_credentials
+        flash_and_log_invalid_credentials
       end
     elsif user.new_record?
       onthefly_creation_failed(user, login: user.login, auth_source_id: user.auth_source_id)
@@ -513,8 +495,7 @@ class AccountController < ApplicationController
     if @user.save
       session[:auth_source_registration] = nil
       self.logged_user = @user
-      flash[:notice] = with_accessibility_notice :notice_account_activated,
-                                                 locale: @user.language
+      flash[:notice] = I18n.t(:notice_account_activated)
       redirect_to controller: '/my', action: 'account'
     end
     # Otherwise render register view again
@@ -525,24 +506,6 @@ class AccountController < ApplicationController
     @user = user
     session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
     render action: 'register'
-  end
-
-  def redirect_if_password_change_not_allowed(user)
-    if user and not user.change_password_allowed?
-      logger.warn "Password change for user '#{user}' forced, but user is not allowed " +
-        'to change password'
-      flash[:error] = l(:notice_can_t_change_password)
-      redirect_to action: 'login'
-      return true
-    end
-    false
-  end
-
-  def render_password_change(message)
-    flash[:error] = message
-    @username = params[:username]
-    # Render the username to hint to a user in case of a forced password change
-    render 'my/password', locals: { show_user_name: true }
   end
 
   # Register a user depending on Setting.self_registration
@@ -619,8 +582,7 @@ class AccountController < ApplicationController
       OpenProject::OmniAuth::Authorization.after_login! user, auth_hash, self
     end
 
-    flash[:notice] = with_accessibility_notice :notice_account_registered_and_logged_in,
-                                               locale: user.language
+    flash[:notice] = I18n.t(:notice_account_registered_and_logged_in)
     redirect_after_login user
   end
 
@@ -650,7 +612,7 @@ class AccountController < ApplicationController
     if user.registered?
       account_not_activated(flash_now: flash_now)
     else
-      invalid_credentials(flash_now: flash_now)
+      flash_and_log_invalid_credentials(flash_now: flash_now)
     end
   end
 
@@ -671,29 +633,6 @@ class AccountController < ApplicationController
     end
   end
 
-  # Log an attempt to log in to a locked account or with invalid credentials
-  # and show a flash message.
-  def invalid_credentials(flash_now: true)
-    flash_error_message(log_reason: 'invalid credentials', flash_now: flash_now) do
-      if Setting.brute_force_block_after_failed_logins?
-        :notice_account_invalid_credentials_or_blocked
-      else
-        :notice_account_invalid_credentials
-      end
-    end
-  end
-
-  def flash_error_message(log_reason: '', flash_now: true)
-    flash_hash = flash_now ? flash.now : flash
-
-    logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
-                " at #{Time.now.utc}: #{log_reason}"
-
-    flash_message = yield
-
-    flash_hash[:error] = I18n.t(flash_message)
-  end
-
   def account_pending
     flash[:notice] = l(:notice_account_pending)
     # Set back_url to make sure user is not redirected to an external login page
@@ -708,15 +647,5 @@ class AccountController < ApplicationController
 
       token.user
     end
-  end
-
-  def with_accessibility_notice(key, locale:)
-    locale = locale.presence || I18n.locale
-    text = I18n.t(key, locale: locale)
-    notice = link_translate(:notice_accessibility_mode,
-                            links: { url: my_settings_url },
-                            locale: locale)
-
-    "#{text} #{notice}".html_safe
   end
 end

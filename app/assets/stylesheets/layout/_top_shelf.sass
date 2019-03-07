@@ -1,25 +1,26 @@
 .top-shelf
-  background-color: #FFC38C
-  border-bottom: 1px solid black
-  font-size: 12px
-  font-weight: normal
-  padding-bottom: 12px
-  padding-left: 55px
-  padding-right: 18px
-  padding-top: 18px
-
-.top-shelf:before
-  position: absolute
-  left: 15px
-
+  background-color: #f4f4aa
+  padding: 10px
 
 .top-shelf h1
   font-size: 12px
   font-weight: bold
 
-.top-shelf h2
-  border-bottom: 0
-  font-size: 12px
-  font-weight: bold
+.top-shelf p
+  font-size: 0.9rem
   margin: 0
-  text-align: left
+
+.top-shelf a
+  font-weight: bold
+
+.unsupported-browser-warning--pane
+  position: fixed
+  bottom: 0
+  z-index: 1001
+  width: 100%
+  
+.unsupported-browser-warning--icon
+  cursor: pointer
+
+  .unsupported-browser-warning--pane:hover &:before
+    @include icon-mixin-close

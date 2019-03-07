@@ -52,6 +52,8 @@ module Redmine
             searchable_options[:columns] = [] << searchable_options[:columns]
           end
 
+          searchable_options[:tsv_columns] ||= []
+
           searchable_options[:project_key] ||= "#{table_name}.project_id"
           searchable_options[:date_column] ||= "#{table_name}.created_on"
           searchable_options[:order_column] ||= searchable_options[:date_column]
@@ -84,11 +86,22 @@ module Redmine
             find_order = "#{searchable_options[:order_column]} " + (options[:before] ? 'DESC' : 'ASC')
 
             columns = searchable_options[:columns]
-            columns = columns[0..0] if options[:titles_only]
+
+            tsv_columns = searchable_options[:tsv_columns]
 
             token_clauses = columns.map { |column| "(LOWER(#{column}) LIKE ?)" }
 
-            if !options[:titles_only] && searchable_options[:search_custom_fields]
+            if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
+              tsv_clauses = tsv_columns.map do |tsv_column|
+                OpenProject::FullTextSearch.tsv_where(tsv_column[:table_name],
+                                                      tsv_column[:column_name],
+                                                      tokens.join(' '),
+                                                      concatenation: :and,
+                                                      normalization: tsv_column[:normalization_type])
+              end
+            end
+
+            if searchable_options[:search_custom_fields]
               searchable_custom_field_ids = CustomField.where(type: "#{name}CustomField",
                                                               searchable: true).pluck(:id)
               if searchable_custom_field_ids.any?
@@ -99,7 +112,11 @@ module Redmine
               end
             end
 
-            sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
+            sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(' AND ')
+
+            if tsv_clauses.present?
+              sql << ' OR ' + tsv_clauses.join(' OR ')
+            end
 
             find_conditions = [sql, * (tokens.map { |w| "%#{w.downcase}%" } * token_clauses.size).sort]
 

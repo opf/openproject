@@ -157,7 +157,7 @@ export class QueryDmService {
     }
   }
 
-  public all(projectIdentifier:string|null|undefined):Promise<CollectionResource> {
+  public all(projectIdentifier:string|null|undefined):Promise<CollectionResource<QueryResource>> {
     let filters = new ApiV3FilterBuilder();
 
     if (projectIdentifier) {
@@ -168,10 +168,13 @@ export class QueryDmService {
       filters.add('project', '!*', []);
     }
 
+    // Exclude hidden queries
+    filters.add('hidden', '=', ['f']);
+
     let urlQuery = { filters: filters.toJson() };
 
     return this.halResourceService
-      .get<CollectionResource>(this.pathHelper.api.v3.queries.toString(), urlQuery)
+      .get<CollectionResource<QueryResource>>(this.pathHelper.api.v3.queries.toString(), urlQuery)
       .toPromise();
   }
 

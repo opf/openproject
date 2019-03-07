@@ -170,10 +170,11 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     this.updateMenuOnChanges(this.searchInput);
   }
 
-  private transformQueries(collection:CollectionResource) {
-    let loadedQueries:IAutocompleteItem[] = _.map(collection.elements, (query:any) => {
-      return {label: query.name, query: query, query_props: null};
-    });
+  private transformQueries(collection:CollectionResource<QueryResource>) {
+    let loadedQueries:IAutocompleteItem[] = collection.elements
+      .map(query => {
+        return {label: query.name, query: query, query_props: null};
+      });
 
     // Add to the loaded set of queries the fixed set of queries for the current project context
     const combinedQueries = loadedQueries.concat(this.wpStaticQueries.all);
@@ -344,7 +345,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
         if (thisComponent.searchInput.val() === '') {
           let selected = thisComponent.queryResultsContainer.find('.wp-query-menu--item.selected');
           if (selected.length > 0) {
-            setTimeout(() => selected[0].scrollIntoView({behavior: 'instant', block: 'center'}), 20);
+            setTimeout(() => selected[0].scrollIntoView({behavior: 'auto', block: 'center'}), 20);
           }
         }
       }

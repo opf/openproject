@@ -32,11 +32,16 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {Component, OnInit} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {ValueOption} from "core-app/modules/fields/edit/field-types/select-edit-field.component";
+import {NgSelectComponent} from "@ng-select/ng-select";
+import {ViewChild} from "@angular/core";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 @Component({
   templateUrl: './multi-select-edit-field.component.html'
 })
 export class MultiSelectEditFieldComponent extends EditFieldComponent implements OnInit {
+  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+
   readonly I18n:I18nService = this.injector.get(I18nService);
   public options:any[];
   public valueOptions:ValueOption[];
@@ -45,44 +50,35 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     placeholder: this.I18n.t('js.placeholders.default'),
     save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
     cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name }),
-    switch_to_single_select: this.I18n.t('js.work_packages.label_switch_to_single_select'),
-    switch_to_multi_select: this.I18n.t('js.work_packages.label_switch_to_multi_select'),
   };
-  public isMultiselect:boolean;
+
+  public appendTo:any = null;
+  private hiddenOverflowContainer = '.__hidden_overflow_container';
 
   public currentValueInvalid:boolean = false;
   private nullOption:ValueOption;
-  private _selectedOption:ValueOption|ValueOption[];
+  private _selectedOption:ValueOption[];
 
   ngOnInit() {
-    this.isMultiselect = this.isValueMulti();
-
     this.nullOption = { name: this.text.placeholder, $href: null };
 
-    if (Array.isArray(this.schema.allowedValues)) {
-      this.setValues(this.schema.allowedValues);
-    } else if (this.schema.allowedValues) {
-      this.schema.allowedValues.$load().then((values:CollectionResource) => {
-        // The select options of the project shall be sorted
-        if (values.count > 0 && (values.elements[0] as any)._type === 'Project') {
-          this.setValues(values.elements, true);
-        } else {
-          this.setValues(values.elements);
-        }
+    const loadingPromise = this.loadValues();
+    this.handler
+      .$onUserActivate
+      .pipe(
+        untilComponentDestroyed(this),
+      )
+      .subscribe(() => {
+        loadingPromise.then(() => this.openAutocompleteSelectField())
       });
-    } else {
-      this.setValues([]);
-    }
+
+    super.ngOnInit();
+    this.appendTo = this.overflowingSelector;
   }
 
   public get value() {
     const val = this.changeset.value(this.name);
-
-    if (!Array.isArray(val) || this.isMultiselect) {
-      return val;
-    } else {
-      return val[0];
-    }
+    return val[0];
   }
 
   /**
@@ -91,23 +87,8 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
    * @returns {any}
    */
   public buildSelectedOption() {
-    const value:HalResource|HalResource[] = this.changeset.value(this.name);
-
-    if (this.isMultiselect) {
-      if (!Array.isArray(value)) {
-        return [this.findValueOption(value)];
-      }
-
-      return value.map(val => this.findValueOption(val));
-    }
-
-    if (!Array.isArray(value)) {
-      return this.findValueOption(value);
-    } else if (value.length > 0) {
-      return this.findValueOption(value[0]);
-    }
-
-    return this.nullOption;
+    const value:HalResource[] = this.changeset.value(this.name);
+    return value.map(val => this.findValueOption(val));
   }
 
   public get selectedOption() {
@@ -118,9 +99,8 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
    * Map the ValueOption to the actual HalResource option
    * @param val
    */
-  public set selectedOption(val:ValueOption|ValueOption[]) {
+  public set selectedOption(val:ValueOption[]) {
     this._selectedOption = val;
-    let selected:any;
     let mapper = (val:ValueOption) => {
       let option = _.find(this.options, o => o.$href === val.$href) || this.nullOption;
 
@@ -137,20 +117,21 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     this.changeset.setValue(this.name, value);
   }
 
-  public isValueMulti() {
-    const val = this.changeset.value(this.name);
-    return val && val.length > 1;
+  public onOpen() {
+    jQuery(this.hiddenOverflowContainer).addClass('-hidden-overflow');
   }
 
-  public toggleMultiselect() {
-    this.isMultiselect = !this.isMultiselect;
-    this._selectedOption = this.buildSelectedOption();
+  public onClose() {
+    jQuery(this.hiddenOverflowContainer).removeClass('-hidden-overflow');
   }
 
-  public submitOnSingleSelect() {
-    if (!this.isMultiselect) {
-      this.handler.handleUserSubmit();
-    }
+  private openAutocompleteSelectField() {
+    // The timeout takes care that the opening is added to the end of the current call stack.
+    // Thus we can be sure that the autocompleter is rendered and ready to be opened.
+    let that = this;
+    window.setTimeout(function () {
+      that.ngSelectComponent.open();
+    }, 0);
   }
 
   private findValueOption(option?:HalResource):ValueOption {
@@ -173,7 +154,6 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     }
 
     this.options = availableValues;
-    this.addEmptyOption();
     this.valueOptions = this.options.map(el => {
       return { name: el.name, $href: el.$href };
     });
@@ -181,36 +161,38 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     this.checkCurrentValueValidity();
   }
 
+  private loadValues() {
+    let allowedValues = this.schema.allowedValues;
+    if (Array.isArray(allowedValues)) {
+      this.setValues(allowedValues);
+    } else if (this.schema.allowedValues) {
+      return this.schema.allowedValues.$load().then((values:CollectionResource) => {
+        // The select options of the project shall be sorted
+        if (values.count > 0 && (values.elements[0] as any)._type === 'Project') {
+          this.setValues(values.elements, true);
+        } else {
+          this.setValues(values.elements);
+        }
+      });
+    } else {
+      this.setValues([]);
+    }
+    return Promise.resolve();
+  }
+
   private checkCurrentValueValidity() {
     if (this.value) {
       this.currentValueInvalid = !!(
         // (If value AND)
-        // MultiSelect AND there is no value which href is not in the options hrefs OR
-        // SingleSelect AND the given values href is not within the options hrefs
-        (this.isMultiselect && !_.some(this.value, (value:HalResource) => {
+        // MultiSelect AND there is no value which href is not in the options hrefs
+        (!_.some(this.value, (value:HalResource) => {
           return _.some(this.options, (option) => (option.$href === value.$href))
-        })) ||
-        (!this.isMultiselect && !_.some(this.options,
-          (option) => (option.$href === this.value.$href)))
+        }))
       );
     }
     else {
       // If no value but required
       this.currentValueInvalid = !!this.schema.required;
-    }
-  }
-
-  private addEmptyOption() {
-    // Empty options are not available for required fields
-    if (this.schema.required) {
-      return;
-    }
-
-    // Since we use the original schema values, avoid adding
-    // the option if one is returned / exists already.
-    const emptyOption = _.find(this.options, el => el.name === this.text.placeholder);
-    if (emptyOption === undefined) {
-      this.options.unshift(this.nullOption);
     }
   }
 }

@@ -53,7 +53,7 @@ module OpenProject::Backlogs::Patches::UpdateServicePatch
       all_descendants = work_package
                           .descendants
                           .includes(:parent_relation, project: :enabled_modules)
-                          .order('relations.hierarchy asc')
+                          .order(Arel.sql('relations.hierarchy asc'))
                           .select('work_packages.*, relations.hierarchy')
       stop_descendants_ids = []
 

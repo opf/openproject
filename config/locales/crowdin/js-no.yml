@@ -38,6 +38,7 @@
     button_duplicate: Kopier
     button_edit: Rediger
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Listevisning
     button_show_view: Fullskjermvisning
     button_log_time: Logg tid
@@ -146,13 +147,41 @@
     general_text_yes: ja
     general_text_No: Nei
     general_text_Yes: Ja
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Nyheter
+          at: at
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Arbeidspakker tildelt meg
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalender
     label_activate: Aktiver
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
       comment.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
     label_add_columns: Add columns
     label_add_comment: Legg til kommentar
     label_add_comment_title: Comment and type @ to notify other people
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
     label_add_selected_columns: Legg til valgte kolonner
     label_added_by: lagt til av
     label_added_time_by: Lagt inn av %{author} %{age}
@@ -209,6 +238,7 @@
     label_menu_collapse: skjul
     label_menu_expand: utvid
     label_more_than_ago: mer enn dager siden
+    label_my_page: Min side
     label_next: Neste
     label_no_data: Ingen data å vise
     label_no_due_date: ingen sluttdato
@@ -227,7 +257,9 @@
     label_visibility_settings: Visibility settings
     label_quote_comment: Quote this comment
     label_reset: Nullstill
+    label_remove_column: Remove column
     label_remove_columns: Fjern valgte kolonner
+    label_remove_row: Remove row
     label_save_as: Lagre som
     label_select_watcher: Velg en overvåker...
     label_selected_filter_list: Valgte filtre
@@ -249,6 +281,7 @@
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% utført"
+    label_total_amount: 'Total: %{amount}'
     label_updated_on: updated on
     label_warning: Advarsel
     label_work_package: Arbeidspakke
@@ -389,6 +422,10 @@
           includes: including
           requires: requiring
           required: required by
+    time_entry:
+      activity: Aktivitet
+      comment: Kommentar
+      hours: Timer
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -471,6 +508,7 @@
       view?
     text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -539,14 +577,6 @@
     tl_toolbar:
       zooms: Zoom-nivå
       outlines: Nivå
-    unsupported_browser:
-      title: Din nettleserversjon er ikke støttet
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Mer informasjon
-      close_warning: Ignore this warning.
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -594,11 +624,10 @@
       label_enable_multi_select: Aktiver multivalg
       label_disable_multi_select: Deaktivere multivalg
       label_filter_add: Legg til filter
+      label_filter_by_text: Filter by text
       label_options: Alternativer
       label_column_multiselect: 'Kombinert nedtrekksfelt: velg med piltastene, bekreft
         valg med enter, slette med tilbaketasten'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
       message_error_during_bulk_delete: Det oppstod en feil undersletting av arbeidspakker.
       message_successful_bulk_delete: Arbeidspakkene ble slettet.
       message_successful_show_in_fullscreen: Klikk her for å åpne denne arbeidspakken
@@ -607,6 +636,7 @@
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Ingen verdi
+      placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Klikk her for å legge til en nye arbeidspakke i listen
       create:
@@ -822,7 +852,7 @@
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Kunne ikke slå opp versjonsnavnet
     error_could_not_resolve_user_name: Kunne ikke slå opp brukernavn
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -839,3 +869,13 @@
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
+    global_search:
+      all_projects: In all projects
+      search: Søk
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

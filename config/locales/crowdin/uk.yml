@@ -57,6 +57,22 @@ uk:
     index:
       no_results_content_title: There are currently no authentication modes.
       no_results_content_text: Create a new authentication mode
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: none
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: There are currently no posts for the board.
@@ -106,6 +122,10 @@ uk:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: There are currently no groups.
@@ -114,7 +134,21 @@ uk:
       no_results_title_text: There are currently no users part of this group.
     memberships:
       no_results_title_text: There are currently no projects part of this group.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
@@ -211,6 +245,8 @@ uk:
       other: "%{count} work package descendants"
       few: "%{count} work package descendants"
       many: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -349,6 +385,11 @@ uk:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Delay
         from: Work package
@@ -439,6 +480,14 @@ uk:
         time_entries: Log time
         type: Type
         watcher: Watcher
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: must be accepted.
@@ -495,8 +544,22 @@ uk:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -635,6 +698,7 @@ uk:
       wiki_page: Wiki page
       workflow: Workflow
       work_package: Work package
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'Були проблеми з наступними полями:'
     field_erroneous_label: |-
@@ -710,6 +774,7 @@ uk:
   button_change_password: Change password
   button_check_all: Check all
   button_clear: Clear
+  button_click_to_reveal: Click to reveal
   button_close: Close
   button_collapse_all: Collapse all
   button_configure: Configure
@@ -737,9 +802,9 @@ uk:
   button_print: Print
   button_quote: Quote
   button_remove: Remove
-  button_remove_widget: Remove widget
   button_rename: Rename
   button_replace: Replace
+  button_revoke: Revoke
   button_reply: Reply
   button_reset: Reset
   button_rollback: Rollback to this version
@@ -1186,7 +1251,6 @@ uk:
   label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
-  label_and_its_subprojects: "%{value} and its subprojects"
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key created %{value} ago
   label_api_access_key_type: API
@@ -1318,6 +1382,7 @@ uk:
   label_environment: Environment
   label_estimates_and_time: Estimates and time
   label_equals: is
+  label_everywhere: everywhere
   label_example: Example
   label_export_to: 'Also available in:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
@@ -1355,6 +1420,7 @@ uk:
   label_history: History
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
+  label_subject_or_id: Subject or ID
   label_in: in
   label_in_less_than: in less than
   label_in_more_than: in more than
@@ -1428,7 +1494,6 @@ uk:
   label_my_account: My account
   label_my_account_data: My account data
   label_my_page: My page
-  label_my_page_block: My page block
   label_my_projects: My projects
   label_my_queries: My custom queries
   label_never: Never
@@ -1536,7 +1601,6 @@ uk:
   label_repository_plural: Repositories
   label_required: required
   label_requires: requires
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Results
   label_reverse_chronological_order: In reverse chronological order
   label_revision: Revision
@@ -1553,7 +1617,6 @@ uk:
   label_role_search: Призначити роль для нових членів
   label_scm: SCM
   label_search: Search
-  label_search_titles_only: Search titles only
   label_send_information: Send account information to the user
   label_send_test_email: Send a test email
   label_settings: Settings
@@ -1633,6 +1696,7 @@ uk:
   label_view_diff: View differences
   label_view_revisions: View revisions
   label_watched_work_packages: Watched work packages
+  label_what_is_this: What is this?
   label_week: Week
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
@@ -1739,7 +1803,6 @@ uk:
     lists only)
   label_keyboard_shortcut_focus_next_item: Focus next list element (on some lists
     only)
-  label_visible_elements: Visible elements
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
     ldap_error: 'LDAP-Error: %{error_message}'
@@ -1819,6 +1882,8 @@ uk:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: Обліковий запис було успішно оновлено.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Wrong password
   notice_account_registered_and_logged_in: Ласкаво просимо, ваша обліковий запис активований.
     Ви зараз увійшли.
@@ -2224,6 +2289,7 @@ uk:
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Усічення листи після однієї з цих ліній
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   setting_password_active_rules: Active character classes
   setting_password_count_former_banned: Number of most recently used passwords banned
@@ -2408,8 +2474,13 @@ uk:
   text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
     a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
     administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
     Are you sure you want to continue?
@@ -2833,8 +2904,8 @@ uk:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Будь ласка, оновіть ваш браузер.
+    close_warning: Ігнорувати це попередження.
   oauth:
     application:
       singular: OAuth application
@@ -2887,6 +2958,8 @@ uk:
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      few: "%{count} active token"
+      many: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2904,16 +2977,3 @@ uk:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Remove widget
-  label_and_its_subprojects: "%{value} and its subprojects"
-  label_my_page_block: My page block
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_search_titles_only: Search titles only
-  label_visible_elements: Visible elements
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

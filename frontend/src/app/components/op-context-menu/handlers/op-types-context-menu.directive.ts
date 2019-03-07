@@ -27,17 +27,15 @@
 //++
 
 import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
-import {WorkPackageCreateService} from '../../wp-new/wp-create.service';
 import {StateService} from '@uirouter/core';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {Directive, ElementRef, Inject, Input} from "@angular/core";
+import {Directive, ElementRef, Input} from "@angular/core";
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {TypeDmService} from "core-app/modules/hal/dm-services/type-dm.service";
 import {Highlighting} from 'core-app/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 
 @Directive({
   selector: '[opTypesCreateDropdown]'
@@ -51,6 +49,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
 
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
+              readonly browserDetector:BrowserDetector,
               readonly $state:StateService,
               readonly typeDmService:TypeDmService) {
     super(elementRef, opContextMenu);
@@ -64,7 +63,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
     }
 
     // Force full-view create if in mobile view
-    if (bowser.mobile) {
+    if (this.browserDetector.isMobile) {
       this.stateName = 'work-packages.new';
     }
 
@@ -73,7 +72,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
       .then(types => this.buildItems(types));
   }
 
-  protected open(evt:JQuery.Event) {
+  protected open(evt:JQueryEventObject) {
     this.loadingPromise.then(() => {
       this.opContextMenu.show(this, evt);
     });

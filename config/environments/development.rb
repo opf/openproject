@@ -41,11 +41,23 @@ OpenProject::Application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
+  # File watcher
+  # using ActiveSupport::EventedFileUpdateChecker depends on listen which depends on fsevent
+  # which seems to be prone to creating zombie process (+200 of them) which can cause
+  # the process limit (on mac) to be reached which causes the system to need a reboot.
+  config.file_watcher = ActiveSupport::FileUpdateChecker
+
+  # Store uploaded files on the local file system (see config/storage.yml for options)
+  config.active_storage.service = :local
+
   # Show full error reports
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local = true
 
   # Enable caching in development
   config.action_controller.perform_caching = true
+
+  # Don't perform caching for Action Mailer in development
+  config.action_mailer.perform_caching = false
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
@@ -55,6 +67,9 @@ OpenProject::Application.configure do
 
   # Raise an error on page load if there are pending migrations
   config.active_record.migration_error = :page_load
+
+  # Highlight code that triggered database queries in logs.
+  config.active_record.verbose_query_logs = true
 
   # Disable compression and asset digests, but disable debug
   config.assets.debug = false

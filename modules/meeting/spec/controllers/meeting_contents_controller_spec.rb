@@ -21,13 +21,13 @@
 require 'spec_helper'
 
 describe MeetingContentsController do
-  let(:role) { FactoryBot.create(:role, permissions: [:view_meetings]) }
-  let(:project) { FactoryBot.create(:project) }
-  let(:author) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  let(:watcher1) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  let(:watcher2) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  let(:meeting) { FactoryBot.create(:meeting, author: author, project: project) }
-  let(:meeting_agenda) do
+  shared_let(:role) { FactoryBot.create(:role, permissions: [:view_meetings]) }
+  shared_let(:project) { FactoryBot.create(:project) }
+  shared_let(:author) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  shared_let(:watcher1) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  shared_let(:watcher2) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  shared_let(:meeting) { FactoryBot.create(:meeting, author: author, project: project) }
+  shared_let(:meeting_agenda) do
     FactoryBot.create(:meeting_agenda, meeting: meeting)
   end
 
@@ -43,13 +43,15 @@ describe MeetingContentsController do
   end
 
   shared_examples_for 'delivered by mail' do
-    before { put 'notify',  params: { meeting_id: meeting.id } }
+    before { put action,  params: { meeting_id: meeting.id } }
 
     it { expect(ActionMailer::Base.deliveries.count).to eql(mail_count) }
   end
 
   describe 'PUT' do
     describe 'notify' do
+      let(:action) { 'notify' }
+
       context 'when author no_self_notified property is true' do
         before do
           author.pref[:no_self_notified] = true
@@ -58,6 +60,51 @@ describe MeetingContentsController do
 
         it_behaves_like 'delivered by mail' do
           let(:mail_count) { 2 }
+        end
+      end
+
+      context 'when author no_self_notified property is false' do
+        before do
+          author.pref[:no_self_notified] = false
+          author.save!
+        end
+
+        it_behaves_like 'delivered by mail' do
+          let(:mail_count) { 3 }
+        end
+      end
+
+      context 'with an error during deliver' do
+        before do
+          author.pref[:no_self_notified] = false
+          author.save!
+          allow(MeetingMailer).to receive(:content_for_review).and_raise(Net::SMTPError)
+        end
+
+        it 'does not raise an error' do
+          expect { put 'notify', params: { meeting_id: meeting.id } }.to_not raise_error
+        end
+
+        it 'produces a flash message containing the mail addresses raising the error' do
+          put 'notify',  params: { meeting_id: meeting.id }
+          meeting.participants.each do |participant|
+            expect(flash[:error]).to include(participant.name)
+          end
+        end
+      end
+    end
+
+    describe 'icalendar' do
+      let(:action) { 'icalendar' }
+
+      context 'when author no_self_notified property is true' do
+        before do
+          author.pref[:no_self_notified] = true
+          author.save!
+        end
+
+        it_behaves_like 'delivered by mail' do
+          let(:mail_count) { 3 }
         end
       end
 

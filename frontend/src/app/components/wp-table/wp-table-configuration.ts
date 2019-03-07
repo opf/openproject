@@ -57,6 +57,20 @@ export class WorkPackageTableConfiguration {
   /** Whether this table is in an embedded context*/
   public isEmbedded:boolean = false;
 
+  /** Whether the number of shown WP per page shall be calculated based on the available height */
+  public forcePerPageOption:number|false = false;
+
+  /** Whether this table provides a UI for filters*/
+  public withFilters:boolean = false;
+
+  /** Whether the button to open filters shall be visible*/
+  public showFilterButton:boolean = false;
+  /** Whether the filters shall be visible*/
+  public showFilters:boolean = false;
+
+  /** Whether this table provides a UI for filters*/
+  public filterButtonText:string = I18n.t("js.button_filter");
+
   constructor(private providedConfig:WorkPackageTableConfigurationObject) {
     _.each(providedConfig, (value, k) => {
       let key = (k as keyof WorkPackageTableConfiguration);

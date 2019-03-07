@@ -57,6 +57,22 @@ cs:
     index:
       no_results_content_title: Nyní neexistují žádné ověřovací režimy.
       no_results_content_text: Vytvořit nový režim ověřování
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: žádný
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: V současné době neexistují žádné příspěvky pro nástěnku.
@@ -106,6 +122,10 @@ cs:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Fórum
   groups:
     index:
       no_results_title_text: V současné době neexistují žádné skupiny.
@@ -114,7 +134,21 @@ cs:
       no_results_title_text: Momentálně nejsou žádní uživatelé součástí této skupiny.
     memberships:
       no_results_title_text: V současné době nejsou žádné projekty součástí této skupiny.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
+    delete:
+      scheduled: Deletion has been scheduled and is perfomed in the background. You
+        will be notified of the result.
+      schedule_failed: 'Project cannot be deleted: %{errors}'
+      failed: Deletion of project %{name} has failed
+      failed_text: The request to delete project %{name} has failed. The project was
+        left archived.
+      completed: Deletion of project %{name} completed
+      completed_text: The request to delete project '%{name}' has been completed.
     index:
       no_results_title_text: V současné době nejsou žádné projekty
       no_results_content_text: Vytvořit nový projekt
@@ -212,6 +246,8 @@ cs:
       other: "%{count} work package descendants"
       few: "%{count} work package descendants"
       many: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -348,6 +384,11 @@ cs:
         subscriber: Odběratel
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximální počet aktivních uživatelů
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Zpoždění
         from: Pracovní balíček
@@ -438,6 +479,14 @@ cs:
         time_entries: Čas protokolu
         type: Typ
         watcher: Sledující
+      doorkeeper/application:
+        uid: Client ID
+        secret: Client secret
+        owner: Owner
+        redirect_uri: Redirect URI
+        client_credentials_user_id: Client Credentials User ID
+        scopes: Scopes
+        confidential: Confidential
     errors:
       messages:
         accepted: must be accepted.
@@ -494,8 +543,22 @@ cs:
           not_an_integer: "(%{name}) není celé číslo."
           smaller_than_or_equal_to: "(%{name}) musí být menší než nebo rovno %{count}."
           greater_than_or_equal_to: "(%{name}) musí být větší než nebo rovno %{count}."
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+              secured_uri: must be an HTTPS/SSL URI.
+              forbidden_uri: is forbidden by the server.
+            scopes:
+              not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -634,6 +697,7 @@ cs:
       wiki_page: Stránka wiki
       workflow: Pracovní postup
       work_package: Pracovní balíček
+      doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'Nastaly prolémy v následujících polích:'
     field_erroneous_label: |-
@@ -709,6 +773,7 @@ cs:
   button_change_password: Změnit heslo
   button_check_all: Zaškrtnout vše
   button_clear: Vyčistit
+  button_click_to_reveal: Click to reveal
   button_close: Zavřít
   button_collapse_all: Sbalit vše
   button_configure: Přizpůsobit
@@ -736,9 +801,9 @@ cs:
   button_print: Tisk
   button_quote: Citovat
   button_remove: Odstranit
-  button_remove_widget: Odstranit widget
   button_rename: Přejmenovat
   button_replace: Nahradit
+  button_revoke: Revoke
   button_reply: Odpovědět
   button_reset: Obnovit
   button_rollback: Obnovit tuto verzi
@@ -1183,7 +1248,6 @@ cs:
   label_all_open_wps: Všechny otevřené
   label_always_visible: Vždy zobrazovat
   label_announcement: Oznámení
-  label_and_its_subprojects: "%{value} a její dílčí projekty"
   label_api_access_key: Přístupový klíč pro API
   label_api_access_key_created_on: API přístupový klíč vytvořen před %{value}
   label_api_access_key_type: API
@@ -1315,6 +1379,7 @@ cs:
   label_environment: Prostředí
   label_estimates_and_time: Odhady a čas
   label_equals: je
+  label_everywhere: everywhere
   label_example: Příklad
   label_export_to: 'Také k dispozici:'
   label_expanded_click_to_collapse: Rozbaleno. Klepnutím sbalte
@@ -1352,6 +1417,7 @@ cs:
   label_history: Historie
   label_hierarchy_leaf: Úroveň hierarchie
   label_home: Domů
+  label_subject_or_id: Subject or ID
   label_in: v
   label_in_less_than: za méně než
   label_in_more_than: za více než
@@ -1425,7 +1491,6 @@ cs:
   label_my_account: Můj účet
   label_my_account_data: My account data
   label_my_page: Moje stránka
-  label_my_page_block: My page block
   label_my_projects: Moje projekty
   label_my_queries: Moje vlastní dotazy
   label_never: Nikdy
@@ -1532,7 +1597,6 @@ cs:
   label_repository_plural: Repozitáře
   label_required: vyžadováno
   label_requires: vyžaduje
-  label_responsible_for_work_packages: Work packages I am accountable for
   label_result_plural: Výsledky
   label_reverse_chronological_order: V obráceném chronologickém pořadí
   label_revision: Revize
@@ -1549,7 +1613,6 @@ cs:
   label_role_search: Přiřadit roli novým členům
   label_scm: SCM
   label_search: Vyhledávání
-  label_search_titles_only: Vyhledávat jen tituly
   label_send_information: Odeslat informace o účtu uživateli
   label_send_test_email: Odeslat testovací email
   label_settings: Nastavení
@@ -1630,6 +1693,7 @@ cs:
   label_view_diff: Zobrazit rozdíly
   label_view_revisions: Zobrazit revize
   label_watched_work_packages: Sledované pracovní balíčky
+  label_what_is_this: What is this?
   label_week: Týden
   label_wiki_content_added: Přidána stránka wiki
   label_wiki_content_updated: Wiki stránka aktualizována
@@ -1739,7 +1803,6 @@ cs:
     lists only)
   label_keyboard_shortcut_focus_next_item: Focus next list element (on some lists
     only)
-  label_visible_elements: Viditelné prvky
   auth_source:
     using_abstract_auth_source: Nelze použít abstraktní zdroj ověřování.
     ldap_error: 'Chyba LDAP: %{error_message}'
@@ -1819,6 +1882,8 @@ cs:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: Účet byl úspěšně změněn.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Chybné heslo
   notice_account_registered_and_logged_in: Welcome, your account has been activated.
     You are logged in now.
@@ -2226,6 +2291,7 @@ cs:
   setting_mail_handler_api_key: API klíč
   setting_mail_handler_body_delimiters: Zkrátit e-maily po jednom z těchto řádků
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Role přiřazená uživateli bez práv administrátora,
     který projekt vytvořil
   setting_password_active_rules: Active character classes
@@ -2409,8 +2475,13 @@ cs:
   text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
     a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
     administration panel, and on the home page. It is displayed to administrators
-    only. The badge will run a check of your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.'
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Chystáte se odebrat si některá nebo všechna svá oprávnění, potom již nemusíte být schopni upravit tento projekt.
     Opravdu chcete pokračovat?
@@ -2838,8 +2909,8 @@ cs:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Aktualizujte svůj prohlížeč prosím.
+    close_warning: Ignorovat toto upozornění.
   oauth:
     application:
       singular: OAuth application
@@ -2885,13 +2956,15 @@ cs:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Práva
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      few: "%{count} active token"
+      many: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2909,16 +2982,3 @@ cs:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Odstranit widget
-  label_and_its_subprojects: "%{value} a její dílčí projekty"
-  label_my_page_block: My page block
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_search_titles_only: Vyhledávat jen tituly
-  label_visible_elements: Viditelné prvky
-  setting_security_badge_displayed: Display security badge
-  text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
-    and on the home page. It is displayed to administrators only.
-    <br/>
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.

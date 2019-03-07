@@ -45,7 +45,7 @@ describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController, with_2fa_
       let(:logged_in_user) { admin }
 
       it 'renders the page' do
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template 'new_type'
       end
 
@@ -69,7 +69,7 @@ describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController, with_2fa_
         end
 
         it 'renders the new form' do
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template 'new_type'
         end
       end
@@ -80,7 +80,7 @@ describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController, with_2fa_
         end
 
         it 'renders the new form' do
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template 'new'
         end
       end
@@ -95,7 +95,7 @@ describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController, with_2fa_
         let(:params) { { identifier: 'foo' } }
 
         it 'renders action new' do
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template 'new'
           expect(assigns[:device]).to be_invalid
         end

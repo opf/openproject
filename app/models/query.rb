@@ -64,6 +64,8 @@ class Query < ActiveRecord::Base
 
   scope(:global, -> { where(project_id: nil) })
 
+  scope(:hidden, -> { where(hidden: true) })
+
   def self.new_default(attributes = nil)
     new(attributes).tap do |query|
       query.add_default_filter
@@ -94,7 +96,7 @@ class Query < ActiveRecord::Base
   def set_default_sort
     return if sort_criteria.any?
 
-    self.sort_criteria = [['parent', 'asc']]
+    self.sort_criteria = [['id', 'asc']]
   end
 
   def context

@@ -36,6 +36,7 @@ zh-TW:
     button_duplicate: 複本
     button_edit: 編輯
     button_filter: 篩選器
+    button_advanced_filter: 進階篩選
     button_list_view: 清單檢視
     button_show_view: 全螢幕瀏覽
     button_log_time: 日誌的時間
@@ -138,12 +139,40 @@ zh-TW:
     general_text_yes: 是
     general_text_No: 否
     general_text_Yes: 是
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: 新知
+          at: at
+          no_results: 沒有新的消息可以報告
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: 我負責的工作項目
+        work_packages_assigned:
+          title: 分配給我的工作項目
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: 行事曆
     label_activate: 啟用
     label_activity_no: 活動條目編號 %{activityNo}
     label_activity_with_comment_no: 活動條目編號 %{activityNo}。有的使用者評論。
+    label_add_column_after: 在後面增加一欄
+    label_add_column_before: 在前面增加一欄
     label_add_columns: 增加欄
     label_add_comment: 新增評論
     label_add_comment_title: 註解並輸入 @ 來標記其他人
+    label_add_row_after: 在後面增加一列
+    label_add_row_before: 在前面增加一列
     label_add_selected_columns: 新增所選欄
     label_added_by: 新增者
     label_added_time_by: 由 %{author} 於%{age} 新增
@@ -200,6 +229,7 @@ zh-TW:
     label_menu_collapse: 收合
     label_menu_expand: 展開
     label_more_than_ago: 很多天之前
+    label_my_page: 我的首頁
     label_next: 下一個
     label_no_data: 沒有資料可顯示
     label_no_due_date: 無結束日期
@@ -218,7 +248,9 @@ zh-TW:
     label_visibility_settings: 可見度設定
     label_quote_comment: 引述這個評論
     label_reset: 重置
+    label_remove_column: 移除欄
     label_remove_columns: 移除所選欄
+    label_remove_row: 移除列
     label_save_as: 保存為
     label_select_watcher: 選擇一位關注者
     label_selected_filter_list: 所選的篩選器
@@ -240,6 +272,7 @@ zh-TW:
     label_activity_show_only_comments: 只顯示活動和其評論
     label_activity_show_all: 顯示所有的活動
     label_total_progress: "%{percent}%總進度"
+    label_total_amount: '總計: %{amount}'
     label_updated_on: 更新於
     label_warning: 警告
     label_work_package: 工作項目
@@ -350,6 +383,10 @@ zh-TW:
           includes: 包括
           requires: 需要
           required: 被以下需要
+    time_entry:
+      activity: 活動
+      comment: 評論
+      hours: 小時
     watchers:
       label_loading: 正在載入關注者...
       label_error_loading: 而發生錯誤裝載的觀察家
@@ -430,6 +467,7 @@ zh-TW:
     text_query_destroy_confirmation: 確實要刪除所選視圖嗎？
     text_attachment_destroy_confirmation: 你確定你想要刪除附件?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: 甘特圖
       labels:
         title: 標籤配置
@@ -490,13 +528,6 @@ zh-TW:
     tl_toolbar:
       zooms: 縮放等級
       outlines: 層次結構級別
-    unsupported_browser:
-      title: 系統不支援您的瀏覽器版本
-      message: Openproject 不再支援您正在使用的瀏覽器版本。
-      update_message: 請升級您的瀏覽器。
-      update_ie_user: 請改用Mozilla Firefox或Google Chrome，或者升級到Microsoft Edge。
-      learn_more: 了解更多
-      close_warning: 忽略此警告。
     upsale:
       ee_only: 僅企業版功能
     wiki_formatting:
@@ -541,16 +572,16 @@ zh-TW:
       label_enable_multi_select: 啟用複選
       label_disable_multi_select: 停用複選
       label_filter_add: 新增篩選器
+      label_filter_by_text: 用文字篩選
       label_options: 選項
       label_column_multiselect: '組合的下拉欄位: 使用方向鍵選擇，用 enter 鍵確認，用backspace鍵刪除'
-      label_switch_to_single_select: 切換為單選
-      label_switch_to_multi_select: 切換為複選
       message_error_during_bulk_delete: 刪除工作項目時發生錯誤
       message_successful_bulk_delete: 成功刪除工作項目
       message_successful_show_in_fullscreen: 點擊此處以全螢幕開啟此工作包
       message_view_spent_time: 顯示這個工作包所花費的時間
       message_work_package_read_only: 工作包被鎖定在此狀態。任何屬性以外的狀態都不能更改。
       no_value: 無值
+      placeholder_filter_by_text: 主旨, 描述, 評論 ...
       inline_create:
         title: 點擊添加新的工作項目到此清單
       create:
@@ -697,16 +728,16 @@ zh-TW:
         save: 儲存
         save_as: 另存為…
         export: 匯出...
-        visibility_settings: Visibility settings ...
-        page_settings: Rename view ...
+        visibility_settings: 可見度設定
+        page_settings: 重新命名視圖 ...
         delete: 删除
       filter: 篩選器
       unselected_title: 工作項目
-      search_query_label: Search saved views
-      search_query_title: Click to search saved views
-      placeholder_query_title: Set a title for this view
+      search_query_label: 搜索保存的視圖
+      search_query_title: 點擊搜尋保存的視圖
+      placeholder_query_title: 為此視圖設置標題
     modals:
-      label_settings: Rename view
+      label_settings: 重新命名視圖
       label_name: 名稱
       label_delete_page: 刪除目前的頁面
       button_apply: 套用
@@ -720,10 +751,8 @@ zh-TW:
         title: 確認刪除 %{label}
         text: 您確定要刪除以下 %{label}？
         has_children: '此工作項目包含 %{childUnits}:'
-        confirm_deletion_children: I acknowledge that ALL descendants of the listed
-          work packages will be recursively removed.
-        deletes_children: All child work packages and their descendants will also
-          be recursively deleted.
+        confirm_deletion_children: 我確認列出的工作項目的所有細項全部都將被刪除。
+        deletes_children: 所有子工作項目及其子項目也全部將被刪除。
     notice_successful_create: 建立成功
     notice_successful_delete: 刪除成功
     notice_successful_update: 更新成功
@@ -750,9 +779,8 @@ zh-TW:
         messages_on_field: '此欄位無效: %{messages}'
     error_could_not_resolve_version_name: 無法解析版本名稱
     error_could_not_resolve_user_name: 無法解析使用者名稱
-    error_attachment_upload: '檔 "%{name}" 未能上傳: %{error}'
-    error_attachment_upload_permission: You don't have the permission to upload files
-      on this resource.
+    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload_permission: 您沒有在此資源上載檔案的許可權。
     units:
       workPackage:
         one: work package
@@ -767,3 +795,13 @@ zh-TW:
     zen_mode:
       button_activate: 啟動 zen 模式
       button_deactivate: 停用 zen 模式
+    global_search:
+      all_projects: 在所有的專案
+      search: 搜尋
+      close_search: 關閉搜尋
+      current_project: 對現在的專案
+      current_project_and_all_descendants: 對現在的專案和子專案
+      title:
+        all_projects: 所有專案
+        project_and_subprojects: 和所有的子專案
+        search_for: 搜尋

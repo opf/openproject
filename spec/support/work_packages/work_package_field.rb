@@ -66,6 +66,10 @@ class WorkPackageField
   end
   alias :activate_edition :activate!
 
+  def openSelectField
+    autocomplete_selector.click
+  end
+
   def expect_state!(open:)
     if open
       expect_active!
@@ -118,10 +122,27 @@ class WorkPackageField
   def set_value(content)
     scroll_to_element(input_element)
 
-    if input_element.tag_name == 'select'
-      input_element.find(:option, content).select_option
+    if input_element.tag_name == 'ng-select'
+      page.find('.ng-dropdown-panel .ng-option', text: content).click
     else
       input_element.set(content)
+    end
+  end
+
+  ##
+  # Set or select the given value.
+  # For fields of type select, will check for an option with that value.
+  def unset_value(content, multi=false)
+    scroll_to_element(input_element)
+
+    if input_element.tag_name == 'ng-select'
+      if multi
+        page.find('.ng-value-label', text: content).sibling('.ng-value-icon').click
+      else
+        page.find('.ng-dropdown-panel .ng-option', text: '-').click
+      end
+    else
+      input_element.set('')
     end
   end
 
@@ -141,17 +162,25 @@ class WorkPackageField
       set_value value
 
       # select fields are saved on change
-      save! if save && field_type != 'select'
+      save! if save && field_type != 'ng-select'
       expect_state! open: expect_failure
     end
   end
 
   def submit_by_enter
-    input_element.native.send_keys(:return)
+    if field_type == 'ng-select'
+      autocomplete_selector.send_keys :return
+    else
+      input_element.native.send_keys :return
+    end
   end
 
   def cancel_by_escape
-    input_element.native.send_keys :escape
+    if field_type == 'ng-select'
+      autocomplete_selector.send_keys :escape
+    else
+      input_element.native.send_keys :escape
+    end
   end
 
   def editable?
@@ -166,17 +195,22 @@ class WorkPackageField
     end
   end
 
+  def autocomplete_selector
+    field_container.find('.ng-input input')
+  end
+
   def field_type
     @field_type ||= begin
       case property_name.to_s
       when 'assignee',
            'responsible',
            'priority',
+           'status',
            'project',
            'type',
            'version',
            'category'
-        :select
+        'ng-select'
       else
         :input
       end.to_s

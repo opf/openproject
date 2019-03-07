@@ -42,7 +42,7 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
   describe '#index' do
     it 'renders the index page' do
       get :index
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response).to render_template 'index'
     end
   end
@@ -50,7 +50,7 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
   describe '#new' do
     it 'renders the new page' do
       get :new
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(assigns[:webhook]).to be_new_record
       expect(response).to render_template 'new'
     end
@@ -68,7 +68,7 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
     describe 'with invalid params' do
       it 'renders an error' do
         post :create, params: { foo: 'bar' }
-        expect(response).not_to be_success
+        expect(response).not_to be_successful
       end
     end
 
@@ -114,7 +114,7 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
 
       it 'renders the edit page' do
         get :edit, params: { webhook_id: 'mocked' }
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(assigns[:webhook]).to be_present
         expect(response).to render_template 'edit'
       end
@@ -123,7 +123,7 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
     context 'when not found' do
       it 'renders 404' do
         get :edit, params: { webhook_id: '1234' }
-        expect(response).not_to be_success
+        expect(response).not_to be_successful
         expect(response.status).to eq 404
       end
     end
@@ -141,7 +141,7 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
     describe 'when not found' do
       it 'renders an error' do
         put :update, params: { webhook_id: 'bar' }
-        expect(response).not_to be_success
+        expect(response).not_to be_successful
         expect(response.status).to eq 404
       end
     end
