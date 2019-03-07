@@ -563,6 +563,7 @@ pt-BR:
           o zoom automático não estiver disponível.
 
 '
+      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Nível de zoom
       outlines: Nível de hierarquia

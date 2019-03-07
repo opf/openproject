@@ -566,6 +566,7 @@ nl:
           wanneer autozoom niet beschikbaar is.
 
 '
+      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Zoom niveau
       outlines: Niveau van de hiërarchie

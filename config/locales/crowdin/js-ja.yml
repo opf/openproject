@@ -503,6 +503,7 @@ ja:
         description: 'オートズームが使用できない場合に表示される初期ズームレベルを選択します。
 
 '
+      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: ズームレベル
       outlines: 階層レベル

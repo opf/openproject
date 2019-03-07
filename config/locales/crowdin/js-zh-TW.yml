@@ -503,6 +503,7 @@ zh-TW:
         description: '選擇自動縮放無法接通應顯示的初始縮放級別。
 
 '
+      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: 縮放等級
       outlines: 層次結構級別

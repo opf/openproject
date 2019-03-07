@@ -567,6 +567,7 @@ es:
           el zoom automático no esté disponible.
 
 '
+      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: nivel de Zoom
       outlines: Nivel de jerarquía

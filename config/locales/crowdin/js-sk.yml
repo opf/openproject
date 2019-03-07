@@ -558,6 +558,7 @@ sk:
           ak nie je k dispozícii autozoom.
 
 '
+      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Úroveň priblíženia
       outlines: Úroveň vnorenia

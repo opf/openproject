@@ -558,6 +558,7 @@ ru:
         description: 'Выберите первоначальный масштаб, при отсутствии доступа к автомасштабированию.
 
 '
+      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Степень масштабирования
       outlines: Уровень иерархии

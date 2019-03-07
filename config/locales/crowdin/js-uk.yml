@@ -560,6 +560,7 @@ uk:
           is not available.
 
 '
+      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Рівень масштабування
       outlines: Рівень ієрархії
