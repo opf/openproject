@@ -28,26 +28,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'open_project/logging/log_delegator'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+# Adds fallback to default locale for untranslated strings
+I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
 
-require 'csv'
-
-module OpenProject
-  ##
-  # Shortcut to the OpenProject log delegator, which extends
-  # default Rails error handling with other error handlers such as sentry.
-  def self.logger
-    ::OpenProject::Logging::LogDelegator
-  end
+# As we enabled +config.i18n.fallbacks+, Rails will fall back
+# to the default locale.
+# When other locales are available, fall back to them.
+if Setting.table_exists? # don't want to prevent migrations
+  defaults = Set.new I18n.fallbacks.defaults + Setting.available_languages.map(&:to_sym)
+  I18n.fallbacks.defaults = defaults
 end
