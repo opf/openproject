@@ -287,6 +287,9 @@ platforms :mri, :mingw, :x64_mingw do
   group :postgres do
     gem 'pg', '~> 1.1.0'
   end
+
+  # Support application loading when no database exists yet.
+  gem 'activerecord-nulldb-adapter', '~> 0.3.9'
 end
 
 group :opf_plugins do
