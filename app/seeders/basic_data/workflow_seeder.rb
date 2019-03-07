@@ -111,15 +111,26 @@ module BasicData
       on_hold          = Status.find_by(name: I18n.t(:default_status_on_hold))
       rejected         = Status.find_by(name: I18n.t(:default_status_rejected))
 
-      {
-        types[I18n.t(:default_type_task)]       => [new, in_progress, on_hold, rejected, closed],
-        types[I18n.t(:default_type_milestone)]  => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
-        types[I18n.t(:default_type_phase)]      => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
-        types[I18n.t(:default_type_feature)]    => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
-        types[I18n.t(:default_type_epic)]       => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
-        types[I18n.t(:default_type_user_story)] => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
-        types[I18n.t(:default_type_bug)]        => [new, confirmed, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed]
-      }
+      if OpenProject::Configuration['edition'] == 'bim'
+        {
+          types[I18n.t(:default_type_task)]                         => [new, in_progress, on_hold, rejected, closed],
+          types[I18n.t(:default_type_milestone)]                    => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
+          types[I18n.t(:default_type_phase)]                        => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
+          types[I18n.t('seeders.bim.default_type_building_model')]  => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
+          types[I18n.t('seeders.bim.default_type_defect')]          => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
+          types[I18n.t('seeders.bim.default_type_approval')]        => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
+        }
+      else
+        {
+          types[I18n.t(:default_type_task)]       => [new, in_progress, on_hold, rejected, closed],
+          types[I18n.t(:default_type_milestone)]  => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
+          types[I18n.t(:default_type_phase)]      => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
+          types[I18n.t(:default_type_feature)]    => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
+          types[I18n.t(:default_type_epic)]       => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
+          types[I18n.t(:default_type_user_story)] => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
+          types[I18n.t(:default_type_bug)]        => [new, confirmed, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed]
+        }
+      end
     end
   end
 end

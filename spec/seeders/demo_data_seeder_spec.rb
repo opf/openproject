@@ -29,28 +29,56 @@
 
 require 'spec_helper'
 
+def translate_with_base_url(string)
+  I18n.t(string, deep_interpolation: true, base_url: OpenProject::Configuration.rails_relative_url_root)
+end
+
 describe 'seeds' do
-  it 'create the demo data' do
-    perform_deliveries = ActionMailer::Base.perform_deliveries
+  let(:edition) { 'standard' }
+  let(:perform_deliveries) { ActionMailer::Base.perform_deliveries }
+  let(:num_queries) { defined?(OpenProject::Backlogs) ? 8 : 6 }
+
+  before do
+    allow(OpenProject::Configuration).to receive(:[]).and_call_original
+    allow(OpenProject::Configuration).to receive(:[]).with('edition').and_return(edition)
+
     ActionMailer::Base.perform_deliveries = false
 
-    num_queries = defined?(OpenProject::Backlogs) ? 8 : 6
+    # Avoid asynchronous DeliverWorkPackageCreatedJob
+    Delayed::Worker.delay_jobs = false
 
-    begin
-      # Avoid asynchronous DeliverWorkPackageCreatedJob
-      Delayed::Worker.delay_jobs = false
+    expect { BasicDataSeeder.new.seed! }.not_to raise_error
+    expect { AdminUserSeeder.new.seed! }.not_to raise_error
+    expect { DemoDataSeeder.new.seed! }.not_to raise_error
+  end
 
-      expect { BasicDataSeeder.new.seed! }.not_to raise_error
-      expect { AdminUserSeeder.new.seed! }.not_to raise_error
-      expect { DemoDataSeeder.new.seed! }.not_to raise_error
+  context 'standard edition' do
+    it 'create the demo data' do
+      begin
+        expect(User.where(admin: true).count).to eq 1
+        expect(Project.count).to eq 2
+        expect(WorkPackage.count).to eq 41
+        expect(Wiki.count).to eq 2
+        expect(Query.count).to eq num_queries
+      ensure
+        ActionMailer::Base.perform_deliveries = perform_deliveries
+      end
+    end
+  end
 
-      expect(User.where(admin: true).count).to eq 1
-      expect(Project.count).to eq 2
-      expect(WorkPackage.count).to eq 41
-      expect(Wiki.count).to eq 2
-      expect(Query.count).to eq num_queries
-    ensure
-      ActionMailer::Base.perform_deliveries = perform_deliveries
+  context 'bim edition' do
+    let(:edition) { 'bim' }
+
+    it 'create the demo data' do
+      begin
+        expect(User.where(admin: true).count).to eq 1
+        expect(Project.count).to eq 1
+        expect(WorkPackage.count).to eq 18
+        expect(Wiki.count).to eq 1
+        expect(Query.count).to eq 4
+      ensure
+        ActionMailer::Base.perform_deliveries = perform_deliveries
+      end
     end
   end
 end

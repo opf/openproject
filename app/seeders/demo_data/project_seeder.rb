@@ -30,7 +30,13 @@ module DemoData
     # Careful: The seeding recreates the seeded project before it runs, so any changes
     # on the seeded project will be lost.
     def seed_data!
-      ["scrum-project", "demo-project"].each do |key|
+      seed_projects = ["scrum-project", "demo-project"]
+
+      if OpenProject::Configuration['edition'] == 'bim'
+        seed_projects = ["demo-project"]
+      end
+
+      seed_projects.each do |key|
         puts " ↳ Creating #{key} project..."
 
         puts '   -Creating/Resetting project'
@@ -81,7 +87,7 @@ module DemoData
     end
 
     def seed_settings
-      welcome = translate_with_base_url("seeders.demo_data.welcome")
+      welcome = translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.welcome")
 
       if welcome.present?
         Setting.welcome_title = welcome[:title]
@@ -118,32 +124,32 @@ module DemoData
 
     def set_types(project, key)
       project.types.clear
-      Array(translate_with_base_url("seeders.demo_data.projects.#{key}.types")).each do |type_name|
+      Array(translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}.types")).each do |type_name|
         type = Type.find_by(name: translate_with_base_url(type_name))
         project.types << type
       end
     end
 
     def seed_categories(project, key)
-      Array(translate_with_base_url("seeders.demo_data.projects.#{key}.categories")).each do |cat_name|
+      Array(translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}.categories")).each do |cat_name|
         project.categories.create name: cat_name
       end
     end
 
     def seed_news(project, key)
-      Array(translate_with_base_url("seeders.demo_data.projects.#{key}")[:news]).each do |news|
+      Array(translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}")[:news]).each do |news|
         News.create! project: project, title: news[:title], summary: news[:summary], description: news[:description]
       end
     end
 
     def seed_queries(project, key)
-      Array(translate_with_base_url("seeders.demo_data.projects.#{key}")[:queries]).each do |config|
+      Array(translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}")[:queries]).each do |config|
         QueryBuilder.new(config, project).create!
       end
     end
 
     def seed_versions(project, key)
-      version_data = translate_with_base_url("seeders.demo_data.projects.#{key}.versions")
+      version_data = translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}.versions")
 
       return if version_data.is_a?(String) && version_data.start_with?("translation missing")
 
@@ -155,8 +161,8 @@ module DemoData
     def seed_board(project)
       Board.create!(
         project: project,
-        name: translate_with_base_url('seeders.demo_data.board.name'),
-        description: translate_with_base_url('seeders.demo_data.board.description')
+        name: translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.board.name"),
+        description: translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.board.description")
       )
     end
 
@@ -174,15 +180,15 @@ module DemoData
       end
 
       def project_name(key)
-        translate_with_base_url("seeders.demo_data.projects.#{key}.name")
+        translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}.name")
       end
 
       def project_identifier(key)
-        translate_with_base_url("seeders.demo_data.projects.#{key}.identifier")
+        translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}.identifier")
       end
 
       def project_description(key)
-        translate_with_base_url("seeders.demo_data.projects.#{key}.description")
+        translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}.description")
       end
 
       def project_types
@@ -190,7 +196,7 @@ module DemoData
       end
 
       def project_modules(key)
-        translate_with_base_url("seeders.demo_data.projects.#{key}.modules")
+        translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}.modules")
       end
 
       def find_project(key)

@@ -200,7 +200,22 @@ module OpenProject
       'table-timeline--row-height'                           => '40px',
       'status-selector-bg-color'                             => '#F99601',
       'status-selector-bg-hover-color'                       => '#E08600'
-    }.freeze
+    }.merge(
+      if OpenProject::Configuration['edition'] == 'bim'
+        {
+          'primary-color'                                        => "#748EA8",
+          'primary-color-dark'                                   => "#566484",
+          'header-bg-color'                                      => "#566484",
+          'header-item-bg-hover-color'                           => "#748EA8",
+          'main-menu-bg-color'                                   => "#333739",
+          'main-menu-bg-selected-background'                     => "#748EA8",
+          'main-menu-bg-hover-background'                        => "#566484",
+          'header-home-link-bg'                                  => '#{image-url("editions/bim/logo_openproject_bim_big.png") no-repeat 20px 0}'
+        }
+      else
+        {}
+      end
+    ).freeze
 
     # Regular expression for references of other variables.
     VARIABLE_NAME_RGX = /\$([\w-]+)/

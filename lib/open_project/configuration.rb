@@ -37,7 +37,8 @@ module OpenProject
 
     # Configuration default values
     @defaults = {
-      'attachments_storage' => 'file',
+      'edition'                 => 'standard',
+      'attachments_storage'      => 'file',
       'attachments_storage_path' => nil,
       'attachments_grace_period' => 180,
       'autologin_cookie_name'   => 'autologin',
