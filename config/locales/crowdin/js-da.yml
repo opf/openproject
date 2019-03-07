@@ -508,6 +508,7 @@ da:
       view?
     text_attachment_destroy_confirmation: Sikker på, at du vil slette vedhæftningen?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration

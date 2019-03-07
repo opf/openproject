@@ -463,6 +463,7 @@ zh:
     text_query_destroy_confirmation: 确定要删除所选视图吗？
     text_attachment_destroy_confirmation: 你确定要删除这个附件?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: 甘特图
       labels:
         title: 标签配置

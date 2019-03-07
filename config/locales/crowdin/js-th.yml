@@ -509,6 +509,7 @@ th:
       view?
     text_attachment_destroy_confirmation: คุณแน่ใจหรือไม่ว่าจะไฟล์แนบ?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration

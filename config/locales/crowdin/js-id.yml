@@ -509,6 +509,7 @@ id:
       view?
     text_attachment_destroy_confirmation: Apakah Anda yakin ingin menghapus lampiran?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Bagan Gantt
       labels:
         title: Label configuration

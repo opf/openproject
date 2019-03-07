@@ -510,6 +510,7 @@ vi:
     text_query_destroy_confirmation: Bạn muốn xóa các mục đã chọn?
     text_attachment_destroy_confirmation: Bạn có chắc bạn muốn xóa tập tin đính kèm?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Cấu hình nhãn

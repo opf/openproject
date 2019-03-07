@@ -518,6 +518,7 @@ de:
     text_attachment_destroy_confirmation: Sind Sie sicher, dass Sie diesen Anhang
       löschen möchten?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt-Diagramm
       labels:
         title: Konfiguration von Beschriftungen

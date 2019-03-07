@@ -518,6 +518,7 @@ pt-BR:
     text_query_destroy_confirmation: Tem certeza que deseja excluir a visão selecionada?
     text_attachment_destroy_confirmation: Tem certeza de que deseja excluir o anexo?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gráfico de Gantt
       labels:
         title: Configuração de rótulos

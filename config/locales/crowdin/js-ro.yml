@@ -515,6 +515,7 @@ ro:
       view?
     text_attachment_destroy_confirmation: Sunteţi sigur că doriţi să ştergeţi atașamentul?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Grafic Gantt
       labels:
         title: Label configuration

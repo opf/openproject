@@ -467,6 +467,7 @@ ja:
     text_query_destroy_confirmation: 選択したビューを削除してもよろしいですか？
     text_attachment_destroy_confirmation: この添付ファイルを削除してよろしいですか。
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: ガントチャート
       labels:
         title: ラベル設定

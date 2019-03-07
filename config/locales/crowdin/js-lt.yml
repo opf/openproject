@@ -510,6 +510,7 @@ lt:
     text_query_destroy_confirmation: Ar tikrai norite panaikinti pasirinktą vaizdą?
     text_attachment_destroy_confirmation: Ar tikrai norite panaikinti priedą?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Ganto grafikas
       labels:
         title: Žymės konfigūracija

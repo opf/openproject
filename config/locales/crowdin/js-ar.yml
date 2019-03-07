@@ -510,6 +510,7 @@ ar:
       view?
     text_attachment_destroy_confirmation: هل أنت متأكد أنك تريد حذف المرفق؟
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration

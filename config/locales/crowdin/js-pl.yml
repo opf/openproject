@@ -510,6 +510,7 @@ pl:
     text_query_destroy_confirmation: Czy na pewno chcesz usunąć zaznaczony widok?
     text_attachment_destroy_confirmation: Jesteś pewien, że chcesz usunąć ten załącznik?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Wykres Gantta
       labels:
         title: Konfiguracja etykiety

@@ -514,6 +514,7 @@ ru:
     text_query_destroy_confirmation: Уверены, что хотите удалить выбранное представление?
     text_attachment_destroy_confirmation: Вы уверены, что вы хотите удалить вложение?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Диаграмма Гантта
       labels:
         title: Настройка меток

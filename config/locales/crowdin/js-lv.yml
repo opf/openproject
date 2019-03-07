@@ -508,6 +508,7 @@ lv:
       view?
     text_attachment_destroy_confirmation: Vai tiešām vēlaties izdzēst pielikumu?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration

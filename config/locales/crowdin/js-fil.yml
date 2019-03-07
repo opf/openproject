@@ -513,6 +513,7 @@ fil:
     text_attachment_destroy_confirmation: Sigurado ka ba na gusto mong burahin ang
       nakalakip?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt tsart
       labels:
         title: Label configuration

@@ -514,6 +514,7 @@ sk:
     text_query_destroy_confirmation: Naozaj chcete odstrániť vybraté zobrazenie?
     text_attachment_destroy_confirmation: Naozaj chcete odstrániť prílohu?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Ganttov diagram
       labels:
         title: Konfigurácia popisku

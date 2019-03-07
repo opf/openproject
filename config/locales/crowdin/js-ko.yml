@@ -479,6 +479,7 @@ ko:
     text_query_destroy_confirmation: 선택한 보기를 삭제하시겠습니까?
     text_attachment_destroy_confirmation: 정말 이 첨부 파일을 삭제 하시겠습니까?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt 차트
       labels:
         title: 레이블 구성

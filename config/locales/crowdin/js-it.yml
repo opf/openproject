@@ -518,6 +518,7 @@ it:
     text_query_destroy_confirmation: Sei sicuro di voler eliminare la vista selezionata?
     text_attachment_destroy_confirmation: Sei sicuro di che voler eliminare l'allegato?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Diagramma di Gantt
       labels:
         title: Configurazione etichetta

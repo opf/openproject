@@ -509,6 +509,7 @@ hi:
       view?
     text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: गैंट चार्ट
       labels:
         title: Label configuration

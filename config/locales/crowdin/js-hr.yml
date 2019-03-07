@@ -511,6 +511,7 @@ hr:
       view?
     text_attachment_destroy_confirmation: Da li ste sigurni da želite izbrisati privitke?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration

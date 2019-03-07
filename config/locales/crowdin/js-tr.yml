@@ -510,6 +510,7 @@ tr:
     text_query_destroy_confirmation: Seçilen görünümü silmek istediğinizden emin misiniz?
     text_attachment_destroy_confirmation: Eki silmek istediğinizden emin misiniz?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt görünümü
       labels:
         title: Etiket yapılandırma

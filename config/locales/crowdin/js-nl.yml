@@ -519,6 +519,7 @@ nl:
       wilt verwijderen?
     text_attachment_destroy_confirmation: Weet u zeker dat u de bijlage wilt verwijderen?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt-grafiek
       labels:
         title: Label configuratie

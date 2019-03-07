@@ -512,6 +512,7 @@ ca:
     text_attachment_destroy_confirmation: Esteu segur que voleu suprimir el fitxer
       adjunt?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration

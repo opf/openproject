@@ -467,6 +467,7 @@ zh-TW:
     text_query_destroy_confirmation: 確實要刪除所選視圖嗎？
     text_attachment_destroy_confirmation: 你確定你想要刪除附件?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: 甘特圖
       labels:
         title: 標籤配置

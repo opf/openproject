@@ -508,6 +508,7 @@ hu:
     text_query_destroy_confirmation: Biztosan törli a kijelölt megjelenítést?
     text_attachment_destroy_confirmation: Biztosan törli a mellékletet?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt-diagram
       labels:
         title: Címke konfiguráció
