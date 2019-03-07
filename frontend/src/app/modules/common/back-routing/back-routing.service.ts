@@ -28,23 +28,30 @@
 
 import {Injectable, Injector} from '@angular/core';
 import {StateService} from "@uirouter/core";
+import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 
 interface BackRouteOptions {
   name:string;
-  params: {};
+  params:{};
+  parent:string;
 }
 
 @Injectable()
 export class BackRoutingService {
   public backRoute:BackRouteOptions;
   private $state:StateService = this.injector.get(StateService);
+  private keepTab:KeepTabService = this.injector.get(KeepTabService);
 
   constructor(protected injector:Injector) {
   }
 
   public goBack() {
     if (this.backRoute) {
-      this.$state.go(this.backRoute.name, this.backRoute.params);
+      if(this.backRoute.parent === 'work-packages.list.details') {
+        this.$state.go(this.keepTab.currentDetailsState, this.$state.params);
+      } else {
+        this.$state.go(this.backRoute.name, this.backRoute.params);
+      }
     } else {
       this.$state.go('work-packages.list', this.$state.params);
     }

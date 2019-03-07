@@ -140,8 +140,8 @@ export function initializeUiRouterListeners(injector:Injector) {
           fromState.data &&
           toState.data &&
           fromState.data.parent !== toState.data.parent) {
-        const paramsFromCopy = Object.assign({}, transition.params('from'));
-        backRoutingService.setBackRoute({ name: fromState.name, params: paramsFromCopy });
+          const paramsFromCopy = Object.assign({}, transition.params('from'));
+          backRoutingService.setBackRoute({ name: fromState.name, params: paramsFromCopy, parent: fromState.data.parent });
       }
 
       // Reset profiler, if we're actually profiling
