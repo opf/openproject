@@ -28,26 +28,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'open_project/logging/log_delegator'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+# Since Rails 5, rake commands like db:create load the whole application.
+# As initializers and other parts of the boot sequence rely on calls accessing
+# the DB, the null db gem is used to fake the existence of a database in cases where
+# the db has not been created yet.
 
-require 'csv'
-
-module OpenProject
-  ##
-  # Shortcut to the OpenProject log delegator, which extends
-  # default Rails error handling with other error handlers such as sentry.
-  def self.logger
-    ::OpenProject::Logging::LogDelegator
-  end
-end
+OpenProject::NullDbFallback.fallback
