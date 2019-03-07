@@ -178,6 +178,19 @@ describe 'Work package calendars', type: :feature, js: true do
     page.go_back
 
     # click goes to work package show page
-    expect(page).to have_selector('.fc-event-container', text: current_work_package.subject, wait: 20)
+    expect(page)
+      .to have_selector('.fc-event-container', text: current_work_package.subject, wait: 20)
+
+    # click goes to work package show page again
+    page.find('.fc-event-container', text: current_work_package.subject).click
+
+    expect(page)
+      .to have_selector('.subject-header', text: current_work_package.subject)
+
+    # click back goes back to calendar
+    page.find('.work-packages-back-button').click
+
+    expect(page)
+      .to have_selector '.fc-event-container', text: current_work_package.subject, wait: 20
   end
 end

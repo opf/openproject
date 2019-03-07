@@ -27,7 +27,7 @@
 // ++
 
 import {Injectable, Injector} from '@angular/core';
-import {StateService} from "@uirouter/core";
+import {StateService, Transition} from "@uirouter/core";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 
 interface BackRouteOptions {
@@ -38,7 +38,7 @@ interface BackRouteOptions {
 
 @Injectable()
 export class BackRoutingService {
-  public backRoute:BackRouteOptions;
+  private _backRoute:BackRouteOptions;
   private $state:StateService = this.injector.get(StateService);
   private keepTab:KeepTabService = this.injector.get(KeepTabService);
 
@@ -46,18 +46,36 @@ export class BackRoutingService {
   }
 
   public goBack() {
-    if (this.backRoute) {
-      if(this.backRoute.parent === 'work-packages.list.details') {
+    if (!this.backRoute) {
+      this.$state.go('work-packages.list', this.$state.params);
+    } else {
+      if (this.keepTab.isDetailsState(this.backRoute.parent)) {
         this.$state.go(this.keepTab.currentDetailsState, this.$state.params);
       } else {
         this.$state.go(this.backRoute.name, this.backRoute.params);
       }
-    } else {
-      this.$state.go('work-packages.list', this.$state.params);
     }
   }
 
-  public setBackRoute(route:BackRouteOptions) {
-    this.backRoute = route;
+  public sync(transition:Transition) {
+    const fromState = transition.from();
+    const toState = transition.to();
+
+    // Set backRoute to know where we came from
+    if (fromState.name &&
+      fromState.data &&
+      toState.data &&
+      fromState.data.parent !== toState.data.parent) {
+      const paramsFromCopy = { ...transition.params('from') };
+      this.backRoute = { name: fromState.name, params: paramsFromCopy, parent: fromState.data.parent };
+    }
+  }
+
+  public set backRoute(route:BackRouteOptions) {
+    this._backRoute = route;
+  }
+
+  public get backRoute():BackRouteOptions {
+    return this._backRoute;
   }
 }

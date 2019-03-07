@@ -136,13 +136,7 @@ export function initializeUiRouterListeners(injector:Injector) {
       }
 
       // Set backRoute to know where we came from
-      if (fromState.name &&
-          fromState.data &&
-          toState.data &&
-          fromState.data.parent !== toState.data.parent) {
-          const paramsFromCopy = Object.assign({}, transition.params('from'));
-          backRoutingService.setBackRoute({ name: fromState.name, params: paramsFromCopy, parent: fromState.data.parent });
-      }
+      backRoutingService.sync(transition);
 
       // Reset profiler, if we're actually profiling
       const profiler:any = (window as any).MiniProfiler;

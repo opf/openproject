@@ -81,7 +81,10 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     url: '/{workPackageId:[0-9]+}',
     // Redirect to 'activity' by default.
     redirectTo: 'work-packages.show.activity',
-    component: WorkPackagesFullViewComponent
+    component: WorkPackagesFullViewComponent,
+    data: {
+      bodyClasses: 'action-show'
+    }
   },
   {
     name: 'work-packages.show.activity',

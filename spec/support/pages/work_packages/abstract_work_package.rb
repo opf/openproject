@@ -44,6 +44,10 @@ module Pages
       visit path(tab)
     end
 
+    def switch_to_tab(tab:)
+      find('.tabrow li a', text: tab.upcase).click
+    end
+
     def expect_tab(tab)
       expect(page).to have_selector('.tabrow li.selected', text: tab.to_s.upcase)
     end
