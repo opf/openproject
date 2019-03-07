@@ -2979,14 +2979,14 @@ it:
       api_v3_text: Application will receive full read & write access to the OpenProject
         API to perform actions on your behalf.
     grants:
-      created_date: Approved on
+      created_date: Approvato il
       scopes: Permessi
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
-      one: one active token
-      other: "%{count} active token"
+      one: un token attivo
+      other: "%{count} token attivi"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -3001,8 +3001,8 @@ it:
 
 '
     authorization_error: An authorization error has occurred.
-    revoke_my_application_confirmation: Do you really want to remove this application?
-      This will revoke %{token_count} active for it.
+    revoke_my_application_confirmation: Vuoi davvero rimuovere questa applicazione?
+      Questo revocherà %{token_count} attivo per essa.
     my_registered_applications: Registered OAuth applications
   ldap_auth_sources:
     connection_encryption: Connection encryption

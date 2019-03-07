@@ -850,7 +850,7 @@ it:
         messages_on_field: 'Questo campo non è valido: %{messages}'
     error_could_not_resolve_version_name: Impossibile determinare il nome della versione
     error_could_not_resolve_user_name: Impossibile determinare il nome utente
-    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload: 'Impossibile caricare il file: %{error}'
     error_attachment_upload_permission: Non hai il permesso per caricare file su questa
       risorsa.
     units:
