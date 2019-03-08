@@ -80,7 +80,7 @@ ro:
     index:
       no_results_title_text: În acest moment nu există culori.
       no_results_content_text: Creare culoare nouă
-    label_no_color: No color
+    label_no_color: Nicio culoare
   custom_actions:
     actions:
       name: Actions
@@ -196,8 +196,8 @@ ro:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Faceți click pentru a desemna sau schimba culoarea acestui nivel de prioritate.
+        Poate fi utilizate pentru a evidenția pachetele de lucru dintr-un tabel.
   reportings:
     index:
       no_results_title_text: În acest moment nu există rapoarte de stare.
@@ -210,8 +210,8 @@ ro:
         <br/>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        Faceți click pentru a desemna sau schimba culoarea pentru acest flux de lucru.
+        Acesta este afișat în butonul de statut și poate fi folosit pentru a evidenția pachetele de lucru din tabel.
     index:
       no_results_title_text: În acest moment nu există stări pentru pachetele de lucru.
       no_results_content_text: Adăugare stare nouă

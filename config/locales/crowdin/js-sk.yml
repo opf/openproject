@@ -490,7 +490,7 @@ sk:
         other: Zadajte ešte minimálne {{count}} znakov
         zero: Please enter more characters
         few: Zadajte ešte minimálne {{count}} znaky
-        many: Please enter {{count}} more characters
+        many: Zadajte ešte minimálne {{count}} znakov
       load_more: Načítanie ďalších záznamov ...
       no_matches: Nenašli sa žiadne záznamy
       searching: Vyhľadávanie ...
@@ -499,7 +499,7 @@ sk:
         other: Môžete vybrať maximálne {{limit}} položiek
         zero: You cannot select any items
         few: Môžete vybrať maximálne {{limit}} položky
-        many: You can only select {{limit}} items
+        many: Môžete vybrať maximálne {{limit}} položku
     project_menu_details: Podrobnosti
     sort:
       sorted_asc: 'Použiť vzostupné zoradenie, '
@@ -878,7 +878,7 @@ sk:
         other: "%{count} hodín"
         zero: 0 hours
         few: "%{count} hodiny"
-        many: "%{count} hours"
+        many: "%{count} hodiny"
     zen_mode:
       button_activate: Aktivovať zen režim
       button_deactivate: Deaktivovať zen režim

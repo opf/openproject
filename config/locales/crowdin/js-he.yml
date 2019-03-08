@@ -25,7 +25,7 @@ he:
     button_add_watcher: הוספת צופה
     button_back_to_list_view: Back to list view
     button_cancel: ביטול
-    button_close: Close
+    button_close: סגור
     button_check_all: סמן את כולם
     button_configure-form: Configure form
     button_confirm: Confirm
@@ -250,7 +250,7 @@ he:
     label_on: פועל
     label_open_menu: פתח תפריט
     label_open_context_menu: Open context menu
-    label_open_work_packages: open
+    label_open_work_packages: פתוח
     label_password: סיסמה
     label_previous: Previous
     label_per_page: 'לכל עמוד:'
@@ -264,7 +264,7 @@ he:
     label_save_as: שמירה בשם
     label_select_watcher: בחר צופה...
     label_selected_filter_list: 'מסננים נבחרים: %s'
-    label_show_attributes: Show all attributes
+    label_show_attributes: הצג את כל התכונות
     label_show_in_menu: Show view in menu
     label_sort_by: Sort by
     label_sorted_by: ממוין לפי

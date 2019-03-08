@@ -767,7 +767,7 @@ he:
   button_check_all: סמן את כולם
   button_clear: נקה
   button_click_to_reveal: Click to reveal
-  button_close: Close
+  button_close: סגור
   button_collapse_all: סגור הכל
   button_configure: הגדר
   button_continue: Continue
@@ -1322,7 +1322,7 @@ he:
   label_custom_field_new: שדה מותאם אישית חדש
   label_custom_field_plural: שדות מותאמים אישית
   label_custom_field_default_type: סוג ריק
-  label_custom_style: Design
+  label_custom_style: עיצוב
   label_date: תאריך
   label_date_and_time: Date and time
   label_date_from: מ
@@ -1505,8 +1505,8 @@ he:
   label_notify_member_plural: Email updates
   label_on: פועל
   label_open_menu: פתח תפריט
-  label_open_work_packages: open
-  label_open_work_packages_plural: open
+  label_open_work_packages: פתוח
+  label_open_work_packages_plural: פתוח
   label_openproject_website: OpenProject website
   label_optional_description: תיאור
   label_options: אפשריות
@@ -2342,7 +2342,7 @@ he:
     plain: Plain text
   status_active: active
   status_archived: archived
-  status_invited: invited
+  status_invited: הוזמנו
   status_locked: locked
   status_registered: registered
   support:
@@ -2533,7 +2533,7 @@ he:
       elements.
     delete_all: Delete all
     delete_thing: מחק
-    duration: Duration
+    duration: משך זמן
     duration_days:
       one: יום אחד
       other: "%{count} ימים"
@@ -2735,7 +2735,7 @@ he:
     error_status_change_failed: 'Changing the user status failed due to the following
       errors: %{errors}'
     invite: Invite user via email
-    invited: invited
+    invited: הוזמנו
     lock: Lock permanently
     locked: locked permanently
     no_login: This user authenticates through login by password. Since it is disabled,
@@ -2755,7 +2755,7 @@ he:
     unlock_and_reset_failed_logins: Unlock and reset failed logins
   version_status_closed: סגור
   version_status_locked: locked
-  version_status_open: open
+  version_status_open: פתוח
   note: Note
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning

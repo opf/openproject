@@ -487,14 +487,14 @@ vi:
     select2:
       input_too_short:
         one: Please enter one more character
-        other: Please enter {{count}} more characters
+        other: Vui lòng nhập {{count}} thêm nhân vật
         zero: Please enter more characters
       load_more: Loading more results ...
       no_matches: Không tìm thấy
       searching: Đang tìm ...
       selection_too_big:
         one: You can only select one item
-        other: You can only select {{limit}} items
+        other: Bạn có thể chỉ chọn {{limit}} mục
         zero: You cannot select any items
     project_menu_details: Chi tiết
     sort:
@@ -862,7 +862,7 @@ vi:
         other: work packages
       child_work_packages:
         one: one child work package
-        other: "%{count} work package children"
+        other: "%{count} tác phẩm gói phần mềm trẻ em"
       hour:
         one: 1 hour
         other: "%{count} hours"

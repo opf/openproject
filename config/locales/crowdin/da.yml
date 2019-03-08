@@ -763,7 +763,7 @@ da:
   button_check_all: Vælg alt
   button_clear: Ryd
   button_click_to_reveal: Click to reveal
-  button_close: Close
+  button_close: Luk
   button_collapse_all: Fold alle sammen
   button_configure: Opsæt
   button_continue: Fortsæt
@@ -1237,7 +1237,7 @@ da:
   label_available_project_versions: Tilgængelige versioner
   label_available_project_repositories: Tilgængelige repositorier
   label_api_documentation: API-dokumentation
-  label_between: between
+  label_between: mellem
   label_blocked_by: spærret af
   label_blocks: spærringer
   label_blog: Blog
@@ -1917,7 +1917,7 @@ da:
         format: "%n %u"
         units:
           byte:
-            one: Byte
+            one: byte
             other: Bytes
           gb: GB
           kb: kB

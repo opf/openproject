@@ -948,12 +948,12 @@ pl:
         one: 1 dzień
         other: "%{count} dni"
         few: "%{count} dni"
-        many: "%{count} days"
+        many: "%{count} dni"
       x_minutes:
         one: 1 minuta
         other: "%{count} minut"
         few: "%{count} minut"
-        many: "%{count} minutes"
+        many: "%{count} minut"
       x_months:
         one: 1 miesiąc
         other: "%{count} miesięcy"
@@ -1757,25 +1757,25 @@ pl:
     other: "%{count} komentarzy"
     zero: no comments
     few: "%{count} komentarzy"
-    many: "%{count} comments"
+    many: "%{count} komentarzy"
   label_x_open_work_packages_abbr:
     one: 1 otwarty
     other: "%{count} otwartych"
     zero: 0 open
     few: "%{count} otwartych"
-    many: "%{count} open"
+    many: "%{count} otwartych"
   label_x_open_work_packages_abbr_on_total:
     one: 1 otwarty / %{total}
     other: "%{count} otwartych / %{total}"
     zero: 0 open / %{total}
     few: "%{count} otwartych / %{total}"
-    many: "%{count} open / %{total}"
+    many: "%{count} otwartych / %{total}"
   label_x_projects:
     one: 1 projekt
     other: "%{count} projektów"
     zero: no projects
     few: "%{count} projektów"
-    many: "%{count} projects"
+    many: "%{count} projekty"
   label_year: Rok
   label_yesterday: wczoraj
   label_keyboard_function: Funkcja
@@ -1979,7 +1979,7 @@ pl:
             one: Bajt
             other: Bajty
             few: Bajty
-            many: Bytes
+            many: Bajty
           gb: GB
           kb: kB
           mb: MB
@@ -2577,7 +2577,7 @@ pl:
       one: 1 dzień
       other: "%{count} dni"
       few: "%{count} dni"
-      many: "%{count} days"
+      many: "%{count} dni"
     edit_color: Edycja koloru
     edit_thing: Edycja
     edit_timeline: Edit timeline report %{timeline}
@@ -2767,7 +2767,7 @@ pl:
       one: tymczasowo zablokowane (jedna nieudana próba zalogowania)
       other: tymczasowo zablokowane (%{count} nieudanych prób zalogowania)
       few: tymczasowo zablokowane (%{count} nieudanych prób zalogowania)
-      many: locked temporarily (%{count} failed login attempts)
+      many: tymczasowo zablokowane (%{count} nieudanych prób zalogowania)
     confirm_status_change: Zamierzasz zmienić status „%{name}”. Na pewno chcesz kontynuować?
     deleted: Usunięty uźytkownik
     error_status_change_failed: 'Zmiana statusu użytkownika nie powiodło się z powodu

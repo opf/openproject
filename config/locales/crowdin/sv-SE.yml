@@ -83,7 +83,7 @@ sv-SE:
     label_no_color: No color
   custom_actions:
     actions:
-      name: Actions
+      name: Åtgärder
       add: Lägg till åtgärd
       assigned_to:
         executing_user_value: "(Assign to executing user)"
@@ -360,7 +360,7 @@ sv-SE:
       comment:
         commented: Kommenterade
       custom_action:
-        actions: Actions
+        actions: Åtgärder
       custom_field:
         default_value: Standardvärde
         editable: Redigerbar
@@ -1784,7 +1784,7 @@ sv-SE:
       link_name: Nya arbetspaket
       link_name_type: New %{type_name}
   mail:
-    actions: Actions
+    actions: Åtgärder
   mail_body_account_activation_request: 'En ny användare (%{value}) har registrerats.
     Kontot väntar på ditt godkännande:'
   mail_body_account_information: Din kontoinformation

@@ -484,14 +484,14 @@
     select2:
       input_too_short:
         one: Angi mer enn {{count}} tegn
-        other: Please enter {{count}} more characters
+        other: Vennligst skriv {{count}} flere tegn
         zero: Please enter more characters
       load_more: Laster inn flere resultater...
       no_matches: Ingen treff
       searching: Søker ...
       selection_too_big:
         one: Du kan bare velge ett element
-        other: You can only select {{limit}} items
+        other: Du kan bare velge {{limit}} elementer
         zero: You cannot select any items
     project_menu_details: Detaljer
     sort:
@@ -613,9 +613,9 @@
       error:
         update_conflict_refresh: Click here to refresh the work package and update
           to the newest version.
-        edit_prohibited: Editing %{attribute} is blocked for this work package. Either
-          this attribute is derived from relations (e.g, children) or otherwise not
-          configurable.
+        edit_prohibited: Redigering av %{attribute} er blokkert for denne arbeidespakken.
+          Enten er attributtet avledet fra en relasjon (f.eks, barn) eller den kan
+          ikke konfigureres.
         format:
           date: "%{attribute} is no valid date - YYYY-MM-DD expected."
         general: En feil har oppstått.
@@ -864,7 +864,7 @@
         other: "%{count} work package children"
       hour:
         one: 1 time
-        other: "%{count} hours"
+        other: "%{count} timer"
         zero: 0 hours
     zen_mode:
       button_activate: Activate zen mode
