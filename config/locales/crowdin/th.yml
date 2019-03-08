@@ -1273,7 +1273,7 @@ th:
   label_custom_field_new: ฟิลด์ที่กำหนดเองใหม่
   label_custom_field_plural: ฟิลด์ที่กำหนดเอง
   label_custom_field_default_type: ชนิดว่าง
-  label_custom_style: Design
+  label_custom_style: การออกแบบ
   label_date: วันที่
   label_date_and_time: Date and time
   label_date_from: จาก
@@ -1677,7 +1677,7 @@ th:
   label_workflow_summary: สรุป
   label_x_closed_work_packages_abbr:
     one: 1 closed
-    other: "%{count} closed"
+    other: ปิดแล้ว %{count}
     zero: 0 closed
   label_x_comments:
     one: 1 comment
@@ -1685,15 +1685,15 @@ th:
     zero: no comments
   label_x_open_work_packages_abbr:
     one: 1 open
-    other: "%{count} open"
+    other: มี %{count} เปิดอยู่
     zero: 0 open
   label_x_open_work_packages_abbr_on_total:
     one: 1 open / %{total}
-    other: "%{count} open / %{total}"
+    other: มี %{count} เปิดอยู่ / จากทั้งหมด %{total}
     zero: 0 open / %{total}
   label_x_projects:
     one: 1 project
-    other: "%{count} projects"
+    other: "%{count} โครงการ"
     zero: no projects
   label_year: ปี
   label_yesterday: เมื่อวานนี้
@@ -2622,7 +2622,7 @@ th:
     blocked: ล็อคชั่วคราว
     blocked_num_failed_logins:
       one: locked temporarily (one failed login attempt)
-      other: locked temporarily (%{count} failed login attempts)
+      other: ถูกล็อคชั่วคราว (เนื่องจากผิดพลาด %{count} ครั้งในการพยายามล็อคอิน)
     confirm_status_change: You are about to change the status of '%{name}'. Are you
       sure you want to continue?
     deleted: ผู้ใช้ที่ถูกลบ

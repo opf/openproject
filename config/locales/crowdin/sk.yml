@@ -668,7 +668,7 @@ sk:
           one: 1 chyba zabránila uloženiu tohto %{model}
           other: "%{count} chýb zabránilo uloženiu tohto %{model}"
           few: "%{count} chyby zabránili uloženiu tohto %{model}"
-          many: "%{count} errors prohibited this %{model} from being saved"
+          many: "%{count} chýb zabránilo uloženiu tohto %{model}"
     models:
       attachment: Súbor
       attribute_help_text: Text nápovedy atribútu
@@ -687,7 +687,7 @@ sk:
         one: Rola
         other: Rolí
         few: Roly
-        many: Roles
+        many: Roly
       type: Typ
       user: Užívateľ(ka)
       version: Verzia
@@ -917,17 +917,17 @@ sk:
         one: približne 1 mesiac
         other: približne %{count} mesiace
         few: približne %{count} mesiace
-        many: about %{count} months
+        many: približne %{count} mesiacov
       about_x_years:
         one: približne 1 rok
         other: približne %{count} roky
         few: približne %{count} roky
-        many: about %{count} years
+        many: približne %{count} rokov
       almost_x_years:
         one: skoro 1 rok
         other: viac ako %{count} rokov
         few: skoro %{count} roky
-        many: almost %{count} years
+        many: skoro %{count} rokov
       half_a_minute: pol minúty
       less_than_x_minutes:
         one: menej než 1 minúta

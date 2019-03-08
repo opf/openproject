@@ -66,7 +66,7 @@ fi:
     label_no_color: No color
   custom_actions:
     actions:
-      name: Actions
+      name: Toiminnot
       add: Lisää toiminto
       assigned_to:
         executing_user_value: "(Assign to executing user)"
@@ -344,7 +344,7 @@ fi:
       comment:
         commented: Kommentoitu
       custom_action:
-        actions: Actions
+        actions: Toiminnot
       custom_field:
         default_value: Oletusarvo
         editable: Muokattava
@@ -1765,7 +1765,7 @@ fi:
       link_name: Uusi työpaketti
       link_name_type: New %{type_name}
   mail:
-    actions: Actions
+    actions: Toiminnot
   mail_body_account_activation_request: 'Uusi käyttäjä (%{value}) on rekisteröitynyt.
     Hänen tili odottaa hyväksyntääsi:'
   mail_body_account_information: Sinun tilin tiedot
@@ -2527,7 +2527,7 @@ fi:
       comparisons: Comparisons
       comparison:
         absolute: Absolute
-        none: None
+        none: Ei mitään
         relative: Relative
         compare_relative_prefix: Compare current planning to
         compare_relative_suffix: sitten

@@ -25,7 +25,7 @@ da:
     button_add_watcher: Tilføj tilsynsførende
     button_back_to_list_view: Tilbage til listevisning
     button_cancel: Annuller
-    button_close: Close
+    button_close: Luk
     button_check_all: Vælg alt
     button_configure-form: Konfigurer formularen
     button_confirm: Bekræft
@@ -167,7 +167,7 @@ da:
     label_and: og
     label_ascending: Stigende
     label_author: 'Forfatter: %{user}'
-    label_between: between
+    label_between: mellem
     label_board: Board
     label_board_locked: Låst
     label_board_plural: Boards

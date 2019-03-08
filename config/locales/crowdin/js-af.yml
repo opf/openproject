@@ -594,9 +594,9 @@ af:
       error:
         update_conflict_refresh: Click here to refresh the work package and update
           to the newest version.
-        edit_prohibited: Editing %{attribute} is blocked for this work package. Either
-          this attribute is derived from relations (e.g, children) or otherwise not
-          configurable.
+        edit_prohibited: Redigering van %{attribute} is geblokkeer vir hierdie werkspakket.
+          Hierdie eienskap is of afgelei van verhoudings (bv., kinders) of andersins
+          nie veranderbaar nie.
         format:
           date: "%{attribute} is no valid date - YYYY-MM-DD expected."
         general: An error has occurred.

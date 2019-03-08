@@ -255,7 +255,7 @@ fi:
     label_subject: Aihe
     label_this_week: tällä viikolla
     label_today: tänään
-    label_up: Up
+    label_up: Ylös
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} % eteneminen"
@@ -872,7 +872,7 @@ fi:
           title: Spent time (last 7 days)
           no_results: No time entries for the last 7 days.
         work_packages_accountable:
-          title: Work packages I am accountable for
+          title: Kaikki työpaketit joista olen vastuussa
         work_packages_assigned:
           title: Minulle määritetyt työpaketit
         work_packages_created:

@@ -632,8 +632,8 @@ cs:
                   posledních.
                 few: bylo již použito. Zvolte takové, které není stejné jako %{count}
                   posledních.
-                many: has been used before. Please choose one that is different from
-                  your last %{count}.
+                many: bylo již použito. Zvolte takové, které není stejné jako %{count}
+                  posledních.
               match:
                 confirm: Potvrzení nového hesla.
                 description: '"Potvrzení hesla" musí odpovídat vstupu v poli "Nové
@@ -674,7 +674,7 @@ cs:
         one: Role
         other: Role
         few: Role
-        many: Roles
+        many: Role
       type: Typ
       user: Uživatel
       version: Verze
@@ -895,14 +895,14 @@ cs:
     distance_in_words:
       about_x_hours:
         one: přibližně 1 hodinu
-        other: about %{count} hours
-        few: about %{count} hours
-        many: about %{count} hours
+        other: přibližně %{count} hodin
+        few: přibližně %{count} hodin
+        many: přibližně %{count} hodin
       about_x_months:
         one: přibližně 1 měsíc
-        other: about %{count} months
-        few: about %{count} months
-        many: about %{count} months
+        other: přibližně %{count} měsíce
+        few: přibližně %{count} měsíce
+        many: přibližně %{count} měsíce
       about_x_years:
         one: přibližně 1 rok
         other: about %{count} years
@@ -926,14 +926,14 @@ cs:
         many: less than %{count} seconds
       over_x_years:
         one: přes 1 rok
-        other: over %{count} years
-        few: over %{count} years
-        many: over %{count} years
+        other: přes %{count} let
+        few: přes %{count} let
+        many: přes %{count} let
       x_days:
         one: 1 den
-        other: "%{count} days"
-        few: "%{count} days"
-        many: "%{count} days"
+        other: "%{count} dní"
+        few: "%{count} dní"
+        many: "%{count} dní"
       x_minutes:
         one: 1 minuta
         other: "%{count} minutes"
@@ -1453,7 +1453,7 @@ cs:
   label_me: já
   label_member_new: Nový člen
   label_member_plural: Členové
-  label_view_all_members: View all members
+  label_view_all_members: Zobrazit všechny členy
   label_menu_item_name: Název položky menu
   label_message: Zpráva
   label_message_last: Poslední zpráva
@@ -1519,7 +1519,7 @@ cs:
   label_password_rule_special: Speciální znaky
   label_password_rule_uppercase: Velká písmena
   label_path_encoding: Path encoding
-  label_pdf_with_descriptions: PDF with Descriptions
+  label_pdf_with_descriptions: PDF s popisem
   label_per_page: Per page
   label_people: Lidé
   label_permissions: Práva
@@ -1731,13 +1731,13 @@ cs:
     other: "%{count} uzavřeny"
     zero: 0 closed
     few: "%{count} uzavřeny"
-    many: "%{count} closed"
+    many: "%{count} uzavřeny"
   label_x_comments:
     one: 1 komentář
     other: "%{count} komentářů"
     zero: no comments
     few: "%{count} komentářů"
-    many: "%{count} comments"
+    many: "%{count} komentáře"
   label_x_open_work_packages_abbr:
     one: 1 otevřený
     other: "%{count} otevřených"
@@ -2540,9 +2540,9 @@ cs:
     duration: Doba trvání
     duration_days:
       one: 1 den
-      other: "%{count} days"
-      few: "%{count} days"
-      many: "%{count} days"
+      other: "%{count} dní"
+      few: "%{count} dní"
+      many: "%{count} dní"
     edit_color: Upravit barvy
     edit_thing: Upravit
     edit_timeline: Edit timeline report %{timeline}

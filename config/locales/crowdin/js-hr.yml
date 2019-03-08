@@ -25,7 +25,7 @@ hr:
     button_add_watcher: Dodaj nadglednika
     button_back_to_list_view: Back to list view
     button_cancel: Odustani
-    button_close: Close
+    button_close: Zatvori
     button_check_all: Označi sve
     button_configure-form: Configure form
     button_confirm: Potvrdi
@@ -167,7 +167,7 @@ hr:
     label_and: i
     label_ascending: Uzlazno
     label_author: 'Autor: %{user}'
-    label_between: between
+    label_between: između
     label_board: Board
     label_board_locked: Zaključano
     label_board_plural: Boards
@@ -256,7 +256,7 @@ hr:
     label_subject: Predmet
     label_this_week: ovog tjedna
     label_today: danas
-    label_up: Up
+    label_up: Gore
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% ukupnog napretka"

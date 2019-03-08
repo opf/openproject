@@ -257,7 +257,7 @@ id:
     label_subject: Perihal
     label_this_week: minggu ini
     label_today: hari ini
-    label_up: Up
+    label_up: Naik
     label_activity_show_only_comments: Tampilkan hanya aktivitas bersama komentar
     label_activity_show_all: Tampilkan semua aktivitas
     label_total_progress: "%{percent}% total progres"

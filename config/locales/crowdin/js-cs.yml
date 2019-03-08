@@ -887,7 +887,7 @@ cs:
           title: Spent time (last 7 days)
           no_results: No time entries for the last 7 days.
         work_packages_accountable:
-          title: Work packages I am accountable for
+          title: Pracovní balíčky, za které zodpovídám
         work_packages_assigned:
           title: Pracovní balíčky přidělené mně
         work_packages_created:
