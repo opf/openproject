@@ -566,6 +566,7 @@ it:
           zoom automatico non è disponibile.
 
 '
+      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Livello di zoom
       outlines: Livello della gerarchia

@@ -558,6 +558,7 @@ cs:
           is not available.
 
 '
+      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Úroveň přiblížení/oddálení
       outlines: Úroveň hierarchie

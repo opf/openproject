@@ -553,6 +553,7 @@ lv:
           is not available.
 
 '
+      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Tālummaiņas līmenis
       outlines: Hierarhijas līmenis

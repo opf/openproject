@@ -499,6 +499,7 @@ zh:
         description: '选择自动缩放不可用时应显示的初始缩放级别。
 
 '
+      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: 缩放级别
       outlines: 层次结构级别

@@ -555,6 +555,7 @@ pl:
           gdy tryb autopowiększenia jest niedostępny.
 
 '
+      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Powiększenie
       outlines: Poziom hierarchii

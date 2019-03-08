@@ -573,6 +573,7 @@ fr:
           lorsque le zoom automatique n’est pas disponible.
 
 '
+      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Niveau de zoom
       outlines: Niveau de hiérarchie

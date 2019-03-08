@@ -565,6 +565,7 @@ de:
           Autozoom aktiviert ist.
 
 '
+      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Zoomstufe
       outlines: Hierarchie-Stufe
