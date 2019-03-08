@@ -157,6 +157,7 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
 
   private setQueryProps():void {
     let filters:any[] = [];
+    let columns = ['id', 'project', 'subject', 'type', 'status', 'updatedAt'];
 
     if (this.globalSearchService.searchTerm.length > 0) {
       filters.push({ search: {
@@ -168,6 +169,7 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
       filters.push({ subprojectId: {
           operator: '!*',
           values: [] }});
+      columns = ['id', 'subject', 'type', 'status', 'updatedAt'];
     }
 
     if (this.globalSearchService.projectScope === '') {
@@ -177,7 +179,7 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
     }
 
     this.queryProps = {
-      'columns[]': ['id', 'project', 'type', 'subject', 'updatedAt'],
+      'columns[]': columns,
       filters: JSON.stringify(filters),
       sortBy: JSON.stringify([['updatedAt', 'desc']]),
       showHierarchies: false
