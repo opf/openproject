@@ -473,13 +473,13 @@ es:
         type: Tipo
         watcher: Vigilante
       doorkeeper/application:
-        uid: Client ID
+        uid: ID de cliente
         secret: Client secret
-        owner: Owner
+        owner: Propietario
         redirect_uri: Redirect URI
-        client_credentials_user_id: Client Credentials User ID
+        client_credentials_user_id: ID de Usuario de Credenciales del Cliente
         scopes: Scopes
-        confidential: Confidential
+        confidential: Confidencial
       grids/grid:
         page: Page
         row_count: Number of rows
@@ -547,11 +547,11 @@ es:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
+              fragment_present: no puede contener un fragmento.
+              invalid_uri: debe ser una URI válida.
               relative_uri: must be an absolute URI.
               secured_uri: must be an HTTPS/SSL URI.
-              forbidden_uri: is forbidden by the server.
+              forbidden_uri: está prohibida por el servidor.
             scopes:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
@@ -803,7 +803,7 @@ es:
   button_remove: Eliminar
   button_rename: Cambiar el nombre
   button_replace: Sustituir
-  button_revoke: Revoke
+  button_revoke: Revocar
   button_reply: Respuesta
   button_reset: Reiniciar
   button_rollback: Volver a esta versión
@@ -1406,7 +1406,7 @@ es:
   label_history: Historial
   label_hierarchy_leaf: Hoja de jerarquía
   label_home: Inicio
-  label_subject_or_id: Subject or ID
+  label_subject_or_id: Asunto o ID
   label_in: en
   label_in_less_than: en menos de
   label_in_more_than: en más de
@@ -1686,7 +1686,7 @@ es:
   label_view_diff: Ver diferencias
   label_view_revisions: Ver revisiones
   label_watched_work_packages: Paquetes de trabajos seguidos
-  label_what_is_this: What is this?
+  label_what_is_this: "¿Qué es esto?"
   label_week: Semana
   label_wiki_content_added: Página wiki añadida
   label_wiki_content_updated: Página wiki actualizada
@@ -2312,7 +2312,7 @@ es:
   setting_per_page_options: Objetos por página de opciones
   setting_plain_text_mail: Correo en texto plano (sin HTML)
   setting_protocol: Protocolo
-  setting_security_badge_displayed: Display security badge
+  setting_security_badge_displayed: Mostrar insignia de seguridad
   setting_registration_footer: Pié de página de registro
   setting_repositories_automatic_managed_vendor: Tipo de proveedor de repositorio
     automático
@@ -2896,11 +2896,11 @@ es:
       schema: Esquema
   doorkeeper:
     pre_authorization:
-      status: Pre-authorization
+      status: Pre-autorización
     errors:
       messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
+        invalid_request: Falta un parámetro necesario en la petición, un valor de
+          parámetro no compatible ha sido añadido, o se encuentra deformado.
         invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
           client redirect URI.
         unauthorized_client: The client is not authorized to perform this request
@@ -2952,23 +2952,23 @@ es:
           use the following URL.
 
 '
-        confidential: Check if the application will be used where the client secret
-          can be kept confidential. Native mobile apps and Single Page Apps are assumed
-          non-confidential.
+        confidential: Comprueba que la aplicación puede ser usada en donde el secreto
+          de cliente puede seguir siendo confidencial. Las aplicaciones nativas del
+          móvil y las Aplicaciones de Páginas Particulares se consideran No Confidenciales.
         client_credential_user_id: Optional user ID to impersonate when clients use
           this application. Leave empty to allow public access only
         register_intro: If you are developing an OAuth API client application for
           OpenProject, you can register it using this form for all users to use.
         default_scopes: ''
-    client_id: Client ID
-    client_secret_notice: 'This is the only time we can print the client secret, please
-      note it down and keep it secure. It should be treated as a password and cannot
-      be retrieved by OpenProject at a later time.
+    client_id: ID de cliente
+    client_secret_notice: 'Esta es la única vez que podremos imprimirte el secreto
+      de cliente, por favor apúntalo y mantenlo en un lugar seguro. Debe tratarse
+      como una contraseña y no puede ser recuperado de OpenProject más adelante.
 
 '
     authorization_dialog:
-      authorize: Authorize
-      cancel: Cancel and deny authorization.
+      authorize: Autorizar
+      cancel: Cancelar y rechazar autorización.
       prompt_html: Authorize <strong>%{application_name}</strong> to use your account
         <em>%{login}</em>?
       title: Authorize %{application_name}
@@ -3002,9 +3002,9 @@ es:
       requests will be performed.
 
 '
-    authorization_error: An authorization error has occurred.
-    revoke_my_application_confirmation: Do you really want to remove this application?
-      This will revoke %{token_count} active for it.
+    authorization_error: Se ha generado un error de autorización.
+    revoke_my_application_confirmation: "¿Seguro que quieres eliminar esta aplicación?
+      Eso suspenderá %{token_count} activos para realizarse."
     my_registered_applications: Registered OAuth applications
   ldap_auth_sources:
     connection_encryption: Connection encryption
