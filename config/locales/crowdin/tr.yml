@@ -2583,8 +2583,8 @@ tr:
       work_package_assignee: Atanmış kişiye ait iş paketlerini göster
       types: Türleri göster
       status: Durumu göster
-      project_time_filter: Projects with a work package of a certain type in a certain
-        timeframe
+      project_time_filter: Belirli bir zaman diliminde belirli türde bir iş paketine
+        sahip projeler
       project_time_filter_timeframe: Zaman çerçevesi
       project_time_filter_historical_from: başlangıç
       project_time_filter_historical_to: bitiş
@@ -2605,8 +2605,8 @@ tr:
     new_work_package: Yeni iş paketi
     new_reporting: Yeni raporlama
     new_timeline: Yeni zaman çizelgesi raporu
-    no_projects_for_reporting_available: There are no projects to which a reporting
-      association can be created.
+    no_projects_for_reporting_available: Bir raporlama birliğinin oluşturulabileceği
+      proje bulunmamaktadır.
     no_right_to_view_timeline: Bağlantılı zaman çizelgesi görüntülemek için gerekli
       izniniz yok.
     no_timeline_for_id: "%{id} kimlik numaralı bir zaman akışı yok."
