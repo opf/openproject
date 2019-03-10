@@ -162,7 +162,7 @@ th:
     label_added_time_by: เพิ่มโดย %{author} %{age}
     label_ago: วันที่ผ่านมา
     label_all: ทั้งหมด
-    label_all_work_packages: all work packages
+    label_all_work_packages: ชุดภารกิจทั้งหมด
     label_and: และ
     label_ascending: จากน้อยไปมาก
     label_author: 'Author: %{user}'
@@ -182,7 +182,7 @@ th:
     label_cancel_comment: Cancel comment
     label_closed_work_packages: ปิด
     label_collapse: ยุบ
-    label_collapsed: collapsed
+    label_collapsed: ยุบ
     label_collapse_all: ยุบทั้งหมด
     label_comment: ความคิดเห็น
     label_committed_at: "%{committed_revision_link} at %{date}"
@@ -193,7 +193,7 @@ th:
     label_edit_status: Edit the status of the work package
     label_equals: เป็น
     label_expand: ขยาย
-    label_expanded: expanded
+    label_expanded: ขยาย
     label_expand_all: ขยายทั้งหมด
     label_expand_project_menu: Expand project menu
     label_export: Export
@@ -214,7 +214,7 @@ th:
     label_loading: กำลังโหลด...
     label_me: ฉัน
     label_menu_collapse: ยุบ
-    label_menu_expand: expand
+    label_menu_expand: ขยาย
     label_more_than_ago: มากกว่าวันที่ผ่านมา
     label_my_page: หน้าของฉัน
     label_next: ถัดไป
@@ -464,14 +464,14 @@ th:
     select2:
       input_too_short:
         one: Please enter one more character
-        other: Please enter {{count}} more characters
+        other: กรุณาใส่เพิ่มอีก {{count}} ตัวอักษร
         zero: Please enter more characters
-      load_more: Loading more results ...
-      no_matches: No matches found
+      load_more: กำลังโหลดผลลัพธ์เพิ่มเติม ...
+      no_matches: ไม่พบผลลัพธ์ที่ตรงกัน
       searching: กำลังค้นหา...
       selection_too_big:
         one: You can only select one item
-        other: You can only select {{limit}} items
+        other: คุณสามารถเลือกได้เพียง {{limit}} ไอเทมเท่านั้น
         zero: You cannot select any items
     project_menu_details: รายละเอียด
     sort:
@@ -533,7 +533,7 @@ th:
       responsible: รับผิดชอบ
       save: บันทึก
       start_date: วันเริ่มต้น
-      tooManyProjects: More than %{count} Projects. Please use a better filter!
+      tooManyProjects: พบมากกว่า %{count} โครงการ กรุณาใช้ตัวกรองที่ดีกว่านี้ !
       selection_mode:
         notification: Click on any highlighted work package to create the relation.
           Press escape to cancel.
@@ -546,15 +546,15 @@ th:
         months: เดือน
         quarters: ไตรมาส
         years: ปี
-        slider: Zoom slider
+        slider: ขยายแถบเลื่อน
         description: 'Select the initial zoom level that should be shown when autozoom
           is not available.
 
 '
       quarter_label: Q%{quarter_number}
     tl_toolbar:
-      zooms: Zoom level
-      outlines: Hierarchy level
+      zooms: ระดับการย่อ/ขยาย
+      outlines: ระดับของ Hierarchy
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:

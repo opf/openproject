@@ -465,7 +465,7 @@ pl:
         other: Wprowadź jeszcze {{count}} znaków
         zero: Please enter more characters
         few: Wprowadź jeszcze {{count}} znaków
-        many: Please enter {{count}} more characters
+        many: Proszę wpisać jeszcze {{count}} znaków
       load_more: Ładowanie większej liczby wyników ...
       no_matches: Nie znaleziono dopasowań
       searching: Wyszukiwanie ...
@@ -474,7 +474,7 @@ pl:
         other: Możesz wybrać tylko {{limit}} elementów
         zero: You cannot select any items
         few: Możesz wybrać tylko {{limit}} elementów
-        many: You can only select {{limit}} items
+        many: Możesz wybrać tylko {{limit}} elementy
     project_menu_details: Szczegóły
     sort:
       sorted_asc: 'Zastosowano sortowanie rosnące, '
@@ -854,7 +854,7 @@ pl:
         other: "%{count} godzin"
         zero: 0 hours
         few: "%{count} godzin"
-        many: "%{count} hours"
+        many: "%{count} godziny"
     zen_mode:
       button_activate: Włącz tryb zen
       button_deactivate: Wyłącz tryb zen

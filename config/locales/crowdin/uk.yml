@@ -379,7 +379,7 @@ uk:
       journal:
         notes: Нотатки
       member:
-        roles: Roles
+        roles: Роль
       project:
         identifier: Ідентифікатор
         latest_activity_at: Latest activity at
@@ -672,10 +672,10 @@ uk:
       project: Project
       query: Custom query
       role:
-        one: Role
-        other: Roles
-        few: Roles
-        many: Roles
+        one: роль
+        other: Роль
+        few: Роль
+        many: Роль
       type: Type
       user: User
       version: Version
@@ -733,8 +733,8 @@ uk:
     priority: Priority
     project: Project
     responsible: Accountable
-    role: Role
-    roles: Roles
+    role: роль
+    roles: Роль
     start_date: Start date
     status: Status
     subject: Subject
@@ -1598,7 +1598,7 @@ uk:
   label_roadmap_overdue: "%{value} late"
   label_role_and_permissions: Roles and permissions
   label_role_new: New role
-  label_role_plural: Roles
+  label_role_plural: Роль
   label_role_search: Призначити роль для нових членів
   label_scm: SCM
   label_search: Search

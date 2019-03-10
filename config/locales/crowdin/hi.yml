@@ -1429,8 +1429,8 @@ hi:
   label_max_size: Maximum size
   label_me: me
   label_member_new: New member
-  label_member_plural: Members
-  label_view_all_members: View all members
+  label_member_plural: सदस्य
+  label_view_all_members: सभी सदस्य देखें
   label_menu_item_name: Name of menu item
   label_message: Message
   label_message_last: Last message
@@ -1653,7 +1653,7 @@ hi:
   label_view_all_revisions: View all revisions
   label_view_diff: View differences
   label_view_revisions: View revisions
-  label_watched_work_packages: Watched work packages
+  label_watched_work_packages: तांकें हुए कार्य पैकेज
   label_what_is_this: What is this?
   label_week: Week
   label_wiki_content_added: Wiki page added
@@ -2611,7 +2611,7 @@ hi:
       level3: Expand level 3
       level4: Expand level 4
       level5: Expand level 5
-      all: Show all
+      all: सभी दिखाएँ
     reporting_for_project:
       show: 'Status reported to project: %{title}'
       edit_delete: 'status report for project: %{title}'

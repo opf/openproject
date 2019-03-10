@@ -625,8 +625,8 @@ fa:
               reused:
                 one: has been used before. Please choose one that is different from
                   your last one.
-                other: has been used before. Please choose one that is different from
-                  your last %{count}.
+                other: قبلا استفاده شده است. لطفا انتخابی متفاوت از %{count} گذشته
+                  انجام دهید.
               match:
                 confirm: Confirm new password.
                 description: "'Password confirmation' should match the input in the
@@ -646,7 +646,7 @@ fa:
         body: 'Please check the following fields:'
         header:
           one: 1 error prohibited this %{model} from being saved
-          other: "%{count} errors prohibited this %{model} from being saved"
+          other: "%{count} خطا باعث می شود این %{model} ذخیره نشود."
     models:
       attachment: فایل
       attribute_help_text: Attribute help text
@@ -663,7 +663,7 @@ fa:
       query: Custom query
       role:
         one: Role
-        other: Roles
+        other: نقش‌ها
       type: نوع
       user: User
       version: نسخه
@@ -885,42 +885,42 @@ fa:
     distance_in_words:
       about_x_hours:
         one: about 1 hour
-        other: about %{count} hours
+        other: تقریبا %{count} ساعت
       about_x_months:
         one: about 1 month
-        other: about %{count} months
+        other: حدود %{count} ماه
       about_x_years:
         one: about 1 year
-        other: about %{count} years
+        other: حدود %{count} سال
       almost_x_years:
         one: almost 1 year
-        other: almost %{count} years
+        other: تقریبا %{count} سال
       half_a_minute: half a minute
       less_than_x_minutes:
         one: less than a minute
-        other: less than %{count} minutes
+        other: کمتر از %{count} دقیقه
       less_than_x_seconds:
         one: less than 1 second
-        other: less than %{count} seconds
+        other: کمتر از %{count} ثانیه
       over_x_years:
         one: over 1 year
-        other: over %{count} years
+        other: بیش از %{count} سال
       x_days:
         one: 1 day
-        other: "%{count} days"
+        other: "%{count} روز"
       x_minutes:
         one: 1 minute
-        other: "%{count} minutes"
+        other: "%{count} دقیقه"
       x_months:
         one: 1 month
-        other: "%{count} months"
+        other: "%{count} ماه"
       x_seconds:
         one: 1 second
-        other: "%{count} seconds"
+        other: "%{count} ثانیه"
     units:
       hour:
         one: hour
-        other: hours
+        other: ساعت
   default_activity_development: Development
   default_activity_management: مدیریت
   default_activity_other: Other
@@ -948,9 +948,9 @@ fa:
   default_status_in_progress: In progress
   default_status_in_specification: In specification
   default_status_in_testing: In testing
-  default_status_new: New
+  default_status_new: جدید
   default_status_on_hold: On hold
-  default_status_rejected: Rejected
+  default_status_rejected: رد شده
   default_status_scheduled: Scheduled
   default_status_specified: Specified
   default_status_tested: Tested
@@ -1259,7 +1259,7 @@ fa:
   label_chronological_order: In chronological order
   label_close_versions: Close completed versions
   label_closed_work_packages: closed
-  label_collapse: Collapse
+  label_collapse: فرو ریختن
   label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: configuration
   label_comment_add: Add a comment
@@ -1445,7 +1445,7 @@ fa:
   label_my_projects: My projects
   label_my_queries: My custom queries
   label_never: Never
-  label_new: New
+  label_new: جدید
   label_new_statuses_allowed: New statuses allowed
   label_news_added: News added
   label_news_comment_added: Comment added to a news
@@ -1690,23 +1690,23 @@ fa:
   label_workflow_summary: Summary
   label_x_closed_work_packages_abbr:
     one: 1 closed
-    other: "%{count} closed"
+    other: "%{count} بسته شده"
     zero: 0 closed
   label_x_comments:
     one: 1 comment
-    other: "%{count} comments"
+    other: نظر %{count}
     zero: no comments
   label_x_open_work_packages_abbr:
     one: 1 open
-    other: "%{count} open"
+    other: "%{count} باز"
     zero: 0 open
   label_x_open_work_packages_abbr_on_total:
     one: 1 open / %{total}
-    other: "%{count} open / %{total}"
+    other: "%{count} باز / %{total}"
     zero: 0 open / %{total}
   label_x_projects:
     one: 1 project
-    other: "%{count} projects"
+    other: "%{count} پروژه"
     zero: no projects
   label_year: Year
   label_yesterday: yesterday
@@ -1899,7 +1899,7 @@ fa:
         units:
           byte:
             one: Byte
-            other: Bytes
+            other: بایت
           gb: GB
           kb: kB
           mb: MB
@@ -2485,7 +2485,7 @@ fa:
     duration: Duration
     duration_days:
       one: 1 day
-      other: "%{count} days"
+      other: "%{count} روز"
     edit_color: Edit color
     edit_thing: ویرایش
     edit_timeline: Edit timeline report %{timeline}
@@ -2673,7 +2673,7 @@ fa:
     blocked: locked temporarily
     blocked_num_failed_logins:
       one: locked temporarily (one failed login attempt)
-      other: locked temporarily (%{count} failed login attempts)
+      other: موقتا قفل شده  (%{count}تلاش ناموفق برای ورود)
     confirm_status_change: شما در حال تغییر وضعیت '%{name}' هستید. آیا می خواهید ادامه
       دهید؟
     deleted: Deleted user

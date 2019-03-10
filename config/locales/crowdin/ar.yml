@@ -624,15 +624,11 @@ ar:
               reused:
                 one: has been used before. Please choose one that is different from
                   your last one.
-                other: has been used before. Please choose one that is different from
-                  your last %{count}.
+                other: مستخدم من قبل من فضلك اختر واحد اخر من  %{count}. السابقين
                 zero: لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}.
-                two: has been used before. Please choose one that is different from
-                  your last %{count}.
-                few: has been used before. Please choose one that is different from
-                  your last %{count}.
-                many: has been used before. Please choose one that is different from
-                  your last %{count}.
+                two: مستخدم من قبل من فضلك اختر واحد اخر من  %{count}. السابقين
+                few: مستخدم من قبل من فضلك اختر واحد اخر من  %{count}. السابقين
+                many: مستخدم من قبل من فضلك اختر واحد اخر من  %{count}. السابقين
               match:
                 confirm: تأكيد كلمة المرور الجديدة.
                 description: "'تأكيد كلمة المرور' يجب أن يطابق الإدخال في حقل 'كلمة
@@ -675,13 +671,13 @@ ar:
         one: |-
           صلاحية
           الصلاحيات
-        other: Roles
+        other: الأدوار
         zero: دور
         two: |-
           صلاحية
           الصلاحيات
-        few: Roles
-        many: Roles
+        few: الأدوار
+        many: الأدوار
       type: النّوع
       user: المستخدم
       version: الإصدار
@@ -764,7 +760,7 @@ ar:
   button_check_all: اختر الكل
   button_clear: إزالة
   button_click_to_reveal: Click to reveal
-  button_close: Close
+  button_close: أغلِق
   button_collapse_all: طَيْ الجميع
   button_configure: تكوين
   button_continue: Continue
@@ -900,12 +896,12 @@ ar:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: about 1 hour
-        other: about %{count} hours
+        one: منذ %{count}  ساعه
+        other: حوالي %{count}  ساعه
         zero: حوالي %{count} ساعات
-        two: about %{count} hours
-        few: about %{count} hours
-        many: about %{count} hours
+        two: حوالي %{count}  ساعه
+        few: حوالي %{count}  ساعه
+        many: حوالي %{count}  ساعه
       about_x_months:
         one: about 1 month
         other: about %{count} months
@@ -950,12 +946,12 @@ ar:
         few: over %{count} years
         many: over %{count} years
       x_days:
-        one: 1 day
-        other: "%{count} days"
+        one: "%{count} يوم"
+        other: "%{count} يوم"
         zero: "%{count} يوم"
-        two: "%{count} days"
-        few: "%{count} days"
-        many: "%{count} days"
+        two: "%{count} يوم"
+        few: "%{count} يوم"
+        many: "%{count} يوم"
       x_minutes:
         one: 1 minute
         other: "%{count} minutes"
@@ -985,12 +981,12 @@ ar:
         many: "%{count} seconds"
     units:
       hour:
-        one: hour
-        other: hours
+        one: الساعة
+        other: ساعه
         zero: ساعه
-        two: hours
-        few: hours
-        many: hours
+        two: ساعه
+        few: ساعه
+        many: ساعه
   default_activity_development: التطوير
   default_activity_management: الإدارة
   default_activity_other: اخرى
@@ -1288,7 +1284,7 @@ ar:
   label_available_project_versions: الإصدارات المتوفرة
   label_available_project_repositories: مستودعات البيانات المتوفرة
   label_api_documentation: توثيق API
-  label_between: between
+  label_between: بين
   label_blocked_by: محجوب من قبل
   label_blocks: حجوبات
   label_blog: مدونة
@@ -1758,40 +1754,40 @@ ar:
   label_workflow_plural: تدفقات العمل
   label_workflow_summary: مُلخّص
   label_x_closed_work_packages_abbr:
-    one: 1 closed
-    other: "%{count} closed"
+    one: 1 مغلقة
+    other: "%{count} مغلق"
     zero: "%{count} مغلق"
-    two: "%{count} closed"
-    few: "%{count} closed"
-    many: "%{count} closed"
+    two: "%{count} مغلق"
+    few: "%{count} مغلق"
+    many: "%{count} مغلق"
   label_x_comments:
     one: 1 comment
-    other: "%{count} comments"
+    other: تعليقات %{count}
     zero: "%{count} تعليقات"
-    two: "%{count} comments"
-    few: "%{count} comments"
-    many: "%{count} comments"
+    two: تعليقات %{count}
+    few: تعليقات %{count}
+    many: تعليقات %{count}
   label_x_open_work_packages_abbr:
     one: 1 open
-    other: "%{count} open"
+    other: "%{count} مفتوحة"
     zero: "%{count} مفتوح"
-    two: "%{count} open"
-    few: "%{count} open"
-    many: "%{count} open"
+    two: "%{count} مفتوحة"
+    few: "%{count} مفتوحة"
+    many: "%{count} مفتوحة"
   label_x_open_work_packages_abbr_on_total:
     one: 1 open / %{total}
-    other: "%{count} open / %{total}"
+    other: مفتوحة %{count}/%{total}
     zero: "%{count} مفتوح / %{total}"
-    two: "%{count} open / %{total}"
-    few: "%{count} open / %{total}"
-    many: "%{count} open / %{total}"
+    two: مفتوحة %{count}/%{total}
+    few: مفتوحة %{count}/%{total}
+    many: مفتوحة %{count}/%{total}
   label_x_projects:
     one: 1 project
-    other: "%{count} projects"
+    other: مشاريع %{count}
     zero: "%{count} مشاريع"
-    two: "%{count} projects"
-    few: "%{count} projects"
-    many: "%{count} projects"
+    two: مشاريع %{count}
+    few: مشاريع %{count}
+    many: مشاريع %{count}
   label_year: السنة
   label_yesterday: الأمس
   label_keyboard_function: دالة
@@ -2559,12 +2555,12 @@ ar:
     delete_thing: احذف
     duration: المدّة
     duration_days:
-      one: 1 day
-      other: "%{count} days"
+      one: "%{count} يوم"
+      other: "%{count} يوم"
       zero: "%{count} يوم"
-      two: "%{count} days"
-      few: "%{count} days"
-      many: "%{count} days"
+      two: "%{count} يوم"
+      few: "%{count} يوم"
+      many: "%{count} يوم"
     edit_color: تحرير الألوان
     edit_thing: تعديل
     edit_timeline: تحرير تقرير الخط الزمني %{timeline}

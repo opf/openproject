@@ -529,7 +529,7 @@ hi:
         level3: Expand level 3
         level4: Expand level 4
         level5: Expand level 5
-        all: Show all
+        all: सभी दिखाएँ
       project_status: प्रोजेक्ट स्थिति
       really_close_dialog: Do you really want to close the dialog and lose the entered
         data?

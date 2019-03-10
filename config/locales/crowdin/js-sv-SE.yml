@@ -843,7 +843,7 @@ sv-SE:
         other: work packages
       child_work_packages:
         one: one child work package
-        other: "%{count} work package children"
+        other: "%{count} arbetspaket barn"
       hour:
         one: 1 timme
         other: "%{count} timmar"

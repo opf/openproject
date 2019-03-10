@@ -25,7 +25,7 @@ ar:
     button_add_watcher: إضافة مراقب
     button_back_to_list_view: Back to list view
     button_cancel: إلغاء
-    button_close: Close
+    button_close: أغلِق
     button_check_all: اختر الكل
     button_configure-form: Configure form
     button_confirm: تأكيد
@@ -166,7 +166,7 @@ ar:
     label_and: و
     label_ascending: ترتيب تصاعدي
     label_author: الكاتب%{user}
-    label_between: between
+    label_between: بين
     label_board: Board
     label_board_locked: مقفل
     label_board_plural: Boards
@@ -254,7 +254,7 @@ ar:
     label_subject: الموضوع
     label_this_week: هذا الأسبوع
     label_today: اليوم
-    label_up: Up
+    label_up: الأعلى
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} من التقدم الكلي"
@@ -673,7 +673,7 @@ ar:
       default_queries:
         latest_activity: Latest activity
         created_by_me: Created by me
-        assigned_to_me: Assigned to me
+        assigned_to_me: مخصص لي
         recently_created: Recently created
         all_open: All open
         summary: مُلخّص

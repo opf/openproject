@@ -672,7 +672,7 @@ lt:
         one: Rolė
         other: Rolės (-ė, -ių)
         few: Rolės (-ė, -ių)
-        many: Roles
+        many: Rolės
       type: Tipas
       user: Vartotojas
       version: Versija
@@ -955,7 +955,7 @@ lt:
         one: valanda
         other: valandos (-a, -ų)
         few: valandos (-a, -ų)
-        many: hours
+        many: valandos (-a, -ų)
   default_activity_development: Kūrimas
   default_activity_management: Valdymas
   default_activity_other: Kita
