@@ -192,6 +192,10 @@ for the migration.
 You can override the default help menu of OpenProject by specifying a `force_help_link` option to
 the configuration. This value is used for the href of the help link, and the default dropdown is removed.
 
+### Setting an impressum (legal notice) link
+
+You can set a impressum link for your OpenProject instance by setting `impressum_link` to an absolute URL.
+
 ### hidden menu items
 
 *default: {}*
