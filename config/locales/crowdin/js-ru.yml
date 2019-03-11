@@ -56,8 +56,8 @@ ru:
     button_export-atom: Скачать Atom
     calendar:
       title: Календарь
-      too_many: Пакетов работ больше (%{count}), чем может отобразить calendar (%{max}).
-        Отфильтруйте нужные пакеты добавив фильтры.
+      too_many: Пакетов работ больше (%{count}), чем может быть показано в календаре
+        (%{max}). Отфильтруйте пакеты, чтобы сфокусироваться на нужных.
     description_available_columns: Доступные столбцы
     description_current_position: 'Вы находитесь здесь:'
     description_select_work_package: 'Выберите пакет работ #%{id}'

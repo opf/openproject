@@ -147,11 +147,11 @@ es:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
         will be notified of the result.
       schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      failed: El borrado del proyecto %{name} ha fallado
+      failed_text: La petición de borrado del proyecto %{name} ha fallado. El proyecto
+        ha sido archivado.
+      completed: Borrado del proyecto %{name} completado
+      completed_text: La petición para borrar el proyecto '%{name}' se ha completado.
     index:
       no_results_title_text: No hay proyectos por el momento
       no_results_content_text: Crear un nuevo proyecto
@@ -250,7 +250,7 @@ es:
       one: Un paquete de trabajo descendiente
       other: "%{count} paquetes de trabajo descendientes"
     bulk:
-      could_not_be_saved: 'The following work packages could not be saved:'
+      could_not_be_saved: 'Los siguientes paquetes de trabajo no pudieron guardarse:'
     move:
       no_common_statuses_exists: No hay ningún estado disponible para todos los paquetes
         de trabajo seleccionados. Su estado no se puede cambiar.
@@ -495,7 +495,7 @@ es:
         watcher: Vigilante
       doorkeeper/application:
         uid: ID de cliente
-        secret: Client secret
+        secret: Secreto del cliente
         owner: Propietario
         redirect_uri: Redirect URI
         client_credentials_user_id: ID de Usuario de Credenciales del Cliente
@@ -1383,7 +1383,7 @@ es:
   label_environment: Entorno
   label_estimates_and_time: Valores estimados y tiempo
   label_equals: es
-  label_everywhere: everywhere
+  label_everywhere: todo
   label_example: Ejemplo
   label_export_to: 'También disponible en:'
   label_expanded_click_to_collapse: Expandido. Haga clic para contraer
@@ -2316,7 +2316,7 @@ es:
     una de estas líneas
   setting_mail_handler_body_delimiter_regex: Truncar correos que coincidan con esta
     expresión regular
-  setting_mail_handler_ignore_filenames: Ignored mail attachments
+  setting_mail_handler_ignore_filenames: Archivos adjuntos de email ignorados
   setting_new_project_user_role_id: Papel ortorgado a usuario no administrador que
     crea un proyecto
   setting_password_active_rules: Activar clases de personajes
@@ -2926,10 +2926,10 @@ es:
         invalid_scope: The requested scope is invalid, unknown, or malformed.
         invalid_code_challenge_method: The code challenge method must be plain or
           S256.
-        server_error: The authorization server encountered an unexpected condition
-          which prevented it from fulfilling the request.
-        temporarily_unavailable: The authorization server is currently unable to handle
-          the request due to a temporary overloading or maintenance of the server.
+        server_error: El servidor de autorización se encontró con una condición inesperada
+          que impidió cumplir con la solicitud.
+        temporarily_unavailable: El servidor de autorización no puede manejar actualmente
+          la solicitud debido a una sobrecarga temporal o a mantenimiento del servidor.
         credential_flow_not_configured: Resource Owner Password Credentials flow failed
           due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
         resource_owner_authenticator_not_configured: Resource Owner find failed due
@@ -2938,8 +2938,8 @@ es:
           to Doorkeeper.configure.admin_authenticator being unconfigured.
         unsupported_response_type: The authorization server does not support this
           response type.
-        invalid_client: Client authentication failed due to unknown client, no client
-          authentication included, or unsupported authentication method.
+        invalid_client: La certificación del cliente ha fallado debido a un cliente
+          desconocido, omisión del cliente, o un método de certificación no compatible.
         invalid_grant: The provided authorization grant is invalid, expired, revoked,
           does not match the redirection URI used in the authorization request, or
           was issued to another client.

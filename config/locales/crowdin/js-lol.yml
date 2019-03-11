@@ -140,28 +140,28 @@ lol:
     general_text_Yes: crwdns119192:0crwdne119192:0
     grid:
       add_modal:
-        choose_widget: crwdns122402:0crwdne122402:0
+        choose_widget: crwdns122472:0crwdne122472:0
       widgets:
         documents:
-          title: crwdns122404:0crwdne122404:0
-          no_results: crwdns122406:0crwdne122406:0
+          title: crwdns122474:0crwdne122474:0
+          no_results: crwdns122476:0crwdne122476:0
         news:
-          title: crwdns122408:0crwdne122408:0
-          at: crwdns122410:0crwdne122410:0
-          no_results: crwdns122412:0crwdne122412:0
+          title: crwdns122478:0crwdne122478:0
+          at: crwdns122480:0crwdne122480:0
+          no_results: crwdns122482:0crwdne122482:0
         time_entries_current_user:
-          title: crwdns122414:0crwdne122414:0
-          no_results: crwdns122416:0crwdne122416:0
+          title: crwdns122484:0crwdne122484:0
+          no_results: crwdns122486:0crwdne122486:0
         work_packages_accountable:
-          title: crwdns122418:0crwdne122418:0
+          title: crwdns122488:0crwdne122488:0
         work_packages_assigned:
-          title: crwdns122420:0crwdne122420:0
+          title: crwdns122490:0crwdne122490:0
         work_packages_created:
-          title: crwdns122422:0crwdne122422:0
+          title: crwdns122492:0crwdne122492:0
         work_packages_watched:
-          title: crwdns122424:0crwdne122424:0
+          title: crwdns122494:0crwdne122494:0
         work_packages_calendar:
-          title: crwdns122426:0crwdne122426:0
+          title: crwdns122496:0crwdne122496:0
     label_activate: crwdns119194:0crwdne119194:0
     label_activity_no: crwdns119196:0%{activityNo}crwdne119196:0
     label_activity_with_comment_no: crwdns119198:0%{activityNo}crwdne119198:0
@@ -462,7 +462,7 @@ lol:
     text_query_destroy_confirmation: crwdns119728:0crwdne119728:0
     text_attachment_destroy_confirmation: crwdns119730:0crwdne119730:0
     timelines:
-      quarter_label: crwdns122428:0%{quarter_number}crwdne122428:0
+      quarter_label: crwdns122498:0%{quarter_number}crwdne122498:0
       gantt_chart: crwdns119732:0crwdne119732:0
       labels:
         title: crwdns119734:0crwdne119734:0
