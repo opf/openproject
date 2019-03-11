@@ -14,10 +14,17 @@
                               (execute)="removeNewCard(wp)">
       </accessible-by-keyboard>
 
-      <wp-edit-field [workPackageId]="wp.id"
-                     fieldName="subject"
-                     class="work-package--card--subject -bold">
-      </wp-edit-field>
+      <div class="work-packages--subject-type-row"
+           [ngClass]="{'-new': wp.isNew}">
+        <wp-edit-field [workPackageId]="wp.id"
+                       [wrapperClasses]="'work-packages--type-selector'"
+                       [fieldName]="'type'">
+        </wp-edit-field>
+        <wp-edit-field [workPackageId]="wp.id"
+                       fieldName="subject"
+                       class="work-package--card--subject -bold">
+        </wp-edit-field>
+      </div>
 
       <div class="work-package--card--author -italic"
            [hidden]="wp.isNew"

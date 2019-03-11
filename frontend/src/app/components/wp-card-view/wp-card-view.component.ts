@@ -83,7 +83,7 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
   public columns:QueryColumn[];
   public availableColumns:QueryColumn[];
   public text = {
-    addNewCard: 'Add new card',
+    addNewCard:  this.I18n.t('js.card.add_new'),
     wpAddedBy: (wp:WorkPackageResource) =>
       this.I18n.t('js.label_wp_id_added_by', {id: wp.id, author: wp.author.name})
   };
