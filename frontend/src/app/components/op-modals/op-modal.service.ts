@@ -39,7 +39,7 @@ export class OpModalService {
     // Listen to keyups on window to close context menus
     jQuery(window).on('keydown', (evt:JQueryEventObject) => {
       if (this.active && this.active.closeOnEscape && evt.which === keyCodes.ESCAPE) {
-        this.close(evt);
+        this.active.closeOnEscapeFunction(evt);
       }
 
       return true;

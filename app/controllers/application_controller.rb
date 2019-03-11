@@ -202,7 +202,7 @@ class ApplicationController < ActionController::Base
 
     if user && user.is_a?(User)
       User.current = user
-      InitializeSessionService.call(user, session)
+      Sessions::InitializeSessionService.call(user, session)
     else
       User.current = User.anonymous
     end
@@ -360,10 +360,10 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  def find_model_object_and_project
-    if params[:id]
+  def find_model_object_and_project(object_id = :id)
+    if params[object_id]
       model_object = self.class._model_object
-      instance = model_object.find(params[:id])
+      instance = model_object.find(params[object_id])
       @project = instance.project
       instance_variable_set('@' + model_object.to_s.underscore, instance)
     else
@@ -507,12 +507,14 @@ class ApplicationController < ActionController::Base
   def render_error(arg)
     arg = { message: arg } unless arg.is_a?(Hash)
 
-    @message = arg[:message]
-    @message = l(@message) if @message.is_a?(Symbol)
     @status = arg[:status] || 500
+    @message = arg[:message]
 
-    op_handle_error "[Error #@status] #@message"
+    if @status >= 500
+      op_handle_error "[Error #@status] #@message"
+    end
 
+    @message = l(@message) if @message.is_a?(Symbol)
     respond_to do |format|
       format.html do
         render template: 'common/error', layout: use_layout, status: @status

@@ -92,6 +92,7 @@ class Setting < ActiveRecord::Base
   end
 
   def self.create_setting_accessors(name)
+    return if [:installation_uuid].include?(name.to_sym)
     # Defines getter and setter for each setting
     # Then setting values can be read using: Setting.some_setting_name
     # or set using Setting.some_setting_name = "some value"
@@ -185,6 +186,28 @@ class Setting < ActiveRecord::Base
   # Check whether a setting was defined
   def self.exists?(name)
     @@available_settings.has_key?(name)
+  end
+
+  def self.installation_uuid
+    if settings_table_exists_yet?
+      # we avoid the default getters and setters since the cache messes things up
+      setting = find_or_initialize_by(name: "installation_uuid")
+      if setting.value.blank?
+        setting.value = generate_installation_uuid
+        setting.save!
+      end
+      setting.value
+    else
+      "unknown"
+    end
+  end
+
+  def self.generate_installation_uuid
+    if Rails.env.test?
+      "test"
+    else
+      SecureRandom.uuid
+    end
   end
 
   [:emails_header, :emails_footer].each do |mail|

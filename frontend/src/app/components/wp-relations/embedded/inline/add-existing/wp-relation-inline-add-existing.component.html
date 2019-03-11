@@ -4,7 +4,6 @@
     <div class="grid-content medium-10">
       <wp-relations-autocomplete-upgraded
           [workPackage]="workPackage"
-          appendToContainer=".work-packages--details-content"
           (onWorkPackageIdSelected)="updateSelectedId($event)"
           [filterCandidatesFor]="relationType">
       </wp-relations-autocomplete-upgraded>

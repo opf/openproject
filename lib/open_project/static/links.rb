@@ -118,6 +118,9 @@ module OpenProject
               href: 'https://oauth.net/2/grant-types/client-credentials/',
               label: 'oauth.flows.client_credentials'
             },
+            ldap_encryption_documentation: {
+              href: 'https://www.rubydoc.info/gems/net-ldap/Net/LDAP#constructor_details',
+            },
             security_badge_documentation: {
               href: 'https://github.com/opf/openproject/blob/dev/docs/configuration/configuration.md#security-badge'
             }

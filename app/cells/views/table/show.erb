@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <thead>
         <tr>
           <% headers.each do |name, options| %>
-            <% if sortable? %>
+            <% if sortable_column?(name) %>
               <%= sort_header_tag name, options %>
             <% else %>
               <th>

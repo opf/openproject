@@ -17,6 +17,7 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 import {DomSanitizer} from "@angular/platform-browser";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
+import {OpTitleService} from "core-components/html/op-title.service";
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -35,6 +36,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
               readonly wpListService:WorkPackagesListService,
               readonly querySpace:IsolatedQuerySpace,
               readonly wpListChecksumService:WorkPackagesListChecksumService,
+              readonly titleService:OpTitleService,
               readonly urlParamsHelper:UrlParamsHelperService,
               private element:ElementRef,
               readonly i18n:I18nService,
@@ -102,6 +104,9 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
     // Ensure checksum is removed to allow queries to load
     this.wpListChecksumService.clear();
+
+    // Ensure current calendar URL is pushed to history
+    window.history.pushState({}, this.titleService.current, window.location.href);
 
     this.$state.go(
       'work-packages.show',

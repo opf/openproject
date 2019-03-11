@@ -31,6 +31,10 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  scope 'work_packages/:work_package_id', as: 'work_packages' do
+    resources :cost_entries, controller: 'work_package_costlog', only: %[index]
+  end
+
   resources :cost_reports, except: :create do
     collection do
       match :index, via: [:get, :post]

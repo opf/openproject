@@ -80,6 +80,7 @@ export class TablePaginationComponent implements OnInit {
 
   public selectPerPage(perPage:number) {
     this.pagination.perPage = perPage;
+    this.paginationService.setPerPage(perPage);
     this.showPage(1);
   }
 

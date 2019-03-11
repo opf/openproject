@@ -1,6 +1,6 @@
 <button class="button -small advanced-filters--toggle"
         (click)="wpFiltersService.toggleVisibility()"
-        [hidden]="visible"
+        [class.-active]="visible"
         *ngIf="showFilterButton">
   <i class="button--icon icon-filter"></i>
   <span class="button--text" [textContent]="filterButtonText"></span>

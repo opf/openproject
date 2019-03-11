@@ -640,7 +640,7 @@ For more details and all possible responses see the general specification of [Fo
     + filters = `[{ "status_id": { "operator": "o", "values": null }}]` (optional, string, `[{ "type_id": { "operator": "=", "values": ['1', '2'] }" }]`) ... JSON specifying filter conditions.
     Accepts the same format as returned by the [queries](#queries) endpoint. If no filter is to be applied, the client should send an empty array (`[]`).
 
-    + sortBy = ["parent", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
+    + sortBy = ["id", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
     Accepts the same format as returned by the [queries](#queries) endpoint.
 
     + groupBy (optional, string, `status`) ... The column to group by.
@@ -826,7 +826,7 @@ A project link must be set when creating work packages through this route.
     + filters = `[{ "status_id": { "operator": "o", "values": null }}]` (optional, string, `[{ "type_id": { "operator": "=", "values": ['1', '2'] }" }]`) ... JSON specifying filter conditions.
     Accepts the same format as returned by the [queries](#queries) endpoint. If no filter is to be applied, the client should send an empty array (`[]`).
 
-    + sortBy = ["parent", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
+    + sortBy = ["id", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
     Accepts the same format as returned by the [queries](#queries) endpoint.
 
     + groupBy (optional, string, `status`) ... The column to group by.

@@ -28,11 +28,11 @@
 
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageFiltersService} from "../../filters/wp-filters/wp-filters.service";
-import {Component, Inject, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {QueryFilterResource} from  'core-app/modules/hal/resources/query-filter-resource';
+import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 
@@ -76,6 +76,12 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
+
+    this.wpTableFilters.current.forEach((filter:QueryFilterInstanceResource) => {
+      if (!this.isFilterAvailable(filter.id)) {
+        _.remove(this.filters, filter);
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -150,4 +156,7 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
     return this.filters[index];
   }
 
+  public isFilterAvailable(id:string):boolean {
+    return (this.wpTableFilters.availableFilters.some(filter => filter.id === id));
+  }
 }

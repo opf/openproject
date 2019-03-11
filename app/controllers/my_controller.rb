@@ -30,14 +30,14 @@
 
 class MyController < ApplicationController
   include Concerns::PasswordConfirmation
+  include Concerns::UserPasswordChange
   layout 'my'
 
   helper_method :gon
 
   before_action :require_login
-  before_action :check_password_confirmation,
-                only: [:account],
-                if: -> { request.patch? }
+  before_action :set_current_user
+  before_action :check_password_confirmation, only: %i[update_account]
 
   menu_item :account,             only: [:account]
   menu_item :settings,            only: [:settings]
@@ -51,57 +51,45 @@ class MyController < ApplicationController
   end
   alias :page :index
 
-  # Edit user's account
-  def account
-    @user = User.current
+  def account; end
+
+  def update_account
     write_settings @user, request, permitted_params, params
+
+    # If mail changed, expire all other sessions
+    if @user.previous_changes['mail'] && ::Sessions::DropOtherSessionsService.call(@user, session)
+      flash[:info] = "#{flash[:notice]} #{t(:notice_account_other_session_expired)}"
+      flash[:notice] = nil
+    end
   end
 
-  # Edit user's settings
-  def settings
-    @user = User.current
+  def settings; end
+
+  def update_settings
     write_settings @user, request, permitted_params, params
   end
 
   # Manage user's password
   def password
-    @user = User.current # required by "my" layout
     @username = @user.login
     redirect_if_password_change_not_allowed_for(@user)
   end
 
   # When making changes here, also check AccountController.change_password
   def change_password
-    return render_404 if OpenProject::Configuration.disable_password_login?
-
-    @user = User.current # required by "my" layout
-    @username = @user.login
-    return if redirect_if_password_change_not_allowed_for(@user)
-    if @user.check_password?(params[:password], update_legacy: false)
-      @user.password = params[:new_password]
-      @user.password_confirmation = params[:new_password_confirmation]
-      @user.force_password_change = false
-      if @user.save
-        flash[:notice] = l(:notice_account_password_updated)
-        redirect_to action: 'password'
-        return
-      end
-    else
-      flash.now[:error] = l(:notice_account_wrong_password)
+    change_password_flow(user: @user, params: params, update_legacy: false) do
+      redirect_to action: 'password'
     end
-    # Render the username to hint to a user in case of a forced password change
-    render 'my/password', locals: { show_user_name: @user.force_password_change }
   end
 
   # Administer access tokens
-  def access_token
-    @user = User.current
-  end
+  def access_token; end
 
   # Configure user's mail notifications
-  def mail_notifications
-    @user = User.current
-    write_email_settings(redirect_to: :mail_notifications) if request.patch?
+  def mail_notifications; end
+
+  def update_mail_notifications
+    write_email_settings(redirect_to: :mail_notifications)
   end
 
   # Create a new feeds key
@@ -170,11 +158,11 @@ class MyController < ApplicationController
   def write_settings(current_user, request, permitted_params, params)
     result = Users::UpdateService
              .new(current_user: current_user)
-             .call(request, permitted_params, params)
+             .call(permitted_params, params)
 
     if result && result.success
-      redirect_back(fallback_location: root_path)
-      flash[:notice] = l(:notice_account_updated)
+      redirect_back(fallback_location: my_account_path)
+      flash[:notice] = t(:notice_account_updated)
     end
   end
 
@@ -182,6 +170,10 @@ class MyController < ApplicationController
 
   def has_tokens?
     Setting.feeds_enabled? || Setting.rest_api_enabled?
+  end
+
+  def set_current_user
+    @user = current_user
   end
 
   def get_current_layout

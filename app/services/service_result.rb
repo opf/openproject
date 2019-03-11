@@ -32,26 +32,25 @@ class ServiceResult
   attr_accessor :success,
                 :errors,
                 :result,
+                :message,
+                :message_type,
                 :context,
                 :dependent_results
 
   def initialize(success: false,
                  errors: nil,
+                 message: nil,
+                 message_type: nil,
                  context: {},
                  dependent_results: [],
                  result: nil)
     self.success = success
     self.result = result
     self.context = context
-    self.errors = if errors
-                    errors
-                  elsif result.respond_to?(:errors)
-                    result.errors
-                  else
-                    ActiveModel::Errors.new(self)
-                  end
-
     self.dependent_results = dependent_results
+
+    initialize_errors(errors)
+    initialize_message(message)
   end
 
   alias success? :success
@@ -63,6 +62,16 @@ class ServiceResult
   def merge!(other)
     merge_success!(other)
     merge_dependent!(other)
+  end
+
+  ##
+  # Print messages to flash
+  def apply_flash_message!(flash)
+    type = get_message_type
+
+    if message && type
+      flash[type] = message
+    end
   end
 
   def all_results
@@ -115,6 +124,36 @@ class ServiceResult
   end
 
   private
+
+  def initialize_errors(errors)
+    self.errors =
+      if errors
+        errors
+      elsif result.respond_to?(:errors)
+        result.errors
+      else
+        ActiveModel::Errors.new(self)
+      end
+  end
+
+  def initialize_message(message)
+    self.message =
+      if message
+        message
+      elsif failure? && errors.is_a?(ActiveModel::Errors)
+        errors.full_messages.join("")
+      end
+  end
+
+  def get_message_type
+    if message_type.present?
+      message_type.to_sym
+    elsif success?
+      :notice
+    else
+      :error
+    end
+  end
 
   def merge_success!(other)
     self.success &&= other.success
