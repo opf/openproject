@@ -24,6 +24,7 @@ sk:
         skopírujte vybratý text.
       copied_successful: Úspešne skopírované do schránky!
     button_add_watcher: Pridať pozorovateľa
+    button_back: Back
     button_back_to_list_view: Späť na zobrazenie zoznamu
     button_cancel: Zrušíť
     button_close: Zatvoriť
@@ -149,6 +150,30 @@ sk:
     general_text_yes: áno
     general_text_No: Nie
     general_text_Yes: Áno
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Novinky
+          at: at
+          no_results: Nič nové pre nahlásenie.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Pracovné balíčky, za ktoré som zodpovedný(a)
+        work_packages_assigned:
+          title: Mne priradené pracovné balíčky
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalendár
     label_activate: Aktivovať
     label_activity_no: Záznam aktivity číslo %{activityNo}
     label_activity_with_comment_no: Záznam aktivity číslo %{activityNo} (obsahuje
@@ -493,6 +518,7 @@ sk:
     text_query_destroy_confirmation: Naozaj chcete odstrániť vybraté zobrazenie?
     text_attachment_destroy_confirmation: Naozaj chcete odstrániť prílohu?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Ganttov diagram
       labels:
         title: Konfigurácia popisku
@@ -558,7 +584,6 @@ sk:
           ak nie je k dispozícii autozoom.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Úroveň priblíženia
       outlines: Úroveň vnorenia
@@ -872,27 +897,3 @@ sk:
         all_projects: všetky projekty
         project_and_subprojects: a všetky podprojekty
         search_for: Hľadať
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Novinky
-          at: at
-          no_results: Nič nové pre nahlásenie.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Pracovné balíčky, za ktoré som zodpovedný(a)
-        work_packages_assigned:
-          title: Mne priradené pracovné balíčky
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Kalendár

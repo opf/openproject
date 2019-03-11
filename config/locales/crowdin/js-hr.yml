@@ -23,6 +23,7 @@ hr:
         manualno kopirajte odabrani tekst.
       copied_successful: Uspješno kopirano u međuspremnik!
     button_add_watcher: Dodaj nadglednika
+    button_back: Back
     button_back_to_list_view: Back to list view
     button_cancel: Odustani
     button_close: Zatvori
@@ -147,6 +148,30 @@ hr:
     general_text_yes: da
     general_text_No: Ne
     general_text_Yes: Da
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Vijesti
+          at: at
+          no_results: Nema promjena za izvjestiti.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Radni paketi dodijeljeni meni
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalendar
     label_activate: Aktiviraj
     label_activity_no: Broj unosa aktivnosti %{activityNo}
     label_activity_with_comment_no: Broj unosa aktivnosti %{activityNo}. Postoji komentar
@@ -490,6 +515,7 @@ hr:
       view?
     text_attachment_destroy_confirmation: Da li ste sigurni da želite izbrisati privitke?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -556,7 +582,6 @@ hr:
           is not available.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Razina zumiranja
       outlines: Razina u hijerarhiji
@@ -868,27 +893,3 @@ hr:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Vijesti
-          at: at
-          no_results: Nema promjena za izvjestiti.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Work packages I am accountable for
-        work_packages_assigned:
-          title: Radni paketi dodijeljeni meni
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Kalendar

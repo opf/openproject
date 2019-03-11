@@ -21,6 +21,7 @@ zh-TW:
       browser_error: 您的瀏覽器不支援複製到剪貼簿。請手動複製選取的文字。
       copied_successful: 成功複製到剪貼簿上!
     button_add_watcher: 新增監看者
+    button_back: Back
     button_back_to_list_view: 返回清單
     button_cancel: 取消
     button_close: 關閉
@@ -139,6 +140,30 @@ zh-TW:
     general_text_yes: 是
     general_text_No: 否
     general_text_Yes: 是
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: 新知
+          at: at
+          no_results: 沒有新的消息可以報告
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: 我負責的工作項目
+        work_packages_assigned:
+          title: 分配給我的工作項目
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: 行事曆
     label_activate: 啟用
     label_activity_no: 活動條目編號 %{activityNo}
     label_activity_with_comment_no: 活動條目編號 %{activityNo}。有的使用者評論。
@@ -446,6 +471,7 @@ zh-TW:
     text_query_destroy_confirmation: 確實要刪除所選視圖嗎？
     text_attachment_destroy_confirmation: 你確定你想要刪除附件?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: 甘特圖
       labels:
         title: 標籤配置
@@ -503,7 +529,6 @@ zh-TW:
         description: '選擇自動縮放無法接通應顯示的初始縮放級別。
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: 縮放等級
       outlines: 層次結構級別
@@ -785,27 +810,3 @@ zh-TW:
         all_projects: 所有專案
         project_and_subprojects: 和所有的子專案
         search_for: 搜尋
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: 新知
-          at: at
-          no_results: 沒有新的消息可以報告
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: 我負責的工作項目
-        work_packages_assigned:
-          title: 分配給我的工作項目
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: 行事曆

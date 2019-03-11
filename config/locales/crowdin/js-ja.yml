@@ -21,6 +21,7 @@ ja:
       browser_error: お使いのブラウザーでは、クリップボードへのコピーをサポートしていません。手動で選択したテキストをコピーしてください。
       copied_successful: 正常にクリップボードにコピーしました!
     button_add_watcher: ウォッチャーを追加
+    button_back: Back
     button_back_to_list_view: リスト表示に戻る
     button_cancel: キャンセル
     button_close: 閉じる
@@ -139,6 +140,30 @@ ja:
     general_text_yes: はい
     general_text_No: いいえ
     general_text_Yes: はい
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: ニュース
+          at: at
+          no_results: 新しい報告はありません。
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: 責任者である作業項目
+        work_packages_assigned:
+          title: 担当している作業項目
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: カレンダー
     label_activate: 有効にする
     label_activity_no: アクティビティのエントリ番号 %{activityNo}
     label_activity_with_comment_no: アクティビティのエントリ番号 %{activityNo}。ユーザー コメントがあります。
@@ -446,6 +471,7 @@ ja:
     text_query_destroy_confirmation: 選択したビューを削除してもよろしいですか？
     text_attachment_destroy_confirmation: この添付ファイルを削除してよろしいですか。
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: ガントチャート
       labels:
         title: ラベル設定
@@ -503,7 +529,6 @@ ja:
         description: 'オートズームが使用できない場合に表示される初期ズームレベルを選択します。
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: ズームレベル
       outlines: 階層レベル
@@ -786,27 +811,3 @@ ja:
         all_projects: すべてのプロジェクト
         project_and_subprojects: そしてすべてのサブプロジェクト
         search_for: 検索対象
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: ニュース
-          at: at
-          no_results: 新しい報告はありません。
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: 責任者である作業項目
-        work_packages_assigned:
-          title: 担当している作業項目
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: カレンダー

@@ -21,6 +21,7 @@ zh:
       browser_error: 您的浏览器不支持复制到剪贴板，请手动复制选定的文本。
       copied_successful: 成功复制到剪贴板!
     button_add_watcher: 添加关注者
+    button_back: Back
     button_back_to_list_view: 返回列表视图
     button_cancel: 取消
     button_close: 关闭
@@ -138,6 +139,30 @@ zh:
     general_text_yes: 是
     general_text_No: 否
     general_text_Yes: 是
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: 新闻
+          at: at
+          no_results: 没有新消息报告。
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: 我负责的工作包
+        work_packages_assigned:
+          title: 分配给我的工作包
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: 日历
     label_activate: 激活
     label_activity_no: 活动条目编号 %{activityNo}
     label_activity_with_comment_no: 活动条目编号 %{activityNo}，有用户评论。
@@ -442,6 +467,7 @@ zh:
     text_query_destroy_confirmation: 确定要删除所选视图吗？
     text_attachment_destroy_confirmation: 你确定要删除这个附件?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: 甘特图
       labels:
         title: 标签配置
@@ -499,7 +525,6 @@ zh:
         description: '选择自动缩放不可用时应显示的初始缩放级别。
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: 缩放级别
       outlines: 层次结构级别
@@ -781,27 +806,3 @@ zh:
         all_projects: 所有项目
         project_and_subprojects: 和所有子项目
         search_for: 搜索
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: 新闻
-          at: at
-          no_results: 没有新消息报告。
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: 我负责的工作包
-        work_packages_assigned:
-          title: 分配给我的工作包
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: 日历

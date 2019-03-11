@@ -23,6 +23,7 @@ fi:
         manuaalisesti.
       copied_successful: Onnistuneesti kopioitu leikepöydälle!
     button_add_watcher: Lisää seuraaja
+    button_back: Back
     button_back_to_list_view: Back to list view
     button_cancel: Peruuta
     button_close: Sulje
@@ -147,6 +148,30 @@ fi:
     general_text_yes: kyllä
     general_text_No: Ei
     general_text_Yes: Kyllä
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Uutiset
+          at: at
+          no_results: Ei mitään uutta raportoitavaksi.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Kaikki työpaketit joista olen vastuussa
+        work_packages_assigned:
+          title: Minulle määritetyt työpaketit
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalenteri
     label_activate: Aktivoi
     label_activity_no: Aktiviteettimerkinnän numero %{activityNo}
     label_activity_with_comment_no: Aktiviteettimerkinnän numero %{activityNo}. Sisältää
@@ -487,6 +512,7 @@ fi:
       view?
     text_attachment_destroy_confirmation: Oletko varma, että haluat poistaa liitteen?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -552,7 +578,6 @@ fi:
           is not available.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Lähennyksen taso
       outlines: Hierarkian taso
@@ -857,27 +882,3 @@ fi:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Uutiset
-          at: at
-          no_results: Ei mitään uutta raportoitavaksi.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Kaikki työpaketit joista olen vastuussa
-        work_packages_assigned:
-          title: Minulle määritetyt työpaketit
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Kalenteri

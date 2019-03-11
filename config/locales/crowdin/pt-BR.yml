@@ -57,6 +57,22 @@ pt-BR:
     index:
       no_results_content_title: Atualmente, não existem modos de autenticação.
       no_results_content_text: Criar um novo modo de autenticação
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: nenhum
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: Atualmente, não há mensagens para o quadro.
@@ -368,6 +384,11 @@ pt-BR:
         subscriber: Assinante
         encoded_token: Token de suporte Enterprise
         active_user_count_restriction: Máximo de usuários ativos
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Atraso
         from: Pacote de trabalho
@@ -466,11 +487,6 @@ pt-BR:
         client_credentials_user_id: ID do usuário de credenciais do cliente
         scopes: Escopos
         confidential: Confidencial
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: deve ser aceito.
@@ -538,6 +554,10 @@ pt-BR:
               not_match_configured: não corresponde a escopos disponíveis.
         enterprise_token:
           unreadable: não pode ser lido. Tem certeza que é um token de suporte?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -642,10 +662,6 @@ pt-BR:
         member:
           principal_blank: Por favor, escolha ao menos um usuário ou grupo.
           role_blank: Por favor, escolha ao menos um papel.
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
       template:
         body: 'Por favor, verifique os seguintes campos:'
         header:
@@ -1835,6 +1851,8 @@ pt-BR:
   notice_account_update_failed: Configuração da conta não pode ser salva. Por favor,
     verifique na página de sua conta.
   notice_account_updated: Conta foi atualizada com sucesso.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Senha incorreta
   notice_account_registered_and_logged_in: Bem-vindo, sua conta foi ativada. Agora
     você está conectado.
@@ -2950,21 +2968,3 @@ pt-BR:
     revoke_my_application_confirmation: Você quer realmente remover esta aplicação?
       Isso irá revogar %{token_count} ativo(s) para ele.
     my_registered_applications: Aplicações OAuth registradas
-  ldap_auth_sources:
-    connection_encryption: Connection encryption
-    tls_mode:
-      plain: nenhum
-      simple_tls: simple_tls
-      start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
-
-'
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.

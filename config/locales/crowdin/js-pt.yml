@@ -24,6 +24,7 @@ pt:
         Por favor, copie manualmente o texto selecionado.
       copied_successful: Copiado com sucesso para área de transferência!
     button_add_watcher: Adicionar observadores
+    button_back: Back
     button_back_to_list_view: Voltar à visualização de lista
     button_cancel: Cancelar
     button_close: Fechar
@@ -149,6 +150,30 @@ pt:
     general_text_yes: sim
     general_text_No: Não
     general_text_Yes: Sim
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Noticias
+          at: at
+          no_results: Nada de novo no relatório.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Pacotes de trabalho pelos quais sou responsável
+        work_packages_assigned:
+          title: Tarefas atribuídas a mim
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendário
     label_activate: Ativar
     label_activity_no: Número de entrada da atividade %{activityNo}
     label_activity_with_comment_no: Número de entrada da atividade %{activityNo}.
@@ -489,6 +514,7 @@ pt:
     text_query_destroy_confirmation: Tem certeza que deseja excluir a vista selecionada?
     text_attachment_destroy_confirmation: Tem certeza de que deseja apagar o anexo?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gráfico de Gantt
       labels:
         title: Configuração de etiqueta
@@ -554,7 +580,6 @@ pt:
           o zoom automático não está disponível.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Nível de zoom
       outlines: Nível da hierarquia
@@ -862,27 +887,3 @@ pt:
         all_projects: todos os projetos
         project_and_subprojects: e todos os subprojetos
         search_for: Pesquisar por
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Noticias
-          at: at
-          no_results: Nada de novo no relatório.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Pacotes de trabalho pelos quais sou responsável
-        work_packages_assigned:
-          title: Tarefas atribuídas a mim
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Calendário

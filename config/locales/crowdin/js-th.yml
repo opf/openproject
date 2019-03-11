@@ -22,6 +22,7 @@ th:
       browser_error: เบราเซอร์ของคุณไม่รองรับการคัดลอกไปยังคลิปบอร์ด กรุณาคัดลอกข้อความที่เลือกด้วยตนเอง
       copied_successful: Sucessfully copied to clipboard!
     button_add_watcher: เพิ่มผู้ดูข้อมูล
+    button_back: Back
     button_back_to_list_view: Back to list view
     button_cancel: ยกเลิก
     button_close: Close
@@ -146,6 +147,30 @@ th:
     general_text_yes: ใช่
     general_text_No: ไม่ใช่
     general_text_Yes: ใช่
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: ข่าวสาร
+          at: at
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: ชุดภารกิจที่ฉันได้รับมอบหมาย
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: ปฏิทิน
     label_activate: เปิดใช้งาน
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
@@ -488,6 +513,7 @@ th:
       view?
     text_attachment_destroy_confirmation: คุณแน่ใจหรือไม่ว่าจะไฟล์แนบ?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -551,7 +577,6 @@ th:
           is not available.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: ระดับการย่อ/ขยาย
       outlines: ระดับของ Hierarchy
@@ -859,27 +884,3 @@ th:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: ข่าวสาร
-          at: at
-          no_results: Nothing new to report.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Work packages I am accountable for
-        work_packages_assigned:
-          title: ชุดภารกิจที่ฉันได้รับมอบหมาย
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: ปฏิทิน

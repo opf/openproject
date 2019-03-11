@@ -22,6 +22,7 @@ ko:
       browser_error: 브라우저를 클립보드에 복사를 지원 하지 않습니다. 텍스트를 타이핑하여 복사하십시오.
       copied_successful: 클립보드에 성공적으로 복사됨
     button_add_watcher: 주시자 추가
+    button_back: Back
     button_back_to_list_view: 목록으로 돌아가기
     button_cancel: 취소
     button_close: 닫기
@@ -142,6 +143,30 @@ ko:
     general_text_yes: 예
     general_text_No: 아니요
     general_text_Yes: 예
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: 뉴스
+          at: at
+          no_results: 새로 보고할 것이 없음
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: 내가 담당하는 작업 패키지
+        work_packages_assigned:
+          title: 내게 할당된 작업 패키지
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: 달력
     label_activate: 활성화
     label_activity_no: 활동 항목 번호 %{activityNo}
     label_activity_with_comment_no: 활동 항목 번호 %{activityNo}. 사용자 의견 포함.
@@ -458,6 +483,7 @@ ko:
     text_query_destroy_confirmation: 선택한 보기를 삭제하시겠습니까?
     text_attachment_destroy_confirmation: 정말 이 첨부 파일을 삭제 하시겠습니까?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt 차트
       labels:
         title: 레이블 구성
@@ -517,7 +543,6 @@ ko:
         description: '자동 확대/축소를 사용할 수 없는 경우 표시되어야 하는 초기 확대/축소 수준을 선택하세요.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: 확대 수준
       outlines: 계층 수준
@@ -801,27 +826,3 @@ ko:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: 뉴스
-          at: at
-          no_results: 새로 보고할 것이 없음
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: 내가 담당하는 작업 패키지
-        work_packages_assigned:
-          title: 내게 할당된 작업 패키지
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: 달력

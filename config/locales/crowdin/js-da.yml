@@ -23,6 +23,7 @@ da:
         venligst den markerede tekst manuelt.
       copied_successful: Kopieret til Udklipsholder!
     button_add_watcher: Tilføj tilsynsførende
+    button_back: Back
     button_back_to_list_view: Tilbage til listevisning
     button_cancel: Annuller
     button_close: Luk
@@ -147,6 +148,30 @@ da:
     general_text_yes: ja
     general_text_No: Nej
     general_text_Yes: Ja
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Nyheder
+          at: at
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Mine tilknyttede arbejdspakker
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalender
     label_activate: Aktiver
     label_activity_no: Aktivitetsindlægsnummer %{activityNo}
     label_activity_with_comment_no: Aktivitetsindlægsnummer %{activityNo}. Har en
@@ -487,6 +512,7 @@ da:
       view?
     text_attachment_destroy_confirmation: Sikker på, at du vil slette vedhæftningen?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -552,7 +578,6 @@ da:
           is not available.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Zoomniveau
       outlines: Niveau i hieraki
@@ -859,27 +884,3 @@ da:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Nyheder
-          at: at
-          no_results: Nothing new to report.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Work packages I am accountable for
-        work_packages_assigned:
-          title: Mine tilknyttede arbejdspakker
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Kalender

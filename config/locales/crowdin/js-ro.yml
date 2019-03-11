@@ -23,6 +23,7 @@ ro:
         copiaţi textul selectat manual.
       copied_successful: Copiere în ecranul tampon reușită!
     button_add_watcher: Adăugare observator
+    button_back: Back
     button_back_to_list_view: Înapoi la listă
     button_cancel: Anulare
     button_close: Închide
@@ -149,6 +150,30 @@ ro:
     general_text_yes: da
     general_text_No: Nu
     general_text_Yes: Da
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Noutăţi
+          at: at
+          no_results: Nimic nou de raportat.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Pachete de lucru atribuite mie
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendar
     label_activate: Activare
     label_activity_no: Acțiunea cu numărul %{activityNo}
     label_activity_with_comment_no: Acțiunea cu numărul %{activityNo}. Are un comentariu
@@ -494,6 +519,7 @@ ro:
       view?
     text_attachment_destroy_confirmation: Sunteţi sigur că doriţi să ştergeţi atașamentul?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Grafic Gantt
       labels:
         title: Label configuration
@@ -562,7 +588,6 @@ ro:
           is not available.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Orizont de timp
       outlines: Nivel ierarhic
@@ -875,27 +900,3 @@ ro:
         all_projects: toate proiectele
         project_and_subprojects: si toate subproiectele
         search_for: Cauta dupa
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Noutăţi
-          at: at
-          no_results: Nimic nou de raportat.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Work packages I am accountable for
-        work_packages_assigned:
-          title: Pachete de lucru atribuite mie
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Calendar
