@@ -303,8 +303,6 @@ group :docker, optional: true do
   gem 'health_check', require: !!ENV['HEROKU']
   gem 'newrelic_rpm', require: !!ENV['HEROKU']
   gem 'rails_12factor', require: !!ENV['HEROKU']
-  # Require specific version of sqlite3 for rails
-  gem 'sqlite3', '~> 1.3.6', require: false
 end
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
