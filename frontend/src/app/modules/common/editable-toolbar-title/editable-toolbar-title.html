@@ -1,5 +1,5 @@
 <div *ngIf="editable"
-     (focusout)="resetWhenFocusOutside($event)"
+     (focusout)="saveWhenFocusOutside($event)"
      class="editable-toolbar-title--container">
   <a *ngIf="showSave"
      role="link"
