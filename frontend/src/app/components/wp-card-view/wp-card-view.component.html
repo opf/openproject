@@ -4,7 +4,8 @@
        *ngFor="let wp of workPackages; trackBy:trackByHref"
        [attr.data-is-new]="wp.isNew || undefined"
        [attr.data-work-package-id]="wp.id"
-       [ngClass]="{ '-draggable': isDraggable }">
+       [ngClass]="{ '-draggable': isDraggable }"
+       (dblclick)="handleDblClick(wp)">
 
     <wp-edit-field-group [workPackage]="wp" [inEditMode]="wp.isNew">
       <accessible-by-keyboard *ngIf="wp.isNew"
