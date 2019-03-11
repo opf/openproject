@@ -172,5 +172,12 @@ describe 'Work package calendars', type: :feature, js: true do
 
     expect(page)
       .to have_selector('.subject-header', text: current_work_package.subject)
+
+    # Going back in browser history will lead us back to the calendar
+    # Regression #29664
+    page.go_back
+
+    # click goes to work package show page
+    expect(page).to have_selector('.fc-event-container', text: current_work_package.subject, wait: 20)
   end
 end

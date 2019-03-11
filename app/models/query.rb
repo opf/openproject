@@ -97,7 +97,7 @@ class Query < ActiveRecord::Base
   def set_default_sort
     return if sort_criteria.any?
 
-    self.sort_criteria = [['parent', 'asc']]
+    self.sort_criteria = [['id', 'asc']]
   end
 
   def context

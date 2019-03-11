@@ -7,11 +7,19 @@ PGDATA=${PGDATA:=/var/lib/postgresql/9.6/main}
 PGUSER=${PGUSER:=postgres}
 PGPASSWORD=${PGPASSWORD:=postgres}
 PG_STARTUP_WAIT_TIME=${PG_STARTUP_WAIT_TIME:=10}
+SUPERVISORD_LOG_LEVEL=${SUPERVISORD_LOG_LEVEL:=info}
 PGBIN="/usr/lib/postgresql/9.6/bin"
 
 if [ ! -z "$ATTACHMENTS_STORAGE_PATH" ]; then
 	mkdir -p "$ATTACHMENTS_STORAGE_PATH"
 	chown -R app:app "$ATTACHMENTS_STORAGE_PATH"
+fi
+
+if [ "$(id -u)" = '0' ]; then
+    echo "-----> Ensure $APP_PATH is owned by $APP_USER"
+	mkdir -p "$APP_PATH/log" "$APP_PATH/tmp" "$APP_PATH/files"
+	chown $APP_USER:$APP_USER "$APP_PATH"
+	chown -R $APP_USER:$APP_USER "$APP_PATH/log" "$APP_PATH/tmp" "$APP_PATH/files" "$APP_PATH/public"
 fi
 
 dbhost=$(ruby -ruri -e 'puts URI(ENV.fetch("DATABASE_URL")).host')
@@ -100,5 +108,5 @@ echo "-----> Database setup finished."
 echo "       On first installation, the default admin credentials are login: admin, password: admin"
 
 echo "-----> Launching supervisord..."
-exec /usr/bin/supervisord
+exec /usr/bin/supervisord -e ${SUPERVISORD_LOG_LEVEL}
 

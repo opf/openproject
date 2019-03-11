@@ -3,7 +3,7 @@
   text-align: left
   list-style: none
   margin: 0
-  padding:     4px 0 0 0
+  padding: 0
   line-height: $work-package-details--tab-height - 10px
   height:      $work-package-details--tab-height
   overflow: hidden
@@ -13,9 +13,10 @@
   text-transform: uppercase
 
   li
-    background: #ffffff
     display: table-cell
+    box-sizing: content-box
     position: relative
+    line-height: 38px
     margin: 0
     padding: 0
     text-align: center
@@ -35,6 +36,7 @@
       font-weight: bold
 
   a
+    display: inline-block
     color: #333
     text-decoration: none
     &:hover
@@ -49,38 +51,43 @@
   li:hover
     color: #999
     border-bottom: 2px solid
-    @include varprop(border-bottom-color, content-link-color)
     a
       @include varprop(color, content-link-color)
     .wp-tabs-count
       @include varprop(color, content-link-color)
       &:hover
         @include varprop(color, content-link-color)
+  li.selected,
+  li.selected:hover
+    @include varprop(border-bottom-color, content-link-color)
+  li:hover
+    border-bottom-color: #DDDDDD
 
 .scrollable-tabs
   position: relative
   overflow: hidden
+  box-sizing: content-box
   height: 40px
   border-bottom: 1px solid #DDDDDD
   .tabrow
     display: block
     overflow-x: auto
     white-space: nowrap
+    // Padding for hiding the scroll bar
     padding-bottom: 17px
     height: 57px
     li
-      height: 34px
       display: inline-block
       padding-left: 1rem
       padding-right: 1rem
-      font-size: 0.875rem
+      font-size: 14px
 
 .scrollable-tabs--button
   display: block
   width: 20px
   position: absolute
   top: 0px
-  line-height: 40px
+  line-height: 38px
   background: white
   color: $light-gray
   font-size: 0.7rem

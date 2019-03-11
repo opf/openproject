@@ -110,8 +110,8 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
     (event.target as HTMLInputElement).select();
   }
 
-  public resetWhenFocusOutside($event:FocusEvent) {
-    ContainHelpers.whenOutside(this.elementRef.nativeElement, () => this.reset());
+  public saveWhenFocusOutside($event:FocusEvent) {
+    ContainHelpers.whenOutside(this.elementRef.nativeElement, () => this.save($event));
   }
 
   public reset() {

@@ -86,7 +86,9 @@ export class SingleRowBuilder {
         if (this.workPackageTable.configuration.actionsColumnEnabled) {
           return this.contextLinkBuilder.build(workPackage);
         } else if (this.workPackageTable.configuration.columnMenuEnabled) {
-          return document.createElement('td');
+          let td = document.createElement('td');
+          td.classList.add('hide-when-print');
+          return td;
         } else {
           return null;
         }

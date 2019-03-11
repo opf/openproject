@@ -117,6 +117,7 @@ describe 'Search', type: :feature, js: true do
 
       let(:filters) { ::Components::WorkPackages::Filters.new }
       let(:columns) { ::Components::WorkPackages::Columns.new }
+      let(:top_menu) { ::Components::Projects::TopMenu.new }
 
       it 'shows a work package table with correct results' do
         # Search without subprojects
@@ -148,6 +149,8 @@ describe 'Search', type: :feature, js: true do
         filters.expect_closed
         page.find('.advanced-filters--toggle').click
         filters.expect_open
+        # As the project has a subproject, the filter for subprojectId is expected to be active.
+        filters.expect_filter_by 'subprojectId', 'none', nil, 'subprojectId'
         filters.add_filter_by('Subject',
                               'contains',
                               [work_packages.last.subject],
@@ -164,7 +167,6 @@ describe 'Search', type: :feature, js: true do
 
         # Expect that a fresh global search will reset the advanced filters, i.e. that they are closed
         global_search_field.set(work_packages[10].subject)
-        sleep(1)
         global_search_field.send_keys(:enter)
         table.expect_work_package_not_listed(work_packages[9], wait: 20)
         table.expect_work_package_subject(work_packages[10].subject)
@@ -176,7 +178,6 @@ describe 'Search', type: :feature, js: true do
         # Expect that changing the search term without using the autocompleter will leave the project scope unchanged
         # at current_project.
         global_search_field.set(other_work_package.subject)
-        sleep(1)
         global_search_field.send_keys(:enter)
         expect(current_url).to match(/\/#{project.identifier}\/search\?q=Other%20work%20package&work_packages=1&scope=current_project$/)
 
@@ -195,6 +196,22 @@ describe 'Search', type: :feature, js: true do
         table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
         table.expect_work_package_count(1)
         table.expect_work_package_subject(other_work_package.subject)
+
+        # Change project context to subproject
+        top_menu.toggle
+        top_menu.expect_open
+        top_menu.search_and_select subproject.name
+        top_menu.expect_current_project subproject.name
+
+        select_autocomplete(page.find('.top-menu-search--input'),
+                            query: query,
+                            select_text: 'In this project ↵')
+
+        filters.expect_closed
+        page.find('.advanced-filters--toggle').click
+        filters.expect_open
+        # As the current project (the subproject) has no subprojects, the filter for subprojectId is expected to be unavailable.
+        filters.expect_no_filter_by 'subprojectId', 'subprojectId'
       end
     end
   end

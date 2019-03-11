@@ -98,10 +98,10 @@ export class KeyboardShortcutService {
     var key = accessKeys[keyName];
     return () => {
       var elem = jQuery('[accesskey=' + key + ']:first');
-      if (elem.is('input')) {
+      if (elem.is('input') || elem.attr('id') === 'global-search-input') {
         // timeout with delay so that the key is not
         // triggered on the input
-        this.FocusHelper.focus(elem);
+        setTimeout( () => this.FocusHelper.focus(elem), 0);
       } else if (elem.is('[href]')) {
         this.clickLink(elem[0]);
       } else {

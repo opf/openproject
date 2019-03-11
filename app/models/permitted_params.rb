@@ -452,7 +452,7 @@ class PermittedParams
           name
           host
           port
-          tls
+          tls_mode
           account
           account_password
           base_dn

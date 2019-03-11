@@ -25,11 +25,29 @@ class TableCell < RailsCell
     def columns(*names)
       return Array(@columns) if names.empty?
 
-      @columns = names
+      @columns = names.map(&:to_sym)
       rc = row_class
 
       names.each do |name|
         rc.property name
+      end
+    end
+
+    ##
+    # Define which of the registered columns are sortable
+    # Applies only if +sortable?+ is true
+    def sortable_columns(*names)
+      if names.present?
+        @sortable_columns = names.map(&:to_sym)
+        # set available criteria
+        return
+      end
+
+      # return all columns unless defined otherwise
+      if @sortable_columns.nil?
+        columns
+      else
+        Array(@sortable_columns)
       end
     end
 
@@ -61,7 +79,7 @@ class TableCell < RailsCell
 
     if sortable?
       sort_init *initial_sort.map(&:to_s)
-      sort_update columns.map(&:to_s)
+      sort_update sortable_columns.map(&:to_s)
       @model = sort_and_paginate_collection model
     end
   end
@@ -101,6 +119,10 @@ class TableCell < RailsCell
     self.class.columns
   end
 
+  def sortable_columns
+    self.class.sortable_columns
+  end
+
   def render_row(row)
     cell(self.class.row_class, row, table: self).call
   end
@@ -119,6 +141,10 @@ class TableCell < RailsCell
 
   def sortable?
     true
+  end
+
+  def sortable_column?(column)
+    sortable? && sortable_columns.include?(column.to_sym)
   end
 
   ##

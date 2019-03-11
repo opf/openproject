@@ -137,7 +137,7 @@ class WorkPackageField
 
     if input_element.tag_name == 'ng-select'
       if multi
-        page.find('.ng-dropdown-panel .ng-option', text: content).click
+        page.find('.ng-value-label', text: content).sibling('.ng-value-icon').click
       else
         page.find('.ng-dropdown-panel .ng-option', text: '-').click
       end

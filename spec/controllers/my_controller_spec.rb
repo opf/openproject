@@ -157,7 +157,7 @@ describe MyController, type: :controller do
         as_logged_in_user user do
           user.pref.self_notified = false
 
-          patch :settings, params: { user: { language: 'en' } }
+          patch :update_settings, params: { user: { language: 'en' } }
         end
       end
 
@@ -194,7 +194,7 @@ describe MyController, type: :controller do
         as_logged_in_user user do
           user.pref.auto_hide_popups = false
 
-          patch :settings, params: { user: { language: 'en' } }
+          patch :update_settings, params: { user: { language: 'en' } }
         end
       end
     end

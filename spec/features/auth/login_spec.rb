@@ -157,7 +157,7 @@ describe 'Login', type: :feature do
       end
     end
 
-    context 'with password expiry' do
+    context 'with password expiry', js: true do
       before do
         user.passwords.update_all(created_at: 31.days.ago,
                                   updated_at: 31.days.ago)

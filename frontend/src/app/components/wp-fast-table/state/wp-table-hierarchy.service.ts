@@ -47,9 +47,6 @@ export class WorkPackageTableHierarchiesService extends WorkPackageQueryStateSer
     if (active) {
       // hierarchies and group by are mutually exclusive
       this.wpTableGroupBy.update(null);
-
-      // hierarchies and sort by are mutually exclusive
-      this.wpTableSortBy.update([]);
     }
 
     this.update(state);

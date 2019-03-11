@@ -60,6 +60,7 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
   }
 
   public selectPerPage(perPage:number) {
+    this.paginationService.setPerPage(perPage);
     this.wpTablePagination.updateFromObject({page: 1, perPage: perPage});
  }
 

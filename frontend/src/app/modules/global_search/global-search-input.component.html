@@ -19,7 +19,8 @@
               [items]="results"
               name="global-search-input"
               id="global-search-input"
-              placeholder="{{text.search}}"
+              placeholder="{{text.search_dots}}"
+              accesskey="4"
               [ngClass]="'top-menu-search--input'"
               [class.-expanded]="expanded"
               [openOnEnter]="false"
@@ -31,6 +32,8 @@
               (open)="openCloseMenu(currentValue)"
               (close)="select.filterValue = currentValue"
               (change)="onChange($event)"
+              (keydown.enter)="onEnterBeforeResultsLoaded()"
+              (keydown.escape)="blur()"
               (clear)="clearSearch()">
         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
           <div *ngIf="!item.id; else workPackageItemTemplate">
@@ -54,8 +57,7 @@
     <a #btn
        id="top-menu-search-button"
        class="top-menu-search--button search-form-normal"
-       title="Search"
-       accesskey="4"
+       title="{{text.search}}"
        tabindex="0"
        role="button"
        [class.-input-focused]="expanded"
