@@ -44,8 +44,6 @@ module OpenProject
       'autologin_cookie_path'   => '/',
       'autologin_cookie_secure' => false,
       'database_cipher_key'     => nil,
-      'force_help_link'         => nil,
-      'force_formatting_help_link' => nil,
       'show_community_links' => true,
       'log_level' => 'info',
       'scm_git_command'         => nil,
@@ -69,6 +67,13 @@ module OpenProject
       'rails_relative_url_root' => '',
       'rails_force_ssl' => false,
       'rails_asset_host' => nil,
+
+      # Additional / overridden help links
+      'force_help_link'         => nil,
+      'force_formatting_help_link' => nil,
+
+      # Impressum link to be set, nil by default (= hidden)
+      'impressum_link' => nil,
 
       # user configuration
       'default_comment_sort_order' => 'asc',
