@@ -16,11 +16,11 @@
                 'containerClass': '-dark -hidden-arrow'
             },
             {
-                'next .work-packages-list-view-button': I18n.t('js.onboarding.steps.wp_back_button'),
+                'next .work-packages-back-button': I18n.t('js.onboarding.steps.wp_back_button'),
                 'showSkip': false,
                 'nextButton': {text: I18n.t('js.onboarding.buttons.next')},
                 onNext: function () {
-                    $('.work-packages-list-view-button')[0].click();
+                    $('.work-packages-back-button')[0].click();
                 }
             },
             {

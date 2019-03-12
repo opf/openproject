@@ -89,22 +89,34 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'work-packages.show.activity',
     url: '/activity',
-    component: WorkPackageActivityTabComponent
+    component: WorkPackageActivityTabComponent,
+    data: {
+      parent: 'work-packages.show'
+    }
   },
   {
     name: 'work-packages.show.activity.details',
     url: '/activity/details/#{activity_no:\d+}',
-    component: WorkPackageActivityTabComponent
+    component: WorkPackageActivityTabComponent,
+    data: {
+      parent: 'work-packages.show'
+    }
   },
   {
     name: 'work-packages.show.relations',
     url: '/relations',
-    component: WorkPackageRelationsTabComponent
+    component: WorkPackageRelationsTabComponent,
+    data: {
+      parent: 'work-packages.show'
+    }
   },
   {
     name: 'work-packages.show.watchers',
     url: '/watchers',
-    component: WorkPackageWatchersTabComponent
+    component: WorkPackageWatchersTabComponent,
+    data: {
+      parent: 'work-packages.show'
+    }
   },
   {
     name: 'work-packages.list',
@@ -122,7 +134,8 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     data: {
       allowMovingInEditMode: true,
-      bodyClasses: 'action-create'
+      bodyClasses: 'action-create',
+      parent: 'work-packages.list'
     },
   },
   {
@@ -132,7 +145,8 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     data: {
       allowMovingInEditMode: true,
-      bodyClasses: 'action-details'
+      bodyClasses: 'action-details',
+      parent: 'work-packages.list'
     },
   },
   {
@@ -154,27 +168,42 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'work-packages.list.details.overview',
     url: '/overview',
-    component: WorkPackageOverviewTabComponent
+    component: WorkPackageOverviewTabComponent,
+    data: {
+      parent: 'work-packages.list.details'
+    }
   },
   {
     name: 'work-packages.list.details.activity',
     url: '/activity',
     component: WorkPackageActivityTabComponent,
+    data: {
+      parent: 'work-packages.list.details'
+    }
   },
   {
     name: 'work-packages.list.details.activity.details',
     url: '/activity/details/#{activity_no:\d+}',
-    component: WorkPackageActivityTabComponent
+    component: WorkPackageActivityTabComponent,
+    data: {
+      parent: 'work-packages.list.details'
+    }
   },
   {
     name: 'work-packages.list.details.relations',
     url: '/relations',
-    component: WorkPackageRelationsTabComponent
+    component: WorkPackageRelationsTabComponent,
+    data: {
+      parent: 'work-packages.list.details'
+    }
   },
   {
     name: 'work-packages.list.details.watchers',
     url: '/watchers',
-    component: WorkPackageWatchersTabComponent
+    component: WorkPackageWatchersTabComponent,
+    data: {
+      parent: 'work-packages.list.details'
+    }
   },
   // Avoid lazy-loading the routes for now
   // {

@@ -33,6 +33,7 @@ import {Injector} from "@angular/core";
 import {FirstRouteService} from "core-app/modules/router/first-route-service";
 import {StatesModule} from "@uirouter/angular";
 import {appBaseSelector, ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
+import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
 
 export const OPENPROJECT_ROUTES = [
   {
@@ -98,6 +99,7 @@ export function initializeUiRouterListeners(injector:Injector) {
     const notificationsService:NotificationsService = injector.get(NotificationsService);
     const currentProject:CurrentProjectService = injector.get(CurrentProjectService);
     const firstRoute:FirstRouteService = injector.get(FirstRouteService);
+    const backRoutingService:BackRoutingService = injector.get(BackRoutingService);
 
     // Check whether we are running within our complete app, or only within some other bootstrapped
     // component
@@ -132,6 +134,9 @@ export function initializeUiRouterListeners(injector:Injector) {
         paramsCopy.start_onboarding_tour = undefined;
         return $state.target(transition.to(), paramsCopy);
       }
+
+      // Set backRoute to know where we came from
+      backRoutingService.sync(transition);
 
       // Reset profiler, if we're actually profiling
       const profiler:any = (window as any).MiniProfiler;

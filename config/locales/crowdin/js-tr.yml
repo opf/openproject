@@ -23,6 +23,7 @@ tr:
         kopyalayınız.
       copied_successful: Panoya başarıyla kopyalandı!
     button_add_watcher: Takipçi ekle
+    button_back: Back
     button_back_to_list_view: Listeye görünümüne geri dön
     button_cancel: İptal
     button_close: Kapat
@@ -147,6 +148,30 @@ tr:
     general_text_yes: evet
     general_text_No: Hayır
     general_text_Yes: Evet
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Haberler
+          at: at
+          no_results: Rapor için yeni birşey bulunamadı.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Sorumlusu olduğum iş paketleri
+        work_packages_assigned:
+          title: Bana atanan iş paketleri
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Takvim
     label_activate: Etkinleştir
     label_activity_no: Etkinlik giriş numarası %{activityNo}
     label_activity_with_comment_no: Etkinlik giriş numarası %{activityNo}. Kullanıcı
@@ -489,6 +514,7 @@ tr:
     text_query_destroy_confirmation: Seçilen görünümü silmek istediğinizden emin misiniz?
     text_attachment_destroy_confirmation: Eki silmek istediğinizden emin misiniz?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt görünümü
       labels:
         title: Etiket yapılandırma
@@ -555,7 +581,6 @@ tr:
           is not available.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Yakınlaştırma düzeyi
       outlines: Hiyerarşi düzeyi
@@ -861,27 +886,3 @@ tr:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Haberler
-          at: at
-          no_results: Rapor için yeni birşey bulunamadı.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Sorumlusu olduğum iş paketleri
-        work_packages_assigned:
-          title: Bana atanan iş paketleri
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Takvim

@@ -23,6 +23,7 @@ ru:
         скопируйте выделенный текст вручную.
       copied_successful: Успешно скопировано в буфер обмена!
     button_add_watcher: Добавить наблюдателя
+    button_back: Back
     button_back_to_list_view: Вернуться к просмотру списка
     button_cancel: Отмена
     button_close: Закрыть
@@ -56,8 +57,8 @@ ru:
     button_export-atom: Скачать Atom
     calendar:
       title: Календарь
-      too_many: Пакетов работ больше (%{count}), чем может отобразить calendar (%{max}).
-        Отфильтруйте нужные пакеты добавив фильтры.
+      too_many: Пакетов работ больше (%{count}), чем может быть показано в календаре
+        (%{max}). Отфильтруйте пакеты, чтобы сфокусироваться на нужных.
     description_available_columns: Доступные столбцы
     description_current_position: 'Вы находитесь здесь:'
     description_select_work_package: 'Выберите пакет работ #%{id}'
@@ -150,6 +151,30 @@ ru:
     general_text_yes: да
     general_text_No: Нет
     general_text_Yes: Да
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Новости
+          at: at
+          no_results: Ничего нового для отчета.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Пакеты работ, в которых я подотчетен
+        work_packages_assigned:
+          title: Переданные мне пакеты работ
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Календарь
     label_activate: Активировать
     label_activity_no: Деятельность номер %{activityNo}
     label_activity_with_comment_no: Деятельность номер %{activityNo}. Есть комментарий
@@ -493,6 +518,7 @@ ru:
     text_query_destroy_confirmation: Уверены, что хотите удалить выбранное представление?
     text_attachment_destroy_confirmation: Вы уверены, что вы хотите удалить вложение?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Диаграмма Гантта
       labels:
         title: Настройка меток
@@ -558,7 +584,6 @@ ru:
         description: 'Выберите первоначальный масштаб, при отсутствии доступа к автомасштабированию.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Степень масштабирования
       outlines: Уровень иерархии
@@ -875,27 +900,3 @@ ru:
         all_projects: все проекты
         project_and_subprojects: и все подпроекты
         search_for: Поиск по
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Новости
-          at: at
-          no_results: Ничего нового для отчета.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Пакеты работ, в которых я подотчетен
-        work_packages_assigned:
-          title: Переданные мне пакеты работ
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Календарь

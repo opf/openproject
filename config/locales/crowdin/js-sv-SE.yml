@@ -23,6 +23,7 @@ sv-SE:
         den markerade texten manuellt.
       copied_successful: Kopierad till Urklipp!
     button_add_watcher: Lägg till bevakare
+    button_back: Back
     button_back_to_list_view: Tillbaka till listvy
     button_cancel: Avbryt
     button_close: Stäng
@@ -150,6 +151,30 @@ sv-SE:
     general_text_yes: ja
     general_text_No: Nej
     general_text_Yes: Ja
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Nyheter
+          at: at
+          no_results: Inget nytt att rapportera.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Arbetspaket som tilldelats till mig
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalender
     label_activate: Aktivera
     label_activity_no: Aktivitetspost nummer %{activityNo}
     label_activity_with_comment_no: Aktivitetspost nummer %{activityNo} har en användarkommentar.
@@ -490,6 +515,7 @@ sv-SE:
     text_attachment_destroy_confirmation: Är du säker på att du vill ta bort denna
       bilaga?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Etikettsinställning
@@ -555,7 +581,6 @@ sv-SE:
           is not available.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Zoomnivå
       outlines: Hierarkinivå
@@ -861,27 +886,3 @@ sv-SE:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Nyheter
-          at: at
-          no_results: Inget nytt att rapportera.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Work packages I am accountable for
-        work_packages_assigned:
-          title: Arbetspaket som tilldelats till mig
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Kalender

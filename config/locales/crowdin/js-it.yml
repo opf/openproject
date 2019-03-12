@@ -24,6 +24,7 @@ it:
         testo selezionato manualmente.
       copied_successful: Copia negli appunti completata con successo!
     button_add_watcher: Aggiungi osservatore
+    button_back: Back
     button_back_to_list_view: Torna alla visualizzazione in lista
     button_cancel: Cancella
     button_close: Chiuso
@@ -152,6 +153,30 @@ it:
     general_text_yes: si
     general_text_No: 'No'
     general_text_Yes: Si
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Notizie
+          at: at
+          no_results: Niente di nuovo da segnalare.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Macro-attività di cui sono responsabile del risultato
+        work_packages_assigned:
+          title: Pacchetti di lavoro assegnati a me
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendario
     label_activate: Attiva
     label_activity_no: Voce attività numero %{activityNo}
     label_activity_with_comment_no: Voce attività numero %{activityNo}. Ha un commento
@@ -497,6 +522,7 @@ it:
     text_query_destroy_confirmation: Sei sicuro di voler eliminare la vista selezionata?
     text_attachment_destroy_confirmation: Sei sicuro di che voler eliminare l'allegato?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Diagramma di Gantt
       labels:
         title: Configurazione etichetta
@@ -566,7 +592,6 @@ it:
           zoom automatico non è disponibile.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Livello di zoom
       outlines: Livello della gerarchia
@@ -878,27 +903,3 @@ it:
         all_projects: tutti i progetti
         project_and_subprojects: e tutti i sottoprogetti
         search_for: Cerca per
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Notizie
-          at: at
-          no_results: Niente di nuovo da segnalare.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Macro-attività di cui sono responsabile del risultato
-        work_packages_assigned:
-          title: Pacchetti di lavoro assegnati a me
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Calendario

@@ -23,6 +23,7 @@ vi:
         bản đã chọn theo cách thủ công.
       copied_successful: Sao chép thành công vào clipboard!
     button_add_watcher: Thêm người theo dõi
+    button_back: Back
     button_back_to_list_view: Back to list view
     button_cancel: Hủy
     button_close: Đóng
@@ -150,6 +151,30 @@ vi:
     general_text_yes: có
     general_text_No: Không
     general_text_Yes: Có
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Tin tức
+          at: at
+          no_results: Không có gì mới để báo cáo.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Gói công việc mà tôi có trách nhiệm
+        work_packages_assigned:
+          title: Work package được chỉ định cho tôi
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Lịch
     label_activate: Activate
     label_activity_no: Số chỉ mục hoạt động %{activityNo}
     label_activity_with_comment_no: Số chỉ mục hoạt động %{activityNo}. Có một nhận
@@ -489,6 +514,7 @@ vi:
     text_query_destroy_confirmation: Bạn muốn xóa các mục đã chọn?
     text_attachment_destroy_confirmation: Bạn có chắc bạn muốn xóa tập tin đính kèm?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Cấu hình nhãn
@@ -555,7 +581,6 @@ vi:
           không có sẵn.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Zoom level
       outlines: Hierarchy level
@@ -860,27 +885,3 @@ vi:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Tin tức
-          at: at
-          no_results: Không có gì mới để báo cáo.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Gói công việc mà tôi có trách nhiệm
-        work_packages_assigned:
-          title: Work package được chỉ định cho tôi
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Lịch

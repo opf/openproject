@@ -23,6 +23,7 @@ ca:
         copieu el text seleccionat manualment.
       copied_successful: S'ha copiat correctament al porta-retalls!
     button_add_watcher: Afegir observador
+    button_back: Back
     button_back_to_list_view: Back to list view
     button_cancel: Cancel·la
     button_close: Tancar
@@ -148,6 +149,30 @@ ca:
     general_text_yes: sí
     general_text_No: 'No'
     general_text_Yes: Sí
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Notícies
+          at: at
+          no_results: Res de nou a informar.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Paquets de treball assignats a mi
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendari
     label_activate: Activar
     label_activity_no: Número d'entrada d'activitat %{activityNo}
     label_activity_with_comment_no: Número d'entrada d'activitat %{activityNo}. Disposa
@@ -491,6 +516,7 @@ ca:
     text_attachment_destroy_confirmation: Esteu segur que voleu suprimir el fitxer
       adjunt?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -557,7 +583,6 @@ ca:
           is not available.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Nivell de zoom
       outlines: Nivell de jerarquia
@@ -866,27 +891,3 @@ ca:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Notícies
-          at: at
-          no_results: Res de nou a informar.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Work packages I am accountable for
-        work_packages_assigned:
-          title: Paquets de treball assignats a mi
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Calendari

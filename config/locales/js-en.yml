@@ -52,6 +52,7 @@ en:
       copied_successful: "Sucessfully copied to clipboard!"
 
     button_add_watcher: "Add watcher"
+    button_back: "Back"
     button_back_to_list_view: "Back to list view"
     button_cancel: "Cancel"
     button_close: "Close"

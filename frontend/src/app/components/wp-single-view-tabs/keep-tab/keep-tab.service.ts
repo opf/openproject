@@ -68,6 +68,10 @@ export class KeepTabService {
     return 'work-packages.list.details.' + this.currentDetailsTab;
   }
 
+  public isDetailsState(stateName:string) {
+    return stateName === 'work-packages.list.details';
+  }
+
   public get currentShowTab():string {
     // Show view doesn't have overview
     // use activity instead

@@ -23,6 +23,7 @@ nl:
         de geselecteerde tekst handmatig.
       copied_successful: Met succes gekopieerd naar het klembord!
     button_add_watcher: Watcher toevoegen
+    button_back: Back
     button_back_to_list_view: Terug naar het overzicht
     button_cancel: Annuleren
     button_close: Sluiten
@@ -150,6 +151,30 @@ nl:
     general_text_yes: Ja
     general_text_No: Nee
     general_text_Yes: Ja
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Nieuws
+          at: at
+          no_results: Niets nieuws om te rapporteren.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Werkpakketten waar ik verantwoordelijk voor ben
+        work_packages_assigned:
+          title: Werkpakketten toegewezen aan mij
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Agenda
     label_activate: Activeren
     label_activity_no: Activiteit ingangsnummer %{activityNo}
     label_activity_with_comment_no: Activiteit ingangsnummer %{activityNo}. Bevat
@@ -498,6 +523,7 @@ nl:
       wilt verwijderen?
     text_attachment_destroy_confirmation: Weet u zeker dat u de bijlage wilt verwijderen?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt-grafiek
       labels:
         title: Label configuratie
@@ -566,7 +592,6 @@ nl:
           wanneer autozoom niet beschikbaar is.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Zoom niveau
       outlines: Niveau van de hiërarchie
@@ -877,27 +902,3 @@ nl:
         all_projects: alle projecten
         project_and_subprojects: en alle subprojecten
         search_for: Zoeken naar
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Nieuws
-          at: at
-          no_results: Niets nieuws om te rapporteren.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Werkpakketten waar ik verantwoordelijk voor ben
-        work_packages_assigned:
-          title: Werkpakketten toegewezen aan mij
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Agenda

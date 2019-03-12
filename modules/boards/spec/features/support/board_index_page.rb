@@ -39,7 +39,7 @@ module Pages
 
     def visit!
       if project
-        visit project_work_package_boards_path(project_id: project.id)
+        visit project_work_package_boards_path(project)
       else
         visit work_package_boards_path
       end

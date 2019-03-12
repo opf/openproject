@@ -23,6 +23,7 @@ hu:
         a kijelölt szöveget manuálisan.
       copied_successful: A vágólapra másolás sikeres!
     button_add_watcher: Megfigyelő hozzáadása
+    button_back: Back
     button_back_to_list_view: Vissza a lista nézethez
     button_cancel: Mégsem
     button_close: Bezár
@@ -148,6 +149,30 @@ hu:
     general_text_yes: igen
     general_text_No: Nem
     general_text_Yes: Igen
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Hírek
+          at: at
+          no_results: Semmi új jelenteni való.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Feladatcsoportok, amelyért én vagyok a felelős
+        work_packages_assigned:
+          title: Magamhoz rendelt feladatcsoportok
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Naptár
     label_activate: Aktivál
     label_activity_no: Tevékenységi bejegyzések száma %{activityNo}
     label_activity_with_comment_no: Tevékenységi bejegyzések száma %{activityNo}.
@@ -487,6 +512,7 @@ hu:
     text_query_destroy_confirmation: Biztosan törli a kijelölt megjelenítést?
     text_attachment_destroy_confirmation: Biztosan törli a mellékletet?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt-diagram
       labels:
         title: Címke konfiguráció
@@ -553,7 +579,6 @@ hu:
           is not available.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Nagyítási szint
       outlines: Hierarchia szint
@@ -861,27 +886,3 @@ hu:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Hírek
-          at: at
-          no_results: Semmi új jelenteni való.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Feladatcsoportok, amelyért én vagyok a felelős
-        work_packages_assigned:
-          title: Magamhoz rendelt feladatcsoportok
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Naptár

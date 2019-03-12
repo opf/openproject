@@ -24,6 +24,7 @@ fr:
         Veuillez copier manuellement le texte sélectionné.
       copied_successful: Copié avec succès vers le presse-papier !
     button_add_watcher: Ajouter observateur
+    button_back: Back
     button_back_to_list_view: Retour à la liste
     button_cancel: Annuler
     button_close: Fermer
@@ -151,6 +152,30 @@ fr:
     general_text_yes: oui
     general_text_No: Non
     general_text_Yes: Oui
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Actualités
+          at: at
+          no_results: Rien de nouveau à signaler.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Lots de Travaux dont je suis responsable
+        work_packages_assigned:
+          title: Lots de Travaux m'étant assignés
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendrier
     label_activate: Activer
     label_activity_no: Entrée d'activité numéro %{activityNo}
     label_activity_with_comment_no: Entrée d'activité numéro %{activityNo}. A un commentaire
@@ -504,6 +529,7 @@ fr:
     text_attachment_destroy_confirmation: Êtes-vous sûr de vouloir supprimer la pièce
       jointe ?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Diagramme de Gantt
       labels:
         title: Configuration du label
@@ -573,7 +599,6 @@ fr:
           lorsque le zoom automatique n’est pas disponible.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: Niveau de zoom
       outlines: Niveau de hiérarchie
@@ -887,27 +912,3 @@ fr:
         all_projects: all projects
         project_and_subprojects: and all subprojects
         search_for: Search for
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Actualités
-          at: at
-          no_results: Rien de nouveau à signaler.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Lots de Travaux dont je suis responsable
-        work_packages_assigned:
-          title: Lots de Travaux m'étant assignés
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Calendrier

@@ -24,6 +24,7 @@ es:
         el texto seleccionado manualmente.
       copied_successful: "¡Copiado correctamente en el portapapeles!"
     button_add_watcher: Añadir observador
+    button_back: Back
     button_back_to_list_view: Volver a la lista
     button_cancel: Cancelar
     button_close: Cerrar
@@ -151,6 +152,30 @@ es:
     general_text_yes: sí
     general_text_No: 'No'
     general_text_Yes: Sí
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Noticias
+          at: at
+          no_results: Nada nuevo sobre lo que informar.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Paquetes de trabajo de los que soy responsable
+        work_packages_assigned:
+          title: Paquetes de trabajo asignados a mí
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendario
     label_activate: Activar
     label_activity_no: Entrada de actividad número %{activityNo}
     label_activity_with_comment_no: Entrada de actividad número %{activityNo} tiene
@@ -502,6 +527,7 @@ es:
     text_attachment_destroy_confirmation: "¿Está seguro que desea eliminar el archivo
       adjunto?"
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Diagrama de Gantt
       labels:
         title: Configuración de etiquetas
@@ -567,7 +593,6 @@ es:
           el zoom automático no esté disponible.
 
 '
-      quarter_label: Q%{quarter_number}
     tl_toolbar:
       zooms: nivel de Zoom
       outlines: Nivel de jerarquía
@@ -879,27 +904,3 @@ es:
         all_projects: todos los proyectos
         project_and_subprojects: y todos los subproyectos
         search_for: Búsqueda por
-    grid:
-      add_modal:
-        choose_widget: Choose widget
-      widgets:
-        documents:
-          title: Documents
-          no_results: No documents yet.
-        news:
-          title: Noticias
-          at: at
-          no_results: Nada nuevo sobre lo que informar.
-        time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
-        work_packages_accountable:
-          title: Paquetes de trabajo de los que soy responsable
-        work_packages_assigned:
-          title: Paquetes de trabajo asignados a mí
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_calendar:
-          title: Calendario

@@ -55,7 +55,10 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   },
   {
     name: 'boards.list',
-    component: BoardsIndexPageComponent
+    component: BoardsIndexPageComponent,
+    data: {
+      parent: 'boards'
+    }
   },
   {
     name: 'boards.show',
@@ -64,7 +67,10 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
       board_id: { type: 'int' },
       isNew: { type: 'bool' }
     },
-    component: BoardComponent
+    component: BoardComponent,
+    data: {
+      parent: 'boards'
+    }
   }
 ];
 

@@ -45,6 +45,18 @@ lol:
     index:
       no_results_content_title: crwdns114766:0crwdne114766:0
       no_results_content_text: crwdns114768:0crwdne114768:0
+  ldap_auth_sources:
+    connection_encryption: crwdns122440:0crwdne122440:0
+    tls_mode:
+      plain: crwdns122442:0crwdne122442:0
+      simple_tls: crwdns122444:0crwdne122444:0
+      start_tls: crwdns122446:0crwdne122446:0
+      plain_description: crwdns122448:0crwdne122448:0
+      simple_tls_description: crwdns122450:0crwdne122450:0
+      start_tls_description: crwdns122452:0crwdne122452:0
+      section_more_info_link_html: 'crwdns122454:0%{link}crwdne122454:0
+
+'
   boards:
     show:
       no_results_title_text: crwdns114770:0crwdne114770:0
@@ -316,6 +328,11 @@ lol:
         subscriber: crwdns115080:0crwdne115080:0
         encoded_token: crwdns115082:0crwdne115082:0
         active_user_count_restriction: crwdns115084:0crwdne115084:0
+      grids/grid:
+        page: crwdns122456:0crwdne122456:0
+        row_count: crwdns122458:0crwdne122458:0
+        column_count: crwdns122460:0crwdne122460:0
+        widgets: crwdns122462:0crwdne122462:0
       relation:
         delay: crwdns115086:0crwdne115086:0
         from: crwdns115088:0crwdne115088:0
@@ -412,11 +429,6 @@ lol:
         client_credentials_user_id: crwdns115236:0crwdne115236:0
         scopes: crwdns115238:0crwdne115238:0
         confidential: crwdns115240:0crwdne115240:0
-      grids/grid:
-        page: crwdns122386:0crwdne122386:0
-        row_count: crwdns122388:0crwdne122388:0
-        column_count: crwdns122390:0crwdne122390:0
-        widgets: crwdns122392:0crwdne122392:0
     errors:
       messages:
         accepted: crwdns115242:0crwdne115242:0
@@ -482,6 +494,10 @@ lol:
               not_match_configured: crwdns115346:0crwdne115346:0
         enterprise_token:
           unreadable: crwdns115348:0crwdne115348:0
+        grids/grid:
+          overlaps: crwdns122464:0crwdne122464:0
+          outside: crwdns122466:0crwdne122466:0
+          end_before_start: crwdns122468:0crwdne122468:0
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -570,10 +586,6 @@ lol:
         member:
           principal_blank: crwdns115442:0crwdne115442:0
           role_blank: crwdns115444:0crwdne115444:0
-        grids/grid:
-          overlaps: crwdns122394:0crwdne122394:0
-          outside: crwdns122396:0crwdne122396:0
-          end_before_start: crwdns122398:0crwdne122398:0
       template:
         body: crwdns115446:0crwdne115446:0
         header:
@@ -1694,6 +1706,7 @@ lol:
   notice_account_unknown_email: crwdns117480:0crwdne117480:0
   notice_account_update_failed: crwdns117482:0crwdne117482:0
   notice_account_updated: crwdns117484:0crwdne117484:0
+  notice_account_other_session_expired: crwdns122470:0crwdne122470:0
   notice_account_wrong_password: crwdns117486:0crwdne117486:0
   notice_account_registered_and_logged_in: crwdns117488:0crwdne117488:0
   notice_activation_failed: crwdns117490:0crwdne117490:0
@@ -2578,16 +2591,3 @@ lol:
     authorization_error: crwdns118974:0crwdne118974:0
     revoke_my_application_confirmation: crwdns118976:0%{token_count}crwdne118976:0
     my_registered_applications: crwdns118978:0crwdne118978:0
-  ldap_auth_sources:
-    connection_encryption: crwdns122370:0crwdne122370:0
-    tls_mode:
-      plain: crwdns122372:0crwdne122372:0
-      simple_tls: crwdns122374:0crwdne122374:0
-      start_tls: crwdns122376:0crwdne122376:0
-      plain_description: crwdns122378:0crwdne122378:0
-      simple_tls_description: crwdns122380:0crwdne122380:0
-      start_tls_description: crwdns122382:0crwdne122382:0
-      section_more_info_link_html: 'crwdns122384:0%{link}crwdne122384:0
-
-'
-  notice_account_other_session_expired: crwdns122400:0crwdne122400:0

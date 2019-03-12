@@ -45,6 +45,22 @@ ja:
     index:
       no_results_content_title: 現在認証モードはありません。
       no_results_content_text: 新しい認証モードを作成
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: なし
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
   boards:
     show:
       no_results_title_text: 現在、掲示板の投稿はありません。
@@ -319,6 +335,11 @@ ja:
         subscriber: 購入者
         encoded_token: エンタープライズ サポート トークン
         active_user_count_restriction: アクティブなユーザーの最大数
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: 遅延
         from: 作業項目
@@ -415,11 +436,6 @@ ja:
         client_credentials_user_id: クライアント資格情報ユーザーID
         scopes: 範囲
         confidential: 機密
-      grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
     errors:
       messages:
         accepted: は受諾しなければなりません。
@@ -485,6 +501,10 @@ ja:
               not_match_configured: 利用可能な範囲と一致しません。
         enterprise_token:
           unreadable: 読み取りできません。サポート トークンですか?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -574,10 +594,6 @@ ja:
         member:
           principal_blank: 一つ以上のユーザまたはグループを選択してください。
           role_blank: 1つ以上のロールを選択してください。
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
       template:
         body: 次のフィールドをチェックしてください：
         header:
@@ -1704,6 +1720,8 @@ ja:
   notice_account_unknown_email: ユーザが存在しません。
   notice_account_update_failed: アカウントの設定は保存できませんでした。個人ページをご確認ください。
   notice_account_updated: アカウントが正常に更新されました。
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: パスワードが正しくありません。
   notice_account_registered_and_logged_in: ようこそ、アカウントが有効になりました。只今ログイン中ます。
   notice_activation_failed: アカウントをアクティブ化できませんでした。
@@ -2631,21 +2649,3 @@ ja:
     revoke_my_application_confirmation: 本当にこのアプリケーションを削除しますか？ これにより %{token_count}
       が無効になります。
     my_registered_applications: 登録済みのOAuthアプリケーション
-  ldap_auth_sources:
-    connection_encryption: Connection encryption
-    tls_mode:
-      plain: なし
-      simple_tls: simple_tls
-      start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
-
-'
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
