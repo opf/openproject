@@ -3,6 +3,7 @@ import {DOCUMENT} from "@angular/common";
 import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
 
 const autoScroll:any = require('dom-autoscroller');
+
 export interface IAutoScroller {
   add:(...elements:unknown[]) => void;
   destroy:(animation:boolean) => void;
@@ -65,7 +66,7 @@ export class DragAndDropService implements OnDestroy {
     const containers = members.map(m => m.container);
 
     if (this.autoscroll) {
-     this.autoscroll.add(...containers) ;
+      this.autoscroll.add(...containers);
     } else {
       this.setupAutoscroll(containers);
     }
@@ -98,8 +99,16 @@ export class DragAndDropService implements OnDestroy {
   }
 
   protected initializeDrake(containers:Element[]) {
+    let dropping = false;
+
     this.drake = dragula(containers, {
       moves: (el:any, container:any, handle:any, sibling:any) => {
+
+        // Never move an item while another is being saved
+        if (dropping) {
+          return false;
+        }
+
         let result = false;
         this.members.forEach(member => {
           if (member.container === container) {
@@ -125,25 +134,37 @@ export class DragAndDropService implements OnDestroy {
     });
 
     this.drake.on('drop', async (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) => {
-      const to = this.member(target);
-      const from = this.member(source);
+      dropping = true;
 
-      if (!(to && from)) {
-        return;
+      try {
+        await this.handleDrop(el, target, source, sibling);
+      } catch (e) {
+        console.error("Failed to handle drop of %O", el);
       }
 
-      if (to === from) {
-        return to.onMoved(el, target, source, sibling);
-      }
-
-      const result = await to.onAdded(el, target, source, sibling);
-
-      if (result) {
-        from.onRemoved(el, target, source, sibling);
-      } else {
-        // Restore element in from container
-        DragAndDropHelpers.reinsert(el, el.dataset.sourceIndex || -1, source);
-      }
+      dropping = false;
     });
+  }
+
+  private async handleDrop(el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) {
+    const to = this.member(target);
+    const from = this.member(source);
+
+    if (!(to && from)) {
+      return;
+    }
+
+    if (to === from) {
+      return to.onMoved(el, target, source, sibling);
+    }
+
+    const result = await to.onAdded(el, target, source, sibling);
+
+    if (result) {
+      from.onRemoved(el, target, source, sibling);
+    } else {
+      // Restore element in from container
+      DragAndDropHelpers.reinsert(el, el.dataset.sourceIndex || -1, source);
+    }
   }
 }
