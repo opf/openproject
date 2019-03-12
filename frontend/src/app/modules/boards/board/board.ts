@@ -37,12 +37,7 @@ export class Board {
   }
 
   public get displayMode():BoardDisplayMode {
-    const mode = this.grid.options.display_mode;
-    return (mode === 'table') ? 'table' : 'cards';
-  }
-
-  public set displayMode(value:BoardDisplayMode) {
-    this.grid.options.display_mode = value;
+    return 'cards';
   }
 
   public set name(name:string) {
