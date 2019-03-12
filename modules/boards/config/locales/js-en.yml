@@ -8,6 +8,7 @@ en:
 
       new_board: 'New board'
       add_list: 'Add list'
+      add_card: 'Add card'
       board_type:
         free: 'Free board'
         free_text: >

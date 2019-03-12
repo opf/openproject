@@ -38,6 +38,7 @@ describe 'Board management spec', type: :feature, js: true do
   end
   let(:project) { FactoryBot.create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let!(:work_package) { FactoryBot.create :work_package, project: project }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
@@ -119,6 +120,14 @@ describe 'Board management spec', type: :feature, js: true do
 
       subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject)
       expect(subjects).to match_array ['Task 1']
+
+      # Reference an existing work package
+      board_page.reference('Second', work_package)
+      sleep 2
+      board_page.expect_card('Second', work_package.subject)
+
+      subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject)
+      expect(subjects).to match_array [work_package.subject, 'Task 1']
 
       # Remove query
       board_page.remove_list 'Second'

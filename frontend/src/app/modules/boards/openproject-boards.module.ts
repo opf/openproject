@@ -48,6 +48,7 @@ import {BoardStatusActionService} from "core-app/modules/boards/board/board-acti
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
 import {BoardHighlightingTabComponent} from "core-app/modules/boards/board/configuration-modal/tabs/highlighting-tab.component";
+import {AddCardDropdownMenuDirective} from "core-app/modules/boards/board/add-card-dropdown/add-card-dropdown-menu.directive";
 
 export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -122,6 +123,7 @@ export function registerActionServices(injector:Injector) {
     BoardsToolbarMenuDirective,
     NewBoardModalComponent,
     AddListModalComponent,
+    AddCardDropdownMenuDirective,
   ],
   entryComponents: [
     BoardInlineAddAutocompleterComponent,
