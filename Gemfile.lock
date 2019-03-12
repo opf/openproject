@@ -75,6 +75,13 @@ GIT
       rubyzip
 
 GIT
+  remote: https://github.com/petergoldstein/dalli
+  revision: 0ff39199b5e91c6dbdaabc7c085b81938d0f08d2
+  ref: 0ff39199b5e91c6dbdaabc7c085b81938d0f08d2
+  specs:
+    dalli (2.7.9)
+
+GIT
   remote: https://github.com/rspec/rspec-activemodel-mocks
   revision: 6136a778f8b21f4f45f6b4ad5c2e2533e6d4ddc6
   specs:
@@ -384,7 +391,6 @@ GEM
     cucumber-tag_expressions (1.1.1)
     cucumber-wire (0.0.1)
     daemons (1.3.1)
-    dalli (2.7.7)
     database_cleaner (1.7.0)
     date_validator (0.9.0)
       activemodel
@@ -911,7 +917,7 @@ DEPENDENCIES
   cucumber (~> 3.1.0)
   cucumber-rails (~> 1.6.0)
   daemons
-  dalli (~> 2.7.6)
+  dalli!
   database_cleaner (~> 1.6)
   date_validator (~> 0.9.0)
   delayed_job_active_record (~> 4.1.1)
