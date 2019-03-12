@@ -55,7 +55,13 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
     this.updateWorkPackageList([val], false);
   }
 
-  updateWorkPackage(wp:WorkPackageResource) {
+  updateWorkPackage(wp:WorkPackageResource, immediate:boolean = false) {
+    if (immediate) {
+      const wpId = getWorkPackageId(wp.id);
+      this.multiState.get(wpId).putValue(wp);
+      return;
+    }
+
     this.updateWorkPackageList([wp], false);
   }
 

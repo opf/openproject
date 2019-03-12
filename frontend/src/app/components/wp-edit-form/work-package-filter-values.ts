@@ -1,6 +1,4 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 import {WorkPackageChangeset} from './work-package-changeset';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {CurrentUserService} from "core-components/user/current-user.service";

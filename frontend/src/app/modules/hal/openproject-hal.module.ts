@@ -49,6 +49,7 @@ import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {TimeEntryDmService} from './dm-services/time-entry-dm.service';
 import {CommonModule} from "@angular/common";
 import {NewsDmService} from './dm-services/news-dm.service';
+import {StatusDmService} from "core-app/modules/hal/dm-services/status-dm.service";
 
 @NgModule({
   imports: [
@@ -74,6 +75,7 @@ import {NewsDmService} from './dm-services/news-dm.service';
     TimeEntryDmService,
     TypeDmService,
     UserDmService,
+    StatusDmService,
   ]
 })
 export class OpenprojectHalModule { }

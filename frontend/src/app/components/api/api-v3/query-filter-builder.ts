@@ -26,42 +26,36 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
-import {
-  WorkPackageBaseResource,
-  WorkPackageResourceEmbedded,
-  WorkPackageResourceLinks
-} from "core-app/modules/hal/resources/work-package-resource";
+import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
+import {ApiV3Paths} from "core-app/modules/common/path-helper/apiv3/apiv3-paths";
 
-export interface GridResourceLinks {
-  update(payload:unknown):Promise<unknown>;
-  updateImmediately(payload:unknown):Promise<unknown>;
-  delete():Promise<unknown>;
-}
+export class QueryFilterBuilder {
 
-export class GridResource extends HalResource {
-  public widgets:GridWidgetResource[];
-  public name:string;
-  public options:{[key:string]:unknown};
-  public rowCount:number;
-  public columnCount:number;
-
-  public $initialize(source:any) {
-    super.$initialize(source);
-
-    this.widgets = this
-      .widgets
-      .map((widget:Object) => new GridWidgetResource(
-        this.injector,
-        widget,
-        true,
-        this.halInitializer,
-        'GridWidget'
-        )
-      );
+  constructor(readonly v3:ApiV3Paths) {
   }
-}
 
-export interface GridResource extends Partial<GridResourceLinks> {
+  /**
+   * Build a query filter object by hand.
+   *
+   * @param id
+   * @param operator
+   * @param values
+   */
+  public build(id:string, operator:FilterOperator, values:any[]):Object {
+    return {
+      "_type": "QueryFilter",
+      "_links": {
+        "filter": {
+          "href": this.v3.resource("/queries/filters/" + id)
+        },
+        "schema": {
+          "href": this.v3.resource("/queries/filter_instance_schemas/" + id)
+        },
+        "operator": {
+          "href": this.v3.resource("/queries/operators/" + operator)
+        },
+        "values": values
+      }
+    };
+  }
 }

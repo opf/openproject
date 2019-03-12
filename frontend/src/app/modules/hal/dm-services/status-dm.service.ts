@@ -26,42 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
-import {
-  WorkPackageBaseResource,
-  WorkPackageResourceEmbedded,
-  WorkPackageResourceLinks
-} from "core-app/modules/hal/resources/work-package-resource";
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {Injectable} from '@angular/core';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {StatusResource} from "core-app/modules/hal/resources/status-resource";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 
-export interface GridResourceLinks {
-  update(payload:unknown):Promise<unknown>;
-  updateImmediately(payload:unknown):Promise<unknown>;
-  delete():Promise<unknown>;
-}
-
-export class GridResource extends HalResource {
-  public widgets:GridWidgetResource[];
-  public name:string;
-  public options:{[key:string]:unknown};
-  public rowCount:number;
-  public columnCount:number;
-
-  public $initialize(source:any) {
-    super.$initialize(source);
-
-    this.widgets = this
-      .widgets
-      .map((widget:Object) => new GridWidgetResource(
-        this.injector,
-        widget,
-        true,
-        this.halInitializer,
-        'GridWidget'
-        )
-      );
+@Injectable()
+export class StatusDmService {
+  constructor(protected halResourceService:HalResourceService,
+              protected pathHelper:PathHelperService) {
   }
-}
 
-export interface GridResource extends Partial<GridResourceLinks> {
+  public one(id:number):Promise<StatusResource> {
+    return this.halResourceService
+      .get<StatusResource>(this.pathHelper.api.v3.statuses.id(id).toString())
+      .toPromise();
+  }
+
+  public list():Promise<CollectionResource<StatusResource>> {
+    return this.halResourceService
+      .get<CollectionResource<StatusResource>>(this.pathHelper.api.v3.statuses.toString())
+      .toPromise();
+  }
+
+
 }
