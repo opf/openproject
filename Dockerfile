@@ -90,7 +90,7 @@ RUN DATABASE_URL='nulldb://nohost' RAILS_ENV=production bundle exec rake assets:
 RUN DATABASE_URL='nulldb://nohost' RAILS_ENV=production bundle exec rails runner "puts ::OpenProject::TextFormatting::Formats::Markdown::PandocDownloader.check_or_download!"
 
 # Remove node_modules and entire frontend
-RUN rm -rf $APP_PATH/node_modules $APP_PATH/frontend
+RUN rm -rf $APP_PATH/node_modules/ $APP_PATH/frontend/node_modules/
 
 # Re-own app dir
 RUN chown -R $APP_USER:$APP_USER $APP_PATH

@@ -51,6 +51,17 @@ install_plugins() {
 	if [ -s "$PLUGIN_GEMFILE" ]; then
 		echo "Installing plugins..."
 		bundle install
+
+		echo "Installing frontend dependencies..."
+		pushd /usr/src/app/frontend
+		if [ "$(id -u)" = '0' ]; then
+			su - $APP_USER -c "cd $APP_PATH/frontend && npm install"
+		else
+			npm install
+		fi
+		popd
+
+
 		echo "Precompiling new assets..."
 		bundle exec rake assets:precompile
 
