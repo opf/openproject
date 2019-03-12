@@ -37,7 +37,6 @@ import {BoardListsService} from "core-app/modules/boards/board/board-list/board-
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {BoardInlineAddAutocompleterComponent} from "core-app/modules/boards/board/inline-add/board-inline-add-autocompleter.component";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
-import {BoardConfigurationDisplaySettingsTab} from "core-app/modules/boards/board/configuration-modal/tabs/display-settings-tab.component";
 import {BoardsToolbarMenuDirective} from "core-app/modules/boards/board/toolbar-menu/boards-toolbar-menu.directive";
 import {BoardConfigurationService} from "core-app/modules/boards/board/configuration-modal/board-configuration.service";
 import {BoardConfigurationModal} from "core-app/modules/boards/board/configuration-modal/board-configuration.modal";
@@ -48,6 +47,7 @@ import {NewBoardModalComponent} from "core-app/modules/boards/new-board-modal/ne
 import {BoardStatusActionService} from "core-app/modules/boards/board/board-actions/status-action.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
+import {BoardHighlightingTabComponent} from "core-app/modules/boards/board/configuration-modal/tabs/highlighting-tab.component";
 
 export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -117,7 +117,7 @@ export function registerActionServices(injector:Injector) {
     BoardsRootComponent,
     BoardInlineAddAutocompleterComponent,
     BoardsMenuComponent,
-    BoardConfigurationDisplaySettingsTab,
+    BoardHighlightingTabComponent,
     BoardConfigurationModal,
     BoardsToolbarMenuDirective,
     NewBoardModalComponent,
@@ -127,7 +127,7 @@ export function registerActionServices(injector:Injector) {
     BoardInlineAddAutocompleterComponent,
     BoardsMenuComponent,
     BoardConfigurationModal,
-    BoardConfigurationDisplaySettingsTab,
+    BoardHighlightingTabComponent,
     NewBoardModalComponent,
     AddListModalComponent,
   ]

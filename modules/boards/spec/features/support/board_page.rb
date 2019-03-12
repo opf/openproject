@@ -56,10 +56,6 @@ module Pages
       @board.options.attribute
     end
 
-    def card_view?
-      board.options['display_mode'] == 'cards'
-    end
-
     def list_count
       page.all('.board-list--container').count
     end
