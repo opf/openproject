@@ -18,6 +18,8 @@ nl:
     close_popup_title: Popup sluiten
     close_filter_title: Sluit filter
     close_form_title: Sluit formulier
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Uw browser ondersteunt kopiëren naar het klembord niet. Kopieer
         de geselecteerde tekst handmatig.

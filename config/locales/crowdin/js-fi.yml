@@ -18,6 +18,8 @@ fi:
     close_popup_title: Sulje ponnahdus-ikkuna
     close_filter_title: Sulje suodatin
     close_form_title: Sulje lomake
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Selaimesi ei tue kopiointia leikepöydälle. Kopioi valittu teksti
         manuaalisesti.

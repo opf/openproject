@@ -18,6 +18,8 @@ ro:
     close_popup_title: Închidere pop-up
     close_filter_title: Închide filtrul
     close_form_title: Închide formularul
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Browser-ul nu acceptă copierea în ecranul tampon. Vă rugăm să
         copiaţi textul selectat manual.

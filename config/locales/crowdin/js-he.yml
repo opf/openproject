@@ -18,6 +18,8 @@ he:
     close_popup_title: סגור פופ-אפ
     close_filter_title: Close filter
     close_form_title: Close form
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: הדפדפן שלך אינו תומך העתקה ללוח. נא להעתיק את הטקסט הנבחר באופן
         ידני.

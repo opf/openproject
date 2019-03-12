@@ -18,6 +18,8 @@ hr:
     close_popup_title: Popup izbornik
     close_filter_title: Zatvori filtar
     close_form_title: Zatvori obrazac
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Vaš izbornik ne podržava kopiranje u međuspremnik. Molim vas
         manualno kopirajte odabrani tekst.

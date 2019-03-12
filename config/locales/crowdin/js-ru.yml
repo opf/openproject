@@ -18,6 +18,8 @@ ru:
     close_popup_title: Закрыть всплывающее
     close_filter_title: Закрыть фильтр
     close_form_title: Закрыть форму
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Ваш браузер не поддерживает копирование в буфер обмена. Пожалуйста,
         скопируйте выделенный текст вручную.

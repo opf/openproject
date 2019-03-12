@@ -18,6 +18,8 @@
     close_popup_title: Lukk sprettoppvindu
     close_filter_title: Close filter
     close_form_title: Close form
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Nettleseren støtter ikke kopiering til utklippstavle. Kopier
         den merkede teksten manuelt.

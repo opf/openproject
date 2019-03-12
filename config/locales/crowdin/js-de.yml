@@ -19,6 +19,8 @@ de:
     close_popup_title: Dialog schließen
     close_filter_title: Filter schließen
     close_form_title: Formular schließen
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Ihr Browser unterstützt das Kopieren in die Zwischenablage nicht
         nativ. Bitte selektieren und kopieren Sie den Text händisch.
