@@ -126,7 +126,7 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
       )
       .subscribe((resultsHidden:boolean) => this.show = !resultsHidden);
 
-    this.setQueryProps();
+    this.setQueryProps(false);
   }
 
   public onFiltersChanged(filters:WorkPackageTableFilters) {
@@ -155,7 +155,7 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
     });
   }
 
-  private setQueryProps():void {
+  private setQueryProps(refresh:boolean = true):void {
     let filters:any[] = [];
     let columns = ['id', 'project', 'subject', 'type', 'status', 'updatedAt'];
 
@@ -185,7 +185,9 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
       showHierarchies: false
     };
 
-    this.refresh();
+    if (refresh) {
+      this.refresh();
+    }
   }
 
   ngOnDestroy():void {
