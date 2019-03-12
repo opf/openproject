@@ -15,10 +15,12 @@
       </accessible-by-keyboard>
 
       <div class="work-packages--subject-type-row"
-           [ngClass]="{'-new': wp.isNew}">
-        <wp-edit-field [workPackageId]="wp.id"
+           [ngClass]="{'-active': activeEditField()}">
+        <wp-edit-field #wpEditField
+                       [workPackageId]="wp.id"
                        [wrapperClasses]="'work-packages--type-selector'"
-                       [fieldName]="'type'">
+                       [fieldName]="'type'"
+                       class="work-package--card--type">
         </wp-edit-field>
         <wp-edit-field [workPackageId]="wp.id"
                        fieldName="subject"

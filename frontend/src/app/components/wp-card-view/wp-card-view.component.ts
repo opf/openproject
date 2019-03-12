@@ -45,6 +45,7 @@ import {AngularTrackingHelpers} from "core-components/angular/tracking-functions
 import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
 import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {WorkPackageEditFieldComponent} from "app/components/wp-edit/wp-edit-field/wp-edit-field.component";
 
 
 @Component({
@@ -89,6 +90,7 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
   };
 
   @ViewChild('container') public container:ElementRef;
+  @ViewChild('wpEditField') readonly wpEditField:WorkPackageEditFieldComponent;
 
   /** Whether the card view has an active inline created wp */
   public activeInlineCreateWp?:WorkPackageResource;
@@ -171,6 +173,10 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
       'work-packages.show',
       {workPackageId: wpId}
     );
+  }
+
+  public activeEditField() {
+    return this.wpEditField && this.wpEditField.active;
   }
 
   removeDragged() {

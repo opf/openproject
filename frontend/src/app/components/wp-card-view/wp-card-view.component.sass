@@ -21,12 +21,6 @@
     bottom: 5px
     right: 0
 
-  .work-packages--subject-type-row.-new
-    flex-wrap: wrap
-
-.work-package--card--subject .wp-edit-field--container
-  margin-left: -5px
-
 .work-package--card--additional-info-container
   margin-top: 15px
 
@@ -51,3 +45,11 @@ wp-edit-field
   position: absolute
   right: 0
   bottom: 2px
+
+.work-packages--subject-type-row.-active
+  flex-wrap: wrap
+  .work-package--card--type,
+  .work-package--card--subject
+    flex-basis: 100%
+
+
