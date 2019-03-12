@@ -82,7 +82,6 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
   public query:QueryResource;
   public workPackages:any[];
   public columns:QueryColumn[];
-  public availableColumns:QueryColumn[];
   public text = {
     addNewCard:  this.I18n.t('js.card.add_new'),
     wpAddedBy: (wp:WorkPackageResource) =>
@@ -117,16 +116,9 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
 
     this.registerCreationCallback();
 
-    combine(
-      this.querySpace.columns,
-      this.querySpace.results
-    )
-    .values$()
-    .pipe(
+    this.querySpace.results.values$().pipe(
       untilComponentDestroyed(this)
-    )
-    .subscribe(([columns, results]) => {
-
+    ).subscribe((results) => {
       if (this.activeInlineCreateWp) {
         this.workPackages = [...results.$embedded.elements, this.activeInlineCreateWp];
       } else {
@@ -134,12 +126,6 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
       }
 
       this.removeDragged();
-
-      this.columns = columns;
-      this.availableColumns = this.columns.filter(function (column) {
-        return column.id !== 'id' && column.id !== 'subject' && column.id !== 'author';
-      });
-
       this.cdRef.detectChanges();
     });
   }

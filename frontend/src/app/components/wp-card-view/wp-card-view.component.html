@@ -32,17 +32,6 @@
            [hidden]="wp.isNew"
            [textContent]="text.wpAddedBy(wp)">
       </div>
-
-      <div class="work-package--card--additional-info-container">
-        <div *ngFor="let column of availableColumns"
-             class="work-package--card--additional-info">
-            <span [textContent]="column.name + ':'"
-                  class="work-package--card--additional-info-attribute"></span>
-            <wp-edit-field [workPackageId]="wp.id"
-                           [fieldName]="column.id">
-            </wp-edit-field>
-        </div>
-      </div>
     </wp-edit-field-group>
     <user-avatar *ngIf="hasAssignee(wp)"
                  [attr.data-user]="wp.assignee.$href"
