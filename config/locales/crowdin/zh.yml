@@ -1287,6 +1287,7 @@ zh:
   label_hierarchy_leaf: 层次结构叶
   label_home: 首页
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: 在
   label_in_less_than: 在小于
   label_in_more_than: 在多于
@@ -1419,6 +1420,7 @@ zh:
   label_previous_week: 前一周
   label_principal_invite_via_email: " 或通过电子邮件邀请新用户"
   label_principal_search: 添加现有用户或组
+  label_privacy_policy: Data privacy and security policy
   label_product_version: 产品版本
   label_professional_support: 专业支持
   label_profile: 配置文件

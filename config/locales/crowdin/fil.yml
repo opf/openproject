@@ -1425,6 +1425,7 @@ fil:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Tahanan
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: sa
   label_in_less_than: mas mababa kaysa
   label_in_more_than: mahigit sa
@@ -1558,6 +1559,7 @@ fil:
   label_principal_invite_via_email: " o imbitahin ang bagong gumagamit sa pamamagitan
     ng email"
   label_principal_search: Magdagdag ng umiiral na mga user o grupo
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Produktong bersyon
   label_professional_support: Propesyonal na suporta
   label_profile: Profile

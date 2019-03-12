@@ -1395,6 +1395,7 @@ hi:
   label_hierarchy_leaf: पदानुक्रम पत्ती
   label_home: मुखपृष्ठ
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: में
   label_in_less_than: से भी कम समय में
   label_in_more_than: से अधिक में
@@ -1527,6 +1528,7 @@ hi:
   label_previous_week: पिछला सप्ताह
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professional support
   label_profile: प्रोफ़ाइल

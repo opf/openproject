@@ -379,10 +379,10 @@ tr:
         encoded_token: Kurumsal Destek anahtarı
         active_user_count_restriction: En çok aktif kullanıcı
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
+        page: Sayfa
+        row_count: Satır sayısı
+        column_count: Sütun sayısı
+        widgets: Araçlar
       relation:
         delay: Gecikme
         from: İş paketi
@@ -1063,7 +1063,7 @@ tr:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Girdi silinemedi.
-  error_invalid_selected_value: Invalid selected value.
+  error_invalid_selected_value: Seçili değeri geçersiz.
   error_invalid_group_by: "%{value} ya göre guplandırılamadı"
   error_invalid_query_column: 'Geçersiz sorgu sütunu: %{value}'
   error_invalid_sort_criterion: 'Sütuna göre sıralama yapamazsınız: %{value}'
@@ -1386,6 +1386,7 @@ tr:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Ana sayfa
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: şurada
   label_in_less_than: daha azdır
   label_in_more_than: daha fazla
@@ -1518,6 +1519,7 @@ tr:
   label_previous_week: Geçen Hafta
   label_principal_invite_via_email: " veya yeni kullanıcılar e-posta ile davet et"
   label_principal_search: Mevcut kullanıcıları veya grupları ekle
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Ürün sürümü
   label_professional_support: Profesyonel destek
   label_profile: Profil
@@ -1773,7 +1775,7 @@ tr:
         You can replace the functionality with an embedded table macro.
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
+        page_not_found: Wiki sayfası '%{name} ' bulunamıyor.
         circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
@@ -2167,7 +2169,7 @@ tr:
   setting_email_delivery_method: E-posta teslim yöntemi
   setting_sendmail_location: Çalıştırılabilir sendmail aracının yolu
   setting_smtp_enable_starttls_auto: STARTTLS varsa otomatik olarak kullan
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: SSL bağlantısı kullan
   setting_smtp_address: SMTP Sunucusu
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP kimlik doğrulaması

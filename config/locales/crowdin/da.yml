@@ -1384,6 +1384,7 @@ da:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Hjem
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: i
   label_in_less_than: på mindre end
   label_in_more_than: på mere end
@@ -1516,6 +1517,7 @@ da:
   label_previous_week: Foregående uge
   label_principal_invite_via_email: " eller invitér nye brugere via e-mail"
   label_principal_search: Tilføj eksisterende brugere eller grupper
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professionel support
   label_profile: Profil

@@ -1287,6 +1287,7 @@ zh-TW:
   label_hierarchy_leaf: 頁面結構頁
   label_home: Home
   label_subject_or_id: 主旨或 id
+  label_impressum: Impressum
   label_in: 在
   label_in_less_than: 少於
   label_in_more_than: 多於
@@ -1419,6 +1420,7 @@ zh-TW:
   label_previous_week: 前一週
   label_principal_invite_via_email: 或者透過郵件邀請新的使用者
   label_principal_search: 增加現有使用者或群組
+  label_privacy_policy: Data privacy and security policy
   label_product_version: 產品版本
   label_professional_support: 專業支援
   label_profile: Profile

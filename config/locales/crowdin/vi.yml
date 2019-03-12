@@ -1388,6 +1388,7 @@ vi:
   label_hierarchy_leaf: Hệ thống phân cấp lá
   label_home: Home
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: trong
   label_in_less_than: ít hơn
   label_in_more_than: nhiều hơn
@@ -1520,6 +1521,7 @@ vi:
   label_previous_week: Tuần trước
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Phiên bản sản phẩm
   label_professional_support: Professional support
   label_profile: Hồ sơ

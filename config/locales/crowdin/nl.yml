@@ -1407,6 +1407,7 @@ nl:
   label_hierarchy_leaf: Hiërarchie blad
   label_home: Home
   label_subject_or_id: Onderwerp of ID
+  label_impressum: Impressum
   label_in: in
   label_in_less_than: in minder dan
   label_in_more_than: in meer dan
@@ -1539,6 +1540,7 @@ nl:
   label_previous_week: Vorige week
   label_principal_invite_via_email: " of nieuwe gebruikers uitnodigen via e-mail"
   label_principal_search: Bestaande gebruikers of groepen toevoegen
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Versie van het product
   label_professional_support: Professionele ondersteuning
   label_profile: Profiel

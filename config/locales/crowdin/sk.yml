@@ -1437,6 +1437,7 @@ sk:
   label_hierarchy_leaf: Úroveň hierarchie
   label_home: Úvod
   label_subject_or_id: Predmet alebo ID
+  label_impressum: Impressum
   label_in: v
   label_in_less_than: v menej ako
   label_in_more_than: vo viac ako
@@ -1570,6 +1571,7 @@ sk:
   label_principal_invite_via_email: " alebo pozvať nových užívateľov prostredníctvom
     e-mailu"
   label_principal_search: Pridanie existujúcich užívateľov alebo skupín
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Verzia produktu
   label_professional_support: Profesionálna podpora
   label_profile: Profil

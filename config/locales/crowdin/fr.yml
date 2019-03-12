@@ -1419,6 +1419,7 @@ fr:
   label_hierarchy_leaf: Feuille de hiérarchie
   label_home: Accueil
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: dans
   label_in_less_than: en moins de
   label_in_more_than: en plus de
@@ -1551,6 +1552,7 @@ fr:
   label_previous_week: Semaine précédente
   label_principal_invite_via_email: " ou inviter de nouveaux utilisateurs par courriel"
   label_principal_search: Ajouter des utilisateurs ou groupes existant
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Version du produit
   label_professional_support: Support professionnel
   label_profile: Profil

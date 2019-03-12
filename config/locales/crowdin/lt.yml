@@ -1420,6 +1420,7 @@ lt:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Namai
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: " "
   label_in_less_than: mažiau nei
   label_in_more_than: daugiau nei
@@ -1553,6 +1554,7 @@ lt:
   label_principal_invite_via_email: " arba pakviesti naujus vartotojus naudojant el.
     paštą"
   label_principal_search: Pridėti esamus vartotojus ar grupes
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Produkto versija
   label_professional_support: Profesionali pagalba
   label_profile: Profilis

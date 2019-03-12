@@ -1393,6 +1393,7 @@ hu:
   label_hierarchy_leaf: Hierarchia szint
   label_home: Home
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: in
   label_in_less_than: kevesebb, mint
   label_in_more_than: több mint
@@ -1525,6 +1526,7 @@ hu:
   label_previous_week: Előző héten
   label_principal_invite_via_email: " vagy új felhasználót hívhat meg e-mailben"
   label_principal_search: Meglévő felhasználók vagy csoportok hozzáadása
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Termékverzió
   label_professional_support: Szakmai támogatás
   label_profile: Profil

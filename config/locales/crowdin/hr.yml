@@ -1406,6 +1406,7 @@ hr:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Početna
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: u
   label_in_less_than: u manje od
   label_in_more_than: u više od
@@ -1538,6 +1539,7 @@ hr:
   label_previous_week: Prethodni tjedan
   label_principal_invite_via_email: " ili pozovite nove korisnike putem emaila"
   label_principal_search: Dodaj postojeće korisnike ili grupe
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Verzija proizvoda
   label_professional_support: Profesionalna Podrška
   label_profile: Profil

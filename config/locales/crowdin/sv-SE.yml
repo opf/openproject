@@ -1386,6 +1386,7 @@ sv-SE:
   label_hierarchy_leaf: Hierarki-blad
   label_home: Hem
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: i
   label_in_less_than: i mindre än
   label_in_more_than: i mer än
@@ -1518,6 +1519,7 @@ sv-SE:
   label_previous_week: Föregående vecka
   label_principal_invite_via_email: " eller bjud in nya användare via e-post"
   label_principal_search: Lägga till befintliga användare eller grupper
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Produktversion
   label_professional_support: Professionell hjälp
   label_profile: Profil

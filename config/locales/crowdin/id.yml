@@ -1382,6 +1382,7 @@ id:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: dalam
   label_in_less_than: kurang dari
   label_in_more_than: lebih dari
@@ -1514,6 +1515,7 @@ id:
   label_previous_week: Minggu sebelumnya
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professional support
   label_profile: Profil

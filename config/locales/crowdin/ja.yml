@@ -1287,6 +1287,7 @@ ja:
   label_hierarchy_leaf: 階層枚
   label_home: ホーム
   label_subject_or_id: 件名またはID
+  label_impressum: Impressum
   label_in: 今日から○日後
   label_in_less_than: 今日から○日後以前
   label_in_more_than: 今日から○日後以降
@@ -1419,6 +1420,7 @@ ja:
   label_previous_week: 先週
   label_principal_invite_via_email: " またはメールで新しいユーザを招待"
   label_principal_search: 既存のユーザーまたはグループを追加する
+  label_privacy_policy: Data privacy and security policy
   label_product_version: 製品バージョ​​ン
   label_professional_support: プロフェッショナルサポート
   label_profile: プロファイル

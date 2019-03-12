@@ -1385,6 +1385,7 @@ el:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: in
   label_in_less_than: in less than
   label_in_more_than: in more than
@@ -1517,6 +1518,7 @@ el:
   label_previous_week: Previous week
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professional support
   label_profile: Profile

@@ -1383,6 +1383,7 @@ fi:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Koti
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: tässä
   label_in_less_than: pienempi kuin
   label_in_more_than: suurempi kuin
@@ -1515,6 +1516,7 @@ fi:
   label_previous_week: Edellinen viikko
   label_principal_invite_via_email: " tai kutsu uusia käyttäjiä sähköpostilla"
   label_principal_search: Lisää olemassa olevia käyttäjiä tai ryhmiä
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Tuotteen versio
   label_professional_support: Ammatillinen apu
   label_profile: Profile

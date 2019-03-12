@@ -1427,6 +1427,7 @@ ru:
   label_hierarchy_leaf: Уровень иерархии
   label_home: Главная
   label_subject_or_id: Тема или ID
+  label_impressum: Impressum
   label_in: в
   label_in_less_than: менее чем
   label_in_more_than: более чем
@@ -1560,6 +1561,7 @@ ru:
   label_principal_invite_via_email: " или пригласить новых пользователей по электронной
     почте"
   label_principal_search: Добавление существующих пользователей или групп
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Версия продукта
   label_professional_support: Профессиональная поддержка
   label_profile: Профиль

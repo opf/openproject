@@ -1412,6 +1412,7 @@ it:
   label_hierarchy_leaf: Foglia della gerarchia
   label_home: Radice (home)
   label_subject_or_id: Oggetto o ID
+  label_impressum: Impressum
   label_in: in
   label_in_less_than: in meno di
   label_in_more_than: in più di
@@ -1544,6 +1545,7 @@ it:
   label_previous_week: Settimana precedente
   label_principal_invite_via_email: " o invita nuovi utenti via e-mail"
   label_principal_search: Aggiungi utenti o gruppi esistenti
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Versione del prodotto
   label_professional_support: Supporto professionale
   label_profile: Profilo

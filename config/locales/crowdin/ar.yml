@@ -1448,6 +1448,7 @@ ar:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: الصفحة الرئيسية
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: في
   label_in_less_than: في أقل من
   label_in_more_than: في أكثر من
@@ -1580,6 +1581,7 @@ ar:
   label_previous_week: الأسبوع الماضي
   label_principal_invite_via_email: " أو دعوة المستخدمين الجدد عبر البريد الالكتروني"
   label_principal_search: إضافة مستخدمين أو مجموعات موجودة
+  label_privacy_policy: Data privacy and security policy
   label_product_version: إصدار المنتج
   label_professional_support: الدعم الفني
   label_profile: الصفحة الشخصية

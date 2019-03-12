@@ -1371,6 +1371,7 @@ th:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: หน้าหลัก
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: ใน
   label_in_less_than: ในไม่เกิน
   label_in_more_than: ในมากกว่า
@@ -1503,6 +1504,7 @@ th:
   label_previous_week: สัปดาห์ก่อนหน้านี้
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professional support
   label_profile: ข้อมูลส่วนตัว

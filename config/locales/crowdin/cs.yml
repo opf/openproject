@@ -1418,6 +1418,7 @@ cs:
   label_hierarchy_leaf: Úroveň hierarchie
   label_home: Domů
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: v
   label_in_less_than: za méně než
   label_in_more_than: za více než
@@ -1550,6 +1551,7 @@ cs:
   label_previous_week: Předchozí týden
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Přidat existující uživatele nebo skupiny
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Verze produktu
   label_professional_support: Profesionální podpora
   label_profile: Profil
