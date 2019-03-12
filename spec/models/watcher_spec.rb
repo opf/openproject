@@ -173,12 +173,12 @@ describe Watcher, type: :model do
     end
 
     context 'for a message' do
-      let(:board) { FactoryBot.build(:board) }
+      let(:forum) { FactoryBot.build(:forum) }
       let(:watchable) do
-        board.save!
-        FactoryBot.build(:message, board: board)
+        forum.save!
+        FactoryBot.build(:message, forum: forum)
       end
-      let(:project) { board.project }
+      let(:project) { forum.project }
 
       it_behaves_like 'a pruned watchable'
       it_behaves_like 'no watcher exists'

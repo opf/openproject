@@ -27,9 +27,9 @@
 #++
 
 FactoryBot.define do
-  factory :board do
+  factory :forum do
     project
-    sequence(:name) do |n| "Board No. #{n}" end
-    sequence(:description) { |n| "I am the Board No. #{n}" }
+    sequence(:name) do |n| "Forum No. #{n}" end
+    sequence(:description) { |n| "I am the Forum No. #{n}" }
   end
 end

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,29 +26,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Given(/^there is a board "(.*?)" for project "(.*?)"$/) do |board_name, project_identifier|
-  FactoryBot.create :board, project: get_project(project_identifier), name: board_name
-end
+require 'spec_helper'
+require File.expand_path('../../support/permission_specs', __FILE__)
 
-Given(/^the board "(.*?)" has the following messages:$/) do |board_name, table|
-  board = Board.find_by(name: board_name)
+describe ForumsController, 'manage_forums permission', type: :controller do
+  include PermissionSpecs
 
-  create_messages(table.raw.map(&:first), board)
-end
-
-Given(/^"(.*?)" has the following replies:$/) do |message_name, table|
-  message = Message.find_by(subject: message_name)
-
-  create_messages(table.raw.map(&:first), message.board, message)
-end
-
-private
-
-def create_messages(names, board, parent = nil)
-  names.each do |name|
-    FactoryBot.create :message,
-                       board: board,
-                       subject: name,
-                       parent: parent
-  end
+  check_permission_required_for('forums#create', :manage_forums)
+  check_permission_required_for('forums#move', :manage_forums)
 end

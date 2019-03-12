@@ -67,7 +67,7 @@ module OpenProject
               label: 'homescreen.links.shortcuts'
             },
             boards: {
-              href: 'https://community.openproject.com/projects/openproject/boards',
+              href: 'https://community.openproject.com/projects/openproject/forums',
               label: 'homescreen.links.boards'
             },
             professional_support: {

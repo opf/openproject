@@ -31,8 +31,8 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-describe 'Upload attachment to board message', js: true do
-  let(:board) { FactoryBot.create(:board) }
+describe 'Upload attachment to forum message', js: true do
+  let(:forum) { FactoryBot.create(:forum) }
   let(:user) do
     FactoryBot.create :user,
                       member_in_project: project,
@@ -40,11 +40,11 @@ describe 'Upload attachment to board message', js: true do
                                                   add_messages
                                                   edit_messages]
   end
-  let(:project) { board.project }
+  let(:project) { forum.project }
   let(:attachments) { ::Components::Attachments.new }
   let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
   let(:editor) { ::Components::WysiwygEditor.new }
-  let(:index_page) { Pages::Messages::Index.new(board.project) }
+  let(:index_page) { Pages::Messages::Index.new(forum.project) }
 
   before do
     login_as(user)

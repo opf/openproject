@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Board < ActiveRecord::Base
+class Forum < ActiveRecord::Base
   belongs_to :project
   has_many :topics, -> {
     where("#{Message.table_name}.parent_id IS NULL")
@@ -56,12 +56,12 @@ class Board < ActiveRecord::Base
     self.class.reset_counters!(id)
   end
 
-  # Updates topics_count, messages_count and last_message_id attributes for +board_id+
-  def self.reset_counters!(board_id)
-    board_id = board_id.to_i
-    where(id: board_id)
-      .update_all("topics_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE board_id=#{board_id} AND parent_id IS NULL)," +
-               " messages_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE board_id=#{board_id})," +
-               " last_message_id = (SELECT MAX(id) FROM #{Message.table_name} WHERE board_id=#{board_id})")
+  # Updates topics_count, messages_count and last_message_id attributes for +forum_id+
+  def self.reset_counters!(forum_id)
+    forum_id = forum_id.to_i
+    where(id: forum_id)
+      .update_all("topics_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE forum_id=#{forum_id} AND parent_id IS NULL)," +
+               " messages_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE forum_id=#{forum_id})," +
+               " last_message_id = (SELECT MAX(id) FROM #{Message.table_name} WHERE forum_id=#{forum_id})")
   end
 end

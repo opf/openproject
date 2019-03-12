@@ -271,11 +271,11 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_news_plural,
             icon: 'icon2 icon-news'
 
-  menu.push :boards,
-            { controller: '/boards', action: 'index', id: nil },
+  menu.push :forums,
+            { controller: '/forums', action: 'index', id: nil },
             param: :project_id,
-            if: Proc.new { |p| p.boards.any? },
-            caption: :label_board_plural,
+            if: Proc.new { |p| p.forums.any? },
+            caption: :label_forum_plural,
             icon: 'icon2 icon-ticket-note'
 
   menu.push :repository,

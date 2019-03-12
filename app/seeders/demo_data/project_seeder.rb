@@ -153,7 +153,7 @@ module DemoData
     end
 
     def seed_board(project)
-      Board.create!(
+      Forum.create!(
         project: project,
         name: translate_with_base_url('seeders.demo_data.board.name'),
         description: translate_with_base_url('seeders.demo_data.board.description')
