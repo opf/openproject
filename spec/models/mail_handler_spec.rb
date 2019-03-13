@@ -77,6 +77,11 @@ describe MailHandler, type: :model do
     let!(:mail_user) { FactoryBot.create :admin, mail: 'user@example.org' }
     let!(:work_package) { FactoryBot.create :work_package, project: project }
 
+    before do
+      # Avoid trying to extract text
+      allow(OpenProject::Database).to receive(:allows_tsv?).and_return false
+    end
+
     it 'should update a work package with attachment' do
       expect(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
 
@@ -92,6 +97,21 @@ describe MailHandler, type: :model do
       # Expect filename without signature to be saved
       expect(work_package.attachments.count).to eq(1)
       expect(work_package.attachments.first.filename).to eq('Photo25.jpg')
+    end
+
+
+    context 'with existing attachment' do
+      let!(:attachment) { FactoryBot.create(:attachment, container: work_package) }
+
+      it 'does not replace it (Regression #29722)' do
+        work_package.reload
+        expect(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
+
+        # Mail with two attachemnts, one of which is skipped by signature.asc filename match
+        submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
+
+        expect(work_package.attachments.length).to eq 2
+      end
     end
   end
 
