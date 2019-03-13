@@ -4,7 +4,7 @@ import {
   Component,
   ElementRef,
   Inject,
-  Injector,
+  Injector, Input,
   OnInit,
   ViewChild
 } from "@angular/core";
@@ -47,6 +47,7 @@ import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {WorkPackageEditFieldComponent} from "app/components/wp-edit/wp-edit-field/wp-edit-field.component";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 
 
 @Component({
@@ -79,6 +80,8 @@ import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/
   ]
 })
 export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableComponent implements OnInit {
+  @Input() public highlightingMode:CardHighlightingMode;
+
   public trackByHref = AngularTrackingHelpers.trackByHref;
   public query:QueryResource;
   public workPackages:any[];
@@ -168,8 +171,29 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
     return wp.subject;
   }
 
-  public typeDotClass(wp:WorkPackageResource) {
-    return Highlighting.dotClass('type',  wp.type.getId());
+  public cardClasses(wp:WorkPackageResource) {
+    let classes:string[] = [];
+    this.isDraggable ? classes.push('-draggable') : classes.push('');
+    classes.push(this.cardHighlighting(wp));
+    return classes;
+  }
+
+  public typeHighlightingClass(wp:WorkPackageResource) {
+    return this.attributeDotHighlighting('type', wp);
+  }
+
+  private cardHighlighting(wp:WorkPackageResource) {
+    if (['status', 'priority', 'type'].indexOf(this.highlightingMode) !== -1) {
+      return Highlighting.rowClass(this.highlightingMode, wp.type.getId());
+    }
+    return '';
+  }
+
+  private attributeDotHighlighting(type:string, wp:WorkPackageResource) {
+    if (this.highlightingMode == 'inline') {
+      return Highlighting.dotClass(type, wp.type.getId());
+    }
+    return '';
   }
 
   removeDragged() {
