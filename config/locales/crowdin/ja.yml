@@ -46,19 +46,15 @@ ja:
       no_results_content_title: 現在認証モードはありません。
       no_results_content_text: 新しい認証モードを作成
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: 接続の暗号化
     tls_mode:
       plain: なし
       simple_tls: simple_tls
       start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      plain_description: 平文の暗号化されていない接続。TLSネゴシエーションはありません。
+      simple_tls_description: 暗黙的にTLS暗号化します。証明書を検証しません。暗黙的にLDAP接続を信頼します、注意して使用してください。
+      start_tls_description: 完全な検証を行い明示的にTLS暗号化します。TLS/SSL経由のLDAPを使用します。
+      section_more_info_link_html: 'このセクションは、このLDAP認証元の接続セキュリティを考慮します。詳細については、<a href="%{link}">Net::LDAPドキュメント</a>を参照してください。
 
 '
   boards:
@@ -336,10 +332,10 @@ ja:
         encoded_token: エンタープライズ サポート トークン
         active_user_count_restriction: アクティブなユーザーの最大数
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
+        page: ページ
+        row_count: 行数
+        column_count: 列数
+        widgets: ウィジェット
       relation:
         delay: 遅延
         from: 作業項目
@@ -501,9 +497,9 @@ ja:
         enterprise_token:
           unreadable: 読み取りできません。サポート トークンですか?
         grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          overlaps: オーバーラップ。
+          outside: グリッドの外側です。
+          end_before_start: 終了値は開始値よりも大きくする必要があります。
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -1721,8 +1717,7 @@ ja:
   notice_account_unknown_email: ユーザが存在しません。
   notice_account_update_failed: アカウントの設定は保存できませんでした。個人ページをご確認ください。
   notice_account_updated: アカウントが正常に更新されました。
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: アカウントに関連付けられている他のすべてのセッションは無効になりました。
   notice_account_wrong_password: パスワードが正しくありません。
   notice_account_registered_and_logged_in: ようこそ、アカウントが有効になりました。只今ログイン中ます。
   notice_activation_failed: アカウントをアクティブ化できませんでした。

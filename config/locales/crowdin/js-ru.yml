@@ -152,26 +152,26 @@ ru:
     general_text_Yes: Да
     grid:
       add_modal:
-        choose_widget: Choose widget
+        choose_widget: Выберите виджет
       widgets:
         documents:
-          title: Documents
-          no_results: No documents yet.
+          title: Документы
+          no_results: Документов пока нет.
         news:
           title: Новости
-          at: at
+          at: на
           no_results: Ничего нового для отчета.
         time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
+          title: Затраченное время (за последние 7 дней)
+          no_results: Нет записей о входах за последние 7 дней.
         work_packages_accountable:
           title: Пакеты работ, в которых я подотчетен
         work_packages_assigned:
           title: Переданные мне пакеты работ
         work_packages_created:
-          title: Work packages created by me
+          title: Пакеты работ, созданные мной
         work_packages_watched:
-          title: Work packages watched by me
+          title: Пакеты работ, просмотренные мной
         work_packages_calendar:
           title: Календарь
     label_activate: Активировать

@@ -90,7 +90,7 @@ tr:
             (if supported).
         dropdown:
           macros: Makrolar
-          chose_macro: Chose macro
+          chose_macro: Makro seçin
         toc: İçindekiler
         toolbar_help: Click to select widget and show the toolbar. Double-click to
           edit widget
@@ -98,7 +98,7 @@ tr:
           button: Include content of another wiki page
           text: "[Placeholder] Included wiki page of"
           page: Viki sayfası
-          not_set: "(Page not yet set)"
+          not_set: "(Sayfa ayarlanmadı)"
           hint: |
             Include the content of another wiki page by specifying its title or slug.
             You can include the wiki page of another project by separating them with a colon like the following example.
@@ -123,7 +123,7 @@ tr:
       internal: İç hata oluştu.
       cannot_save_changes_with_message: 'Değişikliklerinizin kaydedilememesine sebep
         olan hata: %{error}'
-      query_saving: The view could not be saved.
+      query_saving: Görünüm kaydedilemedi.
       embedded_table_loading: 'The embedded view could not be loaded: %{message}'
     filter:
       description:
@@ -227,7 +227,7 @@ tr:
     label_group_by: Grupla
     label_hide_attributes: Daha az göster
     label_hide_column: Sütunu gizle
-    label_hide_project_menu: Collapse project menu
+    label_hide_project_menu: Proje menüsünü daralt
     label_in: şurada
     label_in_less_than: daha azdır
     label_in_more_than: daha fazla
@@ -759,7 +759,7 @@ tr:
         show_timeline_hint: Show an interactive gantt chart on the right side of the
           table. You can change its width by dragging the divider between table and
           gantt chart.
-        highlighting: Highlighting
+        highlighting: Vurgulama
         highlighting_mode:
           description: Rekle vurgula
           none: Vurgulama

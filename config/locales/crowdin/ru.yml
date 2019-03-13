@@ -56,19 +56,19 @@ ru:
       no_results_content_title: На данный момент способы аутентификации отсутствуют.
       no_results_content_text: Создать новый способ аутентификации
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Шифрование подключения
     tls_mode:
       plain: нет
       simple_tls: simple_tls
       start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      plain_description: Обычная незашифрованная связь, нет TLS переговоров.
+      simple_tls_description: Неправильное шифрование TLS, но не проверка сертификатов.
+        Используйте с осторожностью и неявным доверием к LDAP соединению.
+      start_tls_description: Истинное TLS шифрование с полной валидацией. Используйте
+        для LDAP через TLS/SSL.
+      section_more_info_link_html: 'Этот раздел касается безопасности соединения этого
+        источника аутентификации LDAP. Для получения дополнительной информации посетите
+        <a href="%{link}">документацию Net::LDAP</a>.
 
 '
   boards:
@@ -385,10 +385,10 @@ ru:
         encoded_token: Маркер поддержки корпоративной версии
         active_user_count_restriction: Максимальное число активных пользователей
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
+        page: Страница
+        row_count: Количество строк
+        column_count: Количество столбцов
+        widgets: Виджеты
       relation:
         delay: Задержка
         from: Пакет работ
@@ -557,9 +557,9 @@ ru:
         enterprise_token:
           unreadable: невозможно прочитать. Вы уверены, что это маркер поддержки?
         grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          overlaps: перекрытие.
+          outside: за пределами сетки.
+          end_before_start: конечное значение должно быть больше начального.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -1897,8 +1897,8 @@ ru:
   notice_account_update_failed: Настройки учетной записи не могут быть сохранены.
     Пожалуйста, просмотрите страницу Вашей учетной записи ещё раз.
   notice_account_updated: Учетная запись успешно обновлёна.
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: Все другие сессии, связанные с вашей учетной
+    записью, были аннулированы.
   notice_account_wrong_password: Неправильный пароль
   notice_account_registered_and_logged_in: Добро пожаловать. Ваш аккаунт активирован.
     Вы вошли в систему.

@@ -1274,7 +1274,7 @@ lol:
   label_hierarchy_leaf: crwdns116676:0crwdne116676:0
   label_home: crwdns116678:0crwdne116678:0
   label_subject_or_id: crwdns116680:0crwdne116680:0
-  label_impressum: Impressum
+  label_impressum: crwdns122526:0crwdne122526:0
   label_in: crwdns116682:0crwdne116682:0
   label_in_less_than: crwdns116684:0crwdne116684:0
   label_in_more_than: crwdns116686:0crwdne116686:0
@@ -1407,7 +1407,7 @@ lol:
   label_previous_week: crwdns116940:0crwdne116940:0
   label_principal_invite_via_email: crwdns116942:0crwdne116942:0
   label_principal_search: crwdns116944:0crwdne116944:0
-  label_privacy_policy: Data privacy and security policy
+  label_privacy_policy: crwdns122528:0crwdne122528:0
   label_product_version: crwdns116946:0crwdne116946:0
   label_professional_support: crwdns116948:0crwdne116948:0
   label_profile: crwdns116950:0crwdne116950:0

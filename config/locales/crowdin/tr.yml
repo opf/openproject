@@ -543,7 +543,7 @@ tr:
           attributes:
             redirect_uri:
               fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
+              invalid_uri: geçerli bir URI olmalıdır.
               relative_uri: must be an absolute URI.
               secured_uri: must be an HTTPS/SSL URI.
               forbidden_uri: is forbidden by the server.
@@ -1347,7 +1347,7 @@ tr:
   label_environment: Ortam
   label_estimates_and_time: Tahminler & zaman
   label_equals: şuysa
-  label_everywhere: everywhere
+  label_everywhere: heryer
   label_example: Örnek
   label_export_to: 'Ayrıca şu adreste bulunabilir:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
@@ -1383,9 +1383,9 @@ tr:
   label_here: buraya
   label_hide: Gizle
   label_history: Geçmiş
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy_leaf: Hiyerarşi ağacı
   label_home: Ana sayfa
-  label_subject_or_id: Subject or ID
+  label_subject_or_id: Konu ya da ID
   label_impressum: Impressum
   label_in: şurada
   label_in_less_than: daha azdır
@@ -1665,7 +1665,7 @@ tr:
   label_view_diff: Farklılıkları gör
   label_view_revisions: Düzeltmeleri izle
   label_watched_work_packages: İzlenen iş paketleri
-  label_what_is_this: What is this?
+  label_what_is_this: Bu nedir?
   label_week: Hafta
   label_wiki_content_added: Viki sayfası eklendi
   label_wiki_content_updated: Viki sayfası güncellendi
@@ -1930,7 +1930,7 @@ tr:
       konusuna genel bir bakış.
     text_show_again: Bu videoyu Yardım menüsünden yeniden başlatabilirsiniz
     welcome: OpenProject'e hoş geldiniz
-    select_language: Please select your language
+    select_language: Lütfen dilinizi seçin
   permission_add_work_package_notes: Not eklemek
   permission_add_work_packages: İş paketi eklemek
   permission_add_messages: İleti göndermek
@@ -2308,9 +2308,9 @@ tr:
       mode_long:
         inline: Highlight attribute(s) inline
         none: Vurgulama
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: Duruma göre tüm satır
+        type: Türe göre tüm satır
+        priority: Önceliğe göre tüm satır
   text_formatting:
     markdown: Markdown
     plain: Düz yazı
@@ -2857,7 +2857,7 @@ tr:
           expired: The access token expired
           unknown: The access token is invalid
   unsupported_browser:
-    title: Your browser is outdated and unsupported.
+    title: Tarayıcınız güncel değil ya da desteklenmiyor.
     message: You may run into errors and degraded experience on this page.
     update_message: Lütfen tarayıcınızı güncelleyin.
     close_warning: Bu uyarıyı yoksay.
@@ -2891,7 +2891,7 @@ tr:
 
 '
     authorization_dialog:
-      authorize: Authorize
+      authorize: Yetkilendir
       cancel: Cancel and deny authorization.
       prompt_html: Authorize <strong>%{application_name}</strong> to use your account
         <em>%{login}</em>?
