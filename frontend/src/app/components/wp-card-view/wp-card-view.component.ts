@@ -183,14 +183,14 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
   }
 
   private cardHighlighting(wp:WorkPackageResource) {
-    if (['status', 'priority', 'type'].indexOf(this.highlightingMode) !== -1) {
-      return Highlighting.rowClass(this.highlightingMode, wp.type.getId());
+    if (['status', 'priority', 'type'].includes(this.highlightingMode)) {
+      return Highlighting.rowClass(this.highlightingMode, wp[this.highlightingMode].getId());
     }
     return '';
   }
 
   private attributeDotHighlighting(type:string, wp:WorkPackageResource) {
-    if (this.highlightingMode == 'inline') {
+    if (this.highlightingMode === 'inline') {
       return Highlighting.dotClass(type, wp.type.getId());
     }
     return '';

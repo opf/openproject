@@ -224,5 +224,17 @@ module Pages
         expect(page).to have_selector('.editable-toolbar-title--fixed', text: name)
       end
     end
+
+    def change_board_highlighting(mode, attribute = nil)
+      click_dropdown_entry 'Configure view'
+
+      if attribute.nil?
+        choose(option: mode)
+      else
+        select attribute, from: 'selected_attribute'
+      end
+
+      click_button 'Apply'
+    end
   end
 end
