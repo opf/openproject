@@ -14,10 +14,9 @@
                               (execute)="removeNewCard(wp)">
       </accessible-by-keyboard>
 
-      <div class="work-packages--subject-type-row"
-           [ngClass]="{'-active': activeEditField()}">
-        <wp-edit-field #wpEditField
-                       [workPackageId]="wp.id"
+      <div class="work-packages--subject-type-row -new"
+           *ngIf="wp.isNew">
+        <wp-edit-field [workPackageId]="wp.id"
                        [wrapperClasses]="'work-packages--type-selector'"
                        [fieldName]="'type'"
                        class="work-package--card--type">
@@ -28,20 +27,18 @@
         </wp-edit-field>
       </div>
 
+      <div class="work-packages--subject-type-row"
+           *ngIf="!wp.isNew">
+        <span [textContent]="wpTypeAttribute(wp)"
+              class="work-package--card--type"
+              [ngClass]="typeDotClass(wp)"></span>
+        <span [textContent]="wpSubject(wp)"
+              class="work-package--card--subject -bold"></span>
+      </div>
+
       <div class="work-package--card--author -italic"
            [hidden]="wp.isNew"
            [textContent]="text.wpAddedBy(wp)">
-      </div>
-
-      <div class="work-package--card--additional-info-container">
-        <div *ngFor="let column of availableColumns"
-             class="work-package--card--additional-info">
-            <span [textContent]="column.name + ':'"
-                  class="work-package--card--additional-info-attribute"></span>
-            <wp-edit-field [workPackageId]="wp.id"
-                           [fieldName]="column.id">
-            </wp-edit-field>
-        </div>
       </div>
     </wp-edit-field-group>
     <user-avatar *ngIf="hasAssignee(wp)"

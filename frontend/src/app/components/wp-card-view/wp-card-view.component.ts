@@ -46,6 +46,7 @@ import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-ch
 import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {WorkPackageEditFieldComponent} from "app/components/wp-edit/wp-edit-field/wp-edit-field.component";
+import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 
 
 @Component({
@@ -82,7 +83,6 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
   public query:QueryResource;
   public workPackages:any[];
   public columns:QueryColumn[];
-  public availableColumns:QueryColumn[];
   public text = {
     addNewCard:  this.I18n.t('js.card.add_new'),
     wpAddedBy: (wp:WorkPackageResource) =>
@@ -90,8 +90,6 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
   };
 
   @ViewChild('container') public container:ElementRef;
-  @ViewChild('wpEditField') readonly wpEditField:WorkPackageEditFieldComponent;
-
   /** Whether the card view has an active inline created wp */
   public activeInlineCreateWp?:WorkPackageResource;
 
@@ -117,16 +115,9 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
 
     this.registerCreationCallback();
 
-    combine(
-      this.querySpace.columns,
-      this.querySpace.results
-    )
-    .values$()
-    .pipe(
+    this.querySpace.results.values$().pipe(
       untilComponentDestroyed(this)
-    )
-    .subscribe(([columns, results]) => {
-
+    ).subscribe((results) => {
       if (this.activeInlineCreateWp) {
         this.workPackages = [...results.$embedded.elements, this.activeInlineCreateWp];
       } else {
@@ -134,12 +125,6 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
       }
 
       this.removeDragged();
-
-      this.columns = columns;
-      this.availableColumns = this.columns.filter(function (column) {
-        return column.id !== 'id' && column.id !== 'subject' && column.id !== 'author';
-      });
-
       this.cdRef.detectChanges();
     });
   }
@@ -175,8 +160,16 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
     );
   }
 
-  public activeEditField() {
-    return this.wpEditField && this.wpEditField.active;
+  public wpTypeAttribute(wp:WorkPackageResource) {
+    return wp.type.name + ':';
+  }
+
+  public wpSubject(wp:WorkPackageResource) {
+    return wp.subject;
+  }
+
+  public typeDotClass(wp:WorkPackageResource) {
+    return Highlighting.dotClass('type',  wp.type.getId());
   }
 
   removeDragged() {

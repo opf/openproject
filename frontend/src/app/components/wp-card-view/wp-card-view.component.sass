@@ -11,7 +11,7 @@
   width: 100%
   border: 1px solid var(--widget-box-block-border-color)
   border-radius: 5px
-  padding: 5px 5px 5px 10px
+  padding: 10px 30px 10px 10px
   margin-top: 10px
   background-color: #eeeeee6e
   position: relative
@@ -21,20 +21,8 @@
     bottom: 5px
     right: 0
 
-.work-package--card--additional-info-container
-  margin-top: 15px
-
-.work-package--card--additional-info
-  display: flex
-  line-height: 22px
-
 wp-edit-field
   width: initial
-
-.work-package--card--additional-info-attribute
-  max-width: 50%
-  @include text-shortener
-  margin-right: 5px
 
 .wp-inline-create-button
   font-size: 0.9rem
@@ -46,10 +34,15 @@ wp-edit-field
   right: 0
   bottom: 2px
 
-.work-packages--subject-type-row.-active
-  flex-wrap: wrap
-  .work-package--card--type,
-  .work-package--card--subject
-    flex-basis: 100%
+.work-packages--subject-type-row
+  margin-bottom: 10px
+  .work-package--card--type
+    margin-right: 5px
+
+  .-new
+    flex-wrap: wrap
+    .work-package--card--type,
+    .work-package--card--subject
+      flex-basis: 100%
 
 
