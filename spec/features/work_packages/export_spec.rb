@@ -123,7 +123,7 @@ describe 'work package export', type: :feature do
     loading_indicator_saveguard
 
     wp_table.expect_work_package_listed(wp_1)
-    wp_table.expect_work_package_not_listed(wp_2, wp_3, wait: 10)
+    wp_table.ensure_work_package_not_listed!(wp_2, wp_3)
 
     export!
 

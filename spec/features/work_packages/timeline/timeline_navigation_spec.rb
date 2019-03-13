@@ -95,20 +95,20 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
       wp_timeline.expect_timeline!(open: true)
       wp_timeline.expect_work_package_listed work_package2
-      wp_timeline.expect_work_package_not_listed work_package
+      wp_timeline.ensure_work_package_not_listed! work_package
 
       # Select other query
       query_menu.select query
       wp_timeline.expect_timeline!(open: false)
       wp_timeline.expect_work_package_listed work_package
-      wp_timeline.expect_work_package_not_listed work_package2
+      wp_timeline.ensure_work_package_not_listed! work_package2
 
       # Select first query again
       query_menu.select query_tl
 
       wp_timeline.expect_timeline!(open: true)
       wp_timeline.expect_work_package_listed work_package2
-      wp_timeline.expect_work_package_not_listed work_package
+      wp_timeline.ensure_work_package_not_listed! work_package
     end
   end
 
@@ -243,7 +243,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       # Collapse Foo section
       header = find('.wp-table--group-header', text: 'Foo (1)')
       header.find('.expander').click
-      wp_timeline.expect_work_package_not_listed(wp_cat1)
+      wp_timeline.ensure_work_package_not_listed!(wp_cat1)
 
       # Relation should be hidden
       wp_timeline.expect_no_timeline_relation(wp_cat1, wp_cat2)
