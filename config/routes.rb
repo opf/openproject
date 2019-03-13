@@ -52,14 +52,8 @@ OpenProject::Application.routes.draw do
   match '/auth/:provider/callback', to: 'account#omniauth_login', as: 'omniauth_login', via: %i[get post]
 
   # In case assets are actually delivered by a node server (e.g. in test env)
-  # we redirect all requests to socksjs necessary to support HMR to that server.
-  # Status code 307 is important so that POST requests are repeated as POST.
+  # forward requests to the proxy
   if FrontendAssetHelper.assets_proxied?
-    match '/sockjs-node/*appendix',
-          to: redirect("http://localhost:4200/sockjs-node/%{appendix}", status: 307),
-          format: false,
-          via: :all
-
     match '/assets/frontend/*appendix',
           to: redirect("http://localhost:4200/assets/frontend/%{appendix}", status: 307),
           format: false,
