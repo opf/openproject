@@ -2991,3 +2991,5 @@ nl:
     revoke_my_application_confirmation: Weet u zeker dat u deze applicatie wilt verwijderen?
       Dit zal %{token_count} actief voor deze verwijderen.
     my_registered_applications: Geregistreerde OAuth toepassingen
+  label_impressum: Impressum
+  label_privacy_policy: Data privacy and security policy

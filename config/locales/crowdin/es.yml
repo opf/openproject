@@ -3030,3 +3030,5 @@ es:
     revoke_my_application_confirmation: "¿Seguro que quieres eliminar esta aplicación?
       Eso suspenderá %{token_count} activos para realizarse."
     my_registered_applications: Aplicaciones OAuth Registradas
+  label_impressum: Impressum
+  label_privacy_policy: Data privacy and security policy

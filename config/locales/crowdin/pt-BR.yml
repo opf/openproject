@@ -58,7 +58,7 @@ pt-BR:
       no_results_content_title: Atualmente, não existem modos de autenticação.
       no_results_content_text: Criar um novo modo de autenticação
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Criptografia de Conexão
     tls_mode:
       plain: nenhum
       simple_tls: simple_tls
@@ -385,9 +385,9 @@ pt-BR:
         encoded_token: Token de suporte Enterprise
         active_user_count_restriction: Máximo de usuários ativos
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
+        page: Página
+        row_count: Número de linhas
+        column_count: Número de colunas
         widgets: Widgets
       relation:
         delay: Atraso
@@ -555,9 +555,9 @@ pt-BR:
         enterprise_token:
           unreadable: não pode ser lido. Tem certeza que é um token de suporte?
         grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          overlaps: sobreposição.
+          outside: está fora da grade.
+          end_before_start: o valor final precisa ser maior que o valor inicial.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -1851,8 +1851,8 @@ pt-BR:
   notice_account_update_failed: Configuração da conta não pode ser salva. Por favor,
     verifique na página de sua conta.
   notice_account_updated: Conta foi atualizada com sucesso.
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: Todas as outras sessões vinculadas à sua conta
+    foram invalidadas.
   notice_account_wrong_password: Senha incorreta
   notice_account_registered_and_logged_in: Bem-vindo, sua conta foi ativada. Agora
     você está conectado.
@@ -2968,3 +2968,5 @@ pt-BR:
     revoke_my_application_confirmation: Você quer realmente remover esta aplicação?
       Isso irá revogar %{token_count} ativo(s) para ele.
     my_registered_applications: Aplicações OAuth registradas
+  label_impressum: Impressum
+  label_privacy_policy: Data privacy and security policy

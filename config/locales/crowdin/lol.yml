@@ -2591,3 +2591,5 @@ lol:
     authorization_error: crwdns118974:0crwdne118974:0
     revoke_my_application_confirmation: crwdns118976:0%{token_count}crwdne118976:0
     my_registered_applications: crwdns118978:0crwdne118978:0
+  label_impressum: crwdns122526:0crwdne122526:0
+  label_privacy_policy: crwdns122528:0crwdne122528:0

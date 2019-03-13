@@ -144,26 +144,26 @@ ja:
     general_text_Yes: はい
     grid:
       add_modal:
-        choose_widget: Choose widget
+        choose_widget: ウィジェットを選択
       widgets:
         documents:
-          title: Documents
-          no_results: No documents yet.
+          title: ドキュメント
+          no_results: まだドキュメントはありません。
         news:
           title: ニュース
-          at: at
+          at: 日時
           no_results: 新しい報告はありません。
         time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
+          title: 経過時間(過去7日)
+          no_results: 過去7日間の時間エントリはありません。
         work_packages_accountable:
           title: 責任者である作業項目
         work_packages_assigned:
           title: 担当している作業項目
         work_packages_created:
-          title: Work packages created by me
+          title: 自分が作成した作業項目
         work_packages_watched:
-          title: Work packages watched by me
+          title: 自分が見た作業項目
         work_packages_calendar:
           title: カレンダー
     label_activate: 有効にする
@@ -473,7 +473,7 @@ ja:
     text_query_destroy_confirmation: 選択したビューを削除してもよろしいですか？
     text_attachment_destroy_confirmation: この添付ファイルを削除してよろしいですか。
     timelines:
-      quarter_label: Q%{quarter_number}
+      quarter_label: 第%{quarter_number}四半期
       gantt_chart: ガントチャート
       labels:
         title: ラベル設定
