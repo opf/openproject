@@ -63,42 +63,44 @@ class SearchController < ApplicationController
       @object_types = @object_types.select { |o| User.current.allowed_to?("view_#{o}".to_sym, projects_to_search) }
     end
 
-    # The work package search is done differntly, so put it into the search scope.
+    # The work package search is done differently, so put it into the search scope.
     @scope = @object_types.select { |t| search_params[t] && t != 'work_packages' }
     @scope = @object_types if @scope.empty?
 
     # extract tokens from the question
     # eg. hello "bye bye" => ["hello", "bye bye"]
     @tokens = scan_query_tokens(@question).uniq
-    
+
     if @tokens.any?
-      # no more than 5 tokens to search for
-      @tokens.slice! 5..-1 if @tokens.size > 5
+      if params['work_packages'] != '1'
+        # no more than 5 tokens to search for
+        @tokens.slice! 5..-1 if @tokens.size > 5
 
-      @results = []
-      @results_by_type = Hash.new { |h, k| h[k] = 0 }
+        @results = []
+        @results_by_type = Hash.new { |h, k| h[k] = 0 }
 
-      limit = 10
-      @scope.each do |s|
-        r, c = s.singularize.camelcase.constantize.search(@tokens, projects_to_search,
-                                                          limit: (limit + 1),
-                                                          offset: offset,
-                                                          before: search_params[:previous].nil?)
-        @results += r
-        @results_by_type[s] += c
-      end
-      @results = @results.sort { |a, b| b.event_datetime <=> a.event_datetime }
-      if search_params[:previous].nil?
-        @pagination_previous_date = @results[0].event_datetime if offset && @results[0]
-        if @results.size > limit
-          @pagination_next_date = @results[limit - 1].event_datetime
-          @results = @results[0, limit]
+        limit = 10
+        @scope.each do |s|
+          r, c = s.singularize.camelcase.constantize.search(@tokens, projects_to_search,
+                                                            limit: (limit + 1),
+                                                            offset: offset,
+                                                            before: search_params[:previous].nil?)
+          @results += r
+          @results_by_type[s] += c
         end
-      else
-        @pagination_next_date = @results[-1].event_datetime if offset && @results[-1]
-        if @results.size > limit
-          @pagination_previous_date = @results[-(limit)].event_datetime
-          @results = @results[-(limit), limit]
+        @results = @results.sort { |a, b| b.event_datetime <=> a.event_datetime }
+        if search_params[:previous].nil?
+          @pagination_previous_date = @results[0].event_datetime if offset && @results[0]
+          if @results.size > limit
+            @pagination_next_date = @results[limit - 1].event_datetime
+            @results = @results[0, limit]
+          end
+        else
+          @pagination_next_date = @results[-1].event_datetime if offset && @results[-1]
+          if @results.size > limit
+            @pagination_previous_date = @results[-(limit)].event_datetime
+            @results = @results[-(limit), limit]
+          end
         end
       end
     else
