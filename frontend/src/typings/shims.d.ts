@@ -16,6 +16,8 @@
 /// <reference path="../../node_modules/@types/es6-shim/index.d.ts" />
 /// <reference path="../../node_modules/@types/dragula/index.d.ts" />
 
+declare module 'dom-autoscroller';
+
 import {Injector} from '@angular/core';
 
 import {OpenProject} from 'core-app/globals/openproject';

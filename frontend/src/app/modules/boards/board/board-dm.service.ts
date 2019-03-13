@@ -7,7 +7,7 @@ import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {map} from "rxjs/operators";
-import {Board} from "core-app/modules/boards/board/board";
+import {Board, BoardType} from "core-app/modules/boards/board/board";
 import {OpenprojectBoardsModule} from "core-app/modules/boards/openproject-boards.module";
 
 @Injectable()
@@ -73,10 +73,11 @@ export class BoardDmService {
 
   /**
    * Create a new board
+   * @param type
    * @param name
    */
-  public async create(name:string = 'New board'):Promise<Board> {
-    return this.createGrid()
+  public async create(type:BoardType, name:string, actionAttribute?:string):Promise<Board> {
+    return this.createGrid(type, name, actionAttribute)
       .then(grid => new Board(grid));
   }
 
@@ -89,9 +90,16 @@ export class BoardDmService {
   }
 
 
-  private createGrid():Promise<GridResource> {
+  private createGrid(type:BoardType, name:string, actionAttribute?:string):Promise<GridResource> {
     const path = this.boardPath();
-    let payload = _.set({ name: 'Unnamed board' }, '_links.scope.href', path);
+    let payload:any = _.set({ name: name }, '_links.scope.href', path);
+    payload.options = {
+      type: type,
+    };
+
+    if (actionAttribute) {
+      payload.options.attribute = actionAttribute;
+    }
 
     return this.GridDm
       .createForm(payload)

@@ -18,6 +18,8 @@ cs:
     close_popup_title: Zavřít okno
     close_filter_title: Zavřít filtr
     close_form_title: Zavřít formulář
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Váš prohlížeč nepodporuje, kopírování do schránky. Ručně zkopírujte
         vybraný text.

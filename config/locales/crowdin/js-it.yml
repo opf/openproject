@@ -19,6 +19,8 @@ it:
     close_popup_title: Chiudi popup
     close_filter_title: Chiudi il filtro
     close_form_title: Chiudi il modulo
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Il tuo browser non supporta la copia negli appunti. Copia il
         testo selezionato manualmente.

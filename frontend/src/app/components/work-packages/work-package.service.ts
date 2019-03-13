@@ -63,7 +63,7 @@ export class WorkPackageService {
       promise
         .then(() => {
           this.NotificationsService.addSuccess(this.text.successful_delete);
-          this.wpTableRefresh.request('Bulk delete removed elements', true);
+          this.wpTableRefresh.request('Bulk delete removed elements', 'delete', { visible: true });
 
           if (this.$state.includes('**.list.details.**')
             && ids.indexOf(this.$state.params.workPackageId) > -1) {

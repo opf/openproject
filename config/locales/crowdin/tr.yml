@@ -379,10 +379,10 @@ tr:
         encoded_token: Kurumsal Destek anahtarı
         active_user_count_restriction: En çok aktif kullanıcı
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
+        page: Sayfa
+        row_count: Satır sayısı
+        column_count: Sütun sayısı
+        widgets: Araçlar
       relation:
         delay: Gecikme
         from: İş paketi
@@ -1064,7 +1064,7 @@ tr:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Girdi silinemedi.
-  error_invalid_selected_value: Invalid selected value.
+  error_invalid_selected_value: Seçili değeri geçersiz.
   error_invalid_group_by: "%{value} ya göre guplandırılamadı"
   error_invalid_query_column: 'Geçersiz sorgu sütunu: %{value}'
   error_invalid_sort_criterion: 'Sütuna göre sıralama yapamazsınız: %{value}'
@@ -1774,7 +1774,7 @@ tr:
         You can replace the functionality with an embedded table macro.
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
+        page_not_found: Wiki sayfası '%{name} ' bulunamıyor.
         circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
@@ -2168,7 +2168,7 @@ tr:
   setting_email_delivery_method: E-posta teslim yöntemi
   setting_sendmail_location: Çalıştırılabilir sendmail aracının yolu
   setting_smtp_enable_starttls_auto: STARTTLS varsa otomatik olarak kullan
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: SSL bağlantısı kullan
   setting_smtp_address: SMTP Sunucusu
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP kimlik doğrulaması

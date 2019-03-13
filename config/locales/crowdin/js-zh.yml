@@ -17,6 +17,8 @@ zh:
     close_popup_title: 关闭弹出窗口
     close_filter_title: 关闭过滤器
     close_form_title: 关闭表单
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: 您的浏览器不支持复制到剪贴板，请手动复制选定的文本。
       copied_successful: 成功复制到剪贴板!

@@ -18,6 +18,8 @@ hu:
     close_popup_title: Előugró ablak bezárása
     close_filter_title: Szűrő bezárása
     close_form_title: Űrlap bezárása
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: A böngésző nem támogatja a vágólapra másolást. Kérjük, másolja
         a kijelölt szöveget manuálisan.

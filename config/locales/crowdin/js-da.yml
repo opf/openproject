@@ -18,6 +18,8 @@ da:
     close_popup_title: Luk popup
     close_filter_title: Luk filter
     close_form_title: Luk formular
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Din browser understøtter ikke kopiering til Udklipsholder. Kopiér
         venligst den markerede tekst manuelt.

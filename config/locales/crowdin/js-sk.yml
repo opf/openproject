@@ -19,6 +19,8 @@ sk:
     close_popup_title: Zavrieť okno
     close_filter_title: Zavrieť filter
     close_form_title: Zavrieť formulár
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Váš prehliadač nepodporuje kopírovanie do schránky. Manuálne
         skopírujte vybratý text.

@@ -19,6 +19,8 @@ es:
     close_popup_title: Cerrar ventana emergente
     close_filter_title: Cerrar filtro
     close_form_title: Cerrar formulario
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Su navegador no soporta copiar al portapapeles. Por favor, copie
         el texto seleccionado manualmente.

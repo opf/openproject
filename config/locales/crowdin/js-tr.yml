@@ -18,6 +18,8 @@ tr:
     close_popup_title: Pencereyi kapat
     close_filter_title: Filtreyi kapat
     close_form_title: Formu kapat
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Tarayıcınız panoya kopyalamayı desteklemiyor. Metni lütfen elle
         kopyalayınız.
@@ -39,7 +41,7 @@ tr:
     button_duplicate: Çoğalt
     button_edit: Düzenle
     button_filter: Filtre
-    button_advanced_filter: Advanced filter
+    button_advanced_filter: Gelişmiş filtre
     button_list_view: Liste görünümü
     button_show_view: Tam Ekran görünümü
     button_log_time: Zaman kaydet
@@ -84,13 +86,13 @@ tr:
 
 '
         code_block:
-          button: Insert code snippet
-          title: Insert / edit Code snippet
+          button: Kod parçacığı ekle
+          title: Kod parçacığını ekle / düzenle
           language: Biçimlendirme dili
           language_hint: Enter the formatting language that will be used for highlighting
             (if supported).
         dropdown:
-          macros: Macros
+          macros: Makrolar
           chose_macro: Chose macro
         toc: İçindekiler
         toolbar_help: Click to select widget and show the toolbar. Double-click to
@@ -153,8 +155,8 @@ tr:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
-          no_results: No documents yet.
+          title: Belgeler
+          no_results: Henüz belge yok.
         news:
           title: Haberler
           at: at
@@ -167,23 +169,23 @@ tr:
         work_packages_assigned:
           title: Bana atanan iş paketleri
         work_packages_created:
-          title: Work packages created by me
+          title: Oluşturduğum iş paketleri
         work_packages_watched:
-          title: Work packages watched by me
+          title: İzlediğim iş paketleri
         work_packages_calendar:
           title: Takvim
     label_activate: Etkinleştir
     label_activity_no: Etkinlik giriş numarası %{activityNo}
     label_activity_with_comment_no: Etkinlik giriş numarası %{activityNo}. Kullanıcı
       yorumu var.
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
+    label_add_column_after: Sonrasına sütun ekle
+    label_add_column_before: Öncesine sütun ekle
     label_add_columns: Sütunlar ekle
     label_add_comment: Yorum ekle
     label_add_comment_title: Yorum yapmak ve diğer kişilere bunu bildirmek için @
       yazın
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
+    label_add_row_after: Sonrasına satır ekle
+    label_add_row_before: Öncesine satır ekle
     label_add_selected_columns: Seçilen sütunları ekle
     label_added_by: ekleyen
     label_added_time_by: "%{author} %{age} tarafından eklendi"
@@ -262,9 +264,9 @@ tr:
     label_visibility_settings: Görünürlük ayarları
     label_quote_comment: Yorumu alıntıla
     label_reset: Sıfırla
-    label_remove_column: Remove column
+    label_remove_column: Sütunu kaldır
     label_remove_columns: Seçili sütunları sil
-    label_remove_row: Remove row
+    label_remove_row: Satırı kaldır
     label_save_as: Farklı Kaydet
     label_select_watcher: Takipçi seç...
     label_selected_filter_list: Seçilen filtreler
@@ -286,7 +288,7 @@ tr:
     label_activity_show_only_comments: Sadece yorumların olduğu etkinlikleri göster
     label_activity_show_all: Tüm etkinlikleri göster
     label_total_progress: Toplam ilerleme %{percent}%
-    label_total_amount: 'Total: %{amount}'
+    label_total_amount: 'Toplam: %{amount}'
     label_updated_on: güncelleme tarihi
     label_warning: Uyarı
     label_work_package: İş paketi
@@ -333,7 +335,7 @@ tr:
       buttons:
         skip: Atla
         next: Sonraki
-        got_it: Got it
+        got_it: Anladım
       steps:
         welcome: En <b>önemli özellikleri</b> öğrenmek için üç dakikalık bir tanıtım
           gezintisine çıkın. <br> Tüm adımları tamamlamanızı öneririz. Turu istediğiniz
@@ -514,7 +516,7 @@ tr:
     text_query_destroy_confirmation: Seçilen görünümü silmek istediğinizden emin misiniz?
     text_attachment_destroy_confirmation: Eki silmek istediğinizden emin misiniz?
     timelines:
-      quarter_label: Q%{quarter_number}
+      quarter_label: Ç%{quarter_number}
       gantt_chart: Gantt görünümü
       labels:
         title: Etiket yapılandırma
@@ -631,7 +633,7 @@ tr:
       label_enable_multi_select: Çoklu seçimi etkinleştir
       label_disable_multi_select: Çoklu seçimi devre dışı bırak
       label_filter_add: Filtre ekle
-      label_filter_by_text: Filter by text
+      label_filter_by_text: Metne göre filtrele
       label_options: Ayarlar
       label_column_multiselect: 'Birleştirilmiş aşağı açılan alan: ok tuşlarıyla seçin,
         seçimi enter ile onaylayın, backspace ile silme'
@@ -644,7 +646,7 @@ tr:
       message_work_package_read_only: İş paketi bu durum içinde kilitli. Durumu haricinde
         başka bir özelliği değiştirilemez.
       no_value: Değer yok
-      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholder_filter_by_text: Konu, açıklama, yorumlar, ...
       inline_create:
         title: Listeden yeni bir iş paketi eklemek için buraya tıklayınız
       create:
@@ -860,7 +862,7 @@ tr:
         messages_on_field: 'Bu alan geçersiz: %{messages}'
     error_could_not_resolve_version_name: Sürüm adı çözümlenemedi
     error_could_not_resolve_user_name: Kullanıcı adı çözümlenemedi
-    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload: 'Dosya yüklenemedi: %{error}'
     error_attachment_upload_permission: Bu kaynakta dosya yüklemek için izniniz bulunmamaktadır.
     units:
       workPackage:
@@ -877,12 +879,12 @@ tr:
       button_activate: Zen modunu etkinleştir
       button_deactivate: Zen modunu devre dışı bırak
     global_search:
-      all_projects: In all projects
+      all_projects: Tüm projelerde
       search: Ara
-      close_search: Close search
-      current_project: In this project
-      current_project_and_all_descendants: In this project + subprojects
+      close_search: Aramayı kapat
+      current_project: Bu projede
+      current_project_and_all_descendants: Bu projede + alt projelerde
       title:
-        all_projects: all projects
-        project_and_subprojects: and all subprojects
+        all_projects: tüm projeler
+        project_and_subprojects: ve tüm alt projeler
         search_for: Search for

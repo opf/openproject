@@ -17,6 +17,8 @@ lol:
     close_popup_title: crwdns118994:0crwdne118994:0
     close_filter_title: crwdns118996:0crwdne118996:0
     close_form_title: crwdns118998:0crwdne118998:0
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: crwdns119000:0crwdne119000:0
       copied_successful: crwdns119002:0crwdne119002:0

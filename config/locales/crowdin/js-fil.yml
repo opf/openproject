@@ -18,6 +18,8 @@ fil:
     close_popup_title: Isara ang popup
     close_filter_title: Isara ang filter
     close_form_title: Isara ang form
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Ang iyong browser ay hindi suporta ang pagkokopya sa clipboard.
         Mangayaring kopyahin ng manu-mano ang napiling teksto.

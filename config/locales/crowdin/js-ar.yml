@@ -18,6 +18,8 @@ ar:
     close_popup_title: إغلاق النافذة المنبثقة
     close_filter_title: إغلاق عامل التصفية
     close_form_title: إغلاق النموذج
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: لا يدعم المتصفح الخاص بك النسخ إلى الحافظة, من فضلك انسخ النص
         المختار يدوياً.

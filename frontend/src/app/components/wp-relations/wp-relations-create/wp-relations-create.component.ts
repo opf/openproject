@@ -58,7 +58,7 @@ export class WorkPackageRelationsCreateComponent {
       this.selectedRelationType,
       this.selectedWpId)
       .then(relation => {
-        this.wpTableRefresh.request(`Added relation ${relation.id}`, true);
+        this.wpTableRefresh.request(`Added relation ${relation.id}`, "reference", {visible: true});
         this.wpNotificationsService.showSave(this.workPackage);
         this.toggleRelationsCreateForm();
       })

@@ -43,17 +43,20 @@
        cdkDropListOrientation="horizontal"
        (cdkDropListDropped)="moveList(board, $event)"
        >
-    <div class="boards-list--item"
-         *ngFor="let query of board.queries; trackBy:trackByQueryId"
+    <div *ngFor="let query of board.queries; trackBy:trackByQueryId"
+         class="boards-list--item"
+         wp-isolated-query-space
          cdkDrag>
       <span *ngIf="board.editable"
             class="boards-list-item-handle icon icon-drag-handle"
             cdkDragHandle></span>
-      <board-list [resource]="query" (onRemove)="removeList(board, query)"></board-list>
+      <board-list [resource]="query"
+                  [board]="board"
+                  (onRemove)="removeList(board, query)"></board-list>
     </div>
 
     <div class="boards-list--add-item -no-text-select"
-         *ngIf="board.editable && board.queries.length < maxCount"
+         *ngIf="board.editable"
          (click)="addList(board)">
       <div class="boards-list--add-item-text">
         <op-icon icon-classes="icon-add icon-context"></op-icon>

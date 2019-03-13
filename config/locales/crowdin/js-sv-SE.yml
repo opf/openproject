@@ -18,6 +18,8 @@ sv-SE:
     close_popup_title: Stäng popup
     close_filter_title: Stäng filter
     close_form_title: Stäng formulär
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Din webbläsare stöder inte kopiera till Urklipp. Vänligen kopiera
         den markerade texten manuellt.

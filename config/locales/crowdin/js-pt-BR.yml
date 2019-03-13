@@ -19,6 +19,8 @@ pt-BR:
     close_popup_title: Fechar pop-up
     close_filter_title: Fechar filtro
     close_form_title: Fechar formulário
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Seu navegador não suporta copiar para a área de transferência.
         Por favor, copie o texto selecionado manualmente.

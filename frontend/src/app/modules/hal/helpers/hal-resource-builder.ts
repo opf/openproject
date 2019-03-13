@@ -130,13 +130,13 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
   function setupProperty(name:string, callback:(element:any) => any) {
     const instanceName = '$' + name;
     const sourceName = '_' + name;
-    const sourceObj = halResource.$source[sourceName];
+    const sourceObj:any = halResource.$source[sourceName];
 
     if (_.isObject(sourceObj)) {
       Object.keys(sourceObj).forEach(propName => {
         OpenprojectHalModuleHelpers.lazy((halResource)[instanceName],
           propName,
-          () => callback(sourceObj[propName]));
+          () => callback((sourceObj as any)[propName]));
       });
     }
   }
@@ -153,7 +153,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
   }
 
   function setupEmbedded() {
-    setupProperty('embedded', element => {
+    setupProperty('embedded', (element:any) => {
 
       if (Array.isArray(element)) {
         return element.map((source) => asHalResource(source, true));
@@ -162,7 +162,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
       if (_.isObject(element)) {
         _.each(element, (child:any, name:string) => {
           if (child && (child._embedded || child._links)) {
-            OpenprojectHalModuleHelpers.lazy(element,
+            OpenprojectHalModuleHelpers.lazy(element as any,
               name,
               () => asHalResource(child, true));
           }

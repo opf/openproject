@@ -18,6 +18,8 @@ pl:
     close_popup_title: Zamknij okno
     close_filter_title: Zamknij filtr
     close_form_title: Zamknij formularz
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Twoja przeglądarka nie obsługuje kopiowania do schowka. Skopiuj
         tekst ręcznie.

@@ -18,6 +18,8 @@ id:
     close_popup_title: Tutup
     close_filter_title: Tutup Penyaring
     close_form_title: Tutup formulir
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Browser Anda tidak mendukung menyalin ke clipboard. Harap menyalin
         teks yang dipilih secara manual.

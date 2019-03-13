@@ -1,11 +1,11 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import { WorkPackageTableConfigurationObject } from 'core-components/wp-table/wp-table-configuration';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {
   WorkPackageEmbeddedGraphComponent,
   WorkPackageEmbeddedGraphDataset
 } from "core-components/wp-table/embedded/wp-embedded-graph.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 
 @Component({
   selector: 'wp-by-version-graph',
@@ -22,6 +22,7 @@ export class WorkPackageByVersionGraphComponent implements OnInit {
   public availableGroupBy:{label:string, key:string}[];
 
   constructor(readonly elementRef:ElementRef,
+              readonly wpTableRefresh:WorkPackageTableRefreshService,
               readonly I18n:I18nService) {
     this.availableGroupBy = [{label: I18n.t('js.work_packages.properties.category'), key: 'category'},
                              {label: I18n.t('js.work_packages.properties.type'), key: 'type'},
@@ -51,7 +52,7 @@ export class WorkPackageByVersionGraphComponent implements OnInit {
     }
 
     if (this.currentGraph) {
-      this.currentGraph.querySpace.refreshRequired.putValue([false, false], '');
+      this.wpTableRefresh.request('Refresh graph', 'update');
     }
   }
 

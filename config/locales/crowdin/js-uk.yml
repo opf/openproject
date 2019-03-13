@@ -18,6 +18,8 @@ uk:
     close_popup_title: Закрити вспливаюче вікно
     close_filter_title: Закрити фільтр
     close_form_title: Закрити форму
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Ваш браузер не підтримує копіювання до буфера обміну. Потрібно
         скопіювати виділений текст вручну.

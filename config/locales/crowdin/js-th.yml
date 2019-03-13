@@ -18,6 +18,8 @@ th:
     close_popup_title: ปิดป๊อปอัพ
     close_filter_title: ปิดตัวกรอง
     close_form_title: ปิดแบบฟอร์ม
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: เบราเซอร์ของคุณไม่รองรับการคัดลอกไปยังคลิปบอร์ด กรุณาคัดลอกข้อความที่เลือกด้วยตนเอง
       copied_successful: Sucessfully copied to clipboard!

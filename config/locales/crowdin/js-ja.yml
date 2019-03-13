@@ -17,6 +17,8 @@ ja:
     close_popup_title: ポップアップを閉じる
     close_filter_title: フィルタを閉じる
     close_form_title: フォームを閉じる
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: お使いのブラウザーでは、クリップボードへのコピーをサポートしていません。手動で選択したテキストをコピーしてください。
       copied_successful: 正常にクリップボードにコピーしました!

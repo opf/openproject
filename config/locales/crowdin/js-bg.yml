@@ -18,6 +18,8 @@ bg:
     close_popup_title: Затвори изкачащият прозорец
     close_filter_title: Close filter
     close_form_title: Close form
+    card:
+      add_new: Add new card
     clipboard:
       browser_error: Вашият браузър не поддържа копиране в клипборд. Моля копирайте
         избрания текст ръчно.
