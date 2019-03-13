@@ -56,6 +56,27 @@ describe 'Search', type: :feature, js: true do
   end
 
   before do
+    custom_field_text = FactoryBot.create(:text_wp_custom_field)
+    project.work_package_custom_fields << custom_field_text
+    work_packages.first.type.custom_fields << custom_field_text
+
+    custom_field_string = FactoryBot.create(:string_wp_custom_field,
+                                            is_for_all: true,
+                                            is_filter: true)
+    custom_field_string.save
+    work_packages.first.type.custom_fields << custom_field_string
+
+    FactoryBot.create(:work_package_custom_value,
+                      custom_field: custom_field_text,
+                      customized: work_packages[0],
+                      value: "long text")
+
+    FactoryBot.create(:work_package_custom_value,
+                      custom_field: custom_field_string,
+                      customized: work_packages[1],
+                      value: "short text")
+    project.reload
+
     login_as user
 
     visit search_path(*params)
@@ -109,6 +130,19 @@ describe 'Search', type: :feature, js: true do
   end
 
   describe 'work package search' do
+    context 'search in all projects' do
+      let(:params) { [project, { q: query, work_packages: 1 }] }
+
+      it "finds global custom fields" do
+        select_autocomplete(page.find('.top-menu-search--input'),
+                                  query: "text",
+                                  select_text: "In all projects ↵")
+        table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
+        table.ensure_work_package_not_listed!(work_packages[0])
+        table.expect_work_package_subject(work_packages[1].subject)
+      end
+    end
+
     context 'project search' do
       let(:subproject) { FactoryBot.create :project, parent: project }
       let!(:other_work_package) do
@@ -188,6 +222,16 @@ describe 'Search', type: :feature, js: true do
         table.ensure_work_package_not_listed! other_work_package
 
         expect(current_url).to match(/\/#{project.identifier}\/search\?q=Other%20work%20package&work_packages=1&scope=current_project$/)
+
+        # Expect to find custom field values
+        # ...for type: text
+        global_search.search "long text", submit_with_enter: true
+        table.ensure_work_package_not_listed! work_packages[1]
+        table.expect_work_package_subject(work_packages[0].subject)
+        # ... for type: string
+        global_search.search "short text", submit_with_enter: true
+        table.ensure_work_package_not_listed! work_packages[0]
+        table.expect_work_package_subject(work_packages[1].subject)
 
         # Change to project scope to include subprojects
         global_search.search other_work_package.subject
