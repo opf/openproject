@@ -32,10 +32,14 @@ wp-edit-field
   padding-top: 1rem
   text-align: center
 
-.work-package-card--inline-cancel-wrapper
+.work-package-card--inline-cancel-button
   position: absolute
   right: 0
-  bottom: 2px
+  top: 4px
+  opacity: 0
+
+  &.-show, .work-package--card:hover &
+    opacity: 1
 
 .work-packages--subject-type-row
   margin-bottom: 10px

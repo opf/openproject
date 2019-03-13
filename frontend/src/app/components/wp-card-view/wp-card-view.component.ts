@@ -52,6 +52,7 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
   public workPackages:any[];
   public columns:QueryColumn[];
   public text = {
+    removeCard: this.I18n.t('js.card.remove_from_list'),
     addNewCard:  this.I18n.t('js.card.add_new'),
     wpAddedBy: (wp:WorkPackageResource) =>
       this.I18n.t('js.label_wp_id_added_by', {id: wp.id, author: wp.author.name})
@@ -69,11 +70,12 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
     onReferenced: (wp:WorkPackageResource) => this.addWorkPackageToQuery(wp, 0)
   };
 
+  /** Whether cards are removable */
+  @Input() public cardsRemovable:boolean = false;
+
   @ViewChild('container') public container:ElementRef;
   /** Whether the card view has an active inline created wp */
   public activeInlineCreateWp?:WorkPackageResource;
-
-  public onCardRemoved = new Subject<undefined>();
 
   constructor(readonly querySpace:IsolatedQuerySpace,
               readonly injector:Injector,
@@ -123,7 +125,6 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
   }
 
   ngOnDestroy():void {
-    this.onCardRemoved.complete();
     this.dragService.remove(this.container.nativeElement);
   }
 
@@ -265,17 +266,17 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
   /**
    * Remove the new card
    */
-  removeNewCard() {
-    const wp = this.activeInlineCreateWp;
-
-    if (!wp) {
-      return;
-    }
-
+  removeCard(wp:WorkPackageResource) {
     const index = this.workPackages.indexOf(wp);
     this.workPackages.splice(index, 1);
     this.activeInlineCreateWp = undefined;
-    this.onCardRemoved.next();
+
+    if (!wp.isNew) {
+      this.reorderService
+        .remove(this.querySpace, wp.id)
+        .then(() => this.wpTableRefresh.request('Drag and Drop removed item'));
+    }
+
     this.cdRef.detectChanges();
   }
 

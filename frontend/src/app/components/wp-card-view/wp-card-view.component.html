@@ -15,13 +15,14 @@
        [ngClass]="cardClasses(wp)"
        (dblclick)="handleDblClick(wp)">
 
+    <a class="work-package-card--inline-cancel-button -no-decoration"
+       *ngIf="wp.isNew || cardsRemovable"
+       [ngClass]="{ '-show': wp.isNew }"
+       [title]="text.removeCard"
+       (accessibleClick)="removeCard(wp)">
+      <op-icon icon-classes="icon icon-close"></op-icon>
+    </a>
     <wp-edit-field-group [workPackage]="wp" [inEditMode]="wp.isNew">
-      <accessible-by-keyboard *ngIf="wp.isNew"
-                              class="work-package-card--inline-cancel-wrapper"
-                              linkClass="work-package-card--inline-cancel-button icon icon-close"
-                              (execute)="removeNewCard(wp)">
-      </accessible-by-keyboard>
-
       <div class="work-packages--subject-type-row -new"
            *ngIf="wp.isNew">
         <wp-edit-field [workPackageId]="wp.id"

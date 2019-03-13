@@ -39,6 +39,7 @@
 
     <div class="board-list--query-container">
       <wp-card-view [queryId]="query.id"
+                    [cardsRemovable]="board.isFree"
                     [queryProps]="columnsQueryProps"
                     [configuration]="boardTableConfiguration"
                     [highlightingMode]="board.highlightingMode">

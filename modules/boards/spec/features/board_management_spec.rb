@@ -129,6 +129,9 @@ describe 'Board management spec', type: :feature, js: true do
       subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject)
       expect(subjects).to match_array [work_package.subject, 'Task 1']
 
+      # Remove card again
+      board_page.remove_card 'Second', work_package.subject, 0
+
       # Remove query
       board_page.remove_list 'Second'
       queries = board_page.board(reload: true).contained_queries

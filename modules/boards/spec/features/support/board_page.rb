@@ -90,6 +90,14 @@ module Pages
       expect_card(list_name, card_title)
     end
 
+    def remove_card(list_name, card_title, index)
+      source = page.all("#{list_selector(list_name)} .work-package--card")[index]
+      source.hover
+      source.find('.work-package-card--inline-cancel-button').click
+
+      expect_card(list_name, card_title, present: false)
+    end
+
     def reference(list_name, work_package)
       within_list(list_name) do
         page.find('.board-list--card-dropdown-button').click
@@ -104,7 +112,6 @@ module Pages
 
       expect_card(list_name, work_package.subject)
     end
-
 
     ##
     # Expect the given titled card in the list name to be present (expect=true) or not (expect=false)
