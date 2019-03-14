@@ -408,7 +408,7 @@ describe User, type: :model do
 
       it 'should authorize normal users depending on their roles' do
         project = Project.find(1)
-        project.enabled_module_names = ['boards']
+        project.enabled_module_names = ['forums']
         assert @jsmith.allowed_to?(:delete_messages, project)    # Manager
         assert ! @dlopper.allowed_to?(:delete_messages, project) # Developper
       end

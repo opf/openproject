@@ -86,9 +86,9 @@ OpenProject::Static::Homescreen.manage :links do |links|
       url: static_links[:shortcuts][:href]
     },
     {
-      label: :boards,
+      label: :forums,
       icon: 'icon-context icon-forums',
-      url: static_links[:boards][:href]
+      url: static_links[:forums][:href]
     }
   )
 end

@@ -218,7 +218,7 @@ class MailHandler < ActionMailer::Base
         reply = Message.new(subject: email.subject.gsub(%r{^.*msg\d+\]}, '').strip,
                             content: cleaned_up_text_body)
         reply.author = user
-        reply.board = message.board
+        reply.forum = message.forum
         message.children << reply
         add_attachments(reply)
         reply

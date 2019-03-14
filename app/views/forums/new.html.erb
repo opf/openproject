@@ -29,8 +29,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: t(:label_board_new) %>
 
-<%= labelled_tabular_form_for [@project, @board] do |f| %>
+<%= labelled_tabular_form_for [@project, @forum] do |f| %>
   <%= render partial: 'form', locals: {f: f} %>
   <%= f.button t(:button_create), class: 'button -highlight -with-icon icon-checkmark' %>
-  <%= link_to t(:button_cancel), project_boards_path(@project), class: 'button -with-icon icon-cancel' %>
+  <%= link_to t(:button_cancel), project_forums_path(@project), class: 'button -with-icon icon-cancel' %>
 <% end %>

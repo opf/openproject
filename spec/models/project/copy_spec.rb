@@ -402,32 +402,32 @@ describe Project::Copy, type: :model do
       end
     end
 
-    describe '#copy_boards' do
-      let(:board) { FactoryBot.create(:board, project: project) }
+    describe '#copy_forums' do
+      let(:forum) { FactoryBot.create(:forum, project: project) }
 
-      context 'boards are copied' do
+      context 'forums are copied' do
         before do
-          copy.send(:copy_boards, project)
+          copy.send(:copy_forums, project)
           copy.save
         end
 
-        subject { copy.boards.count }
+        subject { copy.forums.count }
 
-        it { is_expected.to eq(project.boards.count) }
+        it { is_expected.to eq(project.forums.count) }
       end
 
-      context 'board topics are copied' do
+      context 'forum topics are copied' do
         before do
-          topic = FactoryBot.create(:message, board: board)
-          message = FactoryBot.create(:message, board: board, parent_id: topic.id)
+          topic = FactoryBot.create(:message, forum: forum)
+          message = FactoryBot.create(:message, forum: forum, parent_id: topic.id)
 
-          copy.send(:copy_boards, project)
+          copy.send(:copy_forums, project)
           copy.save
         end
 
         it 'should copy topics without replies' do
-          expect(copy.boards.first.topics.count).to eq(project.boards.first.topics.count)
-          expect(copy.boards.first.messages.count).not_to eq(project.boards.first.messages.count)
+          expect(copy.forums.first.topics.count).to eq(project.forums.first.topics.count)
+          expect(copy.forums.first.messages.count).not_to eq(project.forums.first.messages.count)
         end
       end
     end

@@ -26,27 +26,27 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 module RandomData
-  class BoardSeeder
+  class ForumSeeder
     def self.seed!(project)
       user = User.admin.first
 
       puts ''
-      print ' ↳ Creating forum board with posts'
+      print ' ↳ Creating forum with posts'
 
-      board = Board.create! project: project,
+      forum = Forum.create! project: project,
                             name: I18n.t('seeders.demo_data.board.name'),
                             description: I18n.t('seeders.demo_data.board.description')
 
       rand(30).times do
         print '.'
-        message = Message.create board: board,
+        message = Message.create forum: forum,
                                  author: user,
                                  subject: Faker::Lorem.words(5).join(' '),
                                  content: Faker::Lorem.paragraph(5, true, 3)
 
         rand(5).times do
           print '.'
-          Message.create board: board,
+          Message.create forum: forum,
                          author: user,
                          subject: message.subject,
                          content: Faker::Lorem.paragraph(5, true, 3),

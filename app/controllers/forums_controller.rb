@@ -27,12 +27,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class BoardsController < ApplicationController
+class ForumsController < ApplicationController
   default_search_scope :messages
   before_action :find_project_by_project_id,
                 :authorize
-  before_action :new_board, only: [:new, :create]
-  before_action :find_board_if_available, except: [:index]
+  before_action :new_forum, only: %i[new create]
+  before_action :find_forum, only: %i[show update move destroy]
   accept_key_auth :index, :show
 
   include SortHelper
@@ -41,17 +41,17 @@ class BoardsController < ApplicationController
   include OpenProject::ClientPreferenceExtractor
 
   def index
-    @boards = @project.boards
-    render_404 if @boards.empty?
-    # show the board if there is only one
-    if @boards.size == 1
-      @board = @boards.first
+    @forums = @project.forums
+    render_404 if @forums.empty?
+    # show the forum if there is only one
+    if @forums.size == 1
+      @forum = @forums.first
       show
     end
   end
 
   current_menu_item [:index, :show] do
-    :boards
+    :forums
   end
 
   def show
@@ -63,40 +63,28 @@ class BoardsController < ApplicationController
     respond_to do |format|
       format.html do
         set_topics
-
-        gon.rabl template: 'app/views/messages/index.rabl'
-        gon.project_id = @project.id
-        gon.activity_modul_enabled = @project.module_enabled?('activity')
-        gon.board_id = @board.id
-        gon.sort_column = 'updated_on'
-        gon.sort_direction = 'desc'
-        gon.total_count = @board.topics.count
-        gon.settings = client_preferences
-
         @message = Message.new
         render action: 'show', layout: !request.xhr?
       end
       format.json do
         set_topics
 
-        gon.rabl template: 'app/views/messages/index.rabl'
-
         render template: 'messages/index'
       end
       format.atom do
-        @messages = @board
+        @messages = @forum
                     .messages
                     .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
-                    .includes(:author, :board)
+                    .includes(:author, :forum)
                     .limit(Setting.feeds_limit.to_i)
 
-        render_feed(@messages, title: "#{@project}: #{@board}")
+        render_feed(@messages, title: "#{@project}: #{@forum}")
       end
     end
   end
 
   def set_topics
-    @topics =  @board
+    @topics =  @forum
                .topics
                .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
                .includes(:author, last_reply: :author)
@@ -107,7 +95,7 @@ class BoardsController < ApplicationController
   def new; end
 
   def create
-    if @board.save
+    if @forum.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to_settings_in_projects
     else
@@ -118,7 +106,7 @@ class BoardsController < ApplicationController
   def edit; end
 
   def update
-    if @board.update_attributes(permitted_params.board)
+    if @forum.update_attributes(permitted_params.forum)
       flash[:notice] = l(:notice_successful_update)
       redirect_to_settings_in_projects
     else
@@ -127,17 +115,17 @@ class BoardsController < ApplicationController
   end
 
   def move
-    if @board.update_attributes(permitted_params.board_move)
-      flash[:notice] = l(:notice_successful_update)
+    if @forum.update_attributes(permitted_params.forum_move)
+      flash[:notice] = t(:notice_successful_update)
     else
-      flash.now[:error] = l('board_could_not_be_saved')
+      flash.now[:error] = t('forum_could_not_be_saved')
       render action: 'edit'
     end
-    redirect_to_settings_in_projects(@board.project_id)
+    redirect_to_settings_in_projects(@forum.project_id)
   end
 
   def destroy
-    @board.destroy
+    @forum.destroy
     flash[:notice] = l(:notice_successful_delete)
     redirect_to_settings_in_projects
   end
@@ -145,17 +133,17 @@ class BoardsController < ApplicationController
   private
 
   def redirect_to_settings_in_projects(id = @project)
-    redirect_to controller: '/project_settings', action: 'show', id: id, tab: 'boards'
+    redirect_to controller: '/project_settings', action: 'show', id: id, tab: 'forums'
   end
 
-  def find_board_if_available
-    @board = @project.boards.find(params[:id]) if params[:id]
+  def find_forum
+    @forum = @project.forums.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
-  def new_board
-    @board = Board.new(permitted_params.board?)
-    @board.project = @project
+  def new_forum
+    @forum = Forum.new(permitted_params.forum?)
+    @forum.project = @project
   end
 end
