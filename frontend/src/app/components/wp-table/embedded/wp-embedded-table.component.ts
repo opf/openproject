@@ -86,14 +86,18 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     }
 
     // Reload results on changes to pagination
-    this.tableState.ready.fireOnStateChange(this.wpTablePagination.state,
-      'Query loaded').values$().pipe(
-      untilComponentDestroyed(this),
-      withLatestFrom(this.tableState.query.values$())
-    ).subscribe(([pagination, query]) => {
-      this.loadingIndicator = this.QueryDm.loadResults(query, this.wpTablePagination.paginationObject)
-        .then((results) => this.initializeStates(query, results));
-    });
+    this
+      .tableState
+      .ready.fireOnStateChange(this.wpTablePagination.state,
+                       'Query loaded')
+      .values$()
+      .pipe(
+        untilComponentDestroyed(this),
+        withLatestFrom(this.tableState.query.values$())
+      )
+      .subscribe(([pagination, query]) => {
+        this.refreshResults(query);
+      });
   }
 
   public openConfigurationModal(onUpdated:() => void) {
@@ -165,5 +169,10 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     }
 
     return promise;
+  }
+
+  protected refreshResults(query:QueryResource) {
+    this.loadingIndicator = this.QueryDm.loadResults(query, this.wpTablePagination.paginationObject)
+      .then((results) => this.initializeStates(query, results));
   }
 }

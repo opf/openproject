@@ -126,8 +126,7 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
       this.query.filters = filters.current;
       this.queryProps = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(this.query);
 
-      this.loadingIndicator = this.QueryDm.loadResults(this.query, this.wpTablePagination.paginationObject)
-        .then((results) => this.initializeStates(this.query, results));
+      this.refreshResults(this.query);
     }
   }
 
