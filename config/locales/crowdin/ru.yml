@@ -2304,10 +2304,6 @@ ru:
     почты для всех запросов
   setting_login_required: Требуется аутентификация
   setting_mail_from: Адрес электронной почты выпуска
-  setting_mail_handler_api_enabled: Разрешить входящую почту веб-сервисов
-  setting_mail_handler_api_description: Веб-обработчик электронной почты позволяет
-    OpenProject получать письма с командами (например, для создания и обновления пакетов
-    работы).
   setting_mail_handler_api_key: API-ключ
   setting_mail_handler_body_delimiters: Усечение сообщений после одной из этих линий
   setting_mail_handler_body_delimiter_regex: Сообщение усекается по этому регулярному
@@ -3017,3 +3013,7 @@ ru:
     revoke_my_application_confirmation: Вы действительно хотите удалить это приложение?
       Это действие будет отменено %{token_count}.
     my_registered_applications: Зарегистрированные OAuth приложения
+  setting_mail_handler_api_enabled: Разрешить входящую почту веб-сервисов
+  setting_mail_handler_api_description: Веб-обработчик электронной почты позволяет
+    OpenProject получать письма с командами (например, для создания и обновления пакетов
+    работы).

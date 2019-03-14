@@ -2300,11 +2300,6 @@ it:
     mail per tutte le richieste
   setting_login_required: Autenticazione richiesta
   setting_mail_from: Indirizzo e-mail di emissione
-  setting_mail_handler_api_enabled: Abilitare il servizio web di posta elettronica
-    in arrivo
-  setting_mail_handler_api_description: Il gestore di posta elettronica web consente
-    ad OpenProject di ricevere e-mail contenenti comandi specifici come strumento
-    di automazione (ad esempio, per creare e aggiornare pacchetti di lavoro).
   setting_mail_handler_api_key: Chiave API
   setting_mail_handler_body_delimiters: Troncare le email dopo una di queste linee
   setting_mail_handler_body_delimiter_regex: Troncare le email che corrispondono a
@@ -3023,3 +3018,8 @@ it:
     revoke_my_application_confirmation: Vuoi davvero rimuovere questa applicazione?
       Questo revocherà %{token_count} attivo per essa.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Abilitare il servizio web di posta elettronica
+    in arrivo
+  setting_mail_handler_api_description: Il gestore di posta elettronica web consente
+    ad OpenProject di ricevere e-mail contenenti comandi specifici come strumento
+    di automazione (ad esempio, per creare e aggiornare pacchetti di lavoro).

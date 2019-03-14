@@ -2279,10 +2279,6 @@ nl:
     vastleggen
   setting_login_required: Verificatie vereist
   setting_mail_from: Emissie e-mailadres
-  setting_mail_handler_api_enabled: Binnenkomende e-mail web-service inschakelen
-  setting_mail_handler_api_description: De e-mail web handler activeerd OpenProject
-    voor het ontvangen van e-mails met specifieke opdrachten als een mechanisme instrumentatie
-    (bijvoorbeeld maken en bijwerken van de werkpakketten).
   setting_mail_handler_api_key: API-sleutel
   setting_mail_handler_body_delimiters: Afkappen e-mails na een van deze lijnen
   setting_mail_handler_body_delimiter_regex: E-mails die overeenkomen met deze regex
@@ -2992,3 +2988,7 @@ nl:
     revoke_my_application_confirmation: Weet u zeker dat u deze applicatie wilt verwijderen?
       Dit zal %{token_count} actief voor deze verwijderen.
     my_registered_applications: Geregistreerde OAuth toepassingen
+  setting_mail_handler_api_enabled: Binnenkomende e-mail web-service inschakelen
+  setting_mail_handler_api_description: De e-mail web handler activeerd OpenProject
+    voor het ontvangen van e-mails met specifieke opdrachten als een mechanisme instrumentatie
+    (bijvoorbeeld maken en bijwerken van de werkpakketten).

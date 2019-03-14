@@ -1274,7 +1274,7 @@ lol:
   label_hierarchy_leaf: crwdns116676:0crwdne116676:0
   label_home: crwdns116678:0crwdne116678:0
   label_subject_or_id: crwdns116680:0crwdne116680:0
-  label_impressum: crwdns122526:0crwdne122526:0
+  label_impressum: crwdns122544:0crwdne122544:0
   label_in: crwdns116682:0crwdne116682:0
   label_in_less_than: crwdns116684:0crwdne116684:0
   label_in_more_than: crwdns116686:0crwdne116686:0
@@ -1407,7 +1407,7 @@ lol:
   label_previous_week: crwdns116940:0crwdne116940:0
   label_principal_invite_via_email: crwdns116942:0crwdne116942:0
   label_principal_search: crwdns116944:0crwdne116944:0
-  label_privacy_policy: crwdns122528:0crwdne122528:0
+  label_privacy_policy: crwdns122546:0crwdne122546:0
   label_product_version: crwdns116946:0crwdne116946:0
   label_professional_support: crwdns116948:0crwdne116948:0
   label_profile: crwdns116950:0crwdne116950:0
@@ -2039,8 +2039,6 @@ lol:
   setting_log_requesting_user: crwdns118078:0crwdne118078:0
   setting_login_required: crwdns118080:0crwdne118080:0
   setting_mail_from: crwdns118082:0crwdne118082:0
-  setting_mail_handler_api_enabled: crwdns118084:0crwdne118084:0
-  setting_mail_handler_api_description: crwdns118086:0crwdne118086:0
   setting_mail_handler_api_key: crwdns118088:0crwdne118088:0
   setting_mail_handler_body_delimiters: crwdns118090:0crwdne118090:0
   setting_mail_handler_body_delimiter_regex: crwdns118092:0crwdne118092:0
@@ -2592,3 +2590,5 @@ lol:
     authorization_error: crwdns118974:0crwdne118974:0
     revoke_my_application_confirmation: crwdns118976:0%{token_count}crwdne118976:0
     my_registered_applications: crwdns118978:0crwdne118978:0
+  setting_mail_handler_api_enabled: crwdns118084:0crwdne118084:0
+  setting_mail_handler_api_description: crwdns118086:0crwdne118086:0

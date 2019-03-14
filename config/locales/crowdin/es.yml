@@ -2308,12 +2308,6 @@ es:
     de correo para todas las solicitudes
   setting_login_required: Autentificación requerida
   setting_mail_from: Dirección de correo electrónico de emision
-  setting_mail_handler_api_enabled: Habilitar el servicio web de correo electrónico
-    entrante
-  setting_mail_handler_api_description: El controlador de correo electrónico web permite
-    a OpenProject recibir correos electrónicos que contienen comandos específicos
-    como un mecanismo de instrumentación (por ejemplo, para crear y actualizar los
-    paquetes de trabajo).
   setting_mail_handler_api_key: Clave API
   setting_mail_handler_body_delimiters: Truncar los correos electrónicos después de
     una de estas líneas
@@ -3031,3 +3025,9 @@ es:
     revoke_my_application_confirmation: "¿Seguro que quieres eliminar esta aplicación?
       Eso suspenderá %{token_count} activos para realizarse."
     my_registered_applications: Aplicaciones OAuth Registradas
+  setting_mail_handler_api_enabled: Habilitar el servicio web de correo electrónico
+    entrante
+  setting_mail_handler_api_description: El controlador de correo electrónico web permite
+    a OpenProject recibir correos electrónicos que contienen comandos específicos
+    como un mecanismo de instrumentación (por ejemplo, para crear y actualizar los
+    paquetes de trabajo).

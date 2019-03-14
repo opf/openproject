@@ -2304,10 +2304,6 @@ de:
     Anfragen
   setting_login_required: Authentifizierung erforderlich
   setting_mail_from: E-Mail-Absender
-  setting_mail_handler_api_enabled: Web-Service für eingehende E-Mails aktivieren
-  setting_mail_handler_api_description: Der E-Mail Web-Service erlaubt es OpenProject,
-    E-Mails mit speziellen Anweisungen zu erhalten und darauf zu reagieren (z.B. zum
-    Anlegen und Aktualisieren von Arbeitspaketen).
   setting_mail_handler_api_key: API-Schlüssel
   setting_mail_handler_body_delimiters: Schneide E-Mails nach einer dieser Zeilen
     ab
@@ -3025,3 +3021,7 @@ de:
     revoke_my_application_confirmation: Möchten Sie diese Anwendung wirklich entfernen?
       Dies wird %{token_count} aktive Token widerrufen.
     my_registered_applications: Registrierte OAuth-Anwendungen
+  setting_mail_handler_api_enabled: Web-Service für eingehende E-Mails aktivieren
+  setting_mail_handler_api_description: Der E-Mail Web-Service erlaubt es OpenProject,
+    E-Mails mit speziellen Anweisungen zu erhalten und darauf zu reagieren (z.B. zum
+    Anlegen und Aktualisieren von Arbeitspaketen).
