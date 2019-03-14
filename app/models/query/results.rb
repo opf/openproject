@@ -44,6 +44,7 @@ class ::Query::Results
   # Returns the work package count
   def work_package_count
     WorkPackage.visible
+               .joins(all_filter_joins)
                .includes(:status, :project)
                .where(query.statement)
                .references(:statuses, :projects)
@@ -148,7 +149,7 @@ class ::Query::Results
   end
 
   def all_joins
-    query.sort_criteria_columns.map { |column, _direction| column.sortable_join }.compact
+    sort_criteria_joins + all_filter_joins
   end
 
   def includes_for_columns(column_names)
@@ -166,6 +167,7 @@ class ::Query::Results
       .group(query.group_by_statement)
       .visible
       .includes(all_includes)
+      .joins(all_filter_joins)
       .references(:statuses, :projects)
       .where(query.statement)
       .count
@@ -228,6 +230,13 @@ class ::Query::Results
     columns << all_filter_includes(query)
 
     clean_symbol_list(columns)
+  end
+
+  def sort_criteria_joins
+    query
+      .sort_criteria_columns
+      .map { |column, _direction| column.sortable_join }
+      .compact
   end
 
   def sort_criteria_array
@@ -311,6 +320,10 @@ class ::Query::Results
 
   def all_filter_includes(query)
     query.filters.map(&:includes)
+  end
+
+  def all_filter_joins
+    query.filters.map(&:joins).flatten.compact
   end
 
   def clean_symbol_list(list)

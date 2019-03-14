@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,31 +25,39 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::CommentFilter < Queries::WorkPackages::Filter::WorkPackageFilter
-  include Queries::WorkPackages::Filter::TextFilterOnJoinMixin
-
-  def type
-    :text
+module Queries::WorkPackages::Filter::TextFilterOnJoinMixin
+  def where
+    case operator
+    when '~'
+      Queries::Operators::All.sql_for_field(values, join_table_alias, 'id')
+    when '!~'
+      Queries::Operators::None.sql_for_field(values, join_table_alias, 'id')
+    else
+      raise 'Unsupported operator'
+    end
   end
 
-  def join_condition
+  def joins
     <<-SQL
-     #{join_table_alias}.journable_id = #{WorkPackage.table_name}.id
-	   AND #{join_table_alias}.journable_type = '#{WorkPackage.name}'
-     AND #{notes_condition}
+     LEFT OUTER JOIN #{join_table} #{join_table_alias}
+     ON #{join_condition}
     SQL
   end
 
   private
 
   def join_table
-    Journal.table_name
+    raise NotImplementedError
   end
 
-  def notes_condition
-    Queries::Operators::Contains.sql_for_field(values, join_table_alias, 'notes')
+  def join_condition
+    raise NotImplementedError
+  end
+
+  def join_table_alias
+    "#{self.class.key}_#{join_table}"
   end
 end
