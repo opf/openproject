@@ -52,7 +52,7 @@ describe 'Work package filtering by subject', js: true do
     filters.remove_filter 'status'
     filters.add_filter_by('Subject', 'contains', ['R#'])
 
-    wp_table.expect_work_package_not_listed(wp_nomatch)
+    wp_table.ensure_work_package_not_listed!(wp_nomatch)
     wp_table.expect_work_package_listed(wp_match)
 
     wp_table.save_as('Subject query')
@@ -66,7 +66,7 @@ describe 'Work package filtering by subject', js: true do
 
     # Revisit query
     wp_table.visit_query query
-    wp_table.expect_work_package_not_listed(wp_nomatch)
+    wp_table.ensure_work_package_not_listed!(wp_nomatch)
     wp_table.expect_work_package_listed(wp_match)
 
     filters.open

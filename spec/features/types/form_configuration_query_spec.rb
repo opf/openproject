@@ -231,7 +231,7 @@ describe 'form query configuration', type: :feature, js: true do
                             .find('.work-packages-embedded-view--container')
         embedded_table = Pages::EmbeddedWorkPackagesTable.new(table_container)
         embedded_table.expect_work_package_listed related_task, related_task_other_project
-        embedded_table.expect_work_package_not_listed related_bug
+        embedded_table.ensure_work_package_not_listed! related_bug
 
         # Go back to type configuration
         visit edit_type_tab_path(id: type_bug.id, tab: "form_configuration")

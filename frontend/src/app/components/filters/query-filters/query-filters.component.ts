@@ -76,12 +76,6 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
-
-    this.wpTableFilters.current.forEach((filter:QueryFilterInstanceResource) => {
-      if (!this.isFilterAvailable(filter.id)) {
-        _.remove(this.filters, filter);
-      }
-    });
   }
 
   ngOnDestroy() {
@@ -127,9 +121,10 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public get isSecondSpacerVisible():boolean {
-    return this.filters
-      .filter((f) => f.id === 'search')
-      .length > 0;
+    const hasSearch = !!_.find(this.filters, (f) => f.id === 'search');
+    const hasAvailableFilter = !!_.find(this.filters, (f) => f.id !== 'search' && this.isFilterAvailable(f.id));
+
+    return hasSearch && hasAvailableFilter;
   }
 
   private updateRemainingFilters() {
