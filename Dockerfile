@@ -23,18 +23,18 @@ RUN curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x6
 USER root
 
 RUN apt-get update -qq && \
-	DEBIAN_FRONTEND=noninteractive apt-get install -y  \
-	postgresql-client \
-	poppler-utils \
-	unrtf \
-	tesseract-ocr \
-	catdoc \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y  \
+    postgresql-client \
+    poppler-utils \
+    unrtf \
+    tesseract-ocr \
+    catdoc \
     memcached \
     postfix \
     postgresql \
     apache2 \
     supervisor && \
-	apt-get clean && rm -rf /var/lib/apt/lists/*
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set up pg defaults
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.6/main/pg_hba.conf
@@ -61,11 +61,6 @@ RUN mkdir -p lib/open_project
 COPY lib/open_project/version.rb ./lib/open_project/
 RUN bundle install --deployment --with="docker opf_plugins" --without="test development mysql2" --jobs=8 --retry=3
 
-# Then, npm install node modules
-COPY package.json /tmp/npm/package.json
-COPY frontend/*.json /tmp/npm/frontend/
-RUN cd /tmp/npm/frontend/ && RAILS_ENV=production npm install && mv /tmp/npm/frontend $APP_PATH/
-
 # Finally, copy over the whole thing
 COPY . $APP_PATH
 RUN cp docker/Procfile .
@@ -84,16 +79,11 @@ RUN chown -R $APP_USER:$APP_USER $APP_DATA
 COPY packaging/conf/database.yml ./config/database.yml
 
 # Run the npm postinstall manually after it was copied
-RUN DATABASE_URL='nulldb://nohost' RAILS_ENV=production bundle exec rake assets:precompile
-
-# Include pandoc
-RUN DATABASE_URL='nulldb://nohost' RAILS_ENV=production bundle exec rails runner "puts ::OpenProject::TextFormatting::Formats::Markdown::PandocDownloader.check_or_download!"
+# Then, npm install node modules
+RUN bash docker/precompile-assets.sh
 
 # Remove node_modules and entire frontend
 RUN rm -rf $APP_PATH/node_modules/ $APP_PATH/frontend/node_modules/
-
-# Re-own app dir
-RUN chown -R $APP_USER:$APP_USER $APP_PATH
 
 # ports
 EXPOSE 80 5432

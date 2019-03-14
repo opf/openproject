@@ -37,7 +37,7 @@ if [ "$PLUGIN_GEMFILE_URL" != "" ]; then
 	# set custom plugin gemfile if file is readable and non-empty
 	if [ -s "$PLUGIN_GEMFILE_TMP" ]; then
 		mv "$PLUGIN_GEMFILE_TMP" "$PLUGIN_GEMFILE"
-		chown app.app "$PLUGIN_GEMFILE"
+		chown $APP_USER:$APP_USER "$PLUGIN_GEMFILE"
 	fi
 fi
 
