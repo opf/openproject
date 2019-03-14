@@ -2931,3 +2931,5 @@ vi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  label_impressum: Impressum
+  label_privacy_policy: Data privacy and security policy

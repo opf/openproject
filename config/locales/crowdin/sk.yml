@@ -3015,3 +3015,5 @@ sk:
     revoke_my_application_confirmation: Naozaj chcete odstrániť túto aplikáciu? Týmto
       sa zrušia aktívne tokeny %{token_count}.
     my_registered_applications: Registrované aplikácie OAuth
+  label_impressum: Impressum
+  label_privacy_policy: Data privacy and security policy
