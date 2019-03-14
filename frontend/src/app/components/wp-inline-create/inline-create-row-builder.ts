@@ -64,8 +64,8 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
   public createEmptyRow(workPackage:WorkPackageResource) {
     const identifier = this.classIdentifier(workPackage);
     const tr = document.createElement('tr');
-    tr.id = rowId(workPackage.id);
-    tr.dataset['workPackageId'] = workPackage.id;
+    tr.id = rowId(workPackage.id!);
+    tr.dataset['workPackageId'] = workPackage.id!;
     tr.dataset['classIdentifier'] = identifier;
     tr.classList.add(
       inlineCreateRowClassName, commonRowClassName, tableRowClassName, 'issue',

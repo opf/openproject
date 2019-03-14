@@ -117,7 +117,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterContentInit {
     filters.add('subjectOrId', '**', [query]);
 
     if (rows.length > 0) {
-      filters.add('id', '!', rows.map((wp:WorkPackageResource) => wp.id));
+      filters.add('id', '!', rows.map((wp:WorkPackageResource) => wp.id!));
     }
 
     return this.halResourceService

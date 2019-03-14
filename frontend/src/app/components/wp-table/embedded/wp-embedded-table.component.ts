@@ -18,7 +18,7 @@ import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-
   templateUrl: './wp-embedded-table.html'
 })
 export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input('queryId') public queryId?:number;
+  @Input('queryId') public queryId?:string;
   @Input('queryProps') public queryProps:any = {};
   @Input() public tableActions:OpTableActionFactory[] = [];
   @Input() public externalHeight:boolean = false;
@@ -75,7 +75,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     this.querySpace.ready.doAndTransition('Query loaded', () => {
       this.wpStatesInitialization.clearStates();
       this.wpStatesInitialization.initializeFromQuery(query, results);
-      this.wpStatesInitialization.updatequerySpace(query, results);
+      this.wpStatesInitialization.updateQuerySpace(query, results);
 
       return this.querySpace.tableRendering.onQueryUpdated.valuesPromise()
         .then(() => {

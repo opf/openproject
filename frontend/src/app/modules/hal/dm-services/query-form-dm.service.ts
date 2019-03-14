@@ -57,7 +57,7 @@ export class QueryFormDmService {
     return query.$links.update(payload);
   }
 
-  public loadWithParams(params:{}, queryId:number|undefined, projectIdentifier:string|undefined|null, payload:any = {}):Promise<QueryFormResource> {
+  public loadWithParams(params:{}, queryId:string|undefined, projectIdentifier:string|undefined|null, payload:any = {}):Promise<QueryFormResource> {
     // We need a valid payload so that we
     // can check whether form saving is possible.
     // The query needs a name to be valid.

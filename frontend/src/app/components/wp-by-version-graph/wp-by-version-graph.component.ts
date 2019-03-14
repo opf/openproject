@@ -52,7 +52,7 @@ export class WorkPackageByVersionGraphComponent implements OnInit {
     }
 
     if (this.currentGraph) {
-      this.wpTableRefresh.request('Refresh graph', 'update');
+      this.wpTableRefresh.request('Refresh graph');
     }
   }
 

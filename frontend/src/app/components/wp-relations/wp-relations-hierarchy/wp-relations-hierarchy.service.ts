@@ -72,7 +72,6 @@ export class WorkPackageRelationsHierarchyService {
         this.wpNotificationsService.showSave(wp);
         this.wpTableRefresh.request(
           `Changed parent of ${workPackage.id} to ${parentId}`,
-          'reference',
           { visible: true }
         );
         return wp;
@@ -91,12 +90,11 @@ export class WorkPackageRelationsHierarchyService {
     return this.wpCacheService
       .require(childWpId)
       .then((wpToBecomeChild:WorkPackageResource | undefined) => {
-        return this.changeParent(wpToBecomeChild!, workPackage.id)
+        return this.changeParent(wpToBecomeChild!, workPackage.id!)
           .then(wp => {
-            this.wpCacheService.loadWorkPackage(workPackage.id.toString(), true);
+            this.wpCacheService.loadWorkPackage(workPackage.id!, true);
             this.wpTableRefresh.request(
               `Added new child to ${workPackage.id}`,
-              'reference',
               { visible: true });
             return wp;
           });
@@ -132,7 +130,7 @@ export class WorkPackageRelationsHierarchyService {
         },
         lockVersion: childWorkPackage.lockVersion
       }).then(wp => {
-        this.wpCacheService.loadWorkPackage(parentWorkPackage.id.toString(), true);
+        this.wpCacheService.loadWorkPackage(parentWorkPackage.id!, true);
         this.wpCacheService.updateWorkPackage(wp);
       })
         .catch((error) => {

@@ -93,7 +93,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
         linkText: status.name,
         postIcon: status.isReadonly ? 'icon-locked' : null,
         postIconTitle: this.I18n.t('js.work_packages.message_work_package_read_only'),
-        class: Highlighting.dotClass('status', status.getId()),
+        class: Highlighting.dotClass('status', status.id!),
         onClick: () => {
           this.updateStatus(status);
           return true;

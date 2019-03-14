@@ -105,7 +105,7 @@ describe('WorkPackageCacheService', () => {
         take(1)
       )
       .subscribe((wp:WorkPackageResource) => {
-        expect(wp.id).toEqual('1');
+        expect(wp.id!).toEqual('1');
         done();
       });
 
@@ -120,7 +120,7 @@ describe('WorkPackageCacheService', () => {
         takeWhile((wp) => count < 2)
       )
       .subscribe((wp:WorkPackageResource) => {
-        expect(wp.id).toEqual('1');
+        expect(wp.id!).toEqual('1');
 
         count += 1;
         if (count === 2) {

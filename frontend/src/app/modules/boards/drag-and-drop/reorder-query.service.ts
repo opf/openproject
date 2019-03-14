@@ -9,6 +9,8 @@ import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {Observable, of, throwError} from "rxjs";
+import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 
 @Injectable()
 export class ReorderQueryService {
@@ -16,6 +18,7 @@ export class ReorderQueryService {
   constructor(readonly states:States,
               readonly pathHelper:PathHelperService,
               readonly injector:Injector,
+              readonly queryDm:QueryDmService,
               @Inject(IWorkPackageEditingServiceToken) protected readonly wpEditing:WorkPackageEditingService,
               readonly wpNotifications:WorkPackageNotificationService) {
   }
@@ -23,26 +26,22 @@ export class ReorderQueryService {
   /**
    * Move an item in the list
    */
-  public move(querySpace:IsolatedQuerySpace, wpId:string, toIndex:number):Promise<QueryResource|void> {
-    const order = this.getCurrentOrder(querySpace);
-
+  public move(order:string[], wpId:string, toIndex:number):string[] {
     // Find index of the work package
     let fromIndex = order.findIndex((id) => id === wpId);
 
     order.splice(fromIndex, 1);
     order.splice(toIndex, 0, wpId);
 
-    return this.updateQuery(querySpace.query.value, order);
+    return order;
   }
 
   /**
    * Pull an item from the rendered list
    */
-  public remove(querySpace:IsolatedQuerySpace, wpId:string):Promise<QueryResource|void> {
-    const order = this.getCurrentOrder(querySpace);
+  public remove(order:string[], wpId:string):string[] {
     _.remove(order, id => id === wpId);
-
-    return this.updateQuery(querySpace.query.value, order);
+    return order;
   }
 
   /**
@@ -50,16 +49,14 @@ export class ReorderQueryService {
    * @param querySpace
    * @param toIndex index to add to or -1 to push to the end.
    */
-  public async add(querySpace:IsolatedQuerySpace, wpId:string, toIndex:number = -1) {
-    const order = this.getCurrentOrder(querySpace);
-
+  public add(order:string[], wpId:string, toIndex:number = -1):string[] {
     if (toIndex === -1) {
       order.push(wpId);
     } else {
       order.splice(toIndex, 0, wpId);
     }
 
-    return this.updateQuery(querySpace.query.value, order);
+    return order;
   }
 
   public updateWorkPackage(querySpace:IsolatedQuerySpace, workPackage:WorkPackageResource) {
@@ -77,22 +74,16 @@ export class ReorderQueryService {
     return Promise.resolve();
   }
 
-  protected getCurrentOrder(querySpace:IsolatedQuerySpace):string[] {
-    return querySpace
-      .renderedWorkPackages
-      .mapOr((rows) => rows.map(row => row.workPackageId!.toString()), []);
-  }
-
-  private updateQuery(query:QueryResource|undefined, orderedIds:string[]):Promise<QueryResource|void> {
+  public saveOrderInQuery(query:QueryResource|undefined, orderedIds:string[]):Observable<unknown> {
     if (query && !!query.updateImmediately) {
       const orderedWorkPackages = orderedIds
         .map(id => this.pathHelper.api.v3.work_packages.id(id).toString());
 
       debugLog("New order: " + orderedIds.join(", "));
 
-      return query.updateImmediately({orderedWorkPackages: orderedWorkPackages});
+      return this.queryDm.patch(query.id!, {orderedWorkPackages: orderedWorkPackages});
     } else {
-      return Promise.reject("Query not writable");
+      return throwError("Query not writable");
     }
   }
 }

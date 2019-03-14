@@ -100,7 +100,7 @@ export class BoardService {
   public delete(board:Board):Promise<void> {
     return this.boardDm
       .delete(board)
-      .then(() => this.boardCache.clearSome(board.id));
+      .then(() => this.boardCache.clearSome(board.id!));
   }
 
   /**

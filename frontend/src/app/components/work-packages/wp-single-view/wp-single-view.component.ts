@@ -148,7 +148,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(componentDestroyed(this)),
         distinctUntilChanged<ResourceContextChange>((a, b) => _.isEqual(a, b)),
-        map(() => this.wpEditing.temporaryEditResource(this.workPackage.id).value!)
+        map(() => this.wpEditing.temporaryEditResource(this.workPackage.id!).value!)
       )
       .subscribe((resource:WorkPackageResource) => {
         // Prepare the fields that are required always
@@ -158,7 +158,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
           this.projectContext = {matches: false, href: null};
         } else {
           this.projectContext = {
-            href: this.PathHelper.projectWorkPackagePath(resource.project.idFromLink, this.workPackage.id),
+            href: this.PathHelper.projectWorkPackagePath(resource.project.idFromLink, this.workPackage.id!),
             matches: resource.project.href === this.currentProject.apiv3Path
           };
         }
@@ -173,7 +173,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
 
     // Update the resource context on every update to the temporary resource.
     // This allows detecting a changed type value in a new work package.
-    this.wpEditing.temporaryEditResource(this.workPackage.id)
+    this.wpEditing.temporaryEditResource(this.workPackage.id!)
       .values$()
       .pipe(
         takeUntil(componentDestroyed(this))

@@ -99,15 +99,8 @@ export class DragAndDropService implements OnDestroy {
   }
 
   protected initializeDrake(containers:Element[]) {
-    let dropping = false;
-
     this.drake = dragula(containers, {
       moves: (el:any, container:any, handle:any, sibling:any) => {
-
-        // Never move an item while another is being saved
-        if (dropping) {
-          return false;
-        }
 
         let result = false;
         this.members.forEach(member => {
@@ -134,15 +127,11 @@ export class DragAndDropService implements OnDestroy {
     });
 
     this.drake.on('drop', async (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) => {
-      dropping = true;
-
       try {
         await this.handleDrop(el, target, source, sibling);
       } catch (e) {
         console.error("Failed to handle drop of %O", el);
       }
-
-      dropping = false;
     });
   }
 

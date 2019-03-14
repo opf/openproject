@@ -67,8 +67,8 @@ export class WpRelationInlineAddExistingComponent {
 
     this.wpInlineCreate.add(this.workPackage, newRelationId)
       .then(() => {
-        this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
-        this.wpTableRefresh.request(`Added relation ${newRelationId}`, 'reference', { visible: true });
+        this.wpCacheService.loadWorkPackage(this.workPackage.id!, true);
+        this.wpTableRefresh.request(`Added relation ${newRelationId}`, { visible: true });
         this.isDisabled = false;
         this.wpInlineCreate.newInlineWorkPackageReferenced.next(newRelationId);
         this.cancel();

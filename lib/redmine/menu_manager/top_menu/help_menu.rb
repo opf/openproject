@@ -105,7 +105,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
               class: 'help-link-shortcuts-link',
               title: l('homescreen.links.shortcuts')
     }
-    result << static_link_item(:boards)
+    result << static_link_item(:forums)
     result << static_link_item(:professional_support)
     result << content_tag(:hr, '', class: 'form--separator')
   end

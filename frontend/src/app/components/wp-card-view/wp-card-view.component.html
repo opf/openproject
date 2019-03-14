@@ -13,7 +13,7 @@
        [attr.data-is-new]="wp.isNew || undefined"
        [attr.data-work-package-id]="wp.id"
        (dblclick)="handleDblClick(wp)"
-       [ngClass]="{'-draggable': wp.isDraggable}">
+       [ngClass]="{'-draggable': dragAndDropEnabled }">
 
     <div class="wp-card--highlighting"
         [ngClass]="cardHighlightingClass(wp)">

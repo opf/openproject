@@ -114,7 +114,7 @@ export class SingleRowBuilder {
     const identifier = this.classIdentifier(workPackage);
     let tr = document.createElement('tr');
     tr.setAttribute('tabindex', '0');
-    tr.dataset['workPackageId'] = workPackage.id;
+    tr.dataset['workPackageId'] = workPackage.id!;
     tr.dataset['classIdentifier'] = identifier;
     tr.classList.add(
       tableRowClassName,
@@ -178,13 +178,13 @@ export class SingleRowBuilder {
   }
 
   protected isColumnBeingEdited(workPackage:WorkPackageResource, column:QueryColumn) {
-    const form = this.workPackageTable.editing.forms[workPackage.id];
+    const form = this.workPackageTable.editing.forms[workPackage.id!];
 
     return form && form.activeFields[column.id];
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLElement):[HTMLElement, boolean] {
-    const changeset = this.workPackageTable.editing.changeset(workPackage.id);
+    const changeset = this.workPackageTable.editing.changeset(workPackage.id!);
     let cells:{ [attribute:string]:JQuery } = {};
 
     if (changeset && !changeset.empty) {
@@ -213,7 +213,7 @@ export class SingleRowBuilder {
     });
 
     // Set the row selection state
-    if (this.wpTableSelection.isSelected(workPackage.id)) {
+    if (this.wpTableSelection.isSelected(workPackage.id!)) {
       row.classList.add(checkedClassName);
     }
 

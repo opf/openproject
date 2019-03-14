@@ -70,7 +70,7 @@ export class BoardStatusActionService implements BoardActionService {
     let filter = this.queryFilterBuilder.build(
       'status',
       '=',
-      [{ href: this.v3.statuses.id(value.id).toString() }]
+      [{ href: this.v3.statuses.id(value.id!).toString() }]
     );
 
     return this.boardListService.addQuery(board, params, [filter]);

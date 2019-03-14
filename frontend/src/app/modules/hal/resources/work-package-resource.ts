@@ -136,16 +136,12 @@ export class WorkPackageBaseResource extends HalResource {
 
   readonly attachmentsBackend = true;
 
-  public get id():string {
-    return this.$source.id || this.idFromLink;
-  }
-
   /**
    * Return the ids of all its ancestors, if any
    */
-  public get ancestorIds():string {
+  public get ancestorIds():string[] {
     const ancestors = (this as any).ancestors;
-    return ancestors.map((el:WorkPackageResource) => el.id.toString());
+    return ancestors.map((el:WorkPackageResource) => el.id!);
   }
 
   public get isReadonly():boolean {
@@ -246,7 +242,7 @@ export class WorkPackageBaseResource extends HalResource {
 
     const promise = Promise.all(_.values(resources));
     promise.then(() => {
-      this.wpCacheService.touch(this.id);
+      this.wpCacheService.touch(this.id!);
     });
 
     return promise;

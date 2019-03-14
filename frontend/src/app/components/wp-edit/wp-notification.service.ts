@@ -146,7 +146,7 @@ export class WorkPackageNotificationService {
         type: 'error',
         link: {
           text: this.I18n.t('js.work_packages.error.update_conflict_refresh'),
-          target: () => this.wpCacheService.require(workPackage.id, true)
+          target: () => this.wpCacheService.require(workPackage.id!, true)
         }
       });
 
