@@ -4,7 +4,7 @@
        *ngFor="let wp of workPackages; trackBy:trackByHref"
        [attr.data-is-new]="wp.isNew || undefined"
        [attr.data-work-package-id]="wp.id"
-       [ngClass]="{ '-draggable': isDraggable }"
+       [ngClass]="cardClasses(wp)"
        (dblclick)="handleDblClick(wp)">
 
     <wp-edit-field-group [workPackage]="wp" [inEditMode]="wp.isNew">
@@ -31,7 +31,7 @@
            *ngIf="!wp.isNew">
         <span [textContent]="wpTypeAttribute(wp)"
               class="work-package--card--type"
-              [ngClass]="typeDotClass(wp)"></span>
+              [ngClass]="typeHighlightingClass(wp)"></span>
         <span [textContent]="wpSubject(wp)"
               class="work-package--card--subject -bold"></span>
       </div>

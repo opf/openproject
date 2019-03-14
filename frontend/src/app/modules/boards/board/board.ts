@@ -1,5 +1,6 @@
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
+import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 
 export type BoardDisplayMode = 'table'|'cards';
 export type BoardType = 'free'|'action';
@@ -37,12 +38,15 @@ export class Board {
   }
 
   public get displayMode():BoardDisplayMode {
-    const mode = this.grid.options.display_mode;
-    return (mode === 'table') ? 'table' : 'cards';
+    return 'cards';
   }
 
-  public set displayMode(value:BoardDisplayMode) {
-    this.grid.options.display_mode = value;
+  public set highlightingMode(val:CardHighlightingMode) {
+    this.grid.options.highlightingMode = val;
+  }
+
+  public get highlightingMode():CardHighlightingMode {
+    return (this.grid.options.highlightingMode || 'none') as CardHighlightingMode;
   }
 
   public set name(name:string) {
