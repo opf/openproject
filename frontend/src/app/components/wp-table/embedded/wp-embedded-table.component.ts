@@ -20,7 +20,6 @@ import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-
 export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input('queryId') public queryId?:number;
   @Input('queryProps') public queryProps:any = {};
-  @Input('loadedQuery') public loadedQuery?:QueryResource;
   @Input() public tableActions:OpTableActionFactory[] = [];
   @Input() public externalHeight:boolean = false;
 
@@ -35,6 +34,15 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
 
   // Cache the form promise
   private formPromise:Promise<QueryFormResource>|undefined;
+
+  // If the query was provided to use via the query space,
+  // use it to cache first loading
+  private loadedQuery:QueryResource|undefined;
+
+  ngOnInit() {
+    super.ngOnInit();
+    this.loadedQuery = this.querySpace.query.value;
+  }
 
   ngAfterViewInit():void {
     super.ngAfterViewInit();

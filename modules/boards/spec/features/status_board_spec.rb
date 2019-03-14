@@ -51,6 +51,7 @@ describe 'Status action board', type: :feature, js: true do
   let!(:open_status) { FactoryBot.create :default_status, name: 'Open' }
   let!(:other_status) { FactoryBot.create :status, name: 'Whatever' }
   let!(:closed_status) { FactoryBot.create :status, is_closed: true, name: 'Closed' }
+  let!(:work_package) { FactoryBot.create :work_package, project: project, status: other_status }
 
   let!(:workflow_type) {
     FactoryBot.create(:workflow,
@@ -58,6 +59,13 @@ describe 'Status action board', type: :feature, js: true do
                       role: role,
                       old_status_id: open_status.id,
                       new_status_id: closed_status.id)
+  }
+  let!(:workflow_type_back) {
+    FactoryBot.create(:workflow,
+                      type: type,
+                      role: role,
+                      old_status_id: other_status.id,
+                      new_status_id: open_status.id)
   }
 
   before do
@@ -100,6 +108,7 @@ describe 'Status action board', type: :feature, js: true do
 
       # Add item
       board_page.add_card 'Open', 'Task 1'
+      sleep 2
 
       # Expect added to query
       queries = board_page.board(reload: true).contained_queries

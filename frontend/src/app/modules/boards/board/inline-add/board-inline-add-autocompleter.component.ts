@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {AfterContentInit, Component, Input, ViewChild, ViewEncapsulation} from '@angular/core';
+import {AfterContentInit, Component, EventEmitter, Input, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Observable, of, Subject} from "rxjs";
@@ -57,8 +57,11 @@ export class BoardInlineAddAutocompleterComponent implements AfterContentInit {
     placeholder: this.I18n.t('js.relations_autocomplete.placeholder')
   };
 
-  @Input() appendToContainer:string = '.boards-list--item';
+  @Input() appendToContainer:string = '.board--container';
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+
+  @Output() onCancel = new EventEmitter<undefined>();
+  @Output() onReferenced = new EventEmitter<WorkPackageResource>();
 
   // Whether we're currently loading
   public isLoading = false;
@@ -74,8 +77,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterContentInit {
     switchMap(queryString => this.autocompleteWorkPackages(queryString))
   );
 
-  constructor(private readonly parent:WorkPackageInlineCreateComponent,
-              private readonly querySpace:IsolatedQuerySpace,
+  constructor(private readonly querySpace:IsolatedQuerySpace,
               private readonly pathHelper:PathHelperService,
               private readonly wpTableRefresh:WorkPackageTableRefreshService,
               private readonly wpInlineCreateService:WorkPackageInlineCreateService,
@@ -87,17 +89,24 @@ export class BoardInlineAddAutocompleterComponent implements AfterContentInit {
   }
 
   ngAfterContentInit():void {
-    this.ngSelectComponent && this.ngSelectComponent.open();
+    if (!this.ngSelectComponent) {
+      return
+    }
+    this.ngSelectComponent.open();
+
+    setTimeout(() => {
+      this.ngSelectComponent.focus();
+    }, 25);
   }
 
   cancel() {
-    this.parent.resetRow();
+    this.onCancel.emit();
   }
 
-  public addWorkPackageToQuery(wpId:string) {
-    this.reorderQueryService
-      .add(this.querySpace, wpId)
-      .then(() => this.wpTableRefresh.request('Row added', 'update'));
+  public addWorkPackageToQuery(workPackage?:WorkPackageResource) {
+    if (workPackage) {
+      this.onReferenced.emit(workPackage);
+    }
   }
 
   private autocompleteWorkPackages(query:string):Observable<WorkPackageResource[]> {
