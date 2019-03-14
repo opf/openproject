@@ -45,12 +45,16 @@ export class BackRoutingService {
   constructor(protected injector:Injector) {
   }
 
-  public goBack() {
+  public goBack(preferListOverSplit:boolean = false) {
     if (!this.backRoute) {
       this.$state.go('work-packages.list', this.$state.params);
     } else {
       if (this.keepTab.isDetailsState(this.backRoute.parent)) {
-        this.$state.go(this.keepTab.currentDetailsState, this.$state.params);
+        if(preferListOverSplit) {
+          this.$state.go('work-packages.list', this.$state.params);
+        } else {
+          this.$state.go(this.keepTab.currentDetailsState, this.$state.params);
+        }
       } else {
         this.$state.go(this.backRoute.name, this.backRoute.params);
       }
