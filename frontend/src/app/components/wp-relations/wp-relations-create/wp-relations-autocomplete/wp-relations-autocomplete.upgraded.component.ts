@@ -98,7 +98,7 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
       },
       select: (evt, ui:any) => {
         selected = true;
-        this.onSelect.emit(ui.item.workPackage.id);
+        this.onSelect.emit(ui.item.workPackage.id!);
       },
       minLength: 0
     })

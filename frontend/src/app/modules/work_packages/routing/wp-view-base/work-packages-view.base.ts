@@ -144,7 +144,6 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
       if (triggerUpdate) {
         this.wpTableRefresh.request(
           'Query updated by user',
-          'update',
           { visible: true, firstPage: firstPage }
         );
       }

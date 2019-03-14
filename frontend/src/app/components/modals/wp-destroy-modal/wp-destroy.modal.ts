@@ -132,7 +132,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
     }
 
     this.busy = true;
-    this.WorkPackageService.performBulkDelete(this.workPackages.map(el => el.id), true)
+    this.WorkPackageService.performBulkDelete(this.workPackages.map(el => el.id!), true)
       .then(() => {
         this.busy = false;
         this.closeMe($event);

@@ -51,7 +51,7 @@ export abstract class WorkPackageLinkedResourceCache<T> {
    * @returns {Promise<T>}
    */
   public require(workPackage:WorkPackageResource, force:boolean = false):Promise<T> {
-    const id = workPackage.id.toString();
+    const id = workPackage.id!;
     const state = this.cache.state;
 
     // Clear cache if requesting different resource
@@ -74,8 +74,8 @@ export abstract class WorkPackageLinkedResourceCache<T> {
       .toPromise();
   }
 
-  public clear(workPackageId:string|number) {
-    if (this.cache.id === workPackageId.toString()) {
+  public clear(workPackageId:string|null) {
+    if (this.cache.id === workPackageId) {
       this.cache.state.clear();
     }
   }

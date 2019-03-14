@@ -88,7 +88,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
     }
 
     // Only if the work package has anything expanded
-    const expanded = this.getExpandFor(workPackage.id);
+    const expanded = this.getExpandFor(workPackage.id!);
     if (expanded === undefined) {
       return;
     }

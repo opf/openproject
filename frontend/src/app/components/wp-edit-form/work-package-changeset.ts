@@ -190,7 +190,7 @@ export class WorkPackageChangeset {
               this.schemaCacheService.ensureLoaded(savedWp).then(() => {
 
                 // Clear any previous activities
-                this.wpActivity.clear(this.workPackage.id);
+                this.wpActivity.clear(this.workPackage.id!);
 
                 // Initialize any potentially new HAL values
                 savedWp.retainFrom(this.workPackage);
@@ -351,7 +351,7 @@ export class WorkPackageChangeset {
   private buildResource() {
     if (this.empty) {
       this.resource = null;
-      this.wpEditing.updateValue(this.workPackage.id, this);
+      this.wpEditing.updateValue(this.workPackage.id!, this);
       return;
     }
 
@@ -361,6 +361,6 @@ export class WorkPackageChangeset {
 
     resource.overriddenSchema = this.schema;
     this.resource = (resource as WorkPackageResource);
-    this.wpEditing.updateValue(this.workPackage.id, this);
+    this.wpEditing.updateValue(this.workPackage.id!, this);
   }
 }

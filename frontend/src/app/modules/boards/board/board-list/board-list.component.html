@@ -38,10 +38,8 @@
     </div>
 
     <div class="board-list--query-container">
-      <wp-card-view [queryId]="query.id"
+      <wp-card-view [dragAndDropEnabled]="dragAndDropEnabled"
                     [cardsRemovable]="board.isFree"
-                    [queryProps]="columnsQueryProps"
-                    [configuration]="boardTableConfiguration"
                     [highlightingMode]="board.highlightingMode">
       </wp-card-view>
     </div>

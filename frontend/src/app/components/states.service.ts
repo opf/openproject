@@ -57,7 +57,7 @@ export class States extends StatesGroup {
       state = this.additional[stateName] = multiInput<HalResource>();
     }
 
-    return state && state.get(resource.id);
+    return state && state.get(resource.id!);
   }
 
   public add(name:string, state:MultiInputState<HalResource>) {

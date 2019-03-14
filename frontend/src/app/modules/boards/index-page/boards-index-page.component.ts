@@ -57,7 +57,7 @@ export class BoardsIndexPageComponent {
     this.boardService
       .delete(board)
       .then(() => {
-        this.boardCache.clearSome(board.id);
+        this.boardCache.clearSome(board.id!);
         this.notifications.addSuccess(this.text.deleteSuccessful);
       })
       .catch((error) => this.notifications.addError("Deletion failed: " + error));

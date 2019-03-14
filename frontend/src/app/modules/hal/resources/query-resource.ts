@@ -54,7 +54,6 @@ export interface TimelineLabels {
 
 export class QueryResource extends HalResource {
   public $embedded:QueryResourceEmbedded;
-  public id:number;
   public results:WorkPackageCollectionResource;
   public columns:QueryColumn[];
   public groupBy:QueryGroupByResource|undefined;

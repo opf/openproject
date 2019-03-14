@@ -89,7 +89,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase {
     super.init();
 
     // Set Focused WP
-    this.wpTableFocus.updateFocus(this.workPackage.id);
+    this.wpTableFocus.updateFocus(this.workPackage.id!);
 
     this.setWorkPackageScopeProperties(this.workPackage);
     this.text.goBack = this.I18n.t('js.button_back');

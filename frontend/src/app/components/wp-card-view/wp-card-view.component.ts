@@ -4,7 +4,8 @@ import {
   Component,
   ElementRef,
   Inject,
-  Injector, Input,
+  Injector,
+  Input,
   OnInit,
   ViewChild
 } from "@angular/core";
@@ -13,49 +14,45 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {QueryColumn} from "app/components/wp-query/query-column";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {WorkPackageEmbeddedTableComponent} from "core-components/wp-table/embedded/wp-embedded-table.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {
-  WorkPackageTableRefreshRequest,
-  WorkPackageTableRefreshService
-} from "core-components/wp-table/wp-table-refresh-request.service";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
-import {CardReorderQueryService} from "core-components/wp-card-view/card-reorder-query.service";
 import {ReorderQueryService} from "core-app/modules/boards/drag-and-drop/reorder-query.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
-import {Subject} from "rxjs";
 import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
 import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
+import {StateService} from "@uirouter/core";
+import {States} from "core-components/states.service";
+import {input} from "reactivestates";
+import {switchMap, tap} from "rxjs/operators";
 
 
 @Component({
   selector: 'wp-card-view',
   styleUrls: ['./wp-card-view.component.sass'],
   templateUrl: './wp-card-view.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    { provide: ReorderQueryService, useClass: CardReorderQueryService },
-  ]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableComponent implements OnInit {
+export class WorkPackageCardViewComponent  implements OnInit {
+  @Input() public dragAndDropEnabled:boolean;
   @Input() public highlightingMode:CardHighlightingMode;
 
   public trackByHref = AngularTrackingHelpers.trackByHref;
   public query:QueryResource;
-  public workPackages:any[];
+  private _workPackages:WorkPackageResource[];
   public columns:QueryColumn[];
   public text = {
     removeCard: this.I18n.t('js.card.remove_from_list'),
     addNewCard:  this.I18n.t('js.card.add_new'),
     wpAddedBy: (wp:WorkPackageResource) =>
-      this.I18n.t('js.label_wp_id_added_by', {id: wp.id, author: wp.author.name})
+      this.I18n.t('js.label_wp_id_added_by', {id: wp.id!, author: wp.author.name})
   };
 
   /** Inline create / reference properties */
@@ -73,12 +70,27 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
   /** Whether cards are removable */
   @Input() public cardsRemovable:boolean = false;
 
+  /** Container reference */
   @ViewChild('container') public container:ElementRef;
+
   /** Whether the card view has an active inline created wp */
   public activeInlineCreateWp?:WorkPackageResource;
 
+  // We remember when we want to update the query with a given order
+  private queryUpdateRequests = input<string[]>();
+
+  // This mapped observable requests the latest query automatically.
+  private queryLoading = this.queryUpdateRequests
+    .values$()
+    .pipe(
+      // Stream the query request, switchMap will call previous requests to be cancelled
+      switchMap((order:string[]) => this.reorderService.saveOrderInQuery(this.query, order))
+    );
+
   constructor(readonly querySpace:IsolatedQuerySpace,
+              readonly states:States,
               readonly injector:Injector,
+              readonly $state:StateService,
               readonly I18n:I18nService,
               readonly currentProject:CurrentProjectService,
               @Inject(IWorkPackageCreateServiceToken) readonly wpCreate:WorkPackageCreateService,
@@ -86,18 +98,24 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
               readonly wpNotifications:WorkPackageNotificationService,
               readonly dragService:DragAndDropService,
               readonly reorderService:ReorderQueryService,
-              readonly wpTableRefresh:WorkPackageTableRefreshService,
+              readonly authorisationService:AuthorisationService,
               readonly cdRef:ChangeDetectorRef) {
-
-    super(injector);
   }
 
   ngOnInit() {
-    super.ngOnInit();
-
     this.registerDragAndDrop();
 
     this.registerCreationCallback();
+
+    // Keep query loading requests
+    this.queryLoading
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe(
+        undefined,
+        (error:any) => this.wpNotifications.handleRawError(error)
+      );
 
     // Update permission on model updates
     this.authorisationService
@@ -108,18 +126,13 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
         this.cdRef.detectChanges();
       });
 
-    this.querySpace.results
+    this.querySpace.query
     .values$()
     .pipe(
       untilComponentDestroyed(this)
-    ).subscribe((results) => {
-      if (this.activeInlineCreateWp) {
-        this.workPackages = [this.activeInlineCreateWp, ...results.$embedded.elements];
-      } else {
-        this.workPackages = results.$embedded.elements;
-      }
-
-      this.removeDragged();
+    ).subscribe((query:QueryResource) => {
+      this.query = query;
+      this.workPackages = query.results.elements;
       this.cdRef.detectChanges();
     });
   }
@@ -128,20 +141,12 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
     this.dragService.remove(this.container.nativeElement);
   }
 
-  protected filterRefreshRequest(request:WorkPackageTableRefreshRequest):boolean {
-    return request.origin !== 'create';
-  }
-
   public hasAssignee(wp:WorkPackageResource) {
     return !!wp.assignee;
   }
 
-  public get isDraggable() {
-    return this.configuration.dragAndDropEnabled;
-  }
-
   public handleDblClick(wp:WorkPackageResource) {
-    this.goToWpFullView(wp.id);
+    this.goToWpFullView(wp.id!);
   }
 
   private goToWpFullView(wpId:string) {
@@ -169,60 +174,89 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
 
   private cardHighlighting(wp:WorkPackageResource) {
     if (['status', 'priority', 'type'].includes(this.highlightingMode)) {
-      return Highlighting.rowClass(this.highlightingMode, wp[this.highlightingMode].getId());
+      return Highlighting.rowClass(this.highlightingMode, wp[this.highlightingMode].id);
     }
     return '';
   }
 
   private attributeDotHighlighting(type:string, wp:WorkPackageResource) {
     if (this.highlightingMode === 'inline') {
-      return Highlighting.dotClass(type, wp.type.getId());
+      return Highlighting.dotClass(type, wp.type.id!);
     }
     return '';
   }
 
-  removeDragged() {
-    this.container.nativeElement
-      .querySelectorAll('.__was_dragged')
-      .forEach((el:HTMLElement) => {
-        el.parentElement && el.parentElement!.removeChild(el);
-      });
-  }
-
   registerDragAndDrop() {
-    if (!this.configuration.dragAndDropEnabled) {
-      return;
-    }
-
     this.dragService.register({
       container: this.container.nativeElement,
-      moves: (card:HTMLElement) => !card.dataset.isNew,
+      moves: (card:HTMLElement) => this.dragAndDropEnabled && !card.dataset.isNew,
       onMoved: (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;
         const toIndex = DragAndDropHelpers.findIndex(card);
 
-        this.reorderService
-          .move(this.querySpace, wpId, toIndex)
-          .then(() => this.wpTableRefresh.request('Drag and Drop moved item'));
+        const newOrder = this.reorderService.move(this.currentOrder, wpId, toIndex);
+        this.updateOrder(newOrder);
       },
       onRemoved: (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;
 
-        this.reorderService
-          .remove(this.querySpace, wpId)
-          .then(() => this.wpTableRefresh.request('Drag and Drop removed item'));
+        const newOrder = this.reorderService.remove(this.currentOrder, wpId);
+        this.updateOrder(newOrder);
       },
       onAdded: async (card:HTMLElement) => {
-        // Fix to ensure items that are virtually added get removed quickly
-        card.classList.add('__was_dragged');
         const wpId:string = card.dataset.workPackageId!;
         const toIndex = DragAndDropHelpers.findIndex(card);
 
         const workPackage = this.states.workPackages.get(wpId).value!;
-        return await this.addWorkPackageToQuery(workPackage, toIndex);
+        const result = await this.addWorkPackageToQuery(workPackage, toIndex);
+
+        card.parentElement!.removeChild(card);
+
+        return result;
       }
     });
   }
+
+  /**
+   * Get current order
+   */
+  private get currentOrder():string[] {
+    return this.workPackages
+      .filter(wp => !wp.isNew)
+      .map(el => el.id!);
+  }
+
+  /**
+   * Update current order
+   */
+  private updateOrder(newOrder:string[]) {
+    newOrder = _.uniq(newOrder);
+
+    this.workPackages = newOrder.map(id => this.states.workPackages.get(id).value!);
+    // Ensure dragged work packages are being removed.
+    this.queryUpdateRequests.putValue(newOrder);
+    this.cdRef.detectChanges();
+  }
+
+  /**
+   * Get the current work packages
+   */
+  public get workPackages():WorkPackageResource[] {
+    return this._workPackages;
+  }
+
+  /**
+   * Set work packages array,
+   * remembering to keep the active inline-create
+   */
+  public set workPackages(workPackages:WorkPackageResource[]) {
+    if (this.activeInlineCreateWp) {
+      this._workPackages = [this.activeInlineCreateWp, ...workPackages];
+    } else {
+      this._workPackages = [...workPackages];
+    }
+  }
+
 
   /**
    * Add the given work package to the query
@@ -230,8 +264,8 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
   async addWorkPackageToQuery(workPackage:WorkPackageResource, toIndex:number = -1):Promise<boolean> {
     try {
       await this.reorderService.updateWorkPackage(this.querySpace, workPackage);
-      await this.reorderService.add(this.querySpace, workPackage.id, toIndex);
-      this.wpTableRefresh.request('Drag and Drop added item');
+      const newOrder = await this.reorderService.add(this.currentOrder, workPackage.id!, toIndex);
+      this.updateOrder(newOrder);
       return true;
     } catch (e) {
       this.wpNotifications.handleRawError(e, workPackage);
@@ -248,9 +282,8 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
     this.wpCreate
       .createOrContinueWorkPackage(this.currentProject.identifier)
       .then((changeset:WorkPackageChangeset) => {
-        const wp = changeset.workPackage;
-        this.activeInlineCreateWp = wp;
-        this.workPackages = [wp, ...this.workPackages];
+        this.activeInlineCreateWp = changeset.workPackage;
+        this.workPackages = this.workPackages;
         this.cdRef.detectChanges();
       });
   }
@@ -269,12 +302,9 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
     this.activeInlineCreateWp = undefined;
 
     if (!wp.isNew) {
-      this.reorderService
-        .remove(this.querySpace, wp.id)
-        .then(() => this.wpTableRefresh.request('Drag and Drop removed item'));
+      const newOrder = this.reorderService.remove(this.currentOrder, wp.id!);
+      this.updateOrder(newOrder);
     }
-
-    this.cdRef.detectChanges();
   }
 
   /**
@@ -286,12 +316,11 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
       this.activeInlineCreateWp = undefined;
 
       // Add this item to the results
-      await this.reorderService.add(this.querySpace, wp.id, index);
+      const newOrder = await this.reorderService.add(this.currentOrder, wp.id!, index);
+      this.updateOrder(newOrder);
 
       // Notify inline create service
-      this.wpInlineCreate.newInlineWorkPackageCreated.next(wp.id);
-
-      this.refresh();
+      this.wpInlineCreate.newInlineWorkPackageCreated.next(wp.id!);
     }
   }
 

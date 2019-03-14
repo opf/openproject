@@ -59,7 +59,7 @@ export class QueryDmService {
    * @param queryId
    * @param projectIdentifier
    */
-  public stream(queryData:Object, queryId?:number, projectIdentifier?:string):Observable<QueryResource> {
+  public stream(queryData:Object, queryId?:string, projectIdentifier?:string|null):Observable<QueryResource> {
     let path:string;
 
     if (queryId) {
@@ -72,16 +72,16 @@ export class QueryDmService {
       .get<QueryResource>(path, queryData);
   }
 
-  public find(queryData:Object, queryId?:number, projectIdentifier?:string):Promise<QueryResource> {
+  public find(queryData:Object, queryId?:string, projectIdentifier?:string|null):Promise<QueryResource> {
     return this.stream(queryData, queryId, projectIdentifier).toPromise();
   }
 
-  public findDefault(queryData:Object, projectIdentifier?:string):Promise<QueryResource> {
+  public findDefault(queryData:Object, projectIdentifier?:string|null):Promise<QueryResource> {
     return this.find(queryData, undefined, projectIdentifier);
   }
 
   public reload(query:QueryResource, pagination:PaginationObject):Promise<QueryResource> {
-    let path = this.pathHelper.api.v3.queries.id(query.id).toString();
+    let path = this.pathHelper.api.v3.queries.id(query.id!).toString();
 
     return this.halResourceService
       .get<QueryResource>(path, pagination)
@@ -123,16 +123,15 @@ export class QueryDmService {
       .toPromise();
   }
 
-  public update(query:QueryResource, form:QueryFormResource) {
+  public update(query:QueryResource, form:QueryFormResource):Observable<QueryResource> {
     const payload = this.extractPayload(query, form);
-    return this.patch(query.id, payload);
+    return this.patch(query.id!, payload);
   }
 
-  public patch(id:string|number, payload:{[key:string]:unknown}) {
+  public patch(id:string, payload:{[key:string]:unknown}):Observable<QueryResource> {
     let path:string = this.pathHelper.api.v3.queries.id(id).toString();
     return this.halResourceService
-      .patch<QueryResource>(path, payload)
-      .toPromise();
+      .patch<QueryResource>(path, payload);
   }
 
   public create(query:QueryResource, form:QueryFormResource):Promise<QueryResource> {

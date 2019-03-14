@@ -122,7 +122,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
         // Forcefully reload the resource to update the watch/unwatch links
         // should the current user have been added
         this.wpWatchersService.require(this.workPackage, true);
-        this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
+        this.wpCacheService.loadWorkPackage(this.workPackage.id!, true);
       })
       .catch((error:any) => this.wpNotificationsService.showError(error, this.workPackage));
   }
@@ -137,7 +137,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
         // Forcefully reload the resource to update the watch/unwatch links
         // should the current user have been removed
         this.wpWatchersService.require(this.workPackage, true);
-        this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
+        this.wpCacheService.loadWorkPackage(this.workPackage.id!, true);
       })
       .catch((error:any) => this.wpNotificationsService.showError(error, this.workPackage));
   }
