@@ -66,9 +66,9 @@ module OpenProject
               href: 'https://www.openproject.org/help/keyboard-shortcuts-access-keys/',
               label: 'homescreen.links.shortcuts'
             },
-            boards: {
+            forums: {
               href: 'https://community.openproject.com/projects/openproject/forums',
-              label: 'homescreen.links.boards'
+              label: 'homescreen.links.forums'
             },
             professional_support: {
               href: 'https://www.openproject.org/pricing/#support',
