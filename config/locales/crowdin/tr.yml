@@ -72,9 +72,9 @@ tr:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Şu anda panoda gösterilebilecek gönderi bulunmamakta.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Şu anda hiç renk bulunmamakta.
@@ -154,9 +154,9 @@ tr:
     settings:
       activities:
         no_results_title_text: Şu anda hiç bir etkinlik mevcut değil.
-      boards:
-        no_results_title_text: Şu anda proje için bir pano mevcut değil.
-        no_results_content_text: Yeni bir pano oluştur
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Şu anda hiç iş paketi kategorisi bulunmamakta.
         no_results_content_text: Yeni bir iş paketi kategorisi oluştur
@@ -167,6 +167,9 @@ tr:
       versions:
         no_results_title_text: Şu anda proje için versiyon mevcut değil.
         no_results_content_text: Yeni bir versiyon oluştur
+      boards:
+        no_results_title_text: Şu anda proje için bir pano mevcut değil.
+        no_results_content_text: Yeni bir pano oluştur
   members:
     index:
       no_results_title_text: Bu projenini parçası olan mevcut bir üye bulunmamakta.
@@ -666,7 +669,7 @@ tr:
     models:
       attachment: Dosya
       attribute_help_text: Öznitelik Yardım metni
-      board: Forum
+      forum: Forum
       comment: Yorum
       custom_action: Özel eylem
       custom_field: Özel alan
@@ -688,6 +691,7 @@ tr:
       workflow: İş akışı
       work_package: İş paketi
       doorkeeper/application: OAuth application
+      board: Forum
   errors:
     header_invalid_fields: 'Aşağıdaki alanları ile ilgili sorunlar oluştu:'
     field_erroneous_label: |-
@@ -1166,10 +1170,10 @@ tr:
       faq: SSS
       glossary: Terimler sözlüğü
       shortcuts: Kısayollar
-      forums: Forumlar
       blog: OpenProject blog
-      boards: Topluluk forumu
+      forums: Forumlar
       newsletter: Güvenlik uyarıları / haber bülteni
+      boards: Topluluk forumu
   links:
     configuration_guide: Yapılandırma rehberi
   instructions_after_registration: "%{signin} düğmesini tıklayarak hesabınız etkinleştirildiğinde
@@ -1234,7 +1238,7 @@ tr:
   label_authentication: Kimlik Doğrulaması
   label_available_project_work_package_categories: Uygun iş paketi kategorileri
   label_available_project_work_package_types: Uygun iş paketi tipleri
-  label_available_project_boards: Uygun panolar
+  label_available_project_forums: Available forums
   label_available_project_versions: Uygun sürümler
   label_available_project_repositories: Uygun depolar
   label_api_documentation: API belgelendirmesi
@@ -1242,10 +1246,10 @@ tr:
   label_blocked_by: bağlı
   label_blocks: engeller
   label_blog: Blog
-  label_board_locked: Kilitlendi
-  label_board_new: Yeni forum
-  label_board_plural: Forumlar
-  label_board_sticky: Sabit
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Mantıksal
   label_branch: Dal
   label_browse: Gözat
@@ -1964,7 +1968,7 @@ tr:
   permission_export_wiki_pages: Wiki sayfalarını dışarı aktar
   permission_list_attachments: Ekleri listelemek
   permission_log_time: Harcanan zaman kayıtları
-  permission_manage_boards: Forumları yönetmek
+  permission_manage_forums: Manage forums
   permission_manage_categories: İş paket kategorilerini yönet
   permission_manage_work_package_relations: İş paketi ilişkilerini yönet
   permission_manage_members: Üyeleri yönetmek
@@ -2013,7 +2017,7 @@ tr:
     archive:
       are_you_sure: "'%{name}' projesini arşivlemek istediğinize emin misiniz?"
   project_module_activity: Etkinlik
-  project_module_boards: Forumlar
+  project_module_forums: Forums
   project_module_calendar: Takvim
   project_module_work_package_tracking: İş paketi takibi
   project_module_news: Haberler
@@ -2495,7 +2499,6 @@ tr:
       color: Renk
       colors: Renkler
     associations: Bağımlılıklar
-    board_could_not_be_saved: Kurul kaydedilemedi
     button_delete_all: Tümünü sil
     change: Planlama değişikliği
     children: Çocuk elemanları
@@ -2655,6 +2658,7 @@ tr:
       months: Ay
       quarters: Üç aylık
       years: Yıl
+    board_could_not_be_saved: Kurul kaydedilemedi
   title_remove_and_delete_user: Davet edilen kullanıcıyı projeden çıkarın ve onu silin.
   title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'Yeni kullanıcılar için varsayılan saat dilimi. Bir
@@ -2929,5 +2933,15 @@ tr:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: Şu anda panoda gösterilebilecek gönderi bulunmamakta.
+  label_available_project_boards: Uygun panolar
+  label_board_locked: Kilitlendi
+  label_board_new: Yeni forum
+  label_board_plural: Forumlar
+  label_board_sticky: Sabit
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: Forumları yönetmek
+  project_module_boards: Forumlar

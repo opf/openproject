@@ -73,9 +73,9 @@ vi:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Hiện có không có bài viết ở bảng điều khiển.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Hiện có không có màu sắc.
@@ -155,9 +155,9 @@ vi:
     settings:
       activities:
         no_results_title_text: Không có hoạt động nào hiện tại.
-      boards:
-        no_results_title_text: Không có hiện tại không có bảng điều khiển cho dự án.
-        no_results_content_text: Tạo ra một bảng mới
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Hiện có không có nhóm gói công việc.
         no_results_content_text: Tạo ra một loại gói công việc mới
@@ -168,6 +168,9 @@ vi:
       versions:
         no_results_title_text: Hiện đang có phiên bản dự án.
         no_results_content_text: Tạo ra một phiên bản mới
+      boards:
+        no_results_title_text: Không có hiện tại không có bảng điều khiển cho dự án.
+        no_results_content_text: Tạo ra một bảng mới
   members:
     index:
       no_results_title_text: Hiện có không có thành viên của dự án này.
@@ -669,7 +672,7 @@ vi:
     models:
       attachment: Tệp
       attribute_help_text: Thuộc tính văn bản trợ giúp
-      board: Diễn đàn
+      forum: Forum
       comment: Nhận xét
       custom_action: Tác vụ tùy chỉnh
       custom_field: Tùy chỉnh mục
@@ -691,6 +694,7 @@ vi:
       workflow: Quy trình làm việc
       work_package: Work Package
       doorkeeper/application: OAuth application
+      board: Diễn đàn
   errors:
     header_invalid_fields: 'Đã có vấn đề với các mục sau đây:'
     field_erroneous_label: |-
@@ -1169,10 +1173,10 @@ vi:
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: Diễn đàn
       blog: OpenProject blog
-      boards: Diễn đàn cộng đồng
+      forums: Diễn đàn
       newsletter: Security alerts / Newsletter
+      boards: Diễn đàn cộng đồng
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: Bạn có thể đăng nhập ngay sau khi tài khoản của
@@ -1238,7 +1242,7 @@ vi:
   label_authentication: Xác thực
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1246,10 +1250,10 @@ vi:
   label_blocked_by: bị chặn bởi
   label_blocks: các khối
   label_blog: Blog
-  label_board_locked: Đã khóa
-  label_board_new: Diễn đàn mới
-  label_board_plural: Diễn đàn
-  label_board_sticky: Chú ý
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Boolean
   label_branch: Nhánh
   label_browse: Browse
@@ -1970,7 +1974,7 @@ vi:
   permission_export_wiki_pages: Export wiki pages
   permission_list_attachments: List attachments
   permission_log_time: Log spent time
-  permission_manage_boards: Manage forums
+  permission_manage_forums: Manage forums
   permission_manage_categories: Manage work package categories
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Manage members
@@ -2017,7 +2021,7 @@ vi:
     archive:
       are_you_sure: Bạn có chắc bạn muốn lưu trữ các dự án '%{name}'?
   project_module_activity: Hoạt động
-  project_module_boards: Diễn đàn
+  project_module_forums: Forums
   project_module_calendar: Lịch
   project_module_work_package_tracking: Theo dõi work package
   project_module_news: Tin tức
@@ -2498,7 +2502,6 @@ vi:
       color: Màu sắc
       colors: Colors
     associations: Dependencies
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
     change: Change in planning
     children: Child elements
@@ -2658,6 +2661,7 @@ vi:
       months: Months
       quarters: Quarters
       years: Years
+    board_could_not_be_saved: Board could not be saved
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2931,5 +2935,15 @@ vi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: Hiện có không có bài viết ở bảng điều khiển.
+  label_available_project_boards: Available boards
+  label_board_locked: Đã khóa
+  label_board_new: Diễn đàn mới
+  label_board_plural: Diễn đàn
+  label_board_sticky: Chú ý
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: Manage forums
+  project_module_boards: Diễn đàn

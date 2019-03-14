@@ -73,9 +73,9 @@ et:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: There are currently no colors.
@@ -155,9 +155,9 @@ et:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -168,6 +168,9 @@ et:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
+      boards:
+        no_results_title_text: There are currently no boards for the project.
+        no_results_content_text: Create a new board
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -665,7 +668,7 @@ et:
     models:
       attachment: Fail
       attribute_help_text: Attribute help text
-      board: Foorum
+      forum: Forum
       comment: Kommentaar
       custom_action: Custom action
       custom_field: Lisaväli
@@ -687,6 +690,7 @@ et:
       workflow: Töövoog
       work_package: Teema
       doorkeeper/application: OAuth application
+      board: Foorum
   errors:
     header_invalid_fields: 'Järgmiste väljadega esines tõrkeid:'
     field_erroneous_label: |-
@@ -1165,10 +1169,10 @@ et:
       faq: KKK
       glossary: Sõnastik
       shortcuts: Otseteed
-      forums: Foorumid
       blog: OpenProject blog
-      boards: Community forum
+      forums: Foorumid
       newsletter: Security alerts / Newsletter
+      boards: Community forum
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: You can sign in as soon as your account has been
@@ -1234,7 +1238,7 @@ et:
   label_authentication: Autentimine
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1242,10 +1246,10 @@ et:
   label_blocked_by: blokeeritud
   label_blocks: blokeerib
   label_blog: Blogi
-  label_board_locked: Lukus
-  label_board_new: Uus foorum
-  label_board_plural: Foorumid
-  label_board_sticky: Külgejääv
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Tõeväärtus
   label_branch: Haru
   label_browse: Sirvi
@@ -1958,7 +1962,7 @@ et:
   permission_export_wiki_pages: Eksportida vikilehti
   permission_list_attachments: Kuvada manuseid
   permission_log_time: Logida ajakulu
-  permission_manage_boards: Hallata foorumeid
+  permission_manage_forums: Manage forums
   permission_manage_categories: Kategooriaid hallata
   permission_manage_work_package_relations: Teemade seoseid hallata
   permission_manage_members: Halda liikmeid
@@ -2006,7 +2010,7 @@ et:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Tegevus
-  project_module_boards: Foorumid
+  project_module_forums: Forums
   project_module_calendar: Kalender
   project_module_work_package_tracking: Teema jälgimine
   project_module_news: Uudised
@@ -2487,7 +2491,6 @@ et:
       color: Värv
       colors: Värvid
     associations: Projekti sõltuvused
-    board_could_not_be_saved: "(?) ei saa salvestada"
     button_delete_all: Kustuta kõik
     change: Muudatus planeerimises
     children: Alamelemendid
@@ -2641,6 +2644,7 @@ et:
       months: Kuud
       quarters: Kvartalid
       years: Aastad
+    board_could_not_be_saved: "(?) ei saa salvestada"
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2913,5 +2917,15 @@ et:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: There are currently no posts for the board.
+  label_available_project_boards: Available boards
+  label_board_locked: Lukus
+  label_board_new: Uus foorum
+  label_board_plural: Foorumid
+  label_board_sticky: Külgejääv
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: Hallata foorumeid
+  project_module_boards: Foorumid

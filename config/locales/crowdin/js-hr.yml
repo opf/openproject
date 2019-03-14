@@ -20,6 +20,10 @@ hr:
     close_form_title: Zatvori obrazac
     card:
       add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Vaš izbornik ne podržava kopiranje u međuspremnik. Molim vas
         manualno kopirajte odabrani tekst.

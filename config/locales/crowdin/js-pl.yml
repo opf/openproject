@@ -20,6 +20,10 @@ pl:
     close_form_title: Zamknij formularz
     card:
       add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Twoja przeglądarka nie obsługuje kopiowania do schowka. Skopiuj
         tekst ręcznie.

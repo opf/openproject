@@ -71,9 +71,9 @@ ru:
         <a href="%{link}">документацию Net::LDAP</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: На данный момент сообщений для форума нет.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: На данный момент цветов нет.
@@ -155,9 +155,9 @@ ru:
     settings:
       activities:
         no_results_title_text: В настоящее время никакой активности.
-      boards:
-        no_results_title_text: Форумы в этом проекте отсутствуют.
-        no_results_content_text: Создать новый форум
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: На данный момент категории пакетов работ отсутствуют.
         no_results_content_text: Создать новую категорию пакета работ
@@ -168,6 +168,9 @@ ru:
       versions:
         no_results_title_text: На данный момент этапы в проекте отсутствуют.
         no_results_content_text: Создать новый этап проекта
+      boards:
+        no_results_title_text: Форумы в этом проекте отсутствуют.
+        no_results_content_text: Создать новый форум
   members:
     index:
       no_results_title_text: На данный момент у этого проекта нет участников.
@@ -681,7 +684,7 @@ ru:
     models:
       attachment: Файл
       attribute_help_text: Атрибут текста справки
-      board: Форум
+      forum: Forum
       comment: Комментарий
       custom_action: Пользовательское действие
       custom_field: Настраиваемое поле
@@ -705,6 +708,7 @@ ru:
       workflow: Рабочий поток
       work_package: Пакет работ
       doorkeeper/application: Приложение OAuth
+      board: Форум
   errors:
     header_invalid_fields: 'Были проблемы со следующими полями:'
     field_erroneous_label: 'Значение этого поля неверно: %{full_errors}. Пожалуйста,
@@ -1208,10 +1212,10 @@ ru:
       faq: ЧаВо
       glossary: Глоссарий
       shortcuts: Ярлыки
-      forums: Форумы
       blog: Openproject блог
-      boards: Форум сообщества
+      forums: Форумы
       newsletter: Оповещения системы безопасности / Новости
+      boards: Форум сообщества
   links:
     configuration_guide: Руководство по конфигурации
   instructions_after_registration: Вы сможете войти как только ваша учетная запись
@@ -1277,7 +1281,7 @@ ru:
   label_authentication: Аутентификация
   label_available_project_work_package_categories: Доступные категории рабочих пакетов
   label_available_project_work_package_types: Доступные типы пакетов работ
-  label_available_project_boards: Доступные форумы
+  label_available_project_forums: Available forums
   label_available_project_versions: Имеющиеся этапы проекта
   label_available_project_repositories: Доступные репозитории
   label_api_documentation: Документация по API
@@ -1285,10 +1289,10 @@ ru:
   label_blocked_by: заблокировано
   label_blocks: блоки
   label_blog: Блог
-  label_board_locked: Заперто
-  label_board_new: Новый форум
-  label_board_plural: Форумы
-  label_board_sticky: Стикер
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Логическое значение
   label_branch: Ветка
   label_browse: Обзор
@@ -2029,7 +2033,7 @@ ru:
   permission_export_wiki_pages: Экспорт wiki-страниц
   permission_list_attachments: Отобразить список прикреплённых файлов
   permission_log_time: Учитывать потраченное время
-  permission_manage_boards: Управление форумами
+  permission_manage_forums: Manage forums
   permission_manage_categories: Управление категориями пакета работ
   permission_manage_work_package_relations: Управление связями пакета работ
   permission_manage_members: Управление участниками
@@ -2077,7 +2081,7 @@ ru:
     archive:
       are_you_sure: Уверены, что хотите архивизировать проект %{name}%?
   project_module_activity: Деятельность
-  project_module_boards: Форумы
+  project_module_forums: Forums
   project_module_calendar: Календарь
   project_module_work_package_tracking: Отслеживание пакета работ
   project_module_news: Новости
@@ -2571,7 +2575,6 @@ ru:
       color: Цвет
       colors: Цвета
     associations: Связи
-    board_could_not_be_saved: Форум сохранён быть не может
     button_delete_all: Удалить всё
     change: Изменения в планировании
     children: Дочерние элементы
@@ -2731,6 +2734,7 @@ ru:
       months: Месяцы
       quarters: Кварталы
       years: Годы
+    board_could_not_be_saved: Форум сохранён быть не может
   title_remove_and_delete_user: Исключить из проекта приглашенного пользователя и
     удалить его.
   title_enterprise_upgrade: Обновление для разблокировки большего числа пользователей.
@@ -3016,5 +3020,15 @@ ru:
     revoke_my_application_confirmation: Вы действительно хотите удалить это приложение?
       Это действие будет отменено %{token_count}.
     my_registered_applications: Зарегистрированные OAuth приложения
+  boards:
+    show:
+      no_results_title_text: На данный момент сообщений для форума нет.
+  label_available_project_boards: Доступные форумы
+  label_board_locked: Заперто
+  label_board_new: Новый форум
+  label_board_plural: Форумы
+  label_board_sticky: Стикер
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: Управление форумами
+  project_module_boards: Форумы

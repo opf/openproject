@@ -21,6 +21,10 @@ sk:
     close_form_title: Zavrieť formulár
     card:
       add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Váš prehliadač nepodporuje kopírovanie do schránky. Manuálne
         skopírujte vybratý text.

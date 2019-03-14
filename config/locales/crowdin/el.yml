@@ -73,9 +73,9 @@ el:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: There are currently no colors.
@@ -155,9 +155,9 @@ el:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -168,6 +168,9 @@ el:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
+      boards:
+        no_results_title_text: There are currently no boards for the project.
+        no_results_content_text: Create a new board
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -668,7 +671,7 @@ el:
     models:
       attachment: Aρχείο
       attribute_help_text: Attribute help text
-      board: Forum
+      forum: Forum
       comment: Σχόλιο
       custom_action: Custom action
       custom_field: Custom field
@@ -690,6 +693,7 @@ el:
       workflow: Workflow
       work_package: Εργασία
       doorkeeper/application: OAuth application
+      board: Forum
   errors:
     header_invalid_fields: 'Υπήρξαν προβλήματα με τα ακόλουθα πεδία:'
     field_erroneous_label: |-
@@ -1166,10 +1170,10 @@ el:
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: Forums
       blog: OpenProject blog
-      boards: Community forum
+      forums: Forums
       newsletter: Security alerts / Newsletter
+      boards: Community forum
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: You can sign in as soon as your account has been
@@ -1235,7 +1239,7 @@ el:
   label_authentication: Authentication
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Διαθέσιμοι τύποι εργασιών
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1243,10 +1247,10 @@ el:
   label_blocked_by: blocked by
   label_blocks: blocks
   label_blog: Blog
-  label_board_locked: Locked
-  label_board_new: New forum
-  label_board_plural: Forums
-  label_board_sticky: Sticky
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Boolean
   label_branch: Branch
   label_browse: Browse
@@ -1964,7 +1968,7 @@ el:
   permission_export_wiki_pages: Export wiki pages
   permission_list_attachments: List attachments
   permission_log_time: Log spent time
-  permission_manage_boards: Manage forums
+  permission_manage_forums: Manage forums
   permission_manage_categories: Manage work package categories
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Manage members
@@ -2011,7 +2015,7 @@ el:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Activity
-  project_module_boards: Forums
+  project_module_forums: Forums
   project_module_calendar: Calendar
   project_module_work_package_tracking: Work package tracking
   project_module_news: News
@@ -2490,7 +2494,6 @@ el:
       color: Color
       colors: Colors
     associations: Dependencies
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
     change: Change in planning
     children: Child elements
@@ -2650,6 +2653,7 @@ el:
       months: Months
       quarters: Quarters
       years: Years
+    board_could_not_be_saved: Board could not be saved
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2922,5 +2926,15 @@ el:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: There are currently no posts for the board.
+  label_available_project_boards: Available boards
+  label_board_locked: Locked
+  label_board_new: New forum
+  label_board_plural: Forums
+  label_board_sticky: Sticky
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: Manage forums
+  project_module_boards: Forums

@@ -61,9 +61,9 @@ zh:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: 目前没有发布内容。
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: 目前没有颜色。
@@ -138,9 +138,9 @@ zh:
     settings:
       activities:
         no_results_title_text: 目前有可用的任何活动。
-      boards:
-        no_results_title_text: 这个项目目前没有公告板。
-        no_results_content_text: 创建一个新的公告板
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: 目前没有工作包类别。
         no_results_content_text: 创建一个新的工作包类别
@@ -151,6 +151,9 @@ zh:
       versions:
         no_results_title_text: 目前这个项目没有版本。
         no_results_content_text: 创建一个新的版本
+      boards:
+        no_results_title_text: 这个项目目前没有公告板。
+        no_results_content_text: 创建一个新的公告板
   members:
     index:
       no_results_title_text: 目前这个项目没有成员。
@@ -604,7 +607,7 @@ zh:
     models:
       attachment: 文件
       attribute_help_text: 属性帮助文本
-      board: 论坛
+      forum: Forum
       comment: 评论
       custom_action: 自定义操作
       custom_field: 自定义字段
@@ -626,6 +629,7 @@ zh:
       workflow: 工作流
       work_package: 工作包
       doorkeeper/application: OAuth application
+      board: 论坛
   errors:
     header_invalid_fields: 以下字段有问题：
     field_erroneous_label: |-
@@ -1074,10 +1078,10 @@ zh:
       faq: 常见问题
       glossary: 术语表
       shortcuts: 快捷方式
-      forums: 论坛
       blog: OpenProject 博客
-      boards: 社区论坛
+      forums: 论坛
       newsletter: 安全警报/通信
+      boards: 社区论坛
   links:
     configuration_guide: 配置指南
   instructions_after_registration: 只要您的帐户已被激活您可以点击 %{signin} 登录。
@@ -1138,7 +1142,7 @@ zh:
   label_authentication: 身份验证
   label_available_project_work_package_categories: 可用的工作包类别
   label_available_project_work_package_types: 可用的工作包类型
-  label_available_project_boards: 可用的公告板
+  label_available_project_forums: Available forums
   label_available_project_versions: 可用版本
   label_available_project_repositories: 可用存储库
   label_api_documentation: API 文档
@@ -1146,10 +1150,10 @@ zh:
   label_blocked_by: 阻止于
   label_blocks: 阻止
   label_blog: 博客
-  label_board_locked: 锁定
-  label_board_new: 新论坛
-  label_board_plural: 论坛
-  label_board_sticky: 置顶
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: 布尔值
   label_branch: 分支
   label_browse: 浏览
@@ -1833,7 +1837,7 @@ zh:
   permission_export_wiki_pages: 导出 wiki 页面
   permission_list_attachments: 列出附件
   permission_log_time: 记录消耗时间
-  permission_manage_boards: 管理论坛
+  permission_manage_forums: Manage forums
   permission_manage_categories: 管理工作包类别
   permission_manage_work_package_relations: 管理工作包的关系
   permission_manage_members: 管理成员
@@ -1879,7 +1883,7 @@ zh:
     archive:
       are_you_sure: 是否确定想要存档项目 '%{name}'？
   project_module_activity: 活动
-  project_module_boards: 论坛
+  project_module_forums: Forums
   project_module_calendar: 日历
   project_module_work_package_tracking: 工作包跟踪
   project_module_news: 新闻
@@ -2269,7 +2273,6 @@ zh:
       color: 颜色
       colors: 颜色
     associations: 依赖项
-    board_could_not_be_saved: 面板不能被保存
     button_delete_all: 删除所有
     change: 更改计划
     children: 子元素
@@ -2416,6 +2419,7 @@ zh:
       months: 月
       quarters: 季度
       years: 年
+    board_could_not_be_saved: 面板不能被保存
   title_remove_and_delete_user: 从项目中移除所邀请的用户并删除他/她。
   title_enterprise_upgrade: 升级以解锁更多用户。
   tooltip_user_default_timezone: '新用户的默认时区。可以在用户设置中更改。
@@ -2658,5 +2662,15 @@ zh:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: 目前没有发布内容。
+  label_available_project_boards: 可用的公告板
+  label_board_locked: 锁定
+  label_board_new: 新论坛
+  label_board_plural: 论坛
+  label_board_sticky: 置顶
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: 管理论坛
+  project_module_boards: 论坛

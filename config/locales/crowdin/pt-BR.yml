@@ -73,9 +73,9 @@ pt-BR:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Atualmente, não há mensagens para o quadro.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Atualmente, não existem cores.
@@ -156,9 +156,9 @@ pt-BR:
     settings:
       activities:
         no_results_title_text: Atualmente, não há atividades disponíveis.
-      boards:
-        no_results_title_text: Atualmente, não existem painéis para o projeto.
-        no_results_content_text: Criar um novo painel
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Atualmente, não há categorias de pacote de trabalho.
         no_results_content_text: Criar uma nova categoria de pacote de trabalho
@@ -169,6 +169,9 @@ pt-BR:
       versions:
         no_results_title_text: Atualmente, não há versões para o projeto.
         no_results_content_text: Criar uma nova versão
+      boards:
+        no_results_title_text: Atualmente, não existem painéis para o projeto.
+        no_results_content_text: Criar um novo painel
   members:
     index:
       no_results_title_text: Atualmente, não há membros deste projeto.
@@ -670,7 +673,7 @@ pt-BR:
     models:
       attachment: Arquivo
       attribute_help_text: Texto de ajuda do atributo
-      board: Fórum
+      forum: Forum
       comment: Comentário
       custom_action: Ação personalizada
       custom_field: Campo personalizado
@@ -692,6 +695,7 @@ pt-BR:
       workflow: Fluxo de trabalho
       work_package: Pacote de trabalho
       doorkeeper/application: Aplicação OAuth
+      board: Fórum
   errors:
     header_invalid_fields: 'Existem problemas com os seguintes campos:'
     field_erroneous_label: |-
@@ -1174,10 +1178,10 @@ pt-BR:
       faq: Perguntas Freqüentes
       glossary: Glossário
       shortcuts: Atalhos
-      forums: Fóruns
       blog: Blog do OpenProject
-      boards: Fórum da Comunidade
+      forums: Fóruns
       newsletter: Alertas de segurança / Newsletter
+      boards: Fórum da Comunidade
   links:
     configuration_guide: Guia de configuração
   instructions_after_registration: Você pode entrar assim que sua conta for ativada
@@ -1243,7 +1247,7 @@ pt-BR:
   label_available_project_work_package_categories: Categorias de pacote de trabalho
     disponíveis
   label_available_project_work_package_types: Tipos de pacote de trabalho disponíveis
-  label_available_project_boards: Painéis disponíveis
+  label_available_project_forums: Available forums
   label_available_project_versions: Versões disponíveis
   label_available_project_repositories: Repositórios disponíveis
   label_api_documentation: Documentação da API
@@ -1251,10 +1255,10 @@ pt-BR:
   label_blocked_by: bloqueado por
   label_blocks: bloqueios
   label_blog: Blog
-  label_board_locked: Bloqueado
-  label_board_new: Novo fórum
-  label_board_plural: Fóruns
-  label_board_sticky: Afixado
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Lógico
   label_branch: Ramo
   label_browse: Navegador
@@ -1983,7 +1987,7 @@ pt-BR:
   permission_export_wiki_pages: Exportar páginas wiki
   permission_list_attachments: Lista de anexos
   permission_log_time: Registrar o tempo gasto
-  permission_manage_boards: Gerenciar fóruns
+  permission_manage_forums: Manage forums
   permission_manage_categories: Gerenciar categorias de pacote de trabalho
   permission_manage_work_package_relations: Gerenciar relações de pacote de trabalho
   permission_manage_members: Gerenciar membros
@@ -2030,7 +2034,7 @@ pt-BR:
     archive:
       are_you_sure: Tem certeza de que deseja arquivar o projeto '%{name}'?
   project_module_activity: Atividade
-  project_module_boards: Fóruns
+  project_module_forums: Forums
   project_module_calendar: Calendário
   project_module_work_package_tracking: Controle de pacote de trabalho
   project_module_news: Notícias
@@ -2527,7 +2531,6 @@ pt-BR:
       color: Cor
       colors: Cores
     associations: Dependências
-    board_could_not_be_saved: Painel não pôde ser salvo
     button_delete_all: Apagar tudo
     change: Mudar no planejamento
     children: Elementos filho
@@ -2689,6 +2692,7 @@ pt-BR:
       months: Meses
       quarters: Trimestres
       years: Anos
+    board_could_not_be_saved: Painel não pôde ser salvo
   title_remove_and_delete_user: Remover o usuário convidado do projeto e excluí-lo.
   title_enterprise_upgrade: Atualizar para desbloquear mais usuários.
   tooltip_user_default_timezone: 'Fuso horário padrão para novos usuários. Pode ser
@@ -2968,5 +2972,15 @@ pt-BR:
     revoke_my_application_confirmation: Você quer realmente remover esta aplicação?
       Isso irá revogar %{token_count} ativo(s) para ele.
     my_registered_applications: Aplicações OAuth registradas
+  boards:
+    show:
+      no_results_title_text: Atualmente, não há mensagens para o quadro.
+  label_available_project_boards: Painéis disponíveis
+  label_board_locked: Bloqueado
+  label_board_new: Novo fórum
+  label_board_plural: Fóruns
+  label_board_sticky: Afixado
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: Gerenciar fóruns
+  project_module_boards: Fóruns

@@ -20,6 +20,10 @@ lt:
     close_form_title: Užverti formą
     card:
       add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Jūsų naršyklė nepalaiko kopijavimo į mainų sritį. Prašome rankiniu
         būdu nukopijuoti pažymėtą tekstą.

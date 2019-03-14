@@ -72,9 +72,9 @@ lt:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Nėra jokių įrašų pranešimų lentoje.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Nėra nurodytų spalvų.
@@ -156,9 +156,9 @@ lt:
     settings:
       activities:
         no_results_title_text: Kolkas neprieinama jokia veikla.
-      boards:
-        no_results_title_text: Projektas neturi jokio informacino skydelio.
-        no_results_content_text: Sukurti naują informacinį skydelį
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Nėra darbų paketo kategorijų.
         no_results_content_text: Sukurti naują darbų paketo kategoriją
@@ -169,6 +169,9 @@ lt:
       versions:
         no_results_title_text: Projektas neturi jokių laidų.
         no_results_content_text: Sukurti naują versiją
+      boards:
+        no_results_title_text: Projektas neturi jokio informacino skydelio.
+        no_results_content_text: Sukurti naują informacinį skydelį
   members:
     index:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.
@@ -673,7 +676,7 @@ lt:
     models:
       attachment: Failas
       attribute_help_text: Atributo pagalbos tekstas
-      board: Forumas
+      forum: Forum
       comment: Komentaras
       custom_action: Pasirinktinis veiksmas
       custom_field: Kliento laukelis
@@ -697,6 +700,7 @@ lt:
       workflow: Darbų eiga
       work_package: Darbų paketas
       doorkeeper/application: OAuth application
+      board: Forumas
   errors:
     header_invalid_fields: 'Buvo problemų su šiais laukeliais:'
     field_erroneous_label: |-
@@ -1201,10 +1205,10 @@ lt:
       faq: D.U.K
       glossary: Aiškinamasis terminų žodynas
       shortcuts: Nuorodos
-      forums: Forumai
       blog: OpenProject blogas
-      boards: Bendruomenės forumas
+      forums: Forumai
       newsletter: Saugos įspėjimai / Naujienos
+      boards: Bendruomenės forumas
   links:
     configuration_guide: Konfigūravimo vadovas
   instructions_after_registration: Galėsite prisijungti, kai tik jūsų paskyra bus
@@ -1270,7 +1274,7 @@ lt:
   label_authentication: Autentifikacija
   label_available_project_work_package_categories: Galimos darbų paketo kategorijos
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Galimos skelbimų lentos
+  label_available_project_forums: Available forums
   label_available_project_versions: Galimos versijos
   label_available_project_repositories: Galimos saugyklos
   label_api_documentation: API dokumentacija
@@ -1278,10 +1282,10 @@ lt:
   label_blocked_by: blokuojamas
   label_blocks: blokai
   label_blog: Blog'as
-  label_board_locked: Užrakinta
-  label_board_new: Naujas forumas
-  label_board_plural: Forumai
-  label_board_sticky: Lipnus
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Būlio loginis
   label_branch: Šaka
   label_browse: Naršyti
@@ -2023,7 +2027,7 @@ lt:
   permission_export_wiki_pages: Eksportuoti wiki puslapius
   permission_list_attachments: Pateikti priedus
   permission_log_time: Regsitruoti dirbtą laiką
-  permission_manage_boards: Valdyti forumus
+  permission_manage_forums: Manage forums
   permission_manage_categories: Valdyti darbų paketo kategorijas
   permission_manage_work_package_relations: Valdyti darbų paketo ryšius
   permission_manage_members: Valdyti narius
@@ -2072,7 +2076,7 @@ lt:
     archive:
       are_you_sure: Ar Jūs tikrai norite suarchyvuoti projektą '%{name}'?
   project_module_activity: Veikla
-  project_module_boards: Forumai
+  project_module_forums: Forums
   project_module_calendar: Kalendorius
   project_module_work_package_tracking: Darbų paketo sekimas
   project_module_news: Naujienos
@@ -2567,7 +2571,6 @@ lt:
       color: Spalva
       colors: Spalvos
     associations: Priklausomybės
-    board_could_not_be_saved: Skelbimų lenta negalėjo būti išsaugota
     button_delete_all: Ištrinti viską
     change: Pakeisti planavime
     children: Vaikų elementai
@@ -2725,6 +2728,7 @@ lt:
       months: Mėnesiai(-ių)
       quarters: Ketvirčiai
       years: Metai(-ų)
+    board_could_not_be_saved: Skelbimų lenta negalėjo būti išsaugota
   title_remove_and_delete_user: Pašalinti pakviestą vartotoją iš projekto ir ištrinti
     jį/ją.
   title_enterprise_upgrade: Atnaujinkite norėdami atrakinti daugiau vartotojų.
@@ -3008,5 +3012,15 @@ lt:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: Nėra jokių įrašų pranešimų lentoje.
+  label_available_project_boards: Galimos skelbimų lentos
+  label_board_locked: Užrakinta
+  label_board_new: Naujas forumas
+  label_board_plural: Forumai
+  label_board_sticky: Lipnus
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: Valdyti forumus
+  project_module_boards: Forumai

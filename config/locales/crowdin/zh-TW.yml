@@ -61,9 +61,9 @@ zh-TW:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: 目前沒有任何貼文在板上
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: 目前沒有顏色
@@ -136,9 +136,9 @@ zh-TW:
     settings:
       activities:
         no_results_title_text: 目前沒有可用的活動
-      boards:
-        no_results_title_text: 目前這個專案沒有佈告欄
-        no_results_content_text: 建立一個新佈告欄
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: 目前沒有工作套件類別
         no_results_content_text: 建立一個新工作套件類別
@@ -149,6 +149,9 @@ zh-TW:
       versions:
         no_results_title_text: 目前的專案沒有版本號
         no_results_content_text: 建立一個新版本號
+      boards:
+        no_results_title_text: 目前這個專案沒有佈告欄
+        no_results_content_text: 建立一個新佈告欄
   members:
     index:
       no_results_title_text: 目前這個專案沒有成員
@@ -602,7 +605,7 @@ zh-TW:
     models:
       attachment: 檔案
       attribute_help_text: 屬性說明文字
-      board: 討論區
+      forum: Forum
       comment: 評論
       custom_action: 自訂動作
       custom_field: 自訂欄位
@@ -624,6 +627,7 @@ zh-TW:
       workflow: 工作流程
       work_package: 工作項目
       doorkeeper/application: Oauth 應用程式
+      board: 討論區
   errors:
     header_invalid_fields: '以下的欄位有問題:'
     field_erroneous_label: |-
@@ -1074,10 +1078,10 @@ zh-TW:
       faq: 問答集
       glossary: '術語表 '
       shortcuts: 快捷鍵
-      forums: 論壇
       blog: Openproject 部落格
-      boards: 社群論壇
+      forums: 論壇
       newsletter: 安全警報 / 消息
+      boards: 社群論壇
   links:
     configuration_guide: 設定指南
   instructions_after_registration: 帳號啟用後即可點擊 %{signin} 登入
@@ -1138,7 +1142,7 @@ zh-TW:
   label_authentication: 身份驗證
   label_available_project_work_package_categories: 可用的工作項目類別
   label_available_project_work_package_types: 可用的工作包類型
-  label_available_project_boards: 可用的佈告欄
+  label_available_project_forums: Available forums
   label_available_project_versions: 可用的版本
   label_available_project_repositories: 可用的版本庫
   label_api_documentation: API文件
@@ -1146,10 +1150,10 @@ zh-TW:
   label_blocked_by: 標示禁止者
   label_blocks: 區塊
   label_blog: 日誌
-  label_board_locked: 鎖定
-  label_board_new: 新增論壇
-  label_board_plural: 論壇
-  label_board_sticky: 附著
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: 布林值
   label_branch: 分支
   label_browse: 瀏覽
@@ -1833,7 +1837,7 @@ zh-TW:
   permission_export_wiki_pages: 匯出維基頁面
   permission_list_attachments: 列出附件
   permission_log_time: 記錄耗時
-  permission_manage_boards: 管理論壇
+  permission_manage_forums: Manage forums
   permission_manage_categories: 管理工作項目類別
   permission_manage_work_package_relations: 管理工作項目關聯
   permission_manage_members: 管理成員
@@ -1879,7 +1883,7 @@ zh-TW:
     archive:
       are_you_sure: 是否確定要 archive 專案 '%{name}'？
   project_module_activity: 活動
-  project_module_boards: 論壇
+  project_module_forums: Forums
   project_module_calendar: 行事曆
   project_module_work_package_tracking: 工作項目追蹤
   project_module_news: 新知
@@ -2286,7 +2290,6 @@ zh-TW:
       color: 顏色
       colors: 顏色
     associations: 依賴相依
-    board_could_not_be_saved: 無法儲存看板
     button_delete_all: 全部删除
     change: 更改計劃
     children: 子元素
@@ -2433,6 +2436,7 @@ zh-TW:
       months: 月
       quarters: 季
       years: 年
+    board_could_not_be_saved: 無法儲存看板
   title_remove_and_delete_user: 從專案移除已被邀請的使用者別且刪除他/她
   title_enterprise_upgrade: 升級以增加更多使用者。
   tooltip_user_default_timezone: '新使用者預設時區，可以在使用者設定中修改。
@@ -2666,5 +2670,15 @@ zh-TW:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: 目前沒有任何貼文在板上
+  label_available_project_boards: 可用的佈告欄
+  label_board_locked: 鎖定
+  label_board_new: 新增論壇
+  label_board_plural: 論壇
+  label_board_sticky: 附著
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: 管理論壇
+  project_module_boards: 論壇

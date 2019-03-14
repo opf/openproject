@@ -72,9 +72,9 @@ pl:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Nie ma jeszcze żadnych wiadomości.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Nie przypisano jeszcze żadnego koloru.
@@ -154,9 +154,9 @@ pl:
     settings:
       activities:
         no_results_title_text: Nie ma dostępnych żadnych aktywności.
-      boards:
-        no_results_title_text: Nie ma jeszcze żadnego forum dla projektu.
-        no_results_content_text: Utwórz nowe forum
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Nie ma jeszcze żadnej kategorii zadania.
         no_results_content_text: Utwórz nową kategorię zadania
@@ -167,6 +167,9 @@ pl:
       versions:
         no_results_title_text: Nie ma innych wersji tego projektu.
         no_results_content_text: Utwórz nową wersję projektu
+      boards:
+        no_results_title_text: Nie ma jeszcze żadnego forum dla projektu.
+        no_results_content_text: Utwórz nowe forum
   members:
     index:
       no_results_title_text: Nie ma jeszcze żadnych członków projektu.
@@ -673,7 +676,7 @@ pl:
     models:
       attachment: Plik
       attribute_help_text: Tekst pomocy atrybutu
-      board: Forum
+      forum: Forum
       comment: Komentarz
       custom_action: Działanie niestandardowe
       custom_field: Pola niestandardowe
@@ -697,6 +700,7 @@ pl:
       workflow: Przepływ pracy
       work_package: Pakiet roboczy
       doorkeeper/application: Aplikacje OAuth
+      board: Forum
   errors:
     header_invalid_fields: 'Wystąpił problem z następującymi polami:'
     field_erroneous_label: 'To pole jest nieprawidłowe: %{full_errors} proszę podać
@@ -1203,10 +1207,10 @@ pl:
       faq: Najczęściej Zadawane Pytania
       glossary: Słownik
       shortcuts: Podpowiedzi
-      forums: Fora
       blog: Blog OpenProject
-      boards: Forum społeczności
+      forums: Fora
       newsletter: Powiadomienia bezpieczeństwa / Newsletter
+      boards: Forum społeczności
   links:
     configuration_guide: Przewodnik po konfiguracji
   instructions_after_registration: Możesz się zalogować w momencie gdy Twoje konto
@@ -1272,7 +1276,7 @@ pl:
   label_authentication: Uwierzytelnianie
   label_available_project_work_package_categories: Dostępne kategorie Zadań
   label_available_project_work_package_types: Dostępne typy pakietów roboczych
-  label_available_project_boards: Dostępne tablice
+  label_available_project_forums: Available forums
   label_available_project_versions: Dostępne wersje
   label_available_project_repositories: Dostępne repozytoria
   label_api_documentation: Dokumentacja API
@@ -1280,10 +1284,10 @@ pl:
   label_blocked_by: zablokowany przez
   label_blocks: Bloki
   label_blog: Blog
-  label_board_locked: Zablokowany
-  label_board_new: Nowe forum
-  label_board_plural: Fora
-  label_board_sticky: Przyklejony
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Wartość logiczna
   label_branch: Branch
   label_browse: Przeglądaj
@@ -2027,7 +2031,7 @@ pl:
   permission_export_wiki_pages: Eksportowanie stron wiki
   permission_list_attachments: Lista załączników
   permission_log_time: Rejestr spędzonego czasu
-  permission_manage_boards: Zarządzanie forum
+  permission_manage_forums: Manage forums
   permission_manage_categories: Zarządzaj kategoriami pakietów roboczych
   permission_manage_work_package_relations: Zarządzanie powiązaniami pakietów roboczych
   permission_manage_members: Zarządzanie użytkownikami
@@ -2074,7 +2078,7 @@ pl:
     archive:
       are_you_sure: Jesteś pewien, że chcesz zarchiwizować projekt '%{name}'?
   project_module_activity: Działanie
-  project_module_boards: Fora
+  project_module_forums: Forums
   project_module_calendar: Kalendarz
   project_module_work_package_tracking: Śledzenie pakietów roboczych
   project_module_news: Aktualności
@@ -2562,7 +2566,6 @@ pl:
       color: Kolor
       colors: Kolory
     associations: Zależności
-    board_could_not_be_saved: Pulpit nie może być zapisany
     button_delete_all: Usuń wszystkie
     change: Zmiany w zakresie planowania
     children: Elementy podrzędne
@@ -2724,6 +2727,7 @@ pl:
       months: Miesiące
       quarters: Kwartały
       years: Lata
+    board_could_not_be_saved: Pulpit nie może być zapisany
   title_remove_and_delete_user: Usuń dotychczasowego użytkownika z projektu i usuń
     go.
   title_enterprise_upgrade: Uaktualnij, aby odblokować więcej użytkowników.
@@ -3003,5 +3007,15 @@ pl:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: Nie ma jeszcze żadnych wiadomości.
+  label_available_project_boards: Dostępne tablice
+  label_board_locked: Zablokowany
+  label_board_new: Nowe forum
+  label_board_plural: Fora
+  label_board_sticky: Przyklejony
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: Zarządzanie forum
+  project_module_boards: Fora

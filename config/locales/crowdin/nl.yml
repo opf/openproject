@@ -73,9 +73,9 @@ nl:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Er zijn momenteel geen berichten voor het bord.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Er zijn momenteel geen kleuren.
@@ -156,9 +156,9 @@ nl:
     settings:
       activities:
         no_results_title_text: Er zijn momenteel geen activiteiten beschikbaar.
-      boards:
-        no_results_title_text: Er zijn momenteel geen borden voor het project.
-        no_results_content_text: Maak een nieuw bord
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Er zijn momenteel geen werkpakket rubrieken.
         no_results_content_text: Maak een nieuwe werkpakket categorie
@@ -169,6 +169,9 @@ nl:
       versions:
         no_results_title_text: Momenteel zijn er geen versies voor het project.
         no_results_content_text: Maak een nieuwe versie
+      boards:
+        no_results_title_text: Er zijn momenteel geen borden voor het project.
+        no_results_content_text: Maak een nieuw bord
   members:
     index:
       no_results_title_text: Er zijn momenteel geen leden onderdeel van dit project.
@@ -681,7 +684,7 @@ nl:
     models:
       attachment: Bestand
       attribute_help_text: Kenmerk help-teksten
-      board: Forum
+      forum: Forum
       comment: Commentaar
       custom_action: Aangepaste actie
       custom_field: Aangepast veld
@@ -703,6 +706,7 @@ nl:
       workflow: Werkstroom
       work_package: Werkpakket
       doorkeeper/application: OAuth-authenticatie
+      board: Forum
   errors:
     header_invalid_fields: 'Er waren problemen met de volgende velden:'
     field_erroneous_label: "Dit veld is ongeldig: %{full_errors} \nVoer alstublieft
@@ -1187,10 +1191,10 @@ nl:
       faq: Veelgestelde vragen (FAQ)
       glossary: Woordenlijst
       shortcuts: Snelkoppelingen
-      forums: Fora
       blog: OpenProject blog
-      boards: Gemeenschapsforum
+      forums: Fora
       newsletter: Beveiligingswaarschuwingen / nieuwsbrief
+      boards: Gemeenschapsforum
   links:
     configuration_guide: Configuratiegids
   instructions_after_registration: U kan inloggen zodra uw account geactiveerd is
@@ -1256,7 +1260,7 @@ nl:
   label_authentication: Verificatie
   label_available_project_work_package_categories: Beschikbare werkpakket categorieën
   label_available_project_work_package_types: Beschikbare werkpakkettypes
-  label_available_project_boards: Beschikbare borden
+  label_available_project_forums: Available forums
   label_available_project_versions: Beschikbare versies
   label_available_project_repositories: Beschikbare opslagplaatsen
   label_api_documentation: API documentatie
@@ -1264,10 +1268,10 @@ nl:
   label_blocked_by: vergrendeld door
   label_blocks: vergrendelingen
   label_blog: Blog
-  label_board_locked: Vergrendeld
-  label_board_new: Nieuw forum
-  label_board_plural: Fora
-  label_board_sticky: Sticky
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Boolean
   label_branch: Branch
   label_browse: Bladeren
@@ -1999,7 +2003,7 @@ nl:
   permission_export_wiki_pages: Wiki pagina's exporteren
   permission_list_attachments: Bijlagen weergeven
   permission_log_time: Meld uw bestede tijd
-  permission_manage_boards: Forum beheren
+  permission_manage_forums: Manage forums
   permission_manage_categories: Werkpakket Categorieën beheren
   permission_manage_work_package_relations: Werkpakket relaties beheren
   permission_manage_members: Beheer gebruikers
@@ -2047,7 +2051,7 @@ nl:
     archive:
       are_you_sure: Weet u zeker dat u dit project '%{name}' wilt archiveren?
   project_module_activity: Activiteit
-  project_module_boards: Fora
+  project_module_forums: Forums
   project_module_calendar: Agenda
   project_module_work_package_tracking: Werkpakket bijhouden
   project_module_news: Nieuws
@@ -2542,7 +2546,6 @@ nl:
       color: Kleur
       colors: Kleuren
     associations: Afhankelijkheden
-    board_could_not_be_saved: Bord kon niet opgeslagen worden
     button_delete_all: Alles verwijderen
     change: In de planning wijzigen
     children: Onderliggend element
@@ -2704,6 +2707,7 @@ nl:
       months: Maanden
       quarters: Kwartalen
       years: Jaren
+    board_could_not_be_saved: Bord kon niet opgeslagen worden
   title_remove_and_delete_user: De uitgenodigde gebruiker uit het project verwijderen
     en verwijder hem/haar.
   title_enterprise_upgrade: Upgrade om meer gebruikers te ontgrendelen.
@@ -2991,5 +2995,15 @@ nl:
     revoke_my_application_confirmation: Weet u zeker dat u deze applicatie wilt verwijderen?
       Dit zal %{token_count} actief voor deze verwijderen.
     my_registered_applications: Geregistreerde OAuth toepassingen
+  boards:
+    show:
+      no_results_title_text: Er zijn momenteel geen berichten voor het bord.
+  label_available_project_boards: Beschikbare borden
+  label_board_locked: Vergrendeld
+  label_board_new: Nieuw forum
+  label_board_plural: Fora
+  label_board_sticky: Sticky
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: Forum beheren
+  project_module_boards: Fora
