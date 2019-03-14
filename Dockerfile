@@ -14,9 +14,9 @@ ENV DATABASE_URL postgres://openproject:openproject@127.0.0.1/openproject
 ENV RAILS_ENV production
 ENV HEROKU true
 ENV RAILS_CACHE_STORE memcache
-ENV ATTACHMENTS_STORAGE_PATH $APP_DATA_PATH/files
 ENV OPENPROJECT_INSTALLATION__TYPE docker
 ENV NEW_RELIC_AGENT_ENABLED false
+ENV ATTACHMENTS_STORAGE_PATH $APP_DATA_PATH/files
 
 # Set a default key base, ensure to provide a secure value in production environments!
 ENV SECRET_KEY_BASE OVERWRITE_ME
@@ -48,13 +48,9 @@ RUN a2enmod proxy proxy_http && rm -f /etc/apache2/sites-enabled/000-default.con
 # using /home/app since npm cache and other stuff will be put there when running npm install
 # we don't want to pollute any locally-mounted directory
 RUN useradd -d /home/$APP_USER -m $APP_USER
-RUN mkdir -p $APP_PATH $APP_DATA_PATH
-RUN mkdir -p $APP_DATA_PATH/{files,git,svn}
-RUN chown -R $APP_USER:$APP_USER $APP_DATA_PATH
-
-RUN gem install bundler --version "${bundler_version}" --no-document
 
 WORKDIR $APP_PATH
+RUN gem install bundler --version "${bundler_version}" --no-document
 
 COPY Gemfile ./Gemfile
 COPY Gemfile.* ./
