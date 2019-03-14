@@ -3,10 +3,25 @@
 set -e
 set -o pipefail
 
+indent() {
+	sed -u 's/^/       /'
+}
+
 echo "-----> Starting the all-in-one OpenProject setup at $BASH_SOURCE..."
 
 if [ "$PGDATA" == "" ]; then
-	echo "No PGDATA environment variable defined. Aborting."
+	echo "No PGDATA environment variable defined. Aborting." | indent
+	exit 2
+fi
+
+# handle legacy configs
+if [ -d "$PGDATA_LEGACY" ]; then
+	echo "ERROR: You are using a legacy volume path for your postgres data. You should mount your postgres volumes at $PGDATA instead of $PGDATA_LEGACY." | indent
+	exit 2
+fi
+
+if [ -d "$APP_DATA_PATH_LEGACY" ]; then
+	echo "ERROR: You are using a legacy volume path for your openproject data. You should mount your openproject volume at $APP_DATA_PATH instead of $APP_DATA_PATH_LEGACY." | indent
 	exit 2
 fi
 
@@ -34,10 +49,6 @@ if [ "$PLUGIN_GEMFILE_URL" != "" ]; then
 		chown $APP_USER:$APP_USER "$PLUGIN_GEMFILE"
 	fi
 fi
-
-indent() {
-	sed -u 's/^/       /'
-}
 
 install_plugins() {
 	pushd $APP_PATH >/dev/null

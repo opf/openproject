@@ -6,7 +6,9 @@ ENV BUNDLER_VERSION "2.0.1"
 ENV APP_USER app
 ENV APP_PATH /app
 ENV APP_DATA_PATH /var/openproject/assets
+ENV APP_DATA_PATH_LEGACY /var/db/openproject
 ENV PGDATA /var/openproject/pgdata
+ENV PGDATA_LEGACY /var/lib/postgresql/9.6/main
 
 ENV DATABASE_URL postgres://openproject:openproject@127.0.0.1/openproject
 ENV RAILS_ENV production
@@ -40,7 +42,7 @@ RUN apt-get update -qq && \
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.6/main/pg_hba.conf
 RUN echo "listen_addresses='*'" >> /etc/postgresql/9.6/main/postgresql.conf
 RUN echo "data_directory='$PGDATA'" >> /etc/postgresql/9.6/main/postgresql.conf
-RUN rm -rf "$PGDATA" && mkdir -p "$PGDATA" && chown -R postgres:postgres "$PGDATA"
+RUN rm -rf "$PGDATA_LEGACY" && rm -rf "$PGDATA" && mkdir -p "$PGDATA" && chown -R postgres:postgres "$PGDATA"
 RUN a2enmod proxy proxy_http && rm -f /etc/apache2/sites-enabled/000-default.conf
 
 # using /home/app since npm cache and other stuff will be put there when running npm install
