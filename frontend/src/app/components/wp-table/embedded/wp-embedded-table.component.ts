@@ -108,7 +108,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       });
   }
 
-  private initializeStates(query:QueryResource, results:WorkPackageCollectionResource) {
+  protected initializeStates(query:QueryResource, results:WorkPackageCollectionResource) {
     this.tableState.ready.doAndTransition('Query loaded', () => {
       this.wpStatesInitialization.clearStates();
       this.wpStatesInitialization.initializeFromQuery(query, results);
