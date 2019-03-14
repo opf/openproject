@@ -47,7 +47,7 @@ class CostlogController < ApplicationController
     elsif @cost_entry.save
 
       flash[:notice] = t(:notice_cost_logged_successfully)
-      redirect_back fallback_location: work_package_path(@cost_entry.work_package)
+      redirect_to work_package_path(@cost_entry.work_package)
 
     else
       render action: 'edit'
