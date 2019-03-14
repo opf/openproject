@@ -129,6 +129,9 @@ module OpenProject
       # Allow in-context translations to be loaded with CSP
       'crowdin_in_context_translations' => true,
 
+      # Default gravatar image, set to something other than 404
+      # to ensure a default is returned
+      'gravatar_fallback_image' => '404',
 
       'registration_footer' => {},
 
