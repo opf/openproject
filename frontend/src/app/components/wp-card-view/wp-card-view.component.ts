@@ -159,11 +159,8 @@ export class WorkPackageCardViewComponent extends WorkPackageEmbeddedTableCompon
     return wp.subject;
   }
 
-  public cardClasses(wp:WorkPackageResource) {
-    let classes:string[] = [];
-    this.isDraggable ? classes.push('-draggable') : classes.push('');
-    classes.push(this.cardHighlighting(wp));
-    return classes;
+  public cardHighlightingClass(wp:WorkPackageResource) {
+    return this.cardHighlighting(wp);
   }
 
   public typeHighlightingClass(wp:WorkPackageResource) {

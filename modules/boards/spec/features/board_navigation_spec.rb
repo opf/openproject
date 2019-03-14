@@ -63,7 +63,7 @@ describe 'Work Package boards spec', type: :feature, js: true do
     board_page.expect_notification message: I18n.t(:notice_successful_create)
 
     # Double click leads to the full view
-    click_target = board_page.find('.work-package--card--author')
+    click_target = board_page.find('.wp-card--author')
     page.driver.browser.action.double_click(click_target.native).perform
 
     wp = WorkPackage.last
