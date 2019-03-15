@@ -6,7 +6,7 @@ require 'open_project/github_integration/version'
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "openproject-github_integration"
-  s.version     = OpenProject::GithubIntegration::VERSION
+  s.version     = '1.0.0+bundled'
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
   s.homepage    = "https://community.openproject.org/projects/github-integration"

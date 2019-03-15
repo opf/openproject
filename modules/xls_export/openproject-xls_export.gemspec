@@ -6,7 +6,7 @@ require 'open_project/xls_export/version'
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "openproject-xls_export"
-  s.version     = OpenProject::XlsExport::VERSION
+  s.version     = '1.0.0+bundled'
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
   s.homepage    = "https://community.openproject.org/projects/export"

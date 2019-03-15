@@ -7,7 +7,7 @@ require "reporting_engine/version"
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "reporting_engine"
-  s.version     = ReportingEngine::VERSION
+  s.version     = '1.0.0+bundled'
   s.authors = "Finn GmbH"
   s.email = "info@finn.de"
   s.homepage = "https://www.openproject.org/projects/plugin-reportingengine"

@@ -8,7 +8,7 @@ require 'open_project/meeting/version'
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = 'openproject-meeting'
-  s.version     = OpenProject::Meeting::VERSION
+  s.version     = '1.0.0+bundled'
   s.authors     = 'OpenProject GmbH'
   s.email       = 'info@openproject.com'
   s.homepage    = 'https://community.openproject.org/projects/plugin-meetings'

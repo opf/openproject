@@ -6,7 +6,7 @@ require 'open_project/openid_connect/version'
 
 Gem::Specification.new do |s|
   s.name        = 'openproject-openid_connect'
-  s.version     = OpenProject::OpenIDConnect::VERSION
+  s.version     = '1.0.0+bundled'
   s.authors     = 'OpenProject GmbH'
   s.email       = 'info@openproject.com'
   s.homepage    = 'https://community.openproject.org/projects/openid-connect'  # TODO check this URL

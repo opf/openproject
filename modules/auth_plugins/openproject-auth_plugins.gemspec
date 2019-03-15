@@ -6,7 +6,7 @@ require 'open_project/auth_plugins/version'
 
 Gem::Specification.new do |s|
   s.name        = 'openproject-auth_plugins'
-  s.version     = OpenProject::AuthPlugins::VERSION
+  s.version     = '1.0.0+bundled'
   s.authors     = 'OpenProject GmbH'
   s.email       = 'info@openproject.com'
   s.homepage    = 'https://community.openproject.org/projects/auth-plugins'

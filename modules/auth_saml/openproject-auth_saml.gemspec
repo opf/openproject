@@ -6,7 +6,7 @@ require 'open_project/auth_saml/version'
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = 'openproject-auth_saml'
-  s.version     = OpenProject::AuthSaml::VERSION
+  s.version     = '1.0.0+bundled'
   s.authors     = 'Cyril Rohr'
   s.email       = 'cyril.rohr@gmail.com'
   s.homepage    = 'https://github.com/finnlabs/openproject-auth_saml'

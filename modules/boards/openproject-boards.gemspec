@@ -7,7 +7,7 @@ require 'open_project/boards/version'
 
 Gem::Specification.new do |s|
   s.name        = 'openproject-boards'
-  s.version     = OpenProject::Boards::VERSION
+  s.version     = '1.0.0+bundled'
   s.authors     = 'OpenProject GmbH'
   s.email       = 'info@openproject.com'
   s.homepage    = 'https://community.openproject.org'
