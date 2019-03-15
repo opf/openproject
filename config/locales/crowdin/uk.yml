@@ -400,7 +400,7 @@ uk:
       journal:
         notes: Нотатки
       member:
-        roles: Roles
+        roles: Роль
       project:
         identifier: Ідентифікатор
         latest_activity_at: Latest activity at
@@ -687,10 +687,10 @@ uk:
       project: Project
       query: Custom query
       role:
-        one: Role
-        other: Roles
-        few: Roles
-        many: Roles
+        one: роль
+        other: Роль
+        few: Роль
+        many: Роль
       type: Type
       user: User
       version: Version
@@ -748,8 +748,8 @@ uk:
     priority: Priority
     project: Project
     responsible: Accountable
-    role: Role
-    roles: Roles
+    role: роль
+    roles: Роль
     start_date: Start date
     status: Status
     subject: Subject
@@ -1421,6 +1421,7 @@ uk:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: in
   label_in_less_than: in less than
   label_in_more_than: in more than
@@ -1553,6 +1554,7 @@ uk:
   label_previous_week: Previous week
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Версія продукту
   label_professional_support: Professional support
   label_profile: Profile
@@ -1613,7 +1615,7 @@ uk:
   label_roadmap_overdue: "%{value} late"
   label_role_and_permissions: Roles and permissions
   label_role_new: New role
-  label_role_plural: Roles
+  label_role_plural: Роль
   label_role_search: Призначити роль для нових членів
   label_scm: SCM
   label_search: Search
@@ -2282,10 +2284,6 @@ uk:
   setting_log_requesting_user: Log user login, name, and mail address for all requests
   setting_login_required: Authentication required
   setting_mail_from: Emission email address
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Усічення листи після однієї з цих ліній
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2977,3 +2975,7 @@ uk:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Enable incoming email web service
+  setting_mail_handler_api_description: The email web handler enables OpenProject
+    to receive emails containing specific commands as an instrumentation mechanism
+    (e.g., to create and update work packages).

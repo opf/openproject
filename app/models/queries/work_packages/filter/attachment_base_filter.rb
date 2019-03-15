@@ -30,6 +30,7 @@
 
 class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackages::Filter::WorkPackageFilter
   include Queries::WorkPackages::Filter::FilterOnTsvMixin
+  include Queries::WorkPackages::Filter::TextFilterOnJoinMixin
 
   def type
     :text
@@ -39,12 +40,26 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
     EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
   end
 
-  def includes
-    :attachments
+  def where
+    Queries::Operators::All.sql_for_field(values, join_table_alias, 'id')
   end
 
-  def where
-    OpenProject::FullTextSearch.tsv_where(Attachment.table_name,
+  private
+
+  def join_table
+    Attachment.table_name
+  end
+
+  def join_condition
+    <<-SQL
+      #{join_table_alias}.container_id = #{WorkPackage.table_name}.id
+      AND #{join_table_alias}.container_type = '#{WorkPackage.name}'
+      AND #{tsv_condition}
+    SQL
+  end
+
+  def tsv_condition
+    OpenProject::FullTextSearch.tsv_where(join_table_alias,
                                           search_column,
                                           values.first,
                                           concatenation: concatenation,

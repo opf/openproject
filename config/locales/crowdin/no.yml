@@ -644,8 +644,8 @@
               reused:
                 one: har blitt brukt tidligere. Vennligst velg en som er forskjellig
                   fra den forrige %{count}.
-                other: has been used before. Please choose one that is different from
-                  your last %{count}.
+                other: har blitt brukt tidligere. Vennligst velg et som er forskjellig
+                  fra dine siste %{count}.
               match:
                 confirm: Bekreft nytt passord.
                 description: Bekreftelse av passord må samsvare med inndata i det
@@ -661,7 +661,7 @@
         body: 'Kontroller følgende felter:'
         header:
           one: 1 feil forhindret lagring av denne %{model}
-          other: "%{count} errors prohibited this %{model} from being saved"
+          other: "%{count} feil forhindret lagring av denne %{model}"
     models:
       attachment: Fil
       attribute_help_text: Attribute help text
@@ -678,7 +678,7 @@
       query: Egendefinert spørring
       role:
         one: Rolle
-        other: Roles
+        other: Rolle
       type: Type
       user: Bruker
       version: Versjon
@@ -901,42 +901,42 @@
     distance_in_words:
       about_x_hours:
         one: rundt 1 time
-        other: about %{count} hours
+        other: cirka %{count} timer
       about_x_months:
         one: rundt 1 måned
-        other: about %{count} months
+        other: cirka %{count} måneder
       about_x_years:
         one: rundt 1 år
-        other: about %{count} years
+        other: cirka %{count} år
       almost_x_years:
         one: nesten 1 år
-        other: almost %{count} years
+        other: nesten %{count} år
       half_a_minute: et halvt minutt
       less_than_x_minutes:
         one: mindre enn ett minutt
         other: mindre enn %{count} minutter
       less_than_x_seconds:
         one: mindre enn 1 sekund
-        other: less than %{count} seconds
+        other: mindre enn %{count} sekunder
       over_x_years:
         one: over 1 år
-        other: over %{count} years
+        other: mer enn %{count} år
       x_days:
         one: 1 dag
-        other: "%{count} days"
+        other: "%{count} dager"
       x_minutes:
         one: 1 minutt
-        other: "%{count} minutes"
+        other: "%{count} minutter"
       x_months:
         one: 1 måned
-        other: "%{count} months"
+        other: "%{count} måneder"
       x_seconds:
         one: 1 sekund
-        other: "%{count} seconds"
+        other: "%{count} sekunder"
     units:
       hour:
         one: time
-        other: hours
+        other: " timer"
   default_activity_development: Utvikling
   default_activity_management: Administrasjon
   default_activity_other: Øvrig
@@ -1384,6 +1384,7 @@
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Hjem
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: i
   label_in_less_than: i mindre enn
   label_in_more_than: i mer enn
@@ -1516,6 +1517,7 @@
   label_previous_week: Forrige uke
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Produktversjon
   label_professional_support: Professional support
   label_profile: Profil
@@ -1711,19 +1713,19 @@
     zero: 0 closed
   label_x_comments:
     one: "%{count} kommentar"
-    other: "%{count} comments"
+    other: "%{count} kommentarer"
     zero: no comments
   label_x_open_work_packages_abbr:
     one: "%{count} åpen"
-    other: "%{count} open"
+    other: "%{count} åpne"
     zero: 0 open
   label_x_open_work_packages_abbr_on_total:
     one: 1 åpen / %{total}
-    other: "%{count} open / %{total}"
+    other: "%{count} åpne / %{total}"
     zero: 0 open / %{total}
   label_x_projects:
     one: "%{count} prosjekt"
-    other: "%{count} projects"
+    other: "%{count} prosjekter"
     zero: no projects
   label_year: År
   label_yesterday: i går
@@ -2230,10 +2232,6 @@
   setting_log_requesting_user: Logg brukernavn, navn og e-postadresse for alle forespørsler
   setting_login_required: Autentisering er påkrevd
   setting_mail_from: Utgående e-postadresse
-  setting_mail_handler_api_enabled: Aktiver web-tjeneste for innkommende e-post
-  setting_mail_handler_api_description: Epost web-tjenesten sørger for at OpenProject
-    kan motta eposter som inneholder spesefikte kommandoer som en instruksjonsmekanisme
-    (f.eks opprette og oppdatere arbeidspakker).
   setting_mail_handler_api_key: API-nøkkel
   setting_mail_handler_body_delimiters: Avkort e-post etter en av disse linjene
   setting_mail_handler_body_delimiter_regex: Avkort e-post som samsvarer med denne
@@ -2503,7 +2501,7 @@
     duration: Varighet
     duration_days:
       one: 1 dag
-      other: "%{count} days"
+      other: "%{count} dager"
     edit_color: Endre farge
     edit_thing: Rediger
     edit_timeline: Endre tidslinjerapport %{timeline}
@@ -2691,7 +2689,7 @@
     blocked: midlertidig låst
     blocked_num_failed_logins:
       one: midlertidig utesteng (%{count} mislykkede pålogginger)
-      other: locked temporarily (%{count} failed login attempts)
+      other: midlertidig låst (%{count} mislykkede innloggingsforsøk)
     confirm_status_change: You are about to change the status of '%{name}'. Are you
       sure you want to continue?
     deleted: Slettet bruker
@@ -2922,3 +2920,7 @@
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Aktiver web-tjeneste for innkommende e-post
+  setting_mail_handler_api_description: Epost web-tjenesten sørger for at OpenProject
+    kan motta eposter som inneholder spesefikte kommandoer som en instruksjonsmekanisme
+    (f.eks opprette og oppdatere arbeidspakker).

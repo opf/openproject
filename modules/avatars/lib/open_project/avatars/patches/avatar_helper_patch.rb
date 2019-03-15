@@ -119,7 +119,7 @@ AvatarHelper.class_eval do
 
     def default_gravatar_options
       options = { secure: Setting.protocol == 'https' }
-      options[:default] = '404'
+      options[:default] = OpenProject::Configuration.gravatar_fallback_image
 
       options
     end

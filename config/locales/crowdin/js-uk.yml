@@ -490,7 +490,7 @@ uk:
         other: Будь ласка, введіть ще {{count}} символів
         zero: Please enter more characters
         few: Будь ласка, введіть ще {{count}} символи
-        many: Please enter {{count}} more characters
+        many: Будь ласка, додайте ще {{count}} символи
       load_more: Завантаження додаткових результатів ...
       no_matches: Збігів не знайдено
       searching: Шукаємо ...
@@ -499,7 +499,7 @@ uk:
         other: Ви можете вибрати тільки {{limit}} елементів
         zero: You cannot select any items
         few: Ви можете вибрати тільки {{limit}} елементи
-        many: You can only select {{limit}} items
+        many: Ви можете вибрати лише {{limit}}
     project_menu_details: Details
     sort:
       sorted_asc: 'Ascending sort applied, '

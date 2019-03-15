@@ -683,7 +683,7 @@ sk:
           one: 1 chyba zabránila uloženiu tohto %{model}
           other: "%{count} chýb zabránilo uloženiu tohto %{model}"
           few: "%{count} chyby zabránili uloženiu tohto %{model}"
-          many: "%{count} errors prohibited this %{model} from being saved"
+          many: "%{count} chýb zabránilo uloženiu tohto %{model}"
     models:
       attachment: Súbor
       attribute_help_text: Text nápovedy atribútu
@@ -702,7 +702,7 @@ sk:
         one: Rola
         other: Rolí
         few: Roly
-        many: Roles
+        many: Roly
       type: Typ
       user: Užívateľ(ka)
       version: Verzia
@@ -932,17 +932,17 @@ sk:
         one: približne 1 mesiac
         other: približne %{count} mesiace
         few: približne %{count} mesiace
-        many: about %{count} months
+        many: približne %{count} mesiacov
       about_x_years:
         one: približne 1 rok
         other: približne %{count} roky
         few: približne %{count} roky
-        many: about %{count} years
+        many: približne %{count} rokov
       almost_x_years:
         one: skoro 1 rok
         other: viac ako %{count} rokov
         few: skoro %{count} roky
-        many: almost %{count} years
+        many: skoro %{count} rokov
       half_a_minute: pol minúty
       less_than_x_minutes:
         one: menej než 1 minúta
@@ -1437,6 +1437,7 @@ sk:
   label_hierarchy_leaf: Úroveň hierarchie
   label_home: Úvod
   label_subject_or_id: Predmet alebo ID
+  label_impressum: Impressum
   label_in: v
   label_in_less_than: v menej ako
   label_in_more_than: vo viac ako
@@ -1570,6 +1571,7 @@ sk:
   label_principal_invite_via_email: " alebo pozvať nových užívateľov prostredníctvom
     e-mailu"
   label_principal_search: Pridanie existujúcich užívateľov alebo skupín
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Verzia produktu
   label_professional_support: Profesionálna podpora
   label_profile: Profil
@@ -2308,10 +2310,6 @@ sk:
     adresu pre všetky požiadavky
   setting_login_required: Vyžaduje sa overenie
   setting_mail_from: Odosielať emaily z adresy
-  setting_mail_handler_api_enabled: Povoliť webovú službu prichádzajúcich e-mailov
-  setting_mail_handler_api_description: Webová služba elektronickej pošty umožňuje
-    aplikácii OpenProject prijímať a reagovať na e-maily so špeciálnymi pokynmi (napríklad
-    na vytváranie a aktualizáciu pracovných balíčkov).
   setting_mail_handler_api_key: API kľúč
   setting_mail_handler_body_delimiters: Skráťte emaily po jednom z týchto riadkov
   setting_mail_handler_body_delimiter_regex: Skrátiť e-maily zodpovedajúce tomuto
@@ -3014,3 +3012,7 @@ sk:
     revoke_my_application_confirmation: Naozaj chcete odstrániť túto aplikáciu? Týmto
       sa zrušia aktívne tokeny %{token_count}.
     my_registered_applications: Registrované aplikácie OAuth
+  setting_mail_handler_api_enabled: Povoliť webovú službu prichádzajúcich e-mailov
+  setting_mail_handler_api_description: Webová služba elektronickej pošty umožňuje
+    aplikácii OpenProject prijímať a reagovať na e-maily so špeciálnymi pokynmi (napríklad
+    na vytváranie a aktualizáciu pracovných balíčkov).

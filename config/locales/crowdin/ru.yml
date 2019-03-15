@@ -56,19 +56,19 @@ ru:
       no_results_content_title: На данный момент способы аутентификации отсутствуют.
       no_results_content_text: Создать новый способ аутентификации
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Шифрование подключения
     tls_mode:
       plain: нет
       simple_tls: simple_tls
       start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      plain_description: Обычная незашифрованная связь, нет TLS переговоров.
+      simple_tls_description: Неправильное шифрование TLS, но не проверка сертификатов.
+        Используйте с осторожностью и неявным доверием к LDAP соединению.
+      start_tls_description: Истинное TLS шифрование с полной валидацией. Используйте
+        для LDAP через TLS/SSL.
+      section_more_info_link_html: 'Этот раздел касается безопасности соединения этого
+        источника аутентификации LDAP. Для получения дополнительной информации посетите
+        <a href="%{link}">документацию Net::LDAP</a>.
 
 '
   boards:
@@ -385,10 +385,10 @@ ru:
         encoded_token: Маркер поддержки корпоративной версии
         active_user_count_restriction: Максимальное число активных пользователей
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
+        page: Страница
+        row_count: Количество строк
+        column_count: Количество столбцов
+        widgets: Виджеты
       relation:
         delay: Задержка
         from: Пакет работ
@@ -557,9 +557,9 @@ ru:
         enterprise_token:
           unreadable: невозможно прочитать. Вы уверены, что это маркер поддержки?
         grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          overlaps: перекрытие.
+          outside: за пределами сетки.
+          end_before_start: конечное значение должно быть больше начального.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -656,8 +656,8 @@ ru:
                 few: |-
                   использовался ранее. Пожалуйста, выберите отличный от ваших
                   последних %{count}.
-                many: has been used before. Please choose one that is different from
-                  your last %{count}.
+                many: использовалось ранее. Пожалуйста, укажите отличающееся от ваших
+                  последних %{count}.
               match:
                 confirm: Подтвердите новый пароль.
                 description: "«Подтвержденный пароль» должен совпадать с введенным
@@ -676,7 +676,7 @@ ru:
           one: 1 ошибка препятствует сохранению %{model}
           other: "%{count} ошибок препятствуют сохранению %{model}"
           few: "%{count} ошибки препятствует сохранению %{model}"
-          many: "%{count} errors prohibited this %{model} from being saved"
+          many: "%{count} ошибки препятствуют сохранению %{model}"
     models:
       attachment: Файл
       attribute_help_text: Атрибут текста справки
@@ -695,7 +695,7 @@ ru:
         one: Роль
         other: Роли
         few: Роли
-        many: Roles
+        many: Роль
       type: Тип
       user: Пользователь
       version: Этап
@@ -919,64 +919,64 @@ ru:
         one: около часа
         other: около %{count} часов
         few: около %{count} часов
-        many: about %{count} hours
+        many: около %{count} часов
       about_x_months:
         one: около месяца
         other: около %{count} месяцев
         few: около %{count} месяцев
-        many: about %{count} months
+        many: около %{count} месяцев
       about_x_years:
         one: около года
         other: около %{count} лет
         few: около %{count} лет
-        many: about %{count} years
+        many: около %{count} лет
       almost_x_years:
         one: почти год
         other: почти %{count} лет
         few: почти %{count} года
-        many: almost %{count} years
+        many: почти %{count} года
       half_a_minute: полминуты
       less_than_x_minutes:
         one: менее минуты
         other: менее %{count} минут
         few: менее %{count} минут
-        many: less than %{count} minutes
+        many: менее %{count} минуты
       less_than_x_seconds:
         one: меньше секунды
         other: меньше %{count} секунд
         few: меньше %{count} секунд
-        many: less than %{count} seconds
+        many: меньше чем за %{count} секунды
       over_x_years:
         one: более года
         other: более %{count} лет
         few: более %{count} лет
-        many: over %{count} years
+        many: более %{count} лет
       x_days:
         one: 1 день
         other: "%{count} дней"
         few: "%{count} дня"
-        many: "%{count} days"
+        many: "%{count} дней"
       x_minutes:
         one: 1 минута
         other: "%{count} минут"
         few: "%{count} минуты"
-        many: "%{count} minutes"
+        many: "%{count} минут"
       x_months:
         one: 1 месяц
         other: "%{count} месяцев"
         few: "%{count} месяца"
-        many: "%{count} months"
+        many: "%{count} месяца"
       x_seconds:
         one: 1 секунда
         other: "%{count} секунд"
         few: "%{count} секунды"
-        many: "%{count} seconds"
+        many: "%{count} секунды"
     units:
       hour:
         one: час
         other: часов
         few: часа
-        many: hours
+        many: час
   default_activity_development: Разработка
   default_activity_management: Управление
   default_activity_other: Другие
@@ -1427,6 +1427,7 @@ ru:
   label_hierarchy_leaf: Уровень иерархии
   label_home: Главная
   label_subject_or_id: Тема или ID
+  label_impressum: Impressum
   label_in: в
   label_in_less_than: менее чем
   label_in_more_than: более чем
@@ -1560,6 +1561,7 @@ ru:
   label_principal_invite_via_email: " или пригласить новых пользователей по электронной
     почте"
   label_principal_search: Добавление существующих пользователей или групп
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Версия продукта
   label_professional_support: Профессиональная поддержка
   label_profile: Профиль
@@ -1758,31 +1760,31 @@ ru:
     other: "%{count} закрыто"
     zero: 0 closed
     few: "%{count} закрыто"
-    many: "%{count} closed"
+    many: "%{count} закрыто"
   label_x_comments:
     one: 1 комментарий
     other: "%{count} комментариев"
     zero: no comments
     few: "%{count} комментария"
-    many: "%{count} comments"
+    many: "%{count} комментариев"
   label_x_open_work_packages_abbr:
     one: 1 открыт
     other: "%{count} открыто"
     zero: 0 open
     few: "%{count} открыто"
-    many: "%{count} open"
+    many: "%{count} открыто"
   label_x_open_work_packages_abbr_on_total:
     one: 1 открыт / %{total}
     other: "%{count} открыто / %{total}"
     zero: 0 open / %{total}
     few: "%{count} открыто / %{total}"
-    many: "%{count} open / %{total}"
+    many: "%{count} открыто / %{total}"
   label_x_projects:
     one: 1 проект
     other: "%{count} проектов"
     zero: no projects
     few: "%{count} проекта"
-    many: "%{count} projects"
+    many: "%{count} проектов"
   label_year: Год
   label_yesterday: вчера
   label_keyboard_function: Функция
@@ -1895,8 +1897,8 @@ ru:
   notice_account_update_failed: Настройки учетной записи не могут быть сохранены.
     Пожалуйста, просмотрите страницу Вашей учетной записи ещё раз.
   notice_account_updated: Учетная запись успешно обновлёна.
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: Все другие сессии, связанные с вашей учетной
+    записью, были аннулированы.
   notice_account_wrong_password: Неправильный пароль
   notice_account_registered_and_logged_in: Добро пожаловать. Ваш аккаунт активирован.
     Вы вошли в систему.
@@ -1981,7 +1983,7 @@ ru:
             one: Байт
             other: Байтов
             few: Байта
-            many: Bytes
+            many: Байта
           gb: ГБ
           kb: кБ
           mb: МБ
@@ -2302,10 +2304,6 @@ ru:
     почты для всех запросов
   setting_login_required: Требуется аутентификация
   setting_mail_from: Адрес электронной почты выпуска
-  setting_mail_handler_api_enabled: Разрешить входящую почту веб-сервисов
-  setting_mail_handler_api_description: Веб-обработчик электронной почты позволяет
-    OpenProject получать письма с командами (например, для создания и обновления пакетов
-    работы).
   setting_mail_handler_api_key: API-ключ
   setting_mail_handler_body_delimiters: Усечение сообщений после одной из этих линий
   setting_mail_handler_body_delimiter_regex: Сообщение усекается по этому регулярному
@@ -2586,7 +2584,7 @@ ru:
       one: 1 день
       other: "%{count} дней"
       few: "%{count} дня"
-      many: "%{count} days"
+      many: "%{count} дней"
     edit_color: Изменить цвет
     edit_thing: Правка
     edit_timeline: Редактировать отчет по графику %{timeline}
@@ -2777,7 +2775,7 @@ ru:
       one: временно заблокирован (одна неудачная попытка авторизации)
       other: временно заблокирован (%{count} неудачных попыток авторизации)
       few: временно заблокирован (%{count} неудачные попытки авторизации)
-      many: locked temporarily (%{count} failed login attempts)
+      many: временно заблокирован (%{count} неудачных попыток авторизации)
     confirm_status_change: Вы собираетесь изменить статус '%{name}'. Хотите продолжить?
     deleted: Удалённый пользователь
     error_status_change_failed: 'Изменение статуса пользователя не удалось из-за следующей
@@ -3015,3 +3013,7 @@ ru:
     revoke_my_application_confirmation: Вы действительно хотите удалить это приложение?
       Это действие будет отменено %{token_count}.
     my_registered_applications: Зарегистрированные OAuth приложения
+  setting_mail_handler_api_enabled: Разрешить входящую почту веб-сервисов
+  setting_mail_handler_api_description: Веб-обработчик электронной почты позволяет
+    OpenProject получать письма с командами (например, для создания и обновления пакетов
+    работы).

@@ -1354,7 +1354,7 @@ hu:
   label_environment: Környezet
   label_estimates_and_time: Becslések & időpontok
   label_equals: van
-  label_everywhere: everywhere
+  label_everywhere: bárhol
   label_example: Példa
   label_export_to: 'Is elérhető:'
   label_expanded_click_to_collapse: Kinyitva. Kattintson az összecsukáshoz
@@ -1393,6 +1393,7 @@ hu:
   label_hierarchy_leaf: Hierarchia szint
   label_home: Home
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: in
   label_in_less_than: kevesebb, mint
   label_in_more_than: több mint
@@ -1525,6 +1526,7 @@ hu:
   label_previous_week: Előző héten
   label_principal_invite_via_email: " vagy új felhasználót hívhat meg e-mailben"
   label_principal_search: Meglévő felhasználók vagy csoportok hozzáadása
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Termékverzió
   label_professional_support: Szakmai támogatás
   label_profile: Profil
@@ -2248,10 +2250,6 @@ hu:
     minden lekéréshez
   setting_login_required: Hitelesítés szükséges
   setting_mail_from: Értesítő e-mailek feladója
-  setting_mail_handler_api_enabled: Bejövő e-mail szolgáltatás engedélyezése
-  setting_mail_handler_api_description: Az e-mail web kezelő lehetővé teszi, hogy
-    az OpenProject különböző utasításokat tartalmazó e-maileket fogadjon és végrehajtson
-    (úgy mint feladatcsoport készítés, frissítés).
   setting_mail_handler_api_key: API-kulcs
   setting_mail_handler_body_delimiters: E-mailek csonkolása e sorok után
   setting_mail_handler_body_delimiter_regex: E-mailek csonkítása a megegyező kifejezéssel
@@ -2948,3 +2946,7 @@ hu:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Bejövő e-mail szolgáltatás engedélyezése
+  setting_mail_handler_api_description: Az e-mail web kezelő lehetővé teszi, hogy
+    az OpenProject különböző utasításokat tartalmazó e-maileket fogadjon és végrehajtson
+    (úgy mint feladatcsoport készítés, frissítés).

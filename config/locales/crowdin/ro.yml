@@ -80,7 +80,7 @@ ro:
     index:
       no_results_title_text: În acest moment nu există culori.
       no_results_content_text: Creare culoare nouă
-    label_no_color: No color
+    label_no_color: Nicio culoare
   custom_actions:
     actions:
       name: Actions
@@ -196,8 +196,8 @@ ro:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Faceți click pentru a desemna sau schimba culoarea acestui nivel de prioritate.
+        Poate fi utilizate pentru a evidenția pachetele de lucru dintr-un tabel.
   reportings:
     index:
       no_results_title_text: În acest moment nu există rapoarte de stare.
@@ -210,8 +210,8 @@ ro:
         <br/>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        Faceți click pentru a desemna sau schimba culoarea pentru acest flux de lucru.
+        Acesta este afișat în butonul de statut și poate fi folosit pentru a evidenția pachetele de lucru din tabel.
     index:
       no_results_title_text: În acest moment nu există stări pentru pachetele de lucru.
       no_results_content_text: Adăugare stare nouă
@@ -1416,6 +1416,7 @@ ro:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Pagina de start
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: în
   label_in_less_than: în mai puțin de
   label_in_more_than: în mai mult de
@@ -1548,6 +1549,7 @@ ro:
   label_previous_week: Săptămâna trecută
   label_principal_invite_via_email: " sau invită utilizatori folosind email"
   label_principal_search: Adăugare utilizatori sau grupuri existenți
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Versiune produs
   label_professional_support: Suport profesional
   label_profile: Profil
@@ -2287,10 +2289,6 @@ ro:
     toate cererile
   setting_login_required: Autentificare obligatorie
   setting_mail_from: Adresa de e-mail a expeditorului
-  setting_mail_handler_api_enabled: Activare serviciu web e-mailuri primite
-  setting_mail_handler_api_description: Procesatorul web pentru e-mail permite OpenProject
-    să primească e-mail-uri care conțin anumite comenzi ca un mecanism de instrumentație
-    (de exemplu, pentru a crea și de a actualiza pachete de lucru).
   setting_mail_handler_api_key: Cheie API
   setting_mail_handler_body_delimiters: Trunchiere e-mail-uri după una dintre aceste
     linii
@@ -2997,3 +2995,7 @@ ro:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Activare serviciu web e-mailuri primite
+  setting_mail_handler_api_description: Procesatorul web pentru e-mail permite OpenProject
+    să primească e-mail-uri care conțin anumite comenzi ca un mecanism de instrumentație
+    (de exemplu, pentru a crea și de a actualiza pachete de lucru).

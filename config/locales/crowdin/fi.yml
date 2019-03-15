@@ -82,7 +82,7 @@ fi:
     label_no_color: No color
   custom_actions:
     actions:
-      name: Actions
+      name: Toiminnot
       add: Lisää toiminto
       assigned_to:
         executing_user_value: "(Assign to executing user)"
@@ -360,7 +360,7 @@ fi:
       comment:
         commented: Kommentoitu
       custom_action:
-        actions: Actions
+        actions: Toiminnot
       custom_field:
         default_value: Oletusarvo
         editable: Muokattava
@@ -1383,6 +1383,7 @@ fi:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Koti
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: tässä
   label_in_less_than: pienempi kuin
   label_in_more_than: suurempi kuin
@@ -1515,6 +1516,7 @@ fi:
   label_previous_week: Edellinen viikko
   label_principal_invite_via_email: " tai kutsu uusia käyttäjiä sähköpostilla"
   label_principal_search: Lisää olemassa olevia käyttäjiä tai ryhmiä
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Tuotteen versio
   label_professional_support: Ammatillinen apu
   label_profile: Profile
@@ -1780,7 +1782,7 @@ fi:
       link_name: Uusi työpaketti
       link_name_type: New %{type_name}
   mail:
-    actions: Actions
+    actions: Toiminnot
   mail_body_account_activation_request: 'Uusi käyttäjä (%{value}) on rekisteröitynyt.
     Hänen tili odottaa hyväksyntääsi:'
   mail_body_account_information: Sinun tilin tiedot
@@ -2229,9 +2231,6 @@ fi:
     kaikista pyynnöistä
   setting_login_required: Pakollinen kirjautuminen
   setting_mail_from: Lähettäjän sähköpostiosoite
-  setting_mail_handler_api_enabled: Ota käyttöön WS saapuville sähköposteille
-  setting_mail_handler_api_description: Sähköpostipalvelu mahdollistaa tietynlaisten
-    komentojen (esim. työpaketin luonti ja päivitys) vastaanottamisen sähköpostitse.
   setting_mail_handler_api_key: API avain
   setting_mail_handler_body_delimiters: Katkaise sähköpostit tällaisen rivin jälkeen
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2544,7 +2543,7 @@ fi:
       comparisons: Comparisons
       comparison:
         absolute: Absolute
-        none: None
+        none: Ei mitään
         relative: Relative
         compare_relative_prefix: Compare current planning to
         compare_relative_suffix: sitten
@@ -2912,3 +2911,6 @@ fi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Ota käyttöön WS saapuville sähköposteille
+  setting_mail_handler_api_description: Sähköpostipalvelu mahdollistaa tietynlaisten
+    komentojen (esim. työpaketin luonti ja päivitys) vastaanottamisen sähköpostitse.

@@ -41,15 +41,6 @@ describe 'search/index', type: :helper do
     assign(:project, project)
   end
 
-  it 'renders correct result-by-type links' do
-    results_by_type = { 'work_packages' => 1, 'wiki_pages' => 1 }
-    response = helper.render_results_by_type(results_by_type)
-
-    expect(response).to have_selector('a', count: results_by_type.size)
-    expect(response).to include("/projects/#{project.identifier}/search")
-    expect(response).to include("scope=#{scope}")
-  end
-
   describe '#highlight_tokens' do
     let(:maximum_length) { 1300 }
 

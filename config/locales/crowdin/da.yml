@@ -763,7 +763,7 @@ da:
   button_check_all: Vælg alt
   button_clear: Ryd
   button_click_to_reveal: Click to reveal
-  button_close: Close
+  button_close: Luk
   button_collapse_all: Fold alle sammen
   button_configure: Opsæt
   button_continue: Fortsæt
@@ -1237,7 +1237,7 @@ da:
   label_available_project_versions: Tilgængelige versioner
   label_available_project_repositories: Tilgængelige repositorier
   label_api_documentation: API-dokumentation
-  label_between: between
+  label_between: mellem
   label_blocked_by: spærret af
   label_blocks: spærringer
   label_blog: Blog
@@ -1384,6 +1384,7 @@ da:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Hjem
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: i
   label_in_less_than: på mindre end
   label_in_more_than: på mere end
@@ -1516,6 +1517,7 @@ da:
   label_previous_week: Foregående uge
   label_principal_invite_via_email: " eller invitér nye brugere via e-mail"
   label_principal_search: Tilføj eksisterende brugere eller grupper
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professionel support
   label_profile: Profil
@@ -1917,7 +1919,7 @@ da:
         format: "%n %u"
         units:
           byte:
-            one: Byte
+            one: byte
             other: Bytes
           gb: GB
           kb: kB
@@ -2233,10 +2235,6 @@ da:
   setting_log_requesting_user: Log bruger-login, navn og mail-adresse ved hver forespørgsel
   setting_login_required: Godkendelse påkrævet
   setting_mail_from: Mailadresse for udsendelse
-  setting_mail_handler_api_enabled: Aktivér indgående e-mailwebtjeneste
-  setting_mail_handler_api_description: E-mail webhåndteringen muliggør, at OpenProject
-    kan modtage e-mails indeholdende specifikke kommandoer, som en mekanisme til instrumentering
-    (f.eks., at oprette og opdatere arbejdspakker).
   setting_mail_handler_api_key: API-nøgle
   setting_mail_handler_body_delimiters: Afkort mails efter en af disse linier
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2924,3 +2922,7 @@ da:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Aktivér indgående e-mailwebtjeneste
+  setting_mail_handler_api_description: E-mail webhåndteringen muliggør, at OpenProject
+    kan modtage e-mails indeholdende specifikke kommandoer, som en mekanisme til instrumentering
+    (f.eks., at oprette og opdatere arbejdspakker).

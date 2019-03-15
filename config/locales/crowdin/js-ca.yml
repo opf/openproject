@@ -25,7 +25,7 @@ ca:
     button_add_watcher: Afegir observador
     button_back_to_list_view: Back to list view
     button_cancel: Cancel·la
-    button_close: Close
+    button_close: Tancar
     button_check_all: Marcar-ho tot
     button_configure-form: Configure form
     button_confirm: Confirm
@@ -279,7 +279,7 @@ ca:
     label_subject: Assumpte
     label_this_week: aquesta setmana
     label_today: avui
-    label_up: Up
+    label_up: Amunt
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Progrés total"

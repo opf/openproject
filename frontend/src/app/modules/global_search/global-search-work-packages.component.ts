@@ -31,29 +31,21 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener, Injector,
+  Injector,
   OnDestroy,
   Renderer2,
   ViewChild
 } from '@angular/core';
-import {ContainHelpers} from 'app/modules/common/focus/contain-helpers';
 import {FocusHelperService} from 'app/modules/common/focus/focus-helper';
 import {I18nService} from 'app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
-import {PathHelperService} from "app/modules/common/path-helper/path-helper.service";
 import {HalResourceService} from "app/modules/hal/services/hal-resource.service";
-import {WorkPackageResource} from "app/modules/hal/resources/work-package-resource";
-import {CollectionResource} from "app/modules/hal/resources/collection-resource";
-import {DynamicCssService} from "app/modules/common/dynamic-css/dynamic-css.service";
 import {GlobalSearchService} from "app/modules/global_search/global-search.service";
-import {debounceTime, distinctUntilChanged} from "rxjs/operators";
-import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {CurrentProjectService} from "app/components/projects/current-project.service";
-import {GlobalSearchInputComponent} from "app/modules/global_search/global-search-input.component";
-import {combineLatest, Subscription} from "rxjs";
+import {debounceTime, distinctUntilChanged, skip} from "rxjs/operators";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {combineLatest} from "rxjs";
 import {WorkPackageTableFilters} from "app/components/wp-fast-table/wp-table-filters";
 import {WorkPackageTableFiltersService} from "app/components/wp-fast-table/state/wp-table-filters.service";
-import {QueryFiltersComponent} from "app/components/filters/query-filters/query-filters.component";
 import {WorkPackageEmbeddedTableComponent} from "app/components/wp-table/embedded/wp-embedded-table.component";
 import {QueryResource} from "app/modules/hal/resources/query-resource";
 import {QueryFormResource} from "app/modules/hal/resources/query-form-resource";
@@ -72,7 +64,6 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
   @ViewChild('wpTable') wpTable:WorkPackageEmbeddedTableComponent;
 
   private query:QueryResource;
-  private firstTimeLoadForm:boolean = false;
 
   public filters:WorkPackageTableFilters;
   public queryProps:{ [key:string]:any };
@@ -108,14 +99,15 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
       this.globalSearchService.projectScope$
     )
     .pipe(
+      skip(1),
       distinctUntilChanged(),
       debounceTime(10),
       untilComponentDestroyed(this)
     )
     .subscribe(([newSearchTerm, newProjectScope]) => {
       this.WpFilter.visible = false;
-      this.firstTimeLoadForm = true;
       this.setQueryProps();
+      this.refresh();
     });
 
     this.globalSearchService
@@ -133,16 +125,14 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
     if (filters.isComplete()) {
       this.query.filters = filters.current;
       this.queryProps = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(this.query);
-      this.refresh();
+
+      this.refreshResults(this.query);
     }
   }
 
   protected loadQuery(visible:boolean = true) {
     return super.loadQuery(visible).then((query:QueryResource) => {
-      if (this.firstTimeLoadForm) {
-        this.firstTimeLoadForm = false;
-        this.loadForm(query);
-      }
+      this.loadForm(query);
       this.query = query;
       return query;
     });
@@ -157,6 +147,7 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
 
   private setQueryProps():void {
     let filters:any[] = [];
+    let columns = ['id', 'project', 'subject', 'type', 'status', 'updatedAt'];
 
     if (this.globalSearchService.searchTerm.length > 0) {
       filters.push({ search: {
@@ -168,6 +159,7 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
       filters.push({ subprojectId: {
           operator: '!*',
           values: [] }});
+      columns = ['id', 'subject', 'type', 'status', 'updatedAt'];
     }
 
     if (this.globalSearchService.projectScope === '') {
@@ -177,13 +169,11 @@ export class GlobalSearchWorkPackagesComponent extends WorkPackageEmbeddedTableC
     }
 
     this.queryProps = {
-      'columns[]': ['id', 'project', 'type', 'subject', 'updatedAt'],
+      'columns[]': columns,
       filters: JSON.stringify(filters),
       sortBy: JSON.stringify([['updatedAt', 'desc']]),
       showHierarchies: false
     };
-
-    this.refresh();
   }
 
   ngOnDestroy():void {

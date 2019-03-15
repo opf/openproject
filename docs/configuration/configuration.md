@@ -135,6 +135,14 @@ If this option is active /login will lead directly to the configured omniauth pr
 Note that this does not stop a user from manually navigating to any other
 omniauth provider if additional ones are configured.
 
+
+### Gravatar images
+
+OpenProject uses gravatar images with a `404` fallback by default to render an internal, initials-based avatar.
+You can override this behavior by setting `gravatar_fallback_image` to a different value.
+
+For supported values, please see https://en.gravatar.com/site/implement/images/
+
 ### attachments storage
 
 *default: file*
@@ -191,6 +199,10 @@ for the migration.
 
 You can override the default help menu of OpenProject by specifying a `force_help_link` option to
 the configuration. This value is used for the href of the help link, and the default dropdown is removed.
+
+### Setting an impressum (legal notice) link
+
+You can set a impressum link for your OpenProject instance by setting `impressum_link` to an absolute URL.
 
 ### hidden menu items
 

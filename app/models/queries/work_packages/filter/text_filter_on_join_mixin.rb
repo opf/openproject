@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,21 +28,36 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module Queries::WorkPackages::Filter::TextFilterOnJoinMixin
+  def where
+    case operator
+    when '~'
+      Queries::Operators::All.sql_for_field(values, join_table_alias, 'id')
+    when '!~'
+      Queries::Operators::None.sql_for_field(values, join_table_alias, 'id')
+    else
+      raise 'Unsupported operator'
+    end
+  end
 
-describe 'search/index', type: :view do
-  let(:project)      { FactoryBot.create :project }
-  let(:subproject)   { FactoryBot.create(:project, parent: project).tap { |_| project.reload }  }
-  let(:work_package) { FactoryBot.create :work_package, project: project }
+  def joins
+    <<-SQL
+     LEFT OUTER JOIN #{join_table} #{join_table_alias}
+     ON #{join_condition}
+    SQL
+  end
 
-  before do
-    assign :project, project
-    assign :subproject, subproject
-    assign :object_types, ['work_packages']
-    assign :scope, ['work_packages', 'changesets']
-    assign :results, [work_package]
-    assign :results_by_type, 'work_packages' => 1
-    assign :question, 'foo'
-    assign :tokens, ['bar']
+  private
+
+  def join_table
+    raise NotImplementedError
+  end
+
+  def join_condition
+    raise NotImplementedError
+  end
+
+  def join_table_alias
+    "#{self.class.key}_#{join_table}"
   end
 end

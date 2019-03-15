@@ -56,8 +56,8 @@ ru:
     button_export-atom: Скачать Atom
     calendar:
       title: Календарь
-      too_many: Пакетов работ больше (%{count}), чем может отобразить calendar (%{max}).
-        Отфильтруйте нужные пакеты добавив фильтры.
+      too_many: Пакетов работ больше (%{count}), чем может быть показано в календаре
+        (%{max}). Отфильтруйте пакеты, чтобы сфокусироваться на нужных.
     description_available_columns: Доступные столбцы
     description_current_position: 'Вы находитесь здесь:'
     description_select_work_package: 'Выберите пакет работ #%{id}'
@@ -152,26 +152,26 @@ ru:
     general_text_Yes: Да
     grid:
       add_modal:
-        choose_widget: Choose widget
+        choose_widget: Выберите виджет
       widgets:
         documents:
-          title: Documents
-          no_results: No documents yet.
+          title: Документы
+          no_results: Документов пока нет.
         news:
           title: Новости
-          at: at
+          at: на
           no_results: Ничего нового для отчета.
         time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
+          title: Затраченное время (за последние 7 дней)
+          no_results: Нет записей о входах за последние 7 дней.
         work_packages_accountable:
           title: Пакеты работ, в которых я подотчетен
         work_packages_assigned:
           title: Переданные мне пакеты работ
         work_packages_created:
-          title: Work packages created by me
+          title: Пакеты работ, созданные мной
         work_packages_watched:
-          title: Work packages watched by me
+          title: Пакеты работ, просмотренные мной
         work_packages_calendar:
           title: Календарь
     label_activate: Активировать
@@ -490,7 +490,7 @@ ru:
         other: Пожалуйста, введите более {{count}} символов
         zero: Please enter more characters
         few: Пожалуйста, введите более {{count}} символов
-        many: Please enter {{count}} more characters
+        many: Пожалуйста, введите {{count}} символа
       load_more: Загрузка дополнительных результатов ...
       no_matches: Совпадения не найдены
       searching: Поиск ...
@@ -499,7 +499,7 @@ ru:
         other: Вы можете выбрать только {{limit}} элементов
         zero: You cannot select any items
         few: Можно выбрать {{limit}} элементов
-        many: You can only select {{limit}} items
+        many: Вы можете выбрать только {{limit}} элемента
     project_menu_details: Детали
     sort:
       sorted_asc: 'Применяется сортировка по возрастанию, '
@@ -875,13 +875,13 @@ ru:
         one: пакет работ с одним дочерним
         other: пакет работ с %{count} дочерними
         few: пакет работ с %{count} дочерними
-        many: "%{count} work package children"
+        many: Пакет работ с %{count} дочерними
       hour:
         one: 1 час
         other: "%{count} часов"
         zero: 0 hours
         few: 'Кол-во часов: %{count}'
-        many: "%{count} hours"
+        many: "%{count} часа"
     zen_mode:
       button_activate: Включить дзен-режим
       button_deactivate: Отключить дзен-режим

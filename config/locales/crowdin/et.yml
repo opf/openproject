@@ -642,10 +642,9 @@ et:
               numeric: arvuline (nt 1, 2, 3)
               special: erimärk (nt %, &)
               reused:
-                one: has been used before. Please choose one that is different from
-                  your last one.
-                other: has been used before. Please choose one that is different from
-                  your last %{count}.
+                one: Vali uus parool, mis erineb eelmisest paroolist.
+                other: Vali uus parool, mis erineb eelmiselt kasutatud %{count}-st
+                  paroolist.
               match:
                 confirm: Confirm new password.
                 description: "'Password confirmation' should match the input in the
@@ -660,8 +659,8 @@ et:
       template:
         body: 'Kontrolli järgnevad väljad:'
         header:
-          one: 1 error prohibited this %{model} from being saved
-          other: "%{count} errors prohibited this %{model} from being saved"
+          one: 1 viga ei võimaldanud selle %{model} salvestamist
+          other: "%{count} viga ei võimaldanud selle %{model} salvestamist"
     models:
       attachment: Fail
       attribute_help_text: Attribute help text
@@ -678,7 +677,7 @@ et:
       query: Kohandatud päring
       role:
         one: Roll
-        other: Roles
+        other: Rollid
       type: Liik
       user: Kasutaja
       version: Versioon
@@ -736,7 +735,7 @@ et:
     priority: Prioriteet
     project: Projekt
     responsible: Accountable
-    role: Role
+    role: Roll
     roles: Rollid
     start_date: Alguskuupäev
     status: Olek
@@ -763,7 +762,7 @@ et:
   button_check_all: Märgi kõik
   button_clear: Tühjenda
   button_click_to_reveal: Click to reveal
-  button_close: Close
+  button_close: Sulge
   button_collapse_all: Ahenda kõik
   button_configure: Seadista
   button_continue: Continue
@@ -989,7 +988,7 @@ et:
   default_type_feature: Täiendus
   default_type_milestone: Verstapost
   default_type_phase: Etapp
-  default_type_task: Task
+  default_type_task: Ülesanne
   default_type_user_story: User story
   description_active: Aktiivne?
   description_attachment_toggle: Kuva/peida manused
@@ -1301,7 +1300,7 @@ et:
   label_custom_field_new: Uus lisaväli
   label_custom_field_plural: Lisaväljad
   label_custom_field_default_type: Määramata tüüp
-  label_custom_style: Design
+  label_custom_style: Kavandamine
   label_date: Kuupäev
   label_date_and_time: Date and time
   label_date_from: Algus
@@ -1374,7 +1373,7 @@ et:
   label_generate_key: Genereeri võti
   label_git_path: Tee .git kataloog
   label_greater_or_equal: ">="
-  label_group_by: Group by
+  label_group_by: Grupeeri
   label_group_new: Uus rühm
   label_group: Grupp
   label_group_named: Group %{name}
@@ -1386,6 +1385,7 @@ et:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Avaleht
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: sisaldub hulgas
   label_in_less_than: on väiksem kui
   label_in_more_than: on suurem kui
@@ -1518,6 +1518,7 @@ et:
   label_previous_week: Eelmine nädal
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professionaalne kasutajatugi
   label_profile: Profiil
@@ -1707,8 +1708,8 @@ et:
   label_workflow_plural: Töövood
   label_workflow_summary: Kokkuvõte
   label_x_closed_work_packages_abbr:
-    one: 1 closed
-    other: "%{count} closed"
+    one: 1 suletud
+    other: "%{count} suletud"
     zero: 0 closed
   label_x_comments:
     one: 1 kommentaar
@@ -2228,10 +2229,6 @@ et:
   setting_log_requesting_user: Logi iga taotluse kasutajanimi, nimi ja epost
   setting_login_required: Autentimine kohustuslik
   setting_mail_from: Saatja e-posti aadress
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: Veebiteenuse API võti
   setting_mail_handler_body_delimiters: Kärbi e-kirja lõpp peale sellist rida
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2307,7 +2304,7 @@ et:
     plain: Plain text
   status_active: aktiivne
   status_archived: archived
-  status_invited: invited
+  status_invited: ktsutud
   status_locked: lukustatud
   status_registered: registreeritud
   support:
@@ -2682,15 +2679,15 @@ et:
     assign_random_password: Assign random password (sent to user via email)
     blocked: ajutiselt blokeeritud
     blocked_num_failed_logins:
-      one: locked temporarily (one failed login attempt)
-      other: locked temporarily (%{count} failed login attempts)
+      one: ajutiselt blokeeritud (üks ebaõnnestunud sisselogimise katse)
+      other: ajutiselt blokeeritud (%{count} ebaõnnestunud sisselogimise katset)
     confirm_status_change: You are about to change the status of '%{name}'. Are you
       sure you want to continue?
     deleted: Kustutatud kasutaja
     error_status_change_failed: 'Kasutaja oleku muutmine nurjus järgmiste tõrgete
       tõttu: %{errors}'
     invite: Invite user via email
-    invited: invited
+    invited: ktsutud
     lock: Lukustada jäädavalt
     locked: lukustatud jäädavalt
     no_login: This user authenticates through login by password. Since it is disabled,
@@ -2913,3 +2910,7 @@ et:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Enable incoming email web service
+  setting_mail_handler_api_description: The email web handler enables OpenProject
+    to receive emails containing specific commands as an instrumentation mechanism
+    (e.g., to create and update work packages).

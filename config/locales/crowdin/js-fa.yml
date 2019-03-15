@@ -205,7 +205,7 @@ fa:
     label_description: توضیحات
     label_cancel_comment: Cancel comment
     label_closed_work_packages: closed
-    label_collapse: Collapse
+    label_collapse: فرو ریختن
     label_collapsed: فروریخته
     label_collapse_all: بستن همه
     label_comment: نظر
@@ -488,14 +488,14 @@ fa:
     select2:
       input_too_short:
         one: Please enter one more character
-        other: Please enter {{count}} more characters
+        other: لطفا {{count}} نویسه بیشتر وارد کنید
         zero: Please enter more characters
       load_more: در حال بارگذاری نتایج بیشتر...
       no_matches: هیچ مورد مطابقی یافت نشد
       searching: جستجو ...
       selection_too_big:
         one: You can only select one item
-        other: You can only select {{limit}} items
+        other: شما فقط می‌توانید {{limit}} مورد را انتخاب کنید
         zero: You cannot select any items
     project_menu_details: Details
     sort:

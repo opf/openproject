@@ -384,9 +384,9 @@ af:
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
+        page: Bladsy
+        row_count: Aantal rye
+        column_count: Aantal kolomme
         widgets: Widgets
       relation:
         delay: Vertraag
@@ -481,7 +481,7 @@ af:
       doorkeeper/application:
         uid: Client ID
         secret: Client secret
-        owner: Owner
+        owner: Eienaar
         redirect_uri: Redirect URI
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
@@ -1392,6 +1392,7 @@ af:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Tuis
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: in
   label_in_less_than: in minder as
   label_in_more_than: in meer as
@@ -1524,6 +1525,7 @@ af:
   label_previous_week: Vorige week
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Produk weergawe
   label_professional_support: Professional support
   label_profile: Profiel
@@ -2241,10 +2243,6 @@ af:
   setting_log_requesting_user: Log user login, name, and mail address for all requests
   setting_login_required: Authentication required
   setting_mail_from: Emission email address
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   setting_mail_handler_body_delimiter_regex: Stomp eposse af wat ooreenstem met hierdie
@@ -2934,3 +2932,7 @@ af:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Enable incoming email web service
+  setting_mail_handler_api_description: The email web handler enables OpenProject
+    to receive emails containing specific commands as an instrumentation mechanism
+    (e.g., to create and update work packages).
