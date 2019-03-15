@@ -39,6 +39,8 @@ This can be done with the command `openproject config:set DATABASE_URL="mysql://
 
 Older installations of OpenProject have installed a MySQL. With [pgloader](https://pgloader.io), it is trivially easy to convert a dump between MySQL and PostgreSQL installation. You simply run `pgloader <mysql database url> <postgres database url>`. You can find out the DATABASE_URL by using `openproject config:get DATABASE_URL`.
 
+[We have prepared a guide](https://www.openproject.org/operations/upgrading/migrating-packaged-openproject-database-postgresql/) on how to migrate to a PostgreSQL database if you previously used MySQL. 
+
 ### My favorite linux distribution is not listed. What can I do?
 
 You can either try the manual installation, or ask in the forum whether this could be added to the list of supported distributions.

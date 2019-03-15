@@ -1205,6 +1205,7 @@ en:
   label_branch: "Branch"
   label_browse: "Browse"
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
+  label_bundled: '(Bundled)'
   label_calendar: "Calendar"
   label_calendar_show: "Show Calendar"
   label_category: "Category"
@@ -1465,6 +1466,7 @@ en:
   label_planning: "Planning"
   label_please_login: "Please log in"
   label_plugins: "Plugins"
+  label_modules_and_plugins: "Modules and Plugins"
   label_precedes: "precedes"
   label_preferences: "Preferences"
   label_preview: "Preview"

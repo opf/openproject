@@ -54,7 +54,7 @@ module OpenProject::Backlogs
 
     register 'openproject-backlogs',
              author_url: 'http://finn.de',
-             requires_openproject: "= #{OpenProject::Backlogs::VERSION}",
+             bundled: true,
              settings: settings do
       Redmine::AccessControl.permission(:edit_project).actions << 'projects/project_done_statuses'
       Redmine::AccessControl.permission(:edit_project).actions << 'projects/rebuild_positions'

@@ -80,6 +80,7 @@ import {EditableToolbarTitleComponent} from "core-app/modules/common/editable-to
 import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.component";
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
+import {EnterpriseBannerComponent} from "core-components/enterprise-banner/enterprise-banner.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -165,6 +166,9 @@ export function bootstrapModule(injector:Injector) {
 
     // User Avatar
     UserAvatarComponent,
+
+    // Enterprise Edition
+    EnterpriseBannerComponent,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -218,6 +222,9 @@ export function bootstrapModule(injector:Injector) {
 
     // User Avatar
     UserAvatarComponent,
+
+    // Enterprise Edition
+    EnterpriseBannerComponent,
   ],
   entryComponents: [
     OpDateTimeComponent,

@@ -27,7 +27,7 @@ module OpenProject::GlobalRoles
 
     register 'openproject-global_roles',
              author_url: 'http://finn.de',
-             requires_openproject: '>= 4.0.0'
+             bundled: true
 
     assets %w(global_roles/global_roles.js)
 

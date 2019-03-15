@@ -3,7 +3,8 @@
     <h2 [textContent]="text.boards">
     </h2>
   </div>
-  <ul class="toolbar-items">
+  <ul class="toolbar-items"
+      *ngIf="showBoardIndexView()">
     <li *ngIf="canManage"
         class="toolbar-item">
       <a class="button -alt-highlight"
@@ -18,7 +19,7 @@
   </ul>
 </div>
 
-<div *ngIf="(boards$ | async) as boards"
+<div *ngIf="showBoardIndexView() && (boards$ | async) as boards"
      class="boards--listing-group loading-indicator--location"
      data-indicator-name="boards-module">
   <div class="generic-table--container">
@@ -101,3 +102,9 @@
     </div>
   </div>
 </div>
+
+<enterprise-banner *ngIf="!showBoardIndexView()"
+                   [linkMessage]="text.upsaleCheckOutLink"
+                   [textMessage]="text.upsaleBoards"
+                   opReferrer="boards">
+</enterprise-banner>

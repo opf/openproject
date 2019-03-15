@@ -69,6 +69,7 @@ describe 'Status action board', type: :feature, js: true do
   }
 
   before do
+    with_enterprise_token :board_view
     project
     login_as(user)
   end

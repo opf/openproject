@@ -1,14 +1,8 @@
 # encoding: UTF-8
-$:.push File.expand_path("../lib", __FILE__)
-$:.push File.expand_path("../../lib", __dir__)
 
-# Maintain your gem's version:
-require "open_project/my_project_page/version"
-
-# Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "openproject-my_project_page"
-  s.version     = OpenProject::MyProjectPage::VERSION
+  s.version     = '1.0.0'
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
   s.homepage    = "https://community.openproject.org/projects/my-project-page"

@@ -67,6 +67,7 @@ describe 'Work Package boards spec', type: :feature, js: true do
   let(:color2) { FactoryBot.create :color }
 
   before do
+    with_enterprise_token :board_view
     project
     login_as(user)
   end

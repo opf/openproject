@@ -23,7 +23,7 @@ module OpenProject::GithubIntegration
 
     register 'openproject-github_integration',
              :author_url => 'http://finn.de',
-             :requires_openproject => '>= 3.1.0pre1'
+             bundled: true
 
 
     initializer 'github.register_hook' do
