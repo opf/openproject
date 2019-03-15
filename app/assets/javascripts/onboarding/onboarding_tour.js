@@ -50,8 +50,8 @@
             }
 
             // ------------------------------- Tutorial WP page -------------------------------
-            if (currentTourPart === "startWpTour" || url.searchParams.get("start_onboarding_tour")) {
-                workPackageTour();
+            if (currentTourPart === "startMainTour" || url.searchParams.get("start_onboarding_tour")) {
+                mainTour();
             }
 
             // ------------------------------- Tutorial Backlogs page -------------------------------
@@ -111,15 +111,24 @@
         }
 
         function taskboardTour() {
-            initializeTour('startWpTour');
+            initializeTour('startMainTour');
             startTour(scrumTaskBoardTourSteps);
         }
 
-        function workPackageTour() {
-            initializeTour('wpFinished');
+        function mainTour() {
+            initializeTour('mainTourFinished');
 
             waitForElement('.work-package--results-tbody', '#content', function() {
-                startTour(wpOnboardingTourSteps);
+                var steps;
+
+                // ToDo: Implement real check for EE edition, avaiable seed data of boards, and project
+                if (true) {
+                    steps = wpOnboardingTourSteps.concat(boardTourSteps).concat(menuTourSteps);
+                } else {
+                    steps = wpOnboardingTourSteps.concat(menuTourSteps);
+                }
+
+                startTour(steps);
             });
         }
     });
