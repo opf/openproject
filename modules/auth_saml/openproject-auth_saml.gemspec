@@ -1,12 +1,8 @@
 # encoding: UTF-8
-$:.push File.expand_path("../lib", __FILE__)
-$:.push File.expand_path("../../lib", __dir__)
 
-require 'open_project/auth_saml/version'
-# Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = 'openproject-auth_saml'
-  s.version     = '1.0.0+bundled'
+  s.version     = '1.0.0'
   s.authors     = 'Cyril Rohr'
   s.email       = 'cyril.rohr@gmail.com'
   s.homepage    = 'https://github.com/finnlabs/openproject-auth_saml'

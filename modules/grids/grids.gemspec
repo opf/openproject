@@ -1,10 +1,8 @@
-$:.push File.expand_path("../lib", __FILE__)
-
-require "grids/version"
+# encoding: UTF-8
 
 Gem::Specification.new do |s|
   s.name        = "grids"
-  s.version     = '1.0.0+bundled'
+  s.version     = '1.0.0'
   s.authors     = ["OpenProject"]
   s.summary     = "OpenProject Grids."
 

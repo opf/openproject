@@ -1,13 +1,8 @@
 # encoding: UTF-8
 
-$:.push File.expand_path('../lib', __FILE__)
-$:.push File.expand_path("../../lib", __dir__)
-
-require 'open_project/boards/version'
-
 Gem::Specification.new do |s|
   s.name        = 'openproject-boards'
-  s.version     = '1.0.0+bundled'
+  s.version     = '1.0.0'
   s.authors     = 'OpenProject GmbH'
   s.email       = 'info@openproject.com'
   s.homepage    = 'https://community.openproject.org'
