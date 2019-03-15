@@ -29,15 +29,27 @@
 #++
 
 class Queries::WorkPackages::Filter::CommentFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  include Queries::WorkPackages::Filter::TextFilterOnJoinMixin
+
   def type
     :text
   end
 
-  def includes
-    %i{journals}
+  def join_condition
+    <<-SQL
+     #{join_table_alias}.journable_id = #{WorkPackage.table_name}.id
+	   AND #{join_table_alias}.journable_type = '#{WorkPackage.name}'
+     AND #{notes_condition}
+    SQL
   end
 
-  def where
-    operator_strategy.sql_for_field(values, Journal.table_name, 'notes')
+  private
+
+  def join_table
+    Journal.table_name
+  end
+
+  def notes_condition
+    Queries::Operators::Contains.sql_for_field(values, join_table_alias, 'notes')
   end
 end

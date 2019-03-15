@@ -178,7 +178,8 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     });
 
     this.renderTimeSlices(vp, 'quarter', 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = 'Q' + start.format('Q');
+      cell.innerHTML = this.I18n.t('js.timelines.quarter_label',
+        { quarter_number: start.format('Q') });
       cell.classList.add('-top-border');
       cell.style.height = '30px';
     });

@@ -307,7 +307,12 @@ class Query < ActiveRecord::Base
   end
 
   def sort_criteria
-    read_attribute(:sort_criteria) || []
+    (read_attribute(:sort_criteria) || []).tap do |criteria|
+      criteria.map! do |attr, direction|
+        attr = 'id' if attr == 'parent'
+        [attr, direction]
+      end
+    end
   end
 
   def sort_criteria_key(arg)

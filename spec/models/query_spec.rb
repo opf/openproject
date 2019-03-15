@@ -541,6 +541,15 @@ describe Query, type: :model do
         end
       end
 
+      context 'parent' do
+        let(:sort_by) { [['parent', 'asc'], ['start_date', 'asc']] }
+
+        it 'is valid' do
+          expect(query).to be_valid
+          expect(query.sort_criteria).to match_array [['id', 'asc'], ['start_date', 'asc']]
+        end
+      end
+
       context 'partially invalid' do
         let(:sort_by) { [['cf_0815', 'desc'], ['project', 'desc']] }
 
