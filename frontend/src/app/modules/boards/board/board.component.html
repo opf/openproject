@@ -19,7 +19,8 @@
                                 [editable]="board.editable">
         </editable-toolbar-title>
 
-        <ul class="toolbar-items">
+        <ul class="toolbar-items"
+            *ngIf="showBoardListView()">
           <li class="toolbar-item">
             <zen-mode-toggle-button></zen-mode-toggle-button>
           </li>
@@ -38,6 +39,7 @@
   </div>
 
   <div class="boards-list--container"
+       *ngIf="showBoardListView()"
        cdkDropList
        [cdkDropListDisabled]="!board.editable"
        cdkDropListOrientation="horizontal"
@@ -64,4 +66,11 @@
       </div>
     </div>
   </div>
+
+
+  <enterprise-banner *ngIf="!showBoardListView()"
+                     [linkMessage]="text.upsaleCheckOutLink"
+                     [textMessage]="text.upsaleBoards"
+                     opReferrer="boards">
+  </enterprise-banner>
 </div>

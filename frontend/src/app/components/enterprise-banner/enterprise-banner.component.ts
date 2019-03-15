@@ -4,8 +4,9 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'enterprise-banner',
+  styleUrls: ['./enterprise-banner.component.sass'],
   template: `
-      <div class="notification-box">
+      <div class="notification-box -ee-upsale">
         <div class="notification-box--content">
           <p class="-bold" [textContent]="text.enterpriseFeature"></p>
           <p [textContent]="textMessage"></p>
@@ -23,7 +24,7 @@ export class EnterpriseBannerComponent {
 
   public text:any = {
     enterpriseFeature: this.I18n.t('js.upsale.ee_only'),
-  }
+  };
 
   constructor(protected I18n:I18nService) {
   }
