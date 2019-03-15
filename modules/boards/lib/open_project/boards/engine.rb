@@ -24,6 +24,7 @@ module OpenProject::Boards
 
     register 'openproject-boards',
              author_url: 'https://community.openproject.com',
+             bundled: true,
              settings: {},
              name: 'OpenProject Boards' do
 
