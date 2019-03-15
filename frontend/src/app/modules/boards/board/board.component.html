@@ -67,10 +67,9 @@
     </div>
   </div>
 
-
   <enterprise-banner *ngIf="!showBoardListView()"
                      [linkMessage]="text.upsaleCheckOutLink"
                      [textMessage]="text.upsaleBoards"
-                     opReferrer="boards">
+                     [opReferrer]="opReferrer(board)">
   </enterprise-banner>
 </div>

@@ -43,6 +43,7 @@ describe 'Board management spec', type: :feature, js: true do
   let(:board_index) { Pages::BoardIndex.new(project) }
 
   before do
+    with_enterprise_token :board_view
     project
     login_as(user)
   end

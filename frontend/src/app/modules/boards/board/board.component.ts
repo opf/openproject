@@ -150,4 +150,8 @@ export class BoardComponent implements OnInit, OnDestroy {
   public showBoardListView() {
     return !this.Banner.eeShowBanners;
   }
+
+  public opReferrer(board:Board) {
+    return board.isFree ? 'boards#free' : 'boards#status';
+  }
 }
