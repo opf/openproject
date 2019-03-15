@@ -50,6 +50,8 @@ module OpenProject::Boards
            caption: :'boards.label_boards'
     end
 
+    patch_with_namespace :BasicData, :SettingSeeder
+
     config.to_prepare do
       OpenProject::Boards::GridRegistration.register!
     end

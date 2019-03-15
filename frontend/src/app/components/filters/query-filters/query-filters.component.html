@@ -63,17 +63,12 @@
         </select>
       </div>
 
-      <div class="advanced-filters--add-filter-info"
-           *ngIf="eeShowBanners">
-        <div class="notification-box">
-          <div class="notification-box--content">
-            {{ text.upsale_for_more }}
-            <a href="https://www.openproject.org/enterprise-edition/?op_edtion=community-edition&op_referrer=wp-filter#filters"
-               target='blank'
-               [textContent]="text.upsale_link"></a>
-          </div>
-        </div>
-      </div>
+      <enterprise-banner class="advanced-filters--add-filter-info"
+                         *ngIf="eeShowBanners"
+                         [linkMessage]="text.upsale_link"
+                         [textMessage]="text.upsale_for_more"
+                         opReferrer="wp-filter#filters">
+      </enterprise-banner>
     </li>
   </ul>
 </fieldset>

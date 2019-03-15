@@ -48,6 +48,7 @@ describe 'Work Package boards spec', type: :feature, js: true do
   let(:project_html_title) { ::Components::HtmlTitle.new project }
 
   before do
+    with_enterprise_token :board_view
     project
     login_as(user)
   end
