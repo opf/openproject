@@ -20,6 +20,10 @@ fil:
     close_form_title: Isara ang form
     card:
       add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Ang iyong browser ay hindi suporta ang pagkokopya sa clipboard.
         Mangayaring kopyahin ng manu-mano ang napiling teksto.

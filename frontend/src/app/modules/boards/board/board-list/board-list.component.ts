@@ -29,6 +29,7 @@ import {AuthorisationService} from "core-app/modules/common/model-auth/model-aut
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 import {GonService} from "core-app/modules/common/gon/gon.service";
+import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 
 @Component({
   selector: 'board-list',
@@ -72,15 +73,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     areYouSure: this.I18n.t('js.text_are_you_sure'),
   };
 
-  public boardTableConfiguration = {
-    hierarchyToggleEnabled: false,
-    columnMenuEnabled: false,
-    actionsColumnEnabled: false,
-    // Drag & Drop is enabled when editable
-    dragAndDropEnabled: false,
-    isEmbedded: true,
-    isCardView: true
-  };
+  /** Are we allowed to drag & drop elements ? */
+  public dragAndDropEnabled:boolean = false;
 
   constructor(private readonly QueryDm:QueryDmService,
               private readonly I18n:I18nService,
@@ -90,6 +84,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly cdRef:ChangeDetectorRef,
               private readonly querySpace:IsolatedQuerySpace,
               private readonly Gon:GonService,
+              private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               private readonly authorisationService:AuthorisationService,
               private readonly wpInlineCreate:WorkPackageInlineCreateService,
               private readonly loadingIndicator:LoadingIndicatorService) {
@@ -97,7 +92,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   ngOnInit():void {
-    const boardId:number = this.state.params.board_id;
+    const boardId:string = this.state.params.board_id;
 
     this.loadQuery();
 
@@ -122,11 +117,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         untilComponentDestroyed(this)
       )
       .subscribe((board) => {
-        this.boardTableConfiguration = {
-          ...this.boardTableConfiguration,
-          isCardView: board.displayMode === 'cards',
-          dragAndDropEnabled: board.editable,
-        };
+        this.dragAndDropEnabled = board.editable;
       });
   }
 
@@ -160,7 +151,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     this.inFlight = true;
     this.query.name = value;
     this.QueryDm
-      .patch(this.query.id, {name: value})
+      .patch(this.query.id!, {name: value})
+      .toPromise()
       .then(() => {
         this.inFlight = false;
         this.notifications.addSuccess(this.text.updateSuccessful);
@@ -176,7 +168,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       return '';
     }
     const value = filter.values[0] as HalResource;
-    return Highlighting.rowClass(attribute, value.getId());
+    return Highlighting.rowClass(attribute, value.id!);
   }
 
   public get listName() {
@@ -184,7 +176,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   private loadQuery() {
-    const queryId:number = this.resource.options.query_id as number;
+    const queryId:string = (this.resource.options.query_id as number|string).toString();
 
     this.QueryDm
       .stream(this.columnsQueryProps, queryId)
@@ -192,7 +184,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         withLoadingIndicator(this.indicatorInstance, 50),
       )
       .subscribe(query => {
-        this.querySpace.query.putValue(query);
+        this.wpStatesInitialization.updateQuerySpace(query, query.results);
       });
   }
 

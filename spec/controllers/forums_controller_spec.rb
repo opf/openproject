@@ -28,21 +28,68 @@
 
 require 'spec_helper'
 
-describe BoardsController, type: :controller do
-  let(:user) { FactoryBot.build(:user) }
+describe ForumsController, type: :controller do
+  shared_let(:user) { FactoryBot.create(:user) }
   let(:project) { FactoryBot.create(:project) }
-  let!(:board) {
-    FactoryBot.build(:board,
-                      project: project)
-  }
+  let!(:forum) { FactoryBot.create(:forum, project: project) }
 
   before do
     disable_flash_sweep
   end
 
+  describe '#index' do
+
+    context 'public project' do
+      let(:project) { FactoryBot.create(:public_project) }
+      let!(:role) { FactoryBot.create(:non_member) }
+
+      it 'renders the index template' do
+        as_logged_in_user(user) do
+          get :index, params: { project_id: project.id }
+        end
+
+        expect(response).to be_successful
+        expect(response).to render_template 'forums/show'
+        expect(assigns(:forums)).to be_present
+        expect(assigns(:project)).to be_present
+      end
+    end
+
+    context 'assuming authorized' do
+      it 'renders the index template' do
+        as_logged_in_user(user) do
+          allow(@controller).to receive(:authorize).and_return(true)
+          get :index, params: { project_id: project.id }
+        end
+        expect(response).to be_successful
+      end
+    end
+
+    it 'renders 404 for not found' do
+      get :index, params: { project_id: 'not found' }
+      expect(response.status).to eq 404
+    end
+  end
+
+  describe '#show' do
+    before do
+      expect(project).to receive_message_chain(:forums, :find).and_return(forum)
+      expect(@controller).to receive(:authorize)
+      expect(@controller).to receive(:find_project_by_project_id) do
+        @controller.instance_variable_set(:@project, project)
+      end
+    end
+
+    it 'renders the show template' do
+      get :show, params: { project_id: project.id, id: 1 }
+      expect(response).to be_successful
+      expect(response).to render_template 'forums/show'
+    end
+  end
+
   describe '#create' do
-    let(:params) { { project_id: project.id, board: board_params } }
-    let(:board_params) { { name: 'my board', description: 'awesome board' } }
+    let(:params) { { project_id: project.id, forum: forum_params } }
+    let(:forum_params) { { name: 'my forum', description: 'awesome forum' } }
 
     before do
       expect(@controller).to receive(:authorize)
@@ -51,15 +98,15 @@ describe BoardsController, type: :controller do
       end
 
       # parameter expectation needs to have strings as keys
-      expect(Board)
+      expect(Forum)
         .to receive(:new)
-        .with(ActionController::Parameters.new(board_params).permit!)
-        .and_return(board)
+        .with(ActionController::Parameters.new(forum_params).permit!)
+        .and_return(forum)
     end
 
     describe 'w/ the params beeing valid' do
       before do
-        expect(board).to receive(:save).and_return(true)
+        expect(forum).to receive(:save).and_return(true)
 
         as_logged_in_user user do
           post :create, params: params
@@ -71,7 +118,7 @@ describe BoardsController, type: :controller do
           .to redirect_to controller: '/project_settings',
                           action: 'show',
                           id: project,
-                          tab: 'boards'
+                          tab: 'forums'
       end
 
       it 'have a successful creation flash' do
@@ -81,7 +128,7 @@ describe BoardsController, type: :controller do
 
     describe 'w/ the params beeing invalid' do
       before do
-        expect(board).to receive(:save).and_return(false)
+        expect(forum).to receive(:save).and_return(false)
 
         as_logged_in_user user do
           post :create, params: params
@@ -94,32 +141,52 @@ describe BoardsController, type: :controller do
     end
   end
 
+  describe '#destroy' do
+    let(:forum_params) { { name: 'my forum', description: 'awesome forum' } }
+
+    before do
+      expect(@controller).to receive(:authorize)
+      expect(project).to receive_message_chain(:forums, :find).and_return(forum)
+      expect(@controller).to receive(:find_project_by_project_id) do
+        @controller.instance_variable_set(:@project, project)
+      end
+    end
+
+    it 'will request destruction and redirect' do
+      expect(forum).to receive(:destroy)
+      delete :destroy, params: { project_id: project.id, id: 1 }
+      expect(response).to be_redirect
+    end
+  end
+
   describe '#move' do
     let(:project) { FactoryBot.create(:project) }
-    let!(:board_1) {
-      FactoryBot.create(:board,
+    let!(:forum_1) {
+      FactoryBot.create(:forum,
                          project: project,
                          position: 1)
     }
-    let!(:board_2) {
-      FactoryBot.create(:board,
+    let!(:forum_2) {
+      FactoryBot.create(:forum,
                          project: project,
                          position: 2)
     }
 
-    before do allow(@controller).to receive(:authorize).and_return(true) end
+    before do
+      allow(@controller).to receive(:authorize).and_return(true)
+    end
 
     describe '#higher' do
       let(:move_to) { 'higher' }
-      let(:redirect_url) { "http://test.host/projects/#{project.id}/settings/boards" }
+      let(:redirect_url) { "http://test.host/projects/#{project.id}/settings/forums" }
 
       before do
-        post 'move', params: { id: board_2.id,
-                               project_id: board_2.project_id,
-                               board: { move_to: move_to } }
+        post 'move', params: { id: forum_2.id,
+                               project_id: forum_2.project_id,
+                               forum: { move_to: move_to } }
       end
 
-      it do expect(board_2.reload.position).to eq(1) end
+      it do expect(forum_2.reload.position).to eq(1) end
 
       it do expect(response).to be_redirect end
 
@@ -128,9 +195,9 @@ describe BoardsController, type: :controller do
   end
 
   describe '#update' do
-    let!(:board) {
-      FactoryBot.create(:board, name: 'Board name',
-                                 description: 'Board description')
+    let!(:forum) {
+      FactoryBot.create(:forum, name: 'Forum name',
+                                 description: 'Forum description')
     }
 
     before do
@@ -140,17 +207,17 @@ describe BoardsController, type: :controller do
     describe 'w/ the params beeing valid' do
       before do
         as_logged_in_user user do
-          put :update, params: { id: board.id,
-                                 project_id: board.project_id,
-                                 board: { name: 'New name', description: 'New description' } }
+          put :update, params: { id: forum.id,
+                                 project_id: forum.project_id,
+                                 forum: { name: 'New name', description: 'New description' } }
         end
       end
 
       it 'should redirect to the settings page if successful' do
         expect(response).to redirect_to controller: '/project_settings',
                                         action: 'show',
-                                        id: board.project,
-                                        tab: 'boards'
+                                        id: forum.project,
+                                        tab: 'forums'
       end
 
       it 'have a successful update flash' do
@@ -158,18 +225,18 @@ describe BoardsController, type: :controller do
       end
 
       it 'should change the database entry' do
-        board.reload
-        expect(board.name).to eq('New name')
-        expect(board.description).to eq('New description')
+        forum.reload
+        expect(forum.name).to eq('New name')
+        expect(forum.description).to eq('New description')
       end
     end
 
     describe 'w/ the params beeing invalid' do
       before do
         as_logged_in_user user do
-          post :update, params: { id: board.id,
-                                  project_id: board.project_id,
-                                  board: { name: '', description: 'New description' } }
+          post :update, params: { id: forum.id,
+                                  project_id: forum.project_id,
+                                  forum: { name: '', description: 'New description' } }
         end
       end
 
@@ -178,18 +245,18 @@ describe BoardsController, type: :controller do
       end
 
       it 'should not change the database entry' do
-        board.reload
-        expect(board.name).to eq('Board name')
-        expect(board.description).to eq('Board description')
+        forum.reload
+        expect(forum.name).to eq('Forum name')
+        expect(forum.description).to eq('Forum description')
       end
     end
   end
 
   describe '#sticky' do
-    let!(:message1) { FactoryBot.create(:message, board: board) }
-    let!(:message2) { FactoryBot.create(:message, board: board) }
+    let!(:message1) { FactoryBot.create(:message, forum: forum) }
+    let!(:message2) { FactoryBot.create(:message, forum: forum) }
     let!(:sticked_message1) {
-      FactoryBot.create(:message, board_id: board.id,
+      FactoryBot.create(:message, forum_id: forum.id,
                                    subject: 'How to',
                                    content: 'How to install this cool app',
                                    sticky: '1',
@@ -197,7 +264,7 @@ describe BoardsController, type: :controller do
     }
 
     let!(:sticked_message2) {
-      FactoryBot.create(:message, board_id: board.id,
+      FactoryBot.create(:message, forum_id: forum.id,
                                    subject: 'FAQ',
                                    content: 'Frequestly asked question',
                                    sticky: '1',
@@ -208,7 +275,7 @@ describe BoardsController, type: :controller do
     describe 'all sticky messages' do
       before do
         expect(@controller).to receive(:authorize)
-        get :show, params: { project_id: project.id, id: board.id }
+        get :show, params: { project_id: project.id, id: forum.id }
       end
 
       it 'renders show' do
@@ -228,7 +295,7 @@ describe BoardsController, type: :controller do
       describe 'when sticky is unset from message' do
         before do
           expect(@controller).to receive(:authorize)
-          get :show, params: { project_id: project.id, id: board.id }
+          get :show, params: { project_id: project.id, id: forum.id }
         end
 
         it 'it should not be displayed as sticky message' do
@@ -243,7 +310,7 @@ describe BoardsController, type: :controller do
           sticked_message1.save!
 
           expect(@controller).to receive(:authorize)
-          get :show, params: { project_id: project.id, id: board.id }
+          get :show, params: { project_id: project.id, id: forum.id }
         end
 
         it 'it should not be displayed on first position' do

@@ -73,9 +73,9 @@ sv-SE:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Det finns för närvarande inga inlägg på anslagstavlan.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: För närvarande finns det inga färger.
@@ -155,9 +155,9 @@ sv-SE:
     settings:
       activities:
         no_results_title_text: Det finns för närvarande inga tillgängliga aktiviteter.
-      boards:
-        no_results_title_text: Det finns för närvarande inga anslagstavlor för projektet.
-        no_results_content_text: Skapa en ny anslagstavla
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Det finns för närvarande inga kategorier för arbetspaket.
         no_results_content_text: Skapa en ny kategori för arbetspaket
@@ -168,6 +168,9 @@ sv-SE:
       versions:
         no_results_title_text: Det finns för närvarande inga versioner av projektet.
         no_results_content_text: Skapa en ny version
+      boards:
+        no_results_title_text: Det finns för närvarande inga anslagstavlor för projektet.
+        no_results_content_text: Skapa en ny anslagstavla
   members:
     index:
       no_results_title_text: Det finns för närvarande inga medlemmar i detta projekt.
@@ -669,7 +672,7 @@ sv-SE:
     models:
       attachment: Fil
       attribute_help_text: Attribute help text
-      board: Forum
+      forum: Forum
       comment: Kommentar
       custom_action: Anpassad åtgärd
       custom_field: Anpassat fält
@@ -691,6 +694,7 @@ sv-SE:
       workflow: Arbetsflöde
       work_package: Arbetspaket
       doorkeeper/application: OAuth application
+      board: Forum
   errors:
     header_invalid_fields: 'Det fanns problem med följande fält:'
     field_erroneous_label: |-
@@ -1167,10 +1171,10 @@ sv-SE:
       faq: Vanliga frågor (FAQ)
       glossary: Ordlista
       shortcuts: Genvägar
-      forums: Forum
       blog: OpenProject blogg
-      boards: Community forum
+      forums: Forum
       newsletter: Security alerts / Newsletter
+      boards: Community forum
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: Du kan logga in så snart ditt konto har aktiverats
@@ -1235,7 +1239,7 @@ sv-SE:
   label_authentication: Autentisering
   label_available_project_work_package_categories: Tillgängliga arbetspaketkategorier
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Tillgängliga anslagstavlor
+  label_available_project_forums: Available forums
   label_available_project_versions: Tillgängliga versioner
   label_available_project_repositories: Tillgängliga databaser
   label_api_documentation: API-dokumentation
@@ -1243,10 +1247,10 @@ sv-SE:
   label_blocked_by: blockeras av
   label_blocks: blockerar
   label_blog: Blogg
-  label_board_locked: Låst
-  label_board_new: Nytt forum
-  label_board_plural: Forum
-  label_board_sticky: Klistrad
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Booleskt värde
   label_branch: Gren
   label_browse: Bläddra
@@ -1966,7 +1970,7 @@ sv-SE:
   permission_export_wiki_pages: Exportera wiki-sidor
   permission_list_attachments: Lista bifogade filer
   permission_log_time: Tidrapportera
-  permission_manage_boards: Hantera forum
+  permission_manage_forums: Manage forums
   permission_manage_categories: Hantera kategorier för arbetspaket
   permission_manage_work_package_relations: Hantera relationer för arbetspaket
   permission_manage_members: Hantera medlemmar
@@ -2014,7 +2018,7 @@ sv-SE:
     archive:
       are_you_sure: Är du säker på att du vill arkivera projektet '%{name}'?
   project_module_activity: Aktivitet
-  project_module_boards: Forum
+  project_module_forums: Forums
   project_module_calendar: Kalender
   project_module_work_package_tracking: Arbetspaketsspårning
   project_module_news: Nyheter
@@ -2491,7 +2495,6 @@ sv-SE:
       color: Färg
       colors: Färger
     associations: Beroenden
-    board_could_not_be_saved: Anslagstavlan kunde inte sparas
     button_delete_all: Ta bort alla
     change: Ändra i planeringen
     children: Underordnade element
@@ -2650,6 +2653,7 @@ sv-SE:
       months: Månader
       quarters: Kvartal
       years: År
+    board_could_not_be_saved: Anslagstavlan kunde inte sparas
   title_remove_and_delete_user: Ta bort den inbjudna medlemmen från projektet och
     radera honom/henne.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2922,5 +2926,15 @@ sv-SE:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: Det finns för närvarande inga inlägg på anslagstavlan.
+  label_available_project_boards: Tillgängliga anslagstavlor
+  label_board_locked: Låst
+  label_board_new: Nytt forum
+  label_board_plural: Forum
+  label_board_sticky: Klistrad
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: Hantera forum
+  project_module_boards: Forum

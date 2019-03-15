@@ -265,17 +265,17 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   }
 
   startAddRelationPredecessor(start:WorkPackageResource) {
-    this.activateSelectionMode(start.id, end => {
+    this.activateSelectionMode(start.id!, end => {
       this.wpRelations
-        .addCommonRelation(start.id, 'follows', end.id)
+        .addCommonRelation(start.id!, 'follows', end.id!)
         .catch((error:any) => this.wpNotificationsService.handleRawError(error, end));
     });
   }
 
   startAddRelationFollower(start:WorkPackageResource) {
-    this.activateSelectionMode(start.id, end => {
+    this.activateSelectionMode(start.id!, end => {
       this.wpRelations
-        .addCommonRelation(start.id, 'precedes', end.id)
+        .addCommonRelation(start.id!, 'precedes', end.id!)
         .catch((error:any) => this.wpNotificationsService.handleRawError(error, end));
     });
   }

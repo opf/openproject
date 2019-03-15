@@ -20,6 +20,10 @@ ko:
     close_form_title: 폼 닫기
     card:
       add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: 브라우저를 클립보드에 복사를 지원 하지 않습니다. 텍스트를 타이핑하여 복사하십시오.
       copied_successful: 클립보드에 성공적으로 복사됨

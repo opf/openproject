@@ -49,7 +49,7 @@ import {input} from "reactivestates";
 import {catchError, mergeMap, share, switchMap, take, tap} from "rxjs/operators";
 
 export interface QueryDefinition {
-  queryParams:{ query_id?:number, query_props?:string };
+  queryParams:{ query_id?:string, query_props?:string };
   projectIdentifier?:string;
 }
 
@@ -105,7 +105,7 @@ export class WorkPackagesListService {
    * @param queryParams
    * @param projectIdentifier
    */
-  private streamQueryRequest(queryParams:{ query_id?:number, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
+  private streamQueryRequest(queryParams:{ query_id?:string, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
     const decodedProps = this.getCurrentQueryProps(queryParams);
     const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
     const stream = this.QueryDm.stream(queryData, queryParams.query_id, projectIdentifier);
@@ -123,7 +123,7 @@ export class WorkPackagesListService {
    * Load a query.
    * The query is either a persisted query, identified by the query_id parameter, or the default query. Both will be modified by the parameters in the query_props parameter.
    */
-  public fromQueryParams(queryParams:{ query_id?:number, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
+  public fromQueryParams(queryParams:{ query_id?:string, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
     this.queryRequests.clear();
     this.queryRequests.putValue({ queryParams: queryParams, projectIdentifier: projectIdentifier });
 
@@ -169,7 +169,7 @@ export class WorkPackagesListService {
       .catch((error) => {
         let projectIdentifier = query.project && query.project.id;
 
-        return this.handleQueryLoadingError(error, {}, query.id, projectIdentifier);
+        return this.handleQueryLoadingError(error, {}, query.id!, projectIdentifier);
       });
 
   }
@@ -239,7 +239,7 @@ export class WorkPackagesListService {
 
         // Reload the query, and then reload the menu
         this.reloadQuery(query).then(() => {
-          this.states.changes.queries.next(query.id);
+          this.states.changes.queries.next(query.id!);
         });
 
         return query;
@@ -267,7 +267,7 @@ export class WorkPackagesListService {
 
         this.loadDefaultQuery(id);
 
-        this.states.changes.queries.next(query.id);
+        this.states.changes.queries.next(query.id!);
       });
 
 
@@ -279,14 +279,14 @@ export class WorkPackagesListService {
 
     let form = this.querySpace.queryForm.value!;
 
-    let promise = this.QueryDm.update(query, form);
+    let promise = this.QueryDm.update(query, form).toPromise();
 
     promise
       .then(() => {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
         this.$state.go('.', { query_id: query!.id, query_props: null }, { reload: true });
-        this.states.changes.queries.next(query!.id);
+        this.states.changes.queries.next(query!.id!);
       })
       .catch((error:ErrorResource) => {
         this.NotificationsService.addError(error.message);
@@ -303,7 +303,7 @@ export class WorkPackagesListService {
 
       this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
-      this.states.changes.queries.next(query!.id);
+      this.states.changes.queries.next(query!.id!);
     });
 
     return promise;
@@ -338,7 +338,7 @@ export class WorkPackagesListService {
   private updateStatesFromWPListOnPromise(query:QueryResource, promise:Promise<WorkPackageCollectionResource>):Promise<WorkPackageCollectionResource> {
     return promise.then((results) => {
       this.querySpace.ready.doAndTransition('Query loaded', () => {
-        this.wpStatesInitialization.updatequerySpace(query, results);
+        this.wpStatesInitialization.updateQuerySpace(query, results);
         this.wpStatesInitialization.updateChecksum(query, results);
         return this.querySpace.tableRendering.onQueryUpdated.valuesPromise();
       });
@@ -351,7 +351,7 @@ export class WorkPackagesListService {
     return this.querySpace.query.value!;
   }
 
-  private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:number, projectIdentifier?:string):Promise<QueryResource> {
+  private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:string, projectIdentifier?:string|null):Promise<QueryResource> {
     this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
     return new Promise((resolve, reject) => {

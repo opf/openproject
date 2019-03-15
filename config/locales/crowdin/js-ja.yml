@@ -19,6 +19,10 @@ ja:
     close_form_title: フォームを閉じる
     card:
       add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: お使いのブラウザーでは、クリップボードへのコピーをサポートしていません。手動で選択したテキストをコピーしてください。
       copied_successful: 正常にクリップボードにコピーしました!

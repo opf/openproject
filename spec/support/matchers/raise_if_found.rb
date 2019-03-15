@@ -27,38 +27,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'legacy_spec_helper'
+# Extending Capybara to check or raise for an element
 
-describe Board, type: :model do
-  fixtures :all
-
-  before do
-    @project = Project.find(1)
-  end
-
-  it 'should create' do
-    board = Board.new(project: @project, name: 'Test board', description: 'Test board description')
-    assert board.save
-    board.reload
-    assert_equal 'Test board', board.name
-    assert_equal 'Test board description', board.description
-    assert_equal @project, board.project
-    assert_equal 0, board.topics_count
-    assert_equal 0, board.messages_count
-    assert_nil board.last_message
-    # last position
-    assert_equal @project.boards.size, board.position
-  end
-
-  it 'should destroy' do
-    board = Board.find(1)
-    assert_difference 'Message.count', -6 do
-      assert_difference 'Attachment.count', -1 do
-        assert_difference 'Watcher.count', -1 do
-          assert board.destroy
-        end
-      end
+module Capybara
+  class Session
+    def raise_if_found(condition, *args)
+      raise_if_has_selector?(:has_selector?, condition, *args)
     end
-    assert_equal 0, Message.where(board_id: 1).count
+
+    def raise_if_found_field(condition, *args)
+      raise_if_has_selector?(:has_field?, condition, *args)
+    end
+
+    def raise_if_found_select(condition, *args)
+      raise_if_has_selector?(:has_select?, condition, *args)
+    end
+
+    def raise_if_has_selector?(method, condition, *args)
+      found = public_send(method, condition, *args)
+      raise "Expected not to find field #{condition}" if found
+    end
   end
 end

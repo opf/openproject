@@ -19,6 +19,10 @@ lol:
     close_form_title: crwdns118998:0crwdne118998:0
     card:
       add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: crwdns119000:0crwdne119000:0
       copied_successful: crwdns119002:0crwdne119002:0

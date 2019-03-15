@@ -20,6 +20,10 @@ ro:
     close_form_title: Închide formularul
     card:
       add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Browser-ul nu acceptă copierea în ecranul tampon. Vă rugăm să
         copiaţi textul selectat manual.

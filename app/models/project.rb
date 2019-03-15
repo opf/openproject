@@ -130,7 +130,7 @@ class Project < ActiveRecord::Base
   has_many :queries, dependent: :delete_all
   has_many :news, -> { includes(:author) }, dependent: :destroy
   has_many :categories, -> { order("#{Category.table_name}.name") }, dependent: :delete_all
-  has_many :boards, -> { order('position ASC') }, dependent: :destroy
+  has_many :forums, -> { order('position ASC') }, dependent: :destroy
   has_one :repository, dependent: :destroy
   has_many :changesets, through: :repository
   has_one :wiki, dependent: :destroy

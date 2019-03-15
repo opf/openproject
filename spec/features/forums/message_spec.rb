@@ -29,21 +29,21 @@
 require 'spec_helper'
 
 describe 'messages', type: :feature, js: true do
-  let(:board) { FactoryBot.create(:board) }
+  let(:forum) { FactoryBot.create(:forum) }
 
   let(:user) do
     FactoryBot.create :user,
-                      member_in_project: board.project,
+                      member_in_project: forum.project,
                       member_through_role: role
   end
   let(:other_user) do
     FactoryBot.create :user,
-                      member_in_project: board.project,
+                      member_in_project: forum.project,
                       member_through_role: role
   end
   let(:role) { FactoryBot.create(:role, permissions: [:add_messages]) }
 
-  let(:index_page) { Pages::Messages::Index.new(board.project) }
+  let(:index_page) { Pages::Messages::Index.new(forum.project) }
 
   before do
     login_as user

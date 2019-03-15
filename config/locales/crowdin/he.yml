@@ -73,9 +73,9 @@ he:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: There are currently no colors.
@@ -155,9 +155,9 @@ he:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: ליצור לוח חדש
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -168,6 +168,9 @@ he:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
+      boards:
+        no_results_title_text: There are currently no boards for the project.
+        no_results_content_text: ליצור לוח חדש
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -668,7 +671,7 @@ he:
     models:
       attachment: קובץ
       attribute_help_text: Attribute help text
-      board: פורום
+      forum: Forum
       comment: תגובה
       custom_action: Custom action
       custom_field: שדה מותאם אישית
@@ -692,6 +695,7 @@ he:
       workflow: זרימת עבודה
       work_package: חבילת עבודה
       doorkeeper/application: OAuth application
+      board: פורום
   errors:
     header_invalid_fields: 'היו בעיות עם השדות הבאים:'
     field_erroneous_label: |-
@@ -1187,10 +1191,10 @@ he:
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: פורומים
       blog: OpenProject blog
-      boards: Community forum
+      forums: פורומים
       newsletter: Security alerts / Newsletter
+      boards: Community forum
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: באפשרותך להיכנס ברגע חשבונך הופעל על-ידי לחיצה
@@ -1256,7 +1260,7 @@ he:
   label_authentication: אימות
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1264,10 +1268,10 @@ he:
   label_blocked_by: חסום על ידי
   label_blocks: בלוקים
   label_blog: Blog
-  label_board_locked: נעול
-  label_board_new: פורום חדש
-  label_board_plural: פורומים
-  label_board_sticky: נעוץ
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: בוליאני
   label_branch: ענף
   label_browse: עיון
@@ -1997,7 +2001,7 @@ he:
   permission_export_wiki_pages: ייצוא דפי wiki
   permission_list_attachments: רשימת קבצים מצורפים
   permission_log_time: Log spent time
-  permission_manage_boards: ניהול פורומים
+  permission_manage_forums: Manage forums
   permission_manage_categories: Manage work package categories
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Manage members
@@ -2044,7 +2048,7 @@ he:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: פעילות
-  project_module_boards: פורומים
+  project_module_forums: Forums
   project_module_calendar: לוח שנה
   project_module_work_package_tracking: Work package tracking
   project_module_news: חדשות
@@ -2523,7 +2527,6 @@ he:
       color: צבע
       colors: צבעים
     associations: Dependencies
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
     change: Change in planning
     children: Child elements
@@ -2685,6 +2688,7 @@ he:
       months: Months
       quarters: Quarters
       years: Years
+    board_could_not_be_saved: Board could not be saved
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2960,5 +2964,15 @@ he:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: There are currently no posts for the board.
+  label_available_project_boards: Available boards
+  label_board_locked: נעול
+  label_board_new: פורום חדש
+  label_board_plural: פורומים
+  label_board_sticky: נעוץ
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: ניהול פורומים
+  project_module_boards: פורומים

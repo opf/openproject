@@ -73,9 +73,9 @@ hi:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: There are currently no colors.
@@ -155,9 +155,9 @@ hi:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -168,6 +168,9 @@ hi:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
+      boards:
+        no_results_title_text: There are currently no boards for the project.
+        no_results_content_text: Create a new board
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -676,7 +679,7 @@ hi:
     models:
       attachment: फ़ाइल
       attribute_help_text: Attribute help text
-      board: मंच
+      forum: Forum
       comment: टिप्पणी
       custom_action: विशेष या कस्टम क्रियाएँ
       custom_field: रुचि के अनुसार फिल्ड
@@ -698,6 +701,7 @@ hi:
       workflow: कार्यप्रवाह
       work_package: कार्य पैकेज
       doorkeeper/application: OAuth application
+      board: मंच
   errors:
     header_invalid_fields: 'निम्न फ़ील्ड्स के साथ समस्याएं थीं:'
     field_erroneous_label: |-
@@ -1176,10 +1180,10 @@ hi:
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: मंच
       blog: OpenProject blog
-      boards: Community forum
+      forums: मंच
       newsletter: Security alerts / Newsletter
+      boards: Community forum
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: You can sign in as soon as your account has been
@@ -1245,7 +1249,7 @@ hi:
   label_authentication: प्रमाणीकरण
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1253,10 +1257,10 @@ hi:
   label_blocked_by: द्वारा अवरुद्ध
   label_blocks: ब्लॉक
   label_blog: Blog
-  label_board_locked: अवरोधित
-  label_board_new: नया मंच
-  label_board_plural: मंच
-  label_board_sticky: चिपचिपा
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: बूलियन
   label_branch: शाखा
   label_browse: ब्राउज करें
@@ -1976,7 +1980,7 @@ hi:
   permission_export_wiki_pages: Export wiki pages
   permission_list_attachments: List attachments
   permission_log_time: Log spent time
-  permission_manage_boards: Manage forums
+  permission_manage_forums: Manage forums
   permission_manage_categories: Manage work package categories
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Manage members
@@ -2023,7 +2027,7 @@ hi:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: गतिविधी
-  project_module_boards: मंच
+  project_module_forums: Forums
   project_module_calendar: कैलेंडर
   project_module_work_package_tracking: कार्य पैकेज ट्रैकिंग
   project_module_news: नया
@@ -2504,7 +2508,6 @@ hi:
       color: रंग
       colors: Colors
     associations: Dependencies
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
     change: Change in planning
     children: Child elements
@@ -2664,6 +2667,7 @@ hi:
       months: Months
       quarters: Quarters
       years: Years
+    board_could_not_be_saved: Board could not be saved
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2936,5 +2940,15 @@ hi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: There are currently no posts for the board.
+  label_available_project_boards: Available boards
+  label_board_locked: अवरोधित
+  label_board_new: नया मंच
+  label_board_plural: मंच
+  label_board_sticky: चिपचिपा
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: Manage forums
+  project_module_boards: मंच

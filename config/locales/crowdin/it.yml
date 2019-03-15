@@ -74,9 +74,9 @@ it:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Al momento non vi sono messaggi in bacheca.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Al momento non vi sono colori.
@@ -156,9 +156,9 @@ it:
     settings:
       activities:
         no_results_title_text: Al momento non vi sono attività disponibili.
-      boards:
-        no_results_title_text: Al momento non esistono bacheche per il progetto.
-        no_results_content_text: Creare una nuova bacheca
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Al momento non è definita nessuna categoria di macro-attività.
         no_results_content_text: Crea una nuova categoria di macro-attività
@@ -169,6 +169,9 @@ it:
       versions:
         no_results_title_text: Al momento non esistono versioni per il progetto.
         no_results_content_text: Crea una nuova versione
+      boards:
+        no_results_title_text: Al momento non esistono bacheche per il progetto.
+        no_results_content_text: Creare una nuova bacheca
   members:
     index:
       no_results_title_text: Al momento non vi sono partecipanti a questo progetto.
@@ -682,7 +685,7 @@ it:
     models:
       attachment: File
       attribute_help_text: Testo guida dell'attributo
-      board: Forum
+      forum: Forum
       comment: Commento
       custom_action: Azione personalizzata
       custom_field: Campo personalizzato
@@ -704,6 +707,7 @@ it:
       workflow: Flusso di lavoro
       work_package: Macro-attività
       doorkeeper/application: Applicazione OAuth
+      board: Forum
   errors:
     header_invalid_fields: 'Ci sono stati dei problemi con i seguenti campi:'
     field_erroneous_label: 'Questo campo non è valido: %{full_errors} Prego, inserisci
@@ -1192,10 +1196,10 @@ it:
       faq: FAQ
       glossary: Glossario
       shortcuts: Tasti di scelta rapida
-      forums: Forum
       blog: Blog di OpenProject
-      boards: Forum della Comunità
+      forums: Forum
       newsletter: Avvisi di sicurezza / Notizie
+      boards: Forum della Comunità
   links:
     configuration_guide: Guida di configurazione
   instructions_after_registration: Puoi accedere non appena il tuo account è stato
@@ -1261,7 +1265,7 @@ it:
   label_authentication: Autenticazione
   label_available_project_work_package_categories: Categorie di macro-attività disponibili
   label_available_project_work_package_types: Tipi di pacchetti di lavoro disponibili
-  label_available_project_boards: Comitati disponibili
+  label_available_project_forums: Available forums
   label_available_project_versions: Versioni disponibili
   label_available_project_repositories: Archivi disponibili
   label_api_documentation: Documentazione API
@@ -1269,10 +1273,10 @@ it:
   label_blocked_by: bloccato da
   label_blocks: blocca
   label_blog: Blog
-  label_board_locked: Chiuso
-  label_board_new: Nuovo forum
-  label_board_plural: Forum
-  label_board_sticky: In evidenza
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Booleano
   label_branch: Ramo
   label_browse: Naviga
@@ -2009,7 +2013,7 @@ it:
   permission_export_wiki_pages: Esportare pagine wiki
   permission_list_attachments: Elencare allegati
   permission_log_time: Registrazioni dell'orario effettuato
-  permission_manage_boards: Gestire forum
+  permission_manage_forums: Manage forums
   permission_manage_categories: Gestire le categorie delle macro-attività (work package)
   permission_manage_work_package_relations: Gestisci le correlazioni tra macro-attività
     (work package)
@@ -2059,7 +2063,7 @@ it:
     archive:
       are_you_sure: Sicuro di voler archiviare il progetto '%{name}'?
   project_module_activity: Attività
-  project_module_boards: Forum
+  project_module_forums: Forums
   project_module_calendar: Calendario
   project_module_work_package_tracking: Monitoraggio macro-attività (work-package)
   project_module_news: Notizie
@@ -2577,7 +2581,6 @@ it:
       color: Colore
       colors: Colori
     associations: Dipendenze
-    board_could_not_be_saved: Il quadro non può essere salvato
     button_delete_all: Cancella tutti
     change: Cambiare nella pianificazione
     children: Elementi discendenti
@@ -2744,6 +2747,7 @@ it:
       months: Mesi
       quarters: Trimestri
       years: Anni
+    board_could_not_be_saved: Il quadro non può essere salvato
   title_remove_and_delete_user: Rimuovi l'utente invitato dal progetto ed eliminalo/a.
   title_enterprise_upgrade: Aggiorna per sbloccare altri utenti.
   tooltip_user_default_timezone: 'L''orario predefinito per i nuovi utenti. Può essere
@@ -3022,5 +3026,15 @@ it:
     revoke_my_application_confirmation: Vuoi davvero rimuovere questa applicazione?
       Questo revocherà %{token_count} attivo per essa.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: Al momento non vi sono messaggi in bacheca.
+  label_available_project_boards: Comitati disponibili
+  label_board_locked: Chiuso
+  label_board_new: Nuovo forum
+  label_board_plural: Forum
+  label_board_sticky: In evidenza
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: Gestire forum
+  project_module_boards: Forum

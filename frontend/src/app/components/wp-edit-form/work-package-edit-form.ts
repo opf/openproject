@@ -80,7 +80,7 @@ export class WorkPackageEditForm {
               public workPackage:WorkPackageResource,
               public editMode:boolean = false) {
 
-    this.wpSubscription = this.wpCacheService.state(workPackage.id)
+    this.wpSubscription = this.wpCacheService.state(workPackage.id!)
       .values$()
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
@@ -183,8 +183,7 @@ export class WorkPackageEditForm {
           this.editMode = false;
           this.editContext.onSaved(isInitial, savedWorkPackage);
           this.wpTableRefresh.request(
-            `Saved work package ${savedWorkPackage.id}`,
-            isInitial ? 'create' : 'update'
+            `Saved work package ${savedWorkPackage.id}`
           );
         })
         .catch((error:ErrorResource|Object) => {

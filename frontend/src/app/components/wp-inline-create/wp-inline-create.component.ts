@@ -175,11 +175,11 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
           // Split view on the last inserted id if any
           if (!this.table.configuration.isEmbedded) {
-            this.wpTableFocus.updateFocus(wp.id);
+            this.wpTableFocus.updateFocus(wp.id!);
           }
 
           // Notify inline create service
-          this.wpInlineCreate.newInlineWorkPackageCreated.next(wp.id);
+          this.wpInlineCreate.newInlineWorkPackageCreated.next(wp.id!);
         } else {
           // Remove current row
           this.wpCreate.cancelCreation();

@@ -26,8 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% html_title t(:label_board_plural) %>
-<%= toolbar title: t(:label_board_plural) %>
+<% html_title t(:label_forum_plural) %>
+<%= toolbar title: t(:label_forum_plural) %>
 <div class="generic-table--container">
   <div class="generic-table--results-container">
     <table class="generic-table boards">
@@ -43,7 +43,7 @@ See docs/COPYRIGHT.rdoc for more details.
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <%= Board.name.humanize %>
+                  <%= Forum.name.humanize %>
                 </span>
               </div>
             </div>
@@ -78,19 +78,19 @@ See docs/COPYRIGHT.rdoc for more details.
         </tr>
       </thead>
       <tbody>
-        <% for board in @boards %>
+        <% for forum in @forums %>
           <tr>
             <td class="-no-ellipsis">
-              <%= link_to h(board.name), { action: 'show', id: board }, class: "board"  %><br />
-              <%= format_text(board.description) %>
+              <%= link_to h(forum.name), { action: 'show', id: forum }, class: "forum"  %><br />
+              <%= format_text(forum.description) %>
             </td>
-            <td><%= board.topics_count %></td>
-            <td><%= board.messages_count %></td>
+            <td><%= forum.topics_count %></td>
+            <td><%= forum.messages_count %></td>
             <td>
-              <% if board.last_message %>
-                <% board.last_message %>
-                <%= authoring board.last_message.created_on, board.last_message.author %><br />
-                <%= link_to_message board.last_message, no_root: true %>
+              <% if forum.last_message %>
+                <% forum.last_message %>
+                <%= authoring forum.last_message.created_on, forum.last_message.author %><br />
+                <%= link_to_message forum.last_message, no_root: true %>
               <% end %>
             </td>
           </tr>

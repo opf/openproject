@@ -76,9 +76,9 @@ fil:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Sa kasalukuyan ay walang mga post para sa board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Walang mga kasulukuyan kulay.
@@ -162,9 +162,9 @@ fil:
     settings:
       activities:
         no_results_title_text: Sa kasalukuyan ay walang mga aktibidad na available.
-      boards:
-        no_results_title_text: Sa kasalukuyan ay walang mga board para sa proyekto.
-        no_results_content_text: Gumawa ng bagong board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Sa kasalukuyan ay walang work package na mga kategorya.
         no_results_content_text: Gumawa ng bagong work package na kategorya
@@ -175,6 +175,9 @@ fil:
       versions:
         no_results_title_text: Sa kasalukuyan ay walang mga bersyon para sa proyekto.
         no_results_content_text: Gumawa ng bagong bersyon
+      boards:
+        no_results_title_text: Sa kasalukuyan ay walang mga board para sa proyekto.
+        no_results_content_text: Gumawa ng bagong board
   members:
     index:
       no_results_title_text: Sa kasalukuyan ay walang parte ng mga myembro sa proyektong
@@ -695,7 +698,7 @@ fil:
     models:
       attachment: File
       attribute_help_text: Tekstong tulong na katangian
-      board: Forum
+      forum: Forum
       comment: Komento
       custom_action: Custom aksyon
       custom_field: Pasadyang patlang
@@ -717,6 +720,7 @@ fil:
       workflow: Daloy ng trabaho
       work_package: Work package
       doorkeeper/application: OAuth application
+      board: Forum
   errors:
     header_invalid_fields: 'Mayroon mga problema sa mga sumusnod na mga patlang:'
     field_erroneous_label: |-
@@ -1203,10 +1207,10 @@ fil:
       faq: FAQ
       glossary: Glosaryo
       shortcuts: Mga madalian
-      forums: Mga forum
       blog: Blog ng OpenProject
-      boards: Komunidad forum
+      forums: Mga forum
       newsletter: Mga alertong seguridad/ Newsletter
+      boards: Komunidad forum
   links:
     configuration_guide: Gabay ng kumpigurasyon
   instructions_after_registration: Maari kang mag-sign in sa lalong madaling panahon
@@ -1274,7 +1278,7 @@ fil:
   label_available_project_work_package_categories: Ang mga kategorya ng magagamit
     na work package
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Mga magagamit na board
+  label_available_project_forums: Available forums
   label_available_project_versions: Ang magagamit na bersyon
   label_available_project_repositories: Magagamit na mga respository
   label_api_documentation: API dokumentasyon
@@ -1282,10 +1286,10 @@ fil:
   label_blocked_by: hinarangan ni
   label_blocks: mga hinarang
   label_blog: Blog
-  label_board_locked: Naka-lock
-  label_board_new: Bagong forum
-  label_board_plural: Mga forum
-  label_board_sticky: Malagkit
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Boolean
   label_branch: Sangay
   label_browse: Browse
@@ -2021,7 +2025,7 @@ fil:
   permission_export_wiki_pages: I-edit ang mga work package
   permission_list_attachments: Listahan ng paglalakip
   permission_log_time: Big
-  permission_manage_boards: Pamahalain ang mga forum
+  permission_manage_forums: Manage forums
   permission_manage_categories: Pamahalain ang mga kategorya ng work package
   permission_manage_work_package_relations: Nauugnay na pamahalin ang work package
   permission_manage_members: Pamahalain ang mga miyembro
@@ -2070,7 +2074,7 @@ fil:
     archive:
       are_you_sure: Sigurado ka bang na gusto mong i-archive ang proyekto'%{name}'?
   project_module_activity: Aktibidad
-  project_module_boards: Mga forum
+  project_module_forums: Forums
   project_module_calendar: Kalendaryo
   project_module_work_package_tracking: Ang pagtra-track ng work package
   project_module_news: Mga balita
@@ -2588,7 +2592,6 @@ fil:
       color: Kulay
       colors: Mga kulay
     associations: Dependencia
-    board_could_not_be_saved: Ang board ay hindi ma i-save
     button_delete_all: Burahin ang lahat
     change: Baguhin ang pagpaplano
     children: Ang mga bata na elemento
@@ -2752,6 +2755,7 @@ fil:
       months: Mga buwan
       quarters: Mga quarter
       years: Mga taon
+    board_could_not_be_saved: Ang board ay hindi ma i-save
   title_remove_and_delete_user: Alisin ang inimbitahan na user mula proyekto at tanggalin
     siya.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -3037,5 +3041,15 @@ fil:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: Sa kasalukuyan ay walang mga post para sa board.
+  label_available_project_boards: Mga magagamit na board
+  label_board_locked: Naka-lock
+  label_board_new: Bagong forum
+  label_board_plural: Mga forum
+  label_board_sticky: Malagkit
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: Pamahalain ang mga forum
+  project_module_boards: Mga forum

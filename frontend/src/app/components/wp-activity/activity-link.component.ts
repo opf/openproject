@@ -7,7 +7,7 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
     <a id ="{{ activityHtmlId }}-link"
        [textContent]="activityLabel"
        uiSref="work-packages.show.activity"
-       [uiParams]="{workPackageId: workPackage.id, '#': activityHtmlId }">
+       [uiParams]="{workPackageId: workPackage.id!, '#': activityHtmlId }">
     </a>
   `
 })
@@ -32,7 +32,7 @@ function activityLink() {
     scope: {
     },
     link: function(scope:any) {
-      scope.workPackageId = scope.workPackage.id;
+      scope.workPackageId = scope.workPackage.id!;
       scope.activityHtmlId = 'activity-' + scope.activityNo;
     }
   };

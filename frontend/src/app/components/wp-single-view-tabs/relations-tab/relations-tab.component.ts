@@ -55,7 +55,7 @@ export class WorkPackageRelationsTabComponent implements OnInit, OnDestroy {
         takeUntil(componentDestroyed(this))
       )
       .subscribe((wp) => {
-          this.workPackageId = wp.id;
+          this.workPackageId = wp.id!;
           this.workPackage = wp;
         });
   }

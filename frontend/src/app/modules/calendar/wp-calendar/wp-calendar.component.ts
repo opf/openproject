@@ -167,7 +167,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
         title: workPackage.subject,
         start: startDate,
         end: endDate,
-        className: `__hl_row_type_${workPackage.type.getId()}`,
+        className: `__hl_row_type_${workPackage.type.id}`,
         workPackage: workPackage
       };
     });

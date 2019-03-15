@@ -27,14 +27,14 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% if @project.boards.any? %>
+<% if @project.forums.any? %>
   <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend">
-      <%= l(:label_available_project_boards) %>
+      <%= l(:label_available_project_forums) %>
     </legend>
     <div class="form--fieldset-control">
       <span class="form--fieldset-control-container">
-        <%= link_to_if_authorized({ controller: '/boards', action: 'new', project_id: @project },
+        <%= link_to_if_authorized({ controller: '/forums', action: 'new', project_id: @project },
                                   { aria: { label: t(:label_board_new) },
                                     title: t(:label_board_new) }) do %>
           <%= op_icon('icon-add icon-small') %>
@@ -57,7 +57,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 <div class="generic-table--sort-header-outer">
                   <div class="generic-table--sort-header">
                     <span>
-                      <%= Board.model_name.human %>
+                      <%= Forum.model_name.human %>
                     </span>
                   </div>
                 </div>
@@ -66,7 +66,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 <div class="generic-table--sort-header-outer">
                   <div class="generic-table--sort-header">
                     <span>
-                      <%= Board.human_attribute_name(:description) %>
+                      <%= Forum.human_attribute_name(:description) %>
                     </span>
                   </div>
                 </div>
@@ -84,26 +84,26 @@ See docs/COPYRIGHT.rdoc for more details.
             </tr>
           </thead>
           <tbody>
-            <% @project.boards.each do |board|
-              next if board.new_record? %>
+            <% @project.forums.each do |forum|
+              next if forum.new_record? %>
               <tr>
-                <td><%=h board.name %></td>
-                <td><%= format_text(board.description) %></td>
+                <td><%=h forum.name %></td>
+                <td><%= format_text(forum.description) %></td>
                 <td class="small-icons">
-                  <% if authorize_for 'boards', 'edit' %>
-                    <%= reorder_links 'board', controller: '/boards',
+                  <% if authorize_for 'forums', 'edit' %>
+                    <%= reorder_links 'forum', controller: '/forums',
                                                action: 'move',
                                                project_id: @project,
-                                               id: board %>
+                                               id: forum %>
                   <% end %>
                 </td>
                 <td class="buttons">
                   <%= link_to_if_authorized '',
-                                            { controller: '/boards', action: 'edit', project_id: @project, id: board },
+                                            { controller: '/forums', action: 'edit', project_id: @project, id: forum },
                                             class: 'icon icon-edit',
                                             title: t(:button_edit) %>
                   <%= link_to_if_authorized '',
-                                            { controller: '/boards', action: 'destroy', project_id: @project, id: board },
+                                            { controller: '/forums', action: 'destroy', project_id: @project, id: forum },
                                             data: { confirm: l(:text_are_you_sure) },
                                             method: :delete,
                                             class: 'icon icon-delete',
@@ -116,9 +116,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
       </div>
     </div>
-    <% if @project.boards.any? %>
+    <% if @project.forums.any? %>
       <div class="generic-table--action-buttons">
-        <%= link_to_if_authorized({ controller: '/boards', action: 'new', project_id: @project },
+        <%= link_to_if_authorized({ controller: '/forums', action: 'new', project_id: @project },
                                   { class: 'button -alt-highlight',
                                     aria: {label: t(:label_board_new)},
                                     title: t(:label_board_new)}) do %>
@@ -128,9 +128,9 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
     <% end %>
   <% else %>
-    <%= no_results_box action_url: new_project_board_path(@project),
-                       display_action: authorize_for('boards', 'new'),
-                       custom_title: t('projects.settings.boards.no_results_title_text'),
-                       custom_action_text: t('projects.settings.boards.no_results_content_text') %>
+    <%= no_results_box action_url: new_project_forum_path(@project),
+                       display_action: authorize_for('forums', 'new'),
+                       custom_title: t('projects.settings.forums.no_results_title_text'),
+                       custom_action_text: t('projects.settings.forums.no_results_content_text') %>
   <% end %>
 </fieldset>

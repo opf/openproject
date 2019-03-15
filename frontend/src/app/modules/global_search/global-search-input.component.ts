@@ -209,7 +209,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     this.autocompleteWorkPackages(term).then((values) => {
       this.results = this.suggestions.concat(values.map((wp:any) => {
         return {
-          id: wp.id,
+          id: wp.id!,
           subject: wp.subject,
           status: wp.status.name,
           statusId: wp.status.idFromLink,

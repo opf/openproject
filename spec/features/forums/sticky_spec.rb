@@ -29,34 +29,34 @@
 require 'spec_helper'
 
 describe 'sticky messages', type: :feature do
-  let(:board) { FactoryBot.create(:board) }
+  let(:forum) { FactoryBot.create(:forum) }
 
   let!(:message1) do
-    FactoryBot.create :message, board: board, created_on: Time.now - 1.minute do |message|
+    FactoryBot.create :message, forum: forum, created_on: Time.now - 1.minute do |message|
       Message.where(id: message.id).update_all(updated_on: Time.now - 1.minute)
     end
   end
   let!(:message2) do
-    FactoryBot.create :message, board: board, created_on: Time.now - 2.minute do |message|
+    FactoryBot.create :message, forum: forum, created_on: Time.now - 2.minute do |message|
       Message.where(id: message.id).update_all(updated_on: Time.now - 2.minute)
     end
   end
   let!(:message3) do
-    FactoryBot.create :message, board: board, created_on: Time.now - 3.minute do |message|
+    FactoryBot.create :message, forum: forum, created_on: Time.now - 3.minute do |message|
       Message.where(id: message.id).update_all(updated_on: Time.now - 3.minute)
     end
   end
 
   let(:user) do
     FactoryBot.create :user,
-                      member_in_project: board.project,
+                      member_in_project: forum.project,
                       member_through_role: role
   end
   let(:role) { FactoryBot.create(:role, permissions: [:edit_messages]) }
 
   before do
     login_as user
-    visit project_boards_path(board.project)
+    visit project_forums_path(forum.project)
   end
 
   def expect_order_of_messages(*order)
@@ -72,10 +72,10 @@ describe 'sticky messages', type: :feature do
 
     click_link('Edit')
 
-    check('Sticky')
+    check('message[sticky]')
     click_button('Save')
 
-    visit project_boards_path(board.project)
+    visit project_forums_path(forum.project)
 
     expect_order_of_messages(message2, message1, message3)
   end

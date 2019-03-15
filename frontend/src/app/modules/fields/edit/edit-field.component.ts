@@ -73,7 +73,7 @@ export class EditFieldComponent extends Field implements OnInit, OnDestroy {
     super();
     this.initialize();
 
-    this.wpEditing.state(this.changeset.workPackage.id)
+    this.wpEditing.state(this.changeset.workPackage.id!)
       .values$()
       .pipe(
         untilComponentDestroyed(this)

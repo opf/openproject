@@ -1,5 +1,5 @@
 <div #container
-     class="work-package--cards-container -small-font">
+     class="wp-cards-container -small-font">
   <div *ngIf="inReference"
        class="wp-inline-create--reference-container">
     <ndc-dynamic [ndcDynamicComponent]="referenceClass"
@@ -8,14 +8,18 @@
     </ndc-dynamic>
   </div>
 
-  <div class="work-package--card"
+  <div class="wp-card"
        *ngFor="let wp of workPackages; trackBy:trackByHref"
        [attr.data-is-new]="wp.isNew || undefined"
        [attr.data-work-package-id]="wp.id"
-       [ngClass]="cardClasses(wp)"
-       (dblclick)="handleDblClick(wp)">
+       (dblclick)="handleDblClick(wp)"
+       [ngClass]="{'-draggable': dragAndDropEnabled }">
 
-    <a class="work-package-card--inline-cancel-button -no-decoration"
+    <div class="wp-card--highlighting"
+        [ngClass]="cardHighlightingClass(wp)">
+    </div>
+
+    <a class="wp-card--inline-cancel-button -no-decoration"
        *ngIf="wp.isNew || cardsRemovable"
        [ngClass]="{ '-show': wp.isNew }"
        [title]="text.removeCard"
@@ -28,24 +32,24 @@
         <wp-edit-field [workPackageId]="wp.id"
                        [wrapperClasses]="'work-packages--type-selector'"
                        [fieldName]="'type'"
-                       class="work-package--card--type">
+                       class="wp-card--type">
         </wp-edit-field>
         <wp-edit-field [workPackageId]="wp.id"
                        fieldName="subject"
-                       class="work-package--card--subject -bold">
+                       class="wp-card--subject -bold">
         </wp-edit-field>
       </div>
 
       <div class="work-packages--subject-type-row"
            *ngIf="!wp.isNew">
         <span [textContent]="wpTypeAttribute(wp)"
-              class="work-package--card--type"
+              class="wp-card--type"
               [ngClass]="typeHighlightingClass(wp)"></span>
         <span [textContent]="wpSubject(wp)"
-              class="work-package--card--subject -bold"></span>
+              class="wp-card--subject -bold"></span>
       </div>
 
-      <div class="work-package--card--author -italic"
+      <div class="wp-card--author -italic"
            [hidden]="wp.isNew"
            [textContent]="text.wpAddedBy(wp)">
       </div>
@@ -53,7 +57,7 @@
     <user-avatar *ngIf="hasAssignee(wp)"
                  [attr.data-user]="wp.assignee.$href"
                  data-class-list="avatar-mini"
-                 class="work-package--card--assignee">
+                 class="wp-card--assignee">
     </user-avatar>
   </div>
 </div>

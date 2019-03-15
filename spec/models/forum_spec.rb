@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,29 +26,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Given(/^there is a board "(.*?)" for project "(.*?)"$/) do |board_name, project_identifier|
-  FactoryBot.create :board, project: get_project(project_identifier), name: board_name
-end
+require 'spec_helper'
 
-Given(/^the board "(.*?)" has the following messages:$/) do |board_name, table|
-  board = Board.find_by(name: board_name)
+require 'support/shared/acts_as_watchable'
 
-  create_messages(table.raw.map(&:first), board)
-end
+describe Forum, type: :model do
+  it_behaves_like 'acts_as_watchable included' do
+    let(:model_instance) { FactoryBot.create(:forum) }
+    let(:watch_permission) { :view_messages } # view_messages is a public permission
+    let(:project) { model_instance.project }
+  end
 
-Given(/^"(.*?)" has the following replies:$/) do |message_name, table|
-  message = Message.find_by(subject: message_name)
+  describe 'with forum present' do
+    let(:forum) { FactoryBot.build :forum, name: 'Test forum', description: 'Whatever' }
 
-  create_messages(table.raw.map(&:first), message.board, message)
-end
-
-private
-
-def create_messages(names, board, parent = nil)
-  names.each do |name|
-    FactoryBot.create :message,
-                       board: board,
-                       subject: name,
-                       parent: parent
+    it 'should create' do
+      expect(forum.save).to be_truthy
+      forum.reload
+      expect(forum.name).to eq 'Test forum'
+      expect(forum.description).to eq 'Whatever'
+      expect(forum.topics_count).to eq 0
+      expect(forum.messages_count).to eq 0
+      expect(forum.last_message).to be nil
+    end
   end
 end

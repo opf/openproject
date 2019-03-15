@@ -1,6 +1,6 @@
 @import 'helpers'
 
-.work-package--cards-container
+.wp-cards-container
   display: flex
   flex-direction: column
   overflow: auto
@@ -10,7 +10,8 @@
   padding: 0 15px
 
 
-.work-package--card
+.wp-card
+  user-select: none
   width: 100%
   border: 1px solid var(--widget-box-block-border-color)
   border-radius: 5px
@@ -19,10 +20,18 @@
   background-color: #eeeeee6e
   position: relative
 
-  .work-package--card--assignee
+  .wp-card--assignee
     position: absolute
     bottom: 5px
     right: 0
+
+.wp-card--highlighting
+  width: 5px
+  height: 100%
+  position: absolute
+  top: 0
+  left: 0
+  border-radius: 5px 0 0 5px
 
 wp-edit-field
   width: initial
@@ -32,24 +41,24 @@ wp-edit-field
   padding-top: 1rem
   text-align: center
 
-.work-package-card--inline-cancel-button
+.wp-card--inline-cancel-button
   position: absolute
   right: 0
   top: 4px
   opacity: 0
 
-  &.-show, .work-package--card:hover &
+  &.-show, .wp-card:hover &
     opacity: 1
 
 .work-packages--subject-type-row
   margin-bottom: 10px
-  .work-package--card--type
+  .wp-card--type
     margin-right: 5px
 
   .-new
     flex-wrap: wrap
-    .work-package--card--type,
-    .work-package--card--subject
+    .wp-card--type,
+    .wp-card--subject
       flex-basis: 100%
 
 

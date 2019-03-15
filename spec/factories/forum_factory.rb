@@ -26,31 +26,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
----
-boards_001:
-  name: Help
-  project_id: 1
-  topics_count: 2
-  id: 1
-  description: Help board
-  position: 1
-  last_message_id: 6
-  messages_count: 6
-boards_002:
-  name: Discussion
-  project_id: 1
-  topics_count: 0
-  id: 2
-  description: Discussion board
-  position: 2
-  last_message_id:
-  messages_count: 0
-boards_003:
-  name: Discussion
-  project_id: 2
-  topics_count: 0
-  id: 3
-  description: Discussion board
-  position: 1
-  last_message_id:
-  messages_count: 0
+FactoryBot.define do
+  factory :forum do
+    project
+    sequence(:name) do |n| "Forum No. #{n}" end
+    sequence(:description) { |n| "I am the Forum No. #{n}" }
+  end
+end

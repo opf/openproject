@@ -32,6 +32,6 @@ export function hasChildrenInTable(workPackage:WorkPackageResource, table:WorkPa
   return !!_.find(table.originalRows, (wpId:string) => {
     const row = table.originalRowIndex[wpId].object;
 
-    return row.ancestorIds.indexOf(workPackage.id.toString()) >= 0;
+    return row.ancestorIds.indexOf(workPackage.id!) >= 0;
   });
 }

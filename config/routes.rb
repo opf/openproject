@@ -268,7 +268,7 @@ OpenProject::Application.routes.draw do
 
     resources :activity, :activities, only: :index, controller: 'activities'
 
-    resources :boards do
+    resources :forums do
       member do
         get :confirm_destroy
         get :move
@@ -460,7 +460,7 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  resources :boards, only: [] do
+  resources :forums, only: [] do
     resources :topics, controller: 'messages', except: [:index], shallow: true do
       member do
         get :quote

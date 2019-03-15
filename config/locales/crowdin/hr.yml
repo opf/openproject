@@ -71,9 +71,9 @@ hr:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Trenutno nema novih novih postova.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Trenutno nema boja.
@@ -153,9 +153,9 @@ hr:
     settings:
       activities:
         no_results_title_text: Trenutno nema dostupnih aktivnosti.
-      boards:
-        no_results_title_text: Trenutno nema dostupnih foruma za ovaj projekt.
-        no_results_content_text: Novi forum
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Ne postoje kategorije za radni paket.
         no_results_content_text: Nova kategorija za radni paket
@@ -166,6 +166,9 @@ hr:
       versions:
         no_results_title_text: Trenutno nema dostupnih novih verzija projekta.
         no_results_content_text: Dodaj novu verziju projekta
+      boards:
+        no_results_title_text: Trenutno nema dostupnih foruma za ovaj projekt.
+        no_results_content_text: Novi forum
   members:
     index:
       no_results_title_text: Trenutno nema korisnika koji su dio ovog projekta.
@@ -674,7 +677,7 @@ hr:
     models:
       attachment: Datoteka
       attribute_help_text: Attribute help text
-      board: Forum
+      forum: Forum
       comment: Komentar
       custom_action: Custom action
       custom_field: Prilagođeno polje
@@ -697,6 +700,7 @@ hr:
       workflow: Tijek rada
       work_package: Radni paket
       doorkeeper/application: OAuth application
+      board: Forum
   errors:
     header_invalid_fields: 'Došlo je do problema s sljedećim poljima:'
     field_erroneous_label: 'Ovo polje nije valjano: %{full_errors} Molimo unesite
@@ -1187,10 +1191,10 @@ hr:
       faq: Često postavljana pitanja
       glossary: Kazalo pojmova
       shortcuts: Prečaci
-      forums: Forumi
       blog: OpenProject blog
-      boards: Forum Zajednice
+      forums: Forumi
       newsletter: Security alerts / Newsletter
+      boards: Forum Zajednice
   links:
     configuration_guide: Vodič za konfiguraciju
   instructions_after_registration: Nakon uspješne aktivacije, kliknite %{signin} za
@@ -1256,7 +1260,7 @@ hr:
   label_authentication: Autentifikacija
   label_available_project_work_package_categories: Dostupne kategorije radnih paketa
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Odaberi forume
+  label_available_project_forums: Available forums
   label_available_project_versions: Dostupne verzije
   label_available_project_repositories: Dostupni repozitoriji
   label_api_documentation: API dokumentacija
@@ -1264,10 +1268,10 @@ hr:
   label_blocked_by: blokirano od
   label_blocks: zabrane pristupa
   label_blog: Blog
-  label_board_locked: Zaključano
-  label_board_new: Novi forum
-  label_board_plural: Forumi
-  label_board_sticky: Zaljepljeno
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Boolean
   label_branch: Grana
   label_browse: Pregledaj
@@ -2003,7 +2007,7 @@ hr:
   permission_export_wiki_pages: Izvezi Wiki stranice
   permission_list_attachments: Izlistaj sve privitke
   permission_log_time: Zapiši utrošeno vrijeme
-  permission_manage_boards: Upravljanje Forumima
+  permission_manage_forums: Manage forums
   permission_manage_categories: Upravljaj kategorijama radnih paketa
   permission_manage_work_package_relations: Upravljaj relacijama radnih paketa
   permission_manage_members: Upravljanje korisnicima
@@ -2051,7 +2055,7 @@ hr:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Aktivnost
-  project_module_boards: Forumi
+  project_module_forums: Forums
   project_module_calendar: Kalendar
   project_module_work_package_tracking: Praćenje radnog paketa
   project_module_news: Vijesti
@@ -2533,7 +2537,6 @@ hr:
       color: Boja
       colors: Boje
     associations: Ovisnosti
-    board_could_not_be_saved: Forum nije moguće spremiti
     button_delete_all: Obriši sve
     change: Promjene u planiranju
     children: Podređeni elementi
@@ -2693,6 +2696,7 @@ hr:
       months: Mjeseci
       quarters: Kvartali
       years: Godine
+    board_could_not_be_saved: Forum nije moguće spremiti
   title_remove_and_delete_user: Uklonite pozvanog korinsika iz projekta i izbrište
     njega/nju.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2970,5 +2974,15 @@ hr:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: Trenutno nema novih novih postova.
+  label_available_project_boards: Odaberi forume
+  label_board_locked: Zaključano
+  label_board_new: Novi forum
+  label_board_plural: Forumi
+  label_board_sticky: Zaljepljeno
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: Upravljanje Forumima
+  project_module_boards: Forumi

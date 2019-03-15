@@ -21,6 +21,10 @@ pt:
     close_form_title: Fechar formulário
     card:
       add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: O seu navegador não suporta o copiar para a área de transferência.
         Por favor, copie manualmente o texto selecionado.

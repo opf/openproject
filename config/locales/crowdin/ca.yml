@@ -73,9 +73,9 @@ ca:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Actualment no hi ha cap entrada al tauler.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Actualment no hi ha cap color.
@@ -156,9 +156,9 @@ ca:
     settings:
       activities:
         no_results_title_text: Actualment no hi ha activitats disponibles.
-      boards:
-        no_results_title_text: Actualment no hi ha cap tauler per al projecte.
-        no_results_content_text: Crear una nou tauler
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Actualment no hi ha cap categoria de paquet de treball.
         no_results_content_text: Crear una nova categoria de paquet de treball
@@ -169,6 +169,9 @@ ca:
       versions:
         no_results_title_text: Actualment no hi ha cap versió per al projecte.
         no_results_content_text: Crear una nova versió
+      boards:
+        no_results_title_text: Actualment no hi ha cap tauler per al projecte.
+        no_results_content_text: Crear una nou tauler
   members:
     index:
       no_results_title_text: Actualment no hi ha cap membre que formi part d'aquest
@@ -677,7 +680,7 @@ ca:
     models:
       attachment: Fitxer
       attribute_help_text: Attribute help text
-      board: Fòrum
+      forum: Forum
       comment: Comentari
       custom_action: Custom action
       custom_field: Camp personalitzat
@@ -699,6 +702,7 @@ ca:
       workflow: Flux de treball
       work_package: Paquet de treball
       doorkeeper/application: OAuth application
+      board: Fòrum
   errors:
     header_invalid_fields: 'S''han detectat problemes en els camps següents:'
     field_erroneous_label: 'Aquest camp no és vàlid: %{full_errors} si us plau, introduïu
@@ -1181,10 +1185,10 @@ ca:
       faq: Preguntes Més Freqüents
       glossary: Glossari
       shortcuts: Dreceres
-      forums: Fòrums
       blog: Blog OpenProject
-      boards: Fòrum de la comunitat
+      forums: Fòrums
       newsletter: Security alerts / Newsletter
+      boards: Fòrum de la comunitat
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: Vostè podrà entrar tan aviat com hagi activat el
@@ -1251,7 +1255,7 @@ ca:
   label_available_project_work_package_categories: Categories de paquet de treball
     disponibles
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Taulers disponibles
+  label_available_project_forums: Available forums
   label_available_project_versions: Versions disponibles
   label_available_project_repositories: Repositòris disponibles
   label_api_documentation: Documentació d'API
@@ -1259,10 +1263,10 @@ ca:
   label_blocked_by: bloquejats per
   label_blocks: blocs
   label_blog: Blog
-  label_board_locked: Bloquejat
-  label_board_new: Nou fòrum
-  label_board_plural: Fòrums
-  label_board_sticky: Fixa't
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Booleà
   label_branch: Branca
   label_browse: Navegar
@@ -1996,7 +2000,7 @@ ca:
   permission_export_wiki_pages: Exportar les pàgines wiki
   permission_list_attachments: Llista d'adjunts
   permission_log_time: Registrar el temps invertit
-  permission_manage_boards: Gestionar els taulers
+  permission_manage_forums: Manage forums
   permission_manage_categories: Gestionar les categories del paquet de treball
   permission_manage_work_package_relations: Gestionar les relacions del paquet de
     treball
@@ -2047,7 +2051,7 @@ ca:
     archive:
       are_you_sure: Esteu segur que voleu arxivar el projecte "%{name}"?
   project_module_activity: Activitat
-  project_module_boards: Fòrums
+  project_module_forums: Forums
   project_module_calendar: Calendari
   project_module_work_package_tracking: Paquet de treball de seguiment
   project_module_news: Notícies
@@ -2553,7 +2557,6 @@ ca:
       color: Color
       colors: Colors
     associations: Dependències
-    board_could_not_be_saved: No es pot desar el tauler
     button_delete_all: Esborrar tot
     change: Canvi en la planificació
     children: Elements fill
@@ -2715,6 +2718,7 @@ ca:
       months: Mesos
       quarters: Quatrimestres
       years: Anys
+    board_could_not_be_saved: No es pot desar el tauler
   title_remove_and_delete_user: Eliminar l'usuari convidat del projecte i suprimir
     l'usuari.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2991,5 +2995,15 @@ ca:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: Actualment no hi ha cap entrada al tauler.
+  label_available_project_boards: Taulers disponibles
+  label_board_locked: Bloquejat
+  label_board_new: Nou fòrum
+  label_board_plural: Fòrums
+  label_board_sticky: Fixa't
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: Gestionar els taulers
+  project_module_boards: Fòrums

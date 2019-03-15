@@ -54,7 +54,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'boards',
     parent: 'root',
-    url: '/work_packages/boards',
+    url: '/boards',
     redirectTo: 'boards.list',
     component: BoardsRootComponent
   },
@@ -69,7 +69,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     name: 'boards.show',
     url: '/{board_id}',
     params: {
-      board_id: { type: 'int' },
+      board_id: { type: 'string' },
       isNew: { type: 'bool' }
     },
     component: BoardComponent,

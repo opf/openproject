@@ -72,9 +72,9 @@ fi:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Tällä hetkellä taululla ei ole viestejä.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Tällä hetkellä ei ole värejä.
@@ -154,9 +154,9 @@ fi:
     settings:
       activities:
         no_results_title_text: Tällä hetkellä ei ole aktiviteetteja.
-      boards:
-        no_results_title_text: Tällä hetkellä projektille ei ole tauluja.
-        no_results_content_text: Luo uusi taulu
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Tällä hetkellä ei ole yhtään työpaketin luokkaa.
         no_results_content_text: Lisää uusi työpaketin luokka
@@ -167,6 +167,9 @@ fi:
       versions:
         no_results_title_text: Projektille ei ole versioita.
         no_results_content_text: Luo uusi versio
+      boards:
+        no_results_title_text: Tällä hetkellä projektille ei ole tauluja.
+        no_results_content_text: Luo uusi taulu
   members:
     index:
       no_results_title_text: Tähän projektiin ei kuulu yhtään henkilöä.
@@ -667,7 +670,7 @@ fi:
     models:
       attachment: Tiedosto
       attribute_help_text: Attribute help text
-      board: Keskustelupalsta
+      forum: Forum
       comment: Kommentti
       custom_action: Custom action
       custom_field: Mukautettu kenttä
@@ -689,6 +692,7 @@ fi:
       workflow: Työnkulku
       work_package: Työpaketti
       doorkeeper/application: OAuth application
+      board: Keskustelupalsta
   errors:
     header_invalid_fields: 'Seuraavissa kentissä oli ongelmia:'
     field_erroneous_label: 'Tämä kenttä on virheellinen: %{full_errors} Anna kelvollinen
@@ -1164,10 +1168,10 @@ fi:
       faq: UKK
       glossary: Sanasto
       shortcuts: Pikanäppäimet
-      forums: Keskustelupalstat
       blog: OpenProject blogi
-      boards: Keskustelupalsta
+      forums: Keskustelupalstat
       newsletter: Suojausvaroitukset / uutiskirje
+      boards: Keskustelupalsta
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: Heti kun tilisi on aktivoitu voit kirjatua painamalla
@@ -1233,7 +1237,7 @@ fi:
   label_authentication: Varmennus
   label_available_project_work_package_categories: Saatavilla olevat työpakettiluokat
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Saatavilla olevat taulut
+  label_available_project_forums: Available forums
   label_available_project_versions: Saatavana olevat versiot
   label_available_project_repositories: Available repositories
   label_api_documentation: API-dokumentaatio
@@ -1241,10 +1245,10 @@ fi:
   label_blocked_by: estänyt
   label_blocks: estää
   label_blog: Blogi
-  label_board_locked: Lukittu
-  label_board_new: Uusi keskustelupalsta
-  label_board_plural: Keskustelupalstat
-  label_board_sticky: Pysyvä
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Totuusarvomuuttuja
   label_branch: Haara
   label_browse: Selaus
@@ -1961,7 +1965,7 @@ fi:
   permission_export_wiki_pages: Vie wiki-sivuja
   permission_list_attachments: Listaa liitteet
   permission_log_time: Lokita käytettyä aikaa
-  permission_manage_boards: Hallinnoi keskustelupalstaa
+  permission_manage_forums: Manage forums
   permission_manage_categories: Hallinnoi tapahtumien luokkia
   permission_manage_work_package_relations: Hallinnoi työpakettien suhteita
   permission_manage_members: Hallinnoi jäseniä
@@ -2008,7 +2012,7 @@ fi:
     archive:
       are_you_sure: Oletko varma, että haluat arkistoida projektin "%{name}"?
   project_module_activity: Aktiviteetti
-  project_module_boards: Keskustelupalstat
+  project_module_forums: Forums
   project_module_calendar: Kalenteri
   project_module_work_package_tracking: Työpaketin seuranta
   project_module_news: Uutiset
@@ -2485,7 +2489,6 @@ fi:
       color: Väri
       colors: Värit
     associations: Riippuvuudet
-    board_could_not_be_saved: Taulua ei voitu tallentaa
     button_delete_all: Poista kaikki
     change: Muuta suunnittelussa
     children: Ali-elementit
@@ -2643,6 +2646,7 @@ fi:
       months: Months
       quarters: Quarters
       years: Years
+    board_could_not_be_saved: Taulua ei voitu tallentaa
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2913,5 +2917,15 @@ fi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: Tällä hetkellä taululla ei ole viestejä.
+  label_available_project_boards: Saatavilla olevat taulut
+  label_board_locked: Lukittu
+  label_board_new: Uusi keskustelupalsta
+  label_board_plural: Keskustelupalstat
+  label_board_sticky: Pysyvä
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: Hallinnoi keskustelupalstaa
+  project_module_boards: Keskustelupalstat

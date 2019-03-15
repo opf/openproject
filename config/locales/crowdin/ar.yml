@@ -73,9 +73,9 @@ ar:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: لا يوجد حالياً منشورات على اللوحة.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: لا يوجد حالياً ألوان.
@@ -155,9 +155,9 @@ ar:
     settings:
       activities:
         no_results_title_text: لا يوجد حالياً أنشطة متاحة.
-      boards:
-        no_results_title_text: لا يوجد حالياً أية لوحات للمشروع.
-        no_results_content_text: إنشاء لوح جديد
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: لا يوجد حالياً فئات لحزمة العمل.
         no_results_content_text: إنشاء فئة حزمة عمل جديدة
@@ -168,6 +168,9 @@ ar:
       versions:
         no_results_title_text: لا يوجد حالياً أية إصدارات للمشروع.
         no_results_content_text: إنشاء إصدار جديد
+      boards:
+        no_results_title_text: لا يوجد حالياً أية لوحات للمشروع.
+        no_results_content_text: إنشاء لوح جديد
   members:
     index:
       no_results_title_text: لا يوجد حالياً قسم للأعضاء في هذا المشروع.
@@ -672,7 +675,7 @@ ar:
     models:
       attachment: ملف
       attribute_help_text: Attribute help text
-      board: المنتدى
+      forum: Forum
       comment: تعليق
       custom_action: Custom action
       custom_field: حقل مخصص
@@ -702,6 +705,7 @@ ar:
       workflow: سير العمل
       work_package: مجموعة العمل
       doorkeeper/application: OAuth application
+      board: المنتدى
   errors:
     header_invalid_fields: 'كان هناك مشاكل في المجالات التالية:'
     field_erroneous_label: 'هذا الحقل غير صالح: %{full_errors} الرجاء إدخال قيمة صحيحة.'
@@ -1228,10 +1232,10 @@ ar:
       faq: الاسئلة الاكثر شيوعا(FAQ)
       glossary: معجم المصطلحات
       shortcuts: اختصارات
-      forums: منتديات
       blog: مدونة أوبِن بروجِكت
-      boards: منتدى المجتمع
+      forums: منتديات
       newsletter: Security alerts / Newsletter
+      boards: منتدى المجتمع
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: يمكنك تسجيل الدخول بمجرد أن تم تنشيط الحساب الخاص
@@ -1296,7 +1300,7 @@ ar:
   label_authentication: المصادقة
   label_available_project_work_package_categories: فئات مجموعة العمل المتاحة
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: الجوانب المتاحة
+  label_available_project_forums: Available forums
   label_available_project_versions: الإصدارات المتوفرة
   label_available_project_repositories: مستودعات البيانات المتوفرة
   label_api_documentation: توثيق API
@@ -1304,10 +1308,10 @@ ar:
   label_blocked_by: محجوب من قبل
   label_blocks: حجوبات
   label_blog: مدونة
-  label_board_locked: مقفل
-  label_board_new: منتدى جديد
-  label_board_plural: منتديات
-  label_board_sticky: مثبت
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: قيمة منطقية
   label_branch: فرع
   label_browse: تصفّح
@@ -2044,7 +2048,7 @@ ar:
   permission_export_wiki_pages: تصدير صفحات wiki
   permission_list_attachments: قائمة المرفقات
   permission_log_time: تسجيل الوقت المستهلك
-  permission_manage_boards: إدارة منتديات
+  permission_manage_forums: Manage forums
   permission_manage_categories: إدارة فئات مجموعة العمل
   permission_manage_work_package_relations: إدارة علاقات حزم العمل
   permission_manage_members: إدارة الأعضاء
@@ -2091,7 +2095,7 @@ ar:
     archive:
       are_you_sure: هل أنت متأكد من أنك تريد أرشفة المشروع '%{name}'؟
   project_module_activity: النشاط
-  project_module_boards: منتديات
+  project_module_forums: Forums
   project_module_calendar: التقويم
   project_module_work_package_tracking: تتبع مجموعة العمل
   project_module_news: الأخبار
@@ -2560,7 +2564,6 @@ ar:
       color: اللون
       colors: الألوان
     associations: الاعتماديات
-    board_could_not_be_saved: لا يمكن حفظ عنصر
     button_delete_all: حذف الكل
     change: تغيير في تخطيط
     children: العناصر التابعة
@@ -2717,6 +2720,7 @@ ar:
       months: أشهر
       quarters: أرباع
       years: السنوات
+    board_could_not_be_saved: لا يمكن حفظ عنصر
   title_remove_and_delete_user: قم بإزالة المستخدم المدعوين من المشروع وحذفه/حذفها.
   title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
@@ -2998,5 +3002,15 @@ ar:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  boards:
+    show:
+      no_results_title_text: لا يوجد حالياً منشورات على اللوحة.
+  label_available_project_boards: الجوانب المتاحة
+  label_board_locked: مقفل
+  label_board_new: منتدى جديد
+  label_board_plural: منتديات
+  label_board_sticky: مثبت
   label_impressum: Impressum
   label_privacy_policy: Data privacy and security policy
+  permission_manage_boards: إدارة منتديات
+  project_module_boards: منتديات

@@ -91,9 +91,9 @@ module Pages
     end
 
     def remove_card(list_name, card_title, index)
-      source = page.all("#{list_selector(list_name)} .work-package--card")[index]
+      source = page.all("#{list_selector(list_name)} .wp-card")[index]
       source.hover
-      source.find('.work-package-card--inline-cancel-button').click
+      source.find('.wp-card--inline-cancel-button').click
 
       expect_card(list_name, card_title, present: false)
     end
@@ -117,12 +117,12 @@ module Pages
     # Expect the given titled card in the list name to be present (expect=true) or not (expect=false)
     def expect_card(list_name, card_title, present: true)
       within_list(list_name) do
-        expect(page).to have_conditional_selector(present, '.work-package--card--subject', text: card_title)
+        expect(page).to have_conditional_selector(present, '.wp-card--subject', text: card_title)
       end
     end
 
     def move_card(index, from:, to:)
-      source = page.all("#{list_selector(from)} .work-package--card")[index]
+      source = page.all("#{list_selector(from)} .wp-card")[index]
       target = page.find list_selector(to)
 
       scroll_to_element(source)
