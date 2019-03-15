@@ -28,26 +28,41 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'open_project/logging/log_delegator'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
-
-require 'csv'
-
 module OpenProject
-  ##
-  # Shortcut to the OpenProject log delegator, which extends
-  # default Rails error handling with other error handlers such as sentry.
-  def self.logger
-    ::OpenProject::Logging::LogDelegator
+  module NullDbFallback
+    class << self
+      def fallback
+        ActiveRecord::Base.connection
+      rescue ActiveRecord::NoDatabaseError
+        applied!
+        ActiveRecord::Base.establish_connection adapter: :nulldb
+      end
+
+      def reset
+        return unless applied?
+
+        ActiveRecord::Base.establish_connection(database_config)
+      end
+
+      private
+
+      attr_accessor :applied
+
+      def applied!
+        self.applied = true
+      end
+
+      def unapplied!
+        self.applied = false
+      end
+
+      def applied?
+        !!applied
+      end
+
+      def database_config
+        YAML.load_file(File.join(Rails.root, "config", "database.yml"))[Rails.env]
+      end
+    end
   end
 end
