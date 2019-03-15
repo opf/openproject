@@ -9,7 +9,7 @@ module OpenProject
 
       register 'openproject-auth_saml',
                author_url: 'https://github.com/finnlabs/openproject-auth_saml',
-               bundled: true do
+               bundled: true
 
       assets %w(
         auth_saml/**

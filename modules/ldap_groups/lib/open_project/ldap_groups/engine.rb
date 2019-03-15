@@ -6,6 +6,7 @@ module OpenProject::LdapGroups
 
     register 'openproject-ldap_groups',
              author_url: 'https://github.com/opf/openproject-ldap_groups',
+             bundled: true,
              settings: {
                default: {
                  group_base: nil
