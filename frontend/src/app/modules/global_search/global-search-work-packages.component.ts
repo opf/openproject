@@ -50,6 +50,8 @@ import {cloneHalResource} from "core-app/modules/hal/helpers/hal-resource-builde
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
+import {debounceTime, distinctUntilChanged, skip} from "rxjs/operators";
+import {combineLatest} from "rxjs";
 
 export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 
@@ -92,22 +94,19 @@ export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, Aft
   }
 
   ngAfterViewInit() {
-    this.globalSearchService
-      .searchTerm$
-      .pipe(
-        untilComponentDestroyed(this)
-      )
-      .subscribe(() => {
-        this.wpFilters.visible = false;
-        this.setQueryProps();
-      });
-
-    this.globalSearchService
-      .projectScope$
-      .pipe(
-        untilComponentDestroyed(this)
-      )
-      .subscribe((_projectScope) => this.setQueryProps());
+    combineLatest(
+      this.globalSearchService.searchTerm$,
+      this.globalSearchService.projectScope$
+    ).pipe(
+      skip(1),
+      distinctUntilChanged(),
+      debounceTime(10),
+      untilComponentDestroyed(this)
+    )
+    .subscribe(([newSearchTerm, newProjectScope]) => {
+      this.wpFilters.visible = false;
+      this.setQueryProps();
+    });
 
     this.globalSearchService
       .resultsHidden$
