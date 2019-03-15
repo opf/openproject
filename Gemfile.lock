@@ -75,6 +75,13 @@ GIT
       rubyzip
 
 GIT
+  remote: https://github.com/petergoldstein/dalli
+  revision: 0ff39199b5e91c6dbdaabc7c085b81938d0f08d2
+  ref: 0ff39199b5e91c6dbdaabc7c085b81938d0f08d2
+  specs:
+    dalli (2.7.9)
+
+GIT
   remote: https://github.com/rspec/rspec-activemodel-mocks
   revision: 6136a778f8b21f4f45f6b4ad5c2e2533e6d4ddc6
   specs:
@@ -94,80 +101,80 @@ GIT
 PATH
   remote: modules/auth_plugins
   specs:
-    openproject-auth_plugins (8.3.1)
+    openproject-auth_plugins (8.3.2)
       omniauth (~> 1.0)
 
 PATH
   remote: modules/auth_saml
   specs:
-    openproject-auth_saml (8.3.1)
+    openproject-auth_saml (8.3.2)
       omniauth-saml (~> 1.10.1)
 
 PATH
   remote: modules/avatars
   specs:
-    openproject-avatars (8.3.1)
+    openproject-avatars (8.3.2)
       fastimage (~> 2.1.0)
       gravatar_image_tag (~> 1.2.0)
 
 PATH
   remote: modules/backlogs
   specs:
-    openproject-backlogs (8.3.1)
+    openproject-backlogs (8.3.2)
       acts_as_silent_list (~> 3.0.0)
-      openproject-pdf_export (= 8.3.1)
+      openproject-pdf_export (= 8.3.2)
 
 PATH
   remote: modules/boards
   specs:
-    openproject-boards (8.3.1)
+    openproject-boards (8.3.2)
 
 PATH
   remote: modules/costs
   specs:
-    openproject-costs (8.3.1)
+    openproject-costs (8.3.2)
 
 PATH
   remote: modules/documents
   specs:
-    openproject-documents (8.3.1)
+    openproject-documents (8.3.2)
 
 PATH
   remote: modules/github_integration
   specs:
-    openproject-github_integration (8.3.1)
+    openproject-github_integration (8.3.2)
       openproject-webhooks
 
 PATH
   remote: modules/global_roles
   specs:
-    openproject-global_roles (8.3.1)
+    openproject-global_roles (8.3.2)
 
 PATH
   remote: modules/grids
   specs:
-    grids (8.3.1)
+    grids (8.3.2)
 
 PATH
   remote: modules/ldap_groups
   specs:
-    openproject-ldap_groups (8.3.1)
+    openproject-ldap_groups (8.3.2)
 
 PATH
   remote: modules/meeting
   specs:
-    openproject-meeting (8.3.1)
+    openproject-meeting (8.3.2)
       icalendar (~> 2.5.0)
 
 PATH
   remote: modules/my_project_page
   specs:
-    openproject-my_project_page (8.3.1)
+    openproject-my_project_page (8.3.2)
 
 PATH
   remote: modules/openid_connect
   specs:
-    openproject-openid_connect (8.3.1)
+    openproject-openid_connect (8.3.2)
       lobby_boy (~> 0.1.3)
       omniauth-openid_connect-providers (~> 0.1)
       openproject-auth_plugins (~> 8.0)
@@ -175,28 +182,28 @@ PATH
 PATH
   remote: modules/pdf_export
   specs:
-    openproject-pdf_export (8.3.1)
+    openproject-pdf_export (8.3.2)
       pdf-inspector (~> 1.3.0)
       prawn (~> 2.2)
 
 PATH
   remote: modules/reporting_engine
   specs:
-    reporting_engine (8.3.1)
+    reporting_engine (8.3.2)
       json
 
 PATH
   remote: modules/reporting
   specs:
-    openproject-reporting (8.3.1)
+    openproject-reporting (8.3.2)
       jquery-tablesorter (~> 1.25.5)
-      openproject-costs (= 8.3.1)
+      openproject-costs (= 8.3.2)
       reporting_engine (>= 1.1.0)
 
 PATH
   remote: modules/two_factor_authentication
   specs:
-    openproject-two_factor_authentication (8.3.1)
+    openproject-two_factor_authentication (8.3.2)
       aws-sdk-sns (~> 1.1.0)
       messagebird-rest (~> 1.3.2)
       rotp (~> 3.3)
@@ -204,31 +211,31 @@ PATH
 PATH
   remote: modules/webhooks
   specs:
-    openproject-webhooks (8.3.1)
+    openproject-webhooks (8.3.2)
 
 PATH
   remote: modules/xls_export
   specs:
-    openproject-xls_export (8.3.1)
+    openproject-xls_export (8.3.2)
       spreadsheet (~> 0.8.9)
 
 GEM
   remote: https://rubygems.org/
   specs:
     Ascii85 (1.0.3)
-    actioncable (5.2.2)
-      actionpack (= 5.2.2)
+    actioncable (5.2.2.1)
+      actionpack (= 5.2.2.1)
       nio4r (~> 2.0)
       websocket-driver (>= 0.6.1)
-    actionmailer (5.2.2)
-      actionpack (= 5.2.2)
-      actionview (= 5.2.2)
-      activejob (= 5.2.2)
+    actionmailer (5.2.2.1)
+      actionpack (= 5.2.2.1)
+      actionview (= 5.2.2.1)
+      activejob (= 5.2.2.1)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 2.0)
-    actionpack (5.2.2)
-      actionview (= 5.2.2)
-      activesupport (= 5.2.2)
+    actionpack (5.2.2.1)
+      actionview (= 5.2.2.1)
+      activesupport (= 5.2.2.1)
       rack (~> 2.0)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
@@ -236,24 +243,24 @@ GEM
     actionpack-xml_parser (2.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
-    actionview (5.2.2)
-      activesupport (= 5.2.2)
+    actionview (5.2.2.1)
+      activesupport (= 5.2.2.1)
       builder (~> 3.1)
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    activejob (5.2.2)
-      activesupport (= 5.2.2)
+    activejob (5.2.2.1)
+      activesupport (= 5.2.2.1)
       globalid (>= 0.3.6)
-    activemodel (5.2.2)
-      activesupport (= 5.2.2)
+    activemodel (5.2.2.1)
+      activesupport (= 5.2.2.1)
     activemodel-serializers-xml (1.0.2)
       activemodel (> 5.x)
       activesupport (> 5.x)
       builder (~> 3.1)
-    activerecord (5.2.2)
-      activemodel (= 5.2.2)
-      activesupport (= 5.2.2)
+    activerecord (5.2.2.1)
+      activemodel (= 5.2.2.1)
+      activesupport (= 5.2.2.1)
       arel (>= 9.0)
     activerecord-import (0.28.1)
       activerecord (>= 3.2)
@@ -265,11 +272,11 @@ GEM
       multi_json (~> 1.11, >= 1.11.2)
       rack (>= 1.5.2, < 3)
       railties (>= 4.0)
-    activestorage (5.2.2)
-      actionpack (= 5.2.2)
-      activerecord (= 5.2.2)
+    activestorage (5.2.2.1)
+      actionpack (= 5.2.2.1)
+      activerecord (= 5.2.2.1)
       marcel (~> 0.3.1)
-    activesupport (5.2.2)
+    activesupport (5.2.2.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
@@ -364,7 +371,7 @@ GEM
       descendants_tracker (~> 0.0.1)
     commonmarker (0.17.9)
       ruby-enum (~> 0.5)
-    concurrent-ruby (1.1.4)
+    concurrent-ruby (1.1.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.4)
@@ -393,7 +400,6 @@ GEM
     cucumber-tag_expressions (1.1.1)
     cucumber-wire (0.0.1)
     daemons (1.3.1)
-    dalli (2.7.7)
     database_cleaner (1.7.0)
     date_validator (0.9.0)
       activemodel
@@ -490,11 +496,11 @@ GEM
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     httpclient (2.8.3)
-    i18n (1.5.3)
+    i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     i18n-js (3.2.1)
       i18n (>= 0.6.6)
-    icalendar (2.5.2)
+    icalendar (2.5.3)
       ice_cube (~> 0.16)
     ice_cube (0.16.3)
     ice_nine (0.11.2)
@@ -656,18 +662,18 @@ GEM
     rack_session_access (0.2.0)
       builder (>= 2.0.0)
       rack (>= 1.0.0)
-    rails (5.2.2)
-      actioncable (= 5.2.2)
-      actionmailer (= 5.2.2)
-      actionpack (= 5.2.2)
-      actionview (= 5.2.2)
-      activejob (= 5.2.2)
-      activemodel (= 5.2.2)
-      activerecord (= 5.2.2)
-      activestorage (= 5.2.2)
-      activesupport (= 5.2.2)
+    rails (5.2.2.1)
+      actioncable (= 5.2.2.1)
+      actionmailer (= 5.2.2.1)
+      actionpack (= 5.2.2.1)
+      actionview (= 5.2.2.1)
+      activejob (= 5.2.2.1)
+      activemodel (= 5.2.2.1)
+      activerecord (= 5.2.2.1)
+      activestorage (= 5.2.2.1)
+      activesupport (= 5.2.2.1)
       bundler (>= 1.3.0)
-      railties (= 5.2.2)
+      railties (= 5.2.2.1)
       sprockets-rails (>= 2.0.0)
     rails-controller-testing (1.0.4)
       actionpack (>= 5.0.1.x)
@@ -683,9 +689,9 @@ GEM
       rails_stdout_logging
     rails_serve_static_assets (0.0.5)
     rails_stdout_logging (0.0.5)
-    railties (5.2.2)
-      actionpack (= 5.2.2)
-      activesupport (= 5.2.2)
+    railties (5.2.2.1)
+      actionpack (= 5.2.2.1)
+      activesupport (= 5.2.2.1)
       method_source
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
@@ -761,7 +767,7 @@ GEM
       iso8601
     ruby-enum (0.7.2)
       i18n
-    ruby-ole (1.2.12.1)
+    ruby-ole (1.2.12.2)
     ruby-prof (0.17.0)
     ruby-progressbar (1.10.0)
     ruby-rc4 (0.1.5)
@@ -820,7 +826,6 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sqlite3 (1.3.13)
     stackprof (0.2.12)
     stringex (2.8.5)
     svg-graph (2.1.3)
@@ -922,7 +927,7 @@ DEPENDENCIES
   cucumber (~> 3.1.0)
   cucumber-rails (~> 1.6.0)
   daemons
-  dalli (~> 2.7.6)
+  dalli!
   database_cleaner (~> 1.6)
   date_validator (~> 0.9.0)
   delayed_job_active_record (~> 4.1.1)
@@ -999,7 +1004,7 @@ DEPENDENCIES
   rack-protection (~> 2.0.0)
   rack-test (~> 1.1.0)
   rack_session_access
-  rails (~> 5.2.2)
+  rails (~> 5.2.2.1)
   rails-controller-testing (~> 1.0.2)
   rails_12factor
   rdoc (>= 2.4.2)
@@ -1035,7 +1040,6 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   sprockets (~> 3.7.0)
-  sqlite3 (~> 1.3.6)
   stackprof
   stringex (~> 2.8.5)
   svg-graph (~> 2.1.0)
