@@ -118,7 +118,7 @@ export class WorkPackageEmbeddedGraphComponent extends WorkPackageEmbeddedBaseCo
     this.chartData = labelCountMaps;
   }
 
-  protected loadQuery(visible:boolean = false) {
+  public loadQuery(visible:boolean = false) {
     this.error = null;
 
     let queries = this.datasets.map((dataset:any) => {

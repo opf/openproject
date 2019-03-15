@@ -8,8 +8,7 @@
     <!-- Filter container (if requested) -->
     <filter-container *ngIf="configuration.withFilters"
                       [showFilterButton]="configuration.showFilterButton"
-                      [filterButtonText]="configuration.filterButtonText"
-                      (filtersChanged)="onFiltersChanged.emit($event)">
+                      [filterButtonText]="configuration.filterButtonText">
 
     </filter-container>
 

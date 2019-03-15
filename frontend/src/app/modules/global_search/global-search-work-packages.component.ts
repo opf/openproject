@@ -60,7 +60,6 @@ export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
   template: `
    <wp-embedded-table *ngIf="!resultsHidden"
                       [queryProps]="queryProps"
-                      (onFiltersChanged)="onFiltersChanged($event)"
                       [configuration]="tableConfiguration">
     </wp-embedded-table>
   `
@@ -122,14 +121,6 @@ export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, Aft
 
   ngOnDestroy():void {
     // Nothing to do
-  }
-
-  public onFiltersChanged(filters:QueryFilterInstanceResource[]) {
-    if (this.wpTableFilters.isComplete(filters)) {
-      const query = cloneHalResource(this.querySpace.query.value!) as QueryResource;
-      query.filters = filters;
-      this.queryProps = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query);
-    }
   }
 
   private setQueryProps():void {

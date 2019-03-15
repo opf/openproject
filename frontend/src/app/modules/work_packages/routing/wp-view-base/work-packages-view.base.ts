@@ -115,7 +115,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
     ).subscribe(([pagination, query]) => {
       if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
         this.wpListChecksumService.update(query, pagination);
-        this.refreshResults(query);
+        this.refresh(true, false);
       }
     });
 
@@ -161,11 +161,6 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
         );
       }
     });
-  }
-
-  protected refreshResults(query:QueryResource) {
-    this.loadingIndicator = this.QueryDm.loadResults(query, this.wpTablePagination.paginationObject)
-      .then((results) => this.wpStatesInitialization.updateQuerySpace(query, results));
   }
 
   /**
