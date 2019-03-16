@@ -2,13 +2,13 @@
 
 OpenProject can (by default) browse Subversion and Git repositories, but it does not serve them to git/svn clients.
 
-We do however support an integration with the Apache webserver to create and serve repositories on the fly, including integration into the fine-grained project authorization system of OpenProject.
+We support integration with the Apache webserver to create and serve repositories on the fly along with contributions to the fine-grained project authorization system of OpenProject.
 
 ## Existing Repositories
 
 Using the default configuration, OpenProject allows you to *link* existing Subversion and Git repositories from the local filesystem (For Subversion, you can also integrate repositories from other servers using basic auth credentials).
 
-When you link these repositories in OpenProject, you may browse the repository through OpenProject.
+After linking the repositories, you may browse the repository through OpenProject.
 
 This functionality is extended with managed repositories, whose life spans are actively controlled by OpenProject. You can explicitly create local repositories for a project and configure repository access using permission the existing access-control functionality on a per-project level.
 
@@ -96,8 +96,8 @@ Upon creating and deleting repositories in the frontend, OpenProject will POST t
 	}
 
 The endpoint is expected to return a JSON with at least a `message` property when the response is not successful (2xx).
-When the response is successful, it must at least return a `url` property that contains an accessible URL, an optionally, a `path` property to access the repository locally.
-Note that for Git repositories, OpenProject currently can only read them locally (i.e, through an NFS mount), so a path is mandatory here.
+When the response is successful, it must at least return a `url` property that contains an accessible URL and optionally a `path` property to access the repository locally.
+*Note* that for Git repositories, OpenProject currently can only read them locally (i.e, through an NFS mount), so a path is mandatory here.
 For Subversion, you can either return a `file:///<path>` URL, or a local path.
 
 Our main use-case for this feature is to reduce the complexity of permission issues around Subversion mainly in packager, for which a simple Apache wrapper script is used in `extra/Apache/OpenProjectRepoman.pm`.
