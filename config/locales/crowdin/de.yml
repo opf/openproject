@@ -58,19 +58,20 @@ de:
       no_results_content_title: Derzeit gibt es keine Authentifizierungsmodi.
       no_results_content_text: Erstellen Sie einen neuen Authentifizierungsmodus
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Verbindungsverschlüsselung
     tls_mode:
       plain: kein
       simple_tls: simple_tls
       start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      plain_description: Unverschlüsselte Verbindung.
+      simple_tls_description: Implizite TLS-Verschlüsselung ohne Verifikation. Mit
+        Bedacht verwenden, da diese Option in impliziten Vertrauen in die LDAP-Verbindung
+        resultiert.
+      start_tls_description: Explizite TLS-Verschlüsselung mit Verifikation der Zertifikatskette.
+        Für LDAP over TLS/SSL verwenden.
+      section_more_info_link_html: 'Dieser Abschnitt betrifft die Verbindungssicherheit
+        dieser LDAP-Authentifizierungsquelle. Besuchen Sie für weitere Informationen
+        die <a href="%{link}">Net::LDAP Dokumentation</a>.
 
 '
   forums:
@@ -172,9 +173,6 @@ de:
       versions:
         no_results_title_text: Derzeit gibt es keine Versionen für das Projekt.
         no_results_content_text: Neue Version erstellen
-      boards:
-        no_results_title_text: Derzeit gibt es keine Foren für dieses Projekt.
-        no_results_content_text: Neues Forum anlegen
   members:
     index:
       no_results_title_text: Zur Zeit hat dieses Projekt keine Mitglieder.
@@ -399,9 +397,9 @@ de:
         encoded_token: Enterprise-Edition Support Token
         active_user_count_restriction: Maximale aktive Nutzer
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
+        page: Seite
+        row_count: Anzahl der Zeilen
+        column_count: Anzahl der Spalten
         widgets: Widgets
       relation:
         delay: Pufferzeit
@@ -576,9 +574,9 @@ de:
           unreadable: kann nicht gelesen werden. Ist dies ein Enterprise-Edition Support
             Token?
         grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          overlaps: überlappen.
+          outside: ist außerhalb des Rasters.
+          end_before_start: der Endwert muss größer sein als der Startwert.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -717,7 +715,6 @@ de:
       workflow: Workflow
       work_package: Arbeitspaket
       doorkeeper/application: OAuth-Anwendung
-      board: Forum
   errors:
     header_invalid_fields: 'Bei den folgenden Feldern traten Fehler auf:'
     field_erroneous_label: "Dieses Feld ist ungültig: %{full_errors} \nBitte geben
@@ -1210,9 +1207,8 @@ de:
       glossary: Glossar
       shortcuts: Tastenkürzel
       blog: OpenProject Blog
-      forums: Foren
+      forums: Community Forum
       newsletter: Sicherheitswarnungen / Newsletter
-      boards: Community Forum
   links:
     configuration_guide: Konfigurationsanleitung
   instructions_after_registration: Sie können sich anmelden, sobald Ihr Konto aktiviert
@@ -1287,14 +1283,15 @@ de:
   label_blocked_by: Blockiert durch
   label_blocks: Blockiert
   label_blog: Blog
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: Gesperrt
+  label_forum_new: Neues Forum
+  label_forum_plural: Foren
+  label_forum_sticky: Wichtig (immer oben)
   label_boolean: Boolesch
   label_branch: Zweig
   label_browse: Codebrowser
   label_bulk_edit_selected_work_packages: Alle ausgewählten Arbeitspakete bearbeiten
+  label_bundled: "(Bundled)"
   label_calendar: Kalender
   label_calendar_show: Kalender anzeigen
   label_category: Kategorie
@@ -1556,6 +1553,7 @@ de:
   label_planning: Terminplanung
   label_please_login: Anmelden
   label_plugins: Plugins
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: Vorgänger von
   label_preferences: Präferenzen
   label_preview: Vorschau
@@ -1888,8 +1886,8 @@ de:
   notice_account_update_failed: Konto konnte nicht aktualisiert werden. Bitte besuchen
     Sie ihre Profilseite und überprüfen Sie die Einstellungen.
   notice_account_updated: Konto wurde erfolgreich aktualisiert.
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: Alle anderen Sitzungen, die mit Ihrem Konto
+    verbunden sind, wurden beendet.
   notice_account_wrong_password: Falsches Kennwort.
   notice_account_registered_and_logged_in: Willkommen, ihr Benutzerkonto wurde aktiviert.
     Sie sind nun angemeldet.
@@ -2025,7 +2023,7 @@ de:
   permission_export_wiki_pages: Wiki-Seiten exportieren
   permission_list_attachments: Anhänge auflisten
   permission_log_time: Aufwände buchen
-  permission_manage_forums: Manage forums
+  permission_manage_forums: Foren verwalten
   permission_manage_categories: Arbeitspaket-Kategorien verwalten
   permission_manage_work_package_relations: Arbeitspaket-Beziehungen verwalten
   permission_manage_members: Mitglieder verwalten
@@ -2074,7 +2072,7 @@ de:
     archive:
       are_you_sure: Sind Sie sicher, dass Sie das Projekt '%{name}' archivieren wollen?
   project_module_activity: Aktivität
-  project_module_forums: Forums
+  project_module_forums: Foren
   project_module_calendar: Kalender
   project_module_work_package_tracking: Arbeitspakete
   project_module_news: Neuigkeiten
@@ -2738,7 +2736,6 @@ de:
       months: Monate
       quarters: Quartale
       years: Jahre
-    board_could_not_be_saved: Forum konnte nicht gespeichert werden
   title_remove_and_delete_user: Den eingeladenen Benutzer aus dem Projekt entfernen
     und löschen.
   title_enterprise_upgrade: Upgraden um weitere Nutzer freizuschalten.
@@ -3028,15 +3025,3 @@ de:
     revoke_my_application_confirmation: Möchten Sie diese Anwendung wirklich entfernen?
       Dies wird %{token_count} aktive Token widerrufen.
     my_registered_applications: Registrierte OAuth-Anwendungen
-  boards:
-    show:
-      no_results_title_text: Zur Zeit existieren keine Forumseinträge für dieses Forum.
-  label_available_project_boards: Verfügbare Foren
-  label_board_locked: Gesperrt
-  label_board_new: Neues Forum
-  label_board_plural: Foren
-  label_board_sticky: Wichtig (immer oben)
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Foren verwalten
-  project_module_boards: Foren

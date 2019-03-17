@@ -18,6 +18,10 @@ tr:
     close_popup_title: Pencereyi kapat
     close_filter_title: Filtreyi kapat
     close_form_title: Formu kapat
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Enterprise sürüme bakın.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ tr:
         kopyalayınız.
       copied_successful: Panoya başarıyla kopyalandı!
     button_add_watcher: Takipçi ekle
-    button_back: Back
+    button_back: Geri
     button_back_to_list_view: Listeye görünümüne geri dön
     button_cancel: İptal
     button_close: Kapat

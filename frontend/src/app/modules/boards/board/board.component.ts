@@ -17,6 +17,7 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
 import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 import {init} from "protractor/built/launcher";
+import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 
 
 @Component({
@@ -49,7 +50,9 @@ export class BoardComponent implements OnInit, OnDestroy {
     updateSuccessful: this.I18n.t('js.notice_successful_update'),
     unnamedBoard: this.I18n.t('js.boards.label_unnamed_board'),
     loadingError: 'No such board found',
-    addList: this.I18n.t('js.boards.add_list')
+    addList: this.I18n.t('js.boards.add_list'),
+    upsaleBoards: this.I18n.t('js.boards.upsale.boards'),
+    upsaleCheckOutLink: this.I18n.t('js.boards.upsale.check_out_link')
   };
 
   trackByQueryId = (index:number, widget:GridWidgetResource) => widget.options.query_id;
@@ -64,7 +67,8 @@ export class BoardComponent implements OnInit, OnDestroy {
               private readonly boardActions:BoardActionsRegistryService,
               private readonly BoardCache:BoardCacheService,
               private readonly dynamicCss:DynamicCssService,
-              private readonly Boards:BoardService) {
+              private readonly Boards:BoardService,
+              private readonly Banner:BannersService) {
   }
 
   goBack() {
@@ -141,5 +145,13 @@ export class BoardComponent implements OnInit, OnDestroy {
   removeList(board:Board, query:GridWidgetResource) {
     board.removeQuery(query);
     return this.saveBoard(board);
+  }
+
+  public showBoardListView() {
+    return !this.Banner.eeShowBanners;
+  }
+
+  public opReferrer(board:Board) {
+    return board.isFree ? 'boards#free' : 'boards#status';
   }
 }

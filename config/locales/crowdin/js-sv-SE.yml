@@ -18,6 +18,10 @@ sv-SE:
     close_popup_title: Stäng popup
     close_filter_title: Stäng filter
     close_form_title: Stäng formulär
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ sv-SE:
         den markerade texten manuellt.
       copied_successful: Kopierad till Urklipp!
     button_add_watcher: Lägg till bevakare
-    button_back: Back
+    button_back: Tillbaka
     button_back_to_list_view: Tillbaka till listvy
     button_cancel: Avbryt
     button_close: Stäng
@@ -162,7 +166,7 @@ sv-SE:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Dokument
           no_results: No documents yet.
         news:
           title: Nyheter

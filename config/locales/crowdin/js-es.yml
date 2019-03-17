@@ -19,6 +19,10 @@ es:
     close_popup_title: Cerrar ventana emergente
     close_filter_title: Cerrar filtro
     close_form_title: Cerrar formulario
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Vea la versión Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -30,7 +34,7 @@ es:
         el texto seleccionado manualmente.
       copied_successful: "¡Copiado correctamente en el portapapeles!"
     button_add_watcher: Añadir observador
-    button_back: Back
+    button_back: Atrás
     button_back_to_list_view: Volver a la lista
     button_cancel: Cancelar
     button_close: Cerrar
@@ -163,15 +167,15 @@ es:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
-          no_results: No documents yet.
+          title: Documentos
+          no_results: No hay documentos.
         news:
           title: Noticias
-          at: at
+          at: en
           no_results: Nada nuevo sobre lo que informar.
         time_entries_current_user:
           title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
+          no_results: Sin entradas temporales en los últimos 7 días.
         work_packages_accountable:
           title: Paquetes de trabajo de los que soy responsable
         work_packages_assigned:

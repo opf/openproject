@@ -18,6 +18,10 @@ hr:
     close_popup_title: Popup izbornik
     close_filter_title: Zatvori filtar
     close_form_title: Zatvori obrazac
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ hr:
         manualno kopirajte odabrani tekst.
       copied_successful: Uspješno kopirano u međuspremnik!
     button_add_watcher: Dodaj nadglednika
-    button_back: Back
+    button_back: Povratak
     button_back_to_list_view: Back to list view
     button_cancel: Odustani
     button_close: Zatvori
@@ -159,7 +163,7 @@ hr:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Dokumenti
           no_results: No documents yet.
         news:
           title: Vijesti

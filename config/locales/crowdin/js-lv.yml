@@ -18,6 +18,10 @@ lv:
     close_popup_title: Aizvērt logu
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ lv:
         kopējiet atlasīto tekstu izmantojot ctrl+c un ctrl+v
       copied_successful: Sekmīgi nokopēts starpliktuvē!
     button_add_watcher: Pievienot sekotāju
-    button_back: Back
+    button_back: Atpakaļ
     button_back_to_list_view: Back to list view
     button_cancel: Atcelt
     button_close: Close

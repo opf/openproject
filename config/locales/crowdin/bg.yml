@@ -168,9 +168,6 @@ bg:
       versions:
         no_results_title_text: В момента няма версии за проекта.
         no_results_content_text: Създаване на нова версия
-      boards:
-        no_results_title_text: В момента има няма информационни дъски за проекта.
-        no_results_content_text: Създаване на нова дъска
   members:
     index:
       no_results_title_text: В момента има няма членове част от този проект.
@@ -673,7 +670,7 @@ bg:
     models:
       attachment: Файл
       attribute_help_text: Attribute help text
-      forum: Forum
+      forum: Форум
       comment: Коментар
       custom_action: Custom action
       custom_field: Потребителски полета
@@ -695,7 +692,6 @@ bg:
       workflow: Работен поток
       work_package: Работен пакет
       doorkeeper/application: OAuth application
-      board: Форум
   errors:
     header_invalid_fields: 'Имаше проблеми със следните полета:'
     field_erroneous_label: 'Това поле е невалиднo: %{full_errors} Моля, въведете валидна
@@ -1175,9 +1171,8 @@ bg:
       glossary: Терминологичен речник
       shortcuts: Кратки клавишни комбинации
       blog: OpenProject блог
-      forums: Форуми
+      forums: Форум на Общността
       newsletter: Security alerts / Newsletter
-      boards: Форум на Общността
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: Можете да влезете веднага след като вашият акаунт
@@ -1251,15 +1246,16 @@ bg:
   label_blocked_by: блокирано от
   label_blocks: блокировки
   label_blog: Блог
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: Заключен
+  label_forum_new: Нов форум
+  label_forum_plural: Форуми
+  label_forum_sticky: Лепкава
   label_boolean: Булев
   label_branch: Клон
   label_browse: Преглед
   label_bulk_edit_selected_work_packages: Групово редактиране на избраните работни
     пакети
+  label_bundled: "(Bundled)"
   label_calendar: Календар
   label_calendar_show: Показване на календар
   label_category: Категория
@@ -1521,6 +1517,7 @@ bg:
   label_planning: Планиране
   label_please_login: Моля влез в профила си
   label_plugins: Плъгини
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: предхожда
   label_preferences: Предпочитания
   label_preview: Предварителен преглед
@@ -2026,7 +2023,7 @@ bg:
     archive:
       are_you_sure: Наистина ли искате да архивирате на проекта "%{name}"?
   project_module_activity: Активност
-  project_module_forums: Forums
+  project_module_forums: Форуми
   project_module_calendar: Календар
   project_module_work_package_tracking: Проследяване на работен пакет
   project_module_news: Новини
@@ -2662,7 +2659,6 @@ bg:
       months: Месеци
       quarters: Tримесечие
       years: Години
-    board_could_not_be_saved: Board could not be saved
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2935,15 +2931,3 @@ bg:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: Понастоящем няма съобщения на дъската.
-  label_available_project_boards: Налични табла
-  label_board_locked: Заключен
-  label_board_new: Нов форум
-  label_board_plural: Форуми
-  label_board_sticky: Лепкава
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Manage forums
-  project_module_boards: Форуми

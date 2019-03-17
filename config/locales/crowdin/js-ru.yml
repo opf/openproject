@@ -18,6 +18,10 @@ ru:
     close_popup_title: Закрыть всплывающее
     close_filter_title: Закрыть фильтр
     close_form_title: Закрыть форму
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Проверьте корпоративную версию.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ ru:
         скопируйте выделенный текст вручную.
       copied_successful: Успешно скопировано в буфер обмена!
     button_add_watcher: Добавить наблюдателя
-    button_back: Back
+    button_back: Назад
     button_back_to_list_view: Вернуться к просмотру списка
     button_cancel: Отмена
     button_close: Закрыть

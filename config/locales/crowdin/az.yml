@@ -168,9 +168,6 @@ az:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -693,7 +690,6 @@ az:
       workflow: Workflow
       work_package: Work package
       doorkeeper/application: OAuth application
-      board: Forum
   errors:
     header_invalid_fields: 'There were problems with the following fields:'
     field_erroneous_label: |-
@@ -1171,9 +1167,8 @@ az:
       glossary: Glossary
       shortcuts: Shortcuts
       blog: OpenProject blog
-      forums: Forums
+      forums: Community forum
       newsletter: Security alerts / Newsletter
-      boards: Community forum
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: You can sign in as soon as your account has been
@@ -1255,6 +1250,7 @@ az:
   label_branch: Branch
   label_browse: Browse
   label_bulk_edit_selected_work_packages: Bulk edit selected work packages
+  label_bundled: "(Bundled)"
   label_calendar: Calendar
   label_calendar_show: Show Calendar
   label_category: Category
@@ -1515,6 +1511,7 @@ az:
   label_planning: Planning
   label_please_login: Please log in
   label_plugins: Plugins
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precedes
   label_preferences: Preferences
   label_preview: Preview
@@ -2653,7 +2650,6 @@ az:
       months: Months
       quarters: Quarters
       years: Years
-    board_could_not_be_saved: Board could not be saved
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2926,15 +2922,3 @@ az:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: There are currently no posts for the board.
-  label_available_project_boards: Available boards
-  label_board_locked: Locked
-  label_board_new: New forum
-  label_board_plural: Forums
-  label_board_sticky: Sticky
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Manage forums
-  project_module_boards: Forums

@@ -18,6 +18,10 @@ id:
     close_popup_title: Tutup
     close_filter_title: Tutup Penyaring
     close_form_title: Tutup formulir
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Periksa edisi Perusahaan.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ id:
         teks yang dipilih secara manual.
       copied_successful: Berhasil disalin ke clipboard!
     button_add_watcher: Tambah pemantau
-    button_back: Back
+    button_back: Kembali
     button_back_to_list_view: Kembali ke tampilan daftar
     button_cancel: Batal
     button_close: Tutup
@@ -159,11 +163,11 @@ id:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Dokumen
           no_results: No documents yet.
         news:
           title: News
-          at: at
+          at: di
           no_results: Nothing new to report.
         time_entries_current_user:
           title: Spent time (last 7 days)

@@ -1,15 +1,10 @@
 <div>
-  <div *ngIf="eeShowBanners" class="ee-attribute-highlighting-upsale notification-box -ee-upsale">
-    <div class="notification-box--content">
-      <p><strong [textContent]="text.upsaleEnterpriseOnly"></strong></p>
-      <p [textContent]="text.upsaleAttributeHighlighting"></p>
-      <p>
-        <a href="https://www.openproject.org/enterprise-edition/?op_edtion=community-edition&op_referrer=wp-attribute-highlighting#attribute-highlighting"
-           target='blank'
-           [textContent]="text.upsaleCheckOutLink"></a>
-      </p>
-    </div>
-  </div>
+  <enterprise-banner class="ee-attribute-highlighting-upsale"
+                     *ngIf="eeShowBanners"
+                     [linkMessage]="text.upsaleCheckOutLink"
+                     [textMessage]="text.upsaleAttributeHighlighting"
+                     opReferrer="wp-attribute-highlighting#attribute-highlighting">
+  </enterprise-banner>
   <form>
     <p [textContent]="text.highlighting_mode.description"></p>
     <div class="form--field -full-width">

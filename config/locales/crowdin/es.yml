@@ -172,9 +172,6 @@ es:
       versions:
         no_results_title_text: Actualmente no hay versiones para este proyecto.
         no_results_content_text: Crear un nueva versión
-      boards:
-        no_results_title_text: Actualmente no hay tablones para el proyecto.
-        no_results_content_text: Crear un nuevo tablón
   members:
     index:
       no_results_title_text: Actualmente no hay miembros que formen parte de este
@@ -697,7 +694,7 @@ es:
     models:
       attachment: Archivo
       attribute_help_text: Texto de ayuda para atributo
-      forum: Forum
+      forum: Foro
       comment: Comentario
       custom_action: Acción personalizada
       custom_field: Campo personalizado
@@ -719,7 +716,6 @@ es:
       workflow: Flujo de trabajo
       work_package: Paquete de trabajo
       doorkeeper/application: Aplicación OAuth
-      board: Foro
   errors:
     header_invalid_fields: 'Hubo problemas con los siguientes campos:'
     field_erroneous_label: 'Este campo es inválido: %{full_errors} por favor, ingrese
@@ -1208,9 +1204,8 @@ es:
       glossary: Glosario
       shortcuts: Accesos directos
       blog: Blog de OpenProject
-      forums: Foros
+      forums: Foro de la comunidad
       newsletter: Alertas de seguridad / boletín
-      boards: Foro de la comunidad
   links:
     configuration_guide: Guía de configuración
   instructions_after_registration: Podras entrar tan pronto como tu cuenta halla sido
@@ -1285,14 +1280,15 @@ es:
   label_blocked_by: bloqueado por
   label_blocks: bloques
   label_blog: Blog
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: Bloqueado
+  label_forum_new: Foro nuevo
+  label_forum_plural: Foros
+  label_forum_sticky: Adhesivo
   label_boolean: Booleano
   label_branch: Sucursal
   label_browse: Explorar
   label_bulk_edit_selected_work_packages: Edición masiva de paquetes de trabajo
+  label_bundled: "(Bundled)"
   label_calendar: Calendario
   label_calendar_show: Mostrar Calendario
   label_category: Categoría
@@ -1553,6 +1549,7 @@ es:
   label_planning: Planificación
   label_please_login: Por favor, identifíquese
   label_plugins: Extensiones
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precede
   label_preferences: Preferencias
   label_preview: Vista preliminar
@@ -2026,7 +2023,7 @@ es:
   permission_export_wiki_pages: Exportar wiki página
   permission_list_attachments: Lista archivos adjuntos
   permission_log_time: Registro de tiempo empleado
-  permission_manage_forums: Manage forums
+  permission_manage_forums: Administrar foros
   permission_manage_categories: Administrar categorías del paquete de trabajo
   permission_manage_work_package_relations: Gestionar las relaciones del paquete de
     trabajo
@@ -2075,7 +2072,7 @@ es:
     archive:
       are_you_sure: "¿Está seguro que desea archivar el proyecto '%{name}'?"
   project_module_activity: Actividad
-  project_module_forums: Forums
+  project_module_forums: Foros
   project_module_calendar: Calendario
   project_module_work_package_tracking: Seguimiento de paquetes de trabajo
   project_module_news: Noticias
@@ -2746,7 +2743,6 @@ es:
       months: Meses
       quarters: Cuatrimestres
       years: Años
-    board_could_not_be_saved: La tarjeta no a sido grabada
   title_remove_and_delete_user: Eliminar al usurio invitado del proyecto y eliminarlo.
   title_enterprise_upgrade: Mejora para desbloquear más usuarios.
   tooltip_user_default_timezone: 'La zona horaria por defecto para los nuevos usuarios.
@@ -3034,15 +3030,3 @@ es:
     revoke_my_application_confirmation: "¿Seguro que quieres eliminar esta aplicación?
       Eso suspenderá %{token_count} activos para realizarse."
     my_registered_applications: Aplicaciones OAuth Registradas
-  boards:
-    show:
-      no_results_title_text: Actualmente no hay entradas para el tablero.
-  label_available_project_boards: Tablones disponibles
-  label_board_locked: Bloqueado
-  label_board_new: Foro nuevo
-  label_board_plural: Foros
-  label_board_sticky: Adhesivo
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Administrar foros
-  project_module_boards: Foros

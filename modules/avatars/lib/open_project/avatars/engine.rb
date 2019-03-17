@@ -32,7 +32,7 @@ module OpenProject::Avatars
                },
                partial: 'settings/openproject_avatars'
              },
-             requires_openproject: '>= 7.0.0' do
+             bundled: true do
 
       add_menu_item :my_menu, :avatar,
                     { controller: '/avatars/my_avatar', action: 'show' },

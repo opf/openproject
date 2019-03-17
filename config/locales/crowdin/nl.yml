@@ -58,19 +58,19 @@ nl:
       no_results_content_title: Er zijn momenteel geen verificatie methodes.
       no_results_content_text: Maak een nieuwe authenticatie methode
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Verbinding encryptie
     tls_mode:
       plain: geen
-      simple_tls: simple_tls
+      simple_tls: eenvoudige_tls
       start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      plain_description: Geen TLS-onderhandelingen.
+      simple_tls_description: Impliciet TLS encryptie, maar geen certificaat validatie.
+        Gebruik voorzichtig en impliciet vertrouwen van de LDAP-verbinding.
+      start_tls_description: TLS-encryptie uitbreiden met volledige validatie. Gebruik
+        voor LDAP via TLS/SSL.
+      section_more_info_link_html: 'Deze sectie heeft betrekking op de verbindingsbeveiliging
+        van deze LDAP authenticatie bron. Voor meer informatie bezoek <a href="%{link}">het
+        net::LDAP documentatie</a>.
 
 '
   forums:
@@ -169,9 +169,6 @@ nl:
       versions:
         no_results_title_text: Momenteel zijn er geen versies voor het project.
         no_results_content_text: Maak een nieuwe versie
-      boards:
-        no_results_title_text: Er zijn momenteel geen borden voor het project.
-        no_results_content_text: Maak een nieuw bord
   members:
     index:
       no_results_title_text: Er zijn momenteel geen leden onderdeel van dit project.
@@ -393,9 +390,9 @@ nl:
         encoded_token: Enterprise ondersteuningstoken
         active_user_count_restriction: Maximum aantal actieve gebruikers
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
+        page: Pagina
+        row_count: Aantal rijen
+        column_count: Aantal kolommen
         widgets: Widgets
       relation:
         delay: Vertraging
@@ -569,8 +566,8 @@ nl:
             is?
         grids/grid:
           overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          outside: is buiten het raster.
+          end_before_start: eindwaarde moet groter zijn dan de startwaarde.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -706,7 +703,6 @@ nl:
       workflow: Werkstroom
       work_package: Werkpakket
       doorkeeper/application: OAuth-authenticatie
-      board: Forum
   errors:
     header_invalid_fields: 'Er waren problemen met de volgende velden:'
     field_erroneous_label: "Dit veld is ongeldig: %{full_errors} \nVoer alstublieft
@@ -1192,9 +1188,8 @@ nl:
       glossary: Woordenlijst
       shortcuts: Snelkoppelingen
       blog: OpenProject blog
-      forums: Fora
+      forums: Gemeenschapsforum
       newsletter: Beveiligingswaarschuwingen / nieuwsbrief
-      boards: Gemeenschapsforum
   links:
     configuration_guide: Configuratiegids
   instructions_after_registration: U kan inloggen zodra uw account geactiveerd is
@@ -1268,14 +1263,15 @@ nl:
   label_blocked_by: vergrendeld door
   label_blocks: vergrendelingen
   label_blog: Blog
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
+  label_forums_locked: Vergrendeld
+  label_forum_new: Nieuw forum
+  label_forum_plural: Fora
   label_forum_sticky: Sticky
   label_boolean: Boolean
   label_branch: Branch
   label_browse: Bladeren
   label_bulk_edit_selected_work_packages: Bulk bewerken van geselecteerd werkpakketten
+  label_bundled: "(Bundled)"
   label_calendar: Agenda
   label_calendar_show: Agenda weergeven
   label_category: Categorie
@@ -1537,6 +1533,7 @@ nl:
   label_planning: Planning
   label_please_login: Log in a.u.b.
   label_plugins: Plug-ins
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: voorafgaand aan
   label_preferences: Voorkeuren
   label_preview: Voorbeeld
@@ -1874,8 +1871,8 @@ nl:
   notice_account_update_failed: Account instelling kan niet worden opgeslagen. Kijk
     op uw accountpagina.
   notice_account_updated: Account is bijgewerkt.
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: Alle andere sessies die gekoppeld zijn aan
+    uw account zijn ongeldig.
   notice_account_wrong_password: Verkeerde wachtwoord
   notice_account_registered_and_logged_in: Welkom, uw acount is geactiveerd. U bent
     nu ingelogd.
@@ -2003,7 +2000,7 @@ nl:
   permission_export_wiki_pages: Wiki pagina's exporteren
   permission_list_attachments: Bijlagen weergeven
   permission_log_time: Meld uw bestede tijd
-  permission_manage_forums: Manage forums
+  permission_manage_forums: Forum beheren
   permission_manage_categories: Werkpakket Categorieën beheren
   permission_manage_work_package_relations: Werkpakket relaties beheren
   permission_manage_members: Beheer gebruikers
@@ -2051,7 +2048,7 @@ nl:
     archive:
       are_you_sure: Weet u zeker dat u dit project '%{name}' wilt archiveren?
   project_module_activity: Activiteit
-  project_module_forums: Forums
+  project_module_forums: Fora
   project_module_calendar: Agenda
   project_module_work_package_tracking: Werkpakket bijhouden
   project_module_news: Nieuws
@@ -2707,7 +2704,6 @@ nl:
       months: Maanden
       quarters: Kwartalen
       years: Jaren
-    board_could_not_be_saved: Bord kon niet opgeslagen worden
   title_remove_and_delete_user: De uitgenodigde gebruiker uit het project verwijderen
     en verwijder hem/haar.
   title_enterprise_upgrade: Upgrade om meer gebruikers te ontgrendelen.
@@ -2995,15 +2991,3 @@ nl:
     revoke_my_application_confirmation: Weet u zeker dat u deze applicatie wilt verwijderen?
       Dit zal %{token_count} actief voor deze verwijderen.
     my_registered_applications: Geregistreerde OAuth toepassingen
-  boards:
-    show:
-      no_results_title_text: Er zijn momenteel geen berichten voor het bord.
-  label_available_project_boards: Beschikbare borden
-  label_board_locked: Vergrendeld
-  label_board_new: Nieuw forum
-  label_board_plural: Fora
-  label_board_sticky: Sticky
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Forum beheren
-  project_module_boards: Fora

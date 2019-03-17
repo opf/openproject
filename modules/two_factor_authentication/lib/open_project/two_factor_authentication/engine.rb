@@ -19,7 +19,7 @@ module OpenProject::TwoFactorAuthentication
                  allow_remember_for_days: 0
                }
              },
-             requires_openproject: '>= 7.2.0' do
+             bundled: true do
                menu :my_menu,
                     :two_factor_authentication,
                     { controller: '/two_factor_authentication/my/two_factor_devices', action: :index },

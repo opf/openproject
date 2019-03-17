@@ -18,6 +18,10 @@ da:
     close_popup_title: Luk popup
     close_filter_title: Luk filter
     close_form_title: Luk formular
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ da:
         venligst den markerede tekst manuelt.
       copied_successful: Kopieret til Udklipsholder!
     button_add_watcher: Tilføj tilsynsførende
-    button_back: Back
+    button_back: Tilbage
     button_back_to_list_view: Tilbage til listevisning
     button_cancel: Annuller
     button_close: Luk
@@ -159,7 +163,7 @@ da:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Dokumenter
           no_results: No documents yet.
         news:
           title: Nyheder

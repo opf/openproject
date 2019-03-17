@@ -18,6 +18,10 @@ lt:
     close_popup_title: Užverti iškylantį langą
     close_filter_title: Užverti filtrą
     close_form_title: Užverti formą
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Patikrinkite Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ lt:
         būdu nukopijuoti pažymėtą tekstą.
       copied_successful: Sėkmingai nukopijuotas į mainų sritį!
     button_add_watcher: Pridėti stebėtojų
-    button_back: Back
+    button_back: Atgal
     button_back_to_list_view: Atgal į sąrašo peržiūrą
     button_cancel: Atšaukti
     button_close: Uždaryti
@@ -160,7 +164,7 @@ lt:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Dokumentai
           no_results: No documents yet.
         news:
           title: Naujienos

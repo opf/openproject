@@ -21,6 +21,7 @@ module OpenProject::Webhooks
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-webhooks',
+             bundled: true,
              author_url: 'https://github.com/opf/openproject-webhooks' do
         menu :admin_menu,
              :plugin_webhooks,

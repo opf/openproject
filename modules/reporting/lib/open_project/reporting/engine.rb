@@ -25,7 +25,7 @@ module OpenProject::Reporting
 
     register 'openproject-reporting',
              author_url: 'http://finn.de',
-             requires_openproject: '>= 4.0.0' do
+             bundled: true do
 
       view_actions = [:index, :show, :drill_down, :available_values, :display_report_list]
       edit_actions = [:create, :update, :rename, :destroy]

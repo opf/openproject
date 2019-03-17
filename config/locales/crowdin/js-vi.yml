@@ -18,6 +18,10 @@ vi:
     close_popup_title: Đóng
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ vi:
         bản đã chọn theo cách thủ công.
       copied_successful: Sao chép thành công vào clipboard!
     button_add_watcher: Thêm người theo dõi
-    button_back: Back
+    button_back: Quay lại
     button_back_to_list_view: Back to list view
     button_cancel: Hủy
     button_close: Đóng

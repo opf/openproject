@@ -18,6 +18,10 @@ pl:
     close_popup_title: Zamknij okno
     close_filter_title: Zamknij filtr
     close_form_title: Zamknij formularz
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Sprawdź wersję Enterprise.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ pl:
         tekst ręcznie.
       copied_successful: Skopiowano do schowka!
     button_add_watcher: Dodaj obserwatora
-    button_back: Back
+    button_back: Wstecz
     button_back_to_list_view: Wróć do widoku listy
     button_cancel: Anuluj
     button_close: Zamknij
@@ -160,7 +164,7 @@ pl:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Dokumenty
           no_results: No documents yet.
         news:
           title: Aktualności

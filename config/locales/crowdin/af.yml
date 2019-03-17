@@ -168,9 +168,6 @@ af:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -693,7 +690,6 @@ af:
       workflow: Werksvloei
       work_package: Werkspakket
       doorkeeper/application: OAuth application
-      board: Forum
   errors:
     header_invalid_fields: 'Daar was probleme met die volgende velde:'
     field_erroneous_label: |-
@@ -1177,9 +1173,8 @@ af:
       glossary: Glossary
       shortcuts: Shortcuts
       blog: OpenProject blog
-      forums: Forums
+      forums: Gemeenskap forum
       newsletter: Security alerts / Newsletter
-      boards: Gemeenskap forum
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: Jy kan inteken sodra jou rekening geaktiveer is
@@ -1253,14 +1248,15 @@ af:
   label_blocked_by: geblokkeer deur
   label_blocks: blokke
   label_blog: Blog
-  label_forums_locked: Locked
-  label_forum_new: New forum
+  label_forums_locked: Gesluit
+  label_forum_new: Nuwe forum
   label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forum_sticky: Klewerig
   label_boolean: Boolese
   label_branch: Tak
   label_browse: Blaai
   label_bulk_edit_selected_work_packages: Grootmaat redigeer geselekteerde werkspakkette
+  label_bundled: "(Bundled)"
   label_calendar: Kalender
   label_calendar_show: Wys Kalender
   label_category: Kategorie
@@ -1522,6 +1518,7 @@ af:
   label_planning: Beplanning
   label_please_login: Teken asseblief in
   label_plugins: Invoegtoepassings
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: gaan vooraf
   label_preferences: Voorkeure
   label_preview: Voorskou
@@ -2664,7 +2661,6 @@ af:
       months: Months
       quarters: Quarters
       years: Years
-    board_could_not_be_saved: Board could not be saved
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2939,15 +2935,3 @@ af:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: There are currently no posts for the board.
-  label_available_project_boards: Available boards
-  label_board_locked: Gesluit
-  label_board_new: Nuwe forum
-  label_board_plural: Forums
-  label_board_sticky: Klewerig
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Manage forums
-  project_module_boards: Forums

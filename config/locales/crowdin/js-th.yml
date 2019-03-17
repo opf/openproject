@@ -18,6 +18,10 @@ th:
     close_popup_title: ปิดป๊อปอัพ
     close_filter_title: ปิดตัวกรอง
     close_form_title: ปิดแบบฟอร์ม
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -28,7 +32,7 @@ th:
       browser_error: เบราเซอร์ของคุณไม่รองรับการคัดลอกไปยังคลิปบอร์ด กรุณาคัดลอกข้อความที่เลือกด้วยตนเอง
       copied_successful: Sucessfully copied to clipboard!
     button_add_watcher: เพิ่มผู้ดูข้อมูล
-    button_back: Back
+    button_back: ย้อนกลับ
     button_back_to_list_view: Back to list view
     button_cancel: ยกเลิก
     button_close: Close

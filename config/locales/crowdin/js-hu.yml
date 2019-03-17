@@ -18,6 +18,10 @@ hu:
     close_popup_title: Előugró ablak bezárása
     close_filter_title: Szűrő bezárása
     close_form_title: Űrlap bezárása
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Tekintse meg az Enterprise Edition-t!
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ hu:
         a kijelölt szöveget manuálisan.
       copied_successful: A vágólapra másolás sikeres!
     button_add_watcher: Megfigyelő hozzáadása
-    button_back: Back
+    button_back: Vissza
     button_back_to_list_view: Vissza a lista nézethez
     button_cancel: Mégsem
     button_close: Bezár
@@ -160,7 +164,7 @@ hu:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Dokumentumok
           no_results: No documents yet.
         news:
           title: Hírek

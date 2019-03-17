@@ -168,9 +168,6 @@ vi:
       versions:
         no_results_title_text: Hiện đang có phiên bản dự án.
         no_results_content_text: Tạo ra một phiên bản mới
-      boards:
-        no_results_title_text: Không có hiện tại không có bảng điều khiển cho dự án.
-        no_results_content_text: Tạo ra một bảng mới
   members:
     index:
       no_results_title_text: Hiện có không có thành viên của dự án này.
@@ -672,7 +669,7 @@ vi:
     models:
       attachment: Tệp
       attribute_help_text: Thuộc tính văn bản trợ giúp
-      forum: Forum
+      forum: Diễn đàn
       comment: Nhận xét
       custom_action: Tác vụ tùy chỉnh
       custom_field: Tùy chỉnh mục
@@ -694,7 +691,6 @@ vi:
       workflow: Quy trình làm việc
       work_package: Work Package
       doorkeeper/application: OAuth application
-      board: Diễn đàn
   errors:
     header_invalid_fields: 'Đã có vấn đề với các mục sau đây:'
     field_erroneous_label: |-
@@ -1174,9 +1170,8 @@ vi:
       glossary: Glossary
       shortcuts: Shortcuts
       blog: OpenProject blog
-      forums: Diễn đàn
+      forums: Diễn đàn cộng đồng
       newsletter: Security alerts / Newsletter
-      boards: Diễn đàn cộng đồng
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: Bạn có thể đăng nhập ngay sau khi tài khoản của
@@ -1250,14 +1245,15 @@ vi:
   label_blocked_by: bị chặn bởi
   label_blocks: các khối
   label_blog: Blog
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: Đã khóa
+  label_forum_new: Diễn đàn mới
+  label_forum_plural: Diễn đàn
+  label_forum_sticky: Chú ý
   label_boolean: Boolean
   label_branch: Nhánh
   label_browse: Browse
   label_bulk_edit_selected_work_packages: Chỉnh sửa các work package đã chọn
+  label_bundled: "(Bundled)"
   label_calendar: Lịch
   label_calendar_show: Hiển thị Lịch
   label_category: Thể loại
@@ -1518,6 +1514,7 @@ vi:
   label_planning: Lập kế hoạch
   label_please_login: Vui lòng đăng nhập
   label_plugins: Plugins
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: trước
   label_preferences: Tùy chỉnh
   label_preview: Xem trước
@@ -2021,7 +2018,7 @@ vi:
     archive:
       are_you_sure: Bạn có chắc bạn muốn lưu trữ các dự án '%{name}'?
   project_module_activity: Hoạt động
-  project_module_forums: Forums
+  project_module_forums: Diễn đàn
   project_module_calendar: Lịch
   project_module_work_package_tracking: Theo dõi work package
   project_module_news: Tin tức
@@ -2661,7 +2658,6 @@ vi:
       months: Months
       quarters: Quarters
       years: Years
-    board_could_not_be_saved: Board could not be saved
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2935,15 +2931,3 @@ vi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: Hiện có không có bài viết ở bảng điều khiển.
-  label_available_project_boards: Available boards
-  label_board_locked: Đã khóa
-  label_board_new: Diễn đàn mới
-  label_board_plural: Diễn đàn
-  label_board_sticky: Chú ý
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Manage forums
-  project_module_boards: Diễn đàn

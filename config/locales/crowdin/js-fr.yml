@@ -19,6 +19,10 @@ fr:
     close_popup_title: Fermer popup
     close_filter_title: Fermer le filtre
     close_form_title: Fermer le formulaire
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Découvrez l’édition entreprise.
     card:
       add_new: Add new card
       highlighting:
@@ -30,7 +34,7 @@ fr:
         Veuillez copier manuellement le texte sélectionné.
       copied_successful: Copié avec succès vers le presse-papier !
     button_add_watcher: Ajouter observateur
-    button_back: Back
+    button_back: Retour
     button_back_to_list_view: Retour à la liste
     button_cancel: Annuler
     button_close: Fermer

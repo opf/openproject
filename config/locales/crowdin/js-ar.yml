@@ -18,6 +18,10 @@ ar:
     close_popup_title: إغلاق النافذة المنبثقة
     close_filter_title: إغلاق عامل التصفية
     close_form_title: إغلاق النموذج
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ ar:
         المختار يدوياً.
       copied_successful: تم النسخ بنجاح إلى الحافظة!
     button_add_watcher: إضافة مراقب
-    button_back: Back
+    button_back: الرجوع للخلف
     button_back_to_list_view: Back to list view
     button_cancel: إلغاء
     button_close: أغلِق
@@ -159,7 +163,7 @@ ar:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: الوثائق
           no_results: No documents yet.
         news:
           title: الأخبار

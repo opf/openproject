@@ -17,6 +17,10 @@ ja:
     close_popup_title: ポップアップを閉じる
     close_filter_title: フィルタを閉じる
     close_form_title: フォームを閉じる
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: エンタープライズ版をチェックしてください。
     card:
       add_new: Add new card
       highlighting:
@@ -27,7 +31,7 @@ ja:
       browser_error: お使いのブラウザーでは、クリップボードへのコピーをサポートしていません。手動で選択したテキストをコピーしてください。
       copied_successful: 正常にクリップボードにコピーしました!
     button_add_watcher: ウォッチャーを追加
-    button_back: Back
+    button_back: 戻る
     button_back_to_list_view: リスト表示に戻る
     button_cancel: キャンセル
     button_close: 閉じる

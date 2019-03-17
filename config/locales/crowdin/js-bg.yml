@@ -18,6 +18,10 @@ bg:
     close_popup_title: Затвори изкачащият прозорец
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ bg:
         избрания текст ръчно.
       copied_successful: Копирането в клипборд е успешно!
     button_add_watcher: Добавяне на наблюдател
-    button_back: Back
+    button_back: Назад
     button_back_to_list_view: Back to list view
     button_cancel: Отказ
     button_close: Close
@@ -159,7 +163,7 @@ bg:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Документи
           no_results: No documents yet.
         news:
           title: Новини

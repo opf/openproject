@@ -169,9 +169,6 @@ cs:
       versions:
         no_results_title_text: V současné době neexistují žádné verze pro projekt.
         no_results_content_text: Vytvořit novou verzi
-      boards:
-        no_results_title_text: Momentálně nejsou k dispozici žádné nástěnky pro projekt.
-        no_results_content_text: Vytvořit novou nástěnku
   members:
     index:
       no_results_title_text: Momentálně nejsou žádní členové součástí tohoto projektu.
@@ -678,7 +675,7 @@ cs:
     models:
       attachment: Soubor
       attribute_help_text: Attribute help text
-      forum: Forum
+      forum: Fórum
       comment: Komentář
       custom_action: Vlastní akce
       custom_field: Vlastní pole
@@ -702,7 +699,6 @@ cs:
       workflow: Pracovní postup
       work_package: Pracovní balíček
       doorkeeper/application: OAuth application
-      board: Fórum
   errors:
     header_invalid_fields: 'Nastaly prolémy v následujících polích:'
     field_erroneous_label: |-
@@ -1205,9 +1201,8 @@ cs:
       glossary: Glossary
       shortcuts: Klávesové zkratky
       blog: OpenProject blog
-      forums: Diskuse
+      forums: Komunitní fórum
       newsletter: Security alerts / Newsletter
-      boards: Komunitní fórum
   links:
     configuration_guide: Konfigurační manuál
   instructions_after_registration: Můžete se přihlásit hned poté, co bude váš účet
@@ -1280,14 +1275,15 @@ cs:
   label_blocked_by: zablokoval
   label_blocks: blocks
   label_blog: Blog
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
+  label_forums_locked: Uzamčeno
+  label_forum_new: Nové fórum
+  label_forum_plural: Diskuse
   label_forum_sticky: Sticky
   label_boolean: Logická hodnota
   label_branch: Větev
   label_browse: Procházet
   label_bulk_edit_selected_work_packages: Bulk edit selected work packages
+  label_bundled: "(Bundled)"
   label_calendar: Kalendář
   label_calendar_show: Zobrazit kalendář
   label_category: Kategorie
@@ -1548,6 +1544,7 @@ cs:
   label_planning: Plánování
   label_please_login: Přihlaste se prosím
   label_plugins: Pluginy
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: předchází
   label_preferences: Nastavení
   label_preview: Náhled
@@ -2019,7 +2016,7 @@ cs:
   permission_export_wiki_pages: Exportovat Wiki stránky
   permission_list_attachments: Seznam příloh
   permission_log_time: Protokolovat strávený čas
-  permission_manage_forums: Manage forums
+  permission_manage_forums: Správa fóra
   permission_manage_categories: Spravovat kategorie pracovního balíčku
   permission_manage_work_package_relations: Spravovat vztahy pracovních balíčků
   permission_manage_members: Správa členů
@@ -2066,7 +2063,7 @@ cs:
     archive:
       are_you_sure: Opravdu chcete archivovat projekt '%{name}'?
   project_module_activity: Aktivita
-  project_module_forums: Forums
+  project_module_forums: Diskuse
   project_module_calendar: Kalendář
   project_module_work_package_tracking: Sledování pracovních balíčků
   project_module_news: Novinky
@@ -2709,7 +2706,6 @@ cs:
       months: Měsíce
       quarters: Čtvrtletí
       years: Roky
-    board_could_not_be_saved: Board could not be saved
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgradujte pro odemčení více uživatelů.
@@ -2987,15 +2983,3 @@ cs:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: V současné době neexistují žádné příspěvky pro nástěnku.
-  label_available_project_boards: Available boards
-  label_board_locked: Uzamčeno
-  label_board_new: Nové fórum
-  label_board_plural: Diskuse
-  label_board_sticky: Sticky
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Správa fóra
-  project_module_boards: Diskuse

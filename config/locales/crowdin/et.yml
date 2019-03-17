@@ -168,9 +168,6 @@ et:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -668,7 +665,7 @@ et:
     models:
       attachment: Fail
       attribute_help_text: Attribute help text
-      forum: Forum
+      forum: Foorum
       comment: Kommentaar
       custom_action: Custom action
       custom_field: Lisaväli
@@ -690,7 +687,6 @@ et:
       workflow: Töövoog
       work_package: Teema
       doorkeeper/application: OAuth application
-      board: Foorum
   errors:
     header_invalid_fields: 'Järgmiste väljadega esines tõrkeid:'
     field_erroneous_label: |-
@@ -1170,9 +1166,8 @@ et:
       glossary: Sõnastik
       shortcuts: Otseteed
       blog: OpenProject blog
-      forums: Foorumid
+      forums: Community forum
       newsletter: Security alerts / Newsletter
-      boards: Community forum
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: You can sign in as soon as your account has been
@@ -1246,14 +1241,15 @@ et:
   label_blocked_by: blokeeritud
   label_blocks: blokeerib
   label_blog: Blogi
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: Lukus
+  label_forum_new: Uus foorum
+  label_forum_plural: Foorumid
+  label_forum_sticky: Külgejääv
   label_boolean: Tõeväärtus
   label_branch: Haru
   label_browse: Sirvi
   label_bulk_edit_selected_work_packages: Muuda valitud teemasid korraga
+  label_bundled: "(Bundled)"
   label_calendar: Kalender
   label_calendar_show: Kuva kalender
   label_category: Kategooria
@@ -1515,6 +1511,7 @@ et:
   label_planning: Planeerimine
   label_please_login: Palun logi sisse
   label_plugins: Pluginad
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: eelneb
   label_preferences: Eelistused
   label_preview: Eelvaade
@@ -1962,7 +1959,7 @@ et:
   permission_export_wiki_pages: Eksportida vikilehti
   permission_list_attachments: Kuvada manuseid
   permission_log_time: Logida ajakulu
-  permission_manage_forums: Manage forums
+  permission_manage_forums: Hallata foorumeid
   permission_manage_categories: Kategooriaid hallata
   permission_manage_work_package_relations: Teemade seoseid hallata
   permission_manage_members: Halda liikmeid
@@ -2010,7 +2007,7 @@ et:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Tegevus
-  project_module_forums: Forums
+  project_module_forums: Foorumid
   project_module_calendar: Kalender
   project_module_work_package_tracking: Teema jälgimine
   project_module_news: Uudised
@@ -2644,7 +2641,6 @@ et:
       months: Kuud
       quarters: Kvartalid
       years: Aastad
-    board_could_not_be_saved: "(?) ei saa salvestada"
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2917,15 +2913,3 @@ et:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: There are currently no posts for the board.
-  label_available_project_boards: Available boards
-  label_board_locked: Lukus
-  label_board_new: Uus foorum
-  label_board_plural: Foorumid
-  label_board_sticky: Külgejääv
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Hallata foorumeid
-  project_module_boards: Foorumid

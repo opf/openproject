@@ -18,6 +18,10 @@ fa:
     close_popup_title: بستن پنجره بازشو
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: نسخه سازمانی را بررسی کنید.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ fa:
         the selected text manually.
       copied_successful: Sucessfully copied to clipboard!
     button_add_watcher: Add watcher
-    button_back: Back
+    button_back: برگشت
     button_back_to_list_view: Back to list view
     button_cancel: لغو
     button_close: Close

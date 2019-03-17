@@ -18,6 +18,10 @@ he:
     close_popup_title: סגור פופ-אפ
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ he:
         ידני.
       copied_successful: הועתק בהצלחה!
     button_add_watcher: הוספת צופה
-    button_back: Back
+    button_back: חזרה
     button_back_to_list_view: Back to list view
     button_cancel: ביטול
     button_close: סגור

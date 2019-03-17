@@ -168,9 +168,6 @@ th:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -664,7 +661,7 @@ th:
     models:
       attachment: ไฟล์
       attribute_help_text: Attribute help text
-      forum: Forum
+      forum: ฟอรั่ม
       comment: ความคิดเห็น
       custom_action: Custom action
       custom_field: ฟิลด์ที่กำหนดเอง
@@ -686,7 +683,6 @@ th:
       workflow: กระบวนการทำงาน
       work_package: ชุดภารกิจ
       doorkeeper/application: OAuth application
-      board: ฟอรั่ม
   errors:
     header_invalid_fields: 'มีปัญหากับฟิลด์ต่อไปนี้:'
     field_erroneous_label: |-
@@ -1160,9 +1156,8 @@ th:
       glossary: Glossary
       shortcuts: Shortcuts
       blog: OpenProject blog
-      forums: กระทู้
+      forums: Community forum
       newsletter: Security alerts / Newsletter
-      boards: Community forum
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: คุณสามารถเข้าสู่ระบบได้ทันทีมีการเปิดใช้งานบัญชีผู้ใช้ของคุณ
@@ -1234,14 +1229,15 @@ th:
   label_blocked_by: ถูกบล็อคโดย
   label_blocks: บล็อก
   label_blog: Blog
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: ล็อค
+  label_forum_new: กระทู้ใหม่
+  label_forum_plural: กระทู้
+  label_forum_sticky: ปักหมุด
   label_boolean: ถูกหรือผิด
   label_branch: สาขา
   label_browse: เรียกดู
   label_bulk_edit_selected_work_packages: แก้ไขชุดภารกิจที่เลือกพร้อมกัน
+  label_bundled: "(Bundled)"
   label_calendar: ปฏิทิน
   label_calendar_show: แสดงปฏิทิน
   label_category: ประเภท
@@ -1501,6 +1497,7 @@ th:
   label_planning: การวางแผน
   label_please_login: กรุณาเข้าสู่ระบบ
   label_plugins: ปลั๊กอิน
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: มาก่อน
   label_preferences: กำหนดคุณลักษณะ
   label_preview: แสดงตัวอย่าง
@@ -1941,7 +1938,7 @@ th:
   permission_export_wiki_pages: เอกซ์ปอร์ตหน้าวิกิ
   permission_list_attachments: รายการสิ่งที่แนบมา
   permission_log_time: บันทึกเวลาที่ใช้
-  permission_manage_forums: Manage forums
+  permission_manage_forums: จัดการกระทู้
   permission_manage_categories: จัดการประเภทของชุดภารกิจ
   permission_manage_work_package_relations: จัดการความสัมพันธ์ของชุดภารกิจ
   permission_manage_members: จัดการสมาชิก
@@ -1988,7 +1985,7 @@ th:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: กิจกรรม
-  project_module_forums: Forums
+  project_module_forums: กระทู้
   project_module_calendar: ปฏิทิน
   project_module_work_package_tracking: ติดตามผลชุดภารกิจ
   project_module_news: ข่าวสาร
@@ -2602,7 +2599,6 @@ th:
       months: เดือน
       quarters: ไตรมาส
       years: ปี
-    board_could_not_be_saved: ไม่สามารถบันทึกคณะกรรมการ
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2872,15 +2868,3 @@ th:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: There are currently no posts for the board.
-  label_available_project_boards: Available boards
-  label_board_locked: ล็อค
-  label_board_new: กระทู้ใหม่
-  label_board_plural: กระทู้
-  label_board_sticky: ปักหมุด
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: จัดการกระทู้
-  project_module_boards: กระทู้

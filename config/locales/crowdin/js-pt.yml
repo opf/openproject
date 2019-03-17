@@ -19,6 +19,10 @@ pt:
     close_popup_title: Fechar janela
     close_filter_title: Fechar filtro
     close_form_title: Fechar formulário
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Experimente a versão Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -30,7 +34,7 @@ pt:
         Por favor, copie manualmente o texto selecionado.
       copied_successful: Copiado com sucesso para área de transferência!
     button_add_watcher: Adicionar observadores
-    button_back: Back
+    button_back: Voltar
     button_back_to_list_view: Voltar à visualização de lista
     button_cancel: Cancelar
     button_close: Fechar
@@ -158,24 +162,24 @@ pt:
     general_text_Yes: Sim
     grid:
       add_modal:
-        choose_widget: Choose widget
+        choose_widget: Escolher widget
       widgets:
         documents:
-          title: Documents
+          title: Documentos
           no_results: No documents yet.
         news:
           title: Noticias
           at: at
           no_results: Nada de novo no relatório.
         time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
+          title: Tempo gasto (últimos 7 dias)
+          no_results: Não há entradas de tempo nos últimos 7 dias.
         work_packages_accountable:
           title: Pacotes de trabalho pelos quais sou responsável
         work_packages_assigned:
           title: Tarefas atribuídas a mim
         work_packages_created:
-          title: Work packages created by me
+          title: Pacotes de trabalho criados por mim
         work_packages_watched:
           title: Work packages watched by me
         work_packages_calendar:

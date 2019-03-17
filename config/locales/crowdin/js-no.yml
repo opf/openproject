@@ -18,6 +18,10 @@
     close_popup_title: Lukk sprettoppvindu
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@
         den merkede teksten manuelt.
       copied_successful: Kopiert til utklippstavlen!
     button_add_watcher: Legg til overvåker
-    button_back: Back
+    button_back: Tilbake
     button_back_to_list_view: Back to list view
     button_cancel: Avbryt
     button_close: Lukk
@@ -159,7 +163,7 @@
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Dokumenter
           no_results: No documents yet.
         news:
           title: Nyheter

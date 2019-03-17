@@ -149,9 +149,6 @@ zh-TW:
       versions:
         no_results_title_text: 目前的專案沒有版本號
         no_results_content_text: 建立一個新版本號
-      boards:
-        no_results_title_text: 目前這個專案沒有佈告欄
-        no_results_content_text: 建立一個新佈告欄
   members:
     index:
       no_results_title_text: 目前這個專案沒有成員
@@ -605,7 +602,7 @@ zh-TW:
     models:
       attachment: 檔案
       attribute_help_text: 屬性說明文字
-      forum: Forum
+      forum: 討論區
       comment: 評論
       custom_action: 自訂動作
       custom_field: 自訂欄位
@@ -627,7 +624,6 @@ zh-TW:
       workflow: 工作流程
       work_package: 工作項目
       doorkeeper/application: Oauth 應用程式
-      board: 討論區
   errors:
     header_invalid_fields: '以下的欄位有問題:'
     field_erroneous_label: |-
@@ -1079,9 +1075,8 @@ zh-TW:
       glossary: '術語表 '
       shortcuts: 快捷鍵
       blog: Openproject 部落格
-      forums: 論壇
+      forums: 社群論壇
       newsletter: 安全警報 / 消息
-      boards: 社群論壇
   links:
     configuration_guide: 設定指南
   instructions_after_registration: 帳號啟用後即可點擊 %{signin} 登入
@@ -1150,14 +1145,15 @@ zh-TW:
   label_blocked_by: 標示禁止者
   label_blocks: 區塊
   label_blog: 日誌
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: 鎖定
+  label_forum_new: 新增論壇
+  label_forum_plural: 論壇
+  label_forum_sticky: 附著
   label_boolean: 布林值
   label_branch: 分支
   label_browse: 瀏覽
   label_bulk_edit_selected_work_packages: 整批編輯選取的工作項目
+  label_bundled: "(Bundled)"
   label_calendar: 行事曆
   label_calendar_show: 顯示行事曆
   label_category: 類別
@@ -1417,6 +1413,7 @@ zh-TW:
   label_planning: 計劃中
   label_please_login: 請登入
   label_plugins: 擴充套件
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: 之前
   label_preferences: 喜好設定
   label_preview: 預覽
@@ -1837,7 +1834,7 @@ zh-TW:
   permission_export_wiki_pages: 匯出維基頁面
   permission_list_attachments: 列出附件
   permission_log_time: 記錄耗時
-  permission_manage_forums: Manage forums
+  permission_manage_forums: 管理論壇
   permission_manage_categories: 管理工作項目類別
   permission_manage_work_package_relations: 管理工作項目關聯
   permission_manage_members: 管理成員
@@ -1883,7 +1880,7 @@ zh-TW:
     archive:
       are_you_sure: 是否確定要 archive 專案 '%{name}'？
   project_module_activity: 活動
-  project_module_forums: Forums
+  project_module_forums: 論壇
   project_module_calendar: 行事曆
   project_module_work_package_tracking: 工作項目追蹤
   project_module_news: 新知
@@ -2436,7 +2433,6 @@ zh-TW:
       months: 月
       quarters: 季
       years: 年
-    board_could_not_be_saved: 無法儲存看板
   title_remove_and_delete_user: 從專案移除已被邀請的使用者別且刪除他/她
   title_enterprise_upgrade: 升級以增加更多使用者。
   tooltip_user_default_timezone: '新使用者預設時區，可以在使用者設定中修改。
@@ -2670,15 +2666,3 @@ zh-TW:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: 目前沒有任何貼文在板上
-  label_available_project_boards: 可用的佈告欄
-  label_board_locked: 鎖定
-  label_board_new: 新增論壇
-  label_board_plural: 論壇
-  label_board_sticky: 附著
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: 管理論壇
-  project_module_boards: 論壇

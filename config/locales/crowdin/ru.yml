@@ -168,9 +168,6 @@ ru:
       versions:
         no_results_title_text: На данный момент этапы в проекте отсутствуют.
         no_results_content_text: Создать новый этап проекта
-      boards:
-        no_results_title_text: Форумы в этом проекте отсутствуют.
-        no_results_content_text: Создать новый форум
   members:
     index:
       no_results_title_text: На данный момент у этого проекта нет участников.
@@ -684,7 +681,7 @@ ru:
     models:
       attachment: Файл
       attribute_help_text: Атрибут текста справки
-      forum: Forum
+      forum: Форум
       comment: Комментарий
       custom_action: Пользовательское действие
       custom_field: Настраиваемое поле
@@ -708,7 +705,6 @@ ru:
       workflow: Рабочий поток
       work_package: Пакет работ
       doorkeeper/application: Приложение OAuth
-      board: Форум
   errors:
     header_invalid_fields: 'Были проблемы со следующими полями:'
     field_erroneous_label: 'Значение этого поля неверно: %{full_errors}. Пожалуйста,
@@ -1213,9 +1209,8 @@ ru:
       glossary: Глоссарий
       shortcuts: Ярлыки
       blog: Openproject блог
-      forums: Форумы
+      forums: Форум сообщества
       newsletter: Оповещения системы безопасности / Новости
-      boards: Форум сообщества
   links:
     configuration_guide: Руководство по конфигурации
   instructions_after_registration: Вы сможете войти как только ваша учетная запись
@@ -1289,14 +1284,15 @@ ru:
   label_blocked_by: заблокировано
   label_blocks: блоки
   label_blog: Блог
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: Заперто
+  label_forum_new: Новый форум
+  label_forum_plural: Форумы
+  label_forum_sticky: Стикер
   label_boolean: Логическое значение
   label_branch: Ветка
   label_browse: Обзор
   label_bulk_edit_selected_work_packages: Массовое изменение выбранных пакетов работ
+  label_bundled: "(Bundled)"
   label_calendar: Календарь
   label_calendar_show: Показать календарь
   label_category: Категория
@@ -1557,6 +1553,7 @@ ru:
   label_planning: Планирование
   label_please_login: Пожалуйста, войдите в систему
   label_plugins: Плагины
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: предшествует
   label_preferences: Предпочтения
   label_preview: Предварительный просмотр
@@ -2033,7 +2030,7 @@ ru:
   permission_export_wiki_pages: Экспорт wiki-страниц
   permission_list_attachments: Отобразить список прикреплённых файлов
   permission_log_time: Учитывать потраченное время
-  permission_manage_forums: Manage forums
+  permission_manage_forums: Управление форумами
   permission_manage_categories: Управление категориями пакета работ
   permission_manage_work_package_relations: Управление связями пакета работ
   permission_manage_members: Управление участниками
@@ -2081,7 +2078,7 @@ ru:
     archive:
       are_you_sure: Уверены, что хотите архивизировать проект %{name}%?
   project_module_activity: Деятельность
-  project_module_forums: Forums
+  project_module_forums: Форумы
   project_module_calendar: Календарь
   project_module_work_package_tracking: Отслеживание пакета работ
   project_module_news: Новости
@@ -2734,7 +2731,6 @@ ru:
       months: Месяцы
       quarters: Кварталы
       years: Годы
-    board_could_not_be_saved: Форум сохранён быть не может
   title_remove_and_delete_user: Исключить из проекта приглашенного пользователя и
     удалить его.
   title_enterprise_upgrade: Обновление для разблокировки большего числа пользователей.
@@ -3020,15 +3016,3 @@ ru:
     revoke_my_application_confirmation: Вы действительно хотите удалить это приложение?
       Это действие будет отменено %{token_count}.
     my_registered_applications: Зарегистрированные OAuth приложения
-  boards:
-    show:
-      no_results_title_text: На данный момент сообщений для форума нет.
-  label_available_project_boards: Доступные форумы
-  label_board_locked: Заперто
-  label_board_new: Новый форум
-  label_board_plural: Форумы
-  label_board_sticky: Стикер
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Управление форумами
-  project_module_boards: Форумы

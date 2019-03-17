@@ -168,9 +168,6 @@
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -691,7 +688,6 @@
       workflow: Arbeidsflyt
       work_package: Arbeidspakke
       doorkeeper/application: OAuth application
-      board: Forum
   errors:
     header_invalid_fields: 'Det oppstod problemer med følgende felter:'
     field_erroneous_label: |-
@@ -1170,9 +1166,8 @@
       glossary: Ordliste
       shortcuts: Snarveier
       blog: OpenProject blogg
-      forums: Forum
+      forums: Brukerforum
       newsletter: Security alerts / Newsletter
-      boards: Brukerforum
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: Du kan logge inn ved å trykke på %{signin} så fort
@@ -1246,14 +1241,15 @@
   label_blocked_by: blokkert av
   label_blocks: blokkeringer
   label_blog: Blogg
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
+  label_forums_locked: Låst
+  label_forum_new: Nytt forum
+  label_forum_plural: Forum
   label_forum_sticky: Sticky
   label_boolean: Boolsk
   label_branch: Gren
   label_browse: Bla gjennom
   label_bulk_edit_selected_work_packages: Masseredigering av valgte arbeidspakker
+  label_bundled: "(Bundled)"
   label_calendar: Kalender
   label_calendar_show: Vis kalender
   label_category: Kategori
@@ -1514,6 +1510,7 @@
   label_planning: Planlegging
   label_please_login: Vennligst logg på
   label_plugins: Programtillegg
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: kommer før
   label_preferences: Innstillinger
   label_preview: Forhåndsvis
@@ -1966,7 +1963,7 @@
   permission_export_wiki_pages: Eksportèr wiki-sider
   permission_list_attachments: List vedlegg
   permission_log_time: Logg tidsbruk
-  permission_manage_forums: Manage forums
+  permission_manage_forums: Administrere forum
   permission_manage_categories: Administrere kategorier for arbeidspakker
   permission_manage_work_package_relations: Administrere relasjoner for arbeidspakker
   permission_manage_members: Administrere medlemmer
@@ -2013,7 +2010,7 @@
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Aktivitet
-  project_module_forums: Forums
+  project_module_forums: Forum
   project_module_calendar: Kalender
   project_module_work_package_tracking: Sporing av arbeidspakke
   project_module_news: Nyheter
@@ -2653,7 +2650,6 @@
       months: Måneder
       quarters: Kvartaler
       years: År
-    board_could_not_be_saved: Forum kunne ikke lagres
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2927,15 +2923,3 @@
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: There are currently no posts for the board.
-  label_available_project_boards: Available boards
-  label_board_locked: Låst
-  label_board_new: Nytt forum
-  label_board_plural: Forum
-  label_board_sticky: Sticky
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Administrere forum
-  project_module_boards: Forum
