@@ -10,10 +10,10 @@ Before beginning the migration, please ensure you have created a backup of your 
 
 This guide should leave you with a set of archives that you should manually move to your new environment:
 
-- **Database**: mysql-dump-\<timestamp>.sql.gz
-- **Attachments**: attachments-\<timestamp>.tar.gz
-- **Custom env configuration**: conf-\<timestamp>.tar.gz
-- **Repositories**: svn- and git-\<timestamp>.tar.gz
+- **Database**: mysql-dump-&lt;timestamp&gt;.sql.gz
+- **Attachments**: attachments-&lt;timestamp&gt;.tar.gz
+- **Custom env configuration**: conf-&lt;timestamp&gt;.tar.gz
+- **Repositories**: svn- and git-&lt;timestamp&gt;.tar.gz
 
 
 
@@ -154,12 +154,13 @@ If a large set of attachments already exists, executing the command might take a
 
 If you let the packaged installation auto-install MySQL before and no longer need it, you can remove MySQL packages. 
 
-```
-[root@host] apt-get remove mysql-client mysql-server mysql-common
-```
+You can check the output of `dpkg - l | grep mysql` to check for packages removable. Only keep `libmysqlclient-dev`  for Ruby dependencies on the mysql adapter.
 
-You can check the output of `dpkg - l | grep mysql` to check for additional packages removable. Only keep `libmysqlclient-dev`  for Ruby dependencies on the mysql adapter.
+The following is an exemplary removal of an installed version MySQL 5.7. 
 
+```
+[root@host] apt-get remove mysql-client-5.7 mysql-server-5.7 mysql-common
+```
 
 
 ## Running openproject reconfigure

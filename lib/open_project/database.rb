@@ -128,12 +128,17 @@ module OpenProject
     # Set the +raw+ argument to true to return the unmangled string
     # from the database.
     def self.version(raw = false)
-      case name
-      when :mysql
-        ActiveRecord::Base.connection.select_value('SELECT VERSION()')
-      when :postgresql
-        version = ActiveRecord::Base.connection.select_value('SELECT version()')
-        raw ? version : version.match(/\APostgreSQL (\S+)/i)[1]
+      @version ||= case name
+                   when :mysql
+                     ActiveRecord::Base.connection.select_value('SELECT VERSION()')
+                   when :postgresql
+                     ActiveRecord::Base.connection.select_value('SELECT version()')
+                   end
+
+      if name == :postgresql
+        raw ? @version : @version.match(/\APostgreSQL (\S+)/i)[1]
+      else
+        @version
       end
     end
 

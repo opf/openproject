@@ -55,6 +55,9 @@ import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-c
 import {WorkPackageQueryStateService} from "core-components/wp-fast-table/state/wp-table-base.service";
 import {debugLog} from "core-app/helpers/debug_output";
 import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
+import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 
 export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
@@ -78,6 +81,8 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   readonly $transitions:TransitionService = this.injector.get(TransitionService);
   readonly I18n:I18nService = this.injector.get(I18nService);
   readonly wpStaticQueries:WorkPackageStaticQueriesService = this.injector.get(WorkPackageStaticQueriesService);
+  readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
+  readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
 
   constructor(protected injector:Injector) {
   }
@@ -95,10 +100,18 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   }
 
   private setupQueryObservers() {
-    this.querySpace.ready.fireOnStateChange(this.wpTablePagination.state,
-      'Query loaded').values$().pipe(
-      untilComponentDestroyed(this),
-      withLatestFrom(this.querySpace.query.values$())
+    this
+      .querySpace
+      .ready
+      .fireOnStateChange(
+        this.wpTablePagination.state,
+      'Query loaded'
+      )
+      .values$()
+      .pipe(
+        untilComponentDestroyed(this),
+        withLatestFrom(this.querySpace.query.values$()
+      )
     ).subscribe(([pagination, query]) => {
       if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
         this.wpListChecksumService.update(query, pagination);

@@ -84,8 +84,11 @@ module API
           end
 
           def add_eager_loading(scope, current_user)
+            # The eager loading on status is required for the readonly? check in the
+            # work package schema
             scope
               .includes(WorkPackageRepresenter.to_eager_load)
+              .includes(:status)
               .include_spent_hours(current_user)
               .select('work_packages.*')
               .distinct

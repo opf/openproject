@@ -34,7 +34,7 @@ gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 0.28.1'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 5.2.2'
+gem 'rails', '~> 5.2.2.1'
 gem 'responders', '~> 2.4'
 
 gem 'rdoc', '>= 2.4.2'
@@ -153,7 +153,9 @@ group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
   # see https://github.clientom/mperham/dalli
-  gem 'dalli', '~> 2.7.6'
+  gem 'dalli',
+      git: 'https://github.com/petergoldstein/dalli',
+      ref: '0ff39199b5e91c6dbdaabc7c085b81938d0f08d2'
 
   # Unicorn worker killer to restart unicorn child workers
   gem 'unicorn-worker-killer', require: false
@@ -304,8 +306,6 @@ group :docker, optional: true do
   gem 'health_check', require: !!ENV['HEROKU']
   gem 'newrelic_rpm', require: !!ENV['HEROKU']
   gem 'rails_12factor', require: !!ENV['HEROKU']
-  # Require specific version of sqlite3 for rails
-  gem 'sqlite3', '~> 1.3.6', require: false
 end
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
