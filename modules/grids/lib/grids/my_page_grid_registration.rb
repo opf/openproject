@@ -8,6 +8,7 @@ module Grids
             'work_packages_watched',
             'work_packages_created',
             'work_packages_calendar',
+            'work_packages_table',
             'time_entries_current_user',
             'documents',
             'news'
