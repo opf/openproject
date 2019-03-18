@@ -53,7 +53,7 @@
             }
 
             // ------------------------------- Tutorial WP page -------------------------------
-            if (currentTourPart === "startMainTour" || url.searchParams.get("start_onboarding_tour")) {
+            if (currentTourPart === "startMainTourFromBacklogs" || url.searchParams.get("start_onboarding_tour")) {
                 mainTour();
             }
 
@@ -114,7 +114,7 @@
         }
 
         function taskboardTour() {
-            initializeTour('startMainTour');
+            initializeTour('startMainTourFromBacklogs');
             startTour(scrumTaskBoardTourSteps);
         }
 
@@ -124,9 +124,9 @@
             waitForElement('.work-package--results-tbody', '#content', function() {
                 var steps;
 
-                // Check for EE edition, avaiable seed data of boards, and correct project.
+                // Check for EE edition, available seed data of boards, and correct project.
                 // Then add boards to the tour, otherwise skip it.
-                if (eeTokenAvailable && boardsDemoDataAvailable) {
+                if (eeTokenAvailable && boardsDemoDataAvailable && currentTourPart !== 'startMainTourFromBacklogs') {
                     steps = wpOnboardingTourSteps.concat(boardTourSteps).concat(menuTourSteps);
                 } else {
                     steps = wpOnboardingTourSteps.concat(menuTourSteps);

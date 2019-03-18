@@ -14,9 +14,10 @@
                 'next .board-list--container': I18n.t('js.onboarding.steps.boards.lists'),
                 'showSkip': false,
                 'nextButton': {text: I18n.t('js.onboarding.buttons.next')},
+                'containerClass': '-dark',
                 'timeout': function() {
                     return new Promise(function(resolve) {
-                        waitForElement('.board-list--container', '#content', function() {
+                        waitForElement('.wp-card', '#content', function() {
                             resolve();
                         });
                     });
