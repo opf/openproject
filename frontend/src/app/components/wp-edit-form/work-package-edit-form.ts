@@ -94,6 +94,7 @@ export class WorkPackageEditForm {
     return !_.isEmpty(this.activeFields);
   }
 
+
   /**
    * Return the current or a new changeset for the given work package.
    * This will always return a valid (potentially empty) changeset.

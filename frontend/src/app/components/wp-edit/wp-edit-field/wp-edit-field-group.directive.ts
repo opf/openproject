@@ -208,7 +208,17 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     const fieldName = field.fieldName;
 
     const isSkipField = fieldName === 'status' || fieldName === 'type';
-    return (isSkipField && this.workPackage[fieldName]);
+
+    // Only skip status or type
+    if (!isSkipField) {
+      return false;
+    }
+
+    // Only skip if value present and not changed in changeset
+    const hasDefault = this.workPackage[fieldName]
+    const changed = this.form.changeset.isChanged(fieldName);
+
+    return hasDefault && !changed;
   }
 
   private allowedStateChange(toState:any, toParams:any, fromState:any, fromParams:any) {
