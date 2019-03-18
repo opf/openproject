@@ -307,6 +307,16 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
    * @param filters
    */
   private loadCurrentFiltersSchemas(filters:QueryFilterInstanceResource[]):Promise<unknown> {
-    return Promise.all(filters.map((filter:QueryFilterInstanceResource) => filter.schema.$load()));
+    return Promise.all(filters.map((filter:QueryFilterInstanceResource) => {
+      const href = `/api/v3/queries/filter_instance_schemas/${filter.id}`;
+      if (filter.schema) {
+        return filter.schema.$load();
+      } else {
+        return this.states.schemas
+          .get(href)
+          .valuesPromise()
+          .then(schema => filter.schema = schema as QueryFilterInstanceSchemaResource);
+      }
+    }));
   }
 }

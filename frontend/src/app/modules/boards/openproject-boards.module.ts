@@ -49,12 +49,17 @@ import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-a
 import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
 import {BoardHighlightingTabComponent} from "core-app/modules/boards/board/configuration-modal/tabs/highlighting-tab.component";
 import {AddCardDropdownMenuDirective} from "core-app/modules/boards/board/add-card-dropdown/add-card-dropdown-menu.directive";
+import {BoardFilterComponent} from "core-app/modules/boards/board/board-filter/board-filter.component";
 
 export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'boards',
     parent: 'root',
-    url: '/boards',
+    url: '/boards?query_props',
+    params: {
+      // Use custom encoder/decoder that ensures validity of URL string
+      query_props: {type: 'opQueryString'}
+    },
     redirectTo: 'boards.list',
     component: BoardsRootComponent
   },
@@ -124,6 +129,7 @@ export function registerActionServices(injector:Injector) {
     NewBoardModalComponent,
     AddListModalComponent,
     AddCardDropdownMenuDirective,
+    BoardFilterComponent,
   ],
   entryComponents: [
     BoardInlineAddAutocompleterComponent,

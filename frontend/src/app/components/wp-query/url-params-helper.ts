@@ -73,7 +73,7 @@ export class UrlParamsHelperService {
     paramsData.hi = !!query.showHierarchies;
     paramsData.g = _.get(query.groupBy, 'id', '');
     paramsData = this.encodeSortBy(paramsData, query);
-    paramsData = this.encodeFilters(paramsData, query);
+    paramsData = this.encodeFilters(paramsData, query.filters);
     paramsData.pa = additional.page;
     paramsData.pp = additional.perPage;
 
@@ -122,10 +122,9 @@ export class UrlParamsHelperService {
     return paramsData;
   }
 
-  private encodeFilters(paramsData:any, query:QueryResource) {
-    if (query.filters && query.filters.length) {
-      paramsData.f = query
-        .filters
+  public encodeFilters(paramsData:any, filters:QueryFilterInstanceResource[]) {
+    if (filters && filters.length > 0) {
+      paramsData.f = filters
         .map((filter:any) => {
           var id = filter.id;
 
