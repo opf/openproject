@@ -114,4 +114,33 @@ module ::Query::Sums
   def should_be_summed_up?(column)
     column.summable? && Setting.work_package_list_summable_columns.include?(column.name.to_s)
   end
+
+  def column_total_sums
+    query.columns.map { |column| total_sum_of(column) }
+  end
+
+  def all_total_sums
+    query.available_columns.select { |column|
+      column.summable? && Setting.work_package_list_summable_columns.include?(column.name.to_s)
+    }.inject({}) { |result, column|
+      sum = total_sum_of(column)
+      result[column] = sum unless sum.nil?
+      result
+    }
+  end
+
+  def all_sums_for_group(group)
+    return nil unless query.grouped?
+
+    group_work_packages = work_packages.select { |wp| query.group_by_column.value(wp) == group }
+    query.available_columns.inject({}) do |result, column|
+      sum = sum_of(column, group_work_packages)
+      result[column] = sum unless sum.nil?
+      result
+    end
+  end
+
+  def column_group_sums
+    query.group_by_column && query.columns.map { |column| grouped_sums(column) }
+  end
 end
