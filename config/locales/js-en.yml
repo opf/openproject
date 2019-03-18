@@ -380,7 +380,7 @@ en:
           task_board_arrow: 'To see your <b>Task board</b>, open the Sprint drop-down...'
           task_board_select: '... and select the <b>Task board</b> entry.'
           task_board: "The <b>Task board</b> visualizes the progress for this sprint. Add new tasks or impediments with the + icon next to a user story. Via drag'n'drop you can update the status."
-        board:
+        boards:
           overview: 'Manage your work within an intuitive <b>Boards</b> view.'
           lists: 'You can create multiple lists (columns) within one Board view, e.g. to create a KANBAN board.'
           add: 'Click the + will <b>add a new card</b> to the list within a Board.'

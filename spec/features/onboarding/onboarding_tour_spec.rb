@@ -109,7 +109,7 @@ describe 'onboarding tour for new users', js: true do
         find('.welcome').click_link 'Demo project'
         expect(page).to have_current_path "/projects/#{project.identifier}/work_packages?start_onboarding_tour=true"
 
-        step_through_onboarding_wp_tour
+        step_through_onboarding_wp_tour project, wp_1
 
         step_through_onboarding_main_menu_tour
       end

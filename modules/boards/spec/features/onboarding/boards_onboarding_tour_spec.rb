@@ -31,15 +31,16 @@ require 'spec_helper'
 describe 'boards onboarding tour', js: true do
   let(:next_button) { find('.enjoyhint_next_btn') }
   let(:user) { FactoryBot.create :admin }
-  let(:demo_project) { FactoryBot.create :project, name: 'Demo project', identifier: 'demo-project', is_public: true, enabled_module_names: %w[work_package_tracking] }
-  let(:project) { FactoryBot.create :project, name: 'Scrum project', identifier: 'your-scrum-project', is_public: true, enabled_module_names: %w[work_package_tracking] }
+  let(:demo_project) { FactoryBot.create :project, name: 'Demo project', identifier: 'demo-project', is_public: true, enabled_module_names: %w[work_package_tracking wiki] }
+  let(:scrum_project) { FactoryBot.create :project, name: 'Scrum project', identifier: 'your-scrum-project', is_public: true, enabled_module_names: %w[work_package_tracking wiki] }
+  let!(:wp_1) { FactoryBot.create(:work_package, project: demo_project) }
+  let!(:wp_2) { FactoryBot.create(:work_package, project: scrum_project) }
 
   before do
     with_enterprise_token :board_view
     login_as user
     allow(Setting).to receive(:demo_projects_available).and_return(true)
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return('story_types' => [story_type.id.to_s],
-                                                                       'task_type' => task_type.id.to_s)
+    allow(Setting).to receive(:boards_demo_data_available).and_return(true)
   end
 
   after do
@@ -50,9 +51,9 @@ describe 'boards onboarding tour', js: true do
   context 'as a new user' do
     it 'I see the board onboarding tour in the demo project' do
       # Set the tour parameter so that we can start on the wp page
-      visit "/projects/#{demo_project.identifier}/?start_onboarding_tour=true"
+      visit "/projects/#{demo_project.identifier}/work_packages?start_onboarding_tour=true"
 
-      step_through_onboarding_wp_tour
+      step_through_onboarding_wp_tour demo_project, wp_1
 
       next_button.click
       expect(page).to have_text 'Manage your work within an intuitive Boards view.'
@@ -72,9 +73,9 @@ describe 'boards onboarding tour', js: true do
 
     it "I don't see the board onboarding tour in the scrum project" do
       # Set the tour parameter so that we can start on the wp page
-      visit "/projects/#{project.identifier}/?start_onboarding_tour=true"
+      visit "/projects/#{scrum_project.identifier}/work_packages?start_onboarding_tour=true"
 
-      step_through_onboarding_wp_tour
+      step_through_onboarding_wp_tour scrum_project, wp_2
       step_through_onboarding_main_menu_tour
     end
   end
