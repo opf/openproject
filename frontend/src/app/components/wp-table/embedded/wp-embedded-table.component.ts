@@ -23,8 +23,6 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   @Input() public tableActions:OpTableActionFactory[] = [];
   @Input() public externalHeight:boolean = false;
 
-  @Output() public onFiltersChanged = new EventEmitter<QueryFilterInstanceResource[]>();
-
   readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
   readonly opModalService:OpModalService = this.injector.get(OpModalService);
   readonly tableActionsService:OpTableActionsService = this.injector.get(OpTableActionsService);
@@ -104,7 +102,10 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       .catch(() => this.formPromise = undefined);
   }
 
-  protected loadQuery(visible:boolean = true, firstPage:boolean = false):Promise<QueryResource> {
+  public loadQuery(visible:boolean = true, firstPage:boolean = false):Promise<QueryResource> {
+    // Ensure we are loading the form.
+    this.formPromise = undefined;
+
     if (this.loadedQuery) {
       const query = this.loadedQuery;
       this.loadedQuery = undefined;
