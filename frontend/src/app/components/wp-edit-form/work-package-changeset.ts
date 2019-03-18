@@ -78,6 +78,10 @@ export class WorkPackageChangeset {
     this.buildResource();
   }
 
+  public isChanged(attribute:string) {
+    return this.changes[attribute];
+  }
+
   public clear() {
     this.changes = {};
     this.resetForm();
