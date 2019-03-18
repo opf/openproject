@@ -2,13 +2,13 @@
 
 OpenProject can (by default) browse Subversion and Git repositories, but it does not serve them to git/svn clients.
 
-We do however support an integration with the Apache webserver to create and serve repositories on the fly, including integration into the fine-grained project authorization system of OpenProject.
+We support integration with the Apache webserver to create and serve repositories on the fly along with contributions to the fine-grained project authorization system of OpenProject.
 
 ## Existing Repositories
 
 Using the default configuration, OpenProject allows you to *link* existing Subversion and Git repositories from the local filesystem (For Subversion, you can also integrate repositories from other servers using basic auth credentials).
 
-When you link these repositories in OpenProject, you may browse the repository through OpenProject.
+After linking the repositories, you may browse the repository through OpenProject.
 
 This functionality is extended with managed repositories, whose life spans are actively controlled by OpenProject. You can explicitly create local repositories for a project and configure repository access using permission the existing access-control functionality on a per-project level.
 
@@ -68,12 +68,12 @@ Part of the managed repositories functionality was previously provided with repo
 Reposman periodically checked for new projects and automatically created a repository of a given type.
 It never deleted repositories on the filesystem when their associated project was removed in OpenProject.
 
-This script has been integrated into OpenProject and extended. If you previously used reposman, please see the [upgrade guide to 5.0](../operations/upgrading) for further guidance on how to migrate to managed repositories.
+This script has been integrated into OpenProject and extended. For further guidance on how to migrate to managed repositories, please see the [upgrade guide to 5.0](../operations/upgrading) 
 
 ### Managing Repositories Remotely
 
 OpenProject comes with a simple webhook to call other services rather than management repositories itself.
-To enable remote managed repositories, simply pass an absolute URL to the `manages` key of a vendor in the `configuration.yml`. The following excerpt shows that configuration for Subversion, assuming your callback is `https://example.org/repos`.
+To enable remote managed repositories, pass an absolute URL to the `manages` key of a vendor in the `configuration.yml`. The following excerpt shows that configuration for Subversion, assuming your callback is `https://example.org/repos`.
 
 	scm:
 	  subversion:
@@ -96,12 +96,13 @@ Upon creating and deleting repositories in the frontend, OpenProject will POST t
 	}
 
 The endpoint is expected to return a JSON with at least a `message` property when the response is not successful (2xx).
-When the response is successful, it must at least return a `url` property that contains an accessible URL, an optionally, a `path` property to access the repository locally.
-Note that for Git repositories, OpenProject currently can only read them locally (i.e, through an NFS mount), so a path is mandatory here.
+When the response is successful, it must at least return a `url` property that contains an accessible URL and optionally a `path` property to access the repository locally.
+
+*Note* that for Git repositories, OpenProject currently can only read them locally (i.e, through an NFS mount), so a path is mandatory here.
 For Subversion, you can either return a `file:///<path>` URL, or a local path.
 
-Our main use-case for this feature is to reduce the complexity of permission issues around Subversion mainly in packager, for which a simple Apache wrapper script is used in `extra/Apache/OpenProjectRepoman.pm`.
-This functionality is very limited, but may be extended when other use cases arise.
+Our main use-cases for this feature is to elimnate the complexity associated with permission issues around Subversion mainly in packager, for which a simple Apache wrapper script is used in `extra/Apache/OpenProjectRepoman.pm`.
+This functionality is very limited but may be extended when other use cases arise.
 It supports notifications for creating repositories (action `create`), moving repositories (action `relocate`, when a project's identifier has changed), and deleting repositories (action `delete`).
 
 If you're interested in setting up the integration manually outside the context of packager, the following excerpt will help you:
@@ -134,23 +135,23 @@ OpenProject 5.0 introduces more features regarding repository management that we
 ### Checkout instructions
 
 OpenProject 5.0 also integrates functionality to display checkout instructions and URLs for Subversion and Git repositories.
-This functionality is very basic and will probably be made more robust over the next releases.
+This functionality is very basic and we hope to make it more robust over the next releases.
 
 * Checkout instructions may be configured globally for each vendor
 * Checkout URLs are constructed from a base URL and the project identifier
 * On the repository page, the user is provided with a button to show/expand checkout instructions on demand.
- * This checkout instruction contains the checkout URL for the given repository, and some further information on how the checkout works for this particular vendor (e.g., Subversion → svn checkout, Git → git clone).
- * The instructions may contain information regarding the capabilities a user has (read, read-write)
- * The instructions are defined by the SCM vendor implementations themselves, so that the checkout instructions may be extended by some 3rd party SCM vendor plugin
+* This checkout instruction contains the checkout URL for the given repository and some further information on how the       checkout works for this particular vendor (e.g., Subversion → svn checkout, Git → git clone).
+ * The instructions contain information regarding the capabilities a user has (read, read-write)
+ * The instructions are defined by the SCM vendor implementations themselves, so that the checkout instructions could be extended by some 3rd party SCM vendor plugin
 
  
 ### Required Disk Storage Information
 
-The total required disk space for a project (specifically, its repository and attachments) are listed in the projects administration pane, as well as the project setting overview.
+The total required disk space for a project's its repository and attachments are listed in the projects administration pane, as well as the project setting overview.
 
 This information is refreshed in the same manner that changesets are retrieved: By default, the repository is refreshed when a user visits the repository page. This information is cached for the time configured under the global `administration settings → repositories`.
 
-You may also externally refresh this information using a cron job using the Sys API. Executing a GET against `/sys/projects/:identifier/repository/update_storage` will cause a refresh when the maximum cache time is expired. If you pass the query `?force=1` to the request above, it will ignore the cache.
+It could also externally be refreshed by using a cron job using the Sys API. Executing a GET against `/sys/projects/:identifier/repository/update_storage` will cause a refresh when the maximum cache time is expired. If you pass the query `?force=1` to the request above, it will ignore the cache.
 
 For a future release, we are hoping to provide a webhook to update changesets and storage immediately after a change has been committed to the repository.
 
@@ -160,15 +161,16 @@ With managed repositories, OpenProject takes care of the lifetime of repositorie
 
 ## Preliminary Setup
 
-In the remainder of this document, we assume that you run OpenProject but using a separate process, which listens for requests on http://localhost:3000 that you serve over Apache using a proxy.
+In the remainder of this document, we assume that you run OpenProject using a separate process, which listens for requests on http://localhost:3000 that you serve over Apache using a proxy.
 
 We let Apache serve Subversion and git repositories (with the help of some modules) and
 authenticate against the OpenProject user database.
 
-Therefore we use an authentication perl script located in `extra/svn/OpenProjectAuthentication.pm`.
+Therefore, we use an authentication perl script located in `extra/svn/OpenProjectAuthentication.pm`.
 This script needs to be in your Apache perl path (for example it might be sym-linked into /etc/apache2/Apache).
 
-To make the authentication work, you need to generate a secret repository API key, which you can generate in your OpenProject instance at `Modules → Administration → Settings → Repositories`.
+To work with the authentication, you need to generate a secret repository API key, generated in your 
+OpenProject instance at `Modules → Administration → Settings → Repositories`.
 On that page, enable  *"Enable repository management web service"* and generate an API key (do not
 forget to save the settings). We need that API key later in our Apache configuration.
 

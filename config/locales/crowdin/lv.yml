@@ -168,9 +168,6 @@ lv:
       versions:
         no_results_title_text: Pašlaik projektam nav nevianas versijas.
         no_results_content_text: Izveidot jaunu versiju
-      boards:
-        no_results_title_text: Pašlaik projektam nav neviena dēļa.
-        no_results_content_text: Izveidot jaunu dēli
   members:
     index:
       no_results_title_text: Pašlaik projektam nav neviena dalībnieka.
@@ -693,7 +690,6 @@ lv:
       workflow: Darbplūsma
       work_package: Work package
       doorkeeper/application: OAuth application
-      board: Forum
   errors:
     header_invalid_fields: 'There were problems with the following fields:'
     field_erroneous_label: |-
@@ -1183,9 +1179,8 @@ lv:
       glossary: Kopsavilkums
       shortcuts: Īsinājumtaustiņi
       blog: OpenProject blog
-      forums: Forums
+      forums: Community forum
       newsletter: Security alerts / Newsletter
-      boards: Community forum
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: You can sign in as soon as your account has been
@@ -1259,14 +1254,15 @@ lv:
   label_blocked_by: blocked by
   label_blocks: blocks
   label_blog: Blogs
-  label_forums_locked: Locked
+  label_forums_locked: Slēgts
   label_forum_new: New forum
   label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forum_sticky: Svarīgi
   label_boolean: Boolean
   label_branch: Branch
   label_browse: Browse
   label_bulk_edit_selected_work_packages: Bulk edit selected work packages
+  label_bundled: "(Bundled)"
   label_calendar: Kalendārs
   label_calendar_show: Show Calendar
   label_category: Sadaļa
@@ -1527,6 +1523,7 @@ lv:
   label_planning: Planning
   label_please_login: Please log in
   label_plugins: Plugins
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precedes
   label_preferences: Iestatījumi
   label_preview: Priekšskatīt
@@ -2669,7 +2666,6 @@ lv:
       months: Mēnesis
       quarters: Ceturksnis
       years: Gads
-    board_could_not_be_saved: Board could not be saved
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2944,15 +2940,3 @@ lv:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: Pašlaik nav nevienu raksta.
-  label_available_project_boards: Available boards
-  label_board_locked: Slēgts
-  label_board_new: New forum
-  label_board_plural: Forums
-  label_board_sticky: Svarīgi
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Manage forums
-  project_module_boards: Forums

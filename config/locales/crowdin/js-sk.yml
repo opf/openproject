@@ -19,6 +19,10 @@ sk:
     close_popup_title: Zavrieť okno
     close_filter_title: Zavrieť filter
     close_form_title: Zavrieť formulár
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Pozrite si verziu Enterprise.
     card:
       add_new: Add new card
       highlighting:
@@ -30,7 +34,7 @@ sk:
         skopírujte vybratý text.
       copied_successful: Úspešne skopírované do schránky!
     button_add_watcher: Pridať pozorovateľa
-    button_back: Back
+    button_back: Späť
     button_back_to_list_view: Späť na zobrazenie zoznamu
     button_cancel: Zrušíť
     button_close: Zatvoriť
@@ -158,26 +162,26 @@ sk:
     general_text_Yes: Áno
     grid:
       add_modal:
-        choose_widget: Choose widget
+        choose_widget: Vyberte miniaplikáciu
       widgets:
         documents:
-          title: Documents
-          no_results: No documents yet.
+          title: Dokumenty
+          no_results: Zatiaľ žiadne dokumenty.
         news:
           title: Novinky
-          at: at
+          at: o
           no_results: Nič nové pre nahlásenie.
         time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
+          title: Strávený čas (posledných 7 dní)
+          no_results: Žiadne časové záznamy za posledných 7 dní.
         work_packages_accountable:
           title: Pracovné balíčky, za ktoré som zodpovedný(a)
         work_packages_assigned:
           title: Mne priradené pracovné balíčky
         work_packages_created:
-          title: Work packages created by me
+          title: Pracovné balíčky vytvorené mnou
         work_packages_watched:
-          title: Work packages watched by me
+          title: Pracovné balíčky sledované mnou
         work_packages_calendar:
           title: Kalendár
     label_activate: Aktivovať

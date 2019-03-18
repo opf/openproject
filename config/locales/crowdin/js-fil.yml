@@ -18,6 +18,10 @@ fil:
     close_popup_title: Isara ang popup
     close_filter_title: Isara ang filter
     close_form_title: Isara ang form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Suriin ang Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ fil:
         Mangayaring kopyahin ng manu-mano ang napiling teksto.
       copied_successful: Matagumpay na kinopya sa clipboard!
     button_add_watcher: Magdagdag ng manunuod
-    button_back: Back
+    button_back: Bumalik
     button_back_to_list_view: Bumalik sa listahan ng view
     button_cancel: Kanselahin
     button_close: Isara
@@ -158,7 +162,7 @@ fil:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Mga dokumento
           no_results: No documents yet.
         news:
           title: Mga balita

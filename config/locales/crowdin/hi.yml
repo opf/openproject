@@ -168,9 +168,6 @@ hi:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -679,7 +676,7 @@ hi:
     models:
       attachment: फ़ाइल
       attribute_help_text: Attribute help text
-      forum: Forum
+      forum: मंच
       comment: टिप्पणी
       custom_action: विशेष या कस्टम क्रियाएँ
       custom_field: रुचि के अनुसार फिल्ड
@@ -701,7 +698,6 @@ hi:
       workflow: कार्यप्रवाह
       work_package: कार्य पैकेज
       doorkeeper/application: OAuth application
-      board: मंच
   errors:
     header_invalid_fields: 'निम्न फ़ील्ड्स के साथ समस्याएं थीं:'
     field_erroneous_label: |-
@@ -1181,9 +1177,8 @@ hi:
       glossary: Glossary
       shortcuts: Shortcuts
       blog: OpenProject blog
-      forums: मंच
+      forums: Community forum
       newsletter: Security alerts / Newsletter
-      boards: Community forum
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: You can sign in as soon as your account has been
@@ -1257,14 +1252,15 @@ hi:
   label_blocked_by: द्वारा अवरुद्ध
   label_blocks: ब्लॉक
   label_blog: Blog
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: अवरोधित
+  label_forum_new: नया मंच
+  label_forum_plural: मंच
+  label_forum_sticky: चिपचिपा
   label_boolean: बूलियन
   label_branch: शाखा
   label_browse: ब्राउज करें
   label_bulk_edit_selected_work_packages: चयनित कार्य पैकेजों का बल्क संपादन
+  label_bundled: "(Bundled)"
   label_calendar: कैलेंडर
   label_calendar_show: कैलेंडर दिखाएं
   label_category: श्रेणी
@@ -1525,6 +1521,7 @@ hi:
   label_planning: विनियोजन
   label_please_login: कृपया लॉगिन करें
   label_plugins: प्लगइन्स
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: पूर्व में होना
   label_preferences: आपकी पसंद
   label_preview: पूर्वावलोकन
@@ -2027,7 +2024,7 @@ hi:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: गतिविधी
-  project_module_forums: Forums
+  project_module_forums: मंच
   project_module_calendar: कैलेंडर
   project_module_work_package_tracking: कार्य पैकेज ट्रैकिंग
   project_module_news: नया
@@ -2667,7 +2664,6 @@ hi:
       months: Months
       quarters: Quarters
       years: Years
-    board_could_not_be_saved: Board could not be saved
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2940,15 +2936,3 @@ hi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: There are currently no posts for the board.
-  label_available_project_boards: Available boards
-  label_board_locked: अवरोधित
-  label_board_new: नया मंच
-  label_board_plural: मंच
-  label_board_sticky: चिपचिपा
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Manage forums
-  project_module_boards: मंच

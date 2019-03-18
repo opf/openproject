@@ -18,6 +18,10 @@ hi:
     close_popup_title: पॉपअप बंद करें
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ hi:
         the selected text manually.
       copied_successful: Sucessfully copied to clipboard!
     button_add_watcher: द्रष्टा जोड़ें
-    button_back: Back
+    button_back: वापस जाएँ
     button_back_to_list_view: Back to list view
     button_cancel: निरस्त करें
     button_close: बंद करें

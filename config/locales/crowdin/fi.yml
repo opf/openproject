@@ -167,9 +167,6 @@ fi:
       versions:
         no_results_title_text: Projektille ei ole versioita.
         no_results_content_text: Luo uusi versio
-      boards:
-        no_results_title_text: Tällä hetkellä projektille ei ole tauluja.
-        no_results_content_text: Luo uusi taulu
   members:
     index:
       no_results_title_text: Tähän projektiin ei kuulu yhtään henkilöä.
@@ -670,7 +667,7 @@ fi:
     models:
       attachment: Tiedosto
       attribute_help_text: Attribute help text
-      forum: Forum
+      forum: Keskustelupalsta
       comment: Kommentti
       custom_action: Custom action
       custom_field: Mukautettu kenttä
@@ -692,7 +689,6 @@ fi:
       workflow: Työnkulku
       work_package: Työpaketti
       doorkeeper/application: OAuth application
-      board: Keskustelupalsta
   errors:
     header_invalid_fields: 'Seuraavissa kentissä oli ongelmia:'
     field_erroneous_label: 'Tämä kenttä on virheellinen: %{full_errors} Anna kelvollinen
@@ -1169,9 +1165,8 @@ fi:
       glossary: Sanasto
       shortcuts: Pikanäppäimet
       blog: OpenProject blogi
-      forums: Keskustelupalstat
+      forums: Keskustelupalsta
       newsletter: Suojausvaroitukset / uutiskirje
-      boards: Keskustelupalsta
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: Heti kun tilisi on aktivoitu voit kirjatua painamalla
@@ -1245,14 +1240,15 @@ fi:
   label_blocked_by: estänyt
   label_blocks: estää
   label_blog: Blogi
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: Lukittu
+  label_forum_new: Uusi keskustelupalsta
+  label_forum_plural: Keskustelupalstat
+  label_forum_sticky: Pysyvä
   label_boolean: Totuusarvomuuttuja
   label_branch: Haara
   label_browse: Selaus
   label_bulk_edit_selected_work_packages: Muokkaa useaa työpakettia
+  label_bundled: "(Bundled)"
   label_calendar: Kalenteri
   label_calendar_show: Näytä kalenteri
   label_category: Kategoria
@@ -1513,6 +1509,7 @@ fi:
   label_planning: Suunnittelu
   label_please_login: Kirjaudu sisään
   label_plugins: Liitännäiset
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: edeltää
   label_preferences: Asetukset
   label_preview: Esikatselu
@@ -1965,7 +1962,7 @@ fi:
   permission_export_wiki_pages: Vie wiki-sivuja
   permission_list_attachments: Listaa liitteet
   permission_log_time: Lokita käytettyä aikaa
-  permission_manage_forums: Manage forums
+  permission_manage_forums: Hallinnoi keskustelupalstaa
   permission_manage_categories: Hallinnoi tapahtumien luokkia
   permission_manage_work_package_relations: Hallinnoi työpakettien suhteita
   permission_manage_members: Hallinnoi jäseniä
@@ -2012,7 +2009,7 @@ fi:
     archive:
       are_you_sure: Oletko varma, että haluat arkistoida projektin "%{name}"?
   project_module_activity: Aktiviteetti
-  project_module_forums: Forums
+  project_module_forums: Keskustelupalstat
   project_module_calendar: Kalenteri
   project_module_work_package_tracking: Työpaketin seuranta
   project_module_news: Uutiset
@@ -2646,7 +2643,6 @@ fi:
       months: Months
       quarters: Quarters
       years: Years
-    board_could_not_be_saved: Taulua ei voitu tallentaa
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2917,15 +2913,3 @@ fi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: Tällä hetkellä taululla ei ole viestejä.
-  label_available_project_boards: Saatavilla olevat taulut
-  label_board_locked: Lukittu
-  label_board_new: Uusi keskustelupalsta
-  label_board_plural: Keskustelupalstat
-  label_board_sticky: Pysyvä
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Hallinnoi keskustelupalstaa
-  project_module_boards: Keskustelupalstat

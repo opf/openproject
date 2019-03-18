@@ -169,9 +169,6 @@ ca:
       versions:
         no_results_title_text: Actualment no hi ha cap versió per al projecte.
         no_results_content_text: Crear una nova versió
-      boards:
-        no_results_title_text: Actualment no hi ha cap tauler per al projecte.
-        no_results_content_text: Crear una nou tauler
   members:
     index:
       no_results_title_text: Actualment no hi ha cap membre que formi part d'aquest
@@ -680,7 +677,7 @@ ca:
     models:
       attachment: Fitxer
       attribute_help_text: Attribute help text
-      forum: Forum
+      forum: Fòrum
       comment: Comentari
       custom_action: Custom action
       custom_field: Camp personalitzat
@@ -702,7 +699,6 @@ ca:
       workflow: Flux de treball
       work_package: Paquet de treball
       doorkeeper/application: OAuth application
-      board: Fòrum
   errors:
     header_invalid_fields: 'S''han detectat problemes en els camps següents:'
     field_erroneous_label: 'Aquest camp no és vàlid: %{full_errors} si us plau, introduïu
@@ -1186,9 +1182,8 @@ ca:
       glossary: Glossari
       shortcuts: Dreceres
       blog: Blog OpenProject
-      forums: Fòrums
+      forums: Fòrum de la comunitat
       newsletter: Security alerts / Newsletter
-      boards: Fòrum de la comunitat
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: Vostè podrà entrar tan aviat com hagi activat el
@@ -1263,14 +1258,15 @@ ca:
   label_blocked_by: bloquejats per
   label_blocks: blocs
   label_blog: Blog
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: Bloquejat
+  label_forum_new: Nou fòrum
+  label_forum_plural: Fòrums
+  label_forum_sticky: Fixa't
   label_boolean: Booleà
   label_branch: Branca
   label_browse: Navegar
   label_bulk_edit_selected_work_packages: Edició massiva de paquets de treball
+  label_bundled: "(Bundled)"
   label_calendar: Calendari
   label_calendar_show: Mostreu el calendari
   label_category: Categoria
@@ -1531,6 +1527,7 @@ ca:
   label_planning: Planificació
   label_please_login: Si us plau, inicieu sessió
   label_plugins: Complements
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precedeix
   label_preferences: Preferències
   label_preview: Previsualitzar
@@ -2000,7 +1997,7 @@ ca:
   permission_export_wiki_pages: Exportar les pàgines wiki
   permission_list_attachments: Llista d'adjunts
   permission_log_time: Registrar el temps invertit
-  permission_manage_forums: Manage forums
+  permission_manage_forums: Gestionar els taulers
   permission_manage_categories: Gestionar les categories del paquet de treball
   permission_manage_work_package_relations: Gestionar les relacions del paquet de
     treball
@@ -2051,7 +2048,7 @@ ca:
     archive:
       are_you_sure: Esteu segur que voleu arxivar el projecte "%{name}"?
   project_module_activity: Activitat
-  project_module_forums: Forums
+  project_module_forums: Fòrums
   project_module_calendar: Calendari
   project_module_work_package_tracking: Paquet de treball de seguiment
   project_module_news: Notícies
@@ -2718,7 +2715,6 @@ ca:
       months: Mesos
       quarters: Quatrimestres
       years: Anys
-    board_could_not_be_saved: No es pot desar el tauler
   title_remove_and_delete_user: Eliminar l'usuari convidat del projecte i suprimir
     l'usuari.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2995,15 +2991,3 @@ ca:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: Actualment no hi ha cap entrada al tauler.
-  label_available_project_boards: Taulers disponibles
-  label_board_locked: Bloquejat
-  label_board_new: Nou fòrum
-  label_board_plural: Fòrums
-  label_board_sticky: Fixa't
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Gestionar els taulers
-  project_module_boards: Fòrums

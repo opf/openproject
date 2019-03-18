@@ -18,6 +18,10 @@ et:
     close_popup_title: Sulge hüpikaken
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ et:
         the selected text manually.
       copied_successful: Sucessfully copied to clipboard!
     button_add_watcher: Lisa jälgija
-    button_back: Back
+    button_back: Tagasi
     button_back_to_list_view: Back to list view
     button_cancel: Tühista
     button_close: Sulge
@@ -159,7 +163,7 @@ et:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Dokumendid
           no_results: No documents yet.
         news:
           title: Uudised

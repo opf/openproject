@@ -18,6 +18,10 @@ ko:
     close_popup_title: 팝업 닫기
     close_filter_title: 필터 닫기
     close_form_title: 폼 닫기
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Enterprise Edition을 체크아웃하세요.
     card:
       add_new: Add new card
       highlighting:
@@ -28,7 +32,7 @@ ko:
       browser_error: 브라우저를 클립보드에 복사를 지원 하지 않습니다. 텍스트를 타이핑하여 복사하십시오.
       copied_successful: 클립보드에 성공적으로 복사됨
     button_add_watcher: 주시자 추가
-    button_back: Back
+    button_back: 뒤로
     button_back_to_list_view: 목록으로 돌아가기
     button_cancel: 취소
     button_close: 닫기
@@ -154,7 +158,7 @@ ko:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: 문서
           no_results: No documents yet.
         news:
           title: 뉴스

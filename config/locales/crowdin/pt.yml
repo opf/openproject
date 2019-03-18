@@ -170,9 +170,6 @@ pt:
       versions:
         no_results_title_text: Atualmente, não existem versões para o projeto.
         no_results_content_text: Crie uma nova versão
-      boards:
-        no_results_title_text: Atualmente, não existem quadros para o projeto.
-        no_results_content_text: Criar um novo quadro
   members:
     index:
       no_results_title_text: Atualmente, não existem membros pertencentes a este projeto.
@@ -682,7 +679,7 @@ pt:
     models:
       attachment: Ficheiro
       attribute_help_text: Texto de ajuda do atributo
-      forum: Forum
+      forum: Fórum
       comment: Comentario
       custom_action: Ação personalizada
       custom_field: Campo personalizado
@@ -704,7 +701,6 @@ pt:
       workflow: Fluxo de trabalho
       work_package: Pacote de trabalho
       doorkeeper/application: OAuth application
-      board: Fórum
   errors:
     header_invalid_fields: 'Existem problemas com os seguintes campos:'
     field_erroneous_label: |-
@@ -1194,9 +1190,8 @@ pt:
       glossary: Glossário
       shortcuts: Atalhos
       blog: Blog de OpenProject
-      forums: Fórums
+      forums: Fórum da Comunidade
       newsletter: Alertas de segurança / Boletim informativo
-      boards: Fórum da Comunidade
   links:
     configuration_guide: Guia de configuração
   instructions_after_registration: Pode iniciar a sessão assim que a sua conta for
@@ -1270,14 +1265,15 @@ pt:
   label_blocked_by: bloqueado por
   label_blocks: bloqueia
   label_blog: Blogue
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: Bloqueado
+  label_forum_new: Novo fórum
+  label_forum_plural: Fórums
+  label_forum_sticky: Pegajoso
   label_boolean: Booleano
   label_branch: Ramo
   label_browse: Navegador
   label_bulk_edit_selected_work_packages: Editar tarefas selecionadas de seguida
+  label_bundled: "(Bundled)"
   label_calendar: Calendário
   label_calendar_show: Mostrar calendário
   label_category: Categoria
@@ -1539,6 +1535,7 @@ pt:
   label_planning: Planeamento
   label_please_login: Por favor inicie sessão
   label_plugins: Plugins
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precede
   label_preferences: Preferências
   label_preview: Pré visualizar
@@ -2003,7 +2000,7 @@ pt:
   permission_export_wiki_pages: Exportar páginas wiki
   permission_list_attachments: Lista de anexos
   permission_log_time: Registrar o tempo gasto
-  permission_manage_forums: Manage forums
+  permission_manage_forums: Gerir fóruns
   permission_manage_categories: Gerir categorias de pacote de trabalho
   permission_manage_work_package_relations: Gerir relações entre tarefas
   permission_manage_members: Gerir Membros
@@ -2051,7 +2048,7 @@ pt:
     archive:
       are_you_sure: Tem a certeza de que deseja arquivar o projeto '%{name}'?
   project_module_activity: Atividade
-  project_module_forums: Forums
+  project_module_forums: Fórums
   project_module_calendar: Calendário
   project_module_work_package_tracking: Controle de pacote de trabalho
   project_module_news: Noticias
@@ -2715,7 +2712,6 @@ pt:
       months: Meses
       quarters: Trimestres
       years: Anos
-    board_could_not_be_saved: Não foi possível guardar o quadro
   title_remove_and_delete_user: Remova o utilizador convidado do projeto e apague-o/a.
   title_enterprise_upgrade: Atualização para desbloquear mais utilizadores.
   tooltip_user_default_timezone: 'O fuso horário padrão para novos utilizadores. Pode
@@ -2994,15 +2990,3 @@ pt:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: Atualmente, não existem publicações para o quadro.
-  label_available_project_boards: Quadros disponíveis
-  label_board_locked: Bloqueado
-  label_board_new: Novo fórum
-  label_board_plural: Fórums
-  label_board_sticky: Pegajoso
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Gerir fóruns
-  project_module_boards: Fórums

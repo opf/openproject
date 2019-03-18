@@ -17,6 +17,10 @@ zh:
     close_popup_title: 关闭弹出窗口
     close_filter_title: 关闭过滤器
     close_form_title: 关闭表单
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: 签出企业版。
     card:
       add_new: Add new card
       highlighting:
@@ -27,7 +31,7 @@ zh:
       browser_error: 您的浏览器不支持复制到剪贴板，请手动复制选定的文本。
       copied_successful: 成功复制到剪贴板!
     button_add_watcher: 添加关注者
-    button_back: Back
+    button_back: 返回
     button_back_to_list_view: 返回列表视图
     button_cancel: 取消
     button_close: 关闭
@@ -147,18 +151,18 @@ zh:
     general_text_Yes: 是
     grid:
       add_modal:
-        choose_widget: Choose widget
+        choose_widget: 选择小部件
       widgets:
         documents:
-          title: Documents
-          no_results: No documents yet.
+          title: 文档
+          no_results: 没有文档。
         news:
           title: 新闻
           at: at
           no_results: 没有新消息报告。
         time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
+          title: 花费时间 (最近 7天)
+          no_results: 过去7天没有时间记录。
         work_packages_accountable:
           title: 我负责的工作包
         work_packages_assigned:

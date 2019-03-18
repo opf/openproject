@@ -18,6 +18,10 @@ ro:
     close_popup_title: Închidere pop-up
     close_filter_title: Închide filtrul
     close_form_title: Închide formularul
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ ro:
         copiaţi textul selectat manual.
       copied_successful: Copiere în ecranul tampon reușită!
     button_add_watcher: Adăugare observator
-    button_back: Back
+    button_back: Înapoi
     button_back_to_list_view: Înapoi la listă
     button_cancel: Anulare
     button_close: Închide

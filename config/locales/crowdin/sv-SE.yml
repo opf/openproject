@@ -168,9 +168,6 @@ sv-SE:
       versions:
         no_results_title_text: Det finns för närvarande inga versioner av projektet.
         no_results_content_text: Skapa en ny version
-      boards:
-        no_results_title_text: Det finns för närvarande inga anslagstavlor för projektet.
-        no_results_content_text: Skapa en ny anslagstavla
   members:
     index:
       no_results_title_text: Det finns för närvarande inga medlemmar i detta projekt.
@@ -694,7 +691,6 @@ sv-SE:
       workflow: Arbetsflöde
       work_package: Arbetspaket
       doorkeeper/application: OAuth application
-      board: Forum
   errors:
     header_invalid_fields: 'Det fanns problem med följande fält:'
     field_erroneous_label: |-
@@ -1172,9 +1168,8 @@ sv-SE:
       glossary: Ordlista
       shortcuts: Genvägar
       blog: OpenProject blogg
-      forums: Forum
+      forums: Community forum
       newsletter: Security alerts / Newsletter
-      boards: Community forum
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: Du kan logga in så snart ditt konto har aktiverats
@@ -1247,14 +1242,15 @@ sv-SE:
   label_blocked_by: blockeras av
   label_blocks: blockerar
   label_blog: Blogg
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: Låst
+  label_forum_new: Nytt forum
+  label_forum_plural: Forum
+  label_forum_sticky: Klistrad
   label_boolean: Booleskt värde
   label_branch: Gren
   label_browse: Bläddra
   label_bulk_edit_selected_work_packages: Redigera markerade arbetspaket i bulk
+  label_bundled: "(Bundled)"
   label_calendar: Kalender
   label_calendar_show: Visa kalendern
   label_category: Kategori
@@ -1516,6 +1512,7 @@ sv-SE:
   label_planning: Planering
   label_please_login: Vänligen logga in
   label_plugins: Insticksprogram
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: föregår
   label_preferences: Inställningar
   label_preview: Förhandsgranska
@@ -1970,7 +1967,7 @@ sv-SE:
   permission_export_wiki_pages: Exportera wiki-sidor
   permission_list_attachments: Lista bifogade filer
   permission_log_time: Tidrapportera
-  permission_manage_forums: Manage forums
+  permission_manage_forums: Hantera forum
   permission_manage_categories: Hantera kategorier för arbetspaket
   permission_manage_work_package_relations: Hantera relationer för arbetspaket
   permission_manage_members: Hantera medlemmar
@@ -2018,7 +2015,7 @@ sv-SE:
     archive:
       are_you_sure: Är du säker på att du vill arkivera projektet '%{name}'?
   project_module_activity: Aktivitet
-  project_module_forums: Forums
+  project_module_forums: Forum
   project_module_calendar: Kalender
   project_module_work_package_tracking: Arbetspaketsspårning
   project_module_news: Nyheter
@@ -2653,7 +2650,6 @@ sv-SE:
       months: Månader
       quarters: Kvartal
       years: År
-    board_could_not_be_saved: Anslagstavlan kunde inte sparas
   title_remove_and_delete_user: Ta bort den inbjudna medlemmen från projektet och
     radera honom/henne.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2926,15 +2922,3 @@ sv-SE:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: Det finns för närvarande inga inlägg på anslagstavlan.
-  label_available_project_boards: Tillgängliga anslagstavlor
-  label_board_locked: Låst
-  label_board_new: Nytt forum
-  label_board_plural: Forum
-  label_board_sticky: Klistrad
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Hantera forum
-  project_module_boards: Forum

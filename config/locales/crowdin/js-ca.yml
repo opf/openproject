@@ -18,6 +18,10 @@ ca:
     close_popup_title: Tanca el popup
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ ca:
         copieu el text seleccionat manualment.
       copied_successful: S'ha copiat correctament al porta-retalls!
     button_add_watcher: Afegir observador
-    button_back: Back
+    button_back: Endarrere
     button_back_to_list_view: Back to list view
     button_cancel: Cancel·la
     button_close: Tancar

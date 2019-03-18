@@ -166,9 +166,6 @@ hu:
       versions:
         no_results_title_text: Jelenleg nincsenek verziók a projekthez.
         no_results_content_text: Új verzió létrehozása
-      boards:
-        no_results_title_text: Jelenleg nincs fórum a projekthez.
-        no_results_content_text: Új fórum létrehozása
   members:
     index:
       no_results_title_text: Jelenleg egy tagja sincs a projektnek.
@@ -669,7 +666,7 @@ hu:
     models:
       attachment: Fájl
       attribute_help_text: Attribútum-súgószöveg
-      forum: Forum
+      forum: Fórum
       comment: Vélemény
       custom_action: Egyéni művelet
       custom_field: Választható mező
@@ -691,7 +688,6 @@ hu:
       workflow: Munkafolyamat
       work_package: Feladatcsoport
       doorkeeper/application: OAuth application
-      board: Fórum
   errors:
     header_invalid_fields: 'Problémák merültek fel az alábbi mezőkkel:'
     field_erroneous_label: 'Ez a mező érvénytelen: %{full_errors} kérjük, adjon meg
@@ -1176,9 +1172,8 @@ hu:
       glossary: Szószedet
       shortcuts: Parancsikonok
       blog: OpenProject blog
-      forums: Fórumok
+      forums: Közösségi fórum
       newsletter: Biztonsági figyelmeztetések / hírlevél
-      boards: Közösségi fórum
   links:
     configuration_guide: Konfigurációs útmutató
   instructions_after_registration: Be tud jelentkezni, amint fiókját aktiválta ide
@@ -1253,15 +1248,16 @@ hu:
   label_blocked_by: blokkolta
   label_blocks: blokkolja
   label_blog: Blog
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: Zárolva
+  label_forum_new: Új fórum
+  label_forum_plural: Fórumok
+  label_forum_sticky: Kiemelt
   label_boolean: Logikai
   label_branch: Branch
   label_browse: böngész
   label_bulk_edit_selected_work_packages: A kiválasztott feladatcsoportok tömeges
     szerkesztése
+  label_bundled: "(Bundled)"
   label_calendar: Naptár
   label_calendar_show: Kalendárium mutatása
   label_category: Kategória
@@ -1523,6 +1519,7 @@ hu:
   label_planning: Tervezés
   label_please_login: Kérjük, jelentkezzen be
   label_plugins: Modulok
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: megelőzi
   label_preferences: Tulajdonságok
   label_preview: Előnézet
@@ -1986,7 +1983,7 @@ hu:
   permission_export_wiki_pages: Wiki oldalak exportálása
   permission_list_attachments: Mellékletek listája
   permission_log_time: Eltöltött idő rögzítése
-  permission_manage_forums: Manage forums
+  permission_manage_forums: Fórum kezelése
   permission_manage_categories: feladatcsoport kategóriák kezelése
   permission_manage_work_package_relations: feladatcsoport kapcsolatok kezelése
   permission_manage_members: Tagok kezelése
@@ -2033,7 +2030,7 @@ hu:
     archive:
       are_you_sure: Biztosan szeretnéd arhiválni a projektet '%{name}'?
   project_module_activity: Tevékenység
-  project_module_forums: Forums
+  project_module_forums: Fórumok
   project_module_calendar: Naptár
   project_module_work_package_tracking: A munkacsomag nyomon követése
   project_module_news: Hírek
@@ -2676,7 +2673,6 @@ hu:
       months: Hónap
       quarters: Negyedek
       years: Évek
-    board_could_not_be_saved: A tábla nem menthető
   title_remove_and_delete_user: Távolítsa el a meghívott felhasználót a projektből,
     és törölje őt.
   title_enterprise_upgrade: Frissítés további felhasználók feloldásához.
@@ -2953,15 +2949,3 @@ hu:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: Jelenleg nincs hozzászólás a fórumon.
-  label_available_project_boards: Rendelkezésre álló táblák
-  label_board_locked: Zárolva
-  label_board_new: Új fórum
-  label_board_plural: Fórumok
-  label_board_sticky: Kiemelt
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Fórum kezelése
-  project_module_boards: Fórumok

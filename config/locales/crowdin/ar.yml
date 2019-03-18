@@ -168,9 +168,6 @@ ar:
       versions:
         no_results_title_text: لا يوجد حالياً أية إصدارات للمشروع.
         no_results_content_text: إنشاء إصدار جديد
-      boards:
-        no_results_title_text: لا يوجد حالياً أية لوحات للمشروع.
-        no_results_content_text: إنشاء لوح جديد
   members:
     index:
       no_results_title_text: لا يوجد حالياً قسم للأعضاء في هذا المشروع.
@@ -675,7 +672,7 @@ ar:
     models:
       attachment: ملف
       attribute_help_text: Attribute help text
-      forum: Forum
+      forum: المنتدى
       comment: تعليق
       custom_action: Custom action
       custom_field: حقل مخصص
@@ -705,7 +702,6 @@ ar:
       workflow: سير العمل
       work_package: مجموعة العمل
       doorkeeper/application: OAuth application
-      board: المنتدى
   errors:
     header_invalid_fields: 'كان هناك مشاكل في المجالات التالية:'
     field_erroneous_label: 'هذا الحقل غير صالح: %{full_errors} الرجاء إدخال قيمة صحيحة.'
@@ -1233,9 +1229,8 @@ ar:
       glossary: معجم المصطلحات
       shortcuts: اختصارات
       blog: مدونة أوبِن بروجِكت
-      forums: منتديات
+      forums: منتدى المجتمع
       newsletter: Security alerts / Newsletter
-      boards: منتدى المجتمع
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: يمكنك تسجيل الدخول بمجرد أن تم تنشيط الحساب الخاص
@@ -1308,14 +1303,15 @@ ar:
   label_blocked_by: محجوب من قبل
   label_blocks: حجوبات
   label_blog: مدونة
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: مقفل
+  label_forum_new: منتدى جديد
+  label_forum_plural: منتديات
+  label_forum_sticky: مثبت
   label_boolean: قيمة منطقية
   label_branch: فرع
   label_browse: تصفّح
   label_bulk_edit_selected_work_packages: تحرير كل مجموعات العمل المحددة
+  label_bundled: "(Bundled)"
   label_calendar: التقويم
   label_calendar_show: إظهار التقويم
   label_category: فئة
@@ -1578,6 +1574,7 @@ ar:
   label_planning: تخطيط
   label_please_login: الرجاء تسجيل الدخول
   label_plugins: الإضافات
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: تقدم
   label_preferences: أفضليات
   label_preview: معاينة
@@ -2048,7 +2045,7 @@ ar:
   permission_export_wiki_pages: تصدير صفحات wiki
   permission_list_attachments: قائمة المرفقات
   permission_log_time: تسجيل الوقت المستهلك
-  permission_manage_forums: Manage forums
+  permission_manage_forums: إدارة منتديات
   permission_manage_categories: إدارة فئات مجموعة العمل
   permission_manage_work_package_relations: إدارة علاقات حزم العمل
   permission_manage_members: إدارة الأعضاء
@@ -2095,7 +2092,7 @@ ar:
     archive:
       are_you_sure: هل أنت متأكد من أنك تريد أرشفة المشروع '%{name}'؟
   project_module_activity: النشاط
-  project_module_forums: Forums
+  project_module_forums: منتديات
   project_module_calendar: التقويم
   project_module_work_package_tracking: تتبع مجموعة العمل
   project_module_news: الأخبار
@@ -2720,7 +2717,6 @@ ar:
       months: أشهر
       quarters: أرباع
       years: السنوات
-    board_could_not_be_saved: لا يمكن حفظ عنصر
   title_remove_and_delete_user: قم بإزالة المستخدم المدعوين من المشروع وحذفه/حذفها.
   title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
@@ -3002,15 +2998,3 @@ ar:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: لا يوجد حالياً منشورات على اللوحة.
-  label_available_project_boards: الجوانب المتاحة
-  label_board_locked: مقفل
-  label_board_new: منتدى جديد
-  label_board_plural: منتديات
-  label_board_sticky: مثبت
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: إدارة منتديات
-  project_module_boards: منتديات

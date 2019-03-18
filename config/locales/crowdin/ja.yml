@@ -145,9 +145,6 @@ ja:
       versions:
         no_results_title_text: 現在、プロジェクトのバージョンはありません。
         no_results_content_text: 新しいバージョンを作成
-      boards:
-        no_results_title_text: 現在、プロジェクトの掲示板はありません。
-        no_results_content_text: 新しい掲示板を作成
   members:
     index:
       no_results_title_text: 現在、このプロジェクトのメンバーはいません。
@@ -601,7 +598,7 @@ ja:
     models:
       attachment: ファイル
       attribute_help_text: 属性のヘルプ テキスト
-      forum: Forum
+      forum: フォーラム
       comment: コメント
       custom_action: カスタムアクション
       custom_field: カスタムフィールド
@@ -623,7 +620,6 @@ ja:
       workflow: ワークフロー
       work_package: 作業項目
       doorkeeper/application: OAuthアプリケーション
-      board: フォーラム
   errors:
     header_invalid_fields: 次のフィールドに問題がありました：
     field_erroneous_label: |-
@@ -1075,9 +1071,8 @@ ja:
       glossary: 用語集
       shortcuts: ショートカット
       blog: OpenProject ブログ
-      forums: フォーラム
+      forums: コミュニティ フォーラム
       newsletter: セキュリティアラート / ニュースレター
-      boards: コミュニティ フォーラム
   links:
     configuration_guide: 設定ガイド
   instructions_after_registration: "%{signin}をクリックして、アカウントが有効された後にログインできます。"
@@ -1146,14 +1141,15 @@ ja:
   label_blocked_by: ブロックされている
   label_blocks: ブロックしている
   label_blog: ブログ
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: ロックされている
+  label_forum_new: 新しいフォーラム
+  label_forum_plural: フォーラム
+  label_forum_sticky: 固定する
   label_boolean: ブール型
   label_branch: 分岐
   label_browse: 閲覧
   label_bulk_edit_selected_work_packages: 選択した作業項目を一括編集
+  label_bundled: "(Bundled)"
   label_calendar: カレンダー
   label_calendar_show: カレンダーを表示
   label_category: カテゴリ
@@ -1413,6 +1409,7 @@ ja:
   label_planning: 計画
   label_please_login: ログインしてください。
   label_plugins: プラグイン
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: 次の項目に先行
   label_preferences: 設定
   label_preview: プレビュー
@@ -1830,7 +1827,7 @@ ja:
   permission_export_wiki_pages: Wikiページのエクスポート
   permission_list_attachments: 添付ファイルの一覧表
   permission_log_time: 作業時間の記録
-  permission_manage_forums: Manage forums
+  permission_manage_forums: フォーラムの管理
   permission_manage_categories: 仕事項目のカテゴリの管理
   permission_manage_work_package_relations: 作業項目の関連の管理
   permission_manage_members: メンバーの管理
@@ -1876,7 +1873,7 @@ ja:
     archive:
       are_you_sure: プロジェクト '%{name}' をアーカイブしてもよろしいですか？
   project_module_activity: 活動
-  project_module_forums: Forums
+  project_module_forums: フォーラム
   project_module_calendar: カレンダー
   project_module_work_package_tracking: 作業項目の追跡
   project_module_news: ニュース
@@ -2431,7 +2428,6 @@ ja:
       months: 月
       quarters: 四半期ごと
       years: " 年"
-    board_could_not_be_saved: ボードを保存できませんでした。
   title_remove_and_delete_user: プロジェクトから招待済のユーザを削除し、彼/彼女を削除します。
   title_enterprise_upgrade: アップグレードしてより多くのユーザーのロックを解除します。
   tooltip_user_default_timezone: '新しいユーザーのデフォルトのタイム ゾーン。ユーザーの設定で変更できます。
@@ -2648,15 +2644,3 @@ ja:
     revoke_my_application_confirmation: 本当にこのアプリケーションを削除しますか？ これにより %{token_count}
       が無効になります。
     my_registered_applications: 登録済みのOAuthアプリケーション
-  boards:
-    show:
-      no_results_title_text: 現在、掲示板の投稿はありません。
-  label_available_project_boards: 利用できる掲示板
-  label_board_locked: ロックされている
-  label_board_new: 新しいフォーラム
-  label_board_plural: フォーラム
-  label_board_sticky: 固定する
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: フォーラムの管理
-  project_module_boards: フォーラム

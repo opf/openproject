@@ -168,9 +168,6 @@ he:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: ליצור לוח חדש
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -671,7 +668,7 @@ he:
     models:
       attachment: קובץ
       attribute_help_text: Attribute help text
-      forum: Forum
+      forum: פורום
       comment: תגובה
       custom_action: Custom action
       custom_field: שדה מותאם אישית
@@ -695,7 +692,6 @@ he:
       workflow: זרימת עבודה
       work_package: חבילת עבודה
       doorkeeper/application: OAuth application
-      board: פורום
   errors:
     header_invalid_fields: 'היו בעיות עם השדות הבאים:'
     field_erroneous_label: |-
@@ -1192,9 +1188,8 @@ he:
       glossary: Glossary
       shortcuts: Shortcuts
       blog: OpenProject blog
-      forums: פורומים
+      forums: Community forum
       newsletter: Security alerts / Newsletter
-      boards: Community forum
   links:
     configuration_guide: Configuration guide
   instructions_after_registration: באפשרותך להיכנס ברגע חשבונך הופעל על-ידי לחיצה
@@ -1268,14 +1263,15 @@ he:
   label_blocked_by: חסום על ידי
   label_blocks: בלוקים
   label_blog: Blog
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: נעול
+  label_forum_new: פורום חדש
+  label_forum_plural: פורומים
+  label_forum_sticky: נעוץ
   label_boolean: בוליאני
   label_branch: ענף
   label_browse: עיון
   label_bulk_edit_selected_work_packages: חבילות עבודה עריכה בצובר שנבחרו
+  label_bundled: "(Bundled)"
   label_calendar: לוח שנה
   label_calendar_show: הצג לוח שנה
   label_category: קטגוריה
@@ -1536,6 +1532,7 @@ he:
   label_planning: תכנון
   label_please_login: Please log in
   label_plugins: פלאגינים
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precedes
   label_preferences: Preferences
   label_preview: תצוגה מקדימה
@@ -2001,7 +1998,7 @@ he:
   permission_export_wiki_pages: ייצוא דפי wiki
   permission_list_attachments: רשימת קבצים מצורפים
   permission_log_time: Log spent time
-  permission_manage_forums: Manage forums
+  permission_manage_forums: ניהול פורומים
   permission_manage_categories: Manage work package categories
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Manage members
@@ -2048,7 +2045,7 @@ he:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: פעילות
-  project_module_forums: Forums
+  project_module_forums: פורומים
   project_module_calendar: לוח שנה
   project_module_work_package_tracking: Work package tracking
   project_module_news: חדשות
@@ -2688,7 +2685,6 @@ he:
       months: Months
       quarters: Quarters
       years: Years
-    board_could_not_be_saved: Board could not be saved
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   title_enterprise_upgrade: Upgrade to unlock more users.
@@ -2964,15 +2960,3 @@ he:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: There are currently no posts for the board.
-  label_available_project_boards: Available boards
-  label_board_locked: נעול
-  label_board_new: פורום חדש
-  label_board_plural: פורומים
-  label_board_sticky: נעוץ
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: ניהול פורומים
-  project_module_boards: פורומים

@@ -18,6 +18,10 @@ fi:
     close_popup_title: Sulje ponnahdus-ikkuna
     close_filter_title: Sulje suodatin
     close_form_title: Sulje lomake
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ fi:
         manuaalisesti.
       copied_successful: Onnistuneesti kopioitu leikepöydälle!
     button_add_watcher: Lisää seuraaja
-    button_back: Back
+    button_back: Takaisin
     button_back_to_list_view: Back to list view
     button_cancel: Peruuta
     button_close: Sulje
@@ -159,7 +163,7 @@ fi:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Asiakirjat
           no_results: No documents yet.
         news:
           title: Uutiset

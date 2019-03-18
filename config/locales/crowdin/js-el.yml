@@ -18,6 +18,10 @@ el:
     close_popup_title: Close popup
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
     card:
       add_new: Add new card
       highlighting:
@@ -29,7 +33,7 @@ el:
         the selected text manually.
       copied_successful: Sucessfully copied to clipboard!
     button_add_watcher: Προσθήκη παρατηρητή
-    button_back: Back
+    button_back: Επιστροφή
     button_back_to_list_view: Back to list view
     button_cancel: Ακύρωση
     button_close: Close
@@ -159,11 +163,11 @@ el:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
-          no_results: No documents yet.
+          title: Έγγραφα
+          no_results: Δεν υπάρχουν έγγραφα.
         news:
           title: News
-          at: at
+          at: στο
           no_results: Nothing new to report.
         time_entries_current_user:
           title: Spent time (last 7 days)
@@ -173,9 +177,9 @@ el:
         work_packages_assigned:
           title: Work packages assigned to me
         work_packages_created:
-          title: Work packages created by me
+          title: Εργασίες που δημιούργησα
         work_packages_watched:
-          title: Work packages watched by me
+          title: Εργασίες που παρακολουθώ
         work_packages_calendar:
           title: Calendar
     label_activate: Activate

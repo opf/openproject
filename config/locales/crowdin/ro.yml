@@ -171,9 +171,6 @@ ro:
       versions:
         no_results_title_text: În acest moment nu există versiuni pentru acest proiect.
         no_results_content_text: Creare versiune nouă
-      boards:
-        no_results_title_text: În acest moment nu există forumuri pentru acest proiect.
-        no_results_content_text: Creare forum nou
   members:
     index:
       no_results_title_text: În acest moment nu există niciun participant la acest
@@ -705,7 +702,6 @@ ro:
       workflow: Flux de lucru
       work_package: Pachet de lucru
       doorkeeper/application: OAuth application
-      board: Forum
   errors:
     header_invalid_fields: 'Există probleme cu următoarele câmpuri:'
     field_erroneous_label: |-
@@ -1202,9 +1198,8 @@ ro:
       glossary: Glosar
       shortcuts: Scurtături
       blog: Blog-ul OpenProject
-      forums: Forumuri
+      forums: Forum comunitate
       newsletter: Security alerts / Newsletter
-      boards: Forum comunitate
   links:
     configuration_guide: Ghid de configurare
   instructions_after_registration: Vă puteţi autentifica de îndată ce contul a fost
@@ -1277,14 +1272,15 @@ ro:
   label_blocked_by: blocat de
   label_blocks: blochează
   label_blog: Blog
-  label_forums_locked: Locked
-  label_forum_new: New forum
-  label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forums_locked: Închis
+  label_forum_new: Forum nou
+  label_forum_plural: Forumuri
+  label_forum_sticky: Lipicios
   label_boolean: Valoare logică
   label_branch: Ramură
   label_browse: Răsfoire
   label_bulk_edit_selected_work_packages: Editare în masă a pachetelor de lucru selectate
+  label_bundled: "(Bundled)"
   label_calendar: Calendar
   label_calendar_show: Afișare calendar
   label_category: Categorie
@@ -1546,6 +1542,7 @@ ro:
   label_planning: Planificare
   label_please_login: Vă rugăm să vă autentificați
   label_plugins: Module
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precede
   label_preferences: Preferinţe
   label_preview: Previzualizare
@@ -2013,7 +2010,7 @@ ro:
   permission_export_wiki_pages: Export pagini wiki
   permission_list_attachments: Listare atașamente
   permission_log_time: Înregistrare timp consumat
-  permission_manage_forums: Manage forums
+  permission_manage_forums: Gestionare forumuri
   permission_manage_categories: Gestionare categorii de pachete de lucru
   permission_manage_work_package_relations: Gestionare relații pachete de lucru
   permission_manage_members: Gestionare participanți
@@ -2061,7 +2058,7 @@ ro:
     archive:
       are_you_sure: Sunteţi sigur că doriţi să arhivaţi proiectul '%{name}'?
   project_module_activity: Activitate
-  project_module_forums: Forums
+  project_module_forums: Forumuri
   project_module_calendar: Calendar
   project_module_work_package_tracking: Urmărire pachete de lucru
   project_module_news: Noutăţi
@@ -2726,7 +2723,6 @@ ro:
       months: Luni
       quarters: Trimestre
       years: Ani
-    board_could_not_be_saved: Forumul nu a putut fi salvat
   title_remove_and_delete_user: Eliminaţi utilizatorul invitat din proiect şi ştergeţi-l.
   title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
@@ -3002,15 +2998,3 @@ ro:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: În acest moment nu există mesaje pentru acest forum.
-  label_available_project_boards: Planșe disponibile
-  label_board_locked: Închis
-  label_board_new: Forum nou
-  label_board_plural: Forumuri
-  label_board_sticky: Lipicios
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Gestionare forumuri
-  project_module_boards: Forumuri

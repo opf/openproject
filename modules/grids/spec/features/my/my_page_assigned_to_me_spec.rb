@@ -107,9 +107,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
         hierarchies.enable_via_header
 
         hierarchies.expect_mode_enabled
-        # Re-enabling resets collapsed state for now
-        hierarchies.expect_hierarchy_at assigned_work_package, collapsed: false
-        hierarchies.expect_leaf_at assigned_work_package_child
+        hierarchies.expect_hierarchy_at assigned_work_package, collapsed: true
       end
     end
   end

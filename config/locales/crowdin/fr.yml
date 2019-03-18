@@ -58,7 +58,7 @@ fr:
       no_results_content_title: Il n'y a actuellement aucun mode d'authentification.
       no_results_content_text: Créer un nouveau mode d'authentification
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Cryptage de la connexion
     tls_mode:
       plain: aucun(e)
       simple_tls: simple_tls
@@ -68,9 +68,9 @@ fr:
         Use with caution and implicit trust of the LDAP connection.
       start_tls_description: Explicit TLS encryption with full validation. Use for
         LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      section_more_info_link_html: 'Cette section concerne la sécurité de connexion
+        de cette source d''authentification LDAP. Pour plus d''informations, visitez
+        <a href="%{link}">the Net::LDAP documentation</a>.
 
 '
   forums:
@@ -169,9 +169,6 @@ fr:
       versions:
         no_results_title_text: Aucune version du projet pour le moment.
         no_results_content_text: Créer une nouvelle version
-      boards:
-        no_results_title_text: Il n'y a actuellement aucun forum pour le projet.
-        no_results_content_text: Créer un nouveau forum
   members:
     index:
       no_results_title_text: Aucun membre dans ce projet pour le moment.
@@ -396,8 +393,8 @@ fr:
         active_user_count_restriction: Nombre maximal d’utilisateurs actif
       grids/grid:
         page: Page
-        row_count: Number of rows
-        column_count: Number of columns
+        row_count: Nombre de lignes
+        column_count: Nombre de colonnes
         widgets: Widgets
       relation:
         delay: Délai
@@ -570,8 +567,8 @@ fr:
             Entreprise ?
         grids/grid:
           overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          outside: est hors de la grille.
+          end_before_start: la valeur finale doit être supérieure à la valeur de départ.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -711,7 +708,6 @@ fr:
       workflow: Flux de travail
       work_package: Lot de travaux
       doorkeeper/application: Applications OAuth
-      board: Forum
   errors:
     header_invalid_fields: 'Des problèmes ont été rencontrés avec les champs suivants
       :'
@@ -1204,9 +1200,8 @@ fr:
       glossary: Lexique
       shortcuts: Raccourcis
       blog: Blog OpenProject
-      forums: Forums
+      forums: Forum de la communauté
       newsletter: Alertes de sécurité / Lettre d’information
-      boards: Forum de la communauté
   links:
     configuration_guide: Guide de configuration
   instructions_after_registration: Vous pouvez vous authentifier tant que votre compte
@@ -1280,14 +1275,15 @@ fr:
   label_blocked_by: bloqué par
   label_blocks: bloque
   label_blog: Blog
-  label_forums_locked: Locked
-  label_forum_new: New forum
+  label_forums_locked: Verrouillé
+  label_forum_new: Nouveau forum
   label_forum_plural: Forums
-  label_forum_sticky: Sticky
+  label_forum_sticky: Epinglé
   label_boolean: Booléen
   label_branch: Branche
   label_browse: Parcourir
   label_bulk_edit_selected_work_packages: Edition en masse des Lots de Travaux selectionnés
+  label_bundled: "(Bundled)"
   label_calendar: Calendrier
   label_calendar_show: Afficher le calendrier
   label_category: Catégorie
@@ -1549,6 +1545,7 @@ fr:
   label_planning: Planification
   label_please_login: Veuillez vous connecter
   label_plugins: Plugins
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: précède
   label_preferences: Préférences
   label_preview: Aperçu
@@ -2019,7 +2016,7 @@ fr:
   permission_export_wiki_pages: Exporter les pages wiki
   permission_list_attachments: Lister les pièces jointes
   permission_log_time: Indiquer la durée des tâches (Log spent time)
-  permission_manage_forums: Manage forums
+  permission_manage_forums: Gérer les forums
   permission_manage_categories: Gérer les catégories de lots de travaux
   permission_manage_work_package_relations: Gérer les relations des lots de travaux
   permission_manage_members: Gérer les membres
@@ -2735,7 +2732,6 @@ fr:
       months: Mois
       quarters: Trimestres
       years: Années
-    board_could_not_be_saved: Le tableau n'a pas pu être enregistré
   title_remove_and_delete_user: Retirer du projet l'utilisateur invité et le supprimer.
   title_enterprise_upgrade: Mettre à niveau pour débloquer plus d'utilisateurs.
   tooltip_user_default_timezone: 'Fuseau horaire par défaut des nouveaux utilisateurs.
@@ -3026,15 +3022,3 @@ fr:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  boards:
-    show:
-      no_results_title_text: Il n'y a actuellement aucun message pour le forum.
-  label_available_project_boards: Tableaux disponibles
-  label_board_locked: Verrouillé
-  label_board_new: Nouveau forum
-  label_board_plural: Forums
-  label_board_sticky: Epinglé
-  label_impressum: Impressum
-  label_privacy_policy: Data privacy and security policy
-  permission_manage_boards: Gérer les forums
-  project_module_boards: Forums
