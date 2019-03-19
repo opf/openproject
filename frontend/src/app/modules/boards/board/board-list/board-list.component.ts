@@ -2,10 +2,10 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter, Input,
+  EventEmitter, Input, OnChanges,
   OnDestroy,
   OnInit,
-  Output,
+  Output, SimpleChanges,
   ViewChild
 } from "@angular/core";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
@@ -30,6 +30,8 @@ import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
+import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
+import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 
 @Component({
   selector: 'board-list',
@@ -39,12 +41,15 @@ import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp
     {provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService}
   ]
 })
-export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {
+export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy, OnChanges {
   /** Output fired upon query removal */
   @Output() onRemove = new EventEmitter<void>();
 
   /** Access to the board resource */
   @Input() public board:Board;
+
+  /** Access the filters of the board */
+  @Input() public filters:QueryFilterInstanceResource[];
 
   /** Access to the loading indicator element */
   @ViewChild('loadingIndicator') indicator:ElementRef;
@@ -61,11 +66,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   /** Whether the add button should be shown */
   public showAddButton = false;
 
-  public readonly columnsQueryProps = {
-    'columns[]': ['id', 'subject'],
-    'showHierarchies': false,
-    'pageSize': 500,
-  };
+  public columnsQueryProps:any;
 
   public text = {
     addCard: this.I18n.t('js.boards.add_card'),
@@ -87,14 +88,13 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               private readonly authorisationService:AuthorisationService,
               private readonly wpInlineCreate:WorkPackageInlineCreateService,
-              private readonly loadingIndicator:LoadingIndicatorService) {
+              private readonly loadingIndicator:LoadingIndicatorService,
+              private readonly urlParamsHelperService:UrlParamsHelperService) {
     super(I18n);
   }
 
   ngOnInit():void {
     const boardId:string = this.state.params.board_id;
-
-    this.loadQuery();
 
     // Update permission on model updates
     this.authorisationService
@@ -123,6 +123,13 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   ngOnDestroy():void {
     // Interface compatibility
+  }
+
+  ngOnChanges(changes:SimpleChanges) {
+    if(changes.filters) {
+      this.setQueryProps(this.filters);
+      this.loadQuery();
+    }
   }
 
   public get canReference() {
@@ -190,5 +197,22 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   private get indicatorInstance() {
     return this.loadingIndicator.indicator(jQuery(this.indicator.nativeElement));
+  }
+
+  private setQueryProps(filters:QueryFilterInstanceResource[]) {
+    const existingFilters = (this.resource.options.filters || []) as QueryFilterInstanceResource[];
+
+    const newFilters = existingFilters.concat(filters);
+    const newColumnsQueryProps:any = {
+      'columns[]': ['id', 'subject'],
+      'showHierarchies': false,
+      'pageSize': 500,
+    };
+
+    if (newFilters.length > 0) {
+      newColumnsQueryProps.filters = this.urlParamsHelperService.buildV3GetFilters(newFilters);
+    }
+
+    this.columnsQueryProps = newColumnsQueryProps;
   }
 }

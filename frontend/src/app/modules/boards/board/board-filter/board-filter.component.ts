@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from "@angular/core";
+import {Component, Input, OnDestroy, OnInit, Output} from "@angular/core";
 import {Board} from "core-app/modules/boards/board/board";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
@@ -12,6 +12,8 @@ import {componentDestroyed} from "ng2-rx-componentdestroyed";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {StateService} from "@uirouter/core";
+import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
+import {skip} from "rxjs/internal/operators";
 
 @Component({
   selector: 'board-filter',
@@ -20,6 +22,8 @@ import {StateService} from "@uirouter/core";
 export class BoardFilterComponent implements OnInit, OnDestroy {
   @Input() public board:Board;
   @Input() public currentFilters:QueryFilterInstanceResource[] = [];
+
+  @Output() public filters = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
 
   constructor(private readonly currentProjectService:CurrentProjectService,
               private readonly querySpace:IsolatedQuerySpace,
@@ -46,6 +50,7 @@ export class BoardFilterComponent implements OnInit, OnDestroy {
   private updateChecksumOnFilterChanges() {
     this.wpTableFilters
       .observeUntil(componentDestroyed(this))
+      .pipe(skip(1))
       .subscribe(() => {
 
         const filters:QueryFilterInstanceResource[] = this.wpTableFilters.current;
@@ -54,6 +59,8 @@ export class BoardFilterComponent implements OnInit, OnDestroy {
         if (filters.length > 0) {
           query_props = JSON.stringify(this.urlParamsHelper.encodeFilters({}, filters));
         }
+
+        this.filters.emit(filters);
 
         this.$state.go('.', { query_props: query_props }, {custom: {notify: false}});
       });

@@ -17,6 +17,7 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
 import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
+import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 
 
 @Component({
@@ -40,6 +41,9 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   /** Whether we're in flight of updating the board */
   public inFlight = false;
+
+  /** Board filter */
+  public filters:QueryFilterInstanceResource[] = [];
 
   public text = {
     button_more: this.I18n.t('js.button_more'),
@@ -152,5 +156,9 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   public opReferrer(board:Board) {
     return board.isFree ? 'boards#free' : 'boards#status';
+  }
+
+  public updateFilters(filters:QueryFilterInstanceResource[]) {
+    this.filters = filters;
   }
 }

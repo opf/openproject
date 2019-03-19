@@ -8,6 +8,7 @@ import {Board} from "core-app/modules/boards/board/board";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {QueryFilterBuilder} from "core-components/api/api-v3/query-filter-builder";
+import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 
 @Injectable()
 export class BoardListsService {
@@ -15,11 +16,13 @@ export class BoardListsService {
   private readonly v3 = this.pathHelper.api.v3;
   private queryFilterBuilder = new QueryFilterBuilder(this.v3);
 
+
   constructor(private readonly CurrentProject:CurrentProjectService,
               private readonly pathHelper:PathHelperService,
               private readonly QueryDm:QueryDmService,
               private readonly halResourceService:HalResourceService,
-              private readonly QueryFormDm:QueryFormDmService) {
+              private readonly QueryFormDm:QueryFormDmService,
+              private readonly boardActionsRegistryService:BoardActionsRegistryService) {
 
   }
 
@@ -41,7 +44,7 @@ export class BoardListsService {
    * Add a free query to the board
    */
   public addFreeQuery(board:Board, queryParams:Object) {
-   const filter = this.queryFilterBuilder.build('manualSort', 'ow', []);
+   const filter = this.freeBoardQueryFilter();
    return this.addQuery(board, queryParams, [filter]);
   }
 
@@ -62,7 +65,8 @@ export class BoardListsService {
       startColumn: count + 1,
       endColumn: count + 2,
       options: {
-        query_id: query.id
+        query_id: query.id,
+        filters: filters,
       }
     };
 
@@ -83,5 +87,8 @@ export class BoardListsService {
       filters: filters
     };
   }
-}
 
+  private freeBoardQueryFilter() {
+    return this.queryFilterBuilder.build('manualSort', 'ow', []);
+  }
+}

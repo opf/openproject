@@ -46,7 +46,8 @@
     </div>
 
     <div class="boards-filters-container">
-      <board-filter [board]="board"></board-filter>
+      <board-filter [board]="board"
+                    (filters)="updateFilters($event)"></board-filter>
     </div>
 
   </ng-container>
@@ -67,7 +68,8 @@
             cdkDragHandle></span>
       <board-list [resource]="query"
                   [board]="board"
-                  (onRemove)="removeList(board, query)"></board-list>
+                  (onRemove)="removeList(board, query)"
+                  [filters]="filters"></board-list>
     </div>
 
     <div class="boards-list--add-item -no-text-select"

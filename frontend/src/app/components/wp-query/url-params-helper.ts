@@ -265,7 +265,7 @@ export class UrlParamsHelperService {
     queryData.groupBy = _.get(query.groupBy, 'id', '');
 
     // Filters
-    queryData.filters = this.buildV3GetFiltersFromQueryResoure(query);
+    queryData.filters = this.buildV3GetFilters(query.filters);
 
     // Sortation
     queryData.sortBy = this.buildV3GetSortByFromQuery(query);
@@ -303,8 +303,8 @@ export class UrlParamsHelperService {
     }
   }
 
-  private buildV3GetFiltersFromQueryResoure(query:QueryResource) {
-    let filters = query.filters.map((filter:QueryFilterInstanceResource) => {
+  public buildV3GetFilters(filters:QueryFilterInstanceResource[]) {
+    let newFilters = filters.map((filter:QueryFilterInstanceResource) => {
       let id = this.buildV3GetFilterIdFromFilter(filter);
       let operator = this.buildV3GetOperatorIdFromFilter(filter);
       let values = this.buildV3GetValuesFromFilter(filter);
@@ -315,7 +315,7 @@ export class UrlParamsHelperService {
       return filterHash;
     });
 
-    return JSON.stringify(filters);
+    return JSON.stringify(newFilters);
   }
 
   private buildV3GetFilterIdFromFilter(filter:QueryFilterInstanceResource) {
