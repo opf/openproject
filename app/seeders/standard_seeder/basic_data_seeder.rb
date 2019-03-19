@@ -26,16 +26,19 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-module BimSeeder
-  module BasicData
-    class BimActivitySeeder < ::BasicData::ActivitySeeder
-      def data
-        [
-          { name: I18n.t(:default_activity_management),    position: 1, is_default: true  },
-          { name: I18n.t(:default_activity_specification), position: 2, is_default: false },
-          { name: I18n.t(:default_activity_other),         position: 3, is_default: false }
-        ]
-      end
+module StandardSeeder
+  class BasicDataSeeder < ::BasicDataSeeder
+    def data_seeder_classes
+      [
+        ::BasicData::BuiltinRolesSeeder,
+        ::BasicData::RoleSeeder,
+        ::StandardSeeder::BasicData::ActivitySeeder,
+        ::BasicData::ColorSeeder,
+        ::BasicData::ColorSchemeSeeder,
+        ::StandardSeeder::BasicData::WorkflowSeeder,
+        ::BasicData::PrioritySeeder,
+        ::BasicData::SettingSeeder
+      ]
     end
   end
 end

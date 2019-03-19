@@ -54,9 +54,9 @@ class RootSeeder < Seeder
       # Basic data needs be seeded before anything else.
       puts '*** Seeding basic data'
       if OpenProject::Configuration['edition'] == 'bim'
-        BimSeeder::BimBasicDataSeeder.new.seed!
+        BimSeeder::BasicDataSeeder.new.seed!
       else
-        StandardSeeder::StandardBasicDataSeeder.new.seed!
+        StandardSeeder::BasicDataSeeder.new.seed!
       end
 
       puts '*** Seeding admin user'

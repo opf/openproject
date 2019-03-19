@@ -28,7 +28,7 @@
 #++
 module StandardSeeder
   module BasicData
-    class StandardWorkflowSeeder < ::BasicData::WorkflowSeeder
+    class WorkflowSeeder < ::BasicData::WorkflowSeeder
       def workflows
         types = Type.all
         types = types.map { |t| { t.name =>  t.id } }.reduce({}, :merge)
@@ -61,11 +61,11 @@ module StandardSeeder
       end
 
       def type_seeder_class
-        ::StandardSeeder::BasicData::StandardTypeSeeder
+        ::StandardSeeder::BasicData::TypeSeeder
       end
 
       def status_seeder_class
-        ::StandardSeeder::BasicData::StandardStatusSeeder
+        ::StandardSeeder::BasicData::StatusSeeder
       end
     end
   end

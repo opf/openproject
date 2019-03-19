@@ -28,7 +28,7 @@
 #++
 module BimSeeder
   module BasicData
-    class BimWorkflowSeeder < ::BasicData::WorkflowSeeder
+    class WorkflowSeeder < ::BasicData::WorkflowSeeder
       def workflows
         types = Type.all
         types = types.map { |t| { t.name =>  t.id } }.reduce({}, :merge)
@@ -60,11 +60,11 @@ module BimSeeder
       end
 
       def type_seeder_class
-        ::BimSeeder::BasicData::BimTypeSeeder
+        ::BimSeeder::BasicData::TypeSeeder
       end
 
       def status_seeder_class
-        ::BimSeeder::BasicData::BimStatusSeeder
+        ::BimSeeder::BasicData::StatusSeeder
       end
     end
   end

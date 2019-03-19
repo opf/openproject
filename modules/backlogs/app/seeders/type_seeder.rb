@@ -19,7 +19,7 @@ module StandardSeeder
         end
       end
 
-      StandardSeeder::BasicData::StandardTypeSeeder.prepend StandardSeeder::BasicData::Backlogs::TypeSeeder
+      StandardSeeder::BasicData::TypeSeeder.prepend StandardSeeder::BasicData::Backlogs::TypeSeeder
     end
   end
 end

@@ -28,7 +28,7 @@
 #++
 module StandardSeeder
   module BasicData
-    class StandardStatusSeeder < ::BasicData::StatusSeeder
+    class StatusSeeder < ::BasicData::StatusSeeder
       def data
         color_names = [
           'teal-1', # new

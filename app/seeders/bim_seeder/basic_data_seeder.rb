@@ -27,15 +27,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 module BimSeeder
-  class BimBasicDataSeeder < ::BasicDataSeeder
+  class BasicDataSeeder < ::BasicDataSeeder
     def data_seeder_classes
       [
         ::BasicData::BuiltinRolesSeeder,
         ::BasicData::RoleSeeder,
-        ::BimSeeder::BasicData::BimActivitySeeder,
+        ::BimSeeder::BasicData::ActivitySeeder,
         ::BasicData::ColorSeeder,
         ::BasicData::ColorSchemeSeeder,
-        ::BimSeeder::BasicData::BimWorkflowSeeder,
+        ::BimSeeder::BasicData::WorkflowSeeder,
         ::BasicData::PrioritySeeder,
         ::BasicData::SettingSeeder
       ]
