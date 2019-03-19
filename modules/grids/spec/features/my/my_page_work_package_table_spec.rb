@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Arbitrary WorkPackage query table widget widget on my page', type: :feature, js: true do
+describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, js: true do
   let!(:type) { FactoryBot.create :type }
   let!(:other_type) { FactoryBot.create :type }
   let!(:priority) { FactoryBot.create :default_priority }
@@ -61,6 +61,10 @@ describe 'Arbitrary WorkPackage query table widget widget on my page', type: :fe
     Pages::My::Page.new
   end
 
+  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
+  let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
+  let(:columns) { ::Components::WorkPackages::Columns.new }
+
   before do
     login_as user
 
@@ -81,16 +85,52 @@ describe 'Arbitrary WorkPackage query table widget widget on my page', type: :fe
     filter_area.resize_to(6, 4)
 
     filter_area.expect_to_span(2, 3, 7, 5)
-    ## enlarging the accountable area will have moved the created area down
+    ## enlarging the table area will have moved the created area down
     created_area.expect_to_span(7, 4, 13, 6)
 
-    #expect(accountable_area.area)
-    #  .to have_selector('.subject', text: accountable_work_package.subject)
+    # At the beginning, the default query is displayed
+    expect(filter_area.area)
+      .to have_selector('.subject', text: type_work_package.subject)
 
-    #expect(accountable_area.area)
-    #  .to have_no_selector('.subject', text: accountable_by_other_work_package.subject)
+    expect(filter_area.area)
+      .to have_selector('.subject', text: other_type_work_package.subject)
 
-    #expect(accountable_area.area)
-    #  .to have_no_selector('.subject', text: accountable_but_invisible_work_package.subject)
+    # User has the ability to modify the query
+
+    modal.open_and_switch_to('Filters')
+    filters.expect_filter_count(2)
+    filters.add_filter_by('Type', 'is', type.name)
+    modal.save
+
+    columns.remove 'Subject'
+
+    expect(filter_area.area)
+      .to have_selector('.id', text: type_work_package.id)
+
+    # as the Subject column is disabled
+    expect(filter_area.area)
+      .to have_no_selector('.subject', text: type_work_package.subject)
+
+    # As other_type is filtered out
+    expect(filter_area.area)
+      .to have_no_selector('.id', text: other_type_work_package.id)
+
+    # The whole of the configuration survives a reload
+    # as it is persisted in the grid
+
+    visit root_path
+    my_page.visit!
+
+    filter_area = Components::Grids::GridArea.new('.grid--area', text: "Work package table")
+    expect(filter_area.area)
+      .to have_selector('.id', text: type_work_package.id)
+
+    # as the Subject column is disabled
+    expect(filter_area.area)
+      .to have_no_selector('.subject', text: type_work_package.subject)
+
+    # As other_type is filtered out
+    expect(filter_area.area)
+      .to have_no_selector('.id', text: other_type_work_package.id)
   end
 end
