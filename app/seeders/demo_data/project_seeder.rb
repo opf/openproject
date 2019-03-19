@@ -74,7 +74,8 @@ module DemoData
       seeders = [
         DemoData::WikiSeeder,
         DemoData::CustomFieldSeeder,
-        DemoData::WorkPackageSeeder
+        DemoData::WorkPackageSeeder,
+        DemoData::WorkPackageBoardSeeder
       ]
 
       seeders.map { |seeder| seeder.new project, key }

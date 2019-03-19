@@ -112,7 +112,14 @@ export class WorkPackageTableSortByService extends WorkPackageQueryStateService<
   }
 
   public add(sortBy:QuerySortByResource) {
-    this.state.doModify(current => current.concat(sortBy));
+    this.state.doModify((current:QuerySortByResource[]) => {
+      let newValue = [sortBy, ...current];
+      return _
+        .uniqBy(newValue, sortBy => sortBy.column.$href)
+        .slice(0, 3);
+
+      return current.concat(sortBy);
+    });
   }
 
   public get current():QuerySortByResource[] {

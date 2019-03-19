@@ -1,4 +1,4 @@
-import {Component, Injector, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from "@angular/core";
+import {Component, Injector, OnDestroy, OnInit, QueryList, ViewChildren} from "@angular/core";
 import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -16,7 +16,6 @@ import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-a
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
 import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
-import {init} from "protractor/built/launcher";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 
 
