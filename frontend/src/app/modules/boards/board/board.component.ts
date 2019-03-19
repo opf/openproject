@@ -20,6 +20,7 @@ import {BannersService} from "core-app/modules/common/enterprise/banners.service
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {skip} from "rxjs/operators";
+import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 
 
 @Component({
@@ -45,7 +46,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   public inFlight = false;
 
   /** Board filter */
-  public filters:QueryFilterInstanceResource[];
+  public filters:ApiV3Filter[];
 
   public text = {
     button_more: this.I18n.t('js.button_more'),
@@ -92,7 +93,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       )
       .subscribe(board => {
         this.board = board;
-        this.filters = this.instantiateFilters(this.board);
+        this.filters = this.board.filters;
 
         if (board.isAction && !initialized) {
           this.dynamicCss.requireHighlighting();
@@ -107,7 +108,7 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   saveWithNameAndFilters(board:Board, newName:string) {
     board.name = newName;
-    board.filters = this.filters.map(filter => filter.$source);
+    board.filters = this.filters;
     return this.saveBoard(board);
   }
 
@@ -166,11 +167,5 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   public updateFilters(filters:QueryFilterInstanceResource[]) {
     this.filters = filters;
-  }
-
-  private instantiateFilters(board:Board):QueryFilterInstanceResource[] {
-    return board.filters.map(source => {
-      return this.halResourceService.createHalResourceOfType<QueryFilterInstanceResource>('QueryFilterInstance', source);
-    })
   }
 }

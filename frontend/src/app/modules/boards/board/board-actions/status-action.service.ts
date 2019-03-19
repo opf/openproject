@@ -9,6 +9,7 @@ import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 
 @Injectable()
 export class BoardStatusActionService implements BoardActionService {
@@ -67,11 +68,10 @@ export class BoardStatusActionService implements BoardActionService {
       name: value.name,
     };
 
-    let filter = this.queryFilterBuilder.build(
-      'status',
-      '=',
-      [{ href: this.v3.statuses.id(value.id!).toString() }]
-    );
+    let filter = { status: {
+      operator: '=' as FilterOperator,
+      values: [value.id]
+    }};
 
     return this.boardListService.addQuery(board, params, [filter]);
   }

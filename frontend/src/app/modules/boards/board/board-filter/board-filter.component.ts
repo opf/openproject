@@ -14,6 +14,7 @@ import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper
 import {StateService} from "@uirouter/core";
 import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
 import {skip} from "rxjs/internal/operators";
+import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 
 @Component({
   selector: 'board-filter',
@@ -22,7 +23,7 @@ import {skip} from "rxjs/internal/operators";
 export class BoardFilterComponent implements OnInit, OnDestroy {
   @Input() public board:Board;
 
-  @Output() public filters = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
+  @Output() public filters = new DebouncedEventEmitter<ApiV3Filter[]>(componentDestroyed(this));
 
   constructor(private readonly currentProjectService:CurrentProjectService,
               private readonly querySpace:IsolatedQuerySpace,
@@ -59,7 +60,7 @@ export class BoardFilterComponent implements OnInit, OnDestroy {
           query_props = JSON.stringify(this.urlParamsHelper.encodeFilters({}, filters));
         }
 
-        this.filters.emit(filters);
+        this.filters.emit(this.urlParamsHelper.buildV3GetFilters(filters));
 
         this.$state.go('.', { query_props: query_props }, {custom: {notify: false}});
       });
@@ -68,10 +69,9 @@ export class BoardFilterComponent implements OnInit, OnDestroy {
   private loadQueryForm() {
     this.queryFormDm
       .loadWithParams(
-        {},
+        { filters: JSON.stringify(this.board.filters) },
         undefined,
-        this.currentProjectService.id,
-        { filters: this.board.filters }
+        this.currentProjectService.id
       )
       .then((form:QueryFormResource) => {
         const query:QueryResource = this.halResourceService.createHalResourceOfClass(

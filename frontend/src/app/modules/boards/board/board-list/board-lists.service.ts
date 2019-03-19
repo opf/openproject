@@ -7,32 +7,31 @@ import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {Board} from "core-app/modules/boards/board/board";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {QueryFilterBuilder} from "core-components/api/api-v3/query-filter-builder";
-import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
+import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 
 @Injectable()
 export class BoardListsService {
 
   private readonly v3 = this.pathHelper.api.v3;
-  private queryFilterBuilder = new QueryFilterBuilder(this.v3);
-
 
   constructor(private readonly CurrentProject:CurrentProjectService,
               private readonly pathHelper:PathHelperService,
               private readonly QueryDm:QueryDmService,
               private readonly halResourceService:HalResourceService,
-              private readonly QueryFormDm:QueryFormDmService,
-              private readonly boardActionsRegistryService:BoardActionsRegistryService) {
+              private readonly QueryFormDm:QueryFormDmService) {
 
   }
 
-  private create(params:Object, filters:unknown[]):Promise<QueryResource> {
+  private create(params:Object, filters:ApiV3Filter[]):Promise<QueryResource> {
+    let filterJson = JSON.stringify(filters);
+
     return this.QueryFormDm
       .loadWithParams(
-        {pageSize: 0},
+        {pageSize: 0,
+                filters: filterJson},
         undefined,
         this.CurrentProject.identifier,
-        this.buildQueryRequest(params, filters)
+        this.buildQueryRequest(params)
       )
       .then(form => {
         const query = this.QueryFormDm.buildQueryResource(form);
@@ -53,7 +52,7 @@ export class BoardListsService {
    * @param board
    * @param query
    */
-  public async addQuery(board:Board, queryParams:Object, filters:unknown[]):Promise<Board> {
+  public async addQuery(board:Board, queryParams:Object, filters:ApiV3Filter[]):Promise<Board> {
     const count = board.queries.length;
     const query = await this.create(queryParams, filters);
 
@@ -76,19 +75,18 @@ export class BoardListsService {
     return board;
   }
 
-  private buildQueryRequest(params:Object, filters:unknown[]) {
+  private buildQueryRequest(params:Object) {
     return {
       hidden: true,
       public: true,
       "_links": {
         "sortBy": [{"href": this.v3.resource("/queries/sort_bys/manualSorting-asc")}]
       },
-      ...params,
-      filters: filters
+      ...params
     };
   }
 
-  private freeBoardQueryFilter() {
-    return this.queryFilterBuilder.build('manualSort', 'ow', []);
+  private freeBoardQueryFilter():ApiV3Filter {
+    return {manualSort: {operator: 'ow', values: []}};
   }
 }

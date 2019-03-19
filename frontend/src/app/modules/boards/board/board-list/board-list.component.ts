@@ -31,11 +31,11 @@ import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 import {
-  IQueryFilterInstanceSource,
   QueryFilterInstanceResource
 } from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 
 @Component({
   selector: 'board-list',
@@ -53,7 +53,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   @Input() public board:Board;
 
   /** Access the filters of the board */
-  @Input() public filters:QueryFilterInstanceResource[];
+  @Input() public filters:ApiV3Filter[];
 
   /** Access to the loading indicator element */
   @ViewChild('loadingIndicator') indicator:ElementRef;
@@ -131,7 +131,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   ngOnChanges(changes:SimpleChanges) {
-    if(changes.filters) {
+    if (changes.filters) {
       this.setQueryProps(this.filters);
       this.loadQuery();
     }
@@ -204,26 +204,17 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     return this.loadingIndicator.indicator(jQuery(this.indicator.nativeElement));
   }
 
-  private setQueryProps(filters:QueryFilterInstanceResource[]) {
-    const existingFilters = this.instantiateFilters(this.resource.options.filters || [] as any);
+  private setQueryProps(filters:ApiV3Filter[]) {
+    const existingFilters = (this.resource.options.filters || []) as ApiV3Filter[];
 
     const newFilters = existingFilters.concat(filters);
     const newColumnsQueryProps:any = {
       'columns[]': ['id', 'subject'],
       'showHierarchies': false,
       'pageSize': 500,
+      'filters': JSON.stringify(newFilters),
     };
 
-    if (newFilters.length > 0) {
-      newColumnsQueryProps.filters = this.urlParamsHelperService.buildV3GetFiltersAsJson(newFilters);
-    }
-
     this.columnsQueryProps = newColumnsQueryProps;
-  }
-
-  private instantiateFilters(filters:IQueryFilterInstanceSource[]):QueryFilterInstanceResource[] {
-    return filters.map(source => {
-      return this.halResourceService.createHalResourceOfType<QueryFilterInstanceResource>('QueryFilterInstance', source);
-    });
   }
 }

@@ -32,7 +32,7 @@ import {HalLink} from 'core-app/modules/hal/hal-link/hal-link';
 import {Injectable} from '@angular/core';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
+import {ApiV3Filter, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 
 @Injectable()
 export class UrlParamsHelperService {
@@ -304,14 +304,14 @@ export class UrlParamsHelperService {
     }
   }
 
-  public buildV3GetFilters(filters:QueryFilterInstanceResource[]) {
+  public buildV3GetFilters(filters:QueryFilterInstanceResource[]):ApiV3Filter[] {
     let newFilters = filters.map((filter:QueryFilterInstanceResource) => {
       let id = this.buildV3GetFilterIdFromFilter(filter);
       let operator = this.buildV3GetOperatorIdFromFilter(filter);
       let values = this.buildV3GetValuesFromFilter(filter);
 
-      const filterHash:any = {};
-      filterHash[id] = { operator: operator, values: values };
+      const filterHash:ApiV3Filter = {};
+      filterHash[id] = { operator: operator as FilterOperator, values: values };
 
       return filterHash;
     });
