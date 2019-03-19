@@ -26,26 +26,20 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-module BasicData
-  class StatusSeeder < Seeder
-    def seed_data!
-      Status.transaction do
-        data.each do |attributes|
-          Status.create!(attributes)
-        end
+module StandardSeeder
+  module BasicData
+    class StandardTypeSeeder < ::BasicData::TypeSeeder
+      def type_table
+        { # position is_default color_id is_in_roadmap is_milestone
+          task:       [1, true, :default_color_blue,        true,  false, :default_type_task],
+          milestone:  [2, true, :default_color_green_light, false, true,  :default_type_milestone],
+          phase:      [3, true, :default_color_blue_dark,   false, false, :default_type_phase],
+          feature:    [4, true, :default_color_blue,        true,  false, :default_type_feature],
+          epic:       [5, true, :default_color_orange,      true,  false, :default_type_epic],
+          user_story: [6, true, :default_color_grey_dark,   true,  false, :default_type_user_story],
+          bug:        [7, true, :default_color_red,         true,  false, :default_type_bug]
+        }
       end
-    end
-
-    def applicable
-      Status.all.any?
-    end
-
-    def not_applicable_message
-      'Skipping statuses - already exists/configured'
-    end
-
-    def data
-      raise NotImplementedError
     end
   end
 end

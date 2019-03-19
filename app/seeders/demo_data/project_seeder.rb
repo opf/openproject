@@ -30,11 +30,7 @@ module DemoData
     # Careful: The seeding recreates the seeded project before it runs, so any changes
     # on the seeded project will be lost.
     def seed_data!
-      seed_projects = ["scrum-project", "demo-project"]
-
-      if OpenProject::Configuration['edition'] == 'bim'
-        seed_projects = ["demo-project"]
-      end
+      seed_projects = translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects").keys
 
       seed_projects.each do |key|
         puts " ↳ Creating #{key} project..."

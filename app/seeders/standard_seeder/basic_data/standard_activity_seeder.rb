@@ -26,26 +26,19 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-module BasicData
-  class StatusSeeder < Seeder
-    def seed_data!
-      Status.transaction do
-        data.each do |attributes|
-          Status.create!(attributes)
-        end
+module StandardSeeder
+  module BasicData
+    class StandardActivitySeeder < ::BasicData::ActivitySeeder
+      def data
+        [
+          { name: I18n.t(:default_activity_management),    position: 1, is_default: true  },
+          { name: I18n.t(:default_activity_specification), position: 2, is_default: false },
+          { name: I18n.t(:default_activity_development),   position: 3, is_default: false },
+          { name: I18n.t(:default_activity_testing),       position: 4, is_default: false },
+          { name: I18n.t(:default_activity_support),       position: 5, is_default: false },
+          { name: I18n.t(:default_activity_other),         position: 6, is_default: false }
+        ]
       end
-    end
-
-    def applicable
-      Status.all.any?
-    end
-
-    def not_applicable_message
-      'Skipping statuses - already exists/configured'
-    end
-
-    def data
-      raise NotImplementedError
     end
   end
 end

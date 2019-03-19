@@ -53,7 +53,11 @@ class RootSeeder < Seeder
     ActiveRecord::Base.transaction do
       # Basic data needs be seeded before anything else.
       puts '*** Seeding basic data'
-      BasicDataSeeder.new.seed!
+      if OpenProject::Configuration['edition'] == 'bim'
+        BimSeeder::BimBasicDataSeeder.new.seed!
+      else
+        StandardSeeder::StandardBasicDataSeeder.new.seed!
+      end
 
       puts '*** Seeding admin user'
       AdminUserSeeder.new.seed!

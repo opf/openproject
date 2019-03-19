@@ -26,26 +26,19 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-module BasicData
-  class StatusSeeder < Seeder
-    def seed_data!
-      Status.transaction do
-        data.each do |attributes|
-          Status.create!(attributes)
-        end
-      end
-    end
-
-    def applicable
-      Status.all.any?
-    end
-
-    def not_applicable_message
-      'Skipping statuses - already exists/configured'
-    end
-
-    def data
-      raise NotImplementedError
+module StandardSeeder
+  class StandardBasicDataSeeder < ::BasicDataSeeder
+    def data_seeder_classes
+      [
+        ::BasicData::BuiltinRolesSeeder,
+        ::BasicData::RoleSeeder,
+        ::StandardSeeder::BasicData::StandardActivitySeeder,
+        ::BasicData::ColorSeeder,
+        ::BasicData::ColorSchemeSeeder,
+        ::StandardSeeder::BasicData::StandardWorkflowSeeder,
+        ::BasicData::PrioritySeeder,
+        ::BasicData::SettingSeeder
+      ]
     end
   end
 end
