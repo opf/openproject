@@ -32,9 +32,9 @@ require 'open3'
 
 module OpenProject
   module VERSION #:nodoc:
-    MAJOR = 8
-    MINOR = 2
-    PATCH = 1
+    MAJOR = 9
+    MINOR = 0
+    PATCH = 0
     TINY  = PATCH # Redmine compat
 
     # Used by semver to define the special version (if any).

@@ -40,6 +40,7 @@ import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {TableRowEditContext} from "core-components/wp-edit-form/table-row-edit-context";
 
 export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
 export const activeFieldClassName = 'wp-inline-edit--field';
@@ -79,7 +80,7 @@ export class WorkPackageEditForm {
               public workPackage:WorkPackageResource,
               public editMode:boolean = false) {
 
-    this.wpSubscription = this.wpCacheService.state(workPackage.id)
+    this.wpSubscription = this.wpCacheService.state(workPackage.id!)
       .values$()
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
@@ -92,6 +93,7 @@ export class WorkPackageEditForm {
   public hasActiveFields():boolean {
     return !_.isEmpty(this.activeFields);
   }
+
 
   /**
    * Return the current or a new changeset for the given work package.
@@ -181,7 +183,9 @@ export class WorkPackageEditForm {
           this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
           this.editMode = false;
           this.editContext.onSaved(isInitial, savedWorkPackage);
-          this.wpTableRefresh.request(`Saved work package ${savedWorkPackage.id}`);
+          this.wpTableRefresh.request(
+            `Saved work package ${savedWorkPackage.id}`
+          );
         })
         .catch((error:ErrorResource|Object) => {
           this.wpNotificationsService.handleRawError(error, this.workPackage);

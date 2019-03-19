@@ -29,7 +29,10 @@
 $hamburger-right: -3px
 $hamburger-width: 50px
 
-$search-input-width: 180px
+// search bar has a min-width of 160px and should adapt to every screen size
+$search-input-width: calc(160px + 3vw)
+$search-input-width-expanded: calc(160px + 13vw)
+$search-input-height: 30px
 
 %top-menu-hover-styles
   @include varprop(background, header-item-bg-hover-color)
@@ -37,6 +40,18 @@ $search-input-width: 180px
   @include varprop(border-bottom-width, header-border-bottom-width)
   @include varprop(border-bottom-color, header-border-bottom-color)
   border-bottom-style: solid
+
+%top-menu-link-styles
+  display: block
+  height: $header-height
+  line-height: $header-height
+  zoom: 1
+  @include varprop(color, header-item-font-color)
+  @include varprop(font-size, header-item-font-size)
+  text-decoration: none
+  padding: 0 15px
+  &:hover
+    @extend %top-menu-hover-styles
 
 #logo
   width: 230px
@@ -60,18 +75,13 @@ $search-input-width: 180px
   border-bottom-style: solid
   @include varprop(border-bottom-width, header-border-bottom-width)
   @include varprop(border-bottom-color, header-border-bottom-color)
-
-  ::-webkit-input-placeholder
-    color: $header-search-field-font-color
-  ::-moz-placeholder
-    color: $header-search-field-font-color
   .menu_root
     margin: 0
     padding: 0
     float: left
     height: $header-height
     border-top: 0
-    position: relative
+    flex: 1 1 auto
   li.drop-down,
   li.help-menu--overridden-link,
   .accessibility-mode & #account-nav-left li
@@ -82,16 +92,10 @@ $search-input-width: 180px
     z-index: 5
     padding: 0
     > a
-      height: $header-height
-      line-height: $header-height
-      zoom: 1
-      @include varprop(color, header-item-font-color)
-      @include varprop(font-size, header-item-font-size)
-      text-decoration: none
-      padding: 0 15px
+      @extend %top-menu-link-styles
 
-    > a:hover
-      @extend %top-menu-hover-styles
+      &:hover .icon-help:before
+        @include varprop(border-color, header-item-font-hover-color)
 
     > ul
       min-width: 270px
@@ -165,77 +169,130 @@ $search-input-width: 180px
     left: 260px
     @include varprop(color, font-color-on-primary)
 
-.top-menu-search
-  display: inline-block
-  position: relative
-  &:not(.-collapsed) > div
-    padding-top: 9px
 
 .top-menu-search--wrapper
   float: left
 
-.top-menu-search--button
-  line-height: $header-height
+.top-menu-search
+  display: flex
+  align-items: center
+  position: relative
   height: $header-height
-  width: $header-height
-  padding: 0 12px
-  @include varprop(color, header-item-font-color)
-  @include varprop(font-size, header-item-font-size)
-  font-weight: normal
-  background: transparent
-  &:hover
-    text-decoration: none
+  line-height: $header-height
+  margin: 0 15px
 
-  .top-menu-search:not(.-collapsed) &
-    position: absolute
-    top: 0
-    right: 0
-    color: $header-drop-down-item-font-color
-    -webkit-transform: scaleX(-1)
-    -moz-transform: scaleX(-1)
-    -o-transform: scaleX(-1)
-    -ms-transform: scaleX(-1)
-    transform: scaleX(-1)
-
-  .top-menu-search.-collapsed &
-    display: block
-    &:hover
-      @extend %top-menu-hover-styles
-
-input.top-menu-search--input
-  margin: 0
-  padding: 0 20px 0 10px
-  display: inline-block
-  border: none !important
-  border-radius: 25px
-  width: $search-input-width
-  outline: 0
-  font-size: 0.75rem
-  &::-ms-clear
-    margin-right: 5px
-    width: 20px
-  .top-menu-search.-collapsed &
+  .top-menu-search--back-button
     display: none
+  
+  .top-menu-search--button
+    position: absolute
+    right: 2px
+    @include varprop(font-size, header-item-font-size)
+    @include varprop(color, header-item-font-color)
+    &:hover
+      text-decoration: none
+    &.-input-focused
+      color: $header-search-field-font-color
 
-.search-autocomplete--results
-  width: 300px
+  .top-menu-search--loading
+    top: $header-height - 11px  // display directly under ng-input field
+    height: 46px                // ng-option height + 1px border
+    z-index: 1051
 
-.top-menu-search--loading
-  top: $header-height
-  left: -($search-input-width - $header-height) - 1
+  #global-search-input
+    width: $search-input-width
+    font-size: 0.9rem
+    -webkit-transition: width 0.2s ease-in-out
+    transition: width 0.2s ease-in-out
+    &::-ms-clear
+      margin-right: 5px
+      width: 20px
 
-.search-autocomplete--wp-id
+    .ng-select-container
+      background: transparent
+      @include varprop(border-color, header-item-font-color)
+
+    .ng-arrow-wrapper
+      display: none
+
+    .ng-clear-wrapper
+      @include varprop(color, header-item-font-color)
+      top: 1px
+      width: 30px
+      right: 25px
+      text-align: center
+
+    .ng-input
+      top: 0
+      input
+        @include varprop(color, header-item-font-color)
+        height: $search-input-height
+        cursor: text
+
+    .ng-placeholder
+      @include varprop(color, header-item-font-color)
+
+    &.-expanded
+      width: $search-input-width-expanded
+      background: white
+      border-radius: 4px
+      color: $header-search-field-font-color
+
+      .ng-placeholder,
+      .ng-clear-wrapper,
+      input
+        @include varprop(color, header-search-field-font-color)
+
+      .scroll-host
+        @include styled-scroll-bar-vertical
+        max-height: 80vh
+        height: auto
+
+        .ng-option
+          border-bottom: 1px solid #EAEAEA
+          white-space: normal
+          padding: 5px 10px
+          &:last-child
+            border-bottom: none
+          &.ng-option-marked
+            @include varprop(background-color, drop-down-hover-bg-color)
+            @include varprop(color, header-drop-down-item-font-hover-color)
+          &.ng-option-disabled
+            display: none
+          &.ng-option-selected
+            @include varprop(background-color, drop-down-selected-bg-color)
+            @include varprop(color, header-drop-down-item-font-hover-color)
+
+.global-search--wp-id
   color: $gray-dark
   font-size: 13px
   white-space: nowrap
+
+.global-search--option-wrapper
+  padding: 5px 5px
+  line-height: 25px
+  min-height: 35px  // line-height + padding
+  word-break: break-word
+
+.global-search--project-scope
+  position: absolute
+  right: 7px
+  border: 1px solid $button--border-color
+  font-size: 13px
+  background: $button--background-color
+  border-radius: 2px
+  padding: 0 4px
+  color: $body-font-color
 
 #quick-search
   float: right
 
 #top-menu-items
   padding-top: 0
+  display: flex
+  align-items: center
   .top-menu-items-right
-    float: right
+    display: flex
 
 #header
   .chzn-container .chzn-results .highlighted
@@ -256,7 +313,6 @@ input.top-menu-search--input
     .nosidebar &
       max-width: calc((100vW/2) - 115px)
   #projects-menu
-    padding-right: 30px
     font-weight: bold
     padding-left: 6px
     .nosidebar &
@@ -264,7 +320,6 @@ input.top-menu-search--input
 
     .button--dropdown-text
       @include text-shortener
-      float: left
       // Half viewport width minus half logo minus margins.
       max-width: calc((100vW/2) - 115px - 50px - #{$hamburger-width + $hamburger-right})
       .nosidebar &
@@ -279,10 +334,15 @@ input.top-menu-search--input
   overflow: hidden
 
 #account-nav-right
+  display: flex
   .drop-down.last-child
     .avatar
       // To accommodate the padding of the help icon which exists because of the circle
       margin-top: -5px
+    .avatar-default
+      border: 1px solid
+      @include varprop(border-color, header-item-font-color)
+
   .icon-help:before
     border-width: 2px
     border-style: solid
@@ -292,26 +352,11 @@ input.top-menu-search--input
     height: 26px
     display: inline-block
 
-  .icon-help:hover:before
-    @include varprop(border-color, header-item-font-hover-color)
   .icon-user
     font-size: 18px
   [class*="icon-"]:before
     padding: 0.25rem
 
-// Temporary overwrite searchfield styles for mobile view
-// until we have a full responsive layout
-input.top-menu-search--input
-  margin: 0
-  position: absolute
-  right: 0
-  bottom: 10px
-  z-index: 10
-
-.top-menu-search:not(.-collapsed) .top-menu-search--button
-  position: relative
-  top: 0
-  z-index: 10
 
 #main-menu-toggle
   display: block
@@ -320,25 +365,16 @@ input.top-menu-search--input
   float: left
   text-align: center
   margin-right: $hamburger-right
-  a
-    height: $header-height-mobile
-    line-height: $header-height-mobile
-    zoom: 1
-    @include varprop(color, header-item-font-color)
-    @include varprop(font-size, header-item-font-size)
-    text-decoration: none
-    padding: 0 15px
+  > a
+    @extend %top-menu-link-styles
 
   .nosidebar &
     display: none
-    
-  &:hover
-    @extend %top-menu-hover-styles
 
 @media only screen and (max-width: 18.75rem)
   #logo
     max-width: 170px
 
-@media only screen and (max-width: 15rem)
+@media only screen and (max-width: 1210px)
   #logo
     display: none

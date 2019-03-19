@@ -18,11 +18,22 @@
     close_popup_title: Lukk sprettoppvindu
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Nettleseren støtter ikke kopiering til utklippstavle. Kopier
         den merkede teksten manuelt.
       copied_successful: Kopiert til utklippstavlen!
     button_add_watcher: Legg til overvåker
+    button_back: Tilbake
     button_back_to_list_view: Back to list view
     button_cancel: Avbryt
     button_close: Lukk
@@ -38,6 +49,7 @@
     button_duplicate: Kopier
     button_edit: Rediger
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Listevisning
     button_show_view: Fullskjermvisning
     button_log_time: Logg tid
@@ -146,6 +158,30 @@
     general_text_yes: ja
     general_text_No: Nei
     general_text_Yes: Ja
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Dokumenter
+          no_results: No documents yet.
+        news:
+          title: Nyheter
+          at: at
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Arbeidspakker tildelt meg
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalender
     label_activate: Aktiver
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
@@ -167,7 +203,9 @@
     label_ascending: Stigende
     label_author: 'Author: %{user}'
     label_between: mellom
+    label_board: Board
     label_board_locked: Låst
+    label_board_plural: Boards
     label_board_sticky: Sticky
     label_create_work_package: Opprett ny arbeidspakke
     label_created_by: Created by
@@ -213,7 +251,7 @@
     label_menu_collapse: skjul
     label_menu_expand: utvid
     label_more_than_ago: mer enn dager siden
-    label_my_page: My page
+    label_my_page: Min side
     label_next: Neste
     label_no_data: Ingen data å vise
     label_no_due_date: ingen sluttdato
@@ -289,6 +327,7 @@
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Uploading files for Work package #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'These files will be uploaded:'
     label_rejected_files: 'These files cannot be uploaded:'
     label_rejected_files_reason: These files cannot be uploaded as their size is greater
@@ -398,9 +437,9 @@
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Aktivitet
+      comment: Kommentar
+      hours: Timer
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -459,14 +498,14 @@
     select2:
       input_too_short:
         one: Angi mer enn {{count}} tegn
-        other: Please enter {{count}} more characters
+        other: Vennligst skriv {{count}} flere tegn
         zero: Please enter more characters
       load_more: Laster inn flere resultater...
       no_matches: Ingen treff
       searching: Søker ...
       selection_too_big:
         one: Du kan bare velge ett element
-        other: You can only select {{limit}} items
+        other: Du kan bare velge {{limit}} elementer
         zero: You cannot select any items
     project_menu_details: Detaljer
     sort:
@@ -483,6 +522,7 @@
       view?
     text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -587,9 +627,9 @@
       error:
         update_conflict_refresh: Click here to refresh the work package and update
           to the newest version.
-        edit_prohibited: Editing %{attribute} is blocked for this work package. Either
-          this attribute is derived from relations (e.g, children) or otherwise not
-          configurable.
+        edit_prohibited: Redigering av %{attribute} er blokkert for denne arbeidespakken.
+          Enten er attributtet avledet fra en relasjon (f.eks, barn) eller den kan
+          ikke konfigureres.
         format:
           date: "%{attribute} is no valid date - YYYY-MM-DD expected."
         general: En feil har oppstått.
@@ -760,8 +800,6 @@
         days: dager
         weeks: uker
         months: måneder
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -802,6 +840,7 @@
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Opprettelsen var vellykket.
     notice_successful_delete: Slettingen var vellykket.
     notice_successful_update: Oppdateringen var vellykket.
@@ -828,7 +867,7 @@
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Kunne ikke slå opp versjonsnavnet
     error_could_not_resolve_user_name: Kunne ikke slå opp brukernavn
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -840,16 +879,18 @@
         other: "%{count} work package children"
       hour:
         one: 1 time
-        other: "%{count} hours"
+        other: "%{count} timer"
         zero: 0 hours
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: Din nettleserversjon er ikke støttet
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Mer informasjon
-      close_warning: Ignore this warning.
+    global_search:
+      all_projects: In all projects
+      search: Søk
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

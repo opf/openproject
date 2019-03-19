@@ -90,8 +90,10 @@ module Components
       def expect_no_filter_by(name, selector = nil)
         id = selector || name.downcase
 
-        expect(page).to have_no_select("operators-#{id}")
-        expect(page).to have_no_select("values-#{id}")
+        retry_block do
+          page.raise_if_found_select("operators-#{id}")
+          page.raise_if_found_select("values-#{id}")
+        end
       end
 
       def remove_filter(field)
@@ -113,13 +115,15 @@ module Components
       end
 
       def set_value(id, value)
-        within_values(id) do |is_select|
-          if is_select
-            select value, from: "values-#{id}"
-          else
-            page.all('input').each_with_index do |input, index|
-              # Wait a bit to insert the values
-              ensure_value_is_input_correctly input, value: value[index]
+        retry_block do
+          within_values(id) do |is_select|
+            if is_select
+              select value, from: "values-#{id}"
+            else
+              page.all('input').each_with_index do |input, index|
+                # Wait a bit to insert the values
+                ensure_value_is_input_correctly input, value: value[index]
+              end
             end
           end
         end

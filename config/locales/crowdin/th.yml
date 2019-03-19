@@ -57,9 +57,25 @@ th:
     index:
       no_results_content_title: There are currently no authentication modes.
       no_results_content_text: Create a new authentication mode
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: ไม่มี
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: ขณะนี้ยังไม่มีสีใดๆ
@@ -106,6 +122,10 @@ th:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: วิกิ
+      messages: ฟอรั่ม
   groups:
     index:
       no_results_title_text: ขณะนี้ยังไม่มีกลุ่มใดๆ
@@ -114,6 +134,11 @@ th:
       no_results_title_text: ขณะนี้ยังไม่มีผู้ใช้เป็นสมาชิกของกลุ่มนี้
     memberships:
       no_results_title_text: ขณะนี้ยังไม่มีโครงการที่เป็นส่วนหนึ่งของกลุ่มนี้
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -130,9 +155,9 @@ th:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -218,6 +243,8 @@ th:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -352,6 +379,11 @@ th:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: ล่าช้า
         from: ชุดภารกิจ
@@ -493,6 +525,7 @@ th:
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
         unchangeable: cannot be changed.
+        unremovable: cannot be removed.
         wrong_length: is the wrong length (should be %{count} characters).
       models:
         custom_field:
@@ -518,6 +551,10 @@ th:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -624,7 +661,7 @@ th:
     models:
       attachment: ไฟล์
       attribute_help_text: Attribute help text
-      board: ฟอรั่ม
+      forum: ฟอรั่ม
       comment: ความคิดเห็น
       custom_action: Custom action
       custom_field: ฟิลด์ที่กำหนดเอง
@@ -1118,9 +1155,8 @@ th:
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: กระทู้
       blog: OpenProject blog
-      boards: Community forum
+      forums: Community forum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1166,7 +1202,6 @@ th:
   label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
-  label_and_its_subprojects: "%{value} และโครงการย่อยที่เกี่ยวข้องทั้งหมด"
   label_api_access_key: คีย์การเข้าถึง API
   label_api_access_key_created_on: คีย์การเข้าถึง API ซึ่งสร้างเมื่อ %{value} ที่ผ่านมา
   label_api_access_key_type: API
@@ -1186,7 +1221,7 @@ th:
   label_authentication: การระบุตัวตนผู้ใช้
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1194,14 +1229,15 @@ th:
   label_blocked_by: ถูกบล็อคโดย
   label_blocks: บล็อก
   label_blog: Blog
-  label_board_locked: ล็อค
-  label_board_new: กระทู้ใหม่
-  label_board_plural: กระทู้
-  label_board_sticky: ปักหมุด
+  label_forums_locked: ล็อค
+  label_forum_new: กระทู้ใหม่
+  label_forum_plural: กระทู้
+  label_forum_sticky: ปักหมุด
   label_boolean: ถูกหรือผิด
   label_branch: สาขา
   label_browse: เรียกดู
   label_bulk_edit_selected_work_packages: แก้ไขชุดภารกิจที่เลือกพร้อมกัน
+  label_bundled: "(Bundled)"
   label_calendar: ปฏิทิน
   label_calendar_show: แสดงปฏิทิน
   label_category: ประเภท
@@ -1253,7 +1289,7 @@ th:
   label_custom_field_new: ฟิลด์ที่กำหนดเองใหม่
   label_custom_field_plural: ฟิลด์ที่กำหนดเอง
   label_custom_field_default_type: ชนิดว่าง
-  label_custom_style: Design
+  label_custom_style: การออกแบบ
   label_date: วันที่
   label_date_and_time: Date and time
   label_date_from: จาก
@@ -1461,6 +1497,7 @@ th:
   label_planning: การวางแผน
   label_please_login: กรุณาเข้าสู่ระบบ
   label_plugins: ปลั๊กอิน
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: มาก่อน
   label_preferences: กำหนดคุณลักษณะ
   label_preview: แสดงตัวอย่าง
@@ -1531,7 +1568,6 @@ th:
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: ค้นหา
-  label_search_titles_only: ค้นหาเฉพาะชื่อ
   label_send_information: ส่งข้อมูลบัญชีให้ผู้ใช้
   label_send_test_email: ส่งอีเมลทดสอบ
   label_settings: การตั้งค่า
@@ -1611,6 +1647,7 @@ th:
   label_view_diff: ดูผลต่าง
   label_view_revisions: ดูการปรับปรุง
   label_watched_work_packages: เฝ้าดูชุดภารกิจ
+  label_what_is_this: What is this?
   label_week: สัปดาห์
   label_wiki_content_added: เพิ่มหน้าวิกิแล้ว
   label_wiki_content_updated: ปรับปรุงหน้าวิกิแล้ว
@@ -1657,7 +1694,7 @@ th:
   label_workflow_summary: สรุป
   label_x_closed_work_packages_abbr:
     one: 1 closed
-    other: "%{count} closed"
+    other: ปิดแล้ว %{count}
     zero: 0 closed
   label_x_comments:
     one: 1 comment
@@ -1665,15 +1702,15 @@ th:
     zero: no comments
   label_x_open_work_packages_abbr:
     one: 1 open
-    other: "%{count} open"
+    other: มี %{count} เปิดอยู่
     zero: 0 open
   label_x_open_work_packages_abbr_on_total:
     one: 1 open / %{total}
-    other: "%{count} open / %{total}"
+    other: มี %{count} เปิดอยู่ / จากทั้งหมด %{total}
     zero: 0 open / %{total}
   label_x_projects:
     one: 1 project
-    other: "%{count} projects"
+    other: "%{count} โครงการ"
     zero: no projects
   label_year: ปี
   label_yesterday: เมื่อวานนี้
@@ -1777,6 +1814,8 @@ th:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: ปรับปรุงบัญชีสำเร็จ
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: รหัสผ่านไม่ถูกต้อง
   notice_account_registered_and_logged_in: ยินดีต้อนรับ, ได้มีการเปิดใช้บัญชีของคุณแล้ว
     คุณสามารถล็อกอินได้ทันที
@@ -1899,7 +1938,7 @@ th:
   permission_export_wiki_pages: เอกซ์ปอร์ตหน้าวิกิ
   permission_list_attachments: รายการสิ่งที่แนบมา
   permission_log_time: บันทึกเวลาที่ใช้
-  permission_manage_boards: จัดการกระทู้
+  permission_manage_forums: จัดการกระทู้
   permission_manage_categories: จัดการประเภทของชุดภารกิจ
   permission_manage_work_package_relations: จัดการความสัมพันธ์ของชุดภารกิจ
   permission_manage_members: จัดการสมาชิก
@@ -1946,7 +1985,7 @@ th:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: กิจกรรม
-  project_module_boards: กระทู้
+  project_module_forums: กระทู้
   project_module_calendar: ปฏิทิน
   project_module_work_package_tracking: ติดตามผลชุดภารกิจ
   project_module_news: ข่าวสาร
@@ -2173,6 +2212,7 @@ th:
   setting_mail_handler_api_key: คีย์ API
   setting_mail_handler_body_delimiters: ตัดข้อความอีเมลหลังจากเส้นนี้
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: 'บทบาทที่ให้กับผู้ใช้ที่สร้างโครงการ ซึ่งไม่ใช่ผู้ดูแลระบบ '
   setting_password_active_rules: ประเภทของตัวอักษรที่ใช้งานได้
   setting_password_count_former_banned: 'จำนวนรหัสผ่านที่ใช้ล่าสุดที่ห้ามนำมาใช้ซ้ำ '
@@ -2182,6 +2222,7 @@ th:
   setting_per_page_options: ตัวเลือกออบเจคต่อหน้าเพจ
   setting_plain_text_mail: จดหมายข้อความล้วน (ไม่ใช้ HTML)
   setting_protocol: โปรโทคอล
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: Automatic repository vendor type
   setting_repositories_encodings: แหล่งเก็บข้อมูลที่มีการเข้ารหัส
@@ -2344,6 +2385,16 @@ th:
   text_no_notes: There are no comments available for this work package.
   text_notice_too_many_values_are_inperformant: 'Note: Displaying more than 100 items
     per page can increase the page load time.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: คุณกำลังลบการอนุญาตบางส่วนหรือทั้งหมด และไม่สามารถแก้ไขโครงการได้หลังจากนั้น
     \n คุณแน่ใจว่าจะดำเนินการต่อหรือไม่?
   text_plugin_assets_writable: สามารถบันทึก ไดเรคทอรี่ของ Plugin asset ได้
@@ -2401,7 +2452,6 @@ th:
       color: สี
       colors: สี
     associations: ส่วนที่อ้างอิง
-    board_could_not_be_saved: ไม่สามารถบันทึกคณะกรรมการ
     button_delete_all: ลบทั้งหมด
     change: การเปลี่ยนแปลงในการวางแผน
     children: องค์ประกอบย่อย
@@ -2590,7 +2640,7 @@ th:
     blocked: ล็อคชั่วคราว
     blocked_num_failed_logins:
       one: locked temporarily (one failed login attempt)
-      other: locked temporarily (%{count} failed login attempts)
+      other: ถูกล็อคชั่วคราว (เนื่องจากผิดพลาด %{count} ครั้งในการพยายามล็อคอิน)
     confirm_status_change: You are about to change the status of '%{name}'. Are you
       sure you want to continue?
     deleted: ผู้ใช้ที่ถูกลบ
@@ -2747,8 +2797,8 @@ th:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: กรุณาปรับรุ่นเบราว์เซอร์ของคุณ
+    close_warning: ไม่สนใจคำเตือนนี้
   oauth:
     application:
       singular: OAuth application
@@ -2794,7 +2844,7 @@ th:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: สิทธิ์
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2818,7 +2868,3 @@ th:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: เอาเครื่องมือออก
-  label_my_page_block: หน้าบล็อกของฉัน
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Visible elements

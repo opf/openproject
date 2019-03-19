@@ -18,11 +18,22 @@ pl:
     close_popup_title: Zamknij okno
     close_filter_title: Zamknij filtr
     close_form_title: Zamknij formularz
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Sprawdź wersję Enterprise.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Twoja przeglądarka nie obsługuje kopiowania do schowka. Skopiuj
         tekst ręcznie.
       copied_successful: Skopiowano do schowka!
     button_add_watcher: Dodaj obserwatora
+    button_back: Wstecz
     button_back_to_list_view: Wróć do widoku listy
     button_cancel: Anuluj
     button_close: Zamknij
@@ -38,6 +49,7 @@ pl:
     button_duplicate: Duplikat
     button_edit: Edycja
     button_filter: Filtr
+    button_advanced_filter: Zaawansowane filtrowanie
     button_list_view: Widok listy
     button_show_view: Tryb pełnoekranowy
     button_log_time: Rejestruj czas pracy
@@ -147,16 +159,40 @@ pl:
     general_text_yes: tak
     general_text_No: Nie
     general_text_Yes: Tak
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Dokumenty
+          no_results: No documents yet.
+        news:
+          title: Aktualności
+          at: at
+          no_results: Utwórz nowy raport.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Pakiety robocze, za które odpowiadam
+        work_packages_assigned:
+          title: Zadania przypisane do mnie
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalendarz
     label_activate: Aktywuj
     label_activity_no: Aktywność %{activityNo}
     label_activity_with_comment_no: Aktywność %{activityNo} została skomentowana.
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
+    label_add_column_after: Dodaj kolumnę po
+    label_add_column_before: Dodaj kolumnę przed
     label_add_columns: Dodaj kolumny
     label_add_comment: Dodaj komentarz
     label_add_comment_title: Skomentuj - wpisz @ by powiadomić inne osoby
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
+    label_add_row_after: Dodaj wiersz po
+    label_add_row_before: Dodaj wiersz przed
     label_add_selected_columns: Dodaj wybrane kolumny
     label_added_by: dodał
     label_added_time_by: Dodał %{author} %{age}
@@ -167,7 +203,9 @@ pl:
     label_ascending: Rosnąco
     label_author: 'Autor: %{user}'
     label_between: pomiędzy
+    label_board: Board
     label_board_locked: Zablokowany
+    label_board_plural: Boards
     label_board_sticky: Przyklejony
     label_create_work_package: Utwórz nowy pakiet roboczy
     label_created_by: Utworzony przez
@@ -213,7 +251,7 @@ pl:
     label_menu_collapse: Zwiń
     label_menu_expand: Rozwiń
     label_more_than_ago: Więcej niż dni temu
-    label_my_page: My page
+    label_my_page: Moja strona
     label_next: Następny
     label_no_data: Brak danych do pokazania
     label_no_due_date: brak daty zakończenia
@@ -232,9 +270,9 @@ pl:
     label_visibility_settings: Ustawienia widoczności
     label_quote_comment: Cytuj komentarz
     label_reset: Reset
-    label_remove_column: Remove column
+    label_remove_column: Usuń kolumnę
     label_remove_columns: Usuń zaznaczone kolumny
-    label_remove_row: Remove row
+    label_remove_row: Usuń wiersz
     label_save_as: Zapisz jako
     label_select_watcher: Wybierz obserwatora...
     label_selected_filter_list: Wybrane filtry
@@ -256,7 +294,7 @@ pl:
     label_activity_show_only_comments: Wyświetl aktywności tylko z komentarzami
     label_activity_show_all: Wyświetl wszystkie aktywności
     label_total_progress: "%{percent}% Całkowitego postępu"
-    label_total_amount: 'Total: %{amount}'
+    label_total_amount: 'Łącznie: %{amount}'
     label_updated_on: zaktualizowany
     label_warning: Ostrzeżenie
     label_work_package: Pakiet roboczy
@@ -289,6 +327,7 @@ pl:
     label_upload_notification: Przesyłanie plików...
     label_work_package_upload_notification: 'Wgrywanie plików dla Zestawu Zadań #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Pliki te zostaną przesłane:'
     label_rejected_files: 'Pliki nie mogą być przesłane:'
     label_rejected_files_reason: Wymienione pliki nie mogą być przesłane gdyż ich
@@ -396,9 +435,9 @@ pl:
           requires: wymagające
           required: wymagane przez
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Działanie
+      comment: Komentarz
+      hours: Godziny
     watchers:
       label_loading: ładowanie obserwatorów...
       label_error_loading: Wystąpił błąd podczas ładowania obserwatorów.
@@ -461,7 +500,7 @@ pl:
         other: Wprowadź jeszcze {{count}} znaków
         zero: Please enter more characters
         few: Wprowadź jeszcze {{count}} znaków
-        many: Please enter {{count}} more characters
+        many: Proszę wpisać jeszcze {{count}} znaków
       load_more: Ładowanie większej liczby wyników ...
       no_matches: Nie znaleziono dopasowań
       searching: Wyszukiwanie ...
@@ -470,7 +509,7 @@ pl:
         other: Możesz wybrać tylko {{limit}} elementów
         zero: You cannot select any items
         few: Możesz wybrać tylko {{limit}} elementów
-        many: You can only select {{limit}} items
+        many: Możesz wybrać tylko {{limit}} elementy
     project_menu_details: Szczegóły
     sort:
       sorted_asc: 'Zastosowano sortowanie rosnące, '
@@ -485,6 +524,7 @@ pl:
     text_query_destroy_confirmation: Czy na pewno chcesz usunąć zaznaczony widok?
     text_attachment_destroy_confirmation: Jesteś pewien, że chcesz usunąć ten załącznik?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Wykres Gantta
       labels:
         title: Konfiguracja etykiety
@@ -602,7 +642,7 @@ pl:
       label_enable_multi_select: Włącz wybór wielokrotny
       label_disable_multi_select: Wyłącz wybór wielokrotny
       label_filter_add: Dodaj filtr
-      label_filter_by_text: Filter by text
+      label_filter_by_text: Filtruj według tekstu
       label_options: Opcje
       label_column_multiselect: 'Łączone pole rozwijane: Wybierz za pomocą klawiszy
         strzałek, potwierdź wybór klawiszem enter, usuń klawiszem backspace'
@@ -614,7 +654,7 @@ pl:
       message_work_package_read_only: Pakiet roboczy jest zablokowany w tym stanie.
         Nie można zmienić żadnego atrybutu innego niż stan.
       no_value: Brak wartości
-      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholder_filter_by_text: Przedmiot, opis, komentarze, ...
       inline_create:
         title: Kliknij tutaj, aby dodać nowy pakiet prac do tej listy
       create:
@@ -763,8 +803,6 @@ pl:
         days: dni
         weeks: tygodnie
         months: miesiące
-      label_switch_to_single_select: fff
-      label_switch_to_multi_select: Przełącz na zaznaczanie wielu rzeczy
     toolbar:
       settings:
         configure_view: Konfigurowanie widoku...
@@ -805,6 +843,7 @@ pl:
           roboczych z listy będą rekurencyjnie usuwane.
         deletes_children: Wszystkie pakiety podrzędne i ich elementy potomne również
           będą rekursywnie usuwane.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Tworzenie zakończone sukcesem.
     notice_successful_delete: Usuwanie zakończone sukcesem.
     notice_successful_update: Aktualizacja zakończona sukcesem.
@@ -831,7 +870,7 @@ pl:
         messages_on_field: 'To pole jest nieprawidłowe: %{messages}'
     error_could_not_resolve_version_name: Nie można rozpoznać wersji
     error_could_not_resolve_user_name: Nie można rozpoznać nazwy użytkownika
-    error_attachment_upload: 'Załadowanie pliku %{name} nie powiodło się: %{error}'
+    error_attachment_upload: 'Załadowanie pliku nie powiodło się: %{error}'
     error_attachment_upload_permission: Nie masz uprawnień do przesyłania plików do
       tego zasobu.
     units:
@@ -850,15 +889,17 @@ pl:
         other: "%{count} godzin"
         zero: 0 hours
         few: "%{count} godzin"
-        many: "%{count} hours"
+        many: "%{count} godziny"
     zen_mode:
       button_activate: Włącz tryb zen
       button_deactivate: Wyłącz tryb zen
-    unsupported_browser:
-      title: Twoja wersja przeglądarki nie jest obsługiwana
-      message: Wersja przeglądarki, której używasz nie jest już wspierana przez OpenProject.
-      update_message: Prosimy uaktualnić przeglądarkę.
-      update_ie_user: Proszę przejść do programu Mozilla Firefox lub Google Chrome,
-        lub zaistalować przeglądarkę Microsoft Edge.
-      learn_more: Dowiedz się więcej
-      close_warning: Zignoruj to ostrzeżenie.
+    global_search:
+      all_projects: We wszystkich projektach
+      search: Szukaj
+      close_search: Zakończ wyszukiwanie
+      current_project: W tym projekcie
+      current_project_and_all_descendants: W tym projekcie + podprojekcie
+      title:
+        all_projects: Wszystkie projekty
+        project_and_subprojects: i wszystkie podprojekty
+        search_for: Szukaj

@@ -60,29 +60,17 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   private _selectedOption:ValueOption[];
 
   ngOnInit() {
+    this.nullOption = { name: this.text.placeholder, $href: null };
+
+    const loadingPromise = this.loadValues();
     this.handler
       .$onUserActivate
       .pipe(
-        untilComponentDestroyed(this)
+        untilComponentDestroyed(this),
       )
-      .subscribe(() => this.openAutocompleteSelectField());
-
-    this.nullOption = { name: this.text.placeholder, $href: null };
-
-    if (Array.isArray(this.schema.allowedValues)) {
-      this.setValues(this.schema.allowedValues);
-    } else if (this.schema.allowedValues) {
-      this.schema.allowedValues.$load().then((values:CollectionResource) => {
-        // The select options of the project shall be sorted
-        if (values.count > 0 && (values.elements[0] as any)._type === 'Project') {
-          this.setValues(values.elements, true);
-        } else {
-          this.setValues(values.elements);
-        }
+      .subscribe(() => {
+        loadingPromise.then(() => this.openAutocompleteSelectField())
       });
-    } else {
-      this.setValues([]);
-    }
 
     super.ngOnInit();
     this.appendTo = this.overflowingSelector;
@@ -138,7 +126,12 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   }
 
   private openAutocompleteSelectField() {
-    this.ngSelectComponent.open();
+    // The timeout takes care that the opening is added to the end of the current call stack.
+    // Thus we can be sure that the autocompleter is rendered and ready to be opened.
+    let that = this;
+    window.setTimeout(function () {
+      that.ngSelectComponent.open();
+    }, 0);
   }
 
   private findValueOption(option?:HalResource):ValueOption {
@@ -166,6 +159,25 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     });
     this._selectedOption = this.buildSelectedOption();
     this.checkCurrentValueValidity();
+  }
+
+  private loadValues() {
+    let allowedValues = this.schema.allowedValues;
+    if (Array.isArray(allowedValues)) {
+      this.setValues(allowedValues);
+    } else if (this.schema.allowedValues) {
+      return this.schema.allowedValues.$load().then((values:CollectionResource) => {
+        // The select options of the project shall be sorted
+        if (values.count > 0 && (values.elements[0] as any)._type === 'Project') {
+          this.setValues(values.elements, true);
+        } else {
+          this.setValues(values.elements);
+        }
+      });
+    } else {
+      this.setValues([]);
+    }
+    return Promise.resolve();
   }
 
   private checkCurrentValueValidity() {

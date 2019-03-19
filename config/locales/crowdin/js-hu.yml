@@ -18,11 +18,22 @@ hu:
     close_popup_title: Előugró ablak bezárása
     close_filter_title: Szűrő bezárása
     close_form_title: Űrlap bezárása
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Tekintse meg az Enterprise Edition-t!
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: A böngésző nem támogatja a vágólapra másolást. Kérjük, másolja
         a kijelölt szöveget manuálisan.
       copied_successful: A vágólapra másolás sikeres!
     button_add_watcher: Megfigyelő hozzáadása
+    button_back: Vissza
     button_back_to_list_view: Vissza a lista nézethez
     button_cancel: Mégsem
     button_close: Bezár
@@ -38,6 +49,7 @@ hu:
     button_duplicate: Másolás ide
     button_edit: Szerkesztés
     button_filter: Szűrő
+    button_advanced_filter: Advanced filter
     button_list_view: Lista nézet
     button_show_view: Teljes képernyős nézet
     button_log_time: Eltöltött idő rögzítése
@@ -147,6 +159,30 @@ hu:
     general_text_yes: igen
     general_text_No: Nem
     general_text_Yes: Igen
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Dokumentumok
+          no_results: No documents yet.
+        news:
+          title: Hírek
+          at: at
+          no_results: Semmi új jelenteni való.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Feladatcsoportok, amelyért én vagyok a felelős
+        work_packages_assigned:
+          title: Magamhoz rendelt feladatcsoportok
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Naptár
     label_activate: Aktivál
     label_activity_no: Tevékenységi bejegyzések száma %{activityNo}
     label_activity_with_comment_no: Tevékenységi bejegyzések száma %{activityNo}.
@@ -168,7 +204,9 @@ hu:
     label_ascending: Növekvő
     label_author: 'Szerző: %{user}'
     label_between: között
+    label_board: Board
     label_board_locked: Zárolva
+    label_board_plural: Boards
     label_board_sticky: Kiemelt
     label_create_work_package: Új munkacsomag létrehozása
     label_created_by: Létrehozta
@@ -215,7 +253,7 @@ hu:
     label_menu_collapse: összecsuk
     label_menu_expand: kibont
     label_more_than_ago: több, nappal ezelőtt
-    label_my_page: My page
+    label_my_page: Az én oldalam
     label_next: " Következő"
     label_no_data: Nincs megjelenítendő adat
     label_no_due_date: nincs záró dátuma
@@ -291,6 +329,7 @@ hu:
     label_upload_notification: Fájl feltöltése folyamatban
     label_work_package_upload_notification: 'Fájlok feltöltése a #%{id}: %{subject}
       feladatcsoporthoz'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Ezek a fájlok kerülnek feltöltésre:'
     label_rejected_files: 'Ezeket a fájlokat nem lehet felölteni:'
     label_rejected_files_reason: Ezeket a fájlokat nem lehet feltölteni, mert a méretük
@@ -400,9 +439,9 @@ hu:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Tevékenység
+      comment: Vélemény
+      hours: Óra
     watchers:
       label_loading: megfigyelők betöltése...
       label_error_loading: Hiba történt a megfigyelők betöltése közben
@@ -483,6 +522,7 @@ hu:
     text_query_destroy_confirmation: Biztosan törli a kijelölt megjelenítést?
     text_attachment_destroy_confirmation: Biztosan törli a mellékletet?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt-diagram
       labels:
         title: Címke konfiguráció
@@ -762,8 +802,6 @@ hu:
         days: nap
         weeks: hetek
         months: hónap
-      label_switch_to_single_select: Váltás az egyszeri kiválasztásra
-      label_switch_to_multi_select: Váltás a többszörös kiválasztásra
     toolbar:
       settings:
         configure_view: Nézet beállítása
@@ -804,6 +842,7 @@ hu:
           work packages will be recursively removed.
         deletes_children: Minden al feladatcsoportot és leszármazottait is rekurzívan
           törli.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Sikeres létrehozás.
     notice_successful_delete: Sikeres törlés.
     notice_successful_update: Sikeres frissítés.
@@ -830,7 +869,7 @@ hu:
         messages_on_field: 'Ez a mező érvénytelen: %{messages}'
     error_could_not_resolve_version_name: Nem sikerült a verziószám visszafejtése
     error_could_not_resolve_user_name: Nem sikerült a felhasználó visszafejtése
-    error_attachment_upload: '"%{name}" fájlt nem sikerült feltölteni: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -847,12 +886,13 @@ hu:
     zen_mode:
       button_activate: Zen mód aktiválása
       button_deactivate: Zen mód kikapcsolása
-    unsupported_browser:
-      title: Az ön böngészője nem támogatott
-      message: Az ön által használt böngésző verzióját már nem támogatja az OpenProject.
-        Kérjük frissítse böngészőjét.
-      update_message: Kérjük frissítse a böngészőjét.
-      update_ie_user: Kérjük frissítse böngészőjét Mozilla Firefox, Google Chrome
-        vagy Microsoft Edge-re.
-      learn_more: További információ
-      close_warning: Figyelmeztetés figyelmen kívül hagyása.
+    global_search:
+      all_projects: In all projects
+      search: Keresés
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

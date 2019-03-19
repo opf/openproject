@@ -1,0 +1,47 @@
+<div #loadingIndicator
+     [attr.data-query-name]="listName"
+     class="board-list--container loading-indicator--location"
+     [ngClass]="{ '-action-list': board.isAction }">
+  <ng-container *ngIf="query">
+
+    <div *ngIf="board.isAction"
+         class="board-list--action-bar"
+         [ngClass]="boardListActionColorClass(query)">
+    </div>
+
+    <div class="board-list--header">
+      <editable-toolbar-title [title]="query.name"
+                              [inFlight]="inFlight"
+                              (onSave)="renameQuery(query, $event)"
+                              [editable]="!!query.updateImmediately">
+      </editable-toolbar-title>
+      <button [title]="text.addCard"
+              *ngIf="board.isAction && showAddButton"
+              (accessibleClick)="addNewCard()"
+              class="board-list--card-add-button button -narrow">
+        <op-icon icon-classes="icon-small icon-add"></op-icon>
+      </button>
+      <button [title]="text.addCard"
+              *ngIf="!board.isAction && showAddButton"
+              class="board-list--card-dropdown-button button -narrow"
+              addCardDropdown>
+        <op-icon icon-classes="icon-small icon-add"></op-icon>
+      </button>
+
+      <div class="board-list--delete-icon">
+        <accessible-by-keyboard *ngIf="!!query.delete"
+                                linkClass="button -narrow -no-decoration"
+                                (execute)="deleteList(query)">
+          <op-icon icon-classes="icon-small icon-delete"></op-icon>
+        </accessible-by-keyboard>
+      </div>
+    </div>
+
+    <div class="board-list--query-container">
+      <wp-card-view [dragAndDropEnabled]="dragAndDropEnabled"
+                    [cardsRemovable]="board.isFree"
+                    [highlightingMode]="board.highlightingMode">
+      </wp-card-view>
+    </div>
+  </ng-container>
+</div>

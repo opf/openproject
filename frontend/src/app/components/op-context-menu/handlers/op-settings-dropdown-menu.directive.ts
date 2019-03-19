@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Directive, ElementRef, Input, OnDestroy} from '@angular/core';
+import {Directive, ElementRef, Injector, Input, OnDestroy} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
@@ -42,11 +42,11 @@ import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-e
 import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
 import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {
   selectableTitleIdentifier,
   triggerEditingEvent
-} from "core-components/wp-query-select/wp-query-selectable-title.component";
-import {TableState} from "core-components/wp-table/table-state/table-state";
+} from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
 
 @Directive({
   selector: '[opSettingsContextMenu]'
@@ -63,7 +63,8 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
               readonly wpListService:WorkPackagesListService,
               readonly authorisationService:AuthorisationService,
               readonly states:States,
-              readonly tableState:TableState,
+              readonly injector:Injector,
+              readonly querySpace:IsolatedQuerySpace,
               readonly I18n:I18nService) {
 
     super(elementRef, opContextMenu);
@@ -76,7 +77,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
   ngAfterViewInit():void {
     super.ngAfterViewInit();
 
-    this.tableState.query.values$()
+    this.querySpace.query.values$()
       .pipe(
         takeUntil(componentDestroyed(this))
       )
@@ -84,9 +85,9 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         this.query = queryUpdate;
       });
 
-    this.loadingPromise = this.tableState.queryForm.valuesPromise();
+    this.loadingPromise = this.querySpace.queryForm.valuesPromise();
 
-    this.tableState.queryForm.values$()
+    this.querySpace.queryForm.values$()
       .pipe(
         takeUntil(componentDestroyed(this))
       )
@@ -167,7 +168,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         icon: 'icon-settings',
         onClick: ($event:JQueryEventObject) => {
           this.opContextMenu.close();
-          this.opModalService.show<WpTableConfigurationModalComponent>(WpTableConfigurationModalComponent);
+          this.opModalService.show(WpTableConfigurationModalComponent, this.injector);
 
           return true;
         }
@@ -180,7 +181,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         onClick: ($event:JQueryEventObject) => {
           if (this.allowQueryAction($event, 'update')) {
             this.focusAfterClose = false;
-            jQuery(`#${selectableTitleIdentifier}`).trigger(triggerEditingEvent);
+            jQuery(`${selectableTitleIdentifier}`).trigger(triggerEditingEvent);
           }
 
           return true;
@@ -193,8 +194,8 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         icon: 'icon-save',
         onClick: ($event:JQueryEventObject) => {
           const query = this.query;
-          if (!query.id && this.allowQueryAction($event, 'updateImmediately')) {
-            this.opModalService.show(SaveQueryModal);
+          if (!query.persisted && this.allowQueryAction($event, 'updateImmediately')) {
+            this.opModalService.show(SaveQueryModal, this.injector);
           } else if (query.id && this.allowQueryAction($event, 'updateImmediately')) {
             this.wpListService.save(query);
           }
@@ -209,7 +210,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         icon: 'icon-save',
         onClick: ($event:JQueryEventObject) => {
           if (this.allowFormAction($event, 'create_new')) {
-            this.opModalService.show(SaveQueryModal);
+            this.opModalService.show(SaveQueryModal, this.injector);
           }
 
           return true;
@@ -236,7 +237,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         icon: 'icon-export',
         onClick: ($event:JQueryEventObject) => {
           if (this.allowWorkPackageAction($event, 'representations')) {
-            this.opModalService.show(WpTableExportModal);
+            this.opModalService.show(WpTableExportModal, this.injector);
           }
 
           return true;
@@ -249,7 +250,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         icon: 'icon-watched',
         onClick: ($event:JQueryEventObject) => {
           if (this.allowQueryAction($event, 'unstar') || this.allowQueryAction($event, 'star')) {
-            this.opModalService.show(QuerySharingModal);
+            this.opModalService.show(QuerySharingModal, this.injector);
           }
 
           return true;

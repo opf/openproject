@@ -54,10 +54,10 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
 
   public userId:string | number;
   public userName:string;
-  public userAvatar:string;
   public userActive:boolean;
   public userPath:string | null;
   public userLabel:string;
+  public userAvatar:string;
   public fieldLabel:string;
   public details:any[] = [];
   public isComment:boolean;
@@ -112,10 +112,10 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     this.userCacheService
       .require(this.activity.user.idFromLink)
       .then((user:UserResource) => {
-        this.userId = user.id;
+        this.userId = user.id!;
         this.userName = user.name;
-        this.userAvatar = user.avatar;
         this.userActive = user.isActive;
+        this.userAvatar = user.avatar;
         this.userPath = user.showUser.href;
         this.userLabel = this.I18n.t('js.label_author', {user: this.userName});
       });

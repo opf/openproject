@@ -56,9 +56,25 @@ fi:
     index:
       no_results_content_title: Tällä hetkellä ei ole todennustiloja.
       no_results_content_text: Luo uusi todennustila
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: ei mitään
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Tällä hetkellä taululla ei ole viestejä.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Tällä hetkellä ei ole värejä.
@@ -66,7 +82,7 @@ fi:
     label_no_color: No color
   custom_actions:
     actions:
-      name: Actions
+      name: Toiminnot
       add: Lisää toiminto
       assigned_to:
         executing_user_value: "(Assign to executing user)"
@@ -105,6 +121,10 @@ fi:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Keskustelupalsta
   groups:
     index:
       no_results_title_text: Tällä hetkellä ei ole ryhmiä.
@@ -113,6 +133,11 @@ fi:
       no_results_title_text: Tällä hetkellä tähän ryhmään ei kuulu yhtään käyttäjää.
     memberships:
       no_results_title_text: Tällä hetkellä tähän ryhmään ei kuulu projekteja.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -129,9 +154,9 @@ fi:
     settings:
       activities:
         no_results_title_text: Tällä hetkellä ei ole aktiviteetteja.
-      boards:
-        no_results_title_text: Tällä hetkellä projektille ei ole tauluja.
-        no_results_content_text: Luo uusi taulu
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Tällä hetkellä ei ole yhtään työpaketin luokkaa.
         no_results_content_text: Lisää uusi työpaketin luokka
@@ -216,6 +241,8 @@ fi:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -333,7 +360,7 @@ fi:
       comment:
         commented: Kommentoitu
       custom_action:
-        actions: Actions
+        actions: Toiminnot
       custom_field:
         default_value: Oletusarvo
         editable: Muokattava
@@ -355,6 +382,11 @@ fi:
         subscriber: Tilaaja
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Viive
         from: Työpaketti
@@ -497,6 +529,7 @@ fi:
         too_long: on liian pitkä (maksimi on %{count} merkkiä).
         too_short: on liian lyhyt (minimi on %{count} merkkiä).
         unchangeable: cannot be changed.
+        unremovable: cannot be removed.
         wrong_length: on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä).
       models:
         custom_field:
@@ -522,6 +555,10 @@ fi:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -630,7 +667,7 @@ fi:
     models:
       attachment: Tiedosto
       attribute_help_text: Attribute help text
-      board: Keskustelupalsta
+      forum: Keskustelupalsta
       comment: Kommentti
       custom_action: Custom action
       custom_field: Mukautettu kenttä
@@ -1127,9 +1164,8 @@ fi:
       faq: UKK
       glossary: Sanasto
       shortcuts: Pikanäppäimet
-      forums: Keskustelupalstat
       blog: OpenProject blogi
-      boards: Keskustelupalsta
+      forums: Keskustelupalsta
       newsletter: Suojausvaroitukset / uutiskirje
   links:
     configuration_guide: Configuration guide
@@ -1177,7 +1213,6 @@ fi:
   label_all_open_wps: All open
   label_always_visible: Aina näkyvissä
   label_announcement: Ilmoitus
-  label_and_its_subprojects: "%{value} ja aliprojektit"
   label_api_access_key: API avain
   label_api_access_key_created_on: API access key created %{value} ago
   label_api_access_key_type: API
@@ -1197,7 +1232,7 @@ fi:
   label_authentication: Varmennus
   label_available_project_work_package_categories: Saatavilla olevat työpakettiluokat
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Saatavilla olevat taulut
+  label_available_project_forums: Available forums
   label_available_project_versions: Saatavana olevat versiot
   label_available_project_repositories: Available repositories
   label_api_documentation: API-dokumentaatio
@@ -1205,14 +1240,15 @@ fi:
   label_blocked_by: estänyt
   label_blocks: estää
   label_blog: Blogi
-  label_board_locked: Lukittu
-  label_board_new: Uusi keskustelupalsta
-  label_board_plural: Keskustelupalstat
-  label_board_sticky: Pysyvä
+  label_forums_locked: Lukittu
+  label_forum_new: Uusi keskustelupalsta
+  label_forum_plural: Keskustelupalstat
+  label_forum_sticky: Pysyvä
   label_boolean: Totuusarvomuuttuja
   label_branch: Haara
   label_browse: Selaus
   label_bulk_edit_selected_work_packages: Muokkaa useaa työpakettia
+  label_bundled: "(Bundled)"
   label_calendar: Kalenteri
   label_calendar_show: Näytä kalenteri
   label_category: Kategoria
@@ -1473,6 +1509,7 @@ fi:
   label_planning: Suunnittelu
   label_please_login: Kirjaudu sisään
   label_plugins: Liitännäiset
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: edeltää
   label_preferences: Asetukset
   label_preview: Esikatselu
@@ -1544,7 +1581,6 @@ fi:
   label_role_search: Määritä rooli uusille jäsenille
   label_scm: SCM
   label_search: Haku
-  label_search_titles_only: Hae vain otsikot
   label_send_information: Lähetä tilin tiedot käyttäjälle
   label_send_test_email: Lähetä testi sähköposti
   label_settings: Asetukset
@@ -1625,6 +1661,7 @@ fi:
   label_view_diff: Näytä erot
   label_view_revisions: Näytä versiot
   label_watched_work_packages: Seuratut työpaketit
+  label_what_is_this: What is this?
   label_week: Viikko
   label_wiki_content_added: Wiki-sivu lisätty
   label_wiki_content_updated: Wiki-sivu päivitetty
@@ -1745,7 +1782,7 @@ fi:
       link_name: Uusi työpaketti
       link_name_type: New %{type_name}
   mail:
-    actions: Actions
+    actions: Toiminnot
   mail_body_account_activation_request: 'Uusi käyttäjä (%{value}) on rekisteröitynyt.
     Hänen tili odottaa hyväksyntääsi:'
   mail_body_account_information: Sinun tilin tiedot
@@ -1798,6 +1835,8 @@ fi:
   notice_account_update_failed: Tilin asetusten tallentaminen ei onnistunut. Palaa
     takaisin tilisi sivulle.
   notice_account_updated: Tilin päivitys onnistui.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Väärä salasana
   notice_account_registered_and_logged_in: Tervetuloa, tilisi on aktivoitu. Olet kirjautunut
     sisään nyt.
@@ -1923,7 +1962,7 @@ fi:
   permission_export_wiki_pages: Vie wiki-sivuja
   permission_list_attachments: Listaa liitteet
   permission_log_time: Lokita käytettyä aikaa
-  permission_manage_boards: Hallinnoi keskustelupalstaa
+  permission_manage_forums: Hallinnoi keskustelupalstaa
   permission_manage_categories: Hallinnoi tapahtumien luokkia
   permission_manage_work_package_relations: Hallinnoi työpakettien suhteita
   permission_manage_members: Hallinnoi jäseniä
@@ -1970,7 +2009,7 @@ fi:
     archive:
       are_you_sure: Oletko varma, että haluat arkistoida projektin "%{name}"?
   project_module_activity: Aktiviteetti
-  project_module_boards: Keskustelupalstat
+  project_module_forums: Keskustelupalstat
   project_module_calendar: Kalenteri
   project_module_work_package_tracking: Työpaketin seuranta
   project_module_news: Uutiset
@@ -2198,6 +2237,7 @@ fi:
   setting_mail_handler_api_key: API avain
   setting_mail_handler_body_delimiters: Katkaise sähköpostit tällaisen rivin jälkeen
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rooli joka annetaan projektin luojalle, joka ei
     ole hallinnoija (admin)
   setting_password_active_rules: Aktiiviset merkistöluokat
@@ -2209,6 +2249,7 @@ fi:
   setting_per_page_options: Sivun objektien määrän asetukset
   setting_plain_text_mail: vain muotoilematonta tekstiä (ei HTML)
   setting_protocol: Protokolla
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Rekisteröinnin alatunniste
   setting_repositories_automatic_managed_vendor: Automatic repository vendor type
   setting_repositories_encodings: Tietovaraston koodaus
@@ -2376,6 +2417,16 @@ fi:
   text_no_notes: Tähän työpakettiin ei ole saatavilla kommentteja.
   text_notice_too_many_values_are_inperformant: 'Huomautus: Näyttää yli 100 kohteita
     sivulla voi lisätä sivu kuormitus aika.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: Olet aikeissa poistaa yhden tai useamman
     käyttöoikeuden ja et ehkä voi enää muokata tätä projektia sen jälkeen. Haluatko
     varmasti jatkaa?
@@ -2435,7 +2486,6 @@ fi:
       color: Väri
       colors: Värit
     associations: Riippuvuudet
-    board_could_not_be_saved: Taulua ei voitu tallentaa
     button_delete_all: Poista kaikki
     change: Muuta suunnittelussa
     children: Ali-elementit
@@ -2495,7 +2545,7 @@ fi:
       comparisons: Comparisons
       comparison:
         absolute: Absolute
-        none: None
+        none: Ei mitään
         relative: Relative
         compare_relative_prefix: Compare current planning to
         compare_relative_suffix: sitten
@@ -2792,8 +2842,8 @@ fi:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Päivitäthän selaimesi.
+    close_warning: Ohita tämä varoitus.
   oauth:
     application:
       singular: OAuth application
@@ -2839,7 +2889,7 @@ fi:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Oikeudet
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2863,7 +2913,3 @@ fi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Poista widgetti
-  label_my_page_block: Minun sivu
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Näkyvät elementit

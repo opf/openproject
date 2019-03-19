@@ -43,7 +43,6 @@ import {filter} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
-import {TimelineRowBuilder} from '../wp-fast-table/builders/timeline/timeline-row-builder';
 import {onClickOrEnter} from '../wp-fast-table/handlers/click-or-enter-handler';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
@@ -53,7 +52,7 @@ import {
   InlineCreateRowBuilder,
   inlineCreateRowClassName
 } from './inline-create-row-builder';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
@@ -84,9 +83,6 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
   private workPackageEditForm:WorkPackageEditForm | undefined;
 
-  private rowBuilder:InlineCreateRowBuilder;
-
-  private timelineBuilder:TimelineRowBuilder;
   private editingSubscription:Subscription|undefined;
 
   private $element:JQuery;
@@ -95,7 +91,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
               protected readonly elementRef:ElementRef,
               protected readonly FocusHelper:FocusHelperService,
               protected readonly I18n:I18nService,
-              protected readonly tableState:TableState,
+              protected readonly querySpace:IsolatedQuerySpace,
               protected readonly currentUser:CurrentUserService,
               @Inject(IWorkPackageCreateServiceToken) protected readonly wpCreate:WorkPackageCreateService,
               protected readonly wpInlineCreate:WorkPackageInlineCreateService,
@@ -120,9 +116,6 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     if (_.isNil(this.table)) {
       return;
     }
-
-    this.rowBuilder = new InlineCreateRowBuilder(this.injector, this.table);
-    this.timelineBuilder = new TimelineRowBuilder(this.injector, this.table);
 
     // Mirror the row height in timeline
     const container = jQuery(this.table.timelineBody);
@@ -158,7 +151,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
    * we need to manually ensure the inline create row gets refreshed as well.
    */
   private refreshOnColumnChanges() {
-    this.tableState.columns
+    this.querySpace.columns
       .values$()
       .pipe(
         filter(() => this.isActive), // Take only when row is inserted
@@ -182,11 +175,11 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
           // Split view on the last inserted id if any
           if (!this.table.configuration.isEmbedded) {
-            this.wpTableFocus.updateFocus(wp.id);
+            this.wpTableFocus.updateFocus(wp.id!);
           }
 
           // Notify inline create service
-          this.wpInlineCreate.newInlineWorkPackageCreated.next(wp.id);
+          this.wpInlineCreate.newInlineWorkPackageCreated.next(wp.id!);
         } else {
           // Remove current row
           this.wpCreate.cancelCreation();
@@ -251,10 +244,11 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
   }
 
   private refreshRow() {
+    const builder = new InlineCreateRowBuilder(this.injector, this.table);
     const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
 
     if (rowElement.length && this.currentWorkPackage) {
-      this.rowBuilder.refreshRow(this.currentWorkPackage, rowElement);
+      builder.refreshRow(this.currentWorkPackage, rowElement);
     }
   }
 
@@ -266,9 +260,10 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
    * @returns The work package form of the row
    */
   private renderInlineCreateRow(wp:WorkPackageResource):WorkPackageEditForm {
-    const form = this.table.editing.startEditing(wp, this.rowBuilder.classIdentifier(wp));
+    const builder = new InlineCreateRowBuilder(this.injector, this.table);
+    const form = this.table.editing.startEditing(wp, builder.classIdentifier(wp));
 
-    const [row, ] = this.rowBuilder.buildNew(wp, form);
+    const [row, ] = builder.buildNew(wp, form);
     this.$element.append(row);
 
     return form;

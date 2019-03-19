@@ -27,32 +27,28 @@
 // ++
 
 import {InputState} from 'reactivestates';
-import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
+import {WorkPackageQueryStateService} from './wp-table-base.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageTableSum} from '../wp-table-sum';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 
 @Injectable()
-export class WorkPackageTableSumService extends WorkPackageTableBaseService<WorkPackageTableSum> implements WorkPackageQueryStateService {
+export class WorkPackageTableSumService extends WorkPackageQueryStateService<boolean> {
 
-  public constructor(tableState:TableState) {
-    super(tableState);
+  public constructor(querySpace:IsolatedQuerySpace) {
+    super(querySpace);
   }
 
-
-  public get state():InputState<WorkPackageTableSum> {
-    return this.tableState.sum;
+  public get state():InputState<boolean> {
+    return this.querySpace.sum;
   }
 
   public valueFromQuery(query:QueryResource) {
-    return new WorkPackageTableSum(query.sums);
+    return !!query.sums;
   }
 
   public initialize(query:QueryResource) {
-    let sum = new WorkPackageTableSum(query.sums);
-
-    this.state.putValue(sum);
+    this.state.putValue(!!query.sums);
   }
 
   public hasChanged(query:QueryResource) {
@@ -65,33 +61,18 @@ export class WorkPackageTableSumService extends WorkPackageTableBaseService<Work
   }
 
   public toggle() {
-    let currentState = this.current;
-
-    currentState.toggle();
-
-    this.state.putValue(currentState);
+    this.state.putValue(!this.current);
   }
 
   public setEnabled(value:boolean) {
-    let currentState = this.current;
-    currentState.current = value;
-
-    this.state.putValue(currentState);
+    this.state.putValue(value);
   }
 
   public get isEnabled() {
-    return this.current.isEnabled;
+    return this.current;
   }
 
-  private get current():WorkPackageTableSum {
-    return this.state.value as WorkPackageTableSum;
-  }
-
-  public get currentSum():boolean|undefined {
-    if (this.current) {
-      return this.current.current;
-    } else {
-      return undefined;
-    }
+  public get current():boolean {
+    return this.state.getValueOr(false);
   }
 }

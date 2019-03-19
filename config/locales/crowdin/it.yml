@@ -58,9 +58,25 @@ it:
     index:
       no_results_content_title: Al momento non vi è alcuna modalità di autenticazione.
       no_results_content_text: Crea una nuova modalità di autenticazione
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Crittografia connessione
+    tls_mode:
+      plain: nessuno
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Al momento non vi sono messaggi in bacheca.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Al momento non vi sono colori.
@@ -107,6 +123,10 @@ it:
       further_information_after: ''
     calendar:
       removal: 'Nota bene: questo modulo sta per essere rimosso con OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Al momento non esistono gruppi.
@@ -115,25 +135,30 @@ it:
       no_results_title_text: Al momento nessun utente fa parte di questo gruppo.
     memberships:
       no_results_title_text: Al momento nessun progetto fa parte di questo gruppo.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      scheduled: L'eliminazione è stata programmata e verrà eseguita in background.
+        Verrai avvisato del risultato.
+      schedule_failed: 'Il progetto non può essere eliminato: %{errors}'
+      failed: Eliminazione del progetto %{name} non riuscita
+      failed_text: La richiesta di eliminare il progetto %{name} non è riuscita. Il
+        progetto è stato archiviato.
+      completed: Eliminazione del progetto %{name} completata
+      completed_text: La richiesta di cancellare il progetto '%{name}' è stata completata.
     index:
       no_results_title_text: Al momento non esistono progetti
       no_results_content_text: Crea un nuovo progetto
     settings:
       activities:
         no_results_title_text: Al momento non vi sono attività disponibili.
-      boards:
-        no_results_title_text: Al momento non esistono bacheche per il progetto.
-        no_results_content_text: Creare una nuova bacheca
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Al momento non è definita nessuna categoria di macro-attività.
         no_results_content_text: Crea una nuova categoria di macro-attività
@@ -219,6 +244,8 @@ it:
     x_descendants:
       one: Una macro-attività discendente
       other: "%{count} macro-attività discendenti"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Nessuno stato disponibile per tutte le macro-attività
         selezionate. Non è possibile cambiare lo stato.
@@ -361,6 +388,11 @@ it:
         subscriber: Iscritto
         encoded_token: Token di assistenza Enterprise
         active_user_count_restriction: Numero massimo di utenti attivi
+      grids/grid:
+        page: Pagina
+        row_count: Numero di righe
+        column_count: Numero di colonne
+        widgets: Widget
       relation:
         delay: Ritardo
         from: Macro-attività
@@ -453,12 +485,12 @@ it:
         watcher: Osservatore
       doorkeeper/application:
         uid: Client ID
-        secret: Client secret
-        owner: Owner
-        redirect_uri: Redirect URI
-        client_credentials_user_id: Client Credentials User ID
-        scopes: Scopes
-        confidential: Confidential
+        secret: Segreto del client
+        owner: Proprietario
+        redirect_uri: Reindirizzamento URl
+        client_credentials_user_id: ID utente credenziali client
+        scopes: Ambiti
+        confidential: Confidenziale
     errors:
       messages:
         accepted: deve essere accettato.
@@ -502,6 +534,7 @@ it:
         too_long: è troppo lungo (il massimo è %{count} caratteri).
         too_short: è troppo breve (il minimo è %{count} caratteri).
         unchangeable: non può essere modificato.
+        unremovable: cannot be removed.
         wrong_length: è della lunghezza sbagliata (dovrebbe essere %{count} caratteri).
       models:
         custom_field:
@@ -519,16 +552,20 @@ it:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
-              secured_uri: must be an HTTPS/SSL URI.
-              forbidden_uri: is forbidden by the server.
+              fragment_present: non può contenere un frammento.
+              invalid_uri: deve essere un URI valido.
+              relative_uri: deve essere un URI assoluto.
+              secured_uri: deve essere un URI HTTPS/SSL.
+              forbidden_uri: è vietato dal server.
             scopes:
-              not_match_configured: doesn't match available scopes.
+              not_match_configured: non corrisponde ai campi disponibili.
         enterprise_token:
           unreadable: non può essere letto. Sei sicuro che si tratta di un token di
             assistenza?
+        grids/grid:
+          overlaps: sovrapposizione.
+          outside: è fuori dalla griglia.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -645,7 +682,7 @@ it:
     models:
       attachment: File
       attribute_help_text: Testo guida dell'attributo
-      board: Forum
+      forum: Forum
       comment: Commento
       custom_action: Azione personalizzata
       custom_field: Campo personalizzato
@@ -666,7 +703,7 @@ it:
       wiki_page: Pagina wiki
       workflow: Flusso di lavoro
       work_package: Macro-attività
-      doorkeeper/application: OAuth application
+      doorkeeper/application: Applicazione OAuth
   errors:
     header_invalid_fields: 'Ci sono stati dei problemi con i seguenti campi:'
     field_erroneous_label: 'Questo campo non è valido: %{full_errors} Prego, inserisci
@@ -741,7 +778,7 @@ it:
   button_change_password: Cambia password
   button_check_all: Seleziona tutti
   button_clear: Pulisci
-  button_click_to_reveal: Click to reveal
+  button_click_to_reveal: Clicca per visualizzare
   button_close: Chiuso
   button_collapse_all: Comprimi Tutto
   button_configure: Configura
@@ -771,7 +808,7 @@ it:
   button_remove: Rimuovi
   button_rename: Rinomina
   button_replace: Sostituisci
-  button_revoke: Revoke
+  button_revoke: Revoca
   button_reply: Rispondi
   button_reset: Reimposta
   button_rollback: Ripristina a questa versione
@@ -1155,9 +1192,8 @@ it:
       faq: FAQ
       glossary: Glossario
       shortcuts: Tasti di scelta rapida
-      forums: Forum
       blog: Blog di OpenProject
-      boards: Forum della Comunità
+      forums: Forum della Comunità
       newsletter: Avvisi di sicurezza / Notizie
   links:
     configuration_guide: Guida di configurazione
@@ -1205,7 +1241,6 @@ it:
   label_all_open_wps: Apri tutto
   label_always_visible: Sempre visibile
   label_announcement: Annuncio
-  label_and_its_subprojects: "%{value} e i suoi sotto-progetti"
   label_api_access_key: Chiave di accesso API
   label_api_access_key_created_on: Chiave di accesso API creata %{value} fa
   label_api_access_key_type: API
@@ -1225,7 +1260,7 @@ it:
   label_authentication: Autenticazione
   label_available_project_work_package_categories: Categorie di macro-attività disponibili
   label_available_project_work_package_types: Tipi di pacchetti di lavoro disponibili
-  label_available_project_boards: Comitati disponibili
+  label_available_project_forums: Available forums
   label_available_project_versions: Versioni disponibili
   label_available_project_repositories: Archivi disponibili
   label_api_documentation: Documentazione API
@@ -1233,15 +1268,16 @@ it:
   label_blocked_by: bloccato da
   label_blocks: blocca
   label_blog: Blog
-  label_board_locked: Chiuso
-  label_board_new: Nuovo forum
-  label_board_plural: Forum
-  label_board_sticky: In evidenza
+  label_forums_locked: Chiuso
+  label_forum_new: Nuovo forum
+  label_forum_plural: Forum
+  label_forum_sticky: In evidenza
   label_boolean: Booleano
   label_branch: Ramo
   label_browse: Naviga
   label_bulk_edit_selected_work_packages: Modifica in blocco le macro-attività (work
     package) selezionati
+  label_bundled: "(Bundled)"
   label_calendar: Calendario
   label_calendar_show: Mostra Calendario
   label_category: Categoria
@@ -1338,7 +1374,7 @@ it:
   label_environment: Ambiente
   label_estimates_and_time: Stime e tempi
   label_equals: è
-  label_everywhere: everywhere
+  label_everywhere: ovunque
   label_example: Esempio
   label_export_to: 'Disponibile anche in:'
   label_expanded_click_to_collapse: Espanso. Clicca per comprimere
@@ -1376,7 +1412,7 @@ it:
   label_history: Registro cronologico
   label_hierarchy_leaf: Foglia della gerarchia
   label_home: Radice (home)
-  label_subject_or_id: Subject or ID
+  label_subject_or_id: Oggetto o ID
   label_in: in
   label_in_less_than: in meno di
   label_in_more_than: in più di
@@ -1502,6 +1538,7 @@ it:
   label_planning: Pianificazione
   label_please_login: Occorre effettuare l'accesso
   label_plugins: Plugin
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precede
   label_preferences: Preferenze
   label_preview: Anteprima
@@ -1575,7 +1612,6 @@ it:
   label_role_search: Assegna ruolo ai nuovi membri
   label_scm: SCM
   label_search: Cerca
-  label_search_titles_only: Cerca solo nei titoli
   label_send_information: Invia le informazioni di registrazione all'utente
   label_send_test_email: Invia un email di prova
   label_settings: Impostazioni
@@ -1657,6 +1693,7 @@ it:
   label_view_diff: Mostra le differenze
   label_view_revisions: Vedi revisioni
   label_watched_work_packages: Macro-attività (work package) osservate
+  label_what_is_this: Che cos'è questo?
   label_week: Settimana
   label_wiki_content_added: Pagina wiki aggiunta
   label_wiki_content_updated: Pagina wiki aggiornata
@@ -1840,6 +1877,8 @@ it:
   notice_account_update_failed: L'impostazione dell'account non può essere salvata.
     Controlla la pagina del tuo account.
   notice_account_updated: Account aggiornato con successo.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Password sbagliata
   notice_account_registered_and_logged_in: Benvenuto, il tuo account è stato attivato.
     Sei già connesso.
@@ -1971,7 +2010,7 @@ it:
   permission_export_wiki_pages: Esportare pagine wiki
   permission_list_attachments: Elencare allegati
   permission_log_time: Registrazioni dell'orario effettuato
-  permission_manage_boards: Gestire forum
+  permission_manage_forums: Gestire forum
   permission_manage_categories: Gestire le categorie delle macro-attività (work package)
   permission_manage_work_package_relations: Gestisci le correlazioni tra macro-attività
     (work package)
@@ -2021,7 +2060,7 @@ it:
     archive:
       are_you_sure: Sicuro di voler archiviare il progetto '%{name}'?
   project_module_activity: Attività
-  project_module_boards: Forum
+  project_module_forums: Forum
   project_module_calendar: Calendario
   project_module_work_package_tracking: Monitoraggio macro-attività (work-package)
   project_module_news: Notizie
@@ -2270,6 +2309,7 @@ it:
   setting_mail_handler_body_delimiters: Troncare le email dopo una di queste linee
   setting_mail_handler_body_delimiter_regex: Troncare le email che corrispondono a
     questa espressione regolare
+  setting_mail_handler_ignore_filenames: Allegati email ignorati
   setting_new_project_user_role_id: Ruolo assegnato ad un utente non amministratore
     che crea un progetto
   setting_password_active_rules: Insiemi di caratteri attivi
@@ -2282,6 +2322,7 @@ it:
   setting_per_page_options: Opzioni degli oggetti per pagina
   setting_plain_text_mail: Posta in formato testo semplice (no HTML)
   setting_protocol: Protocollo
+  setting_security_badge_displayed: Mostra badge di sicurezza
   setting_registration_footer: Piè di pagina registrazione
   setting_repositories_automatic_managed_vendor: Tipo automatico di gestore dell'archivio
     di progetto
@@ -2463,6 +2504,16 @@ it:
   text_no_notes: Non ci sono commenti disponibili per questa macro-attività.
   text_notice_too_many_values_are_inperformant: 'Nota: La visualizzazione di più di
     100 elementi per pagina può aumentare il tempo di caricamento della pagina.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Stai per rimuovere qualcuno o tutti i tuoi permessi e potresti non essere più in grado di modificare questo progetto dopo questo passo.
     Sei sicuro di voler continuare?
@@ -2527,7 +2578,6 @@ it:
       color: Colore
       colors: Colori
     associations: Dipendenze
-    board_could_not_be_saved: Il quadro non può essere salvato
     button_delete_all: Cancella tutti
     change: Cambiare nella pianificazione
     children: Elementi discendenti
@@ -2861,17 +2911,18 @@ it:
       schema: Schema
   doorkeeper:
     pre_authorization:
-      status: Pre-authorization
+      status: Pre-autorizzazione
     errors:
       messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
-        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
-          client redirect URI.
-        unauthorized_client: The client is not authorized to perform this request
-          using this method.
-        access_denied: The resource owner or authorization server denied the request.
-        invalid_scope: The requested scope is invalid, unknown, or malformed.
+        invalid_request: Nella richiesta non è presente un parametro richiesto, include
+          un valore di parametro non supportato, o non è valido.
+        invalid_redirect_uri: Il reindirizzamento dell'url richiesto non è valido
+          o non corrisponde all'URl di reindirizzamento del client.
+        unauthorized_client: Il client non è autorizzato ad eseguire questa richiesta
+          usando questo metodo.
+        access_denied: Il proprietario della risorsa o il server di autorizzazione
+          hanno rifiutato la richiesta.
+        invalid_scope: Lo scopo richiesto non è non valido, sconosciuto o malformato.
         invalid_code_challenge_method: The code challenge method must be plain or
           S256.
         server_error: The authorization server encountered an unexpected condition
@@ -2895,17 +2946,17 @@ it:
           authorization server.
         invalid_token:
           revoked: The access token was revoked
-          expired: The access token expired
-          unknown: The access token is invalid
+          expired: Il token di accesso è scaduto
+          unknown: Il token di accesso non è valido
   unsupported_browser:
-    title: Your browser is outdated and unsupported.
+    title: Il tuo browser è obsoleto e non supportato.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Aggiornare il browser, prego.
+    close_warning: Ignora questo avviso.
   oauth:
     application:
-      singular: OAuth application
-      plural: OAuth applications
+      singular: Applicazione OAuth
+      plural: Applicazioni OAuth
       named: OAuth application '%{name}'
       new: New OAuth application
       default_scopes: "(Default scopes)"
@@ -2932,7 +2983,7 @@ it:
 
 '
     authorization_dialog:
-      authorize: Authorize
+      authorize: Autorizza
       cancel: Cancel and deny authorization.
       prompt_html: Authorize <strong>%{application_name}</strong> to use your account
         <em>%{login}</em>?
@@ -2946,14 +2997,14 @@ it:
       api_v3_text: Application will receive full read & write access to the OpenProject
         API to perform actions on your behalf.
     grants:
-      created_date: Approved on
-      scopes: Permissions
+      created_date: Approvato il
+      scopes: Permessi
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
-      one: one active token
-      other: "%{count} active token"
+      one: un token attivo
+      other: "%{count} token attivi"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2968,11 +3019,6 @@ it:
 
 '
     authorization_error: An authorization error has occurred.
-    revoke_my_application_confirmation: Do you really want to remove this application?
-      This will revoke %{token_count} active for it.
+    revoke_my_application_confirmation: Vuoi davvero rimuovere questa applicazione?
+      Questo revocherà %{token_count} attivo per essa.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Rimuovi widget
-  label_my_page_block: Il mio blocco pagina
-  label_responsible_for_work_packages: Macro-attività di cui sono responsabile del
-    risultato
-  label_visible_elements: Elementi visibili

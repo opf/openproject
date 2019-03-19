@@ -34,6 +34,7 @@ import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relat
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {WpRelationInlineCreateServiceInterface} from "core-components/wp-relations/embedded/wp-relation-inline-create.service.interface";
+import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 
 @Component({
   templateUrl: './wp-relation-inline-add-existing.component.html'
@@ -52,6 +53,7 @@ export class WpRelationInlineAddExistingComponent {
               protected wpCacheService:WorkPackageCacheService,
               protected wpRelations:WorkPackageRelationsService,
               protected wpNotificationsService:WorkPackageNotificationService,
+              protected wpTableRefresh:WorkPackageTableRefreshService,
               protected readonly I18n:I18nService) {
   }
 
@@ -65,7 +67,8 @@ export class WpRelationInlineAddExistingComponent {
 
     this.wpInlineCreate.add(this.workPackage, newRelationId)
       .then(() => {
-        this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
+        this.wpCacheService.loadWorkPackage(this.workPackage.id!, true);
+        this.wpTableRefresh.request(`Added relation ${newRelationId}`, { visible: true });
         this.isDisabled = false;
         this.wpInlineCreate.newInlineWorkPackageReferenced.next(newRelationId);
         this.cancel();

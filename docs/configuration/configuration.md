@@ -135,6 +135,14 @@ If this option is active /login will lead directly to the configured omniauth pr
 Note that this does not stop a user from manually navigating to any other
 omniauth provider if additional ones are configured.
 
+
+### Gravatar images
+
+OpenProject uses gravatar images with a `404` fallback by default to render an internal, initials-based avatar.
+You can override this behavior by setting `gravatar_fallback_image` to a different value.
+
+For supported values, please see https://en.gravatar.com/site/implement/images/
+
 ### attachments storage
 
 *default: file*
@@ -191,6 +199,10 @@ for the migration.
 
 You can override the default help menu of OpenProject by specifying a `force_help_link` option to
 the configuration. This value is used for the href of the help link, and the default dropdown is removed.
+
+### Setting an impressum (legal notice) link
+
+You can set a impressum link for your OpenProject instance by setting `impressum_link` to an absolute URL.
 
 ### hidden menu items
 
@@ -309,6 +321,21 @@ default:
       user: admin
       password: admin
 ```
+
+## Security badge
+
+OpenProject now provides a release indicator (security badge) that will inform administrators of an OpenProject
+installation on whether new releases or security updates are available for your platform.
+
+If enabled, this option will display a badge with your installation status at Administration &gt; Information right next to the release version,
+and on the home screen. It is only displayed to administrators.
+
+The badge will match your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities.
+To ensure the newest available update can be returned, the check will include your installation type, current version, database type, enterprise status and an anonymous unique ID of the instance.
+To localize the badge, the user's locale is sent. No personal information of your installation or any user within is transmitted, processed, or stored.
+
+To disable rendering the badge, uncheck the setting at Administration &gt; System settings &gt; General or pass
+the configuration flag `security_badge_displayed: false` .
 
 ## Email configuration
 

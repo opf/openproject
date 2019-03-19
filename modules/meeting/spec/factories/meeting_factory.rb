@@ -23,5 +23,9 @@ FactoryBot.define do
     author factory: :user
     project
     m.sequence(:title) { |n| "Meeting #{n}" }
+
+    after(:create) do |meeting, evaluator|
+      meeting.project = evaluator.project if evaluator.project
+    end
   end
 end

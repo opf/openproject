@@ -36,15 +36,9 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= setting_text_field :mail_handler_body_delimiter_regex, container_class: '-wide' %>
       <div class="form--field-instructions"><%= t(:text_regexp_multiline) %></div>
     </div>
-  </section>
-  <section class="form--section">
     <div class="form--field">
-      <%= setting_check_box :mail_handler_api_enabled %>
-      <% csp_onclick("jQuery('#settings_mail_handler_api_key').prop('disabled', !this.checked );",
-                     '#settings_mail_handler_api_enabled') %>
-      <div class="form--field-instructions">
-        <%= t(:setting_mail_handler_api_description) %>
-      </div>
+      <%= setting_text_area :mail_handler_ignore_filenames, rows: 5, container_class: '-wide' %>
+      <div class="form--field-instructions"><%= t('incoming_mails.ignore_filenames') %></div>
     </div>
   </section>
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>

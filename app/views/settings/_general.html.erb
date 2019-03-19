@@ -57,6 +57,18 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= setting_text_field :file_max_size_displayed, size: 6, unit: t(:"number.human.storage_units.units.kb"), container_class: '-xslim' %>
     </div>
     <div class="form--field"><%= setting_text_field :diff_max_lines_displayed, size: 6, container_class: '-xslim' %></div>
+
+    <% if OpenProject::Configuration.security_badge_displayed? %>
+    <div class="form--field">
+      <%= setting_check_box :security_badge_displayed %>
+      <span class="form--field-instructions">
+        <%= t(:text_notice_security_badge_displayed_html,
+              information_panel_label: t(:label_information),
+              more_info_url: ::OpenProject::Static::Links[:security_badge_documentation][:href],
+              information_panel_path: info_admin_index_path) %>
+      </span>
+    </div>
+    <% end %>
     <%= call_hook(:view_settings_general_form) %>
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= t(:setting_welcome_text) %></legend>

@@ -26,16 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component} from '@angular/core';
-import {WorkPackagesSetComponent} from "core-app/modules/work_packages/routing/wp-set/wp-set.component";
+import {Component, ViewChild} from '@angular/core';
+import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
+import {WorkPackagesCalendarController} from "core-app/modules/calendar/wp-calendar/wp-calendar.component";
 
 @Component({
   templateUrl: './wp-calendar-entry.component.html'
 })
 
-export class WorkPackagesCalendarEntryComponent extends WorkPackagesSetComponent {
-  // overrides super
-  protected initialQueryLoading(loadingRequired:boolean) {
-    // nothing
+export class WorkPackagesCalendarEntryComponent extends WorkPackagesViewBase {
+  @ViewChild(WorkPackagesCalendarController) calendarElement:WorkPackagesCalendarController;
+
+  /** Project identifier of the list */
+  projectIdentifier = this.$state.params['projectPath'] || null;
+
+  protected set loadingIndicator(promise:Promise<unknown>) {
+    this.loadingIndicatorService.indicator('calendar-entry').promise = promise;
+  }
+
+  public refresh(visibly:boolean, firstPage:boolean):Promise<unknown> {
+    return this.loadingIndicator =
+      this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
   }
 }

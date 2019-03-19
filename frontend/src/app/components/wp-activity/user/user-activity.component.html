@@ -4,13 +4,12 @@
      [attr.aria-label]="fieldLabel || activityLabel"
      (mouseenter)="focus()"
      (mouseleave)="blur()">
-  <div *ngIf="userAvatar">
-    <img class="avatar avatar--fallback"
-         data-avatar-fallback-remove="true"
-         [attr.src]="userAvatar"
-         [attr.title]="userName"
-         alt="Avatar" />
-  </div>
+  <user-avatar *ngIf="userName"
+               [attr.data-user-name]="userName"
+               [attr.data-user-avatar-src]="userAvatar"
+               data-class-list="avatar">
+  </user-avatar>
+
   <span class="user" *ngIf="userActive">
     <a [attr.href]="userPath"
        [attr.aria-label]="userLabel"

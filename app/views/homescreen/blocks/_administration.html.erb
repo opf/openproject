@@ -49,3 +49,12 @@
   </li>
   <%= call_hook(:homescreen_administration_links) %>
 </ul>
+
+<%= content_tag :div, class: 'security-badge--container' do %>
+  <%= content_tag :object, nil, data: security_badge_url, type: "image/svg+xml" %>
+  <%= link_to '',
+              ::OpenProject::Static::Links[:security_badge_documentation][:href],
+              title: t(:label_what_is_this),
+              class: 'security-badge--help-icon icon-context icon-help1',
+              target: '_blank' %>
+<% end if display_security_badge_graphic? %>

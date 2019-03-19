@@ -18,14 +18,25 @@ hr:
     close_popup_title: Popup izbornik
     close_filter_title: Zatvori filtar
     close_form_title: Zatvori obrazac
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Vaš izbornik ne podržava kopiranje u međuspremnik. Molim vas
         manualno kopirajte odabrani tekst.
       copied_successful: Uspješno kopirano u međuspremnik!
     button_add_watcher: Dodaj nadglednika
+    button_back: Povratak
     button_back_to_list_view: Back to list view
     button_cancel: Odustani
-    button_close: Close
+    button_close: Zatvori
     button_check_all: Označi sve
     button_configure-form: Configure form
     button_confirm: Potvrdi
@@ -38,6 +49,7 @@ hr:
     button_duplicate: Dupliciraj
     button_edit: Uredi
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Prikaz popisa
     button_show_view: Prikaz na cijelom ekranu
     button_log_time: Vrijeme pristupa
@@ -146,6 +158,30 @@ hr:
     general_text_yes: da
     general_text_No: Ne
     general_text_Yes: Da
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Dokumenti
+          no_results: No documents yet.
+        news:
+          title: Vijesti
+          at: at
+          no_results: Nema promjena za izvjestiti.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Radni paketi dodijeljeni meni
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalendar
     label_activate: Aktiviraj
     label_activity_no: Broj unosa aktivnosti %{activityNo}
     label_activity_with_comment_no: Broj unosa aktivnosti %{activityNo}. Postoji komentar
@@ -166,8 +202,10 @@ hr:
     label_and: i
     label_ascending: Uzlazno
     label_author: 'Autor: %{user}'
-    label_between: between
+    label_between: između
+    label_board: Board
     label_board_locked: Zaključano
+    label_board_plural: Boards
     label_board_sticky: Zaljepljeno
     label_create_work_package: Kreirajte novi radni paket
     label_created_by: Kreirao korisnik
@@ -214,7 +252,7 @@ hr:
     label_menu_collapse: sakriti
     label_menu_expand: proširiti
     label_more_than_ago: prije nekoliko dana
-    label_my_page: My page
+    label_my_page: Moja stranica
     label_next: Sljedeći
     label_no_data: Nema podataka za prikaz
     label_no_due_date: nema datuma kraja
@@ -253,7 +291,7 @@ hr:
     label_subject: Predmet
     label_this_week: ovog tjedna
     label_today: danas
-    label_up: Up
+    label_up: Gore
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% ukupnog napretka"
@@ -291,6 +329,7 @@ hr:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Prijenos datoteka za Radni paket #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Ove datoteke će biti prenešene:'
     label_rejected_files: 'Ove datoteke ne mogu biti prenešene:'
     label_rejected_files_reason: Ove datoteke ne mogu biti prenešeno zato što je njihova
@@ -399,9 +438,9 @@ hr:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Aktivnost
+      comment: Komentar
+      hours: Sati
     watchers:
       label_loading: učitavanje nadglednika...
       label_error_loading: Došlo je do pogreške tijekom učitavanja nadglednika
@@ -486,6 +525,7 @@ hr:
       view?
     text_attachment_destroy_confirmation: Da li ste sigurni da želite izbrisati privitke?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -765,8 +805,6 @@ hr:
         days: dani
         weeks: tjedana
         months: mjeseci
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -807,6 +845,7 @@ hr:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Uspješno kreirano.
     notice_successful_delete: Brisanje uspješno.
     notice_successful_update: Ažuriranje je uspješno završeno.
@@ -834,7 +873,7 @@ hr:
     error_could_not_resolve_version_name: Neuspjeli pokušaj razriješavanja imena verzije
     error_could_not_resolve_user_name: Neuspijeli pokušaj razrješavanja korisničkog
       imena
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -854,11 +893,13 @@ hr:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: Vaša verzija Internet preglednika nije podržana
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Ažurirajte svoj preglednik.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Saznaj više
-      close_warning: Ignorirati ovo upozorenje.
+    global_search:
+      all_projects: In all projects
+      search: Pretraživanje
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

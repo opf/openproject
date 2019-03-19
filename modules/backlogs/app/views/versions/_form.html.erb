@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= back_url_hidden_field_tag %>
 
 <% if @version.project == @project %>
-  <div class="form--field">
+  <div class="form--field -required">
     <%= f.text_field :name, required: true, container_class: '-wide'  %>
   </div>
   <div class="form--field">

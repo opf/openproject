@@ -28,7 +28,6 @@
 
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService} from '@uirouter/core';
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
@@ -37,6 +36,8 @@ import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-
 import {States} from 'core-components/states.service';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {FirstRouteService} from "core-app/modules/router/first-route-service";
+import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";
+import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
 
 @Component({
   templateUrl: './wp-full-view.html',
@@ -44,7 +45,7 @@ import {FirstRouteService} from "core-app/modules/router/first-route-service";
   // Required class to support inner scrolling on page
   host: { 'class': 'work-packages-page--ui-view' }
 })
-export class WorkPackagesFullViewComponent extends WorkPackageViewController {
+export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase {
 
   // Watcher properties
   public isWatched:boolean;
@@ -62,6 +63,8 @@ export class WorkPackagesFullViewComponent extends WorkPackageViewController {
   public permittedActions:any;
   public actionsAvailable:any;
   public triggerMoreMenuAction:Function;
+
+  public backRoutingService:BackRoutingService = this.injector.get(BackRoutingService);
 
   constructor(public injector:Injector,
               public states:States,
@@ -86,16 +89,15 @@ export class WorkPackagesFullViewComponent extends WorkPackageViewController {
     super.init();
 
     // Set Focused WP
-    this.wpTableFocus.updateFocus(this.workPackage.id);
+    this.wpTableFocus.updateFocus(this.workPackage.id!);
 
     this.setWorkPackageScopeProperties(this.workPackage);
-    this.text.goToList = this.I18n.t('js.button_back_to_list_view');
+    this.text.goBack = this.I18n.t('js.button_back');
   }
 
-  public goToList() {
-    this.$state.go('work-packages.list', this.$state.params);
+  public goBack() {
+    this.backRoutingService.goBack();
   }
-
   private setWorkPackageScopeProperties(wp:WorkPackageResource) {
     this.isWatched = wp.hasOwnProperty('unwatch');
     this.displayWatchButton = wp.hasOwnProperty('unwatch') || wp.hasOwnProperty('watch');

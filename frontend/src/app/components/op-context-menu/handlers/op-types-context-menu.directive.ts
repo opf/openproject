@@ -90,9 +90,9 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
       return {
         disabled: false,
         linkText: type.name,
-        href: this.$state.href(this.stateName, { type: type.id }),
+        href: this.$state.href(this.stateName, { type: type.id! }),
         ariaLabel: type.name,
-        class: Highlighting.dotClass('type', type.id),
+        class: Highlighting.dotClass('type', type.id!),
         onClick: ($event:JQueryEventObject) => {
           if (LinkHandling.isClickedWithModifier($event)) {
             return false;

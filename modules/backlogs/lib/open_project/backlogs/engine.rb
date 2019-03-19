@@ -54,7 +54,7 @@ module OpenProject::Backlogs
 
     register 'openproject-backlogs',
              author_url: 'http://finn.de',
-             requires_openproject: "= #{OpenProject::Backlogs::VERSION}",
+             bundled: true,
              settings: settings do
       Redmine::AccessControl.permission(:edit_project).actions << 'projects/project_done_statuses'
       Redmine::AccessControl.permission(:edit_project).actions << 'projects/rebuild_positions'
@@ -124,7 +124,6 @@ module OpenProject::Backlogs
              :WorkPackage,
              :Status,
              :Type,
-             :MyController,
              :Project,
              :ProjectsController,
              :ProjectsHelper,
@@ -240,6 +239,7 @@ module OpenProject::Backlogs
 
     initializer 'backlogs.register_hooks' do
       require 'open_project/backlogs/hooks'
+      require 'open_project/backlogs/hooks/user_settings_hook'
     end
 
     config.to_prepare do

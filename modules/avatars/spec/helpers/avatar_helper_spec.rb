@@ -6,13 +6,11 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
   let(:avatar_stub) { FactoryBot.build_stubbed(:avatar_attachment) }
 
   let(:enable_gravatars) { false }
-  let(:gravatar_default) { '' }
   let(:enable_local_avatars) { false }
   let(:plugin_settings) do
     {
       'enable_gravatars' => enable_gravatars,
-      'enable_local_avatars' => enable_local_avatars,
-      'gravatar_default' => gravatar_default
+      'enable_local_avatars' => enable_local_avatars
     }
   end
 
@@ -24,22 +22,37 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
     allow(user).to receive(:local_avatar_attachment).and_return avatar_stub
   end
 
-  def local_expected_image_tag(user)
-    tag_options = { title: user.name,
-                    alt: 'Avatar',
-                    class: 'avatar' }
+  def local_expected_user_avatar_tag(user)
+    tag_options = { 'data-user-avatar-src': local_expected_url(user),
+                    'data-user-name': user.name,
+                    'data-class-list': 'avatar' }
 
-    image_tag local_expected_url(user), tag_options
+    content_tag 'user-avatar', '', tag_options
   end
 
   def local_expected_url(user)
     user_avatar_url(user)
   end
 
+  def default_expected_user_avatar_tag(user)
+    tag_options = { 'data-use-fallback': "true",
+                    'data-user-name': user.name,
+                    'data-class-list': 'avatar avatar-default' }
+
+    content_tag 'user-avatar', '', tag_options
+  end
+
+  def gravatar_expected_user_avatar_tag(digest, options = {})
+    tag_options = { 'data-user-avatar-src': gravatar_expected_url(digest, options),
+                    'data-user-name': user.name,
+                    'data-class-list': 'avatar avatar--gravatar-image avatar--fallback' }
+
+    content_tag 'user-avatar', '', tag_options
+  end
+
   def gravatar_expected_image_tag(digest, options = {})
     tag_options = options.reverse_merge(title: user.name,
                                         alt: 'Gravatar',
-                                        :'data-avatar-fallback-icon' => "icon icon-user",
                                         class: 'avatar avatar--gravatar-image avatar--fallback').delete_if { |key, value| value.nil? || key == :ssl }
 
     image_tag gravatar_expected_url(digest, options), tag_options
@@ -55,7 +68,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
         'http://gravatar.com'
       end
 
-    "#{host}/avatar/#{digest}?secure=#{ssl}"
+    "#{host}/avatar/#{digest}?default=404&secure=#{ssl}"
   end
 
   describe 'gravatar and local' do
@@ -63,13 +76,13 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
       let(:enable_gravatars) { true }
       let(:enable_local_avatars) { true }
       it "should return the image attached to the user" do
-        expect(helper.avatar(user)).to be_html_eql(local_expected_image_tag(user))
+        expect(helper.avatar(user)).to be_html_eql(local_expected_user_avatar_tag(user))
       end
 
       it "should return the gravatar image if no image uploaded for the user" do
         allow(user).to receive(:local_avatar_attachment).and_return nil
 
-        expect(helper.avatar(user)).to be_html_eql(gravatar_expected_image_tag(mail_digest))
+        expect(helper.avatar(user)).to be_html_eql(gravatar_expected_user_avatar_tag(mail_digest))
       end
     end
 
@@ -77,7 +90,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
       let(:enable_gravatars) { false }
       let(:enable_local_avatars) { true }
       it "should return blank if image attached to the user but gravatars disabled" do
-        expect(helper.avatar(user)).to be_html_eql(local_expected_image_tag(user))
+        expect(helper.avatar(user)).to be_html_eql(local_expected_user_avatar_tag(user))
       end
     end
 
@@ -86,7 +99,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
       let(:enable_local_avatars) { false }
 
       it "should return blank" do
-        expect(helper.avatar(user)).to eq ''
+        expect(helper.avatar(user)).to be_html_eql(default_expected_user_avatar_tag(user))
       end
     end
   end
@@ -142,24 +155,9 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
         end
       end
 
-      describe 'default avatar dependent on settings' do
-        context 'with wavatars' do
-          let(:gravatar_default) { 'Wavatars' }
-          it 'should be set to value of setting' do
-            expect(helper.default_gravatar_options[:default]).to eq 'Wavatars'
-          end
-        end
-
-        context 'when empty' do
-          it 'should be set to nil' do
-            expect(helper.default_gravatar_options[:default]).to be_nil
-          end
-        end
-      end
-
       context 'with http', with_settings: { protocol: 'http' } do
         it 'should return a gravatar image tag if a user is provided' do
-          expect(helper.avatar(user)).to be_html_eql(gravatar_expected_image_tag(mail_digest))
+          expect(helper.avatar(user)).to be_html_eql(gravatar_expected_user_avatar_tag(mail_digest))
         end
 
         it 'should return a gravatar url if a user is provided' do
@@ -169,7 +167,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
 
       context 'with https', with_settings: { protocol: 'https' } do
         it 'should return a gravatar image tag with ssl if the request was ssl required' do
-          expect(helper.avatar(user)).to be_html_eql(gravatar_expected_image_tag(mail_digest, ssl: true))
+          expect(helper.avatar(user)).to be_html_eql(gravatar_expected_user_avatar_tag(mail_digest, ssl: true))
         end
 
         it 'should return a gravatar image tag with ssl if the request was ssl required' do
@@ -185,14 +183,13 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
         expect(helper.avatar(nil)).to eq('')
       end
 
-      it 'should return a gravatar image tag if a parsable e-mail string is provided' do
+      it 'should return an empty string if a parsable e-mail with default avatar is provided' do
         mail = '<e-mail@mail.de>'
-        digest = Digest::MD5.hexdigest('e-mail@mail.de')
 
-        expect(helper.avatar(mail)).to be_html_eql(gravatar_expected_image_tag(digest, title: nil))
+        expect(helper.avatar(mail)).to eq('')
       end
 
-      it 'should return a gravatar image tag if a parsable e-mail string is provided' do
+      it 'should return a gravatar url if a parsable e-mail string is provided' do
         mail = '<e-mail@mail.de>'
         digest = Digest::MD5.hexdigest('e-mail@mail.de')
 
@@ -214,7 +211,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
     let(:enable_local_avatars) { false }
 
     it 'should return an empty string if gravatar is disabled' do
-      expect(helper.avatar(user)).to eq('')
+      expect(helper.avatar(user)).to be_html_eql(default_expected_user_avatar_tag(user))
     end
 
     it 'should return an empty string if gravatar is disabled' do

@@ -57,9 +57,25 @@ ar:
     index:
       no_results_content_title: لا يوجد حالياً أنماط تحقيق.
       no_results_content_text: أنشئ نمط تحقيق جديد
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: لا شيء
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: لا يوجد حالياً منشورات على اللوحة.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: لا يوجد حالياً ألوان.
@@ -106,6 +122,10 @@ ar:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: المنتدى
   groups:
     index:
       no_results_title_text: لا يوجد حالياً مجموعات.
@@ -114,6 +134,11 @@ ar:
       no_results_title_text: لا يوجد حالياً قسم للمستخدمين في هذه المجموعة.
     memberships:
       no_results_title_text: لا يوجد حالياً قسم للمشاريع في هذه المجموعة.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -130,9 +155,9 @@ ar:
     settings:
       activities:
         no_results_title_text: لا يوجد حالياً أنشطة متاحة.
-      boards:
-        no_results_title_text: لا يوجد حالياً أية لوحات للمشروع.
-        no_results_content_text: إنشاء لوح جديد
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: لا يوجد حالياً فئات لحزمة العمل.
         no_results_content_text: إنشاء فئة حزمة عمل جديدة
@@ -221,6 +246,8 @@ ar:
       two: "%{count} work package descendants"
       few: "%{count} work package descendants"
       many: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -355,6 +382,11 @@ ar:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: تأخير
         from: مجموعة العمل
@@ -494,6 +526,7 @@ ar:
         too_long: طويل جداً (الحد الأقصى من الأحرف %{count}).
         too_short: قصيرة جداً (الحد الأدنى هو الأحرف %{count}).
         unchangeable: cannot be changed.
+        unremovable: cannot be removed.
         wrong_length: هو طول خاطئ (يجب أن تكون الأحرف %{count}).
       models:
         custom_field:
@@ -519,6 +552,10 @@ ar:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -607,15 +644,11 @@ ar:
               reused:
                 one: has been used before. Please choose one that is different from
                   your last one.
-                other: has been used before. Please choose one that is different from
-                  your last %{count}.
+                other: مستخدم من قبل من فضلك اختر واحد اخر من  %{count}. السابقين
                 zero: لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}.
-                two: has been used before. Please choose one that is different from
-                  your last %{count}.
-                few: has been used before. Please choose one that is different from
-                  your last %{count}.
-                many: has been used before. Please choose one that is different from
-                  your last %{count}.
+                two: مستخدم من قبل من فضلك اختر واحد اخر من  %{count}. السابقين
+                few: مستخدم من قبل من فضلك اختر واحد اخر من  %{count}. السابقين
+                many: مستخدم من قبل من فضلك اختر واحد اخر من  %{count}. السابقين
               match:
                 confirm: تأكيد كلمة المرور الجديدة.
                 description: "'تأكيد كلمة المرور' يجب أن يطابق الإدخال في حقل 'كلمة
@@ -639,7 +672,7 @@ ar:
     models:
       attachment: ملف
       attribute_help_text: Attribute help text
-      board: المنتدى
+      forum: المنتدى
       comment: تعليق
       custom_action: Custom action
       custom_field: حقل مخصص
@@ -654,13 +687,13 @@ ar:
         one: |-
           صلاحية
           الصلاحيات
-        other: Roles
+        other: الأدوار
         zero: دور
         two: |-
           صلاحية
           الصلاحيات
-        few: Roles
-        many: Roles
+        few: الأدوار
+        many: الأدوار
       type: النّوع
       user: المستخدم
       version: الإصدار
@@ -743,7 +776,7 @@ ar:
   button_check_all: اختر الكل
   button_clear: إزالة
   button_click_to_reveal: Click to reveal
-  button_close: Close
+  button_close: أغلِق
   button_collapse_all: طَيْ الجميع
   button_configure: تكوين
   button_continue: Continue
@@ -879,12 +912,12 @@ ar:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: about 1 hour
-        other: about %{count} hours
+        one: منذ %{count}  ساعه
+        other: حوالي %{count}  ساعه
         zero: حوالي %{count} ساعات
-        two: about %{count} hours
-        few: about %{count} hours
-        many: about %{count} hours
+        two: حوالي %{count}  ساعه
+        few: حوالي %{count}  ساعه
+        many: حوالي %{count}  ساعه
       about_x_months:
         one: about 1 month
         other: about %{count} months
@@ -929,12 +962,12 @@ ar:
         few: over %{count} years
         many: over %{count} years
       x_days:
-        one: 1 day
-        other: "%{count} days"
+        one: "%{count} يوم"
+        other: "%{count} يوم"
         zero: "%{count} يوم"
-        two: "%{count} days"
-        few: "%{count} days"
-        many: "%{count} days"
+        two: "%{count} يوم"
+        few: "%{count} يوم"
+        many: "%{count} يوم"
       x_minutes:
         one: 1 minute
         other: "%{count} minutes"
@@ -964,12 +997,12 @@ ar:
         many: "%{count} seconds"
     units:
       hour:
-        one: hour
-        other: hours
+        one: الساعة
+        other: ساعه
         zero: ساعه
-        two: hours
-        few: hours
-        many: hours
+        two: ساعه
+        few: ساعه
+        many: ساعه
   default_activity_development: التطوير
   default_activity_management: الإدارة
   default_activity_other: اخرى
@@ -1195,9 +1228,8 @@ ar:
       faq: الاسئلة الاكثر شيوعا(FAQ)
       glossary: معجم المصطلحات
       shortcuts: اختصارات
-      forums: منتديات
       blog: مدونة أوبِن بروجِكت
-      boards: منتدى المجتمع
+      forums: منتدى المجتمع
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1244,7 +1276,6 @@ ar:
   label_all_open_wps: All open
   label_always_visible: معروض دائمًا
   label_announcement: إعلان
-  label_and_its_subprojects: "%{value} والمشاريع الفرعية الخاصة به"
   label_api_access_key: مفتاح الوصول إلى API
   label_api_access_key_created_on: مفتاح الوصول إلى API تم إنشاؤها %{value} قبل ذلك
   label_api_access_key_type: API
@@ -1264,22 +1295,23 @@ ar:
   label_authentication: المصادقة
   label_available_project_work_package_categories: فئات مجموعة العمل المتاحة
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: الجوانب المتاحة
+  label_available_project_forums: Available forums
   label_available_project_versions: الإصدارات المتوفرة
   label_available_project_repositories: مستودعات البيانات المتوفرة
   label_api_documentation: توثيق API
-  label_between: between
+  label_between: بين
   label_blocked_by: محجوب من قبل
   label_blocks: حجوبات
   label_blog: مدونة
-  label_board_locked: مقفل
-  label_board_new: منتدى جديد
-  label_board_plural: منتديات
-  label_board_sticky: مثبت
+  label_forums_locked: مقفل
+  label_forum_new: منتدى جديد
+  label_forum_plural: منتديات
+  label_forum_sticky: مثبت
   label_boolean: قيمة منطقية
   label_branch: فرع
   label_browse: تصفّح
   label_bulk_edit_selected_work_packages: تحرير كل مجموعات العمل المحددة
+  label_bundled: "(Bundled)"
   label_calendar: التقويم
   label_calendar_show: إظهار التقويم
   label_category: فئة
@@ -1542,6 +1574,7 @@ ar:
   label_planning: تخطيط
   label_please_login: الرجاء تسجيل الدخول
   label_plugins: الإضافات
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: تقدم
   label_preferences: أفضليات
   label_preview: معاينة
@@ -1613,7 +1646,6 @@ ar:
   label_role_search: تعيين دور للأعضاء الجدد
   label_scm: اختصاراً لِ:"Supply Chain Management" إدارة سلسة الإمداد
   label_search: البحث
-  label_search_titles_only: البحث في العناوين فقط
   label_send_information: إرسال معلومات الحساب إلى المستخدم
   label_send_test_email: إرسال رسالة اختبار
   label_settings: إعدادات
@@ -1693,6 +1725,7 @@ ar:
   label_view_diff: عرض الاختلافات
   label_view_revisions: عرض المراجعات
   label_watched_work_packages: مجموعات العمل المراقبة
+  label_what_is_this: What is this?
   label_week: أسبوع
   label_wiki_content_added: تم إضافة صفحة wiki
   label_wiki_content_updated: تم تحديث صفحة wiki
@@ -1738,40 +1771,40 @@ ar:
   label_workflow_plural: تدفقات العمل
   label_workflow_summary: مُلخّص
   label_x_closed_work_packages_abbr:
-    one: 1 closed
-    other: "%{count} closed"
+    one: 1 مغلقة
+    other: "%{count} مغلق"
     zero: "%{count} مغلق"
-    two: "%{count} closed"
-    few: "%{count} closed"
-    many: "%{count} closed"
+    two: "%{count} مغلق"
+    few: "%{count} مغلق"
+    many: "%{count} مغلق"
   label_x_comments:
     one: 1 comment
-    other: "%{count} comments"
+    other: تعليقات %{count}
     zero: "%{count} تعليقات"
-    two: "%{count} comments"
-    few: "%{count} comments"
-    many: "%{count} comments"
+    two: تعليقات %{count}
+    few: تعليقات %{count}
+    many: تعليقات %{count}
   label_x_open_work_packages_abbr:
     one: 1 open
-    other: "%{count} open"
+    other: "%{count} مفتوحة"
     zero: "%{count} مفتوح"
-    two: "%{count} open"
-    few: "%{count} open"
-    many: "%{count} open"
+    two: "%{count} مفتوحة"
+    few: "%{count} مفتوحة"
+    many: "%{count} مفتوحة"
   label_x_open_work_packages_abbr_on_total:
     one: 1 open / %{total}
-    other: "%{count} open / %{total}"
+    other: مفتوحة %{count}/%{total}
     zero: "%{count} مفتوح / %{total}"
-    two: "%{count} open / %{total}"
-    few: "%{count} open / %{total}"
-    many: "%{count} open / %{total}"
+    two: مفتوحة %{count}/%{total}
+    few: مفتوحة %{count}/%{total}
+    many: مفتوحة %{count}/%{total}
   label_x_projects:
     one: 1 project
-    other: "%{count} projects"
+    other: مشاريع %{count}
     zero: "%{count} مشاريع"
-    two: "%{count} projects"
-    few: "%{count} projects"
-    many: "%{count} projects"
+    two: مشاريع %{count}
+    few: مشاريع %{count}
+    many: مشاريع %{count}
   label_year: السنة
   label_yesterday: الأمس
   label_keyboard_function: دالة
@@ -1880,6 +1913,8 @@ ar:
   notice_account_update_failed: تعذّر حفظ إعدادات الحساب. من فضلك ألقِ نظرة على صفحة
     حسابك.
   notice_account_updated: تم تحديث الحساب بنجاح.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: كلمة المرور خاطئة
   notice_account_registered_and_logged_in: مرحبا، وقد تم تنشيط حسابك. تسجيل الدخول
     الآن.
@@ -2010,7 +2045,7 @@ ar:
   permission_export_wiki_pages: تصدير صفحات wiki
   permission_list_attachments: قائمة المرفقات
   permission_log_time: تسجيل الوقت المستهلك
-  permission_manage_boards: إدارة منتديات
+  permission_manage_forums: إدارة منتديات
   permission_manage_categories: إدارة فئات مجموعة العمل
   permission_manage_work_package_relations: إدارة علاقات حزم العمل
   permission_manage_members: إدارة الأعضاء
@@ -2057,7 +2092,7 @@ ar:
     archive:
       are_you_sure: هل أنت متأكد من أنك تريد أرشفة المشروع '%{name}'؟
   project_module_activity: النشاط
-  project_module_boards: منتديات
+  project_module_forums: منتديات
   project_module_calendar: التقويم
   project_module_work_package_tracking: تتبع مجموعة العمل
   project_module_news: الأخبار
@@ -2280,6 +2315,7 @@ ar:
     هذه الخطوط
   setting_mail_handler_body_delimiter_regex: حذف رسائل البريد الإلكتروني المطابقة
     لهذا التعبير الاعتيادي
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: الدور الممنوح لمستخدم غير مسؤول الذي يقوم بإنشاء
     مشروع
   setting_password_active_rules: صفوف المحارف النشطة
@@ -2291,6 +2327,7 @@ ar:
   setting_per_page_options: الكائنات لكل خيارات الصفحة
   setting_plain_text_mail: بريد النص العادي (لا إتش تي أم ال)
   setting_protocol: البروتوكول Protocol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: نوع المورد مستودع التلقائي
   setting_repositories_encodings: ترميزات مستودعات
@@ -2456,6 +2493,16 @@ ar:
   text_no_notes: لا تتوفر أية تعليقات متاحة لمجموعة العمل هذه.
   text_notice_too_many_values_are_inperformant: 'ملاحظة: عرض أكثر من 100 عنصر في الصفحة
     الواحدة يمكن أن يزيد وقت تحميل الصفحة.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: أنت على وشك إزالة بعض أو كافة الأذونات
     الخاصة بك، وقد لن تكون قادراً على تحرير هذا المشروع بعد ذلك. هل أنت متأكد من أنك
     تريد المتابعة؟
@@ -2514,7 +2561,6 @@ ar:
       color: اللون
       colors: الألوان
     associations: الاعتماديات
-    board_could_not_be_saved: لا يمكن حفظ عنصر
     button_delete_all: حذف الكل
     change: تغيير في تخطيط
     children: العناصر التابعة
@@ -2527,12 +2573,12 @@ ar:
     delete_thing: احذف
     duration: المدّة
     duration_days:
-      one: 1 day
-      other: "%{count} days"
+      one: "%{count} يوم"
+      other: "%{count} يوم"
       zero: "%{count} يوم"
-      two: "%{count} days"
-      few: "%{count} days"
-      many: "%{count} days"
+      two: "%{count} يوم"
+      few: "%{count} يوم"
+      many: "%{count} يوم"
     edit_color: تحرير الألوان
     edit_thing: تعديل
     edit_timeline: تحرير تقرير الخط الزمني %{timeline}
@@ -2877,8 +2923,8 @@ ar:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: من فضلك قم بتحديث متصفِّحك.
+    close_warning: تجاهل هذا التحذير.
   oauth:
     application:
       singular: OAuth application
@@ -2924,13 +2970,17 @@ ar:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: السماحيات
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      zero: "%{count} active token"
+      two: "%{count} active token"
+      few: "%{count} active token"
+      many: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2948,7 +2998,3 @@ ar:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: إزالة الأداة
-  label_my_page_block: حظر الصفحة الخاصة بي
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: العناصر المرئية

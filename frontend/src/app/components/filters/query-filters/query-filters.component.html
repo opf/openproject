@@ -1,4 +1,4 @@
-<fieldset id="filters" *ngIf="filters && filters.current" class="advanced-filters--container">
+<fieldset id="filters" *ngIf="filters" class="advanced-filters--container">
   <legend [textContent]="text.selected_filter_list"></legend>
 
   <a *ngIf="showCloseFilter"
@@ -17,15 +17,16 @@
       </label>
 
       <div class="advanced-filters--filter-value">
-        <wp-filter-by-text-input>
+        <wp-filter-by-text-input (filterChanged)="filtersChanged.emit($event)">
         </wp-filter-by-text-input>
       </div>
     </li>
 
-    <li class="advanced-filters--spacer" *ngIf="filters.anyCurrentlyVisibleFilters"></li>
+    <li class="advanced-filters--spacer"></li>
 
-    <ng-container *ngFor="let filter of filters.current; trackBy: trackByName ; let index = index">
-      <li id="filter_{{filter.id}}"
+    <ng-container *ngFor="let filter of filters; trackBy: trackByName ; let index = index">
+      <li *ngIf="isFilterAvailable(filter.id)"
+          id="filter_{{filter.id}}"
           query-filter
           [filter]="filter"
           (deactivateFilter)="deactivateFilter($event)"
@@ -35,7 +36,7 @@
       </li>
     </ng-container>
 
-    <li class="advanced-filters--spacer" *ngIf="filters.current.length > 0"></li>
+    <li class="advanced-filters--spacer" *ngIf="isSecondSpacerVisible"></li>
 
     <li class="advanced-filters--add-filter">
       <!-- Add filters -->
@@ -62,17 +63,12 @@
         </select>
       </div>
 
-      <div class="advanced-filters--add-filter-info"
-           *ngIf="eeShowBanners">
-        <div class="notification-box">
-          <div class="notification-box--content">
-            {{ text.upsale_for_more }}
-            <a href="https://www.openproject.org/enterprise-edition/?op_edtion=community-edition&op_referrer=wp-filter#filters"
-               target='blank'
-               [textContent]="text.upsale_link"></a>
-          </div>
-        </div>
-      </div>
+      <enterprise-banner class="advanced-filters--add-filter-info"
+                         *ngIf="eeShowBanners"
+                         [linkMessage]="text.upsale_link"
+                         [textMessage]="text.upsale_for_more"
+                         opReferrer="wp-filter#filters">
+      </enterprise-banner>
     </li>
   </ul>
 </fieldset>

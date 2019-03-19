@@ -18,11 +18,22 @@ az:
     close_popup_title: Açılan pəncərəni bağla
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Your browser doesn't support copying to clipboard. Please copy
         the selected text manually.
       copied_successful: Sucessfully copied to clipboard!
     button_add_watcher: Add watcher
+    button_back: Back
     button_back_to_list_view: Back to list view
     button_cancel: Cancel
     button_close: Close
@@ -38,6 +49,7 @@ az:
     button_duplicate: Duplicate
     button_edit: Edit
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Siyahı baxışı
     button_show_view: Fullscreen view
     button_log_time: Log time
@@ -146,6 +158,30 @@ az:
     general_text_yes: 'yes'
     general_text_No: 'No'
     general_text_Yes: 'Yes'
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: News
+          at: at
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Work packages assigned to me
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendar
     label_activate: Activate
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
@@ -167,7 +203,9 @@ az:
     label_ascending: Ascending
     label_author: 'Author: %{user}'
     label_between: between
+    label_board: Board
     label_board_locked: Locked
+    label_board_plural: Boards
     label_board_sticky: Sticky
     label_create_work_package: Create new work package
     label_created_by: Created by
@@ -291,6 +329,7 @@ az:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Uploading files for Work package #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'These files will be uploaded:'
     label_rejected_files: 'These files cannot be uploaded:'
     label_rejected_files_reason: These files cannot be uploaded as their size is greater
@@ -485,6 +524,7 @@ az:
       view?
     text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -764,8 +804,6 @@ az:
         days: days
         weeks: weeks
         months: months
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -806,6 +844,7 @@ az:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Successful creation.
     notice_successful_delete: Successful deletion.
     notice_successful_update: Successful update.
@@ -832,7 +871,7 @@ az:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -849,11 +888,13 @@ az:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: Your browser version is not supported
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Learn more
-      close_warning: Ignore this warning.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

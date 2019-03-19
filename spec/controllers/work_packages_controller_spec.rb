@@ -127,7 +127,7 @@ describe WorkPackagesController, type: :controller do
         .with({ controller: 'work_packages',
                 action: 'index' },
               project,
-              global: true)
+              global: project.nil?)
         .and_return(true)
     end
 

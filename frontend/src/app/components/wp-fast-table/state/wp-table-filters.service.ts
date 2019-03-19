@@ -26,89 +26,287 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
+import {WorkPackageQueryStateService} from './wp-table-base.service';
 import {Injectable} from '@angular/core';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {WorkPackageTableFilters} from '../wp-table-filters';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {InputState} from 'reactivestates';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {combine, InputState} from 'reactivestates';
 import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
+import {QueryFilterResource} from "core-app/modules/hal/resources/query-filter-resource";
+import {QueryFilterInstanceSchemaResource} from "core-app/modules/hal/resources/query-filter-instance-schema-resource";
+import {States} from "core-components/states.service";
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {mapTo, take} from "rxjs/operators";
 
 @Injectable()
-export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<WorkPackageTableFilters> implements WorkPackageQueryStateService {
+export class WorkPackageTableFiltersService extends WorkPackageQueryStateService<QueryFilterInstanceResource[]> {
+  public hidden:Readonly<string[]> = [
+    'id',
+    'parent',
+    'datesInterval',
+    'precedes',
+    'follows',
+    'relates',
+    'duplicates',
+    'duplicated',
+    'blocks',
+    'blocked',
+    'partof',
+    'includes',
+    'requires',
+    'required',
+    'search',
+    'subjectOrId'
+  ];
 
-  constructor(readonly tableState:TableState) {
-    super(tableState);
+
+  constructor(protected readonly states:States,
+              readonly querySpace:IsolatedQuerySpace) {
+    super(querySpace);
   }
 
-  public get state():InputState<WorkPackageTableFilters> {
-    return this.tableState.filters;
+  protected get state():InputState<QueryFilterInstanceResource[]> {
+    return this.querySpace.filters;
   }
 
-  public valueFromQuery(query:QueryResource):WorkPackageTableFilters|undefined {
-    return undefined;
-  }
-
+  /**
+   * Load all schemas for the current filters and fill respective states
+   * @param query
+   * @param schema
+   */
   public initializeFilters(query:QueryResource, schema:QuerySchemaResource) {
-    let filters = _.map(query.filters, filter => filter.$copy<QueryFilterInstanceResource>());
+    let filters = cloneHalResourceCollection<QueryFilterInstanceResource>(query.filters);
 
     this.loadCurrentFiltersSchemas(filters).then(() => {
-      let newState = new WorkPackageTableFilters(filters, schema.filtersSchemas.elements);
-
-      this.state.putValue(newState);
+      this.availableState.putValue(schema.filtersSchemas.elements);
+      this.update(filters);
     });
   }
 
+  /**
+   * Return whether rth
+   */
+  public get isEmpty() {
+    const value = this.state.value;
+    return !value || value.length === 0;
+  }
+
+  public get availableState():InputState<QueryFilterInstanceSchemaResource[]> {
+    return this.states.queries.filters;
+  }
+
+  /**
+   * Add a filter instantiation from the set of available filter schemas
+   *
+   * @param filter
+   */
+  public add(filter:QueryFilterInstanceResource) {
+    this.state.doModify(filters => [...filters, filter]);
+  }
+
+  /**
+   * Modify a live filter and push it to the state.
+   * Avoids copying the resource.
+   *
+   * Returns whether the filter was found and modified
+   */
+  public modify(id:string, modifier:(filter:QueryFilterInstanceResource) => void):boolean {
+    const index = this.findIndex(id);
+
+    if (index === -1) {
+      return false;
+    }
+
+    this.state.doModify(filters => {
+      modifier(filters[index]!);
+      return filters;
+    });
+
+    return true;
+  }
+
+  /**
+   * Get an instantiated filter without adding it to the current state
+   * @param filter
+   */
+  public instantiate(filter:QueryFilterResource):QueryFilterInstanceResource {
+    let schema = _.find(this.availableSchemas, schema => (schema.filter.allowedValues as HalResource)[0].id === filter.id)!;
+    return schema.getFilter();
+  }
+
+  /**
+   * Remove one or more filters from the live state of filters.
+   * @param filters Filters to be removed
+   */
+  public remove(...filters:QueryFilterInstanceResource[]) {
+    let set = new Set<string>(filters.map(f => f.id));
+    this.state.doModify(value => {
+      return value.filter(f => !set.has(f.id));
+    });
+  }
+
+
+  /**
+   * Return the remaining visible filters from the given filters set.
+   * @param filters Array of active filters, defaults to the current live state.
+   */
+  public remainingVisibleFilters(filters = this.current) {
+    return this
+      .remainingFilters(filters)
+      .filter((filter) => this.hidden.indexOf(filter.id) === -1);
+  }
+
+  /**
+   * Return all available filter resources.
+   * They need to be instantiated before using them in this service.
+   */
+  public get availableFilters():QueryFilterResource[] {
+    return this.availableSchemas.map(schema => schema.allowedFilterValue);
+  }
+
+  private get availableSchemas():QueryFilterInstanceSchemaResource[] {
+    return this.availableState.getValueOr([]);
+  }
+
+  /**
+   * Find an available filter by its ID. Can be used to instantiate or add
+   * with +get+ or +add+ methods on this service.
+   *
+   * @param id Internal identifier string of the filter
+   */
+  public findAvailableFilter(id:string):QueryFilterResource|undefined {
+    return _.find(this.availableFilters, f => f.id === id);
+  }
+
+  /**
+   * Determine whether all given filters are completely defined.
+   * @param filters
+   */
+  public isComplete(filters:QueryFilterInstanceResource[]):boolean {
+    return _.every(filters, filter => filter.isCompletelyDefined());
+  }
+
+  /**
+   * Compare the current set of filters to the given query.
+   * @param query
+   */
   public hasChanged(query:QueryResource) {
     const comparer = (filter:QueryFilterInstanceResource[]) => filter.map(el => el.$source);
 
     return !_.isEqual(
       comparer(query.filters),
-      comparer(this.current)
+      comparer(this.rawFilters)
     );
   }
 
+  public valueFromQuery(query:QueryResource) {
+    return undefined;
+  }
+
+  /**
+   * Returns the live filter instance for the given ID, or undefined
+   * if it does not exist.
+   *
+   * @param id Identifier of the filter
+   */
   public find(id:string):QueryFilterInstanceResource|undefined {
-    return _.find(this.currentState.current, filter => filter.id === id);
+    const index = this.findIndex(id);
+
+    if (index === -1) {
+      return;
+    }
+
+    return this.rawFilters[index];
+  }
+
+  /**
+   * Returns the index of the filter, or -1 if it does not exist
+   * @param id Identifier of the filter
+   */
+  public findIndex(id:string):number {
+    return _.findIndex(this.current, f => f.id === id);
   }
 
   public applyToQuery(query:QueryResource) {
-    query.filters = this.current;
+    query.filters = this.cloneFilters();
     return true;
   }
 
-  public get currentState():WorkPackageTableFilters {
-    return this.state.value as WorkPackageTableFilters;
+  /**
+   * Returns a shallow copy of the current filters.
+   * Modifications to filters themselves will still
+   */
+  public get current():QueryFilterInstanceResource[] {
+    return [...this.rawFilters];
   }
 
-  public get current():QueryFilterInstanceResource[]{
-    if (this.currentState) {
-      return cloneHalResourceCollection<QueryFilterInstanceResource>(this.currentState.current);
-    } else {
-      return [];
+  /**
+   * Returns a deep clone of the current filters set, may be used
+   * to modify the filters without altering this state.
+   */
+  public cloneFilters() {
+    return cloneHalResourceCollection<QueryFilterInstanceResource>(this.rawFilters);
+  }
+
+  /**
+   * Returns the live state array, used for inspection of the filters
+   * without modification.
+   */
+  protected get rawFilters():Readonly<QueryFilterInstanceResource[]> {
+    return this.state.getValueOr([]);
+  }
+
+  public get currentlyVisibleFilters() {
+    const invisibleFilters = new Set(this.hidden);
+    invisibleFilters.delete('search');
+
+    return _.reject(this.currentFilterResources, (filter) => invisibleFilters.has(filter.id));
+  }
+
+  /**
+   * Replace this filter state, but only if the given filters are complete
+   * @param newState
+   */
+  public replaceIfComplete(newState:QueryFilterInstanceResource[]) {
+    if (this.isComplete(newState)) {
+      this.update(newState);
     }
   }
 
-  public replace(newState:WorkPackageTableFilters) {
-    this.state.putValue(newState);
+  /**
+   * Filters service depends on two states
+   */
+  public onReady() {
+    return combine(this.state, this.availableState)
+      .values$()
+      .pipe(
+        take(1),
+        mapTo(null)
+      )
+      .toPromise();
   }
 
-  public replaceIfComplete(newState:WorkPackageTableFilters) {
-    if (newState.isComplete()) {
-      this.state.putValue(newState);
-    }
+  /**
+   * Get all filters that are not in the current active set
+   */
+  private remainingFilters(filters = this.rawFilters) {
+    return _.differenceBy(this.availableFilters, filters, filter => filter.id);
   }
 
-  public remove(removedFilter:QueryFilterInstanceResource) {
-    this.currentState.remove(removedFilter);
-
-    this.state.putValue(this.currentState);
+  /**
+   * Map current filter instances to their FilterResource
+   */
+  private get currentFilterResources():QueryFilterResource[] {
+    return this.rawFilters.map((filter:QueryFilterInstanceResource) => filter.filter);
   }
 
-  private loadCurrentFiltersSchemas(filters:QueryFilterInstanceResource[]):Promise<{}> {
+  /**
+   * Ensure all filter schemas are loaded.
+   * @param filters
+   */
+  private loadCurrentFiltersSchemas(filters:QueryFilterInstanceResource[]):Promise<unknown> {
     return Promise.all(filters.map((filter:QueryFilterInstanceResource) => filter.schema.$load()));
   }
 }

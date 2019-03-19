@@ -1,0 +1,64 @@
+<div #container
+     class="wp-cards-container -small-font">
+  <div *ngIf="inReference"
+       class="wp-inline-create--reference-container">
+    <ndc-dynamic [ndcDynamicComponent]="referenceClass"
+                 [ndcDynamicInjector]="injector"
+                 [ndcDynamicOutputs]="referenceOutputs">
+    </ndc-dynamic>
+  </div>
+
+  <div class="wp-card"
+       *ngFor="let wp of workPackages; trackBy:trackByHref"
+       [attr.data-is-new]="wp.isNew || undefined"
+       [attr.data-work-package-id]="wp.id"
+       (dblclick)="handleDblClick(wp)"
+       [ngClass]="{'-draggable': dragAndDropEnabled }">
+
+    <div class="wp-card--highlighting"
+        [ngClass]="cardHighlightingClass(wp)">
+    </div>
+
+    <a class="wp-card--inline-cancel-button -no-decoration"
+       *ngIf="wp.isNew || cardsRemovable"
+       [ngClass]="{ '-show': wp.isNew }"
+       [title]="text.removeCard"
+       (accessibleClick)="removeCard(wp)">
+      <op-icon icon-classes="icon icon-close"></op-icon>
+    </a>
+    <wp-edit-field-group [workPackage]="wp" [inEditMode]="wp.isNew">
+      <div class="work-packages--subject-type-row -new"
+           *ngIf="wp.isNew">
+        <wp-edit-field [workPackageId]="wp.id"
+                       [wrapperClasses]="'work-packages--type-selector'"
+                       [fieldName]="'type'"
+                       class="wp-card--type">
+        </wp-edit-field>
+        <wp-edit-field [workPackageId]="wp.id"
+                       fieldName="subject"
+                       class="wp-card--subject -bold">
+        </wp-edit-field>
+      </div>
+
+      <div class="work-packages--subject-type-row"
+           *ngIf="!wp.isNew">
+        <span [textContent]="wpTypeAttribute(wp)"
+              class="wp-card--type"
+              [ngClass]="typeHighlightingClass(wp)"></span>
+        <span [textContent]="wpSubject(wp)"
+              class="wp-card--subject -bold"></span>
+      </div>
+
+      <div class="wp-card--author -italic"
+           [hidden]="wp.isNew"
+           [textContent]="text.wpAddedBy(wp)">
+      </div>
+    </wp-edit-field-group>
+    <user-avatar *ngIf="hasAssignee(wp)"
+                 [attr.data-user]="wp.assignee.$href"
+                 data-class-list="avatar-mini"
+                 class="wp-card--assignee">
+    </user-avatar>
+  </div>
+</div>
+

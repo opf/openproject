@@ -47,9 +47,25 @@ ko:
     index:
       no_results_content_title: 사용인증 모드가 없습니다.
       no_results_content_text: 새 사용인증 모드 생성
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: 없음
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: 게시판에 포스트가 없습니다.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: 색깔이 없습니다.
@@ -93,6 +109,10 @@ ko:
       further_information_after: ''
     calendar:
       removal: '참고: 이 모듈은 OpenProject 8.0에서 제거될 것입니다.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: 위키
+      messages: 포럼
   groups:
     index:
       no_results_title_text: 그룹이 없습니다.
@@ -101,6 +121,11 @@ ko:
       no_results_title_text: 이 그룹에 사용자 파트가 없습니다.
     memberships:
       no_results_title_text: 이 그룹에 프로젝트 파트가 없습니다.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -117,9 +142,9 @@ ko:
     settings:
       activities:
         no_results_title_text: 가능한 활동이 없습니다.
-      boards:
-        no_results_title_text: 프로젝트에 게시판이 없습니다.
-        no_results_content_text: 새 게시판 생성
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: 작업 패키지 구분이 없습니다.
         no_results_content_text: 새 작업 패키지 구분 생성
@@ -201,6 +226,8 @@ ko:
     x_descendants:
       one: One descendant work package
       other: "%{count}개 작업 패키지 하위 항목"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: 선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다.
       unsupported_for_multiple_projects: 여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다.
@@ -322,6 +349,11 @@ ko:
         subscriber: 구독자
         encoded_token: 엔터프라이즈 지원 토큰
         active_user_count_restriction: 최대 활성 사용자
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: 지연
         from: 작업 패키지
@@ -459,6 +491,7 @@ ko:
         too_long: 은(는) 너무 깁니다 (최대 %{count}자까지 가능합니다)
         too_short: 은(는) 너무 짧습니다. (최소 %{count} 자 이상이어야 합니다)
         unchangeable: "- 변경할 수 없습니다."
+        unremovable: cannot be removed.
         wrong_length: 너무 짧습니다 (최소 %{count} 자 이상이어야 합니다).
       models:
         custom_field:
@@ -483,6 +516,10 @@ ko:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: 읽을 수 없습니다. 지원하는 토큰이 확실한가요?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -586,7 +623,7 @@ ko:
     models:
       attachment: 파일
       attribute_help_text: 특성 도움말 텍스트
-      board: 포럼
+      forum: 포럼
       comment: 코멘트
       custom_action: 사용자 지정 작업
       custom_field: 사용자 정의 필드
@@ -1089,9 +1126,8 @@ ko:
       faq: FAQ
       glossary: 용어집
       shortcuts: 바로가기 
-      forums: 포럼
       blog: OpenProject 블로그
-      boards: 커뮤니티 포럼
+      forums: 커뮤니티 포럼
       newsletter: 보안 알림/뉴스레터
   links:
     configuration_guide: 구성 가이드
@@ -1135,7 +1171,6 @@ ko:
   label_all_open_wps: 모두 열림
   label_always_visible: 항상 표시
   label_announcement: 공지 사항
-  label_and_its_subprojects: "%{value} 및 하위 프로젝트"
   label_api_access_key: API 액세스 키
   label_api_access_key_created_on: API 액세스 키가 %{value} 전에 생성되었습니다.
   label_api_access_key_type: API
@@ -1155,7 +1190,7 @@ ko:
   label_authentication: 인증
   label_available_project_work_package_categories: 사용 가능한 작업 패키지 카테고리
   label_available_project_work_package_types: 사용 가능한 작업 패키지 유형
-  label_available_project_boards: 사용 가능한 보드
+  label_available_project_forums: Available forums
   label_available_project_versions: 사용 가능한 버전
   label_available_project_repositories: 사용 가능한 저장소
   label_api_documentation: API 설명서
@@ -1163,14 +1198,15 @@ ko:
   label_blocked_by: 차단한 사용자
   label_blocks: 블록
   label_blog: 블로그
-  label_board_locked: 잠김
-  label_board_new: 새 포럼
-  label_board_plural: 포럼
-  label_board_sticky: 스티커형
+  label_forums_locked: 잠김
+  label_forum_new: 새 포럼
+  label_forum_plural: 포럼
+  label_forum_sticky: 스티커형
   label_boolean: 부울
   label_branch: 브랜치
   label_browse: 찾아보기
   label_bulk_edit_selected_work_packages: 선택된 작업 패키지 일괄 편집
+  label_bundled: "(Bundled)"
   label_calendar: 달력
   label_calendar_show: 달력 표시
   label_category: 카테고리
@@ -1430,6 +1466,7 @@ ko:
   label_planning: 계획
   label_please_login: 로그인하세요.
   label_plugins: 플러그인
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: 선행
   label_preferences: 기본 설정
   label_preview: 미리 보기
@@ -1500,7 +1537,6 @@ ko:
   label_role_search: 새 멤버에게 역할 할당
   label_scm: SCM
   label_search: 검색
-  label_search_titles_only: 제목만 검색
   label_send_information: 사용자에게 계정 정보 보내기
   label_send_test_email: 테스트 이메일 보내기
   label_settings: 설정
@@ -1580,6 +1616,7 @@ ko:
   label_view_diff: 차이점 보기
   label_view_revisions: 수정 보기
   label_watched_work_packages: 주시하는 작업 패키지
+  label_what_is_this: What is this?
   label_week: 주
   label_wiki_content_added: 위키 페이지 추가됨
   label_wiki_content_updated: 위키 페이지 업데이트됨
@@ -1746,6 +1783,8 @@ ko:
   notice_account_unknown_email: 알 수 없는 사용자입니다.
   notice_account_update_failed: 계정 설정을 저장할 수 없습니다. 계정 페이지를 살펴 보십시오.
   notice_account_updated: 계정이 업데이트되었습니다.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: 잘못된 암호
   notice_account_registered_and_logged_in: 환영합니다. 계정이 활성화되었습니다 이제 로그인되었습니다.
   notice_activation_failed: 계정이 활성화 되지 못했습니다.
@@ -1865,7 +1904,7 @@ ko:
   permission_export_wiki_pages: 위키 페이지 내보내기
   permission_list_attachments: 첨부 파일 나열
   permission_log_time: 소요 시간 기록
-  permission_manage_boards: 포럼 관리
+  permission_manage_forums: 포럼 관리
   permission_manage_categories: 작업 패키지 카테고리 관리
   permission_manage_work_package_relations: 작업 패키지 관계 관리
   permission_manage_members: 멤버 관리
@@ -1911,7 +1950,7 @@ ko:
     archive:
       are_you_sure: 프로젝트 '%{name}'을(를) 보관하시겠습니까?
   project_module_activity: 활동
-  project_module_boards: 포럼
+  project_module_forums: 포럼
   project_module_calendar: 달력
   project_module_work_package_tracking: 작업 패키지 추적
   project_module_news: 뉴스
@@ -2115,6 +2154,7 @@ ko:
   setting_mail_handler_api_key: API 키
   setting_mail_handler_body_delimiters: 이러한 줄 중 하나 다음에 이메일 자르기
   setting_mail_handler_body_delimiter_regex: 이 정규식에 일치하는 이메일을 자름
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: 프로젝트를 만드는 비관리자 사용자에게 지정된 역할
   setting_password_active_rules: 활성 문자 클래스
   setting_password_count_former_banned: 재사용 금지된 최근에 사용한 암호 수
@@ -2124,6 +2164,7 @@ ko:
   setting_per_page_options: 페이지당 개체 옵션
   setting_plain_text_mail: 일반 텍스트 메일(HTML 없음)
   setting_protocol: 프로토콜
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: 등록 꼬리말
   setting_repositories_automatic_managed_vendor: 자동 리포지토리 공급업체 유형
   setting_repositories_encodings: 리포지토리 인코딩
@@ -2273,6 +2314,16 @@ ko:
   text_no_notes: 이 작업 패키지에 사용할 수 있는 코멘트가 없습니다.
   text_notice_too_many_values_are_inperformant: '참고: 페이지당 100개가 넘는 항목을 표시하면 페이지 로드
     시간이 늘어날 수 있습니다.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     권한의 일부 또는 전부를 삭제하려고 합니다. 이렇게 한 후에는 이 프로젝트를 더 이상 편집하지 못할 수 있습니다.
     계속하시겠습니까?
@@ -2326,7 +2377,6 @@ ko:
       color: 색상
       colors: 색상
     associations: 종속성
-    board_could_not_be_saved: 보드를 저장할 수 없습니다.
     button_delete_all: 모두 삭제
     change: 계획에서 변경
     children: 자식 요소
@@ -2659,8 +2709,8 @@ ko:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: 브라우저를 업데이트하시기 바랍니다.
+    close_warning: 이 경고를 무시하십시오.
   oauth:
     application:
       singular: OAuth application
@@ -2706,7 +2756,7 @@ ko:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: 권한
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2730,7 +2780,3 @@ ko:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: 위젯 제거
-  label_my_page_block: 내 페이지 블록
-  label_responsible_for_work_packages: 내가 담당하는 작업 패키지
-  label_visible_elements: 표시되는 요소

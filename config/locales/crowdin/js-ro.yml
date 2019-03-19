@@ -18,11 +18,22 @@ ro:
     close_popup_title: Închidere pop-up
     close_filter_title: Închide filtrul
     close_form_title: Închide formularul
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Browser-ul nu acceptă copierea în ecranul tampon. Vă rugăm să
         copiaţi textul selectat manual.
       copied_successful: Copiere în ecranul tampon reușită!
     button_add_watcher: Adăugare observator
+    button_back: Înapoi
     button_back_to_list_view: Înapoi la listă
     button_cancel: Anulare
     button_close: Închide
@@ -38,6 +49,7 @@ ro:
     button_duplicate: Duplicare
     button_edit: Editare
     button_filter: Filtrare
+    button_advanced_filter: Filtru avansat
     button_list_view: Vizualizare listă
     button_show_view: Vizualizare pe tot ecranul
     button_log_time: Consum timp
@@ -148,17 +160,41 @@ ro:
     general_text_yes: da
     general_text_No: Nu
     general_text_Yes: Da
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Noutăţi
+          at: at
+          no_results: Nimic nou de raportat.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Pachete de lucru atribuite mie
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendar
     label_activate: Activare
     label_activity_no: Acțiunea cu numărul %{activityNo}
     label_activity_with_comment_no: Acțiunea cu numărul %{activityNo}. Are un comentariu
       de utilizator.
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
+    label_add_column_after: Adauga o coloana dupa
+    label_add_column_before: Adauga o coloana inainte
     label_add_columns: Adaugați coloane
     label_add_comment: Adăugare comentariu
     label_add_comment_title: Comentați şi tastaţi @ pentru a notifica alte persoane
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
+    label_add_row_after: Adauga un rand dupa
+    label_add_row_before: Adauga un rand inainte
     label_add_selected_columns: Adăugați coloanele selectate
     label_added_by: adăugat de
     label_added_time_by: Adăugat de %{author} %{age}
@@ -169,7 +205,9 @@ ro:
     label_ascending: Crescător
     label_author: 'Autor: %{user}'
     label_between: between
+    label_board: Board
     label_board_locked: Închis
+    label_board_plural: Boards
     label_board_sticky: Lipicios
     label_create_work_package: Creare pachet de lucru nou
     label_created_by: Creat de
@@ -216,7 +254,7 @@ ro:
     label_menu_collapse: restrângere
     label_menu_expand: extindere
     label_more_than_ago: acum mai mult de zile
-    label_my_page: My page
+    label_my_page: Pagina mea
     label_next: Înainte
     label_no_data: Nu există date de afișat
     label_no_due_date: fără dată sfârșit
@@ -235,9 +273,9 @@ ro:
     label_visibility_settings: Setări de vizibilitate
     label_quote_comment: Citare comentariu
     label_reset: Resetare
-    label_remove_column: Remove column
+    label_remove_column: Elimina colana
     label_remove_columns: Eliminare coloane selectate
-    label_remove_row: Remove row
+    label_remove_row: Elimina rand
     label_save_as: Salvare ca
     label_select_watcher: Selectaţi un observator...
     label_selected_filter_list: Filtre selectate
@@ -293,6 +331,7 @@ ro:
     label_upload_notification: Se încarcă fișierele...
     label_work_package_upload_notification: 'Fişierele pentru pachetul de lucru #%{id}:
       %{subject} sunt în curs de încărcare'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Următoarele fişiere vor fi încărcate:'
     label_rejected_files: 'Următoarele fişiere nu pot fi încărcate:'
     label_rejected_files_reason: Aceste fişiere nu pot fi încărcate deoarece mărimea
@@ -403,9 +442,9 @@ ro:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Activitate
+      comment: Comentariu
+      hours: Ore
     watchers:
       label_loading: se încarcă observatorii...
       label_error_loading: A apărut o eroare în timpul încărcării observatorilor
@@ -490,6 +529,7 @@ ro:
       view?
     text_attachment_destroy_confirmation: Sunteţi sigur că doriţi să ştergeţi atașamentul?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Grafic Gantt
       labels:
         title: Label configuration
@@ -609,7 +649,7 @@ ro:
       label_enable_multi_select: Activare selecție multiplă
       label_disable_multi_select: Dezactivare selecție multiplă
       label_filter_add: Adăugare filtru
-      label_filter_by_text: Filter by text
+      label_filter_by_text: Filtreaza dupa text
       label_options: Opțiuni
       label_column_multiselect: 'Câmp desfășurat combinat: selectaţi cu săgețile,
         confirmați alegerea cu enter, ştergeţi cu backspace'
@@ -622,7 +662,7 @@ ro:
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
       no_value: Nici o valoare
-      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholder_filter_by_text: Subiect, descriere, comentarii, ...
       inline_create:
         title: Click aici pentru a adăuga un nou pachet de lucru în listă
       create:
@@ -773,8 +813,6 @@ ro:
         days: zile
         weeks: săptămâni
         months: luni
-      label_switch_to_single_select: Activați selecție independentă
-      label_switch_to_multi_select: Activați selecție multiplă
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -815,6 +853,7 @@ ro:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Creare reuşită.
     notice_successful_delete: Ştergere reuşită.
     notice_successful_update: Actualizare reușită.
@@ -841,7 +880,7 @@ ro:
         messages_on_field: 'Acest câmp este invalid: %{messages}'
     error_could_not_resolve_version_name: Nu a putut fi detectat numele versiunii
     error_could_not_resolve_user_name: Nu a putut fi detectat numele utilizatorului
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'Fisierul nu a putut fi incarcat: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -861,11 +900,13 @@ ro:
     zen_mode:
       button_activate: Activați modul zen
       button_deactivate: Dezactivați modul zen
-    unsupported_browser:
-      title: Versiunea dumneavoastră de browser nu este suportată
-      message: Versiunea de browser utilizată nu mai este suportată de OpenProject.
-      update_message: Vă rugăm să actualizaţi browser-ul.
-      update_ie_user: Vă rugăm să folosiți Mozilla Firefox sau Google Chrome, sau
-        faceți un upgrade către Microsoft Edge.
-      learn_more: Aflați mai multe
-      close_warning: Ignoră acest avertisment.
+    global_search:
+      all_projects: In toate proiectele
+      search: Căutare
+      close_search: Inchide cautarea
+      current_project: In acest proiect
+      current_project_and_all_descendants: In acest proiect + subproiecte
+      title:
+        all_projects: toate proiectele
+        project_and_subprojects: si toate subproiectele
+        search_for: Cauta dupa

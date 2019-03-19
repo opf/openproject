@@ -55,7 +55,7 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.wpCacheService
-      .observe(this.workPackage.id)
+      .observe(this.workPackage.id!)
       .pipe(
         untilComponentDestroyed(this)
       )
@@ -83,7 +83,7 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
   }
 
   public get statusHighlightClass() {
-    return Highlighting.inlineClass('status', this.status.getId());
+    return Highlighting.inlineClass('status', this.status.id!);
   }
 
   public get status():HalResource {

@@ -6,6 +6,7 @@ export abstract class OpModalComponent implements OnInit, OnDestroy {
 
   /* Close on escape? */
   public closeOnEscape:boolean = true;
+  public closeOnEscapeFunction = this.closeMe;
 
   /* Close on outside click */
   public closeOnOutsideClick:boolean = true;
@@ -44,7 +45,7 @@ export abstract class OpModalComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  public closeMe(evt:JQueryEventObject) {
+  public closeMe(evt?:JQueryEventObject) {
     this.service.close(evt);
   }
 

@@ -45,9 +45,21 @@ ja:
     index:
       no_results_content_title: 現在認証モードはありません。
       no_results_content_text: 新しい認証モードを作成
-  boards:
+  ldap_auth_sources:
+    connection_encryption: 接続の暗号化
+    tls_mode:
+      plain: なし
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: 平文の暗号化されていない接続。TLSネゴシエーションはありません。
+      simple_tls_description: 暗黙的にTLS暗号化します。証明書を検証しません。暗黙的にLDAP接続を信頼します、注意して使用してください。
+      start_tls_description: 完全な検証を行い明示的にTLS暗号化します。TLS/SSL経由のLDAPを使用します。
+      section_more_info_link_html: 'このセクションは、このLDAP認証元の接続セキュリティを考慮します。詳細については、<a href="%{link}">Net::LDAPドキュメント</a>を参照してください。
+
+'
+  forums:
     show:
-      no_results_title_text: 現在、掲示板の投稿はありません。
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: 現在、色はありません。
@@ -89,6 +101,10 @@ ja:
       further_information_after: ''
     calendar:
       removal: 'ご注意ください: このモジュールは OpenProject 8.0 で削除される予定です。'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: フォーラム
   groups:
     index:
       no_results_title_text: 現在、グループはありません。
@@ -97,25 +113,28 @@ ja:
       no_results_title_text: 現在、このグループのメンバーはいません。
     memberships:
       no_results_title_text: 現在、このグループのプロジェクトはありません。
+  incoming_mails:
+    ignore_filenames: '受信メールの添付ファイルを処理するとき、無視する名前の一覧を指定します (例えば、署名またはアイコン)。1 行につき
+      1 つのファイル名を入力してください。
+
+'
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      scheduled: 削除は予定されており、バックグラウンドで実行されます。 結果が通知されます。
+      schedule_failed: 'プロジェクトを削除できません: %{errors}'
+      failed: プロジェクト%{name} の削除に失敗しました
+      failed_text: プロジェクト%{name} の削除要求が失敗しました。 プロジェクトはアーカイブされたままです。
+      completed: プロジェクト%{name} の削除が完了しました
+      completed_text: プロジェクト '%{name}'を削除要求は完了しました。
     index:
       no_results_title_text: 現在、プロジェクトはありません
       no_results_content_text: プロジェクトを新規作成
     settings:
       activities:
         no_results_title_text: 現在、有効な活動はありません。
-      boards:
-        no_results_title_text: 現在、プロジェクトの掲示板はありません。
-        no_results_content_text: 新しい掲示板を作成
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: 現在、作業項目のカテゴリはありません。
         no_results_content_text: 新しい作業項目のカテゴリを作成
@@ -196,6 +215,8 @@ ja:
     x_descendants:
       one: One descendant work package
       other: "%{count} つの作業項目の子孫"
+    bulk:
+      could_not_be_saved: '次の作業項目を保存できませんでした:'
     move:
       no_common_statuses_exists: 選択されたすべての項目に利用可能なステータスはありません。 それらの状態は変更できません。
       unsupported_for_multiple_projects: 複数のプロジェクトから、作業項目の一括移動/コピーはサポートされていません
@@ -310,6 +331,11 @@ ja:
         subscriber: 購入者
         encoded_token: エンタープライズ サポート トークン
         active_user_count_restriction: アクティブなユーザーの最大数
+      grids/grid:
+        page: ページ
+        row_count: 行数
+        column_count: 列数
+        widgets: ウィジェット
       relation:
         delay: 遅延
         from: 作業項目
@@ -399,13 +425,13 @@ ja:
         type: 種別
         watcher: ウォッチャー
       doorkeeper/application:
-        uid: Client ID
-        secret: Client secret
-        owner: Owner
-        redirect_uri: Redirect URI
-        client_credentials_user_id: Client Credentials User ID
-        scopes: Scopes
-        confidential: Confidential
+        uid: クライアントID
+        secret: 秘密鍵
+        owner: 所有者
+        redirect_uri: リダイレクトURI
+        client_credentials_user_id: クライアント資格情報ユーザーID
+        scopes: 範囲
+        confidential: 機密
     errors:
       messages:
         accepted: は受諾しなければなりません。
@@ -446,6 +472,7 @@ ja:
         too_long: は%{count}文字以内を入力してください。
         too_short: は%{count}文字以上を入力してください。
         unchangeable: 変更できません。
+        unremovable: cannot be removed.
         wrong_length: は%{count}文字を入力してください。
       models:
         custom_field:
@@ -461,15 +488,19 @@ ja:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
-              secured_uri: must be an HTTPS/SSL URI.
-              forbidden_uri: is forbidden by the server.
+              fragment_present: フラグメントを含めることはできません。
+              invalid_uri: 有効なURIでなければなりません。
+              relative_uri: 絶対URIでなければなりません。
+              secured_uri: HTTPS/SSL URIでなければなりません。
+              forbidden_uri: サーバーによって禁止されています。
             scopes:
-              not_match_configured: doesn't match available scopes.
+              not_match_configured: 利用可能な範囲と一致しません。
         enterprise_token:
           unreadable: 読み取りできません。サポート トークンですか?
+        grids/grid:
+          overlaps: オーバーラップ。
+          outside: グリッドの外側です。
+          end_before_start: 終了値は開始値よりも大きくする必要があります。
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -567,7 +598,7 @@ ja:
     models:
       attachment: ファイル
       attribute_help_text: 属性のヘルプ テキスト
-      board: フォーラム
+      forum: フォーラム
       comment: コメント
       custom_action: カスタムアクション
       custom_field: カスタムフィールド
@@ -588,7 +619,7 @@ ja:
       wiki_page: Wiki ページ
       workflow: ワークフロー
       work_package: 作業項目
-      doorkeeper/application: OAuth application
+      doorkeeper/application: OAuthアプリケーション
   errors:
     header_invalid_fields: 次のフィールドに問題がありました：
     field_erroneous_label: |-
@@ -664,7 +695,7 @@ ja:
   button_change_password: パスワードの変更
   button_check_all: 全てを選択
   button_clear: クリア
-  button_click_to_reveal: Click to reveal
+  button_click_to_reveal: 明らかにするためにクリック
   button_close: 閉じる
   button_collapse_all: 全てを折りたたむ
   button_configure: 設定
@@ -694,7 +725,7 @@ ja:
   button_remove: 削除
   button_rename: 名称変更
   button_replace: 置き換え
-  button_revoke: Revoke
+  button_revoke: 取り消し
   button_reply: 返信
   button_reset: リセット
   button_rollback: このバージョンにロールバック
@@ -1039,9 +1070,8 @@ ja:
       faq: FAQ
       glossary: 用語集
       shortcuts: ショートカット
-      forums: フォーラム
       blog: OpenProject ブログ
-      boards: コミュニティ フォーラム
+      forums: コミュニティ フォーラム
       newsletter: セキュリティアラート / ニュースレター
   links:
     configuration_guide: 設定ガイド
@@ -1084,7 +1114,6 @@ ja:
   label_all_open_wps: 開いているすべて
   label_always_visible: 常に表示
   label_announcement: お知らせ
-  label_and_its_subprojects: "%{value}とその子プロジェクト"
   label_api_access_key: APIアクセスキー
   label_api_access_key_created_on: APIアクセスキーが%{value}前に作成されました
   label_api_access_key_type: API
@@ -1104,7 +1133,7 @@ ja:
   label_authentication: 認証
   label_available_project_work_package_categories: 有効な作業項目のカテゴリ
   label_available_project_work_package_types: 利用可能な作業項目の種類
-  label_available_project_boards: 利用できる掲示板
+  label_available_project_forums: Available forums
   label_available_project_versions: 利用できるバージョン
   label_available_project_repositories: 使用できるリポジトリ
   label_api_documentation: APIドキュメント
@@ -1112,14 +1141,15 @@ ja:
   label_blocked_by: ブロックされている
   label_blocks: ブロックしている
   label_blog: ブログ
-  label_board_locked: ロックされている
-  label_board_new: 新しいフォーラム
-  label_board_plural: フォーラム
-  label_board_sticky: 固定する
+  label_forums_locked: ロックされている
+  label_forum_new: 新しいフォーラム
+  label_forum_plural: フォーラム
+  label_forum_sticky: 固定する
   label_boolean: ブール型
   label_branch: 分岐
   label_browse: 閲覧
   label_bulk_edit_selected_work_packages: 選択した作業項目を一括編集
+  label_bundled: "(Bundled)"
   label_calendar: カレンダー
   label_calendar_show: カレンダーを表示
   label_category: カテゴリ
@@ -1216,7 +1246,7 @@ ja:
   label_environment: 環境
   label_estimates_and_time: 見積もりと 時間
   label_equals: 等しい
-  label_everywhere: everywhere
+  label_everywhere: どこにでも
   label_example: 例
   label_export_to: こちらもアクセス可能：
   label_expanded_click_to_collapse: 拡大しました。クリックすると閉じます
@@ -1253,7 +1283,7 @@ ja:
   label_history: 履歴
   label_hierarchy_leaf: 階層枚
   label_home: ホーム
-  label_subject_or_id: Subject or ID
+  label_subject_or_id: 件名またはID
   label_in: 今日から○日後
   label_in_less_than: 今日から○日後以前
   label_in_more_than: 今日から○日後以降
@@ -1379,6 +1409,7 @@ ja:
   label_planning: 計画
   label_please_login: ログインしてください。
   label_plugins: プラグイン
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: 次の項目に先行
   label_preferences: 設定
   label_preview: プレビュー
@@ -1450,7 +1481,6 @@ ja:
   label_role_search: 新しいメンバーに役割を割り当てる
   label_scm: バージョン管理システム
   label_search: 検索
-  label_search_titles_only: 題名のみを検索
   label_send_information: アカウント情報をユーザに送信
   label_send_test_email: テスト電子メールを送信
   label_settings: 設定
@@ -1530,6 +1560,7 @@ ja:
   label_view_diff: 差分を表示
   label_view_revisions: リビジョンを表示
   label_watched_work_packages: ウォッチしている作業項目
+  label_what_is_this: これは何ですか?
   label_week: 週
   label_wiki_content_added: Wikiページが追加されました。
   label_wiki_content_updated: Wikiページが更新されました。
@@ -1686,6 +1717,7 @@ ja:
   notice_account_unknown_email: ユーザが存在しません。
   notice_account_update_failed: アカウントの設定は保存できませんでした。個人ページをご確認ください。
   notice_account_updated: アカウントが正常に更新されました。
+  notice_account_other_session_expired: アカウントに関連付けられている他のすべてのセッションは無効になりました。
   notice_account_wrong_password: パスワードが正しくありません。
   notice_account_registered_and_logged_in: ようこそ、アカウントが有効になりました。只今ログイン中ます。
   notice_activation_failed: アカウントをアクティブ化できませんでした。
@@ -1795,7 +1827,7 @@ ja:
   permission_export_wiki_pages: Wikiページのエクスポート
   permission_list_attachments: 添付ファイルの一覧表
   permission_log_time: 作業時間の記録
-  permission_manage_boards: フォーラムの管理
+  permission_manage_forums: フォーラムの管理
   permission_manage_categories: 仕事項目のカテゴリの管理
   permission_manage_work_package_relations: 作業項目の関連の管理
   permission_manage_members: メンバーの管理
@@ -1841,7 +1873,7 @@ ja:
     archive:
       are_you_sure: プロジェクト '%{name}' をアーカイブしてもよろしいですか？
   project_module_activity: 活動
-  project_module_boards: フォーラム
+  project_module_forums: フォーラム
   project_module_calendar: カレンダー
   project_module_work_package_tracking: 作業項目の追跡
   project_module_news: ニュース
@@ -2040,6 +2072,7 @@ ja:
   setting_mail_handler_api_key: APIキー
   setting_mail_handler_body_delimiters: メール本文から一致する行以降を切り捨てる
   setting_mail_handler_body_delimiter_regex: この正規表現に一致するメールを切り捨てる
+  setting_mail_handler_ignore_filenames: 無視するメールの添付ファイル
   setting_new_project_user_role_id: システム管理者以外のプロジェクト作成者に設定するロール
   setting_password_active_rules: 有効な文字種類
   setting_password_count_former_banned: 再利用を禁止される最近使用済みパスワードの数
@@ -2049,6 +2082,7 @@ ja:
   setting_per_page_options: オプションページごとの項目数
   setting_plain_text_mail: テキストメール（HTMLなし）
   setting_protocol: プロトコル
+  setting_security_badge_displayed: セキュリティバッジを表示する
   setting_registration_footer: 登録フッター
   setting_repositories_automatic_managed_vendor: 自動リポジトリ ベンダー種類
   setting_repositories_encodings: リポジトリのエンコーディング
@@ -2191,6 +2225,11 @@ ja:
     デフォルト設定のロードを強くお勧めします。ロードした後、それを修正することができます。
   text_no_notes: この作業項目に有効なコメントはありません.
   text_notice_too_many_values_are_inperformant: '注: 1ページあたり100以上の項目を表示すると読み込み時間が増加することがあります。'
+  text_notice_security_badge_displayed_html: '602/5000 注：有効にすると、<a href="%{information_panel_path}">%{information_panel_label}</a>管理パネルとホームページに、インストールステータスのバッジが表示されます。
+    管理者のみに表示されます。 <br/>バッジは、最新のOpenProjectバージョンを公式のOpenProjectリリースデータベースと照合して、アップデートや既知の脆弱性について警告します。
+    チェックの内容、利用可能なアップデートを提供するために必要なデータ、およびこのチェックを無効にする方法の詳細については、<a href="%{more_info_url}">設定ドキュメント</a>をご覧ください。
+
+'
   text_own_membership_delete_confirmation: |-
     一部またはすべての権限を自分自身から剥奪しようとしているため、このプロジェクトを編集できなくなる可能性があります。
     本当に続けますか？
@@ -2243,7 +2282,6 @@ ja:
       color: 色
       colors: 色
     associations: 依存関係
-    board_could_not_be_saved: ボードを保存できませんでした。
     button_delete_all: 全ての削除
     change: 計画の変更する
     children: 子要素
@@ -2525,117 +2563,84 @@ ja:
       schema: スキーマ
   doorkeeper:
     pre_authorization:
-      status: Pre-authorization
+      status: 事前承認
     errors:
       messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
-        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
-          client redirect URI.
-        unauthorized_client: The client is not authorized to perform this request
-          using this method.
-        access_denied: The resource owner or authorization server denied the request.
-        invalid_scope: The requested scope is invalid, unknown, or malformed.
-        invalid_code_challenge_method: The code challenge method must be plain or
-          S256.
-        server_error: The authorization server encountered an unexpected condition
-          which prevented it from fulfilling the request.
-        temporarily_unavailable: The authorization server is currently unable to handle
-          the request due to a temporary overloading or maintenance of the server.
-        credential_flow_not_configured: Resource Owner Password Credentials flow failed
-          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
-        resource_owner_authenticator_not_configured: Resource Owner find failed due
-          to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
-        admin_authenticator_not_configured: Access to admin panel is forbidden due
-          to Doorkeeper.configure.admin_authenticator being unconfigured.
-        unsupported_response_type: The authorization server does not support this
-          response type.
-        invalid_client: Client authentication failed due to unknown client, no client
-          authentication included, or unsupported authentication method.
-        invalid_grant: The provided authorization grant is invalid, expired, revoked,
-          does not match the redirection URI used in the authorization request, or
-          was issued to another client.
-        unsupported_grant_type: The authorization grant type is not supported by the
-          authorization server.
+        invalid_request: リクエストに必要なパラメーターがありません、サポートされていないパラメーター値が含まれているか、その他の形式に誤りがあります。
+        invalid_redirect_uri: 要求されたリダイレクトURIが不正な形式であるか、クライアントのリダイレクトURIと一致しません。
+        unauthorized_client: クライアントはこのメソッドを使用してリクエストを実行することが許可されていません。
+        access_denied: リソース所有者または認証サーバーが要求を拒否しました。
+        invalid_scope: 要求された範囲は無効、不明、または不正な形式です。
+        invalid_code_challenge_method: コードチャレンジメソッドはプレーンまたはS256である必要があります。
+        server_error: 認証サーバーは予期しない状態を検出したため、要求を実行できませんでした。
+        temporarily_unavailable: 認証サーバーは現在一時的な過負荷または保守のためにリクエストを処理できません。
+        credential_flow_not_configured: Doorkeeper.configure.resource_owner_from_credentialsの設定が解除されているため、リソース所有者のパスワード資格情報のフローが失敗しました。
+        resource_owner_authenticator_not_configured: Doorkeeper.configure.resource_owner_authenticatorの設定が解除されているため、リソース所有者の検索に失敗しました。
+        admin_authenticator_not_configured: Doorkeeper.configure.admin_authenticatorの設定が解除されているため、管理パネルへのアクセスは禁止されています。
+        unsupported_response_type: 認証サーバーはこのレスポンスタイプをサポートしません。
+        invalid_client: 不明なクライアント、クライアント認証が含まれていない、またはサポートされていない認証方法のため、クライアント認証が失敗しました。
+        invalid_grant: 提供された許可付与が無効、期限切れ、取り消された、許可要求で使用されたリダイレクトURIと一致しない、または別のクライアントに発行されました。
+        unsupported_grant_type: 認証許可の種類は認証サーバーによってサポートされていません。
         invalid_token:
-          revoked: The access token was revoked
-          expired: The access token expired
-          unknown: The access token is invalid
+          revoked: アクセストークンが取り消されました
+          expired: アクセストークンの有効期限が切れました
+          unknown: アクセストークンが無効です
   unsupported_browser:
-    title: Your browser is outdated and unsupported.
-    message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    title: お使いのブラウザは古く、サポートされていません。
+    message: このページでエラーと崩れを体験するかもしれません。
+    update_message: ブラウザを更新してください。
+    close_warning: この警告を無視する。
   oauth:
     application:
-      singular: OAuth application
-      plural: OAuth applications
-      named: OAuth application '%{name}'
-      new: New OAuth application
-      default_scopes: "(Default scopes)"
+      singular: OAuthアプリケーション
+      plural: OAuthアプリケーション
+      named: OAuthアプリケーション '%{name}'
+      new: 新しいOAuthアプリケーション
+      default_scopes: "(既定の範囲)"
       instructions:
-        name: The name of your application. This will be displayed to other users
-          upon authorization.
-        redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
-          One entry per line. <br/> If you''re registering a desktop application,
-          use the following URL.
+        name: アプリケーションの名前。これは承認時に他のユーザーに表示されます。
+        redirect_uri_html: '許可されたURLで承認されたユーザーにリダイレクトできます。 1行に1エントリ。<br/>デスクトップアプリケーションを登録する場合は、次のURLを使用してください。
 
 '
-        confidential: Check if the application will be used where the client secret
-          can be kept confidential. Native mobile apps and Single Page Apps are assumed
-          non-confidential.
-        client_credential_user_id: Optional user ID to impersonate when clients use
-          this application. Leave empty to allow public access only
-        register_intro: If you are developing an OAuth API client application for
-          OpenProject, you can register it using this form for all users to use.
+        confidential: クライアントシークレットを機密にできる場所でアプリケーションが使用されるかどうかを確認します。 ネイティブモバイルアプリとシングルページアプリは機密とはみなされません。
+        client_credential_user_id: クライアントがこのアプリケーションを使用するときに偽装するためのオプションのユーザーIDです。
+          パブリックアクセスのみを許可するには空のままにします
+        register_intro: OpenProject用のOAuth APIクライアントアプリケーションを開発している場合は、このフォームを使用してすべてのユーザーが使用できるように登録できます。
         default_scopes: ''
-    client_id: Client ID
-    client_secret_notice: 'This is the only time we can print the client secret, please
-      note it down and keep it secure. It should be treated as a password and cannot
-      be retrieved by OpenProject at a later time.
+    client_id: クライアントID
+    client_secret_notice: 'クライアントシークレットを表示できる唯一の瞬間です。書き留めて安全に保管してください。 これはパスワードとして扱われるべきであり、後でOpenProjectによって検索することはできません。
 
 '
     authorization_dialog:
-      authorize: Authorize
-      cancel: Cancel and deny authorization.
-      prompt_html: Authorize <strong>%{application_name}</strong> to use your account
-        <em>%{login}</em>?
-      title: Authorize %{application_name}
-      wants_to_access_html: 'This application requests access to your OpenProject
-        account. <br/> <strong>It has requested the following permissions:</strong>
+      authorize: 承認
+      cancel: 承認を取り消して拒否します。
+      prompt_html: "<strong>%{application_name}</strong>に自分のアカウント<em>%{login}</em>を使用する権限を与えますか？"
+      title: "%{application_name}を承認します"
+      wants_to_access_html: 'このアプリケーションはあなたのOpenProjectアカウントへのアクセスを要求します。 <br/> <strong>次の権限が要求されています：</strong>
 
 '
     scopes:
-      api_v3: Full API access
-      api_v3_text: Application will receive full read & write access to the OpenProject
-        API to perform actions on your behalf.
+      api_v3: フルAPIアクセス
+      api_v3_text: アプリケーションはあなたに代わってアクションを実行するためにOpenProject APIへの完全な読み書きアクセス権を受け取ります。
     grants:
-      created_date: Approved on
-      scopes: Permissions
-      successful_application_revocation: Revocation of application %{application_name}
-        successful.
-      none_given: No OAuth applications have been granted access to your user account.
+      created_date: に承認済み
+      scopes: 権限
+      successful_application_revocation: アプリケーション %{application_name} の取り消しに成功しました。
+      none_given: ユーザーアカウントへのアクセスがOAuthアプリケーションに許可されていません。
     x_active_tokens:
       one: one active token
-      other: "%{count} active token"
+      other: "%{count}つの有効なトークン"
     flows:
-      authorization_code: Authorization code flow
-      client_credentials: Client credentials flow
-    client_credentials: User used for Client credentials
-    client_credentials_impersonation_set_to: Client credentials user set to
-    client_credentials_impersonation_warning: 'Note: Clients using the ''Client credentials''
-      flow in this application will have the rights of this user'
-    client_credentials_impersonation_html: 'By default, OpenProject provides OAuth
-      2.0 authorization via %{authorization_code_flow_link}. You can optionally enable
-      %{client_credentials_flow_link}, but you must provide a user on whose behalf
-      requests will be performed.
+      authorization_code: 認証コードの流れ
+      client_credentials: クライアントの資格情報のフロー
+    client_credentials: クライアントの資格情報を使用するユーザー
+    client_credentials_impersonation_set_to: クライアントの資格情報をユーザーに設定
+    client_credentials_impersonation_warning: 注意：このアプリケーションで「クライアント認証情報」フローを使用しているクライアントは、このユーザーの権限を持ちます。
+    client_credentials_impersonation_html: 'デフォルトでは、OpenProjectは %{authorization_code_flow_link}
+      を介してOAuth 2.0認証を提供します。 オプションで %{client_credentials_flow_link} を有効にすることもできますが、その代わりにユーザーに代わってリクエストが実行されるようにする必要があります。
 
 '
-    authorization_error: An authorization error has occurred.
-    revoke_my_application_confirmation: Do you really want to remove this application?
-      This will revoke %{token_count} active for it.
-    my_registered_applications: Registered OAuth applications
-  button_remove_widget: ウィジェットを削除
-  label_my_page_block: このページ上のブロック
-  label_responsible_for_work_packages: 責任者である作業項目
-  label_visible_elements: 表示する要素
+    authorization_error: 認証エラーが発生しました。
+    revoke_my_application_confirmation: 本当にこのアプリケーションを削除しますか？ これにより %{token_count}
+      が無効になります。
+    my_registered_applications: 登録済みのOAuthアプリケーション

@@ -1,4 +1,5 @@
-<div class="work-packages-list-view--container">
+<div class="work-packages-list-view--container loading-indicator--location"
+     data-indicator-name="calendar-entry">
     <div class="toolbar-container -editable">
         <div class="toolbar">
             <div class="title-container">
@@ -7,8 +8,7 @@
                 </h2>
             </div>
 
-            <ul class="toolbar-items hide-when-print"
-                *ngIf="tableInformationLoaded">
+            <ul class="toolbar-items hide-when-print">
                 <li class="toolbar-item hidden-for-mobile">
                     <wp-filter-button>
                     </wp-filter-button>
@@ -23,6 +23,5 @@
 
     <filter-container></filter-container>
 
-    <wp-calendar [projectIdentifier]="projectIdentifier">
-    </wp-calendar>
+    <wp-calendar [projectIdentifier]="projectIdentifier"></wp-calendar>
 </div>

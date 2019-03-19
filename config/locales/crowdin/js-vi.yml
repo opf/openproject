@@ -18,11 +18,22 @@ vi:
     close_popup_title: Đóng
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Trình duyệt không hỗ trợ copy vào clipboard. Vui lòng copy văn
         bản đã chọn theo cách thủ công.
       copied_successful: Sao chép thành công vào clipboard!
     button_add_watcher: Thêm người theo dõi
+    button_back: Quay lại
     button_back_to_list_view: Back to list view
     button_cancel: Hủy
     button_close: Đóng
@@ -38,6 +49,7 @@ vi:
     button_duplicate: Nhân đôi
     button_edit: Chỉnh sửa
     button_filter: Bộ lọc
+    button_advanced_filter: Advanced filter
     button_list_view: Xem kiểu danh sách
     button_show_view: Xem toàn màn hình
     button_log_time: Thời gian truy cập
@@ -149,6 +161,30 @@ vi:
     general_text_yes: có
     general_text_No: Không
     general_text_Yes: Có
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Tin tức
+          at: at
+          no_results: Không có gì mới để báo cáo.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Gói công việc mà tôi có trách nhiệm
+        work_packages_assigned:
+          title: Work package được chỉ định cho tôi
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Lịch
     label_activate: Activate
     label_activity_no: Số chỉ mục hoạt động %{activityNo}
     label_activity_with_comment_no: Số chỉ mục hoạt động %{activityNo}. Có một nhận
@@ -170,7 +206,9 @@ vi:
     label_ascending: Tăng dần
     label_author: 'Tác giả: %{user}'
     label_between: between
+    label_board: Board
     label_board_locked: Đã khóa
+    label_board_plural: Boards
     label_board_sticky: Chú ý
     label_create_work_package: Create new work package
     label_created_by: Created by
@@ -217,7 +255,7 @@ vi:
     label_menu_collapse: thu lại
     label_menu_expand: mở rộng
     label_more_than_ago: nhiều hơn mấy ngày trước
-    label_my_page: My page
+    label_my_page: Trang của tôi
     label_next: Tiếp
     label_no_data: Không có dữ liệu để hiển thị
     label_no_due_date: không có ngày kết thúc
@@ -293,6 +331,7 @@ vi:
     label_add_description: Thêm mô tả cho %{file}
     label_upload_notification: Tải lên tệp tin...
     label_work_package_upload_notification: 'Tải file cho một công việc #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Những tập tin này sẽ được tải lên:'
     label_rejected_files: 'Các tệp này không thể được tải lên:'
     label_rejected_files_reason: Các tệp này không thể được tải lên như kích thước
@@ -401,9 +440,9 @@ vi:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Hoạt động
+      comment: Nhận xét
+      hours: Giờ
     watchers:
       label_loading: lấy danh sách người theo dõi...
       label_error_loading: Lỗi khi tải về danh sách người theo dõi
@@ -462,14 +501,14 @@ vi:
     select2:
       input_too_short:
         one: Please enter one more character
-        other: Please enter {{count}} more characters
+        other: Vui lòng nhập {{count}} thêm nhân vật
         zero: Please enter more characters
       load_more: Loading more results ...
       no_matches: Không tìm thấy
       searching: Đang tìm ...
       selection_too_big:
         one: You can only select one item
-        other: You can only select {{limit}} items
+        other: Bạn có thể chỉ chọn {{limit}} mục
         zero: You cannot select any items
     project_menu_details: Chi tiết
     sort:
@@ -485,6 +524,7 @@ vi:
     text_query_destroy_confirmation: Bạn muốn xóa các mục đã chọn?
     text_attachment_destroy_confirmation: Bạn có chắc bạn muốn xóa tập tin đính kèm?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Cấu hình nhãn
@@ -762,8 +802,6 @@ vi:
         days: ngày
         weeks: weeks
         months: months
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Định cấu hình chế độ xem...
@@ -803,6 +841,7 @@ vi:
         confirm_deletion_children: I acknowledge that ALL descendants of the listed
           work packages will be recursively removed.
         deletes_children: Các gói công việc con cũng sẽ bị xóa theo.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Successful creation.
     notice_successful_delete: Successful deletion.
     notice_successful_update: Successful update.
@@ -829,7 +868,7 @@ vi:
         messages_on_field: 'Mục này không hợp lệ: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
-    error_attachment_upload: 'Tập tin ''%{name}'' tải lên thất bại: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: Bạn không có quyền tải lên tập tin vào tài
       nguyên này.
     units:
@@ -838,7 +877,7 @@ vi:
         other: work packages
       child_work_packages:
         one: one child work package
-        other: "%{count} work package children"
+        other: "%{count} tác phẩm gói phần mềm trẻ em"
       hour:
         one: 1 hour
         other: "%{count} hours"
@@ -846,11 +885,13 @@ vi:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: Your browser version is not supported
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Learn more
-      close_warning: Ignore this warning.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

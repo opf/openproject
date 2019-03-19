@@ -57,9 +57,25 @@ af:
     index:
       no_results_content_title: There are currently no authentication modes.
       no_results_content_text: Create a new authentication mode
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: geen
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: There are currently no colors.
@@ -106,6 +122,10 @@ af:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: There are currently no groups.
@@ -114,6 +134,11 @@ af:
       no_results_title_text: There are currently no users part of this group.
     memberships:
       no_results_title_text: There are currently no projects part of this group.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -130,9 +155,9 @@ af:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -218,6 +243,8 @@ af:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -356,6 +383,11 @@ af:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Bladsy
+        row_count: Aantal rye
+        column_count: Aantal kolomme
+        widgets: Widgets
       relation:
         delay: Vertraag
         from: Werkspakket
@@ -449,7 +481,7 @@ af:
       doorkeeper/application:
         uid: Client ID
         secret: Client secret
-        owner: Owner
+        owner: Eienaar
         redirect_uri: Redirect URI
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
@@ -497,6 +529,7 @@ af:
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
         unchangeable: cannot be changed.
+        unremovable: cannot be removed.
         wrong_length: is the wrong length (should be %{count} characters).
       models:
         custom_field:
@@ -522,6 +555,10 @@ af:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -631,7 +668,7 @@ af:
     models:
       attachment: Lêer
       attribute_help_text: Attribute help text
-      board: Forum
+      forum: Forum
       comment: Opmerking
       custom_action: Custom action
       custom_field: Pasgemaakte veld
@@ -1135,9 +1172,8 @@ af:
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: Forums
       blog: OpenProject blog
-      boards: Gemeenskap forum
+      forums: Gemeenskap forum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1185,7 +1221,6 @@ af:
   label_all_open_wps: All open
   label_always_visible: Altyd vertoon
   label_announcement: Aankondiging
-  label_and_its_subprojects: "%{value} en sy subprojekte"
   label_api_access_key: API toegangsleutel
   label_api_access_key_created_on: API toegangsleutel %{value} gelede geskep
   label_api_access_key_type: API
@@ -1205,7 +1240,7 @@ af:
   label_authentication: Waarmerking
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1213,14 +1248,15 @@ af:
   label_blocked_by: geblokkeer deur
   label_blocks: blokke
   label_blog: Blog
-  label_board_locked: Gesluit
-  label_board_new: Nuwe forum
-  label_board_plural: Forums
-  label_board_sticky: Klewerig
+  label_forums_locked: Gesluit
+  label_forum_new: Nuwe forum
+  label_forum_plural: Forums
+  label_forum_sticky: Klewerig
   label_boolean: Boolese
   label_branch: Tak
   label_browse: Blaai
   label_bulk_edit_selected_work_packages: Grootmaat redigeer geselekteerde werkspakkette
+  label_bundled: "(Bundled)"
   label_calendar: Kalender
   label_calendar_show: Wys Kalender
   label_category: Kategorie
@@ -1482,6 +1518,7 @@ af:
   label_planning: Beplanning
   label_please_login: Teken asseblief in
   label_plugins: Invoegtoepassings
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: gaan vooraf
   label_preferences: Voorkeure
   label_preview: Voorskou
@@ -1553,7 +1590,6 @@ af:
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: Search
-  label_search_titles_only: Search titles only
   label_send_information: Send account information to the user
   label_send_test_email: Send a test email
   label_settings: Instellings
@@ -1634,6 +1670,7 @@ af:
   label_view_diff: View differences
   label_view_revisions: View revisions
   label_watched_work_packages: Werkspakkette wat dopgehou word
+  label_what_is_this: What is this?
   label_week: Week
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
@@ -1808,6 +1845,8 @@ af:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: Account was successfully updated.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Wrong password
   notice_account_registered_and_logged_in: Welcome, your account has been activated.
     You are logged in now.
@@ -1936,7 +1975,7 @@ af:
   permission_export_wiki_pages: Export wiki pages
   permission_list_attachments: List attachments
   permission_log_time: Log spent time
-  permission_manage_boards: Manage forums
+  permission_manage_forums: Manage forums
   permission_manage_categories: Manage work package categories
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Manage members
@@ -1983,7 +2022,7 @@ af:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Aktiwiteit
-  project_module_boards: Forums
+  project_module_forums: Forums
   project_module_calendar: Kalender
   project_module_work_package_tracking: Werkspakket rekord
   project_module_news: Nuus
@@ -2212,6 +2251,7 @@ af:
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   setting_mail_handler_body_delimiter_regex: Stomp eposse af wat ooreenstem met hierdie
     "regular expression"
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   setting_password_active_rules: Active character classes
   setting_password_count_former_banned: Number of most recently used passwords banned
@@ -2222,6 +2262,7 @@ af:
   setting_per_page_options: Objects per page options
   setting_plain_text_mail: Plain text mail (no HTML)
   setting_protocol: Protocol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: Automatic repository vendor type
   setting_repositories_encodings: Repositories encodings
@@ -2391,6 +2432,16 @@ af:
   text_no_notes: There are no comments available for this work package.
   text_notice_too_many_values_are_inperformant: 'Note: Displaying more than 100 items
     per page can increase the page load time.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
     Are you sure you want to continue?
@@ -2451,7 +2502,6 @@ af:
       color: Kleur
       colors: Colors
     associations: Dependencies
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
     change: Change in planning
     children: Child elements
@@ -2861,7 +2911,7 @@ af:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Toestemmings
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2885,7 +2935,3 @@ af:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Verwyder legstuk
-  label_my_page_block: My bladsyblok
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Visible elements

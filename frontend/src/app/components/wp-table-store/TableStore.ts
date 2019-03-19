@@ -27,12 +27,12 @@
 // ++
 
 import {Injectable} from '@angular/core';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 
 @Injectable()
 export class TableStore  {
 
-  constructor(readonly tableState:TableState) {
+  constructor(readonly querySpace:IsolatedQuerySpace) {
   }
 
 }

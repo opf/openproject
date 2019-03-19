@@ -29,8 +29,9 @@ module LdapGroups
       end
 
       def delete_link
-        link_to '',
+        link_to I18n.t(:button_delete),
                 { controller: table.target_controller, ldap_group_id: model.id, action: :destroy_info },
+                class: 'icon icon-delete',
                 title: t(:button_delete)
       end
     end

@@ -30,10 +30,10 @@ require 'support/pages/messages/base'
 
 module Pages::Messages
   class Create < ::Pages::Messages::Base
-    attr_accessor(:board)
+    attr_accessor(:forum)
 
-    def initialize(board)
-      self.board = board
+    def initialize(forum)
+      self.forum = forum
     end
 
     def set_subject(subject)
@@ -55,7 +55,7 @@ module Pages::Messages
     end
 
     def path
-      new_board_topic_path(board)
+      new_forum_topic_path(forum)
     end
   end
 end

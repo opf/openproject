@@ -57,7 +57,7 @@ export const formattableFieldTemplate = `
   template: formattableFieldTemplate
 })
 export class FormattableEditFieldComponent extends EditFieldComponent implements OnInit {
-  readonly pathHelper:PathHelperService = this.$injector.get(PathHelperService);
+  readonly pathHelper:PathHelperService = this.injector.get(PathHelperService);
 
   public readonly field = this;
 
@@ -126,7 +126,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     if (this.resource.isNew && this.resource.project) {
       return this.resource.project.href;
     } else if (!this.resource.isNew) {
-      return this.pathHelper.api.v3.work_packages.id(this.resource.id).path;
+      return this.pathHelper.api.v3.work_packages.id(this.resource.id!).path;
     }
   }
 

@@ -107,40 +107,11 @@ describe 'onboarding tour for new users', js: true do
         expect(page).to have_text 'Please select one of the projects with useful demo data to get started.'
 
         find('.welcome').click_link 'Demo project'
-        expect(page).to have_current_path "/projects/#{project.identifier}/work_packages/?start_onboarding_tour=true"
-        expect(page).not_to have_selector('.loading-indicator')
-        expect(page).to have_text  'This is the Work package list'
+        expect(page).to have_current_path "/projects/#{project.identifier}/work_packages?start_onboarding_tour=true"
 
-        next_button.click
-        expect(page).to have_current_path project_work_package_path(project, wp_1.id, 'activity')
-        expect(page).to have_text  'Within the Work package details you find all relevant information'
+        step_through_onboarding_wp_tour project, wp_1
 
-        next_button.click
-        expect(page).to have_text 'With the arrow you can navigate back to the work package list.'
-
-        next_button.click
-        expect(page).to have_text 'The Create button will add a new work package to your project'
-
-        next_button.click
-        expect(page).to have_text 'You can activate the Gantt chart to create a timeline for your project.'
-
-        next_button.click
-        expect(page).to have_text 'Here you can edit your project plan. Create new phases, milestones, and add dependencies.'
-
-        next_button.click
-        expect(page).to have_text "With the arrow you can navigate back to the project's Main menu."
-
-        next_button.click
-        expect(page).to have_text 'Invite new Members to join your project.'
-
-        next_button.click
-        expect(page).to have_text 'Within the Wiki you can document and share knowledge together with your team.'
-
-        next_button.click
-        expect(page).to have_text 'In the Help menu you will find a user guide and additional help resources.'
-
-        next_button.click
-        expect(page).not_to have_selector '.enjoy_hint_label'
+        step_through_onboarding_main_menu_tour
       end
     end
   end

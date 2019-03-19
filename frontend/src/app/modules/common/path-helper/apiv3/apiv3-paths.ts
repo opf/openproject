@@ -99,12 +99,24 @@ export class ApiV3Paths {
    * @param {string | number} projectIdentifier
    * @returns {Apiv3ProjectPaths | this}
    */
-  public withOptionalProject(projectIdentifier?:string|number):Apiv3ProjectPaths|this {
+  public withOptionalProject(projectIdentifier:string|number|null|undefined):Apiv3ProjectPaths|this {
     if (_.isNil(projectIdentifier)) {
       return this;
     } else {
       return this.projects.id(projectIdentifier);
     }
+  }
+
+  /**
+   * returns a resource segment from (/base)/api/v3/(resource)
+   * @param segment
+   */
+  public resource(segment:string) {
+    if (!segment.startsWith('/')) {
+      segment = '/' + segment;
+    }
+
+    return this.apiV3Base + segment;
   }
 
   public previewMarkup(context:string) {

@@ -8,7 +8,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {States} from "core-app/components/states.service";
 import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
-import {TableState} from "core-components/wp-table/table-state/table-state";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 
 @Component({
   templateUrl: './highlighting-tab.component.html'
@@ -37,7 +37,6 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
       priority: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.priority'),
       entire_row_by: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.entire_row_by'),
     },
-    upsaleEnterpriseOnly: this.I18n.t('js.upsale.ee_only'),
     upsaleAttributeHighlighting: this.I18n.t('js.work_packages.table_configuration.upsale.attribute_highlighting'),
     upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link')
   };
@@ -45,7 +44,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   constructor(readonly injector:Injector,
               readonly I18n:I18nService,
               readonly states:States,
-              readonly tableState:TableState,
+              readonly querySpace:IsolatedQuerySpace,
               readonly Banners:BannersService,
               readonly wpTableHighlight:WorkPackageTableHighlightingService) {
   }
@@ -53,9 +52,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   public onSave() {
     let mode = this.highlightingMode;
     let highlightedAttributes:HalResource[] = this.selectedAttributesAsHal();
-
-    const newValue = new WorkPackageTableHighlight(mode, highlightedAttributes);
-    this.wpTableHighlight.update(newValue);
+    this.wpTableHighlight.update({ mode: mode, selectedAttributes: highlightedAttributes });
   }
 
   private selectedAttributesAsHal() {
@@ -76,7 +73,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
     return this.selectedAttributes.length === 1 && _.get(this.selectedAttributes[0], 'value') === 'all';
   }
 
-  public updateMode(mode:HighlightingMode|'entire-row') {
+  public updateMode(mode:HighlightingMode | 'entire-row') {
     if (mode === 'entire-row') {
       this.highlightingMode = this.lastEntireRowAttribute;
     } else {
@@ -91,7 +88,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
     }
   }
 
-  public disabledValue(value:boolean):string|null {
+  public disabledValue(value:boolean):string | null {
     return value ? 'disabled' : null;
   }
 
@@ -119,7 +116,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   }
 
   public get availableHighlightedAttributes():HalResource[] {
-    const schema = this.tableState.queryForm.value!.schema;
+    const schema = this.querySpace.queryForm.value!.schema;
     return schema.highlightedAttributes.allowedValues;
   }
 
@@ -128,7 +125,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   }
 
   private mapAttributes(input:HalResource[]):MultiToggledSelectOption[] {
-    return input.map((el:HalResource) => ({ name: el.name, value: el.$href! }));
+    return input.map((el:HalResource) => ({name: el.name, value: el.$href!}));
   }
 
   private get allAttributesOption():MultiToggledSelectOption {

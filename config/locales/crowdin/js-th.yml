@@ -18,10 +18,21 @@ th:
     close_popup_title: ปิดป๊อปอัพ
     close_filter_title: ปิดตัวกรอง
     close_form_title: ปิดแบบฟอร์ม
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: เบราเซอร์ของคุณไม่รองรับการคัดลอกไปยังคลิปบอร์ด กรุณาคัดลอกข้อความที่เลือกด้วยตนเอง
       copied_successful: Sucessfully copied to clipboard!
     button_add_watcher: เพิ่มผู้ดูข้อมูล
+    button_back: ย้อนกลับ
     button_back_to_list_view: Back to list view
     button_cancel: ยกเลิก
     button_close: Close
@@ -37,6 +48,7 @@ th:
     button_duplicate: ทำซ้ำ
     button_edit: แก้ไข
     button_filter: ตัวกรอง
+    button_advanced_filter: Advanced filter
     button_list_view: List view
     button_show_view: มุมมองแบบเต็มหน้าจอ
     button_log_time: เวลาที่ถูกบันทึก
@@ -145,6 +157,30 @@ th:
     general_text_yes: ใช่
     general_text_No: ไม่ใช่
     general_text_Yes: ใช่
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: ข่าวสาร
+          at: at
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: ชุดภารกิจที่ฉันได้รับมอบหมาย
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: ปฏิทิน
     label_activate: เปิดใช้งาน
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
@@ -161,12 +197,14 @@ th:
     label_added_time_by: เพิ่มโดย %{author} %{age}
     label_ago: วันที่ผ่านมา
     label_all: ทั้งหมด
-    label_all_work_packages: all work packages
+    label_all_work_packages: ชุดภารกิจทั้งหมด
     label_and: และ
     label_ascending: จากน้อยไปมาก
     label_author: 'Author: %{user}'
     label_between: between
+    label_board: Board
     label_board_locked: ล็อค
+    label_board_plural: Boards
     label_board_sticky: ปักหมุด
     label_create_work_package: สร้างชุดภารกิจใหม่
     label_created_by: Created by
@@ -179,7 +217,7 @@ th:
     label_cancel_comment: Cancel comment
     label_closed_work_packages: ปิด
     label_collapse: ยุบ
-    label_collapsed: collapsed
+    label_collapsed: ยุบ
     label_collapse_all: ยุบทั้งหมด
     label_comment: ความคิดเห็น
     label_committed_at: "%{committed_revision_link} at %{date}"
@@ -190,7 +228,7 @@ th:
     label_edit_status: Edit the status of the work package
     label_equals: เป็น
     label_expand: ขยาย
-    label_expanded: expanded
+    label_expanded: ขยาย
     label_expand_all: ขยายทั้งหมด
     label_expand_project_menu: Expand project menu
     label_export: Export
@@ -211,9 +249,9 @@ th:
     label_loading: กำลังโหลด...
     label_me: ฉัน
     label_menu_collapse: ยุบ
-    label_menu_expand: expand
+    label_menu_expand: ขยาย
     label_more_than_ago: มากกว่าวันที่ผ่านมา
-    label_my_page: My page
+    label_my_page: หน้าของฉัน
     label_next: ถัดไป
     label_no_data: ไม่มีข้อมูลให้แสดง
     label_no_due_date: no end date
@@ -290,6 +328,7 @@ th:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Uploading files for Work package #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'These files will be uploaded:'
     label_rejected_files: 'These files cannot be uploaded:'
     label_rejected_files_reason: These files cannot be uploaded as their size is greater
@@ -399,9 +438,9 @@ th:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: กิจกรรม
+      comment: ความคิดเห็น
+      hours: ชั่วโมง
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -460,14 +499,14 @@ th:
     select2:
       input_too_short:
         one: Please enter one more character
-        other: Please enter {{count}} more characters
+        other: กรุณาใส่เพิ่มอีก {{count}} ตัวอักษร
         zero: Please enter more characters
-      load_more: Loading more results ...
-      no_matches: No matches found
+      load_more: กำลังโหลดผลลัพธ์เพิ่มเติม ...
+      no_matches: ไม่พบผลลัพธ์ที่ตรงกัน
       searching: กำลังค้นหา...
       selection_too_big:
         one: You can only select one item
-        other: You can only select {{limit}} items
+        other: คุณสามารถเลือกได้เพียง {{limit}} ไอเทมเท่านั้น
         zero: You cannot select any items
     project_menu_details: รายละเอียด
     sort:
@@ -484,6 +523,7 @@ th:
       view?
     text_attachment_destroy_confirmation: คุณแน่ใจหรือไม่ว่าจะไฟล์แนบ?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -529,7 +569,7 @@ th:
       responsible: รับผิดชอบ
       save: บันทึก
       start_date: วันเริ่มต้น
-      tooManyProjects: More than %{count} Projects. Please use a better filter!
+      tooManyProjects: พบมากกว่า %{count} โครงการ กรุณาใช้ตัวกรองที่ดีกว่านี้ !
       selection_mode:
         notification: Click on any highlighted work package to create the relation.
           Press escape to cancel.
@@ -542,14 +582,14 @@ th:
         months: เดือน
         quarters: ไตรมาส
         years: ปี
-        slider: Zoom slider
+        slider: ขยายแถบเลื่อน
         description: 'Select the initial zoom level that should be shown when autozoom
           is not available.
 
 '
     tl_toolbar:
-      zooms: Zoom level
-      outlines: Hierarchy level
+      zooms: ระดับการย่อ/ขยาย
+      outlines: ระดับของ Hierarchy
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -760,8 +800,6 @@ th:
         days: วัน
         weeks: สัปดาห์
         months: เดือน
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -802,6 +840,7 @@ th:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: สร้างเรียบร้อยแล้ว
     notice_successful_delete: ลบเรียบร้อยแล้ว
     notice_successful_update: ปรับปรุงข้อมูลเรียบร้อยแล้ว
@@ -828,7 +867,7 @@ th:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -845,11 +884,13 @@ th:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: ไม่รองรับเบราว์เซอร์รุ่นที่คุณใช้
-      message: เบราว์เซอร์รุ่นที่คุณใช้ไม่ได้รับการรองรับโดย OpenProject
-      update_message: กรุณาปรับรุ่นเบราว์เซอร์ของคุณ
-      update_ie_user: กรุณาเปลี่ยนไปใช้ Mozilla Firefox หรือ Google Chrome หรือปรับรุ่นเป็น
-        Microsoft Edge
-      learn_more: เรียนรู้เพิ่มเติม
-      close_warning: ไม่สนใจคำเตือนนี้
+    global_search:
+      all_projects: In all projects
+      search: ค้นหา
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

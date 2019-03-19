@@ -1,15 +1,8 @@
-import {
-  AfterViewInit,
-  Component,
-  Inject,
-  ViewChild
-} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Inject, ViewChild} from '@angular/core';
 import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {RestrictedWpTableConfigurationService} from 'core-components/wp-table/external-configuration/restricted-wp-table-configuration.service';
 import {OpQueryConfigurationLocalsToken} from "core-components/wp-table/external-configuration/external-query-configuration.constants";
-import {WpTableConfigurationRelationSelectorComponent} from "core-components/wp-table/configuration-modal/wp-table-configuration-relation-selector";
-import {WpTableConfigurationModalPrependToken} from "core-components/wp-table/configuration-modal/wp-table-configuration.modal";
 
 export interface QueryConfigurationLocals {
   service:any;
@@ -26,7 +19,8 @@ export class ExternalQueryConfigurationComponent implements AfterViewInit {
 
   @ViewChild('embeddedTableForConfiguration') private embeddedTable:WorkPackageEmbeddedTableComponent;
 
-  constructor(@Inject(OpQueryConfigurationLocalsToken) readonly locals:QueryConfigurationLocals) {
+  constructor(@Inject(OpQueryConfigurationLocalsToken) readonly locals:QueryConfigurationLocals,
+              readonly cdRef:ChangeDetectorRef) {
   }
 
   ngAfterViewInit() {
@@ -37,6 +31,7 @@ export class ExternalQueryConfigurationComponent implements AfterViewInit {
         this.service.detach();
         this.locals.callback(this.embeddedTable.buildQueryProps());
       });
+      this.cdRef.detectChanges();
     });
   }
 

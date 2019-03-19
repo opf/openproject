@@ -116,8 +116,8 @@ describe Member, type: :model do
 
       # watchers for private things
       Watcher.create!(watchable: FactoryBot.create(:work_package, project: @private_project), user: @watcher_user)
-      board = FactoryBot.create :board, project: @private_project
-      @message = FactoryBot.create :message, board: board
+      forum = FactoryBot.create :forum, project: @private_project
+      @message = FactoryBot.create :message, forum: forum
       Watcher.create!(watchable: @message, user: @watcher_user)
       Watcher.create!(watchable: FactoryBot.create(:wiki, project: @private_project), user: @watcher_user)
       @private_project.reload # to access @private_project.wiki

@@ -34,7 +34,6 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
 import {OpenProjectFileUploadService} from 'core-components/api/op-file-upload/op-file-upload.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {States} from 'core-components/states.service';
@@ -42,11 +41,12 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {IWorkPackageCreateServiceToken} from 'core-components/wp-new/wp-create.service.interface';
 import {take, takeWhile} from 'rxjs/operators';
+import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 
 describe('WorkPackageCacheService', () => {
   let injector:Injector;
   let wpCacheService:WorkPackageCacheService;
-  let apiWorkPackagesService:ApiWorkPackagesService;
+  let workPackageDmService:WorkPackageDmService;
   let schemaCacheService:SchemaCacheService;
   let dummyWorkPackages:WorkPackageResource[] = [];
 
@@ -60,7 +60,7 @@ describe('WorkPackageCacheService', () => {
         HalResourceService,
         WorkPackageCacheService,
         SchemaCacheService,
-        ApiWorkPackagesService,
+        WorkPackageDmService,
         {provide: PathHelperService, useValue: {}},
         {provide: I18nService, useValue: {t: (...args:any[]) => 'translation'}},
         {provide: WorkPackageResource, useValue: {}},
@@ -74,10 +74,10 @@ describe('WorkPackageCacheService', () => {
     injector = TestBed.get(Injector);
     wpCacheService = TestBed.get(WorkPackageCacheService);
     schemaCacheService = TestBed.get(SchemaCacheService);
-    apiWorkPackagesService = TestBed.get(ApiWorkPackagesService);
+    workPackageDmService = TestBed.get(WorkPackageDmService);
 
-    // sinon.stub(apiWorkPackagesService, 'loadWorkPackageById').returns(Promise.resolve(true));
-    spyOn(apiWorkPackagesService, 'loadWorkPackageById').and.returnValue(Promise.resolve(true));
+    // sinon.stub(WorkPackageDmService, 'loadWorkPackageById').returns(Promise.resolve(true));
+    spyOn(workPackageDmService, 'loadWorkPackageById').and.returnValue(Promise.resolve(true));
 
     // sinon.stub(schemaCacheService, 'ensureLoaded').returns(Promise.resolve(true));
     spyOn(schemaCacheService, 'ensureLoaded').and.returnValue(Promise.resolve(true));
@@ -105,7 +105,7 @@ describe('WorkPackageCacheService', () => {
         take(1)
       )
       .subscribe((wp:WorkPackageResource) => {
-        expect(wp.id).toEqual('1');
+        expect(wp.id!).toEqual('1');
         done();
       });
 
@@ -120,7 +120,7 @@ describe('WorkPackageCacheService', () => {
         takeWhile((wp) => count < 2)
       )
       .subscribe((wp:WorkPackageResource) => {
-        expect(wp.id).toEqual('1');
+        expect(wp.id!).toEqual('1');
 
         count += 1;
         if (count === 2) {

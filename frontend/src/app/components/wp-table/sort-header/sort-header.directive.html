@@ -35,6 +35,11 @@
              *ngIf="displayDropdownIcon"></op-icon>
   </span>
 
+  <span class="draggable-table--sort-header"
+        [attr.title]="text.sortColumn"
+        *ngSwitchCase="'sort'">
+  </span>
+
   <span class="generic-table--sort-header" *ngSwitchDefault>
 
     <!--suppress XmlDuplicatedId -->

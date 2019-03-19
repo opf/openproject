@@ -47,11 +47,24 @@ en:
     close_filter_title: "Close filter"
     close_form_title: "Close form"
 
+    boards:
+      upsale:
+        boards: 'Need to freely structure your work in a board view?'
+        check_out_link: 'Check out the Enterprise Edition.'
+
+    card:
+      add_new: 'Add new card'
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: 'Entire card by'
+      remove_from_list: 'Remove card from list'
+
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
       copied_successful: "Sucessfully copied to clipboard!"
 
     button_add_watcher: "Add watcher"
+    button_back: "Back"
     button_back_to_list_view: "Back to list view"
     button_cancel: "Cancel"
     button_close: "Close"
@@ -67,6 +80,7 @@ en:
     button_duplicate: "Duplicate"
     button_edit: "Edit"
     button_filter: "Filter"
+    button_advanced_filter: "Advanced filter"
     button_list_view: "List view"
     button_show_view: "Fullscreen view"
     button_log_time: "Log time"
@@ -172,6 +186,31 @@ en:
     general_text_No: "No"
     general_text_Yes: "Yes"
 
+    grid:
+      add_modal:
+        choose_widget: 'Choose widget'
+      widgets:
+        documents:
+          title: 'Documents'
+          no_results: 'No documents yet.'
+        news:
+          title: 'News'
+          at: 'at'
+          no_results: 'Nothing new to report.'
+        time_entries_current_user:
+          title: 'Spent time (last 7 days)'
+          no_results: 'No time entries for the last 7 days.'
+        work_packages_accountable:
+          title: "Work packages I am accountable for"
+        work_packages_assigned:
+          title: 'Work packages assigned to me'
+        work_packages_created:
+          title: 'Work packages created by me'
+        work_packages_watched:
+          title: 'Work packages watched by me'
+        work_packages_calendar:
+          title: 'Calendar'
+
     label_activate: "Activate"
     label_activity_no: "Activity entry number %{activityNo}"
     label_activity_with_comment_no: "Activity entry number %{activityNo}. Has a user comment."
@@ -192,7 +231,9 @@ en:
     label_ascending: "Ascending"
     label_author: "Author: %{user}"
     label_between: "between"
+    label_board: "Board"
     label_board_locked: "Locked"
+    label_board_plural: "Boards"
     label_board_sticky: "Sticky"
     label_create_work_package: "Create new work package"
     label_created_by: "Created by"
@@ -311,6 +352,7 @@ en:
     label_add_description: "Add a description for %{file}"
     label_upload_notification: "Uploading files..."
     label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "These files will be uploaded:"
     label_rejected_files: "These files cannot be uploaded:"
     label_rejected_files_reason: "These files cannot be uploaded as their size is greater than %{maximumFilesize}"
@@ -327,23 +369,31 @@ en:
         next: 'Next'
         got_it: 'Got it'
       steps:
-        welcome: 'Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.'
+        help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
+        members: 'Invite new <b>Members</b> to join your project.'
         project_selection: 'Please select one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
         sidebar_arrow: "With the arrow you can navigate back to the project's <b>Main menu</b>."
-        members: 'Invite new <b>Members</b> to join your project.'
+        welcome: 'Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.'
         wiki: 'Within the <b>Wiki</b> you can document and share knowledge together with your team.'
-        backlogs_overview: "Manage your work in the <b>Backlogs</b> view. <br> On the right you have the Product Backlog or a Bug Backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop and add them to a sprint."
-        backlogs_task_board_arrow: 'To see your <b>Task board</b>, open the Sprint drop-down...'
-        backlogs_task_board_select: '... and select the <b>Task board</b> entry.'
-        backlogs_task_board: "The <b>Task board</b> visualizes the progress for this sprint. Add new tasks or impediments with the + icon next to a user story. Via drag'n'drop you can update the status."
-        wp_toggler: "Now let's have a look at the <b>Work package</b> section, which gives you a more detailed view of your work."
-        wp_list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, features, milestones, bugs, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
-        wp_full_view: 'Within the <b>Work package details</b> you find all relevant information, such as description, status and priority, activities, dependencies or comments.'
-        wp_back_button: 'With the arrow you can navigate back to the work package list.'
-        wp_create_button: 'The <b>Create</b> button will add a new work package to your project.'
-        wp_timeline_button: 'You can activate the <b>Gantt chart</b> to create a timeline for your project.'
-        wp_timeline: 'Here you can edit your project plan. Create new phases, milestones, and add dependencies. All team members can see and update the latest plan at any time.'
-        help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
+        backlogs:
+          overview: "Manage your work in the <b>Backlogs</b> view. <br> On the right you have the Product Backlog or a Bug Backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop and add them to a sprint."
+          task_board_arrow: 'To see your <b>Task board</b>, open the Sprint drop-down...'
+          task_board_select: '... and select the <b>Task board</b> entry.'
+          task_board: "The <b>Task board</b> visualizes the progress for this sprint. Add new tasks or impediments with the + icon next to a user story. Via drag'n'drop you can update the status."
+        boards:
+          overview: 'Manage your work within an intuitive <b>Boards</b> view.'
+          lists: 'You can create multiple lists (columns) within one Board view, e.g. to create a KANBAN board.'
+          add: 'Click the + will <b>add a new card</b> to the list within a Board.'
+          drag: 'Drag & Drop your cards within a list to re-order, or the another list. A double click will open the details view.'
+        wp:
+          toggler: "Now let's have a look at the <b>Work package</b> section, which gives you a more detailed view of your work."
+          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, features, milestones, bugs, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
+          full_view: 'Within the <b>Work package details</b> you find all relevant information, such as description, status and priority, activities, dependencies or comments.'
+          back_button: 'With the arrow you can navigate back to the work package list.'
+          create_button: 'The <b>Create</b> button will add a new work package to your project.'
+          timeline_button: 'You can activate the <b>Gantt chart</b> to create a timeline for your project.'
+          timeline: 'Here you can edit your project plan. Create new phases, milestones, and add dependencies. All team members can see and update the latest plan at any time.'
+
 
     password_confirmation:
       field_description: 'You need to enter your account password to confirm this change.'
@@ -494,6 +544,7 @@ en:
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
     text_attachment_destroy_confirmation: "Are you sure you want to delete the attachment?"
     timelines:
+      quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantt chart'
       labels:
         title: 'Label configuration'
@@ -780,6 +831,7 @@ en:
         confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
         deletes_children: "All child work packages and their descendants will also be recursively deleted."
 
+    notice_no_results_to_display: "No visible results to display."
     notice_successful_create: "Successful creation."
     notice_successful_delete: "Successful deletion."
     notice_successful_update: "Successful update."
@@ -808,7 +860,7 @@ en:
 
     error_could_not_resolve_version_name: "Couldn't resolve version name"
     error_could_not_resolve_user_name: "Couldn't resolve user name"
-    error_attachment_upload: "File '%{name}' failed to upload: %{error}"
+    error_attachment_upload: "File failed to upload: %{error}"
     error_attachment_upload_permission: "You don't have the permission to upload files on this resource."
 
     units:
@@ -825,3 +877,13 @@ en:
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'
+    global_search:
+      all_projects: "In all projects"
+      search: "Search"
+      close_search: "Close search"
+      current_project: "In this project"
+      current_project_and_all_descendants: "In this project + subprojects"
+      title:
+        all_projects: "all projects"
+        project_and_subprojects: "and all subprojects"
+        search_for: "Search for"

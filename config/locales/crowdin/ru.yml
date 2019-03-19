@@ -55,9 +55,25 @@ ru:
     index:
       no_results_content_title: На данный момент способы аутентификации отсутствуют.
       no_results_content_text: Создать новый способ аутентификации
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Шифрование подключения
+    tls_mode:
+      plain: нет
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Обычная незашифрованная связь, нет TLS переговоров.
+      simple_tls_description: Неправильное шифрование TLS, но не проверка сертификатов.
+        Используйте с осторожностью и неявным доверием к LDAP соединению.
+      start_tls_description: Истинное TLS шифрование с полной валидацией. Используйте
+        для LDAP через TLS/SSL.
+      section_more_info_link_html: 'Этот раздел касается безопасности соединения этого
+        источника аутентификации LDAP. Для получения дополнительной информации посетите
+        <a href="%{link}">документацию Net::LDAP</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: На данный момент сообщений для форума нет.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: На данный момент цветов нет.
@@ -105,6 +121,10 @@ ru:
     calendar:
       removal: 'Пожалуйста, обратите внимание: Этот модуль собираются удалить в OpenProject
         8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Форум
   groups:
     index:
       no_results_title_text: На данный момент группы отсутствуют.
@@ -113,25 +133,31 @@ ru:
       no_results_title_text: На данный момент пользователи этой группы отсутствуют.
     memberships:
       no_results_title_text: На данный момент проектов этой группы нет.
+  incoming_mails:
+    ignore_filenames: 'Укажите список имен для игнорирования при обработке вложений
+      для входящих почтовых сообщений (например, подписей или значков). Введите одно
+      имя файла в строке.
+
+'
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      scheduled: Удаление было запланировано и исполнено в фоновом режиме. О результатах
+        вы будете уведомлены.
+      schedule_failed: 'Проект удален быть не может: %{errors}'
+      failed: Удаление проекта %{name} не удалось
+      failed_text: Запрос на удаление проекта %{name} не удался. Проект был оставлен
+        в архиве.
+      completed: Удаление проекта %{name} завершено
+      completed_text: Запрос на удаление проекта '%{name}' был завершен.
     index:
       no_results_title_text: На данный момент проектов нет
       no_results_content_text: Создать новый проект
     settings:
       activities:
         no_results_title_text: В настоящее время никакой активности.
-      boards:
-        no_results_title_text: Форумы в этом проекте отсутствуют.
-        no_results_content_text: Создать новый форум
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: На данный момент категории пакетов работ отсутствуют.
         no_results_content_text: Создать новую категорию пакета работ
@@ -218,6 +244,8 @@ ru:
       other: 'Пакетов работ, являющихся потомками: %{count}'
       few: 'Пакетов работ, являющихся потомками: %{count}'
       many: 'Пакетов работ, являющихся потомками: %{count}'
+    bulk:
+      could_not_be_saved: 'Не удалось сохранить следующие пакеты работ:'
     move:
       no_common_statuses_exists: Статус не доступен для всех выбранных пакетов работ.
         Их статус изменен быть не может.
@@ -356,6 +384,11 @@ ru:
         subscriber: Подписчик
         encoded_token: Маркер поддержки корпоративной версии
         active_user_count_restriction: Максимальное число активных пользователей
+      grids/grid:
+        page: Страница
+        row_count: Количество строк
+        column_count: Количество столбцов
+        widgets: Виджеты
       relation:
         delay: Задержка
         from: Пакет работ
@@ -447,13 +480,13 @@ ru:
         type: Тип
         watcher: Наблюдатель
       doorkeeper/application:
-        uid: Client ID
-        secret: Client secret
-        owner: Owner
-        redirect_uri: Redirect URI
-        client_credentials_user_id: Client Credentials User ID
-        scopes: Scopes
-        confidential: Confidential
+        uid: ID клиента
+        secret: Секрет клиента
+        owner: Владелец
+        redirect_uri: Перенаправить URI
+        client_credentials_user_id: ID пользователя клиента
+        scopes: Области
+        confidential: Конфиденциально
     errors:
       messages:
         accepted: нужно подтвердить.
@@ -498,6 +531,7 @@ ru:
         too_long: слишком длинно (максимум — %{count} знаков).
         too_short: слишком коротко (минимум — %{count} знаков).
         unchangeable: изменить нельзя.
+        unremovable: cannot be removed.
         wrong_length: неправильная длина (должно быть %{count} знаков).
       models:
         custom_field:
@@ -514,15 +548,19 @@ ru:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
-              secured_uri: must be an HTTPS/SSL URI.
-              forbidden_uri: is forbidden by the server.
+              fragment_present: не может содержать фрагмент.
+              invalid_uri: должен быть допустимым URI.
+              relative_uri: должен быть абсолютным URI.
+              secured_uri: должен быть HTTPS/SSL URI.
+              forbidden_uri: запрещен сервером.
             scopes:
-              not_match_configured: doesn't match available scopes.
+              not_match_configured: не соответствует доступным областям.
         enterprise_token:
           unreadable: невозможно прочитать. Вы уверены, что это маркер поддержки?
+        grids/grid:
+          overlaps: перекрытие.
+          outside: за пределами сетки.
+          end_before_start: конечное значение должно быть больше начального.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -619,8 +657,8 @@ ru:
                 few: |-
                   использовался ранее. Пожалуйста, выберите отличный от ваших
                   последних %{count}.
-                many: has been used before. Please choose one that is different from
-                  your last %{count}.
+                many: использовалось ранее. Пожалуйста, укажите отличающееся от ваших
+                  последних %{count}.
               match:
                 confirm: Подтвердите новый пароль.
                 description: "«Подтвержденный пароль» должен совпадать с введенным
@@ -639,11 +677,11 @@ ru:
           one: 1 ошибка препятствует сохранению %{model}
           other: "%{count} ошибок препятствуют сохранению %{model}"
           few: "%{count} ошибки препятствует сохранению %{model}"
-          many: "%{count} errors prohibited this %{model} from being saved"
+          many: "%{count} ошибки препятствуют сохранению %{model}"
     models:
       attachment: Файл
       attribute_help_text: Атрибут текста справки
-      board: Форум
+      forum: Форум
       comment: Комментарий
       custom_action: Пользовательское действие
       custom_field: Настраиваемое поле
@@ -658,7 +696,7 @@ ru:
         one: Роль
         other: Роли
         few: Роли
-        many: Roles
+        many: Роль
       type: Тип
       user: Пользователь
       version: Этап
@@ -666,7 +704,7 @@ ru:
       wiki_page: Wiki-страница
       workflow: Рабочий поток
       work_package: Пакет работ
-      doorkeeper/application: OAuth application
+      doorkeeper/application: Приложение OAuth
   errors:
     header_invalid_fields: 'Были проблемы со следующими полями:'
     field_erroneous_label: 'Значение этого поля неверно: %{full_errors}. Пожалуйста,
@@ -741,7 +779,7 @@ ru:
   button_change_password: Смена пароля
   button_check_all: Выделить все
   button_clear: Очистить
-  button_click_to_reveal: Click to reveal
+  button_click_to_reveal: Нажмите, чтобы раскрыть
   button_close: Закрыть
   button_collapse_all: Свернуть все
   button_configure: Настройка
@@ -771,7 +809,7 @@ ru:
   button_remove: Удалить
   button_rename: Переименовать
   button_replace: Заменить
-  button_revoke: Revoke
+  button_revoke: Отозвать
   button_reply: Ответить
   button_reset: Сброс
   button_rollback: Откатиться до этого этапа
@@ -882,64 +920,64 @@ ru:
         one: около часа
         other: около %{count} часов
         few: около %{count} часов
-        many: about %{count} hours
+        many: около %{count} часов
       about_x_months:
         one: около месяца
         other: около %{count} месяцев
         few: около %{count} месяцев
-        many: about %{count} months
+        many: около %{count} месяцев
       about_x_years:
         one: около года
         other: около %{count} лет
         few: около %{count} лет
-        many: about %{count} years
+        many: около %{count} лет
       almost_x_years:
         one: почти год
         other: почти %{count} лет
         few: почти %{count} года
-        many: almost %{count} years
+        many: почти %{count} года
       half_a_minute: полминуты
       less_than_x_minutes:
         one: менее минуты
         other: менее %{count} минут
         few: менее %{count} минут
-        many: less than %{count} minutes
+        many: менее %{count} минуты
       less_than_x_seconds:
         one: меньше секунды
         other: меньше %{count} секунд
         few: меньше %{count} секунд
-        many: less than %{count} seconds
+        many: меньше чем за %{count} секунды
       over_x_years:
         one: более года
         other: более %{count} лет
         few: более %{count} лет
-        many: over %{count} years
+        many: более %{count} лет
       x_days:
         one: 1 день
         other: "%{count} дней"
         few: "%{count} дня"
-        many: "%{count} days"
+        many: "%{count} дней"
       x_minutes:
         one: 1 минута
         other: "%{count} минут"
         few: "%{count} минуты"
-        many: "%{count} minutes"
+        many: "%{count} минут"
       x_months:
         one: 1 месяц
         other: "%{count} месяцев"
         few: "%{count} месяца"
-        many: "%{count} months"
+        many: "%{count} месяца"
       x_seconds:
         one: 1 секунда
         other: "%{count} секунд"
         few: "%{count} секунды"
-        many: "%{count} seconds"
+        many: "%{count} секунды"
     units:
       hour:
         one: час
         other: часов
         few: часа
-        many: hours
+        many: час
   default_activity_development: Разработка
   default_activity_management: Управление
   default_activity_other: Другие
@@ -1170,9 +1208,8 @@ ru:
       faq: ЧаВо
       glossary: Глоссарий
       shortcuts: Ярлыки
-      forums: Форумы
       blog: Openproject блог
-      boards: Форум сообщества
+      forums: Форум сообщества
       newsletter: Оповещения системы безопасности / Новости
   links:
     configuration_guide: Руководство по конфигурации
@@ -1220,7 +1257,6 @@ ru:
   label_all_open_wps: Все открытые
   label_always_visible: Всегда отображается
   label_announcement: Объявление
-  label_and_its_subprojects: "%{value} и его подпроекты"
   label_api_access_key: Ключ доступа к API
   label_api_access_key_created_on: Ключ доступа к API, созданный %{value} назад
   label_api_access_key_type: API
@@ -1240,7 +1276,7 @@ ru:
   label_authentication: Аутентификация
   label_available_project_work_package_categories: Доступные категории рабочих пакетов
   label_available_project_work_package_types: Доступные типы пакетов работ
-  label_available_project_boards: Доступные форумы
+  label_available_project_forums: Available forums
   label_available_project_versions: Имеющиеся этапы проекта
   label_available_project_repositories: Доступные репозитории
   label_api_documentation: Документация по API
@@ -1248,14 +1284,15 @@ ru:
   label_blocked_by: заблокировано
   label_blocks: блоки
   label_blog: Блог
-  label_board_locked: Заперто
-  label_board_new: Новый форум
-  label_board_plural: Форумы
-  label_board_sticky: Стикер
+  label_forums_locked: Заперто
+  label_forum_new: Новый форум
+  label_forum_plural: Форумы
+  label_forum_sticky: Стикер
   label_boolean: Логическое значение
   label_branch: Ветка
   label_browse: Обзор
   label_bulk_edit_selected_work_packages: Массовое изменение выбранных пакетов работ
+  label_bundled: "(Bundled)"
   label_calendar: Календарь
   label_calendar_show: Показать календарь
   label_category: Категория
@@ -1352,7 +1389,7 @@ ru:
   label_environment: Переменные среды
   label_estimates_and_time: Оценки и время
   label_equals: "—"
-  label_everywhere: everywhere
+  label_everywhere: везде
   label_example: Пример
   label_export_to: 'Также доступна на:'
   label_expanded_click_to_collapse: Развернуто. Кликните для сворачивания
@@ -1390,7 +1427,7 @@ ru:
   label_history: История
   label_hierarchy_leaf: Уровень иерархии
   label_home: Главная
-  label_subject_or_id: Subject or ID
+  label_subject_or_id: Тема или ID
   label_in: в
   label_in_less_than: менее чем
   label_in_more_than: более чем
@@ -1516,6 +1553,7 @@ ru:
   label_planning: Планирование
   label_please_login: Пожалуйста, войдите в систему
   label_plugins: Плагины
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: предшествует
   label_preferences: Предпочтения
   label_preview: Предварительный просмотр
@@ -1590,7 +1628,6 @@ ru:
   label_role_search: Назначить роль для новых участников
   label_scm: SCM
   label_search: Поиск
-  label_search_titles_only: Искать только в названиях
   label_send_information: Отправить сведения об учетной записи
   label_send_test_email: Отправить тестовое сообщение
   label_settings: Параметры
@@ -1671,6 +1708,7 @@ ru:
   label_view_diff: Посмотреть различия
   label_view_revisions: Просмотр версий
   label_watched_work_packages: Наблюдаемые пакеты работ
+  label_what_is_this: Что это?
   label_week: Неделя
   label_wiki_content_added: Wiki-страница добавлена
   label_wiki_content_updated: Wiki-страница обновлена
@@ -1722,31 +1760,31 @@ ru:
     other: "%{count} закрыто"
     zero: 0 closed
     few: "%{count} закрыто"
-    many: "%{count} closed"
+    many: "%{count} закрыто"
   label_x_comments:
     one: 1 комментарий
     other: "%{count} комментариев"
     zero: no comments
     few: "%{count} комментария"
-    many: "%{count} comments"
+    many: "%{count} комментариев"
   label_x_open_work_packages_abbr:
     one: 1 открыт
     other: "%{count} открыто"
     zero: 0 open
     few: "%{count} открыто"
-    many: "%{count} open"
+    many: "%{count} открыто"
   label_x_open_work_packages_abbr_on_total:
     one: 1 открыт / %{total}
     other: "%{count} открыто / %{total}"
     zero: 0 open / %{total}
     few: "%{count} открыто / %{total}"
-    many: "%{count} open / %{total}"
+    many: "%{count} открыто / %{total}"
   label_x_projects:
     one: 1 проект
     other: "%{count} проектов"
     zero: no projects
     few: "%{count} проекта"
-    many: "%{count} projects"
+    many: "%{count} проектов"
   label_year: Год
   label_yesterday: вчера
   label_keyboard_function: Функция
@@ -1859,6 +1897,8 @@ ru:
   notice_account_update_failed: Настройки учетной записи не могут быть сохранены.
     Пожалуйста, просмотрите страницу Вашей учетной записи ещё раз.
   notice_account_updated: Учетная запись успешно обновлёна.
+  notice_account_other_session_expired: Все другие сессии, связанные с вашей учетной
+    записью, были аннулированы.
   notice_account_wrong_password: Неправильный пароль
   notice_account_registered_and_logged_in: Добро пожаловать. Ваш аккаунт активирован.
     Вы вошли в систему.
@@ -1943,7 +1983,7 @@ ru:
             one: Байт
             other: Байтов
             few: Байта
-            many: Bytes
+            many: Байта
           gb: ГБ
           kb: кБ
           mb: МБ
@@ -1990,7 +2030,7 @@ ru:
   permission_export_wiki_pages: Экспорт wiki-страниц
   permission_list_attachments: Отобразить список прикреплённых файлов
   permission_log_time: Учитывать потраченное время
-  permission_manage_boards: Управление форумами
+  permission_manage_forums: Управление форумами
   permission_manage_categories: Управление категориями пакета работ
   permission_manage_work_package_relations: Управление связями пакета работ
   permission_manage_members: Управление участниками
@@ -2038,7 +2078,7 @@ ru:
     archive:
       are_you_sure: Уверены, что хотите архивизировать проект %{name}%?
   project_module_activity: Деятельность
-  project_module_boards: Форумы
+  project_module_forums: Форумы
   project_module_calendar: Календарь
   project_module_work_package_tracking: Отслеживание пакета работ
   project_module_news: Новости
@@ -2272,6 +2312,7 @@ ru:
   setting_mail_handler_body_delimiters: Усечение сообщений после одной из этих линий
   setting_mail_handler_body_delimiter_regex: Сообщение усекается по этому регулярному
     выражению
+  setting_mail_handler_ignore_filenames: Игнорируемые вложения почты
   setting_new_project_user_role_id: Роль, назначаемая пользователю-создателю проекта
   setting_password_active_rules: Активные классы символов
   setting_password_count_former_banned: Количество паролей, запрещенных для повторного
@@ -2282,6 +2323,7 @@ ru:
   setting_per_page_options: Количество объектов на страницу
   setting_plain_text_mail: Обычный текст электронной почты (не HTML)
   setting_protocol: Протокол
+  setting_security_badge_displayed: Отображать бейджик безопасности
   setting_registration_footer: Нижний колонтитул регистрации
   setting_repositories_automatic_managed_vendor: Автоматический тип поставщика репозитория
   setting_repositories_encodings: Кодировка репозиториев
@@ -2457,6 +2499,16 @@ ru:
   text_no_notes: Комментарии для этого пакета работ отсутствуют.
   text_notice_too_many_values_are_inperformant: 'Примечание: Отображение более чем
     100 элементов на странице может увеличить время загрузки.'
+  text_notice_security_badge_displayed_html: 'Примечание: Если этот параметр включен,
+    значок с вашим статусом установки будет отображен в панели администрирования <a
+    href="%{information_panel_path}">%{information_panel_label}</a> и на домашней
+    странице. Он отображается только администраторам. <br/> Знак будет проверять текущую
+    версию OpenProject в официальной базе данных релизов OpenProject для оповещения
+    вас о каких-либо обновлениях или известных уязвимостях. Для дополнительной информации,
+    необходимой для проверки доступных обновлений, и о том как отключить эту проверку,
+    пожалуйста, посетите <a href="%{more_info_url}">конфигурации документации</a>.
+
+'
   text_own_membership_delete_confirmation: Вы собираетесь удалить все или некоторые
     разрешения, доступные Вам. Вы не сможете редактировать проект после этого действия.
     Вы уверены?
@@ -2520,7 +2572,6 @@ ru:
       color: Цвет
       colors: Цвета
     associations: Связи
-    board_could_not_be_saved: Форум сохранён быть не может
     button_delete_all: Удалить всё
     change: Изменения в планировании
     children: Дочерние элементы
@@ -2536,7 +2587,7 @@ ru:
       one: 1 день
       other: "%{count} дней"
       few: "%{count} дня"
-      many: "%{count} days"
+      many: "%{count} дней"
     edit_color: Изменить цвет
     edit_thing: Правка
     edit_timeline: Редактировать отчет по графику %{timeline}
@@ -2727,7 +2778,7 @@ ru:
       one: временно заблокирован (одна неудачная попытка авторизации)
       other: временно заблокирован (%{count} неудачных попыток авторизации)
       few: временно заблокирован (%{count} неудачные попытки авторизации)
-      many: locked temporarily (%{count} failed login attempts)
+      many: временно заблокирован (%{count} неудачных попыток авторизации)
     confirm_status_change: Вы собираетесь изменить статус '%{name}'. Хотите продолжить?
     deleted: Удалённый пользователь
     error_status_change_failed: 'Изменение статуса пользователя не удалось из-за следующей
@@ -2851,117 +2902,117 @@ ru:
       schema: Схема
   doorkeeper:
     pre_authorization:
-      status: Pre-authorization
+      status: Предавторизация
     errors:
       messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
-        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
-          client redirect URI.
-        unauthorized_client: The client is not authorized to perform this request
-          using this method.
-        access_denied: The resource owner or authorization server denied the request.
-        invalid_scope: The requested scope is invalid, unknown, or malformed.
-        invalid_code_challenge_method: The code challenge method must be plain or
-          S256.
-        server_error: The authorization server encountered an unexpected condition
-          which prevented it from fulfilling the request.
-        temporarily_unavailable: The authorization server is currently unable to handle
-          the request due to a temporary overloading or maintenance of the server.
-        credential_flow_not_configured: Resource Owner Password Credentials flow failed
-          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
-        resource_owner_authenticator_not_configured: Resource Owner find failed due
-          to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
-        admin_authenticator_not_configured: Access to admin panel is forbidden due
-          to Doorkeeper.configure.admin_authenticator being unconfigured.
-        unsupported_response_type: The authorization server does not support this
-          response type.
-        invalid_client: Client authentication failed due to unknown client, no client
-          authentication included, or unsupported authentication method.
-        invalid_grant: The provided authorization grant is invalid, expired, revoked,
-          does not match the redirection URI used in the authorization request, or
-          was issued to another client.
-        unsupported_grant_type: The authorization grant type is not supported by the
-          authorization server.
+        invalid_request: В запросе нет обязательного параметра, значение параметра
+          не поддерживается или не соответствует требованиям.
+        invalid_redirect_uri: Запрашиваемый редирект uri является неверным или не
+          соответствует URI перенаправления клиента.
+        unauthorized_client: Клиент не уполномочен выполнить этот запрос с помощью
+          этого метода.
+        access_denied: Владелец ресурса или сервер авторизации отклонил запрос.
+        invalid_scope: Запрашиваемая область является недопустимой, неизвестной или
+          неправильной.
+        invalid_code_challenge_method: Метод вызова кода должен быть простым или S256.
+        server_error: Сервер авторизации столкнулся с непредвиденными обстоятельствами,
+          препятствующими выполнению запроса.
+        temporarily_unavailable: Сервер авторизации в настоящее время не может обработать
+          запрос из-за временной перегрузки или обслуживания сервера.
+        credential_flow_not_configured: Поток учетных данных владельца ресурсов привел
+          к сбою из-за некорректной конфигурации Doorkeeper.configure.resource_owner_from_credentials.
+        resource_owner_authenticator_not_configured: Не удалось найти владельца ресурсов,
+          так как Doorkeeper.configure.resource_owner_authenticator не настроен.
+        admin_authenticator_not_configured: Доступ к панели администратора запрещен,
+          так как Doorkeeper.configure.admin_authenticator не настроен.
+        unsupported_response_type: Сервер авторизации не поддерживает этот тип ответа.
+        invalid_client: Аутентификация клиента не удалась из-за неизвестности клиента,
+          отсутствия у клиента аутентификации или не поддерживаемого метода аутентификации.
+        invalid_grant: Предоставленное разрешение недействительно, истекло, аннулировано,
+          не соответствует URI перенаправления, используемому в запросе авторизации,
+          или было выдано другому клиенту.
+        unsupported_grant_type: Тип разрешения не поддерживается сервером авторизации.
         invalid_token:
-          revoked: The access token was revoked
-          expired: The access token expired
-          unknown: The access token is invalid
+          revoked: Маркер доступа был отозван
+          expired: Истек срок действия маркера доступа
+          unknown: Недопустимый маркер доступа
   unsupported_browser:
-    title: Your browser is outdated and unsupported.
-    message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    title: Ваш браузер устарел и не поддерживается.
+    message: На этой странице вы рискуете столкнуться с ошибками и обедненным опытом.
+    update_message: Пожалуйста, обновите свой браузер.
+    close_warning: Игнорировать это предупреждение.
   oauth:
     application:
-      singular: OAuth application
-      plural: OAuth applications
-      named: OAuth application '%{name}'
-      new: New OAuth application
-      default_scopes: "(Default scopes)"
+      singular: Приложение OAuth
+      plural: OAuth приложения
+      named: OAuth приложение '%{name}'
+      new: Новое приложение OAuth
+      default_scopes: "(Области по умолчанию)"
       instructions:
-        name: The name of your application. This will be displayed to other users
-          upon authorization.
-        redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
-          One entry per line. <br/> If you''re registering a desktop application,
-          use the following URL.
+        name: Название вашего приложения. Будет отображаться другим пользователям
+          после авторизации.
+        redirect_uri_html: 'Разрешенные URL-адреса могут быть перенаправлены на. Одна
+          запись на строку. <br/> Если вы регистрируете приложение на рабочем столе,
+          используйте следующий URL.
 
 '
-        confidential: Check if the application will be used where the client secret
-          can be kept confidential. Native mobile apps and Single Page Apps are assumed
-          non-confidential.
-        client_credential_user_id: Optional user ID to impersonate when clients use
-          this application. Leave empty to allow public access only
-        register_intro: If you are developing an OAuth API client application for
-          OpenProject, you can register it using this form for all users to use.
+        confidential: Убедитесь в конфиденциальной сохранности секретов клиента при
+          использовании приложения. Оригинальные мобильные приложения и одностраничные
+          приложения не считаются конфиденциальными.
+        client_credential_user_id: Необязательный ID пользователя для замещения в
+          момент использования этого приложения клиентами. Оставьте пустым, чтобы
+          разрешить только публичный доступ
+        register_intro: Если вы разрабатываете клиентское приложение OAuth API для
+          OpenProject, вы можете зарегистрировать его, используя эту форму для всех
+          пользователей.
         default_scopes: ''
-    client_id: Client ID
-    client_secret_notice: 'This is the only time we can print the client secret, please
-      note it down and keep it secure. It should be treated as a password and cannot
-      be retrieved by OpenProject at a later time.
+    client_id: ID клиента
+    client_secret_notice: 'Это единственный раз, когда мы позволяем распечатать секрет
+      клиента, пожалуйста, пожалуйста, запишите его и сохраните в безопасности. Он
+      должен рассматриваться как пароль и не может быть получен в OpenProject позже.
 
 '
     authorization_dialog:
-      authorize: Authorize
-      cancel: Cancel and deny authorization.
-      prompt_html: Authorize <strong>%{application_name}</strong> to use your account
-        <em>%{login}</em>?
-      title: Authorize %{application_name}
-      wants_to_access_html: 'This application requests access to your OpenProject
-        account. <br/> <strong>It has requested the following permissions:</strong>
+      authorize: Авторизовать
+      cancel: Отменить и запретить авторизацию.
+      prompt_html: Авторизовать <strong>%{application_name}</strong> для использования
+        вашей учетной записи <em>%{login}</em>?
+      title: Авторизация %{application_name}
+      wants_to_access_html: 'Это приложение запрашивает доступ к вашей учетной записи
+        OpenProject. <br/> <strong>Оно запросило следующие разрешения:</strong>
 
 '
     scopes:
-      api_v3: Full API access
-      api_v3_text: Application will receive full read & write access to the OpenProject
-        API to perform actions on your behalf.
+      api_v3: Полный доступ к API
+      api_v3_text: Приложение будет получать полный доступ к чтению и записи OpenProject
+        API для выполнения действий от вашего имени.
     grants:
-      created_date: Approved on
-      scopes: Permissions
-      successful_application_revocation: Revocation of application %{application_name}
-        successful.
-      none_given: No OAuth applications have been granted access to your user account.
+      created_date: Ознакомлен с
+      scopes: Разрешения
+      successful_application_revocation: Отмена приложения %{application_name} проведена
+        успешно.
+      none_given: Никаким приложениям OAuth не было предоставлено доступа к учетной
+        записи пользователя.
     x_active_tokens:
-      one: one active token
-      other: "%{count} active token"
+      one: один активный маркер
+      other: "%{count} активных маркеров"
+      few: "%{count} активных маркеров"
+      many: "%{count} активных маркеров"
     flows:
-      authorization_code: Authorization code flow
-      client_credentials: Client credentials flow
-    client_credentials: User used for Client credentials
-    client_credentials_impersonation_set_to: Client credentials user set to
-    client_credentials_impersonation_warning: 'Note: Clients using the ''Client credentials''
-      flow in this application will have the rights of this user'
-    client_credentials_impersonation_html: 'By default, OpenProject provides OAuth
-      2.0 authorization via %{authorization_code_flow_link}. You can optionally enable
-      %{client_credentials_flow_link}, but you must provide a user on whose behalf
-      requests will be performed.
+      authorization_code: Поток кода авторизации
+      client_credentials: Поток учетных данных клиента
+    client_credentials: Пользователь, используемый для учетных данных клиента
+    client_credentials_impersonation_set_to: Пользователь учётных данных клиента установлен
+      на
+    client_credentials_impersonation_warning: 'Примечание: Клиенты, использующие поток
+      учетных данных клиента в этом приложении, будут иметь права этого пользователя'
+    client_credentials_impersonation_html: 'По умолчанию OpenProject предоставляет
+      авторизацию OAuth 2.0 через %{authorization_code_flow_link}. Можете опционально
+      включить %{client_credentials_flow_link}, но вы должны предоставить пользователя,
+      от имени которого будут выполняться запросы.
 
 '
-    authorization_error: An authorization error has occurred.
-    revoke_my_application_confirmation: Do you really want to remove this application?
-      This will revoke %{token_count} active for it.
-    my_registered_applications: Registered OAuth applications
-  button_remove_widget: Удалить виджет
-  label_my_page_block: Блоки на моей странице
-  label_responsible_for_work_packages: Пакеты работ, в которых я подотчетен
-  label_visible_elements: Видимые элементы
+    authorization_error: Произошла ошибка авторизации.
+    revoke_my_application_confirmation: Вы действительно хотите удалить это приложение?
+      Это действие будет отменено %{token_count}.
+    my_registered_applications: Зарегистрированные OAuth приложения

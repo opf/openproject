@@ -19,11 +19,22 @@ es:
     close_popup_title: Cerrar ventana emergente
     close_filter_title: Cerrar filtro
     close_form_title: Cerrar formulario
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Vea la versión Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Su navegador no soporta copiar al portapapeles. Por favor, copie
         el texto seleccionado manualmente.
       copied_successful: "¡Copiado correctamente en el portapapeles!"
     button_add_watcher: Añadir observador
+    button_back: Atrás
     button_back_to_list_view: Volver a la lista
     button_cancel: Cancelar
     button_close: Cerrar
@@ -39,6 +50,7 @@ es:
     button_duplicate: Duplicar
     button_edit: Editar
     button_filter: Filtro
+    button_advanced_filter: Filtro avanzado
     button_list_view: Vista de lista
     button_show_view: Vista de pantalla completa
     button_log_time: Tiempo de registro
@@ -150,18 +162,42 @@ es:
     general_text_yes: sí
     general_text_No: 'No'
     general_text_Yes: Sí
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documentos
+          no_results: No hay documentos.
+        news:
+          title: Noticias
+          at: en
+          no_results: Nada nuevo sobre lo que informar.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: Sin entradas temporales en los últimos 7 días.
+        work_packages_accountable:
+          title: Paquetes de trabajo de los que soy responsable
+        work_packages_assigned:
+          title: Paquetes de trabajo asignados a mí
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendario
     label_activate: Activar
     label_activity_no: Entrada de actividad número %{activityNo}
     label_activity_with_comment_no: Entrada de actividad número %{activityNo} tiene
       un comentario.
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
+    label_add_column_after: Añadir columna a la derecha
+    label_add_column_before: Añadir columna a la izquierda
     label_add_columns: Añadir columnas
     label_add_comment: Agregar comentario
     label_add_comment_title: Escriba un comentario y agregue @ para notificar a otras
       personas
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
+    label_add_row_after: Añadir fila debajo
+    label_add_row_before: Añadir fila encima
     label_add_selected_columns: Agregar columnas seleccionadas
     label_added_by: agregado por
     label_added_time_by: Agregado por %{author} %{age}
@@ -172,7 +208,9 @@ es:
     label_ascending: Ascendente
     label_author: 'Autor: %{user}'
     label_between: entre
+    label_board: Board
     label_board_locked: Bloqueado
+    label_board_plural: Boards
     label_board_sticky: Adhesivo
     label_create_work_package: Crear un nuevo paquete de trabajo
     label_created_by: Creado por
@@ -219,7 +257,7 @@ es:
     label_menu_collapse: colapsar
     label_menu_expand: expandir
     label_more_than_ago: más días atrás
-    label_my_page: My page
+    label_my_page: Mi página
     label_next: Siguiente
     label_no_data: No hay datos disponibles
     label_no_due_date: sin fecha de finalizacion
@@ -238,9 +276,9 @@ es:
     label_visibility_settings: Configuración de visibilidad
     label_quote_comment: Citar este comentario
     label_reset: Reiniciar
-    label_remove_column: Remove column
+    label_remove_column: Eliminar columna
     label_remove_columns: Eliminar columnas seleccionadas
-    label_remove_row: Remove row
+    label_remove_row: Eliminar fila
     label_save_as: Guardad como
     label_select_watcher: Selecciona un observador...
     label_selected_filter_list: Filtros seleccionados
@@ -296,6 +334,7 @@ es:
     label_upload_notification: Cargando archivos…
     label_work_package_upload_notification: 'Subiendo archivos para el paquete de
       trabajo #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Estos archivos se cargarán:'
     label_rejected_files: 'Estos archivos no pueden ser cargados:'
     label_rejected_files_reason: Estos archivos no pueden cargarse debido a que su
@@ -308,7 +347,7 @@ es:
       show_modal: Mostrar entrada de texto de ayuda para atributo
     onboarding:
       buttons:
-        skip: Skip
+        skip: Saltar
         next: Siguiente
         got_it: Entendido
       steps:
@@ -411,9 +450,9 @@ es:
           requires: requiere
           required: requerido por
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Actividad
+      comment: Comentario
+      hours: Horas
     watchers:
       label_loading: cargando observadores...
       label_error_loading: Se ha producido un error al cargar los observadores
@@ -498,6 +537,7 @@ es:
     text_attachment_destroy_confirmation: "¿Está seguro que desea eliminar el archivo
       adjunto?"
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Diagrama de Gantt
       labels:
         title: Configuración de etiquetas
@@ -614,7 +654,7 @@ es:
       label_enable_multi_select: Habilitar selección múltiple
       label_disable_multi_select: Deshabilitar selección múltiple
       label_filter_add: Añadir filtro
-      label_filter_by_text: Filter by text
+      label_filter_by_text: Filtrar por texto
       label_options: Opciones
       label_column_multiselect: 'Campo de lista desplegable combinada: seleccione
         con las teclas de flecha, confirme la selección con enter, elimine con retroceso'
@@ -627,7 +667,7 @@ es:
       message_work_package_read_only: El paquete de trabajo está bloqueado en este
         estado. Excepto el estado, ningún otro atributo se puede modificar.
       no_value: Sin valor
-      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholder_filter_by_text: Asunto, descripción, comentarios, ...
       inline_create:
         title: Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista
       create:
@@ -780,8 +820,6 @@ es:
         days: días
         weeks: semanas
         months: meses
-      label_switch_to_single_select: Cambiar a selección única
-      label_switch_to_multi_select: Cambiar a multiselección
     toolbar:
       settings:
         configure_view: Configurar vista…
@@ -822,6 +860,7 @@ es:
           de trabajo enumerados se eliminarán recursivamente.
         deletes_children: También se eliminarán de forma recursiva todos los paquetes
           de trabajo secundarios y sus descendientes.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Creación exitosa.
     notice_successful_delete: Eliminado con éxito.
     notice_successful_update: Actualización correcta.
@@ -848,7 +887,7 @@ es:
         messages_on_field: 'Este campo no es válido: %{messages}'
     error_could_not_resolve_version_name: No se puede resolver el nombre de la versión
     error_could_not_resolve_user_name: No se pudo identificar el nombre de usuario
-    error_attachment_upload: 'No se pudo cargar el archivo “%{name}”: %{error}'
+    error_attachment_upload: 'Error de subida de archivo: %{error}'
     error_attachment_upload_permission: No tiene permiso para cargar archivos en este
       recurso.
     units:
@@ -865,12 +904,13 @@ es:
     zen_mode:
       button_activate: Activar modo «zen»
       button_deactivate: Desactivar modo «zen»
-    unsupported_browser:
-      title: La versión de su navegador no está soportada
-      message: La versión del navegador que estás utilizando ya no está soportada
-        por OpenProject.
-      update_message: Por favor, actualiza tu navegador.
-      update_ie_user: Por favor, cambia a Mozilla Firefox o Google Chrome, o actualiza
-        a Microsoft Edge.
-      learn_more: Saber más
-      close_warning: Ignore esta advertencia.
+    global_search:
+      all_projects: En todos los proyectos
+      search: Buscar
+      close_search: Close search
+      current_project: En este proyecto
+      current_project_and_all_descendants: En este proyecto + subproyectos
+      title:
+        all_projects: todos los proyectos
+        project_and_subprojects: y todos los subproyectos
+        search_for: Búsqueda por

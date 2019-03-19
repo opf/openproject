@@ -107,6 +107,33 @@ export class HalResource {
   }
 
   /**
+   * Returns the ID and ensures it's a string, null.
+   * Returns a string when:
+   *  - The embedded ID is actually set
+   *  - The self link is terminated by a number.
+   */
+  public get id():string|null {
+    if (this.$source.id) {
+      return this.$source.id.toString();
+    }
+
+    const id = this.idFromLink;
+    if (id.match(/^\d+$/)) {
+      return id;
+    }
+
+    return null;
+  }
+
+  public set id(val:string|null) {
+    this.$source.id = val;
+  }
+
+  public get persisted() {
+    return this.id && this.id !== 'new';
+  }
+
+  /**
    * Create a HalResource from the copied source of the given, other HalResource.
    *
    * @param {HalResource} other
@@ -140,9 +167,6 @@ export class HalResource {
 
   /**
    * Alias for $href.
-   * Please use $href instead.
-   *
-   * @deprecated
    */
   public get href():string|null {
     return this.$link.href;
@@ -157,10 +181,6 @@ export class HalResource {
    */
   public get state():InputState<this>|null {
     return null;
-  }
-
-  public getId():string {
-    return this.id || this.idFromLink;
   }
 
   public $load(force = false):Promise<this> {
@@ -220,7 +240,7 @@ export class HalResource {
    */
   public $embeddableKeys():string[] {
     const properties = Object.keys(this.$source);
-    return _.without(properties, '_links', '_embedded');
+    return _.without(properties, '_links', '_embedded', 'id');
   }
 
   /**

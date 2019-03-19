@@ -35,6 +35,10 @@
 .-no-border
   border: none !important
 
+// Disable user selection
+.-no-text-select
+  user-select: none
+
 // Table borders
 .-table-border-top
   border-top: 1px solid $table-row-border-color
@@ -62,6 +66,9 @@
 .total-hours
   font-weight: bold
 
+.-break-word
+  word-wrap: break-word
+
 .ellipsis,
 .form--field.ellipsis .form--label
   @include text-shortener
@@ -72,3 +79,11 @@
 
   span + span:before
     content: "| "
+
+.-bold
+  font-weight: bold
+.-italic
+  font-style: italic
+.-small-font
+  font-size: 12px
+

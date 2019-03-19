@@ -9,7 +9,7 @@ module OpenProject::OpenIDConnect
 
     register 'openproject-openid_connect',
              author_url: 'http://finn.de',
-             requires_openproject: '>= 3.1.0pre1',
+             bundled: true,
              settings: { 'default' => { 'providers' => {} } }
 
     assets %w(

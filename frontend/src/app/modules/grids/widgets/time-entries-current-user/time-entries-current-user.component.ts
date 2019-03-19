@@ -72,11 +72,11 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
   }
 
   public workPackageName(entry:TimeEntryResource) {
-    return `#${entry.workPackage.idFromLink}: ${entry.workPackage.name}`;
+    return `#${entry.workPackage.id}: ${entry.workPackage.name}`;
   }
 
   public workPackageId(entry:TimeEntryResource) {
-    return entry.workPackage.idFromLink;
+    return entry.workPackage.id!;
   }
 
   public comment(entry:TimeEntryResource) {
@@ -88,11 +88,11 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
   }
 
   public editPath(entry:TimeEntryResource) {
-    return this.pathHelper.timeEntryEditPath(entry.id);
+    return this.pathHelper.timeEntryEditPath(entry.id!);
   }
 
   public deletePath(entry:TimeEntryResource) {
-    return this.pathHelper.timeEntryPath(entry.id);
+    return this.pathHelper.timeEntryPath(entry.id!);
   }
 
   public workPackagePath(entry:TimeEntryResource) {
@@ -152,8 +152,13 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
     //entries
   }
 
-  private formatNumber(value:number) {
-    return formatNumber(value, this.i18n.locale, '1.2-2');
+  private formatNumber(value:number):string {
+    try {
+      return formatNumber(value, this.i18n.locale, '1.2-2');
+    } catch(e) {
+      console.error("Failed to format number with Angular (missing locale?): " + e);
+      return value.toLocaleString();
+    }
   }
 
   public get noEntries() {

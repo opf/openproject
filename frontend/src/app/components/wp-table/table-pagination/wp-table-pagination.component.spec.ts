@@ -28,7 +28,7 @@
 
 import {HttpClientModule} from '@angular/common/http';
 
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {ConfigurationDmService} from 'core-app/modules/hal/dm-services/configuration-dm.service';
 import {async, inject, TestBed} from '@angular/core/testing';
 import {States} from 'core-components/states.service';
@@ -78,7 +78,7 @@ describe('wpTablePagination Directive', () => {
         WorkPackageTablePaginationService,
         HalResourceService,
         ConfigurationDmService,
-        TableState,
+        IsolatedQuerySpace,
         I18nService
       ]
     }).compileComponents();

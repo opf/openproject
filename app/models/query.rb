@@ -31,6 +31,7 @@
 class Query < ActiveRecord::Base
   include Timelines
   include Highlighting
+  include ManualSorting
   include Queries::AvailableFilters
 
   belongs_to :project
@@ -64,6 +65,8 @@ class Query < ActiveRecord::Base
 
   scope(:global, -> { where(project_id: nil) })
 
+  scope(:hidden, -> { where(hidden: true) })
+
   def self.new_default(attributes = nil)
     new(attributes).tap do |query|
       query.add_default_filter
@@ -94,7 +97,7 @@ class Query < ActiveRecord::Base
   def set_default_sort
     return if sort_criteria.any?
 
-    self.sort_criteria = [['parent', 'asc']]
+    self.sort_criteria = [['id', 'asc']]
   end
 
   def context
@@ -236,7 +239,7 @@ class Query < ActiveRecord::Base
   end
 
   def self.sortable_columns
-    available_columns.select(&:sortable)
+    available_columns.select(&:sortable) + [manual_sorting_column]
   end
 
   # Returns an array of columns that can be used to group the results
@@ -246,12 +249,12 @@ class Query < ActiveRecord::Base
 
   # Returns an array of columns that can be used to sort the results
   def sortable_columns
-    available_columns.select(&:sortable)
+    available_columns.select(&:sortable) + [manual_sorting_column]
   end
 
   # Returns a Hash of sql columns for sorting by column
   def sortable_key_by_column_name
-    column_sortability = available_columns.inject({}) do |h, column|
+    column_sortability = sortable_columns.inject({}) do |h, column|
       h[column.name.to_s] = column.sortable
       h
     end
@@ -304,7 +307,12 @@ class Query < ActiveRecord::Base
   end
 
   def sort_criteria
-    read_attribute(:sort_criteria) || []
+    (read_attribute(:sort_criteria) || []).tap do |criteria|
+      criteria.map! do |attr, direction|
+        attr = 'id' if attr == 'parent'
+        [attr, direction]
+      end
+    end
   end
 
   def sort_criteria_key(arg)

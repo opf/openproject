@@ -30,33 +30,32 @@ import {States} from 'core-components/states.service';
 import {combine, InputState} from 'reactivestates';
 import {mapTo} from 'rxjs/operators';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageTableSortBy} from '../wp-table-sort-by';
 import {QueryColumn} from '../../wp-query/query-column';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
-import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
+import {WorkPackageQueryStateService} from './wp-table-base.service';
 import {Observable} from 'rxjs';
 import {
-  QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC,
+  QUERY_SORT_BY_ASC,
+  QUERY_SORT_BY_DESC,
   QuerySortByResource
 } from 'core-app/modules/hal/resources/query-sort-by-resource';
-import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 @Injectable()
-export class WorkPackageTableSortByService extends WorkPackageTableBaseService<WorkPackageTableSortBy> implements WorkPackageQueryStateService {
+export class WorkPackageTableSortByService extends WorkPackageQueryStateService<QuerySortByResource[]> {
 
-  constructor(readonly states:States,
-              readonly tableState:TableState) {
-    super(tableState);
+  constructor(protected readonly states:States,
+              protected readonly querySpace:IsolatedQuerySpace) {
+    super(querySpace);
   }
 
 
-  public get state():InputState<WorkPackageTableSortBy> {
-    return this.tableState.sortBy;
+  public get state():InputState<QuerySortByResource[]> {
+    return this.querySpace.sortBy;
   }
 
   public valueFromQuery(query:QueryResource) {
-    return new WorkPackageTableSortBy(query);
+    return [...query.sortBy];
   }
 
   public onReadyWithAvailable():Observable<null> {
@@ -72,20 +71,12 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService<W
 
     return !_.isEqual(
       comparer(query.sortBy),
-      comparer(this.current.current)
+      comparer(this.current)
     );
   }
 
   public applyToQuery(query:QueryResource) {
-    if (this.current.current.length > 0) {
-      // hierarchies and sort by are mutually exclusive
-      var hierarchies = this.tableState.hierarchies.value!;
-      hierarchies.current = false;
-      hierarchies.last = null;
-      this.tableState.hierarchies.putValue(hierarchies);
-      query.hierarchies = hierarchies.current;
-    }
-    query.sortBy = cloneHalResourceCollection<QuerySortByResource>(this.current.current);
+    query.sortBy = [...this.current];
     return true;
   }
 
@@ -121,31 +112,22 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService<W
   }
 
   public add(sortBy:QuerySortByResource) {
-    let currentState = this.current;
+    this.state.doModify((current:QuerySortByResource[]) => {
+      let newValue = [sortBy, ...current];
+      return _
+        .uniqBy(newValue, sortBy => sortBy.column.$href)
+        .slice(0, 3);
 
-    currentState.addCurrent(sortBy);
-
-    this.state.putValue(currentState);
+      return current.concat(sortBy);
+    });
   }
 
-  public set(sortBys:QuerySortByResource[]) {
-    let currentState = this.current;
-
-    currentState.setCurrent(sortBys);
-
-    this.state.putValue(currentState);
-  }
-
-  private get current():WorkPackageTableSortBy {
-    return this.state.value as WorkPackageTableSortBy;
+  public get current():QuerySortByResource[] {
+    return this.state.getValueOr([]);
   }
 
   private get availableState() {
     return this.states.queries.sortBy;
-  }
-
-  public get currentSortBys():QuerySortByResource[] {
-    return this.current.current;
   }
 
   public get available():QuerySortByResource[] {

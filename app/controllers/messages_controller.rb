@@ -31,7 +31,7 @@
 class MessagesController < ApplicationController
   menu_item :boards
   default_search_scope :messages
-  model_object Message, scope: Board
+  model_object Message, scope: Forum
   before_action :find_object_and_scope
   before_action :authorize, except: [:edit, :update, :destroy]
 
@@ -51,7 +51,7 @@ class MessagesController < ApplicationController
       page = 1 + offset / REPLIES_PER_PAGE
     end
 
-    @replies = @topic.children.includes(:author, :attachments, board: :project)
+    @replies = @topic.children.includes(:author, :attachments, forum: :project)
                      .order("#{Message.table_name}.created_on ASC")
                      .page(page)
                      .per_page(per_page_param)
@@ -64,7 +64,7 @@ class MessagesController < ApplicationController
   def new
     @message = Message.new.tap do |m|
       m.author = User.current
-      m.board = @board
+      m.forum = @forum
     end
   end
 
@@ -72,7 +72,7 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new.tap do |m|
       m.author = User.current
-      m.board = @board
+      m.forum = @forum
     end
 
     @message.attributes = permitted_params.message(@message)
@@ -94,7 +94,7 @@ class MessagesController < ApplicationController
 
     @reply = Message.new
     @reply.author = User.current
-    @reply.board = @board
+    @reply.forum = @forum
     @reply.attributes = permitted_params.reply
     @reply.attach_files(permitted_params.attachments.to_h)
 
@@ -135,7 +135,7 @@ class MessagesController < ApplicationController
     @message.destroy
     flash[:notice] = l(:notice_successful_delete)
     redirect_target = if @message.parent.nil?
-                        { controller: '/boards', action: 'show', project_id: @project, id: @board }
+                        { controller: '/forums', action: 'show', project_id: @project, id: @forum }
                       else
                         { action: 'show', id: @message.parent, r: @message }
                       end

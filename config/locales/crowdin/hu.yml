@@ -55,9 +55,25 @@ hu:
     index:
       no_results_content_title: Jelenleg nincs autentikációs mód.
       no_results_content_text: Új autentikációs mód létrehozása
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: Nincs
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Jelenleg nincs hozzászólás a fórumon.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Jelenleg nincsenek színek.
@@ -104,6 +120,10 @@ hu:
       further_information_after: ''
     calendar:
       removal: 'Kérjük, vegye figyelembe: Ez a modul az OpenProject 8.0-tól megszűnik.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Fórum
   groups:
     index:
       no_results_title_text: Jelenleg nincsenek csoportok.
@@ -112,6 +132,11 @@ hu:
       no_results_title_text: Jelenleg egy felhasználó sem tagja a csoportnak.
     memberships:
       no_results_title_text: Jelenleg egy projekt sem tagja a csoportnak.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -128,9 +153,9 @@ hu:
     settings:
       activities:
         no_results_title_text: Jelenleg nincs elérhető esemény.
-      boards:
-        no_results_title_text: Jelenleg nincs fórum a projekthez.
-        no_results_content_text: Új fórum létrehozása
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Jelenleg nincsenek munkacsomag kategóriák.
         no_results_content_text: Hozzon létre egy új munkacsomag kategóriát
@@ -215,6 +240,8 @@ hu:
     x_descendants:
       one: Egy leszármazott feladatcsoport
       other: "%{count} munkacsomag leszármazottai"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Az összes kiválasztott feladatcsoporthoz nincs elérhető
         állapot. Státuszuk nem változtatható meg.
@@ -352,6 +379,11 @@ hu:
         subscriber: Előfizető
         encoded_token: Vállalati támogatás kulcs
         active_user_count_restriction: Maximális aktív felhasználók
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Késés
         from: Feladatcsoport
@@ -493,6 +525,7 @@ hu:
         too_long: túl hosszú (nem lehet több %{count} karakternél).
         too_short: túl rövid (legalább %{count} karakter kell legyen).
         unchangeable: nem módosítható.
+        unremovable: cannot be removed.
         wrong_length: nem megfelelő hosszúságú (%{count} karakter szükséges).
       models:
         custom_field:
@@ -518,6 +551,10 @@ hu:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: nem olvasható. Biztos vagy benne, hogy ez támogatási token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -629,7 +666,7 @@ hu:
     models:
       attachment: Fájl
       attribute_help_text: Attribútum-súgószöveg
-      board: Fórum
+      forum: Fórum
       comment: Vélemény
       custom_action: Egyéni művelet
       custom_field: Választható mező
@@ -1134,9 +1171,8 @@ hu:
       faq: GY. I. K.
       glossary: Szószedet
       shortcuts: Parancsikonok
-      forums: Fórumok
       blog: OpenProject blog
-      boards: Közösségi fórum
+      forums: Közösségi fórum
       newsletter: Biztonsági figyelmeztetések / hírlevél
   links:
     configuration_guide: Konfigurációs útmutató
@@ -1184,7 +1220,6 @@ hu:
   label_all_open_wps: Nyitottak
   label_always_visible: Mindig látható
   label_announcement: Hirdetmény
-  label_and_its_subprojects: "%{value} és az alprojektjei"
   label_api_access_key: API-hozzáférés kulcs
   label_api_access_key_created_on: 'APIhozzáférési kulcs készítette: %{value} ezelőtt'
   label_api_access_key_type: API
@@ -1205,7 +1240,7 @@ hu:
   label_available_project_work_package_categories: Rendelkezésre álló munkacsomag
     kategóriák
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Rendelkezésre álló táblák
+  label_available_project_forums: Available forums
   label_available_project_versions: Rendelkezésre álló verziók
   label_available_project_repositories: Rendelkezésre álló tárolók
   label_api_documentation: API dokumentáció
@@ -1213,15 +1248,16 @@ hu:
   label_blocked_by: blokkolta
   label_blocks: blokkolja
   label_blog: Blog
-  label_board_locked: Zárolva
-  label_board_new: Új fórum
-  label_board_plural: Fórumok
-  label_board_sticky: Kiemelt
+  label_forums_locked: Zárolva
+  label_forum_new: Új fórum
+  label_forum_plural: Fórumok
+  label_forum_sticky: Kiemelt
   label_boolean: Logikai
   label_branch: Branch
   label_browse: böngész
   label_bulk_edit_selected_work_packages: A kiválasztott feladatcsoportok tömeges
     szerkesztése
+  label_bundled: "(Bundled)"
   label_calendar: Naptár
   label_calendar_show: Kalendárium mutatása
   label_category: Kategória
@@ -1319,7 +1355,7 @@ hu:
   label_environment: Környezet
   label_estimates_and_time: Becslések & időpontok
   label_equals: van
-  label_everywhere: everywhere
+  label_everywhere: bárhol
   label_example: Példa
   label_export_to: 'Is elérhető:'
   label_expanded_click_to_collapse: Kinyitva. Kattintson az összecsukáshoz
@@ -1483,6 +1519,7 @@ hu:
   label_planning: Tervezés
   label_please_login: Kérjük, jelentkezzen be
   label_plugins: Modulok
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: megelőzi
   label_preferences: Tulajdonságok
   label_preview: Előnézet
@@ -1554,7 +1591,6 @@ hu:
   label_role_search: Szerep hozzárendelése az új tagokhoz
   label_scm: SCM
   label_search: Keresés
-  label_search_titles_only: Keresés csak a címekben
   label_send_information: Fiókinformációkat küldése a felhasználónak
   label_send_test_email: Teszt levél küldése
   label_settings: Beállítások
@@ -1636,6 +1672,7 @@ hu:
   label_view_diff: A különbségek megtekintése
   label_view_revisions: A változtatások megtekintése
   label_watched_work_packages: Megfigyelt munkacsomagok
+  label_what_is_this: What is this?
   label_week: Hét
   label_wiki_content_added: Wiki oldal hozzáadva
   label_wiki_content_updated: Wiki oldal frissítve
@@ -1816,6 +1853,8 @@ hu:
   notice_account_update_failed: A felhasználói beállítások nem menthetők. Kérem, vessen
     egy pillantást a fiók oldalra.
   notice_account_updated: A hozzáférési adatok sikeresen frissítve.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Hibás jelszó
   notice_account_registered_and_logged_in: Üdvözöljük a fiókja aktiválva van. Most
     bejelentkezhet.
@@ -1944,7 +1983,7 @@ hu:
   permission_export_wiki_pages: Wiki oldalak exportálása
   permission_list_attachments: Mellékletek listája
   permission_log_time: Eltöltött idő rögzítése
-  permission_manage_boards: Fórum kezelése
+  permission_manage_forums: Fórum kezelése
   permission_manage_categories: feladatcsoport kategóriák kezelése
   permission_manage_work_package_relations: feladatcsoport kapcsolatok kezelése
   permission_manage_members: Tagok kezelése
@@ -1991,7 +2030,7 @@ hu:
     archive:
       are_you_sure: Biztosan szeretnéd arhiválni a projektet '%{name}'?
   project_module_activity: Tevékenység
-  project_module_boards: Fórumok
+  project_module_forums: Fórumok
   project_module_calendar: Naptár
   project_module_work_package_tracking: A munkacsomag nyomon követése
   project_module_news: Hírek
@@ -2218,6 +2257,7 @@ hu:
   setting_mail_handler_api_key: API-kulcs
   setting_mail_handler_body_delimiters: E-mailek csonkolása e sorok után
   setting_mail_handler_body_delimiter_regex: E-mailek csonkítása a megegyező kifejezéssel
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Szerepkör a  nem admin felhasználónak, aki létrehoz
     egy projektet,
   setting_password_active_rules: Választható karakter típusok
@@ -2229,6 +2269,7 @@ hu:
   setting_per_page_options: Objektum per oldal opció
   setting_plain_text_mail: Egyszerű szöveges e-mail (nem HTML)
   setting_protocol: Protokol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Regisztráció lábléc
   setting_repositories_automatic_managed_vendor: Automatikus tároló típus
   setting_repositories_encodings: Tárolók kódolásai
@@ -2400,6 +2441,16 @@ hu:
   text_no_notes: Ehhez a munkacsomaghoz nincsenek megjegyzések.
   text_notice_too_many_values_are_inperformant: 'Megjegyzés: Az oldalanként több mint
     100 elem megjelenítésekor az oldal betöltési ideje  növekedhet.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: Értesítem arról, hogy eltávolít néhány
     vagy az összes jogosultságot, és ezt követően már nem lehet szerkeszteni ezt a
     projektet. Biztosan folytatni kívánja?
@@ -2462,7 +2513,6 @@ hu:
       color: Szín
       colors: Színek
     associations: Szükséges összetevők
-    board_could_not_be_saved: A tábla nem menthető
     button_delete_all: Összes törlése
     change: A tervezés módosítása
     children: Gyermek elemek
@@ -2828,8 +2878,8 @@ hu:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Kérjük frissítse a böngészőjét.
+    close_warning: Figyelmeztetés figyelmen kívül hagyása.
   oauth:
     application:
       singular: OAuth application
@@ -2875,7 +2925,7 @@ hu:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Jogosultságok
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2899,7 +2949,3 @@ hu:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Widget eltávolítása
-  label_my_page_block: Az én oldalam blokkolva
-  label_responsible_for_work_packages: Feladatcsoportok, amelyért én vagyok a felelős
-  label_visible_elements: Látható elemek

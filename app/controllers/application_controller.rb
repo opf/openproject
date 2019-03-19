@@ -202,7 +202,7 @@ class ApplicationController < ActionController::Base
 
     if user && user.is_a?(User)
       User.current = user
-      InitializeSessionService.call(user, session)
+      Sessions::InitializeSessionService.call(user, session)
     else
       User.current = User.anonymous
     end
@@ -334,12 +334,10 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  def find_optional_project_and_raise_error(controller_name = nil)
-    controller_name = params[:controller] if controller_name.nil?
-
+  def find_optional_project_and_raise_error
     @project = Project.find(params[:project_id]) unless params[:project_id].blank?
-    allowed = User.current.allowed_to?({ controller: controller_name, action: params[:action] },
-                                       @project, global: true)
+    allowed = User.current.allowed_to?({ controller: params[:controller], action: params[:action] },
+                                       @project, global: @project.nil?)
     allowed ? true : deny_access
   end
 
@@ -362,10 +360,10 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  def find_model_object_and_project
-    if params[:id]
+  def find_model_object_and_project(object_id = :id)
+    if params[object_id]
       model_object = self.class._model_object
-      instance = model_object.find(params[:id])
+      instance = model_object.find(params[object_id])
       @project = instance.project
       instance_variable_set('@' + model_object.to_s.underscore, instance)
     else
@@ -396,7 +394,7 @@ class ApplicationController < ActionController::Base
   # after the first object is found it traverses the belongs_to chain of that first object
   # if a start_object is provided it is taken as the starting point of the traversal
   # e.g associations [Message, Board, Project] finds Message by find(:message_id)
-  # then message.board and board.project
+  # then message.forum and board.project
   def find_belongs_to_chained_objects(associations, start_object = nil)
     associations.inject([start_object].compact) do |instances, association|
       scope_name, scope_association = association.is_a?(Hash) ?
@@ -509,12 +507,14 @@ class ApplicationController < ActionController::Base
   def render_error(arg)
     arg = { message: arg } unless arg.is_a?(Hash)
 
-    @message = arg[:message]
-    @message = l(@message) if @message.is_a?(Symbol)
     @status = arg[:status] || 500
+    @message = arg[:message]
 
-    op_handle_error "[Error #@status] #@message"
+    if @status >= 500
+      op_handle_error "[Error #@status] #@message"
+    end
 
+    @message = l(@message) if @message.is_a?(Symbol)
     respond_to do |format|
       format.html do
         render template: 'common/error', layout: use_layout, status: @status

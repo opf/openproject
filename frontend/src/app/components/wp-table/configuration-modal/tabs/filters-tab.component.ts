@@ -1,16 +1,17 @@
-import {Component, Inject, Injector} from '@angular/core';
+import {Component, Injector} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
-import {WorkPackageTableFilters} from 'core-components/wp-fast-table/wp-table-filters';
+import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
+import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 
 @Component({
   templateUrl: './filters-tab.component.html'
 })
 export class WpTableConfigurationFiltersTab implements TabComponent {
 
-  public filters:WorkPackageTableFilters|undefined;
+  public filters:QueryFilterInstanceResource[] = [];
   public eeShowBanners:boolean = false;
 
   public text = {
@@ -25,14 +26,15 @@ export class WpTableConfigurationFiltersTab implements TabComponent {
   constructor(readonly injector:Injector,
               readonly I18n:I18nService,
               readonly wpTableFilters:WorkPackageTableFiltersService,
-              readonly wpFiltersService:WorkPackageFiltersService) {
+              readonly wpFiltersService:WorkPackageFiltersService,
+              readonly bannerService:BannersService) {
   }
 
   ngOnInit() {
-    this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
+    this.eeShowBanners = this.bannerService.eeShowBanners;
     this.wpTableFilters
       .onReady()
-      .then(() => this.filters = this.wpTableFilters.currentState.$copy());
+      .then(() => this.filters = this.wpTableFilters.current);
   }
 
   public onSave() {

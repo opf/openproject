@@ -36,6 +36,7 @@
         <wp-relations-autocomplete-upgraded
             [workPackage]="workPackage"
             (onWorkPackageIdSelected)="updateSelectedId($event)"
+            appendToContainer=".work-packages-tab-view--overflow"
             selectedRelationType="parent">
         </wp-relations-autocomplete-upgraded>
       </div>

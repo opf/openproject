@@ -18,14 +18,25 @@ he:
     close_popup_title: סגור פופ-אפ
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: הדפדפן שלך אינו תומך העתקה ללוח. נא להעתיק את הטקסט הנבחר באופן
         ידני.
       copied_successful: הועתק בהצלחה!
     button_add_watcher: הוספת צופה
+    button_back: חזרה
     button_back_to_list_view: Back to list view
     button_cancel: ביטול
-    button_close: Close
+    button_close: סגור
     button_check_all: סמן את כולם
     button_configure-form: Configure form
     button_confirm: Confirm
@@ -38,6 +49,7 @@ he:
     button_duplicate: שכפל
     button_edit: עריכה
     button_filter: סינון
+    button_advanced_filter: Advanced filter
     button_list_view: תצוגת רשימה
     button_show_view: תצוגת מסך מלא
     button_log_time: נרשם ביומן
@@ -146,6 +158,30 @@ he:
     general_text_yes: כן
     general_text_No: לא
     general_text_Yes: כן
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: חדשות
+          at: at
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: חבילות עבודה שהוקצו לי
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: לוח שנה
     label_activate: הפעל
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
@@ -167,7 +203,9 @@ he:
     label_ascending: סדר עולה
     label_author: 'Author: %{user}'
     label_between: between
+    label_board: Board
     label_board_locked: נעול
+    label_board_plural: Boards
     label_board_sticky: נעוץ
     label_create_work_package: Create new work package
     label_created_by: Created by
@@ -225,7 +263,7 @@ he:
     label_on: פועל
     label_open_menu: פתח תפריט
     label_open_context_menu: Open context menu
-    label_open_work_packages: open
+    label_open_work_packages: פתוח
     label_password: סיסמה
     label_previous: Previous
     label_per_page: 'לכל עמוד:'
@@ -239,7 +277,7 @@ he:
     label_save_as: שמירה בשם
     label_select_watcher: בחר צופה...
     label_selected_filter_list: 'מסננים נבחרים: %s'
-    label_show_attributes: Show all attributes
+    label_show_attributes: הצג את כל התכונות
     label_show_in_menu: Show view in menu
     label_sort_by: Sort by
     label_sorted_by: ממוין לפי
@@ -290,6 +328,7 @@ he:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Uploading files for Work package #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'These files will be uploaded:'
     label_rejected_files: 'These files cannot be uploaded:'
     label_rejected_files_reason: These files cannot be uploaded as their size is greater
@@ -399,9 +438,9 @@ he:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: פעילות
+      comment: תגובה
+      hours: שעות
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -488,6 +527,7 @@ he:
       view?
     text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -765,8 +805,6 @@ he:
         days: ימים
         weeks: שבועות
         months: חודשים
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -807,6 +845,7 @@ he:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Successful creation.
     notice_successful_delete: Successful deletion.
     notice_successful_update: Successful update.
@@ -833,7 +872,7 @@ he:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: לא יכולתי לזהות גירסה שם
     error_could_not_resolve_user_name: לא יכולתי למצוא את שם המשתמש
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -856,11 +895,13 @@ he:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: הדפדפן שלך אינו נתמך
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: למידע נוסף
-      close_warning: Ignore this warning.
+    global_search:
+      all_projects: In all projects
+      search: חיפוש
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

@@ -56,9 +56,25 @@ tr:
     index:
       no_results_content_title: Şu anda bir doğrulama modu bulunmamakta.
       no_results_content_text: Yeni bir doğrulama modu oluştur
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: hiçbiri
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Şu anda panoda gösterilebilecek gönderi bulunmamakta.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Şu anda hiç renk bulunmamakta.
@@ -105,6 +121,10 @@ tr:
       further_information_after: ''
     calendar:
       removal: 'Lütfen dikkat: Bu modül OpenProject 8.0 ile kaldırılacak.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Viki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Şu anda hiç grup bulunmamakta.
@@ -113,6 +133,11 @@ tr:
       no_results_title_text: Şu anda bu gruba kayıtlı kullanıcı bulunmamakta.
     memberships:
       no_results_title_text: Şu anda bu grubun bir parçası olan, bir proje bulunmamakta.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -129,9 +154,9 @@ tr:
     settings:
       activities:
         no_results_title_text: Şu anda hiç bir etkinlik mevcut değil.
-      boards:
-        no_results_title_text: Şu anda proje için bir pano mevcut değil.
-        no_results_content_text: Yeni bir pano oluştur
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Şu anda hiç iş paketi kategorisi bulunmamakta.
         no_results_content_text: Yeni bir iş paketi kategorisi oluştur
@@ -215,6 +240,8 @@ tr:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -351,6 +378,11 @@ tr:
         subscriber: Abone
         encoded_token: Kurumsal Destek anahtarı
         active_user_count_restriction: En çok aktif kullanıcı
+      grids/grid:
+        page: Sayfa
+        row_count: Satır sayısı
+        column_count: Sütun sayısı
+        widgets: Araçlar
       relation:
         delay: Gecikme
         from: İş paketi
@@ -493,6 +525,7 @@ tr:
         too_long: çok uzun (en fazla %{count} karakterdir).
         too_short: çok kısa (en az %{count} karakterdir).
         unchangeable: değiştirilemez.
+        unremovable: cannot be removed.
         wrong_length: uzunluğu yanlıştır (%{count} karakter olmalıdır).
       models:
         custom_field:
@@ -511,7 +544,7 @@ tr:
           attributes:
             redirect_uri:
               fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
+              invalid_uri: geçerli bir URI olmalıdır.
               relative_uri: must be an absolute URI.
               secured_uri: must be an HTTPS/SSL URI.
               forbidden_uri: is forbidden by the server.
@@ -519,6 +552,10 @@ tr:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: okunamıyor. Desteklenen bir destek anahtarı olduğuna emin misiniz?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -629,7 +666,7 @@ tr:
     models:
       attachment: Dosya
       attribute_help_text: Öznitelik Yardım metni
-      board: Forum
+      forum: Forum
       comment: Yorum
       custom_action: Özel eylem
       custom_field: Özel alan
@@ -1027,7 +1064,7 @@ tr:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Girdi silinemedi.
-  error_invalid_selected_value: Invalid selected value.
+  error_invalid_selected_value: Seçili değeri geçersiz.
   error_invalid_group_by: "%{value} ya göre guplandırılamadı"
   error_invalid_query_column: 'Geçersiz sorgu sütunu: %{value}'
   error_invalid_sort_criterion: 'Sütuna göre sıralama yapamazsınız: %{value}'
@@ -1129,9 +1166,8 @@ tr:
       faq: SSS
       glossary: Terimler sözlüğü
       shortcuts: Kısayollar
-      forums: Forumlar
       blog: OpenProject blog
-      boards: Topluluk forumu
+      forums: Topluluk forumu
       newsletter: Güvenlik uyarıları / haber bülteni
   links:
     configuration_guide: Yapılandırma rehberi
@@ -1178,7 +1214,6 @@ tr:
   label_all_open_wps: Tüm açık
   label_always_visible: Her zaman görüntüle
   label_announcement: Duyuru
-  label_and_its_subprojects: "%{value} ve onun alt projeler"
   label_api_access_key: API erişim anahtarı
   label_api_access_key_created_on: API erişim anahtarı %{value} önce oluşturuldu
   label_api_access_key_type: API
@@ -1198,7 +1233,7 @@ tr:
   label_authentication: Kimlik Doğrulaması
   label_available_project_work_package_categories: Uygun iş paketi kategorileri
   label_available_project_work_package_types: Uygun iş paketi tipleri
-  label_available_project_boards: Uygun panolar
+  label_available_project_forums: Available forums
   label_available_project_versions: Uygun sürümler
   label_available_project_repositories: Uygun depolar
   label_api_documentation: API belgelendirmesi
@@ -1206,15 +1241,16 @@ tr:
   label_blocked_by: bağlı
   label_blocks: engeller
   label_blog: Blog
-  label_board_locked: Kilitlendi
-  label_board_new: Yeni forum
-  label_board_plural: Forumlar
-  label_board_sticky: Sabit
+  label_forums_locked: Kilitlendi
+  label_forum_new: Yeni forum
+  label_forum_plural: Forumlar
+  label_forum_sticky: Sabit
   label_boolean: Mantıksal
   label_branch: Dal
   label_browse: Gözat
   label_bulk_edit_selected_work_packages: Seçilen çalışma paketlerini toplu halde
     düzenle
+  label_bundled: "(Bundled)"
   label_calendar: Takvim
   label_calendar_show: Takvimi Göster
   label_category: Kategori
@@ -1312,7 +1348,7 @@ tr:
   label_environment: Ortam
   label_estimates_and_time: Tahminler & zaman
   label_equals: şuysa
-  label_everywhere: everywhere
+  label_everywhere: heryer
   label_example: Örnek
   label_export_to: 'Ayrıca şu adreste bulunabilir:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
@@ -1348,9 +1384,9 @@ tr:
   label_here: buraya
   label_hide: Gizle
   label_history: Geçmiş
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy_leaf: Hiyerarşi ağacı
   label_home: Ana sayfa
-  label_subject_or_id: Subject or ID
+  label_subject_or_id: Konu ya da ID
   label_in: şurada
   label_in_less_than: daha azdır
   label_in_more_than: daha fazla
@@ -1476,6 +1512,7 @@ tr:
   label_planning: Planlanıyor
   label_please_login: Lütfen giriş yapın
   label_plugins: Eklentiler
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: iletletir
   label_preferences: Seçenekler
   label_preview: Ön İzleme
@@ -1547,7 +1584,6 @@ tr:
   label_role_search: Yeni üyelere rol atama
   label_scm: YKM
   label_search: Ara
-  label_search_titles_only: Sadece başlıkları ara
   label_send_information: Hesap bilgilerini kullanıcıya gönder
   label_send_test_email: Deneme e-postası gönder
   label_settings: Ayarlar
@@ -1629,6 +1665,7 @@ tr:
   label_view_diff: Farklılıkları gör
   label_view_revisions: Düzeltmeleri izle
   label_watched_work_packages: İzlenen iş paketleri
+  label_what_is_this: Bu nedir?
   label_week: Hafta
   label_wiki_content_added: Viki sayfası eklendi
   label_wiki_content_updated: Viki sayfası güncellendi
@@ -1738,7 +1775,7 @@ tr:
         You can replace the functionality with an embedded table macro.
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
+        page_not_found: Wiki sayfası '%{name} ' bulunamıyor.
         circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
@@ -1801,6 +1838,8 @@ tr:
   notice_account_update_failed: Hesabı ayarları kaydedilemedi. Lütfen hesap sayfanızın
     bir göz atın.
   notice_account_updated: Hesap başarıyla güncellendi.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Hatalı parola
   notice_account_registered_and_logged_in: Hoş geldiniz, hesabınız etkinleştirildi.
     Şimdi giriş yaptınız.
@@ -1891,7 +1930,7 @@ tr:
       konusuna genel bir bakış.
     text_show_again: Bu videoyu Yardım menüsünden yeniden başlatabilirsiniz
     welcome: OpenProject'e hoş geldiniz
-    select_language: Please select your language
+    select_language: Lütfen dilinizi seçin
   permission_add_work_package_notes: Not eklemek
   permission_add_work_packages: İş paketi eklemek
   permission_add_messages: İleti göndermek
@@ -1926,7 +1965,7 @@ tr:
   permission_export_wiki_pages: Wiki sayfalarını dışarı aktar
   permission_list_attachments: Ekleri listelemek
   permission_log_time: Harcanan zaman kayıtları
-  permission_manage_boards: Forumları yönetmek
+  permission_manage_forums: Forumları yönetmek
   permission_manage_categories: İş paket kategorilerini yönet
   permission_manage_work_package_relations: İş paketi ilişkilerini yönet
   permission_manage_members: Üyeleri yönetmek
@@ -1975,7 +2014,7 @@ tr:
     archive:
       are_you_sure: "'%{name}' projesini arşivlemek istediğinize emin misiniz?"
   project_module_activity: Etkinlik
-  project_module_boards: Forumlar
+  project_module_forums: Forumlar
   project_module_calendar: Takvim
   project_module_work_package_tracking: İş paketi takibi
   project_module_news: Haberler
@@ -2130,7 +2169,7 @@ tr:
   setting_email_delivery_method: E-posta teslim yöntemi
   setting_sendmail_location: Çalıştırılabilir sendmail aracının yolu
   setting_smtp_enable_starttls_auto: STARTTLS varsa otomatik olarak kullan
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: SSL bağlantısı kullan
   setting_smtp_address: SMTP Sunucusu
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP kimlik doğrulaması
@@ -2205,6 +2244,7 @@ tr:
     kısaltın
   setting_mail_handler_body_delimiter_regex: Bu düzenli ifade ile uyuşan e-postaları
     kırp
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Bir proje oluşturan yönetici olmayan bir kullanıcıya
     verilen rolü
   setting_password_active_rules: Aktif karakter sınıfları
@@ -2217,6 +2257,7 @@ tr:
   setting_per_page_options: Sayfa başı nesne seçenekleri
   setting_plain_text_mail: Düz metin postası (HTML yok)
   setting_protocol: Protokol
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Kayıt alt bilgisi
   setting_repositories_automatic_managed_vendor: Otomatik depo satıcısı türü
   setting_repositories_encodings: Depolar kodlamaları
@@ -2267,9 +2308,9 @@ tr:
       mode_long:
         inline: Highlight attribute(s) inline
         none: Vurgulama
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: Duruma göre tüm satır
+        type: Türe göre tüm satır
+        priority: Önceliğe göre tüm satır
   text_formatting:
     markdown: Markdown
     plain: Düz yazı
@@ -2384,6 +2425,16 @@ tr:
   text_no_notes: Bu çalışma paketi için bir yorum bulunmuyor.
   text_notice_too_many_values_are_inperformant: 'Not: Her sayfada 100''den fazla öğe
     gösterildiğinde, sayfa yükleme süresi artabilir.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: İzinlerinizden bazılarını veya tümünü kaldırmak
     üzeresiniz ve bundan sonra bu projeyi düzenleyemeyebilirsiniz. Devam etmek istediğine
     emin misin?
@@ -2445,7 +2496,6 @@ tr:
       color: Renk
       colors: Renkler
     associations: Bağımlılıklar
-    board_could_not_be_saved: Kurul kaydedilemedi
     button_delete_all: Tümünü sil
     change: Planlama değişikliği
     children: Çocuk elemanları
@@ -2534,8 +2584,8 @@ tr:
       work_package_assignee: Atanmış kişiye ait iş paketlerini göster
       types: Türleri göster
       status: Durumu göster
-      project_time_filter: Projects with a work package of a certain type in a certain
-        timeframe
+      project_time_filter: Belirli bir zaman diliminde belirli türde bir iş paketine
+        sahip projeler
       project_time_filter_timeframe: Zaman çerçevesi
       project_time_filter_historical_from: başlangıç
       project_time_filter_historical_to: bitiş
@@ -2556,8 +2606,8 @@ tr:
     new_work_package: Yeni iş paketi
     new_reporting: Yeni raporlama
     new_timeline: Yeni zaman çizelgesi raporu
-    no_projects_for_reporting_available: There are no projects to which a reporting
-      association can be created.
+    no_projects_for_reporting_available: Bir raporlama birliğinin oluşturulabileceği
+      proje bulunmamaktadır.
     no_right_to_view_timeline: Bağlantılı zaman çizelgesi görüntülemek için gerekli
       izniniz yok.
     no_timeline_for_id: "%{id} kimlik numaralı bir zaman akışı yok."
@@ -2806,10 +2856,10 @@ tr:
           expired: The access token expired
           unknown: The access token is invalid
   unsupported_browser:
-    title: Your browser is outdated and unsupported.
+    title: Tarayıcınız güncel değil ya da desteklenmiyor.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Lütfen tarayıcınızı güncelleyin.
+    close_warning: Bu uyarıyı yoksay.
   oauth:
     application:
       singular: OAuth application
@@ -2840,7 +2890,7 @@ tr:
 
 '
     authorization_dialog:
-      authorize: Authorize
+      authorize: Yetkilendir
       cancel: Cancel and deny authorization.
       prompt_html: Authorize <strong>%{application_name}</strong> to use your account
         <em>%{login}</em>?
@@ -2855,7 +2905,7 @@ tr:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: İzinler
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2879,7 +2929,3 @@ tr:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Widgetleri kaldır
-  label_my_page_block: Sayfa bloğum
-  label_responsible_for_work_packages: Sorumlusu olduğum iş paketleri
-  label_visible_elements: Görünür öğeler

@@ -18,11 +18,22 @@ fi:
     close_popup_title: Sulje ponnahdus-ikkuna
     close_filter_title: Sulje suodatin
     close_form_title: Sulje lomake
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Selaimesi ei tue kopiointia leikepöydälle. Kopioi valittu teksti
         manuaalisesti.
       copied_successful: Onnistuneesti kopioitu leikepöydälle!
     button_add_watcher: Lisää seuraaja
+    button_back: Takaisin
     button_back_to_list_view: Back to list view
     button_cancel: Peruuta
     button_close: Sulje
@@ -38,6 +49,7 @@ fi:
     button_duplicate: Kahdenna
     button_edit: Muokkaa
     button_filter: Suodata
+    button_advanced_filter: Advanced filter
     button_list_view: Luettelonäkymä
     button_show_view: Koko näytön tila
     button_log_time: Kirjaa lokiin aika
@@ -146,6 +158,30 @@ fi:
     general_text_yes: kyllä
     general_text_No: Ei
     general_text_Yes: Kyllä
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Asiakirjat
+          no_results: No documents yet.
+        news:
+          title: Uutiset
+          at: at
+          no_results: Ei mitään uutta raportoitavaksi.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Kaikki työpaketit joista olen vastuussa
+        work_packages_assigned:
+          title: Minulle määritetyt työpaketit
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalenteri
     label_activate: Aktivoi
     label_activity_no: Aktiviteettimerkinnän numero %{activityNo}
     label_activity_with_comment_no: Aktiviteettimerkinnän numero %{activityNo}. Sisältää
@@ -167,7 +203,9 @@ fi:
     label_ascending: Nouseva
     label_author: 'Tekijä: %{user}'
     label_between: between
+    label_board: Board
     label_board_locked: Lukittu
+    label_board_plural: Boards
     label_board_sticky: Pysyvä
     label_create_work_package: Luo uusi toimia paketti
     label_created_by: Luonut
@@ -213,7 +251,7 @@ fi:
     label_menu_collapse: pienennä
     label_menu_expand: laajenna
     label_more_than_ago: enemän kuin päivää sitten
-    label_my_page: My page
+    label_my_page: Oma sivu
     label_next: Seuraava
     label_no_data: Ei tietoa näytettäväksi
     label_no_due_date: ei päättymispäivää
@@ -252,7 +290,7 @@ fi:
     label_subject: Aihe
     label_this_week: tällä viikolla
     label_today: tänään
-    label_up: Up
+    label_up: Ylös
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} % eteneminen"
@@ -289,6 +327,7 @@ fi:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Lisää tiedostoja työpaketille #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Nämä tiedostot lähetetään:'
     label_rejected_files: 'Näitä tiedostoja ei voida lähettää:'
     label_rejected_files_reason: Näitä tiedostoja ei voi lähettää, koska niiden koko
@@ -398,9 +437,9 @@ fi:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Aktiviteetti
+      comment: Kommentti
+      hours: Tunnit
     watchers:
       label_loading: ladataan seuraajia...
       label_error_loading: Virhe ladattaessa seuraajia
@@ -483,6 +522,7 @@ fi:
       view?
     text_attachment_destroy_confirmation: Oletko varma, että haluat poistaa liitteen?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -758,8 +798,6 @@ fi:
         days: päivää
         weeks: weeks
         months: months
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -800,6 +838,7 @@ fi:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Luonti onnistui.
     notice_successful_delete: Poisto onnistui.
     notice_successful_update: Päivitys onnistui.
@@ -826,7 +865,7 @@ fi:
         messages_on_field: 'Tämä kenttä on virheellinen: %{messages}'
     error_could_not_resolve_version_name: Version nimeä ei voitu ratkaista
     error_could_not_resolve_user_name: Käyttäjän nimeä ei voitu ratkaista
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -843,11 +882,13 @@ fi:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: Selaimesi versiota ei tueta
-      message: Selaimesi versiota ei enää tueta.
-      update_message: Päivitäthän selaimesi.
-      update_ie_user: Siirry selaimeen Mozilla Firefox tai Google Chrome, tai päivitä
-        Microsoft Edge.
-      learn_more: Learn more
-      close_warning: Ohita tämä varoitus.
+    global_search:
+      all_projects: In all projects
+      search: Haku
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

@@ -11,16 +11,6 @@
       <%= styled_check_box_tag 'settings[enable_gravatars]', 1, manager.gravatar_enabled?, container_class: '-xslim', id: 'settings-enable-gravatars' %>
     </div>
   </div>
-
-  <div class="form--field">
-    <%= styled_label_tag 'settings[gravatar_default]', t('avatars.settings.gravatar_default') %>
-    <div class="form--field-container">
-      <%= styled_select_tag 'settings[gravatar_default]',
-                            options_for_select(manager.default_gravatar_options, @settings['gravatar_default']),
-                            container_class: '-slim'
-      %>
-    </div>
-  </div>
 </fieldset>
 
 <fieldset class="form--fieldset">

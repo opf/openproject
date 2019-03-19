@@ -99,7 +99,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
       embedded_table.table_container.find(row).hover
       embedded_table.table_container.find("#{row} .wp-table-action--unlink").click
       within(embedded_table.table_container) do
-        embedded_table.expect_work_package_not_listed(related_work_package)
+        embedded_table.ensure_work_package_not_listed!(related_work_package)
       end
       relations.expect_not_child(related_work_package)
 
@@ -133,7 +133,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
     it 'add existing, remove it, add it from relations tab, remove from relations tab' do
       embedded_table.table_container.find('a', text: I18n.t('js.relation_buttons.add_existing')).click
       container = embedded_table.table_container.find('.wp-relations-create--form', wait: 10)
-      autocomplete = container.find(".wp-relations--autocomplete")
+      autocomplete = page.find(".wp-relations--autocomplete")
       select_autocomplete autocomplete,
                           results_selector: '.wp-relations-autocomplete--results',
                           query: independent_work_package.subject,
@@ -148,7 +148,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
       embedded_table.table_container.find(row).hover
       embedded_table.table_container.find("#{row} .wp-table-action--unlink").click
       within(embedded_table.table_container) do
-        embedded_table.expect_work_package_not_listed(independent_work_package)
+        embedded_table.ensure_work_package_not_listed!(independent_work_package)
       end
       within(relations.relations_group) do
         relations.expect_no_relation(independent_work_package)
@@ -170,7 +170,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
       embedded_table.table_container.find(".wp-row-#{independent_work_package.id}-table").hover
       embedded_table.table_container.find("#{row} .wp-table-action--unlink").click
       within(embedded_table.table_container) do
-        embedded_table.expect_work_package_not_listed(independent_work_package)
+        embedded_table.ensure_work_package_not_listed!(independent_work_package)
       end
       relations_tab.click
       within(relations.relations_group) do
@@ -187,7 +187,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
       # removing relation from relations tab removes it from embedded table, too
       relations.remove_relation independent_work_package
       within(embedded_table.table_container) do
-        embedded_table.expect_work_package_not_listed(independent_work_package)
+        embedded_table.ensure_work_package_not_listed!(independent_work_package)
       end
     end
   end

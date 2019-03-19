@@ -56,9 +56,25 @@ lt:
     index:
       no_results_content_title: Šiuo metu nėra jokių autentifikacijos būdų.
       no_results_content_text: Sukurti naują autentifikacijos būdą
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: joks
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Nėra jokių įrašų pranešimų lentoje.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Nėra nurodytų spalvų.
@@ -107,6 +123,10 @@ lt:
     calendar:
       removal: 'Prašome atkreipti dėmesį: šis modulis bus pašalintas iš OpenProject
         8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forumas
   groups:
     index:
       no_results_title_text: Nėra jokių grupių.
@@ -115,6 +135,11 @@ lt:
       no_results_title_text: Nėra šios grupės vartotojų.
     memberships:
       no_results_title_text: Nėra projektų šiai grupei.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -131,9 +156,9 @@ lt:
     settings:
       activities:
         no_results_title_text: Kolkas neprieinama jokia veikla.
-      boards:
-        no_results_title_text: Projektas neturi jokio informacino skydelio.
-        no_results_content_text: Sukurti naują informacinį skydelį
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Nėra darbų paketo kategorijų.
         no_results_content_text: Sukurti naują darbų paketo kategoriją
@@ -220,6 +245,8 @@ lt:
       other: "%{count} work package descendants"
       few: "%{count} work package descendants"
       many: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -356,6 +383,11 @@ lt:
         subscriber: Prenumeruotojas
         encoded_token: "„Enterprise“ paramos raktas"
         active_user_count_restriction: Maksimalus aktyvių vartotojų skaičius
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Vėlavimas
         from: Darbų paketas
@@ -497,6 +529,7 @@ lt:
         too_long: yra per ilgas (daugiausiai galima %{count} simbolių).
         too_short: yra per trumpas (mažiausiai %{count} simbolių).
         unchangeable: cannot be changed.
+        unremovable: cannot be removed.
         wrong_length: yra neteisingo ilgio (turi būti %{count} simbolių).
       models:
         custom_field:
@@ -522,6 +555,10 @@ lt:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: neįmanoma perskaityti. Ar tai tikrai yra paramos raktas?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -636,7 +673,7 @@ lt:
     models:
       attachment: Failas
       attribute_help_text: Atributo pagalbos tekstas
-      board: Forumas
+      forum: Forumas
       comment: Komentaras
       custom_action: Pasirinktinis veiksmas
       custom_field: Kliento laukelis
@@ -651,7 +688,7 @@ lt:
         one: Rolė
         other: Rolės (-ė, -ių)
         few: Rolės (-ė, -ių)
-        many: Roles
+        many: Rolės
       type: Tipas
       user: Vartotojas
       version: Versija
@@ -934,7 +971,7 @@ lt:
         one: valanda
         other: valandos (-a, -ų)
         few: valandos (-a, -ų)
-        many: hours
+        many: valandos (-a, -ų)
   default_activity_development: Kūrimas
   default_activity_management: Valdymas
   default_activity_other: Kita
@@ -1164,9 +1201,8 @@ lt:
       faq: D.U.K
       glossary: Aiškinamasis terminų žodynas
       shortcuts: Nuorodos
-      forums: Forumai
       blog: OpenProject blogas
-      boards: Bendruomenės forumas
+      forums: Bendruomenės forumas
       newsletter: Saugos įspėjimai / Naujienos
   links:
     configuration_guide: Konfigūravimo vadovas
@@ -1214,7 +1250,6 @@ lt:
   label_all_open_wps: Visi atviri
   label_always_visible: Visada rodomas
   label_announcement: Skelbimas
-  label_and_its_subprojects: "%{value} ir jo sub-projektai"
   label_api_access_key: API prieigos raktas
   label_api_access_key_created_on: API prieigos raktas sukurtas prieš %{value}
   label_api_access_key_type: API
@@ -1234,7 +1269,7 @@ lt:
   label_authentication: Autentifikacija
   label_available_project_work_package_categories: Galimos darbų paketo kategorijos
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Galimos skelbimų lentos
+  label_available_project_forums: Available forums
   label_available_project_versions: Galimos versijos
   label_available_project_repositories: Galimos saugyklos
   label_api_documentation: API dokumentacija
@@ -1242,14 +1277,15 @@ lt:
   label_blocked_by: blokuojamas
   label_blocks: blokai
   label_blog: Blog'as
-  label_board_locked: Užrakinta
-  label_board_new: Naujas forumas
-  label_board_plural: Forumai
-  label_board_sticky: Lipnus
+  label_forums_locked: Užrakinta
+  label_forum_new: Naujas forumas
+  label_forum_plural: Forumai
+  label_forum_sticky: Lipnus
   label_boolean: Būlio loginis
   label_branch: Šaka
   label_browse: Naršyti
   label_bulk_edit_selected_work_packages: Masiškai redaguoti pasirinktus darbų paketus
+  label_bundled: "(Bundled)"
   label_calendar: Kalendorius
   label_calendar_show: Rodyti kalendorių
   label_category: Kategorija
@@ -1510,6 +1546,7 @@ lt:
   label_planning: Planavimas
   label_please_login: Prašome prisijungti
   label_plugins: Papildiniai
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: ankstesnis
   label_preferences: Parinktys
   label_preview: Peržiūra
@@ -1583,7 +1620,6 @@ lt:
   label_role_search: Priskirti rolę naujiems nariams
   label_scm: SCM
   label_search: Paieška
-  label_search_titles_only: Ieškoti tik pavadinimų
   label_send_information: Nusiųsti vartotojui paskyros informaciją
   label_send_test_email: Siųsti bandomąjį el. laišką
   label_settings: Nustatymai
@@ -1664,6 +1700,7 @@ lt:
   label_view_diff: Peržiūrėti skirtumus
   label_view_revisions: Peržiūrėti revizijas
   label_watched_work_packages: Stebėti darbų paketus
+  label_what_is_this: What is this?
   label_week: Savaitė
   label_wiki_content_added: Wiki puslapis pridėtas
   label_wiki_content_updated: Wiki puslapis atnaujintas
@@ -1853,6 +1890,8 @@ lt:
   notice_account_update_failed: Vartotojo paskyros nustatymai negali būti išsaugoti.
     Prašome peržvelgti savo paskyros puslapį.
   notice_account_updated: Paskyra buvo sėkmingai atnaujinta.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Neteisingas slaptažodis
   notice_account_registered_and_logged_in: Sveiki, Jūsų paskyra sėkmingai aktyvuota.
     Dabar esate prisijungę.
@@ -1985,7 +2024,7 @@ lt:
   permission_export_wiki_pages: Eksportuoti wiki puslapius
   permission_list_attachments: Pateikti priedus
   permission_log_time: Regsitruoti dirbtą laiką
-  permission_manage_boards: Valdyti forumus
+  permission_manage_forums: Valdyti forumus
   permission_manage_categories: Valdyti darbų paketo kategorijas
   permission_manage_work_package_relations: Valdyti darbų paketo ryšius
   permission_manage_members: Valdyti narius
@@ -2034,7 +2073,7 @@ lt:
     archive:
       are_you_sure: Ar Jūs tikrai norite suarchyvuoti projektą '%{name}'?
   project_module_activity: Veikla
-  project_module_boards: Forumai
+  project_module_forums: Forumai
   project_module_calendar: Kalendorius
   project_module_work_package_tracking: Darbų paketo sekimas
   project_module_news: Naujienos
@@ -2271,6 +2310,7 @@ lt:
   setting_mail_handler_body_delimiters: Trumpinti laiškus po vienos iš šių eilučių
   setting_mail_handler_body_delimiter_regex: Sutrumpinti laiškus, atitinkančius šią
     reguliarią išraišką
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rolė suteikta vartotojui, kuris nėra administratorius
     ir kuris kuria projektą
   setting_password_active_rules: Aktyvios savybių klasės
@@ -2282,6 +2322,7 @@ lt:
   setting_per_page_options: Įrašų puslapyje nustatymai
   setting_plain_text_mail: Tik tekstas laiške (be HTML)
   setting_protocol: Protokolas
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registracijos poraštė
   setting_repositories_automatic_managed_vendor: Automatinis repozitorijos tiekėjo
     tipas
@@ -2454,6 +2495,16 @@ lt:
   text_no_notes: Šis darbų paketas neturi komentarų.
   text_notice_too_many_values_are_inperformant: 'Pastaba: Rodant daugiau nei 100 įrašų
     puslapyje gali prailginti puslapio įkėlimo laiką.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Jūs ketinate pašalinti keletą ar visus leidimus ir gali būti, kad nebegalėsite redaguoti šio projekto po to.
     Ar jūs tikrai norite tęsti?
@@ -2517,7 +2568,6 @@ lt:
       color: Spalva
       colors: Spalvos
     associations: Priklausomybės
-    board_could_not_be_saved: Skelbimų lenta negalėjo būti išsaugota
     button_delete_all: Ištrinti viską
     change: Pakeisti planavime
     children: Vaikų elementai
@@ -2885,8 +2935,8 @@ lt:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Prašome atnaujinti savo naršyklę.
+    close_warning: Ignoruoti šį perspėjimą.
   oauth:
     application:
       singular: OAuth application
@@ -2932,13 +2982,15 @@ lt:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Leidimai
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      few: "%{count} active token"
+      many: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2956,7 +3008,3 @@ lt:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Pašalinti valdiklį
-  label_my_page_block: Mano puslapio blokas
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Matomi elementai

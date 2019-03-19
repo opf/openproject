@@ -35,6 +35,7 @@ module Queries
     attribute :name
 
     attribute :project_id
+    attribute :hidden
     attribute :is_public # => public
     attribute :display_sums # => sums
     attribute :timeline_visible
@@ -49,6 +50,8 @@ module Queries
 
     attribute :sort_criteria # => sortBy
     attribute :group_by # => groupBy
+
+    attribute :ordered_work_packages # => manual sort
 
     def self.model
       Query

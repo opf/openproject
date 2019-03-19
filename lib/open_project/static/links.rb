@@ -37,7 +37,7 @@ module OpenProject
         end
 
         def help_link
-          OpenProject::Configuration.force_help_link.presence || links[:user_guides]
+          OpenProject::Configuration.force_help_link.presence || static_links[:user_guides]
         end
 
         def [](name)
@@ -45,6 +45,34 @@ module OpenProject
         end
 
         def links
+          @links ||= static_links.merge(dynamic_links)
+        end
+
+        def has?(name)
+          @links.key? name
+        end
+
+        private
+
+        def dynamic_links
+          dynamic = {
+            help: {
+              href: help_link,
+              label: 'top_menu.help_and_support'
+            }
+          }
+
+          if impressum_link = OpenProject::Configuration.impressum_link
+            dynamic[:impressum] = {
+              href: impressum_link,
+              label: :label_impressum
+            }
+          end
+
+          dynamic
+        end
+
+        def static_links
           {
             upsale: {
               href: 'https://www.openproject.org/enterprise-edition',
@@ -66,9 +94,9 @@ module OpenProject
               href: 'https://www.openproject.org/help/keyboard-shortcuts-access-keys/',
               label: 'homescreen.links.shortcuts'
             },
-            boards: {
-              href: 'https://community.openproject.com/projects/openproject/boards',
-              label: 'homescreen.links.boards'
+            forums: {
+              href: 'https://community.openproject.com/projects/openproject/forums',
+              label: 'homescreen.links.forums'
             },
             professional_support: {
               href: 'https://www.openproject.org/pricing/#support',
@@ -89,6 +117,10 @@ module OpenProject
             release_notes: {
               href: 'https://www.openproject.org/release-notes/',
               label: :label_release_notes
+            },
+            data_privacy: {
+              href: 'https://www.openproject.org/data-privacy-and-security/',
+              label: :label_privacy_policy
             },
             report_bug: {
               href: 'https://www.openproject.org/development/report-a-bug/',
@@ -117,6 +149,12 @@ module OpenProject
             client_credentials_code_flow: {
               href: 'https://oauth.net/2/grant-types/client-credentials/',
               label: 'oauth.flows.client_credentials'
+            },
+            ldap_encryption_documentation: {
+              href: 'https://www.rubydoc.info/gems/net-ldap/Net/LDAP#constructor_details',
+            },
+            security_badge_documentation: {
+              href: 'https://github.com/opf/openproject/blob/dev/docs/configuration/configuration.md#security-badge'
             }
           }
         end

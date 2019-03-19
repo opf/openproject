@@ -1,0 +1,66 @@
+@import 'helpers'
+
+.wp-cards-container
+  display: flex
+  flex-direction: column
+  overflow: auto
+  // Ensure 100% height for drag & drop area
+  height: 100%
+  // Some minor left/right padding
+  padding: 0 15px
+
+
+.wp-card
+  user-select: none
+  width: 100%
+  border: 1px solid var(--widget-box-block-border-color)
+  border-radius: 5px
+  padding: 10px 30px 10px 10px
+  margin-top: 10px
+  background-color: #eeeeee6e
+  position: relative
+
+  .wp-card--assignee
+    position: absolute
+    bottom: 5px
+    right: 0
+
+.wp-card--highlighting
+  width: 5px
+  height: 100%
+  position: absolute
+  top: 0
+  left: 0
+  border-radius: 5px 0 0 5px
+
+wp-edit-field
+  width: initial
+
+.wp-inline-create-button
+  font-size: 0.9rem
+  padding-top: 1rem
+  text-align: center
+
+.wp-card--inline-cancel-button
+  position: absolute
+  right: 0
+  top: 4px
+  opacity: 0
+
+  &.-show, .wp-card:hover &
+    opacity: 1
+
+.work-packages--subject-type-row
+  margin-bottom: 10px
+  .wp-card--type
+    margin-right: 5px
+
+  .-new
+    flex-wrap: wrap
+    .wp-card--type,
+    .wp-card--subject
+      flex-basis: 100%
+
+
+.wp-inline-create--reference-container
+  margin-bottom: 3rem

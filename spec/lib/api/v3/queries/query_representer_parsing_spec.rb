@@ -100,4 +100,24 @@ describe ::API::V3::Queries::QueryRepresenter do
       expect(subject.highlighted_attributes).to eq(%i{type})
     end
   end
+
+  describe 'parsing ordered work packages' do
+    let(:request_body) do
+      {
+        'orderedWorkPackages' => %w[
+          /api/v3/work_packages/50
+          /api/v3/work_packages/38
+          /api/v3/work_packages/102
+        ]
+      }
+    end
+
+    it 'should set ordered_work_packages' do
+      expect(query)
+        .to receive(:ordered_work_packages=)
+        .with %w[50 38 102]
+
+      subject
+    end
+  end
 end

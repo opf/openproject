@@ -119,6 +119,23 @@ describe 'form query configuration', type: :feature, js: true do
       end
     end
 
+    context 'visiting a new work package screen' do
+      let(:wp_page) { Pages::FullWorkPackageCreate.new }
+
+      it 'does not show a subgroup (Regression #29582)' do
+        form.add_query_group('Subtasks', :parent)
+        # Save changed query
+        form.save_changes
+        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+
+        # Visit new wp page
+        visit new_project_work_packages_path(project)
+
+        wp_page.expect_no_group 'Subtasks'
+        expect(page).to have_no_text 'Subtasks'
+      end
+    end
+
     it 'can modify and keep changed columns (Regression #27604)' do
       form.add_query_group('Columns Test', :parent)
       form.edit_query_group('Columns Test')
@@ -214,7 +231,7 @@ describe 'form query configuration', type: :feature, js: true do
                             .find('.work-packages-embedded-view--container')
         embedded_table = Pages::EmbeddedWorkPackagesTable.new(table_container)
         embedded_table.expect_work_package_listed related_task, related_task_other_project
-        embedded_table.expect_work_package_not_listed related_bug
+        embedded_table.ensure_work_package_not_listed! related_bug
 
         # Go back to type configuration
         visit edit_type_tab_path(id: type_bug.id, tab: "form_configuration")

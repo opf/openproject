@@ -30,13 +30,13 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= error_messages_for_contract @application, @errors %>
 
 <section class="form--section">
-  <div class="form--field">
+  <div class="form--field -required">
     <%= f.text_field :name, required: true, size: 25, container_class: '-middle' %>
     <span class="form--field-instructions">
       <%= t('oauth.application.instructions.name') %>
     </span>
   </div>
-  <div class="form--field">
+  <div class="form--field -required">
     <%= f.text_area :redirect_uri, required: true, container_class: '-middle' %>
     <span class="form--field-instructions">
       <%= t('oauth.application.instructions.redirect_uri_html') %>
@@ -63,7 +63,9 @@ See docs/COPYRIGHT.rdoc for more details.
       </label>
       <div class="form--field-container -visible-overflow">
         <div class="form--text-field-container -middle">
-          <user-autocompleter></user-autocompleter>
+          <%= f.hidden_field :client_credentials_user_id,  value: @application.client_credentials_user_id %>
+          <user-autocompleter data-allow-empty="true"
+                              data-update-input="application[client_credentials_user_id]"></user-autocompleter>
         </div>
       </div>
       <p class="form--field-instructions">

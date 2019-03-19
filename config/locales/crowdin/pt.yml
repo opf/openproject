@@ -57,9 +57,25 @@ pt:
     index:
       no_results_content_title: Atualmente, não existem modos de autenticação.
       no_results_content_text: Criar um novo modo de autenticação
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: nenhum
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Atualmente, não existem publicações para o quadro.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Atualmente, não existem cores.
@@ -106,6 +122,10 @@ pt:
       further_information_after: ''
     calendar:
       removal: 'Atenção: Este módulo será removido com o OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Fórum
   groups:
     index:
       no_results_title_text: Atualmente, não existem grupos.
@@ -116,6 +136,11 @@ pt:
     memberships:
       no_results_title_text: Atualmente, não existem projetos pertencentes a este
         grupo.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -132,9 +157,9 @@ pt:
     settings:
       activities:
         no_results_title_text: Atualmente, não existem atividades disponíveis.
-      boards:
-        no_results_title_text: Atualmente, não existem quadros para o projeto.
-        no_results_content_text: Criar um novo quadro
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Atualmente, não existem categorias de pacote de trabalho.
         no_results_content_text: Criar uma nova categoria de pacote de trabalho
@@ -220,6 +245,8 @@ pt:
     x_descendants:
       one: Um pacote de trabalho descendente
       other: "%{count} pacotes de trabalho descendentes"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Não há nenhum status disponível para todos os pacotes
         de trabalho selecionados. O seu status não pode ser alterado.
@@ -365,6 +392,11 @@ pt:
         subscriber: Assinante
         encoded_token: Token de suporte da versão Enterprise
         active_user_count_restriction: Máximo de utilizadores ativos
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Atraso
         from: Pacote de trabalho
@@ -505,6 +537,7 @@ pt:
         too_long: é muito longo (o máximo é %{count} caracteres).
         too_short: é muito curto (o mínimo é de %{count} carateres).
         unchangeable: não pode ser alterado.
+        unremovable: cannot be removed.
         wrong_length: tamanho errado (deve ser %{count} caracteres).
       models:
         custom_field:
@@ -530,6 +563,10 @@ pt:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: não foi possível ler. Tem a certeza que é um token de suporte?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -642,7 +679,7 @@ pt:
     models:
       attachment: Ficheiro
       attribute_help_text: Texto de ajuda do atributo
-      board: Fórum
+      forum: Fórum
       comment: Comentario
       custom_action: Ação personalizada
       custom_field: Campo personalizado
@@ -1152,9 +1189,8 @@ pt:
       faq: FAQ (Perguntas Mais Frequentes)
       glossary: Glossário
       shortcuts: Atalhos
-      forums: Fórums
       blog: Blog de OpenProject
-      boards: Fórum da Comunidade
+      forums: Fórum da Comunidade
       newsletter: Alertas de segurança / Boletim informativo
   links:
     configuration_guide: Guia de configuração
@@ -1201,7 +1237,6 @@ pt:
   label_all_open_wps: Tudo aberto
   label_always_visible: Sempre exibido
   label_announcement: Aviso
-  label_and_its_subprojects: "%{value} e sub-projetos"
   label_api_access_key: API access key
   label_api_access_key_created_on: Chave de acesso API criada há %{value}
   label_api_access_key_type: API
@@ -1222,7 +1257,7 @@ pt:
   label_available_project_work_package_categories: Categorias de pacotes de trabalho
     disponíveis
   label_available_project_work_package_types: Tipos de pacotes de trabalho disponíveis
-  label_available_project_boards: Quadros disponíveis
+  label_available_project_forums: Available forums
   label_available_project_versions: Versões disponíveis
   label_available_project_repositories: Repositórios disponíveis
   label_api_documentation: Documentação da API
@@ -1230,14 +1265,15 @@ pt:
   label_blocked_by: bloqueado por
   label_blocks: bloqueia
   label_blog: Blogue
-  label_board_locked: Bloqueado
-  label_board_new: Novo fórum
-  label_board_plural: Fórums
-  label_board_sticky: Pegajoso
+  label_forums_locked: Bloqueado
+  label_forum_new: Novo fórum
+  label_forum_plural: Fórums
+  label_forum_sticky: Pegajoso
   label_boolean: Booleano
   label_branch: Ramo
   label_browse: Navegador
   label_bulk_edit_selected_work_packages: Editar tarefas selecionadas de seguida
+  label_bundled: "(Bundled)"
   label_calendar: Calendário
   label_calendar_show: Mostrar calendário
   label_category: Categoria
@@ -1499,6 +1535,7 @@ pt:
   label_planning: Planeamento
   label_please_login: Por favor inicie sessão
   label_plugins: Plugins
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precede
   label_preferences: Preferências
   label_preview: Pré visualizar
@@ -1571,7 +1608,6 @@ pt:
   label_role_search: Atribuir função aos novos membros
   label_scm: SCM
   label_search: Pesquisar
-  label_search_titles_only: Pesquisar apenas títulos
   label_send_information: Enviar informações da conta para o utilizador
   label_send_test_email: Enviar um e-mail de teste
   label_settings: Definições
@@ -1653,6 +1689,7 @@ pt:
   label_view_diff: Ver diferenças
   label_view_revisions: Ver revisões
   label_watched_work_packages: Pacotes de trabalho observados
+  label_what_is_this: What is this?
   label_week: Semana
   label_wiki_content_added: Página wiki adicionada
   label_wiki_content_updated: Página wiki atualizada
@@ -1832,6 +1869,8 @@ pt:
   notice_account_update_failed: A definição de conta não pôde ser guardada. Por favor
     confira a página da sua conta.
   notice_account_updated: Conta foi actualizada com sucesso.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Senha errada
   notice_account_registered_and_logged_in: Bem-vindo, sua conta foi ativada. Agora
     você está autenticado.
@@ -1961,7 +2000,7 @@ pt:
   permission_export_wiki_pages: Exportar páginas wiki
   permission_list_attachments: Lista de anexos
   permission_log_time: Registrar o tempo gasto
-  permission_manage_boards: Gerir fóruns
+  permission_manage_forums: Gerir fóruns
   permission_manage_categories: Gerir categorias de pacote de trabalho
   permission_manage_work_package_relations: Gerir relações entre tarefas
   permission_manage_members: Gerir Membros
@@ -2009,7 +2048,7 @@ pt:
     archive:
       are_you_sure: Tem a certeza de que deseja arquivar o projeto '%{name}'?
   project_module_activity: Atividade
-  project_module_boards: Fórums
+  project_module_forums: Fórums
   project_module_calendar: Calendário
   project_module_work_package_tracking: Controle de pacote de trabalho
   project_module_news: Noticias
@@ -2249,6 +2288,7 @@ pt:
   setting_mail_handler_body_delimiters: Truncar e-mails depois de uma destas linhas
   setting_mail_handler_body_delimiter_regex: Truncar emails com correspondência a
     este regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Função atribuída a um utilizador não-administrador
     que cria um projeto
   setting_password_active_rules: Ativar classes de caráter
@@ -2261,6 +2301,7 @@ pt:
   setting_per_page_options: Opções de objetos por página
   setting_plain_text_mail: Mensagens de texto simples (sem HTML)
   setting_protocol: Protocolo
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Rodapé de registo
   setting_repositories_automatic_managed_vendor: Tipo de fornecedor de repositório
     automático
@@ -2437,6 +2478,16 @@ pt:
   text_no_notes: Não há comentários disponíveis para este pacote de trabalho.
   text_notice_too_many_values_are_inperformant: 'Nota: Exibir mais de 100 itens por
     página pode aumentar o tempo de carregamento da página.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Está prestes a eliminar parcial ou totalmente as suas permissões. É possível que não possa editar o projeto após esta acção.
     Tem a certeza de que deseja continuar?
@@ -2501,7 +2552,6 @@ pt:
       color: Cor
       colors: Cores
     associations: Dependências
-    board_could_not_be_saved: Não foi possível guardar o quadro
     button_delete_all: Eliminar tudo
     change: Alteração no planeamento
     children: Elementos filho
@@ -2869,8 +2919,8 @@ pt:
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Por favor, atualize o seu browser.
+    close_warning: Ignore este aviso.
   oauth:
     application:
       singular: OAuth application
@@ -2916,7 +2966,7 @@ pt:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Permissões
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2940,7 +2990,3 @@ pt:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Remover o widget
-  label_my_page_block: O meu bloco de página
-  label_responsible_for_work_packages: Pacotes de trabalho pelos quais sou responsável
-  label_visible_elements: Elementos visíveis

@@ -52,14 +52,8 @@ OpenProject::Application.routes.draw do
   match '/auth/:provider/callback', to: 'account#omniauth_login', as: 'omniauth_login', via: %i[get post]
 
   # In case assets are actually delivered by a node server (e.g. in test env)
-  # we redirect all requests to socksjs necessary to support HMR to that server.
-  # Status code 307 is important so that POST requests are repeated as POST.
+  # forward requests to the proxy
   if FrontendAssetHelper.assets_proxied?
-    match '/sockjs-node/*appendix',
-          to: redirect("http://localhost:4200/sockjs-node/%{appendix}", status: 307),
-          format: false,
-          via: :all
-
     match '/assets/frontend/*appendix',
           to: redirect("http://localhost:4200/assets/frontend/%{appendix}", status: 307),
           format: false,
@@ -274,7 +268,7 @@ OpenProject::Application.routes.draw do
 
     resources :activity, :activities, only: :index, controller: 'activities'
 
-    resources :boards do
+    resources :forums do
       member do
         get :confirm_destroy
         get :move
@@ -466,7 +460,7 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  resources :boards, only: [] do
+  resources :forums, only: [] do
     resources :topics, controller: 'messages', except: [:index], shallow: true do
       member do
         get :quote
@@ -526,9 +520,15 @@ OpenProject::Application.routes.draw do
     get '/my/password', action: 'password'
     post '/my/change_password', action: 'change_password'
     get '/my/page', action: 'page'
-    match '/my/account', action: 'account', via: %i[get patch]
-    match '/my/settings', action: 'settings', via: %i[get patch]
-    match '/my/mail_notifications', action: 'mail_notifications', via: %i[get patch]
+
+    get '/my/account', action: 'account'
+    get '/my/settings', action: 'settings'
+    get '/my/mail_notifications', action: 'mail_notifications'
+
+    patch '/my/account', action: 'update_account'
+    patch '/my/settings', action: 'update_settings'
+    patch '/my/mail_notifications', action: 'update_mail_notifications'
+
     post '/my/generate_rss_key', action: 'generate_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'
     get '/my/access_token', action: 'access_token'

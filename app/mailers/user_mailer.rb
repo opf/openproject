@@ -237,7 +237,7 @@ class UserMailer < BaseMailer
     references @message.parent, user if @message.parent
 
     with_locale_for(user) do
-      subject = "[#{@message.board.project.name} - #{@message.board.name} - msg#{@message.root.id}] #{@message.subject}"
+      subject = "[#{@message.forum.project.name} - #{@message.forum.name} - msg#{@message.root.id}] #{@message.subject}"
       mail_for_author author, to: user.mail, subject: subject
     end
   end

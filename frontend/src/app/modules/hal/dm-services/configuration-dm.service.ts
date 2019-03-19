@@ -30,6 +30,8 @@ import {Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {ConfigurationResource} from 'core-app/modules/hal/resources/configuration-resource';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {shareReplay} from "rxjs/operators";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class ConfigurationDmService {
@@ -37,7 +39,17 @@ export class ConfigurationDmService {
               protected pathHelper:PathHelperService) {
   }
 
-  public load():Promise<ConfigurationResource> {
-    return this.halResourceService.get<ConfigurationResource>(this.pathHelper.api.v3.configuration.toString()).toPromise();
+  private $configuration:Observable<ConfigurationResource>;
+
+  public load():Observable<ConfigurationResource> {
+    if (this.$configuration) {
+      return this.$configuration;
+    }
+
+    return this.$configuration = this.halResourceService
+      .get<ConfigurationResource>(this.pathHelper.api.v3.configuration.toString())
+      .pipe(
+        shareReplay()
+      );
   }
 }

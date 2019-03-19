@@ -6,9 +6,11 @@
       </h3>
     </div>
   </div>
-  <wp-children-query
-      [workPackage]="workPackage"
-      [addExistingChildEnabled]="true"
-      [query]="childrenQueryProps">
-  </wp-children-query>
+  <ng-container wp-isolated-query-space>
+    <wp-children-query
+        [workPackage]="workPackage"
+        [addExistingChildEnabled]="true"
+        [query]="childrenQueryProps">
+    </wp-children-query>
+  </ng-container>
 </div>

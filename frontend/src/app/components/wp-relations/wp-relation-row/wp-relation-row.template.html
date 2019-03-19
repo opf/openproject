@@ -36,8 +36,8 @@
       <a uiSref="work-packages.show.relations"
          [uiParams]="{ workPackageId: relatedWorkPackage.id }"
          class="wp-relations--subject-field"
-         [textContent]="relatedWorkPackage.subjectWithType()"
-         [attr.aria-label]="normalizedRelationType + ' ' + relatedWorkPackage.subjectWithType()">
+         [textContent]="relatedWorkPackage.subjectWithId()"
+         [attr.aria-label]="normalizedRelationType + ' ' + relatedWorkPackage.subjectWithId()">
       </a>
     </div>
 

@@ -3,7 +3,9 @@
   <span class="widget-box--header-title" [textContent]="text.title"></span>
 </h3>
 
-<wp-embedded-table [queryProps]="queryProps"
-                   [configuration]="configuration"
-                   [externalHeight]="true">
-</wp-embedded-table>
+<ng-container wp-isolated-query-space>
+  <wp-embedded-table [queryProps]="queryProps"
+                     [configuration]="configuration"
+                     [externalHeight]="true">
+  </wp-embedded-table>
+</ng-container>

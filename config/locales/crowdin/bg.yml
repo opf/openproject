@@ -57,9 +57,25 @@ bg:
     index:
       no_results_content_title: В момента има няма режими на удостоверяване.
       no_results_content_text: Създаване на нов режим на удостоверяване
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: none
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Понастоящем няма съобщения на дъската.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: В момента има няма цветове.
@@ -106,6 +122,10 @@ bg:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Форум
   groups:
     index:
       no_results_title_text: В момента няма групи.
@@ -114,6 +134,11 @@ bg:
       no_results_title_text: Има в момента няма потребители част от тази група.
     memberships:
       no_results_title_text: В момента има няма проекти част от тази група.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -130,9 +155,9 @@ bg:
     settings:
       activities:
         no_results_title_text: В момента има няма дейности на разположение.
-      boards:
-        no_results_title_text: В момента има няма информационни дъски за проекта.
-        no_results_content_text: Създаване на нова дъска
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: В момента има няма категории работни пакети.
         no_results_content_text: Създаване на нова категория работни пакети
@@ -217,6 +242,8 @@ bg:
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -358,6 +385,11 @@ bg:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Забавяне
         from: Работен пакет
@@ -499,6 +531,7 @@ bg:
         too_long: е твърде дълго (максимума е %{count} знаци).
         too_short: е твърде кратък (минимум е %{count} знаци).
         unchangeable: cannot be changed.
+        unremovable: cannot be removed.
         wrong_length: е грешна дължина (трябва да бъде %{count} знаци).
       models:
         custom_field:
@@ -524,6 +557,10 @@ bg:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -633,7 +670,7 @@ bg:
     models:
       attachment: Файл
       attribute_help_text: Attribute help text
-      board: Форум
+      forum: Форум
       comment: Коментар
       custom_action: Custom action
       custom_field: Потребителски полета
@@ -1133,9 +1170,8 @@ bg:
       faq: Често задавани въпроси
       glossary: Терминологичен речник
       shortcuts: Кратки клавишни комбинации
-      forums: Форуми
       blog: OpenProject блог
-      boards: Форум на Общността
+      forums: Форум на Общността
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1183,7 +1219,6 @@ bg:
   label_all_open_wps: All open
   label_always_visible: Винаги се показват
   label_announcement: Известие
-  label_and_its_subprojects: "%{value} и неговите подпроекти"
   label_api_access_key: API ключ за достъп
   label_api_access_key_created_on: API ключ за достъп е създаден преди %{value}
   label_api_access_key_type: API
@@ -1203,7 +1238,7 @@ bg:
   label_authentication: Оторизация
   label_available_project_work_package_categories: Налични категории работни пакети
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Налични табла
+  label_available_project_forums: Available forums
   label_available_project_versions: Налични версии
   label_available_project_repositories: Достъпни хранилища
   label_api_documentation: API документация
@@ -1211,15 +1246,16 @@ bg:
   label_blocked_by: блокирано от
   label_blocks: блокировки
   label_blog: Блог
-  label_board_locked: Заключен
-  label_board_new: Нов форум
-  label_board_plural: Форуми
-  label_board_sticky: Лепкава
+  label_forums_locked: Заключен
+  label_forum_new: Нов форум
+  label_forum_plural: Форуми
+  label_forum_sticky: Лепкава
   label_boolean: Булев
   label_branch: Клон
   label_browse: Преглед
   label_bulk_edit_selected_work_packages: Групово редактиране на избраните работни
     пакети
+  label_bundled: "(Bundled)"
   label_calendar: Календар
   label_calendar_show: Показване на календар
   label_category: Категория
@@ -1481,6 +1517,7 @@ bg:
   label_planning: Планиране
   label_please_login: Моля влез в профила си
   label_plugins: Плъгини
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: предхожда
   label_preferences: Предпочитания
   label_preview: Предварителен преглед
@@ -1553,7 +1590,6 @@ bg:
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: Търсене
-  label_search_titles_only: Търси само заглавия
   label_send_information: Изпрати информация за акаунта на този потребител
   label_send_test_email: Изпрати пробен имейл
   label_settings: Настройки
@@ -1634,6 +1670,7 @@ bg:
   label_view_diff: Прегледай различията
   label_view_revisions: Изглед ревизии
   label_watched_work_packages: Наблюдавани работни пакети
+  label_what_is_this: What is this?
   label_week: Седмица
   label_wiki_content_added: Wiki страница добавена
   label_wiki_content_updated: Wiki страница обновена
@@ -1811,6 +1848,8 @@ bg:
   notice_account_update_failed: Настройка на акаунт не могат да бъдат записани. Моля
     погледнете страницата на акаунта си.
   notice_account_updated: Account was successfully updated.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Грешна парола
   notice_account_registered_and_logged_in: Добре дошли вашият акаунт е активиран.
     Вие сте влезли в момента.
@@ -1937,7 +1976,7 @@ bg:
   permission_export_wiki_pages: Export wiki pages
   permission_list_attachments: List attachments
   permission_log_time: Log spent time
-  permission_manage_boards: Manage forums
+  permission_manage_forums: Manage forums
   permission_manage_categories: Manage work package categories
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Manage members
@@ -1984,7 +2023,7 @@ bg:
     archive:
       are_you_sure: Наистина ли искате да архивирате на проекта "%{name}"?
   project_module_activity: Активност
-  project_module_boards: Форуми
+  project_module_forums: Форуми
   project_module_calendar: Календар
   project_module_work_package_tracking: Проследяване на работен пакет
   project_module_news: Новини
@@ -2210,6 +2249,7 @@ bg:
   setting_mail_handler_api_key: API ключ
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   setting_mail_handler_body_delimiter_regex: Съкрати мейл адресите от една област
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   setting_password_active_rules: Active character classes
   setting_password_count_former_banned: Number of most recently used passwords banned
@@ -2220,6 +2260,7 @@ bg:
   setting_per_page_options: Objects per page options
   setting_plain_text_mail: Plain text mail (no HTML)
   setting_protocol: Протокол
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: Automatic repository vendor type
   setting_repositories_encodings: Repositories encodings
@@ -2389,6 +2430,16 @@ bg:
   text_no_notes: There are no comments available for this work package.
   text_notice_too_many_values_are_inperformant: 'Note: Displaying more than 100 items
     per page can increase the page load time.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
     Are you sure you want to continue?
@@ -2449,7 +2500,6 @@ bg:
       color: Цвят
       colors: Цветове
     associations: Dependencies
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Изтриване на всичко
     change: Change in planning
     children: Дъщерни елементи
@@ -2857,7 +2907,7 @@ bg:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Права
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2881,7 +2931,3 @@ bg:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Премахване на притурка
-  label_my_page_block: Блок Моята страница
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Видими елементи

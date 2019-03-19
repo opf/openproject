@@ -18,11 +18,22 @@ af:
     close_popup_title: Close popup
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Your browser doesn't support copying to clipboard. Please copy
         the selected text manually.
       copied_successful: Sucessfully copied to clipboard!
     button_add_watcher: Voeg kyker by
+    button_back: Terug
     button_back_to_list_view: Back to list view
     button_cancel: Kanselleer
     button_close: Close
@@ -38,6 +49,7 @@ af:
     button_duplicate: Dupliseer
     button_edit: Redigeer
     button_filter: Filtreer
+    button_advanced_filter: Advanced filter
     button_list_view: List view
     button_show_view: Fullscreen view
     button_log_time: Log tyd
@@ -146,6 +158,30 @@ af:
     general_text_yes: ja
     general_text_No: Nee
     general_text_Yes: Ja
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Nuus
+          at: at
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Werkspakkette aan my toegeken
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalender
     label_activate: Activate
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
@@ -167,7 +203,9 @@ af:
     label_ascending: Stygende
     label_author: 'Author: %{user}'
     label_between: between
+    label_board: Board
     label_board_locked: Gesluit
+    label_board_plural: Boards
     label_board_sticky: Klewerig
     label_create_work_package: Create new work package
     label_created_by: Created by
@@ -213,7 +251,7 @@ af:
     label_menu_collapse: collapse
     label_menu_expand: expand
     label_more_than_ago: meer as dae gelede
-    label_my_page: My page
+    label_my_page: My bladsy
     label_next: Volgende
     label_no_data: Geen data om te wys
     label_no_due_date: no end date
@@ -290,6 +328,7 @@ af:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Uploading files for Work package #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'These files will be uploaded:'
     label_rejected_files: 'These files cannot be uploaded:'
     label_rejected_files_reason: These files cannot be uploaded as their size is greater
@@ -399,9 +438,9 @@ af:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Aktiwiteit
+      comment: Opmerking
+      hours: Ure
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -484,6 +523,7 @@ af:
       view?
     text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -589,9 +629,9 @@ af:
       error:
         update_conflict_refresh: Click here to refresh the work package and update
           to the newest version.
-        edit_prohibited: Editing %{attribute} is blocked for this work package. Either
-          this attribute is derived from relations (e.g, children) or otherwise not
-          configurable.
+        edit_prohibited: Redigering van %{attribute} is geblokkeer vir hierdie werkspakket.
+          Hierdie eienskap is of afgelei van verhoudings (bv., kinders) of andersins
+          nie veranderbaar nie.
         format:
           date: "%{attribute} is no valid date - YYYY-MM-DD expected."
         general: An error has occurred.
@@ -762,8 +802,6 @@ af:
         days: dae
         weeks: weeks
         months: months
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -804,6 +842,7 @@ af:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Successful creation.
     notice_successful_delete: Successful deletion.
     notice_successful_update: Successful update.
@@ -830,7 +869,7 @@ af:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -847,11 +886,13 @@ af:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: Your browser version is not supported
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Learn more
-      close_warning: Ignore this warning.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

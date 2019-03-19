@@ -18,14 +18,25 @@ sv-SE:
     close_popup_title: Stäng popup
     close_filter_title: Stäng filter
     close_form_title: Stäng formulär
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Din webbläsare stöder inte kopiera till Urklipp. Vänligen kopiera
         den markerade texten manuellt.
       copied_successful: Kopierad till Urklipp!
     button_add_watcher: Lägg till bevakare
+    button_back: Tillbaka
     button_back_to_list_view: Tillbaka till listvy
     button_cancel: Avbryt
-    button_close: Close
+    button_close: Stäng
     button_check_all: Markera alla
     button_configure-form: Ställ in formulär
     button_confirm: Bekräfta
@@ -38,6 +49,7 @@ sv-SE:
     button_duplicate: Duplicera
     button_edit: Redigera
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Listvy
     button_show_view: Helskärmsläge
     button_log_time: Logga tid
@@ -149,6 +161,30 @@ sv-SE:
     general_text_yes: ja
     general_text_No: Nej
     general_text_Yes: Ja
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Dokument
+          no_results: No documents yet.
+        news:
+          title: Nyheter
+          at: at
+          no_results: Inget nytt att rapportera.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Arbetspaket som tilldelats till mig
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalender
     label_activate: Aktivera
     label_activity_no: Aktivitetspost nummer %{activityNo}
     label_activity_with_comment_no: Aktivitetspost nummer %{activityNo} har en användarkommentar.
@@ -169,7 +205,9 @@ sv-SE:
     label_ascending: Stigande
     label_author: 'Författare: %{user}'
     label_between: mellan
+    label_board: Board
     label_board_locked: Låst
+    label_board_plural: Boards
     label_board_sticky: Klistrad
     label_create_work_package: Skapa nya arbetspaket
     label_created_by: Skapad av
@@ -215,7 +253,7 @@ sv-SE:
     label_menu_collapse: fäll ihop
     label_menu_expand: expandera
     label_more_than_ago: mer än dagar sedan
-    label_my_page: My page
+    label_my_page: Min sida
     label_next: Nästa
     label_no_data: Ingen data att visa
     label_no_due_date: inget slutdatum
@@ -231,7 +269,7 @@ sv-SE:
     label_previous: Föregående
     label_per_page: 'Per sida:'
     label_please_wait: Vänligen vänta
-    label_visibility_settings: Visibility settings
+    label_visibility_settings: Synlighet inställningar
     label_quote_comment: Citera denna kommentar
     label_reset: Återställ
     label_remove_column: Remove column
@@ -255,8 +293,8 @@ sv-SE:
     label_this_week: denna vecka
     label_today: idag
     label_up: Upp
-    label_activity_show_only_comments: Show activities with comments only
-    label_activity_show_all: Show all activities
+    label_activity_show_only_comments: Visa aktiviteter med endast kommentarer
+    label_activity_show_all: Visa aktiviteter
     label_total_progress: "%{percent}% Totalt klart"
     label_total_amount: 'Total: %{amount}'
     label_updated_on: uppdaterad den
@@ -282,8 +320,8 @@ sv-SE:
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select
       single files.
     label_add_attachments: Lägg till bilagor
-    label_formattable_attachment_hint: Attach and link files by dropping on this field,
-      or pasting from the clipboard.
+    label_formattable_attachment_hint: Bifoga och länka filer genom att släppa på
+      fältet, eller klistra in från Urklipp.
     label_remove_file: Radera %{fileName}
     label_remove_watcher: Ta bort bevakare %{name}
     label_remove_all_files: Ta bort alla filer
@@ -291,6 +329,7 @@ sv-SE:
     label_upload_notification: Laddar upp fil(er)...
     label_work_package_upload_notification: 'Ladda upp filer för arbetspaket #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Dessa filer kommer att laddas upp:'
     label_rejected_files: 'Dessa filer går inte att ladda upp:'
     label_rejected_files_reason: Dessa filer går inte att ladda upp eftersom deras
@@ -300,7 +339,7 @@ sv-SE:
     label_validation_error: 'Arbetspaketet kunde inte sparas på grund av följande
       fel:'
     help_texts:
-      show_modal: Show attribute help text entry
+      show_modal: Visa attribut hjälp textinmatning
     onboarding:
       buttons:
         skip: Skip
@@ -400,9 +439,9 @@ sv-SE:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Aktivitet
+      comment: Kommentar
+      hours: Timmar
     watchers:
       label_loading: laddar bevakare...
       label_error_loading: Ett fel inträffade när bevakarna laddades
@@ -486,6 +525,7 @@ sv-SE:
     text_attachment_destroy_confirmation: Är du säker på att du vill ta bort denna
       bilaga?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Etikettsinställning
@@ -574,10 +614,10 @@ sv-SE:
       image: Bild
     work_packages:
       bulk_actions:
-        move: Bulk move
-        edit: Bulk edit
-        copy: Bulk copy
-        delete: Bulk delete
+        move: Bulk flytta
+        edit: Lägg till/Ändra
+        copy: Bulkkopiera
+        delete: Massborttagning
       button_clear: Rensa
       comment_added: Kommentaren lades till.
       comment_send_failed: Ett fel har inträffat. Kommentaren kunde inte läggas till.
@@ -762,8 +802,6 @@ sv-SE:
         days: dagar
         weeks: veckor
         months: månader
-      label_switch_to_single_select: Växla till enkelvalsläge
-      label_switch_to_multi_select: Växla till flervalsläge
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -804,6 +842,7 @@ sv-SE:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Skapades utan problem.
     notice_successful_delete: Raderades utan problem.
     notice_successful_update: Uppdaterades utan problem.
@@ -830,7 +869,7 @@ sv-SE:
         messages_on_field: 'Fältet är ogiltigt: %{messages}'
     error_could_not_resolve_version_name: Kunde inte fastställa versionsnamn
     error_could_not_resolve_user_name: Kunde inte fastställa användarnamn
-    error_attachment_upload: 'Filen ''%{name}'' misslyckades att laddas upp: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: Du har inte rättigheter att ladda upp filer
       i den här resursen.
     units:
@@ -839,7 +878,7 @@ sv-SE:
         other: work packages
       child_work_packages:
         one: one child work package
-        other: "%{count} work package children"
+        other: "%{count} arbetspaket barn"
       hour:
         one: 1 timme
         other: "%{count} timmar"
@@ -847,11 +886,13 @@ sv-SE:
     zen_mode:
       button_activate: Aktivera zen-läge
       button_deactivate: Inaktivera avskalat läge
-    unsupported_browser:
-      title: Din version av webbläsaren stöds inte
-      message: Den webbläsarversion som du använder stöds inte längre av OpenProject.
-      update_message: Vänligen uppdatera din webbläsare.
-      update_ie_user: Vänligen byt till Mozilla Firefox eller Google Chrome, eller
-        uppgradera till Microsoft Edge.
-      learn_more: Lär dig mer
-      close_warning: Bortse från denna varning.
+    global_search:
+      all_projects: In all projects
+      search: Sök
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

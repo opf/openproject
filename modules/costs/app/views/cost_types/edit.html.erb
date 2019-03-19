@@ -37,13 +37,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <%= error_messages_for 'cost_type' %>
   <%= back_url_hidden_field_tag %>
 
-  <div class="form--field">
+  <div class="form--field -required">
     <%= f.text_field :name, required: true, container_class: '-wide' %>
   </div>
-  <div class="form--field">
+  <div class="form--field -required">
     <%= f.text_field :unit, required: true, container_class: '-middle' %>
   </div>
-  <div class="form--field">
+  <div class="form--field -required">
     <%= f.text_field :unit_plural, required: true, container_class: '-middle' %>
   </div>
   <div class="form--field">

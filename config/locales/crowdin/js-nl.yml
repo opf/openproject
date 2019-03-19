@@ -18,11 +18,22 @@ nl:
     close_popup_title: Popup sluiten
     close_filter_title: Sluit filter
     close_form_title: Sluit formulier
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Bekijk de Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Uw browser ondersteunt kopiëren naar het klembord niet. Kopieer
         de geselecteerde tekst handmatig.
       copied_successful: Met succes gekopieerd naar het klembord!
     button_add_watcher: Watcher toevoegen
+    button_back: Terug
     button_back_to_list_view: Terug naar het overzicht
     button_cancel: Annuleren
     button_close: Sluiten
@@ -38,6 +49,7 @@ nl:
     button_duplicate: Dupliceren
     button_edit: Wijzig
     button_filter: Filter
+    button_advanced_filter: Geavanceerd filter
     button_list_view: Lijstweergave
     button_show_view: Fullscreen weergave
     button_log_time: Gelogde tijd
@@ -149,18 +161,42 @@ nl:
     general_text_yes: Ja
     general_text_No: Nee
     general_text_Yes: Ja
+    grid:
+      add_modal:
+        choose_widget: Widget kiezen
+      widgets:
+        documents:
+          title: Documenten
+          no_results: Geen documenten.
+        news:
+          title: Nieuws
+          at: bij
+          no_results: Niets nieuws om te rapporteren.
+        time_entries_current_user:
+          title: Besteed tijd (laatste 7 dagen)
+          no_results: Geen tijd items voor de afgelopen 7 dagen.
+        work_packages_accountable:
+          title: Werkpakketten waar ik verantwoordelijk voor ben
+        work_packages_assigned:
+          title: Werkpakketten toegewezen aan mij
+        work_packages_created:
+          title: Werkpakketten gemaakt door mij werk werk
+        work_packages_watched:
+          title: Werkpakketten bekeken door mij
+        work_packages_calendar:
+          title: Agenda
     label_activate: Activeren
     label_activity_no: Activiteit ingangsnummer %{activityNo}
     label_activity_with_comment_no: Activiteit ingangsnummer %{activityNo}. Bevat
       gebruikerscommentaar.
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
+    label_add_column_after: Kolom toevoegen na
+    label_add_column_before: Kolom toevoegen voor
     label_add_columns: Kolommen toevoegen
     label_add_comment: Commentaar toevoegen
     label_add_comment_title: Plaats een opmerking en gebruik het @-teken om anderen
       te informeren
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
+    label_add_row_after: Rij toevoegen na
+    label_add_row_before: Rij voor toevoegen
     label_add_selected_columns: Geselecteerde kolommen toevoegen
     label_added_by: toegevoegd door
     label_added_time_by: Toegevoegd door %{author} %{age}
@@ -171,7 +207,9 @@ nl:
     label_ascending: Oplopend
     label_author: 'Auteur: %{user}'
     label_between: tussen
+    label_board: Board
     label_board_locked: Vergrendeld
+    label_board_plural: Boards
     label_board_sticky: Sticky
     label_create_work_package: Nieuw werkpakket maken
     label_created_by: Gemaakt door
@@ -218,7 +256,7 @@ nl:
     label_menu_collapse: samenvouwen
     label_menu_expand: uitbreiden
     label_more_than_ago: meer dan dagen geleden
-    label_my_page: My page
+    label_my_page: Mijn pagina
     label_next: Volgende
     label_no_data: Geen gegevens om weer te geven
     label_no_due_date: geen einddatum
@@ -237,9 +275,9 @@ nl:
     label_visibility_settings: Zichtbaarheidsinstellingen
     label_quote_comment: Citeer dit commentaar
     label_reset: Herstel
-    label_remove_column: Remove column
+    label_remove_column: Kolom verwijderen
     label_remove_columns: Verwijder geselecteerde kolommen
-    label_remove_row: Remove row
+    label_remove_row: Rij verwijderen
     label_save_as: Opslaan als
     label_select_watcher: Kies een toezichter...
     label_selected_filter_list: Geselecteerde filters
@@ -261,7 +299,7 @@ nl:
     label_activity_show_only_comments: Geef alleen activiteiten met commentaar weer
     label_activity_show_all: Geef alle activiteiten weer
     label_total_progress: "%{percent}% totale vooruitgang"
-    label_total_amount: 'Total: %{amount}'
+    label_total_amount: 'Totaal: %{amount}'
     label_updated_on: bijgewerkt op
     label_warning: Waarschuwing
     label_work_package: Werkpakket
@@ -295,6 +333,7 @@ nl:
     label_upload_notification: Uploaden van bestanden...
     label_work_package_upload_notification: 'Uploaden van bestanden voor werk pakket
       #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Deze bestanden worden geüpload:'
     label_rejected_files: 'Deze bestanden kunnen niet worden geüpload:'
     label_rejected_files_reason: Deze bestanden kunnen niet worden geüpload gezien
@@ -408,9 +447,9 @@ nl:
           requires: vereisen
           required: vereist door
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Activiteit
+      comment: Commentaar
+      hours: Uren
     watchers:
       label_loading: volgers worden geladen...
       label_error_loading: Er is een fout opgetreden tijdens het laden van de volgers
@@ -494,6 +533,7 @@ nl:
       wilt verwijderen?
     text_attachment_destroy_confirmation: Weet u zeker dat u de bijlage wilt verwijderen?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt-grafiek
       labels:
         title: Label configuratie
@@ -613,7 +653,7 @@ nl:
       label_enable_multi_select: Laat meerkeuze toe
       label_disable_multi_select: Laat meerkeuze niet toe
       label_filter_add: Filter toevoegen
-      label_filter_by_text: Filter by text
+      label_filter_by_text: Filter op tekst
       label_options: Opties
       label_column_multiselect: 'Gecombineerd met dropdown-veld: Selecteer met richtingstoetsen,
         bevestig selectie met enter, verwijder met backspace'
@@ -626,7 +666,7 @@ nl:
       message_work_package_read_only: Werkpakket is opgesloten in deze status. Geen
         kenmerk dan status kan worden gewijzigd.
       no_value: Geen waarde
-      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholder_filter_by_text: Betreft, beschrijving, commentaar, ...
       inline_create:
         title: Klik hier om een nieuw werkpakket aan deze lijst toe te voegen
       create:
@@ -778,8 +818,6 @@ nl:
         days: dagen
         weeks: weken
         months: maanden
-      label_switch_to_single_select: Overschakelen naar enkele selectie
-      label_switch_to_multi_select: Overschakelen naar meerdere selectie
     toolbar:
       settings:
         configure_view: Weergave instellingen...
@@ -820,6 +858,7 @@ nl:
           de weergegeven werkpakketten verwijderd worden.
         deletes_children: Alle onderliggende werkpakketten en hun nakomelingen ook
           worden verwijderd.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Aanmaak geslaagd.
     notice_successful_delete: Verwijdering geslaagd.
     notice_successful_update: Succesvolle wijziging.
@@ -846,7 +885,7 @@ nl:
         messages_on_field: 'Het veld is ongeldig: %{messages}'
     error_could_not_resolve_version_name: Kan de verstane niet vinden
     error_could_not_resolve_user_name: Kan de gebruikersnaam niet vinden
-    error_attachment_upload: 'Uploaden van bestand ''%{name}'' is mislukt: %{error}'
+    error_attachment_upload: 'Bestand uploaden mislukt: %{error}'
     error_attachment_upload_permission: U bent niet gemachtigd om bestanden naar deze
       bron te uploaden.
     units:
@@ -863,11 +902,13 @@ nl:
     zen_mode:
       button_activate: Zen-modus activeren
       button_deactivate: Deactiveren van zen modus
-    unsupported_browser:
-      title: Uw browserversie wordt niet ondersteund
-      message: De browserversie die u gebruikt wordt niet meer ondersteund door OpenProject.
-      update_message: Gebruik een recentere versie van uw browser.
-      update_ie_user: Gebruik Mozilla Firefox of Google Chrome, of upgrade naar Microsoft
-        Edge.
-      learn_more: Leer meer
-      close_warning: Negeer deze waarschuwing.
+    global_search:
+      all_projects: Voor alle projecten
+      search: Zoeken
+      close_search: Sluit zoekopdracht
+      current_project: In dit project
+      current_project_and_all_descendants: In dit project + subprojecten
+      title:
+        all_projects: alle projecten
+        project_and_subprojects: en alle subprojecten
+        search_for: Zoeken naar

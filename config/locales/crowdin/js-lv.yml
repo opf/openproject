@@ -2,7 +2,7 @@
 lv:
   js:
     ajax:
-      hide: Hide
+      hide: Paslēpt
       loading: Notiek ielāde...
     attachments:
       draggable_hint: 'Drag on editor field to inline image or reference attachment.
@@ -18,26 +18,38 @@ lv:
     close_popup_title: Aizvērt logu
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Jūsu pārlūkprogramma neatbalsta kopēšanu starpliktuvē. Lūdzu,
         kopējiet atlasīto tekstu izmantojot ctrl+c un ctrl+v
       copied_successful: Sekmīgi nokopēts starpliktuvē!
-    button_add_watcher: Add watcher
+    button_add_watcher: Pievienot sekotāju
+    button_back: Atpakaļ
     button_back_to_list_view: Back to list view
     button_cancel: Atcelt
     button_close: Close
-    button_check_all: Check all
+    button_check_all: Atzīmēt visus
     button_configure-form: Configure form
     button_confirm: Confirm
     button_continue: Continue
     button_copy: Copy
-    button_custom-fields: Custom fields
+    button_custom-fields: Pielāgotie lauki
     button_delete: Dzēst
     button_delete_watcher: Dzēst vērotāju
     button_details_view: Skatīt detalizētāk
     button_duplicate: Duplicate
     button_edit: Labot
     button_filter: Filtrēt
+    button_advanced_filter: Advanced filter
     button_list_view: Saraksta skats
     button_show_view: Pilnekrāna skats
     button_log_time: Log time
@@ -49,8 +61,8 @@ lv:
     button_quote: Citēt
     button_save: Saglabāt
     button_settings: Iestatījumi
-    button_uncheck_all: Uncheck all
-    button_update: Update
+    button_uncheck_all: Noņemt visus
+    button_update: Atjaunot
     button_export-pdf: Lejupielādēt PDF
     button_export-atom: Download Atom
     calendar:
@@ -146,6 +158,30 @@ lv:
     general_text_yes: 'yes'
     general_text_No: 'No'
     general_text_Yes: 'Yes'
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Jaunumi
+          at: at
+          no_results: Nav jaunu ziņojumu.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Man piešķirtie pieteikumi
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalendārs
     label_activate: Activate
     label_activity_no: Aktivitātes ieraksta numurs %{activityNo}
     label_activity_with_comment_no: Aktivitātes ieraksta numurs %{activityNo}. Ir
@@ -167,7 +203,9 @@ lv:
     label_ascending: Ascending
     label_author: 'Autors: %{user}'
     label_between: between
+    label_board: Board
     label_board_locked: Slēgts
+    label_board_plural: Boards
     label_board_sticky: Svarīgi
     label_create_work_package: Create new work package
     label_created_by: Created by
@@ -176,7 +214,7 @@ lv:
       %{format}'
     label_deactivate: Deaktivizēt
     label_descending: Descending
-    label_description: Description
+    label_description: Apraksts
     label_cancel_comment: Atcelt komentāru
     label_closed_work_packages: slēgti
     label_collapse: Collapse
@@ -198,7 +236,7 @@ lv:
     label_filename: Fails
     label_filesize: Izmērs
     label_greater_or_equal: ">="
-    label_group_by: Group by
+    label_group_by: Grupēt pēc
     label_hide_attributes: Rādīt mazāk
     label_hide_column: Paslēpt kolonu
     label_hide_project_menu: Collapse project menu
@@ -214,7 +252,7 @@ lv:
     label_menu_collapse: sakļaut
     label_menu_expand: izvērst
     label_more_than_ago: more than days ago
-    label_my_page: My page
+    label_my_page: Mana lapa
     label_next: Nākošā
     label_no_data: Nav dati
     label_no_due_date: bez beigu datuma
@@ -223,7 +261,7 @@ lv:
     label_not_contains: doesn't contain
     label_not_equals: is not
     label_on: " "
-    label_open_menu: Open menu
+    label_open_menu: Atvērt izvēlni
     label_open_context_menu: Open context menu
     label_open_work_packages: aktīvi
     label_password: Parole
@@ -248,7 +286,7 @@ lv:
     label_sorting: Sorting
     label_star_query: Favored
     label_press_enter_to_save: Press enter to save.
-    label_public_query: Public
+    label_public_query: Publisks
     label_sum_for: Sum for
     label_subject: Nosaukums
     label_this_week: this week
@@ -267,7 +305,7 @@ lv:
     label_watcher_added_successfully: Watcher successfully added!
     label_watcher_deleted_successfully: Watcher successfully deleted!
     label_work_package_details_you_are_here: Tu esi %{type} %{subject} %{tab} cilnē.
-    label_unwatch: Unwatch
+    label_unwatch: Pārtraukt sekošanu
     label_unwatch_work_package: Unwatch work package
     label_uploaded_by: Uploaded by
     label_default_queries: Default views
@@ -290,6 +328,7 @@ lv:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Augšupielādēt failus Darba pakai #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Šie faili tiks augšupielādēti:'
     label_rejected_files: 'Nevar augšupielādēt šos failus:'
     label_rejected_files_reason: Šos failus nevar augšupielādēt, jo to izmērs ir lielāks
@@ -366,7 +405,7 @@ lv:
       click_to_switch_context: Open this work package in that project.
       autocompleter:
         label: Project autocompletion
-    text_are_you_sure: Are you sure?
+    text_are_you_sure: Vai esat pārliecināts?
     types:
       attribute_groups:
         error_duplicate_group_name: The name %{group} is used more than once. Group
@@ -398,14 +437,14 @@ lv:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
+      activity: Aktivitāte
       comment: Comment
-      hours: Hours
+      hours: Stundas
     watchers:
       label_loading: ielādē vērotājus...
       label_error_loading: Radās kļūda, ielādējot vērotājus
       label_search_watchers: Meklēt vērotājus
-      label_add: Add watchers
+      label_add: Pievienot sekotājus
       label_discard: Atmest atlasi
       typeahead_placeholder: Search for possible watchers
     relation_labels:
@@ -462,7 +501,7 @@ lv:
         other: Lūdzu, ievadiet vēl {{count}} simbolus
         zero: Lūdzu, ievadiet vēl {{count}} simbolus
       load_more: Loading more results ...
-      no_matches: No matches found
+      no_matches: Nav atrasta neviena atbilstība
       searching: Notiek meklēšana...
       selection_too_big:
         one: Var atlasīt {{limit}} vienumu
@@ -483,6 +522,7 @@ lv:
       view?
     text_attachment_destroy_confirmation: Vai tiešām vēlaties izdzēst pielikumu?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -515,16 +555,16 @@ lv:
       filter:
         grouping_other: Other
         noneSelection: "(none)"
-      name: Name
+      name: Nosaukums
       outline: Reset Outline
       outlines:
-        aggregation: Show aggregations only
-        level1: Expand level 1
-        level2: Expand level 2
-        level3: Expand level 3
-        level4: Expand level 4
-        level5: Expand level 5
-        all: Show all
+        aggregation: Rādīt kopskatu
+        level1: Izvērst 1. līmeņa
+        level2: Izvērst 2. līmeņa
+        level3: Izvērst 3. līmeņa
+        level4: Izvērst 4. līmeņa
+        level5: Izvērst 5. līmeņa
+        all: Rādīt visus
       project_status: Projekta statuss
       really_close_dialog: Do you really want to close the dialog and lose the entered
         data?
@@ -539,11 +579,11 @@ lv:
         in: Zoom in
         out: Zoom out
         auto: Auto zoom
-        days: Days
-        weeks: Weeks
-        months: Months
-        quarters: Quarters
-        years: Years
+        days: Diena
+        weeks: Nedēļa
+        months: Mēnesis
+        quarters: Ceturksnis
+        years: Gads
         slider: Tālummaiņas slīdnis
         description: 'Select the initial zoom level that should be shown when autozoom
           is not available.
@@ -576,7 +616,7 @@ lv:
         edit: Bulk edit
         copy: Bulk copy
         delete: Bulk delete
-      button_clear: Clear
+      button_clear: Notīrīt
       comment_added: Komentārs veiksmīgi pievienots.
       comment_send_failed: Radusies kļūda. Nevar iesniegt komentāru.
       comment_updated: Komentārs tika veiksmīgi atjaunināts.
@@ -598,7 +638,7 @@ lv:
       key_value: "%{key}: %{value}"
       label_enable_multi_select: Aktivizēt vairākas izvēlnes
       label_disable_multi_select: Disable multiselect
-      label_filter_add: Add filter
+      label_filter_add: Pievienot filtru
       label_filter_by_text: Filter by text
       label_options: Options
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
@@ -616,7 +656,7 @@ lv:
       inline_create:
         title: Click here to add a new work package to this list
       create:
-        title: New work package
+        title: Jauns pieteikums
         header: New %{type}
         header_no_type: New work package (Type not yet set)
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
@@ -647,23 +687,23 @@ lv:
       properties:
         assignee: Pašreizējais atbildīgais
         author: Autors
-        createdAt: Created on
-        description: Description
+        createdAt: Izveidots
+        description: Apraksts
         date: Datums
         dueDate: Finish date
-        estimatedTime: Estimated time
-        spentTime: Spent time
-        category: Category
+        estimatedTime: Darbietilpības novērtējums
+        spentTime: Pavadīts laiks
+        category: Sadaļa
         percentageDone: Percentage done
         priority: Prioritāte
-        projectName: Project
+        projectName: Projekts
         responsible: Atbildīgais
         startDate: Sākuma datums
         status: Statuss
         subject: Nosaukums
         title: Title
         type: Veids
-        updatedAt: Updated on
+        updatedAt: Labots
         versionName: Versija
         version: Versija
       default_queries:
@@ -672,7 +712,7 @@ lv:
         assigned_to_me: Assigned to me
         recently_created: Recently created
         all_open: All open
-        summary: Summary
+        summary: Kopsavilkums
       jump_marks:
         pagination: Jump to table pagination
         label_pagination: Click here to skip over the work packages table and go to
@@ -685,7 +725,7 @@ lv:
       query:
         column_names: Kolonnas
         group_by: Grupēt rezultātus pēc
-        group: Group by
+        group: Grupēt pēc
         group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
           mode being active.
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
@@ -754,16 +794,14 @@ lv:
           second_part: the current work package
       tabs:
         overview: Pārskats
-        activity: Activity
+        activity: Aktivitāte
         relations: Saistītie
-        watchers: Watchers
+        watchers: Sekotāji
         attachments: Attachments
       time_relative:
-        days: days
+        days: dienas
         weeks: weeks
         months: months
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -787,7 +825,7 @@ lv:
       placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
-      label_name: Name
+      label_name: Nosaukums
       label_delete_page: Delete current page
       button_apply: Apstiprināt
       button_save: Saglabāt
@@ -804,6 +842,7 @@ lv:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Successful creation.
     notice_successful_delete: Successful deletion.
     notice_successful_update: Successful update.
@@ -830,7 +869,7 @@ lv:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -849,11 +888,13 @@ lv:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: Your browser version is not supported
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Uzzināt vairāk
-      close_warning: Ignore this warning.
+    global_search:
+      all_projects: In all projects
+      search: Meklēšana
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

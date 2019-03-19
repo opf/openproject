@@ -40,6 +40,7 @@ import {WpRelationInlineCreateService} from "core-components/wp-relations/embedd
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {forkJoin, merge} from "rxjs";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
+import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 
 @Component({
   selector: 'wp-relation-query',
@@ -59,7 +60,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
       'remove-relation-action',
       this.I18n.t('js.relation_buttons.remove'),
       (relatedTo:WorkPackageResource) => {
-        this.embeddedTable.loadingIndicator = this.wpRelations.require(relatedTo.id)
+        this.embeddedTable.loadingIndicator = this.wpRelations.require(relatedTo.id!)
           .then(() => this.wpInlineCreate.remove(this.workPackage, relatedTo))
           .then(() => this.refreshTable())
           .catch((error) => this.wpNotifications.handleRawError(error, this.workPackage));
@@ -71,6 +72,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
   constructor(protected readonly PathHelper:PathHelperService,
               @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateService,
               protected readonly wpRelations:WorkPackageRelationsService,
+              protected readonly wpTableRefresh:WorkPackageTableRefreshService,
               protected readonly queryUrlParamsHelper:UrlParamsHelperService,
               protected readonly wpNotifications:WorkPackageNotificationService,
               protected readonly I18n:I18nService) {
@@ -94,7 +96,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
 
     // When relations have changed, refresh this table
 
-    this.wpRelations.observe(this.workPackage.id)
+    this.wpRelations.observe(this.workPackage.id!)
       .pipe(untilComponentDestroyed(this))
       .subscribe(() => this.refreshTable());
   }
@@ -106,6 +108,9 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
   private addRelation(toId:string) {
     this.wpInlineCreate
       .add(this.workPackage, toId)
+      .then(() => {
+        this.wpTableRefresh.request(`Added relation ${toId}`, { visible: true });
+      })
       .catch(error => this.wpNotifications.handleRawError(error, this.workPackage));
   }
 

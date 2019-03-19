@@ -9,29 +9,28 @@ import {EditFormPortalComponent} from "core-app/modules/fields/edit/editing-port
 import {createLocalInjector} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.injector";
 import {take} from "rxjs/operators";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {WorkPackageEditContext} from "core-components/wp-edit-form/work-package-edit-context";
 
 @Injectable()
 export class WorkPackageEditingPortalService {
 
-  constructor(private readonly injector:Injector,
-              private readonly appRef:ApplicationRef,
+  constructor(private readonly appRef:ApplicationRef,
               private readonly componentFactoryResolver:ComponentFactoryResolver) {
 
   }
 
   public create(container:HTMLElement,
+                injector:Injector,
                 form:WorkPackageEditForm,
                 schema:IFieldSchema,
                 fieldName:string,
                 errors:string[]):Promise<WorkPackageEditFieldHandler> {
 
     // Create the portal outlet
-    const outlet = this.createDomOutlet(container);
+    const outlet = this.createDomOutlet(container, injector);
 
     // Create a field handler for the newly active field
     const fieldHandler = new WorkPackageEditFieldHandler(
-      this.injector,
+      injector,
       form,
       fieldName,
       schema,
@@ -46,10 +45,10 @@ export class WorkPackageEditingPortalService {
       .subscribe(() => outlet.detach());
 
     // Create an injector that contains injectable reference to the edit field and handler
-    const injector = createLocalInjector(this.injector, form.changeset, fieldHandler, schema);
+    const localInjector = createLocalInjector(injector, form.changeset, fieldHandler, schema);
 
     // Create a portal for the edit-form/field
-    const portal = new ComponentPortal(EditFormPortalComponent, null, injector);
+    const portal = new ComponentPortal(EditFormPortalComponent, null, localInjector);
 
     // Clear the container
     container.innerHTML = '';
@@ -74,16 +73,14 @@ export class WorkPackageEditingPortalService {
    * @param {HTMLElement} hostElement The element where the portal will be attached into
    * @returns {DomPortalOutlet}
    */
-  private createDomOutlet(hostElement:HTMLElement) {
+  private createDomOutlet(hostElement:HTMLElement, injector:Injector) {
     return new DomPortalOutlet(
       hostElement,
       this.componentFactoryResolver,
       this.appRef,
-      this.injector
+      injector
     );
   }
-
-
 }
 
 

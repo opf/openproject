@@ -1,0 +1,75 @@
+<div *ngIf="board"
+     [ngClass]="{ '-editable': board.editable }"
+     class="board--container">
+
+  <div class="toolbar-container -editable">
+    <div id="toolbar">
+      <div class="title-container board--header-container">
+        <div class="wp-show--back-button hide-when-print">
+          <accessible-by-keyboard (execute)="goBack()"
+                                  linkClass="board--back-button button">
+            <op-icon icon-classes="button--icon icon-back-up"></op-icon>
+          </accessible-by-keyboard>
+        </div>
+
+        <editable-toolbar-title [title]="board.name"
+                                [inFlight]="inFlight"
+                                [initialFocus]="isNew"
+                                (onSave)="renameBoard(board, $event)"
+                                [editable]="board.editable">
+        </editable-toolbar-title>
+
+        <ul class="toolbar-items"
+            *ngIf="showBoardListView()">
+          <li class="toolbar-item">
+            <zen-mode-toggle-button></zen-mode-toggle-button>
+          </li>
+          <li *ngIf="board.editable"
+              class="toolbar-item hidden-for-mobile">
+            <button title="{{ text.button_more }}"
+                    class="button last board--settings-dropdown toolbar-icon"
+                    boardsToolbarMenu
+                    [boardsToolbarMenu-resource]="board">
+              <op-icon icon-classes="button--icon icon-show-more"></op-icon>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="boards-list--container"
+       *ngIf="showBoardListView()"
+       cdkDropList
+       [cdkDropListDisabled]="!board.editable"
+       cdkDropListOrientation="horizontal"
+       (cdkDropListDropped)="moveList(board, $event)"
+       >
+    <div *ngFor="let query of board.queries; trackBy:trackByQueryId"
+         class="boards-list--item"
+         wp-isolated-query-space
+         cdkDrag>
+      <span *ngIf="board.editable"
+            class="boards-list-item-handle icon icon-drag-handle"
+            cdkDragHandle></span>
+      <board-list [resource]="query"
+                  [board]="board"
+                  (onRemove)="removeList(board, query)"></board-list>
+    </div>
+
+    <div class="boards-list--add-item -no-text-select"
+         *ngIf="board.editable"
+         (click)="addList(board)">
+      <div class="boards-list--add-item-text">
+        <op-icon icon-classes="icon-add icon-context"></op-icon>
+        <span [textContent]="text.addList"></span>
+      </div>
+    </div>
+  </div>
+
+  <enterprise-banner *ngIf="!showBoardListView()"
+                     [linkMessage]="text.upsaleCheckOutLink"
+                     [textMessage]="text.upsaleBoards"
+                     [opReferrer]="opReferrer(board)">
+  </enterprise-banner>
+</div>

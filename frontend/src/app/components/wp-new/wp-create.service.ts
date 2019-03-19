@@ -26,8 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Injectable, Injector, Inject} from '@angular/core';
-import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
+import {Inject, Injectable, Injector} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {Observable, Subject} from 'rxjs';
@@ -39,8 +38,8 @@ import {HookService} from 'core-app/modules/plugins/hook-service';
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
-import {WorkPackageTableFiltersService} from "core-components/wp-fast-table/state/wp-table-filters.service";
-import {TableState} from "core-components/wp-table/table-state/table-state";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 
 @Injectable()
 export class WorkPackageCreateService implements IWorkPackageCreateService {
@@ -54,8 +53,8 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
               protected wpCacheService:WorkPackageCacheService,
               protected halResourceService:HalResourceService,
               @Inject(IWorkPackageEditingServiceToken) protected readonly wpEditing:WorkPackageEditingService,
-              protected readonly tableState:TableState,
-              protected apiWorkPackages:ApiWorkPackagesService) {
+              protected readonly querySpace:IsolatedQuerySpace,
+              protected workPackageDmService:WorkPackageDmService) {
   }
 
   public newWorkPackageCreated(wp:WorkPackageResource) {
@@ -67,14 +66,14 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
     return this.newWorkPackageCreatedSubject.asObservable();
   }
 
-  public createNewWorkPackage(projectIdentifier:string) {
+  public createNewWorkPackage(projectIdentifier:string|undefined|null) {
     return this.getEmptyForm(projectIdentifier).then(form => {
       return this.fromCreateForm(form);
     });
   }
 
-  public createNewTypedWorkPackage(projectIdentifier:string, type:number) {
-    return this.apiWorkPackages.typedCreateForm(type, projectIdentifier).then(form => {
+  public createNewTypedWorkPackage(projectIdentifier:string|undefined|null, type:number) {
+    return this.workPackageDmService.typedCreateForm(type, projectIdentifier).then(form => {
       return this.fromCreateForm(form);
     });
   }
@@ -110,14 +109,14 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
   public copyWorkPackage(copyFromForm:any, projectIdentifier?:string) {
     let request = copyFromForm.payload.$source;
 
-    return this.apiWorkPackages.emptyCreateForm(request, projectIdentifier).then(form => {
+    return this.workPackageDmService.emptyCreateForm(request, projectIdentifier).then(form => {
       return this.copyFrom(copyFromForm, form);
     });
   }
 
-  public getEmptyForm(projectIdentifier:string|null):Promise<HalResource> {
+  public getEmptyForm(projectIdentifier:string|null|undefined):Promise<HalResource> {
     if (!this.form) {
-      this.form = this.apiWorkPackages.emptyCreateForm({}, projectIdentifier);
+      this.form = this.workPackageDmService.emptyCreateForm({}, projectIdentifier);
     }
 
     return this.form;
@@ -135,7 +134,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
       .values$();
   }
 
-  public createOrContinueWorkPackage(projectIdentifier:string, type?:number) {
+  public createOrContinueWorkPackage(projectIdentifier:string|null|undefined, type?:number) {
     let changesetPromise = this.continueExistingEdit(type);
 
     if (!changesetPromise) {
@@ -167,7 +166,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
     return null;
   }
 
-  protected createNewWithDefaults(projectIdentifier:string, type?:number) {
+  protected createNewWithDefaults(projectIdentifier:string|null|undefined, type?:number) {
     let changesetPromise = null;
 
     if (type) {
@@ -203,7 +202,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
   private applyDefaults(changeset:WorkPackageChangeset, wp:WorkPackageResource, except:string[]) {
     // Not using WorkPackageTableFiltersService here as the embedded table does not load the form
     // which will result in that service having empty current filters.
-    let query = this.tableState.query.value;
+    let query = this.querySpace.query.value;
 
     if (query) {
       const filter = new WorkPackageFilterValues(this.injector, changeset, query.filters, except);

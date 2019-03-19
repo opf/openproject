@@ -36,13 +36,15 @@ import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/
 import {QueryColumn} from '../wp-query/query-column';
 import {Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
 
 @Injectable()
 export class WorkPackagesListInvalidQueryService {
-  constructor(protected halResourceService:HalResourceService) {}
+  constructor(protected halResourceService:HalResourceService,
+              protected queryFormDm:QueryFormDmService) {}
 
   public restoreQuery(query:QueryResource, form:QueryFormResource) {
-    let payload = this.halResourceService.createHalResourceOfType<QueryResource>('Query', form.payload);
+    let payload = this.queryFormDm.buildQueryResource(form);
 
     this.restoreFilters(query, payload, form.schema);
     this.restoreColumns(query, payload, form.schema);

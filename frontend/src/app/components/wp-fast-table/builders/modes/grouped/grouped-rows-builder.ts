@@ -9,7 +9,7 @@ import {GroupHeaderBuilder} from './group-header-builder';
 import {GroupedRenderPass} from './grouped-render-pass';
 import {groupedRowClassName, groupIdentifier} from './grouped-rows-helpers';
 import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {
   collapsedRowClass,
   rowGroupClassName
@@ -18,16 +18,13 @@ import {
 export class GroupedRowsBuilder extends RowsBuilder {
 
   // Injections
-  private readonly tableState = this.injector.get(TableState);
+  private readonly querySpace = this.injector.get(IsolatedQuerySpace);
   public states:States = this.injector.get(States);
   public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
   public I18n:I18nService = this.injector.get(I18nService);
 
-  private headerBuilder:GroupHeaderBuilder;
-
   constructor(public readonly injector:Injector, workPackageTable:WorkPackageTable) {
     super(injector, workPackageTable);
-    this.headerBuilder = new GroupHeaderBuilder(this.injector);
   }
 
   /**
@@ -41,14 +38,14 @@ export class GroupedRowsBuilder extends RowsBuilder {
    * Returns the reference to the last table.groups state value
    */
   public get groups() {
-    return this.tableState.groups.value || [];
+    return this.querySpace.groups.value || [];
   }
 
   /**
    * Returns the reference to the last table.collapesedGroups state value
    */
   public get collapsedGroups() {
-    return this.tableState.collapsedGroups.value || {};
+    return this.querySpace.collapsedGroups.value || {};
   }
 
   public get colspan() {
@@ -56,11 +53,12 @@ export class GroupedRowsBuilder extends RowsBuilder {
   }
 
   public buildRows() {
+    const builder = new GroupHeaderBuilder(this.injector);
     return new GroupedRenderPass(
       this.injector,
       this.workPackageTable,
       this.getGroupData(),
-      this.headerBuilder,
+      builder,
       this.colspan
     ).render();
   }
@@ -71,7 +69,8 @@ export class GroupedRowsBuilder extends RowsBuilder {
   public refreshExpansionState() {
     const groups = this.getGroupData();
     const colspan = this.wpTableColumns.columnCount + 1;
-    const rendered = this.tableState.rendered.value!;
+    const rendered = this.querySpace.rendered.value!;
+    const builder = new GroupHeaderBuilder(this.injector);
 
     jQuery(this.workPackageTable.container)
       .find(`.${rowGroupClassName}`)
@@ -80,7 +79,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
       let group = groups[groupIndex];
 
       // Refresh the group header
-      let newRow = this.headerBuilder.buildGroupRow(group, colspan);
+      let newRow = builder.buildGroupRow(group, colspan);
 
       if (oldRow.parentNode) {
         oldRow.parentNode.replaceChild(newRow, oldRow);
@@ -100,7 +99,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
       });
     });
 
-    this.tableState.rendered.putValue(rendered, 'Updated hidden state of rows after group change.');
+    this.querySpace.rendered.putValue(rendered, 'Updated hidden state of rows after group change.');
   }
 
   /**

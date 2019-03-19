@@ -1,6 +1,6 @@
 import {Injector} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {debugLog} from '../../helpers/debug_output';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
@@ -15,11 +15,11 @@ import {PrimaryRenderPass, RenderedRow} from './builders/primary-render-pass';
 import {WorkPackageTableEditingContext} from './wp-table-editing';
 
 import {WorkPackageTableRow} from './wp-table.interfaces';
-import {WorkPackageTableConfiguration, WorkPackageTableConfigurationObject} from 'core-app/components/wp-table/wp-table-configuration';
+import {WorkPackageTableConfiguration} from 'core-app/components/wp-table/wp-table-configuration';
 
 export class WorkPackageTable {
 
-  private readonly tableState:TableState = this.injector.get(TableState);
+  private readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
 
   public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   public states:States = this.injector.get(States);
@@ -52,7 +52,7 @@ export class WorkPackageTable {
   }
 
   public get renderedRows() {
-    return this.tableState.rendered.getValueOr([]);
+    return this.querySpace.rendered.getValueOr([]);
   }
 
   public findRenderedRow(classIdentifier:string):[number, RenderedRow] {
@@ -72,7 +72,7 @@ export class WorkPackageTable {
   private buildIndex(rows:WorkPackageResource[]) {
     this.originalRowIndex = {};
     this.originalRows = rows.map((wp:WorkPackageResource, i:number) => {
-      let wpId = wp.id;
+      let wpId = wp.id!;
       this.originalRowIndex[wpId] = <WorkPackageTableRow> {object: wp, workPackageId: wpId, position: i};
       return wpId;
     });
@@ -101,7 +101,7 @@ export class WorkPackageTable {
     this.timelineBody.innerHTML = '';
     this.timelineBody.appendChild(renderPass.timeline.timelineBody);
 
-    this.tableState.rendered.putValue(renderPass.result);
+    this.querySpace.rendered.putValue(renderPass.result);
   }
 
   /**
@@ -109,7 +109,7 @@ export class WorkPackageTable {
    */
   public redrawTable() {
     const renderPass = this.performRenderPass();
-    this.tableState.rendered.putValue(renderPass.result);
+    this.querySpace.rendered.putValue(renderPass.result);
   }
 
   /**
@@ -123,13 +123,23 @@ export class WorkPackageTable {
     }
 
     _.each(pass.renderedOrder, (row) => {
-      if (row.workPackage && row.workPackage.id === workPackage.id) {
+      if (row.workPackage && row.workPackage.id === workPackage.id!) {
         debugLog(`Refreshing rendered row ${row.classIdentifier}`);
         row.workPackage = workPackage;
         pass.refresh(row, workPackage, this.tbody);
       }
     });
   }
+
+  /**
+   * Determine whether we need an empty placeholder row.
+   * When D&D is enabled, the table requires a drag target that is non-empty,
+   * and the tbody cannot be resized appropriately.
+   */
+  public get renderPlaceholderRow() {
+    return this.configuration.dragAndDropEnabled;
+  }
+
 
   private performRenderPass() {
     this.editing.reset();

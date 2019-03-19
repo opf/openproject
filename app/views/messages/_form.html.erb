@@ -35,7 +35,7 @@ See docs/COPYRIGHT.rdoc for more details.
                         end %>
 <% resource = message_attachment_representer(representer_object) %>
 
-<div class="form--field">
+<div class="form--field -required">
   <%= f.text_field :subject, required: true, container_class: '-wide', autofocus: true %>
 </div>
 <% unless replying %>
@@ -48,7 +48,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% end %>
 <% if !replying && !@message.new_record? && User.current.allowed_to?(:edit_messages, @project) %>
   <div class="form--field">
-    <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]}, label: Board.name.humanize, container_class: '-wide' %>
+    <%= f.select :forum_id, @project.forums.collect {|b| [b.name, b.id]}, label: Forum.name.humanize, container_class: '-wide' %>
   </div>
 <% end %>
 

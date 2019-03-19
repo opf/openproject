@@ -134,14 +134,14 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
 
   private setupAttachmentAddedCallback(editor:ICKEditorInstance) {
     editor.model.on('op:attachment-added', () => {
-      this.states.forResource(this.resource!).putValue(this.resource!);
+      this.states.forResource(this.resource!)!.putValue(this.resource!);
     });
   }
 
   private setupAttachmentRemovalSignal(editor:ICKEditorInstance) {
     this.attachments = _.clone(this.resource!.attachments.elements);
 
-    this.states.forResource(this.resource!).changes$()
+    this.states.forResource(this.resource!)!.changes$()
       .pipe(
         takeUntil(componentDestroyed(this)),
         filter(resource => !!resource)

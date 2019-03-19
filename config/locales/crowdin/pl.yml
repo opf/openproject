@@ -56,9 +56,25 @@ pl:
     index:
       no_results_content_title: Nie ma jeszcze żadnych trybów autoryzacji.
       no_results_content_text: Utwórz nowy tryb autoryzacji
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: Brak
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: Nie ma jeszcze żadnych wiadomości.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Nie przypisano jeszcze żadnego koloru.
@@ -105,6 +121,10 @@ pl:
       further_information_after: ''
     calendar:
       removal: 'Uwaga: moduł ten jest planowany do usunięcia w OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: Nie ma żadnych grup.
@@ -113,6 +133,11 @@ pl:
       no_results_title_text: Nie ma jeszcze użytkowników w tej grupie.
     memberships:
       no_results_title_text: Nie ma jeszcze żadnego projektu dla tej grupy.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -129,9 +154,9 @@ pl:
     settings:
       activities:
         no_results_title_text: Nie ma dostępnych żadnych aktywności.
-      boards:
-        no_results_title_text: Nie ma jeszcze żadnego forum dla projektu.
-        no_results_content_text: Utwórz nowe forum
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Nie ma jeszcze żadnej kategorii zadania.
         no_results_content_text: Utwórz nową kategorię zadania
@@ -220,6 +245,8 @@ pl:
       other: Wiele potomnych pakietów roboczych (%{count})
       few: Wiele potomnych pakietów roboczych (%{count})
       many: Wiele potomnych pakietów roboczych (%{count})
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: Brak stanu dostępnego dla wszystkich wybranych pakietów
         roboczych. Ich stanu nie można zmienić.
@@ -354,6 +381,11 @@ pl:
         subscriber: Subskrybent
         encoded_token: Token wsparcia Enterprise
         active_user_count_restriction: Maksymalna liczba aktywnych użytkowników
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Opóźnienie
         from: Pakiet roboczy
@@ -445,13 +477,13 @@ pl:
         type: Typ
         watcher: Obserwator
       doorkeeper/application:
-        uid: Client ID
-        secret: Client secret
-        owner: Owner
-        redirect_uri: Redirect URI
+        uid: Numer klienta
+        secret: Hasło klienta
+        owner: Właściciel
+        redirect_uri: Przekieruj URI
         client_credentials_user_id: Client Credentials User ID
-        scopes: Scopes
-        confidential: Confidential
+        scopes: Zakresy
+        confidential: Poufne
     errors:
       messages:
         accepted: musi być zaakceptowane.
@@ -495,6 +527,7 @@ pl:
         too_long: jest zbyt długi (maksymalnie %{count} znaków).
         too_short: jest zbyt krótkie (min. %{count} znaków).
         unchangeable: nie można zmienić.
+        unremovable: cannot be removed.
         wrong_length: ma nieprawidłową długość (powinno mieć %{count} znaków).
       models:
         custom_field:
@@ -514,7 +547,7 @@ pl:
           attributes:
             redirect_uri:
               fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
+              invalid_uri: musi być prawidłowym adres URI.
               relative_uri: must be an absolute URI.
               secured_uri: must be an HTTPS/SSL URI.
               forbidden_uri: is forbidden by the server.
@@ -522,6 +555,10 @@ pl:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: nie można odczytać. Czy na pewno jest to token wsparcia?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -636,7 +673,7 @@ pl:
     models:
       attachment: Plik
       attribute_help_text: Tekst pomocy atrybutu
-      board: Forum
+      forum: Forum
       comment: Komentarz
       custom_action: Działanie niestandardowe
       custom_field: Pola niestandardowe
@@ -659,7 +696,7 @@ pl:
       wiki_page: Strony wiki
       workflow: Przepływ pracy
       work_package: Pakiet roboczy
-      doorkeeper/application: OAuth application
+      doorkeeper/application: Aplikacje OAuth
   errors:
     header_invalid_fields: 'Wystąpił problem z następującymi polami:'
     field_erroneous_label: 'To pole jest nieprawidłowe: %{full_errors} proszę podać
@@ -734,7 +771,7 @@ pl:
   button_change_password: Zmiana hasła
   button_check_all: Zaznacz wszystko
   button_clear: Wyczyść
-  button_click_to_reveal: Click to reveal
+  button_click_to_reveal: Kliknij aby pokazać
   button_close: Zamknij
   button_collapse_all: Zwiń wszystko
   button_configure: Konfigurowanie
@@ -912,12 +949,12 @@ pl:
         one: 1 dzień
         other: "%{count} dni"
         few: "%{count} dni"
-        many: "%{count} days"
+        many: "%{count} dni"
       x_minutes:
         one: 1 minuta
         other: "%{count} minut"
         few: "%{count} minut"
-        many: "%{count} minutes"
+        many: "%{count} minut"
       x_months:
         one: 1 miesiąc
         other: "%{count} miesięcy"
@@ -1166,9 +1203,8 @@ pl:
       faq: Najczęściej Zadawane Pytania
       glossary: Słownik
       shortcuts: Podpowiedzi
-      forums: Fora
       blog: Blog OpenProject
-      boards: Forum społeczności
+      forums: Forum społeczności
       newsletter: Powiadomienia bezpieczeństwa / Newsletter
   links:
     configuration_guide: Przewodnik po konfiguracji
@@ -1216,7 +1252,6 @@ pl:
   label_all_open_wps: Wszystkie otwarte
   label_always_visible: Zawsze wyświetlana
   label_announcement: Ogłoszenie
-  label_and_its_subprojects: "%{value} oraz jego projekty podrzędne"
   label_api_access_key: Klucz dostępu API
   label_api_access_key_created_on: Klucz API utworzony %{value} temu
   label_api_access_key_type: API
@@ -1236,7 +1271,7 @@ pl:
   label_authentication: Uwierzytelnianie
   label_available_project_work_package_categories: Dostępne kategorie Zadań
   label_available_project_work_package_types: Dostępne typy pakietów roboczych
-  label_available_project_boards: Dostępne tablice
+  label_available_project_forums: Available forums
   label_available_project_versions: Dostępne wersje
   label_available_project_repositories: Dostępne repozytoria
   label_api_documentation: Dokumentacja API
@@ -1244,14 +1279,15 @@ pl:
   label_blocked_by: zablokowany przez
   label_blocks: Bloki
   label_blog: Blog
-  label_board_locked: Zablokowany
-  label_board_new: Nowe forum
-  label_board_plural: Fora
-  label_board_sticky: Przyklejony
+  label_forums_locked: Zablokowany
+  label_forum_new: Nowe forum
+  label_forum_plural: Fora
+  label_forum_sticky: Przyklejony
   label_boolean: Wartość logiczna
   label_branch: Branch
   label_browse: Przeglądaj
   label_bulk_edit_selected_work_packages: Edycja wybranych zadań zbiorczo
+  label_bundled: "(Bundled)"
   label_calendar: Kalendarz
   label_calendar_show: Pokaż kalendarz
   label_category: Kategoria
@@ -1349,7 +1385,7 @@ pl:
   label_environment: Środowisko
   label_estimates_and_time: Szacowany czas
   label_equals: jest
-  label_everywhere: everywhere
+  label_everywhere: wszędzie
   label_example: Przykład
   label_export_to: 'Dostępne również w:'
   label_expanded_click_to_collapse: Rozwinięto. Kliknij, aby zwinąć
@@ -1513,6 +1549,7 @@ pl:
   label_planning: Planowanie
   label_please_login: Proszę się zalogować
   label_plugins: Wtyczki
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: poprzedza
   label_preferences: Preferencje
   label_preview: Podgląd
@@ -1585,7 +1622,6 @@ pl:
   label_role_search: Przydziel role nowemu członkowi
   label_scm: SCM
   label_search: Szukaj
-  label_search_titles_only: Szukaj tylko w tytułach
   label_send_information: Wyślij Informacje o koncie do użytkownika
   label_send_test_email: Wyślij wiadomość testową
   label_settings: Ustawienia
@@ -1665,6 +1701,7 @@ pl:
   label_view_diff: Widok różnic
   label_view_revisions: Widok rewizji
   label_watched_work_packages: Obserwowane pakiety robocze
+  label_what_is_this: Co to jest?
   label_week: Tydzień
   label_wiki_content_added: Dodano stronę wiki
   label_wiki_content_updated: Zaktualizowano stronę wiki
@@ -1722,25 +1759,25 @@ pl:
     other: "%{count} komentarzy"
     zero: no comments
     few: "%{count} komentarzy"
-    many: "%{count} comments"
+    many: "%{count} komentarzy"
   label_x_open_work_packages_abbr:
     one: 1 otwarty
     other: "%{count} otwartych"
     zero: 0 open
     few: "%{count} otwartych"
-    many: "%{count} open"
+    many: "%{count} otwartych"
   label_x_open_work_packages_abbr_on_total:
     one: 1 otwarty / %{total}
     other: "%{count} otwartych / %{total}"
     zero: 0 open / %{total}
     few: "%{count} otwartych / %{total}"
-    many: "%{count} open / %{total}"
+    many: "%{count} otwartych / %{total}"
   label_x_projects:
     one: 1 projekt
     other: "%{count} projektów"
     zero: no projects
     few: "%{count} projektów"
-    many: "%{count} projects"
+    many: "%{count} projekty"
   label_year: Rok
   label_yesterday: wczoraj
   label_keyboard_function: Funkcja
@@ -1855,6 +1892,8 @@ pl:
   notice_account_update_failed: Nie można zapisać ustawień konta. Sprawdź swojego
     konta.
   notice_account_updated: Konto zostało pomyślnie zaktualizowane.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Nieprawidłowe hasło
   notice_account_registered_and_logged_in: Witaj Twoje konto zostało aktywowane. Zostałeś
     zalogowany.
@@ -1942,7 +1981,7 @@ pl:
             one: Bajt
             other: Bajty
             few: Bajty
-            many: Bytes
+            many: Bajty
           gb: GB
           kb: kB
           mb: MB
@@ -1989,7 +2028,7 @@ pl:
   permission_export_wiki_pages: Eksportowanie stron wiki
   permission_list_attachments: Lista załączników
   permission_log_time: Rejestr spędzonego czasu
-  permission_manage_boards: Zarządzanie forum
+  permission_manage_forums: Zarządzanie forum
   permission_manage_categories: Zarządzaj kategoriami pakietów roboczych
   permission_manage_work_package_relations: Zarządzanie powiązaniami pakietów roboczych
   permission_manage_members: Zarządzanie użytkownikami
@@ -2036,7 +2075,7 @@ pl:
     archive:
       are_you_sure: Jesteś pewien, że chcesz zarchiwizować projekt '%{name}'?
   project_module_activity: Działanie
-  project_module_boards: Fora
+  project_module_forums: Fora
   project_module_calendar: Kalendarz
   project_module_work_package_tracking: Śledzenie pakietów roboczych
   project_module_news: Aktualności
@@ -2272,6 +2311,7 @@ pl:
   setting_mail_handler_body_delimiters: Obcinanie e-mail po jednej z tych linii
   setting_mail_handler_body_delimiter_regex: Skróć wiadomości e-mail pasujące to wyrażenia
     regularnego
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rola dla użytkownika bez uprawnień administratora,
     który tworzy projekt
   setting_password_active_rules: Aktywne klasy znaków
@@ -2283,6 +2323,7 @@ pl:
   setting_per_page_options: Obiektów na stronie
   setting_plain_text_mail: Poczta czystym tekstem (bez HTML)
   setting_protocol: Protokół
+  setting_security_badge_displayed: Wyświetl plakietkę bezpieczeństwa
   setting_registration_footer: Rejestracja stopki
   setting_repositories_automatic_managed_vendor: Typ automatycznego producenta repozytorium
   setting_repositories_encodings: Kodowanie repozytorium
@@ -2452,6 +2493,16 @@ pl:
   text_no_notes: Nie ma żadnych komentarzy dostępnych dla tego zestawu Zadań.
   text_notice_too_many_values_are_inperformant: 'Uwaga: Wyświetlanie ponad 100 pozycji
     na stronie może zwiększyć czas wczytywania strony.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Chcesz usunąć niektóre lub wszystkie swoje uprawnienia, przez które możesz nie być w stanie edytować tego projektu.
     Czy na pewno chcesz kontynuować?
@@ -2512,7 +2563,6 @@ pl:
       color: Kolor
       colors: Kolory
     associations: Zależności
-    board_could_not_be_saved: Pulpit nie może być zapisany
     button_delete_all: Usuń wszystkie
     change: Zmiany w zakresie planowania
     children: Elementy podrzędne
@@ -2528,7 +2578,7 @@ pl:
       one: 1 dzień
       other: "%{count} dni"
       few: "%{count} dni"
-      many: "%{count} days"
+      many: "%{count} dni"
     edit_color: Edycja koloru
     edit_thing: Edycja
     edit_timeline: Edit timeline report %{timeline}
@@ -2718,7 +2768,7 @@ pl:
       one: tymczasowo zablokowane (jedna nieudana próba zalogowania)
       other: tymczasowo zablokowane (%{count} nieudanych prób zalogowania)
       few: tymczasowo zablokowane (%{count} nieudanych prób zalogowania)
-      many: locked temporarily (%{count} failed login attempts)
+      many: tymczasowo zablokowane (%{count} nieudanych prób zalogowania)
     confirm_status_change: Zamierzasz zmienić status „%{name}”. Na pewno chcesz kontynuować?
     deleted: Usunięty uźytkownik
     error_status_change_failed: 'Zmiana statusu użytkownika nie powiodło się z powodu
@@ -2841,7 +2891,7 @@ pl:
       schema: Schemat
   doorkeeper:
     pre_authorization:
-      status: Pre-authorization
+      status: Pre-Autoryzacja
     errors:
       messages:
         invalid_request: The request is missing a required parameter, includes an
@@ -2875,16 +2925,16 @@ pl:
           authorization server.
         invalid_token:
           revoked: The access token was revoked
-          expired: The access token expired
-          unknown: The access token is invalid
+          expired: Ten token wygasł
+          unknown: Ten token jest nieprawidłowy
   unsupported_browser:
     title: Your browser is outdated and unsupported.
     message: You may run into errors and degraded experience on this page.
-    update_message: Please update your browser.
-    close_warning: Ignore this warning.
+    update_message: Prosimy uaktualnić przeglądarkę.
+    close_warning: Zignoruj to ostrzeżenie.
   oauth:
     application:
-      singular: OAuth application
+      singular: Aplikacje OAuth
       plural: OAuth applications
       named: OAuth application '%{name}'
       new: New OAuth application
@@ -2905,7 +2955,7 @@ pl:
         register_intro: If you are developing an OAuth API client application for
           OpenProject, you can register it using this form for all users to use.
         default_scopes: ''
-    client_id: Client ID
+    client_id: Numer klienta
     client_secret_notice: 'This is the only time we can print the client secret, please
       note it down and keep it secure. It should be treated as a password and cannot
       be retrieved by OpenProject at a later time.
@@ -2927,13 +2977,15 @@ pl:
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Uprawnienia
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      few: "%{count} active token"
+      many: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2951,7 +3003,3 @@ pl:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Usuń widżet
-  label_my_page_block: Mój blok strony
-  label_responsible_for_work_packages: Pakiety robocze, za które odpowiadam
-  label_visible_elements: Elementy widoczne

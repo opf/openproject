@@ -29,93 +29,93 @@
 require 'spec_helper'
 
 describe Project::Activity, type: :model do
-  let(:project) {
+  let(:project) do
     FactoryBot.create(:project)
-  }
+  end
 
   let(:initial_time) { Time.now }
 
-  let(:work_package) {
+  let(:work_package) do
     FactoryBot.create(:work_package,
-                       project: project)
-  }
+                      project: project)
+  end
 
-  let(:work_package2) {
+  let(:work_package2) do
     FactoryBot.create(:work_package,
-                       project: project)
-  }
+                      project: project)
+  end
 
-  let(:wiki_content) {
+  let(:wiki_content) do
     project.reload
 
     page = FactoryBot.create(:wiki_page,
-                              wiki: project.wiki)
+                             wiki: project.wiki)
 
     FactoryBot.create(:wiki_content,
-                       page: page)
-  }
+                      page: page)
+  end
 
-  let(:wiki_content2) {
+  let(:wiki_content2) do
     project.reload
 
     page = FactoryBot.create(:wiki_page,
-                              wiki: project.wiki)
+                             wiki: project.wiki)
 
     FactoryBot.create(:wiki_content,
-                       page: page)
-  }
+                      page: page)
+  end
 
-  let(:news) {
+  let(:news) do
     FactoryBot.create(:news,
-                       project: project)
-  }
+                      project: project)
+  end
 
-  let(:news2) {
+  let(:news2) do
     FactoryBot.create(:news,
-                       project: project)
-  }
+                      project: project)
+  end
 
-  let(:repository) {
+  let(:repository) do
     FactoryBot.create(:repository_git,
-                       project: project)
-  }
+                      project: project)
+  end
 
-  let(:changeset) {
+  let(:changeset) do
     FactoryBot.create(:changeset,
-                       repository: repository)
-  }
+                      repository: repository)
+  end
 
-  let(:changeset2) {
+  let(:changeset2) do
     FactoryBot.create(:changeset,
-                       repository: repository)
-  }
+                      repository: repository)
+  end
 
-  let(:board) {
-    FactoryBot.create(:board,
-                       project: project)
-  }
+  let(:forum) do
+    FactoryBot.create(:forum,
+                      project: project)
+  end
 
-  let(:message) {
+  let(:message) do
     FactoryBot.create(:message,
-                       board: board)
-  }
+                      forum: forum)
+  end
 
-  let(:message2) {
+  let(:message2) do
     FactoryBot.create(:message,
-                       board: board)
-  }
+                      forum: forum)
+  end
 
-  let(:time_entry) {
+  let(:time_entry) do
     FactoryBot.create(:time_entry,
-                       work_package: work_package,
-                       project: project)
-  }
+                      work_package: work_package,
+                      project: project)
+  end
 
-  let(:time_entry2) {
+  let(:time_entry2) do
     FactoryBot.create(:time_entry,
-                       work_package: work_package,
-                       project: project)
-  }
+                      work_package: work_package,
+                      project: project)
+  end
 
   def latest_activity
     Project.with_latest_activity.find(project.id).latest_activity_at

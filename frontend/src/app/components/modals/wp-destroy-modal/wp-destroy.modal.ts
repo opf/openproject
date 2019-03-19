@@ -39,6 +39,7 @@ import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/
 import {StateService} from '@uirouter/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageService} from "core-components/work-packages/work-package.service";
+import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
 
 @Component({
   templateUrl: './wp-destroy.modal.html'
@@ -76,7 +77,8 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
               readonly wpTableFocus:WorkPackageTableFocusService,
               readonly wpListService:WorkPackagesListService,
               readonly wpNotificationsService:WorkPackageNotificationService,
-              readonly notificationsService:NotificationsService) {
+              readonly notificationsService:NotificationsService,
+              readonly backRoutingService:BackRoutingService) {
     super(locals, cdRef, elementRef);
   }
 
@@ -130,12 +132,12 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
     }
 
     this.busy = true;
-    this.WorkPackageService.performBulkDelete(this.workPackages.map(el => el.id), true)
+    this.WorkPackageService.performBulkDelete(this.workPackages.map(el => el.id!), true)
       .then(() => {
         this.busy = false;
         this.closeMe($event);
         this.wpTableFocus.clear();
-        this.$state.go('work-packages.list');
+        this.backRoutingService.goBack(true);
       })
       .catch(() => {
         this.busy = false;

@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2><%= link_to h(@board.name), controller: '/boards', action: 'show', project_id: @project, id: @board %> &#187; <%=h @message.subject %></h2>
+<h2><%= link_to h(@forum.name), controller: '/forums', action: 'show', project_id: @project, id: @forum %> &#187; <%=h @message.subject %></h2>
 
 <%= labelled_tabular_form_for @message,
                               url: topic_path(@message),
@@ -40,5 +40,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <hr class="form--separator" />
 
   <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
+  <%= link_to t(:button_cancel), topic_path(@message), class: 'button -with-icon icon-cancel' %>
 <% end %>
 <div id="preview"></div>

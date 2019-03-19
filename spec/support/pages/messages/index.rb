@@ -37,13 +37,13 @@ module Pages::Messages
     end
 
     def path
-      project_boards_path(project)
+      project_forums_path(project)
     end
 
     def click_create_message
       click_on 'Message'
 
-      ::Pages::Messages::Create.new(project.boards.first)
+      ::Pages::Messages::Create.new(project.forums.first)
     end
 
     def expect_listed(subject:, replies: nil, last_message: nil)

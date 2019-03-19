@@ -40,7 +40,7 @@ class WorkPackagesController < ApplicationController
   before_action :find_optional_project,
                 :protect_from_unauthorized_export, only: :index
 
-  before_action :load_query, only: :index, unless: ->() { request.format.html? }
+  before_action :load_and_validate_query, only: :index, unless: ->() { request.format.html? }
   before_action :load_work_packages, only: :index, if: ->() { request.format.atom? }
 
   before_action :set_gon_settings
@@ -152,8 +152,15 @@ class WorkPackagesController < ApplicationController
     %w[atom rss] + WorkPackage::Exporter.list_formats.map(&:to_s)
   end
 
-  def load_query
+  def load_and_validate_query
     @query ||= retrieve_query
+
+    unless @query.valid?
+      # Ensure outputting a html response
+      request.format = 'html'
+      return render_400(message: @query.errors.full_messages.join(". "))
+    end
+
   rescue ActiveRecord::RecordNotFound
     render_404
   end

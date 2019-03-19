@@ -18,14 +18,25 @@ ar:
     close_popup_title: إغلاق النافذة المنبثقة
     close_filter_title: إغلاق عامل التصفية
     close_form_title: إغلاق النموذج
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: لا يدعم المتصفح الخاص بك النسخ إلى الحافظة, من فضلك انسخ النص
         المختار يدوياً.
       copied_successful: تم النسخ بنجاح إلى الحافظة!
     button_add_watcher: إضافة مراقب
+    button_back: الرجوع للخلف
     button_back_to_list_view: Back to list view
     button_cancel: إلغاء
-    button_close: Close
+    button_close: أغلِق
     button_check_all: اختر الكل
     button_configure-form: Configure form
     button_confirm: تأكيد
@@ -38,6 +49,7 @@ ar:
     button_duplicate: كرِّر
     button_edit: تعديل
     button_filter: فلترة
+    button_advanced_filter: Advanced filter
     button_list_view: عرض القائمة
     button_show_view: عرض ملء الشاشة
     button_log_time: وقت السجل
@@ -146,6 +158,30 @@ ar:
     general_text_yes: نعم
     general_text_No: لا
     general_text_Yes: نعم
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: الوثائق
+          no_results: No documents yet.
+        news:
+          title: الأخبار
+          at: at
+          no_results: لا شيء جديد للتقرير.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: مجموعات العمل الموكلة لي
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: التقويم
     label_activate: تفعيل
     label_activity_no: رقم إدخال النشاط%{activityNo}
     label_activity_with_comment_no: رقم إدخال النشاط %{activityNo}. يمتلك تعليق مستخدم.
@@ -165,8 +201,10 @@ ar:
     label_and: و
     label_ascending: ترتيب تصاعدي
     label_author: الكاتب%{user}
-    label_between: between
+    label_between: بين
+    label_board: Board
     label_board_locked: مقفل
+    label_board_plural: Boards
     label_board_sticky: مثبت
     label_create_work_package: إنشاء حزمة جديدة
     label_created_by: أنشئ بواسطة
@@ -212,7 +250,7 @@ ar:
     label_menu_collapse: طي
     label_menu_expand: وسّع
     label_more_than_ago: منذ أكثر من أيام
-    label_my_page: My page
+    label_my_page: صفحتي
     label_next: التالي
     label_no_data: لا يوجد بيانات لعرضها
     label_no_due_date: لا يوجد تاريخ انتهاء
@@ -251,7 +289,7 @@ ar:
     label_subject: الموضوع
     label_this_week: هذا الأسبوع
     label_today: اليوم
-    label_up: Up
+    label_up: الأعلى
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} من التقدم الكلي"
@@ -287,6 +325,7 @@ ar:
     label_add_description: إضافة توصيفات إلى%{file}
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: تحميل ملفات إلى حزمة العمل%{id}:%{subject}
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'هذه الملفات ستحمل:'
     label_rejected_files: 'هذه الملفات لا يمكن أن تحمل:'
     label_rejected_files_reason: هذه الملفات لا يمكن تحميلها بينما حجمها أكبر من%{maximumFilesize}
@@ -394,9 +433,9 @@ ar:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: النشاط
+      comment: تعليق
+      hours: الساعات
     watchers:
       label_loading: تحميل مشاهدين...
       label_error_loading: حدث خطأ خلال تحميل المشاهدين
@@ -485,6 +524,7 @@ ar:
       view?
     text_attachment_destroy_confirmation: هل أنت متأكد أنك تريد حذف المرفق؟
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -668,7 +708,7 @@ ar:
       default_queries:
         latest_activity: Latest activity
         created_by_me: Created by me
-        assigned_to_me: Assigned to me
+        assigned_to_me: مخصص لي
         recently_created: Recently created
         all_open: All open
         summary: مُلخّص
@@ -760,8 +800,6 @@ ar:
         days: أيام
         weeks: أسابيع
         months: أشهر
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -802,6 +840,7 @@ ar:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: إنشاء ناجح.
     notice_successful_delete: حذف ناجح.
     notice_successful_update: تحديث ناجح.
@@ -828,7 +867,7 @@ ar:
         messages_on_field: 'هذا الحقل غير صالح: %{messages}'
     error_could_not_resolve_version_name: تعثّر حل اسم الإصدار
     error_could_not_resolve_user_name: تعذر حل اسم المستخدم
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -856,11 +895,13 @@ ar:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: إصدار متصفحك غير مدعوم
-      message: إصدار المتصفِّح الذي تستخدمة لم يعُد مدعومًا من قِبل أوبِن بروجِكت.
-      update_message: من فضلك قم بتحديث متصفِّحك.
-      update_ie_user: من فضلك حوّل إلى موزيلّا فايرفوكس أو جوجل كروم، أو قم بالتحديث
-        إلى مايكروسوفت إدج.
-      learn_more: التعرف على المزيد
-      close_warning: تجاهل هذا التحذير.
+    global_search:
+      all_projects: In all projects
+      search: البحث
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

@@ -42,34 +42,30 @@ import {
   RelationsStateValue,
   WorkPackageRelationsService
 } from '../../wp-relations/wp-relations.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 
-export type RelationColumnType = 'toType' | 'ofType';
+export type RelationColumnType = 'toType'|'ofType';
 
 @Injectable()
 export class WorkPackageTableRelationColumnsService extends WorkPackageTableBaseService<WorkPackageTableRelationColumns> {
-  constructor(public tableState:TableState,
+  constructor(public querySpace:IsolatedQuerySpace,
               public wpTableColumns:WorkPackageTableColumnsService,
               public halResourceService:HalResourceService,
               public wpCacheService:WorkPackageCacheService,
               public wpRelations:WorkPackageRelationsService) {
-      super(tableState);
+    super(querySpace);
   }
 
   public get state():InputState<WorkPackageTableRelationColumns> {
-    return this.tableState.relationColumns;
+    return this.querySpace.relationColumns;
   }
 
-  public valueFromQuery(query:QueryResource):WorkPackageTableRelationColumns|undefined {
-    return undefined;
-  }
-
-  public initialize() {
-    this.initializeState();
+  public valueFromQuery(query:QueryResource):WorkPackageTableRelationColumns {
+    return {};
   }
 
   /**
@@ -92,7 +88,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
     }
 
     // Only if the work package has anything expanded
-    const expanded = this.current.getExpandFor(workPackage.id);
+    const expanded = this.getExpandFor(workPackage.id!);
     if (expanded === undefined) {
       return;
     }
@@ -145,7 +141,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
   }
 
   public relationColumnType(column:QueryColumn):RelationColumnType|null {
-    switch(column._type) {
+    switch (column._type) {
       case queryColumnTypes.RELATION_TO_TYPE:
         return 'toType';
       case queryColumnTypes.RELATION_OF_TYPE:
@@ -155,37 +151,29 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
     }
   }
 
-  public getExpandFor(workPackageId:string):string | undefined {
-    return this.current && this.current.getExpandFor(workPackageId);
+  public getExpandFor(workPackageId:string):string|undefined {
+    return this.current[workPackageId];
   }
 
-  public expandFor(workPackageId:string, columnId:string) {
-    const current = this.current;
-
-    current.expandFor(workPackageId, columnId);
-    this.state.putValue(current);
+  public setExpandFor(workPackageId:string, columnId:string) {
+    this.state.doModify((value) => {
+      const update = { ...value };
+      update[workPackageId] = columnId;
+      return update;
+    });
   }
 
   public collapse(workPackageId:string) {
-    const current = this.current;
+    this.state.doModify((value:WorkPackageTableRelationColumns) => {
+      let update = {...value};
+      delete update[workPackageId];
 
-    current.collapse(workPackageId);
-    this.state.putValue(current);
+      return update;
+    });
   }
 
   public get current():WorkPackageTableRelationColumns {
-    return this.state.value!;
-  }
-
-  private initializeState() {
-    let current = this.current;
-
-    if (!current) {
-      current = new WorkPackageTableRelationColumns();
-    }
-    this.state.putValue(current);
-
-    return current;
+    return this.state.getValueOr({});
   }
 }
 

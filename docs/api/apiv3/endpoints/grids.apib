@@ -43,6 +43,7 @@ Currently, the following pages employ grids:
 | endRow       | The row the widget ends. The widget's area does not include the row itself.        | Integer  | x > 0, x <= rowCount of the grid, x > startRow       | READ/WRITE           |                |
 | startColumn  | The column the widget starts at (1 based)                                          | Integer  | x > 0, x < columnCount of the grid, x < endColumn    | READ/WRITE           |                |
 | endColumn    | The column the widget ends. The widget's area does not include the column itself.  | Integer  | x > 0, x <= columnCount of the grid, x > startColumn | READ/WRITE           |                |
+| options      | An options hash of values customizable by the widget                               | JSON     |                                                      | READ/WRITE           |                |
 
 ## Grid [/api/v3/grids/{id}]
 
@@ -83,7 +84,7 @@ Currently, the following pages employ grids:
                 "createdAt": "2018-12-03T16:58:30Z",
                 "updatedAt": "2018-12-13T19:36:40Z",
                 "_links": {
-                    "page": {
+                    "scope": {
                         "href": "/my/page",
                         "type": "text/html"
                     },
@@ -172,7 +173,7 @@ Currently, the following pages employ grids:
                             "createdAt": "2018-12-03T16:58:30Z",
                             "updatedAt": "2018-12-13T19:36:40Z",
                             "_links": {
-                                "page": {
+                                "scope": {
                                     "href": "/my/page",
                                     "type": "text/html"
                                 },
@@ -188,19 +189,70 @@ Currently, the following pages employ grids:
                                     "href": "/api/v3/grids/2"
                                 }
                             }
+                        },
+                        {
+                            "_type": "Grid",
+                            "id": 5,
+                            "rowCount": 1,
+                            "columnCount": 4,
+                            "widgets": [
+                                {
+                                    "_type": "GridWidget",
+                                    "identifier": "work_package_query",
+                                    "startRow": 1,
+                                    "endRow": 8,
+                                    "startColumn": 1,
+                                    "endColumn": 3
+                                },
+                                {
+                                    "_type": "GridWidget",
+                                    "identifier": "work_package_query",
+                                    "startRow": 3,
+                                    "endRow": 8,
+                                    "startColumn": 4,
+                                    "endColumn": 5
+                                },
+                                {
+                                    "_type": "GridWidget",
+                                    "identifier": "work_package_query",
+                                    "startRow": 1,
+                                    "endRow": 3,
+                                    "startColumn": 3,
+                                    "endColumn": 6
+                                }
+                            ],
+                            "createdAt": "2019-01-05T16:58:30Z",
+                            "updatedAt": "2019-01-07T19:36:40Z",
+                            "_links": {
+                                "scope": {
+                                    "href": "/projects/a_project/boards",
+                                    "type": "text/html"
+                                },
+                                "updateImmediately": {
+                                    "href": "/api/v3/grids/5",
+                                    "method": "patch"
+                                },
+                                "update": {
+                                    "href": "/api/v3/grids/5/form",
+                                    "method": "post"
+                                },
+                                "self": {
+                                    "href": "/api/v3/grids/5"
+                                }
+                            }
                         }
                     ]
                 },
                 "_links": {
                     "self": {
-                        "href": "/api/v3/time_entries?offset=1&pageSize=30"
+                        "href": "/api/v3/grids?offset=1&pageSize=30"
                     },
                     "jumpTo": {
-                        "href": "/api/v3/time_entries?offset=%7Boffset%7D&pageSize=30",
+                        "href": "/api/v3/grids?offset=%7Boffset%7D&pageSize=30",
                         "templated": true
                     },
                     "changeSize": {
-                        "href": "/api/v3/time_entries?offset=1&pageSize=%7Bsize%7D",
+                        "href": "/api/v3/grids?offset=1&pageSize=%7Bsize%7D",
                         "templated": true
                     }
                 }
@@ -285,7 +337,7 @@ Creates a new grid applying the attributes provided in the body. The constraints
                      }
                 ],
                 "_links": {
-                    "page": {
+                    "scope": {
                         "href": "/my/page"
                     }
                 }
@@ -466,7 +518,7 @@ A page link must be provided in the body when calling this end point.
                             }
                         ],
                         "_links": {
-                            "page": {
+                            "scope": {
                                 "href": "/my/page",
                                 "type": "text/html"
                             }
@@ -509,7 +561,7 @@ A page link must be provided in the body when calling this end point.
                             "hasDefault": false,
                             "writable": true
                         },
-                        "page": {
+                        "scope": {
                             "type": "Href",
                             "name": "Page",
                             "required": true,
@@ -706,7 +758,7 @@ For more details and all possible responses see the general specification of [Fo
                             "hasDefault": false,
                             "writable": true
                         },
-                        "page": {
+                        "scope": {
                             "type": "Href",
                             "name": "Page",
                             "required": true,

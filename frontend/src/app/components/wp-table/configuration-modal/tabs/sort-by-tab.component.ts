@@ -55,7 +55,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
         .filter(object => object.column !== null)
         .map(object => this.getMatchingSort(object.column.href!, object.direction));
 
-    this.wpTableSortBy.set(_.compact(sortElements));
+    this.wpTableSortBy.update(_.compact(sortElements));
   }
 
   ngOnInit() {
@@ -79,7 +79,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
         // QuerySortByResources are doubled for each column (one for asc/desc direction)
         this.allColumns = _.uniqBy(allColumns, 'href');
 
-        _.each(this.wpTableSortBy.currentSortBys, sort => {
+        _.each(this.wpTableSortBy.current, sort => {
           if (!sort.column.$href!.endsWith('/parent')) {
             this.sortationObjects.push(
               new SortModalObject({name: sort.column.name, href: sort.column.$href},

@@ -29,26 +29,30 @@
 import {Injectable} from '@angular/core';
 import {QueryResource, TimelineLabels, TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {InputState} from 'reactivestates';
 import {zoomLevelOrder} from '../../wp-table/timeline/wp-timeline';
 import {WorkPackageTableTimelineState} from './../wp-table-timeline';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 
 @Injectable()
-export class WorkPackageTableTimelineService extends WorkPackageTableBaseService<WorkPackageTableTimelineState> implements WorkPackageQueryStateService {
+export class WorkPackageTableTimelineService extends WorkPackageQueryStateService<WorkPackageTableTimelineState> {
 
-  public constructor(tableState:TableState) {
-    super(tableState);
+  public constructor(protected readonly querySpace:IsolatedQuerySpace) {
+    super(querySpace);
   }
 
-
   public get state():InputState<WorkPackageTableTimelineState> {
-    return this.tableState.timeline;
+    return this.querySpace.timeline;
   }
 
   public valueFromQuery(query:QueryResource) {
-    return new WorkPackageTableTimelineState(query);
+    return {
+      ...this.defaultState,
+      visible: query.timelineVisible,
+      zoomLevel: query.timelineZoomLevel,
+      labels: query.timelineLabels
+    };
   }
 
   public hasChanged(query:QueryResource) {
@@ -69,18 +73,15 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
 
   public toggle() {
     let currentState = this.current;
-    this.setVisible(!currentState.isVisible);
+    this.setVisible(!currentState.visible);
   }
 
   public setVisible(value:boolean) {
-    let currentState = this.current;
-    currentState.visible = value;
-
-    this.state.putValue(currentState);
+    this.state.putValue({...this.current, visible: value});
   }
 
   public get isVisible() {
-    return this.current.isVisible;
+    return this.current.visible;
   }
 
   public get zoomLevel() {
@@ -89,20 +90,18 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
 
   public get labels() {
     if (_.isEmpty(this.current.labels)) {
-      return this.current.defaultLabels;
+      return this.defaultLabels;
     }
 
     return this.current.labels;
   }
 
   public updateLabels(labels:TimelineLabels) {
-    let currentState = this.current;
-    currentState.labels = labels;
-    this.state.putValue(currentState);
+    this.modify({ labels: labels });
   }
 
   public getNormalizedLabels(workPackage:WorkPackageResource) {
-    let labels:TimelineLabels = _.clone(this.current.defaultLabels);
+    let labels:TimelineLabels = this.defaultLabels;
 
     _.each(this.current.labels, (attribute:string | null, positionAsString:string) => {
       // RR: Lodash typings declare the position as string. However, it is save to cast
@@ -121,9 +120,7 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   }
 
   public setZoomLevel(level:TimelineZoomLevel) {
-    let currentState = this.current;
-    currentState.zoomLevel = level;
-    this.state.putValue(currentState);
+    this.modify({ zoomLevel: level });
   }
 
   public updateZoomWithDelta(delta:number) {
@@ -140,9 +137,7 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   }
 
   public toggleAutoZoom(value = !this.current.autoZoom) {
-    let currentState = this.current;
-    currentState.autoZoom = value;
-    this.state.putValue(currentState);
+    this.modify({ autoZoom: value });
   }
 
   public isAutoZoomEnabled():boolean {
@@ -150,6 +145,31 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   }
 
   public get current():WorkPackageTableTimelineState {
-    return this.state.value as WorkPackageTableTimelineState;
+    return this.state.getValueOr(this.defaultState);
+  }
+
+  /**
+   * Modify the state, updating with parts of properties
+   * @param update
+   */
+  private modify(update:Partial<WorkPackageTableTimelineState>) {
+    this.update({ ...this.current, ...update });
+  }
+
+  private get defaultLabels():TimelineLabels {
+    return {
+      left: '',
+      right: '',
+      farRight: 'subject'
+    };
+  }
+
+  private get defaultState():WorkPackageTableTimelineState {
+    return {
+      autoZoom: true,
+      zoomLevel: 'days',
+      visible: false,
+      labels: this.defaultLabels
+    };
   }
 }

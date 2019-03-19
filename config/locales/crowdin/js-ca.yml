@@ -18,14 +18,25 @@ ca:
     close_popup_title: Tanca el popup
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: El seu navegador no suporta copiar al porta-retalls. Si us plau,
         copieu el text seleccionat manualment.
       copied_successful: S'ha copiat correctament al porta-retalls!
     button_add_watcher: Afegir observador
+    button_back: Endarrere
     button_back_to_list_view: Back to list view
     button_cancel: Cancel·la
-    button_close: Close
+    button_close: Tancar
     button_check_all: Marcar-ho tot
     button_configure-form: Configure form
     button_confirm: Confirm
@@ -38,6 +49,7 @@ ca:
     button_duplicate: Duplicar
     button_edit: Editar
     button_filter: Filtre
+    button_advanced_filter: Advanced filter
     button_list_view: Vista de llista
     button_show_view: Vista de pantalla completa
     button_log_time: Temps de registre
@@ -147,6 +159,30 @@ ca:
     general_text_yes: sí
     general_text_No: 'No'
     general_text_Yes: Sí
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Notícies
+          at: at
+          no_results: Res de nou a informar.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Paquets de treball assignats a mi
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendari
     label_activate: Activar
     label_activity_no: Número d'entrada d'activitat %{activityNo}
     label_activity_with_comment_no: Número d'entrada d'activitat %{activityNo}. Disposa
@@ -168,7 +204,9 @@ ca:
     label_ascending: Ascendent
     label_author: 'Autor: %{user}'
     label_between: between
+    label_board: Board
     label_board_locked: Bloquejat
+    label_board_plural: Boards
     label_board_sticky: Fixa't
     label_create_work_package: Crear paquet de treball nou
     label_created_by: Created by
@@ -215,7 +253,7 @@ ca:
     label_menu_collapse: col·lapsar
     label_menu_expand: expandir
     label_more_than_ago: fa més dies
-    label_my_page: My page
+    label_my_page: La meva pàgina
     label_next: Següent
     label_no_data: No hi ha dades per mostrar
     label_no_due_date: no hi ha data de finalització
@@ -254,7 +292,7 @@ ca:
     label_subject: Assumpte
     label_this_week: aquesta setmana
     label_today: avui
-    label_up: Up
+    label_up: Amunt
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Progrés total"
@@ -292,6 +330,7 @@ ca:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Pujada d''arxius per al paquet de treball
       #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Es pujaran aquests fitxers:'
     label_rejected_files: 'Aquests arxius no es poden pujar:'
     label_rejected_files_reason: Aquests arxius no es poden carregar perquè la seva
@@ -401,9 +440,9 @@ ca:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Activitat
+      comment: Comentari
+      hours: Hores
     watchers:
       label_loading: carregant vigilants...
       label_error_loading: S'ha produït un error la càrrega dels vigilants
@@ -487,6 +526,7 @@ ca:
     text_attachment_destroy_confirmation: Esteu segur que voleu suprimir el fitxer
       adjunt?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -767,8 +807,6 @@ ca:
         days: dies
         weeks: setmanes
         months: mesos
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -809,6 +847,7 @@ ca:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Creat correctament.
     notice_successful_delete: Esborrat correctament.
     notice_successful_update: S'ha modificat correctament.
@@ -835,7 +874,7 @@ ca:
         messages_on_field: 'Aquest camp no és vàlid: %{messages}'
     error_could_not_resolve_version_name: No es pot determinar el nom de versió
     error_could_not_resolve_user_name: No es pot determinar el nom d'usuari
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -852,11 +891,13 @@ ca:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: La versió del navegador no és compatible
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Saber-ne més
-      close_warning: Ignore this warning.
+    global_search:
+      all_projects: In all projects
+      search: Cercar
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

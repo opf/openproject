@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-DEVELOPER_PERMISSIONS = [:view_messages, :delete_own_messages, :edit_own_messages, :add_project, :edit_project, :select_project_modules, :manage_members, :manage_versions, :manage_categories, :view_work_packages, :add_work_packages, :edit_work_packages, :manage_work_package_relations, :manage_subtasks, :add_work_package_notes, :move_work_packages, :delete_work_packages, :view_work_package_watchers, :add_work_package_watchers, :delete_work_package_watchers, :manage_public_queries, :save_queries, :view_gantt, :view_calendar, :log_time, :view_time_entries, :edit_time_entries, :delete_time_entries, :manage_news, :comment_news, :view_documents, :manage_documents, :view_wiki_pages, :export_wiki_pages, :view_wiki_edits, :edit_wiki_pages, :delete_wiki_pages_attachments, :protect_wiki_pages, :delete_wiki_pages, :rename_wiki_pages, :add_messages, :edit_messages, :delete_messages, :manage_boards, :view_files, :manage_files, :browse_repository, :manage_repository, :view_changesets, :manage_project_activities, :export_work_packages]
+DEVELOPER_PERMISSIONS = [:view_messages, :delete_own_messages, :edit_own_messages, :add_project, :edit_project, :select_project_modules, :manage_members, :manage_versions, :manage_categories, :view_work_packages, :add_work_packages, :edit_work_packages, :manage_work_package_relations, :manage_subtasks, :add_work_package_notes, :move_work_packages, :delete_work_packages, :view_work_package_watchers, :add_work_package_watchers, :delete_work_package_watchers, :manage_public_queries, :save_queries, :view_gantt, :view_calendar, :log_time, :view_time_entries, :edit_time_entries, :delete_time_entries, :manage_news, :comment_news, :view_documents, :manage_documents, :view_wiki_pages, :export_wiki_pages, :view_wiki_edits, :edit_wiki_pages, :delete_wiki_pages_attachments, :protect_wiki_pages, :delete_wiki_pages, :rename_wiki_pages, :add_messages, :edit_messages, :delete_messages, :manage_forums, :view_files, :manage_files, :browse_repository, :manage_repository, :view_changesets, :manage_project_activities, :export_work_packages]
 
 describe MailHandler, type: :model do
   let(:anno_user) { User.anonymous }
@@ -45,10 +45,10 @@ describe MailHandler, type: :model do
 
   after do
     User.current = nil
+    allow(Setting).to receive(:default_language).and_return('en')
   end
 
   it 'should add a work_package by create user on public project' do
-    allow(Setting).to receive(:default_language).and_return('en')
     Role.non_member.update_attribute :permissions, [:add_work_packages]
     project.update_attribute :is_public, true
     expect {
@@ -71,6 +71,48 @@ describe MailHandler, type: :model do
       expect(work_package.author).to eq(found_user)
       expect(found_user.check_password?(password)).to be_truthy
     }.to change(User, :count).by(1)
+  end
+
+  describe 'update work package' do
+    let!(:mail_user) { FactoryBot.create :admin, mail: 'user@example.org' }
+    let!(:work_package) { FactoryBot.create :work_package, project: project }
+
+    before do
+      # Avoid trying to extract text
+      allow(OpenProject::Database).to receive(:allows_tsv?).and_return false
+    end
+
+    it 'should update a work package with attachment' do
+      expect(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
+
+      # Mail with two attachemnts, one of which is skipped by signature.asc filename match
+      submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
+
+      work_package.reload
+
+      # Expect comment
+      expect(work_package.journals.last.notes).to eq 'Reply to work package #123'
+      expect(work_package.journals.last.user).to eq mail_user
+
+      # Expect filename without signature to be saved
+      expect(work_package.attachments.count).to eq(1)
+      expect(work_package.attachments.first.filename).to eq('Photo25.jpg')
+    end
+
+
+    context 'with existing attachment' do
+      let!(:attachment) { FactoryBot.create(:attachment, container: work_package) }
+
+      it 'does not replace it (Regression #29722)' do
+        work_package.reload
+        expect(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
+
+        # Mail with two attachemnts, one of which is skipped by signature.asc filename match
+        submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
+
+        expect(work_package.attachments.length).to eq 2
+      end
+    end
   end
 
   describe '#category' do

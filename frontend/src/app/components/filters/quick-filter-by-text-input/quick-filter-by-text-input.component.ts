@@ -26,15 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {WorkPackageTableFiltersService} from "app/components/wp-fast-table/state/wp-table-filters.service";
 import {QueryFilterResource} from "app/modules/hal/resources/query-filter-resource";
 import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {TableState} from "app/components/wp-table/table-state/table-state";
 import {WorkPackageCacheService} from "app/components/work-packages/work-package-cache.service";
 import {Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
+import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 
 @Component({
   selector: 'wp-filter-by-text-input',
@@ -42,6 +44,8 @@ import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 })
 
 export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy {
+  @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
+
   public text = {
     createWithDropdown: this.I18n.t('js.work_packages.create.button'),
     createButton: this.I18n.t('js.label_work_package'),
@@ -55,7 +59,7 @@ export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy 
   private availableSearchFilter:QueryFilterResource;
 
   constructor(readonly I18n:I18nService,
-              readonly tableState:TableState,
+              readonly querySpace:IsolatedQuerySpace,
               readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly wpCacheService:WorkPackageCacheService) {
     this.searchTermChanged
@@ -66,18 +70,22 @@ export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy 
       )
       .subscribe(term => {
         this.searchTerm = term;
-        let currentSearchFilter = this.wpTableFilters.find('search');
+        let filters = this.wpTableFilters.current;
+        let searchFilter = this.wpTableFilters.find('search');
         if (this.searchTerm.length > 0) {
-          if (!currentSearchFilter) {
-            currentSearchFilter = this.wpTableFilters.currentState.add(this.availableSearchFilter);
+          if (!searchFilter) {
+            searchFilter = this.wpTableFilters.instantiate(this.availableSearchFilter);
           }
-          currentSearchFilter.operator = currentSearchFilter.findOperator('**')!;
-          currentSearchFilter.values = [this.searchTerm];
-        } else if (currentSearchFilter) {
-          this.wpTableFilters.currentState.remove(currentSearchFilter);
+          searchFilter.operator = searchFilter.findOperator('**')!;
+          searchFilter.values = [this.searchTerm];
+          filters.push(searchFilter);
+
+        } else if (searchFilter) {
+          let id = searchFilter.id;
+          _.remove(filters, f => f.id === id);
         }
 
-        this.wpTableFilters.replace(this.wpTableFilters.currentState);
+        this.filterChanged.emit(filters);
       });
   }
 
@@ -96,8 +104,7 @@ export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy 
           this.searchTerm = '';
         }
 
-        self.availableSearchFilter = _.find(self.wpTableFilters.currentState.availableFilters,
-                                            { id: 'search' }) as QueryFilterResource;
+        self.availableSearchFilter = this.wpTableFilters.findAvailableFilter('search')!;
       });
   }
 

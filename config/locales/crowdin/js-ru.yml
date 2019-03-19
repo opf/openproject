@@ -18,11 +18,22 @@ ru:
     close_popup_title: Закрыть всплывающее
     close_filter_title: Закрыть фильтр
     close_form_title: Закрыть форму
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Проверьте корпоративную версию.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Ваш браузер не поддерживает копирование в буфер обмена. Пожалуйста,
         скопируйте выделенный текст вручную.
       copied_successful: Успешно скопировано в буфер обмена!
     button_add_watcher: Добавить наблюдателя
+    button_back: Назад
     button_back_to_list_view: Вернуться к просмотру списка
     button_cancel: Отмена
     button_close: Закрыть
@@ -38,6 +49,7 @@ ru:
     button_duplicate: Дублировать
     button_edit: Правка
     button_filter: Фильтр
+    button_advanced_filter: Расширенный фильтр
     button_list_view: Представление списком
     button_show_view: Полноэкранный просмотр
     button_log_time: Учет времени
@@ -55,8 +67,8 @@ ru:
     button_export-atom: Скачать Atom
     calendar:
       title: Календарь
-      too_many: Пакетов работ больше (%{count}), чем может отобразить calendar (%{max}).
-        Отфильтруйте нужные пакеты добавив фильтры.
+      too_many: Пакетов работ больше (%{count}), чем может быть показано в календаре
+        (%{max}). Отфильтруйте пакеты, чтобы сфокусироваться на нужных.
     description_available_columns: Доступные столбцы
     description_current_position: 'Вы находитесь здесь:'
     description_select_work_package: 'Выберите пакет работ #%{id}'
@@ -149,17 +161,41 @@ ru:
     general_text_yes: да
     general_text_No: Нет
     general_text_Yes: Да
+    grid:
+      add_modal:
+        choose_widget: Выберите виджет
+      widgets:
+        documents:
+          title: Документы
+          no_results: Документов пока нет.
+        news:
+          title: Новости
+          at: на
+          no_results: Ничего нового для отчета.
+        time_entries_current_user:
+          title: Затраченное время (за последние 7 дней)
+          no_results: Нет записей о входах за последние 7 дней.
+        work_packages_accountable:
+          title: Пакеты работ, в которых я подотчетен
+        work_packages_assigned:
+          title: Переданные мне пакеты работ
+        work_packages_created:
+          title: Пакеты работ, созданные мной
+        work_packages_watched:
+          title: Пакеты работ, просмотренные мной
+        work_packages_calendar:
+          title: Календарь
     label_activate: Активировать
     label_activity_no: Деятельность номер %{activityNo}
     label_activity_with_comment_no: Деятельность номер %{activityNo}. Есть комментарий
       пользователя.
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
+    label_add_column_after: Добавить столбец после
+    label_add_column_before: Добавить столбец перед
     label_add_columns: Добавить столбец
     label_add_comment: Добавить комментарий
     label_add_comment_title: Комментарий и тип @ для уведомления других людей
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
+    label_add_row_after: Добавить строку после
+    label_add_row_before: Добавить строку перед
     label_add_selected_columns: Добавить выбранные столбцы
     label_added_by: Добавил(-а)
     label_added_time_by: Добавил(-а) %{author} %{age}
@@ -170,7 +206,9 @@ ru:
     label_ascending: По возрастанию
     label_author: 'Автор: %{user}'
     label_between: между
+    label_board: Board
     label_board_locked: Заперто
+    label_board_plural: Boards
     label_board_sticky: Стикер
     label_create_work_package: Создать новый пакет работ
     label_created_by: Автор
@@ -217,7 +255,7 @@ ru:
     label_menu_collapse: свернуть
     label_menu_expand: развернуть
     label_more_than_ago: больше, чем дней назад
-    label_my_page: My page
+    label_my_page: Моя страница
     label_next: Следующие
     label_no_data: Нет данных для отображения
     label_no_due_date: без даты окончания
@@ -236,9 +274,9 @@ ru:
     label_visibility_settings: Параметры видимости
     label_quote_comment: Цитировать этот комментарий
     label_reset: Сброс
-    label_remove_column: Remove column
+    label_remove_column: Удалить столбец
     label_remove_columns: Удалить выбранные столбцы
-    label_remove_row: Remove row
+    label_remove_row: Удалить строку
     label_save_as: Сохранить как
     label_select_watcher: Выберите наблюдателя...
     label_selected_filter_list: Выбранные фильтры
@@ -260,7 +298,7 @@ ru:
     label_activity_show_only_comments: Показать только деятельности с комментариями
     label_activity_show_all: Показать все активности
     label_total_progress: "%{percent}% общего прогресса"
-    label_total_amount: 'Total: %{amount}'
+    label_total_amount: 'Всего: %{amount}'
     label_updated_on: Обновлено
     label_warning: Предупреждение
     label_work_package: Пакет работ
@@ -293,6 +331,7 @@ ru:
     label_upload_notification: Загрузка файлов...
     label_work_package_upload_notification: 'Загрузка файлов для пакета работ #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Эти файлы будут загружены:'
     label_rejected_files: 'Эти файлы не могут быть загружены:'
     label_rejected_files_reason: Эти файлы не могут быть загружены, как их размер
@@ -400,9 +439,9 @@ ru:
           requires: требование
           required: необходим для
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Деятельность
+      comment: Комментарий
+      hours: Часы
     watchers:
       label_loading: Загрузка наблюдателей...
       label_error_loading: При загрузке наблюдателей произошла ошибка
@@ -465,7 +504,7 @@ ru:
         other: Пожалуйста, введите более {{count}} символов
         zero: Please enter more characters
         few: Пожалуйста, введите более {{count}} символов
-        many: Please enter {{count}} more characters
+        many: Пожалуйста, введите {{count}} символа
       load_more: Загрузка дополнительных результатов ...
       no_matches: Совпадения не найдены
       searching: Поиск ...
@@ -474,7 +513,7 @@ ru:
         other: Вы можете выбрать только {{limit}} элементов
         zero: You cannot select any items
         few: Можно выбрать {{limit}} элементов
-        many: You can only select {{limit}} items
+        many: Вы можете выбрать только {{limit}} элемента
     project_menu_details: Детали
     sort:
       sorted_asc: 'Применяется сортировка по возрастанию, '
@@ -489,6 +528,7 @@ ru:
     text_query_destroy_confirmation: Уверены, что хотите удалить выбранное представление?
     text_attachment_destroy_confirmation: Вы уверены, что вы хотите удалить вложение?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Диаграмма Гантта
       labels:
         title: Настройка меток
@@ -605,7 +645,7 @@ ru:
       label_enable_multi_select: Разрешить множественный выбор
       label_disable_multi_select: Отключить множественный выбор
       label_filter_add: Добавить фильтр
-      label_filter_by_text: Filter by text
+      label_filter_by_text: Фильтр по тексту
       label_options: Опции
       label_column_multiselect: 'Комбинированные ниспадающие поле: выбор  клавишами
         со стрелками, подтвержднение выбора нажатием клавиши enter, удаление  клавишей
@@ -619,7 +659,7 @@ ru:
       message_work_package_read_only: В этом статусе пакет работ заблокирован. Никакой
         атрибут, отличный от статуса, изменен быть не может.
       no_value: Значение отсутствует
-      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholder_filter_by_text: Тема, описание, комментарии, ...
       inline_create:
         title: Кликните здесь, чтобы добавить новый пакет работ в этот список
       create:
@@ -770,8 +810,6 @@ ru:
         days: дней
         weeks: недели
         months: месяцев
-      label_switch_to_single_select: Переключиться на одиночный выбор
-      label_switch_to_multi_select: Переключиться на множественный выбор
     toolbar:
       settings:
         configure_view: Настроить вид ...
@@ -812,6 +850,7 @@ ru:
           пакетов работ будут рекурсивно удалены.
         deletes_children: Все дочерние пакеты работ и их потомки будут также рекурсивно
           удалены.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Создание выполнено.
     notice_successful_delete: Удаление выполнено.
     notice_successful_update: Обновление выполнено.
@@ -838,7 +877,7 @@ ru:
         messages_on_field: 'Это поле является недопустимым: %{messages}'
     error_could_not_resolve_version_name: Не удалось определить название этапа
     error_could_not_resolve_user_name: Не удалось найти такое имя пользователя
-    error_attachment_upload: 'Файл «%{name}» загрузить не удалось: %{error}'
+    error_attachment_upload: 'Не удалось загрузить файл: %{error}'
     error_attachment_upload_permission: У вас нет прав для загрузки файлов на этом
       ресурсе.
     units:
@@ -851,21 +890,23 @@ ru:
         one: пакет работ с одним дочерним
         other: пакет работ с %{count} дочерними
         few: пакет работ с %{count} дочерними
-        many: "%{count} work package children"
+        many: Пакет работ с %{count} дочерними
       hour:
         one: 1 час
         other: "%{count} часов"
         zero: 0 hours
         few: 'Кол-во часов: %{count}'
-        many: "%{count} hours"
+        many: "%{count} часа"
     zen_mode:
       button_activate: Включить дзен-режим
       button_deactivate: Отключить дзен-режим
-    unsupported_browser:
-      title: Ваша версия браузера не поддерживается
-      message: Версия вашего браузера больше не поддерживается OpenProject.
-      update_message: Пожалуйста, обновите свой браузер.
-      update_ie_user: Пожалуйста перейдите на Mozilla Firefox или Google Chrome, или
-        обновитесь до Microsoft Edge.
-      learn_more: Узнать больше
-      close_warning: Игнорировать это предупреждение.
+    global_search:
+      all_projects: Во всех проектах
+      search: Поиск
+      close_search: Закрыть поиск
+      current_project: В этом проекте
+      current_project_and_all_descendants: В этом проекте + подпроекты
+      title:
+        all_projects: все проекты
+        project_and_subprojects: и все подпроекты
+        search_for: Поиск по

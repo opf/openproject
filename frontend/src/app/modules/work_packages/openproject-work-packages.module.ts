@@ -28,7 +28,6 @@
 
 import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
-import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
 import {OpenprojectFieldsModule} from 'core-app/modules/fields/openproject-fields.module';
 import {ChartsModule} from 'ng2-charts';
 import {DynamicModule} from 'ng-dynamic-component';
@@ -41,7 +40,6 @@ import {HookService} from 'core-app/modules/plugins/hook-service';
 import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
 import {WorkPackageEmbeddedTableEntryComponent} from 'core-components/wp-table/embedded/wp-embedded-table-entry.component';
 import {WorkPackagesTableController} from 'core-components/wp-table/wp-table.directive';
-import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 import {WpResizerDirective} from 'core-components/resizer/wp-resizer.component';
 import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
@@ -53,13 +51,11 @@ import {OpSettingsMenuDirective} from 'core-components/op-context-menu/handlers/
 import {WorkPackageStatusDropdownDirective} from 'core-components/op-context-menu/handlers/wp-status-dropdown-menu.directive';
 import {WorkPackageCreateSettingsMenuDirective} from 'core-components/op-context-menu/handlers/wp-create-settings-menu.directive';
 import {WorkPackageSingleContextMenuDirective} from 'core-components/op-context-menu/wp-context-menu/wp-single-context-menu';
-import {WorkPackageQuerySelectableTitleComponent} from 'core-components/wp-query-select/wp-query-selectable-title.component';
 import {WorkPackageQuerySelectDropdownComponent} from 'core-components/wp-query-select/wp-query-select-dropdown.component';
 import {WorkPackageTimelineHeaderController} from 'core-components/wp-table/timeline/header/wp-timeline-header.directive';
 import {WorkPackageTableTimelineRelations} from 'core-components/wp-table/timeline/global-elements/wp-timeline-relations.directive';
 import {WorkPackageTableTimelineStaticElements} from 'core-components/wp-table/timeline/global-elements/wp-timeline-static-elements.directive';
 import {WorkPackageTableTimelineGrid} from 'core-components/wp-table/timeline/grid/wp-timeline-grid.directive';
-import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageTimelineButtonComponent} from 'core-components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component';
 import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
 import {WorkPackageStatusButtonComponent} from 'core-components/wp-buttons/wp-status-button/wp-status-button.component';
@@ -91,7 +87,6 @@ import {WorkPackageRelationRowComponent} from 'core-components/wp-relations/wp-r
 import {WorkPackageRelationsCreateComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-create.component';
 import {WorkPackageRelationsHierarchyComponent} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.directive';
 import {WorkPackageCreateButtonComponent} from 'core-components/wp-buttons/wp-create-button/wp-create-button.component';
-import {FullCalendarModule} from 'ng-fullcalendar';
 import {WorkPackageBreadcrumbParentComponent} from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb-parent.component';
 import {WorkPackageFilterButtonComponent} from 'core-components/wp-buttons/wp-filter-button/wp-filter-button.component';
 import {WorkPackageFilterContainerComponent} from 'core-components/filters/filter-container/filter-container.directive';
@@ -136,50 +131,19 @@ import {ExternalQueryConfigurationComponent} from 'core-components/wp-table/exte
 import {ExternalQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
 import {ExternalRelationQueryConfigurationComponent} from "core-components/wp-table/external-configuration/external-relation-query-configuration.component";
 import {ExternalRelationQueryConfigurationService} from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
-import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-table/state/wp-table-relation-columns.service';
-import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
-import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
-import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
-import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
-import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
-import {WorkPackageTableHighlightingService} from 'core-components/wp-fast-table/state/wp-table-highlighting.service';
-import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
-import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
-import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
-import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
-import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
-import {IWorkPackageCreateServiceToken} from 'core-components/wp-new/wp-create.service.interface';
-import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
-import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
-import {IWorkPackageEditingServiceToken} from 'core-components/wp-edit-form/work-package-editing.service.interface';
-import {WorkPackageInlineCreateService} from 'core-components/wp-inline-create/wp-inline-create.service';
-import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
-import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
-import {WorkPackageContextMenuHelperService} from 'core-components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
-import {WorkPackageService} from 'core-components/work-packages/work-package.service';
-import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
-import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
-import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageChildrenQueryComponent} from "core-components/wp-relations/embedded/children/wp-children-query.component";
 import {WpRelationInlineAddExistingComponent} from "core-components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
 import {WorkPackageRelationQueryComponent} from "core-components/wp-relations/embedded/relations/wp-relation-query.component";
-import {WpRelationInlineCreateService} from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
-import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 import {WorkPackagesListComponent} from "core-app/modules/work_packages/routing/wp-list/wp-list.component";
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
@@ -187,6 +151,11 @@ import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/rout
 import {AttachmentsUploadComponent} from 'core-app/modules/attachments/attachments-upload/attachments-upload.component';
 import {AttachmentListComponent} from 'core-app/modules/attachments/attachment-list/attachment-list.component';
 import {WorkPackageFilterByTextInputComponent} from "core-components/filters/quick-filter-by-text-input/quick-filter-by-text-input.component";
+import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
+import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
+import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
+import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
+import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 
 @NgModule({
   imports: [
@@ -212,71 +181,39 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
       deps: [Injector],
       multi: true
     },
-    WorkPackageTablePaginationService,
-
-    // Timeline
-    WorkPackageTableTimelineService,
 
     // External query configuration
     ExternalQueryConfigurationService,
     ExternalRelationQueryConfigurationService,
 
-    // Table and query states services
-    WorkPackageTableRelationColumnsService,
-    WorkPackageTableGroupByService,
-    WorkPackageTableHierarchiesService,
-    WorkPackageTableSortByService,
-    WorkPackageTableColumnsService,
-    WorkPackageTableFiltersService,
-    WorkPackageTableSumService,
-    WorkPackageTableHighlightingService,
-    WorkPackageStatesInitializationService,
-    WorkPackagesListService,
-    WorkPackageStaticQueriesService,
-    WorkPackageTableRefreshService,
-    WorkPackageTableAdditionalElementsService,
-    WorkPackagesListInvalidQueryService,
-    WorkPackageTableFocusService,
-    WorkPackageTableSelection,
-
-    // Provide both serves with tokens to avoid tight dependency cycles
-    { provide: IWorkPackageCreateServiceToken, useClass: WorkPackageCreateService },
-    { provide: IWorkPackageEditingServiceToken, useClass: WorkPackageEditingService },
-
-    // Provide a separate service for creation events of WP Inline create
-    // This can be hierarchically injected to provide isolated events on an embedded table
-    WorkPackageInlineCreateService,
-    WpChildrenInlineCreateService,
-    WpRelationInlineCreateService,
-
-    OpTableActionsService,
-
-    WorkPackageRelationsService,
+    // Global work package states / services
     WorkPackageCacheService,
     SchemaCacheService,
 
+    // Global query/table state services
+    // For any service that depends on the isolated query space,
+    // they should be provided in wp-isolated-query-space.directive instead
+    QueryFiltersService,
+    WorkPackageStaticQueriesService,
+    WorkPackagesListInvalidQueryService,
+
     KeepTabService,
     WorkPackageNotificationService,
-    WorkPackagesListChecksumService,
-    WorkPackageRelationsHierarchyService,
-    WorkPackageFiltersService,
-    WorkPackageService,
-    ApiWorkPackagesService,
+    WorkPackageDmService,
 
     WorkPackagesActivityService,
+    WorkPackageRelationsService,
     WorkPackageWatchersService,
 
-    WorkPackageContextMenuHelperService,
-
     QueryFormDmService,
-    TableState,
-
-    WpTableConfigurationService,
   ],
   declarations: [
     // Routing
     WorkPackagesBaseComponent,
     WorkPackagesListComponent,
+
+    // Query injector isolation
+    WorkPackageIsolatedQuerySpaceDirective,
 
     // WP New
     WorkPackageNewFullViewComponent,
@@ -331,7 +268,6 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
     WorkPackageStatusDropdownDirective,
     WorkPackageCreateSettingsMenuDirective,
     WorkPackageSingleContextMenuDirective,
-    WorkPackageQuerySelectableTitleComponent,
     WorkPackageQuerySelectDropdownComponent,
 
     // Timeline
@@ -421,6 +357,9 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
     // editor module to avoid circular dependencies
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
+
+    // Card view
+    WorkPackageCardViewComponent,
   ],
   entryComponents: [
     // Split view
@@ -492,11 +431,19 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
     // editor module to avoid circular dependencies
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
+
+    // Card view
+    WorkPackageCardViewComponent,
   ],
   exports: [
+    WorkPackagesTableController,
+    WorkPackageTablePaginationComponent,
     WorkPackageEmbeddedTableComponent,
+    WorkPackageEmbeddedTableEntryComponent,
+    WorkPackageCardViewComponent,
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
+    WorkPackageIsolatedQuerySpaceDirective,
   ]
 })
 export class OpenprojectWorkPackagesModule {

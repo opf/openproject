@@ -27,12 +27,13 @@
 // ++
 
 import {StateService, Transition, TransitionService, UIRouter, UrlService} from '@uirouter/core';
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {INotification, NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {Injector} from "@angular/core";
 import {FirstRouteService} from "core-app/modules/router/first-route-service";
 import {StatesModule} from "@uirouter/angular";
 import {appBaseSelector, ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
+import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
 
 export const OPENPROJECT_ROUTES = [
   {
@@ -45,6 +46,9 @@ export const OPENPROJECT_ROUTES = [
       // squash: true avoids duplicate slashes when the parameter is not provided
       projectPath: {type: 'path', value: null, squash: true},
       projects: {type: 'path', value: null, squash: true},
+
+      // Allow passing of flash messages after routes load
+      flash_message: { dynamic: true, value: null, inherit: false }
     }
   },
   // We could lazily load work packages module already,
@@ -95,6 +99,7 @@ export function initializeUiRouterListeners(injector:Injector) {
     const notificationsService:NotificationsService = injector.get(NotificationsService);
     const currentProject:CurrentProjectService = injector.get(CurrentProjectService);
     const firstRoute:FirstRouteService = injector.get(FirstRouteService);
+    const backRoutingService:BackRoutingService = injector.get(BackRoutingService);
 
     // Check whether we are running within our complete app, or only within some other bootstrapped
     // component
@@ -123,6 +128,16 @@ export function initializeUiRouterListeners(injector:Injector) {
       const fromState = transition.from();
       const toState = transition.to();
 
+      // Remove start_onboarding_tour param if set
+      if (toParams.start_onboarding_tour && toState.name !== 'work-packages.list') {
+        const paramsCopy = Object.assign({}, transition.params());
+        paramsCopy.start_onboarding_tour = undefined;
+        return $state.target(transition.to(), paramsCopy);
+      }
+
+      // Set backRoute to know where we came from
+      backRoutingService.sync(transition);
+
       // Reset profiler, if we're actually profiling
       const profiler:any = (window as any).MiniProfiler;
       profiler && profiler.pageTransition();
@@ -137,7 +152,7 @@ export function initializeUiRouterListeners(injector:Injector) {
         // Only move to the URL if we're not coming from an initial URL load
         // (cases like /work_packages/invalid/activity which render a 403 without frontend,
         // but trigger the ui-router state)
-        if (!(transition.options().source === 'url' && firstRoute.isEmpty)) {
+        if (!(transition.options().source === 'url' || firstRoute.isEmpty)) {
           const target = stateService.href(toState, toParams);
           window.location.href = target;
           return false;
@@ -152,6 +167,11 @@ export function initializeUiRouterListeners(injector:Injector) {
       // Clear all notifications when actually moving between states.
       if (transition.to().name !== transition.from().name) {
         notificationsService.clear();
+      }
+
+      // Add new notifications if passed to params
+      if (toParams.flash_message) {
+        notificationsService.add(toParams.flash_message as INotification);
       }
 
       const projectIdentifier = toParams.projectPath || currentProject.identifier;

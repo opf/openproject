@@ -21,7 +21,7 @@ import {
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
@@ -66,15 +66,18 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;
 
+  // Try to load an optional provided configuration service, and fall back to the default one
+  private wpTableConfigurationService:WpTableConfigurationService =
+    this.injector.get(WpTableConfigurationService, new WpTableConfigurationService(this.I18n));
+
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               @Optional() @Inject(WpTableConfigurationModalPrependToken) public prependModalComponent:ComponentType<any>|null,
               readonly I18n:I18nService,
-              readonly wpTableConfigurationService:WpTableConfigurationService,
               readonly injector:Injector,
               readonly appRef:ApplicationRef,
               readonly componentFactoryResolver:ComponentFactoryResolver,
               readonly loadingIndicator:LoadingIndicatorService,
-              readonly tableState:TableState,
+              readonly querySpace:IsolatedQuerySpace,
               readonly queryFormDm:QueryFormDmService,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               readonly wpNotificationsService:WorkPackageNotificationService,
@@ -144,7 +147,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   }
 
   protected loadForm() {
-    const query = this.tableState.query.value!;
+    const query = this.querySpace.query.value!;
     return this.queryFormDm
       .load(query)
       .then((form:QueryFormResource) => {

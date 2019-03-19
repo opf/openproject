@@ -43,7 +43,7 @@ describe 'Work Package table configuration modal filters spec', js: true do
       filters.save
 
       wp_table.expect_work_package_listed work_package_with_version
-      wp_table.expect_work_package_not_listed work_package_without_version
+      wp_table.ensure_work_package_not_listed! work_package_without_version
 
       wp_table.save_as('Some query name')
 
@@ -61,7 +61,7 @@ describe 'Work Package table configuration modal filters spec', js: true do
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_with_version
-      wp_table.expect_work_package_not_listed work_package_without_version
+      wp_table.ensure_work_package_not_listed! work_package_without_version
     end
   end
 end

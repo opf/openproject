@@ -18,11 +18,22 @@ cs:
     close_popup_title: Zavřít okno
     close_filter_title: Zavřít filtr
     close_form_title: Zavřít formulář
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Váš prohlížeč nepodporuje, kopírování do schránky. Ručně zkopírujte
         vybraný text.
       copied_successful: Úspešně zkopírováno do schránky!
     button_add_watcher: Přidat sledující
+    button_back: Zpět
     button_back_to_list_view: Zpět na seznam
     button_cancel: Zrušit
     button_close: Zavřít
@@ -38,6 +49,7 @@ cs:
     button_duplicate: Kopie
     button_edit: Upravit
     button_filter: Filtr
+    button_advanced_filter: Advanced filter
     button_list_view: Zobrazit jako seznam
     button_show_view: Celá obrazovka
     button_log_time: Čas protokolu
@@ -146,6 +158,30 @@ cs:
     general_text_yes: ano
     general_text_No: Ne
     general_text_Yes: Ano
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Novinky
+          at: at
+          no_results: Žádné novinky.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Pracovní balíčky, za které zodpovídám
+        work_packages_assigned:
+          title: Pracovní balíčky přidělené mně
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalendář
     label_activate: Aktivovat
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
@@ -168,7 +204,9 @@ cs:
     label_ascending: Vzestupně
     label_author: 'Autor: %{user}'
     label_between: mezi
+    label_board: Board
     label_board_locked: Uzamčeno
+    label_board_plural: Boards
     label_board_sticky: Sticky
     label_create_work_package: Vytvořit nový pracovní balíček
     label_created_by: Vytvořil(a)
@@ -214,7 +252,7 @@ cs:
     label_menu_collapse: sbalit
     label_menu_expand: rozbalit
     label_more_than_ago: před více jak (dny)
-    label_my_page: My page
+    label_my_page: Moje stránka
     label_next: Další
     label_no_data: No data to display
     label_no_due_date: žádné datum ukončení
@@ -291,6 +329,7 @@ cs:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Uploading files for Work package #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'These files will be uploaded:'
     label_rejected_files: 'These files cannot be uploaded:'
     label_rejected_files_reason: These files cannot be uploaded as their size is greater
@@ -399,9 +438,9 @@ cs:
           requires: vyžaduje
           required: vyžadováno
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Aktivita
+      comment: Komentář
+      hours: Hodiny
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -489,6 +528,7 @@ cs:
       view?
     text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Ganttův diagram
       labels:
         title: Konfigurace popisku
@@ -767,8 +807,6 @@ cs:
         days: dnů
         weeks: týdny
         months: mesice
-      label_switch_to_single_select: Přepnout na jednoduchý výběr
-      label_switch_to_multi_select: Přepnout na vícenásobný výběr
     toolbar:
       settings:
         configure_view: Nastavit zobrazení ...
@@ -809,6 +847,7 @@ cs:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Úspěšné vytvoření.
     notice_successful_delete: Úspěšné odstranění.
     notice_successful_update: Úspěšná aktualizace.
@@ -835,7 +874,7 @@ cs:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
-    error_attachment_upload: 'Nepodařilo se uložit soubor "%{name}": %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -858,11 +897,13 @@ cs:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: Verze vašeho prohlížeče není podporována
-      message: Verze prohlížeče, který používáte, již není OpenProject podporována.
-      update_message: Aktualizujte svůj prohlížeč prosím.
-      update_ie_user: Prosím přepněte do Mozilla Firefox nebo Google Chrome, nebo
-        upgradujte na Microsoft Edge.
-      learn_more: Více informací
-      close_warning: Ignorovat toto upozornění.
+    global_search:
+      all_projects: In all projects
+      search: Vyhledávání
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

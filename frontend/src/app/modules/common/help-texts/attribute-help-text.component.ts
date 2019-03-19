@@ -28,7 +28,7 @@
 
 import {AttributeHelpTextsService} from './attribute-help-text.service';
 import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.service';
-import {Component, ElementRef, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Injector, Input, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {AttributeHelpTextModal} from 'core-app/modules/common/help-texts/attribute-help-text.modal';
@@ -60,7 +60,8 @@ export class AttributeHelpTextComponent implements OnInit {
               protected helpTextDm:HelpTextDmService,
               protected attributeHelpTexts:AttributeHelpTextsService,
               protected opModalService:OpModalService,
-              readonly I18n:I18nService) {
+              protected injector:Injector,
+              protected I18n:I18nService) {
   }
 
   ngOnInit() {
@@ -77,7 +78,7 @@ export class AttributeHelpTextComponent implements OnInit {
 
   public handleClick() {
     this.load().then((resource) => {
-      this.opModalService.show(AttributeHelpTextModal, { helpText: resource });
+      this.opModalService.show(AttributeHelpTextModal, this.injector, { helpText: resource });
     });
   }
 

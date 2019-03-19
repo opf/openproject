@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <% roles ||= nil %>
 
 <%= error_messages_for :role %>
-<div class="form--field">
+<div class="form--field -required">
   <%= f.text_field :name, required: true, container_class: '-slim' %>
 </div>
 <div class="form--field">
@@ -62,3 +62,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     <%= render partial: "permissions", locals: {permissions: member_permissions, role: role, globalRole: "false" }%>
   </div>
 <% end %>
+

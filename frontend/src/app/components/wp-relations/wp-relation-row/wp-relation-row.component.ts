@@ -4,15 +4,17 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {Component, ElementRef, Inject, Input, OnInit, ViewChild} from "@angular/core";
+import {Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 
 @Component({
   selector: 'wp-relation-row',
   templateUrl: './wp-relation-row.template.html'
 })
-export class WorkPackageRelationRowComponent implements OnInit {
+export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
   @Input() public workPackage:WorkPackageResource;
   @Input() public relatedWorkPackage:WorkPackageResource;
   @Input() public groupByWorkPackageType:boolean;
@@ -56,6 +58,7 @@ export class WorkPackageRelationRowComponent implements OnInit {
   constructor(protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpRelations:WorkPackageRelationsService,
+              protected wpTableRefresh:WorkPackageTableRefreshService,
               readonly I18n:I18nService,
               protected PathHelper:PathHelperService) {
   }
@@ -67,6 +70,18 @@ export class WorkPackageRelationRowComponent implements OnInit {
     this.availableRelationTypes = RelationResource.LOCALIZED_RELATION_TYPES(false);
     this.selectedRelationType = _.find(this.availableRelationTypes,
       {'name': this.relation.normalizedType(this.workPackage)})!;
+
+    this.wpCacheService
+      .observe(this.relatedWorkPackage.id!)
+      .pipe(
+        untilComponentDestroyed(this)
+      ).subscribe((wp) => {
+      this.relatedWorkPackage = wp;
+    });
+  }
+
+  ngOnDestroy():void {
+    // Nothing to do
   }
 
   /**
@@ -114,6 +129,10 @@ export class WorkPackageRelationRowComponent implements OnInit {
         this.relation = savedRelation;
         this.relatedWorkPackage.relatedBy = savedRelation;
         this.userInputs.showDescriptionEditForm = false;
+        this.wpTableRefresh.request(
+          `Updated relation ${this.relatedWorkPackage.id}`,
+          {visible: true}
+        );
         this.wpNotificationsService.showSave(this.relatedWorkPackage);
       });
   }
@@ -155,6 +174,10 @@ export class WorkPackageRelationRowComponent implements OnInit {
   public removeRelation() {
     this.wpRelations.removeRelation(this.relation)
       .then(() => {
+        this.wpTableRefresh.request(
+          `Removed relation ${this.relatedWorkPackage.id}`,
+          { visible: true }
+        );
         this.wpCacheService.updateWorkPackage(this.relatedWorkPackage);
         this.wpNotificationsService.showSave(this.relatedWorkPackage);
       })

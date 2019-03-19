@@ -57,9 +57,25 @@
     index:
       no_results_content_title: There are currently no authentication modes.
       no_results_content_text: Create a new authentication mode
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: ingen
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: There are currently no colors.
@@ -106,6 +122,10 @@
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: Wiki
+      messages: Forum
   groups:
     index:
       no_results_title_text: There are currently no groups.
@@ -114,6 +134,11 @@
       no_results_title_text: There are currently no users part of this group.
     memberships:
       no_results_title_text: There are currently no projects part of this group.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -130,9 +155,9 @@
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -218,6 +243,8 @@
     x_descendants:
       one: One descendant work package
       other: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -355,6 +382,11 @@
         subscriber: Abonnent
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: Forsinkelse
         from: Arbeidspakke
@@ -495,6 +527,7 @@
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
         unchangeable: cannot be changed.
+        unremovable: cannot be removed.
         wrong_length: is the wrong length (should be %{count} characters).
       models:
         custom_field:
@@ -520,6 +553,10 @@
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -608,8 +645,8 @@
               reused:
                 one: har blitt brukt tidligere. Vennligst velg en som er forskjellig
                   fra den forrige %{count}.
-                other: has been used before. Please choose one that is different from
-                  your last %{count}.
+                other: har blitt brukt tidligere. Vennligst velg et som er forskjellig
+                  fra dine siste %{count}.
               match:
                 confirm: Bekreft nytt passord.
                 description: Bekreftelse av passord må samsvare med inndata i det
@@ -625,11 +662,11 @@
         body: 'Kontroller følgende felter:'
         header:
           one: 1 feil forhindret lagring av denne %{model}
-          other: "%{count} errors prohibited this %{model} from being saved"
+          other: "%{count} feil forhindret lagring av denne %{model}"
     models:
       attachment: Fil
       attribute_help_text: Attribute help text
-      board: Forum
+      forum: Forum
       comment: Kommentar
       custom_action: Custom action
       custom_field: Egendefinert felt
@@ -642,7 +679,7 @@
       query: Egendefinert spørring
       role:
         one: Rolle
-        other: Roles
+        other: Rolle
       type: Type
       user: Bruker
       version: Versjon
@@ -865,42 +902,42 @@
     distance_in_words:
       about_x_hours:
         one: rundt 1 time
-        other: about %{count} hours
+        other: cirka %{count} timer
       about_x_months:
         one: rundt 1 måned
-        other: about %{count} months
+        other: cirka %{count} måneder
       about_x_years:
         one: rundt 1 år
-        other: about %{count} years
+        other: cirka %{count} år
       almost_x_years:
         one: nesten 1 år
-        other: almost %{count} years
+        other: nesten %{count} år
       half_a_minute: et halvt minutt
       less_than_x_minutes:
         one: mindre enn ett minutt
         other: mindre enn %{count} minutter
       less_than_x_seconds:
         one: mindre enn 1 sekund
-        other: less than %{count} seconds
+        other: mindre enn %{count} sekunder
       over_x_years:
         one: over 1 år
-        other: over %{count} years
+        other: mer enn %{count} år
       x_days:
         one: 1 dag
-        other: "%{count} days"
+        other: "%{count} dager"
       x_minutes:
         one: 1 minutt
-        other: "%{count} minutes"
+        other: "%{count} minutter"
       x_months:
         one: 1 måned
-        other: "%{count} months"
+        other: "%{count} måneder"
       x_seconds:
         one: 1 sekund
-        other: "%{count} seconds"
+        other: "%{count} sekunder"
     units:
       hour:
         one: time
-        other: hours
+        other: " timer"
   default_activity_development: Utvikling
   default_activity_management: Administrasjon
   default_activity_other: Øvrig
@@ -1128,9 +1165,8 @@
       faq: FAQ
       glossary: Ordliste
       shortcuts: Snarveier
-      forums: Forum
       blog: OpenProject blogg
-      boards: Brukerforum
+      forums: Brukerforum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1178,7 +1214,6 @@
   label_all_open_wps: All open
   label_always_visible: Vises alltid
   label_announcement: Kunngjøring
-  label_and_its_subprojects: "%{value} og dens underprosjekter"
   label_api_access_key: API adgangsnøkkel
   label_api_access_key_created_on: API adgangsnøkkel ble opprettet for %{value} siden
   label_api_access_key_type: API
@@ -1198,7 +1233,7 @@
   label_authentication: Autentisering
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1206,14 +1241,15 @@
   label_blocked_by: blokkert av
   label_blocks: blokkeringer
   label_blog: Blogg
-  label_board_locked: Låst
-  label_board_new: Nytt forum
-  label_board_plural: Forum
-  label_board_sticky: Sticky
+  label_forums_locked: Låst
+  label_forum_new: Nytt forum
+  label_forum_plural: Forum
+  label_forum_sticky: Sticky
   label_boolean: Boolsk
   label_branch: Gren
   label_browse: Bla gjennom
   label_bulk_edit_selected_work_packages: Masseredigering av valgte arbeidspakker
+  label_bundled: "(Bundled)"
   label_calendar: Kalender
   label_calendar_show: Vis kalender
   label_category: Kategori
@@ -1474,6 +1510,7 @@
   label_planning: Planlegging
   label_please_login: Vennligst logg på
   label_plugins: Programtillegg
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: kommer før
   label_preferences: Innstillinger
   label_preview: Forhåndsvis
@@ -1544,7 +1581,6 @@
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: Søk
-  label_search_titles_only: Bare søk i titler
   label_send_information: Send kontoinformasjon til brukeren
   label_send_test_email: Send en testmail
   label_settings: Innstillinger
@@ -1625,6 +1661,7 @@
   label_view_diff: Vis forskjeller
   label_view_revisions: Vis revisjoner
   label_watched_work_packages: Overvåkede arbeidspakker
+  label_what_is_this: What is this?
   label_week: Uke
   label_wiki_content_added: Wiki-side lagt til
   label_wiki_content_updated: Wiki-side oppdatert
@@ -1676,19 +1713,19 @@
     zero: 0 closed
   label_x_comments:
     one: "%{count} kommentar"
-    other: "%{count} comments"
+    other: "%{count} kommentarer"
     zero: no comments
   label_x_open_work_packages_abbr:
     one: "%{count} åpen"
-    other: "%{count} open"
+    other: "%{count} åpne"
     zero: 0 open
   label_x_open_work_packages_abbr_on_total:
     one: 1 åpen / %{total}
-    other: "%{count} open / %{total}"
+    other: "%{count} åpne / %{total}"
     zero: 0 open / %{total}
   label_x_projects:
     one: "%{count} prosjekt"
-    other: "%{count} projects"
+    other: "%{count} prosjekter"
     zero: no projects
   label_year: År
   label_yesterday: i går
@@ -1799,6 +1836,8 @@
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: Kontoen ble oppdatert.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: Feil passord
   notice_account_registered_and_logged_in: Velkommen! Din konto ble aktivert. Du er
     nå innlogget.
@@ -1924,7 +1963,7 @@
   permission_export_wiki_pages: Eksportèr wiki-sider
   permission_list_attachments: List vedlegg
   permission_log_time: Logg tidsbruk
-  permission_manage_boards: Administrere forum
+  permission_manage_forums: Administrere forum
   permission_manage_categories: Administrere kategorier for arbeidspakker
   permission_manage_work_package_relations: Administrere relasjoner for arbeidspakker
   permission_manage_members: Administrere medlemmer
@@ -1971,7 +2010,7 @@
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Aktivitet
-  project_module_boards: Forum
+  project_module_forums: Forum
   project_module_calendar: Kalender
   project_module_work_package_tracking: Sporing av arbeidspakke
   project_module_news: Nyheter
@@ -2201,6 +2240,7 @@
   setting_mail_handler_body_delimiters: Avkort e-post etter en av disse linjene
   setting_mail_handler_body_delimiter_regex: Avkort e-post som samsvarer med denne
     regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Rolle gitt til en ikke-administrativ bruker som
     oppretter et prosjekt
   setting_password_active_rules: Aktive tegnklasser
@@ -2212,6 +2252,7 @@
   setting_per_page_options: Alternativer for oppføringer pr. side
   setting_plain_text_mail: Ren tekst (ingen HTML)
   setting_protocol: Protokoll
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registrerings bunntekst
   setting_repositories_automatic_managed_vendor: Automatic repository vendor type
   setting_repositories_encodings: Koding av pakkebrønner
@@ -2380,6 +2421,16 @@
   text_no_notes: There are no comments available for this work package.
   text_notice_too_many_values_are_inperformant: 'Merk: Visning av mer enn 100 elementer
     pr. side kan medføre at siden bruker lenger tid på å laste.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     Du er i ferd med å fjerne noen eller alle dine egne rettigheter og du vil kanskje ikke kunne redigere dette prosjektet etterpå.
     Er du sikker på at du vil fortsette?
@@ -2441,7 +2492,6 @@
       color: Farge
       colors: Farger
     associations: Avhengigheter
-    board_could_not_be_saved: Forum kunne ikke lagres
     button_delete_all: Slett alle
     change: Endre i planlegging
     children: Underelementer
@@ -2454,7 +2504,7 @@
     duration: Varighet
     duration_days:
       one: 1 dag
-      other: "%{count} days"
+      other: "%{count} dager"
     edit_color: Endre farge
     edit_thing: Rediger
     edit_timeline: Endre tidslinjerapport %{timeline}
@@ -2642,7 +2692,7 @@
     blocked: midlertidig låst
     blocked_num_failed_logins:
       one: midlertidig utesteng (%{count} mislykkede pålogginger)
-      other: locked temporarily (%{count} failed login attempts)
+      other: midlertidig låst (%{count} mislykkede innloggingsforsøk)
     confirm_status_change: You are about to change the status of '%{name}'. Are you
       sure you want to continue?
     deleted: Slettet bruker
@@ -2849,7 +2899,7 @@
         API to perform actions on your behalf.
     grants:
       created_date: Approved on
-      scopes: Permissions
+      scopes: Tilganger
       successful_application_revocation: Revocation of application %{application_name}
         successful.
       none_given: No OAuth applications have been granted access to your user account.
@@ -2873,7 +2923,3 @@
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: Fjern widget
-  label_my_page_block: Min side-blokk
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Synlige elementer

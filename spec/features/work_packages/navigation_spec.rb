@@ -122,15 +122,20 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     expect(current_path).to eq project_work_package_path(project, work_package, 'activity')
     project_html_title.expect_first_segment wp_title_segment
 
-    # Back to table using the button
-    find('.work-packages-list-view-button').click
+    # Switch tabs
+    full_work_package.switch_to_tab tab: :relations
+    expect(current_path).to eq project_work_package_path(project, work_package, 'relations')
+    project_html_title.expect_first_segment wp_title_segment
+
+    # Back to split screen using the button
+    find('.work-packages-back-button').click
     global_work_packages.expect_work_package_listed(work_package)
-    expect(current_path).to eq project_work_packages_path(project)
-    project_html_title.expect_first_segment 'All open'
+    expect(current_path).to eq project_work_packages_path(project) + "/details/#{work_package.id}/relations"
 
     # Link to full screen from index
     global_work_packages.open_full_screen_by_link(work_package)
 
+    full_work_package.switch_to_tab tab: :activity
     full_work_package.expect_subject
     full_work_package.expect_current_path
 

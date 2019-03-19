@@ -18,14 +18,25 @@ et:
     close_popup_title: Sulge hüpikaken
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Your browser doesn't support copying to clipboard. Please copy
         the selected text manually.
       copied_successful: Sucessfully copied to clipboard!
     button_add_watcher: Lisa jälgija
+    button_back: Tagasi
     button_back_to_list_view: Back to list view
     button_cancel: Tühista
-    button_close: Close
+    button_close: Sulge
     button_check_all: Märgi kõik
     button_configure-form: Configure form
     button_confirm: Confirm
@@ -38,6 +49,7 @@ et:
     button_duplicate: Duplitseeri
     button_edit: Muuda
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Nimekirja vaade
     button_show_view: Fullscreen view
     button_log_time: Logi aeg
@@ -146,6 +158,30 @@ et:
     general_text_yes: jah
     general_text_No: Ei
     general_text_Yes: Jah
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Dokumendid
+          no_results: No documents yet.
+        news:
+          title: Uudised
+          at: at
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Minu teemad
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalender
     label_activate: Aktiveerimine
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
@@ -162,12 +198,14 @@ et:
     label_added_time_by: Added by %{author} %{age}
     label_ago: päeva tagasi
     label_all: kõik
-    label_all_work_packages: all work packages
+    label_all_work_packages: kõik teemad
     label_and: ja
     label_ascending: Kasvav
     label_author: 'Author: %{user}'
     label_between: between
+    label_board: Board
     label_board_locked: Lukus
+    label_board_plural: Boards
     label_board_sticky: Külgejääv
     label_create_work_package: Lisa uus teema
     label_created_by: Created by
@@ -180,7 +218,7 @@ et:
     label_cancel_comment: Tühista kommentaar
     label_closed_work_packages: suletud
     label_collapse: Koonda
-    label_collapsed: collapsed
+    label_collapsed: koondatud
     label_collapse_all: Ahenda kõik
     label_comment: Kommentaar
     label_committed_at: "%{committed_revision_link} at %{date}"
@@ -198,7 +236,7 @@ et:
     label_filename: Fail
     label_filesize: Suurus
     label_greater_or_equal: ">="
-    label_group_by: Group by
+    label_group_by: Grupeeri
     label_hide_attributes: Show less
     label_hide_column: Peida veerg
     label_hide_project_menu: Collapse project menu
@@ -214,7 +252,7 @@ et:
     label_menu_collapse: sulge
     label_menu_expand: laienda
     label_more_than_ago: vanem kui
-    label_my_page: My page
+    label_my_page: Minu esileht
     label_next: Järgmine
     label_no_data: Pole
     label_no_due_date: lõpu kuupäeva pole
@@ -253,7 +291,7 @@ et:
     label_subject: Teema
     label_this_week: sel nädalal
     label_today: täna
-    label_up: Up
+    label_up: Üles
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Total progress"
@@ -291,6 +329,7 @@ et:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Uploading files for Work package #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'These files will be uploaded:'
     label_rejected_files: 'These files cannot be uploaded:'
     label_rejected_files_reason: These files cannot be uploaded as their size is greater
@@ -400,9 +439,9 @@ et:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Tegevus
+      comment: Kommentaar
+      hours: Tunnid
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -460,15 +499,15 @@ et:
     field_value_enter_prompt: Enter a value for '%{field}'
     select2:
       input_too_short:
-        one: Please enter one more character
-        other: Please enter {{count}} more characters
+        one: Sisesta veel üks märk
+        other: Sisesta veel {{count}} märki
         zero: Please enter more characters
-      load_more: Loading more results ...
-      no_matches: No matches found
-      searching: Searching ...
+      load_more: Laen rohkem tulemusi ...
+      no_matches: Vasteid ei leitud
+      searching: Otsing...
       selection_too_big:
-        one: You can only select one item
-        other: You can only select {{limit}} items
+        one: Sa saad teha ainult ühe valiku
+        other: Sa saad teha ainult {{limit}} valikut
         zero: You cannot select any items
     project_menu_details: Üksikasjad
     sort:
@@ -485,6 +524,7 @@ et:
       view?
     text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -532,7 +572,7 @@ et:
       responsible: Vastutaja
       save: Salvesta
       start_date: Alguskuupäev
-      tooManyProjects: More than %{count} Projects. Please use a better filter!
+      tooManyProjects: Rohkem kui %{count} projekti. Palun kasuta paremat filtrit!
       selection_mode:
         notification: Click on any highlighted work package to create the relation.
           Press escape to cancel.
@@ -545,14 +585,14 @@ et:
         months: Kuud
         quarters: Kvartalid
         years: Aastad
-        slider: Zoom slider
+        slider: Suumiliugur
         description: 'Select the initial zoom level that should be shown when autozoom
           is not available.
 
 '
     tl_toolbar:
-      zooms: Zoom level
-      outlines: Hierarchy level
+      zooms: Suumi tase
+      outlines: Hierarhia tase
     upsale:
       ee_only: Enterprise Edition only feature
     wiki_formatting:
@@ -686,7 +726,7 @@ et:
       query:
         column_names: Väljad
         group_by: Grupeeri tulemused
-        group: Group by
+        group: Grupeeri
         group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
           mode being active.
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
@@ -763,8 +803,6 @@ et:
         days: päeva
         weeks: nädalat
         months: kuud
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -805,6 +843,7 @@ et:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Loomine õnnestus.
     notice_successful_delete: Kustutamine õnnestus.
     notice_successful_update: Uuendamine õnnestus.
@@ -831,7 +870,7 @@ et:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -848,11 +887,13 @@ et:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: Your browser version is not supported
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Loe rohkem
-      close_warning: Ignore this warning.
+    global_search:
+      all_projects: In all projects
+      search: Otsi
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

@@ -51,7 +51,7 @@ describe Query, type: :model do
       query = Query.new_default
 
       expect(query.sort_criteria)
-        .to match_array([['parent', 'asc']])
+        .to match_array([['id', 'asc']])
     end
 
     it 'does not use the default sortation if an order is provided' do
@@ -59,6 +59,14 @@ describe Query, type: :model do
 
       expect(query.sort_criteria)
         .to match_array([['id', 'asc']])
+    end
+  end
+
+  describe 'hidden' do
+    it 'sets the hidden property' do
+      expect(query.hidden).to eq(false)
+      query.hidden = true
+      expect(query.hidden).to eq(true)
     end
   end
 
@@ -530,6 +538,15 @@ describe Query, type: :model do
           query.valid_subset!
 
           expect(query.sort_criteria).to be_empty
+        end
+      end
+
+      context 'parent' do
+        let(:sort_by) { [['parent', 'asc'], ['start_date', 'asc']] }
+
+        it 'is valid' do
+          expect(query).to be_valid
+          expect(query.sort_criteria).to match_array [['id', 'asc'], ['start_date', 'asc']]
         end
       end
 

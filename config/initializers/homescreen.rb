@@ -67,28 +67,36 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
 end
 
 OpenProject::Static::Homescreen.manage :links do |links|
-  static_links = OpenProject::Static::Links.links
+  link_hash = OpenProject::Static::Links.links
 
   links.push(
     {
       label: :user_guides,
       icon: 'icon-context icon-rename',
-      url: static_links[:user_guides][:href]
+      url: link_hash[:user_guides][:href]
     },
     {
       label: :glossary,
       icon: 'icon-context icon-glossar',
-      url: static_links[:glossary][:href]
+      url: link_hash[:glossary][:href]
     },
     {
       label: :shortcuts,
       icon: 'icon-context icon-shortcuts',
-      url: static_links[:shortcuts][:href]
+      url: link_hash[:shortcuts][:href]
     },
     {
-      label: :boards,
+      label: :forums,
       icon: 'icon-context icon-forums',
-      url: static_links[:boards][:href]
+      url: link_hash[:forums][:href]
     }
   )
+
+  if impressum_link = link_hash[:impressum]
+    links.push({
+      label: impressum_link[:label],
+      url: impressum_link[:href],
+      icon: 'icon-context icon-info1'
+    })
+  end
 end

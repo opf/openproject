@@ -30,6 +30,11 @@
               "node_modules/jquery-ui/themes/base/dialog.css",
               "node_modules/fullcalendar/dist/fullcalendar.css"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/sass/"
+              ]
+            },
             "scripts": []
           },
           "configurations": {

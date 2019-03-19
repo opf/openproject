@@ -37,7 +37,7 @@ import {WorkPackageStatesInitializationService} from './wp-states-initialization
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {StateService} from '@uirouter/core';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {PaginationObject, QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
@@ -49,7 +49,7 @@ import {input} from "reactivestates";
 import {catchError, mergeMap, share, switchMap, take, tap} from "rxjs/operators";
 
 export interface QueryDefinition {
-  queryParams:{ query_id?:number, query_props?:string };
+  queryParams:{ query_id?:string, query_props?:string };
   projectIdentifier?:string;
 }
 
@@ -72,10 +72,10 @@ export class WorkPackagesListService {
 
 
           // Project the loaded query into the table states and confirm the query is fully loaded
-          return this.tableState.ready
+          return this.querySpace.ready
             .doAndTransition('Query loaded', () => {
               this.wpStatesInitialization.initialize(query, query.results);
-              return this.tableState.tableRendering.onQueryUpdated.valuesPromise();
+              return this.querySpace.tableRendering.onQueryUpdated.valuesPromise();
             })
             .then(() => query);
       }),
@@ -83,9 +83,6 @@ export class WorkPackagesListService {
       // diverting observables to the LATEST emitted.
       share()
     );
-
-  private queryChanges = new BehaviorSubject<string>('');
-  public queryChanges$ = this.queryChanges.asObservable();
 
   constructor(protected NotificationsService:NotificationsService,
               readonly I18n:I18nService,
@@ -95,7 +92,7 @@ export class WorkPackagesListService {
               protected QueryDm:QueryDmService,
               protected QueryFormDm:QueryFormDmService,
               protected states:States,
-              protected tableState:TableState,
+              protected querySpace:IsolatedQuerySpace,
               protected wpTablePagination:WorkPackageTablePaginationService,
               protected wpStatesInitialization:WorkPackageStatesInitializationService,
               protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService) {
@@ -108,7 +105,7 @@ export class WorkPackagesListService {
    * @param queryParams
    * @param projectIdentifier
    */
-  private streamQueryRequest(queryParams:{ query_id?:number, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
+  private streamQueryRequest(queryParams:{ query_id?:string, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
     const decodedProps = this.getCurrentQueryProps(queryParams);
     const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
     const stream = this.QueryDm.stream(queryData, queryParams.query_id, projectIdentifier);
@@ -126,7 +123,7 @@ export class WorkPackagesListService {
    * Load a query.
    * The query is either a persisted query, identified by the query_id parameter, or the default query. Both will be modified by the parameters in the query_props parameter.
    */
-  public fromQueryParams(queryParams:{ query_id?:number, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
+  public fromQueryParams(queryParams:{ query_id?:string, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
     this.queryRequests.clear();
     this.queryRequests.putValue({ queryParams: queryParams, projectIdentifier: projectIdentifier });
 
@@ -172,7 +169,7 @@ export class WorkPackagesListService {
       .catch((error) => {
         let projectIdentifier = query.project && query.project.id;
 
-        return this.handleQueryLoadingError(error, {}, query.id, projectIdentifier);
+        return this.handleQueryLoadingError(error, {}, query.id!, projectIdentifier);
       });
 
   }
@@ -230,7 +227,7 @@ export class WorkPackagesListService {
    * After the update, the new query is reloaded (e.g. for the work packages)
    */
   public create(query:QueryResource, name:string):Promise<QueryResource> {
-    let form = this.tableState.queryForm.value!;
+    let form = this.querySpace.queryForm.value!;
 
     query.name = name;
 
@@ -242,7 +239,7 @@ export class WorkPackagesListService {
 
         // Reload the query, and then reload the menu
         this.reloadQuery(query).then(() => {
-          this.queryChanges.next(query.name);
+          this.states.changes.queries.next(query.id!);
         });
 
         return query;
@@ -270,7 +267,7 @@ export class WorkPackagesListService {
 
         this.loadDefaultQuery(id);
 
-        this.queryChanges.next(query.name);
+        this.states.changes.queries.next(query.id!);
       });
 
 
@@ -280,16 +277,16 @@ export class WorkPackagesListService {
   public save(query?:QueryResource) {
     query = query || this.currentQuery;
 
-    let form = this.tableState.queryForm.value!;
+    let form = this.querySpace.queryForm.value!;
 
-    let promise = this.QueryDm.update(query, form);
+    let promise = this.QueryDm.update(query, form).toPromise();
 
     promise
       .then(() => {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
         this.$state.go('.', { query_id: query!.id, query_props: null }, { reload: true });
-        this.queryChanges.next(query!.name);
+        this.states.changes.queries.next(query!.id!);
       })
       .catch((error:ErrorResource) => {
         this.NotificationsService.addError(error.message);
@@ -302,11 +299,11 @@ export class WorkPackagesListService {
     let promise = this.QueryDm.toggleStarred(query);
 
     promise.then((query:QueryResource) => {
-      this.tableState.query.putValue(query);
+      this.querySpace.query.putValue(query);
 
       this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
-      this.queryChanges.next(query.name);
+      this.states.changes.queries.next(query!.id!);
     });
 
     return promise;
@@ -317,7 +314,7 @@ export class WorkPackagesListService {
   }
 
   private conditionallyLoadForm(query:QueryResource):void {
-    let currentForm = this.tableState.queryForm.value;
+    let currentForm = this.querySpace.queryForm.value;
 
     if (!currentForm || query.$links.update.$href !== currentForm.$href) {
       setTimeout(() => this.loadForm(query), 0);
@@ -327,9 +324,9 @@ export class WorkPackagesListService {
   private updateStatesFromQueryOnPromise(promise:Promise<QueryResource>):Promise<QueryResource> {
     promise
       .then(query => {
-        this.tableState.ready.doAndTransition('Query loaded', () => {
+        this.querySpace.ready.doAndTransition('Query loaded', () => {
           this.wpStatesInitialization.initialize(query, query.results);
-          return this.tableState.tableRendering.onQueryUpdated.valuesPromise();
+          return this.querySpace.tableRendering.onQueryUpdated.valuesPromise();
         });
 
         return query;
@@ -340,10 +337,10 @@ export class WorkPackagesListService {
 
   private updateStatesFromWPListOnPromise(query:QueryResource, promise:Promise<WorkPackageCollectionResource>):Promise<WorkPackageCollectionResource> {
     return promise.then((results) => {
-      this.tableState.ready.doAndTransition('Query loaded', () => {
-        this.wpStatesInitialization.updateTableState(query, results);
+      this.querySpace.ready.doAndTransition('Query loaded', () => {
+        this.wpStatesInitialization.updateQuerySpace(query, results);
         this.wpStatesInitialization.updateChecksum(query, results);
-        return this.tableState.tableRendering.onQueryUpdated.valuesPromise();
+        return this.querySpace.tableRendering.onQueryUpdated.valuesPromise();
       });
 
       return results;
@@ -351,10 +348,10 @@ export class WorkPackagesListService {
   }
 
   public get currentQuery() {
-    return this.tableState.query.value!;
+    return this.querySpace.query.value!;
   }
 
-  private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:number, projectIdentifier?:string):Promise<QueryResource> {
+  private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:string, projectIdentifier?:string|null):Promise<QueryResource> {
     this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
     return new Promise((resolve, reject) => {
@@ -371,11 +368,11 @@ export class WorkPackagesListService {
                 query.id = queryId;
               }
 
-              this.tableState.ready.doAndTransition('Query loaded', () => {
+              this.querySpace.ready.doAndTransition('Query loaded', () => {
                 this.wpStatesInitialization.initialize(query, query.results);
                 this.wpStatesInitialization.updateStatesFromForm(query, form);
 
-                return this.tableState.tableRendering.onQueryUpdated.valuesPromise();
+                return this.querySpace.tableRendering.onQueryUpdated.valuesPromise();
               });
 
               resolve(query);

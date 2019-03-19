@@ -33,14 +33,14 @@ import {WorkPackageCacheService} from '../../work-packages/work-package-cache.se
 import {RelationsStateValue, WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
 import {WorkPackageTableHierarchiesService} from './wp-table-hierarchy.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 @Injectable()
 export class WorkPackageTableAdditionalElementsService {
 
-  constructor(readonly tableState:TableState,
+  constructor(readonly querySpace:IsolatedQuerySpace,
               readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
               readonly wpNotificationsService:WorkPackageNotificationService,
@@ -52,7 +52,7 @@ export class WorkPackageTableAdditionalElementsService {
   public initialize(rows:WorkPackageResource[]) {
     // Add relations to the stack
     Promise.all([
-      this.requireInvolvedRelations(rows.map(el => el.id)),
+      this.requireInvolvedRelations(rows.map(el => el.id!)),
       this.requireHierarchyElements(rows)
     ]).then((results:string[][]) => {
       this.loadAdditional(_.flatten(results));
@@ -62,10 +62,10 @@ export class WorkPackageTableAdditionalElementsService {
   private loadAdditional(wpIds:string[]) {
     this.wpCacheService.requireAll(wpIds)
       .then(() => {
-        this.tableState.additionalRequiredWorkPackages.putValue(null, 'All required work packages are loaded');
+        this.querySpace.additionalRequiredWorkPackages.putValue(null, 'All required work packages are loaded');
       })
       .catch((e) => {
-        this.tableState.additionalRequiredWorkPackages.putValue(null, 'Failure loading required work packages');
+        this.querySpace.additionalRequiredWorkPackages.putValue(null, 'Failure loading required work packages');
         this.wpNotificationsService.handleRawError(e);
       });
   }

@@ -18,11 +18,22 @@ id:
     close_popup_title: Tutup
     close_filter_title: Tutup Penyaring
     close_form_title: Tutup formulir
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Periksa edisi Perusahaan.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Browser Anda tidak mendukung menyalin ke clipboard. Harap menyalin
         teks yang dipilih secara manual.
       copied_successful: Berhasil disalin ke clipboard!
     button_add_watcher: Tambah pemantau
+    button_back: Kembali
     button_back_to_list_view: Kembali ke tampilan daftar
     button_cancel: Batal
     button_close: Tutup
@@ -38,6 +49,7 @@ id:
     button_duplicate: Duplikasi
     button_edit: Edit
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Tampilan tabel
     button_show_view: Tampilan layar penuh
     button_log_time: Catatan waktu
@@ -146,6 +158,30 @@ id:
     general_text_yes: 'yes'
     general_text_No: 'No'
     general_text_Yes: 'Yes'
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Dokumen
+          no_results: No documents yet.
+        news:
+          title: News
+          at: di
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Paket-Penugasan yang saya kerjakan
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalender
     label_activate: Aktifkan
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
@@ -168,7 +204,9 @@ id:
     label_ascending: Askending
     label_author: 'Author: %{user}'
     label_between: antara
+    label_board: Board
     label_board_locked: Locked
+    label_board_plural: Boards
     label_board_sticky: Sticky
     label_create_work_package: Buat Paket-Penugasan baru
     label_created_by: Created by
@@ -215,7 +253,7 @@ id:
     label_menu_collapse: runtuh
     label_menu_expand: expand
     label_more_than_ago: lusa yang lalu
-    label_my_page: My page
+    label_my_page: My Homepage
     label_next: Lanjut
     label_no_data: Tidak ada data untuk ditampilkan
     label_no_due_date: tidak ada tanggal berakhir
@@ -254,7 +292,7 @@ id:
     label_subject: Perihal
     label_this_week: minggu ini
     label_today: hari ini
-    label_up: Up
+    label_up: Naik
     label_activity_show_only_comments: Tampilkan hanya aktivitas bersama komentar
     label_activity_show_all: Tampilkan semua aktivitas
     label_total_progress: "%{percent}% total progres"
@@ -291,6 +329,7 @@ id:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Upload file untuk Work package #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Upload file berikut:'
     label_rejected_files: 'File ini tidak bisa di-upload:'
     label_rejected_files_reason: File berikut melebihi ketentuan ukuran yang diperbolehkan
@@ -401,8 +440,8 @@ id:
           required: required by
     time_entry:
       activity: Activity
-      comment: Comment
-      hours: Hours
+      comment: Komentar
+      hours: Jam
     watchers:
       label_loading: memuat pengamat...
       label_error_loading: An error occurred while loading the watchers
@@ -484,6 +523,7 @@ id:
       view?
     text_attachment_destroy_confirmation: Apakah Anda yakin ingin menghapus lampiran?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Bagan Gantt
       labels:
         title: Label configuration
@@ -764,8 +804,6 @@ id:
         days: hari
         weeks: minggu
         months: bulan
-      label_switch_to_single_select: Beralih ke pilihan tunggal
-      label_switch_to_multi_select: Beralih ke pilihan majemuk
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -806,6 +844,7 @@ id:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Berhasil dibuat.
     notice_successful_delete: Berhasil dihapus.
     notice_successful_update: Berhasil diperbarui.
@@ -832,7 +871,7 @@ id:
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: Tidak bisa menyelesaikan versi nama
     error_could_not_resolve_user_name: User name tidak ditemukan
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -849,11 +888,13 @@ id:
     zen_mode:
       button_activate: Mengaktifkan modus zen
       button_deactivate: Menonaktifkan modus zen
-    unsupported_browser:
-      title: Versi peramban Anda tidak didukung
-      message: Versi browser yang anda gunakan terlalu usang untuk OpenProject.
-      update_message: Mohon tingkatkan browsermu.
-      update_ie_user: Mohon ubah ke Mozzila atau Google Chrome, atau tingkatkan Microsoft
-        Edge.
-      learn_more: Pelajari lebih lanjut
-      close_warning: Abaikan peringatan ini.
+    global_search:
+      all_projects: In all projects
+      search: Cari
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

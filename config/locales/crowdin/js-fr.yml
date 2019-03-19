@@ -19,11 +19,22 @@ fr:
     close_popup_title: Fermer popup
     close_filter_title: Fermer le filtre
     close_form_title: Fermer le formulaire
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Découvrez l’édition entreprise.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Votre navigateur ne prend pas en charge la copie dans le presse-papier.
         Veuillez copier manuellement le texte sélectionné.
       copied_successful: Copié avec succès vers le presse-papier !
     button_add_watcher: Ajouter observateur
+    button_back: Retour
     button_back_to_list_view: Retour à la liste
     button_cancel: Annuler
     button_close: Fermer
@@ -39,6 +50,7 @@ fr:
     button_duplicate: Dupliquer
     button_edit: Éditer
     button_filter: Filtre
+    button_advanced_filter: Advanced filter
     button_list_view: Vue en liste
     button_show_view: Affichage plein écran
     button_log_time: Consigner temps
@@ -150,6 +162,30 @@ fr:
     general_text_yes: oui
     general_text_No: Non
     general_text_Yes: Oui
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: Actualités
+          at: at
+          no_results: Rien de nouveau à signaler.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Lots de Travaux dont je suis responsable
+        work_packages_assigned:
+          title: Lots de Travaux m'étant assignés
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendrier
     label_activate: Activer
     label_activity_no: Entrée d'activité numéro %{activityNo}
     label_activity_with_comment_no: Entrée d'activité numéro %{activityNo}. A un commentaire
@@ -171,7 +207,9 @@ fr:
     label_ascending: Croissant
     label_author: 'Auteur : %{user}'
     label_between: entre
+    label_board: Board
     label_board_locked: Verrouillé
+    label_board_plural: Boards
     label_board_sticky: Epinglé
     label_create_work_package: Créer un nouveau Lot de Travaux
     label_created_by: Créé par
@@ -218,7 +256,7 @@ fr:
     label_menu_collapse: réduire
     label_menu_expand: développer
     label_more_than_ago: il y a plus de quelques jours
-    label_my_page: My page
+    label_my_page: Ma page
     label_next: Suivante
     label_no_data: Aucune donnée à afficher
     label_no_due_date: pas d'échéance
@@ -253,7 +291,7 @@ fr:
     label_star_query: Préféré
     label_press_enter_to_save: Appuyer sur "entrée" pour enregistrer.
     label_public_query: Public
-    label_sum_for: somme pour
+    label_sum_for: Somme pour
     label_subject: Objet
     label_this_week: cette semaine
     label_today: aujourd'hui
@@ -296,6 +334,7 @@ fr:
     label_upload_notification: Chargement des fichiers...
     label_work_package_upload_notification: 'Transfert en cours des fichiers pour
       le lot de travaux #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Ces fichiers vont être transférés:'
     label_rejected_files: 'Ces fichiers ne peuvent pas être transférés:'
     label_rejected_files_reason: Ces fichiers ne peuvent pas être transférés car leur
@@ -414,9 +453,9 @@ fr:
           requires: requérant
           required: requis par
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Activité
+      comment: Commentaire
+      hours: Heures
     watchers:
       label_loading: observateurs en cours de chargement…
       label_error_loading: Une erreur s'est produite lors du chargement des observateurs
@@ -500,6 +539,7 @@ fr:
     text_attachment_destroy_confirmation: Êtes-vous sûr de vouloir supprimer la pièce
       jointe ?
     timelines:
+      quarter_label: T%{quarter_number}
       gantt_chart: Diagramme de Gantt
       labels:
         title: Configuration du label
@@ -788,8 +828,6 @@ fr:
         days: jours
         weeks: semaines
         months: mois
-      label_switch_to_single_select: Commuter en sélection unique
-      label_switch_to_multi_select: Commuter en sélection multiple
     toolbar:
       settings:
         configure_view: Configurer la vue...
@@ -830,6 +868,7 @@ fr:
           de travaux de la liste seront supprimés récursivement.
         deletes_children: Tous les lots de travaux enfants et leurs descendants seront
           également supprimés récursivement.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Création réussie.
     notice_successful_delete: Suppression réussie.
     notice_successful_update: Mise à jour réussie.
@@ -856,7 +895,7 @@ fr:
         messages_on_field: 'Ce champ n’est pas valide : %{messages}'
     error_could_not_resolve_version_name: Ne peut résoudre le nom de version
     error_could_not_resolve_user_name: Impossible de trouver l'utilisateur
-    error_attachment_upload: 'Erreur de chargement du fichier "%{name}" : %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: Vous n’avez pas l'autorisation de charger
       des fichiers sur cette ressource.
     units:
@@ -873,12 +912,13 @@ fr:
     zen_mode:
       button_activate: Activer le mode zen
       button_deactivate: Désactiver le mode zen
-    unsupported_browser:
-      title: La version de votre navigateur n'est pas prise en charge
-      message: La version du navigateur que vous utilisez n'est plus supportée par
-        OpenProject.
-      update_message: Veuillez mettre à jour votre navigateur.
-      update_ie_user: Veuillez passer à Mozilla Firefox ou Google Chrome, ou mettre
-        à niveau vers Microsoft Edge.
-      learn_more: En savoir plus
-      close_warning: Ignorer cet avertissement.
+    global_search:
+      all_projects: In all projects
+      search: Recherche
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

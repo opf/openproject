@@ -38,6 +38,13 @@ module Pages
       @project_identifier = project_identifier
     end
 
+    def visit!
+      super
+      expect(page).to have_selector('h2', text: I18n.t(:label_member_plural))
+
+      self
+    end
+
     def path
       "/projects/#{project_identifier}/members"
     end
@@ -117,6 +124,12 @@ module Pages
       find('tr.group', text: user_name_to_text(name))
     end
 
+    ##
+    # Get contents of all cells sorted
+    def contents(column)
+      all("td.#{column}").map(&:text)
+    end
+
     def user_name_to_text(name)
       # the members table shows last name and first name separately
       # let's just look for the last name
@@ -172,6 +185,20 @@ module Pages
 
     def has_no_search_results?
       has_text?('No matches found')
+    end
+
+    def sort_by(column)
+      find('.generic-table--sort-header a', text: column.upcase).click
+    end
+
+    def expect_sorted_by(column, desc: false)
+      page.within('.generic-table--sort-header', text: column.upcase) do
+        if desc
+          expect(page).to have_selector('.sort.desc')
+        else
+          expect(page).to have_selector('.sort.asc')
+        end
+      end
     end
 
     ##

@@ -28,7 +28,7 @@ module OpenProject::Costs
 
     register 'openproject-costs',
              author_url: 'http://finn.de',
-             requires_openproject: "= #{OpenProject::Costs::VERSION}",
+             bundled: true,
              settings: {
                default: { 'costs_currency' => 'EUR','costs_currency_format' => '%n %u' },
                partial: 'settings/openproject_costs'
@@ -169,7 +169,7 @@ module OpenProject::Costs
       link :showCosts,
            cache_if: -> { current_user_allowed_to(:view_cost_entries, context: represented.project) ||
                           current_user_allowed_to(:view_own_cost_entries, context: represented.project) } do
-        next unless represented.costs_enabled? && represented.persisted?
+        next unless represented.cost_reporting_enabled? && represented.persisted?
 
         {
             href: work_packages_cost_entries_path(represented),

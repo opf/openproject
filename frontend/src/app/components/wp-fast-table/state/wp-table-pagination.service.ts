@@ -30,7 +30,7 @@ import {Injectable} from '@angular/core';
 import {PaginationObject} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {InputState} from 'reactivestates';
 import {WorkPackageTablePagination} from '../wp-table-pagination';
 import {WorkPackageTableBaseService,} from './wp-table-base.service';
@@ -45,13 +45,13 @@ export interface PaginationUpdateObject {
 
 @Injectable()
 export class WorkPackageTablePaginationService extends WorkPackageTableBaseService<WorkPackageTablePagination> {
-  public constructor(tableState:TableState,
+  public constructor(querySpace:IsolatedQuerySpace,
                      readonly paginationService:PaginationService) {
-    super(tableState);
+    super(querySpace);
   }
 
   public get state():InputState<WorkPackageTablePagination> {
-    return this.tableState.pagination;
+    return this.querySpace.pagination;
   }
 
   public get paginationObject():PaginationObject {

@@ -1,14 +1,10 @@
 # encoding: UTF-8
-$:.push File.expand_path('../lib', __FILE__)
-
-require 'open_project/auth_plugins/version'
 
 Gem::Specification.new do |s|
   s.name        = 'openproject-auth_plugins'
-  s.version     = OpenProject::AuthPlugins::VERSION
+  s.version     = '1.0.0'
   s.authors     = 'OpenProject GmbH'
   s.email       = 'info@openproject.com'
-  s.homepage    = 'https://community.openproject.org/projects/auth-plugins'
   s.summary     = 'OpenProject Auth Plugins'
   s.description = 'Integration of OmniAuth strategy providers for authentication in Openproject.'
   s.license     = 'GPLv3'

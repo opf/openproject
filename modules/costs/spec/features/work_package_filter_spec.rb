@@ -69,9 +69,11 @@ describe 'Filter by budget', js: true do
     filters.add_filter_by('Budget', 'is', budget.name, 'costObject')
 
     wp_table.expect_work_package_listed work_package_with_budget
-    wp_table.expect_work_package_not_listed work_package_without_budget
+    wp_table.ensure_work_package_not_listed! work_package_without_budget
 
     wp_table.save_as('Some query name')
+
+    wp_table.expect_and_dismiss_notification message: 'Successful creation.'
 
     filters.remove_filter 'costObject'
 
@@ -82,7 +84,7 @@ describe 'Filter by budget', js: true do
     wp_table.visit_query(last_query)
 
     wp_table.expect_work_package_listed work_package_with_budget
-    wp_table.expect_work_package_not_listed work_package_without_budget
+    wp_table.ensure_work_package_not_listed! work_package_without_budget
 
     filters.open
 

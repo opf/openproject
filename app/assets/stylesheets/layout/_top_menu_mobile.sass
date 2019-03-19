@@ -29,10 +29,27 @@
 @include breakpoint(680px down)
   $hamburger-right: -3px
   $hamburger-width: 50px
+  $search-input-height-mobile: 36px
+
   #logo
     background-color: transparent
 
   #top-menu
+    &.-global-search-expanded
+      #account-nav-right,
+      #account-nav-left,
+      #main-menu-toggle
+        display: none
+
+      .top-menu-search
+        width: 100vw
+        margin: 0
+        padding-right: 15px
+
+        .top-menu-search--button
+          display: none
+          @include varprop(color, header-item-font-color)
+
     #nav-login-content
       float: none
       padding: 15px 20px
@@ -64,35 +81,58 @@
       .nosidebar &
         left: 0px
 
-  #account-nav-right
-    > li
+    #global-search-input
       display: none
-
-      &.drop-down,
-      &:last-child
+      &.-expanded
         display: block
+        width: calc(100vw - 50px)
+        min-width: unset
+        position: unset
 
-      &.last-child
-        > a
-          display: block
-          text-align: center
+        .scroll-host
+          max-height: calc(100vh - #{$header-height})
 
-          &:not(.login):before
-            @include icon-mixin-user
-            padding: 0.25rem
-            @include icon-font-common
+        .ng-clear-wrapper
+          width: 40px
+          right: 0
 
-          img, i
-            display: none
+        .ng-select-bottom
+          height: calc(100vh - #{$header-height})
+          overflow-y: auto
+          margin: 0
 
-      > ul
-        top: $header-height-mobile
-        width: 100vw
-        box-shadow: 1px 1px 4px #cccccc
-        border: solid 1px rgba(0, 0, 0, 0.2)
+        .ng-select-container
+          height: $search-input-height-mobile !important
+          border-radius: 4px
 
-        li
-          max-width: none
+        .ng-input input
+          height: 36px
+          // The font-size is necessary to avoid iOS to zoom in when being focused
+          font-size: 16px
+
+    .top-menu-search--back-button
+      display: initial
+      width: 50px
+      text-align: center
+      @include varprop(color, header-item-font-color)
+      &:hover, &:focus, &:active
+        text-decoration: none
+
+    .top-menu-search--loading
+      top: $header-height + 1px
+
+    .top-menu-search--button.-input-focused
+      @include varprop(color, header-item-font-color)
+
+  #account-nav-right
+    > li ul
+      top: $header-height-mobile
+      width: 100vw
+      box-shadow: 1px 1px 4px #cccccc
+      border: solid 1px rgba(0, 0, 0, 0.2)
+
+      li
+        max-width: none
 
     #more-menu.drop-down--modules
       // 58 = Width of one menu item
@@ -128,4 +168,3 @@
       border-left: none !important
     .project-menu-autocomplete--results
       border-bottom: 2px solid $header-drop-down-border-color !important
-

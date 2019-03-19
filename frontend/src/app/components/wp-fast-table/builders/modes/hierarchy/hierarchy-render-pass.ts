@@ -1,6 +1,6 @@
 import {Injector} from '@angular/core';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {States} from '../../../../states.service';
 import {
   ancestorClassIdentifier,
@@ -17,7 +17,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
 
-  private readonly tableState = this.injector.get(TableState);
+  private readonly querySpace = this.injector.get(IsolatedQuerySpace);
 
   public states = this.injector.get(States);
   public wpCacheService = this.injector.get(WorkPackageCacheService);
@@ -43,7 +43,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   protected prepare() {
     super.prepare();
 
-    this.hierarchies = this.tableState.hierarchies.value!;
+    this.hierarchies = this.querySpace.hierarchies.value!;
     this.rendered = {};
     this.additionalParents = {};
     this.deferred = {};
@@ -104,8 +104,8 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
       const parent = ancestorChain[i];
       const child = ancestorChain[i + 1];
 
-      const inTable = this.workPackageTable.originalRowIndex[parent.id];
-      const alreadyRendered = this.rendered[parent.id];
+      const inTable = this.workPackageTable.originalRowIndex[parent.id!];
+      const alreadyRendered = this.rendered[parent.id!];
 
       if (alreadyRendered) {
         // parent is already rendered.
@@ -115,11 +115,14 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
       if (inTable) {
         // Get the current elements
-        const elements = this.deferred[parent.id] || [];
+        let elements = this.deferred[parent.id!] || [];
         // Append to them the child and all children below
         let newElements:WorkPackageResource[] = ancestorChain.slice(i + 1, ancestorChain.length);
-        newElements = newElements.map(child => this.wpCacheService.state(child.id).value!);
-        this.deferred[parent.id] = elements.concat(newElements);
+        newElements = newElements.map(child => this.wpCacheService.state(child.id!).value!);
+        // Append all new elements
+        elements = elements.concat(newElements);
+        // Remove duplicates (Regression #29652)
+        this.deferred[parent.id!] = _.uniqBy(elements, el => el.id!);
         return true;
       }
       // Otherwise, continue the chain upwards
@@ -135,7 +138,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
    * @param workPackage
    */
   private renderAllDeferredChildren(workPackage:WorkPackageResource) {
-    const wpId = workPackage.id.toString();
+    const wpId = workPackage.id!;
     const deferredChildren = this.deferred[wpId] || [];
 
     // If the work package has deferred children to render,
@@ -149,7 +152,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   }
 
   private getOrBuildRow(workPackage:WorkPackageResource) {
-    let row:WorkPackageTableRow = this.workPackageTable.originalRowIndex[workPackage.id];
+    let row:WorkPackageTableRow = this.workPackageTable.originalRowIndex[workPackage.id!];
 
     if (!row) {
       row = {object: workPackage} as WorkPackageTableRow;
@@ -165,12 +168,12 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     // Iterate ancestors
     ancestors.forEach((el:WorkPackageResource, index:number) => {
-      const ancestor = this.states.workPackages.get(el.id).value!;
+      const ancestor = this.states.workPackages.get(el.id!).value!;
 
 
       // If we see the parent the first time,
       // build it as an additional row and insert it into the ancestry
-      if (!this.rendered[ancestor.id]) {
+      if (!this.rendered[ancestor.id!]) {
         let [ancestorRow, hidden] = this.rowBuilder.buildAncestorRow(ancestor, ancestorGroups, index);
         // Insert the ancestor row, either right here if it's a root node
         // Or below the appropriate parent
@@ -186,13 +189,13 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
         }
 
         // Remember we just added this extra ancestor row
-        this.additionalParents[ancestor.id] = ancestor;
+        this.additionalParents[ancestor.id!] = ancestor;
       }
 
       // Push the correct ancestor groups for identifiying a hierarchy group
-      ancestorGroups.push(hierarchyGroupClass(ancestor.id));
+      ancestorGroups.push(hierarchyGroupClass(ancestor.id!));
       ancestors.slice(0, index).forEach((previousAncestor) => {
-        ancestorGroups.push(hierarchyGroupClass(previousAncestor.id));
+        ancestorGroups.push(hierarchyGroupClass(previousAncestor.id!));
       });
     });
 
@@ -218,19 +221,19 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
    * @param hidden
    */
   private markRendered(workPackage:WorkPackageResource, hidden:boolean = false, isAncestor:boolean = false) {
-    this.rendered[workPackage.id] = true;
+    this.rendered[workPackage.id!] = true;
     this.renderedOrder.push(this.buildRenderInfo(workPackage, hidden, isAncestor));
   }
 
   public ancestorClasses(workPackage:WorkPackageResource) {
-    const rowClasses = [hierarchyRootClass(workPackage.id)];
+    const rowClasses = [hierarchyRootClass(workPackage.id!)];
 
     if (_.isArray(workPackage.ancestors)) {
       workPackage.ancestors.forEach((ancestor) => {
-        rowClasses.push(hierarchyGroupClass(ancestor.id));
+        rowClasses.push(hierarchyGroupClass(ancestor.id!));
 
-        if (this.hierarchies.collapsed[ancestor.id]) {
-          rowClasses.push(collapsedGroupClass(ancestor.id));
+        if (this.hierarchies.collapsed[ancestor.id!]) {
+          rowClasses.push(collapsedGroupClass(ancestor.id!));
         }
 
       });
@@ -259,7 +262,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
       this.buildRenderInfo(workPackage, hidden, isAncestor)
     );
 
-    this.rendered[workPackage.id] = true;
+    this.rendered[workPackage.id!] = true;
   }
 
   private buildRenderInfo(workPackage:WorkPackageResource, hidden:boolean, isAncestor:boolean):RowRenderInfo {
@@ -271,7 +274,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     if (isAncestor) {
       info.additionalClasses = [additionalHierarchyRowClassName].concat(this.ancestorClasses(workPackage));
-      info.classIdentifier = ancestorClassIdentifier(workPackage.id);
+      info.classIdentifier = ancestorClassIdentifier(workPackage.id!);
     } else {
       info.additionalClasses = this.ancestorClasses(workPackage);
       info.classIdentifier = this.rowBuilder.classIdentifier(workPackage);

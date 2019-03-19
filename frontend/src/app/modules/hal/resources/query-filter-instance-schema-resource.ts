@@ -36,6 +36,7 @@ import {SchemaDependencyResource} from 'core-app/modules/hal/resources/schema-de
 import {QueryOperatorResource} from 'core-app/modules/hal/resources/query-operator-resource';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import Collection = api.v3.Collection;
 
 export interface QueryFilterInstanceSchemaResourceLinks {
   filter:QueryFilterResource;
@@ -46,7 +47,7 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
   public $links:QueryFilterInstanceSchemaResourceLinks;
 
   public operator:SchemaAttributeObject;
-  public filter:SchemaAttributeObject;
+  public filter:SchemaAttributeObject<QueryFilterResource>;
   public dependency:SchemaDependencyResource;
   public values:SchemaAttributeObject|null;
 
@@ -56,6 +57,14 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
 
   public get availableOperators():HalResource[] | CollectionResource {
     return this.operator.allowedValues;
+  }
+
+  public get allowedFilterValue():QueryFilterResource {
+    if (this.filter.allowedValues instanceof CollectionResource) {
+      return this.filter.allowedValues.elements[0];
+    }
+
+    return this.filter.allowedValues[0];
   }
 
   public $initialize(source:any) {

@@ -2,21 +2,21 @@ import {Injector} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {WorkPackageTableTimelineState} from '../../wp-table-timeline';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 
 export class TimelineTransformer {
 
-  public tableState:TableState = this.injector.get(TableState);
+  public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
 
   constructor(private readonly injector:Injector,
               private readonly table:WorkPackageTable) {
 
-   this.tableState.timeline.values$()
+   this.querySpace.timeline.values$()
       .pipe(
-        takeUntil(this.tableState.stopAllSubscriptions)
+        takeUntil(this.querySpace.stopAllSubscriptions)
       )
       .subscribe((state:WorkPackageTableTimelineState) => {
-        this.renderVisibility(state.isVisible);
+        this.renderVisibility(state.visible);
       });
   }
 

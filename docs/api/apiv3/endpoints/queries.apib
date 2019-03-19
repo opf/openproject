@@ -40,6 +40,7 @@ Please note, that all the properties listed above will also be embedded when ind
 | timelineZoomLevel| Which zoom level should the timeline be rendered in?                                                      | String                | days, weeks, months, quarters, years | READ                 |
 | highlightingMode | Which highlighting mode should the table have?                                                            | String                | none, inline, status, priority, type | READ                 |
 | showHierarchies  | Should the hierarchy mode be enabled?                                                                     | Boolean               |                                      | READ                 |
+| hidden           | Should the query be hidden from the query list?                                                           | Boolean               |                                      | READ                 |
 | public           | Can users besides the owner see the query?                                                                | Boolean               |                                      | READ                 |
 | starred          | Should the query be highlighted to the user?                                                              | Boolean               |                                      | READ                 |
 
@@ -265,7 +266,7 @@ Retreive an individual query as identified by the id parameter. Then end point a
     + offset = `1` (optional, integer, `25`) ... Page number inside the queries' result collection of work packages.
     + pageSize = `DEPENDING ON CONFIGURATION` (optional, integer, `25`) ... Number of elements to display per page for the queries' result collection of work packages.
     + columns = `['type', 'priority']` (optional, object, `[]`) ... Selected columns for the table view. 
-    + sortBy = ["parent", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
+    + sortBy = ["id", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
     + groupBy (optional, string, `status`) ... The column to group by. The grouping criteria is applied to the to the querie's result collection of work packages overriding the query's persisted group criteria.
     + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the querie's result collection of work packages overriding the query's persisted sums property.
     + timelineVisible = `false` (optional, boolean, `true`) ... Indicates whether the timeline should be shown.
@@ -555,7 +556,7 @@ Same as [viewing an existing, persisted Query](#queries-query-get) in its respon
     All filters also accepted by the work packages endpoint are accepted. If no filter is to be applied, the client should send an empty array (`[]`).
     + offset = `1` (optional, integer, `25`) ... Page number inside the queries' result collection of work packages.
     + pageSize = `DEPENDING ON CONFIGURATION` (optional, integer, `25`) ... Number of elements to display per page for the queries' result collection of work packages.
-    + sortBy = ["parent", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
+    + sortBy = ["id", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
     + groupBy (optional, string, `status`) ... The column to group by. The grouping criteria is applied to the to the querie's result collection of work packages overriding the query's persisted group criteria.
     + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the querie's result collection of work packages overriding the query's persisted sums property.
     + timelineVisible = `false` (optional, boolean, `true`) ... Indicates whether the timeline should be shown.
@@ -720,7 +721,7 @@ Same as [viewing an existing, persisted Query](#queries-query-get) in its respon
     All filters also accepted by the work packages endpoint are accepted. If no filter is to be applied, the client should send an empty array (`[]`).
     + offset = `1` (optional, integer, `25`) ... Page number inside the queries' result collection of work packages.
     + pageSize = `DEPENDING ON CONFIGURATION` (optional, integer, `25`) ... Number of elements to display per page for the queries' result collection of work packages.
-    + sortBy = ["parent", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
+    + sortBy = ["id", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
     + groupBy (optional, string, `status`) ... The column to group by. The grouping criteria is applied to the to the querie's result collection of work packages overriding the query's persisted group criteria.
     + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the querie's result collection of work packages overriding the query's persisted sums property.
     + timelineVisible = `false` (optional, boolean, `true`) ... Indicates whether the timeline should be shown.

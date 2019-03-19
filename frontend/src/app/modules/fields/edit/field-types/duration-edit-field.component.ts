@@ -46,7 +46,7 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
   `
 })
 export class DurationEditFieldComponent extends EditFieldComponent {
-  readonly TimezoneService:TimezoneService = this.$injector.get(TimezoneService);
+  readonly TimezoneService:TimezoneService = this.injector.get(TimezoneService);
 
   public parser(value:any) {
     if (!isNaN(value)) {

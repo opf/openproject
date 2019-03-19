@@ -18,11 +18,22 @@ lt:
     close_popup_title: Užverti iškylantį langą
     close_filter_title: Užverti filtrą
     close_form_title: Užverti formą
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Patikrinkite Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Jūsų naršyklė nepalaiko kopijavimo į mainų sritį. Prašome rankiniu
         būdu nukopijuoti pažymėtą tekstą.
       copied_successful: Sėkmingai nukopijuotas į mainų sritį!
     button_add_watcher: Pridėti stebėtojų
+    button_back: Atgal
     button_back_to_list_view: Atgal į sąrašo peržiūrą
     button_cancel: Atšaukti
     button_close: Uždaryti
@@ -38,6 +49,7 @@ lt:
     button_duplicate: Dublikuoti
     button_edit: Redaguoti
     button_filter: Filtras
+    button_advanced_filter: Advanced filter
     button_list_view: Sąrašo rodinys
     button_show_view: Viso ekrano rodinys
     button_log_time: Registruoti laiką
@@ -147,6 +159,30 @@ lt:
     general_text_yes: taip
     general_text_No: Ne
     general_text_Yes: Taip
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Dokumentai
+          no_results: No documents yet.
+        news:
+          title: Naujienos
+          at: at
+          no_results: Nėra jokių ataskaitų.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Man priskirti darbų paketai
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Kalendorius
     label_activate: Aktyvuoti
     label_activity_no: Veiklos įrašo numeris %{activityNo}
     label_activity_with_comment_no: Veiklos įrašo numeris %{activityNo}. Turintis
@@ -169,7 +205,9 @@ lt:
     label_ascending: Didėjančia tvarka
     label_author: 'Autorius: %{user}'
     label_between: tarp
+    label_board: Board
     label_board_locked: Užrakinta
+    label_board_plural: Boards
     label_board_sticky: Lipnus
     label_create_work_package: Sukurti naują darbų paketą
     label_created_by: Sukurta
@@ -215,7 +253,7 @@ lt:
     label_menu_collapse: suskleisti
     label_menu_expand: išskleisti
     label_more_than_ago: daugiau nei prieš dieną
-    label_my_page: My page
+    label_my_page: Mano puslapis
     label_next: Kitas
     label_no_data: Nėra rodytinų duomenų
     label_no_due_date: nėra pabaigos datos
@@ -290,6 +328,7 @@ lt:
     label_add_description: Pridėti %{file} aprašymą
     label_upload_notification: Įkeliu failus...
     label_work_package_upload_notification: 'Įkelti failus darbų paketui #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Šie failai bus įkelti:'
     label_rejected_files: 'Negalima įkelti šių failų:'
     label_rejected_files_reason: Šių failų neįmanoma nusiųsti, nes jų dydis yra didesnis
@@ -396,9 +435,9 @@ lt:
           requires: reikalauja
           required: reikalingas
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Veikla
+      comment: Komentaras
+      hours: Valandų
     watchers:
       label_loading: Įkeliami stebėtojai...
       label_error_loading: Įkeliant stebėtojus įvyko klaida
@@ -461,7 +500,7 @@ lt:
         other: Prašome įvesti dar {{count}} simbolius (-į, -ių)
         zero: Please enter more characters
         few: Prašome įvesti dar {{count}} simbolius (-į, -ių)
-        many: Please enter {{count}} more characters
+        many: Įveskite dar {{count}} simbolių
       load_more: Įkeliama daugiau rezultatų ...
       no_matches: Atitikmenų nerasta
       searching: Ieškoma ...
@@ -470,7 +509,7 @@ lt:
         other: Jūs galite pasirinkti tik {{limit}} elementus (-ą, -ų)
         zero: You cannot select any items
         few: Jūs galite pasirinkti tik {{limit}} elementus (-ą, -ų)
-        many: You can only select {{limit}} items
+        many: Jūs galite pasirinkti iki {{limit}} elementų
     project_menu_details: Detali informacija
     sort:
       sorted_asc: 'Pritaikyta didėjimo tvarka, '
@@ -485,6 +524,7 @@ lt:
     text_query_destroy_confirmation: Ar tikrai norite panaikinti pasirinktą vaizdą?
     text_attachment_destroy_confirmation: Ar tikrai norite panaikinti priedą?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Ganto grafikas
       labels:
         title: Žymės konfigūracija
@@ -766,8 +806,6 @@ lt:
         days: dienas(-ų)
         weeks: savaitės(-ių)
         months: mėnesiai(-ių)
-      label_switch_to_single_select: Perjungti į žymėjimą po vieną
-      label_switch_to_multi_select: Perjungti į žymėjimą po daug
     toolbar:
       settings:
         configure_view: Konfigūruokite vaizdą...
@@ -808,6 +846,7 @@ lt:
           bus rekursiškai ištrinti.
         deletes_children: Visi darbų paketo vaikai ir jų palikuoniai taip pat bus
           rekursiškai ištrinti.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Sėkmingas sukūrimas.
     notice_successful_delete: Sėkmingas panaikinimas.
     notice_successful_update: Sėkmingas atnaujinimas.
@@ -834,7 +873,7 @@ lt:
         messages_on_field: 'Šio laukelio reikšmė netinkama: %{messages}'
     error_could_not_resolve_version_name: Nepavyko nustatyti versijos pavadinimo
     error_could_not_resolve_user_name: Nepavyko nustatyti vartotojo vardo
-    error_attachment_upload: 'Failo ''%{name}'' nepavyko įkelti: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: Jūs neturite teisės įkelti failus į šį resursą.
     units:
       workPackage:
@@ -852,16 +891,17 @@ lt:
         other: "%{count} valandos (-a, -ų)"
         zero: 0 hours
         few: "%{count} valandos (-a, -ų)"
-        many: "%{count} hours"
+        many: "%{count} valandų"
     zen_mode:
       button_activate: Įjungti Zen režimą
       button_deactivate: Išjungti Zen režimą
-    unsupported_browser:
-      title: Jūsų naršyklės versija nepalaikoma
-      message: Jūsų naudojama naršyklės versija daugiau nebepalaikoma OpenProject
-        sistemos.
-      update_message: Prašome atnaujinti savo naršyklę.
-      update_ie_user: Prašome pasikeisti į Mozilla Firefox ar Google Chrome arba atsinaujinti
-        į Microsoft Edge.
-      learn_more: Sužinoti daugiau
-      close_warning: Ignoruoti šį perspėjimą.
+    global_search:
+      all_projects: In all projects
+      search: Paieška
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

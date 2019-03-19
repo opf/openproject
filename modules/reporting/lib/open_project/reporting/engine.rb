@@ -25,15 +25,15 @@ module OpenProject::Reporting
 
     register 'openproject-reporting',
              author_url: 'http://finn.de',
-             requires_openproject: '>= 4.0.0' do
+             bundled: true do
 
       view_actions = [:index, :show, :drill_down, :available_values, :display_report_list]
       edit_actions = [:create, :update, :rename, :destroy]
 
       #register reporting_module including permissions
       project_module :reporting_module do
-        permission :save_cost_reports, {cost_reports: edit_actions}
-        permission :save_private_cost_reports, {cost_reports: edit_actions}
+        permission :save_cost_reports, { cost_reports: edit_actions }
+        permission :save_private_cost_reports, { cost_reports: edit_actions }
       end
 
       #register additional permissions for viewing time and cost entries through the CostReportsController
@@ -44,21 +44,27 @@ module OpenProject::Reporting
         Redmine::AccessControl.permission(:view_own_cost_entries).actions << "cost_reports/#{action}"
       end
 
+      # register additional permissions for the work package costlog controller
+      Redmine::AccessControl.permission(:view_time_entries).actions << "work_package_costlog/index"
+      Redmine::AccessControl.permission(:view_own_time_entries).actions << "work_package_costlog/index"
+      Redmine::AccessControl.permission(:view_cost_entries).actions << "work_package_costlog/index"
+      Redmine::AccessControl.permission(:view_own_cost_entries).actions << "work_package_costlog/index"
+
       #menu extensions
-      menu :top_menu, :cost_reports_global, {controller: '/cost_reports', action: 'index', project_id: nil},
-        caption: :cost_reports_title,
-        if: Proc.new {
-          (User.current.logged? || !Setting.login_required?) &&
-            (
-              User.current.allowed_to?(:view_time_entries, nil, global: true) ||
-              User.current.allowed_to?(:view_own_time_entries, nil, global: true) ||
-              User.current.allowed_to?(:view_cost_entries, nil, global: true) ||
-              User.current.allowed_to?(:view_own_cost_entries, nil, global: true)
-            )
-        }
+      menu :top_menu, :cost_reports_global, { controller: '/cost_reports', action: 'index', project_id: nil },
+           caption: :cost_reports_title,
+           if: Proc.new {
+             (User.current.logged? || !Setting.login_required?) &&
+               (
+               User.current.allowed_to?(:view_time_entries, nil, global: true) ||
+                 User.current.allowed_to?(:view_own_time_entries, nil, global: true) ||
+                 User.current.allowed_to?(:view_cost_entries, nil, global: true) ||
+                 User.current.allowed_to?(:view_own_cost_entries, nil, global: true)
+               )
+           }
 
       menu :project_menu, :cost_reports,
-           {controller: '/cost_reports', action: 'index'},
+           { controller: '/cost_reports', action: 'index' },
            param: :project_id,
            after: :time_entries,
            caption: :cost_reports_title,
@@ -101,10 +107,7 @@ module OpenProject::Reporting
     assets %w(reporting/reporting.css
               reporting/reporting.js)
 
-    patches [:CostlogController,
-             :TimelogController,
-             :CustomFieldsController,
-             :'OpenProject::Configuration']
+    patches %i[TimelogController CustomFieldsController OpenProject::Configuration]
     patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
   end

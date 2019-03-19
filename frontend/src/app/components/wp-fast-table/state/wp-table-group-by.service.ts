@@ -28,34 +28,33 @@
 
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
-import {WorkPackageTableGroupBy} from '../wp-table-group-by';
-import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
+import {WorkPackageQueryStateService} from './wp-table-base.service';
 import {QueryColumn} from '../../wp-query/query-column';
 import {InputState} from 'reactivestates';
-import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {States} from 'core-components/states.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
-import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {cloneHalResource} from 'core-app/modules/hal/helpers/hal-resource-builder';
+import {Observable} from "rxjs";
+import {takeUntil} from "rxjs/operators";
 
 @Injectable()
-export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<WorkPackageTableGroupBy> implements WorkPackageQueryStateService {
+export class WorkPackageTableGroupByService extends WorkPackageQueryStateService<QueryGroupByResource|null> {
   public constructor(readonly states:States,
-                     readonly tableState:TableState) {
-    super(tableState);
+                     readonly querySpace:IsolatedQuerySpace) {
+    super(querySpace);
   }
 
-  public get state():InputState<WorkPackageTableGroupBy> {
-    return this.tableState.groupBy;
+  public get state():InputState<QueryGroupByResource|null> {
+    return this.querySpace.groupBy;
   }
 
   valueFromQuery(query:QueryResource) {
-    return new WorkPackageTableGroupBy(query);
+    return query.groupBy || null;
   }
 
   public hasChanged(query:QueryResource) {
-    const comparer = (groupBy:QueryColumn|undefined) => groupBy ? groupBy.href : null;
+    const comparer = (groupBy:QueryColumn|null|undefined) => groupBy ? groupBy.href : null;
 
     return !_.isEqual(
       comparer(query.groupBy),
@@ -64,7 +63,8 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<
   }
 
   public applyToQuery(query:QueryResource) {
-    query.groupBy = cloneHalResource<QueryGroupByResource>(this.current);
+    const current = this.current;
+    query.groupBy = current === null ? undefined : current;
     return true;
   }
 
@@ -72,44 +72,30 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<
     return !!_.find(this.available, candidate => candidate.id === column.id);
   }
 
-  public set(groupBy:QueryGroupByResource|undefined) {
-    let currentState = this.currentState;
-
-    currentState.current = groupBy;
-
+  public update(groupBy:QueryGroupByResource|null) {
     // hierarchies and group by are mutually exclusive
-    if (groupBy) {
-      var hierarchy = this.tableState.hierarchies.value!;
-      hierarchy.current = false;
-      this.tableState.hierarchies.putValue(hierarchy);
+    if (groupBy !== null) {
+      let hierarchy = this.querySpace.hierarchies.value!;
+      this.querySpace.hierarchies.putValue({ ...hierarchy, isVisible: false });
     }
 
-    this.state.putValue(currentState);
+    super.update(groupBy);
   }
 
   public setBy(column:QueryColumn) {
-    let currentState = this.currentState;
     let groupBy = _.find(this.available, candidate => candidate.id === column.id);
 
     if (groupBy) {
-      this.set(groupBy);
+      this.update(groupBy);
     }
   }
 
-  protected get currentState():WorkPackageTableGroupBy {
-    return this.state.value as WorkPackageTableGroupBy;
+  public get current():QueryGroupByResource|null {
+    return this.state.getValueOr(null);
   }
 
   protected get availableState() {
     return this.states.queries.groupBy;
-  }
-
-  public get current():QueryGroupByResource|undefined {
-    if (this.currentState) {
-      return this.currentState.current;
-    } else {
-      return undefined;
-    }
   }
 
   public get isEnabled():boolean {

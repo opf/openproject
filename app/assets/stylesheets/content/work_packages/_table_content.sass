@@ -30,6 +30,11 @@
 .wp--row
   user-select: none
 
+// A placeholder row when the table is empty
+.wp--placeholder-row
+  height: 5px
+  border-bottom: none !important
+
 .wp-table--row
   cursor: pointer
 
@@ -48,6 +53,10 @@
   // To display the input field border correctly (input height is 24px)
   line-height: 24px
 
+  // Avoid that the select field gets too small
+  .wp-inline-edit--field.ng-select
+    min-width: 110px
+
 // Styles for inline editable attributes
 .work-package-table--container td.-editable
   display: table-cell
@@ -61,8 +70,10 @@
   color: $nm-color-error-icon
 
 // Remove padding from grouping rows (exceeds allowed width of 41px)
-.wp-table--group-header td
-  padding: 0 !important
+.wp-table--group-header
+  height: $table-timeline--row-height
+  td
+    padding: 0 !important
 
 // Shrink column of details / inline-create icons
 .wp-table--configuration-modal--trigger
@@ -80,11 +91,13 @@ html:not(.-browser-mobile)
     // Override the default td line-height
     line-height: initial !important
 
-  .wp-table-context-menu-icon
+  .wp-table-context-menu-icon,
+  .wp-table--drag-and-drop-handle
     // Hide from viewers, but allow to be focused
     opacity: 0
 
   .issue:hover .wp-table-context-menu-icon,
+  .issue:hover .wp-table--drag-and-drop-handle,
   .wp-table--context-menu-td:focus,
   .wp-table-context-menu-icon:focus
     // Hide by default
@@ -133,7 +146,7 @@ html:not(.-browser-mobile)
 
 // Some padding for the inner cells of the display fields
 .wp-table--cell-span
-  padding: 2px 5px 2px 5px
+  padding: 2px
 
 // On edge, pointer-events only work on
 // block or inline-block elements

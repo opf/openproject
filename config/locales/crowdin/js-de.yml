@@ -19,11 +19,22 @@ de:
     close_popup_title: Dialog schließen
     close_filter_title: Filter schließen
     close_form_title: Formular schließen
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Testen Sie die Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Ihr Browser unterstützt das Kopieren in die Zwischenablage nicht
         nativ. Bitte selektieren und kopieren Sie den Text händisch.
       copied_successful: Erfolgreich in die Zwischenablage kopiert!
     button_add_watcher: Beobachter hinzufügen
+    button_back: Zurück
     button_back_to_list_view: Zurück zur Listenansicht
     button_cancel: Abbrechen
     button_close: Schließen
@@ -39,6 +50,7 @@ de:
     button_duplicate: Duplizieren
     button_edit: Bearbeiten
     button_filter: Filter
+    button_advanced_filter: Erweiterte Filter
     button_list_view: Listenansicht
     button_show_view: Vollbildansicht
     button_log_time: Zeit buchen
@@ -154,17 +166,41 @@ de:
     general_text_yes: ja
     general_text_No: Nein
     general_text_Yes: Ja
+    grid:
+      add_modal:
+        choose_widget: Widget auswählen
+      widgets:
+        documents:
+          title: Dokumente
+          no_results: Keine Dokumente.
+        news:
+          title: Neuigkeiten
+          at: um
+          no_results: Nichts Neues zu berichten.
+        time_entries_current_user:
+          title: Verbrachte Zeit (letzte 7 Tage)
+          no_results: Keine Zeiteinträge der letzten 7 Tage.
+        work_packages_accountable:
+          title: Von mir verantwortete Arbeitspakete
+        work_packages_assigned:
+          title: Mir zugewiesene Arbeitspakete
+        work_packages_created:
+          title: Von mir erstellte Arbeitspakete
+        work_packages_watched:
+          title: Von mir beobachtete Arbeitspakete
+        work_packages_calendar:
+          title: Kalender
     label_activate: Aktivieren
     label_activity_no: 'Aktivitäts-Nummer: %{activityNo}'
     label_activity_with_comment_no: 'Aktivitäts-Nummer: %{activityNo}. Hat einen Benutzerkommentar.'
-    label_add_column_after: Add column after
-    label_add_column_before: Add column before
+    label_add_column_after: Spalte danach hinzufügen
+    label_add_column_before: Spalte davor hinzufügen
     label_add_columns: Spalte hinzufügen
     label_add_comment: Kommentar hinzufügen
     label_add_comment_title: Kommentieren und @-Zeichen eingeben, um andere Nutzer
       zu informieren
-    label_add_row_after: Add row after
-    label_add_row_before: Add row before
+    label_add_row_after: Zeile danach hinzufügen
+    label_add_row_before: Zeile davor hinzufügen
     label_add_selected_columns: Ausgewählte Spalten hinzufügen
     label_added_by: hinzugefügt von
     label_added_time_by: Von %{author} %{age} hinzugefügt
@@ -175,7 +211,9 @@ de:
     label_ascending: Aufsteigend
     label_author: 'Autor: %{user}'
     label_between: zwischen
+    label_board: Board
     label_board_locked: Gesperrt
+    label_board_plural: Boards
     label_board_sticky: Wichtig (immer oben)
     label_create_work_package: Erstelle neues Arbeitspaket
     label_created_by: Erstellt von
@@ -221,7 +259,7 @@ de:
     label_menu_collapse: zusammenklappen
     label_menu_expand: ausklappen
     label_more_than_ago: vor mehr als (Tage)
-    label_my_page: My page
+    label_my_page: Meine Seite
     label_next: Weiter
     label_no_data: Es sind keine Daten vorhanden
     label_no_due_date: kein Abgabedatum
@@ -240,9 +278,9 @@ de:
     label_visibility_settings: Sichtbarkeits-Einstellungen
     label_quote_comment: Diesen Kommentar zitieren
     label_reset: Zurücksetzen
-    label_remove_column: Remove column
+    label_remove_column: Spalte entfernen
     label_remove_columns: Ausgewählte Spalten entfernen
-    label_remove_row: Remove row
+    label_remove_row: Zeile entfernen
     label_save_as: Speichern unter
     label_select_watcher: Beobachter auswählen ...
     label_selected_filter_list: Ausgewählte Filter
@@ -264,7 +302,7 @@ de:
     label_activity_show_only_comments: Nur Aktivitäten mit Kommentaren
     label_activity_show_all: Alle Aktivitäten anzeigen
     label_total_progress: "%{percent}% Gesamtfortschritt"
-    label_total_amount: 'Total: %{amount}'
+    label_total_amount: 'Gesamt: %{amount}'
     label_updated_on: aktualisiert am
     label_warning: Warnung
     label_work_package: Arbeitspaket
@@ -298,6 +336,7 @@ de:
     label_upload_notification: Dateien werden hochgeladen...
     label_work_package_upload_notification: 'Hochladen von Dateien für Arbeitspaket
       #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Diese Dateien werden hochgeladen:'
     label_rejected_files: 'Diese Dateien können nicht hochgeladen werden:'
     label_rejected_files_reason: Diese Dateien können nicht hochgeladen werden, da
@@ -406,9 +445,9 @@ de:
           requires: die erfordernd sind von
           required: die benötigt werden von
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Aktivität
+      comment: Kommentar
+      hours: Stunden
     watchers:
       label_loading: Lade Beobachter...
       label_error_loading: Beim Laden der Beobachter ist ein Fehler aufgetreten
@@ -493,6 +532,7 @@ de:
     text_attachment_destroy_confirmation: Sind Sie sicher, dass Sie diesen Anhang
       löschen möchten?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt-Diagramm
       labels:
         title: Konfiguration von Beschriftungen
@@ -612,7 +652,7 @@ de:
       label_enable_multi_select: Mehrfachauswahl aktivieren
       label_disable_multi_select: Mehrfachauswahl deaktivieren
       label_filter_add: Filter hinzufügen
-      label_filter_by_text: Filter by text
+      label_filter_by_text: Nach Text filtern
       label_options: Optionen
       label_column_multiselect: 'Kombiniertes Eingabefeld: Auswahl mit Pfeiltasten,
         Auslösen mit Enter, Löschen mit Backspace'
@@ -624,7 +664,7 @@ de:
       message_work_package_read_only: Das Arbeitspaket ist in diesem Status gesperrt.
         Kein Attribut außer dem Status selbst kann darin verändert werden.
       no_value: Kein Wert
-      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholder_filter_by_text: Title, Beschreibung, Kommentare, ...
       inline_create:
         title: Klicken Sie hier, um ein neues Arbeitspaket zu dieser Liste hinzufügen
       create:
@@ -779,8 +819,6 @@ de:
         days: Tage
         weeks: Wochen
         months: Monaten
-      label_switch_to_single_select: Zur Einfachauswahl wechseln
-      label_switch_to_multi_select: Zur Mehrfachauswahl wechseln
     toolbar:
       settings:
         configure_view: Ansicht konfigurieren …
@@ -821,6 +859,7 @@ de:
           der hier aufgeführten Arbeitspakete rekursiv entfernt werden.
         deletes_children: Alle untergeordneten Arbeitspaketen und deren Nachkommen
           werden auch rekursiv gelöscht.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Erfolgreich angelegt.
     notice_successful_delete: Erfolgreich gelöscht.
     notice_successful_update: Erfolgreich aktualisiert.
@@ -847,7 +886,7 @@ de:
         messages_on_field: 'Dieses Feld ist ungültig: %{messages}'
     error_could_not_resolve_version_name: Versionsname konnte nicht aufgelöst werden
     error_could_not_resolve_user_name: Benutzername konnte nicht aufgelöst werden
-    error_attachment_upload: 'Konnte Datei %{name} nicht hochladen: %{error}'
+    error_attachment_upload: 'Konnte Datei nicht hochladen: %{error}'
     error_attachment_upload_permission: Sie haben keine Berechtigung zum Hochladen
       von Dateien auf dieser Resource.
     units:
@@ -864,12 +903,13 @@ de:
     zen_mode:
       button_activate: Zen-Modus aktivieren
       button_deactivate: Zen-Modus deaktivieren
-    unsupported_browser:
-      title: Ihre Browserversion wird nicht unterstützt
-      message: Die von Ihnen verwendete Browser-Version wird nicht mehr von OpenProject
-        unterstützt.
-      update_message: Bitte aktualisieren Sie Ihren Browser.
-      update_ie_user: Bitte wechseln Sie zu Mozilla Firefox oder Google Chrome, oder
-        führen ein Upgrade auf Microsoft Edge durch.
-      learn_more: Weitere Informationen
-      close_warning: Diese Warnung ignorieren.
+    global_search:
+      all_projects: In allen Projekten
+      search: Suche
+      close_search: Suche schließen
+      current_project: In diesem Projekt
+      current_project_and_all_descendants: In diesem Projekt + Unterprojekte
+      title:
+        all_projects: alle Projekte
+        project_and_subprojects: und alle Unterprojekte
+        search_for: Suche nach

@@ -2,8 +2,8 @@
   <div class="work-packages-tabletimeline--table-side work-package-table--container __hidden_overflow_container">
     <table class="keyboard-accessible-list generic-table work-package-table">
       <colgroup>
-        <col highlight-col *ngFor="let column of columns"/>
-        <col highlight-col/>
+        <!-- Generate col elements dynamically(!) for each requested column plus one for the action menu's column. -->
+        <col highlight-col *ngFor="let column of [].constructor(columns.length + 1)">
       </colgroup>
       <caption class="hidden-for-sighted">
         <span>{{text.tableSummary}}</span>
@@ -12,6 +12,7 @@
       </caption>
       <thead class="-sticky">
         <tr>
+          <th *ngIf="configuration.dragAndDropEnabled" class="wp-table--manual-sort-th -short hide-when-print"></th>
           <th *ngFor="let column of columns"
               class="wp-table--table-header">
             <sortHeader [headerColumn]="column"
@@ -38,26 +39,20 @@
           </th>
         </tr>
       </thead>
-      <tbody class="work-package--empty-tbody" *ngIf="!isEmbedded && (query.hasError || rowcount === 0)">
+      <tbody class="work-package--empty-tbody" *ngIf="!isEmbedded && query && rowcount === 0">
       <tr id="empty-row-notification">
         <td [attr.colspan]="columns.length + 1">
-          <span *ngIf="!query.hasError">
+          <span>
             <op-icon icon-classes="icon-info1 icon-context"></op-icon>
             <span>
               <strong>{{text.noResults.title}}</strong>
               {{text.noResults.description}}
             </span>
           </span>
-          <span *ngIf="query.hasError">
-            <op-icon icon-classes="wp-table--faulty-query-icon icon-warning icon-context"></op-icon>
-            <strong>{{text.faultyQuery.title}}</strong>
-            <span>{{text.faultyQuery.description}}</span>
-          </span>
         </td>
       </tr>
       </tbody>
-      <tbody class="results-tbody work-package--results-tbody">
-      </tbody>
+      <tbody class="results-tbody work-package--results-tbody"></tbody>
       <tbody *ngIf="tableElement && configuration.inlineCreateEnabled"
              wpInlineCreate
              [wp-inline-create--table]="workPackageTable"

@@ -30,109 +30,177 @@
 class SearchController < ApplicationController
   include Concerns::Layout
 
-  before_action :find_optional_project
+  before_action :find_optional_project,
+                :prepare_tokens,
+                :quick_wp_id_redirect
+
+  LIMIT = 10
 
   def index
-    @question = search_params[:q] || ''
-    @question.strip!
-    @all_words = search_params[:all_words] || !search_params[:submit]
-    @titles_only = !search_params[:titles_only].nil?
-
-    projects_to_search =
-      case search_params[:scope]
-      when 'all'
-        nil
-      when 'my_projects'
-        User.current.memberships.map(&:project)
-      when 'current_project'
-        @project
-      else
-        @project ? (@project.self_and_descendants.active) : nil
-      end
-
-    offset = begin
-      Time.at(Rational(search_params[:offset])) if search_params[:offset]
-    rescue; end
-
-    # quick jump to an work_package
-    scan_work_package_reference @question do |id|
-      return redirect_to work_package_path(id: id) if WorkPackage.visible.find_by(id: id.to_i)
-    end
-
-    @object_types = Redmine::Search.available_search_types.dup
-    if projects_to_search.is_a? Project
-      # don't search projects
-      @object_types.delete('projects')
-      # only show what the user is allowed to view
-      @object_types = @object_types.select { |o| User.current.allowed_to?("view_#{o}".to_sym, projects_to_search) }
-    end
-
-    @scope = @object_types.select { |t| search_params[t] }
-    @scope = @object_types if @scope.empty?
-
-    # extract tokens from the question
-    # eg. hello "bye bye" => ["hello", "bye bye"]
-    @tokens = scan_query_tokens @question
-    # tokens must be at least 2 characters long
-    @tokens = @tokens.uniq.select { |w| w.length > 1 }
-
     if @tokens.any?
-      # no more than 5 tokens to search for
-      @tokens.slice! 5..-1 if @tokens.size > 5
+      @results, @results_count = search_results(@tokens)
 
-      @results = []
-      @results_by_type = Hash.new { |h, k| h[k] = 0 }
-
-      limit = 10
-      @scope.each do |s|
-        r, c = s.singularize.camelcase.constantize.search(@tokens, projects_to_search,
-                                                          all_words: @all_words,
-                                                          titles_only: @titles_only,
-                                                          limit: (limit + 1),
-                                                          offset: offset,
-                                                          before: search_params[:previous].nil?)
-        @results += r
-        @results_by_type[s] += c
-      end
-      @results = @results.sort { |a, b| b.event_datetime <=> a.event_datetime }
       if search_params[:previous].nil?
-        @pagination_previous_date = @results[0].event_datetime if offset && @results[0]
-        if @results.size > limit
-          @pagination_next_date = @results[limit - 1].event_datetime
-          @results = @results[0, limit]
-        end
+        limit_results_first_page
       else
-        @pagination_next_date = @results[-1].event_datetime if offset && @results[-1]
-        if @results.size > limit
-          @pagination_previous_date = @results[-(limit)].event_datetime
-          @results = @results[-(limit), limit]
-        end
+        limit_results_subsequent_page
       end
-    else
-      @question = ''
     end
+
+    provision_gon
+
     render layout: layout_non_or_no_menu
   end
 
   private
 
+  def prepare_tokens
+    @question = search_params[:q] || ''
+    @question.strip!
+    @tokens = scan_query_tokens(@question).uniq
+
+    unless @tokens.any?
+      @question = ''
+    end
+  end
+
+  def quick_wp_id_redirect
+    scan_work_package_reference @question do |id|
+      redirect_to work_package_path(id: id) if WorkPackage.visible.find_by(id: id)
+    end
+  end
+
   def find_optional_project
     return true unless params[:project_id]
+
     @project = Project.find(params[:project_id])
     check_project_privacy
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
+  def limit_results_first_page
+    @pagination_previous_date = @results[0].event_datetime if offset && @results[0]
+
+    if @results.size > LIMIT
+      @pagination_next_date = @results[LIMIT - 1].event_datetime
+      @results = @results[0, LIMIT]
+    end
+  end
+
+  def limit_results_subsequent_page
+    @pagination_next_date = @results[-1].event_datetime if offset && @results[-1]
+
+    if @results.size > LIMIT
+      @pagination_previous_date = @results[-(LIMIT)].event_datetime
+      @results = @results[-(LIMIT), LIMIT]
+    end
+  end
+
+  # extract tokens from the question
+  # eg. hello "bye bye" => ["hello", "bye bye"]
   def scan_query_tokens(query)
-    query.scan(%r{((\s|^)"[\s\w]+"(\s|$)|\S+)}).map { |m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '') }
+    tokens = query.scan(%r{((\s|^)"[\s\w]+"(\s|$)|\S+)}).map { |m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '') }
+
+    # no more than 5 tokens to search for
+    tokens.slice! 5..-1 if tokens.size > 5
+
+    tokens
   end
 
   def scan_work_package_reference(query, &blk)
-    query.match(/\A#?(\d+)\z/) && ((blk && blk.call($1)) || true)
+    query.match(/\A#?(\d+)\z/) && ((blk&.call($1.to_i)) || true)
   end
 
   def search_params
     @search_params ||= permitted_params.search
+  end
+
+  def offset
+    Time.at(Rational(search_params[:offset])) if search_params[:offset]
+  rescue TypeError
+    nil
+  end
+
+  def projects_to_search
+    case search_params[:scope]
+    when 'all'
+      nil
+    when 'current_project'
+      @project
+    else
+      @project ? @project.self_and_descendants.active : nil
+    end
+  end
+
+  def search_results(tokens)
+    results = []
+    results_count = Hash.new(0)
+
+    search_classes.each do |scope, klass|
+      r, c = klass.search(tokens,
+                          projects_to_search,
+                          limit: (LIMIT + 1),
+                          offset: offset,
+                          before: search_params[:previous].nil?)
+
+      results += r
+      results_count[scope] += c
+    end
+
+    results = sort_by_event_datetime(results)
+
+    [results, results_count]
+  end
+
+  def sort_by_event_datetime(results)
+    results.sort { |a, b| b.event_datetime <=> a.event_datetime }
+  end
+
+  def search_types
+    types = Redmine::Search.available_search_types.dup
+
+    if projects_to_search.is_a? Project
+      # don't search projects
+      types.delete('projects')
+      # only show what the user is allowed to view
+      types = types.select { |o| User.current.allowed_to?("view_#{o}".to_sym, projects_to_search) }
+    end
+
+    types
+  end
+
+  def search_classes
+    scope = search_types & search_params.keys
+
+    scope = if scope.empty?
+              search_types
+            elsif scope & ['work_packages'] == scope
+              []
+            else
+              scope
+            end
+
+    scope.map { |s| [s, scope_class(s)] }.to_h
+  end
+
+  def scope_class(scope)
+    scope.singularize.camelcase.constantize
+  end
+
+  def provision_gon
+    available_search_types = Redmine::Search.available_search_types.dup.push('all')
+
+    gon.global_search = {
+      search_term: @question,
+      project_scope: search_params[:scope].to_s,
+      available_search_types: available_search_types.map do |search_type|
+        {
+          id: search_type,
+          name: OpenProject::GlobalSearch.tab_name(search_type)
+        }
+      end,
+      current_tab: available_search_types.select { |search_type| search_params[search_type] }.first || 'all'
+    }
   end
 end

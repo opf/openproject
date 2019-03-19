@@ -57,9 +57,25 @@ he:
     index:
       no_results_content_title: There are currently no authentication modes.
       no_results_content_text: Create a new authentication mode
-  boards:
+  ldap_auth_sources:
+    connection_encryption: Connection encryption
+    tls_mode:
+      plain: none
+      simple_tls: simple_tls
+      start_tls: start_tls
+      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls_description: Implicit TLS encryption, but no certificate validation.
+        Use with caution and implicit trust of the LDAP connection.
+      start_tls_description: Explicit TLS encryption with full validation. Use for
+        LDAP over TLS/SSL.
+      section_more_info_link_html: 'This section concerns the connection security
+        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+        Net::LDAP documentation</a>.
+
+'
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: There are currently no colors.
@@ -106,6 +122,10 @@ he:
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  global_search:
+    overwritten_tabs:
+      wiki_pages: ויקי
+      messages: פורום
   groups:
     index:
       no_results_title_text: There are currently no groups.
@@ -114,6 +134,11 @@ he:
       no_results_title_text: There are currently no users part of this group.
     memberships:
       no_results_title_text: There are currently no projects part of this group.
+  incoming_mails:
+    ignore_filenames: 'Specify a list of names to ignore when processing attachments
+      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+
+'
   projects:
     delete:
       scheduled: Deletion has been scheduled and is perfomed in the background. You
@@ -130,9 +155,9 @@ he:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: ליצור לוח חדש
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -219,6 +244,8 @@ he:
       other: "%{count} work package descendants"
       two: "%{count} work package descendants"
       many: "%{count} work package descendants"
+    bulk:
+      could_not_be_saved: 'The following work packages could not be saved:'
     move:
       no_common_statuses_exists: There is no status available for all selected work
         packages. Their status cannot be changed.
@@ -355,6 +382,11 @@ he:
         subscriber: Subscriber
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximum active users
+      grids/grid:
+        page: Page
+        row_count: Number of rows
+        column_count: Number of columns
+        widgets: Widgets
       relation:
         delay: זמן המתנה
         from: חבילת עבודה
@@ -496,6 +528,7 @@ he:
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
         unchangeable: cannot be changed.
+        unremovable: cannot be removed.
         wrong_length: is the wrong length (should be %{count} characters).
       models:
         custom_field:
@@ -521,6 +554,10 @@ he:
               not_match_configured: doesn't match available scopes.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        grids/grid:
+          overlaps: overlap.
+          outside: is outside of the grid.
+          end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -631,7 +668,7 @@ he:
     models:
       attachment: קובץ
       attribute_help_text: Attribute help text
-      board: פורום
+      forum: פורום
       comment: תגובה
       custom_action: Custom action
       custom_field: שדה מותאם אישית
@@ -731,7 +768,7 @@ he:
   button_check_all: סמן את כולם
   button_clear: נקה
   button_click_to_reveal: Click to reveal
-  button_close: Close
+  button_close: סגור
   button_collapse_all: סגור הכל
   button_configure: הגדר
   button_continue: Continue
@@ -1150,9 +1187,8 @@ he:
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: פורומים
       blog: OpenProject blog
-      boards: Community forum
+      forums: Community forum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1200,7 +1236,6 @@ he:
   label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
-  label_and_its_subprojects: "%{value}, פרוייקטי המשנה שלו"
   label_api_access_key: מפתח גישה API
   label_api_access_key_created_on: API מקשים שנוצרה לפני %{value}
   label_api_access_key_type: API
@@ -1220,7 +1255,7 @@ he:
   label_authentication: אימות
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1228,14 +1263,15 @@ he:
   label_blocked_by: חסום על ידי
   label_blocks: בלוקים
   label_blog: Blog
-  label_board_locked: נעול
-  label_board_new: פורום חדש
-  label_board_plural: פורומים
-  label_board_sticky: נעוץ
+  label_forums_locked: נעול
+  label_forum_new: פורום חדש
+  label_forum_plural: פורומים
+  label_forum_sticky: נעוץ
   label_boolean: בוליאני
   label_branch: ענף
   label_browse: עיון
   label_bulk_edit_selected_work_packages: חבילות עבודה עריכה בצובר שנבחרו
+  label_bundled: "(Bundled)"
   label_calendar: לוח שנה
   label_calendar_show: הצג לוח שנה
   label_category: קטגוריה
@@ -1287,7 +1323,7 @@ he:
   label_custom_field_new: שדה מותאם אישית חדש
   label_custom_field_plural: שדות מותאמים אישית
   label_custom_field_default_type: סוג ריק
-  label_custom_style: Design
+  label_custom_style: עיצוב
   label_date: תאריך
   label_date_and_time: Date and time
   label_date_from: מ
@@ -1470,8 +1506,8 @@ he:
   label_notify_member_plural: Email updates
   label_on: פועל
   label_open_menu: פתח תפריט
-  label_open_work_packages: open
-  label_open_work_packages_plural: open
+  label_open_work_packages: פתוח
+  label_open_work_packages_plural: פתוח
   label_openproject_website: OpenProject website
   label_optional_description: תיאור
   label_options: אפשריות
@@ -1496,6 +1532,7 @@ he:
   label_planning: תכנון
   label_please_login: Please log in
   label_plugins: פלאגינים
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precedes
   label_preferences: Preferences
   label_preview: תצוגה מקדימה
@@ -1566,7 +1603,6 @@ he:
   label_role_search: Assign role to new members
   label_scm: SCM
   label_search: חיפוש
-  label_search_titles_only: Search titles only
   label_send_information: Send account information to the user
   label_send_test_email: Send a test email
   label_settings: הגדרות
@@ -1646,6 +1682,7 @@ he:
   label_view_diff: View differences
   label_view_revisions: View revisions
   label_watched_work_packages: Watched work packages
+  label_what_is_this: What is this?
   label_week: שבוע
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
@@ -1829,6 +1866,8 @@ he:
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: Account was successfully updated.
+  notice_account_other_session_expired: All other sessions tied to your account have
+    been invalidated.
   notice_account_wrong_password: סיסמה שגויה
   notice_account_registered_and_logged_in: Welcome, your account has been activated.
     You are logged in now.
@@ -1959,7 +1998,7 @@ he:
   permission_export_wiki_pages: ייצוא דפי wiki
   permission_list_attachments: רשימת קבצים מצורפים
   permission_log_time: Log spent time
-  permission_manage_boards: ניהול פורומים
+  permission_manage_forums: ניהול פורומים
   permission_manage_categories: Manage work package categories
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Manage members
@@ -2006,7 +2045,7 @@ he:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: פעילות
-  project_module_boards: פורומים
+  project_module_forums: פורומים
   project_module_calendar: לוח שנה
   project_module_work_package_tracking: Work package tracking
   project_module_news: חדשות
@@ -2234,6 +2273,7 @@ he:
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_ignore_filenames: Ignored mail attachments
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   setting_password_active_rules: Active character classes
   setting_password_count_former_banned: Number of most recently used passwords banned
@@ -2244,6 +2284,7 @@ he:
   setting_per_page_options: Objects per page options
   setting_plain_text_mail: Plain text mail (no HTML)
   setting_protocol: פרוטוקול
+  setting_security_badge_displayed: Display security badge
   setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: Automatic repository vendor type
   setting_repositories_encodings: Repositories encodings
@@ -2303,7 +2344,7 @@ he:
     plain: Plain text
   status_active: active
   status_archived: archived
-  status_invited: invited
+  status_invited: הוזמנו
   status_locked: locked
   status_registered: registered
   support:
@@ -2413,6 +2454,16 @@ he:
   text_no_notes: There are no comments available for this work package.
   text_notice_too_many_values_are_inperformant: 'Note: Displaying more than 100 items
     per page can increase the page load time.'
+  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
+    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
+    administration panel, and on the home page. It is displayed to administrators
+    only. <br/> The badge will check your current OpenProject version against the
+    official OpenProject release database to alert you of any updates or known vulnerabilities.
+    For more information on what the check provides, what data is needed to provide
+    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
+    configuration documentation</a>.
+
+'
   text_own_membership_delete_confirmation: |-
     You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
     Are you sure you want to continue?
@@ -2473,7 +2524,6 @@ he:
       color: צבע
       colors: צבעים
     associations: Dependencies
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
     change: Change in planning
     children: Child elements
@@ -2484,7 +2534,7 @@ he:
       elements.
     delete_all: Delete all
     delete_thing: מחק
-    duration: Duration
+    duration: משך זמן
     duration_days:
       one: יום אחד
       other: "%{count} ימים"
@@ -2686,7 +2736,7 @@ he:
     error_status_change_failed: 'Changing the user status failed due to the following
       errors: %{errors}'
     invite: Invite user via email
-    invited: invited
+    invited: הוזמנו
     lock: Lock permanently
     locked: locked permanently
     no_login: This user authenticates through login by password. Since it is disabled,
@@ -2706,7 +2756,7 @@ he:
     unlock_and_reset_failed_logins: Unlock and reset failed logins
   version_status_closed: סגור
   version_status_locked: locked
-  version_status_open: open
+  version_status_open: פתוח
   note: Note
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning
@@ -2891,6 +2941,8 @@ he:
     x_active_tokens:
       one: one active token
       other: "%{count} active token"
+      two: "%{count} active token"
+      many: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -2908,7 +2960,3 @@ he:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  button_remove_widget: הסר רכיב
-  label_my_page_block: My page block
-  label_responsible_for_work_packages: Work packages I am accountable for
-  label_visible_elements: Visible elements

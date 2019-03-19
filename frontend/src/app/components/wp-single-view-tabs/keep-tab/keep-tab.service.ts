@@ -36,9 +36,8 @@ export class KeepTabService {
 
   protected subject = new ReplaySubject<{ [tab:string]:string; }>(1);
 
-  constructor(public $state:StateService,
+  constructor(protected $state:StateService,
               protected $transitions:TransitionService) {
-    'ngInject';
 
     this.updateTabs();
     $transitions.onSuccess({}, (transition:Transition) => {
@@ -67,6 +66,10 @@ export class KeepTabService {
 
   public get currentDetailsState():string {
     return 'work-packages.list.details.' + this.currentDetailsTab;
+  }
+
+  public isDetailsState(stateName:string) {
+    return stateName === 'work-packages.list.details';
   }
 
   public get currentShowTab():string {

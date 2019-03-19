@@ -18,11 +18,22 @@ bg:
     close_popup_title: Затвори изкачащият прозорец
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Вашият браузър не поддържа копиране в клипборд. Моля копирайте
         избрания текст ръчно.
       copied_successful: Копирането в клипборд е успешно!
     button_add_watcher: Добавяне на наблюдател
+    button_back: Назад
     button_back_to_list_view: Back to list view
     button_cancel: Отказ
     button_close: Close
@@ -38,6 +49,7 @@ bg:
     button_duplicate: Дублиране
     button_edit: Редактиране
     button_filter: Филтър
+    button_advanced_filter: Advanced filter
     button_list_view: Изглед списък
     button_show_view: Изглед на цял екран
     button_log_time: Отчетено време
@@ -146,6 +158,30 @@ bg:
     general_text_yes: Да
     general_text_No: Не
     general_text_Yes: Да
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Документи
+          no_results: No documents yet.
+        news:
+          title: Новини
+          at: at
+          no_results: Нищо ново за отчитане.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Работни пакети, възложени на мен
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Календар
     label_activate: Activate
     label_activity_no: Дейност запис номер %{activityNo}
     label_activity_with_comment_no: Дейност запис номер %{activityNo}. Има коментар
@@ -167,7 +203,9 @@ bg:
     label_ascending: Възходящо
     label_author: 'Автор: %{user}'
     label_between: between
+    label_board: Board
     label_board_locked: Заключен
+    label_board_plural: Boards
     label_board_sticky: Лепкава
     label_create_work_package: Създаване на нов работен пакет
     label_created_by: Created by
@@ -214,7 +252,7 @@ bg:
     label_menu_collapse: събери
     label_menu_expand: разтвори
     label_more_than_ago: повече от преди дни
-    label_my_page: My page
+    label_my_page: Моята страница
     label_next: Следващо
     label_no_data: Няма данни за показване
     label_no_due_date: Няма крайна дата
@@ -290,6 +328,7 @@ bg:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Качване на файлове за работа пакет #%{id}:
       %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Тези файлове ще бъдат качени:'
     label_rejected_files: 'Тези файлове не могат да бъдат качени:'
     label_rejected_files_reason: Тези файлове не могат да бъдат качени, тъй като техният
@@ -399,9 +438,9 @@ bg:
           requires: requiring
           required: required by
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: Активност
+      comment: Коментар
+      hours: Часове
     watchers:
       label_loading: Зареждане на наблюдаващи...
       label_error_loading: Възникна грешка при зареждане на наблюдатели
@@ -485,6 +524,7 @@ bg:
     text_attachment_destroy_confirmation: Наистина ли искате да изтриете прикачения
       файл?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -765,8 +805,6 @@ bg:
         days: дни
         weeks: седмици
         months: месеци
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -807,6 +845,7 @@ bg:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Успешно създаване.
     notice_successful_delete: Успешно изтриване.
     notice_successful_update: Успешно обновяване.
@@ -833,7 +872,7 @@ bg:
         messages_on_field: 'Това поле е невалидно: %{messages}'
     error_could_not_resolve_version_name: Не можа да открие версия с име
     error_could_not_resolve_user_name: Не може да открие потребителско име
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -850,11 +889,13 @@ bg:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: Версията на вашият браузър не се поддържа
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
-      learn_more: Научете повече
-      close_warning: Ignore this warning.
+    global_search:
+      all_projects: In all projects
+      search: Търсене
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

@@ -31,8 +31,10 @@ class MailHandler < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
   include Redmine::I18n
 
-  class UnauthorizedAction < StandardError; end
-  class MissingInformation < StandardError; end
+  class UnauthorizedAction < StandardError;
+  end
+  class MissingInformation < StandardError;
+  end
 
   attr_reader :email, :user
 
@@ -118,7 +120,7 @@ class MailHandler < ActionMailer::Base
   private
 
   MESSAGE_ID_RE = %r{^<?openproject\.([a-z0-9_]+)\-(\d+)\.\d+@}
-  ISSUE_REPLY_SUBJECT_RE = %r{\[[^\]]*#(\d+)\]}
+  ISSUE_REPLY_SUBJECT_RE = %r{.+? - .+ #(\d+):}
   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
 
   def dispatch
@@ -171,6 +173,7 @@ class MailHandler < ActionMailer::Base
       false
     end
   end
+
   alias :receive_issue :receive_work_package
 
   # Adds a note to an existing work package
@@ -190,6 +193,7 @@ class MailHandler < ActionMailer::Base
       false
     end
   end
+
   alias :receive_issue_reply :receive_work_package_reply
 
   # Reply will be added to the issue
@@ -214,7 +218,7 @@ class MailHandler < ActionMailer::Base
         reply = Message.new(subject: email.subject.gsub(%r{^.*msg\d+\]}, '').strip,
                             content: cleaned_up_text_body)
         reply.author = user
-        reply.board = message.board
+        reply.forum = message.forum
         message.children << reply
         add_attachments(reply)
         reply
@@ -225,20 +229,31 @@ class MailHandler < ActionMailer::Base
   end
 
   def add_attachments(obj)
-    if email.attachments && email.attachments.any?
-      email.attachments.each do |attachment|
-        file = OpenProject::Files.create_uploaded_file(
-          name: attachment.filename,
-          content_type: attachment.mime_type,
-          content: attachment.decoded,
-          binary: true)
-
-        obj.attachments << Attachment.create(
-          container: obj,
-          file: file,
-          author: user,
-          content_type: attachment.mime_type)
+    create_attachments_from_mail(obj)
+      .each do |attachment|
+        obj.attachments << attachment
       end
+  end
+
+  def create_attachments_from_mail(container = nil)
+    return [] unless email.attachments&.present?
+
+    email
+      .attachments
+      .reject { |attachment| ignored_filename?(attachment.filename) }
+      .map do |attachment|
+      file = OpenProject::Files.create_uploaded_file(
+        name: attachment.filename,
+        content_type: attachment.mime_type,
+        content: attachment.decoded,
+        binary: true
+      )
+
+      Attachment.create(
+        container: container,
+        file: file,
+        author: user,
+        content_type: attachment.mime_type)
     end
   end
 
@@ -246,14 +261,18 @@ class MailHandler < ActionMailer::Base
   # appropriate permission
   def add_watchers(obj)
     if user.allowed_to?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project) ||
-       user.allowed_to?("add_#{obj.class.lookup_ancestors.last.name.underscore}_watchers".to_sym, obj.project)
+      user.allowed_to?("add_#{obj.class.lookup_ancestors.last.name.underscore}_watchers".to_sym, obj.project)
       addresses = [email.to, email.cc].flatten.compact.uniq.map { |a| a.strip.downcase }
       unless addresses.empty?
         watchers = User.active.where(['LOWER(mail) IN (?)', addresses])
-        watchers.each do |w| obj.add_watcher(w) end
+        watchers.each do |w|
+          obj.add_watcher(w)
+        end
         # FIXME: somehow the watchable attribute of the new watcher is not set, when the issue is not safed.
         # So we fix that here manually
-        obj.watchers.each do |w| w.watchable = obj end
+        obj.watchers.each do |w|
+          w.watchable = obj
+        end
       end
     end
   end
@@ -265,7 +284,7 @@ class MailHandler < ActionMailer::Base
     else
       @keywords[attr] = begin
         if (options[:override] || @@handler_options[:allow_override].include?(attr)) &&
-           (v = extract_keyword!(plain_text_body, attr, options[:format]))
+          (v = extract_keyword!(plain_text_body, attr, options[:format]))
           v
         else
           # Return either default or nil
@@ -283,7 +302,9 @@ class MailHandler < ActionMailer::Base
     keys << all_attribute_translations(Setting.default_language)[attr] if Setting.default_language.present?
 
     keys.reject!(&:blank?)
-    keys.map! do |k| Regexp.escape(k) end
+    keys.map! do |k|
+      Regexp.escape(k)
+    end
     format ||= '.+'
     text.gsub!(/^(#{keys.join('|')})[ \t]*:[ \t]*(#{format})\s*$/i, '')
     $2 && $2.strip
@@ -305,7 +326,7 @@ class MailHandler < ActionMailer::Base
 
     attrs = {
       'type_id' => (k = get_keyword(:type)) && project.types.find_by(name: k).try(:id),
-      'status_id' =>  (k = get_keyword(:status)) && Status.find_by(name: k).try(:id),
+      'status_id' => (k = get_keyword(:status)) && Status.find_by(name: k).try(:id),
       'parent_id' => (k = get_keyword(:parent)),
       'priority_id' => (k = get_keyword(:priority)) && IssuePriority.find_by(name: k).try(:id),
       'category_id' => (k = get_keyword(:category)) && project.categories.find_by(name: k).try(:id),
@@ -374,7 +395,7 @@ class MailHandler < ActionMailer::Base
     unless user.valid?
       user.login = "user#{SecureRandom.hex(6)}" unless user.errors[:login].blank?
       user.firstname = '-' unless user.errors[:firstname].blank?
-      user.lastname  = '-' unless user.errors[:lastname].blank?
+      user.lastname = '-' unless user.errors[:lastname].blank?
     end
 
     user
@@ -422,19 +443,31 @@ class MailHandler < ActionMailer::Base
     body.strip
   end
 
+  def ignored_filenames
+    @ignored_filenames ||= begin
+      Setting.mail_handler_ignore_filenames.to_s.split(/[\r\n]+/).reject(&:blank?)
+    end
+  end
+
+  def ignored_filename?(filename)
+    ignored_filenames.any? do |line|
+      filename.match? Regexp.escape(line)
+    end
+  end
+
   def find_assignee_from_keyword(keyword, issue)
     keyword = keyword.to_s.downcase
     assignable = issue.assignable_assignees
     assignee = nil
-    assignee ||= assignable.detect {|a|
+    assignee ||= assignable.detect { |a|
       a.mail.to_s.downcase == keyword ||
-      a.login.to_s.downcase == keyword
+        a.login.to_s.downcase == keyword
     }
     if assignee.nil? && keyword.match(/ /)
       firstname, lastname = *(keyword.split) # "First Last Throwaway"
-      assignee ||= assignable.detect {|a|
+      assignee ||= assignable.detect { |a|
         a.is_a?(User) && a.firstname.to_s.downcase == firstname &&
-        a.lastname.to_s.downcase == lastname
+          a.lastname.to_s.downcase == lastname
       }
     end
     if assignee.nil?
@@ -449,15 +482,16 @@ class MailHandler < ActionMailer::Base
     attributes = collect_wp_attributes_from_email_on_create(work_package)
 
     service_call = WorkPackages::CreateService
-                   .new(user: user,
-                        contract_class: work_package_create_contract_class)
-                   .call(attributes: attributes, work_package: work_package)
+      .new(user: user,
+           contract_class: work_package_create_contract_class)
+      .call(attributes: attributes, work_package: work_package)
 
     if service_call.success?
       work_package = service_call.result
 
       add_watchers(work_package)
       add_attachments(work_package)
+
       work_package
     else
       service_call.errors
@@ -474,17 +508,17 @@ class MailHandler < ActionMailer::Base
 
   def update_work_package(work_package)
     attributes = collect_wp_attributes_from_email_on_update(work_package)
+    attributes[:attachment_ids] = work_package.attachment_ids + create_attachments_from_mail.map(&:id)
 
     service_call = WorkPackages::UpdateService
-                   .new(user: user,
-                        work_package: work_package,
-                        contract_class: work_package_update_contract_class)
-                   .call(attributes: attributes)
+      .new(user: user,
+           work_package: work_package,
+           contract_class: work_package_update_contract_class)
+      .call(attributes: attributes)
 
     if service_call.success?
       work_package = service_call.result
 
-      add_attachments(work_package)
       work_package
     else
       service_call.errors

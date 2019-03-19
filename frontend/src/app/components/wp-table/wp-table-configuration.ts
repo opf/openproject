@@ -33,6 +33,9 @@ export class WorkPackageTableConfiguration {
   /** Render the table results, set to false when only wanting the table initialization */
   public tableVisible:boolean = true;
 
+  /** Render the table as compact style */
+  public compactTableStyle:boolean = false;
+
   /** Render the action column (last column) with the actions defined in the TableActionsService */
   public actionsColumnEnabled:boolean = true;
 
@@ -54,10 +57,31 @@ export class WorkPackageTableConfiguration {
   /** Whether the hierarchy toggler item in the subject column is enabled */
   public hierarchyToggleEnabled:boolean = true;
 
+  /** Whether this table supports drag and drop */
+  public dragAndDropEnabled:boolean = false;
+
   /** Whether this table is in an embedded context*/
   public isEmbedded:boolean = false;
 
-  constructor(private providedConfig:WorkPackageTableConfigurationObject) {
+  /** Whether the work packages shall be shown in cards instead of a table */
+  public isCardView:boolean = false;
+
+  /** Whether the number of shown WP per page shall be calculated based on the available height */
+  public forcePerPageOption:number|false = false;
+
+  /** Whether this table provides a UI for filters*/
+  public withFilters:boolean = false;
+
+  /** Whether the filters are expanded */
+  public filtersExpanded:boolean = false;
+
+  /** Whether the button to open filters shall be visible*/
+  public showFilterButton:boolean = false;
+
+  /** Whether this table provides a UI for filters*/
+  public filterButtonText:string = I18n.t("js.button_filter");
+
+  constructor(providedConfig:WorkPackageTableConfigurationObject) {
     _.each(providedConfig, (value, k) => {
       let key = (k as keyof WorkPackageTableConfiguration);
       this[key] = value as any;

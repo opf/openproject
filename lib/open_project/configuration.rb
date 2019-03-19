@@ -44,8 +44,6 @@ module OpenProject
       'autologin_cookie_path'   => '/',
       'autologin_cookie_secure' => false,
       'database_cipher_key'     => nil,
-      'force_help_link'         => nil,
-      'force_formatting_help_link' => nil,
       'show_community_links' => true,
       'log_level' => 'info',
       'scm_git_command'         => nil,
@@ -69,6 +67,13 @@ module OpenProject
       'rails_relative_url_root' => '',
       'rails_force_ssl' => false,
       'rails_asset_host' => nil,
+
+      # Additional / overridden help links
+      'force_help_link'         => nil,
+      'force_formatting_help_link' => nil,
+
+      # Impressum link to be set, nil by default (= hidden)
+      'impressum_link' => nil,
 
       # user configuration
       'default_comment_sort_order' => 'asc',
@@ -124,7 +129,16 @@ module OpenProject
       # Allow in-context translations to be loaded with CSP
       'crowdin_in_context_translations' => true,
 
-      'registration_footer' => {}
+      # Default gravatar image, set to something other than 404
+      # to ensure a default is returned
+      'gravatar_fallback_image' => '404',
+
+      'registration_footer' => {},
+
+      # Display update / security badge, enabled by default
+      'security_badge_displayed' => true,
+      'installation_type' => "manual",
+      'security_badge_url' => "https://releases.openproject.com/v1/check.svg"
     }
 
     @config = nil

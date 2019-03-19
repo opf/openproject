@@ -87,6 +87,18 @@ describe ::Query::Results, type: :model do
         expect { query_results.work_package_count_by_group }.not_to raise_error
       end
     end
+
+    context 'when grouping and filtering by text' do
+      let(:group_by) { 'responsible' }
+
+      before do
+        query.add_filter('search', '**', ['asdf'])
+      end
+
+      it 'should produce a valid SQL statement (Regression #29598)' do
+        expect { query_results.work_package_count_by_group }.not_to raise_error
+      end
+    end
   end
 
   describe '#work_packages' do
@@ -225,7 +237,7 @@ describe ::Query::Results, type: :model do
       end
     end
 
-    context 'when filtering by precedes and ordering by parent' do
+    context 'when filtering by precedes and ordering by id' do
       let(:query) do
         FactoryBot.build :query,
                          project: project_1
@@ -238,7 +250,7 @@ describe ::Query::Results, type: :model do
 
         query.add_filter('precedes', '=', [wp_p1[0].id.to_s])
 
-        query.sort_criteria = [['parent', 'asc']]
+        query.sort_criteria = [['id', 'asc']]
       end
 
       it 'returns the work packages preceding the filtered for work package' do
@@ -252,7 +264,7 @@ describe ::Query::Results, type: :model do
     let(:work_package1) { FactoryBot.create(:work_package, project: project_1, id: 1) }
     let(:work_package2) { FactoryBot.create(:work_package, project: project_1, id: 2) }
     let(:work_package3) { FactoryBot.create(:work_package, project: project_1, id: 3) }
-    let(:sort_by) { [['parent', 'asc']] }
+    let(:sort_by) { [['id', 'asc']] }
     let(:columns) { %i(id subject) }
     let(:group_by) { '' }
 
@@ -357,6 +369,34 @@ describe ::Query::Results, type: :model do
       end
     end
 
+    context 'sorting and grouping by priority' do
+      let(:prio_low) { FactoryBot.create :issue_priority, position: 1 }
+      let(:prio_high) { FactoryBot.create :issue_priority, position: 0 }
+      let(:group_by) { 'priority' }
+
+      before do
+        allow(User).to receive(:current).and_return(user_1)
+
+        work_package1.priority = prio_low
+        work_package2.priority = prio_high
+
+        work_package1.save(validate: false)
+        work_package2.save(validate: false)
+      end
+
+      it 'respects the sorting (Regression #29689)' do
+        query.sort_criteria = [['priority', 'asc']]
+
+        expect(query_results.sorted_work_packages)
+          .to match [work_package1, work_package2]
+
+        query.sort_criteria = [['priority', 'desc']]
+
+        expect(query_results.sorted_work_packages)
+          .to match [work_package2, work_package1]
+      end
+    end
+
     context 'sorting by author and responsible, grouping by assigned_to' do
       let(:group_by) { 'assigned_to' }
       let(:sort_by) { [['author', 'asc'], ['responsible', 'desc']] }
@@ -405,50 +445,6 @@ describe ::Query::Results, type: :model do
         #   work_package 2
         expect(query_results.sorted_work_packages)
           .to match [work_package1, work_package3, work_package2]
-      end
-    end
-
-    context 'sorting by parent' do
-      let(:work_package1) { FactoryBot.create(:work_package, project: project_1, subject: '1') }
-      let(:work_package2) { FactoryBot.create(:work_package, project: project_1, parent: work_package1, subject: '2') }
-      let(:work_package3) { FactoryBot.create(:work_package, project: project_1, parent: work_package2, subject: '3') }
-      let(:work_package4) { FactoryBot.create(:work_package, project: project_1, parent: work_package1, subject: '4') }
-      let(:work_package5) { FactoryBot.create(:work_package, project: project_1, parent: work_package4, subject: '5') }
-      let(:work_package6) { FactoryBot.create(:work_package, project: project_1, parent: work_package4, subject: '6') }
-      let(:work_package7) { FactoryBot.create(:work_package, project: project_1, subject: '7') }
-      let(:work_package8) { FactoryBot.create(:work_package, project: project_1, subject: '8') }
-      let(:work_package9) { FactoryBot.create(:work_package, project: project_1, parent: work_package8, subject: '9') }
-      let(:work_packages) do
-        [work_package1, work_package2, work_package3, work_package4, work_package5,
-         work_package6, work_package7, work_package8, work_package9]
-      end
-
-      # While we set a second sort criteria, it will be ignored as the sorting works solely on the id of the ancestors and
-      # the work package itself
-      let(:sort_by) { [['parent', 'asc'], ['subject', 'asc']] }
-
-      before do
-        allow(User).to receive(:current).and_return(user_1)
-      end
-
-      it 'sorts depth first by parent (id) where the second criteria is unfortunately ignored' do
-        # Reimplementing the algorithm of how the production code sorts lexically on ids (e.g. '15' before '7').
-        # This is necessary as the ids are not fixed and might span order of magnitude boundaries.
-        paths = work_packages.map do |wp|
-          # Only need to include 'relations.hierarchy' in the projection
-          # to satisfy PG needing to have all ORDER BY columns included on DISTINCT.
-          [(wp.ancestors.order("relations.hierarchy DESC").pluck(:id, 'relations.hierarchy').map(&:first) << wp.id).join(' '), wp]
-        end
-
-        expected_order = paths.sort_by(&:first).map(&:second).flatten
-
-        expect(query_results.sorted_work_packages)
-          .to match expected_order
-
-        query.sort_criteria = [['parent', 'desc'], ['subject', 'asc']]
-
-        expect(query_results.sorted_work_packages)
-          .to match expected_order.reverse
       end
     end
 

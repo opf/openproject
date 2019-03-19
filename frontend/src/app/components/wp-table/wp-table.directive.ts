@@ -30,7 +30,6 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Inject,
   Injector,
   Input,
   OnDestroy,
@@ -41,10 +40,9 @@ import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-b
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs';
-import {debugLog} from '../../helpers/debug_output';
 import {States} from '../states.service';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTableGroupByService} from '../wp-fast-table/state/wp-table-group-by.service';
@@ -98,7 +96,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public rowcount:number;
 
-  public groupBy:QueryGroupByResource | undefined;
+  public groupBy:QueryGroupByResource | null;
 
   public columns:QueryColumn[];
 
@@ -106,12 +104,10 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public timelineVisible:boolean;
 
-  public readonly uniqueTableIdentifier = `wp-table--container-${randomString(16)}`;
-
   constructor(readonly elementRef:ElementRef,
-              readonly  injector:Injector,
+              readonly injector:Injector,
               readonly states:States,
-              readonly tableState:TableState,
+              readonly querySpace:IsolatedQuerySpace,
               readonly opModalService:OpModalService,
               readonly opContextMenu:OPContextMenuService,
               readonly I18n:I18nService,
@@ -127,7 +123,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     this.scrollSyncUpdate = createScrollSync(this.$element);
 
     // Clear any old table subscribers
-    this.tableState.stopAllSubscriptions.next();
+    this.querySpace.stopAllSubscriptions.next();
 
     this.locale = I18n.locale;
 
@@ -136,10 +132,6 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       noResults: {
         title: I18n.t('js.work_packages.no_results.title'),
         description: I18n.t('js.work_packages.no_results.description')
-      },
-      faultyQuery: {
-        title: I18n.t('js.work_packages.faulty_query.title'),
-        description: I18n.t('js.work_packages.faulty_query.description')
       },
       configureTable: I18n.t('js.toolbar.settings.configure_view'),
       tableSummary: I18n.t('js.work_packages.table.summary'),
@@ -151,7 +143,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     };
 
     let statesCombined = combineLatest(
-      this.tableState.results.values$(),
+      this.querySpace.results.values$(),
       this.wpTableGroupBy.state.values$(),
       this.wpTableColumns.state.values$(),
       this.wpTableTimeline.state.values$());
@@ -159,18 +151,18 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     statesCombined.pipe(
       untilComponentDestroyed(this)
     ).subscribe(([results, groupBy, columns, timelines]) => {
-      this.query = this.tableState.query.value!;
+      this.query = this.querySpace.query.value!;
       this.rowcount = results.count;
 
-      this.groupBy = groupBy.current;
-      this.columns = columns.current;
+      this.groupBy = groupBy;
+      this.columns = columns;
       // Total columns = all available columns + id + checkbox
       this.numTableColumns = this.columns.length + 2;
 
-      if (this.timelineVisible !== timelines.current) {
-        this.scrollSyncUpdate(timelines.current);
+      if (this.timelineVisible !== timelines.visible) {
+        this.scrollSyncUpdate(timelines.visible);
       }
-      this.timelineVisible = timelines.current;
+      this.timelineVisible = timelines.visible;
     });
 
     // Locate table and timeline elements
@@ -198,7 +190,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public openTableConfigurationModal() {
     this.opContextMenu.close();
-    this.opModalService.show<WpTableConfigurationModalComponent>(WpTableConfigurationModalComponent);
+    this.opModalService.show(WpTableConfigurationModalComponent, this.injector);
   }
 
   public get isEmbedded() {

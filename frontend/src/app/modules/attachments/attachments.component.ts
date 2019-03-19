@@ -91,7 +91,7 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
   }
 
   public setupResourceUpdateListener() {
-    this.states.forResource(this.resource).changes$()
+    this.states.forResource(this.resource)!.changes$()
       .pipe(
         takeUntil(componentDestroyed(this)),
         filter(newResource => !!newResource)

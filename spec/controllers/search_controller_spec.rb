@@ -29,25 +29,73 @@
 require 'spec_helper'
 
 describe SearchController, type: :controller do
-  let!(:project) {
+  let!(:project) do
     FactoryBot.create(:project,
-                       name: 'eCookbook')
-  }
-  let(:user) {
+                      name: 'eCookbook')
+  end
+
+  let!(:other_project) do
+    FactoryBot.create(:project,
+                      name: 'Other project')
+  end
+
+  let!(:subproject) do
+    FactoryBot.create(:project,
+                      name: 'Child project',
+                      parent: project)
+  end
+
+  let(:role) do
+    FactoryBot.create(:role, permissions: %i[view_wiki_pages view_work_packages])
+  end
+
+  let(:user) do
     FactoryBot.create(:user,
-                       member_in_project: project)
-  }
+                      member_in_projects: [project, subproject],
+                      member_through_role: role)
+  end
+
+  let!(:wiki_page) do
+    FactoryBot.create(:wiki_page,
+                      title: "How to solve an issue",
+                      wiki: project.wiki)
+  end
+
+  let!(:work_package_1) do
+    FactoryBot.create(:work_package,
+                      subject: 'This is a test issue',
+                      project: project)
+  end
+
+  let!(:work_package_2) do
+    FactoryBot.create(:work_package,
+                      subject: 'Issue test 2',
+                      project: project,
+                      status: FactoryBot.create(:closed_status))
+  end
+
+  let!(:work_package_3) do
+    FactoryBot.create(:work_package,
+                      subject: 'Issue test 3',
+                      project: subproject)
+  end
+
+  let!(:work_package_4) do
+    FactoryBot.create(:work_package,
+                      subject: 'Issue test 4',
+                      project: other_project)
+  end
 
   shared_examples_for 'successful search' do
     it { expect(response).to be_successful }
     it { expect(response).to render_template('index') }
   end
 
-  before do allow(User).to receive(:current).and_return user end
+  before { allow(User).to receive(:current).and_return user }
 
   describe 'project search' do
     context 'without a search parameter' do
-      before do get :index end
+      before { get :index }
 
       it_behaves_like 'successful search'
     end
@@ -72,66 +120,90 @@ describe SearchController, type: :controller do
   end
 
   describe 'scoped project search' do
-    before do get :index, params: { project_id: project.id } end
+    before { get :index, params: { project_id: project.id } }
 
     it_behaves_like 'successful search'
 
     it { expect(assigns(:project).id).to be(project.id) }
   end
 
-  describe 'work package search' do
-    let!(:work_package_1) {
-      FactoryBot.create(:work_package,
-                         subject: 'This is a test issue',
-                         project: project)
-    }
-    let!(:work_package_2) {
-      FactoryBot.create(:work_package,
-                         subject: 'Issue test 2',
-                         project: project,
-                         status: FactoryBot.create(:closed_status))
-    }
-
-    context 'when not searching for a note' do
-      before do get :index, params: { q: 'issue', work_packages: 1 } end
+  describe 'searching in all modules' do
+    context 'when searching in all projects' do
+      before { get :index, params: { q: 'issue', scope: 'all' } }
 
       it_behaves_like 'successful search'
 
       describe '#result' do
-        it { expect(assigns(:results).count).to be(2) }
-
+        it { expect(assigns(:results).count).to be(4) }
         it { expect(assigns(:results)).to include(work_package_1) }
-
         it { expect(assigns(:results)).to include(work_package_2) }
+        it { expect(assigns(:results)).to include(work_package_3) }
+        it { expect(assigns(:results)).to include(wiki_page) }
+        it { expect(assigns(:results)).to_not include(work_package_4) }
+      end
 
-        describe '#view' do
-          render_views
+      describe '#results_count' do
+        it { expect(assigns(:results_count)).to be_a(Hash) }
+        it { expect(assigns(:results_count)['work_packages']).to eql(3) }
+      end
 
-          it 'marks closed work packages' do
-            assert_select 'dt.work_package-closed' do
-              assert_select 'a', text: Regexp.new(work_package_2.status.name)
-            end
+      describe '#view' do
+        render_views
+
+        it 'marks closed work packages' do
+          assert_select 'dt.work_package-closed' do
+            assert_select 'a', text: Regexp.new(work_package_2.status.name)
           end
         end
       end
     end
 
+    context 'when searching in project and its subprojects' do
+      before { get :index, params: { q: 'issue', project_id: project.id, scope: 'subprojects' } }
+
+      it_behaves_like 'successful search'
+
+      describe '#result' do
+        it { expect(assigns(:results).count).to be(4) }
+        it { expect(assigns(:results)).to include(work_package_1) }
+        it { expect(assigns(:results)).to include(work_package_2) }
+        it { expect(assigns(:results)).to include(work_package_3) }
+        it { expect(assigns(:results)).to include(wiki_page) }
+        it { expect(assigns(:results)).to_not include(work_package_4) }
+      end
+    end
+
+    context 'when searching in project without its subprojects' do
+      before { get :index, params: { q: 'issue', project_id: project.id, scope: 'current_project' } }
+
+      it_behaves_like 'successful search'
+
+      describe '#result' do
+        it { expect(assigns(:results).count).to be(3) }
+        it { expect(assigns(:results)).to include(work_package_1) }
+        it { expect(assigns(:results)).to include(work_package_2) }
+        it { expect(assigns(:results)).to include(wiki_page) }
+        it { expect(assigns(:results)).to_not include(work_package_3) }
+        it { expect(assigns(:results)).to_not include(work_package_4) }
+      end
+    end
+
     context 'when searching for a note' do
-      let!(:note_1) {
+      let!(:note_1) do
         FactoryBot.create :work_package_journal,
-                           journable_id: work_package_1.id,
-                           notes: 'Test note 1',
-                           version: 2
-      }
+                          journable_id: work_package_1.id,
+                          notes: 'Test note 1',
+                          version: 2
+      end
 
-      before do allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) end
+      before { allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) }
 
-      let!(:note_2) {
+      let!(:note_2) do
         FactoryBot.create :work_package_journal,
-                           journable_id: work_package_1.id,
-                           notes: 'Special note 2',
-                           version: 3
-      }
+                          journable_id: work_package_1.id,
+                          notes: 'Special note 2',
+                          version: 3
+      end
 
       describe 'second note predecessor' do
         subject { note_2.send :predecessor }
@@ -142,7 +214,7 @@ describe SearchController, type: :controller do
       end
 
       before do
-        get :index, params: { q: 'note', work_packages: 1 }
+        get :index, params: { q: 'note'}
       end
 
       it_behaves_like 'successful search'

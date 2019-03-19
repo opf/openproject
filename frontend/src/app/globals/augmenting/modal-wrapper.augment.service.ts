@@ -27,7 +27,7 @@
 // ++
 
 
-import {Inject, Injectable} from "@angular/core";
+import {Inject, Injectable, Injector} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
 import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
@@ -38,6 +38,7 @@ const iframeSelector = '.iframe-target-wrapper';
 export class ModalWrapperAugmentService {
 
   constructor(@Inject(DOCUMENT) protected documentElement:Document,
+              protected injector:Injector,
               protected opModalService:OpModalService) {
   }
 
@@ -91,6 +92,7 @@ export class ModalWrapperAugmentService {
 
     this.opModalService.show(
       DynamicContentModal,
+      this.injector,
       {
         modalBody: modalBody,
         modalClassName: modalClassName

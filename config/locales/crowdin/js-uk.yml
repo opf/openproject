@@ -18,11 +18,22 @@ uk:
     close_popup_title: Закрити вспливаюче вікно
     close_filter_title: Закрити фільтр
     close_form_title: Закрити форму
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Ваш браузер не підтримує копіювання до буфера обміну. Потрібно
         скопіювати виділений текст вручну.
       copied_successful: Успішно скопійовано до буфера обміну!
     button_add_watcher: Add watcher
+    button_back: Back
     button_back_to_list_view: Повернутися до списку
     button_cancel: Cancel
     button_close: Close
@@ -38,6 +49,7 @@ uk:
     button_duplicate: Duplicate
     button_edit: Edit
     button_filter: Filter
+    button_advanced_filter: Advanced filter
     button_list_view: Подання списком
     button_show_view: Повноекранний режим
     button_log_time: Log time
@@ -147,6 +159,30 @@ uk:
     general_text_yes: 'yes'
     general_text_No: 'No'
     general_text_Yes: 'Yes'
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: News
+          at: at
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Work packages assigned to me
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendar
     label_activate: Activate
     label_activity_no: Запис активності номер %{activityNo}
     label_activity_with_comment_no: Запис активності номер %{activityNo}. Має коментар
@@ -168,7 +204,9 @@ uk:
     label_ascending: Ascending
     label_author: 'Автор: %{user}'
     label_between: between
+    label_board: Board
     label_board_locked: Locked
+    label_board_plural: Boards
     label_board_sticky: Sticky
     label_create_work_package: Create new work package
     label_created_by: Створено
@@ -292,6 +330,7 @@ uk:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Завантаження файлів для пакета робіт
       #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: 'Ці файли будуть завантажені на сервер:'
     label_rejected_files: 'Ці файли не можуть бути завантажені на сервер:'
     label_rejected_files_reason: Ці файли не можуть бути завантажені на сервер, оскільки
@@ -465,7 +504,7 @@ uk:
         other: Будь ласка, введіть ще {{count}} символів
         zero: Please enter more characters
         few: Будь ласка, введіть ще {{count}} символи
-        many: Please enter {{count}} more characters
+        many: Будь ласка, додайте ще {{count}} символи
       load_more: Завантаження додаткових результатів ...
       no_matches: Збігів не знайдено
       searching: Шукаємо ...
@@ -474,7 +513,7 @@ uk:
         other: Ви можете вибрати тільки {{limit}} елементів
         zero: You cannot select any items
         few: Ви можете вибрати тільки {{limit}} елементи
-        many: You can only select {{limit}} items
+        many: Ви можете вибрати лише {{limit}}
     project_menu_details: Details
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -490,6 +529,7 @@ uk:
       view?
     text_attachment_destroy_confirmation: Ви впевнені, що бажаєте видалити вкладення?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: Gantt chart
       labels:
         title: Label configuration
@@ -769,8 +809,6 @@ uk:
         days: days
         weeks: weeks
         months: months
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
     toolbar:
       settings:
         configure_view: Configure view ...
@@ -811,6 +849,7 @@ uk:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: Successful creation.
     notice_successful_delete: Successful deletion.
     notice_successful_update: Successful update.
@@ -837,7 +876,7 @@ uk:
         messages_on_field: 'Це поле невірне: %{messages}'
     error_could_not_resolve_version_name: Не вдалося визначити версію
     error_could_not_resolve_user_name: Не вдалося визначити ім'я користувача
-    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
     units:
@@ -860,11 +899,13 @@ uk:
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
-    unsupported_browser:
-      title: Версія вашого браузера не підтримується
-      message: Версія браузера, яку ви використовуєте, більше не підтримується OpenProject.
-      update_message: Будь ласка, оновіть ваш браузер.
-      update_ie_user: Будь ласка, перейдіть на Mozilla Firefox чи Google Chrome, або
-        оновіться до Microsoft Edge.
-      learn_more: Learn more
-      close_warning: Ігнорувати це попередження.
+    global_search:
+      all_projects: In all projects
+      search: Search
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for

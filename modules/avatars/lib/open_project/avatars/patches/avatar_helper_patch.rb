@@ -35,7 +35,7 @@ AvatarHelper.class_eval do
       elsif avatar_manager.gravatar_enabled?
         build_gravatar_image_tag user, options
       else
-        super
+        build_default_avatar_image_tag user, options
       end
     rescue StandardError => e
       Rails.logger.error "Failed to create avatar for #{user}: #{e}"
@@ -72,18 +72,16 @@ AvatarHelper.class_eval do
       mail = extract_email_address(user)
       raise ArgumentError.new('Invalid Mail') unless mail.present?
 
-      remove_on_missing = options.delete :remove_on_missing
       opts = options.merge(gravatar: default_gravatar_options)
 
       tag_options = merge_image_options(user, opts)
-      tag_options[:alt] = 'Gravatar'
       tag_options[:class] << ' avatar--gravatar-image avatar--fallback'
-      tag_options[:data] = {
-          :'avatar-fallback-icon' => options.fetch(:fallbackIcon, 'icon icon-user'),
-          :'avatar-fallback-remove' => remove_on_missing || nil
-      }
 
-      gravatar_image_tag(mail, tag_options)
+      content_tag 'user-avatar',
+                  '',
+                  'data-class-list': tag_options[:class],
+                  'data-user-avatar-src': build_gravatar_image_url(user),
+                  'data-user-name': user.name
     end
 
     def build_gravatar_image_url(user, options = {})
@@ -105,10 +103,11 @@ AvatarHelper.class_eval do
     def local_avatar_image_tag(user, options = {})
       tag_options = merge_image_options(user, options)
 
-      tag_options[:src] = local_avatar_image_url(user)
-      tag_options[:alt] = 'Avatar'
-
-      tag 'img', tag_options, false, false
+      content_tag 'user-avatar',
+                  '',
+                  'data-class-list': tag_options[:class],
+                  'data-user-avatar-src': local_avatar_image_url(user),
+                  'data-user-name': user.name
     end
 
     def merge_image_options(user, options)
@@ -120,8 +119,7 @@ AvatarHelper.class_eval do
 
     def default_gravatar_options
       options = { secure: Setting.protocol == 'https' }
-      default_value = Setting.plugin_openproject_avatars['gravatar_default']
-      options[:default] = default_value if default_value.present?
+      options[:default] = OpenProject::Configuration.gravatar_fallback_image
 
       options
     end
@@ -135,6 +133,17 @@ AvatarHelper.class_eval do
         $1
       end
     end
+  end
+
+  def build_default_avatar_image_tag(user, options = {})
+    tag_options = merge_image_options(user, options)
+    tag_options[:class] << ' avatar-default'
+
+    content_tag 'user-avatar',
+                '',
+                'data-class-list': tag_options[:class],
+                'data-user-name': user.name,
+                'data-use-fallback': 'true'
   end
 
   prepend InstanceMethods

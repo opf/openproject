@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from '@angular
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
@@ -36,7 +36,7 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
               readonly I18n:I18nService,
               readonly elementRef:ElementRef,
               readonly UrlParamsHelper:UrlParamsHelperService,
-              readonly tableState:TableState,
+              readonly querySpace:IsolatedQuerySpace,
               readonly cdRef:ChangeDetectorRef,
               readonly wpTableColumns:WorkPackageTableColumnsService) {
     super(locals, cdRef, elementRef);
@@ -45,7 +45,7 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
   ngOnInit() {
     super.ngOnInit();
 
-    this.tableState.results
+    this.querySpace.results
       .valuesPromise()
       .then((results) => this.exportOptions = this.buildExportOptions(results!));
   }

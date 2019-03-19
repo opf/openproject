@@ -17,10 +17,21 @@ zh:
     close_popup_title: 关闭弹出窗口
     close_filter_title: 关闭过滤器
     close_form_title: 关闭表单
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: 签出企业版。
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: 您的浏览器不支持复制到剪贴板，请手动复制选定的文本。
       copied_successful: 成功复制到剪贴板!
     button_add_watcher: 添加关注者
+    button_back: 返回
     button_back_to_list_view: 返回列表视图
     button_cancel: 取消
     button_close: 关闭
@@ -36,6 +47,7 @@ zh:
     button_duplicate: 复制
     button_edit: 编辑
     button_filter: 筛选器
+    button_advanced_filter: 高级筛选
     button_list_view: 列表视图
     button_show_view: 全屏视图
     button_log_time: 记录时间
@@ -137,6 +149,30 @@ zh:
     general_text_yes: 是
     general_text_No: 否
     general_text_Yes: 是
+    grid:
+      add_modal:
+        choose_widget: 选择小部件
+      widgets:
+        documents:
+          title: 文档
+          no_results: 没有文档。
+        news:
+          title: 新闻
+          at: at
+          no_results: 没有新消息报告。
+        time_entries_current_user:
+          title: 花费时间 (最近 7天)
+          no_results: 过去7天没有时间记录。
+        work_packages_accountable:
+          title: 我负责的工作包
+        work_packages_assigned:
+          title: 分配给我的工作包
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: 日历
     label_activate: 激活
     label_activity_no: 活动条目编号 %{activityNo}
     label_activity_with_comment_no: 活动条目编号 %{activityNo}，有用户评论。
@@ -157,7 +193,9 @@ zh:
     label_ascending: 升序
     label_author: '作者: %{user}'
     label_between: 介于
+    label_board: Board
     label_board_locked: 锁定
+    label_board_plural: Boards
     label_board_sticky: 置顶
     label_create_work_package: 创建新的工作包
     label_created_by: 创建者
@@ -203,7 +241,7 @@ zh:
     label_menu_collapse: 折叠
     label_menu_expand: 展开
     label_more_than_ago: 更多天前
-    label_my_page: My page
+    label_my_page: 我的页面
     label_next: 下一个
     label_no_data: 没有要显示的数据
     label_no_due_date: 没有结束日期
@@ -276,6 +314,7 @@ zh:
     label_add_description: 为%{file} 添加说明
     label_upload_notification: 正在上传文件…
     label_work_package_upload_notification: '正在为 #%{id}: %{subject} 工作包上传文件'
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: '这些文件将被上传:'
     label_rejected_files: '这些文件无法上传:'
     label_rejected_files_reason: 这些文件不能上传，因为它们大于 %{maximumFilesize}
@@ -355,9 +394,9 @@ zh:
           requires: 要求
           required: 要求于
     time_entry:
-      activity: Activity
-      comment: Comment
-      hours: Hours
+      activity: 活动
+      comment: 评论
+      hours: 小时
     watchers:
       label_loading: 正在加载关注者...
       label_error_loading: 加载关注者时出错
@@ -438,6 +477,7 @@ zh:
     text_query_destroy_confirmation: 确定要删除所选视图吗？
     text_attachment_destroy_confirmation: 你确定要删除这个附件?
     timelines:
+      quarter_label: Q%{quarter_number}
       gantt_chart: 甘特图
       labels:
         title: 标签配置
@@ -685,8 +725,6 @@ zh:
         days: 天
         weeks: 周
         months: 月
-      label_switch_to_single_select: 切换为单选
-      label_switch_to_multi_select: 切换为多选
     toolbar:
       settings:
         configure_view: 配置视图…
@@ -725,6 +763,7 @@ zh:
         has_children: '工作包有 %{childUnits}:'
         confirm_deletion_children: 我确认所列工作包的全部子工作包都将递归移除。
         deletes_children: 所有子工作包及其子级也将递归删除。
+    notice_no_results_to_display: No visible results to display.
     notice_successful_create: 成功创建。
     notice_successful_delete: 成功删除。
     notice_successful_update: 成功更新。
@@ -751,7 +790,7 @@ zh:
         messages_on_field: 此字段无效：%{messages}
     error_could_not_resolve_version_name: 无法解析版本名称
     error_could_not_resolve_user_name: 不能确定用户名
-    error_attachment_upload: 文件“%{name}”传输失败：%{error}
+    error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: 您没有上传此资源上文件的权限。
     units:
       workPackage:
@@ -767,10 +806,13 @@ zh:
     zen_mode:
       button_activate: 激活 zen 模式
       button_deactivate: 取消激活 zen 模式
-    unsupported_browser:
-      title: 不支持您的浏览器版本
-      message: OpenProject不再支持您现在所使用的浏览器版本。
-      update_message: 请升级您的浏览器。
-      update_ie_user: 请使用Mozilla Firefox或者Google Chrome浏览器，或者升级到Microsoft Edge浏览器。
-      learn_more: 了解更多信息
-      close_warning: 请忽略这个警告。
+    global_search:
+      all_projects: In all projects
+      search: 搜索
+      close_search: Close search
+      current_project: 在当前项目中
+      current_project_and_all_descendants: 在当前项目和子项目中
+      title:
+        all_projects: 所有项目
+        project_and_subprojects: 和所有子项目
+        search_for: 搜索

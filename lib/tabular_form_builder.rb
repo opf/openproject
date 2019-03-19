@@ -238,7 +238,6 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
     content = h(text)
     label_for_field_errors(content, label_options, field)
-    label_for_field_required(content, label_options, options[:required])
     label_for_field_for(options, label_options, field)
     label_for_field_prefix(content, options)
 
@@ -256,16 +255,6 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       error_label = I18n.t('errors.field_erroneous_label',
                            full_errors: @object.errors.full_messages_for(field).join(' '))
       content << content_tag('p', error_label, class: 'hidden-for-sighted')
-    end
-  end
-
-  def label_for_field_required(content, options, is_required)
-    if is_required
-      options[:class] << ' -required'
-      content << content_tag('span',
-                             '*',
-                             class: 'form--label-required',
-                             'aria-hidden': true)
     end
   end
 
