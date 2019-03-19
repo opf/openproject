@@ -16,8 +16,9 @@
           <editable-toolbar-title [title]="board.name"
                                   [inFlight]="inFlight"
                                   [initialFocus]="isNew"
-                                  (onSave)="renameBoard(board, $event)"
-                                  [editable]="board.editable">
+                                  (onSave)="saveWithNameAndFilters(board, $event)"
+                                  [editable]="board.editable"
+                                  [showSaveCondition]="!!state.params.query_props">
           </editable-toolbar-title>
 
           <ul class="toolbar-items"

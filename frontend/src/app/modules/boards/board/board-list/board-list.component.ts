@@ -30,8 +30,12 @@ import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
-import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
+import {
+  IQueryFilterInstanceSource,
+  QueryFilterInstanceResource
+} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 
 @Component({
   selector: 'board-list',
@@ -89,7 +93,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly authorisationService:AuthorisationService,
               private readonly wpInlineCreate:WorkPackageInlineCreateService,
               private readonly loadingIndicator:LoadingIndicatorService,
-              private readonly urlParamsHelperService:UrlParamsHelperService) {
+              private readonly urlParamsHelperService:UrlParamsHelperService,
+              private readonly halResourceService:HalResourceService) {
     super(I18n);
   }
 
@@ -200,7 +205,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   private setQueryProps(filters:QueryFilterInstanceResource[]) {
-    const existingFilters = (this.resource.options.filters || []) as QueryFilterInstanceResource[];
+    const existingFilters = this.instantiateFilters(this.resource.options.filters || []);
 
     const newFilters = existingFilters.concat(filters);
     const newColumnsQueryProps:any = {
@@ -210,9 +215,15 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     };
 
     if (newFilters.length > 0) {
-      newColumnsQueryProps.filters = this.urlParamsHelperService.buildV3GetFilters(newFilters);
+      newColumnsQueryProps.filters = this.urlParamsHelperService.buildV3GetFiltersAsJson(newFilters);
     }
 
     this.columnsQueryProps = newColumnsQueryProps;
+  }
+
+  private instantiateFilters(filters:IQueryFilterInstanceSource[]):QueryFilterInstanceResource[] {
+    return filters.map(source => {
+      return this.halResourceService.createHalResourceOfType<QueryFilterInstanceResource>('QueryFilterInstance', source);
+    })
   }
 }

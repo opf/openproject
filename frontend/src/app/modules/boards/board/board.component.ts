@@ -18,6 +18,7 @@ import {AddListModalComponent} from "core-app/modules/boards/board/add-list-moda
 import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 
 
 @Component({
@@ -43,7 +44,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   public inFlight = false;
 
   /** Board filter */
-  public filters:QueryFilterInstanceResource[] = [];
+  public filters:QueryFilterInstanceResource[];
 
   public text = {
     button_more: this.I18n.t('js.button_more'),
@@ -60,7 +61,7 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   trackByQueryId = (index:number, widget:GridWidgetResource) => widget.options.query_id;
 
-  constructor(private readonly state:StateService,
+  constructor(public readonly state:StateService,
               private readonly I18n:I18nService,
               private readonly notifications:NotificationsService,
               private readonly BoardList:BoardListsService,
@@ -71,7 +72,8 @@ export class BoardComponent implements OnInit, OnDestroy {
               private readonly BoardCache:BoardCacheService,
               private readonly dynamicCss:DynamicCssService,
               private readonly Boards:BoardService,
-              private readonly Banner:BannersService) {
+              private readonly Banner:BannersService,
+              private readonly halResourceService:HalResourceService) {
   }
 
   goBack() {
@@ -89,6 +91,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       )
       .subscribe(board => {
         this.board = board;
+        this.filters = this.instantiateFilters(this.board);
 
         if (board.isAction && !initialized) {
           this.dynamicCss.requireHighlighting();
@@ -101,8 +104,9 @@ export class BoardComponent implements OnInit, OnDestroy {
     // Nothing to do.
   }
 
-  renameBoard(board:Board, newName:string) {
+  saveWithNameAndFilters(board:Board, newName:string) {
     board.name = newName;
+    board.filters = this.filters.map(filter => filter.$source);
     return this.saveBoard(board);
   }
 
@@ -118,6 +122,7 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.BoardCache.update(board);
         this.notifications.addSuccess(this.text.updateSuccessful);
         this.inFlight = false;
+        this.state.go('.', { query_props: null }, {custom: {notify: false}});
       });
   }
 
@@ -159,6 +164,13 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   public updateFilters(filters:QueryFilterInstanceResource[]) {
+    debugger;
     this.filters = filters;
+  }
+
+  private instantiateFilters(board:Board):QueryFilterInstanceResource[] {
+    return board.filters.map(source => {
+      return this.halResourceService.createHalResourceOfType<QueryFilterInstanceResource>('QueryFilterInstance', source);
+    })
   }
 }

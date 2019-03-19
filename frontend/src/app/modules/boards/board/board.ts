@@ -1,6 +1,10 @@
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import {
+  IQueryFilterInstanceSource,
+  QueryFilterInstanceResource
+} from "core-app/modules/hal/resources/query-filter-instance-resource";
 
 export type BoardDisplayMode = 'table'|'cards';
 export type BoardType = 'free'|'action';
@@ -67,5 +71,13 @@ export class Board {
 
   public get createdAt() {
     return this.grid.createdAt;
+  }
+
+  public get filters():IQueryFilterInstanceSource[] {
+    return (this.grid.options.filters || []) as IQueryFilterInstanceSource[];
+  }
+
+  public set filters(filters:IQueryFilterInstanceSource[]) {
+    this.grid.options.filters = filters;
   }
 }

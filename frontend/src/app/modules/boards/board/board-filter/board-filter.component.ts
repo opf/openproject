@@ -21,7 +21,6 @@ import {skip} from "rxjs/internal/operators";
 })
 export class BoardFilterComponent implements OnInit, OnDestroy {
   @Input() public board:Board;
-  @Input() public currentFilters:QueryFilterInstanceResource[] = [];
 
   @Output() public filters = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
 
@@ -72,7 +71,7 @@ export class BoardFilterComponent implements OnInit, OnDestroy {
         {},
         undefined,
         this.currentProjectService.id,
-        { filters: this.currentFilters }
+        { filters: this.board.filters }
       )
       .then((form:QueryFormResource) => {
         const query:QueryResource = this.halResourceService.createHalResourceOfClass(

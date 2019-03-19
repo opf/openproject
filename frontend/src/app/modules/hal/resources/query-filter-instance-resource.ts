@@ -31,6 +31,12 @@ import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-r
 import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
 import {QueryOperatorResource} from 'core-app/modules/hal/resources/query-operator-resource';
 
+export interface IQueryFilterInstanceSource {
+  _links: {};
+  values: any[];
+  operator: any;
+}
+
 export class QueryFilterInstanceResource extends HalResource {
   public filter:QueryFilterResource;
   public operator:QueryOperatorResource;

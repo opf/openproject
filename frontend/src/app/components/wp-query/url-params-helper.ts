@@ -32,6 +32,7 @@ import {HalLink} from 'core-app/modules/hal/hal-link/hal-link';
 import {Injectable} from '@angular/core';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 
 @Injectable()
 export class UrlParamsHelperService {
@@ -265,7 +266,7 @@ export class UrlParamsHelperService {
     queryData.groupBy = _.get(query.groupBy, 'id', '');
 
     // Filters
-    queryData.filters = this.buildV3GetFilters(query.filters);
+    queryData.filters = this.buildV3GetFiltersAsJson(query.filters);
 
     // Sortation
     queryData.sortBy = this.buildV3GetSortByFromQuery(query);
@@ -315,7 +316,11 @@ export class UrlParamsHelperService {
       return filterHash;
     });
 
-    return JSON.stringify(newFilters);
+    return newFilters;
+  }
+
+  public buildV3GetFiltersAsJson(filter:QueryFilterInstanceResource[]) {
+    return JSON.stringify(this.buildV3GetFilters(filter));
   }
 
   private buildV3GetFilterIdFromFilter(filter:QueryFilterInstanceResource) {
@@ -326,7 +331,7 @@ export class UrlParamsHelperService {
 
   private buildV3GetOperatorIdFromFilter(filter:QueryFilterInstanceResource) {
     if (filter.operator) {
-      return filter.operator.id;
+      return filter.operator.id || filter.operator.idFromLink;
     } else {
       let href = filter._links.operator.href;
 
