@@ -19,6 +19,7 @@ import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {skip} from "rxjs/operators";
 
 
 @Component({
@@ -85,7 +86,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     let initialized = false;
 
     this.BoardCache
-      .requireAndStream(id)
+      .observe(id)
       .pipe(
         untilComponentDestroyed(this)
       )
@@ -164,7 +165,6 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   public updateFilters(filters:QueryFilterInstanceResource[]) {
-    debugger;
     this.filters = filters;
   }
 

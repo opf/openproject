@@ -205,7 +205,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   private setQueryProps(filters:QueryFilterInstanceResource[]) {
-    const existingFilters = this.instantiateFilters(this.resource.options.filters || []);
+    const existingFilters = this.instantiateFilters(this.resource.options.filters || [] as any);
 
     const newFilters = existingFilters.concat(filters);
     const newColumnsQueryProps:any = {
@@ -224,6 +224,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   private instantiateFilters(filters:IQueryFilterInstanceSource[]):QueryFilterInstanceResource[] {
     return filters.map(source => {
       return this.halResourceService.createHalResourceOfType<QueryFilterInstanceResource>('QueryFilterInstance', source);
-    })
+    });
   }
 }
