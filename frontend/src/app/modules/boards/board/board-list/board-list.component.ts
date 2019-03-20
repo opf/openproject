@@ -99,7 +99,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   ngOnInit():void {
-    const boardId:string = this.state.params.board_id;
+    const boardId:string = this.state.params.board_id.toString();
 
     // Update permission on model updates
     this.authorisationService
