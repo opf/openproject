@@ -1,0 +1,885 @@
+---
+ne-NP:
+  js:
+    ajax:
+      hide: Hide
+      loading: Loading ...
+    attachments:
+      draggable_hint: 'Drag on editor field to inline image or reference attachment.
+        Closed editor fields will be opened while you keep dragging.
+
+'
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
+    close_popup_title: Close popup
+    close_filter_title: Close filter
+    close_form_title: Close form
+    clipboard:
+      browser_error: Your browser doesn't support copying to clipboard. Please copy
+        the selected text manually.
+      copied_successful: Sucessfully copied to clipboard!
+    button_add_watcher: Add watcher
+    button_back_to_list_view: Back to list view
+    button_cancel: Cancel
+    button_close: Close
+    button_check_all: Check all
+    button_configure-form: Configure form
+    button_confirm: Confirm
+    button_continue: Continue
+    button_copy: Copy
+    button_custom-fields: Custom fields
+    button_delete: Delete
+    button_delete_watcher: Delete watcher
+    button_details_view: Details view
+    button_duplicate: Duplicate
+    button_edit: Edit
+    button_filter: Filter
+    button_advanced_filter: Advanced filter
+    button_list_view: List view
+    button_show_view: Fullscreen view
+    button_log_time: Log time
+    button_more: More
+    button_move: Move
+    button_open_details: Open details view
+    button_close_details: Close details view
+    button_open_fullscreen: Open fullscreen view
+    button_quote: Quote
+    button_save: Save
+    button_settings: Settings
+    button_uncheck_all: Uncheck all
+    button_update: Update
+    button_export-pdf: Download PDF
+    button_export-atom: Download Atom
+    calendar:
+      title: Calendar
+      too_many: There are more work packages (%{count}) than can be displayed by the
+        calendar (%{max}). Add filters to focus on the relevant ones.
+    description_available_columns: Available Columns
+    description_current_position: 'You are here:'
+    description_select_work_package: 'Select work package #%{id}'
+    description_selected_columns: Selected Columns
+    description_subwork_package: 'Child of work package #%{id}'
+    editor:
+      preview: Toggle preview mode
+      source_code: Toggle Markdown source mode
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      error_initialization_failed: Failed to initialize CKEditor!
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
+      macro:
+        child_pages:
+          button: Links to child pages
+          include_parent: Include parent
+          text: "[Placeholder] Links to child pages of"
+          page: Wiki page
+          this_page: this page
+          hint: 'Leave this field empty to list all child pages of the current page.
+            If you want to reference a different page, provide its title or slug.
+
+'
+        code_block:
+          button: Insert code snippet
+          title: Insert / edit Code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting
+            (if supported).
+        dropdown:
+          macros: Macros
+          chose_macro: Chose macro
+        toc: Table of contents
+        toolbar_help: Click to select widget and show the toolbar. Double-click to
+          edit widget
+        wiki_page_include:
+          button: Include content of another wiki page
+          text: "[Placeholder] Included wiki page of"
+          page: Wiki page
+          not_set: "(Page not yet set)"
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: Insert create work package button
+          type: Work package type
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not
+            as a link.'
+          without_type: Create work package
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: Embed work package table
+          text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: Current date
+    error:
+      internal: An internal error has occurred.
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following
+        error: %{error}'
+      query_saving: The view could not be saved.
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
+    filter:
+      description:
+        text_open_filter: Open this filter with 'ALT' and arrow keys.
+        text_close_filter: To select an entry leave the focus for example by pressing
+          enter. To leave without filter select the first (empty) entry.
+      noneElement: "(none)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: From %{from} in your local time.
+        only_end: Till %{to} in your local time.
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: First sorting criteria
+          two: Second sorting criteria
+          three: Third sorting criteria
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
+    general_text_no: 'no'
+    general_text_yes: 'yes'
+    general_text_No: 'No'
+    general_text_Yes: 'Yes'
+    grid:
+      add_modal:
+        choose_widget: Choose widget
+      widgets:
+        documents:
+          title: Documents
+          no_results: No documents yet.
+        news:
+          title: News
+          at: at
+          no_results: Nothing new to report.
+        time_entries_current_user:
+          title: Spent time (last 7 days)
+          no_results: No time entries for the last 7 days.
+        work_packages_accountable:
+          title: Work packages I am accountable for
+        work_packages_assigned:
+          title: Work packages assigned to me
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_watched:
+          title: Work packages watched by me
+        work_packages_calendar:
+          title: Calendar
+    label_activate: Activate
+    label_activity_no: Activity entry number %{activityNo}
+    label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
+      comment.
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
+    label_add_columns: Add columns
+    label_add_comment: Add comment
+    label_add_comment_title: Comment and type @ to notify other people
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
+    label_add_selected_columns: Add selected columns
+    label_added_by: added by
+    label_added_time_by: Added by %{author} %{age}
+    label_ago: days ago
+    label_all: all
+    label_all_work_packages: all work packages
+    label_and: and
+    label_ascending: Ascending
+    label_author: 'Author: %{user}'
+    label_between: between
+    label_board_locked: Locked
+    label_board_sticky: Sticky
+    label_create_work_package: Create new work package
+    label_created_by: Created by
+    label_date: Date
+    label_date_with_format: 'Enter the %{date_attribute} using the following format:
+      %{format}'
+    label_deactivate: Deactivate
+    label_descending: Descending
+    label_description: Description
+    label_cancel_comment: Cancel comment
+    label_closed_work_packages: closed
+    label_collapse: Collapse
+    label_collapsed: collapsed
+    label_collapse_all: Collapse all
+    label_comment: Comment
+    label_committed_at: "%{committed_revision_link} at %{date}"
+    label_committed_link: committed revision %{revision_identifier}
+    label_contains: contains
+    label_created_on: created on
+    label_edit_comment: Edit this comment
+    label_edit_status: Edit the status of the work package
+    label_equals: is
+    label_expand: Expand
+    label_expanded: expanded
+    label_expand_all: Expand all
+    label_expand_project_menu: Expand project menu
+    label_export: Export
+    label_filename: फाइल
+    label_filesize: साइज
+    label_greater_or_equal: ">="
+    label_group_by: Group by
+    label_hide_attributes: Show less
+    label_hide_column: Hide column
+    label_hide_project_menu: Collapse project menu
+    label_in: in
+    label_in_less_than: in less than
+    label_in_more_than: in more than
+    label_latest_activity: Latest activity
+    label_last_updated_on: Last updated on
+    label_less_or_equal: "<="
+    label_less_than_ago: less than days ago
+    label_loading: Loading...
+    label_me: me
+    label_menu_collapse: collapse
+    label_menu_expand: expand
+    label_more_than_ago: more than days ago
+    label_my_page: My page
+    label_next: Next
+    label_no_data: No data to display
+    label_no_due_date: no end date
+    label_no_start_date: no start date
+    label_none: none
+    label_not_contains: doesn't contain
+    label_not_equals: is not
+    label_on: 'on'
+    label_open_menu: Open menu
+    label_open_context_menu: Open context menu
+    label_open_work_packages: open
+    label_password: Password
+    label_previous: Previous
+    label_per_page: 'Per page:'
+    label_please_wait: Please wait
+    label_visibility_settings: Visibility settings
+    label_quote_comment: Quote this comment
+    label_reset: Reset
+    label_remove_column: Remove column
+    label_remove_columns: Remove selected columns
+    label_remove_row: Remove row
+    label_save_as: Save as
+    label_select_watcher: Select a watcher...
+    label_selected_filter_list: Selected filters
+    label_show_attributes: Show all attributes
+    label_show_in_menu: Show view in menu
+    label_sort_by: Sort by
+    label_sorted_by: sorted by
+    label_sort_higher: Move up
+    label_sort_lower: Move down
+    label_sorting: Sorting
+    label_star_query: Favored
+    label_press_enter_to_save: Press enter to save.
+    label_public_query: Public
+    label_sum_for: Sum for
+    label_subject: Subject
+    label_this_week: this week
+    label_today: today
+    label_up: Up
+    label_activity_show_only_comments: Show activities with comments only
+    label_activity_show_all: Show all activities
+    label_total_progress: "%{percent}% Total progress"
+    label_total_amount: 'Total: %{amount}'
+    label_updated_on: updated on
+    label_warning: Warning
+    label_work_package: Work package
+    label_work_package_plural: Work packages
+    label_watch: Watch
+    label_watch_work_package: Watch work package
+    label_watcher_added_successfully: Watcher successfully added!
+    label_watcher_deleted_successfully: Watcher successfully deleted!
+    label_work_package_details_you_are_here: You're on the %{tab} tab for %{type}
+      %{subject}.
+    label_unwatch: Unwatch
+    label_unwatch_work_package: Unwatch work package
+    label_uploaded_by: Uploaded by
+    label_default_queries: Default views
+    label_starred_queries: Favorite views
+    label_global_queries: Public views
+    label_custom_queries: Private views
+    label_columns: Columns
+    label_attachments: Files
+    label_drop_files: Drop files here
+    label_drop_files_hint: or click to add files
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select
+      single files.
+    label_add_attachments: Add attachments
+    label_formattable_attachment_hint: Attach and link files by dropping on this field,
+      or pasting from the clipboard.
+    label_remove_file: Delete %{fileName}
+    label_remove_watcher: Remove watcher %{name}
+    label_remove_all_files: Delete all files
+    label_add_description: Add a description for %{file}
+    label_upload_notification: Uploading files...
+    label_work_package_upload_notification: 'Uploading files for Work package #%{id}:
+      %{subject}'
+    label_files_to_upload: 'These files will be uploaded:'
+    label_rejected_files: 'These files cannot be uploaded:'
+    label_rejected_files_reason: These files cannot be uploaded as their size is greater
+      than %{maximumFilesize}
+    label_wait: Please wait for configuration...
+    label_upload_counter: "%{done} of %{count} files finished"
+    label_validation_error: 'The work package could not be saved due to the following
+      errors:'
+    help_texts:
+      show_modal: Show attribute help text entry
+    onboarding:
+      buttons:
+        skip: Skip
+        next: Next
+        got_it: Got it
+      steps:
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
+        project_selection: Please select one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
+        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
+          menu</b>.
+        members: Invite new <b>Members</b> to join your project.
+        wiki: Within the <b>Wiki</b> you can document and share knowledge together
+          with your team.
+        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
+          right you have the Product Backlog or a Bug Backlog, on the left you will
+          have the respective sprints. Here you can create <b>epics, user stories,
+          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
+          drop-down...
+        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
+        backlogs_task_board: The <b>Task board</b> visualizes the progress for this
+          sprint. Add new tasks or impediments with the + icon next to a user story.
+          Via drag'n'drop you can update the status.
+        wp_toggler: Now let's have a look at the <b>Work package</b> section, which
+          gives you a more detailed view of your work.
+        wp_list: This is the <b>Work package</b> list with the important work within
+          your project, such as tasks, features, milestones, bugs, and more. <br>
+          You can create or edit a work package directly within this list. To see
+          its details you can double click on a row.
+        wp_full_view: Within the <b>Work package details</b> you find all relevant
+          information, such as description, status and priority, activities, dependencies
+          or comments.
+        wp_back_button: With the arrow you can navigate back to the work package list.
+        wp_create_button: The <b>Create</b> button will add a new work package to
+          your project.
+        wp_timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+          for your project.
+        wp_timeline: Here you can edit your project plan. Create new phases, milestones,
+          and add dependencies. All team members can see and update the latest plan
+          at any time.
+        help_menu: In the <b>Help</b> menu you will find a user guide and additional
+          help resources. <br> Enjoy your work with OpenProject!
+    password_confirmation:
+      field_description: You need to enter your account password to confirm this change.
+      title: Confirm your password to continue
+    pagination:
+      no_other_page: You are on the only page.
+      pages:
+        next: Forward to the next page
+        previous: Back to the previous page
+    placeholders:
+      default: "-"
+      subject: Enter subject here
+      selection: कृपया छान्नुहोस्
+      relation_description: Click to add description for this relation
+    project:
+      required_outside_context: You are not within a project context. Please choose
+        the project context first in order to select type and status
+      context: Project context
+      work_package_belongs_to: This work package belongs to project %{projectname}.
+      click_to_switch_context: Open this work package in that project.
+      autocompleter:
+        label: Project autocompletion
+    text_are_you_sure: Are you sure?
+    types:
+      attribute_groups:
+        error_duplicate_group_name: The name %{group} is used more than once. Group
+          names must be unique.
+        error_no_table_configured: Please configure a table for %{group}.
+        reset_title: Reset form configuration
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group and disable ALL custom
+          fields.
+
+'
+        upgrade_to_ee: Upgrade to Enterprise Edition
+        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
+          you mind supporting us OpenSource developers by becoming an Enterprise Edition
+          client?
+        more_information: More information
+        nevermind: Nevermind
+        filter_types:
+          parent: being child of
+          precedes: preceding
+          follows: following
+          relates: relating to
+          duplicates: duplicating
+          duplicated: duplicated by
+          blocks: blocking
+          blocked: blocked by
+          partof: being part of
+          includes: including
+          requires: requiring
+          required: required by
+    time_entry:
+      activity: Activity
+      comment: Comment
+      hours: Hours
+    watchers:
+      label_loading: loading watchers...
+      label_error_loading: An error occurred while loading the watchers
+      label_search_watchers: Search watchers
+      label_add: Add watchers
+      label_discard: Discard selection
+      typeahead_placeholder: Search for possible watchers
+    relation_labels:
+      parent: Parent
+      children: Children
+      relates: Related To
+      duplicates: Duplicates
+      duplicated: Duplicated by
+      blocks: Blocks
+      blocked: Blocked by
+      precedes: Precedes
+      follows: Follows
+      includes: Includes
+      partof: Part of
+      requires: Requires
+      required: Required by
+      relation_type: relation type
+    relations_hierarchy:
+      parent_headline: Parent
+      hierarchy_headline: Hierarchy
+      children_headline: Children
+    relation_buttons:
+      set_parent: Set parent
+      change_parent: Change parent
+      remove_parent: Remove parent
+      group_by_wp_type: Group by work package type
+      group_by_relation_type: Group by relation type
+      add_parent: Add existing parent
+      add_new_child: Create new child
+      create_new: Create new
+      add_existing: Add existing
+      add_existing_child: Add existing child
+      remove_child: Remove child
+      add_new_relation: Create new relation
+      add_existing_relation: Add existing relation
+      update_description: Set or update description of this relation
+      toggle_description: Toggle relation description
+      update_relation: Click to change the relation type
+      add_follower: Add follower
+      add_predecessor: Add predecessor
+      remove: Remove relation
+      save: Save relation
+      abort: Abort
+    relations_autocomplete:
+      placeholder: Enter the related work package id
+      parent_placeholder: Choose new parent, press enter to unset, escape to cancel.
+    repositories:
+      select_tag: Select tag
+      select_branch: Select branch
+    field_value_enter_prompt: Enter a value for '%{field}'
+    select2:
+      input_too_short:
+        one: Please enter one more character
+        other: Please enter {{count}} more characters
+        zero: Please enter more characters
+      load_more: Loading more results ...
+      no_matches: No matches found
+      searching: Searching ...
+      selection_too_big:
+        one: You can only select one item
+        other: You can only select {{limit}} items
+        zero: You cannot select any items
+    project_menu_details: Details
+    sort:
+      sorted_asc: 'Ascending sort applied, '
+      sorted_dsc: 'Descending sort applied, '
+      sorted_no: 'No sort applied, '
+      sorting_disabled: sorting is disabled
+      activate_asc: activate to apply an ascending sort
+      activate_dsc: activate to apply a descending sort
+      activate_no: activate to remove the sort
+    text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
+      work package(s)?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      view?
+    text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
+    timelines:
+      quarter_label: Q%{quarter_number}
+      gantt_chart: Gantt chart
+      labels:
+        title: Label configuration
+        bar: Bar labels
+        left: Left
+        right: Right
+        farRight: Far right
+        showNone: "-- No label --"
+        description: 'Select the attributes you want to be shown in the respective
+          positions of the Gantt chart at all times. Note that when hovering an element,
+          its date labels will be shown instead of these attributes.
+
+'
+      button_activate: Show Gantt chart
+      button_deactivate: Hide Gantt chart
+      cancel: Cancel
+      change: Change in planning
+      due_date: Finish date
+      empty: "(empty)"
+      error: An error has occurred.
+      errors:
+        not_implemented: The timeline could not be rendered because it uses a feature
+          that is not yet implemented.
+        report_comparison: The timeline could not render the configured comparisons.
+          Please check the appropriate section in the configuration, resetting it
+          can help solve this problem.
+        report_epicfail: The timeline could not be loaded due to an unexpected error.
+        report_timeout: The timeline could not be loaded in a reasonable amount of
+          time.
+      filter:
+        grouping_other: Other
+        noneSelection: "(none)"
+      name: Name
+      outline: Reset Outline
+      outlines:
+        aggregation: Show aggregations only
+        level1: Expand level 1
+        level2: Expand level 2
+        level3: Expand level 3
+        level4: Expand level 4
+        level5: Expand level 5
+        all: Show all
+      project_status: Project status
+      really_close_dialog: Do you really want to close the dialog and lose the entered
+        data?
+      responsible: Responsible
+      save: Save
+      start_date: Start date
+      tooManyProjects: More than %{count} Projects. Please use a better filter!
+      selection_mode:
+        notification: Click on any highlighted work package to create the relation.
+          Press escape to cancel.
+      zoom:
+        in: Zoom in
+        out: Zoom out
+        auto: Auto zoom
+        days: Days
+        weeks: Weeks
+        months: Months
+        quarters: Quarters
+        years: Years
+        slider: Zoom slider
+        description: 'Select the initial zoom level that should be shown when autozoom
+          is not available.
+
+'
+    tl_toolbar:
+      zooms: Zoom level
+      outlines: Hierarchy level
+    upsale:
+      ee_only: Enterprise Edition only feature
+    wiki_formatting:
+      strong: Strong
+      italic: Italic
+      underline: Underline
+      deleted: Deleted
+      code: Inline Code
+      heading1: Heading 1
+      heading2: Heading 2
+      heading3: Heading 3
+      unordered_list: Unordered List
+      ordered_list: Ordered List
+      quote: Quote
+      unquote: Unquote
+      preformatted_text: Preformatted Text
+      wiki_link: Link to a Wiki page
+      image: Image
+    work_packages:
+      bulk_actions:
+        move: Bulk move
+        edit: Bulk edit
+        copy: Bulk copy
+        delete: Bulk delete
+      button_clear: Clear
+      comment_added: The comment was successfully added.
+      comment_send_failed: An error has occurred. Could not submit the comment.
+      comment_updated: The comment was successfully updated.
+      confirm_edit_cancel: Are you sure you want to cancel editing the work package?
+      description_filter: Filter
+      description_enter_text: Enter text
+      description_options_hide: Hide options
+      description_options_show: Show options
+      error:
+        update_conflict_refresh: Click here to refresh the work package and update
+          to the newest version.
+        edit_prohibited: Editing %{attribute} is blocked for this work package. Either
+          this attribute is derived from relations (e.g, children) or otherwise not
+          configurable.
+        format:
+          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+        general: An error has occurred.
+      edit_attribute: "%{attribute} - Edit"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: Enable multiselect
+      label_disable_multi_select: Disable multiselect
+      label_filter_add: Add filter
+      label_filter_by_text: Filter by text
+      label_options: Options
+      label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
+        confirm selection with enter, delete with backspace'
+      message_error_during_bulk_delete: An error occurred while trying to delete work
+        packages.
+      message_successful_bulk_delete: Successfully deleted work packages.
+      message_successful_show_in_fullscreen: Click here to open this work package
+        in fullscreen view.
+      message_view_spent_time: Show spent time for this work package
+      message_work_package_read_only: Work package is locked in this status. No attribute
+        other than status can be altered.
+      no_value: No value
+      placeholder_filter_by_text: Subject, description, comments, ...
+      inline_create:
+        title: Click here to add a new work package to this list
+      create:
+        title: New work package
+        header: New %{type}
+        header_no_type: New work package (Type not yet set)
+        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        button: Create
+      copy:
+        title: Copy work package
+      hierarchy:
+        show: Show hierarchy mode
+        hide: Hide hierarchy mode
+        toggle_button: Click to toggle hierarchy mode.
+        leaf: Work package leaf at level %{level}.
+        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
+          filtered children
+        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
+          filtered children
+      faulty_query:
+        title: Work packages could not be loaded.
+        description: Your view is erroneous and could not be processed.
+      no_results:
+        title: No work packages to display.
+        description: Either none have been created or all work packages are filtered
+          out.
+      property_groups:
+        details: Details
+        people: People
+        estimatesAndTime: Estimates & Time
+        other: Other
+      properties:
+        assignee: Assignee
+        author: Author
+        createdAt: Created on
+        description: Description
+        date: Date
+        dueDate: Finish date
+        estimatedTime: Estimated time
+        spentTime: Spent time
+        category: Category
+        percentageDone: Percentage done
+        priority: Priority
+        projectName: Project
+        responsible: Responsible
+        startDate: Start date
+        status: Status
+        subject: Subject
+        title: Title
+        type: Type
+        updatedAt: Updated on
+        versionName: Version
+        version: Version
+      default_queries:
+        latest_activity: Latest activity
+        created_by_me: Created by me
+        assigned_to_me: Assigned to me
+        recently_created: Recently created
+        all_open: All open
+        summary: Summary
+      jump_marks:
+        pagination: Jump to table pagination
+        label_pagination: Click here to skip over the work packages table and go to
+          pagination
+        content: Jump to content
+        label_content: Click here to skip over the menu and go to the content
+      placeholders:
+        default: "-"
+        description: Click to enter description...
+      query:
+        column_names: Columns
+        group_by: Group results by
+        group: Group by
+        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
+          mode being active.
+        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
+          being grouped by %{column}.
+        sort_ascending: Sort ascending
+        sort_descending: Sort descending
+        move_column_left: Move column left
+        move_column_right: Move column right
+        hide_column: Hide column
+        insert_columns: Insert columns ...
+        filters: Filters
+        display_sums: Display Sums
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
+          view? Title will be set back to previous value.
+        click_to_edit_query_name: Click to edit title of this view.
+        rename_query_placeholder: Name of this view
+        errors:
+          unretrievable_query: Unable to retrieve view from URL
+          not_found: There is no such view
+          duplicate_query_title: Name of this view already exists. Change anyway?
+        text_no_results: No matching views were found.
+      table:
+        configure_button: Configure work package table
+        summary: Table with rows of work package and columns of work package attributes.
+        text_inline_edit: Most cells of this table are buttons that activate inline-editing
+          functionality of that attribute.
+        text_sort_hint: With the links in the table headers you can sort, group, reorder,
+          remove and add table columns.
+        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+      table_configuration:
+        button: Configure this work package table
+        choose_display_mode: Display work packages as
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          view you're editing.
+        default: default
+        display_settings: Display settings
+        default_mode: Flat list
+        hierarchy_mode: Hierarchy
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
+        highlighting: Highlighting
+        highlighting_mode:
+          description: Highlight with color
+          none: No highlighting
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
+          entire_row_by: Entire row by
+          status: Status
+          priority: Priority
+          type: Type
+        columns_help_text: Use the input above to add or remove columns to your table
+          view. You can drag and drop the columns to reorder them.
+        upsale:
+          attribute_highlighting: Need certain work packages to stand out from the
+            mass?
+          relation_columns: Need to see relations in the work package list?
+          check_out_link: Check out the Enterprise Edition.
+        relation_filters:
+          first_part: Show all work packages
+          second_part: the current work package
+      tabs:
+        overview: Overview
+        activity: Activity
+        relations: Relations
+        watchers: Watchers
+        attachments: Attachments
+      time_relative:
+        days: days
+        weeks: weeks
+        months: months
+    toolbar:
+      settings:
+        configure_view: Configure view ...
+        columns: Columns ...
+        sort_by: Sort by ...
+        group_by: Group by ...
+        display_sums: Display sums
+        display_hierarchy: Display hierarchy
+        hide_hierarchy: Hide hierarchy
+        hide_sums: Hide sums
+        save: Save
+        save_as: Save as ...
+        export: Export ...
+        visibility_settings: Visibility settings ...
+        page_settings: Rename view ...
+        delete: Delete
+      filter: Filter
+      unselected_title: Work package
+      search_query_label: Search saved views
+      search_query_title: Click to search saved views
+      placeholder_query_title: Set a title for this view
+    modals:
+      label_settings: Rename view
+      label_name: Name
+      label_delete_page: Delete current page
+      button_apply: Apply
+      button_save: Save
+      button_submit: Submit
+      button_cancel: Cancel
+      form_submit:
+        title: Confirm to continue
+        text: Are you sure you want to perform this action?
+      destroy_work_package:
+        title: Confirm deletion of %{label}
+        text: Are you sure you want to delete the following %{label} ?
+        has_children: 'The work package has %{childUnits}:'
+        confirm_deletion_children: I acknowledge that ALL descendants of the listed
+          work packages will be recursively removed.
+        deletes_children: All child work packages and their descendants will also
+          be recursively deleted.
+    notice_successful_create: Successful creation.
+    notice_successful_delete: Successful deletion.
+    notice_successful_update: Successful update.
+    notice_bad_request: Bad Request.
+    relations:
+      empty: No relation exists
+      remove: Remove relation
+    inplace:
+      button_edit: "%{attribute}: Edit"
+      button_save: "%{attribute}: Save"
+      button_cancel: "%{attribute}: Cancel"
+      button_save_all: Save
+      button_cancel_all: Cancel
+      link_formatting_help: Text formatting help
+      btn_preview_enable: Preview
+      btn_preview_disable: Disable preview
+      null_value_label: No value
+      clear_value_label: "-"
+      errors:
+        required: "%{field} cannot be empty"
+        number: "%{field} is not a valid number"
+        maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
+        minlength: "%{field} cannot contain less than %{minLength} digit(s)"
+        messages_on_field: 'This field is invalid: %{messages}'
+    error_could_not_resolve_version_name: Couldn't resolve version name
+    error_could_not_resolve_user_name: Couldn't resolve user name
+    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files
+      on this resource.
+    units:
+      workPackage:
+        one: work package
+        other: work packages
+      child_work_packages:
+        one: one child work package
+        other: "%{count} work package children"
+      hour:
+        one: 1 hour
+        other: "%{count} hours"
+        zero: 0 hours
+    zen_mode:
+      button_activate: Activate zen mode
+      button_deactivate: Deactivate zen mode
+    global_search:
+      all_projects: In all projects
+      search: Search
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
