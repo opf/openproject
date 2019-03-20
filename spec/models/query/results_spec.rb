@@ -369,6 +369,34 @@ describe ::Query::Results, type: :model do
       end
     end
 
+    context 'sorting and grouping by priority' do
+      let(:prio_low) { FactoryBot.create :issue_priority, position: 1 }
+      let(:prio_high) { FactoryBot.create :issue_priority, position: 0 }
+      let(:group_by) { 'priority' }
+
+      before do
+        allow(User).to receive(:current).and_return(user_1)
+
+        work_package1.priority = prio_low
+        work_package2.priority = prio_high
+
+        work_package1.save(validate: false)
+        work_package2.save(validate: false)
+      end
+
+      it 'respects the sorting (Regression #29689)' do
+        query.sort_criteria = [['priority', 'asc']]
+
+        expect(query_results.sorted_work_packages)
+          .to match [work_package1, work_package2]
+
+        query.sort_criteria = [['priority', 'desc']]
+
+        expect(query_results.sorted_work_packages)
+          .to match [work_package2, work_package1]
+      end
+    end
+
     context 'sorting by author and responsible, grouping by assigned_to' do
       let(:group_by) { 'assigned_to' }
       let(:sort_by) { [['author', 'asc'], ['responsible', 'desc']] }

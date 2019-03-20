@@ -35,6 +35,7 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 
 const ADD_FILTER_SELECT_INDEX = -1;
 
@@ -71,11 +72,12 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly wpFiltersService:WorkPackageFiltersService,
-              readonly I18n:I18nService) {
+              readonly I18n:I18nService,
+              readonly bannerService:BannersService) {
   }
 
   ngOnInit() {
-    this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
+    this.eeShowBanners = this.bannerService.eeShowBanners;
   }
 
   ngOnDestroy() {

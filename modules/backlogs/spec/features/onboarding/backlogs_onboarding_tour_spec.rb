@@ -31,8 +31,20 @@ require 'spec_helper'
 describe 'backlogs onboarding tour', js: true do
   let(:next_button) { find('.enjoyhint_next_btn') }
   let(:user) { FactoryBot.create :admin }
-  let(:demo_project) { FactoryBot.create :project, name: 'Demo project', identifier: 'demo-project', is_public: true, enabled_module_names: %w[work_package_tracking wiki] }
-  let(:project) { FactoryBot.create :project, name: 'Scrum project', identifier: 'your-scrum-project', is_public: true, enabled_module_names: %w[work_package_tracking wiki backlogs] }
+  let(:demo_project) do
+    FactoryBot.create :project,
+                      name: 'Demo project',
+                      identifier: 'demo-project',
+                      is_public: true,
+                      enabled_module_names: %w[work_package_tracking wiki]
+  end
+  let(:project) do
+    FactoryBot.create :project,
+                      name: 'Scrum project',
+                      identifier: 'your-scrum-project',
+                      is_public: true,
+                      enabled_module_names: %w[work_package_tracking wiki backlogs]
+  end
   let(:sprint) { FactoryBot.create(:version, project: project, name: 'Sprint 1') }
   let(:status) { FactoryBot.create(:default_status) }
   let(:priority) { FactoryBot.create(:default_priority) }
@@ -91,16 +103,16 @@ describe 'backlogs onboarding tour', js: true do
       expect(page).to have_text '... and select the Task board entry.'
 
       next_button.click
-      expect(page).to have_current_path backlogs_project_sprint_taskboard_path(project.identifier, sprint.id)
+      expect(page)
+        .to have_current_path backlogs_project_sprint_taskboard_path(project.identifier, sprint.id)
       expect(page).to have_text 'The Task board visualizes the progress for this sprint.'
 
       next_button.click
-      expect(page).to have_text "Now let's have a look at the Work package section, which gives you a more detailed view of your work."
+      expect(page)
+        .to have_text "Now let's have a look at the Work package section, which gives you a more detailed view of your work."
 
       next_button.click
       expect(page).to have_current_path project_work_packages_path(project.identifier)
     end
   end
 end
-
-

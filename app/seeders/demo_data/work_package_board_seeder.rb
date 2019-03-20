@@ -66,6 +66,8 @@ module DemoData
       board.row_count = 1
 
       board.save!
+
+      Setting.boards_demo_data_available = 'true'
     end
 
     def seed_kanban_board_queries

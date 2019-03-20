@@ -1410,6 +1410,7 @@ pt:
   label_hierarchy_leaf: Folha da hierarquia
   label_home: Início
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: em
   label_in_less_than: em menos de
   label_in_more_than: em mais de
@@ -1543,6 +1544,7 @@ pt:
   label_previous_week: Semana passada
   label_principal_invite_via_email: " ou convide novos utilizadores via correio eletrónico"
   label_principal_search: Adicionar utilizadores ou grupos existentes
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Versão do produto
   label_professional_support: Suporte profissional
   label_profile: Perfil
@@ -2280,10 +2282,6 @@ pt:
     para todos os pedidos
   setting_login_required: Autenticação necessária
   setting_mail_from: E-mail enviado de
-  setting_mail_handler_api_enabled: Ativar webservice de entrada de e-mail
-  setting_mail_handler_api_description: O gestor web de email permite que o OpenProject
-    receba emails com comandos específicos, como um mecanismo de instrumentação (por
-    exemplo, para criar e atualizar pacotes de trabalho).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Truncar e-mails depois de uma destas linhas
   setting_mail_handler_body_delimiter_regex: Truncar emails com correspondência a
@@ -2990,3 +2988,7 @@ pt:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Ativar webservice de entrada de e-mail
+  setting_mail_handler_api_description: O gestor web de email permite que o OpenProject
+    receba emails com comandos específicos, como um mecanismo de instrumentação (por
+    exemplo, para criar e atualizar pacotes de trabalho).
