@@ -164,6 +164,19 @@ module Pages
       end
     end
 
+    def save
+      page.find('.editable-toolbar-title--save').click
+      expect_and_dismiss_notification message: 'Successful update.'
+    end
+
+    def expect_changed
+      expect(page).to have_selector('.editable-toolbar-title--save')
+    end
+
+    def expect_not_changed
+      expect(page).to have_no_selector('.editable-toolbar-title--save')
+    end
+
     def expect_list(name)
       expect(page).to have_field('editable-toolbar-title', with: name)
     end

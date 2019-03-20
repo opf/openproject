@@ -44,7 +44,7 @@ export class BoardFilterComponent implements OnInit, OnDestroy {
 
     // Remove action attribute from filter service
     if (this.board.isAction) {
-      this.wpTableFilters.hidden.push(this.board.actionAttribute)
+      this.wpTableFilters.hidden.push(this.board.actionAttribute!);
     }
   }
 
