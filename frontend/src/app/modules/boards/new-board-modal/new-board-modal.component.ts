@@ -36,6 +36,8 @@ import {StateService} from "@uirouter/core";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
+import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 
 @Component({
   templateUrl: './new-board-modal.html'
@@ -48,6 +50,8 @@ export class NewBoardModalComponent extends OpModalComponent {
   public confirmed = false;
 
   public available = this.boardActions.available();
+
+  public inFlight = false;
 
   public text:any = {
     title: this.I18n.t('js.boards.new_board'),
@@ -72,6 +76,8 @@ export class NewBoardModalComponent extends OpModalComponent {
               readonly boardService:BoardService,
               readonly boardActions:BoardActionsRegistryService,
               readonly boardCache:BoardCacheService,
+              readonly wpNotifications:WorkPackageNotificationService,
+              readonly loadingIndicatorService:LoadingIndicatorService,
               readonly I18n:I18nService) {
 
     super(locals, cdRef, elementRef);
@@ -86,12 +92,19 @@ export class NewBoardModalComponent extends OpModalComponent {
   }
 
   private create(params:{ type:BoardType, attribute?:string }) {
-    this.boardService
+    this.inFlight = true;
+
+    this.loadingIndicatorService.modal.promise = this.boardService
       .create(params)
       .then((board) => {
+        this.inFlight = false;
         this.closeMe();
         this.boardCache.update(board);
         this.state.go('boards.show', { board_id: board.id, isNew: true });
+      })
+      .catch((error:unknown) => {
+        this.inFlight = false;
+        this.wpNotifications.handleRawError(error);
       });
   }
 }

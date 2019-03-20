@@ -346,16 +346,53 @@ sk:
         next: Ďalšie
         got_it: Rozumiem
       steps:
-        welcome: Urobte si tri minúty čas na úvodnú prehliadku, aby ste sa naučili
-          čo najviac <b>dôležité funkcie</b>.<br> Doporučujeme dokončiť prehliadku
-          až do konca. Prehliadku môžete kedykoľvek reštartovať.
+        help_menu: V ponuke <b>Help</b> nájdete používateľskú príručku a ďalšie zdroje
+          pomoci. <br> Užite si svoju prácu s programom OpenProject!
+        members: Pozvať nových <b>Členov</b> do vášho projektu.
         project_selection: 'Vyberte jeden z projektov s užitočnými demo dátami: <br><b>"Demo
           projekt"</b> je vhodný pre klasické riadenie projektov, <b>"Scrum projekt"</b>
           je vhodný pre agilné riadenie projektov.'
         sidebar_arrow: Pomocou šípky sa môžete vrátiť späť k projektom <b>Hlavná ponuka</b>.
-        members: Pozvať nových <b>Členov</b> do vášho projektu.
+        welcome: Urobte si tri minúty čas na úvodnú prehliadku, aby ste sa naučili
+          čo najviac <b>dôležité funkcie</b>.<br> Doporučujeme dokončiť prehliadku
+          až do konca. Prehliadku môžete kedykoľvek reštartovať.
         wiki: V rámci <b>Wiki</b> možno dokumentovať a zdieľať znalosti spolu so svojím
           tímom.
+        backlogs:
+          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
+            you have the Product Backlog or a Bug Backlog, on the left you will have
+            the respective sprints. Here you can create <b>epics, user stories, and
+            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
+          task_board_select: "... and select the <b>Task board</b> entry."
+          task_board: The <b>Task board</b> visualizes the progress for this sprint.
+            Add new tasks or impediments with the + icon next to a user story. Via
+            drag'n'drop you can update the status.
+        boards:
+          overview: Manage your work within an intuitive <b>Boards</b> view.
+          lists: You can create multiple lists (columns) within one Board view, e.g.
+            to create a KANBAN board.
+          add: Click the + will <b>add a new card</b> to the list within a Board.
+          drag: Drag & Drop your cards within a list to re-order, or the another list.
+            A double click will open the details view.
+        wp:
+          toggler: Now let's have a look at the <b>Work package</b> section, which
+            gives you a more detailed view of your work.
+          list: This is the <b>Work package</b> list with the important work within
+            your project, such as tasks, features, milestones, bugs, and more. <br>
+            You can create or edit a work package directly within this list. To see
+            its details you can double click on a row.
+          full_view: Within the <b>Work package details</b> you find all relevant
+            information, such as description, status and priority, activities, dependencies
+            or comments.
+          back_button: With the arrow you can navigate back to the work package list.
+          create_button: The <b>Create</b> button will add a new work package to your
+            project.
+          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+            for your project.
+          timeline: Here you can edit your project plan. Create new phases, milestones,
+            and add dependencies. All team members can see and update the latest plan
+            at any time.
         backlogs_overview: Vašu prácu môžete organizovať v <b>backlog</b> pohľade.
           <br> Na pravej strane je k dispozícii backlog produktov či chýb, na ľavej
           strane príslušné šprinty. Tu môžete vytvárať <b>epics, user stories a chybové
@@ -383,8 +420,6 @@ sk:
         wp_timeline: Tu môžete upraviť svoj projektový plán. Vytvárať nové fázy, míľniky
           a pridávať závislosti. Všetci členovia tímu môžu kedykoľvek zobraziť a aktualizovať
           aktuálny plán.
-        help_menu: V ponuke <b>Help</b> nájdete používateľskú príručku a ďalšie zdroje
-          pomoci. <br> Užite si svoju prácu s programom OpenProject!
     password_confirmation:
       field_description: Ak chcete potvrdiť túto zmenu, musíte zadať heslo svojho
         účtu.

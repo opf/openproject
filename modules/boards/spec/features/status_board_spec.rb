@@ -51,7 +51,9 @@ describe 'Status action board', type: :feature, js: true do
   let!(:open_status) { FactoryBot.create :default_status, name: 'Open' }
   let!(:other_status) { FactoryBot.create :status, name: 'Whatever' }
   let!(:closed_status) { FactoryBot.create :status, is_closed: true, name: 'Closed' }
-  let!(:work_package) { FactoryBot.create :work_package, project: project, status: other_status }
+  let!(:work_package) { FactoryBot.create :work_package, project: project, subject: 'Foo', status: other_status }
+
+  let(:filters) { ::Components::WorkPackages::Filters.new }
 
   let!(:workflow_type) {
     FactoryBot.create(:workflow,
@@ -147,6 +149,44 @@ describe 'Status action board', type: :feature, js: true do
       board_page.expect_card('Open', 'Task 1', present: false)
       board_page.expect_card('Whatever', 'Task 1', present: false)
       board_page.expect_card('Closed', 'Task 1', present: true)
+
+      # Add filter
+      # Filter for Task
+      filters.expect_filter_count 0
+      filters.open
+
+      # Expect that status is not available for global filter selection
+      filters.expect_available_filter 'Status', present: false
+
+      filters.quick_filter 'Task'
+      board_page.expect_changed
+      sleep 2
+
+      board_page.expect_card('Closed', 'Task 1', present: true)
+      board_page.expect_card('Whatever', work_package.subject, present: false)
+
+      # Expect query props to be present
+      url = URI.parse(page.current_url).query
+      expect(url).to include("query_props=")
+
+      # Save that filter
+      board_page.save
+
+      # Expect filter to be saved in board
+      board_page.board(reload: true) do |board|
+        expect(board.options['filters']).to eq [{ 'search' => { 'operator' => '**', 'values' => ['Task'] } }]
+      end
+
+      # Revisit board
+      board_page.visit!
+
+      # Expect filter to be present
+      filters.expect_filter_count 1
+      filters.open
+      filters.expect_quick_filter 'Task'
+
+      # No query props visible
+      board_page.expect_not_changed
 
       # Remove query
       board_page.remove_list 'Whatever'

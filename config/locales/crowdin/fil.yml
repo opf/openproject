@@ -1426,6 +1426,7 @@ fil:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Tahanan
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: sa
   label_in_less_than: mas mababa kaysa
   label_in_more_than: mahigit sa
@@ -1560,6 +1561,7 @@ fil:
   label_principal_invite_via_email: " o imbitahin ang bagong gumagamit sa pamamagitan
     ng email"
   label_principal_search: Magdagdag ng umiiral na mga user o grupo
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Produktong bersyon
   label_professional_support: Propesyonal na suporta
   label_profile: Profile
@@ -2311,10 +2313,6 @@ fil:
     lahat na hiling
   setting_login_required: Kailangan ng pagpapatunay
   setting_mail_from: Emission ng email address
-  setting_mail_handler_api_enabled: Paganahin ang paparating na email web service
-  setting_mail_handler_api_description: Ang email web handler ay pinagana ang OpenProject
-    upang makatanggap ng mga mail na naglalaman ng tiyak na command bilang isang intstrumentasyon
-    mechanism ( hal. upang lumikha at i-update ang mga work package).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: I-truncate ang mga email pagatapod ng mga
     linyang ito
@@ -3037,3 +3035,7 @@ fil:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Paganahin ang paparating na email web service
+  setting_mail_handler_api_description: Ang email web handler ay pinagana ang OpenProject
+    upang makatanggap ng mga mail na naglalaman ng tiyak na command bilang isang intstrumentasyon
+    mechanism ( hal. upang lumikha at i-update ang mga work package).

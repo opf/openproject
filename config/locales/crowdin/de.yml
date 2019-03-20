@@ -1428,6 +1428,7 @@ de:
   label_hierarchy_leaf: Hierarchie-Blatt
   label_home: Hauptseite
   label_subject_or_id: Titel oder ID
+  label_impressum: Impressum
   label_in: an
   label_in_less_than: in weniger als
   label_in_more_than: in mehr als
@@ -1561,6 +1562,7 @@ de:
   label_previous_week: Woche zurück
   label_principal_invite_via_email: " oder Nutzer per E-Mail einladen"
   label_principal_search: Vorhandene Benutzer / Gruppen hinzufügen
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Produktversion
   label_professional_support: Professionelle Unterstützung
   label_profile: Profil
@@ -2305,10 +2307,6 @@ de:
     Anfragen
   setting_login_required: Authentifizierung erforderlich
   setting_mail_from: E-Mail-Absender
-  setting_mail_handler_api_enabled: Web-Service für eingehende E-Mails aktivieren
-  setting_mail_handler_api_description: Der E-Mail Web-Service erlaubt es OpenProject,
-    E-Mails mit speziellen Anweisungen zu erhalten und darauf zu reagieren (z.B. zum
-    Anlegen und Aktualisieren von Arbeitspaketen).
   setting_mail_handler_api_key: API-Schlüssel
   setting_mail_handler_body_delimiters: Schneide E-Mails nach einer dieser Zeilen
     ab
@@ -3025,3 +3023,7 @@ de:
     revoke_my_application_confirmation: Möchten Sie diese Anwendung wirklich entfernen?
       Dies wird %{token_count} aktive Token widerrufen.
     my_registered_applications: Registrierte OAuth-Anwendungen
+  setting_mail_handler_api_enabled: Web-Service für eingehende E-Mails aktivieren
+  setting_mail_handler_api_description: Der E-Mail Web-Service erlaubt es OpenProject,
+    E-Mails mit speziellen Anweisungen zu erhalten und darauf zu reagieren (z.B. zum
+    Anlegen und Aktualisieren von Arbeitspaketen).

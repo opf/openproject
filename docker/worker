@@ -2,6 +2,12 @@
 
 if [ "$1" = "--seed" ]; then
 	shift
+	echo "Executing database migration and database seed..."
 	bundle exec rake db:migrate db:seed
+	if [ "$1" = "--set" ]; then
+		shift
+		echo "Update application settings..."
+		bundle exec rake setting:set["$@"]
+	fi
 fi
 exec bundle exec rake jobs:work

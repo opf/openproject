@@ -38,9 +38,10 @@ describe 'Board management spec', type: :feature, js: true do
   end
   let(:project) { FactoryBot.create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let!(:work_package) { FactoryBot.create :work_package, project: project }
+  let!(:work_package) { FactoryBot.create :work_package, subject: 'Foo', project: project }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
+  let(:filters) { ::Components::WorkPackages::Filters.new }
 
   before do
     with_enterprise_token :board_view
@@ -129,6 +130,20 @@ describe 'Board management spec', type: :feature, js: true do
 
       subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject)
       expect(subjects).to match_array [work_package.subject, 'Task 1']
+
+      # Filter for Task
+      filters.expect_filter_count 0
+      filters.open
+      filters.quick_filter 'Task'
+      sleep 2
+
+      # Expect task to match, work_package invisible
+      board_page.expect_card('First', 'Task 1', present: false)
+      board_page.expect_card('Second', 'Task 1', present: true)
+      board_page.expect_card('Second', work_package.subject, present: false)
+
+      filters.quick_filter ''
+      sleep 2
 
       # Remove card again
       board_page.remove_card 'Second', work_package.subject, 0

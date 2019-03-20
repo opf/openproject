@@ -48,9 +48,12 @@ export class QueryFilterInstanceResource extends HalResource {
     return clone;
   }
 
-
   public get id():string {
     return this.filter.id;
+  }
+
+  public get name():string {
+    return this.filter.name;
   }
 
   /**

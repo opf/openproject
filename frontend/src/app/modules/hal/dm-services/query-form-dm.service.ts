@@ -38,6 +38,10 @@ export class QueryFormDmService {
               protected pathHelper:PathHelperService) {
   }
 
+  /**
+   * Load the query form for the given existing (or new) query resource
+   * @param query
+   */
   public load(query:QueryResource):Promise<QueryFormResource> {
     // We need a valid payload so that we
     // can check whether form saving is possible.
@@ -57,6 +61,14 @@ export class QueryFormDmService {
     return query.$links.update(payload);
   }
 
+  /**
+   * Load the query form only with the given query props.
+   *
+   * @param params
+   * @param queryId
+   * @param projectIdentifier
+   * @param payload
+   */
   public loadWithParams(params:{}, queryId:string|undefined, projectIdentifier:string|undefined|null, payload:any = {}):Promise<QueryFormResource> {
     // We need a valid payload so that we
     // can check whether form saving is possible.

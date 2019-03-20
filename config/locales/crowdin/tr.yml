@@ -1387,6 +1387,7 @@ tr:
   label_hierarchy_leaf: Hiyerarşi ağacı
   label_home: Ana sayfa
   label_subject_or_id: Konu ya da ID
+  label_impressum: Impressum
   label_in: şurada
   label_in_less_than: daha azdır
   label_in_more_than: daha fazla
@@ -1520,6 +1521,7 @@ tr:
   label_previous_week: Geçen Hafta
   label_principal_invite_via_email: " veya yeni kullanıcılar e-posta ile davet et"
   label_principal_search: Mevcut kullanıcıları veya grupları ekle
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Ürün sürümü
   label_professional_support: Profesyonel destek
   label_profile: Profil
@@ -2235,10 +2237,6 @@ tr:
     adresini girme
   setting_login_required: Kimlik doğrulaması gerekli
   setting_mail_from: Gönderici e-posta adresi
-  setting_mail_handler_api_enabled: Gelen e-posta web hizmetini etkinleştir
-  setting_mail_handler_api_description: E-posta web işleyici, OpenProject'in belirli
-    komutları enstrümantasyon mekanizması olarak (örneğin iş paketleri oluşturmak
-    ve güncellemek için) içeren e-postaları almasını sağlar.
   setting_mail_handler_api_key: API anahtarı
   setting_mail_handler_body_delimiters: Bu satırlardan birinden sonra e-postaları
     kısaltın
@@ -2929,3 +2927,7 @@ tr:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Gelen e-posta web hizmetini etkinleştir
+  setting_mail_handler_api_description: E-posta web işleyici, OpenProject'in belirli
+    komutları enstrümantasyon mekanizması olarak (örneğin iş paketleri oluşturmak
+    ve güncellemek için) içeren e-postaları almasını sağlar.

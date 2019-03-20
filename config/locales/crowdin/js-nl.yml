@@ -350,18 +350,55 @@ nl:
         next: Volgende
         got_it: Begrepen
       steps:
-        welcome: Neem drie minuten introductie rondleiding om de meeste <b>belangrijke
-          kenmerken </b> te leren. <br> het is raadzaam de stappen uit te voeren tot
-          het einde. U kunt de tour ieder moment opnieuw doen.
+        help_menu: In het menu <b>Help</b> vindt u een handleiding en aanvullende
+          help-bronnen. <br> genieten van uw werk met OpenProject!
+        members: Nodig nieuwe <b>leden,</b> uit voor uw project.
         project_selection: Gelieve één van de projecten te selecteren met voor u nuttige
           voorbeeldgegevens. alvorens aan de slag te gaan <br> Het <b>Demo project</b>
           is gebaseerd op het klassieke projectmanagement, terwijl het <b>Scrum-project</b>
           Een beter voorbeeld is voor Agile projectmanagement.
         sidebar_arrow: U kunt met de pijl terug navigeren naar het <b>Hoofd menu</b>
           van het project.
-        members: Nodig nieuwe <b>leden,</b> uit voor uw project.
+        welcome: Neem drie minuten introductie rondleiding om de meeste <b>belangrijke
+          kenmerken </b> te leren. <br> het is raadzaam de stappen uit te voeren tot
+          het einde. U kunt de tour ieder moment opnieuw doen.
         wiki: U kunt binnen de <b>Wiki</b> kennis delen en documenteren samen met
           uw team.
+        backlogs:
+          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
+            you have the Product Backlog or a Bug Backlog, on the left you will have
+            the respective sprints. Here you can create <b>epics, user stories, and
+            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
+          task_board_select: "... and select the <b>Task board</b> entry."
+          task_board: The <b>Task board</b> visualizes the progress for this sprint.
+            Add new tasks or impediments with the + icon next to a user story. Via
+            drag'n'drop you can update the status.
+        boards:
+          overview: Manage your work within an intuitive <b>Boards</b> view.
+          lists: You can create multiple lists (columns) within one Board view, e.g.
+            to create a KANBAN board.
+          add: Click the + will <b>add a new card</b> to the list within a Board.
+          drag: Drag & Drop your cards within a list to re-order, or the another list.
+            A double click will open the details view.
+        wp:
+          toggler: Now let's have a look at the <b>Work package</b> section, which
+            gives you a more detailed view of your work.
+          list: This is the <b>Work package</b> list with the important work within
+            your project, such as tasks, features, milestones, bugs, and more. <br>
+            You can create or edit a work package directly within this list. To see
+            its details you can double click on a row.
+          full_view: Within the <b>Work package details</b> you find all relevant
+            information, such as description, status and priority, activities, dependencies
+            or comments.
+          back_button: With the arrow you can navigate back to the work package list.
+          create_button: The <b>Create</b> button will add a new work package to your
+            project.
+          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+            for your project.
+          timeline: Here you can edit your project plan. Create new phases, milestones,
+            and add dependencies. All team members can see and update the latest plan
+            at any time.
         backlogs_overview: Beheer uw werk volgens <b>Backlogs</b> overzicht. <br>
           aan de rechterkant heb je de Productbacklog of een Bugbacklog, aan de linkerkant
           zul je de respectieve sprints. Hier kunt u het maken van <b>Epics, gebruiker
@@ -391,8 +428,6 @@ nl:
         wp_timeline: Hier kunt u uw projectplan bewerken. Maak nieuwe fasen, mijlpalen,
           en voeg afhankelijkheden toe. Alle teamleden kunnen de meest recente planning
           op elk gewenst moment zien en bijwerken.
-        help_menu: In het menu <b>Help</b> vindt u een handleiding en aanvullende
-          help-bronnen. <br> genieten van uw werk met OpenProject!
     password_confirmation:
       field_description: U moet uw wachtwoord invoeren om deze wijziging te bevestigen.
       title: Voer uw wachtwoord in om door te gaan
