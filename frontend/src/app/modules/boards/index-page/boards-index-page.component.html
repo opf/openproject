@@ -19,10 +19,10 @@
   </ul>
 </div>
 
-<div *ngIf="showBoardIndexView() && (boards$ | async) as boards"
-     class="boards--listing-group loading-indicator--location"
+<div class="boards--listing-group loading-indicator--location"
      data-indicator-name="boards-module">
-  <div class="generic-table--container">
+  <div *ngIf="showBoardIndexView() && (boards$ | async) as boards"
+       class="generic-table--container">
     <div class="generic-table--results-container">
       <table class="generic-table">
         <colgroup>
@@ -66,7 +66,7 @@
         </thead>
         <tbody>
         <tr *ngIf="boards.length === 0" id="empty-row-notification">
-          <td colspan="3">
+          <td colspan="4">
             <span>
               <op-icon icon-classes="icon-info1 icon-context"></op-icon>
               <span>
