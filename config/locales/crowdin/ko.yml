@@ -1341,6 +1341,7 @@ ko:
   label_hierarchy_leaf: 계층 구조 리프
   label_home: 홈
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: "-"
   label_in_less_than: 보다 작음
   label_in_more_than: 보다 큼
@@ -1474,6 +1475,7 @@ ko:
   label_previous_week: 이전 주
   label_principal_invite_via_email: " 또는 이메일을 통해 새 사용자 초대하기"
   label_principal_search: 기존 사용자 또는 그룹 추가
+  label_privacy_policy: Data privacy and security policy
   label_product_version: 제품 버전
   label_professional_support: 전문적 지원
   label_profile: 프로필
@@ -2148,9 +2150,6 @@ ko:
   setting_log_requesting_user: 모든 요청에 대한 로그 사용자 로그인, 이름 및 메일 주소
   setting_login_required: 인증이 필요함
   setting_mail_from: 발신 이메일 주소
-  setting_mail_handler_api_enabled: 들어오는 이메일 웹 서비스 사용
-  setting_mail_handler_api_description: '이메일 웹 처리기는 OpenProject가 계측 메커니즘으로 특정 명령을
-    포함하는 이메일을 받을 수 있게 합니다(예: 작업 패키지를 만들고 업데이트하기 위해).'
   setting_mail_handler_api_key: API 키
   setting_mail_handler_body_delimiters: 이러한 줄 중 하나 다음에 이메일 자르기
   setting_mail_handler_body_delimiter_regex: 이 정규식에 일치하는 이메일을 자름
@@ -2780,3 +2779,6 @@ ko:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: 들어오는 이메일 웹 서비스 사용
+  setting_mail_handler_api_description: '이메일 웹 처리기는 OpenProject가 계측 메커니즘으로 특정 명령을
+    포함하는 이메일을 받을 수 있게 합니다(예: 작업 패키지를 만들고 업데이트하기 위해).'

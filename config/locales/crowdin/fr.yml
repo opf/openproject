@@ -1420,6 +1420,7 @@ fr:
   label_hierarchy_leaf: Feuille de hiérarchie
   label_home: Accueil
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: dans
   label_in_less_than: en moins de
   label_in_more_than: en plus de
@@ -1553,6 +1554,7 @@ fr:
   label_previous_week: Semaine précédente
   label_principal_invite_via_email: " ou inviter de nouveaux utilisateurs par courriel"
   label_principal_search: Ajouter des utilisateurs ou groupes existant
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Version du produit
   label_professional_support: Support professionnel
   label_profile: Profil
@@ -2297,10 +2299,6 @@ fr:
     pour toutes les requêtes
   setting_login_required: Authentification requise
   setting_mail_from: Adresse expéditeur
-  setting_mail_handler_api_enabled: Activer le service web de courrier entrant
-  setting_mail_handler_api_description: Le service web de courrier entrant permet
-    à OpenProject de recevoir des courriels contenant des commandes spécifiques à
-    exécuter (e.g. pour créer et mettre à jour des lots de travaux).
   setting_mail_handler_api_key: Clé API
   setting_mail_handler_body_delimiters: Tronquer les courriels à partir de l'une de
     ces lignes
@@ -3022,3 +3020,7 @@ fr:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Activer le service web de courrier entrant
+  setting_mail_handler_api_description: Le service web de courrier entrant permet
+    à OpenProject de recevoir des courriels contenant des commandes spécifiques à
+    exécuter (e.g. pour créer et mettre à jour des lots de travaux).

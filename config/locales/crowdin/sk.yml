@@ -1438,6 +1438,7 @@ sk:
   label_hierarchy_leaf: Úroveň hierarchie
   label_home: Úvod
   label_subject_or_id: Predmet alebo ID
+  label_impressum: Impressum
   label_in: v
   label_in_less_than: v menej ako
   label_in_more_than: vo viac ako
@@ -1572,6 +1573,7 @@ sk:
   label_principal_invite_via_email: " alebo pozvať nových užívateľov prostredníctvom
     e-mailu"
   label_principal_search: Pridanie existujúcich užívateľov alebo skupín
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Verzia produktu
   label_professional_support: Profesionálna podpora
   label_profile: Profil
@@ -2310,10 +2312,6 @@ sk:
     adresu pre všetky požiadavky
   setting_login_required: Vyžaduje sa overenie
   setting_mail_from: Odosielať emaily z adresy
-  setting_mail_handler_api_enabled: Povoliť webovú službu prichádzajúcich e-mailov
-  setting_mail_handler_api_description: Webová služba elektronickej pošty umožňuje
-    aplikácii OpenProject prijímať a reagovať na e-maily so špeciálnymi pokynmi (napríklad
-    na vytváranie a aktualizáciu pracovných balíčkov).
   setting_mail_handler_api_key: API kľúč
   setting_mail_handler_body_delimiters: Skráťte emaily po jednom z týchto riadkov
   setting_mail_handler_body_delimiter_regex: Skrátiť e-maily zodpovedajúce tomuto
@@ -3015,3 +3013,7 @@ sk:
     revoke_my_application_confirmation: Naozaj chcete odstrániť túto aplikáciu? Týmto
       sa zrušia aktívne tokeny %{token_count}.
     my_registered_applications: Registrované aplikácie OAuth
+  setting_mail_handler_api_enabled: Povoliť webovú službu prichádzajúcich e-mailov
+  setting_mail_handler_api_description: Webová služba elektronickej pošty umožňuje
+    aplikácii OpenProject prijímať a reagovať na e-maily so špeciálnymi pokynmi (napríklad
+    na vytváranie a aktualizáciu pracovných balíčkov).

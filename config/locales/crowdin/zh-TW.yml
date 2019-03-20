@@ -1288,6 +1288,7 @@ zh-TW:
   label_hierarchy_leaf: 頁面結構頁
   label_home: Home
   label_subject_or_id: 主旨或 id
+  label_impressum: Impressum
   label_in: 在
   label_in_less_than: 少於
   label_in_more_than: 多於
@@ -1421,6 +1422,7 @@ zh-TW:
   label_previous_week: 前一週
   label_principal_invite_via_email: 或者透過郵件邀請新的使用者
   label_principal_search: 增加現有使用者或群組
+  label_privacy_policy: Data privacy and security policy
   label_product_version: 產品版本
   label_professional_support: 專業支援
   label_profile: Profile
@@ -2070,8 +2072,6 @@ zh-TW:
   setting_log_requesting_user: 對所有的請求紀錄使用者登入名稱和郵件地址
   setting_login_required: 需要身份驗證
   setting_mail_from: 發出的電子郵件地址
-  setting_mail_handler_api_enabled: 啟用寄入電子郵件網路服務
-  setting_mail_handler_api_description: 電子郵件網路接收使 OpenProject 可以接收包含特殊命令作為編輯機制的電子郵件(例如：建立或更新工作項目)。
   setting_mail_handler_api_key: API 金鑰
   setting_mail_handler_body_delimiters: 在這些行之後截斷電子郵件
   setting_mail_handler_body_delimiter_regex: 清空符合正規表達式的電子郵件
@@ -2666,3 +2666,5 @@ zh-TW:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: 啟用寄入電子郵件網路服務
+  setting_mail_handler_api_description: 電子郵件網路接收使 OpenProject 可以接收包含特殊命令作為編輯機制的電子郵件(例如：建立或更新工作項目)。
