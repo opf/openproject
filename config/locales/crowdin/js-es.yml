@@ -365,15 +365,19 @@ es:
         wiki: En la <b>Wiki</b>, puede elaborar documentos y compartir conocimientos
           con su equipo.
         backlogs:
-          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
-            you have the Product Backlog or a Bug Backlog, on the left you will have
-            the respective sprints. Here you can create <b>epics, user stories, and
-            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
-          task_board_select: "... and select the <b>Task board</b> entry."
-          task_board: The <b>Task board</b> visualizes the progress for this sprint.
-            Add new tasks or impediments with the + icon next to a user story. Via
-            drag'n'drop you can update the status.
+          overview: Administre su trabajo en la vista <b>Trabajos pendientes</b> (Backlogs).
+            <br> En la parte derecha, se muestran los trabajos pendientes de productos
+            o los trabajos pendientes de errores de código, mientras que en la parte
+            izquierda se mostrarán los sprints correspondientes. Aquí puede crear
+            <b>epopeyas, historias de usuario y errores de código</b>, asignar prioridades
+            mediante funciones de arrastrar y colocar, y agregar elementos a un sprint.
+          task_board_arrow: Para ver el <b>Panel de tareas</b>, abra el menú desplegable
+            Sprint…
+          task_board_select: "… y seleccione la entrada <b>Panel de tareas</b>."
+          task_board: En el <b>Panel de tareas</b>, se muestra el progreso de este
+            sprint. Agregue nuevas tareas o impedimentos con el icono de + junto a
+            una historia de usuario. Mediante funciones de arrastrar y colocar, puede
+            actualizar el estado.
         boards:
           overview: Manage your work within an intuitive <b>Boards</b> view.
           lists: You can create multiple lists (columns) within one Board view, e.g.
@@ -382,55 +386,24 @@ es:
           drag: Drag & Drop your cards within a list to re-order, or the another list.
             A double click will open the details view.
         wp:
-          toggler: Now let's have a look at the <b>Work package</b> section, which
-            gives you a more detailed view of your work.
-          list: This is the <b>Work package</b> list with the important work within
-            your project, such as tasks, features, milestones, bugs, and more. <br>
-            You can create or edit a work package directly within this list. To see
-            its details you can double click on a row.
-          full_view: Within the <b>Work package details</b> you find all relevant
-            information, such as description, status and priority, activities, dependencies
-            or comments.
-          back_button: With the arrow you can navigate back to the work package list.
-          create_button: The <b>Create</b> button will add a new work package to your
-            project.
-          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-            for your project.
-          timeline: Here you can edit your project plan. Create new phases, milestones,
-            and add dependencies. All team members can see and update the latest plan
-            at any time.
-        backlogs_overview: Administre su trabajo en la vista <b>Trabajos pendientes</b>
-          (Backlogs). <br> En la parte derecha, se muestran los trabajos pendientes
-          de productos o los trabajos pendientes de errores de código, mientras que
-          en la parte izquierda se mostrarán los sprints correspondientes. Aquí puede
-          crear <b>epopeyas, historias de usuario y errores de código</b>, asignar
-          prioridades mediante funciones de arrastrar y colocar, y agregar elementos
-          a un sprint.
-        backlogs_task_board_arrow: Para ver el <b>Panel de tareas</b>, abra el menú
-          desplegable Sprint…
-        backlogs_task_board_select: "… y seleccione la entrada <b>Panel de tareas</b>."
-        backlogs_task_board: En el <b>Panel de tareas</b>, se muestra el progreso
-          de este sprint. Agregue nuevas tareas o impedimentos con el icono de + junto
-          a una historia de usuario. Mediante funciones de arrastrar y colocar, puede
-          actualizar el estado.
-        wp_toggler: Ahora, veamos la sección <b>Paquete de trabajo</b>, que ofrece
-          una vista más detallada de su trabajo.
-        wp_list: Esta es la lista <b>Paquete de trabajo</b>, donde se muestra una
-          lista del trabajo importante en el proyecto, como tareas, características,
-          hitos, errores de código y más. <br> Puede crear o editar un paquete de
-          trabajo directamente con esta lista. Para ver los detalles, haga doble clic
-          en una fila.
-        wp_full_view: En los <b>Detalles del paquete de trabajo</b>, se muestra toda
-          la información relevante, como la descripción, el estado y la prioridad,
-          actividades, dependencias o comentarios.
-        wp_back_button: Con la flecha, puede volver a la lista de paquetes de trabajo.
-        wp_create_button: Use el botón <b>Crear</b> para agregar un nuevo paquete
-          de trabajo al proyecto.
-        wp_timeline_button: Puede activar el <b>diagrama de Gantt</b> para crear una
-          línea de tiempo del proyecto.
-        wp_timeline: Aquí puede editar el plan del proyecto. Cree nuevas fases e hitos,
-          y agregue dependencias. Todos los miembros del equipo pueden ver y actualizar
-          el último plan en cualquier momento.
+          toggler: Ahora, veamos la sección <b>Paquete de trabajo</b>, que ofrece
+            una vista más detallada de su trabajo.
+          list: Esta es la lista <b>Paquete de trabajo</b>, donde se muestra una lista
+            del trabajo importante en el proyecto, como tareas, características, hitos,
+            errores de código y más. <br> Puede crear o editar un paquete de trabajo
+            directamente con esta lista. Para ver los detalles, haga doble clic en
+            una fila.
+          full_view: En los <b>Detalles del paquete de trabajo</b>, se muestra toda
+            la información relevante, como la descripción, el estado y la prioridad,
+            actividades, dependencias o comentarios.
+          back_button: Con la flecha, puede volver a la lista de paquetes de trabajo.
+          create_button: Use el botón <b>Crear</b> para agregar un nuevo paquete de
+            trabajo al proyecto.
+          timeline_button: Puede activar el <b>diagrama de Gantt</b> para crear una
+            línea de tiempo del proyecto.
+          timeline: Aquí puede editar el plan del proyecto. Cree nuevas fases e hitos,
+            y agregue dependencias. Todos los miembros del equipo pueden ver y actualizar
+            el último plan en cualquier momento.
     password_confirmation:
       field_description: Necesitas introducir la contraseña de tu cuenta para confirmar
         este cambio.

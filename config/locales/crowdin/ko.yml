@@ -2779,6 +2779,3 @@ ko:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  setting_mail_handler_api_enabled: 들어오는 이메일 웹 서비스 사용
-  setting_mail_handler_api_description: '이메일 웹 처리기는 OpenProject가 계측 메커니즘으로 특정 명령을
-    포함하는 이메일을 받을 수 있게 합니다(예: 작업 패키지를 만들고 업데이트하기 위해).'

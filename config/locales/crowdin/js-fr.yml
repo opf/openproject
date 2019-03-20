@@ -368,15 +368,19 @@ fr:
         wiki: Dans le <b>Wiki</b> vous pouvez documenter et partager vos connaissances
           avec votre équipe.
         backlogs:
-          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
-            you have the Product Backlog or a Bug Backlog, on the left you will have
-            the respective sprints. Here you can create <b>epics, user stories, and
-            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
-          task_board_select: "... and select the <b>Task board</b> entry."
-          task_board: The <b>Task board</b> visualizes the progress for this sprint.
-            Add new tasks or impediments with the + icon next to a user story. Via
-            drag'n'drop you can update the status.
+          overview: Gérez votre travail dans la vue <b>Backlogs</b>.<br> Le Backlog
+            de produit ou de bug se trouve sur la droite, les sprints respectifs se
+            trouvent sur la gauche. Ici, vous pouvez créer <b>des récits utilisateurs
+            épiques et des bugs</b>, les prioriser via un glisser/déposer et les ajouter
+            à un sprint.
+          task_board_arrow: Pour voir votre <b>Tableau de bord des Tâches</b>, ouvrez
+            le menu déroulant Sprint...
+          task_board_select: "... et sélectionnez l'entrée <b>Tableau de bord des
+            Tâches</b>."
+          task_board: Le <b>Tableau de bord des Tâches</b> visualise l’état d’avancement
+            pour ce sprint. Ajouter de nouvelles tâches ou obstacles avec l’icône
+            + à côté d’un récit utilisateur. Vous pouvez mettre à jour l’état via
+            un glisser/déposer.
         boards:
           overview: Manage your work within an intuitive <b>Boards</b> view.
           lists: You can create multiple lists (columns) within one Board view, e.g.
@@ -385,55 +389,25 @@ fr:
           drag: Drag & Drop your cards within a list to re-order, or the another list.
             A double click will open the details view.
         wp:
-          toggler: Now let's have a look at the <b>Work package</b> section, which
-            gives you a more detailed view of your work.
-          list: This is the <b>Work package</b> list with the important work within
-            your project, such as tasks, features, milestones, bugs, and more. <br>
-            You can create or edit a work package directly within this list. To see
-            its details you can double click on a row.
-          full_view: Within the <b>Work package details</b> you find all relevant
-            information, such as description, status and priority, activities, dependencies
-            or comments.
-          back_button: With the arrow you can navigate back to the work package list.
-          create_button: The <b>Create</b> button will add a new work package to your
-            project.
-          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-            for your project.
-          timeline: Here you can edit your project plan. Create new phases, milestones,
-            and add dependencies. All team members can see and update the latest plan
-            at any time.
-        backlogs_overview: Gérez votre travail dans la vue <b>Backlogs</b>.<br> Le
-          Backlog de produit ou de bug se trouve sur la droite, les sprints respectifs
-          se trouvent sur la gauche. Ici, vous pouvez créer <b>des récits utilisateurs
-          épiques et des bugs</b>, les prioriser via un glisser/déposer et les ajouter
-          à un sprint.
-        backlogs_task_board_arrow: Pour voir votre <b>Tableau de bord des Tâches</b>,
-          ouvrez le menu déroulant Sprint...
-        backlogs_task_board_select: "... et sélectionnez l'entrée <b>Tableau de bord
-          des Tâches</b>."
-        backlogs_task_board: Le <b>Tableau de bord des Tâches</b> visualise l’état
-          d’avancement pour ce sprint. Ajouter de nouvelles tâches ou obstacles avec
-          l’icône + à côté d’un récit utilisateur. Vous pouvez mettre à jour l’état
-          via un glisser/déposer.
-        wp_toggler: Maintenant, jetons un coup d'oeil à la section <b>Paquet de Travail</b>,
-          qui vous donne une vue plus détaillée de votre travail.
-        wp_list: Il s'agit de la liste <b>Paquet de Travail</b> comprenant le travail
-          important dans votre projet, tels que les tâches, les fonctionnalités, les
-          jalons, les bogues, et plus encore. <br> vous pouvez créer ou modifier un
-          paquet de travail directement dans cette liste. Pour voir ses détails, vous
-          pouvez double-cliquer sur une rangée.
-        wp_full_view: Dans les <b>détails du Paquet de Travail</b> vous trouverez
-          toutes les informations pertinentes, telles que la description, l'état,
-          la priorité, les activités, les dépendances ou les commentaires.
-        wp_back_button: Avec la flèche, vous pouvez naviguer vers la liste de paquet
-          de travail.
-        wp_create_button: La touche <b>Créer</b> ajoutera un nouveau paquet de travail
-          à votre projet.
-        wp_timeline_button: Vous pouvez activer le <b>Diagramme de Gantt</b> pour
-          créer une chronologie pour votre projet.
-        wp_timeline: Ici, vous pouvez modifier votre plan de projet. Créer de nouvelles
-          phases, jalons et ajouter des dépendances. Tous les membres de l’équipe
-          peuvent voir et mettre à jour le dernier plan à tout moment.
+          toggler: Maintenant, jetons un coup d'oeil à la section <b>Paquet de Travail</b>,
+            qui vous donne une vue plus détaillée de votre travail.
+          list: Il s'agit de la liste <b>Paquet de Travail</b> comprenant le travail
+            important dans votre projet, tels que les tâches, les fonctionnalités,
+            les jalons, les bogues, et plus encore. <br> vous pouvez créer ou modifier
+            un paquet de travail directement dans cette liste. Pour voir ses détails,
+            vous pouvez double-cliquer sur une rangée.
+          full_view: Dans les <b>détails du Paquet de Travail</b> vous trouverez toutes
+            les informations pertinentes, telles que la description, l'état, la priorité,
+            les activités, les dépendances ou les commentaires.
+          back_button: Avec la flèche, vous pouvez naviguer vers la liste de paquet
+            de travail.
+          create_button: La touche <b>Créer</b> ajoutera un nouveau paquet de travail
+            à votre projet.
+          timeline_button: Vous pouvez activer le <b>Diagramme de Gantt</b> pour créer
+            une chronologie pour votre projet.
+          timeline: Ici, vous pouvez modifier votre plan de projet. Créer de nouvelles
+            phases, jalons et ajouter des dépendances. Tous les membres de l’équipe
+            peuvent voir et mettre à jour le dernier plan à tout moment.
     password_confirmation:
       field_description: Vous devez saisir le mot de passe de votre compte pour confirmer
         ce changement.
