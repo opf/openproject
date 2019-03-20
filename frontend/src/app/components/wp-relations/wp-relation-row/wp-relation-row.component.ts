@@ -72,11 +72,11 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
       {'name': this.relation.normalizedType(this.workPackage)})!;
 
     this.wpCacheService
-      .observe(this.relatedWorkPackage.id)
+      .observe(this.relatedWorkPackage.id!)
       .pipe(
         untilComponentDestroyed(this)
       ).subscribe((wp) => {
-        this.relatedWorkPackage = wp;
+      this.relatedWorkPackage = wp;
     });
   }
 
@@ -129,7 +129,10 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
         this.relation = savedRelation;
         this.relatedWorkPackage.relatedBy = savedRelation;
         this.userInputs.showDescriptionEditForm = false;
-        this.wpTableRefresh.request(`Updated relation ${this.relatedWorkPackage.id}`, true);
+        this.wpTableRefresh.request(
+          `Updated relation ${this.relatedWorkPackage.id}`,
+          {visible: true}
+        );
         this.wpNotificationsService.showSave(this.relatedWorkPackage);
       });
   }
@@ -171,7 +174,10 @@ export class WorkPackageRelationRowComponent implements OnInit, OnDestroy {
   public removeRelation() {
     this.wpRelations.removeRelation(this.relation)
       .then(() => {
-        this.wpTableRefresh.request(`Removed relation ${this.relatedWorkPackage.id}`, true);
+        this.wpTableRefresh.request(
+          `Removed relation ${this.relatedWorkPackage.id}`,
+          { visible: true }
+        );
         this.wpCacheService.updateWorkPackage(this.relatedWorkPackage);
         this.wpNotificationsService.showSave(this.relatedWorkPackage);
       })

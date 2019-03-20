@@ -32,6 +32,7 @@ require 'open_project/static/links'
 module Redmine::MenuManager::TopMenu::HelpMenu
   def render_help_top_menu_node(item = help_menu_item)
     cache_key = OpenProject::Cache::CacheKey.key('help_top_menu_node',
+                                                 OpenProject::Static::Links.links,
                                                  I18n.locale,
                                                  OpenProject::Static::Links.help_link)
     Rails.cache.fetch(cache_key) do
@@ -105,7 +106,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
               class: 'help-link-shortcuts-link',
               title: l('homescreen.links.shortcuts')
     }
-    result << static_link_item(:boards)
+    result << static_link_item(:forums)
     result << static_link_item(:professional_support)
     result << content_tag(:hr, '', class: 'form--separator')
   end
@@ -117,6 +118,12 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                   class: 'drop-down--help-headline',
                   title: l('top_menu.additional_resources')
     end
+
+    if OpenProject::Static::Links.has? :impressum
+      result << static_link_item(:impressum)
+    end
+
+    result << static_link_item(:data_privacy)
     result << static_link_item(
       :website,
       href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=website-help-menu"

@@ -31,6 +31,7 @@ require_relative './board_page'
 
 module Pages
   class Board < Page
+    include ::Components::NgSelectAutocompleteHelpers
 
     def initialize(board)
       @board = board
@@ -44,8 +45,16 @@ module Pages
       @board
     end
 
-    def card_view?
-      board.options['display_mode'] == 'cards'
+    def free?
+      @board.options['type'] == 'free'
+    end
+
+    def action?
+      !(free? || action_attribute.nil?)
+    end
+
+    def action_attribute
+      @board.options['attribute']
     end
 
     def list_count
@@ -61,26 +70,59 @@ module Pages
     end
 
     def add_card(list_name, card_title)
-      within_list(list_name) do
-        page.find('.wp-inline-create--add-link').click
-        subject = page.find('#wp-new-inline-edit--field-subject')
-        subject.set card_title
-        subject.send_keys :enter
+      if action?
+        within_list(list_name) do
+          page.find('.board-list--card-add-button').click
+        end
+      else
+        within_list(list_name) do
+          page.find('.board-list--card-dropdown-button').click
+        end
+
+        # Add item in dropdown
+        page.find('.menu-item', text: 'Add new card').click
       end
 
+      subject = page.find('#wp-new-inline-edit--field-subject')
+      subject.set card_title
+      subject.send_keys :enter
+
       expect_card(list_name, card_title)
+    end
+
+    def remove_card(list_name, card_title, index)
+      source = page.all("#{list_selector(list_name)} .wp-card")[index]
+      source.hover
+      source.find('.wp-card--inline-cancel-button').click
+
+      expect_card(list_name, card_title, present: false)
+    end
+
+    def reference(list_name, work_package)
+      within_list(list_name) do
+        page.find('.board-list--card-dropdown-button').click
+      end
+
+      page.find('.menu-item', text: 'Add existing').click
+
+      select_autocomplete(page.find('.wp-inline-create--reference-autocompleter'),
+                          query: work_package.subject,
+                          results_selector: '.board--container',
+                          select_text: "##{work_package.id}")
+
+      expect_card(list_name, work_package.subject)
     end
 
     ##
     # Expect the given titled card in the list name to be present (expect=true) or not (expect=false)
     def expect_card(list_name, card_title, present: true)
       within_list(list_name) do
-        expect(page).to have_conditional_selector(present, '.work-package--card--subject', text: card_title)
+        expect(page).to have_conditional_selector(present, '.wp-card--subject', text: card_title)
       end
     end
 
     def move_card(index, from:, to:)
-      source = page.all("#{list_selector(from)} .work-package--card")[index]
+      source = page.all("#{list_selector(from)} .wp-card")[index]
       target = page.find list_selector(to)
 
       scroll_to_element(source)
@@ -102,19 +144,35 @@ module Pages
         .perform
     end
 
-    def add_list(name)
+    def add_list(name, value: nil)
+      if value.nil? && action?
+        raise "Must pass value option for action boards"
+      end
+
       count = list_count
       page.find('.boards-list--add-item').click
-      expect(page).to have_selector('.board-list--container', count: count + 1)
 
-      rename_list 'New list', name
+      if value.nil?
+        expect(page).to have_selector('.board-list--container', count: count + 1)
+      else
+        select value, from: 'new_board_action_select'
+        click_on 'Continue'
+      end
+
+      unless name.nil?
+        rename_list 'Unnamed list', name
+      end
+    end
+
+    def expect_list(name)
+      expect(page).to have_field('editable-toolbar-title', with: name)
     end
 
     def remove_list(name)
-      list = page.find list_selector(name)
-      list.hover
+      within_list(name) do
+        page.find('.board-list--delete-icon a').click
+      end
 
-      page.find('.board-list--delete-icon a').click
       accept_alert_dialog!
       expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
 
@@ -150,11 +208,8 @@ module Pages
       # Add new list
       expect(page).to have_conditional_selector(editable, '.boards-list--add-item')
 
-      if editable
-        expect(page).to have_selector('.wp-inline-create--add-link', count: list_count)
-      else
-        expect(page).to have_no_selector('.wp-inline-create--add-link')
-      end
+      # Add new / existing card
+      expect(page).to have_conditional_selector(editable, '.board-list--card-dropdown-button')
     end
 
     def rename_board(new_name, through_dropdown: false)
@@ -199,6 +254,18 @@ module Pages
       else
         expect(page).to have_selector('.editable-toolbar-title--fixed', text: name)
       end
+    end
+
+    def change_board_highlighting(mode, attribute = nil)
+      click_dropdown_entry 'Configure view'
+
+      if attribute.nil?
+        choose(option: mode)
+      else
+        select attribute, from: 'selected_attribute'
+      end
+
+      click_button 'Apply'
     end
   end
 end

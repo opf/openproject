@@ -33,8 +33,8 @@ describe 'Toggle watching', type: :feature, js: true do
   let(:role) { FactoryBot.create(:role, permissions: [:view_messages, :view_wiki_pages]) }
   let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
   let(:news) { FactoryBot.create(:news, project: project) }
-  let(:board) { FactoryBot.create(:board, project: project) }
-  let(:message) { FactoryBot.create(:message, board: board) }
+  let(:forum) { FactoryBot.create(:forum, project: project) }
+  let(:message) { FactoryBot.create(:message, forum: forum) }
   let(:wiki) { project.wiki }
   let(:wiki_page) { FactoryBot.create(:wiki_page_with_content, wiki: wiki) }
 
@@ -45,7 +45,7 @@ describe 'Toggle watching', type: :feature, js: true do
   it 'can toggle watch and unwatch' do
     # Work packages have a different toggle and are hence not considered here
     [news_path(news),
-     project_board_path(project, board),
+     project_forum_path(project, forum),
      topic_path(message),
      project_wiki_path(project, wiki_page)].each do |path|
        visit path

@@ -66,7 +66,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
    * @return {WorkPackageChangeset} changeset or null if the associated work package id does not exist
    */
   public changesetFor(oldReference:WorkPackageResource):WorkPackageChangeset {
-    const wpId = oldReference.id;
+    const wpId = oldReference.id!;
     const workPackage = this.wpCacheService.state(wpId).getValueOr(oldReference);
     const state = this.multiState.get(wpId);
 

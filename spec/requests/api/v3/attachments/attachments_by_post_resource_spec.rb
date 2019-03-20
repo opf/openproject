@@ -42,8 +42,8 @@ describe 'API v3 Attachments by post resource', type: :request do
   let(:project) { FactoryBot.create(:project) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_messages] }
-  let(:board) { FactoryBot.create(:board, project: project) }
-  let(:board_message) { FactoryBot.create(:message, board: board) }
+  let(:forum) { FactoryBot.create(:forum, project: project) }
+  let(:forum_message) { FactoryBot.create(:message, forum: forum) }
 
   subject(:response) { last_response }
 
@@ -52,10 +52,10 @@ describe 'API v3 Attachments by post resource', type: :request do
   end
 
   describe '#get' do
-    let(:get_path) { api_v3_paths.attachments_by_post board_message.id }
+    let(:get_path) { api_v3_paths.attachments_by_post forum_message.id }
 
     before do
-      FactoryBot.create_list(:attachment, 2, container: board_message)
+      FactoryBot.create_list(:attachment, 2, container: forum_message)
       get get_path
     end
 
@@ -69,7 +69,7 @@ describe 'API v3 Attachments by post resource', type: :request do
   describe '#post' do
     let(:permissions) { %i[view_messages edit_messages] }
 
-    let(:request_path) { api_v3_paths.attachments_by_post board_message.id }
+    let(:request_path) { api_v3_paths.attachments_by_post forum_message.id }
     let(:request_parts) { { metadata: metadata, file: file } }
     let(:metadata) { { fileName: 'cat.png' }.to_json }
     let(:file) { mock_uploaded_file(name: 'original-filename.txt') }

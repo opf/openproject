@@ -67,16 +67,16 @@ class PermittedParams
     params.require(:auth_source).permit(*self.class.permitted_attributes[:auth_source])
   end
 
-  def board
-    params.require(:board).permit(*self.class.permitted_attributes[:board])
+  def forum
+    params.require(:forum).permit(*self.class.permitted_attributes[:forum])
   end
 
-  def board?
-    params[:board] ? board : nil
+  def forum?
+    params[:forum] ? forum : nil
   end
 
-  def board_move
-    params.require(:board).permit(*self.class.permitted_attributes[:move_to])
+  def forum_move
+    params.require(:forum).permit(*self.class.permitted_attributes[:move_to])
   end
 
   def color
@@ -354,9 +354,9 @@ class PermittedParams
   # all the time.
   def message(instance = nil)
     if instance && current_user.allowed_to?(:edit_messages, instance.project)
-      params.fetch(:message, {}).permit(:subject, :content, :board_id, :locked, :sticky)
+      params.fetch(:message, {}).permit(:subject, :content, :forum_id, :locked, :sticky)
     else
-      params.fetch(:message, {}).permit(:subject, :content, :board_id)
+      params.fetch(:message, {}).permit(:subject, :content, :forum_id)
     end
   end
 
@@ -463,7 +463,7 @@ class PermittedParams
           attr_mail
           attr_admin
         ),
-        board: %i(
+        forum: %i(
           name
           description
         ),

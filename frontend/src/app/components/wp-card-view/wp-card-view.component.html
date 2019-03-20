@@ -1,51 +1,64 @@
 <div #container
-     class="work-package--cards-container -small-font">
-  <div class="work-package--card"
+     class="wp-cards-container -small-font">
+  <div *ngIf="inReference"
+       class="wp-inline-create--reference-container">
+    <ndc-dynamic [ndcDynamicComponent]="referenceClass"
+                 [ndcDynamicInjector]="injector"
+                 [ndcDynamicOutputs]="referenceOutputs">
+    </ndc-dynamic>
+  </div>
+
+  <div class="wp-card"
        *ngFor="let wp of workPackages; trackBy:trackByHref"
        [attr.data-is-new]="wp.isNew || undefined"
        [attr.data-work-package-id]="wp.id"
-       [ngClass]="{ '-draggable': isDraggable }"
-       (dblclick)="handleDblClick(wp)">
+       (dblclick)="handleDblClick(wp)"
+       [ngClass]="{'-draggable': dragAndDropEnabled }">
 
+    <div class="wp-card--highlighting"
+        [ngClass]="cardHighlightingClass(wp)">
+    </div>
+
+    <a class="wp-card--inline-cancel-button -no-decoration"
+       *ngIf="wp.isNew || cardsRemovable"
+       [ngClass]="{ '-show': wp.isNew }"
+       [title]="text.removeCard"
+       (accessibleClick)="removeCard(wp)">
+      <op-icon icon-classes="icon icon-close"></op-icon>
+    </a>
     <wp-edit-field-group [workPackage]="wp" [inEditMode]="wp.isNew">
-      <accessible-by-keyboard *ngIf="wp.isNew"
-                              class="work-package-card--inline-cancel-wrapper"
-                              linkClass="work-package-card--inline-cancel-button icon icon-close"
-                              (execute)="removeNewCard(wp)">
-      </accessible-by-keyboard>
-
-      <wp-edit-field [workPackageId]="wp.id"
-                     fieldName="subject"
-                     class="work-package--card--subject -bold">
-      </wp-edit-field>
-
-      <div class="work-package--card--author -italic"
-           [hidden]="wp.isNew"
-           [textContent]="text.wpAddedBy(wp)">
+      <div class="work-packages--subject-type-row -new"
+           *ngIf="wp.isNew">
+        <wp-edit-field [workPackageId]="wp.id"
+                       [wrapperClasses]="'work-packages--type-selector'"
+                       [fieldName]="'type'"
+                       class="wp-card--type">
+        </wp-edit-field>
+        <wp-edit-field [workPackageId]="wp.id"
+                       fieldName="subject"
+                       class="wp-card--subject -bold">
+        </wp-edit-field>
       </div>
 
-      <div class="work-package--card--additional-info-container">
-        <div *ngFor="let column of availableColumns"
-             class="work-package--card--additional-info">
-            <span [textContent]="column.name + ':'"
-                  class="work-package--card--additional-info-attribute"></span>
-            <wp-edit-field [workPackageId]="wp.id"
-                           [fieldName]="column.id">
-            </wp-edit-field>
-        </div>
+      <div class="work-packages--subject-type-row"
+           *ngIf="!wp.isNew">
+        <span [textContent]="wpTypeAttribute(wp)"
+              class="wp-card--type"
+              [ngClass]="typeHighlightingClass(wp)"></span>
+        <span [textContent]="wpSubject(wp)"
+              class="wp-card--subject -bold"></span>
+      </div>
+
+      <div class="wp-card--author -italic"
+           [hidden]="wp.isNew"
+           [textContent]="text.wpAddedBy(wp)">
       </div>
     </wp-edit-field-group>
     <user-avatar *ngIf="hasAssignee(wp)"
                  [attr.data-user]="wp.assignee.$href"
                  data-class-list="avatar-mini"
-                 class="work-package--card--assignee">
+                 class="wp-card--assignee">
     </user-avatar>
   </div>
 </div>
-<div class="wp-inline-create-button" *ngIf="!activeInlineCreateWp && canAdd">
-  <accessible-by-keyboard linkClass="wp-inline-create--add-link -no-text-select"
-                          (execute)="addNewCard()">
-    <op-icon icon-classes="icon3 icon-add"></op-icon>
-    {{ text.addNewCard }}
-  </accessible-by-keyboard>
-</div>
+

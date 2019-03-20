@@ -36,7 +36,6 @@ end
 describe 'seeds' do
   let(:edition) { 'standard' }
   let(:perform_deliveries) { ActionMailer::Base.perform_deliveries }
-  let(:num_queries) { defined?(OpenProject::Backlogs) ? 8 : 6 }
 
   before do
     allow(OpenProject::Configuration).to receive(:[]).and_call_original
@@ -46,20 +45,21 @@ describe 'seeds' do
 
     # Avoid asynchronous DeliverWorkPackageCreatedJob
     Delayed::Worker.delay_jobs = false
-
-    expect { BasicDataSeeder.new.seed! }.not_to raise_error
-    expect { AdminUserSeeder.new.seed! }.not_to raise_error
-    expect { DemoDataSeeder.new.seed! }.not_to raise_error
   end
 
   context 'standard edition' do
     it 'create the demo data' do
+      expect { StandardSeeder::BasicDataSeeder.new.seed! }.not_to raise_error
+      expect { AdminUserSeeder.new.seed! }.not_to raise_error
+      expect { DemoDataSeeder.new.seed! }.not_to raise_error
+
       begin
         expect(User.where(admin: true).count).to eq 1
         expect(Project.count).to eq 2
         expect(WorkPackage.count).to eq 41
         expect(Wiki.count).to eq 2
-        expect(Query.count).to eq num_queries
+        expect(Query.where.not(hidden: true).count).to eq 8
+        expect(Query.count).to eq 12
       ensure
         ActionMailer::Base.perform_deliveries = perform_deliveries
       end
@@ -70,6 +70,10 @@ describe 'seeds' do
     let(:edition) { 'bim' }
 
     it 'create the demo data' do
+      expect { BimSeeder::BasicDataSeeder.new.seed! }.not_to raise_error
+      expect { AdminUserSeeder.new.seed! }.not_to raise_error
+      expect { DemoDataSeeder.new.seed! }.not_to raise_error
+
       begin
         expect(User.where(admin: true).count).to eq 1
         expect(Project.count).to eq 1

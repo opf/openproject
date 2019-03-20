@@ -102,6 +102,9 @@ en:
                   - type
                   - status
                   - assigned_to
+            boards:
+              kanban:
+                name: 'KANBAN Board'
             work_packages:
               - subject: Project kick-off
                 description: Plan and execute the project kick-off.

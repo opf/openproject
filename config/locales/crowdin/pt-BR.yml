@@ -58,24 +58,24 @@ pt-BR:
       no_results_content_title: Atualmente, não existem modos de autenticação.
       no_results_content_text: Criar um novo modo de autenticação
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Criptografia de Conexão
     tls_mode:
       plain: nenhum
-      simple_tls: simple_tls
+      simple_tls: simples_tls
       start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      plain_description: Conexão não criptografada, nenhuma negociação TLS.
+      simple_tls_description: Criptografia TLS Implicita, mas sem validação de certificado.
+        Use com cautela e confiança implícita da conexão LDAP.
+      start_tls_description: Criptografia TLS explícita com validação completa. Usar
+        para LDAP sobre SSL/TLS.
+      section_more_info_link_html: 'Esta seção diz respeito à segurança de conexão
+        desta fonte de autenticação LDAP. Para mais informações, visite <a href="%{link}">a
+        documentação Net::LDAP</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Atualmente, não há mensagens para o quadro.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Atualmente, não existem cores.
@@ -156,9 +156,9 @@ pt-BR:
     settings:
       activities:
         no_results_title_text: Atualmente, não há atividades disponíveis.
-      boards:
-        no_results_title_text: Atualmente, não existem painéis para o projeto.
-        no_results_content_text: Criar um novo painel
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Atualmente, não há categorias de pacote de trabalho.
         no_results_content_text: Criar uma nova categoria de pacote de trabalho
@@ -385,9 +385,9 @@ pt-BR:
         encoded_token: Token de suporte Enterprise
         active_user_count_restriction: Máximo de usuários ativos
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
+        page: Página
+        row_count: Número de linhas
+        column_count: Número de colunas
         widgets: Widgets
       relation:
         delay: Atraso
@@ -555,9 +555,9 @@ pt-BR:
         enterprise_token:
           unreadable: não pode ser lido. Tem certeza que é um token de suporte?
         grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          overlaps: sobreposição.
+          outside: está fora da grade.
+          end_before_start: o valor final precisa ser maior que o valor inicial.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -670,7 +670,7 @@ pt-BR:
     models:
       attachment: Arquivo
       attribute_help_text: Texto de ajuda do atributo
-      board: Fórum
+      forum: Fórum
       comment: Comentário
       custom_action: Ação personalizada
       custom_field: Campo personalizado
@@ -1174,9 +1174,8 @@ pt-BR:
       faq: Perguntas Freqüentes
       glossary: Glossário
       shortcuts: Atalhos
-      forums: Fóruns
       blog: Blog do OpenProject
-      boards: Fórum da Comunidade
+      forums: Fórum da Comunidade
       newsletter: Alertas de segurança / Newsletter
   links:
     configuration_guide: Guia de configuração
@@ -1243,7 +1242,7 @@ pt-BR:
   label_available_project_work_package_categories: Categorias de pacote de trabalho
     disponíveis
   label_available_project_work_package_types: Tipos de pacote de trabalho disponíveis
-  label_available_project_boards: Painéis disponíveis
+  label_available_project_forums: Available forums
   label_available_project_versions: Versões disponíveis
   label_available_project_repositories: Repositórios disponíveis
   label_api_documentation: Documentação da API
@@ -1251,14 +1250,15 @@ pt-BR:
   label_blocked_by: bloqueado por
   label_blocks: bloqueios
   label_blog: Blog
-  label_board_locked: Bloqueado
-  label_board_new: Novo fórum
-  label_board_plural: Fóruns
-  label_board_sticky: Afixado
+  label_forums_locked: Bloqueado
+  label_forum_new: Novo fórum
+  label_forum_plural: Fóruns
+  label_forum_sticky: Afixado
   label_boolean: Lógico
   label_branch: Ramo
   label_browse: Navegador
   label_bulk_edit_selected_work_packages: Editar em lote os pacotes de trabalho selecionados
+  label_bundled: "(Bundled)"
   label_calendar: Calendário
   label_calendar_show: Mostrar Calendário
   label_category: Categoria
@@ -1395,6 +1395,7 @@ pt-BR:
   label_hierarchy_leaf: Folha de hierarquia
   label_home: Início
   label_subject_or_id: Assunto ou ID
+  label_impressum: Impressum
   label_in: em
   label_in_less_than: em menos de
   label_in_more_than: em mais de
@@ -1520,6 +1521,7 @@ pt-BR:
   label_planning: Planejamento
   label_please_login: Por favor, efetue o login
   label_plugins: Plugins
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precede
   label_preferences: Preferências
   label_preview: Pré-visualizar
@@ -1527,6 +1529,7 @@ pt-BR:
   label_previous_week: Semana anterior
   label_principal_invite_via_email: " ou convidar novos usuários via e-mail"
   label_principal_search: Adicionar usuários existentes ou grupos
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Versão do produto
   label_professional_support: Suporte profissional
   label_profile: Perfil
@@ -1851,8 +1854,8 @@ pt-BR:
   notice_account_update_failed: Configuração da conta não pode ser salva. Por favor,
     verifique na página de sua conta.
   notice_account_updated: Conta foi atualizada com sucesso.
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: Todas as outras sessões vinculadas à sua conta
+    foram invalidadas.
   notice_account_wrong_password: Senha incorreta
   notice_account_registered_and_logged_in: Bem-vindo, sua conta foi ativada. Agora
     você está conectado.
@@ -1983,7 +1986,7 @@ pt-BR:
   permission_export_wiki_pages: Exportar páginas wiki
   permission_list_attachments: Lista de anexos
   permission_log_time: Registrar o tempo gasto
-  permission_manage_boards: Gerenciar fóruns
+  permission_manage_forums: Gerenciar fóruns
   permission_manage_categories: Gerenciar categorias de pacote de trabalho
   permission_manage_work_package_relations: Gerenciar relações de pacote de trabalho
   permission_manage_members: Gerenciar membros
@@ -2030,7 +2033,7 @@ pt-BR:
     archive:
       are_you_sure: Tem certeza de que deseja arquivar o projeto '%{name}'?
   project_module_activity: Atividade
-  project_module_boards: Fóruns
+  project_module_forums: Fóruns
   project_module_calendar: Calendário
   project_module_work_package_tracking: Controle de pacote de trabalho
   project_module_news: Notícias
@@ -2260,10 +2263,6 @@ pt-BR:
     para todas as solicitações
   setting_login_required: Autenticação Requerida
   setting_mail_from: Endereço de e-mail de saída
-  setting_mail_handler_api_enabled: Habilitar serviço web de entrada de e-mails
-  setting_mail_handler_api_description: 'O manipulador de e-mail permite ao OpenProject
-    receber e-mails contendo comandos específicos, como um mecanismo de instrumentação
-    (ex.: para criar e atualizar pacotes de trabalho).'
   setting_mail_handler_api_key: Chaves API
   setting_mail_handler_body_delimiters: Truncar e-mails depois de uma dessas linhas
   setting_mail_handler_body_delimiter_regex: Truncar e-mails correspondentes a esta
@@ -2527,7 +2526,6 @@ pt-BR:
       color: Cor
       colors: Cores
     associations: Dependências
-    board_could_not_be_saved: Painel não pôde ser salvo
     button_delete_all: Apagar tudo
     change: Mudar no planejamento
     children: Elementos filho
@@ -2968,3 +2966,7 @@ pt-BR:
     revoke_my_application_confirmation: Você quer realmente remover esta aplicação?
       Isso irá revogar %{token_count} ativo(s) para ele.
     my_registered_applications: Aplicações OAuth registradas
+  setting_mail_handler_api_enabled: Habilitar serviço web de entrada de e-mails
+  setting_mail_handler_api_description: 'O manipulador de e-mail permite ao OpenProject
+    receber e-mails contendo comandos específicos, como um mecanismo de instrumentação
+    (ex.: para criar e atualizar pacotes de trabalho).'

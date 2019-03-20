@@ -78,6 +78,10 @@ export class WorkPackageChangeset {
     this.buildResource();
   }
 
+  public isChanged(attribute:string) {
+    return this.changes[attribute];
+  }
+
   public clear() {
     this.changes = {};
     this.resetForm();
@@ -189,22 +193,23 @@ export class WorkPackageChangeset {
               // Ensure the schema is loaded before updating
               this.schemaCacheService.ensureLoaded(savedWp).then(() => {
 
+                // Clear any previous activities
+                this.wpActivity.clear(this.workPackage.id!);
+
                 // Initialize any potentially new HAL values
                 savedWp.retainFrom(this.workPackage);
                 this.workPackage = savedWp;
+                this.wpCacheService.updateWorkPackage(this.workPackage, true);
 
                 if (wasNew) {
                   this.workPackage.overriddenSchema = undefined;
                   this.wpCreate.newWorkPackageCreated(this.workPackage);
                 }
 
-                this.wpActivity.clear(this.workPackage.id);
-
                 // If there is a parent, its view has to be updated as well
                 if (this.workPackage.parent) {
                   this.wpCacheService.loadWorkPackage(this.workPackage.parent.id.toString(), true);
                 }
-                this.wpCacheService.updateWorkPackage(this.workPackage);
                 this.resource = null;
                 this.clear();
                 resolve(this.workPackage);
@@ -350,7 +355,7 @@ export class WorkPackageChangeset {
   private buildResource() {
     if (this.empty) {
       this.resource = null;
-      this.wpEditing.updateValue(this.workPackage.id, this);
+      this.wpEditing.updateValue(this.workPackage.id!, this);
       return;
     }
 
@@ -360,6 +365,6 @@ export class WorkPackageChangeset {
 
     resource.overriddenSchema = this.schema;
     this.resource = (resource as WorkPackageResource);
-    this.wpEditing.updateValue(this.workPackage.id, this);
+    this.wpEditing.updateValue(this.workPackage.id!, this);
   }
 }

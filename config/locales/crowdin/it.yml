@@ -59,7 +59,7 @@ it:
       no_results_content_title: Al momento non vi è alcuna modalità di autenticazione.
       no_results_content_text: Crea una nuova modalità di autenticazione
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Crittografia connessione
     tls_mode:
       plain: nessuno
       simple_tls: simple_tls
@@ -74,9 +74,9 @@ it:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Al momento non vi sono messaggi in bacheca.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Al momento non vi sono colori.
@@ -156,9 +156,9 @@ it:
     settings:
       activities:
         no_results_title_text: Al momento non vi sono attività disponibili.
-      boards:
-        no_results_title_text: Al momento non esistono bacheche per il progetto.
-        no_results_content_text: Creare una nuova bacheca
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Al momento non è definita nessuna categoria di macro-attività.
         no_results_content_text: Crea una nuova categoria di macro-attività
@@ -389,10 +389,10 @@ it:
         encoded_token: Token di assistenza Enterprise
         active_user_count_restriction: Numero massimo di utenti attivi
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
+        page: Pagina
+        row_count: Numero di righe
+        column_count: Numero di colonne
+        widgets: Widget
       relation:
         delay: Ritardo
         from: Macro-attività
@@ -563,8 +563,8 @@ it:
           unreadable: non può essere letto. Sei sicuro che si tratta di un token di
             assistenza?
         grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
+          overlaps: sovrapposizione.
+          outside: è fuori dalla griglia.
           end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
@@ -682,7 +682,7 @@ it:
     models:
       attachment: File
       attribute_help_text: Testo guida dell'attributo
-      board: Forum
+      forum: Forum
       comment: Commento
       custom_action: Azione personalizzata
       custom_field: Campo personalizzato
@@ -1192,9 +1192,8 @@ it:
       faq: FAQ
       glossary: Glossario
       shortcuts: Tasti di scelta rapida
-      forums: Forum
       blog: Blog di OpenProject
-      boards: Forum della Comunità
+      forums: Forum della Comunità
       newsletter: Avvisi di sicurezza / Notizie
   links:
     configuration_guide: Guida di configurazione
@@ -1261,7 +1260,7 @@ it:
   label_authentication: Autenticazione
   label_available_project_work_package_categories: Categorie di macro-attività disponibili
   label_available_project_work_package_types: Tipi di pacchetti di lavoro disponibili
-  label_available_project_boards: Comitati disponibili
+  label_available_project_forums: Available forums
   label_available_project_versions: Versioni disponibili
   label_available_project_repositories: Archivi disponibili
   label_api_documentation: Documentazione API
@@ -1269,15 +1268,16 @@ it:
   label_blocked_by: bloccato da
   label_blocks: blocca
   label_blog: Blog
-  label_board_locked: Chiuso
-  label_board_new: Nuovo forum
-  label_board_plural: Forum
-  label_board_sticky: In evidenza
+  label_forums_locked: Chiuso
+  label_forum_new: Nuovo forum
+  label_forum_plural: Forum
+  label_forum_sticky: In evidenza
   label_boolean: Booleano
   label_branch: Ramo
   label_browse: Naviga
   label_bulk_edit_selected_work_packages: Modifica in blocco le macro-attività (work
     package) selezionati
+  label_bundled: "(Bundled)"
   label_calendar: Calendario
   label_calendar_show: Mostra Calendario
   label_category: Categoria
@@ -1413,6 +1413,7 @@ it:
   label_hierarchy_leaf: Foglia della gerarchia
   label_home: Radice (home)
   label_subject_or_id: Oggetto o ID
+  label_impressum: Impressum
   label_in: in
   label_in_less_than: in meno di
   label_in_more_than: in più di
@@ -1538,6 +1539,7 @@ it:
   label_planning: Pianificazione
   label_please_login: Occorre effettuare l'accesso
   label_plugins: Plugin
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precede
   label_preferences: Preferenze
   label_preview: Anteprima
@@ -1545,6 +1547,7 @@ it:
   label_previous_week: Settimana precedente
   label_principal_invite_via_email: " o invita nuovi utenti via e-mail"
   label_principal_search: Aggiungi utenti o gruppi esistenti
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Versione del prodotto
   label_professional_support: Supporto professionale
   label_profile: Profilo
@@ -2009,7 +2012,7 @@ it:
   permission_export_wiki_pages: Esportare pagine wiki
   permission_list_attachments: Elencare allegati
   permission_log_time: Registrazioni dell'orario effettuato
-  permission_manage_boards: Gestire forum
+  permission_manage_forums: Gestire forum
   permission_manage_categories: Gestire le categorie delle macro-attività (work package)
   permission_manage_work_package_relations: Gestisci le correlazioni tra macro-attività
     (work package)
@@ -2059,7 +2062,7 @@ it:
     archive:
       are_you_sure: Sicuro di voler archiviare il progetto '%{name}'?
   project_module_activity: Attività
-  project_module_boards: Forum
+  project_module_forums: Forum
   project_module_calendar: Calendario
   project_module_work_package_tracking: Monitoraggio macro-attività (work-package)
   project_module_news: Notizie
@@ -2299,11 +2302,6 @@ it:
     mail per tutte le richieste
   setting_login_required: Autenticazione richiesta
   setting_mail_from: Indirizzo e-mail di emissione
-  setting_mail_handler_api_enabled: Abilitare il servizio web di posta elettronica
-    in arrivo
-  setting_mail_handler_api_description: Il gestore di posta elettronica web consente
-    ad OpenProject di ricevere e-mail contenenti comandi specifici come strumento
-    di automazione (ad esempio, per creare e aggiornare pacchetti di lavoro).
   setting_mail_handler_api_key: Chiave API
   setting_mail_handler_body_delimiters: Troncare le email dopo una di queste linee
   setting_mail_handler_body_delimiter_regex: Troncare le email che corrispondono a
@@ -2577,7 +2575,6 @@ it:
       color: Colore
       colors: Colori
     associations: Dipendenze
-    board_could_not_be_saved: Il quadro non può essere salvato
     button_delete_all: Cancella tutti
     change: Cambiare nella pianificazione
     children: Elementi discendenti
@@ -3022,3 +3019,8 @@ it:
     revoke_my_application_confirmation: Vuoi davvero rimuovere questa applicazione?
       Questo revocherà %{token_count} attivo per essa.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Abilitare il servizio web di posta elettronica
+    in arrivo
+  setting_mail_handler_api_description: Il gestore di posta elettronica web consente
+    ad OpenProject di ricevere e-mail contenenti comandi specifici come strumento
+    di automazione (ad esempio, per creare e aggiornare pacchetti di lavoro).

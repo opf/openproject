@@ -12,9 +12,10 @@
     </div>
   </ng-container>
 </div>
-<div *ngIf="eeShowBanners" class="ee-relation-columns-upsale">
-  {{text.upsaleRelationColumns}}
-  <a href="https://www.openproject.org/enterprise-edition/?op_edtion=community-edition&op_referrer=wp-list-columns#relations"
-     target='blank'
-     [textContent]="text.upsaleCheckOutLink"></a>
-</div>
+
+<enterprise-banner class="ee-relation-columns-upsale"
+                   *ngIf="eeShowBanners"
+                   [linkMessage]="text.upsaleCheckOutLink"
+                   [textMessage]="text.upsaleRelationColumns"
+                   opReferrer="wp-list-columns#relations">
+</enterprise-banner>

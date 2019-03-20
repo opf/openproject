@@ -218,7 +218,7 @@ class MailHandler < ActionMailer::Base
         reply = Message.new(subject: email.subject.gsub(%r{^.*msg\d+\]}, '').strip,
                             content: cleaned_up_text_body)
         reply.author = user
-        reply.board = message.board
+        reply.forum = message.forum
         message.children << reply
         add_attachments(reply)
         reply
@@ -508,8 +508,7 @@ class MailHandler < ActionMailer::Base
 
   def update_work_package(work_package)
     attributes = collect_wp_attributes_from_email_on_update(work_package)
-
-    attributes.merge!(attachment_ids: create_attachments_from_mail.map(&:id))
+    attributes[:attachment_ids] = work_package.attachment_ids + create_attachments_from_mail.map(&:id)
 
     service_call = WorkPackages::UpdateService
       .new(user: user,

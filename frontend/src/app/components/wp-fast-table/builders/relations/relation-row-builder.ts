@@ -70,7 +70,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
   public createEmptyRelationRow(from:WorkPackageResource, to:WorkPackageResource) {
     const identifier = this.relationClassIdentifier(from, to);
     let tr = document.createElement('tr');
-    tr.dataset['workPackageId'] = to.id;
+    tr.dataset['workPackageId'] = to.id!;
     tr.dataset['classIdentifier'] = identifier;
 
     tr.classList.add(
@@ -78,14 +78,14 @@ export class RelationRowBuilder extends SingleRowBuilder {
       `wp-table--relations-aditional-row`,
       identifier,
       `${identifier}-table`,
-      relationGroupClass(from.id)
+      relationGroupClass(from.id!)
     );
 
     return tr;
   }
 
   public relationClassIdentifier(from:WorkPackageResource, to:WorkPackageResource) {
-    return relationIdentifier(to.id, from.id);
+    return relationIdentifier(to.id!, from.id!);
   }
 
   /**
@@ -104,7 +104,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
     }
     // Add the WP type label if this is a "<Relation Type> Relations" column
     if (type === 'ofType') {
-      const wp = this.states.workPackages.get(denormalized.target.id).value!;
+      const wp = this.states.workPackages.get(denormalized.target.id!).value!;
       typeLabel = wp.type.name;
     }
 

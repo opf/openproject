@@ -72,7 +72,7 @@ export class WorkPackageTable {
   private buildIndex(rows:WorkPackageResource[]) {
     this.originalRowIndex = {};
     this.originalRows = rows.map((wp:WorkPackageResource, i:number) => {
-      let wpId = wp.id;
+      let wpId = wp.id!;
       this.originalRowIndex[wpId] = <WorkPackageTableRow> {object: wp, workPackageId: wpId, position: i};
       return wpId;
     });
@@ -123,7 +123,7 @@ export class WorkPackageTable {
     }
 
     _.each(pass.renderedOrder, (row) => {
-      if (row.workPackage && row.workPackage.id === workPackage.id) {
+      if (row.workPackage && row.workPackage.id === workPackage.id!) {
         debugLog(`Refreshing rendered row ${row.classIdentifier}`);
         row.workPackage = workPackage;
         pass.refresh(row, workPackage, this.tbody);

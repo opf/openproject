@@ -34,6 +34,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {BoardInlineAddAutocompleterComponent} from "core-app/modules/boards/board/inline-add/board-inline-add-autocompleter.component";
+import {GonService} from "core-app/modules/common/gon/gon.service";
 
 @Injectable()
 export class BoardInlineCreateService extends WorkPackageInlineCreateService implements OnDestroy {
@@ -42,6 +43,7 @@ export class BoardInlineCreateService extends WorkPackageInlineCreateService imp
               protected readonly querySpace:IsolatedQuerySpace,
               protected readonly halResourceService:HalResourceService,
               protected readonly pathHelperService:PathHelperService,
+              protected readonly Gon:GonService,
               protected readonly wpRelationsHierarchyService:WorkPackageRelationsHierarchyService) {
     super(injector);
   }

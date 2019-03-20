@@ -38,7 +38,7 @@ module OpenProject::Documents
     register 'openproject-documents',
              author_url: "http://www.openproject.com",
              global_assets: { css: 'documents/global_rules' },
-             requires_openproject: ">= 4.0.0" do
+             bundled: true do
 
       menu :project_menu, :documents,
                           { controller: '/documents', action: 'index' },

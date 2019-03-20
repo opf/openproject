@@ -106,7 +106,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const context = new SingleViewEditContext(this.injector, this);
     this.form = WorkPackageEditForm.createInContext(this.injector, context, this.workPackage, this.initializeEditMode);
-    this.states.workPackages.get(this.workPackage.id)
+    this.states.workPackages.get(this.workPackage.id!)
       .values$()
       .pipe(
         takeUntil(componentDestroyed(this)),
@@ -151,7 +151,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
       field.activateOnForm(true);
     } else {
       this.states.workPackages
-        .get(this.workPackage.id)
+        .get(this.workPackage.id!)
         .valuesPromise()
         .then(wp => this.updateDisplayField(field, wp!));
     }
@@ -174,7 +174,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
 
   public stop() {
     this.form.editMode = false;
-    this.wpEditing.stopEditing(this.workPackage.id);
+    this.wpEditing.stopEditing(this.workPackage.id!);
     this.form.destroy();
   }
 
@@ -193,7 +193,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     if (this.successState) {
       this.$state.go(this.successState, {workPackageId: savedWorkPackage.id})
         .then(() => {
-          this.wpTableFocus.updateFocus(savedWorkPackage.id);
+          this.wpTableFocus.updateFocus(savedWorkPackage.id!);
           this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
         });
     }
@@ -208,7 +208,17 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     const fieldName = field.fieldName;
 
     const isSkipField = fieldName === 'status' || fieldName === 'type';
-    return (isSkipField && this.workPackage[fieldName]);
+
+    // Only skip status or type
+    if (!isSkipField) {
+      return false;
+    }
+
+    // Only skip if value present and not changed in changeset
+    const hasDefault = this.workPackage[fieldName]
+    const changed = this.form.changeset.isChanged(fieldName);
+
+    return hasDefault && !changed;
   }
 
   private allowedStateChange(toState:any, toParams:any, fromState:any, fromParams:any) {

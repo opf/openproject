@@ -73,9 +73,9 @@ cs:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: V současné době neexistují žádné příspěvky pro nástěnku.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Momentálně zde nejsou žádné barvy.
@@ -155,9 +155,9 @@ cs:
     settings:
       activities:
         no_results_title_text: V současné době nejsou k dispozici žádné aktivity.
-      boards:
-        no_results_title_text: Momentálně nejsou k dispozici žádné nástěnky pro projekt.
-        no_results_content_text: Vytvořit novou nástěnku
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Momentálně nejsou k dispozici žádné kategorie pracovních
           balíčků.
@@ -675,7 +675,7 @@ cs:
     models:
       attachment: Soubor
       attribute_help_text: Attribute help text
-      board: Fórum
+      forum: Fórum
       comment: Komentář
       custom_action: Vlastní akce
       custom_field: Vlastní pole
@@ -1200,9 +1200,8 @@ cs:
       faq: FAQ - často kladené dotazy
       glossary: Glossary
       shortcuts: Klávesové zkratky
-      forums: Diskuse
       blog: OpenProject blog
-      boards: Komunitní fórum
+      forums: Komunitní fórum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Konfigurační manuál
@@ -1268,7 +1267,7 @@ cs:
   label_authentication: Ověření
   label_available_project_work_package_categories: Dostupné kategorie pracovních balíčků
   label_available_project_work_package_types: Dostupné kategorie pracovních balíčků
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Dostupné verze
   label_available_project_repositories: Dostupné repozitáře
   label_api_documentation: API dokumentace
@@ -1276,14 +1275,15 @@ cs:
   label_blocked_by: zablokoval
   label_blocks: blocks
   label_blog: Blog
-  label_board_locked: Uzamčeno
-  label_board_new: Nové fórum
-  label_board_plural: Diskuse
-  label_board_sticky: Sticky
+  label_forums_locked: Uzamčeno
+  label_forum_new: Nové fórum
+  label_forum_plural: Diskuse
+  label_forum_sticky: Sticky
   label_boolean: Logická hodnota
   label_branch: Větev
   label_browse: Procházet
   label_bulk_edit_selected_work_packages: Bulk edit selected work packages
+  label_bundled: "(Bundled)"
   label_calendar: Kalendář
   label_calendar_show: Zobrazit kalendář
   label_category: Kategorie
@@ -1419,6 +1419,7 @@ cs:
   label_hierarchy_leaf: Úroveň hierarchie
   label_home: Domů
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: v
   label_in_less_than: za méně než
   label_in_more_than: za více než
@@ -1544,6 +1545,7 @@ cs:
   label_planning: Plánování
   label_please_login: Přihlaste se prosím
   label_plugins: Pluginy
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: předchází
   label_preferences: Nastavení
   label_preview: Náhled
@@ -1551,6 +1553,7 @@ cs:
   label_previous_week: Předchozí týden
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Přidat existující uživatele nebo skupiny
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Verze produktu
   label_professional_support: Profesionální podpora
   label_profile: Profil
@@ -2015,7 +2018,7 @@ cs:
   permission_export_wiki_pages: Exportovat Wiki stránky
   permission_list_attachments: Seznam příloh
   permission_log_time: Protokolovat strávený čas
-  permission_manage_boards: Správa fóra
+  permission_manage_forums: Správa fóra
   permission_manage_categories: Spravovat kategorie pracovního balíčku
   permission_manage_work_package_relations: Spravovat vztahy pracovních balíčků
   permission_manage_members: Správa členů
@@ -2062,7 +2065,7 @@ cs:
     archive:
       are_you_sure: Opravdu chcete archivovat projekt '%{name}'?
   project_module_activity: Aktivita
-  project_module_boards: Diskuse
+  project_module_forums: Diskuse
   project_module_calendar: Kalendář
   project_module_work_package_tracking: Sledování pracovních balíčků
   project_module_news: Novinky
@@ -2285,10 +2288,6 @@ cs:
   setting_log_requesting_user: Log user login, name, and mail address for all requests
   setting_login_required: Vyžadována autentizace
   setting_mail_from: Odchozí emailová adresa
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: API klíč
   setting_mail_handler_body_delimiters: Zkrátit e-maily po jednom z těchto řádků
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2544,7 +2543,6 @@ cs:
       color: Barva
       colors: Barvy
     associations: Závislosti
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Odstranit vše
     change: Změna v plánování
     children: Podřízené prvky
@@ -2983,3 +2981,7 @@ cs:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Enable incoming email web service
+  setting_mail_handler_api_description: The email web handler enables OpenProject
+    to receive emails containing specific commands as an instrumentation mechanism
+    (e.g., to create and update work packages).

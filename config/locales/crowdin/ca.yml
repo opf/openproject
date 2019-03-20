@@ -73,9 +73,9 @@ ca:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Actualment no hi ha cap entrada al tauler.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Actualment no hi ha cap color.
@@ -156,9 +156,9 @@ ca:
     settings:
       activities:
         no_results_title_text: Actualment no hi ha activitats disponibles.
-      boards:
-        no_results_title_text: Actualment no hi ha cap tauler per al projecte.
-        no_results_content_text: Crear una nou tauler
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Actualment no hi ha cap categoria de paquet de treball.
         no_results_content_text: Crear una nova categoria de paquet de treball
@@ -677,7 +677,7 @@ ca:
     models:
       attachment: Fitxer
       attribute_help_text: Attribute help text
-      board: Fòrum
+      forum: Fòrum
       comment: Comentari
       custom_action: Custom action
       custom_field: Camp personalitzat
@@ -1181,9 +1181,8 @@ ca:
       faq: Preguntes Més Freqüents
       glossary: Glossari
       shortcuts: Dreceres
-      forums: Fòrums
       blog: Blog OpenProject
-      boards: Fòrum de la comunitat
+      forums: Fòrum de la comunitat
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1251,7 +1250,7 @@ ca:
   label_available_project_work_package_categories: Categories de paquet de treball
     disponibles
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Taulers disponibles
+  label_available_project_forums: Available forums
   label_available_project_versions: Versions disponibles
   label_available_project_repositories: Repositòris disponibles
   label_api_documentation: Documentació d'API
@@ -1259,14 +1258,15 @@ ca:
   label_blocked_by: bloquejats per
   label_blocks: blocs
   label_blog: Blog
-  label_board_locked: Bloquejat
-  label_board_new: Nou fòrum
-  label_board_plural: Fòrums
-  label_board_sticky: Fixa't
+  label_forums_locked: Bloquejat
+  label_forum_new: Nou fòrum
+  label_forum_plural: Fòrums
+  label_forum_sticky: Fixa't
   label_boolean: Booleà
   label_branch: Branca
   label_browse: Navegar
   label_bulk_edit_selected_work_packages: Edició massiva de paquets de treball
+  label_bundled: "(Bundled)"
   label_calendar: Calendari
   label_calendar_show: Mostreu el calendari
   label_category: Categoria
@@ -1402,6 +1402,7 @@ ca:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Inici
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: en
   label_in_less_than: en menys de
   label_in_more_than: en més de
@@ -1527,6 +1528,7 @@ ca:
   label_planning: Planificació
   label_please_login: Si us plau, inicieu sessió
   label_plugins: Complements
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precedeix
   label_preferences: Preferències
   label_preview: Previsualitzar
@@ -1534,6 +1536,7 @@ ca:
   label_previous_week: Setmana anterior
   label_principal_invite_via_email: " o convidar a nous usuaris per correu electrònic"
   label_principal_search: Afegir usuaris o grups existents
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Versió del producte
   label_professional_support: Suport professional
   label_profile: Perfil
@@ -1996,7 +1999,7 @@ ca:
   permission_export_wiki_pages: Exportar les pàgines wiki
   permission_list_attachments: Llista d'adjunts
   permission_log_time: Registrar el temps invertit
-  permission_manage_boards: Gestionar els taulers
+  permission_manage_forums: Gestionar els taulers
   permission_manage_categories: Gestionar les categories del paquet de treball
   permission_manage_work_package_relations: Gestionar les relacions del paquet de
     treball
@@ -2047,7 +2050,7 @@ ca:
     archive:
       are_you_sure: Esteu segur que voleu arxivar el projecte "%{name}"?
   project_module_activity: Activitat
-  project_module_boards: Fòrums
+  project_module_forums: Fòrums
   project_module_calendar: Calendari
   project_module_work_package_tracking: Paquet de treball de seguiment
   project_module_news: Notícies
@@ -2283,12 +2286,6 @@ ca:
     de totes les sol·licituds
   setting_login_required: Es necessita autenticació
   setting_mail_from: Adreça de correu electrònic d'emissió
-  setting_mail_handler_api_enabled: Habilitar el servei web de correus electrònics
-    entrants
-  setting_mail_handler_api_description: El controlador de correu web permet a OpenProject
-    rebre missatges de correu electrònic que continguin ordres específiques com un
-    mecanisme d'instrumentació (per exemple, per crear i actualitzar els paquets de
-    treball).
   setting_mail_handler_api_key: Clau API
   setting_mail_handler_body_delimiters: Trunca els missatges de correu electrònic
     després d'una d'aquestes línies
@@ -2553,7 +2550,6 @@ ca:
       color: Color
       colors: Colors
     associations: Dependències
-    board_could_not_be_saved: No es pot desar el tauler
     button_delete_all: Esborrar tot
     change: Canvi en la planificació
     children: Elements fill
@@ -2991,3 +2987,9 @@ ca:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Habilitar el servei web de correus electrònics
+    entrants
+  setting_mail_handler_api_description: El controlador de correu web permet a OpenProject
+    rebre missatges de correu electrònic que continguin ordres específiques com un
+    mecanisme d'instrumentació (per exemple, per crear i actualitzar els paquets de
+    treball).

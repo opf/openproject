@@ -1,7 +1,6 @@
-import {AfterViewInit, Injector, Input, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {AfterViewInit, Input, SimpleChanges} from '@angular/core';
 import {CurrentProjectService} from '../../projects/current-project.service';
 import {WorkPackageStatesInitializationService} from '../../wp-list/wp-states-initialization.service';
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {
   WorkPackageTableConfiguration,
   WorkPackageTableConfigurationObject
@@ -44,7 +43,7 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
 
   ngAfterViewInit():void {
     // Load initially
-    this.refresh(this.initialLoadingIndicator);
+    this.loadQuery(true, false);
   }
 
   ngOnDestroy():void {
@@ -53,7 +52,7 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
 
   ngOnChanges(changes:SimpleChanges) {
     if (this.initialized && (changes.queryId || changes.queryProps)) {
-      this.refresh(this.initialLoadingIndicator);
+      this.loadQuery(this.initialLoadingIndicator, false);
     }
   }
 
@@ -81,7 +80,20 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
   }
 
   public refresh(visible:boolean = true, firstPage:boolean = false):Promise<any> {
-    return this.loadQuery(visible, firstPage);
+    const query = this.querySpace.query.value!;
+    const pagination = this.wpTablePagination.paginationObject;
+
+    if (firstPage) {
+      pagination.offset = 1;
+    }
+
+    const promise = this.QueryDm.loadResults(query, pagination)
+      .then((results) => this.wpStatesInitialization.updateQuerySpace(query, results));
+
+    if (visible) {
+      this.loadingIndicator = promise;
+    }
+    return promise;
   }
 
   public get isInitialized() {
@@ -96,7 +108,7 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     }
   }
 
-  protected abstract loadQuery(visible:boolean, firstPage:boolean):Promise<any>;
+  public abstract loadQuery(visible:boolean, firstPage:boolean):Promise<any>;
 
   protected get queryProjectScope() {
     if (!this.configuration.projectContext) {

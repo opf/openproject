@@ -73,9 +73,9 @@
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: There are currently no colors.
@@ -155,9 +155,9 @@
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -666,7 +666,7 @@
     models:
       attachment: Fil
       attribute_help_text: Attribute help text
-      board: Forum
+      forum: Forum
       comment: Kommentar
       custom_action: Custom action
       custom_field: Egendefinert felt
@@ -1165,9 +1165,8 @@
       faq: FAQ
       glossary: Ordliste
       shortcuts: Snarveier
-      forums: Forum
       blog: OpenProject blogg
-      boards: Brukerforum
+      forums: Brukerforum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1234,7 +1233,7 @@
   label_authentication: Autentisering
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1242,14 +1241,15 @@
   label_blocked_by: blokkert av
   label_blocks: blokkeringer
   label_blog: Blogg
-  label_board_locked: Låst
-  label_board_new: Nytt forum
-  label_board_plural: Forum
-  label_board_sticky: Sticky
+  label_forums_locked: Låst
+  label_forum_new: Nytt forum
+  label_forum_plural: Forum
+  label_forum_sticky: Sticky
   label_boolean: Boolsk
   label_branch: Gren
   label_browse: Bla gjennom
   label_bulk_edit_selected_work_packages: Masseredigering av valgte arbeidspakker
+  label_bundled: "(Bundled)"
   label_calendar: Kalender
   label_calendar_show: Vis kalender
   label_category: Kategori
@@ -1385,6 +1385,7 @@
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Hjem
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: i
   label_in_less_than: i mindre enn
   label_in_more_than: i mer enn
@@ -1510,6 +1511,7 @@
   label_planning: Planlegging
   label_please_login: Vennligst logg på
   label_plugins: Programtillegg
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: kommer før
   label_preferences: Innstillinger
   label_preview: Forhåndsvis
@@ -1517,6 +1519,7 @@
   label_previous_week: Forrige uke
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Produktversjon
   label_professional_support: Professional support
   label_profile: Profil
@@ -1962,7 +1965,7 @@
   permission_export_wiki_pages: Eksportèr wiki-sider
   permission_list_attachments: List vedlegg
   permission_log_time: Logg tidsbruk
-  permission_manage_boards: Administrere forum
+  permission_manage_forums: Administrere forum
   permission_manage_categories: Administrere kategorier for arbeidspakker
   permission_manage_work_package_relations: Administrere relasjoner for arbeidspakker
   permission_manage_members: Administrere medlemmer
@@ -2009,7 +2012,7 @@
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Aktivitet
-  project_module_boards: Forum
+  project_module_forums: Forum
   project_module_calendar: Kalender
   project_module_work_package_tracking: Sporing av arbeidspakke
   project_module_news: Nyheter
@@ -2231,10 +2234,6 @@
   setting_log_requesting_user: Logg brukernavn, navn og e-postadresse for alle forespørsler
   setting_login_required: Autentisering er påkrevd
   setting_mail_from: Utgående e-postadresse
-  setting_mail_handler_api_enabled: Aktiver web-tjeneste for innkommende e-post
-  setting_mail_handler_api_description: Epost web-tjenesten sørger for at OpenProject
-    kan motta eposter som inneholder spesefikte kommandoer som en instruksjonsmekanisme
-    (f.eks opprette og oppdatere arbeidspakker).
   setting_mail_handler_api_key: API-nøkkel
   setting_mail_handler_body_delimiters: Avkort e-post etter en av disse linjene
   setting_mail_handler_body_delimiter_regex: Avkort e-post som samsvarer med denne
@@ -2491,7 +2490,6 @@
       color: Farge
       colors: Farger
     associations: Avhengigheter
-    board_could_not_be_saved: Forum kunne ikke lagres
     button_delete_all: Slett alle
     change: Endre i planlegging
     children: Underelementer
@@ -2923,3 +2921,7 @@
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Aktiver web-tjeneste for innkommende e-post
+  setting_mail_handler_api_description: Epost web-tjenesten sørger for at OpenProject
+    kan motta eposter som inneholder spesefikte kommandoer som en instruksjonsmekanisme
+    (f.eks opprette og oppdatere arbeidspakker).

@@ -58,24 +58,24 @@ nl:
       no_results_content_title: Er zijn momenteel geen verificatie methodes.
       no_results_content_text: Maak een nieuwe authenticatie methode
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Verbinding encryptie
     tls_mode:
       plain: geen
-      simple_tls: simple_tls
+      simple_tls: eenvoudige_tls
       start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      plain_description: Geen TLS-onderhandelingen.
+      simple_tls_description: Impliciet TLS encryptie, maar geen certificaat validatie.
+        Gebruik voorzichtig en impliciet vertrouwen van de LDAP-verbinding.
+      start_tls_description: TLS-encryptie uitbreiden met volledige validatie. Gebruik
+        voor LDAP via TLS/SSL.
+      section_more_info_link_html: 'Deze sectie heeft betrekking op de verbindingsbeveiliging
+        van deze LDAP authenticatie bron. Voor meer informatie bezoek <a href="%{link}">het
+        net::LDAP documentatie</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Er zijn momenteel geen berichten voor het bord.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Er zijn momenteel geen kleuren.
@@ -156,9 +156,9 @@ nl:
     settings:
       activities:
         no_results_title_text: Er zijn momenteel geen activiteiten beschikbaar.
-      boards:
-        no_results_title_text: Er zijn momenteel geen borden voor het project.
-        no_results_content_text: Maak een nieuw bord
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Er zijn momenteel geen werkpakket rubrieken.
         no_results_content_text: Maak een nieuwe werkpakket categorie
@@ -390,9 +390,9 @@ nl:
         encoded_token: Enterprise ondersteuningstoken
         active_user_count_restriction: Maximum aantal actieve gebruikers
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
+        page: Pagina
+        row_count: Aantal rijen
+        column_count: Aantal kolommen
         widgets: Widgets
       relation:
         delay: Vertraging
@@ -566,8 +566,8 @@ nl:
             is?
         grids/grid:
           overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          outside: is buiten het raster.
+          end_before_start: eindwaarde moet groter zijn dan de startwaarde.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -681,7 +681,7 @@ nl:
     models:
       attachment: Bestand
       attribute_help_text: Kenmerk help-teksten
-      board: Forum
+      forum: Forum
       comment: Commentaar
       custom_action: Aangepaste actie
       custom_field: Aangepast veld
@@ -1187,9 +1187,8 @@ nl:
       faq: Veelgestelde vragen (FAQ)
       glossary: Woordenlijst
       shortcuts: Snelkoppelingen
-      forums: Fora
       blog: OpenProject blog
-      boards: Gemeenschapsforum
+      forums: Gemeenschapsforum
       newsletter: Beveiligingswaarschuwingen / nieuwsbrief
   links:
     configuration_guide: Configuratiegids
@@ -1256,7 +1255,7 @@ nl:
   label_authentication: Verificatie
   label_available_project_work_package_categories: Beschikbare werkpakket categorieën
   label_available_project_work_package_types: Beschikbare werkpakkettypes
-  label_available_project_boards: Beschikbare borden
+  label_available_project_forums: Available forums
   label_available_project_versions: Beschikbare versies
   label_available_project_repositories: Beschikbare opslagplaatsen
   label_api_documentation: API documentatie
@@ -1264,14 +1263,15 @@ nl:
   label_blocked_by: vergrendeld door
   label_blocks: vergrendelingen
   label_blog: Blog
-  label_board_locked: Vergrendeld
-  label_board_new: Nieuw forum
-  label_board_plural: Fora
-  label_board_sticky: Sticky
+  label_forums_locked: Vergrendeld
+  label_forum_new: Nieuw forum
+  label_forum_plural: Fora
+  label_forum_sticky: Sticky
   label_boolean: Boolean
   label_branch: Branch
   label_browse: Bladeren
   label_bulk_edit_selected_work_packages: Bulk bewerken van geselecteerd werkpakketten
+  label_bundled: "(Bundled)"
   label_calendar: Agenda
   label_calendar_show: Agenda weergeven
   label_category: Categorie
@@ -1408,6 +1408,7 @@ nl:
   label_hierarchy_leaf: Hiërarchie blad
   label_home: Home
   label_subject_or_id: Onderwerp of ID
+  label_impressum: Impressum
   label_in: in
   label_in_less_than: in minder dan
   label_in_more_than: in meer dan
@@ -1533,6 +1534,7 @@ nl:
   label_planning: Planning
   label_please_login: Log in a.u.b.
   label_plugins: Plug-ins
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: voorafgaand aan
   label_preferences: Voorkeuren
   label_preview: Voorbeeld
@@ -1540,6 +1542,7 @@ nl:
   label_previous_week: Vorige week
   label_principal_invite_via_email: " of nieuwe gebruikers uitnodigen via e-mail"
   label_principal_search: Bestaande gebruikers of groepen toevoegen
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Versie van het product
   label_professional_support: Professionele ondersteuning
   label_profile: Profiel
@@ -1870,8 +1873,8 @@ nl:
   notice_account_update_failed: Account instelling kan niet worden opgeslagen. Kijk
     op uw accountpagina.
   notice_account_updated: Account is bijgewerkt.
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: Alle andere sessies die gekoppeld zijn aan
+    uw account zijn ongeldig.
   notice_account_wrong_password: Verkeerde wachtwoord
   notice_account_registered_and_logged_in: Welkom, uw acount is geactiveerd. U bent
     nu ingelogd.
@@ -1999,7 +2002,7 @@ nl:
   permission_export_wiki_pages: Wiki pagina's exporteren
   permission_list_attachments: Bijlagen weergeven
   permission_log_time: Meld uw bestede tijd
-  permission_manage_boards: Forum beheren
+  permission_manage_forums: Forum beheren
   permission_manage_categories: Werkpakket Categorieën beheren
   permission_manage_work_package_relations: Werkpakket relaties beheren
   permission_manage_members: Beheer gebruikers
@@ -2047,7 +2050,7 @@ nl:
     archive:
       are_you_sure: Weet u zeker dat u dit project '%{name}' wilt archiveren?
   project_module_activity: Activiteit
-  project_module_boards: Fora
+  project_module_forums: Fora
   project_module_calendar: Agenda
   project_module_work_package_tracking: Werkpakket bijhouden
   project_module_news: Nieuws
@@ -2278,10 +2281,6 @@ nl:
     vastleggen
   setting_login_required: Verificatie vereist
   setting_mail_from: Emissie e-mailadres
-  setting_mail_handler_api_enabled: Binnenkomende e-mail web-service inschakelen
-  setting_mail_handler_api_description: De e-mail web handler activeerd OpenProject
-    voor het ontvangen van e-mails met specifieke opdrachten als een mechanisme instrumentatie
-    (bijvoorbeeld maken en bijwerken van de werkpakketten).
   setting_mail_handler_api_key: API-sleutel
   setting_mail_handler_body_delimiters: Afkappen e-mails na een van deze lijnen
   setting_mail_handler_body_delimiter_regex: E-mails die overeenkomen met deze regex
@@ -2542,7 +2541,6 @@ nl:
       color: Kleur
       colors: Kleuren
     associations: Afhankelijkheden
-    board_could_not_be_saved: Bord kon niet opgeslagen worden
     button_delete_all: Alles verwijderen
     change: In de planning wijzigen
     children: Onderliggend element
@@ -2991,3 +2989,7 @@ nl:
     revoke_my_application_confirmation: Weet u zeker dat u deze applicatie wilt verwijderen?
       Dit zal %{token_count} actief voor deze verwijderen.
     my_registered_applications: Geregistreerde OAuth toepassingen
+  setting_mail_handler_api_enabled: Binnenkomende e-mail web-service inschakelen
+  setting_mail_handler_api_description: De e-mail web handler activeerd OpenProject
+    voor het ontvangen van e-mails met specifieke opdrachten als een mechanisme instrumentatie
+    (bijvoorbeeld maken en bijwerken van de werkpakketten).

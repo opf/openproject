@@ -73,9 +73,9 @@ da:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Der er i øjeblikket ingen indlæg.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Der er i øjeblikket ingen farver.
@@ -155,9 +155,9 @@ da:
     settings:
       activities:
         no_results_title_text: Der er i øjeblikket ingen aktiviteter.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -666,7 +666,7 @@ da:
     models:
       attachment: Fil
       attribute_help_text: Attribute help text
-      board: Forum
+      forum: Forum
       comment: Kommentar
       custom_action: Custom action
       custom_field: Selvvalgt felt
@@ -1166,9 +1166,8 @@ da:
       faq: Spørgsmål & Svar
       glossary: Ordliste
       shortcuts: Genveje 
-      forums: Fora
       blog: OpenProject blog
-      boards: Community forum
+      forums: Community forum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1234,7 +1233,7 @@ da:
   label_authentication: Godkendelse
   label_available_project_work_package_categories: Tilgængelige arbejdspakkekategorier
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Tilgængelige kategorier
+  label_available_project_forums: Available forums
   label_available_project_versions: Tilgængelige versioner
   label_available_project_repositories: Tilgængelige repositorier
   label_api_documentation: API-dokumentation
@@ -1242,14 +1241,15 @@ da:
   label_blocked_by: spærret af
   label_blocks: spærringer
   label_blog: Blog
-  label_board_locked: Låst
-  label_board_new: Nyt forum
-  label_board_plural: Fora
-  label_board_sticky: Fremhævet
+  label_forums_locked: Låst
+  label_forum_new: Nyt forum
+  label_forum_plural: Fora
+  label_forum_sticky: Fremhævet
   label_boolean: Boolsk
   label_branch: Gren
   label_browse: Browse
   label_bulk_edit_selected_work_packages: Rediger valgte arbejdspakker samlet
+  label_bundled: "(Bundled)"
   label_calendar: Kalender
   label_calendar_show: Vis kalender
   label_category: Kategori
@@ -1385,6 +1385,7 @@ da:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Hjem
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: i
   label_in_less_than: på mindre end
   label_in_more_than: på mere end
@@ -1510,6 +1511,7 @@ da:
   label_planning: Planlæg
   label_please_login: Log venligst ind
   label_plugins: Tilføjelsesprogrammer
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: kommer før
   label_preferences: Indstillinger
   label_preview: Forhåndsvisning
@@ -1517,6 +1519,7 @@ da:
   label_previous_week: Foregående uge
   label_principal_invite_via_email: " eller invitér nye brugere via e-mail"
   label_principal_search: Tilføj eksisterende brugere eller grupper
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professionel support
   label_profile: Profil
@@ -1965,7 +1968,7 @@ da:
   permission_export_wiki_pages: Eksporter wiki-sider
   permission_list_attachments: Oplist vedhæftninger
   permission_log_time: Registrer brugt tid
-  permission_manage_boards: Administrer fora
+  permission_manage_forums: Administrer fora
   permission_manage_categories: Administrer kategorier for arbejdspakker
   permission_manage_work_package_relations: Administrer forbindelser for arbejdspakker
   permission_manage_members: Administrer medlemmer
@@ -2013,7 +2016,7 @@ da:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Aktivitet
-  project_module_boards: Fora
+  project_module_forums: Fora
   project_module_calendar: Kalender
   project_module_work_package_tracking: Sporing af arbejdspakke
   project_module_news: Nyheder
@@ -2234,10 +2237,6 @@ da:
   setting_log_requesting_user: Log bruger-login, navn og mail-adresse ved hver forespørgsel
   setting_login_required: Godkendelse påkrævet
   setting_mail_from: Mailadresse for udsendelse
-  setting_mail_handler_api_enabled: Aktivér indgående e-mailwebtjeneste
-  setting_mail_handler_api_description: E-mail webhåndteringen muliggør, at OpenProject
-    kan modtage e-mails indeholdende specifikke kommandoer, som en mekanisme til instrumentering
-    (f.eks., at oprette og opdatere arbejdspakker).
   setting_mail_handler_api_key: API-nøgle
   setting_mail_handler_body_delimiters: Afkort mails efter en af disse linier
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2492,7 +2491,6 @@ da:
       color: Farve
       colors: Farver
     associations: Aflæggere
-    board_could_not_be_saved: Tavle kan ikke gemmes
     button_delete_all: Slet alt
     change: Ændring i planlægning
     children: Underordnede elementer
@@ -2925,3 +2923,7 @@ da:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Aktivér indgående e-mailwebtjeneste
+  setting_mail_handler_api_description: E-mail webhåndteringen muliggør, at OpenProject
+    kan modtage e-mails indeholdende specifikke kommandoer, som en mekanisme til instrumentering
+    (f.eks., at oprette og opdatere arbejdspakker).

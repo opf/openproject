@@ -71,9 +71,9 @@ hu:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Jelenleg nincs hozzászólás a fórumon.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Jelenleg nincsenek színek.
@@ -153,9 +153,9 @@ hu:
     settings:
       activities:
         no_results_title_text: Jelenleg nincs elérhető esemény.
-      boards:
-        no_results_title_text: Jelenleg nincs fórum a projekthez.
-        no_results_content_text: Új fórum létrehozása
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Jelenleg nincsenek munkacsomag kategóriák.
         no_results_content_text: Hozzon létre egy új munkacsomag kategóriát
@@ -666,7 +666,7 @@ hu:
     models:
       attachment: Fájl
       attribute_help_text: Attribútum-súgószöveg
-      board: Fórum
+      forum: Fórum
       comment: Vélemény
       custom_action: Egyéni művelet
       custom_field: Választható mező
@@ -1171,9 +1171,8 @@ hu:
       faq: GY. I. K.
       glossary: Szószedet
       shortcuts: Parancsikonok
-      forums: Fórumok
       blog: OpenProject blog
-      boards: Közösségi fórum
+      forums: Közösségi fórum
       newsletter: Biztonsági figyelmeztetések / hírlevél
   links:
     configuration_guide: Konfigurációs útmutató
@@ -1241,7 +1240,7 @@ hu:
   label_available_project_work_package_categories: Rendelkezésre álló munkacsomag
     kategóriák
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Rendelkezésre álló táblák
+  label_available_project_forums: Available forums
   label_available_project_versions: Rendelkezésre álló verziók
   label_available_project_repositories: Rendelkezésre álló tárolók
   label_api_documentation: API dokumentáció
@@ -1249,15 +1248,16 @@ hu:
   label_blocked_by: blokkolta
   label_blocks: blokkolja
   label_blog: Blog
-  label_board_locked: Zárolva
-  label_board_new: Új fórum
-  label_board_plural: Fórumok
-  label_board_sticky: Kiemelt
+  label_forums_locked: Zárolva
+  label_forum_new: Új fórum
+  label_forum_plural: Fórumok
+  label_forum_sticky: Kiemelt
   label_boolean: Logikai
   label_branch: Branch
   label_browse: böngész
   label_bulk_edit_selected_work_packages: A kiválasztott feladatcsoportok tömeges
     szerkesztése
+  label_bundled: "(Bundled)"
   label_calendar: Naptár
   label_calendar_show: Kalendárium mutatása
   label_category: Kategória
@@ -1394,6 +1394,7 @@ hu:
   label_hierarchy_leaf: Hierarchia szint
   label_home: Home
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: in
   label_in_less_than: kevesebb, mint
   label_in_more_than: több mint
@@ -1519,6 +1520,7 @@ hu:
   label_planning: Tervezés
   label_please_login: Kérjük, jelentkezzen be
   label_plugins: Modulok
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: megelőzi
   label_preferences: Tulajdonságok
   label_preview: Előnézet
@@ -1526,6 +1528,7 @@ hu:
   label_previous_week: Előző héten
   label_principal_invite_via_email: " vagy új felhasználót hívhat meg e-mailben"
   label_principal_search: Meglévő felhasználók vagy csoportok hozzáadása
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Termékverzió
   label_professional_support: Szakmai támogatás
   label_profile: Profil
@@ -1982,7 +1985,7 @@ hu:
   permission_export_wiki_pages: Wiki oldalak exportálása
   permission_list_attachments: Mellékletek listája
   permission_log_time: Eltöltött idő rögzítése
-  permission_manage_boards: Fórum kezelése
+  permission_manage_forums: Fórum kezelése
   permission_manage_categories: feladatcsoport kategóriák kezelése
   permission_manage_work_package_relations: feladatcsoport kapcsolatok kezelése
   permission_manage_members: Tagok kezelése
@@ -2029,7 +2032,7 @@ hu:
     archive:
       are_you_sure: Biztosan szeretnéd arhiválni a projektet '%{name}'?
   project_module_activity: Tevékenység
-  project_module_boards: Fórumok
+  project_module_forums: Fórumok
   project_module_calendar: Naptár
   project_module_work_package_tracking: A munkacsomag nyomon követése
   project_module_news: Hírek
@@ -2249,10 +2252,6 @@ hu:
     minden lekéréshez
   setting_login_required: Hitelesítés szükséges
   setting_mail_from: Értesítő e-mailek feladója
-  setting_mail_handler_api_enabled: Bejövő e-mail szolgáltatás engedélyezése
-  setting_mail_handler_api_description: Az e-mail web kezelő lehetővé teszi, hogy
-    az OpenProject különböző utasításokat tartalmazó e-maileket fogadjon és végrehajtson
-    (úgy mint feladatcsoport készítés, frissítés).
   setting_mail_handler_api_key: API-kulcs
   setting_mail_handler_body_delimiters: E-mailek csonkolása e sorok után
   setting_mail_handler_body_delimiter_regex: E-mailek csonkítása a megegyező kifejezéssel
@@ -2512,7 +2511,6 @@ hu:
       color: Szín
       colors: Színek
     associations: Szükséges összetevők
-    board_could_not_be_saved: A tábla nem menthető
     button_delete_all: Összes törlése
     change: A tervezés módosítása
     children: Gyermek elemek
@@ -2949,3 +2947,7 @@ hu:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Bejövő e-mail szolgáltatás engedélyezése
+  setting_mail_handler_api_description: Az e-mail web kezelő lehetővé teszi, hogy
+    az OpenProject különböző utasításokat tartalmazó e-maileket fogadjon és végrehajtson
+    (úgy mint feladatcsoport készítés, frissítés).

@@ -37,8 +37,8 @@ import {Injectable} from '@angular/core';
 import {debugLog} from "core-app/helpers/debug_output";
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 
-function getWorkPackageId(id:number | string):string {
-  return (id || '__new_work_package__').toString();
+function getWorkPackageId(id:string|null):string {
+  return (id || 'new').toString();
 }
 
 @Injectable()
@@ -55,14 +55,20 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
     this.updateWorkPackageList([val], false);
   }
 
-  updateWorkPackage(wp:WorkPackageResource) {
+  updateWorkPackage(wp:WorkPackageResource, immediate:boolean = false) {
+    if (immediate) {
+      const wpId = getWorkPackageId(wp.id!);
+      this.multiState.get(wpId).putValue(wp);
+      return;
+    }
+
     this.updateWorkPackageList([wp], false);
   }
 
   updateWorkPackageList(list:WorkPackageResource[], skipOnIdentical = true) {
     for (var i of list) {
       const wp = i;
-      const workPackageId = getWorkPackageId(wp.id);
+      const workPackageId = getWorkPackageId(wp.id!);
       const state = this.multiState.get(workPackageId);
 
       // If the work package is new, ignore the schema

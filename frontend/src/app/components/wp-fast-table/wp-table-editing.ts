@@ -37,7 +37,7 @@ export class WorkPackageTableEditingContext {
   }
 
   public startEditing(workPackage:WorkPackageResource, classIdentifier:string):WorkPackageEditForm {
-    const wpId = workPackage.id;
+    const wpId = workPackage.id!;
     const existing = this.forms[wpId];
     if (existing) {
       return existing;

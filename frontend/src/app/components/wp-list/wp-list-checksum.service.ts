@@ -38,9 +38,9 @@ export class WorkPackagesListChecksumService {
               protected $state:StateService) {
   }
 
-  public id:number | null;
-  public checksum:string | null;
-  public visibleChecksum:string | null;
+  public id:string|null;
+  public checksum:string|null;
+  public visibleChecksum:string|null;
 
   public updateIfDifferent(query:QueryResource,
                            pagination:WorkPackageTablePagination) {
@@ -75,7 +75,7 @@ export class WorkPackagesListChecksumService {
     this.set(query.id, newQueryChecksum);
 
     this.maintainUrlQueryState(query.id, null);
-}
+  }
 
   public isQueryOutdated(query:QueryResource,
                          pagination:WorkPackageTablePagination) {
@@ -84,8 +84,8 @@ export class WorkPackagesListChecksumService {
     return this.isOutdated(query.id, newQueryChecksum);
   }
 
-  public executeIfOutdated(newId:number,
-                           newChecksum:string | null,
+  public executeIfOutdated(newId:string,
+                           newChecksum:string|null,
                            callback:Function) {
     if (this.isUninitialized() || this.isOutdated(newId, newChecksum)) {
       this.set(newId, newChecksum);
@@ -94,7 +94,7 @@ export class WorkPackagesListChecksumService {
     }
   }
 
-  private set(id:number | null, checksum:string | null) {
+  private set(id:string|null, checksum:string|null) {
     this.id = id;
     this.checksum = checksum;
   }
@@ -109,7 +109,7 @@ export class WorkPackagesListChecksumService {
     return !this.id && !this.checksum;
   }
 
-  private isIdDifferent(otherId:number | null) {
+  private isIdDifferent(otherId:string|null) {
     return this.id !== otherId;
   }
 
@@ -117,7 +117,7 @@ export class WorkPackagesListChecksumService {
     return this.checksum && otherChecksum !== this.checksum;
   }
 
-  private isOutdated(otherId:number | null, otherChecksum:string | null) {
+  private isOutdated(otherId:string|null, otherChecksum:string|null) {
     const hasCurrentQueryID = !!this.id;
     const hasCurrentChecksum = !!this.checksum;
     const idChanged = (this.id !== otherId);
@@ -143,9 +143,9 @@ export class WorkPackagesListChecksumService {
     return this.UrlParamsHelper.encodeQueryJsonParams(query, _.pick(pagination, ['page', 'perPage']));
   }
 
-  private maintainUrlQueryState(id:string | number | null, checksum:string | null) {
+  private maintainUrlQueryState(id:string|null, checksum:string|null) {
     this.visibleChecksum = checksum;
 
-    this.$state.go('.', {query_props: checksum, query_id: id}, {custom: { notify: false } });
+    this.$state.go('.', {query_props: checksum, query_id: id}, {custom: {notify: false}});
   }
 }

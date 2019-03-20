@@ -32,9 +32,8 @@ export class DragAndDropTransformer {
     this.inlineCreateService.newInlineWorkPackageCreated
       .pipe(takeUntil(this.querySpace.stopAllSubscriptions))
       .subscribe((wpId) => {
-        this.reorderService
-          .add(this.querySpace, wpId)
-          .then(() => this.wpTableRefresh.request('Drag and Drop added item'));
+        this.reorderService.add(this.currentOrder, wpId);
+        this.wpTableRefresh.request('Drag and Drop added item');
       });
 
     this.querySpace.stopAllSubscriptions
@@ -52,22 +51,25 @@ export class DragAndDropTransformer {
       },
       onMoved: (row:HTMLTableRowElement) => {
         const wpId:string = row.dataset.workPackageId!;
-        this.reorderService
-          .move(this.querySpace, wpId, row.rowIndex - 1)
-          .then(() => this.wpTableRefresh.request('Drag and Drop moved item'));
+        this.reorderService.move(this.currentOrder, wpId, row.rowIndex - 1);
+        this.wpTableRefresh.request('Drag and Drop moved item');
       },
       onRemoved: (row:HTMLTableRowElement) => {
         const wpId:string = row.dataset.workPackageId!;
-        this.reorderService
-          .remove(this.querySpace, wpId)
-          .then(() => this.wpTableRefresh.request('Drag and Drop removed item'));
+        this.reorderService.remove(this.currentOrder, wpId);
+        this.wpTableRefresh.request('Drag and Drop moved item');
       },
       onAdded: (row:HTMLTableRowElement) => {
         const wpId:string = row.dataset.workPackageId!;
-        this.reorderService
-          .add(this.querySpace, wpId, row.rowIndex - 1)
-          .then(() => this.wpTableRefresh.request('Drag and Drop added item'));
+        this.reorderService.add(this.currentOrder, wpId, row.rowIndex - 1);
+        this.wpTableRefresh.request('Drag and Drop moved item');
       }
     });
+  }
+
+  protected get currentOrder():string[] {
+    return this.querySpace
+      .results
+      .mapOr((results) => results.elements.map(el => el.id!), []);
   }
 }

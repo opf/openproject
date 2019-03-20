@@ -57,24 +57,24 @@ sk:
       no_results_content_title: Momentálne nie sú žiadne metódy overovania identity.
       no_results_content_text: Vytvoriť novú metódu overovania identity
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Šifrovanie pripojenia
     tls_mode:
       plain: žiadne
       simple_tls: simple_tls
       start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
+      plain_description: Obyčajné nešifrované pripojenie, nepožadované TLS pripojenie.
+      simple_tls_description: Implicitné šifrovanie TLS, ale žiadne overenie certifikátu.
+        Používať s opatrnosťou a implicitne dôverné LDAP pripojenie.
+      start_tls_description: Explicitné šifrovanie TLS s úplným overením. Použitie
+        LDAP cez TLS/SSL.
+      section_more_info_link_html: 'Táto časť sa týka bezpečnosti pripojenia tohto
+        zdroja autentifikácie LDAP. Ďalšie informácie nájdete na stránke<a href="%{link}">the
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Panel v súčasnosti nemá žiadne príspevky.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Momentálne nie sú k dispozícií žiadne farby.
@@ -155,9 +155,9 @@ sk:
     settings:
       activities:
         no_results_title_text: Momentálne neexistujú žiadne aktivity.
-      boards:
-        no_results_title_text: Projekt v súčasnosti nemá žiadne diskusné panely.
-        no_results_content_text: Vytvoriť nový panel
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Momentálne nie sú žiadne kategórie pracovného balíka.
         no_results_content_text: Vytvoriť novú kategóriu pracovného balíka
@@ -390,10 +390,10 @@ sk:
         encoded_token: Enterprise support token
         active_user_count_restriction: Maximálny počet aktívnych užívateľov
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
+        page: Stránka
+        row_count: Počet riadkov
+        column_count: Počet stĺpcov
+        widgets: Miniaplikácie
       relation:
         delay: Oneskorenie
         from: Pracovný balíček
@@ -563,9 +563,9 @@ sk:
           unreadable: nedá sa čítať. Ste si istý, že máte správny Token podpory Enterprise
             Edition?
         grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          overlaps: prekrývajú.
+          outside: je mimo mriežku.
+          end_before_start: koncová hodnota musí byť väčšia ako počiatočná hodnota.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -688,7 +688,7 @@ sk:
     models:
       attachment: Súbor
       attribute_help_text: Text nápovedy atribútu
-      board: Diskusia
+      forum: Diskusia
       comment: Komentár
       custom_action: Vlastná akcia
       custom_field: Vlastné pole
@@ -1218,9 +1218,8 @@ sk:
       faq: Často kladené otázky
       glossary: Slovníček pojmov
       shortcuts: Skratky
-      forums: Diskusie
       blog: OpenProject blog
-      boards: Komunitné fórum
+      forums: Komunitné fórum
       newsletter: Bezpečnostné upozornenia / Newsletter
   links:
     configuration_guide: Sprievodca konfiguráciou
@@ -1287,7 +1286,7 @@ sk:
   label_authentication: Autentifikácia
   label_available_project_work_package_categories: Dostupné kategórie pracovných balíčkov
   label_available_project_work_package_types: Dostupné kategórie pracovných balíčkov
-  label_available_project_boards: Dostupné panely
+  label_available_project_forums: Available forums
   label_available_project_versions: Dostupné verzie
   label_available_project_repositories: Dosupné úložíská
   label_api_documentation: Dokumentácia API
@@ -1295,14 +1294,15 @@ sk:
   label_blocked_by: zablokované používateľom
   label_blocks: bloky
   label_blog: Blog
-  label_board_locked: Uzamknuté
-  label_board_new: Nová diskusia
-  label_board_plural: Diskusie
-  label_board_sticky: Dôležité (vždy vyššie)
+  label_forums_locked: Uzamknuté
+  label_forum_new: Nová diskusia
+  label_forum_plural: Diskusie
+  label_forum_sticky: Dôležité (vždy vyššie)
   label_boolean: Booleovská hodnota (pavda/nepravda)
   label_branch: Vetva
   label_browse: Prechádzať
   label_bulk_edit_selected_work_packages: Hromadne upraviť vybrané pracovné balíčky
+  label_bundled: "(Bundled)"
   label_calendar: Kalendár
   label_calendar_show: Zobraziť kalendár
   label_category: Kategória
@@ -1438,6 +1438,7 @@ sk:
   label_hierarchy_leaf: Úroveň hierarchie
   label_home: Úvod
   label_subject_or_id: Predmet alebo ID
+  label_impressum: Impressum
   label_in: v
   label_in_less_than: v menej ako
   label_in_more_than: vo viac ako
@@ -1563,6 +1564,7 @@ sk:
   label_planning: Plánovanie
   label_please_login: Prosím prihláste sa
   label_plugins: Doplnky
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: predchádza
   label_preferences: Predvoľby
   label_preview: Náhľad
@@ -1571,6 +1573,7 @@ sk:
   label_principal_invite_via_email: " alebo pozvať nových užívateľov prostredníctvom
     e-mailu"
   label_principal_search: Pridanie existujúcich užívateľov alebo skupín
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Verzia produktu
   label_professional_support: Profesionálna podpora
   label_profile: Profil
@@ -2040,7 +2043,7 @@ sk:
   permission_export_wiki_pages: Export wiki stránok
   permission_list_attachments: Zoznam príloh
   permission_log_time: Protokolovať strávený čas
-  permission_manage_boards: Spravovať diskusie
+  permission_manage_forums: Spravovať diskusie
   permission_manage_categories: Spravovať kategórie pracovného balíčku
   permission_manage_work_package_relations: Spravovať vzťahy pracovných balíčkov
   permission_manage_members: Spravovať členov
@@ -2088,7 +2091,7 @@ sk:
     archive:
       are_you_sure: Naozaj chcete archivovať projekt "%{name}"?
   project_module_activity: Činnosť
-  project_module_boards: Diskusie
+  project_module_forums: Diskusie
   project_module_calendar: Kalendár
   project_module_work_package_tracking: Sledovanie Pracovného balíka
   project_module_news: Novinky
@@ -2309,10 +2312,6 @@ sk:
     adresu pre všetky požiadavky
   setting_login_required: Vyžaduje sa overenie
   setting_mail_from: Odosielať emaily z adresy
-  setting_mail_handler_api_enabled: Povoliť webovú službu prichádzajúcich e-mailov
-  setting_mail_handler_api_description: Webová služba elektronickej pošty umožňuje
-    aplikácii OpenProject prijímať a reagovať na e-maily so špeciálnymi pokynmi (napríklad
-    na vytváranie a aktualizáciu pracovných balíčkov).
   setting_mail_handler_api_key: API kľúč
   setting_mail_handler_body_delimiters: Skráťte emaily po jednom z týchto riadkov
   setting_mail_handler_body_delimiter_regex: Skrátiť e-maily zodpovedajúce tomuto
@@ -2572,7 +2571,6 @@ sk:
       color: Farba
       colors: Farby
     associations: Závislosti
-    board_could_not_be_saved: Panel sa nepodarilo uložiť
     button_delete_all: Odstrániť všetky
     change: Zmena v plánovaní
     children: Podriadené prvky
@@ -3015,3 +3013,7 @@ sk:
     revoke_my_application_confirmation: Naozaj chcete odstrániť túto aplikáciu? Týmto
       sa zrušia aktívne tokeny %{token_count}.
     my_registered_applications: Registrované aplikácie OAuth
+  setting_mail_handler_api_enabled: Povoliť webovú službu prichádzajúcich e-mailov
+  setting_mail_handler_api_description: Webová služba elektronickej pošty umožňuje
+    aplikácii OpenProject prijímať a reagovať na e-maily so špeciálnymi pokynmi (napríklad
+    na vytváranie a aktualizáciu pracovných balíčkov).

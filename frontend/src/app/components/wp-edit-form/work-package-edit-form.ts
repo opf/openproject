@@ -80,7 +80,7 @@ export class WorkPackageEditForm {
               public workPackage:WorkPackageResource,
               public editMode:boolean = false) {
 
-    this.wpSubscription = this.wpCacheService.state(workPackage.id)
+    this.wpSubscription = this.wpCacheService.state(workPackage.id!)
       .values$()
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
@@ -93,6 +93,7 @@ export class WorkPackageEditForm {
   public hasActiveFields():boolean {
     return !_.isEmpty(this.activeFields);
   }
+
 
   /**
    * Return the current or a new changeset for the given work package.
@@ -182,7 +183,9 @@ export class WorkPackageEditForm {
           this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
           this.editMode = false;
           this.editContext.onSaved(isInitial, savedWorkPackage);
-          this.wpTableRefresh.request(`Saved work package ${savedWorkPackage.id}`);
+          this.wpTableRefresh.request(
+            `Saved work package ${savedWorkPackage.id}`
+          );
         })
         .catch((error:ErrorResource|Object) => {
           this.wpNotificationsService.handleRawError(error, this.workPackage);

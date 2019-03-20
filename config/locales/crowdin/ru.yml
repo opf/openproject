@@ -56,24 +56,24 @@ ru:
       no_results_content_title: На данный момент способы аутентификации отсутствуют.
       no_results_content_text: Создать новый способ аутентификации
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Шифрование подключения
     tls_mode:
       plain: нет
       simple_tls: simple_tls
       start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      plain_description: Обычная незашифрованная связь, нет TLS переговоров.
+      simple_tls_description: Неправильное шифрование TLS, но не проверка сертификатов.
+        Используйте с осторожностью и неявным доверием к LDAP соединению.
+      start_tls_description: Истинное TLS шифрование с полной валидацией. Используйте
+        для LDAP через TLS/SSL.
+      section_more_info_link_html: 'Этот раздел касается безопасности соединения этого
+        источника аутентификации LDAP. Для получения дополнительной информации посетите
+        <a href="%{link}">документацию Net::LDAP</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: На данный момент сообщений для форума нет.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: На данный момент цветов нет.
@@ -155,9 +155,9 @@ ru:
     settings:
       activities:
         no_results_title_text: В настоящее время никакой активности.
-      boards:
-        no_results_title_text: Форумы в этом проекте отсутствуют.
-        no_results_content_text: Создать новый форум
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: На данный момент категории пакетов работ отсутствуют.
         no_results_content_text: Создать новую категорию пакета работ
@@ -385,10 +385,10 @@ ru:
         encoded_token: Маркер поддержки корпоративной версии
         active_user_count_restriction: Максимальное число активных пользователей
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
+        page: Страница
+        row_count: Количество строк
+        column_count: Количество столбцов
+        widgets: Виджеты
       relation:
         delay: Задержка
         from: Пакет работ
@@ -558,9 +558,9 @@ ru:
         enterprise_token:
           unreadable: невозможно прочитать. Вы уверены, что это маркер поддержки?
         grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          overlaps: перекрытие.
+          outside: за пределами сетки.
+          end_before_start: конечное значение должно быть больше начального.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -681,7 +681,7 @@ ru:
     models:
       attachment: Файл
       attribute_help_text: Атрибут текста справки
-      board: Форум
+      forum: Форум
       comment: Комментарий
       custom_action: Пользовательское действие
       custom_field: Настраиваемое поле
@@ -1208,9 +1208,8 @@ ru:
       faq: ЧаВо
       glossary: Глоссарий
       shortcuts: Ярлыки
-      forums: Форумы
       blog: Openproject блог
-      boards: Форум сообщества
+      forums: Форум сообщества
       newsletter: Оповещения системы безопасности / Новости
   links:
     configuration_guide: Руководство по конфигурации
@@ -1277,7 +1276,7 @@ ru:
   label_authentication: Аутентификация
   label_available_project_work_package_categories: Доступные категории рабочих пакетов
   label_available_project_work_package_types: Доступные типы пакетов работ
-  label_available_project_boards: Доступные форумы
+  label_available_project_forums: Available forums
   label_available_project_versions: Имеющиеся этапы проекта
   label_available_project_repositories: Доступные репозитории
   label_api_documentation: Документация по API
@@ -1285,14 +1284,15 @@ ru:
   label_blocked_by: заблокировано
   label_blocks: блоки
   label_blog: Блог
-  label_board_locked: Заперто
-  label_board_new: Новый форум
-  label_board_plural: Форумы
-  label_board_sticky: Стикер
+  label_forums_locked: Заперто
+  label_forum_new: Новый форум
+  label_forum_plural: Форумы
+  label_forum_sticky: Стикер
   label_boolean: Логическое значение
   label_branch: Ветка
   label_browse: Обзор
   label_bulk_edit_selected_work_packages: Массовое изменение выбранных пакетов работ
+  label_bundled: "(Bundled)"
   label_calendar: Календарь
   label_calendar_show: Показать календарь
   label_category: Категория
@@ -1428,6 +1428,7 @@ ru:
   label_hierarchy_leaf: Уровень иерархии
   label_home: Главная
   label_subject_or_id: Тема или ID
+  label_impressum: Impressum
   label_in: в
   label_in_less_than: менее чем
   label_in_more_than: более чем
@@ -1553,6 +1554,7 @@ ru:
   label_planning: Планирование
   label_please_login: Пожалуйста, войдите в систему
   label_plugins: Плагины
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: предшествует
   label_preferences: Предпочтения
   label_preview: Предварительный просмотр
@@ -1561,6 +1563,7 @@ ru:
   label_principal_invite_via_email: " или пригласить новых пользователей по электронной
     почте"
   label_principal_search: Добавление существующих пользователей или групп
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Версия продукта
   label_professional_support: Профессиональная поддержка
   label_profile: Профиль
@@ -1896,8 +1899,8 @@ ru:
   notice_account_update_failed: Настройки учетной записи не могут быть сохранены.
     Пожалуйста, просмотрите страницу Вашей учетной записи ещё раз.
   notice_account_updated: Учетная запись успешно обновлёна.
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: Все другие сессии, связанные с вашей учетной
+    записью, были аннулированы.
   notice_account_wrong_password: Неправильный пароль
   notice_account_registered_and_logged_in: Добро пожаловать. Ваш аккаунт активирован.
     Вы вошли в систему.
@@ -2029,7 +2032,7 @@ ru:
   permission_export_wiki_pages: Экспорт wiki-страниц
   permission_list_attachments: Отобразить список прикреплённых файлов
   permission_log_time: Учитывать потраченное время
-  permission_manage_boards: Управление форумами
+  permission_manage_forums: Управление форумами
   permission_manage_categories: Управление категориями пакета работ
   permission_manage_work_package_relations: Управление связями пакета работ
   permission_manage_members: Управление участниками
@@ -2077,7 +2080,7 @@ ru:
     archive:
       are_you_sure: Уверены, что хотите архивизировать проект %{name}%?
   project_module_activity: Деятельность
-  project_module_boards: Форумы
+  project_module_forums: Форумы
   project_module_calendar: Календарь
   project_module_work_package_tracking: Отслеживание пакета работ
   project_module_news: Новости
@@ -2303,10 +2306,6 @@ ru:
     почты для всех запросов
   setting_login_required: Требуется аутентификация
   setting_mail_from: Адрес электронной почты выпуска
-  setting_mail_handler_api_enabled: Разрешить входящую почту веб-сервисов
-  setting_mail_handler_api_description: Веб-обработчик электронной почты позволяет
-    OpenProject получать письма с командами (например, для создания и обновления пакетов
-    работы).
   setting_mail_handler_api_key: API-ключ
   setting_mail_handler_body_delimiters: Усечение сообщений после одной из этих линий
   setting_mail_handler_body_delimiter_regex: Сообщение усекается по этому регулярному
@@ -2571,7 +2570,6 @@ ru:
       color: Цвет
       colors: Цвета
     associations: Связи
-    board_could_not_be_saved: Форум сохранён быть не может
     button_delete_all: Удалить всё
     change: Изменения в планировании
     children: Дочерние элементы
@@ -3016,3 +3014,7 @@ ru:
     revoke_my_application_confirmation: Вы действительно хотите удалить это приложение?
       Это действие будет отменено %{token_count}.
     my_registered_applications: Зарегистрированные OAuth приложения
+  setting_mail_handler_api_enabled: Разрешить входящую почту веб-сервисов
+  setting_mail_handler_api_description: Веб-обработчик электронной почты позволяет
+    OpenProject получать письма с командами (например, для создания и обновления пакетов
+    работы).

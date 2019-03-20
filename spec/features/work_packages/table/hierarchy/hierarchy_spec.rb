@@ -84,7 +84,7 @@ describe 'Work Package table hierarchy', js: true do
       # Disabling hierarchy hides them again
       hierarchy.disable_hierarchy
 
-      wp_table.expect_work_package_not_listed(wp_root, wp_inter)
+      wp_table.ensure_work_package_not_listed!(wp_root, wp_inter)
     end
   end
 
@@ -96,7 +96,7 @@ describe 'Work Package table hierarchy', js: true do
     it 'shows the hierarchy indicator only when the rows are both shown' do
       wp_table.visit!
       wp_table.expect_work_package_listed(wp_root)
-      wp_table.expect_work_package_not_listed(wp_inter)
+      wp_table.ensure_work_package_not_listed!(wp_inter)
       hierarchy.expect_leaf_at(wp_root)
 
       # Visit global table

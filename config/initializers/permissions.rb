@@ -263,32 +263,32 @@ Redmine::AccessControl.map do |map|
                     {}
   end
 
-  map.project_module :boards do |board|
-    board.permission :manage_boards,
-                     { boards: [:new, :create, :edit, :update, :move, :destroy] },
+  map.project_module :forums do |forum|
+    forum.permission :manage_forums,
+                     { forums: [:new, :create, :edit, :update, :move, :destroy] },
                      require: :member
 
-    board.permission :view_messages,
-                     { boards: [:index, :show],
+    forum.permission :view_messages,
+                     { forums: [:index, :show],
                        messages: [:show] },
                      public: true
 
-    board.permission :add_messages,
+    forum.permission :add_messages,
                      messages: [:new, :create, :reply, :quote, :preview]
 
-    board.permission :edit_messages,
+    forum.permission :edit_messages,
                      { messages: [:edit, :update, :preview] },
                      require: :member
 
-    board.permission :edit_own_messages,
+    forum.permission :edit_own_messages,
                      { messages: [:edit, :update, :preview] },
                      require: :loggedin
 
-    board.permission :delete_messages,
+    forum.permission :delete_messages,
                      { messages: :destroy },
                      require: :member
 
-    board.permission :delete_own_messages,
+    forum.permission :delete_own_messages,
                      { messages: :destroy },
                      require: :loggedin
   end

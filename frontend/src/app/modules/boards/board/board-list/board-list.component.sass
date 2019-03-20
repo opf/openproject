@@ -1,25 +1,26 @@
 .board-list--query-container
-  padding: 5px 15px
+  padding: 5px 0
   height: 75vh
   overflow-y: auto
 
+.board-list--container
+  border: 1px solid #ccc
+
+.board-list--action-bar
+  width: 100%
+  height: 5px
+  border-bottom: 1px solid #f1f1f1
+
 .board-list--header
-  padding: 10px 20px
+  padding: 10px 10px 10px 15px
   border-bottom: 1px solid #ccc
   display: flex
   align-items: center
 
   editable-toolbar-title
     flex: 1
-
-  .board-list--delete-icon
-    opacity: 0
-    position: relative
-    top: -4px
-    left: 4px
-
-    .board-list--container:hover &
-      opacity: 1
+    margin-bottom: 0
+    margin-right: 0.25rem
 
 wp-embedded-table
   wp-card-view

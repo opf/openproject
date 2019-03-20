@@ -97,26 +97,6 @@ module SearchHelper
     OpenProject::GlobalSearch.tab_name(t)
   end
 
-  def render_results_by_type(results_by_type)
-    links = []
-    # Sorts types by results count
-    results_by_type.keys.sort { |a, b| results_by_type[b] <=> results_by_type[a] }.each do |t|
-      c = results_by_type[t]
-      next if c == 0
-      text = "#{type_label(t)} (#{c})"
-      target = {
-        controller: 'search',
-        project_id: (@project.identifier if @project),
-        action: 'index',
-        q: params[:q],
-        scope: current_scope,
-        t => 1
-      }
-      links << link_to(h(text), target)
-    end
-    ('<ul>' + links.map { |link| content_tag('li', link) }.join(' ') + '</ul>').html_safe unless links.empty?
-  end
-
   def current_scope
     params[:scope] ||
       ('subprojects' unless @project.nil? || @project.descendants.active.empty?) ||

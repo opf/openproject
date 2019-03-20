@@ -48,7 +48,7 @@ enabled_modules_007:
   project_id: 1
   id: 7
 enabled_modules_008:
-  name: boards
+  name: forums
   project_id: 1
   id: 8
 enabled_modules_009:
@@ -80,7 +80,7 @@ enabled_modules_015:
   project_id: 2
   id: 15
 enabled_modules_016:
-  name: boards
+  name: forums
   project_id: 2
   id: 16
 enabled_modules_017:

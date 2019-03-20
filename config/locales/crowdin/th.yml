@@ -73,9 +73,9 @@ th:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: ขณะนี้ยังไม่มีสีใดๆ
@@ -155,9 +155,9 @@ th:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -661,7 +661,7 @@ th:
     models:
       attachment: ไฟล์
       attribute_help_text: Attribute help text
-      board: ฟอรั่ม
+      forum: ฟอรั่ม
       comment: ความคิดเห็น
       custom_action: Custom action
       custom_field: ฟิลด์ที่กำหนดเอง
@@ -1155,9 +1155,8 @@ th:
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: กระทู้
       blog: OpenProject blog
-      boards: Community forum
+      forums: Community forum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1222,7 +1221,7 @@ th:
   label_authentication: การระบุตัวตนผู้ใช้
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1230,14 +1229,15 @@ th:
   label_blocked_by: ถูกบล็อคโดย
   label_blocks: บล็อก
   label_blog: Blog
-  label_board_locked: ล็อค
-  label_board_new: กระทู้ใหม่
-  label_board_plural: กระทู้
-  label_board_sticky: ปักหมุด
+  label_forums_locked: ล็อค
+  label_forum_new: กระทู้ใหม่
+  label_forum_plural: กระทู้
+  label_forum_sticky: ปักหมุด
   label_boolean: ถูกหรือผิด
   label_branch: สาขา
   label_browse: เรียกดู
   label_bulk_edit_selected_work_packages: แก้ไขชุดภารกิจที่เลือกพร้อมกัน
+  label_bundled: "(Bundled)"
   label_calendar: ปฏิทิน
   label_calendar_show: แสดงปฏิทิน
   label_category: ประเภท
@@ -1372,6 +1372,7 @@ th:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: หน้าหลัก
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: ใน
   label_in_less_than: ในไม่เกิน
   label_in_more_than: ในมากกว่า
@@ -1497,6 +1498,7 @@ th:
   label_planning: การวางแผน
   label_please_login: กรุณาเข้าสู่ระบบ
   label_plugins: ปลั๊กอิน
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: มาก่อน
   label_preferences: กำหนดคุณลักษณะ
   label_preview: แสดงตัวอย่าง
@@ -1504,6 +1506,7 @@ th:
   label_previous_week: สัปดาห์ก่อนหน้านี้
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professional support
   label_profile: ข้อมูลส่วนตัว
@@ -1937,7 +1940,7 @@ th:
   permission_export_wiki_pages: เอกซ์ปอร์ตหน้าวิกิ
   permission_list_attachments: รายการสิ่งที่แนบมา
   permission_log_time: บันทึกเวลาที่ใช้
-  permission_manage_boards: จัดการกระทู้
+  permission_manage_forums: จัดการกระทู้
   permission_manage_categories: จัดการประเภทของชุดภารกิจ
   permission_manage_work_package_relations: จัดการความสัมพันธ์ของชุดภารกิจ
   permission_manage_members: จัดการสมาชิก
@@ -1984,7 +1987,7 @@ th:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: กิจกรรม
-  project_module_boards: กระทู้
+  project_module_forums: กระทู้
   project_module_calendar: ปฏิทิน
   project_module_work_package_tracking: ติดตามผลชุดภารกิจ
   project_module_news: ข่าวสาร
@@ -2204,10 +2207,6 @@ th:
   setting_log_requesting_user: เก็บข้อมูลการล็อกอิน ชื่อ และอีเมล์ของผู้ใช้สำหรับทุกคำขอ
   setting_login_required: จำเป็นต้องระบุตัวตนผู้ใช้
   setting_mail_from: การเผยแพร่ที่อยู่อีเมล
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: คีย์ API
   setting_mail_handler_body_delimiters: ตัดข้อความอีเมลหลังจากเส้นนี้
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2451,7 +2450,6 @@ th:
       color: สี
       colors: สี
     associations: ส่วนที่อ้างอิง
-    board_could_not_be_saved: ไม่สามารถบันทึกคณะกรรมการ
     button_delete_all: ลบทั้งหมด
     change: การเปลี่ยนแปลงในการวางแผน
     children: องค์ประกอบย่อย
@@ -2868,3 +2866,7 @@ th:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Enable incoming email web service
+  setting_mail_handler_api_description: The email web handler enables OpenProject
+    to receive emails containing specific commands as an instrumentation mechanism
+    (e.g., to create and update work packages).

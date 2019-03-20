@@ -17,11 +17,21 @@ ja:
     close_popup_title: ポップアップを閉じる
     close_filter_title: フィルタを閉じる
     close_form_title: フォームを閉じる
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: エンタープライズ版をチェックしてください。
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: お使いのブラウザーでは、クリップボードへのコピーをサポートしていません。手動で選択したテキストをコピーしてください。
       copied_successful: 正常にクリップボードにコピーしました!
     button_add_watcher: ウォッチャーを追加
-    button_back: Back
+    button_back: 戻る
     button_back_to_list_view: リスト表示に戻る
     button_cancel: キャンセル
     button_close: 閉じる
@@ -142,26 +152,26 @@ ja:
     general_text_Yes: はい
     grid:
       add_modal:
-        choose_widget: Choose widget
+        choose_widget: ウィジェットを選択
       widgets:
         documents:
-          title: Documents
-          no_results: No documents yet.
+          title: ドキュメント
+          no_results: まだドキュメントはありません。
         news:
           title: ニュース
-          at: at
+          at: 日時
           no_results: 新しい報告はありません。
         time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
+          title: 経過時間(過去7日)
+          no_results: 過去7日間の時間エントリはありません。
         work_packages_accountable:
           title: 責任者である作業項目
         work_packages_assigned:
           title: 担当している作業項目
         work_packages_created:
-          title: Work packages created by me
+          title: 自分が作成した作業項目
         work_packages_watched:
-          title: Work packages watched by me
+          title: 自分が見た作業項目
         work_packages_calendar:
           title: カレンダー
     label_activate: 有効にする
@@ -320,11 +330,47 @@ ja:
         next: 次へ
         got_it: 了承
       steps:
-        welcome: 3分間の導入ツアーで、最も<b>重要な機能</b>を確認します。 <br>最後まで手順を完了することをお勧めします。 ツアーはいつでも再開できます。
+        help_menu: "<b>ヘルプ</b>メニューには、ユーザーガイドとその他のヘルプリソースがあります。 <br> OpenProjectであなたの仕事をお楽しみください！"
+        members: 新しい<b>メンバー</b>を招待してプロジェクトに参加してください。
         project_selection: 開始するには、便利なデモデータを含むプロジェクトの1つを選択してください。 <br> <b>デモプロジェクト</b>は古典的なプロジェクト管理に最適ですが、<b>スクラムプロジェクト</b>はアジャイルプロジェクト管理に適しています。
         sidebar_arrow: 矢印を使って、プロジェクトの<b>メインメニュー</b>に戻ることができます。
-        members: 新しい<b>メンバー</b>を招待してプロジェクトに参加してください。
+        welcome: 3分間の導入ツアーで、最も<b>重要な機能</b>を確認します。 <br>最後まで手順を完了することをお勧めします。 ツアーはいつでも再開できます。
         wiki: "<b>Wiki</b>内ではチームと一緒に知識を文書化して共有することができます。"
+        backlogs:
+          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
+            you have the Product Backlog or a Bug Backlog, on the left you will have
+            the respective sprints. Here you can create <b>epics, user stories, and
+            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
+          task_board_select: "... and select the <b>Task board</b> entry."
+          task_board: The <b>Task board</b> visualizes the progress for this sprint.
+            Add new tasks or impediments with the + icon next to a user story. Via
+            drag'n'drop you can update the status.
+        boards:
+          overview: Manage your work within an intuitive <b>Boards</b> view.
+          lists: You can create multiple lists (columns) within one Board view, e.g.
+            to create a KANBAN board.
+          add: Click the + will <b>add a new card</b> to the list within a Board.
+          drag: Drag & Drop your cards within a list to re-order, or the another list.
+            A double click will open the details view.
+        wp:
+          toggler: Now let's have a look at the <b>Work package</b> section, which
+            gives you a more detailed view of your work.
+          list: This is the <b>Work package</b> list with the important work within
+            your project, such as tasks, features, milestones, bugs, and more. <br>
+            You can create or edit a work package directly within this list. To see
+            its details you can double click on a row.
+          full_view: Within the <b>Work package details</b> you find all relevant
+            information, such as description, status and priority, activities, dependencies
+            or comments.
+          back_button: With the arrow you can navigate back to the work package list.
+          create_button: The <b>Create</b> button will add a new work package to your
+            project.
+          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+            for your project.
+          timeline: Here you can edit your project plan. Create new phases, milestones,
+            and add dependencies. All team members can see and update the latest plan
+            at any time.
         backlogs_overview: "<b>バックログ</b>ビューで作業を管理します。 <br>右側には製品バックログまたはバグバックログがあり、左側にはそれぞれのスプリントがあります。ここで、<b>エピック、ユーザーストーリー、およびバグ</b>を作成し、ドラッグアンドドロップで優先順位を付けてスプリントに追加することができます。"
         backlogs_task_board_arrow: "<b>タスクボード</b>を表示するには、スプリントのドロップダウンを開きます..."
         backlogs_task_board_select: "... <b>タスクボード</b>を選択します。"
@@ -338,7 +384,6 @@ ja:
         wp_create_button: "<b>作成</b>ボタンをクリックすると、プロジェクトに新しい作業項目が追加されます。"
         wp_timeline_button: "<b>ガントチャート</b>をアクティブにして、プロジェクトのタイムラインを作成することができます。"
         wp_timeline: ここでプロジェクト計画を編集できます。 新しい段階、マイルストーンを作成し、依存関係を追加します。 すべてのチームメンバーは、いつでも最新のプランを見て更新することができます。
-        help_menu: "<b>ヘルプ</b>メニューには、ユーザーガイドとその他のヘルプリソースがあります。 <br> OpenProjectであなたの仕事をお楽しみください！"
     password_confirmation:
       field_description: この変更を確認するには、アカウントのパスワードを入力する必要があります。
       title: 続行するにはパスワードを確認してください
@@ -471,7 +516,7 @@ ja:
     text_query_destroy_confirmation: 選択したビューを削除してもよろしいですか？
     text_attachment_destroy_confirmation: この添付ファイルを削除してよろしいですか。
     timelines:
-      quarter_label: Q%{quarter_number}
+      quarter_label: 第%{quarter_number}四半期
       gantt_chart: ガントチャート
       labels:
         title: ラベル設定

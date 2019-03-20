@@ -18,12 +18,22 @@ lt:
     close_popup_title: Užverti iškylantį langą
     close_filter_title: Užverti filtrą
     close_form_title: Užverti formą
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Patikrinkite Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Jūsų naršyklė nepalaiko kopijavimo į mainų sritį. Prašome rankiniu
         būdu nukopijuoti pažymėtą tekstą.
       copied_successful: Sėkmingai nukopijuotas į mainų sritį!
     button_add_watcher: Pridėti stebėtojų
-    button_back: Back
+    button_back: Atgal
     button_back_to_list_view: Atgal į sąrašo peržiūrą
     button_cancel: Atšaukti
     button_close: Uždaryti
@@ -154,7 +164,7 @@ lt:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Dokumentai
           no_results: No documents yet.
         news:
           title: Naujienos
@@ -334,16 +344,53 @@ lt:
         next: Kitas
         got_it: Supratau
       steps:
-        welcome: Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių
-          sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos.
-          Ekskursiją galite paleisti iš naujo bet kuriuo metu.
+        help_menu: Meniu <b>Žinynas</b> rasite vartotojo vadovą ir papildomos pagalbos
+          šaltinius. <br>Mėgaukitės darbu su OpenProject!
+        members: Pakvieskite naujus <b>Narius</b> prisijungti prie projekto.
         project_selection: Prašome pasirinkti vieną iš projektų su įdėtais naudingais
           demonstraciniais duomenimis. <br> <b>Demo project</b> geriausiai tinka klasikiniam
           projektų valdymui, o <b>Scrum project</b> labiau tinka Agile projektų valdymui.
         sidebar_arrow: Rodykle galite pereiti atgal į projekto <b>Pagrindinį meniu</b>.
-        members: Pakvieskite naujus <b>Narius</b> prisijungti prie projekto.
+        welcome: Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių
+          sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos.
+          Ekskursiją galite paleisti iš naujo bet kuriuo metu.
         wiki: "<b>Wiki</b>'yje galite dokumentuoti ir dalintis žiniomis su savo komandos
           nariais."
+        backlogs:
+          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
+            you have the Product Backlog or a Bug Backlog, on the left you will have
+            the respective sprints. Here you can create <b>epics, user stories, and
+            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
+          task_board_select: "... and select the <b>Task board</b> entry."
+          task_board: The <b>Task board</b> visualizes the progress for this sprint.
+            Add new tasks or impediments with the + icon next to a user story. Via
+            drag'n'drop you can update the status.
+        boards:
+          overview: Manage your work within an intuitive <b>Boards</b> view.
+          lists: You can create multiple lists (columns) within one Board view, e.g.
+            to create a KANBAN board.
+          add: Click the + will <b>add a new card</b> to the list within a Board.
+          drag: Drag & Drop your cards within a list to re-order, or the another list.
+            A double click will open the details view.
+        wp:
+          toggler: Now let's have a look at the <b>Work package</b> section, which
+            gives you a more detailed view of your work.
+          list: This is the <b>Work package</b> list with the important work within
+            your project, such as tasks, features, milestones, bugs, and more. <br>
+            You can create or edit a work package directly within this list. To see
+            its details you can double click on a row.
+          full_view: Within the <b>Work package details</b> you find all relevant
+            information, such as description, status and priority, activities, dependencies
+            or comments.
+          back_button: With the arrow you can navigate back to the work package list.
+          create_button: The <b>Create</b> button will add a new work package to your
+            project.
+          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+            for your project.
+          timeline: Here you can edit your project plan. Create new phases, milestones,
+            and add dependencies. All team members can see and update the latest plan
+            at any time.
         backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
           right you have the Product Backlog or a Bug Backlog, on the left you will
           have the respective sprints. Here you can create <b>epics, user stories,
@@ -369,8 +416,6 @@ lt:
         wp_timeline: Čia jūs galite redaguoti savo projekto planą. Kurti naujus etapus,
           etapai, ir pridėti priklausomybių. Visi komandos nariai gali peržiūrėti
           ir keisti naujausią planą bet kuriuo metu.
-        help_menu: Meniu <b>Žinynas</b> rasite vartotojo vadovą ir papildomos pagalbos
-          šaltinius. <br>Mėgaukitės darbu su OpenProject!
     password_confirmation:
       field_description: Norėdami patvirtinti šį pakeitimą turite įvesti savo paskyros
         slaptažodį.

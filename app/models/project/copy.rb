@@ -270,36 +270,36 @@ module Project::Copy
       queries.map { |q| q.set_context }
     end
 
-    # Copies boards from +project+
-    def copy_boards(project, selected_copies = [])
-      project.boards.each do |board|
-        new_board = Board.new
-        new_board.attributes = board.attributes.dup.except('id',
+    # Copies forums from +project+
+    def copy_forums(project, selected_copies = [])
+      project.forums.each do |forum|
+        new_forum = Forum.new
+        new_forum.attributes = forum.attributes.dup.except('id',
                                                            'project_id',
                                                            'topics_count',
                                                            'messages_count',
                                                            'last_message_id')
-        copy_topics(board, new_board)
+        copy_topics(forum, new_forum)
 
-        new_board.project = self
-        boards << new_board
+        new_forum.project = self
+        forums << new_forum
       end
     end
 
-    def copy_topics(board, new_board)
+    def copy_topics(board, new_forum)
       topics = board.topics.where('parent_id is NULL')
       topics.each do |topic|
         new_topic = Message.new
         new_topic.attributes = topic.attributes.dup.except('id',
-                                                           'board_id',
+                                                           'forum_id',
                                                            'author_id',
                                                            'replies_count',
                                                            'last_reply_id',
                                                            'created_on',
                                                            'updated_on')
-        new_topic.board = new_board
+        new_topic.forum = new_forum
         new_topic.author_id = topic.author_id
-        new_board.topics << new_topic
+        new_forum.topics << new_topic
       end
     end
 

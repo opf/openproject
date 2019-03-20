@@ -80,10 +80,10 @@ module ProjectsHelper
         label: :label_repository
       },
       {
-        name: 'boards',
-        action: :manage_boards,
-        partial: 'project_settings/boards',
-        label: :label_board_plural
+        name: 'forums',
+        action: :manage_forums,
+        partial: 'project_settings/forums',
+        label: :label_forum_plural
       },
       {
         name: 'activities',

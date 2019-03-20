@@ -61,9 +61,9 @@ zh-TW:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: 目前沒有任何貼文在板上
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: 目前沒有顏色
@@ -136,9 +136,9 @@ zh-TW:
     settings:
       activities:
         no_results_title_text: 目前沒有可用的活動
-      boards:
-        no_results_title_text: 目前這個專案沒有佈告欄
-        no_results_content_text: 建立一個新佈告欄
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: 目前沒有工作套件類別
         no_results_content_text: 建立一個新工作套件類別
@@ -602,7 +602,7 @@ zh-TW:
     models:
       attachment: 檔案
       attribute_help_text: 屬性說明文字
-      board: 討論區
+      forum: 討論區
       comment: 評論
       custom_action: 自訂動作
       custom_field: 自訂欄位
@@ -1074,9 +1074,8 @@ zh-TW:
       faq: 問答集
       glossary: '術語表 '
       shortcuts: 快捷鍵
-      forums: 論壇
       blog: Openproject 部落格
-      boards: 社群論壇
+      forums: 社群論壇
       newsletter: 安全警報 / 消息
   links:
     configuration_guide: 設定指南
@@ -1138,7 +1137,7 @@ zh-TW:
   label_authentication: 身份驗證
   label_available_project_work_package_categories: 可用的工作項目類別
   label_available_project_work_package_types: 可用的工作包類型
-  label_available_project_boards: 可用的佈告欄
+  label_available_project_forums: Available forums
   label_available_project_versions: 可用的版本
   label_available_project_repositories: 可用的版本庫
   label_api_documentation: API文件
@@ -1146,14 +1145,15 @@ zh-TW:
   label_blocked_by: 標示禁止者
   label_blocks: 區塊
   label_blog: 日誌
-  label_board_locked: 鎖定
-  label_board_new: 新增論壇
-  label_board_plural: 論壇
-  label_board_sticky: 附著
+  label_forums_locked: 鎖定
+  label_forum_new: 新增論壇
+  label_forum_plural: 論壇
+  label_forum_sticky: 附著
   label_boolean: 布林值
   label_branch: 分支
   label_browse: 瀏覽
   label_bulk_edit_selected_work_packages: 整批編輯選取的工作項目
+  label_bundled: "(Bundled)"
   label_calendar: 行事曆
   label_calendar_show: 顯示行事曆
   label_category: 類別
@@ -1288,6 +1288,7 @@ zh-TW:
   label_hierarchy_leaf: 頁面結構頁
   label_home: Home
   label_subject_or_id: 主旨或 id
+  label_impressum: Impressum
   label_in: 在
   label_in_less_than: 少於
   label_in_more_than: 多於
@@ -1413,6 +1414,7 @@ zh-TW:
   label_planning: 計劃中
   label_please_login: 請登入
   label_plugins: 擴充套件
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: 之前
   label_preferences: 喜好設定
   label_preview: 預覽
@@ -1420,6 +1422,7 @@ zh-TW:
   label_previous_week: 前一週
   label_principal_invite_via_email: 或者透過郵件邀請新的使用者
   label_principal_search: 增加現有使用者或群組
+  label_privacy_policy: Data privacy and security policy
   label_product_version: 產品版本
   label_professional_support: 專業支援
   label_profile: Profile
@@ -1833,7 +1836,7 @@ zh-TW:
   permission_export_wiki_pages: 匯出維基頁面
   permission_list_attachments: 列出附件
   permission_log_time: 記錄耗時
-  permission_manage_boards: 管理論壇
+  permission_manage_forums: 管理論壇
   permission_manage_categories: 管理工作項目類別
   permission_manage_work_package_relations: 管理工作項目關聯
   permission_manage_members: 管理成員
@@ -1879,7 +1882,7 @@ zh-TW:
     archive:
       are_you_sure: 是否確定要 archive 專案 '%{name}'？
   project_module_activity: 活動
-  project_module_boards: 論壇
+  project_module_forums: 論壇
   project_module_calendar: 行事曆
   project_module_work_package_tracking: 工作項目追蹤
   project_module_news: 新知
@@ -2069,8 +2072,6 @@ zh-TW:
   setting_log_requesting_user: 對所有的請求紀錄使用者登入名稱和郵件地址
   setting_login_required: 需要身份驗證
   setting_mail_from: 發出的電子郵件地址
-  setting_mail_handler_api_enabled: 啟用寄入電子郵件網路服務
-  setting_mail_handler_api_description: 電子郵件網路接收使 OpenProject 可以接收包含特殊命令作為編輯機制的電子郵件(例如：建立或更新工作項目)。
   setting_mail_handler_api_key: API 金鑰
   setting_mail_handler_body_delimiters: 在這些行之後截斷電子郵件
   setting_mail_handler_body_delimiter_regex: 清空符合正規表達式的電子郵件
@@ -2286,7 +2287,6 @@ zh-TW:
       color: 顏色
       colors: 顏色
     associations: 依賴相依
-    board_could_not_be_saved: 無法儲存看板
     button_delete_all: 全部删除
     change: 更改計劃
     children: 子元素
@@ -2666,3 +2666,5 @@ zh-TW:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: 啟用寄入電子郵件網路服務
+  setting_mail_handler_api_description: 電子郵件網路接收使 OpenProject 可以接收包含特殊命令作為編輯機制的電子郵件(例如：建立或更新工作項目)。

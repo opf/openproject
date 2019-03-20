@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
@@ -37,19 +37,24 @@ import {BoardListsService} from "core-app/modules/boards/board/board-list/board-
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {BoardInlineAddAutocompleterComponent} from "core-app/modules/boards/board/inline-add/board-inline-add-autocompleter.component";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
-import {BoardConfigurationDisplaySettingsTab} from "core-app/modules/boards/board/configuration-modal/tabs/display-settings-tab.component";
 import {BoardsToolbarMenuDirective} from "core-app/modules/boards/board/toolbar-menu/boards-toolbar-menu.directive";
 import {BoardConfigurationService} from "core-app/modules/boards/board/configuration-modal/board-configuration.service";
 import {BoardConfigurationModal} from "core-app/modules/boards/board/configuration-modal/board-configuration.modal";
 import {BoardsIndexPageComponent} from "core-app/modules/boards/index-page/boards-index-page.component";
 import {BoardsMenuComponent} from "core-app/modules/boards/boards-sidebar/boards-menu.component";
 import {BoardDmService} from "core-app/modules/boards/board/board-dm.service";
+import {NewBoardModalComponent} from "core-app/modules/boards/new-board-modal/new-board-modal.component";
+import {BoardStatusActionService} from "core-app/modules/boards/board/board-actions/status-action.service";
+import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
+import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
+import {BoardHighlightingTabComponent} from "core-app/modules/boards/board/configuration-modal/tabs/highlighting-tab.component";
+import {AddCardDropdownMenuDirective} from "core-app/modules/boards/board/add-card-dropdown/add-card-dropdown-menu.directive";
 
 export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'boards',
     parent: 'root',
-    url: '/work_packages/boards',
+    url: '/boards',
     redirectTo: 'boards.list',
     component: BoardsRootComponent
   },
@@ -64,7 +69,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     name: 'boards.show',
     url: '/{board_id}',
     params: {
-      board_id: { type: 'int' },
+      board_id: { type: 'string' },
       isNew: { type: 'bool' }
     },
     component: BoardComponent,
@@ -73,6 +78,15 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     }
   }
 ];
+
+export function registerActionServices(injector:Injector) {
+  return () => {
+    const registry = injector.get(BoardActionsRegistryService);
+    const statusAction = injector.get(BoardStatusActionService);
+
+    registry.add('status', statusAction);
+  };
+}
 
 @NgModule({
   imports: [
@@ -88,6 +102,14 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     BoardListsService,
     BoardCacheService,
     BoardConfigurationService,
+    BoardActionsRegistryService,
+    BoardStatusActionService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: registerActionServices,
+      deps: [Injector],
+      multi: true
+    },
   ],
   declarations: [
     BoardsIndexPageComponent,
@@ -96,15 +118,20 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     BoardsRootComponent,
     BoardInlineAddAutocompleterComponent,
     BoardsMenuComponent,
-    BoardConfigurationDisplaySettingsTab,
+    BoardHighlightingTabComponent,
     BoardConfigurationModal,
     BoardsToolbarMenuDirective,
+    NewBoardModalComponent,
+    AddListModalComponent,
+    AddCardDropdownMenuDirective,
   ],
   entryComponents: [
     BoardInlineAddAutocompleterComponent,
     BoardsMenuComponent,
     BoardConfigurationModal,
-    BoardConfigurationDisplaySettingsTab,
+    BoardHighlightingTabComponent,
+    NewBoardModalComponent,
+    AddListModalComponent,
   ]
 })
 export class OpenprojectBoardsModule { }

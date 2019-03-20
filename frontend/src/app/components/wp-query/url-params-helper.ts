@@ -82,7 +82,7 @@ export class UrlParamsHelperService {
 
   private encodeColumns(paramsData:any, query:QueryResource) {
     paramsData.c = query.columns.map(function (column) {
-      return column.id;
+      return column.id!;
     })
     return paramsData;
   }
@@ -115,7 +115,7 @@ export class UrlParamsHelperService {
       paramsData.t = query
         .sortBy
         .map(function (sort:QuerySortByResource) {
-          return sort.id.replace('-', ':')
+          return sort.id!.replace('-', ':')
         })
         .join();
     }

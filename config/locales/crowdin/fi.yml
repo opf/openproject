@@ -72,9 +72,9 @@ fi:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Tällä hetkellä taululla ei ole viestejä.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Tällä hetkellä ei ole värejä.
@@ -154,9 +154,9 @@ fi:
     settings:
       activities:
         no_results_title_text: Tällä hetkellä ei ole aktiviteetteja.
-      boards:
-        no_results_title_text: Tällä hetkellä projektille ei ole tauluja.
-        no_results_content_text: Luo uusi taulu
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Tällä hetkellä ei ole yhtään työpaketin luokkaa.
         no_results_content_text: Lisää uusi työpaketin luokka
@@ -667,7 +667,7 @@ fi:
     models:
       attachment: Tiedosto
       attribute_help_text: Attribute help text
-      board: Keskustelupalsta
+      forum: Keskustelupalsta
       comment: Kommentti
       custom_action: Custom action
       custom_field: Mukautettu kenttä
@@ -1164,9 +1164,8 @@ fi:
       faq: UKK
       glossary: Sanasto
       shortcuts: Pikanäppäimet
-      forums: Keskustelupalstat
       blog: OpenProject blogi
-      boards: Keskustelupalsta
+      forums: Keskustelupalsta
       newsletter: Suojausvaroitukset / uutiskirje
   links:
     configuration_guide: Configuration guide
@@ -1233,7 +1232,7 @@ fi:
   label_authentication: Varmennus
   label_available_project_work_package_categories: Saatavilla olevat työpakettiluokat
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Saatavilla olevat taulut
+  label_available_project_forums: Available forums
   label_available_project_versions: Saatavana olevat versiot
   label_available_project_repositories: Available repositories
   label_api_documentation: API-dokumentaatio
@@ -1241,14 +1240,15 @@ fi:
   label_blocked_by: estänyt
   label_blocks: estää
   label_blog: Blogi
-  label_board_locked: Lukittu
-  label_board_new: Uusi keskustelupalsta
-  label_board_plural: Keskustelupalstat
-  label_board_sticky: Pysyvä
+  label_forums_locked: Lukittu
+  label_forum_new: Uusi keskustelupalsta
+  label_forum_plural: Keskustelupalstat
+  label_forum_sticky: Pysyvä
   label_boolean: Totuusarvomuuttuja
   label_branch: Haara
   label_browse: Selaus
   label_bulk_edit_selected_work_packages: Muokkaa useaa työpakettia
+  label_bundled: "(Bundled)"
   label_calendar: Kalenteri
   label_calendar_show: Näytä kalenteri
   label_category: Kategoria
@@ -1384,6 +1384,7 @@ fi:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Koti
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: tässä
   label_in_less_than: pienempi kuin
   label_in_more_than: suurempi kuin
@@ -1509,6 +1510,7 @@ fi:
   label_planning: Suunnittelu
   label_please_login: Kirjaudu sisään
   label_plugins: Liitännäiset
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: edeltää
   label_preferences: Asetukset
   label_preview: Esikatselu
@@ -1516,6 +1518,7 @@ fi:
   label_previous_week: Edellinen viikko
   label_principal_invite_via_email: " tai kutsu uusia käyttäjiä sähköpostilla"
   label_principal_search: Lisää olemassa olevia käyttäjiä tai ryhmiä
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Tuotteen versio
   label_professional_support: Ammatillinen apu
   label_profile: Profile
@@ -1961,7 +1964,7 @@ fi:
   permission_export_wiki_pages: Vie wiki-sivuja
   permission_list_attachments: Listaa liitteet
   permission_log_time: Lokita käytettyä aikaa
-  permission_manage_boards: Hallinnoi keskustelupalstaa
+  permission_manage_forums: Hallinnoi keskustelupalstaa
   permission_manage_categories: Hallinnoi tapahtumien luokkia
   permission_manage_work_package_relations: Hallinnoi työpakettien suhteita
   permission_manage_members: Hallinnoi jäseniä
@@ -2008,7 +2011,7 @@ fi:
     archive:
       are_you_sure: Oletko varma, että haluat arkistoida projektin "%{name}"?
   project_module_activity: Aktiviteetti
-  project_module_boards: Keskustelupalstat
+  project_module_forums: Keskustelupalstat
   project_module_calendar: Kalenteri
   project_module_work_package_tracking: Työpaketin seuranta
   project_module_news: Uutiset
@@ -2230,9 +2233,6 @@ fi:
     kaikista pyynnöistä
   setting_login_required: Pakollinen kirjautuminen
   setting_mail_from: Lähettäjän sähköpostiosoite
-  setting_mail_handler_api_enabled: Ota käyttöön WS saapuville sähköposteille
-  setting_mail_handler_api_description: Sähköpostipalvelu mahdollistaa tietynlaisten
-    komentojen (esim. työpaketin luonti ja päivitys) vastaanottamisen sähköpostitse.
   setting_mail_handler_api_key: API avain
   setting_mail_handler_body_delimiters: Katkaise sähköpostit tällaisen rivin jälkeen
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2485,7 +2485,6 @@ fi:
       color: Väri
       colors: Värit
     associations: Riippuvuudet
-    board_could_not_be_saved: Taulua ei voitu tallentaa
     button_delete_all: Poista kaikki
     change: Muuta suunnittelussa
     children: Ali-elementit
@@ -2913,3 +2912,6 @@ fi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Ota käyttöön WS saapuville sähköposteille
+  setting_mail_handler_api_description: Sähköpostipalvelu mahdollistaa tietynlaisten
+    komentojen (esim. työpaketin luonti ja päivitys) vastaanottamisen sähköpostitse.

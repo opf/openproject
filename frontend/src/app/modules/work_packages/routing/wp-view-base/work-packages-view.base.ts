@@ -38,7 +38,10 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {States} from "core-components/states.service";
-import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
+import {
+  WorkPackageTableRefreshRequest,
+  WorkPackageTableRefreshService
+} from "core-components/wp-table/wp-table-refresh-request.service";
 import {WorkPackageTableColumnsService} from "core-components/wp-fast-table/state/wp-table-columns.service";
 import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
 import {WorkPackageTableGroupByService} from "core-components/wp-fast-table/state/wp-table-group-by.service";
@@ -52,6 +55,9 @@ import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-c
 import {WorkPackageQueryStateService} from "core-components/wp-fast-table/state/wp-table-base.service";
 import {debugLog} from "core-app/helpers/debug_output";
 import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
+import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 
 export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
@@ -75,6 +81,8 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   readonly $transitions:TransitionService = this.injector.get(TransitionService);
   readonly I18n:I18nService = this.injector.get(I18nService);
   readonly wpStaticQueries:WorkPackageStaticQueriesService = this.injector.get(WorkPackageStaticQueriesService);
+  readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
+  readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
 
   constructor(protected injector:Injector) {
   }
@@ -92,10 +100,18 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   }
 
   private setupQueryObservers() {
-    this.querySpace.ready.fireOnStateChange(this.wpTablePagination.state,
-      'Query loaded').values$().pipe(
-      untilComponentDestroyed(this),
-      withLatestFrom(this.querySpace.query.values$())
+    this
+      .querySpace
+      .ready
+      .fireOnStateChange(
+        this.wpTablePagination.state,
+      'Query loaded'
+      )
+      .values$()
+      .pipe(
+        untilComponentDestroyed(this),
+        withLatestFrom(this.querySpace.query.values$()
+      )
     ).subscribe(([pagination, query]) => {
       if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
         this.wpListChecksumService.update(query, pagination);
@@ -139,7 +155,10 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
       // Update the page, if the change requires it
       if (triggerUpdate) {
-        this.wpTableRefresh.request('Query updated by user', true, firstPage);
+        this.wpTableRefresh.request(
+          'Query updated by user',
+          { visible: true, firstPage: firstPage }
+        );
       }
     });
   }
@@ -151,10 +170,11 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   protected setupRefreshObserver() {
     this.wpTableRefresh.state.values$('Refresh listener in wp-set.component').pipe(
       untilComponentDestroyed(this),
+      filter(request => this.filterRefreshRequest(request)),
       auditTime(20)
-    ).subscribe(([refreshVisibly, firstPage]) => {
+    ).subscribe((request) => {
       debugLog('Refreshing work package results.');
-      this.refresh(refreshVisibly, firstPage);
+      this.refresh(request.visible, request.firstPage);
     });
   }
 
@@ -163,8 +183,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
    * Refresh the set of results,
    * showing the loading indicator if visibly is set.
    *
-   * @param visibly Set true when desiring the loading indicator
-   * @param firstPage Reload the page to first page.
+   * @param A refresh request
    */
   public abstract refresh(visibly:boolean, firstPage:boolean):Promise<unknown>;
 
@@ -174,4 +193,13 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
    * @param promise
    */
   protected abstract set loadingIndicator(promise:Promise<unknown>);
+
+  /**
+   * Filter the given refresh request?
+   * @param request {WorkPackageTableRefreshRequest}
+   * @return {boolean} whether the request should be processed.
+   */
+  protected filterRefreshRequest(request:WorkPackageTableRefreshRequest):boolean {
+    return true;
+  }
 }

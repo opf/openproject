@@ -125,8 +125,9 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       .catch(() => this.querySaving = false);
   }
 
+
   updateTitle(query:QueryResource) {
-    if (query.id) {
+    if (query.persisted) {
       this.selectedTitle = query.name;
       this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
     } else {
@@ -168,7 +169,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
       const params = transition.params('to');
       let newChecksum = this.wpListService.getCurrentQueryProps(params);
-      let newId = params.query_id && parseInt(params.query_id);
+      let newId:string = params.query_id ? params.query_id.toString() : null;
 
       this.wpListChecksumService
         .executeIfOutdated(newId,

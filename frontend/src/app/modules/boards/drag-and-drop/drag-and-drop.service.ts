@@ -1,13 +1,24 @@
 import {Inject, Injectable, OnDestroy} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
-import {keyCodes} from "core-app/modules/common/keyCodes.enum";
+import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
+
+const autoScroll:any = require('dom-autoscroller');
+
+export interface IAutoScroller {
+  add:(...elements:unknown[]) => void;
+  destroy:(animation:boolean) => void;
+}
 
 export interface DragMember {
   container:HTMLElement;
-  moves:(element:HTMLElement, fromContainer:HTMLElement, handle:HTMLElement, sibling:HTMLElement|null) => boolean;
-  onMoved:(row:HTMLTableRowElement, target:any, source:HTMLTableRowElement, sibling:HTMLTableRowElement|null) => void;
-  onAdded:(row:HTMLTableRowElement, target:any, source:HTMLTableRowElement, sibling:HTMLTableRowElement|null) => void;
-  onRemoved:(row:HTMLTableRowElement, target:any, source:HTMLTableRowElement, sibling:HTMLTableRowElement|null) => void;
+  /** Whether this element moves */
+  moves:(element:HTMLElement, fromContainer:HTMLElement, handle:HTMLElement, sibling?:HTMLElement|null) => boolean;
+  /** Move element in container */
+  onMoved:(row:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => void;
+  /** Add element to this container */
+  onAdded:(row:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => Promise<boolean>;
+  /** Remove element from this container */
+  onRemoved:(row:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => void;
 }
 
 @Injectable()
@@ -17,6 +28,8 @@ export class DragAndDropService implements OnDestroy {
 
   public members:DragMember[] = [];
 
+  private autoscroll:IAutoScroller|undefined;
+
   private escapeListener = (evt:KeyboardEvent) => {
     if (this.drake && evt.key === 'Escape') {
       this.drake.cancel(true);
@@ -25,10 +38,12 @@ export class DragAndDropService implements OnDestroy {
 
   constructor(@Inject(DOCUMENT) private document:Document) {
     this.document.documentElement.addEventListener('keydown', this.escapeListener);
+
   }
 
   ngOnDestroy():void {
     this.document.documentElement.removeEventListener('keydown', this.escapeListener);
+    this.autoscroll && this.autoscroll.destroy(true);
   }
 
   public remove(container:HTMLElement) {
@@ -49,6 +64,13 @@ export class DragAndDropService implements OnDestroy {
   public register(...members:DragMember[]) {
     this.members.push(...members);
     const containers = members.map(m => m.container);
+
+    if (this.autoscroll) {
+      this.autoscroll.add(...containers);
+    } else {
+      this.setupAutoscroll(containers);
+    }
+
     if (this.drake === null) {
       this.initializeDrake(containers);
     } else {
@@ -56,9 +78,30 @@ export class DragAndDropService implements OnDestroy {
     }
   }
 
-  protected initializeDrake(containers:any) {
+  protected setupAutoscroll(containers:Element[]) {
+    // Setup autoscroll
+    const that = this;
+
+    this.autoscroll = autoScroll(
+      containers,
+      {
+        margin: 20,
+        maxSpeed: 5,
+        scrollWhenOutside: true,
+        autoScroll: function(this:{ down:boolean }) {
+          if (!that.drake) {
+            return false;
+          }
+
+          return this.down && that.drake.dragging;
+        }
+      });
+  }
+
+  protected initializeDrake(containers:Element[]) {
     this.drake = dragula(containers, {
       moves: (el:any, container:any, handle:any, sibling:any) => {
+
         let result = false;
         this.members.forEach(member => {
           if (member.container === container) {
@@ -79,16 +122,38 @@ export class DragAndDropService implements OnDestroy {
       ignoreInputTextSelection: true     // allows users to select input text, see details below
     });
 
-    this.drake.on('drop', (row:HTMLTableRowElement, target:HTMLElement, source:HTMLTableRowElement, sibling:HTMLTableRowElement|null) => {
-      const to = this.member(target);
-      const from = this.member(source);
-
-      if (to && to === from) {
-        return to.onMoved(row, target, source, sibling);
-      }
-
-      to && to.onAdded(row, target, source, sibling);
-      from && from.onRemoved(row, target, source, sibling);
+    this.drake.on('drag', (el:HTMLElement, source:HTMLElement) => {
+      el.dataset.sourceIndex = DragAndDropHelpers.findIndex(el).toString();
     });
+
+    this.drake.on('drop', async (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) => {
+      try {
+        await this.handleDrop(el, target, source, sibling);
+      } catch (e) {
+        console.error("Failed to handle drop of %O", el);
+      }
+    });
+  }
+
+  private async handleDrop(el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) {
+    const to = this.member(target);
+    const from = this.member(source);
+
+    if (!(to && from)) {
+      return;
+    }
+
+    if (to === from) {
+      return to.onMoved(el, target, source, sibling);
+    }
+
+    const result = await to.onAdded(el, target, source, sibling);
+
+    if (result) {
+      from.onRemoved(el, target, source, sibling);
+    } else {
+      // Restore element in from container
+      DragAndDropHelpers.reinsert(el, el.dataset.sourceIndex || -1, source);
+    }
   }
 }

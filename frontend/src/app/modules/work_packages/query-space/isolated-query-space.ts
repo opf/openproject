@@ -19,6 +19,7 @@ import {QueryColumn} from "core-components/wp-query/query-column";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {QueryGroupByResource} from "core-app/modules/hal/resources/query-group-by-resource";
 import {QuerySortByResource} from "core-app/modules/hal/resources/query-sort-by-resource";
+import {WorkPackageTableRefreshRequest} from "core-components/wp-table/wp-table-refresh-request.service";
 
 @Injectable()
 export class IsolatedQuerySpace extends StatesGroup {
@@ -78,7 +79,7 @@ export class IsolatedQuerySpace extends StatesGroup {
   // Subject used to unregister all listeners of states above.
   stopAllSubscriptions = new Subject();
   // Fire when table refresh is required
-  refreshRequired = input<boolean[]>();
+  refreshRequired = input<WorkPackageTableRefreshRequest>();
 
   // Expanded relation columns
   relationColumns = input<WorkPackageTableRelationColumns>();

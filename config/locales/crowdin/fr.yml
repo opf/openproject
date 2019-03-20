@@ -58,7 +58,7 @@ fr:
       no_results_content_title: Il n'y a actuellement aucun mode d'authentification.
       no_results_content_text: Créer un nouveau mode d'authentification
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Cryptage de la connexion
     tls_mode:
       plain: aucun(e)
       simple_tls: simple_tls
@@ -68,14 +68,14 @@ fr:
         Use with caution and implicit trust of the LDAP connection.
       start_tls_description: Explicit TLS encryption with full validation. Use for
         LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      section_more_info_link_html: 'Cette section concerne la sécurité de connexion
+        de cette source d''authentification LDAP. Pour plus d''informations, visitez
+        <a href="%{link}">the Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Il n'y a actuellement aucun message pour le forum.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Aucune couleur pour le moment.
@@ -156,9 +156,9 @@ fr:
     settings:
       activities:
         no_results_title_text: Aucune activité disponible pour le moment.
-      boards:
-        no_results_title_text: Il n'y a actuellement aucun forum pour le projet.
-        no_results_content_text: Créer un nouveau forum
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Aucune catégorie de lots de travaux pour le moment.
         no_results_content_text: Créer une nouvelle catégorie de lots de travaux
@@ -393,8 +393,8 @@ fr:
         active_user_count_restriction: Nombre maximal d’utilisateurs actif
       grids/grid:
         page: Page
-        row_count: Number of rows
-        column_count: Number of columns
+        row_count: Nombre de lignes
+        column_count: Nombre de colonnes
         widgets: Widgets
       relation:
         delay: Délai
@@ -567,8 +567,8 @@ fr:
             Entreprise ?
         grids/grid:
           overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          outside: est hors de la grille.
+          end_before_start: la valeur finale doit être supérieure à la valeur de départ.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -686,7 +686,7 @@ fr:
     models:
       attachment: Fichier
       attribute_help_text: Attribut d’aide de texte
-      board: Forum
+      forum: Forum
       comment: Commentaire
       custom_action: Action personnalisée
       custom_field: Champ personnalisé
@@ -1199,9 +1199,8 @@ fr:
       faq: FAQ
       glossary: Lexique
       shortcuts: Raccourcis
-      forums: Forums
       blog: Blog OpenProject
-      boards: Forum de la communauté
+      forums: Forum de la communauté
       newsletter: Alertes de sécurité / Lettre d’information
   links:
     configuration_guide: Guide de configuration
@@ -1268,7 +1267,7 @@ fr:
   label_authentication: Authentification
   label_available_project_work_package_categories: Catégories de lots de travaux disponibles
   label_available_project_work_package_types: Types de paquet de travail disponible
-  label_available_project_boards: Tableaux disponibles
+  label_available_project_forums: Available forums
   label_available_project_versions: Versions disponibles
   label_available_project_repositories: Dépôts disponibles
   label_api_documentation: Documentation de l'API
@@ -1276,14 +1275,15 @@ fr:
   label_blocked_by: bloqué par
   label_blocks: bloque
   label_blog: Blog
-  label_board_locked: Verrouillé
-  label_board_new: Nouveau forum
-  label_board_plural: Forums
-  label_board_sticky: Epinglé
+  label_forums_locked: Verrouillé
+  label_forum_new: Nouveau forum
+  label_forum_plural: Forums
+  label_forum_sticky: Epinglé
   label_boolean: Booléen
   label_branch: Branche
   label_browse: Parcourir
   label_bulk_edit_selected_work_packages: Edition en masse des Lots de Travaux selectionnés
+  label_bundled: "(Bundled)"
   label_calendar: Calendrier
   label_calendar_show: Afficher le calendrier
   label_category: Catégorie
@@ -1420,6 +1420,7 @@ fr:
   label_hierarchy_leaf: Feuille de hiérarchie
   label_home: Accueil
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: dans
   label_in_less_than: en moins de
   label_in_more_than: en plus de
@@ -1545,6 +1546,7 @@ fr:
   label_planning: Planification
   label_please_login: Veuillez vous connecter
   label_plugins: Plugins
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: précède
   label_preferences: Préférences
   label_preview: Aperçu
@@ -1552,6 +1554,7 @@ fr:
   label_previous_week: Semaine précédente
   label_principal_invite_via_email: " ou inviter de nouveaux utilisateurs par courriel"
   label_principal_search: Ajouter des utilisateurs ou groupes existant
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Version du produit
   label_professional_support: Support professionnel
   label_profile: Profil
@@ -2015,7 +2018,7 @@ fr:
   permission_export_wiki_pages: Exporter les pages wiki
   permission_list_attachments: Lister les pièces jointes
   permission_log_time: Indiquer la durée des tâches (Log spent time)
-  permission_manage_boards: Gérer les forums
+  permission_manage_forums: Gérer les forums
   permission_manage_categories: Gérer les catégories de lots de travaux
   permission_manage_work_package_relations: Gérer les relations des lots de travaux
   permission_manage_members: Gérer les membres
@@ -2063,7 +2066,7 @@ fr:
     archive:
       are_you_sure: Êtes-vous sûr de vouloir archiver le projet '%{name}%' ?
   project_module_activity: Activité
-  project_module_boards: Forums
+  project_module_forums: Forums
   project_module_calendar: Calendrier
   project_module_work_package_tracking: Suivi du Lot de Travaux
   project_module_news: Actualités
@@ -2296,10 +2299,6 @@ fr:
     pour toutes les requêtes
   setting_login_required: Authentification requise
   setting_mail_from: Adresse expéditeur
-  setting_mail_handler_api_enabled: Activer le service web de courrier entrant
-  setting_mail_handler_api_description: Le service web de courrier entrant permet
-    à OpenProject de recevoir des courriels contenant des commandes spécifiques à
-    exécuter (e.g. pour créer et mettre à jour des lots de travaux).
   setting_mail_handler_api_key: Clé API
   setting_mail_handler_body_delimiters: Tronquer les courriels à partir de l'une de
     ces lignes
@@ -2569,7 +2568,6 @@ fr:
       color: Couleur
       colors: Couleurs
     associations: Dépendances
-    board_could_not_be_saved: Le tableau n'a pas pu être enregistré
     button_delete_all: Tout supprimer
     change: Changement dans la planification
     children: Éléments enfants
@@ -3022,3 +3020,7 @@ fr:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Activer le service web de courrier entrant
+  setting_mail_handler_api_description: Le service web de courrier entrant permet
+    à OpenProject de recevoir des courriels contenant des commandes spécifiques à
+    exécuter (e.g. pour créer et mettre à jour des lots de travaux).

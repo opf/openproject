@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, Injector, OnDestroy, OnInit, QueryList, ViewChildren} from "@angular/core";
 import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -11,6 +11,13 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {StateService} from "@uirouter/core";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
+import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
+import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
+import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
+import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
+import {BannersService} from "core-app/modules/common/enterprise/banners.service";
+
 
 @Component({
   selector: 'board',
@@ -22,8 +29,8 @@ import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 })
 export class BoardComponent implements OnInit, OnDestroy {
 
-  // We only support 4 columns for now while the grid does not autoscale
-  readonly maxCount = 4;
+  /** Reference all query children to extract current actions */
+  @ViewChildren(BoardListComponent) lists:QueryList<BoardListComponent>;
 
   /** Board observable */
   public board:Board;
@@ -34,7 +41,6 @@ export class BoardComponent implements OnInit, OnDestroy {
   /** Whether we're in flight of updating the board */
   public inFlight = false;
 
-
   public text = {
     button_more: this.I18n.t('js.button_more'),
     delete: this.I18n.t('js.button_delete'),
@@ -43,7 +49,9 @@ export class BoardComponent implements OnInit, OnDestroy {
     updateSuccessful: this.I18n.t('js.notice_successful_update'),
     unnamedBoard: this.I18n.t('js.boards.label_unnamed_board'),
     loadingError: 'No such board found',
-    addList: 'Add list'
+    addList: this.I18n.t('js.boards.add_list'),
+    upsaleBoards: this.I18n.t('js.boards.upsale.boards'),
+    upsaleCheckOutLink: this.I18n.t('js.boards.upsale.check_out_link')
   };
 
   trackByQueryId = (index:number, widget:GridWidgetResource) => widget.options.query_id;
@@ -53,8 +61,13 @@ export class BoardComponent implements OnInit, OnDestroy {
               private readonly notifications:NotificationsService,
               private readonly BoardList:BoardListsService,
               private readonly QueryDm:QueryDmService,
+              private readonly opModalService:OpModalService,
+              private readonly injector:Injector,
+              private readonly boardActions:BoardActionsRegistryService,
               private readonly BoardCache:BoardCacheService,
-              private readonly Boards:BoardService) {
+              private readonly dynamicCss:DynamicCssService,
+              private readonly Boards:BoardService,
+              private readonly Banner:BannersService) {
   }
 
   goBack() {
@@ -63,13 +76,21 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   ngOnInit():void {
     const id:string = this.state.params.board_id.toString();
+    let initialized = false;
 
     this.BoardCache
       .requireAndStream(id)
       .pipe(
         untilComponentDestroyed(this)
       )
-      .subscribe(board => this.board = board);
+      .subscribe(board => {
+        this.board = board;
+
+        if (board.isAction && !initialized) {
+          this.dynamicCss.requireHighlighting();
+          initialized = true;
+        }
+      });
   }
 
   ngOnDestroy():void {
@@ -96,16 +117,23 @@ export class BoardComponent implements OnInit, OnDestroy {
       });
   }
 
-  addList(board:Board) {
-    this.BoardList
-      .addQuery(board)
-      .then(board => this.Boards.save(board))
-      .then(saved => {
-        this.BoardCache.update(saved);
-      })
-      .catch(error => {
-        this.notifications.addError(error);
-      });
+  addList(board:Board):any {
+    if (board.isFree) {
+      return this.BoardList
+        .addFreeQuery(board, { name: 'Unnamed list'})
+        .then(board => this.Boards.save(board))
+        .then(saved => {
+          this.BoardCache.update(saved);
+        })
+        .catch(error => this.showError(error));
+    } else {
+      const queries = this.lists.map(list => list.query);
+      this.opModalService.show(
+        AddListModalComponent,
+        this.injector,
+        { board: board, queries: queries }
+      );
+    }
   }
 
   moveList(board:Board, event:CdkDragDrop<GridWidgetResource[]>) {
@@ -116,5 +144,13 @@ export class BoardComponent implements OnInit, OnDestroy {
   removeList(board:Board, query:GridWidgetResource) {
     board.removeQuery(query);
     return this.saveBoard(board);
+  }
+
+  public showBoardListView() {
+    return !this.Banner.eeShowBanners;
+  }
+
+  public opReferrer(board:Board) {
+    return board.isFree ? 'boards#free' : 'boards#status';
   }
 }

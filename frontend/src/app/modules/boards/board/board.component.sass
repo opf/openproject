@@ -3,9 +3,12 @@
   flex-direction: row
   flex-wrap: nowrap
 
+  // Make it scrollable
+  padding-bottom: 2px
+  overflow-y: auto
+
 .boards-list--item
   flex: 0 0 20%
-  border: 1px solid #ccc
   margin-left: 2rem
   position: relative
 
@@ -22,7 +25,7 @@
 .boards-list-item-handle
   position: absolute
   left: 0
-  top: 20px
+  top: 24px
   z-index: 100
   opacity: 0
   cursor: grab
@@ -51,7 +54,10 @@
   .boards-list--add-item-text
     transform: rotate(90deg)
 
-// Changes when container is editable
-.board--container.-editable
+.board--container
+  position: relative
+
+  // Changes when container is editable
+  &.-editable
   .boards-list--add-item
     cursor: pointer

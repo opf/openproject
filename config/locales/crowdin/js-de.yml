@@ -19,12 +19,22 @@ de:
     close_popup_title: Dialog schließen
     close_filter_title: Filter schließen
     close_form_title: Formular schließen
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Testen Sie die Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Ihr Browser unterstützt das Kopieren in die Zwischenablage nicht
         nativ. Bitte selektieren und kopieren Sie den Text händisch.
       copied_successful: Erfolgreich in die Zwischenablage kopiert!
     button_add_watcher: Beobachter hinzufügen
-    button_back: Back
+    button_back: Zurück
     button_back_to_list_view: Zurück zur Listenansicht
     button_cancel: Abbrechen
     button_close: Schließen
@@ -158,26 +168,26 @@ de:
     general_text_Yes: Ja
     grid:
       add_modal:
-        choose_widget: Choose widget
+        choose_widget: Widget auswählen
       widgets:
         documents:
-          title: Documents
-          no_results: No documents yet.
+          title: Dokumente
+          no_results: Keine Dokumente.
         news:
           title: Neuigkeiten
-          at: at
+          at: um
           no_results: Nichts Neues zu berichten.
         time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
+          title: Verbrachte Zeit (letzte 7 Tage)
+          no_results: Keine Zeiteinträge der letzten 7 Tage.
         work_packages_accountable:
           title: Von mir verantwortete Arbeitspakete
         work_packages_assigned:
           title: Mir zugewiesene Arbeitspakete
         work_packages_created:
-          title: Work packages created by me
+          title: Von mir erstellte Arbeitspakete
         work_packages_watched:
-          title: Work packages watched by me
+          title: Von mir beobachtete Arbeitspakete
         work_packages_calendar:
           title: Kalender
     label_activate: Aktivieren
@@ -343,17 +353,54 @@ de:
         next: Weiter
         got_it: Verstanden
       steps:
-        welcome: Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen.
-          <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese
-          jeder Zeit wieder neu starten.
+        help_menu: 'Im <b>Hilfe</b> Menü finden Sie ein Benutzerhandbuch sowie weitere
+          Hilfematerialien.           <br> Viel Spaß mit OpenProject!'
+        members: Sie können hier neue <b>Mitglieder</b> zu Ihrem Projekt hinzufügen.
         project_selection: 'Bitte wählen Sie eines der Projekte mit hilfreichen Demodaten
           aus: <br> Das <b>„Demo project“</b> passt für klassisches Projektmanagement,
           das <b>„Scrum project“</b> ist geeignet für agiles Projektmanagement.'
         sidebar_arrow: Mit dem Pfeil gelangen Sie zurück zum <b>Hauptmenü</b> des
           Projektes.
-        members: Sie können hier neue <b>Mitglieder</b> zu Ihrem Projekt hinzufügen.
+        welcome: Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen.
+          <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese
+          jeder Zeit wieder neu starten.
         wiki: Im <b>Wiki</b> können Sie gemeinsam mit dem Team Informationen dokumentieren
           und eine Wissensdatenbank aufbauen.
+        backlogs:
+          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
+            you have the Product Backlog or a Bug Backlog, on the left you will have
+            the respective sprints. Here you can create <b>epics, user stories, and
+            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
+          task_board_select: "... and select the <b>Task board</b> entry."
+          task_board: The <b>Task board</b> visualizes the progress for this sprint.
+            Add new tasks or impediments with the + icon next to a user story. Via
+            drag'n'drop you can update the status.
+        boards:
+          overview: Manage your work within an intuitive <b>Boards</b> view.
+          lists: You can create multiple lists (columns) within one Board view, e.g.
+            to create a KANBAN board.
+          add: Click the + will <b>add a new card</b> to the list within a Board.
+          drag: Drag & Drop your cards within a list to re-order, or the another list.
+            A double click will open the details view.
+        wp:
+          toggler: Now let's have a look at the <b>Work package</b> section, which
+            gives you a more detailed view of your work.
+          list: This is the <b>Work package</b> list with the important work within
+            your project, such as tasks, features, milestones, bugs, and more. <br>
+            You can create or edit a work package directly within this list. To see
+            its details you can double click on a row.
+          full_view: Within the <b>Work package details</b> you find all relevant
+            information, such as description, status and priority, activities, dependencies
+            or comments.
+          back_button: With the arrow you can navigate back to the work package list.
+          create_button: The <b>Create</b> button will add a new work package to your
+            project.
+          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+            for your project.
+          timeline: Here you can edit your project plan. Create new phases, milestones,
+            and add dependencies. All team members can see and update the latest plan
+            at any time.
         backlogs_overview: Sie können Anforderungen in der <b>Backlogs Ansicht</b>
           verwalten. <br> Rechts befindet sich das Product Backlog oder Bug Backlog,
           links die jeweiligen Sprints. Hier können Sie <b>Epics, User Stories und
@@ -380,8 +427,6 @@ de:
         wp_timeline: Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine
           sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jeder Zeit
           die aktuelle Planung und kann diese bei Bedarf aktualisieren.
-        help_menu: 'Im <b>Hilfe</b> Menü finden Sie ein Benutzerhandbuch sowie weitere
-          Hilfematerialien.           <br> Viel Spaß mit OpenProject!'
     password_confirmation:
       field_description: Sie müssen Ihr Kennwort eingeben um diese Änderungen zu speichern.
       title: Geben Sie Ihr Kennwort ein um fortzufahren

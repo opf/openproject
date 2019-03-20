@@ -73,9 +73,9 @@ id:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Tidak ada pos untuk papan saat ini.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Tidak ada warna saat ini.
@@ -156,9 +156,9 @@ id:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -664,7 +664,7 @@ id:
     models:
       attachment: File
       attribute_help_text: Atribut teks bantuan
-      board: Forum
+      forum: Forum
       comment: Komentar
       custom_action: Custom action
       custom_field: Isian kustom
@@ -1163,9 +1163,8 @@ id:
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: Forum
       blog: OpenProject blog
-      boards: Community forum
+      forums: Community forum
       newsletter: Peringatan keamanan / Jurnal berkala
   links:
     configuration_guide: Petunjuk Konfigurasi
@@ -1232,7 +1231,7 @@ id:
   label_authentication: Otentikasi
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1240,14 +1239,15 @@ id:
   label_blocked_by: diblokir oleh
   label_blocks: blok
   label_blog: Blog
-  label_board_locked: Locked
-  label_board_new: Forum baru
-  label_board_plural: Forum
-  label_board_sticky: Sticky
+  label_forums_locked: Locked
+  label_forum_new: Forum baru
+  label_forum_plural: Forum
+  label_forum_sticky: Sticky
   label_boolean: Boolean
   label_branch: Branch
   label_browse: Browse
   label_bulk_edit_selected_work_packages: Edit masal Paket-Penugasan yang dipilih
+  label_bundled: "(Bundled)"
   label_calendar: Kalender
   label_calendar_show: Tampilkan kalender
   label_category: Kategori
@@ -1383,6 +1383,7 @@ id:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: dalam
   label_in_less_than: kurang dari
   label_in_more_than: lebih dari
@@ -1508,6 +1509,7 @@ id:
   label_planning: Perencanaan
   label_please_login: Silakan login
   label_plugins: Plugin
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: mendahului
   label_preferences: Preferensi
   label_preview: Preview
@@ -1515,6 +1517,7 @@ id:
   label_previous_week: Minggu sebelumnya
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professional support
   label_profile: Profil
@@ -1960,7 +1963,7 @@ id:
   permission_export_wiki_pages: Ekspor halaman Wiki
   permission_list_attachments: Daftar lampiran
   permission_log_time: Catat durasi
-  permission_manage_boards: Kelola Forum
+  permission_manage_forums: Kelola Forum
   permission_manage_categories: Kelola kategori Paket-Penugasan
   permission_manage_work_package_relations: Kelola relasi Paket-Penugasan
   permission_manage_members: Kelola member
@@ -2007,7 +2010,7 @@ id:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Activity
-  project_module_boards: Forum
+  project_module_forums: Forum
   project_module_calendar: Kalender
   project_module_work_package_tracking: Tracking Paket-Penugasan
   project_module_news: News
@@ -2227,9 +2230,6 @@ id:
   setting_log_requesting_user: Catat user login, nama dan email untuk semua permintaan
   setting_login_required: Diperlukan otentikasi
   setting_mail_from: Emisi alamat email
-  setting_mail_handler_api_enabled: Aktifkan web service untuk email masuk
-  setting_mail_handler_api_description: Email web handler memungkinkan OpenProject
-    untuk mengolah perintah (seperti membuat dan update work packages).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Potong email setelah baris ini
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2487,7 +2487,6 @@ id:
       color: Warna
       colors: Warna
     associations: Dependensi
-    board_could_not_be_saved: Board tidak dapat disimpan
     button_delete_all: Hapus semua
     change: Perubahan dalam perencanaan
     children: Sub-elemen
@@ -2916,3 +2915,6 @@ id:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Aktifkan web service untuk email masuk
+  setting_mail_handler_api_description: Email web handler memungkinkan OpenProject
+    untuk mengolah perintah (seperti membuat dan update work packages).

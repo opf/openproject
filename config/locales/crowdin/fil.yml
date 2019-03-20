@@ -76,9 +76,9 @@ fil:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Sa kasalukuyan ay walang mga post para sa board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Walang mga kasulukuyan kulay.
@@ -162,9 +162,9 @@ fil:
     settings:
       activities:
         no_results_title_text: Sa kasalukuyan ay walang mga aktibidad na available.
-      boards:
-        no_results_title_text: Sa kasalukuyan ay walang mga board para sa proyekto.
-        no_results_content_text: Gumawa ng bagong board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Sa kasalukuyan ay walang work package na mga kategorya.
         no_results_content_text: Gumawa ng bagong work package na kategorya
@@ -695,7 +695,7 @@ fil:
     models:
       attachment: File
       attribute_help_text: Tekstong tulong na katangian
-      board: Forum
+      forum: Forum
       comment: Komento
       custom_action: Custom aksyon
       custom_field: Pasadyang patlang
@@ -1203,9 +1203,8 @@ fil:
       faq: FAQ
       glossary: Glosaryo
       shortcuts: Mga madalian
-      forums: Mga forum
       blog: Blog ng OpenProject
-      boards: Komunidad forum
+      forums: Komunidad forum
       newsletter: Mga alertong seguridad/ Newsletter
   links:
     configuration_guide: Gabay ng kumpigurasyon
@@ -1274,7 +1273,7 @@ fil:
   label_available_project_work_package_categories: Ang mga kategorya ng magagamit
     na work package
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Mga magagamit na board
+  label_available_project_forums: Available forums
   label_available_project_versions: Ang magagamit na bersyon
   label_available_project_repositories: Magagamit na mga respository
   label_api_documentation: API dokumentasyon
@@ -1282,14 +1281,15 @@ fil:
   label_blocked_by: hinarangan ni
   label_blocks: mga hinarang
   label_blog: Blog
-  label_board_locked: Naka-lock
-  label_board_new: Bagong forum
-  label_board_plural: Mga forum
-  label_board_sticky: Malagkit
+  label_forums_locked: Naka-lock
+  label_forum_new: Bagong forum
+  label_forum_plural: Mga forum
+  label_forum_sticky: Malagkit
   label_boolean: Boolean
   label_branch: Sangay
   label_browse: Browse
   label_bulk_edit_selected_work_packages: Ang bulk edit ng mga napiling work package
+  label_bundled: "(Bundled)"
   label_calendar: Kalendaryo
   label_calendar_show: Ipakita ang kalendaryo
   label_category: Kategorya
@@ -1426,6 +1426,7 @@ fil:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Tahanan
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: sa
   label_in_less_than: mas mababa kaysa
   label_in_more_than: mahigit sa
@@ -1551,6 +1552,7 @@ fil:
   label_planning: Pagpaplano
   label_please_login: Mangyaring mag-log in
   label_plugins: Mga plugin
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precedes
   label_preferences: Mga kagustuhan
   label_preview: Tanawin ulit
@@ -1559,6 +1561,7 @@ fil:
   label_principal_invite_via_email: " o imbitahin ang bagong gumagamit sa pamamagitan
     ng email"
   label_principal_search: Magdagdag ng umiiral na mga user o grupo
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Produktong bersyon
   label_professional_support: Propesyonal na suporta
   label_profile: Profile
@@ -2021,7 +2024,7 @@ fil:
   permission_export_wiki_pages: I-edit ang mga work package
   permission_list_attachments: Listahan ng paglalakip
   permission_log_time: Big
-  permission_manage_boards: Pamahalain ang mga forum
+  permission_manage_forums: Pamahalain ang mga forum
   permission_manage_categories: Pamahalain ang mga kategorya ng work package
   permission_manage_work_package_relations: Nauugnay na pamahalin ang work package
   permission_manage_members: Pamahalain ang mga miyembro
@@ -2070,7 +2073,7 @@ fil:
     archive:
       are_you_sure: Sigurado ka bang na gusto mong i-archive ang proyekto'%{name}'?
   project_module_activity: Aktibidad
-  project_module_boards: Mga forum
+  project_module_forums: Mga forum
   project_module_calendar: Kalendaryo
   project_module_work_package_tracking: Ang pagtra-track ng work package
   project_module_news: Mga balita
@@ -2310,10 +2313,6 @@ fil:
     lahat na hiling
   setting_login_required: Kailangan ng pagpapatunay
   setting_mail_from: Emission ng email address
-  setting_mail_handler_api_enabled: Paganahin ang paparating na email web service
-  setting_mail_handler_api_description: Ang email web handler ay pinagana ang OpenProject
-    upang makatanggap ng mga mail na naglalaman ng tiyak na command bilang isang intstrumentasyon
-    mechanism ( hal. upang lumikha at i-update ang mga work package).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: I-truncate ang mga email pagatapod ng mga
     linyang ito
@@ -2588,7 +2587,6 @@ fil:
       color: Kulay
       colors: Mga kulay
     associations: Dependencia
-    board_could_not_be_saved: Ang board ay hindi ma i-save
     button_delete_all: Burahin ang lahat
     change: Baguhin ang pagpaplano
     children: Ang mga bata na elemento
@@ -3037,3 +3035,7 @@ fil:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Paganahin ang paparating na email web service
+  setting_mail_handler_api_description: Ang email web handler ay pinagana ang OpenProject
+    upang makatanggap ng mga mail na naglalaman ng tiyak na command bilang isang intstrumentasyon
+    mechanism ( hal. upang lumikha at i-update ang mga work package).

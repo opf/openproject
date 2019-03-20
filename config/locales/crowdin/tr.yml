@@ -72,9 +72,9 @@ tr:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Şu anda panoda gösterilebilecek gönderi bulunmamakta.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Şu anda hiç renk bulunmamakta.
@@ -154,9 +154,9 @@ tr:
     settings:
       activities:
         no_results_title_text: Şu anda hiç bir etkinlik mevcut değil.
-      boards:
-        no_results_title_text: Şu anda proje için bir pano mevcut değil.
-        no_results_content_text: Yeni bir pano oluştur
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Şu anda hiç iş paketi kategorisi bulunmamakta.
         no_results_content_text: Yeni bir iş paketi kategorisi oluştur
@@ -379,10 +379,10 @@ tr:
         encoded_token: Kurumsal Destek anahtarı
         active_user_count_restriction: En çok aktif kullanıcı
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
+        page: Sayfa
+        row_count: Satır sayısı
+        column_count: Sütun sayısı
+        widgets: Araçlar
       relation:
         delay: Gecikme
         from: İş paketi
@@ -544,7 +544,7 @@ tr:
           attributes:
             redirect_uri:
               fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
+              invalid_uri: geçerli bir URI olmalıdır.
               relative_uri: must be an absolute URI.
               secured_uri: must be an HTTPS/SSL URI.
               forbidden_uri: is forbidden by the server.
@@ -666,7 +666,7 @@ tr:
     models:
       attachment: Dosya
       attribute_help_text: Öznitelik Yardım metni
-      board: Forum
+      forum: Forum
       comment: Yorum
       custom_action: Özel eylem
       custom_field: Özel alan
@@ -1064,7 +1064,7 @@ tr:
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Girdi silinemedi.
-  error_invalid_selected_value: Invalid selected value.
+  error_invalid_selected_value: Seçili değeri geçersiz.
   error_invalid_group_by: "%{value} ya göre guplandırılamadı"
   error_invalid_query_column: 'Geçersiz sorgu sütunu: %{value}'
   error_invalid_sort_criterion: 'Sütuna göre sıralama yapamazsınız: %{value}'
@@ -1166,9 +1166,8 @@ tr:
       faq: SSS
       glossary: Terimler sözlüğü
       shortcuts: Kısayollar
-      forums: Forumlar
       blog: OpenProject blog
-      boards: Topluluk forumu
+      forums: Topluluk forumu
       newsletter: Güvenlik uyarıları / haber bülteni
   links:
     configuration_guide: Yapılandırma rehberi
@@ -1234,7 +1233,7 @@ tr:
   label_authentication: Kimlik Doğrulaması
   label_available_project_work_package_categories: Uygun iş paketi kategorileri
   label_available_project_work_package_types: Uygun iş paketi tipleri
-  label_available_project_boards: Uygun panolar
+  label_available_project_forums: Available forums
   label_available_project_versions: Uygun sürümler
   label_available_project_repositories: Uygun depolar
   label_api_documentation: API belgelendirmesi
@@ -1242,15 +1241,16 @@ tr:
   label_blocked_by: bağlı
   label_blocks: engeller
   label_blog: Blog
-  label_board_locked: Kilitlendi
-  label_board_new: Yeni forum
-  label_board_plural: Forumlar
-  label_board_sticky: Sabit
+  label_forums_locked: Kilitlendi
+  label_forum_new: Yeni forum
+  label_forum_plural: Forumlar
+  label_forum_sticky: Sabit
   label_boolean: Mantıksal
   label_branch: Dal
   label_browse: Gözat
   label_bulk_edit_selected_work_packages: Seçilen çalışma paketlerini toplu halde
     düzenle
+  label_bundled: "(Bundled)"
   label_calendar: Takvim
   label_calendar_show: Takvimi Göster
   label_category: Kategori
@@ -1348,7 +1348,7 @@ tr:
   label_environment: Ortam
   label_estimates_and_time: Tahminler & zaman
   label_equals: şuysa
-  label_everywhere: everywhere
+  label_everywhere: heryer
   label_example: Örnek
   label_export_to: 'Ayrıca şu adreste bulunabilir:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
@@ -1384,9 +1384,10 @@ tr:
   label_here: buraya
   label_hide: Gizle
   label_history: Geçmiş
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy_leaf: Hiyerarşi ağacı
   label_home: Ana sayfa
-  label_subject_or_id: Subject or ID
+  label_subject_or_id: Konu ya da ID
+  label_impressum: Impressum
   label_in: şurada
   label_in_less_than: daha azdır
   label_in_more_than: daha fazla
@@ -1512,6 +1513,7 @@ tr:
   label_planning: Planlanıyor
   label_please_login: Lütfen giriş yapın
   label_plugins: Eklentiler
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: iletletir
   label_preferences: Seçenekler
   label_preview: Ön İzleme
@@ -1519,6 +1521,7 @@ tr:
   label_previous_week: Geçen Hafta
   label_principal_invite_via_email: " veya yeni kullanıcılar e-posta ile davet et"
   label_principal_search: Mevcut kullanıcıları veya grupları ekle
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Ürün sürümü
   label_professional_support: Profesyonel destek
   label_profile: Profil
@@ -1664,7 +1667,7 @@ tr:
   label_view_diff: Farklılıkları gör
   label_view_revisions: Düzeltmeleri izle
   label_watched_work_packages: İzlenen iş paketleri
-  label_what_is_this: What is this?
+  label_what_is_this: Bu nedir?
   label_week: Hafta
   label_wiki_content_added: Viki sayfası eklendi
   label_wiki_content_updated: Viki sayfası güncellendi
@@ -1774,7 +1777,7 @@ tr:
         You can replace the functionality with an embedded table macro.
     include_wiki_page:
       errors:
-        page_not_found: Cannot find the wiki page '%{name}'.
+        page_not_found: Wiki sayfası '%{name} ' bulunamıyor.
         circular_inclusion: Circular inclusion of pages detected.
     create_work_package_link:
       errors:
@@ -1929,7 +1932,7 @@ tr:
       konusuna genel bir bakış.
     text_show_again: Bu videoyu Yardım menüsünden yeniden başlatabilirsiniz
     welcome: OpenProject'e hoş geldiniz
-    select_language: Please select your language
+    select_language: Lütfen dilinizi seçin
   permission_add_work_package_notes: Not eklemek
   permission_add_work_packages: İş paketi eklemek
   permission_add_messages: İleti göndermek
@@ -1964,7 +1967,7 @@ tr:
   permission_export_wiki_pages: Wiki sayfalarını dışarı aktar
   permission_list_attachments: Ekleri listelemek
   permission_log_time: Harcanan zaman kayıtları
-  permission_manage_boards: Forumları yönetmek
+  permission_manage_forums: Forumları yönetmek
   permission_manage_categories: İş paket kategorilerini yönet
   permission_manage_work_package_relations: İş paketi ilişkilerini yönet
   permission_manage_members: Üyeleri yönetmek
@@ -2013,7 +2016,7 @@ tr:
     archive:
       are_you_sure: "'%{name}' projesini arşivlemek istediğinize emin misiniz?"
   project_module_activity: Etkinlik
-  project_module_boards: Forumlar
+  project_module_forums: Forumlar
   project_module_calendar: Takvim
   project_module_work_package_tracking: İş paketi takibi
   project_module_news: Haberler
@@ -2168,7 +2171,7 @@ tr:
   setting_email_delivery_method: E-posta teslim yöntemi
   setting_sendmail_location: Çalıştırılabilir sendmail aracının yolu
   setting_smtp_enable_starttls_auto: STARTTLS varsa otomatik olarak kullan
-  setting_smtp_ssl: Use SSL connection
+  setting_smtp_ssl: SSL bağlantısı kullan
   setting_smtp_address: SMTP Sunucusu
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP kimlik doğrulaması
@@ -2234,10 +2237,6 @@ tr:
     adresini girme
   setting_login_required: Kimlik doğrulaması gerekli
   setting_mail_from: Gönderici e-posta adresi
-  setting_mail_handler_api_enabled: Gelen e-posta web hizmetini etkinleştir
-  setting_mail_handler_api_description: E-posta web işleyici, OpenProject'in belirli
-    komutları enstrümantasyon mekanizması olarak (örneğin iş paketleri oluşturmak
-    ve güncellemek için) içeren e-postaları almasını sağlar.
   setting_mail_handler_api_key: API anahtarı
   setting_mail_handler_body_delimiters: Bu satırlardan birinden sonra e-postaları
     kısaltın
@@ -2307,9 +2306,9 @@ tr:
       mode_long:
         inline: Highlight attribute(s) inline
         none: Vurgulama
-        status: Entire row by Status
-        type: Entire row by Type
-        priority: Entire row by Priority
+        status: Duruma göre tüm satır
+        type: Türe göre tüm satır
+        priority: Önceliğe göre tüm satır
   text_formatting:
     markdown: Markdown
     plain: Düz yazı
@@ -2495,7 +2494,6 @@ tr:
       color: Renk
       colors: Renkler
     associations: Bağımlılıklar
-    board_could_not_be_saved: Kurul kaydedilemedi
     button_delete_all: Tümünü sil
     change: Planlama değişikliği
     children: Çocuk elemanları
@@ -2856,7 +2854,7 @@ tr:
           expired: The access token expired
           unknown: The access token is invalid
   unsupported_browser:
-    title: Your browser is outdated and unsupported.
+    title: Tarayıcınız güncel değil ya da desteklenmiyor.
     message: You may run into errors and degraded experience on this page.
     update_message: Lütfen tarayıcınızı güncelleyin.
     close_warning: Bu uyarıyı yoksay.
@@ -2890,7 +2888,7 @@ tr:
 
 '
     authorization_dialog:
-      authorize: Authorize
+      authorize: Yetkilendir
       cancel: Cancel and deny authorization.
       prompt_html: Authorize <strong>%{application_name}</strong> to use your account
         <em>%{login}</em>?
@@ -2929,3 +2927,7 @@ tr:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Gelen e-posta web hizmetini etkinleştir
+  setting_mail_handler_api_description: E-posta web işleyici, OpenProject'in belirli
+    komutları enstrümantasyon mekanizması olarak (örneğin iş paketleri oluşturmak
+    ve güncellemek için) içeren e-postaları almasını sağlar.

@@ -118,17 +118,18 @@ describe 'Search', type: :feature, js: true do
       let(:filters) { ::Components::WorkPackages::Filters.new }
       let(:columns) { ::Components::WorkPackages::Columns.new }
       let(:top_menu) { ::Components::Projects::TopMenu.new }
+      let(:global_search) { ::Components::GlobalSearch.new }
 
       it 'shows a work package table with correct results' do
         # Search without subprojects
-        select_autocomplete(page.find('.top-menu-search--input'),
-                            query: query,
-                            select_text: 'In this project ↵')
-        # Expect that the project scope is set to current_project and no module (this is the "all" tab) is requested.
-        expect(current_url).to match(/\/#{project.identifier}\/search\?q=#{query}&scope=current_project$/)
+        global_search.search query
+        global_search.submit_in_current_project
 
         # Expect that the "All" tab is selected.
         expect(page).to have_selector('[tab-id="all"].selected')
+
+        # Expect that the project scope is set to current_project and no module (this is the "all" tab) is requested.
+        expect(current_url).to match(/\/#{project.identifier}\/search\?q=#{query}&scope=current_project$/)
 
         # Select "Work packages" tab
         page.find('[tab-id="work_packages"]').click
@@ -159,17 +160,19 @@ describe 'Search', type: :feature, js: true do
         filters.remove_filter('subject')
         page.find('#filter-by-text-input').set(work_packages[9].subject)
         table.expect_work_package_subject(work_packages[9].subject)
-        table.expect_work_package_not_listed(work_packages.last)
+        table.ensure_work_package_not_listed!(work_packages.last)
 
         # Expect that changing the advanced filters will not affect the global search input.
-        global_search_field = page.find('.top-menu-search--input input')
-        expect(global_search_field.value).to eq query
+        expect(global_search.input.value).to eq query
 
         # Expect that a fresh global search will reset the advanced filters, i.e. that they are closed
-        global_search_field.set(work_packages[10].subject)
-        global_search_field.send_keys(:enter)
-        table.expect_work_package_not_listed(work_packages[9], wait: 20)
+        global_search.search work_packages[10].subject, submit_with_enter: true
+
+        expect(page).to have_text "Search for \"#{work_packages[10].subject}\" in #{project.name}"
+
+        table.ensure_work_package_not_listed!(work_packages[9])
         table.expect_work_package_subject(work_packages[10].subject)
+
         filters.expect_closed
         # ...and that advanced filter shall have copied the global search input value.
         page.find('.advanced-filters--toggle').click
@@ -177,21 +180,26 @@ describe 'Search', type: :feature, js: true do
 
         # Expect that changing the search term without using the autocompleter will leave the project scope unchanged
         # at current_project.
-        global_search_field.set(other_work_package.subject)
-        global_search_field.send_keys(:enter)
-        expect(current_url).to match(/\/#{project.identifier}\/search\?q=Other%20work%20package&work_packages=1&scope=current_project$/)
+        global_search.search other_work_package.subject, submit_with_enter: true
+
+        expect(page).to have_text "Search for \"#{other_work_package.subject}\" in #{project.name}"
 
         # and expect that subproject's work packages will not be found
-        table.expect_work_package_not_listed other_work_package
+        table.ensure_work_package_not_listed! other_work_package
+
+        expect(current_url).to match(/\/#{project.identifier}\/search\?q=Other%20work%20package&work_packages=1&scope=current_project$/)
 
         # Change to project scope to include subprojects
-        select_autocomplete(page.find('.top-menu-search--input'),
-                            query: other_work_package.subject,
-                            select_text: 'In this project + subprojects ↵')
-        # Expect that the project scope is not set and work_packages module continues to stay selected.
-        expect(current_url).to match(/\/#{project.identifier}\/search\?q=Other%20work%20package&work_packages=1$/)
+        global_search.search other_work_package.subject
+        global_search.submit_in_project_and_subproject_scope
+
         # Expect that the "Work packages" tab is selected.
         expect(page).to have_selector('[tab-id="work_packages"].selected')
+
+        expect(page).to have_text "Search for \"#{other_work_package.subject}\" in #{project.name} and all subprojects"
+
+        # Expect that the project scope is not set and work_packages module continues to stay selected.
+        expect(current_url).to match(/\/#{project.identifier}\/search\?q=Other%20work%20package&work_packages=1$/)
 
         table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
         table.expect_work_package_count(1)

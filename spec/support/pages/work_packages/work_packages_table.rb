@@ -68,12 +68,16 @@ module Pages
       end
     end
 
-    def expect_work_package_not_listed(*work_packages, wait: 3)
-      within(table_container) do
-        work_packages.each do |wp|
-          expect(page).to have_no_selector(".wp-row-#{wp.id} td.subject",
-                                           text: wp.subject,
-                                           wait: wait)
+    ##
+    # Wraps expecting the page not to have the given work packages
+    # within a retry_block to ensure we do not fail when the page is
+    # still reloading (causing stale references or not found errors)
+    def ensure_work_package_not_listed!(*work_packages)
+      retry_block(args: { tries: 3, base_interval: 5 }) do
+        within(table_container) do
+          work_packages.each do |wp|
+            page.raise_if_found(".wp-row-#{wp.id} td.subject", text: wp.subject)
+          end
         end
       end
     end

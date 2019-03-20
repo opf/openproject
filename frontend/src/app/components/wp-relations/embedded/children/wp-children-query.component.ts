@@ -83,7 +83,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
 
     // Refresh table when work package is refreshed
     this.wpCacheService
-      .observe(this.workPackage.id)
+      .observe(this.workPackage.id!)
       .pipe(
         untilComponentDestroyed(this)
       )

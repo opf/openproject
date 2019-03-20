@@ -1,12 +1,52 @@
 #!/bin/bash
-set -e
 
-if [ "$(id -u)" = '0' ]; then
-	chown -R $APP_USER:$APP_USER $APP_PATH $APP_DATA /usr/local
-	sync
-	exec $APP_PATH/docker/gosu $APP_USER "$BASH_SOURCE" "$@"
+set -e
+set -o pipefail
+
+# handle legacy configs
+if [ -d "$PGDATA_LEGACY" ]; then
+	echo "WARN: You are using a legacy volume path for your postgres data. You should mount your postgres volumes at $PGDATA instead of $PGDATA_LEGACY."
+	if [ "$(find "$PGDATA" -type f | wc -l)" = "0" ]; then
+		echo "INFO: $PGDATA is empty, so $PGDATA will be symlinked to $PGDATA_LEGACY as a temporary measure."
+		sed -i "s|$PGDATA|$PGDATA_LEGACY|" /etc/postgresql/9.6/main/postgresql.conf
+		export PGDATA="$PGDATA_LEGACY"
+	else
+		echo "ERROR: $PGDATA contains files, so we will not attempt to symlink $PGDATA to $PGDATA_LEGACY. Please fix your docker configuration."
+		exit 2
+	fi
 fi
 
-mkdir -p "$ATTACHMENTS_STORAGE_PATH"
-chown -R "$(id -u)" "$ATTACHMENTS_STORAGE_PATH" 2>/dev/null || :
+if [ -d "$APP_DATA_PATH_LEGACY" ]; then
+	echo "WARN: You are using a legacy volume path for your openproject data. You should mount your openproject volume at $APP_DATA_PATH instead of $APP_DATA_PATH_LEGACY."
+	if [ "$(find "$APP_DATA_PATH" -type f | wc -l)" = "0" ]; then
+		echo "INFO: $APP_DATA_PATH is empty, so $APP_DATA_PATH will be symlinked to $APP_DATA_PATH_LEGACY as a temporary measure."
+		# also set ATTACHMENTS_STORAGE_PATH back to its legacy value in case it hasn't been changed
+		if [ "$ATTACHMENTS_STORAGE_PATH" = "$APP_DATA_PATH/files" ]; then
+			export ATTACHMENTS_STORAGE_PATH="$APP_DATA_PATH_LEGACY/files"
+		fi
+		export APP_DATA_PATH="$APP_DATA_PATH_LEGACY"
+	else
+		echo "ERROR: $APP_DATA_PATH contains files, so we will not attempt to symlink $APP_DATA_PATH to $APP_DATA_PATH_LEGACY. Please fix your docker configuration."
+		exit 2
+	fi
+fi
+
+if [ "$(id -u)" = '0' ]; then
+	mkdir -p $APP_DATA_PATH/{files,git,svn}
+	chown -R $APP_USER:$APP_USER $APP_DATA_PATH
+
+	if [ ! -z "$ATTACHMENTS_STORAGE_PATH" ]; then
+		mkdir -p "$ATTACHMENTS_STORAGE_PATH"
+		chown -R "$APP_USER:$APP_USER" "$ATTACHMENTS_STORAGE_PATH"
+	fi
+	mkdir -p "$APP_PATH/log" "$APP_PATH/tmp/pids" "$APP_PATH/files"
+	chown "$APP_USER:$APP_USER" "$APP_PATH"
+	chown -R "$APP_USER:$APP_USER" "$APP_PATH/log" "$APP_PATH/tmp" "$APP_PATH/files" "$APP_PATH/public"
+	if [ "$1" = "./docker/supervisord" ]; then
+		exec "$@"
+	else
+		exec $APP_PATH/docker/gosu $APP_USER "$BASH_SOURCE" "$@"
+	fi
+fi
+
 exec "$@"

@@ -394,7 +394,7 @@ class ApplicationController < ActionController::Base
   # after the first object is found it traverses the belongs_to chain of that first object
   # if a start_object is provided it is taken as the starting point of the traversal
   # e.g associations [Message, Board, Project] finds Message by find(:message_id)
-  # then message.board and board.project
+  # then message.forum and board.project
   def find_belongs_to_chained_objects(associations, start_object = nil)
     associations.inject([start_object].compact) do |instances, association|
       scope_name, scope_association = association.is_a?(Hash) ?

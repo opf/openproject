@@ -54,11 +54,11 @@ export class WorkPackageRelationsCreateComponent {
   }
 
   protected createCommonRelation() {
-    return this.wpRelations.addCommonRelation(this.workPackage.id,
+    return this.wpRelations.addCommonRelation(this.workPackage.id!,
       this.selectedRelationType,
       this.selectedWpId)
       .then(relation => {
-        this.wpTableRefresh.request(`Added relation ${relation.id}`, true);
+        this.wpTableRefresh.request(`Added relation ${relation.id}`, {visible: true});
         this.wpNotificationsService.showSave(this.workPackage);
         this.toggleRelationsCreateForm();
       })

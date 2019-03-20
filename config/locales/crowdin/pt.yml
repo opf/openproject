@@ -73,9 +73,9 @@ pt:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Atualmente, não existem publicações para o quadro.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Atualmente, não existem cores.
@@ -157,9 +157,9 @@ pt:
     settings:
       activities:
         no_results_title_text: Atualmente, não existem atividades disponíveis.
-      boards:
-        no_results_title_text: Atualmente, não existem quadros para o projeto.
-        no_results_content_text: Criar um novo quadro
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Atualmente, não existem categorias de pacote de trabalho.
         no_results_content_text: Criar uma nova categoria de pacote de trabalho
@@ -679,7 +679,7 @@ pt:
     models:
       attachment: Ficheiro
       attribute_help_text: Texto de ajuda do atributo
-      board: Fórum
+      forum: Fórum
       comment: Comentario
       custom_action: Ação personalizada
       custom_field: Campo personalizado
@@ -1189,9 +1189,8 @@ pt:
       faq: FAQ (Perguntas Mais Frequentes)
       glossary: Glossário
       shortcuts: Atalhos
-      forums: Fórums
       blog: Blog de OpenProject
-      boards: Fórum da Comunidade
+      forums: Fórum da Comunidade
       newsletter: Alertas de segurança / Boletim informativo
   links:
     configuration_guide: Guia de configuração
@@ -1258,7 +1257,7 @@ pt:
   label_available_project_work_package_categories: Categorias de pacotes de trabalho
     disponíveis
   label_available_project_work_package_types: Tipos de pacotes de trabalho disponíveis
-  label_available_project_boards: Quadros disponíveis
+  label_available_project_forums: Available forums
   label_available_project_versions: Versões disponíveis
   label_available_project_repositories: Repositórios disponíveis
   label_api_documentation: Documentação da API
@@ -1266,14 +1265,15 @@ pt:
   label_blocked_by: bloqueado por
   label_blocks: bloqueia
   label_blog: Blogue
-  label_board_locked: Bloqueado
-  label_board_new: Novo fórum
-  label_board_plural: Fórums
-  label_board_sticky: Pegajoso
+  label_forums_locked: Bloqueado
+  label_forum_new: Novo fórum
+  label_forum_plural: Fórums
+  label_forum_sticky: Pegajoso
   label_boolean: Booleano
   label_branch: Ramo
   label_browse: Navegador
   label_bulk_edit_selected_work_packages: Editar tarefas selecionadas de seguida
+  label_bundled: "(Bundled)"
   label_calendar: Calendário
   label_calendar_show: Mostrar calendário
   label_category: Categoria
@@ -1410,6 +1410,7 @@ pt:
   label_hierarchy_leaf: Folha da hierarquia
   label_home: Início
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: em
   label_in_less_than: em menos de
   label_in_more_than: em mais de
@@ -1535,6 +1536,7 @@ pt:
   label_planning: Planeamento
   label_please_login: Por favor inicie sessão
   label_plugins: Plugins
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precede
   label_preferences: Preferências
   label_preview: Pré visualizar
@@ -1542,6 +1544,7 @@ pt:
   label_previous_week: Semana passada
   label_principal_invite_via_email: " ou convide novos utilizadores via correio eletrónico"
   label_principal_search: Adicionar utilizadores ou grupos existentes
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Versão do produto
   label_professional_support: Suporte profissional
   label_profile: Perfil
@@ -1999,7 +2002,7 @@ pt:
   permission_export_wiki_pages: Exportar páginas wiki
   permission_list_attachments: Lista de anexos
   permission_log_time: Registrar o tempo gasto
-  permission_manage_boards: Gerir fóruns
+  permission_manage_forums: Gerir fóruns
   permission_manage_categories: Gerir categorias de pacote de trabalho
   permission_manage_work_package_relations: Gerir relações entre tarefas
   permission_manage_members: Gerir Membros
@@ -2047,7 +2050,7 @@ pt:
     archive:
       are_you_sure: Tem a certeza de que deseja arquivar o projeto '%{name}'?
   project_module_activity: Atividade
-  project_module_boards: Fórums
+  project_module_forums: Fórums
   project_module_calendar: Calendário
   project_module_work_package_tracking: Controle de pacote de trabalho
   project_module_news: Noticias
@@ -2279,10 +2282,6 @@ pt:
     para todos os pedidos
   setting_login_required: Autenticação necessária
   setting_mail_from: E-mail enviado de
-  setting_mail_handler_api_enabled: Ativar webservice de entrada de e-mail
-  setting_mail_handler_api_description: O gestor web de email permite que o OpenProject
-    receba emails com comandos específicos, como um mecanismo de instrumentação (por
-    exemplo, para criar e atualizar pacotes de trabalho).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Truncar e-mails depois de uma destas linhas
   setting_mail_handler_body_delimiter_regex: Truncar emails com correspondência a
@@ -2551,7 +2550,6 @@ pt:
       color: Cor
       colors: Cores
     associations: Dependências
-    board_could_not_be_saved: Não foi possível guardar o quadro
     button_delete_all: Eliminar tudo
     change: Alteração no planeamento
     children: Elementos filho
@@ -2990,3 +2988,7 @@ pt:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Ativar webservice de entrada de e-mail
+  setting_mail_handler_api_description: O gestor web de email permite que o OpenProject
+    receba emails com comandos específicos, como um mecanismo de instrumentação (por
+    exemplo, para criar e atualizar pacotes de trabalho).

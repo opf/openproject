@@ -259,7 +259,7 @@ export class TimelineCellRenderer {
     if (renderInfo.viewParams.activeSelectionMode) {
       element.style.backgroundImage = null; // required! unable to disable "fade out bar" with css
 
-      if (renderInfo.viewParams.selectionModeStart === '' + renderInfo.workPackage.id) {
+      if (renderInfo.viewParams.selectionModeStart === '' + renderInfo.workPackage.id!) {
         jQuery(element).addClass(timelineMarkerSelectionStartClass);
         element.style.background = null;
       }
@@ -369,8 +369,8 @@ export class TimelineCellRenderer {
       element.style.backgroundColor = this.fallbackColor;
     }
 
-    const id = type.getId();
-    element.classList.add(Highlighting.rowClass('type', id));
+    const id = type.id;
+    element.classList.add(Highlighting.rowClass('type', id!));
   }
 
   protected assignDate(changeset:WorkPackageChangeset, attributeName:string, value:moment.Moment) {

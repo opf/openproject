@@ -73,9 +73,9 @@ lv:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Pašlaik nav nevienu raksta.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Pašlaik nav nevienas krāsas.
@@ -155,9 +155,9 @@ lv:
     settings:
       activities:
         no_results_title_text: Pašlaik neviena aktivitāte nav pieejama.
-      boards:
-        no_results_title_text: Pašlaik projektam nav neviena dēļa.
-        no_results_content_text: Izveidot jaunu dēli
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Pašlaik nav nevienas darba paku grupas.
         no_results_content_text: Izveidot jaunu darba grupas kategoriju
@@ -667,7 +667,7 @@ lv:
     models:
       attachment: Fails
       attribute_help_text: Attribute help text
-      board: Forum
+      forum: Forum
       comment: Comment
       custom_action: Custom action
       custom_field: Custom field
@@ -1178,9 +1178,8 @@ lv:
       faq: BUJ
       glossary: Kopsavilkums
       shortcuts: Īsinājumtaustiņi
-      forums: Forums
       blog: OpenProject blog
-      boards: Community forum
+      forums: Community forum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1247,7 +1246,7 @@ lv:
   label_authentication: Authentication
   label_available_project_work_package_categories: Pieejamās darbu kompleksu kategorijas
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Pieejamās versijas
   label_available_project_repositories: Pieejamās krātuves
   label_api_documentation: API dokumentācija
@@ -1255,14 +1254,15 @@ lv:
   label_blocked_by: blocked by
   label_blocks: blocks
   label_blog: Blogs
-  label_board_locked: Slēgts
-  label_board_new: New forum
-  label_board_plural: Forums
-  label_board_sticky: Svarīgi
+  label_forums_locked: Slēgts
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Svarīgi
   label_boolean: Boolean
   label_branch: Branch
   label_browse: Browse
   label_bulk_edit_selected_work_packages: Bulk edit selected work packages
+  label_bundled: "(Bundled)"
   label_calendar: Kalendārs
   label_calendar_show: Show Calendar
   label_category: Sadaļa
@@ -1398,6 +1398,7 @@ lv:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Uz sākumlapu
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: in
   label_in_less_than: in less than
   label_in_more_than: in more than
@@ -1523,6 +1524,7 @@ lv:
   label_planning: Planning
   label_please_login: Please log in
   label_plugins: Plugins
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precedes
   label_preferences: Iestatījumi
   label_preview: Priekšskatīt
@@ -1530,6 +1532,7 @@ lv:
   label_previous_week: Previous week
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Profesionāls atbalsts
   label_profile: Profils
@@ -1979,7 +1982,7 @@ lv:
   permission_export_wiki_pages: Export wiki pages
   permission_list_attachments: List attachments
   permission_log_time: Log spent time
-  permission_manage_boards: Manage forums
+  permission_manage_forums: Manage forums
   permission_manage_categories: Manage work package categories
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Manage members
@@ -2026,7 +2029,7 @@ lv:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Aktivitāte
-  project_module_boards: Forums
+  project_module_forums: Forums
   project_module_calendar: Kalendārs
   project_module_work_package_tracking: Pieteikumi
   project_module_news: Jaunumi
@@ -2247,10 +2250,6 @@ lv:
   setting_log_requesting_user: Log user login, name, and mail address for all requests
   setting_login_required: Authentication required
   setting_mail_from: Emission email address
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2505,7 +2504,6 @@ lv:
       color: Krāsa
       colors: Colors
     associations: Saistītie projekti
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
     change: Change in planning
     children: Child elements
@@ -2940,3 +2938,7 @@ lv:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Enable incoming email web service
+  setting_mail_handler_api_description: The email web handler enables OpenProject
+    to receive emails containing specific commands as an instrumentation mechanism
+    (e.g., to create and update work packages).

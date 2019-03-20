@@ -73,9 +73,9 @@ he:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: There are currently no colors.
@@ -155,9 +155,9 @@ he:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: ליצור לוח חדש
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -668,7 +668,7 @@ he:
     models:
       attachment: קובץ
       attribute_help_text: Attribute help text
-      board: פורום
+      forum: פורום
       comment: תגובה
       custom_action: Custom action
       custom_field: שדה מותאם אישית
@@ -1187,9 +1187,8 @@ he:
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: פורומים
       blog: OpenProject blog
-      boards: Community forum
+      forums: Community forum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1256,7 +1255,7 @@ he:
   label_authentication: אימות
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1264,14 +1263,15 @@ he:
   label_blocked_by: חסום על ידי
   label_blocks: בלוקים
   label_blog: Blog
-  label_board_locked: נעול
-  label_board_new: פורום חדש
-  label_board_plural: פורומים
-  label_board_sticky: נעוץ
+  label_forums_locked: נעול
+  label_forum_new: פורום חדש
+  label_forum_plural: פורומים
+  label_forum_sticky: נעוץ
   label_boolean: בוליאני
   label_branch: ענף
   label_browse: עיון
   label_bulk_edit_selected_work_packages: חבילות עבודה עריכה בצובר שנבחרו
+  label_bundled: "(Bundled)"
   label_calendar: לוח שנה
   label_calendar_show: הצג לוח שנה
   label_category: קטגוריה
@@ -1407,6 +1407,7 @@ he:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: דף הבית
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: ב
   label_in_less_than: in less than
   label_in_more_than: in more than
@@ -1532,6 +1533,7 @@ he:
   label_planning: תכנון
   label_please_login: Please log in
   label_plugins: פלאגינים
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precedes
   label_preferences: Preferences
   label_preview: תצוגה מקדימה
@@ -1539,6 +1541,7 @@ he:
   label_previous_week: Previous week
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professional support
   label_profile: פרופיל
@@ -1997,7 +2000,7 @@ he:
   permission_export_wiki_pages: ייצוא דפי wiki
   permission_list_attachments: רשימת קבצים מצורפים
   permission_log_time: Log spent time
-  permission_manage_boards: ניהול פורומים
+  permission_manage_forums: ניהול פורומים
   permission_manage_categories: Manage work package categories
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Manage members
@@ -2044,7 +2047,7 @@ he:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: פעילות
-  project_module_boards: פורומים
+  project_module_forums: פורומים
   project_module_calendar: לוח שנה
   project_module_work_package_tracking: Work package tracking
   project_module_news: חדשות
@@ -2265,10 +2268,6 @@ he:
   setting_log_requesting_user: Log user login, name, and mail address for all requests
   setting_login_required: Authentication required
   setting_mail_from: Emission email address
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2523,7 +2522,6 @@ he:
       color: צבע
       colors: צבעים
     associations: Dependencies
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
     change: Change in planning
     children: Child elements
@@ -2960,3 +2958,7 @@ he:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Enable incoming email web service
+  setting_mail_handler_api_description: The email web handler enables OpenProject
+    to receive emails containing specific commands as an instrumentation mechanism
+    (e.g., to create and update work packages).

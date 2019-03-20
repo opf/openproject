@@ -73,9 +73,9 @@ et:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: There are currently no colors.
@@ -155,9 +155,9 @@ et:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -665,7 +665,7 @@ et:
     models:
       attachment: Fail
       attribute_help_text: Attribute help text
-      board: Foorum
+      forum: Foorum
       comment: Kommentaar
       custom_action: Custom action
       custom_field: Lisaväli
@@ -1165,9 +1165,8 @@ et:
       faq: KKK
       glossary: Sõnastik
       shortcuts: Otseteed
-      forums: Foorumid
       blog: OpenProject blog
-      boards: Community forum
+      forums: Community forum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1234,7 +1233,7 @@ et:
   label_authentication: Autentimine
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1242,14 +1241,15 @@ et:
   label_blocked_by: blokeeritud
   label_blocks: blokeerib
   label_blog: Blogi
-  label_board_locked: Lukus
-  label_board_new: Uus foorum
-  label_board_plural: Foorumid
-  label_board_sticky: Külgejääv
+  label_forums_locked: Lukus
+  label_forum_new: Uus foorum
+  label_forum_plural: Foorumid
+  label_forum_sticky: Külgejääv
   label_boolean: Tõeväärtus
   label_branch: Haru
   label_browse: Sirvi
   label_bulk_edit_selected_work_packages: Muuda valitud teemasid korraga
+  label_bundled: "(Bundled)"
   label_calendar: Kalender
   label_calendar_show: Kuva kalender
   label_category: Kategooria
@@ -1386,6 +1386,7 @@ et:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Avaleht
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: sisaldub hulgas
   label_in_less_than: on väiksem kui
   label_in_more_than: on suurem kui
@@ -1511,6 +1512,7 @@ et:
   label_planning: Planeerimine
   label_please_login: Palun logi sisse
   label_plugins: Pluginad
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: eelneb
   label_preferences: Eelistused
   label_preview: Eelvaade
@@ -1518,6 +1520,7 @@ et:
   label_previous_week: Eelmine nädal
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Product version
   label_professional_support: Professionaalne kasutajatugi
   label_profile: Profiil
@@ -1958,7 +1961,7 @@ et:
   permission_export_wiki_pages: Eksportida vikilehti
   permission_list_attachments: Kuvada manuseid
   permission_log_time: Logida ajakulu
-  permission_manage_boards: Hallata foorumeid
+  permission_manage_forums: Hallata foorumeid
   permission_manage_categories: Kategooriaid hallata
   permission_manage_work_package_relations: Teemade seoseid hallata
   permission_manage_members: Halda liikmeid
@@ -2006,7 +2009,7 @@ et:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Tegevus
-  project_module_boards: Foorumid
+  project_module_forums: Foorumid
   project_module_calendar: Kalender
   project_module_work_package_tracking: Teema jälgimine
   project_module_news: Uudised
@@ -2228,10 +2231,6 @@ et:
   setting_log_requesting_user: Logi iga taotluse kasutajanimi, nimi ja epost
   setting_login_required: Autentimine kohustuslik
   setting_mail_from: Saatja e-posti aadress
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: Veebiteenuse API võti
   setting_mail_handler_body_delimiters: Kärbi e-kirja lõpp peale sellist rida
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2487,7 +2486,6 @@ et:
       color: Värv
       colors: Värvid
     associations: Projekti sõltuvused
-    board_could_not_be_saved: "(?) ei saa salvestada"
     button_delete_all: Kustuta kõik
     change: Muudatus planeerimises
     children: Alamelemendid
@@ -2913,3 +2911,7 @@ et:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Enable incoming email web service
+  setting_mail_handler_api_description: The email web handler enables OpenProject
+    to receive emails containing specific commands as an instrumentation mechanism
+    (e.g., to create and update work packages).

@@ -73,9 +73,9 @@ ar:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: لا يوجد حالياً منشورات على اللوحة.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: لا يوجد حالياً ألوان.
@@ -155,9 +155,9 @@ ar:
     settings:
       activities:
         no_results_title_text: لا يوجد حالياً أنشطة متاحة.
-      boards:
-        no_results_title_text: لا يوجد حالياً أية لوحات للمشروع.
-        no_results_content_text: إنشاء لوح جديد
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: لا يوجد حالياً فئات لحزمة العمل.
         no_results_content_text: إنشاء فئة حزمة عمل جديدة
@@ -672,7 +672,7 @@ ar:
     models:
       attachment: ملف
       attribute_help_text: Attribute help text
-      board: المنتدى
+      forum: المنتدى
       comment: تعليق
       custom_action: Custom action
       custom_field: حقل مخصص
@@ -1228,9 +1228,8 @@ ar:
       faq: الاسئلة الاكثر شيوعا(FAQ)
       glossary: معجم المصطلحات
       shortcuts: اختصارات
-      forums: منتديات
       blog: مدونة أوبِن بروجِكت
-      boards: منتدى المجتمع
+      forums: منتدى المجتمع
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1296,7 +1295,7 @@ ar:
   label_authentication: المصادقة
   label_available_project_work_package_categories: فئات مجموعة العمل المتاحة
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: الجوانب المتاحة
+  label_available_project_forums: Available forums
   label_available_project_versions: الإصدارات المتوفرة
   label_available_project_repositories: مستودعات البيانات المتوفرة
   label_api_documentation: توثيق API
@@ -1304,14 +1303,15 @@ ar:
   label_blocked_by: محجوب من قبل
   label_blocks: حجوبات
   label_blog: مدونة
-  label_board_locked: مقفل
-  label_board_new: منتدى جديد
-  label_board_plural: منتديات
-  label_board_sticky: مثبت
+  label_forums_locked: مقفل
+  label_forum_new: منتدى جديد
+  label_forum_plural: منتديات
+  label_forum_sticky: مثبت
   label_boolean: قيمة منطقية
   label_branch: فرع
   label_browse: تصفّح
   label_bulk_edit_selected_work_packages: تحرير كل مجموعات العمل المحددة
+  label_bundled: "(Bundled)"
   label_calendar: التقويم
   label_calendar_show: إظهار التقويم
   label_category: فئة
@@ -1449,6 +1449,7 @@ ar:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: الصفحة الرئيسية
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: في
   label_in_less_than: في أقل من
   label_in_more_than: في أكثر من
@@ -1574,6 +1575,7 @@ ar:
   label_planning: تخطيط
   label_please_login: الرجاء تسجيل الدخول
   label_plugins: الإضافات
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: تقدم
   label_preferences: أفضليات
   label_preview: معاينة
@@ -1581,6 +1583,7 @@ ar:
   label_previous_week: الأسبوع الماضي
   label_principal_invite_via_email: " أو دعوة المستخدمين الجدد عبر البريد الالكتروني"
   label_principal_search: إضافة مستخدمين أو مجموعات موجودة
+  label_privacy_policy: Data privacy and security policy
   label_product_version: إصدار المنتج
   label_professional_support: الدعم الفني
   label_profile: الصفحة الشخصية
@@ -2044,7 +2047,7 @@ ar:
   permission_export_wiki_pages: تصدير صفحات wiki
   permission_list_attachments: قائمة المرفقات
   permission_log_time: تسجيل الوقت المستهلك
-  permission_manage_boards: إدارة منتديات
+  permission_manage_forums: إدارة منتديات
   permission_manage_categories: إدارة فئات مجموعة العمل
   permission_manage_work_package_relations: إدارة علاقات حزم العمل
   permission_manage_members: إدارة الأعضاء
@@ -2091,7 +2094,7 @@ ar:
     archive:
       are_you_sure: هل أنت متأكد من أنك تريد أرشفة المشروع '%{name}'؟
   project_module_activity: النشاط
-  project_module_boards: منتديات
+  project_module_forums: منتديات
   project_module_calendar: التقويم
   project_module_work_package_tracking: تتبع مجموعة العمل
   project_module_news: الأخبار
@@ -2305,10 +2308,6 @@ ar:
     لجميع الطلبات
   setting_login_required: مطلوب مصادقة
   setting_mail_from: انبعاث عنوان البريد الإلكتروني
-  setting_mail_handler_api_enabled: تمكين خدمة ويب البريد الإلكتروني الوارد
-  setting_mail_handler_api_description: معالج ويب البريد الإلكتروني يتيح لOPEN Project
-    أن يتلقى رسائل البريد الإلكتروني التي تحتوي على أوامر محددة كآلية لأجهزة (مثلاً،
-    لإنشاء وتحديث حزم العمل).
   setting_mail_handler_api_key: مفتاح API
   setting_mail_handler_body_delimiters: اقتطاع رسائل البريد الإلكتروني بعد واحد من
     هذه الخطوط
@@ -2560,7 +2559,6 @@ ar:
       color: اللون
       colors: الألوان
     associations: الاعتماديات
-    board_could_not_be_saved: لا يمكن حفظ عنصر
     button_delete_all: حذف الكل
     change: تغيير في تخطيط
     children: العناصر التابعة
@@ -2998,3 +2996,7 @@ ar:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: تمكين خدمة ويب البريد الإلكتروني الوارد
+  setting_mail_handler_api_description: معالج ويب البريد الإلكتروني يتيح لOPEN Project
+    أن يتلقى رسائل البريد الإلكتروني التي تحتوي على أوامر محددة كآلية لأجهزة (مثلاً،
+    لإنشاء وتحديث حزم العمل).

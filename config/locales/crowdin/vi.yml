@@ -73,9 +73,9 @@ vi:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: Hiện có không có bài viết ở bảng điều khiển.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: Hiện có không có màu sắc.
@@ -155,9 +155,9 @@ vi:
     settings:
       activities:
         no_results_title_text: Không có hoạt động nào hiện tại.
-      boards:
-        no_results_title_text: Không có hiện tại không có bảng điều khiển cho dự án.
-        no_results_content_text: Tạo ra một bảng mới
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: Hiện có không có nhóm gói công việc.
         no_results_content_text: Tạo ra một loại gói công việc mới
@@ -669,7 +669,7 @@ vi:
     models:
       attachment: Tệp
       attribute_help_text: Thuộc tính văn bản trợ giúp
-      board: Diễn đàn
+      forum: Diễn đàn
       comment: Nhận xét
       custom_action: Tác vụ tùy chỉnh
       custom_field: Tùy chỉnh mục
@@ -1169,9 +1169,8 @@ vi:
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: Diễn đàn
       blog: OpenProject blog
-      boards: Diễn đàn cộng đồng
+      forums: Diễn đàn cộng đồng
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1238,7 +1237,7 @@ vi:
   label_authentication: Xác thực
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1246,14 +1245,15 @@ vi:
   label_blocked_by: bị chặn bởi
   label_blocks: các khối
   label_blog: Blog
-  label_board_locked: Đã khóa
-  label_board_new: Diễn đàn mới
-  label_board_plural: Diễn đàn
-  label_board_sticky: Chú ý
+  label_forums_locked: Đã khóa
+  label_forum_new: Diễn đàn mới
+  label_forum_plural: Diễn đàn
+  label_forum_sticky: Chú ý
   label_boolean: Boolean
   label_branch: Nhánh
   label_browse: Browse
   label_bulk_edit_selected_work_packages: Chỉnh sửa các work package đã chọn
+  label_bundled: "(Bundled)"
   label_calendar: Lịch
   label_calendar_show: Hiển thị Lịch
   label_category: Thể loại
@@ -1389,6 +1389,7 @@ vi:
   label_hierarchy_leaf: Hệ thống phân cấp lá
   label_home: Home
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: trong
   label_in_less_than: ít hơn
   label_in_more_than: nhiều hơn
@@ -1514,6 +1515,7 @@ vi:
   label_planning: Lập kế hoạch
   label_please_login: Vui lòng đăng nhập
   label_plugins: Plugins
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: trước
   label_preferences: Tùy chỉnh
   label_preview: Xem trước
@@ -1521,6 +1523,7 @@ vi:
   label_previous_week: Tuần trước
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Phiên bản sản phẩm
   label_professional_support: Professional support
   label_profile: Hồ sơ
@@ -1970,7 +1973,7 @@ vi:
   permission_export_wiki_pages: Export wiki pages
   permission_list_attachments: List attachments
   permission_log_time: Log spent time
-  permission_manage_boards: Manage forums
+  permission_manage_forums: Manage forums
   permission_manage_categories: Manage work package categories
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Manage members
@@ -2017,7 +2020,7 @@ vi:
     archive:
       are_you_sure: Bạn có chắc bạn muốn lưu trữ các dự án '%{name}'?
   project_module_activity: Hoạt động
-  project_module_boards: Diễn đàn
+  project_module_forums: Diễn đàn
   project_module_calendar: Lịch
   project_module_work_package_tracking: Theo dõi work package
   project_module_news: Tin tức
@@ -2239,10 +2242,6 @@ vi:
   setting_log_requesting_user: Log user login, name, and mail address for all requests
   setting_login_required: Authentication required
   setting_mail_from: Emission email address
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
   setting_mail_handler_body_delimiter_regex: Xén các email phù hợp với biểu thức này
@@ -2498,7 +2497,6 @@ vi:
       color: Màu sắc
       colors: Colors
     associations: Dependencies
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
     change: Change in planning
     children: Child elements
@@ -2931,3 +2929,7 @@ vi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Enable incoming email web service
+  setting_mail_handler_api_description: The email web handler enables OpenProject
+    to receive emails containing specific commands as an instrumentation mechanism
+    (e.g., to create and update work packages).

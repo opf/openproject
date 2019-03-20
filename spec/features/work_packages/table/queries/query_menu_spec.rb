@@ -72,7 +72,7 @@ describe 'Query menu item', js: true do
       filters.add_filter_by('Version', 'is', version.name)
 
       wp_table.expect_work_package_listed work_package_with_version
-      wp_table.expect_work_package_not_listed work_package_without_version
+      wp_table.ensure_work_package_not_listed! work_package_without_version
 
       wp_table.save_as('Some query name')
 
@@ -110,7 +110,7 @@ describe 'Query menu item', js: true do
       end
 
       wp_table.expect_work_package_listed work_package_with_version
-      wp_table.expect_work_package_not_listed work_package_without_version
+      wp_table.ensure_work_package_not_listed! work_package_without_version
 
       filters.expect_filter_count 2
       filters.open

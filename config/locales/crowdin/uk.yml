@@ -73,9 +73,9 @@ uk:
         Net::LDAP documentation</a>.
 
 '
-  boards:
+  forums:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: There are currently no posts for the forum.
   colors:
     index:
       no_results_title_text: There are currently no colors.
@@ -155,9 +155,9 @@ uk:
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
-      boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Create a new forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -676,7 +676,7 @@ uk:
     models:
       attachment: Файл
       attribute_help_text: Attribute help text
-      board: Forum
+      forum: Forum
       comment: Comment
       custom_action: Custom action
       custom_field: Custom field
@@ -1202,9 +1202,8 @@ uk:
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
-      forums: Forums
       blog: OpenProject blog
-      boards: Community forum
+      forums: Community forum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1271,7 +1270,7 @@ uk:
   label_authentication: Authentication
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Доступні типи пакетів робіт
-  label_available_project_boards: Available boards
+  label_available_project_forums: Available forums
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1279,14 +1278,15 @@ uk:
   label_blocked_by: blocked by
   label_blocks: blocks
   label_blog: Blog
-  label_board_locked: Locked
-  label_board_new: New forum
-  label_board_plural: Forums
-  label_board_sticky: Sticky
+  label_forums_locked: Locked
+  label_forum_new: New forum
+  label_forum_plural: Forums
+  label_forum_sticky: Sticky
   label_boolean: Boolean
   label_branch: Branch
   label_browse: Browse
   label_bulk_edit_selected_work_packages: Bulk edit selected work packages
+  label_bundled: "(Bundled)"
   label_calendar: Calendar
   label_calendar_show: Show Calendar
   label_category: Category
@@ -1422,6 +1422,7 @@ uk:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
   label_subject_or_id: Subject or ID
+  label_impressum: Impressum
   label_in: in
   label_in_less_than: in less than
   label_in_more_than: in more than
@@ -1547,6 +1548,7 @@ uk:
   label_planning: Planning
   label_please_login: Please log in
   label_plugins: Plugins
+  label_modules_and_plugins: Modules and Plugins
   label_precedes: precedes
   label_preferences: Preferences
   label_preview: Preview
@@ -1554,6 +1556,7 @@ uk:
   label_previous_week: Previous week
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Add existing users or groups
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Версія продукту
   label_professional_support: Professional support
   label_profile: Profile
@@ -2015,7 +2018,7 @@ uk:
   permission_export_wiki_pages: Export wiki pages
   permission_list_attachments: List attachments
   permission_log_time: Log spent time
-  permission_manage_boards: Manage forums
+  permission_manage_forums: Manage forums
   permission_manage_categories: Управління категоріями пакет робота
   permission_manage_work_package_relations: Manage work package relations
   permission_manage_members: Управління учасниками
@@ -2062,7 +2065,7 @@ uk:
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Activity
-  project_module_boards: Forums
+  project_module_forums: Forums
   project_module_calendar: Calendar
   project_module_work_package_tracking: Work package tracking
   project_module_news: News
@@ -2283,10 +2286,6 @@ uk:
   setting_log_requesting_user: Log user login, name, and mail address for all requests
   setting_login_required: Authentication required
   setting_mail_from: Emission email address
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Усічення листи після однієї з цих ліній
   setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
@@ -2543,7 +2542,6 @@ uk:
       color: Колір
       colors: Colors
     associations: Dependencies
-    board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
     change: Change in planning
     children: Child elements
@@ -2978,3 +2976,7 @@ uk:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  setting_mail_handler_api_enabled: Enable incoming email web service
+  setting_mail_handler_api_description: The email web handler enables OpenProject
+    to receive emails containing specific commands as an instrumentation mechanism
+    (e.g., to create and update work packages).

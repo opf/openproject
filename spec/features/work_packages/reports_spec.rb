@@ -117,6 +117,6 @@ describe 'work package reports', type: :feature, js: true do
     end
 
     wp_table_page.expect_work_package_listed(wp_1)
-    wp_table_page.expect_work_package_not_listed(wp_2)
+    wp_table_page.ensure_work_package_not_listed!(wp_2)
   end
 end

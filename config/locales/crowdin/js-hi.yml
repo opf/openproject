@@ -18,12 +18,22 @@ hi:
     close_popup_title: पॉपअप बंद करें
     close_filter_title: Close filter
     close_form_title: Close form
+    boards:
+      upsale:
+        boards: Need to freely structure your work in a board view?
+        check_out_link: Check out the Enterprise Edition.
+    card:
+      add_new: Add new card
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: Entire card by
+      remove_from_list: Remove card from list
     clipboard:
       browser_error: Your browser doesn't support copying to clipboard. Please copy
         the selected text manually.
       copied_successful: Sucessfully copied to clipboard!
     button_add_watcher: द्रष्टा जोड़ें
-    button_back: Back
+    button_back: वापस जाएँ
     button_back_to_list_view: Back to list view
     button_cancel: निरस्त करें
     button_close: बंद करें
@@ -336,16 +346,53 @@ hi:
         next: Next
         got_it: समझ गया
       steps:
-        welcome: Take a three minutes introduction tour to learn the most <b>important
-          features</b>. <br> We recommend completing the steps until the end. You
-          can restart the tour any time.
+        help_menu: In the <b>Help</b> menu you will find a user guide and additional
+          help resources. <br> Enjoy your work with OpenProject!
+        members: अपने प्रोजेक्ट में शामिल होने के लिए नए सदस्यों को आमंत्रित करें
+          ।
         project_selection: प्रारंभ करने के लिए कृपया डेमो डेटा सहित २ परियोजनाओं में
           से किसी एक का चयन करें ।
         sidebar_arrow: तीर के साथ आप वापस परियोजना के मुख्य मेनु में जा सकते हैं ।
-        members: अपने प्रोजेक्ट में शामिल होने के लिए नए सदस्यों को आमंत्रित करें
-          ।
+        welcome: Take a three minutes introduction tour to learn the most <b>important
+          features</b>. <br> We recommend completing the steps until the end. You
+          can restart the tour any time.
         wiki: Within the <b>Wiki</b> you can document and share knowledge together
           with your team.
+        backlogs:
+          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
+            you have the Product Backlog or a Bug Backlog, on the left you will have
+            the respective sprints. Here you can create <b>epics, user stories, and
+            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
+          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
+          task_board_select: "... and select the <b>Task board</b> entry."
+          task_board: The <b>Task board</b> visualizes the progress for this sprint.
+            Add new tasks or impediments with the + icon next to a user story. Via
+            drag'n'drop you can update the status.
+        boards:
+          overview: Manage your work within an intuitive <b>Boards</b> view.
+          lists: You can create multiple lists (columns) within one Board view, e.g.
+            to create a KANBAN board.
+          add: Click the + will <b>add a new card</b> to the list within a Board.
+          drag: Drag & Drop your cards within a list to re-order, or the another list.
+            A double click will open the details view.
+        wp:
+          toggler: Now let's have a look at the <b>Work package</b> section, which
+            gives you a more detailed view of your work.
+          list: This is the <b>Work package</b> list with the important work within
+            your project, such as tasks, features, milestones, bugs, and more. <br>
+            You can create or edit a work package directly within this list. To see
+            its details you can double click on a row.
+          full_view: Within the <b>Work package details</b> you find all relevant
+            information, such as description, status and priority, activities, dependencies
+            or comments.
+          back_button: With the arrow you can navigate back to the work package list.
+          create_button: The <b>Create</b> button will add a new work package to your
+            project.
+          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
+            for your project.
+          timeline: Here you can edit your project plan. Create new phases, milestones,
+            and add dependencies. All team members can see and update the latest plan
+            at any time.
         backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
           right you have the Product Backlog or a Bug Backlog, on the left you will
           have the respective sprints. Here you can create <b>epics, user stories,
@@ -373,8 +420,6 @@ hi:
         wp_timeline: यहां आप अपनी परियोजना की योजना को संपादित कर सकते हैं । नए चरण,
           माइलस्टोन बनाएं और निर्भरताएं जोड़ें । टीम के सभी सदस्य किसी भी समय नवीनतम
           योजना को देख और अद्यतित कर सकते हैं ।
-        help_menu: In the <b>Help</b> menu you will find a user guide and additional
-          help resources. <br> Enjoy your work with OpenProject!
     password_confirmation:
       field_description: You need to enter your account password to confirm this change.
       title: Confirm your password to continue
