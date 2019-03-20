@@ -1,5 +1,7 @@
 #-- encoding: UTF-8
+
 #-- copyright
+
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
@@ -31,7 +33,7 @@ module StandardSeeder
     class WorkflowSeeder < ::BasicData::WorkflowSeeder
       def workflows
         types = Type.all
-        types = types.map { |t| { t.name =>  t.id } }.reduce({}, :merge)
+        types = types.map { |t| { t.name => t.id } }.reduce({}, :merge)
 
         new              = Status.find_by(name: I18n.t(:default_status_new))
         in_specification = Status.find_by(name: I18n.t(:default_status_in_specification))

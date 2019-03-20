@@ -1,5 +1,7 @@
 #-- encoding: UTF-8
+
 #-- copyright
+
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
@@ -31,12 +33,11 @@ module BimSeeder
     class WorkflowSeeder < ::BasicData::WorkflowSeeder
       def workflows
         types = Type.all
-        types = types.map { |t| { t.name =>  t.id } }.reduce({}, :merge)
+        types = types.map { |t| { t.name => t.id } }.reduce({}, :merge)
 
         new              = Status.find_by(name: I18n.t(:default_status_new))
         in_specification = Status.find_by(name: I18n.t(:default_status_in_specification))
         specified        = Status.find_by(name: I18n.t(:default_status_specified))
-        confirmed        = Status.find_by(name: I18n.t(:default_status_confirmed))
         to_be_scheduled  = Status.find_by(name: I18n.t(:default_status_to_be_scheduled))
         scheduled        = Status.find_by(name: I18n.t(:default_status_scheduled))
         in_progress      = Status.find_by(name: I18n.t(:default_status_in_progress))
@@ -55,7 +56,7 @@ module BimSeeder
           types[I18n.t(:default_type_phase)]                        => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
           types[I18n.t('seeders.bim.default_type_building_model')]  => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
           types[I18n.t('seeders.bim.default_type_defect')]          => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
-          types[I18n.t('seeders.bim.default_type_approval')]        => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
+          types[I18n.t('seeders.bim.default_type_approval')]        => [new, in_specification, specified, in_development, developed, in_testing, tested, test_failed, on_hold, rejected, closed]
         }
       end
 

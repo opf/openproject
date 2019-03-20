@@ -54,7 +54,7 @@ module DemoData
     private
 
     def seed_demo_work_packages
-      work_packages_data = translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}.work_packages")
+      work_packages_data = translate_with_base_url(work_packages_key)
 
       work_packages_data.each do |attributes|
         print '.'
@@ -152,7 +152,7 @@ module DemoData
     end
 
     def set_workpackage_relations
-      work_packages_data = translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}.work_packages")
+      work_packages_data = translate_with_base_url(work_packages_key)
 
       work_packages_data.each do |attributes|
         create_relations attributes
@@ -188,6 +188,10 @@ module DemoData
 
     def calculate_due_date(date, duration)
       duration && duration > 1 ? date + duration : date
+    end
+
+    def work_packages_key
+      "seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}.work_packages"
     end
   end
 end

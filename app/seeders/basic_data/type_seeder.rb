@@ -52,7 +52,7 @@ module BasicData
       colors = Color.all
       colors = colors.map { |c| { c.name =>  c.id } }.reduce({}, :merge)
 
-      type_table.map do |name, values|
+      type_table.map do |_name, values|
         {
           name:                 I18n.t(values[5]),
           position:             values[0],

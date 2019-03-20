@@ -1,5 +1,7 @@
 #-- encoding: UTF-8
+
 #-- copyright
+
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
@@ -121,32 +123,32 @@ module DemoData
 
     def set_types(project, key)
       project.types.clear
-      Array(translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}.types")).each do |type_name|
+      Array(translate_with_base_url("#{project_key(key)}.types")).each do |type_name|
         type = Type.find_by(name: translate_with_base_url(type_name))
         project.types << type
       end
     end
 
     def seed_categories(project, key)
-      Array(translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}.categories")).each do |cat_name|
+      Array(translate_with_base_url("#{project_key(key)}.categories")).each do |cat_name|
         project.categories.create name: cat_name
       end
     end
 
     def seed_news(project, key)
-      Array(translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}")[:news]).each do |news|
+      Array(translate_with_base_url(project_key(key))[:news]).each do |news|
         News.create! project: project, title: news[:title], summary: news[:summary], description: news[:description]
       end
     end
 
     def seed_queries(project, key)
-      Array(translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}")[:queries]).each do |config|
+      Array(translate_with_base_url(project_key(key))[:queries]).each do |config|
         QueryBuilder.new(config, project).create!
       end
     end
 
     def seed_versions(project, key)
-      version_data = translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}.versions")
+      version_data = translate_with_base_url("#{project_key(key)}.versions")
 
       return if version_data.is_a?(String) && version_data.start_with?("translation missing")
 
@@ -161,6 +163,10 @@ module DemoData
         name: translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.board.name"),
         description: translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.demo_data.board.description")
       )
+    end
+
+    def project_key(key)
+      "seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}"
     end
 
     module Data
@@ -203,4 +209,5 @@ module DemoData
 
     include Data
   end
+
 end
