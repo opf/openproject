@@ -147,7 +147,7 @@ ko:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: 문서
           no_results: No documents yet.
         news:
           title: 뉴스

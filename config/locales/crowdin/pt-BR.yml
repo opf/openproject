@@ -61,16 +61,16 @@ pt-BR:
     connection_encryption: Criptografia de Conexão
     tls_mode:
       plain: nenhum
-      simple_tls: simple_tls
+      simple_tls: simples_tls
       start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      plain_description: Conexão não criptografada, nenhuma negociação TLS.
+      simple_tls_description: Criptografia TLS Implicita, mas sem validação de certificado.
+        Use com cautela e confiança implícita da conexão LDAP.
+      start_tls_description: Criptografia TLS explícita com validação completa. Usar
+        para LDAP sobre SSL/TLS.
+      section_more_info_link_html: 'Esta seção diz respeito à segurança de conexão
+        desta fonte de autenticação LDAP. Para mais informações, visite <a href="%{link}">a
+        documentação Net::LDAP</a>.
 
 '
   boards:
@@ -2965,7 +2965,3 @@ pt-BR:
     revoke_my_application_confirmation: Você quer realmente remover esta aplicação?
       Isso irá revogar %{token_count} ativo(s) para ele.
     my_registered_applications: Aplicações OAuth registradas
-  setting_mail_handler_api_enabled: Habilitar serviço web de entrada de e-mails
-  setting_mail_handler_api_description: 'O manipulador de e-mail permite ao OpenProject
-    receber e-mails contendo comandos específicos, como um mecanismo de instrumentação
-    (ex.: para criar e atualizar pacotes de trabalho).'

@@ -2946,7 +2946,3 @@ hu:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  setting_mail_handler_api_enabled: Bejövő e-mail szolgáltatás engedélyezése
-  setting_mail_handler_api_description: Az e-mail web kezelő lehetővé teszi, hogy
-    az OpenProject különböző utasításokat tartalmazó e-maileket fogadjon és végrehajtson
-    (úgy mint feladatcsoport készítés, frissítés).

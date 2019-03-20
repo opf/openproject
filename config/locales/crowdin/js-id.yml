@@ -152,11 +152,11 @@ id:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Dokumen
           no_results: No documents yet.
         news:
           title: News
-          at: at
+          at: di
           no_results: Nothing new to report.
         time_entries_current_user:
           title: Spent time (last 7 days)

@@ -152,7 +152,7 @@ et:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Dokumendid
           no_results: No documents yet.
         news:
           title: Uudised

@@ -59,7 +59,7 @@ lol:
 '
   boards:
     show:
-      no_results_title_text: crwdns114770:0crwdne114770:0
+      no_results_title_text: crwdns122672:0crwdne122672:0
   colors:
     index:
       no_results_title_text: crwdns114772:0crwdne114772:0
@@ -132,8 +132,8 @@ lol:
       activities:
         no_results_title_text: crwdns114854:0crwdne114854:0
       boards:
-        no_results_title_text: crwdns114856:0crwdne114856:0
-        no_results_content_text: crwdns114858:0crwdne114858:0
+        no_results_title_text: crwdns122674:0crwdne122674:0
+        no_results_content_text: crwdns122676:0crwdne122676:0
       categories:
         no_results_title_text: crwdns114860:0crwdne114860:0
         no_results_content_text: crwdns114862:0crwdne114862:0
@@ -593,7 +593,7 @@ lol:
     models:
       attachment: crwdns115450:0crwdne115450:0
       attribute_help_text: crwdns115452:0crwdne115452:0
-      board: crwdns115454:0crwdne115454:0
+      board: crwdns122678:0crwdne122678:0
       comment: crwdns115456:0crwdne115456:0
       custom_action: crwdns115458:0crwdne115458:0
       custom_field: crwdns115460:0crwdne115460:0
@@ -1060,9 +1060,9 @@ lol:
       faq: crwdns116258:0crwdne116258:0
       glossary: crwdns116260:0crwdne116260:0
       shortcuts: crwdns116262:0crwdne116262:0
-      forums: crwdns116264:0crwdne116264:0
+      forums: crwdns122680:0crwdne122680:0
       blog: crwdns116266:0crwdne116266:0
-      boards: crwdns116268:0crwdne116268:0
+      boards: crwdns122682:0crwdne122682:0
       newsletter: crwdns116270:0crwdne116270:0
   links:
     configuration_guide: crwdns116272:0crwdne116272:0
@@ -1124,7 +1124,7 @@ lol:
   label_authentication: crwdns116376:0crwdne116376:0
   label_available_project_work_package_categories: crwdns116378:0crwdne116378:0
   label_available_project_work_package_types: crwdns116380:0crwdne116380:0
-  label_available_project_boards: crwdns116382:0crwdne116382:0
+  label_available_project_boards: crwdns122684:0crwdne122684:0
   label_available_project_versions: crwdns116384:0crwdne116384:0
   label_available_project_repositories: crwdns116386:0crwdne116386:0
   label_api_documentation: crwdns116388:0crwdne116388:0
@@ -1132,10 +1132,10 @@ lol:
   label_blocked_by: crwdns116392:0crwdne116392:0
   label_blocks: crwdns116394:0crwdne116394:0
   label_blog: crwdns116396:0crwdne116396:0
-  label_board_locked: crwdns116398:0crwdne116398:0
-  label_board_new: crwdns116400:0crwdne116400:0
-  label_board_plural: crwdns116402:0crwdne116402:0
-  label_board_sticky: crwdns116404:0crwdne116404:0
+  label_board_locked: crwdns122686:0crwdne122686:0
+  label_board_new: crwdns122688:0crwdne122688:0
+  label_board_plural: crwdns122690:0crwdne122690:0
+  label_board_sticky: crwdns122692:0crwdne122692:0
   label_boolean: crwdns116406:0crwdne116406:0
   label_branch: crwdns116408:0crwdne116408:0
   label_browse: crwdns116410:0crwdne116410:0
@@ -1274,7 +1274,7 @@ lol:
   label_hierarchy_leaf: crwdns116676:0crwdne116676:0
   label_home: crwdns116678:0crwdne116678:0
   label_subject_or_id: crwdns116680:0crwdne116680:0
-  label_impressum: crwdns122544:0crwdne122544:0
+  label_impressum: crwdns122694:0crwdne122694:0
   label_in: crwdns116682:0crwdne116682:0
   label_in_less_than: crwdns116684:0crwdne116684:0
   label_in_more_than: crwdns116686:0crwdne116686:0
@@ -1407,7 +1407,7 @@ lol:
   label_previous_week: crwdns116940:0crwdne116940:0
   label_principal_invite_via_email: crwdns116942:0crwdne116942:0
   label_principal_search: crwdns116944:0crwdne116944:0
-  label_privacy_policy: crwdns122546:0crwdne122546:0
+  label_privacy_policy: crwdns122696:0crwdne122696:0
   label_product_version: crwdns116946:0crwdne116946:0
   label_professional_support: crwdns116948:0crwdne116948:0
   label_profile: crwdns116950:0crwdne116950:0
@@ -1815,7 +1815,7 @@ lol:
   permission_export_wiki_pages: crwdns117672:0crwdne117672:0
   permission_list_attachments: crwdns117674:0crwdne117674:0
   permission_log_time: crwdns117676:0crwdne117676:0
-  permission_manage_boards: crwdns117678:0crwdne117678:0
+  permission_manage_boards: crwdns122698:0crwdne122698:0
   permission_manage_categories: crwdns117680:0crwdne117680:0
   permission_manage_work_package_relations: crwdns117682:0crwdne117682:0
   permission_manage_members: crwdns117684:0crwdne117684:0
@@ -1861,7 +1861,7 @@ lol:
     archive:
       are_you_sure: crwdns117756:0%{name}crwdne117756:0
   project_module_activity: crwdns117758:0crwdne117758:0
-  project_module_boards: crwdns117760:0crwdne117760:0
+  project_module_boards: crwdns122700:0crwdne122700:0
   project_module_calendar: crwdns117762:0crwdne117762:0
   project_module_work_package_tracking: crwdns117764:0crwdne117764:0
   project_module_news: crwdns117766:0crwdne117766:0
@@ -2237,7 +2237,7 @@ lol:
       color: crwdns118420:0crwdne118420:0
       colors: crwdns118422:0crwdne118422:0
     associations: crwdns118424:0crwdne118424:0
-    board_could_not_be_saved: crwdns118426:0crwdne118426:0
+    board_could_not_be_saved: crwdns122702:0crwdne122702:0
     button_delete_all: crwdns118428:0crwdne118428:0
     change: crwdns118430:0crwdne118430:0
     children: crwdns118432:0crwdne118432:0
@@ -2590,5 +2590,3 @@ lol:
     authorization_error: crwdns118974:0crwdne118974:0
     revoke_my_application_confirmation: crwdns118976:0%{token_count}crwdne118976:0
     my_registered_applications: crwdns118978:0crwdne118978:0
-  setting_mail_handler_api_enabled: crwdns118084:0crwdne118084:0
-  setting_mail_handler_api_description: crwdns118086:0crwdne118086:0

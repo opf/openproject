@@ -152,7 +152,7 @@ fi:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Asiakirjat
           no_results: No documents yet.
         news:
           title: Uutiset

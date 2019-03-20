@@ -153,7 +153,7 @@ pl:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Dokumenty
           no_results: No documents yet.
         news:
           title: Aktualności

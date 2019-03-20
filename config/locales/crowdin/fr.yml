@@ -58,7 +58,7 @@ fr:
       no_results_content_title: Il n'y a actuellement aucun mode d'authentification.
       no_results_content_text: Créer un nouveau mode d'authentification
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Cryptage de la connexion
     tls_mode:
       plain: aucun(e)
       simple_tls: simple_tls
@@ -68,9 +68,9 @@ fr:
         Use with caution and implicit trust of the LDAP connection.
       start_tls_description: Explicit TLS encryption with full validation. Use for
         LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      section_more_info_link_html: 'Cette section concerne la sécurité de connexion
+        de cette source d''authentification LDAP. Pour plus d''informations, visitez
+        <a href="%{link}">the Net::LDAP documentation</a>.
 
 '
   boards:
@@ -393,8 +393,8 @@ fr:
         active_user_count_restriction: Nombre maximal d’utilisateurs actif
       grids/grid:
         page: Page
-        row_count: Number of rows
-        column_count: Number of columns
+        row_count: Nombre de lignes
+        column_count: Nombre de colonnes
         widgets: Widgets
       relation:
         delay: Délai
@@ -566,8 +566,8 @@ fr:
             Entreprise ?
         grids/grid:
           overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          outside: est hors de la grille.
+          end_before_start: la valeur finale doit être supérieure à la valeur de départ.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -3019,7 +3019,3 @@ fr:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  setting_mail_handler_api_enabled: Activer le service web de courrier entrant
-  setting_mail_handler_api_description: Le service web de courrier entrant permet
-    à OpenProject de recevoir des courriels contenant des commandes spécifiques à
-    exécuter (e.g. pour créer et mettre à jour des lots de travaux).

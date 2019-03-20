@@ -144,7 +144,7 @@ zh-TW:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: 文件
           no_results: No documents yet.
         news:
           title: 新知

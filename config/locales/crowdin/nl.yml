@@ -58,19 +58,19 @@ nl:
       no_results_content_title: Er zijn momenteel geen verificatie methodes.
       no_results_content_text: Maak een nieuwe authenticatie methode
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Verbinding encryptie
     tls_mode:
       plain: geen
-      simple_tls: simple_tls
+      simple_tls: eenvoudige_tls
       start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      plain_description: Geen TLS-onderhandelingen.
+      simple_tls_description: Impliciet TLS encryptie, maar geen certificaat validatie.
+        Gebruik voorzichtig en impliciet vertrouwen van de LDAP-verbinding.
+      start_tls_description: TLS-encryptie uitbreiden met volledige validatie. Gebruik
+        voor LDAP via TLS/SSL.
+      section_more_info_link_html: 'Deze sectie heeft betrekking op de verbindingsbeveiliging
+        van deze LDAP authenticatie bron. Voor meer informatie bezoek <a href="%{link}">het
+        net::LDAP documentatie</a>.
 
 '
   boards:
@@ -390,9 +390,9 @@ nl:
         encoded_token: Enterprise ondersteuningstoken
         active_user_count_restriction: Maximum aantal actieve gebruikers
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
+        page: Pagina
+        row_count: Aantal rijen
+        column_count: Aantal kolommen
         widgets: Widgets
       relation:
         delay: Vertraging
@@ -565,8 +565,8 @@ nl:
             is?
         grids/grid:
           overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          outside: is buiten het raster.
+          end_before_start: eindwaarde moet groter zijn dan de startwaarde.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -1871,8 +1871,8 @@ nl:
   notice_account_update_failed: Account instelling kan niet worden opgeslagen. Kijk
     op uw accountpagina.
   notice_account_updated: Account is bijgewerkt.
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: Alle andere sessies die gekoppeld zijn aan
+    uw account zijn ongeldig.
   notice_account_wrong_password: Verkeerde wachtwoord
   notice_account_registered_and_logged_in: Welkom, uw acount is geactiveerd. U bent
     nu ingelogd.
@@ -2988,7 +2988,3 @@ nl:
     revoke_my_application_confirmation: Weet u zeker dat u deze applicatie wilt verwijderen?
       Dit zal %{token_count} actief voor deze verwijderen.
     my_registered_applications: Geregistreerde OAuth toepassingen
-  setting_mail_handler_api_enabled: Binnenkomende e-mail web-service inschakelen
-  setting_mail_handler_api_description: De e-mail web handler activeerd OpenProject
-    voor het ontvangen van e-mails met specifieke opdrachten als een mechanisme instrumentatie
-    (bijvoorbeeld maken en bijwerken van de werkpakketten).

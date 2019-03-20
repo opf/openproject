@@ -140,18 +140,18 @@ zh:
     general_text_Yes: 是
     grid:
       add_modal:
-        choose_widget: Choose widget
+        choose_widget: 选择小部件
       widgets:
         documents:
-          title: Documents
-          no_results: No documents yet.
+          title: 文档
+          no_results: 没有文档。
         news:
           title: 新闻
           at: at
           no_results: 没有新消息报告。
         time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
+          title: 花费时间 (最近 7天)
+          no_results: 过去7天没有时间记录。
         work_packages_accountable:
           title: 我负责的工作包
         work_packages_assigned:

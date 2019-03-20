@@ -152,7 +152,7 @@ hr:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Dokumenti
           no_results: No documents yet.
         news:
           title: Vijesti

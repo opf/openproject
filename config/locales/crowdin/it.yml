@@ -59,7 +59,7 @@ it:
       no_results_content_title: Al momento non vi è alcuna modalità di autenticazione.
       no_results_content_text: Crea una nuova modalità di autenticazione
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Crittografia connessione
     tls_mode:
       plain: nessuno
       simple_tls: simple_tls
@@ -389,10 +389,10 @@ it:
         encoded_token: Token di assistenza Enterprise
         active_user_count_restriction: Numero massimo di utenti attivi
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
+        page: Pagina
+        row_count: Numero di righe
+        column_count: Numero di colonne
+        widgets: Widget
       relation:
         delay: Ritardo
         from: Macro-attività
@@ -562,8 +562,8 @@ it:
           unreadable: non può essere letto. Sei sicuro che si tratta di un token di
             assistenza?
         grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
+          overlaps: sovrapposizione.
+          outside: è fuori dalla griglia.
           end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
           attributes:
@@ -3018,8 +3018,3 @@ it:
     revoke_my_application_confirmation: Vuoi davvero rimuovere questa applicazione?
       Questo revocherà %{token_count} attivo per essa.
     my_registered_applications: Registered OAuth applications
-  setting_mail_handler_api_enabled: Abilitare il servizio web di posta elettronica
-    in arrivo
-  setting_mail_handler_api_description: Il gestore di posta elettronica web consente
-    ad OpenProject di ricevere e-mail contenenti comandi specifici come strumento
-    di automazione (ad esempio, per creare e aggiornare pacchetti di lavoro).

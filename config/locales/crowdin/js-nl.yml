@@ -152,26 +152,26 @@ nl:
     general_text_Yes: Ja
     grid:
       add_modal:
-        choose_widget: Choose widget
+        choose_widget: Widget kiezen
       widgets:
         documents:
-          title: Documents
-          no_results: No documents yet.
+          title: Documenten
+          no_results: Geen documenten.
         news:
           title: Nieuws
-          at: at
+          at: bij
           no_results: Niets nieuws om te rapporteren.
         time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
+          title: Besteed tijd (laatste 7 dagen)
+          no_results: Geen tijd items voor de afgelopen 7 dagen.
         work_packages_accountable:
           title: Werkpakketten waar ik verantwoordelijk voor ben
         work_packages_assigned:
           title: Werkpakketten toegewezen aan mij
         work_packages_created:
-          title: Work packages created by me
+          title: Werkpakketten gemaakt door mij werk werk
         work_packages_watched:
-          title: Work packages watched by me
+          title: Werkpakketten bekeken door mij
         work_packages_calendar:
           title: Agenda
     label_activate: Activeren

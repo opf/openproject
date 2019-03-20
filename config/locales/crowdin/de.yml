@@ -58,19 +58,20 @@ de:
       no_results_content_title: Derzeit gibt es keine Authentifizierungsmodi.
       no_results_content_text: Erstellen Sie einen neuen Authentifizierungsmodus
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Verbindungsverschlüsselung
     tls_mode:
       plain: kein
       simple_tls: simple_tls
       start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      plain_description: Unverschlüsselte Verbindung.
+      simple_tls_description: Implizite TLS-Verschlüsselung ohne Verifikation. Mit
+        Bedacht verwenden, da diese Option in impliziten Vertrauen in die LDAP-Verbindung
+        resultiert.
+      start_tls_description: Explizite TLS-Verschlüsselung mit Verifikation der Zertifikatskette.
+        Für LDAP over TLS/SSL verwenden.
+      section_more_info_link_html: 'Dieser Abschnitt betrifft die Verbindungssicherheit
+        dieser LDAP-Authentifizierungsquelle. Besuchen Sie für weitere Informationen
+        die <a href="%{link}">Net::LDAP Dokumentation</a>.
 
 '
   boards:
@@ -396,9 +397,9 @@ de:
         encoded_token: Enterprise-Edition Support Token
         active_user_count_restriction: Maximale aktive Nutzer
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
+        page: Seite
+        row_count: Anzahl der Zeilen
+        column_count: Anzahl der Spalten
         widgets: Widgets
       relation:
         delay: Pufferzeit
@@ -572,9 +573,9 @@ de:
           unreadable: kann nicht gelesen werden. Ist dies ein Enterprise-Edition Support
             Token?
         grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          overlaps: überlappen.
+          outside: ist außerhalb des Rasters.
+          end_before_start: der Endwert muss größer sein als der Startwert.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -1885,8 +1886,8 @@ de:
   notice_account_update_failed: Konto konnte nicht aktualisiert werden. Bitte besuchen
     Sie ihre Profilseite und überprüfen Sie die Einstellungen.
   notice_account_updated: Konto wurde erfolgreich aktualisiert.
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: Alle anderen Sitzungen, die mit Ihrem Konto
+    verbunden sind, wurden beendet.
   notice_account_wrong_password: Falsches Kennwort.
   notice_account_registered_and_logged_in: Willkommen, ihr Benutzerkonto wurde aktiviert.
     Sie sind nun angemeldet.
@@ -3021,7 +3022,3 @@ de:
     revoke_my_application_confirmation: Möchten Sie diese Anwendung wirklich entfernen?
       Dies wird %{token_count} aktive Token widerrufen.
     my_registered_applications: Registrierte OAuth-Anwendungen
-  setting_mail_handler_api_enabled: Web-Service für eingehende E-Mails aktivieren
-  setting_mail_handler_api_description: Der E-Mail Web-Service erlaubt es OpenProject,
-    E-Mails mit speziellen Anweisungen zu erhalten und darauf zu reagieren (z.B. zum
-    Anlegen und Aktualisieren von Arbeitspaketen).
