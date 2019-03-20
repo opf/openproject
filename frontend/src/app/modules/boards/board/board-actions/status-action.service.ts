@@ -4,7 +4,6 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {Board} from "core-app/modules/boards/board/board";
 import {StatusDmService} from "core-app/modules/hal/dm-services/status-dm.service";
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
-import {QueryFilterBuilder} from "core-components/api/api-v3/query-filter-builder";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -15,7 +14,6 @@ import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 export class BoardStatusActionService implements BoardActionService {
 
   private readonly v3 = this.pathHelper.api.v3;
-  private queryFilterBuilder = new QueryFilterBuilder(this.v3);
 
   constructor(protected pathHelper:PathHelperService,
               protected boardListService:BoardListsService,
