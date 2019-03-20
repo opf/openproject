@@ -13,7 +13,8 @@
       <editable-toolbar-title [title]="query.name"
                               [inFlight]="inFlight"
                               (onSave)="renameQuery(query, $event)"
-                              [editable]="!!query.updateImmediately">
+                              [editable]="!!query.updateImmediately"
+                              class="-small">
       </editable-toolbar-title>
       <button [title]="text.addCard"
               *ngIf="board.isAction && showAddButton"
