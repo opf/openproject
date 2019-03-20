@@ -42,7 +42,7 @@ import {mapTo, take} from "rxjs/operators";
 
 @Injectable()
 export class WorkPackageTableFiltersService extends WorkPackageQueryStateService<QueryFilterInstanceResource[]> {
-  public hidden:Readonly<string[]> = [
+  public hidden:string[] = [
     'id',
     'parent',
     'datesInterval',

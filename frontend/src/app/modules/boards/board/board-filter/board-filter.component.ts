@@ -41,6 +41,11 @@ export class BoardFilterComponent implements OnInit, OnDestroy {
 
     // Update checksum service whenever filters change
     this.updateChecksumOnFilterChanges();
+
+    // Remove action attribute from filter service
+    if (this.board.isAction) {
+      this.wpTableFilters.hidden.push(this.board.actionAttribute)
+    }
   }
 
   ngOnDestroy():void {
