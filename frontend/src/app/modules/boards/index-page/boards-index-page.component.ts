@@ -1,4 +1,4 @@
-import {Component, Injector} from "@angular/core";
+import {AfterContentInit, AfterViewInit, Component, Injector, OnInit} from "@angular/core";
 import {Observable} from "rxjs";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardService} from "core-app/modules/boards/board/board.service";
@@ -8,11 +8,13 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {NewBoardModalComponent} from "core-app/modules/boards/new-board-modal/new-board-modal.component";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
+import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 
 @Component({
-  templateUrl: './boards-index-page.component.html'
+  templateUrl: './boards-index-page.component.html',
+  styleUrls: ['./boards-index-page.component.sass']
 })
-export class BoardsIndexPageComponent {
+export class BoardsIndexPageComponent implements AfterViewInit {
 
   public text = {
     name: this.I18n.t('js.modals.label_name'),
@@ -38,9 +40,14 @@ export class BoardsIndexPageComponent {
               private readonly I18n:I18nService,
               private readonly notifications:NotificationsService,
               private readonly opModalService:OpModalService,
+              private readonly loadingIndicatorService:LoadingIndicatorService,
               private readonly injector:Injector,
               private readonly bannerService:BannersService) {
-    this.boardService.loadAllBoards();
+  }
+
+  ngAfterViewInit():void {
+    const loadingIndicator = this.loadingIndicatorService.indicator('boards-module');
+    loadingIndicator.promise = this.boardService.loadAllBoards();
   }
 
   get canManage() {
