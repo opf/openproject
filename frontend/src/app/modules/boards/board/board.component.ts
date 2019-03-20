@@ -67,15 +67,12 @@ export class BoardComponent implements OnInit, OnDestroy {
               private readonly I18n:I18nService,
               private readonly notifications:NotificationsService,
               private readonly BoardList:BoardListsService,
-              private readonly QueryDm:QueryDmService,
               private readonly opModalService:OpModalService,
               private readonly injector:Injector,
-              private readonly boardActions:BoardActionsRegistryService,
               private readonly BoardCache:BoardCacheService,
               private readonly dynamicCss:DynamicCssService,
               private readonly Boards:BoardService,
-              private readonly Banner:BannersService,
-              private readonly halResourceService:HalResourceService) {
+              private readonly Banner:BannersService) {
   }
 
   goBack() {
@@ -93,7 +90,8 @@ export class BoardComponent implements OnInit, OnDestroy {
       )
       .subscribe(board => {
         this.board = board;
-        this.filters = this.board.filters;
+        let queryProps = this.state.params.query_props;
+        this.filters = this.board.filters =  queryProps ? JSON.parse(queryProps) : this.board.filters;
 
         if (board.isAction && !initialized) {
           this.dynamicCss.requireHighlighting();
