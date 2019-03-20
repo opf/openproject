@@ -1,11 +1,13 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter, Input, OnChanges,
+  EventEmitter,
+  Input,
+  OnChanges,
   OnDestroy,
   OnInit,
-  Output, SimpleChanges,
+  Output,
+  SimpleChanges,
   ViewChild
 } from "@angular/core";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
@@ -30,12 +32,8 @@ import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
-import {
-  QueryFilterInstanceResource
-} from "core-app/modules/hal/resources/query-filter-instance-resource";
-import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
+import {BoardService} from "app/modules/boards/board/board.service";
 
 @Component({
   selector: 'board-list',
@@ -86,15 +84,13 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly state:StateService,
               private readonly boardCache:BoardCacheService,
               private readonly notifications:NotificationsService,
-              private readonly cdRef:ChangeDetectorRef,
               private readonly querySpace:IsolatedQuerySpace,
               private readonly Gon:GonService,
               private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               private readonly authorisationService:AuthorisationService,
               private readonly wpInlineCreate:WorkPackageInlineCreateService,
               private readonly loadingIndicator:LoadingIndicatorService,
-              private readonly urlParamsHelperService:UrlParamsHelperService,
-              private readonly halResourceService:HalResourceService) {
+              private readonly boardService:BoardService) {
     super(I18n);
   }
 
@@ -139,6 +135,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public get canReference() {
     return this.wpInlineCreate.canReference &&  !!this.Gon.get('permission_flags', 'edit_work_packages');
+  }
+
+  public get canManage() {
+    return this.boardService.canManage;
   }
 
   public addReferenceCard() {

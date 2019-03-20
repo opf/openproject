@@ -39,7 +39,7 @@
 
     <div class="board-list--query-container">
       <wp-card-view [dragAndDropEnabled]="dragAndDropEnabled"
-                    [cardsRemovable]="board.isFree"
+                    [cardsRemovable]="board.isFree && canManage"
                     [highlightingMode]="board.highlightingMode">
       </wp-card-view>
     </div>
