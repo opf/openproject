@@ -1284,6 +1284,7 @@ ja:
   label_hierarchy_leaf: 階層枚
   label_home: ホーム
   label_subject_or_id: 件名またはID
+  label_impressum: Impressum
   label_in: 今日から○日後
   label_in_less_than: 今日から○日後以前
   label_in_more_than: 今日から○日後以降
@@ -1417,6 +1418,7 @@ ja:
   label_previous_week: 先週
   label_principal_invite_via_email: " またはメールで新しいユーザを招待"
   label_principal_search: 既存のユーザーまたはグループを追加する
+  label_privacy_policy: Data privacy and security policy
   label_product_version: 製品バージョ​​ン
   label_professional_support: プロフェッショナルサポート
   label_profile: プロファイル
@@ -2066,9 +2068,6 @@ ja:
   setting_log_requesting_user: 全てのリクエストに対し、ユーザのログイン名、名前、メールアドレスをログに記録する
   setting_login_required: 認証が必要
   setting_mail_from: 送信元のメールアドレス
-  setting_mail_handler_api_enabled: 受信メールWebサービスを有効にする
-  setting_mail_handler_api_description: メールWebハンドラーにより、OpenProjectは機械的な仕組みで特定のコマンドが含まれているメールを受信することができます
-    (例えば、作業項目の作成と更新)。
   setting_mail_handler_api_key: APIキー
   setting_mail_handler_body_delimiters: メール本文から一致する行以降を切り捨てる
   setting_mail_handler_body_delimiter_regex: この正規表現に一致するメールを切り捨てる
@@ -2644,3 +2643,6 @@ ja:
     revoke_my_application_confirmation: 本当にこのアプリケーションを削除しますか？ これにより %{token_count}
       が無効になります。
     my_registered_applications: 登録済みのOAuthアプリケーション
+  setting_mail_handler_api_enabled: 受信メールWebサービスを有効にする
+  setting_mail_handler_api_description: メールWebハンドラーにより、OpenProjectは機械的な仕組みで特定のコマンドが含まれているメールを受信することができます
+    (例えば、作業項目の作成と更新)。

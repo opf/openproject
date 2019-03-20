@@ -1395,6 +1395,7 @@ pt-BR:
   label_hierarchy_leaf: Folha de hierarquia
   label_home: Início
   label_subject_or_id: Assunto ou ID
+  label_impressum: Impressum
   label_in: em
   label_in_less_than: em menos de
   label_in_more_than: em mais de
@@ -1528,6 +1529,7 @@ pt-BR:
   label_previous_week: Semana anterior
   label_principal_invite_via_email: " ou convidar novos usuários via e-mail"
   label_principal_search: Adicionar usuários existentes ou grupos
+  label_privacy_policy: Data privacy and security policy
   label_product_version: Versão do produto
   label_professional_support: Suporte profissional
   label_profile: Perfil
@@ -2261,10 +2263,6 @@ pt-BR:
     para todas as solicitações
   setting_login_required: Autenticação Requerida
   setting_mail_from: Endereço de e-mail de saída
-  setting_mail_handler_api_enabled: Habilitar serviço web de entrada de e-mails
-  setting_mail_handler_api_description: 'O manipulador de e-mail permite ao OpenProject
-    receber e-mails contendo comandos específicos, como um mecanismo de instrumentação
-    (ex.: para criar e atualizar pacotes de trabalho).'
   setting_mail_handler_api_key: Chaves API
   setting_mail_handler_body_delimiters: Truncar e-mails depois de uma dessas linhas
   setting_mail_handler_body_delimiter_regex: Truncar e-mails correspondentes a esta
@@ -2968,3 +2966,7 @@ pt-BR:
     revoke_my_application_confirmation: Você quer realmente remover esta aplicação?
       Isso irá revogar %{token_count} ativo(s) para ele.
     my_registered_applications: Aplicações OAuth registradas
+  setting_mail_handler_api_enabled: Habilitar serviço web de entrada de e-mails
+  setting_mail_handler_api_description: 'O manipulador de e-mail permite ao OpenProject
+    receber e-mails contendo comandos específicos, como um mecanismo de instrumentação
+    (ex.: para criar e atualizar pacotes de trabalho).'
