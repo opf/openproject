@@ -373,12 +373,12 @@ ru:
             новые задачи или помехи с помощью значка + рядом с историей пользователя.
             Используя перетаскивание, вы можете обновить статус."
         boards:
-          overview: Manage your work within an intuitive <b>Boards</b> view.
-          lists: You can create multiple lists (columns) within one Board view, e.g.
-            to create a KANBAN board.
-          add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          overview: Управляйте работой в интуитивном представлении <b>Доски</b>.
+          lists: Можно создать несколько списков (столбцов) в пределах представления
+            одной Доски, например, создав доску KANBAN.
+          add: Клик по + <b>добавит новую карточку</b> к списку Доски.
+          drag: Перетащите ваши карты в список для повторного заказа, или другой список.
+            Двойной клик мыши откроет детальное представление.
         wp:
           toggler: Давайте теперь в секции <b>Пакет работ</b> посмотрим более детальное
             описание вашей работы.
