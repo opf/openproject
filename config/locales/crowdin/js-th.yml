@@ -198,7 +198,7 @@ th:
     label_date: วันที่
     label_date_with_format: 'Enter the %{date_attribute} using the following format:
       %{format}'
-    label_deactivate: Deactivate
+    label_deactivate: ปิดใช้งาน
     label_descending: มากไปน้อย
     label_description: คำอธิบาย
     label_cancel_comment: Cancel comment
@@ -241,8 +241,8 @@ th:
     label_my_page: หน้าของฉัน
     label_next: ถัดไป
     label_no_data: ไม่มีข้อมูลให้แสดง
-    label_no_due_date: no end date
-    label_no_start_date: no start date
+    label_no_due_date: ไม่มีวันสิ้นสุด
+    label_no_start_date: ไม่มีวันเริ่มต้น
     label_none: ไม่มี
     label_not_contains: ไม่ประกอบด้วยการ
     label_not_equals: ไม่
@@ -252,7 +252,7 @@ th:
     label_open_work_packages: เปิด
     label_password: รหัสผ่าน
     label_previous: ก่อนหน้านี้
-    label_per_page: 'Per page:'
+    label_per_page: ต่อหน้า
     label_please_wait: กรุณารอสักครู่
     label_visibility_settings: Visibility settings
     label_quote_comment: Quote this comment
@@ -266,14 +266,14 @@ th:
     label_show_attributes: Show all attributes
     label_show_in_menu: Show view in menu
     label_sort_by: เรียงลำดับโดย
-    label_sorted_by: sorted by
+    label_sorted_by: เรียงลำดับตาม
     label_sort_higher: เลื่อนขึ้น
     label_sort_lower: เลื่อนลง
-    label_sorting: Sorting
+    label_sorting: การเรียงลำดับ
     label_star_query: Favored
     label_press_enter_to_save: Press enter to save.
     label_public_query: สาธารณะ
-    label_sum_for: Sum for
+    label_sum_for: ผลรวมสำหรับ
     label_subject: หัวข้อ
     label_this_week: สัปดาห์นี้
     label_today: วันนี้
@@ -294,7 +294,7 @@ th:
       %{subject}.
     label_unwatch: ไม่เข้าชม
     label_unwatch_work_package: Unwatch work package
-    label_uploaded_by: Uploaded by
+    label_uploaded_by: อัปโหลดโดย
     label_default_queries: Default views
     label_starred_queries: Favorite views
     label_global_queries: Public views
@@ -437,7 +437,7 @@ th:
     relation_labels:
       parent: ค่าหลัก
       children: Children
-      relates: Related To
+      relates: ที่เกี่ยวข้องกับ
       duplicates: Duplicates
       duplicated: Duplicated by
       blocks: บล็อก
@@ -635,7 +635,7 @@ th:
       message_view_spent_time: Show spent time for this work package
       message_work_package_read_only: Work package is locked in this status. No attribute
         other than status can be altered.
-      no_value: No value
+      no_value: ไม่มีค่า
       placeholder_filter_by_text: Subject, description, comments, ...
       inline_create:
         title: Click here to add a new work package to this list
@@ -831,27 +831,27 @@ th:
     notice_successful_update: ปรับปรุงข้อมูลเรียบร้อยแล้ว
     notice_bad_request: คำขอไม่ถูกต้อง
     relations:
-      empty: No relation exists
+      empty: ไม่มีความสัมพันธ์
       remove: Remove relation
     inplace:
-      button_edit: "%{attribute}: Edit"
-      button_save: "%{attribute}: Save"
-      button_cancel: "%{attribute}: Cancel"
+      button_edit: "%{attribute}: แก้ไข"
+      button_save: "%{attribute}: บันทึก"
+      button_cancel: "%{attribute}: ยกเลิก"
       button_save_all: บันทึก
       button_cancel_all: ยกเลิก
       link_formatting_help: Text formatting help
       btn_preview_enable: แสดงตัวอย่าง
-      btn_preview_disable: Disable preview
-      null_value_label: No value
+      btn_preview_disable: ปิดใช้งานตัวอย่าง
+      null_value_label: ไม่มีค่า
       clear_value_label: "-"
       errors:
-        required: "%{field} cannot be empty"
-        number: "%{field} is not a valid number"
+        required: ฟิลด์ %{field} ต้องไม่ว่างเปล่า
+        number: "%{field} ไม่ใช่หมายเลขที่ถูกต้อง"
         maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
         minlength: "%{field} cannot contain less than %{minLength} digit(s)"
         messages_on_field: 'This field is invalid: %{messages}'
-    error_could_not_resolve_version_name: Couldn't resolve version name
-    error_could_not_resolve_user_name: Couldn't resolve user name
+    error_could_not_resolve_version_name: ไม่สามารถแก้ไขเวอร์ชัน
+    error_could_not_resolve_user_name: ไม่สามารถแก้ไขชื่อผู้ใช้
     error_attachment_upload: 'File failed to upload: %{error}'
     error_attachment_upload_permission: You don't have the permission to upload files
       on this resource.
@@ -864,7 +864,7 @@ th:
         other: "%{count} work package children"
       hour:
         one: 1 hour
-        other: "%{count} hours"
+        other: "%{count} ชั่วโมง"
         zero: 0 hours
     zen_mode:
       button_activate: Activate zen mode
