@@ -332,12 +332,12 @@ en:
               duration: 2
               children:
                 - subject: Wonderful feature
-                  status: :default_status_new
+                  status: :default_status_in_progress
                   type: :default_type_feature
                   start: 28
                   duration: 1
                 - subject: Ugly bug
-                  status: :default_status_new
+                  status: :default_status_closed
                   type: :default_type_bug
                   start: 30
                   duration: 1

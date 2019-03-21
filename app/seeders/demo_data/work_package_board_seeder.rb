@@ -58,7 +58,8 @@ module DemoData
       board.widgets = seed_kanban_board_queries.each_with_index.map do |query, i|
         Grids::Widget.new start_row: 1, end_row: 2,
                           start_column: i + 1, end_column: i + 2,
-                          options: { query_id: query.id },
+                          options: { query_id: query.id,
+                                     filters: [{ status: { operator: '=', values: query.filters[0].values } }] },
                           identifier: 'work_package_query'
       end
 
