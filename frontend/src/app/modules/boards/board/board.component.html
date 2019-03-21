@@ -1,5 +1,5 @@
 <div *ngIf="board"
-     [ngClass]="{ '-editable': board.editable }"
+     [ngClass]="{ '-editable': board.editable, '-free' : board.isFree}"
      class="board--container">
 
   <ng-container wp-isolated-query-space>

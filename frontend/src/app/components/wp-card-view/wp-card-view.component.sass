@@ -13,6 +13,7 @@
 .wp-card
   user-select: none
   width: 100%
+  max-width: 250px
   border: 1px solid var(--widget-box-block-border-color)
   border-radius: 5px
   padding: 10px 30px 10px 10px
@@ -52,8 +53,13 @@ wp-edit-field
 
 .work-packages--subject-type-row
   margin-bottom: 10px
+
   .wp-card--type
     margin-right: 5px
+
+  .wp-card--subject
+    @include text-shortener
+    white-space: normal
 
   .-new
     flex-wrap: wrap

@@ -24,11 +24,15 @@
 
 .boards-list-item-handle
   position: absolute
+  font-size: 14px
   left: 0
-  top: 24px
+  top: 20px
   z-index: 100
   opacity: 0
   cursor: grab
+
+  .board--container.-free &
+    top: 14px
 
   &:before
     padding: 0
@@ -38,21 +42,20 @@
     opacity: 1
 
 .boards-list--add-item
-  flex: 0 0 auto
+  flex: 0 0 230px
   border: 1px dashed #ccc
-  height: 200px
+  border-radius: 5px
+  // Same height as board list header
+  height: 43px
   margin-left: 30px
 
   // Center child text
   display: flex
   align-items: center
-  justify-items: center
+  justify-content: center
 
-  // Center self in lists
-  align-self: center
-
-  .boards-list--add-item-text
-    transform: rotate(90deg)
+  // Align self at top
+  align-self: flex-start
 
 .board--container
   position: relative
