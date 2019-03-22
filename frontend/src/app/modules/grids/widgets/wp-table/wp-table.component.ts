@@ -7,6 +7,8 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
+import {skip} from 'rxjs/operators';
+import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 
 @Component({
   templateUrl: '../wp-widget/wp-widget.component.html',
@@ -14,7 +16,7 @@ import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_pack
 })
 export class WidgetWpTableComponent extends WidgetWpListComponent implements OnInit, OnDestroy, AfterViewInit {
   public text = { title: this.i18n.t('js.grid.widgets.work_packages_table.title') };
-  public queryProps = {};
+  public queryProps:any = {};
 
   public configuration:Partial<WorkPackageTableConfiguration> = {
     actionsColumnEnabled: false,
@@ -23,11 +25,18 @@ export class WidgetWpTableComponent extends WidgetWpListComponent implements OnI
     contextMenuEnabled: false
   };
 
+  constructor(protected i18n:I18nService,
+              protected urlParamsHelper:UrlParamsHelperService) {
+    super(i18n);
+  }
+
   @ViewChild(WorkPackageIsolatedQuerySpaceDirective) public querySpaceDirective:WorkPackageIsolatedQuerySpaceDirective;
 
   ngOnInit() {
+    if (this.resource.options.queryProps) {
+      this.queryProps = this.resource.options.queryProps;
+    }
     super.ngOnInit();
-
   }
 
   ngAfterViewInit() {
@@ -37,8 +46,15 @@ export class WidgetWpTableComponent extends WidgetWpListComponent implements OnI
       .query
       .values$()
       .pipe(
+        // 2 because ... well it is a magic number and works
+        skip(2),
         untilComponentDestroyed(this)
-      ).subscribe(() => console.log('query updated'));
+      ).subscribe((query) => {
+        let queryProps = this.urlParamsHelper.buildV3GetQueryFromQueryResource(query);
+
+        this.resource.options = { queryProps: queryProps };
+        this.resourceChanged.emit(this.resource);
+      });
   }
 
   ngOnDestroy() {

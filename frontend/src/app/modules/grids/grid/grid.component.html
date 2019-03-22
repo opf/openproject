@@ -52,7 +52,7 @@
       </div>
       <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area.widget)"
                    [ndcDynamicInputs]="{ resource: area.widget }"
-                   [ndcDynamicOutputs]="{}">
+                   [ndcDynamicOutputs]="widgetComponentOutput(area.widget)">
       </ndc-dynamic>
     </div>
     <resizer *ngIf="!drag.currentlyDragging"

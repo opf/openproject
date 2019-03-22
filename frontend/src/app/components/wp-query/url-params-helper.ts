@@ -84,7 +84,8 @@ export class UrlParamsHelperService {
   private encodeColumns(paramsData:any, query:QueryResource) {
     paramsData.c = query.columns.map(function (column) {
       return column.id!;
-    })
+    });
+
     return paramsData;
   }
 
