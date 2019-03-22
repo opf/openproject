@@ -883,7 +883,7 @@ pl:
       search: Szukaj
       close_search: Zakończ wyszukiwanie
       current_project: W tym projekcie
-      current_project_and_all_descendants: W tym projekcie + podprojekcie
+      current_project_and_all_descendants: W tym projekcie + pod projekcie
       title:
         all_projects: Wszystkie projekty
         project_and_subprojects: i wszystkie podprojekty
