@@ -75,7 +75,7 @@ nl:
 '
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: Er zijn momenteel geen berichten voor het forum.
   colors:
     index:
       no_results_title_text: Er zijn momenteel geen kleuren.
@@ -157,8 +157,8 @@ nl:
       activities:
         no_results_title_text: Er zijn momenteel geen activiteiten beschikbaar.
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: Er zijn momenteel geen forums voor het project.
+        no_results_content_text: Maak een nieuw forum
       categories:
         no_results_title_text: Er zijn momenteel geen werkpakket rubrieken.
         no_results_content_text: Maak een nieuwe werkpakket categorie
@@ -534,7 +534,7 @@ nl:
         too_long: is te lang (maximaal %{count} karakters).
         too_short: is te kort (minimum is %{count} karakters).
         unchangeable: kan niet worden gewijzigd.
-        unremovable: cannot be removed.
+        unremovable: kan niet verwijderd worden.
         wrong_length: is de verkeerde lengte (dient %{count} karakters te zijn).
       models:
         custom_field:
@@ -1255,7 +1255,7 @@ nl:
   label_authentication: Verificatie
   label_available_project_work_package_categories: Beschikbare werkpakket categorieën
   label_available_project_work_package_types: Beschikbare werkpakkettypes
-  label_available_project_forums: Available forums
+  label_available_project_forums: Beschikbare forums
   label_available_project_versions: Beschikbare versies
   label_available_project_repositories: Beschikbare opslagplaatsen
   label_api_documentation: API documentatie
@@ -1271,7 +1271,7 @@ nl:
   label_branch: Branch
   label_browse: Bladeren
   label_bulk_edit_selected_work_packages: Bulk bewerken van geselecteerd werkpakketten
-  label_bundled: "(Bundled)"
+  label_bundled: "(Meegeleverde)"
   label_calendar: Agenda
   label_calendar_show: Agenda weergeven
   label_category: Categorie
@@ -1534,7 +1534,7 @@ nl:
   label_planning: Planning
   label_please_login: Log in a.u.b.
   label_plugins: Plug-ins
-  label_modules_and_plugins: Modules and Plugins
+  label_modules_and_plugins: Modules en Plugins
   label_precedes: voorafgaand aan
   label_preferences: Voorkeuren
   label_preview: Voorbeeld
@@ -2989,7 +2989,3 @@ nl:
     revoke_my_application_confirmation: Weet u zeker dat u deze applicatie wilt verwijderen?
       Dit zal %{token_count} actief voor deze verwijderen.
     my_registered_applications: Geregistreerde OAuth toepassingen
-  setting_mail_handler_api_enabled: Binnenkomende e-mail web-service inschakelen
-  setting_mail_handler_api_description: De e-mail web handler activeerd OpenProject
-    voor het ontvangen van e-mails met specifieke opdrachten als een mechanisme instrumentatie
-    (bijvoorbeeld maken en bijwerken van de werkpakketten).

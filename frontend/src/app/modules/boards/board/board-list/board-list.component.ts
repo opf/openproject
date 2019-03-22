@@ -1,11 +1,13 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter, Input,
+  EventEmitter,
+  Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild
 } from "@angular/core";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
@@ -30,6 +32,8 @@ import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
+import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
+import {BoardService} from "app/modules/boards/board/board.service";
 
 @Component({
   selector: 'board-list',
@@ -39,12 +43,15 @@ import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp
     {provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService}
   ]
 })
-export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {
+export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy, OnChanges {
   /** Output fired upon query removal */
   @Output() onRemove = new EventEmitter<void>();
 
   /** Access to the board resource */
   @Input() public board:Board;
+
+  /** Access the filters of the board */
+  @Input() public filters:ApiV3Filter[];
 
   /** Access to the loading indicator element */
   @ViewChild('loadingIndicator') indicator:ElementRef;
@@ -61,11 +68,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   /** Whether the add button should be shown */
   public showAddButton = false;
 
-  public readonly columnsQueryProps = {
-    'columns[]': ['id', 'subject'],
-    'showHierarchies': false,
-    'pageSize': 500,
-  };
+  public columnsQueryProps:any;
 
   public text = {
     addCard: this.I18n.t('js.boards.add_card'),
@@ -81,20 +84,18 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly state:StateService,
               private readonly boardCache:BoardCacheService,
               private readonly notifications:NotificationsService,
-              private readonly cdRef:ChangeDetectorRef,
               private readonly querySpace:IsolatedQuerySpace,
               private readonly Gon:GonService,
               private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               private readonly authorisationService:AuthorisationService,
               private readonly wpInlineCreate:WorkPackageInlineCreateService,
-              private readonly loadingIndicator:LoadingIndicatorService) {
+              private readonly loadingIndicator:LoadingIndicatorService,
+              private readonly boardService:BoardService) {
     super(I18n);
   }
 
   ngOnInit():void {
-    const boardId:string = this.state.params.board_id;
-
-    this.loadQuery();
+    const boardId:string = this.state.params.board_id.toString();
 
     // Update permission on model updates
     this.authorisationService
@@ -125,8 +126,19 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     // Interface compatibility
   }
 
+  ngOnChanges(changes:SimpleChanges) {
+    if (changes.filters) {
+      this.setQueryProps(this.filters);
+      this.loadQuery();
+    }
+  }
+
   public get canReference() {
     return this.wpInlineCreate.canReference &&  !!this.Gon.get('permission_flags', 'edit_work_packages');
+  }
+
+  public get canManage() {
+    return this.boardService.canManage;
   }
 
   public addReferenceCard() {
@@ -190,5 +202,19 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   private get indicatorInstance() {
     return this.loadingIndicator.indicator(jQuery(this.indicator.nativeElement));
+  }
+
+  private setQueryProps(filters:ApiV3Filter[]) {
+    const existingFilters = (this.resource.options.filters || []) as ApiV3Filter[];
+
+    const newFilters = existingFilters.concat(filters);
+    const newColumnsQueryProps:any = {
+      'columns[]': ['id', 'subject'],
+      'showHierarchies': false,
+      'pageSize': 500,
+      'filters': JSON.stringify(newFilters),
+    };
+
+    this.columnsQueryProps = newColumnsQueryProps;
   }
 }

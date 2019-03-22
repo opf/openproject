@@ -18,7 +18,9 @@
         <h3 [textContent]="text.free_board"></h3>
         <p [textContent]="text.free_board_text"></p>
 
-        <button class="button" (accessibleClick)="createFree()">
+        <button class="button"
+                [disabled]="inFlight"
+                (accessibleClick)="createFree()">
           <op-icon icon-classes="icon4 icon-add"></op-icon>
           <span [textContent]="text.free_board"></span>
         </button>
@@ -40,7 +42,9 @@
           </div>
         </div>
 
-        <button class="button" (accessibleClick)="createAction()">
+        <button class="button"
+                [disabled]="inFlight"
+                (accessibleClick)="createAction()">
           <op-icon icon-classes="icon4 icon-add"></op-icon>
           <span [textContent]="text.action_board"></span>
         </button>

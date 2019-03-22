@@ -362,10 +362,10 @@ lt:
             the respective sprints. Here you can create <b>epics, user stories, and
             bugs</b>, prioritize via drag'n'drop and add them to a sprint.
           task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
-          task_board_select: "... and select the <b>Task board</b> entry."
-          task_board: The <b>Task board</b> visualizes the progress for this sprint.
-            Add new tasks or impediments with the + icon next to a user story. Via
-            drag'n'drop you can update the status.
+          task_board_select: "... ir pasirinkite <b>Task board</b> elementą."
+          task_board: "<b>Darbo lenta</b> rodo pažangą šiame sprinte. Pridėkite naujas
+            užduotis ar kliūtis spausdami + piktogramą šalia vartotojo istorija. Naudodami
+            drag'n'drop, jūs galite pakeisti būseną."
         boards:
           overview: Manage your work within an intuitive <b>Boards</b> view.
           lists: You can create multiple lists (columns) within one Board view, e.g.
@@ -374,48 +374,21 @@ lt:
           drag: Drag & Drop your cards within a list to re-order, or the another list.
             A double click will open the details view.
         wp:
-          toggler: Now let's have a look at the <b>Work package</b> section, which
-            gives you a more detailed view of your work.
-          list: This is the <b>Work package</b> list with the important work within
-            your project, such as tasks, features, milestones, bugs, and more. <br>
-            You can create or edit a work package directly within this list. To see
-            its details you can double click on a row.
-          full_view: Within the <b>Work package details</b> you find all relevant
-            information, such as description, status and priority, activities, dependencies
-            or comments.
-          back_button: With the arrow you can navigate back to the work package list.
-          create_button: The <b>Create</b> button will add a new work package to your
-            project.
-          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-            for your project.
-          timeline: Here you can edit your project plan. Create new phases, milestones,
-            and add dependencies. All team members can see and update the latest plan
-            at any time.
-        backlogs_overview: Manage your work in the <b>Backlogs</b> view. <br> On the
-          right you have the Product Backlog or a Bug Backlog, on the left you will
-          have the respective sprints. Here you can create <b>epics, user stories,
-          and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-        backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
-          drop-down...
-        backlogs_task_board_select: "... ir pasirinkite <b>Task board</b> elementą."
-        backlogs_task_board: "<b>Darbo lenta</b> rodo pažangą šiame sprinte. Pridėkite
-          naujas užduotis ar kliūtis spausdami + piktogramą šalia vartotojo istorija.
-          Naudodami drag'n'drop, jūs galite pakeisti būseną."
-        wp_toggler: Dabar žvilgtelėkime į <b>Darbų paketų</b> skyrių, kuris suteikia
-          išsamesnį vaizdą apie jūsų darbus.
-        wp_list: 'Tai <b>Darbų paketų</b> sąrašas su svarbiomis jūsų projektui veiksmais:
-          tasks, features, milestones, bugs, ir pan. <br> Jūs galite kurti ir redaguoti
-          darbų paketus tiesiai šiame sąraše. Norėdami pamatyti detaliau, du kart
-          spustelkite pele ant pasirinktos eilutės.'
-        wp_full_view: "<b>Darbo paketo detalių</b> lange rasite visą reikalingą informaciją,
-          pvz., aprašymą, būseną ir prioritetą, veiklą, priklausomybes ar komentarus."
-        wp_back_button: Su rodykle galite pereiti atgal į darbo paketų sąrašą.
-        wp_create_button: Mygtukas <b>Sukurti</b> pridės naują darbą į jūsų projektą.
-        wp_timeline_button: Jūs galite aktyvuoti <b>Gantto diagramą</b> norėdami matyti
-          savo projekto laiko planavimo juostą.
-        wp_timeline: Čia jūs galite redaguoti savo projekto planą. Kurti naujus etapus,
-          etapai, ir pridėti priklausomybių. Visi komandos nariai gali peržiūrėti
-          ir keisti naujausią planą bet kuriuo metu.
+          toggler: Dabar žvilgtelėkime į <b>Darbų paketų</b> skyrių, kuris suteikia
+            išsamesnį vaizdą apie jūsų darbus.
+          list: 'Tai <b>Darbų paketų</b> sąrašas su svarbiomis jūsų projektui veiksmais:
+            tasks, features, milestones, bugs, ir pan. <br> Jūs galite kurti ir redaguoti
+            darbų paketus tiesiai šiame sąraše. Norėdami pamatyti detaliau, du kart
+            spustelkite pele ant pasirinktos eilutės.'
+          full_view: "<b>Darbo paketo detalių</b> lange rasite visą reikalingą informaciją,
+            pvz., aprašymą, būseną ir prioritetą, veiklą, priklausomybes ar komentarus."
+          back_button: Su rodykle galite pereiti atgal į darbo paketų sąrašą.
+          create_button: Mygtukas <b>Sukurti</b> pridės naują darbą į jūsų projektą.
+          timeline_button: Jūs galite aktyvuoti <b>Gantto diagramą</b> norėdami matyti
+            savo projekto laiko planavimo juostą.
+          timeline: Čia jūs galite redaguoti savo projekto planą. Kurti naujus etapus,
+            etapai, ir pridėti priklausomybių. Visi komandos nariai gali peržiūrėti
+            ir keisti naujausią planą bet kuriuo metu.
     password_confirmation:
       field_description: Norėdami patvirtinti šį pakeitimą turite įvesti savo paskyros
         slaptažodį.

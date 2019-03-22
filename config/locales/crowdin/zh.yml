@@ -2657,6 +2657,3 @@ zh:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  setting_mail_handler_api_enabled: 启用接收电子邮件 web 服务
-  setting_mail_handler_api_description: 电子邮件 web 处理程序启用 OpenProject来接收包含特定命令的电子邮件作为一种工作机制
-    (例如，可以创建和更新工作包)。

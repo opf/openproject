@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,17 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-development: &mysql
-  adapter: mysql2
-  database: openproject_development
-  host: db
-  username: root
-  password:
-  encoding: utf8
+require_relative 'base'
+require_relative 'boards'
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
-test:
-  <<: *mysql
-  database: openproject_test
+class Tables::Forums < Tables::Boards
+end

@@ -36,7 +36,8 @@ describe 'Work Package boards spec', type: :feature, js: true do
                       member_in_project: project,
                       member_through_role: role)
   end
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
+  # The identifier is important to test https://community.openproject.com/wp/29754
+  let(:project) { FactoryBot.create(:project, identifier: 'boards', enabled_module_names: %i[work_package_tracking board_view]) }
   let(:permissions) { %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries] }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
 
