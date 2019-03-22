@@ -148,7 +148,7 @@ en:
 
                     **Find out more:**
                     * https://www.openproject.org/help/administration/manage-projects/
-                  status: :default_status_new
+                  status: :default_status_in_progress
                   type: :default_type_task
                   start: 0
                   duration: 0
@@ -170,7 +170,7 @@ en:
 
                     **Find out more:**
                     * https://www.openproject.org/help/project-setup/
-                  status: :default_status_new
+                  status: :default_status_in_progress
                   type: :default_type_task
                   start: 0
                   duration: 0
@@ -235,7 +235,7 @@ en:
 
                     **Find out more**:
                     * https://www.openproject.org/help/work-packages/create-new-work-package/
-                  status: :default_status_new
+                  status: :default_status_in_progress
                   type: :default_type_task
                   start: 1
                   duration: 1
@@ -332,12 +332,12 @@ en:
               duration: 2
               children:
                 - subject: Wonderful feature
-                  status: :default_status_in_progress
+                  status: :default_status_new
                   type: :default_type_feature
                   start: 28
                   duration: 1
                 - subject: Ugly bug
-                  status: :default_status_closed
+                  status: :default_status_rejected
                   type: :default_type_bug
                   start: 30
                   duration: 1

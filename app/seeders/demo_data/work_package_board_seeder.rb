@@ -53,7 +53,7 @@ module DemoData
     def seed_kanban_board
       board = ::Boards::Grid.new project: project
       board.name = I18n.t('seeders.demo_data.projects.demo-project.boards.kanban.name')
-      board.options = { 'type' => 'action', 'attribute' => 'status' }
+      board.options = { 'type' => 'action', 'attribute' => 'status', 'highlightingMode' => 'priority' }
 
       board.widgets = seed_kanban_board_queries.each_with_index.map do |query, i|
         Grids::Widget.new start_row: 1, end_row: 2,
@@ -74,7 +74,7 @@ module DemoData
     def seed_kanban_board_queries
       admin = User.admin.first
 
-      Status.where(name: ['New', 'In progress', 'On hold', 'Closed']).to_a.map do |status|
+      Status.where(name: ['New', 'In progress', 'Closed', 'Rejected']).to_a.map do |status|
         Query.new_default(project: project, user: admin).tap do |query|
           # Hide the query
           query.hidden = true
