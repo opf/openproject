@@ -3840,6 +3840,11 @@
         "estraverse": "^4.1.1"
       }
     },
+    "esprima": {
+      "version": "4.0.1",
+      "resolved": "https://registry.npmjs.org/esprima/-/esprima-4.0.1.tgz",
+      "integrity": "sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A=="
+    },
     "esrecurse": {
       "version": "4.2.1",
       "resolved": "https://registry.npmjs.org/esrecurse/-/esrecurse-4.2.1.tgz",
@@ -6197,19 +6202,12 @@
       "integrity": "sha1-mGbfOVECEw449/mWvOtlRDIJwls="
     },
     "js-yaml": {
-      "version": "3.12.0",
-      "resolved": "https://registry.npmjs.org/js-yaml/-/js-yaml-3.12.0.tgz",
-      "integrity": "sha512-PIt2cnwmPfL4hKNwqeiuz4bKfnzHTBv6HyVgjahA6mPLwPDzjDWrplJBMjHUFxku/N3FlmrbyPclad+I+4mJ3A==",
+      "version": "3.13.0",
+      "resolved": "https://registry.npmjs.org/js-yaml/-/js-yaml-3.13.0.tgz",
+      "integrity": "sha512-pZZoSxcCYco+DIKBTimr67J6Hy+EYGZDY/HCWC+iAEA9h1ByhMXAIVUXMcMFpOCxQ/xjXmPI2MkDL5HRm5eFrQ==",
       "requires": {
         "argparse": "^1.0.7",
         "esprima": "^4.0.0"
-      },
-      "dependencies": {
-        "esprima": {
-          "version": "4.0.1",
-          "resolved": "https://registry.npmjs.org/esprima/-/esprima-4.0.1.tgz",
-          "integrity": "sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A=="
-        }
       }
     },
     "jsbn": {
