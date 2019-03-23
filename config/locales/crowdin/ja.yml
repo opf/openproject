@@ -59,7 +59,7 @@ ja:
 '
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: 現在、フォーラムへの投稿はありません。
   colors:
     index:
       no_results_title_text: 現在、色はありません。
@@ -133,8 +133,8 @@ ja:
       activities:
         no_results_title_text: 現在、有効な活動はありません。
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: 現在、プロジェクトに関するフォーラムはありません。
+        no_results_content_text: 新しいフォーラムを作成する
       categories:
         no_results_title_text: 現在、作業項目のカテゴリはありません。
         no_results_content_text: 新しい作業項目のカテゴリを作成
@@ -472,7 +472,7 @@ ja:
         too_long: は%{count}文字以内を入力してください。
         too_short: は%{count}文字以上を入力してください。
         unchangeable: 変更できません。
-        unremovable: cannot be removed.
+        unremovable: 削除できません。
         wrong_length: は%{count}文字を入力してください。
       models:
         custom_field:
@@ -1133,7 +1133,7 @@ ja:
   label_authentication: 認証
   label_available_project_work_package_categories: 有効な作業項目のカテゴリ
   label_available_project_work_package_types: 利用可能な作業項目の種類
-  label_available_project_forums: Available forums
+  label_available_project_forums: 利用可能なフォーラム
   label_available_project_versions: 利用できるバージョン
   label_available_project_repositories: 使用できるリポジトリ
   label_api_documentation: APIドキュメント
@@ -1149,7 +1149,7 @@ ja:
   label_branch: 分岐
   label_browse: 閲覧
   label_bulk_edit_selected_work_packages: 選択した作業項目を一括編集
-  label_bundled: "(Bundled)"
+  label_bundled: "(バンドル)"
   label_calendar: カレンダー
   label_calendar_show: カレンダーを表示
   label_category: カテゴリ
@@ -1410,7 +1410,7 @@ ja:
   label_planning: 計画
   label_please_login: ログインしてください。
   label_plugins: プラグイン
-  label_modules_and_plugins: Modules and Plugins
+  label_modules_and_plugins: モジュールとプラグイン
   label_precedes: 次の項目に先行
   label_preferences: 設定
   label_preview: プレビュー
