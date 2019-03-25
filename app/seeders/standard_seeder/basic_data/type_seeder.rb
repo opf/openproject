@@ -31,6 +31,10 @@
 module StandardSeeder
   module BasicData
     class TypeSeeder < ::BasicData::TypeSeeder
+      def type_names
+        %i[task milestone phase feature epic user_story bug]
+      end
+      
       def type_table
         { # position is_default color_id is_in_roadmap is_milestone
           task:       [1, true, :default_color_blue,        true,  false, :default_type_task],

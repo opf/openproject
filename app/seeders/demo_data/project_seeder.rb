@@ -209,5 +209,4 @@ module DemoData
 
     include Data
   end
-
 end

@@ -65,11 +65,7 @@ module BasicData
     end
 
     def type_names
-      if OpenProject::Configuration['edition'] == 'bim'
-        %i[task milestone phase building_model defect approval]
-      else
-        %i[task milestone phase feature epic user_story bug]
-      end
+      raise NotImplementedError
     end
 
     def type_table
