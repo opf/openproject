@@ -48,12 +48,12 @@ ko:
       no_results_content_title: 사용인증 모드가 없습니다.
       no_results_content_text: 새 사용인증 모드 생성
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: 연결 암호화
     tls_mode:
       plain: 없음
-      simple_tls: simple_tls
-      start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls: 단순 TLS
+      start_tls: TLS 시작
+      plain_description: 일반 암호화 되지 않은 연결 TLS 협상 없음
       simple_tls_description: Implicit TLS encryption, but no certificate validation.
         Use with caution and implicit trust of the LDAP connection.
       start_tls_description: Explicit TLS encryption with full validation. Use for
@@ -350,10 +350,10 @@ ko:
         encoded_token: 엔터프라이즈 지원 토큰
         active_user_count_restriction: 최대 활성 사용자
       grids/grid:
-        page: Page
+        page: 페이지
         row_count: Number of rows
         column_count: Number of columns
-        widgets: Widgets
+        widgets: 위젯
       relation:
         delay: 지연
         from: 작업 패키지
@@ -443,9 +443,9 @@ ko:
         type: 타입
         watcher: 주시자
       doorkeeper/application:
-        uid: Client ID
+        uid: 고객 ID
         secret: Client secret
-        owner: Owner
+        owner: 소유자
         redirect_uri: Redirect URI
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
@@ -517,7 +517,7 @@ ko:
         enterprise_token:
           unreadable: 읽을 수 없습니다. 지원하는 토큰이 확실한가요?
         grids/grid:
-          overlaps: overlap.
+          overlaps: 오버랩
           outside: is outside of the grid.
           end_before_start: end value needs to be larger than the start value.
         parse_schema_filter_params_service:
@@ -1303,7 +1303,7 @@ ko:
   label_environment: 환경
   label_estimates_and_time: 견적 및 시간
   label_equals: 일치함
-  label_everywhere: everywhere
+  label_everywhere: 어디에 있든지
   label_example: 예
   label_export_to: '다음에서도 사용 가능:'
   label_expanded_click_to_collapse: 확장되었습니다. 축소하려면 클릭하세요.
@@ -1618,7 +1618,7 @@ ko:
   label_view_diff: 차이점 보기
   label_view_revisions: 수정 보기
   label_watched_work_packages: 주시하는 작업 패키지
-  label_what_is_this: What is this?
+  label_what_is_this: 이게 뭐예요?
   label_week: 주
   label_wiki_content_added: 위키 페이지 추가됨
   label_wiki_content_updated: 위키 페이지 업데이트됨
@@ -2733,7 +2733,7 @@ ko:
         register_intro: If you are developing an OAuth API client application for
           OpenProject, you can register it using this form for all users to use.
         default_scopes: ''
-    client_id: Client ID
+    client_id: 고객 ID
     client_secret_notice: 'This is the only time we can print the client secret, please
       note it down and keep it secure. It should be treated as a password and cannot
       be retrieved by OpenProject at a later time.
