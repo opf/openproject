@@ -56,8 +56,6 @@ export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy 
   public searchTerm:string;
   private searchTermChanged:Subject<string> = new Subject<string>();
 
-  private availableSearchFilter:QueryFilterResource;
-
   constructor(readonly I18n:I18nService,
               readonly querySpace:IsolatedQuerySpace,
               readonly wpTableFilters:WorkPackageTableFiltersService,
@@ -71,18 +69,15 @@ export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy 
       .subscribe(term => {
         this.searchTerm = term;
         let filters = this.wpTableFilters.current;
-        let searchFilter = this.wpTableFilters.find('search');
+
+        // Remove the current filter
+        _.remove(filters, f => f.id === 'search');
+
         if (this.searchTerm.length > 0) {
-          if (!searchFilter) {
-            searchFilter = this.wpTableFilters.instantiate(this.availableSearchFilter);
-          }
+          let searchFilter = this.wpTableFilters.instantiate('search');
           searchFilter.operator = searchFilter.findOperator('**')!;
           searchFilter.values = [this.searchTerm];
           filters.push(searchFilter);
-
-        } else if (searchFilter) {
-          let id = searchFilter.id;
-          _.remove(filters, f => f.id === id);
         }
 
         this.filterChanged.emit(filters);
@@ -103,8 +98,6 @@ export class WorkPackageFilterByTextInputComponent implements OnInit, OnDestroy 
         } else {
           this.searchTerm = '';
         }
-
-        self.availableSearchFilter = this.wpTableFilters.findAvailableFilter('search')!;
       });
   }
 

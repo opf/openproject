@@ -336,15 +336,11 @@ zh:
         welcome: 通过三分钟的导览了解<b>最重要的功能</b> 。<br>我们建议您完成所有步骤。您可以随时重新浏览介绍。
         wiki: 在 <b>Wiki</b> 中，您可以记录并与您的团队共享知识。
         backlogs:
-          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
-            you have the Product Backlog or a Bug Backlog, on the left you will have
-            the respective sprints. Here you can create <b>epics, user stories, and
-            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
-          task_board_select: "... and select the <b>Task board</b> entry."
-          task_board: The <b>Task board</b> visualizes the progress for this sprint.
-            Add new tasks or impediments with the + icon next to a user story. Via
-            drag'n'drop you can update the status.
+          overview: 在 <b>Backlogs</b> 视图中管理您的工作。右边是产品 Backlog 或错误 Backlog，左边是各自的 sprint。<br>在这里，您可以创建<b>长篇故事、用户故事和错误</b>，通过拖放来确定优先级，以及将它们添加到
+            sprint 中。
+          task_board_arrow: 要查看您的<b>任务面板</b>，请打开 Sprint 下拉菜单…
+          task_board_select: "…并选择<b>任务面板</b>条目。"
+          task_board: "<b>任务面板</b>将此 sprint 的进度可视化。使用用户故事旁边的 + 图标添加新任务或障碍。通过拖放可以更新状态。"
         boards:
           overview: Manage your work within an intuitive <b>Boards</b> view.
           lists: You can create multiple lists (columns) within one Board view, e.g.
@@ -353,35 +349,13 @@ zh:
           drag: Drag & Drop your cards within a list to re-order, or the another list.
             A double click will open the details view.
         wp:
-          toggler: Now let's have a look at the <b>Work package</b> section, which
-            gives you a more detailed view of your work.
-          list: This is the <b>Work package</b> list with the important work within
-            your project, such as tasks, features, milestones, bugs, and more. <br>
-            You can create or edit a work package directly within this list. To see
-            its details you can double click on a row.
-          full_view: Within the <b>Work package details</b> you find all relevant
-            information, such as description, status and priority, activities, dependencies
-            or comments.
-          back_button: With the arrow you can navigate back to the work package list.
-          create_button: The <b>Create</b> button will add a new work package to your
-            project.
-          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-            for your project.
-          timeline: Here you can edit your project plan. Create new phases, milestones,
-            and add dependencies. All team members can see and update the latest plan
-            at any time.
-        backlogs_overview: 在 <b>Backlogs</b> 视图中管理您的工作。右边是产品 Backlog 或错误 Backlog，左边是各自的
-          sprint。<br>在这里，您可以创建<b>长篇故事、用户故事和错误</b>，通过拖放来确定优先级，以及将它们添加到 sprint 中。
-        backlogs_task_board_arrow: 要查看您的<b>任务面板</b>，请打开 Sprint 下拉菜单…
-        backlogs_task_board_select: "…并选择<b>任务面板</b>条目。"
-        backlogs_task_board: "<b>任务面板</b>将此 sprint 的进度可视化。使用用户故事旁边的 + 图标添加新任务或障碍。通过拖放可以更新状态。"
-        wp_toggler: 现在我们来看一下<b>工作包</b>部分，工作包提供了更详细的工作视图。
-        wp_list: 这是<b>工作包</b>列表，包含项目中的重要工作，例如任务、特征、里程碑和错误等。<br>您可以在这个列表中直接创建或编辑工作包。要查看工作包的详细信息，可以双击该行。
-        wp_full_view: 在<b>工作包详细信息</b>中，您可以找到所有相关信息，如描述、状态与优先级、依赖项或评论。
-        wp_back_button: 使用箭头可以导航回工作包列表。
-        wp_create_button: "<b>创建</b>按钮将为您的项目添加一个新工作包。"
-        wp_timeline_button: 您可以激活<b>甘特图</b>来为项目创建时间轴。
-        wp_timeline: 在这里您可以编辑您的项目计划。创建新的阶段、里程碑，并添加依赖项。所有团队成员都可以随时查看和更新最新计划。
+          toggler: 现在我们来看一下<b>工作包</b>部分，工作包提供了更详细的工作视图。
+          list: 这是<b>工作包</b>列表，包含项目中的重要工作，例如任务、特征、里程碑和错误等。<br>您可以在这个列表中直接创建或编辑工作包。要查看工作包的详细信息，可以双击该行。
+          full_view: 在<b>工作包详细信息</b>中，您可以找到所有相关信息，如描述、状态与优先级、依赖项或评论。
+          back_button: 使用箭头可以导航回工作包列表。
+          create_button: "<b>创建</b>按钮将为您的项目添加一个新工作包。"
+          timeline_button: 您可以激活<b>甘特图</b>来为项目创建时间轴。
+          timeline: 在这里您可以编辑您的项目计划。创建新的阶段、里程碑，并添加依赖项。所有团队成员都可以随时查看和更新最新计划。
     password_confirmation:
       field_description: 输入密码以确认更改
       title: 输入密码以继续

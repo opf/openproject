@@ -73,7 +73,7 @@ ru:
 '
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: На данный момент сообщений для форума нет.
   colors:
     index:
       no_results_title_text: На данный момент цветов нет.
@@ -156,8 +156,8 @@ ru:
       activities:
         no_results_title_text: В настоящее время никакой активности.
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: Форумы в этом проекте отсутствуют.
+        no_results_content_text: Создать новый форум
       categories:
         no_results_title_text: На данный момент категории пакетов работ отсутствуют.
         no_results_content_text: Создать новую категорию пакета работ
@@ -531,7 +531,7 @@ ru:
         too_long: слишком длинно (максимум — %{count} знаков).
         too_short: слишком коротко (минимум — %{count} знаков).
         unchangeable: изменить нельзя.
-        unremovable: cannot be removed.
+        unremovable: удалить нельзя.
         wrong_length: неправильная длина (должно быть %{count} знаков).
       models:
         custom_field:
@@ -1276,7 +1276,7 @@ ru:
   label_authentication: Аутентификация
   label_available_project_work_package_categories: Доступные категории рабочих пакетов
   label_available_project_work_package_types: Доступные типы пакетов работ
-  label_available_project_forums: Available forums
+  label_available_project_forums: Доступные форумы
   label_available_project_versions: Имеющиеся этапы проекта
   label_available_project_repositories: Доступные репозитории
   label_api_documentation: Документация по API
@@ -1292,7 +1292,7 @@ ru:
   label_branch: Ветка
   label_browse: Обзор
   label_bulk_edit_selected_work_packages: Массовое изменение выбранных пакетов работ
-  label_bundled: "(Bundled)"
+  label_bundled: "(В комплекте)"
   label_calendar: Календарь
   label_calendar_show: Показать календарь
   label_category: Категория
@@ -1428,7 +1428,7 @@ ru:
   label_hierarchy_leaf: Уровень иерархии
   label_home: Главная
   label_subject_or_id: Тема или ID
-  label_impressum: Impressum
+  label_impressum: Импре́ссум
   label_in: в
   label_in_less_than: менее чем
   label_in_more_than: более чем
@@ -1554,7 +1554,7 @@ ru:
   label_planning: Планирование
   label_please_login: Пожалуйста, войдите в систему
   label_plugins: Плагины
-  label_modules_and_plugins: Modules and Plugins
+  label_modules_and_plugins: Модули и плагины
   label_precedes: предшествует
   label_preferences: Предпочтения
   label_preview: Предварительный просмотр
@@ -1563,7 +1563,7 @@ ru:
   label_principal_invite_via_email: " или пригласить новых пользователей по электронной
     почте"
   label_principal_search: Добавление существующих пользователей или групп
-  label_privacy_policy: Data privacy and security policy
+  label_privacy_policy: Политика конфиденциальности данных и безопасности
   label_product_version: Версия продукта
   label_professional_support: Профессиональная поддержка
   label_profile: Профиль
@@ -3014,7 +3014,3 @@ ru:
     revoke_my_application_confirmation: Вы действительно хотите удалить это приложение?
       Это действие будет отменено %{token_count}.
     my_registered_applications: Зарегистрированные OAuth приложения
-  setting_mail_handler_api_enabled: Разрешить входящую почту веб-сервисов
-  setting_mail_handler_api_description: Веб-обработчик электронной почты позволяет
-    OpenProject получать письма с командами (например, для создания и обновления пакетов
-    работы).

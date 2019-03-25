@@ -3001,7 +3001,3 @@ pl:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  setting_mail_handler_api_enabled: Włącz usługę przychodzących wiadomości e-mail
-  setting_mail_handler_api_description: Silnik e-mail umożliwia aplikacji OpenProject
-    otrzymywać wiadomości e-mail zawierające konkretne polecenia jako mechanizm instrumentacji
-    (np. do tworzenia i aktualizacji pakietów roboczych).

@@ -3006,7 +3006,3 @@ lt:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  setting_mail_handler_api_enabled: Įgalinti įeinančio el. pašto žiniatinklio tarnybą
-  setting_mail_handler_api_description: El. pašto žiniatinklio apdorojimo įrankis
-    leidžia OpenProject gauti laiškus kurių sudėtyje yra specialios komandos, kurios
-    įvykdomos sistemoje (pvz., kurti ir atnaujinti darbų paketus).

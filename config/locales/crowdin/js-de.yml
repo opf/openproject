@@ -367,15 +367,16 @@ de:
         wiki: Im <b>Wiki</b> können Sie gemeinsam mit dem Team Informationen dokumentieren
           und eine Wissensdatenbank aufbauen.
         backlogs:
-          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
-            you have the Product Backlog or a Bug Backlog, on the left you will have
-            the respective sprints. Here you can create <b>epics, user stories, and
-            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
-          task_board_select: "... and select the <b>Task board</b> entry."
-          task_board: The <b>Task board</b> visualizes the progress for this sprint.
-            Add new tasks or impediments with the + icon next to a user story. Via
-            drag'n'drop you can update the status.
+          overview: Sie können Anforderungen in der <b>Backlogs Ansicht</b> verwalten.
+            <br> Rechts befindet sich das Product Backlog oder Bug Backlog, links
+            die jeweiligen Sprints. Hier können Sie <b>Epics, User Stories und Fehler</b>
+            anlegen und mit Drag & Drop priorisieren und einem Sprint zuweisen.
+          task_board_arrow: Um das <b>Taskboard</b> zu sehen, öffnen Sie das Sprint
+            Drop-down Menü...
+          task_board_select: "… und wählen Sie den Menüpunkt <b>Taskboard</b>."
+          task_board: Im <b>Taskboard</b> sehen Sie die Aufgaben eines Sprints. Sie
+            können neue Aufgaben oder Sprint-Hindernisse mit dem + Icon einer User
+            Story hinzufügen, einer Person zuweisen und mit Drag & Drop aktualisieren.
         boards:
           overview: Manage your work within an intuitive <b>Boards</b> view.
           lists: You can create multiple lists (columns) within one Board view, e.g.
@@ -384,49 +385,22 @@ de:
           drag: Drag & Drop your cards within a list to re-order, or the another list.
             A double click will open the details view.
         wp:
-          toggler: Now let's have a look at the <b>Work package</b> section, which
-            gives you a more detailed view of your work.
-          list: This is the <b>Work package</b> list with the important work within
-            your project, such as tasks, features, milestones, bugs, and more. <br>
-            You can create or edit a work package directly within this list. To see
-            its details you can double click on a row.
-          full_view: Within the <b>Work package details</b> you find all relevant
-            information, such as description, status and priority, activities, dependencies
-            or comments.
-          back_button: With the arrow you can navigate back to the work package list.
-          create_button: The <b>Create</b> button will add a new work package to your
-            project.
-          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-            for your project.
-          timeline: Here you can edit your project plan. Create new phases, milestones,
-            and add dependencies. All team members can see and update the latest plan
-            at any time.
-        backlogs_overview: Sie können Anforderungen in der <b>Backlogs Ansicht</b>
-          verwalten. <br> Rechts befindet sich das Product Backlog oder Bug Backlog,
-          links die jeweiligen Sprints. Hier können Sie <b>Epics, User Stories und
-          Fehler</b> anlegen und mit Drag & Drop priorisieren und einem Sprint zuweisen.
-        backlogs_task_board_arrow: Um das <b>Taskboard</b> zu sehen, öffnen Sie das
-          Sprint Drop-down Menü...
-        backlogs_task_board_select: "… und wählen Sie den Menüpunkt <b>Taskboard</b>."
-        backlogs_task_board: Im <b>Taskboard</b> sehen Sie die Aufgaben eines Sprints.
-          Sie können neue Aufgaben oder Sprint-Hindernisse mit dem + Icon einer User
-          Story hinzufügen, einer Person zuweisen und mit Drag & Drop aktualisieren.
-        wp_toggler: Hier sind die <b>Arbeitspakete</b>, die Ihnen eine detailliertere
-          Sicht auf die Arbeit in Ihrem Projekt geben.
-        wp_list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt,
-          z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr.           <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten.
-          Ein Doppelklick auf die Zeile öffnet die Detailansicht.'
-        wp_full_view: In der <b>Arbeitspaket-Detailansicht</b> finden Sie alle wichtigen
-          Informationen, wie Beschreibung, Status und Priorität, Aktivitäten, Abhängigkeiten
-          oder Kommentare.
-        wp_back_button: Mit dem Pfeil kommen Sie zurück in die Listenansicht.
-        wp_create_button: Mit <b>Anlegen</b> Können Sie neue Arbeitspakete Ihrem Projekt
-          hinzufügen.
-        wp_timeline_button: Sie können ein <b>Gantt Diagramm</b> aktivieren um Projektpläne
-          zu erstellen.
-        wp_timeline: Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine
-          sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jeder Zeit
-          die aktuelle Planung und kann diese bei Bedarf aktualisieren.
+          toggler: Hier sind die <b>Arbeitspakete</b>, die Ihnen eine detailliertere
+            Sicht auf die Arbeit in Ihrem Projekt geben.
+          list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt,
+            z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr.             <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten.
+            Ein Doppelklick auf die Zeile öffnet die Detailansicht.'
+          full_view: In der <b>Arbeitspaket-Detailansicht</b> finden Sie alle wichtigen
+            Informationen, wie Beschreibung, Status und Priorität, Aktivitäten, Abhängigkeiten
+            oder Kommentare.
+          back_button: Mit dem Pfeil kommen Sie zurück in die Listenansicht.
+          create_button: Mit <b>Anlegen</b> Können Sie neue Arbeitspakete Ihrem Projekt
+            hinzufügen.
+          timeline_button: Sie können ein <b>Gantt Diagramm</b> aktivieren um Projektpläne
+            zu erstellen.
+          timeline: Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine
+            sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jeder Zeit
+            die aktuelle Planung und kann diese bei Bedarf aktualisieren.
     password_confirmation:
       field_description: Sie müssen Ihr Kennwort eingeben um diese Änderungen zu speichern.
       title: Geben Sie Ihr Kennwort ein um fortzufahren

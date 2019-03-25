@@ -1438,7 +1438,7 @@ sk:
   label_hierarchy_leaf: Úroveň hierarchie
   label_home: Úvod
   label_subject_or_id: Predmet alebo ID
-  label_impressum: Impressum
+  label_impressum: Impresum
   label_in: v
   label_in_less_than: v menej ako
   label_in_more_than: vo viac ako
@@ -1573,7 +1573,7 @@ sk:
   label_principal_invite_via_email: " alebo pozvať nových užívateľov prostredníctvom
     e-mailu"
   label_principal_search: Pridanie existujúcich užívateľov alebo skupín
-  label_privacy_policy: Data privacy and security policy
+  label_privacy_policy: Ochrana osobných údajov a bezpečnostná politika
   label_product_version: Verzia produktu
   label_professional_support: Profesionálna podpora
   label_profile: Profil
@@ -1909,8 +1909,8 @@ sk:
   notice_account_update_failed: Nastavenie konta sa nepodarilo uložiť. Prosím, skontrolujte
     si stránku účtu.
   notice_account_updated: Účet bol úspešne aktualizovaný.
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: Všetky ostatné relácie viazané na váš účet
+    boli zrušené.
   notice_account_wrong_password: Nesprávne heslo
   notice_account_registered_and_logged_in: Vitajte, váš účet bol aktivovaný. Teraz
     ste prihlásení.
@@ -3013,7 +3013,3 @@ sk:
     revoke_my_application_confirmation: Naozaj chcete odstrániť túto aplikáciu? Týmto
       sa zrušia aktívne tokeny %{token_count}.
     my_registered_applications: Registrované aplikácie OAuth
-  setting_mail_handler_api_enabled: Povoliť webovú službu prichádzajúcich e-mailov
-  setting_mail_handler_api_description: Webová služba elektronickej pošty umožňuje
-    aplikácii OpenProject prijímať a reagovať na e-maily so špeciálnymi pokynmi (napríklad
-    na vytváranie a aktualizáciu pracovných balíčkov).

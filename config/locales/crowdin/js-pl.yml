@@ -356,15 +356,17 @@ pl:
           chwili zacząć od nowa."
         wiki: W <b>wiki</b> możesz dokumentować wiedzę i dzielić się nią z zespołem.
         backlogs:
-          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
-            you have the Product Backlog or a Bug Backlog, on the left you will have
-            the respective sprints. Here you can create <b>epics, user stories, and
-            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
-          task_board_select: "... and select the <b>Task board</b> entry."
-          task_board: The <b>Task board</b> visualizes the progress for this sprint.
-            Add new tasks or impediments with the + icon next to a user story. Via
-            drag'n'drop you can update the status.
+          overview: Zarządzaj swoją pracą w widoku <b>Backlogs</b>. <br> Po prawej
+            stronie znajduje się backlog produktu lub backlog usterek, po lewej stronie
+            znajdują się odpowiednie sprinty. Tutaj można tworzyć <b>wydarzenia, wpisy
+            użytkownika i usterki</b>, nadawać priorytety metodą przeciągania i upuszczania
+            oraz dodawać je do sprintu.
+          task_board_arrow: Aby zobaczyć swój <b>panel zadań</b>, otwórz menu rozwijane
+            Sprint...
+          task_board_select: "...i wybierz wpis <b>Panel zadań</b>."
+          task_board: "<b>Panel zadań</b> przedstawia postęp tego sprintu. Dodaj nowe
+            zadania lub przeszkody za pomocą ikony + obok wpisu użytkownika. Stan
+            można zaktualizować metodą przeciągania i upuszczania."
         boards:
           overview: Manage your work within an intuitive <b>Boards</b> view.
           lists: You can create multiple lists (columns) within one Board view, e.g.
@@ -373,50 +375,22 @@ pl:
           drag: Drag & Drop your cards within a list to re-order, or the another list.
             A double click will open the details view.
         wp:
-          toggler: Now let's have a look at the <b>Work package</b> section, which
-            gives you a more detailed view of your work.
-          list: This is the <b>Work package</b> list with the important work within
-            your project, such as tasks, features, milestones, bugs, and more. <br>
-            You can create or edit a work package directly within this list. To see
-            its details you can double click on a row.
-          full_view: Within the <b>Work package details</b> you find all relevant
-            information, such as description, status and priority, activities, dependencies
-            or comments.
-          back_button: With the arrow you can navigate back to the work package list.
-          create_button: The <b>Create</b> button will add a new work package to your
-            project.
-          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-            for your project.
-          timeline: Here you can edit your project plan. Create new phases, milestones,
-            and add dependencies. All team members can see and update the latest plan
-            at any time.
-        backlogs_overview: Zarządzaj swoją pracą w widoku <b>Backlogs</b>. <br> Po
-          prawej stronie znajduje się backlog produktu lub backlog usterek, po lewej
-          stronie znajdują się odpowiednie sprinty. Tutaj można tworzyć <b>wydarzenia,
-          wpisy użytkownika i usterki</b>, nadawać priorytety metodą przeciągania
-          i upuszczania oraz dodawać je do sprintu.
-        backlogs_task_board_arrow: Aby zobaczyć swój <b>panel zadań</b>, otwórz menu
-          rozwijane Sprint...
-        backlogs_task_board_select: "...i wybierz wpis <b>Panel zadań</b>."
-        backlogs_task_board: "<b>Panel zadań</b> przedstawia postęp tego sprintu.
-          Dodaj nowe zadania lub przeszkody za pomocą ikony + obok wpisu użytkownika.
-          Stan można zaktualizować metodą przeciągania i upuszczania."
-        wp_toggler: Teraz przyjrzyjmy się sekcji <b>Zadania</b>, która zapewnia bardziej
-          szczegółowy widok Twojej pracy.
-        wp_list: Jest to lista <b>Zadania</b>, zawierająca ważne zadania w projekcie,
-          takie jak zadania robocze, funkcje, kamienie milowe, usterki i inne. <br>
-          Możesz utworzyć lub edytować zadania bezpośrednio na tej liście. Aby wyświetlić
-          szczegóły listy, można dwukrotnie kliknąć wiersz.
-        wp_full_view: W okienku <b>Właściwości pakietów roboczych</b> znajdziesz wszystkie
-          istotne informacje, takie jak opis, stan i priorytet, aktywność, zależności
-          lub komentarze.
-        wp_back_button: Strzałka umożliwia powrót do listy pakietów roboczych.
-        wp_create_button: Przycisk <b>Utwórz</b> doda nowy pakiet roboczy do projektu.
-        wp_timeline_button: Aby utworzyć oś czasu projektu, można uaktywnić <b>wykres
-          Gantta</b>.
-        wp_timeline: Tutaj można edytować plan projektu. Twórz nowe etapy, kamienie
-          milowe i dodawaj zależności. Wszyscy członkowie zespołu mogą w każdej chwili
-          wyświetlić i zaktualizować najnowszy plan.
+          toggler: Teraz przyjrzyjmy się sekcji <b>Zadania</b>, która zapewnia bardziej
+            szczegółowy widok Twojej pracy.
+          list: Jest to lista <b>Zadania</b>, zawierająca ważne zadania w projekcie,
+            takie jak zadania robocze, funkcje, kamienie milowe, usterki i inne. <br>
+            Możesz utworzyć lub edytować zadania bezpośrednio na tej liście. Aby wyświetlić
+            szczegóły listy, można dwukrotnie kliknąć wiersz.
+          full_view: W okienku <b>Właściwości pakietów roboczych</b> znajdziesz wszystkie
+            istotne informacje, takie jak opis, stan i priorytet, aktywność, zależności
+            lub komentarze.
+          back_button: Strzałka umożliwia powrót do listy pakietów roboczych.
+          create_button: Przycisk <b>Utwórz</b> doda nowy pakiet roboczy do projektu.
+          timeline_button: Aby utworzyć oś czasu projektu, można uaktywnić <b>wykres
+            Gantta</b>.
+          timeline: Tutaj można edytować plan projektu. Twórz nowe etapy, kamienie
+            milowe i dodawaj zależności. Wszyscy członkowie zespołu mogą w każdej
+            chwili wyświetlić i zaktualizować najnowszy plan.
     password_confirmation:
       field_description: Musisz wprowadzić hasło do twojego konta aby potwierdzić
         te zmiany.
@@ -933,7 +907,7 @@ pl:
       search: Szukaj
       close_search: Zakończ wyszukiwanie
       current_project: W tym projekcie
-      current_project_and_all_descendants: W tym projekcie + podprojekcie
+      current_project_and_all_descendants: W tym projekcie + pod projekcie
       title:
         all_projects: Wszystkie projekty
         project_and_subprojects: i wszystkie podprojekty

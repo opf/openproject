@@ -2966,7 +2966,3 @@ pt-BR:
     revoke_my_application_confirmation: Você quer realmente remover esta aplicação?
       Isso irá revogar %{token_count} ativo(s) para ele.
     my_registered_applications: Aplicações OAuth registradas
-  setting_mail_handler_api_enabled: Habilitar serviço web de entrada de e-mails
-  setting_mail_handler_api_description: 'O manipulador de e-mail permite ao OpenProject
-    receber e-mails contendo comandos específicos, como um mecanismo de instrumentação
-    (ex.: para criar e atualizar pacotes de trabalho).'

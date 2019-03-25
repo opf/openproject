@@ -336,51 +336,23 @@ lol:
         welcome: crwdns127586:0crwdne127586:0
         wiki: crwdns127594:0crwdne127594:0
         backlogs:
-          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
-            you have the Product Backlog or a Bug Backlog, on the left you will have
-            the respective sprints. Here you can create <b>epics, user stories, and
-            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
-          task_board_select: "... and select the <b>Task board</b> entry."
-          task_board: The <b>Task board</b> visualizes the progress for this sprint.
-            Add new tasks or impediments with the + icon next to a user story. Via
-            drag'n'drop you can update the status.
+          overview: crwdns129650:0crwdne129650:0
+          task_board_arrow: crwdns129652:0crwdne129652:0
+          task_board_select: crwdns129654:0crwdne129654:0
+          task_board: crwdns129656:0crwdne129656:0
         boards:
-          overview: Manage your work within an intuitive <b>Boards</b> view.
-          lists: You can create multiple lists (columns) within one Board view, e.g.
-            to create a KANBAN board.
-          add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          overview: crwdns129658:0crwdne129658:0
+          lists: crwdns129660:0crwdne129660:0
+          add: crwdns129662:0crwdne129662:0
+          drag: crwdns129664:0crwdne129664:0
         wp:
-          toggler: Now let's have a look at the <b>Work package</b> section, which
-            gives you a more detailed view of your work.
-          list: This is the <b>Work package</b> list with the important work within
-            your project, such as tasks, features, milestones, bugs, and more. <br>
-            You can create or edit a work package directly within this list. To see
-            its details you can double click on a row.
-          full_view: Within the <b>Work package details</b> you find all relevant
-            information, such as description, status and priority, activities, dependencies
-            or comments.
-          back_button: With the arrow you can navigate back to the work package list.
-          create_button: The <b>Create</b> button will add a new work package to your
-            project.
-          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-            for your project.
-          timeline: Here you can edit your project plan. Create new phases, milestones,
-            and add dependencies. All team members can see and update the latest plan
-            at any time.
-        backlogs_overview: crwdns127596:0crwdne127596:0
-        backlogs_task_board_arrow: crwdns127598:0crwdne127598:0
-        backlogs_task_board_select: crwdns127600:0crwdne127600:0
-        backlogs_task_board: crwdns127602:0crwdne127602:0
-        wp_toggler: crwdns127604:0crwdne127604:0
-        wp_list: crwdns127606:0crwdne127606:0
-        wp_full_view: crwdns127608:0crwdne127608:0
-        wp_back_button: crwdns127610:0crwdne127610:0
-        wp_create_button: crwdns127612:0crwdne127612:0
-        wp_timeline_button: crwdns127614:0crwdne127614:0
-        wp_timeline: crwdns127616:0crwdne127616:0
+          toggler: crwdns129666:0crwdne129666:0
+          list: crwdns129668:0crwdne129668:0
+          full_view: crwdns129670:0crwdne129670:0
+          back_button: crwdns129672:0crwdne129672:0
+          create_button: crwdns129674:0crwdne129674:0
+          timeline_button: crwdns129676:0crwdne129676:0
+          timeline: crwdns129678:0crwdne129678:0
     password_confirmation:
       field_description: crwdns127620:0crwdne127620:0
       title: crwdns127622:0crwdne127622:0

@@ -44,7 +44,7 @@ module Components
       end
 
       def expect_filter_count(num)
-        expect(filter_button).to have_selector('.badge', text: num)
+        expect(filter_button).to have_selector('.badge', text: num, wait: 10)
       end
 
       def expect_open
@@ -53,6 +53,23 @@ module Components
 
       def expect_closed
         expect(page).to have_selector(filters_selector, visible: :hidden)
+      end
+
+      def expect_quick_filter(text)
+        expect(page).to have_field('filter-by-text-input', with: text)
+      end
+
+      def quick_filter(text)
+        input = page.find('#filter-by-text-input')
+        input.hover
+        input.click
+        input.set text
+
+        sleep 1
+      end
+
+      def expect_available_filter(name, present: true)
+        expect(page).to have_conditional_selector(present, '.advanced-filters--add-filter-value option', text: name)
       end
 
       def add_filter_by(name, operator, value, selector = nil)

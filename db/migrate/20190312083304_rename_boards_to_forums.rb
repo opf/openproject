@@ -1,9 +1,12 @@
-require_relative './migration_utils/utils'
+require_relative './tables/forums'
 
 class RenameBoardsToForums < ActiveRecord::Migration[5.2]
+
   def up
-    # Rename manually to ensure indexes need not be dropped
-    execute "ALTER TABLE boards RENAME TO forums;"
+    # Create the new table, then copy from the oldt table to ensure indexes are correct
+    ::Tables::Forums.create(self)
+
+    execute "INSERT INTO forums SELECT * FROM boards";
 
     rename_column :messages, :board_id, :forum_id
     rename_column :message_journals, :board_id, :forum_id
@@ -12,12 +15,13 @@ class RenameBoardsToForums < ActiveRecord::Migration[5.2]
     EnabledModule.where(name: 'boards').update_all(name: 'forums')
     RolePermission.where(permission: 'manage_boards').update_all(permission: 'manage_forums')
     Watcher.where(watchable_type: 'Board').update_all(watchable_type: 'Forum')
+
+    # Finally, drop the old table
+    drop_table :boards
   end
 
-
   def down
-    # Rename manually to ensure indexes need not be dropped
-    execute "ALTER TABLE forums RENAME TO boards;"
+    rename_table :forums, :boards
 
     rename_column :messages, :forum_id, :board_id
     rename_column :message_journals, :forum_id, :board_id
