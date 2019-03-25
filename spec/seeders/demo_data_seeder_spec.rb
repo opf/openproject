@@ -44,10 +44,10 @@ describe 'seeds' do
 
       expect(User.where(admin: true).count).to eq 1
       expect(Project.count).to eq 2
-      expect(WorkPackage.count).to eq 41
+      expect(WorkPackage.count).to eq 50
       expect(Wiki.count).to eq 2
       expect(Query.where.not(hidden: true).count).to eq 8
-      expect(Query.count).to eq 12
+      expect(Query.count).to eq 16
     ensure
       ActionMailer::Base.perform_deliveries = perform_deliveries
     end

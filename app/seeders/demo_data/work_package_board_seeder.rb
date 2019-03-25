@@ -41,9 +41,11 @@ module DemoData
       # Seed only for demo
       if key == 'demo-project'
         print '    ↳ Creating demo status board'
-
         seed_kanban_board
+        puts
 
+        print '    ↳ Creating demo basic board'
+        seed_basic_board
         puts
       end
     end
@@ -88,6 +90,64 @@ module DemoData
           query.save!
         end
       end
+    end
+
+    def seed_basic_board
+      board = ::Boards::Grid.new project: project
+      board.name = I18n.t('seeders.demo_data.projects.demo-project.boards.basic.name')
+
+      board.widgets = seed_basic_board_queries.each_with_index.map do |query, i|
+        Grids::Widget.new start_row: 1, end_row: 2,
+                          start_column: i + 1, end_column: i + 2,
+                          options: { query_id: query.id,
+                                     filters: [{ manualSort: { operator: 'ow', values: [] } }] },
+                          identifier: 'work_package_query'
+      end
+
+      board.column_count = board.widgets.count
+      board.row_count = 1
+
+      board.save!
+    end
+
+    def seed_basic_board_queries
+      admin = User.admin.first
+
+      lists = query_list_work_package_association
+
+      lists.map do |list|
+        Query.new(project: project, user: admin).tap do |query|
+          # Hide the query
+          query.hidden = true
+          query.name = list[:name]
+
+          # Set manual sort filter
+          query.add_filter('manual_sort', 'ow', [])
+          query.sort_criteria = [[:manual_sorting, 'asc']]
+
+          query.ordered_work_packages = list[:wps]
+          query.save!
+        end
+      end
+    end
+
+    def query_list_work_package_association
+      wps = [
+        [WorkPackage.find_by(subject: 'Plan a hiking trip').id,
+         WorkPackage.find_by(subject: 'Sow flowers').id,
+         WorkPackage.find_by(subject: 'Cut the lawn').id,
+         WorkPackage.find_by(subject: 'Cut trees').id],
+        [WorkPackage.find_by(subject: 'Visit the fire department').id],
+        [WorkPackage.find_by(subject: 'Visit the ocean').id,
+         WorkPackage.find_by(subject: 'Learn how to dive').id],
+        [WorkPackage.find_by(subject: 'Eat more bananas').id,
+         WorkPackage.find_by(subject: 'Buy a parasol').id]
+      ]
+
+      [{ name: 'Green list', wps: wps[0] },
+       { name: 'Red list', wps: wps[1] },
+       { name: 'Blue list', wps: wps[2] },
+       { name: 'Yellow list', wps: wps[3] }]
     end
   end
 end

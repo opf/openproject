@@ -105,6 +105,8 @@ en:
           boards:
             kanban:
               name: 'KANBAN Board'
+            basic:
+              name: 'Basic Board'
           work_packages:
             - subject: Project kick-off
               description: Plan and execute the project kick-off.
@@ -352,6 +354,33 @@ en:
               relations:
                 - to: Develop v1.1
                   type: follows
+            - subject: Plan a hiking trip
+              status: :default_status_on_hold
+              type: :default_type_task
+            - subject: Sow flowers
+              status: :default_status_on_hold
+              type: :default_type_task
+            - subject: Cut the lawn
+              status: :default_status_on_hold
+              type: :default_type_task
+            - subject: Cut trees
+              status: :default_status_on_hold
+              type: :default_type_task
+            - subject: Visit the fire department
+              status: :default_status_on_hold
+              type: :default_type_task
+            - subject: Visit the ocean
+              status: :default_status_on_hold
+              type: :default_type_task
+            - subject: Learn how to dive
+              status: :default_status_on_hold
+              type: :default_type_task
+            - subject: Eat more bananas
+              status: :default_status_on_hold
+              type: :default_type_task
+            - subject: Buy a parasol
+              status: :default_status_on_hold
+              type: :default_type_task
           wiki:
             - title: Wiki
               content: |
