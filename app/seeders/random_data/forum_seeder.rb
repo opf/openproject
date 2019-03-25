@@ -33,7 +33,7 @@ module RandomData
       puts ''
       print ' ↳ Creating forum with posts'
 
-      forum = Board.create! project: project,
+      forum = Forum.create! project: project,
                             name: I18n.t("seeders.#{OpenProject::Configuration['edition']}.demo_data.board.name"),
                             description: I18n.t("seeders.#{OpenProject::Configuration['edition']}.demo_data.board.description")
 
