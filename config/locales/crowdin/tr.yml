@@ -1377,7 +1377,7 @@ tr:
   label_group_by: Grupla
   label_group_new: Yeni grup
   label_group: Grup
-  label_group_named: Group %{name}
+  label_group_named: "%{name} Grubu"
   label_group_plural: Gruplar
   label_help: Yardım
   label_here: buraya
@@ -2860,9 +2860,9 @@ tr:
   oauth:
     application:
       singular: OAuth application
-      plural: OAuth applications
-      named: OAuth application '%{name}'
-      new: New OAuth application
+      plural: OAuth uygulamaları
+      named: Oauth uygulaması %{name}
+      new: Yeni OAuth uygulaması
       default_scopes: "(Default scopes)"
       instructions:
         name: The name of your application. This will be displayed to other users

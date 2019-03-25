@@ -348,7 +348,7 @@ tr:
           and bugs</b>, prioritize via drag'n'drop and add them to a sprint.
         backlogs_task_board_arrow: To see your <b>Task board</b>, open the Sprint
           drop-down...
-        backlogs_task_board_select: "... and select the <b>Task board</b> entry."
+        backlogs_task_board_select: "... ve <b>Görev tahtası</b> kayıtlarını seçin."
         backlogs_task_board: The <b>Task board</b> visualizes the progress for this
           sprint. Add new tasks or impediments with the + icon next to a user story.
           Via drag'n'drop you can update the status.
