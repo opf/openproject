@@ -1,4 +1,5 @@
 jQuery(function($) {
+  var formSubmitting = false;
   function toggleContentTypeForm(content_type, edit) {
     jQuery('.edit-' + content_type).toggle(edit);
     jQuery('.show-' + content_type).toggle(!edit);
@@ -11,6 +12,17 @@ jQuery(function($) {
     var content_type = $(this).data('contentType');
     toggleContentTypeForm(content_type, true);
 
+
+    $(window).on("beforeunload", function (e) {
+      if (formSubmitting) {
+        return undefined;
+      }
+
+      // For browser compatibility we need to set the event return value
+      e.returnValue = '';
+      return '';
+    });
+
     return false;
   });
 
@@ -18,7 +30,13 @@ jQuery(function($) {
     var content_type = $(this).data('contentType');
     toggleContentTypeForm(content_type, false);
 
+    $(window).off("beforeunload");
+
     return false;
+  });
+
+  $('.button--save-agenda').click(function() {
+    formSubmitting = true;
   });
 
 
