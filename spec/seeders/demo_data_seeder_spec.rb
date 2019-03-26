@@ -44,9 +44,6 @@ describe 'seeds' do
     allow(OpenProject::Configuration).to receive(:[]).with('edition').and_return(edition)
 
     ActionMailer::Base.perform_deliveries = false
-
-    # Avoid asynchronous DeliverWorkPackageCreatedJob
-    Delayed::Worker.delay_jobs = false
   end
 
   context 'standard edition' do
@@ -56,6 +53,9 @@ describe 'seeds' do
       expect { DemoDataSeeder.new.seed! }.not_to raise_error
 
       begin
+        # Avoid asynchronous DeliverWorkPackageCreatedJob
+        Delayed::Worker.delay_jobs = false
+
         expect(User.where(admin: true).count).to eq 1
         expect(Project.count).to eq 2
         expect(WorkPackage.count).to eq 41
