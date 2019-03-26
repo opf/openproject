@@ -20,10 +20,10 @@ ko:
     close_form_title: 폼 닫기
     boards:
       upsale:
-        boards: Need to freely structure your work in a board view?
+        boards: 당신의 작품을 이사회의 관점에서 자유롭게 구조화하겠습니까?
         check_out_link: Enterprise Edition을 체크아웃하세요.
     card:
-      add_new: Add new card
+      add_new: 새로운 카드를 추가하다
       highlighting:
         inline: 'Highlight inline:'
         entire_card_by: Entire card by
@@ -197,7 +197,7 @@ ko:
     label_ascending: 오름차순
     label_author: '작성자: %{user}'
     label_between: 사이에
-    label_board: Board
+    label_board: 게시판
     label_board_locked: 잠김
     label_board_plural: Boards
     label_board_sticky: 스티커형

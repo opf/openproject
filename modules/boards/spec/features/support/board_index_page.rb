@@ -62,7 +62,6 @@ module Pages
       if action == nil
         find('.button', text: 'Free board').click
       else
-        select action.to_s, from: 'new_board_action_select'
         find('.button', text: 'Action board').click
       end
 

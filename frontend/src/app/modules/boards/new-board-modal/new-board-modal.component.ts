@@ -45,7 +45,7 @@ import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notific
 export class NewBoardModalComponent extends OpModalComponent {
   @ViewChild('actionAttributeSelect') actionAttributeSelect:ElementRef;
 
-  public showClose:boolean;
+  public showClose:boolean = true;
 
   public confirmed = false;
 
@@ -54,11 +54,7 @@ export class NewBoardModalComponent extends OpModalComponent {
   public inFlight = false;
 
   public text:any = {
-    title: this.I18n.t('js.boards.new_board'),
-    button_continue: this.I18n.t('js.button_continue'),
-    button_cancel: this.I18n.t('js.button_cancel'),
     close_popup: this.I18n.t('js.close_popup_title'),
-
 
     free_board: this.I18n.t('js.boards.board_type.free'),
     free_board_text: this.I18n.t('js.boards.board_type.free_text'),
@@ -88,7 +84,7 @@ export class NewBoardModalComponent extends OpModalComponent {
   }
 
   createAction() {
-    this.create({ type: 'action', attribute: this.actionAttributeSelect.nativeElement.value! });
+    this.create({ type: 'action', attribute: this.available[0].attribute });
   }
 
   private create(params:{ type:BoardType, attribute?:string }) {
