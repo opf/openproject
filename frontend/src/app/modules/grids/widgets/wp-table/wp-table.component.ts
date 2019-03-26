@@ -1,14 +1,16 @@
 import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit} from "@angular/core";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+import {ApiV3Filter, ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {WidgetWpListComponent} from "core-app/modules/grids/widgets/wp-widget/wp-widget.component";
 import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-configuration";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
 import {skip} from 'rxjs/operators';
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
+import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
+import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
+import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 
 @Component({
   templateUrl: '../wp-widget/wp-widget.component.html',
@@ -16,7 +18,8 @@ import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper
 })
 export class WidgetWpTableComponent extends WidgetWpListComponent implements OnInit, OnDestroy, AfterViewInit {
   public text = { title: this.i18n.t('js.grid.widgets.work_packages_table.title') };
-  public queryProps:any = {};
+  public queryId:string|null;
+  private queryForm:QueryFormResource;
 
   public configuration:Partial<WorkPackageTableConfiguration> = {
     actionsColumnEnabled: false,
@@ -26,17 +29,31 @@ export class WidgetWpTableComponent extends WidgetWpListComponent implements OnI
   };
 
   constructor(protected i18n:I18nService,
-              protected urlParamsHelper:UrlParamsHelperService) {
+              protected urlParamsHelper:UrlParamsHelperService,
+              private readonly queryDm:QueryDmService,
+              private readonly queryFormDm:QueryFormDmService) {
     super(i18n);
   }
 
   @ViewChild(WorkPackageIsolatedQuerySpaceDirective) public querySpaceDirective:WorkPackageIsolatedQuerySpaceDirective;
 
   ngOnInit() {
-    if (this.resource.options.queryProps) {
-      this.queryProps = this.resource.options.queryProps;
+    if (!this.resource.options.queryId) {
+      this.createInitial()
+        .then((query) => {
+          this.resource.options = { queryId: query.id };
+
+          this.resourceChanged.emit(this.resource);
+
+          this.queryId = query.id;
+
+          super.ngOnInit();
+        });
+    } else {
+      this.queryId = this.resource.options.queryId as string;
+
+      super.ngOnInit();
     }
-    super.ngOnInit();
   }
 
   ngAfterViewInit() {
@@ -50,14 +67,38 @@ export class WidgetWpTableComponent extends WidgetWpListComponent implements OnI
         skip(2),
         untilComponentDestroyed(this)
       ).subscribe((query) => {
-        let queryProps = this.urlParamsHelper.buildV3GetQueryFromQueryResource(query);
-
-        this.resource.options = { queryProps: queryProps };
-        this.resourceChanged.emit(this.resource);
+        if (this.queryForm) {
+          this.queryDm.update(query, this.queryForm).toPromise();
+        } else {
+          this.queryFormDm.load(query).then((form) => {
+            this.queryForm = form;
+            this.queryDm.update(query, form).toPromise();
+          });
+        }
       });
   }
 
   ngOnDestroy() {
     // nothing to do
+  }
+
+  private createInitial():Promise<QueryResource> {
+    return this.queryFormDm
+      .loadWithParams(
+        {pageSize: 0},
+        undefined,
+        null,
+        this.buildQueryRequest()
+      )
+      .then(form => {
+        const query = this.queryFormDm.buildQueryResource(form);
+        return this.queryDm.create(query, form);
+      });
+  }
+
+  private buildQueryRequest() {
+    return {
+      hidden: true
+    };
   }
 }

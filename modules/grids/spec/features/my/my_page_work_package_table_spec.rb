@@ -115,6 +115,8 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
     expect(filter_area.area)
       .to have_no_selector('.id', text: other_type_work_package.id)
 
+    sleep(1)
+
     # The whole of the configuration survives a reload
     # as it is persisted in the grid
 
