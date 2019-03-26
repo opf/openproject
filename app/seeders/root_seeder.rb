@@ -131,10 +131,6 @@ class RootSeeder < Seeder
 
   def seed_basic_data
     puts "*** Seeding basic data for #{OpenProject::Configuration['edition']} edition"
-    if OpenProject::Configuration['edition'] == 'bim'
-      BimSeeder::BasicDataSeeder.new.seed!
-    else
-      StandardSeeder::BasicDataSeeder.new.seed!
-    end
+    ::StandardSeeder::BasicDataSeeder.new.seed!
   end
 end
