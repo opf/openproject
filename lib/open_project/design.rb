@@ -86,7 +86,6 @@ module OpenProject
       'main-menu-item-height'                                => "40px",
       'main-menu-item-border-color'                          => "$primary-color",
       'main-menu-item-border-width'                          => "1px",
-      'main-menu-enable-toggle-highlighting'                 => "false",
       'main-menu-bg-color'                                   => "#333739",
       'main-menu-bg-selected-background'                     => "#175A8E",
       'main-menu-bg-hover-background'                        => "#124E7C",
