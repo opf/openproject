@@ -28,23 +28,41 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-module StandardSeeder
-  module BasicData
-    class TypeSeeder < ::BasicData::TypeSeeder
-      def type_names
-        %i[task milestone phase feature epic user_story bug]
-      end
 
-      def type_table
-        { # position is_default color_id is_in_roadmap is_milestone
-          task:       [1, true, :default_color_blue,        true,  false, :default_type_task],
-          milestone:  [2, true, :default_color_green_light, false, true,  :default_type_milestone],
-          phase:      [3, true, :default_color_blue_dark,   false, false, :default_type_phase],
-          feature:    [4, true, :default_color_blue,        true,  false, :default_type_feature],
-          epic:       [5, true, :default_color_orange,      true,  false, :default_type_epic],
-          user_story: [6, true, :default_color_grey_dark,   true,  false, :default_type_user_story],
-          bug:        [7, true, :default_color_red,         true,  false, :default_type_bug]
-        }
+require 'spec_helper'
+
+def translate_with_base_url(string)
+  I18n.t(string, deep_interpolation: true, base_url: OpenProject::Configuration.rails_relative_url_root)
+end
+
+describe 'seeds' do
+  let(:edition) { 'bim' }
+  let(:perform_deliveries) { ActionMailer::Base.perform_deliveries }
+
+  before do
+    allow(OpenProject::Configuration).to receive(:[]).and_call_original
+    allow(OpenProject::Configuration).to receive(:[]).with('edition').and_return(edition)
+
+    ActionMailer::Base.perform_deliveries = false
+
+    # Avoid asynchronous DeliverWorkPackageCreatedJob
+    Delayed::Worker.delay_jobs = false
+  end
+
+  context 'bim edition' do
+    it 'create the demo data' do
+      expect { BimSeeder::BasicDataSeeder.new.seed! }.not_to raise_error
+      expect { AdminUserSeeder.new.seed! }.not_to raise_error
+      expect { DemoDataSeeder.new.seed! }.not_to raise_error
+
+      begin
+        expect(User.where(admin: true).count).to eq 1
+        expect(Project.count).to eq 1
+        expect(WorkPackage.count).to eq 18
+        expect(Wiki.count).to eq 1
+        expect(Query.count).to eq 4
+      ensure
+        ActionMailer::Base.perform_deliveries = perform_deliveries
       end
     end
   end

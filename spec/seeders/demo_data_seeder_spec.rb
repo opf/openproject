@@ -67,24 +67,4 @@ describe 'seeds' do
       end
     end
   end
-
-  context 'bim edition' do
-    let(:edition) { 'bim' }
-
-    it 'create the demo data' do
-      expect { BimSeeder::BasicDataSeeder.new.seed! }.not_to raise_error
-      expect { AdminUserSeeder.new.seed! }.not_to raise_error
-      expect { DemoDataSeeder.new.seed! }.not_to raise_error
-
-      begin
-        expect(User.where(admin: true).count).to eq 1
-        expect(Project.count).to eq 1
-        expect(WorkPackage.count).to eq 18
-        expect(Wiki.count).to eq 1
-        expect(Query.count).to eq 4
-      ensure
-        ActionMailer::Base.perform_deliveries = perform_deliveries
-      end
-    end
-  end
 end
