@@ -124,9 +124,6 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     // Refresh on changes to work packages
     this.updateOnWorkPackageChanges();
 
-    // Set initial auto zoom level, if applicable
-    this.applyAutoZoomLevel();
-
     // Refresh timeline rendering callback
     this.setupRefreshListener();
 
@@ -217,8 +214,11 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       return;
     }
 
-    // Update autozoom level
-    this.applyAutoZoomLevel();
+    if (this.wpTableTimeline.isAutoZoomEnabled()) {
+      // Update autozoom level
+      this.applyAutoZoomLevel();
+    }
+
 
     // Require dynamic CSS to be visible
     this.dynamicCssService.requireHighlighting();
@@ -431,6 +431,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       return;
     }
 
+    this.wpTableTimeline.toggleAutoZoomEnabled(false);
     const daysSpan = calculateDaySpan(this.workPackageIdOrder, this.states.workPackages, this._viewParameters);
     const timelineWidthInPx = this.$element.parent().width()! - (2 * requiredPixelMarginLeft);
 
@@ -451,5 +452,4 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       }
     }
   }
-
 }
