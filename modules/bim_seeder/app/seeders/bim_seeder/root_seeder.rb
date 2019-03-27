@@ -1,11 +1,7 @@
 module BimSeeder
   module RootSeeder
     def seed_basic_data
-      if OpenProject::Configuration['edition'] == 'bim'
-        return ::BimSeeder::BasicDataSeeder.new.seed!
-      end
-
-      super
+      ::BimSeeder::BasicDataSeeder.new.seed!
     end
   end
 end

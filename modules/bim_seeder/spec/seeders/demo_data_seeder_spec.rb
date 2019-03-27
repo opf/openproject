@@ -46,15 +46,15 @@ describe 'seeds' do
     ActionMailer::Base.perform_deliveries = false
   end
 
-  context 'bim edition' do
+  context 'BIM edition' do
     it 'create the demo data' do
-      expect { BimSeeder::BasicDataSeeder.new.seed! }.not_to raise_error
-      expect { AdminUserSeeder.new.seed! }.not_to raise_error
-      expect { DemoDataSeeder.new.seed! }.not_to raise_error
-
       begin
         # Avoid asynchronous DeliverWorkPackageCreatedJob
         Delayed::Worker.delay_jobs = false
+
+        expect { BimSeeder::BasicDataSeeder.new.seed! }.not_to raise_error
+        expect { AdminUserSeeder.new.seed! }.not_to raise_error
+        expect { DemoDataSeeder.new.seed! }.not_to raise_error
 
         expect(User.where(admin: true).count).to eq 1
         expect(Project.count).to eq 1

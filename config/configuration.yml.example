@@ -165,13 +165,6 @@
 
 # default configuration options for all environments
 default:
-  # Edition
-  #
-  # Openproject comes in two editions, the 'standard' edition for generic project management
-  # and the 'bim' edition, that specializes on the construction business.
-  #
-  edition: standard
-
   log_level: info
 
   # Outgoing emails configuration (see examples above)

@@ -48,13 +48,14 @@ describe 'seeds' do
 
   context 'standard edition' do
     it 'create the demo data' do
-      expect { StandardSeeder::BasicDataSeeder.new.seed! }.not_to raise_error
-      expect { AdminUserSeeder.new.seed! }.not_to raise_error
-      expect { DemoDataSeeder.new.seed! }.not_to raise_error
 
       begin
         # Avoid asynchronous DeliverWorkPackageCreatedJob
         Delayed::Worker.delay_jobs = false
+
+        expect { StandardSeeder::BasicDataSeeder.new.seed! }.not_to raise_error
+        expect { AdminUserSeeder.new.seed! }.not_to raise_error
+        expect { DemoDataSeeder.new.seed! }.not_to raise_error
 
         expect(User.where(admin: true).count).to eq 1
         expect(Project.count).to eq 2
