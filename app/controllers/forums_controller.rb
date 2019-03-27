@@ -32,7 +32,7 @@ class ForumsController < ApplicationController
   before_action :find_project_by_project_id,
                 :authorize
   before_action :new_forum, only: %i[new create]
-  before_action :find_forum, only: %i[show update move destroy]
+  before_action :find_forum, only: %i[show edit update move destroy]
   accept_key_auth :index, :show
 
   include SortHelper
