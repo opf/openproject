@@ -3,7 +3,6 @@ import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
-import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {Board} from "core-app/modules/boards/board/board";
@@ -12,16 +11,12 @@ import {StateService} from "@uirouter/core";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
-import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
 import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {skip} from "rxjs/operators";
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
-
 
 @Component({
   selector: 'board',
@@ -58,7 +53,8 @@ export class BoardComponent implements OnInit, OnDestroy {
     loadingError: 'No such board found',
     addList: this.I18n.t('js.boards.add_list'),
     upsaleBoards: this.I18n.t('js.boards.upsale.boards'),
-    upsaleCheckOutLink: this.I18n.t('js.boards.upsale.check_out_link')
+    upsaleCheckOutLink: this.I18n.t('js.boards.upsale.check_out_link'),
+    unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
   };
 
   trackByQueryId = (index:number, widget:GridWidgetResource) => widget.options.query_id;
@@ -129,7 +125,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   addList(board:Board):any {
     if (board.isFree) {
       return this.BoardList
-        .addFreeQuery(board, { name: 'Unnamed list'})
+        .addFreeQuery(board, { name: this.text.unnamed_list})
         .then(board => this.Boards.save(board))
         .then(saved => {
           this.BoardCache.update(saved);
