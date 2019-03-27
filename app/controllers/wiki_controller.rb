@@ -175,6 +175,15 @@ class WikiController < ApplicationController
       return
     end
 
+    entities = ['amp', 'lt', 'gt', 'quote', '#39']
+    params['content']['text'].scan(/<td>.*?<\/td>/).each do |val|
+      modif = val.dup
+      entities.each do |entity|
+        modif.gsub!(/([&])amp;(#{entity};)/, '\1\2')
+      end
+      params['content']['text'].gsub!(val, modif)
+    end
+
     @content = @page.content || @page.build_content
     return if locked?
 
