@@ -42,14 +42,5 @@ group :opf_plugins do
 	gem 'grids',                                 path: 'modules/grids'
 	gem 'openproject-boards',                    path: 'modules/boards'
 
-	#####################################
-	#
-	# Remove this before merging into dev!!
-	#
-	# We need this for now, to trick Travis as we do not set the ENV variable "OPENPROJECT_EDITION", yet.
-
-	ENV['OPENPROJECT_EDITION'] = 'bim'
-
-	#####################################
 	gem 'openproject-bim_seeder',                path: 'modules/bim_seeder', require: !!(ENV['OPENPROJECT_EDITION'] == 'bim')
 end
