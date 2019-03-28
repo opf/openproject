@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
@@ -11,7 +11,8 @@ import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedded/wp-embedded-base.component";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
-import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {withLatestFrom} from "rxjs/internal/operators";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -49,6 +50,19 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     if (this.tableActions) {
       this.tableActionsService.setActions(...this.tableActions);
     }
+
+    // Reload results on changes to pagination (Regression #29845)
+    this.querySpace.ready.fireOnStateChange(
+      this.wpTablePagination.state,
+      'Query loaded'
+    ).values$().pipe(
+      untilComponentDestroyed(this),
+      withLatestFrom(this.querySpace.query.values$())
+    ).subscribe(([pagination, query]) => {
+      this.loadingIndicator = this.QueryDm
+        .loadResults(query, this.wpTablePagination.paginationObject)
+        .then((results) => this.initializeStates(query, results));
+    });
   }
 
   public openConfigurationModal(onUpdated:() => void) {

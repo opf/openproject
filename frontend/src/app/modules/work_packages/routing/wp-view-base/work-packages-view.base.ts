@@ -110,14 +110,13 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
       .values$()
       .pipe(
         untilComponentDestroyed(this),
-        withLatestFrom(this.querySpace.query.values$()
-      )
-    ).subscribe(([pagination, query]) => {
-      if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
-        this.wpListChecksumService.update(query, pagination);
-        this.refresh(true, false);
-      }
-    });
+        withLatestFrom(this.querySpace.query.values$())
+      ).subscribe(([pagination, query]) => {
+        if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
+          this.wpListChecksumService.update(query, pagination);
+          this.refresh(true, false);
+        }
+      });
 
     this.setupChangeObserver(this.wpTableFilters, true);
     this.setupChangeObserver(this.wpTableGroupBy);
