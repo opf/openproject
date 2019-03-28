@@ -14,5 +14,5 @@ Gem::Specification.new do |s|
   s.license     = "GPLv3"
   s.version     = "1.0.0"
 
-  s.files = Dir["{app,lib}/**/*"] + %w(CHANGELOG.md README.md)
+  s.files = Dir["{app,lib,config}/**/*"] + %w(CHANGELOG.md README.md)
 end

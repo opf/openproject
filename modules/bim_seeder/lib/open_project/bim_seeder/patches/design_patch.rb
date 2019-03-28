@@ -12,7 +12,7 @@ module OpenProject::BimSeeder
           'main-menu-bg-color'                                   => "#333739",
           'main-menu-bg-selected-background'                     => "#748EA8",
           'main-menu-bg-hover-background'                        => "#566484",
-          'header-home-link-bg'                                  => '#{image-url("bim/logo_openproject_bim_big.png") no-repeat 20px 0}'
+          'header-home-link-bg'                                  => '#{image-url("bim_seeder/logo_openproject_bim_big.png") no-repeat 20px 0}'
         }
       ).freeze
     end
