@@ -39,8 +39,6 @@ describe 'seeds' do
   before do
     allow(OpenProject::Configuration).to receive(:[]).and_call_original
     allow(OpenProject::Configuration).to receive(:[]).with('edition').and_return(edition)
-
-    ActionMailer::Base.perform_deliveries = false
   end
 
   context 'standard edition' do
@@ -48,6 +46,7 @@ describe 'seeds' do
 
     it 'create the demo data' do
       perform_deliveries = ActionMailer::Base.perform_deliveries
+      ActionMailer::Base.perform_deliveries = false
 
       begin
         # Avoid asynchronous DeliverWorkPackageCreatedJob
