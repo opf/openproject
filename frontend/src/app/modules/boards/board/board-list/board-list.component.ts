@@ -74,6 +74,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     addCard: this.I18n.t('js.boards.add_card'),
     updateSuccessful: this.I18n.t('js.notice_successful_update'),
     areYouSure: this.I18n.t('js.text_are_you_sure'),
+    unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
   };
 
   /** Are we allowed to drag & drop elements ? */
@@ -139,6 +140,14 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public get canManage() {
     return this.boardService.canManage;
+  }
+
+  /*
+  *  Unnamed lists shall be focused to make editing easier
+  */
+  public isInitiallyFocused() {
+    return !this.state.params.isNew &&
+           this.listName === this.text.unnamed_list;
   }
 
   public addReferenceCard() {
