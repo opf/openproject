@@ -985,13 +985,13 @@ fi:
   default_type_bug: Virhe
   default_type_deliverable: Suorite
   default_type_epic: Epic
-  default_type_feature: Feature
+  default_type_feature: Ominaisuus
   default_type_milestone: Milestone
-  default_type_phase: Phase
+  default_type_phase: Vaihe
   default_type_task: Tehtävä
-  default_type_user_story: User story
+  default_type_user_story: Käyttäjän tarina
   description_active: Aktiivinen?
-  description_attachment_toggle: Show/Hide attachments
+  description_attachment_toggle: Näytä tai Piilota liitteet
   description_autocomplete: 'Tämä kenttä käyttää automaattisen täydennyksen. Kun näppäily
     otsikon työtä paketin saat listan mahdollisista ehdokkaista. Valitse yksi käyttäen
     nuoli ylös ja nuoli alas näppäintä ja valitse sarkain tai näppäile näppäintä.
