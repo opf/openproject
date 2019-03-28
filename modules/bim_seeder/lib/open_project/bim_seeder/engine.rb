@@ -12,5 +12,6 @@ module OpenProject::BimSeeder
              :author_url => 'https://openproject.org',
              :requires_openproject => '>= 9.0.0'
 
+    patches [:RootSeeder]
   end
 end

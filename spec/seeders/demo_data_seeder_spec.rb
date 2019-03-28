@@ -36,9 +36,6 @@ def translate_with_base_url(string)
 end
 
 describe 'seeds' do
-  let(:edition) { 'standard' }
-  let(:perform_deliveries) { ActionMailer::Base.perform_deliveries }
-
   before do
     allow(OpenProject::Configuration).to receive(:[]).and_call_original
     allow(OpenProject::Configuration).to receive(:[]).with('edition').and_return(edition)
@@ -47,7 +44,10 @@ describe 'seeds' do
   end
 
   context 'standard edition' do
+    let(:edition) { 'standard' }
+
     it 'create the demo data' do
+      perform_deliveries = ActionMailer::Base.perform_deliveries
 
       begin
         # Avoid asynchronous DeliverWorkPackageCreatedJob
