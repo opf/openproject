@@ -1,4 +1,4 @@
-import {Component, Injector, OnDestroy, OnInit, QueryList, ViewChildren} from "@angular/core";
+import {Component, Injector, OnDestroy, OnInit, QueryList, ViewChildren, ViewEncapsulation} from "@angular/core";
 import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -22,6 +22,8 @@ import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
   selector: 'board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.sass'],
+  // Necessary to let the board span the complete height of the screen
+  encapsulation: ViewEncapsulation.None,
   providers: [
     DragAndDropService,
   ]
