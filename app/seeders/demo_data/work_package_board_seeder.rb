@@ -1,6 +1,7 @@
 #-- encoding: UTF-8
 
 #-- copyright
+
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
@@ -38,12 +39,14 @@ module DemoData
     end
 
     def seed_data!
-      # Seed only for demo
-      if key == 'demo-project'
+      # Seed only for those projects that provide a `kanban` key, i.e. 'demo-project' in standard edition.
+      if project_has_data_for?(key, 'boards.kanban')
         print '    ↳ Creating demo status board'
         seed_kanban_board
         puts
+      end
 
+      if project_has_data_for?(key, 'boards.basic')
         print '    ↳ Creating demo basic board'
         seed_basic_board
         puts
@@ -54,7 +57,7 @@ module DemoData
 
     def seed_kanban_board
       board = ::Boards::Grid.new project: project
-      board.name = I18n.t('seeders.demo_data.projects.demo-project.boards.kanban.name')
+      board.name = project_data_for(key, 'boards.kanban.name')
       board.options = { 'type' => 'action', 'attribute' => 'status' }
 
       board.widgets = seed_kanban_board_queries.each_with_index.map do |query, i|
@@ -75,7 +78,14 @@ module DemoData
     def seed_kanban_board_queries
       admin = User.admin.first
 
-      Status.where(name: ['New', 'In progress', 'On hold', 'Closed']).to_a.map do |status|
+      status_names = ['New', 'In progress', 'On hold', 'Closed']
+      statuses = Status.where(name: status_names).to_a
+
+      if statuses.size < status_names.size
+        raise StandardError.new "Not all statuses needed for seeding a KANBAN board are present. Check that they get seeded."
+      end
+
+      statuses.to_a.map do |status|
         Query.new_default(project: project, user: admin).tap do |query|
           # Hide the query
           query.hidden = true
@@ -94,7 +104,7 @@ module DemoData
 
     def seed_basic_board
       board = ::Boards::Grid.new project: project
-      board.name = I18n.t('seeders.demo_data.projects.demo-project.boards.basic.name')
+      board.name = project_data_for(key, 'boards.basic.name')
 
       board.widgets = seed_basic_board_queries.each_with_index.map do |query, i|
         Grids::Widget.new start_row: 1, end_row: 2,

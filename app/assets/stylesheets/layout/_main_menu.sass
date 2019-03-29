@@ -29,6 +29,14 @@
 $toggler-width: 40px
 $menu-item-line-height: 30px
 
+@mixin main-menu-hover
+  @include varprop(background, main-menu-bg-hover-background)
+  @include varprop(color, main-menu-hover-font-color)
+
+@mixin main-menu-selected
+  @include varprop(background, main-menu-bg-selected-background)
+  @include varprop(color, main-menu-selected-font-color)
+
 .main-menu
   @include varprop(width, main-menu-width)
   @include varprop(min-width, main-menu-width)
@@ -126,26 +134,22 @@ $arrow-left-width: 40px
 .main-item-wrapper
   display: flex
 
-  &:hover
-    @if $main-menu-enable-toggle-highlighting != true
-      // simultaneously hover all menu item anchor tags
-      > a
-        @include varprop(color, main-menu-hover-font-color)
-        &.toggler
-          @include varprop(background, main-menu-bg-hover-background)
 
+  .toggler:hover
+    @include main-menu-hover
 
   a
     &.selected, &.selected + a
-      @include varprop(background, main-menu-bg-selected-background)
-      @include varprop(color, main-menu-selected-font-color)
+      @include main-menu-selected
 
       &:hover
-        @include varprop(background, main-menu-bg-hover-background)
+        @include main-menu-hover
 
     &:hover, &:focus , &:active
-      @include varprop(background, main-menu-bg-hover-background)
-      @include varprop(color, main-menu-hover-font-color)
+      @include main-menu-hover
+
+      &~ .toggler
+        @include main-menu-hover
 
   a:not(.toggler)
     @extend .small-12
@@ -177,18 +181,15 @@ $arrow-left-width: 40px
           padding: initial
 
     &:hover
-      @if $main-menu-enable-toggle-highlighting != true
-        // simultaneously hover all menu item anchor tags
-        > a
-          @include varprop(color, main-menu-bg-hover-background)
+      // simultaneously hover all menu item anchor tags
+      > a
+        @include varprop(color, main-menu-bg-hover-background)
 
     > a
       &.selected, &.selected
-        @include varprop(background, main-menu-bg-selected-background)
-        @include varprop(color, main-menu-selected-font-color)
+        @include main-menu-selected
       &:hover, &:focus , &:active
-        @include varprop(color, main-menu-hover-font-color)
-        @include varprop(background, main-menu-bg-hover-background)
+        @include main-menu-hover
 
 .main-menu--children-menu-header
   padding: 10px 10px 0 10px
@@ -203,8 +204,7 @@ $arrow-left-width: 40px
   padding-right: 14px
   width: 40px
   &:hover, &:focus, &:active
-    @include varprop(background, main-menu-bg-hover-background)
-    @include varprop(color, main-menu-hover-font-color)
+    @include main-menu-hover
 
 a.main-menu--parent-node
   display: inline-block
@@ -217,8 +217,7 @@ a.main-menu--parent-node
   border-radius: 3px
   @include varprop(color, main-menu-font-color)
   &:hover, &:focus, &:active
-    @include varprop(background, main-menu-bg-hover-background)
-    @include varprop(color, main-menu-hover-font-color)
+    @include main-menu-hover
 
 // logic for showing either parent or child menu
 .main-menu
