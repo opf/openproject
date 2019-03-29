@@ -164,7 +164,7 @@ es:
     general_text_Yes: Sí
     grid:
       add_modal:
-        choose_widget: Choose widget
+        choose_widget: Seleccione el widget
       widgets:
         documents:
           title: Documentos
@@ -174,16 +174,16 @@ es:
           at: en
           no_results: Nada nuevo sobre lo que informar.
         time_entries_current_user:
-          title: Spent time (last 7 days)
+          title: Tiempo de gastos (últimos 7 días)
           no_results: Sin entradas temporales en los últimos 7 días.
         work_packages_accountable:
           title: Paquetes de trabajo de los que soy responsable
         work_packages_assigned:
           title: Paquetes de trabajo asignados a mí
         work_packages_created:
-          title: Work packages created by me
+          title: Paquetes de trabajo creados por mí
         work_packages_watched:
-          title: Work packages watched by me
+          title: Paquetes de trabajo vigilados por mí
         work_packages_calendar:
           title: Calendario
     label_activate: Activar
@@ -916,7 +916,7 @@ es:
     global_search:
       all_projects: En todos los proyectos
       search: Buscar
-      close_search: Close search
+      close_search: Cerrar búsqueda
       current_project: En este proyecto
       current_project_and_all_descendants: En este proyecto + subproyectos
       title:
