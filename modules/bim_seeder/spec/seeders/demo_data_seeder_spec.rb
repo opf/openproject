@@ -51,7 +51,6 @@ describe 'seeds' do
       begin
         # Avoid asynchronous DeliverWorkPackageCreatedJob
         Delayed::Worker.delay_jobs = false
-
         expect { BimSeeder::BasicDataSeeder.new.seed! }.not_to raise_error
         expect { AdminUserSeeder.new.seed! }.not_to raise_error
         expect { DemoDataSeeder.new.seed! }.not_to raise_error

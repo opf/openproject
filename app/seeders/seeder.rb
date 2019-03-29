@@ -58,7 +58,11 @@ class Seeder
   end
 
   def edition_data_for(key)
-    translate_with_base_url "seeders.#{OpenProject::Configuration['edition']}.#{key}"
+    data = translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.#{key}")
+
+    return nil if data.is_a?(String) && data.start_with?("translation missing")
+
+    data
   end
 
   def demo_data_for(key)
@@ -67,5 +71,9 @@ class Seeder
 
   def project_data_for(project, key)
     demo_data_for "projects.#{project}.#{key}"
+  end
+
+  def project_has_data_for?(project, key)
+    I18n.exists?("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{project}.#{key}")
   end
 end

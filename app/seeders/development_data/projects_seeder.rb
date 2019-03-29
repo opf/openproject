@@ -78,7 +78,7 @@ module DevelopmentData
 
     def seed_versions(projects)
       projects.each do |p|
-        version_data = I18n.t("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.scrum-project.versions")
+        version_data = project_data_for('scrum-project', 'versions')
         if version_data.is_a? Array
           version_data.each do |attributes|
             p.versions << Version.create!(

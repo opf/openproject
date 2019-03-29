@@ -148,9 +148,7 @@ module DemoData
     end
 
     def seed_versions(project, key)
-      version_data = project_data_for(key, 'versions')
-
-      return if version_data.is_a?(String) && version_data.start_with?("translation missing")
+      version_data = Array(project_data_for(key, 'versions'))
 
       version_data.each do |attributes|
         VersionBuilder.new(attributes, project).create!

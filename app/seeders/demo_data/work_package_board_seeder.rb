@@ -40,7 +40,7 @@ module DemoData
 
     def seed_data!
       # Seed only for those projects that provide a `kanban` key, i.e. 'demo-project' in standard edition.
-      if I18n.exists?("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}.boards.kanban", :en)
+      if project_has_data_for?(key, 'boards.kanban')
         print '    ↳ Creating kanban board'
 
         seed_kanban_board
@@ -53,7 +53,7 @@ module DemoData
 
     def seed_kanban_board
       board = ::Boards::Grid.new project: project
-      board.name = I18n.t("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}.boards.kanban.name")
+      board.name = project_data_for(key, 'boards.kanban.name')
       board.options = { 'type' => 'action', 'attribute' => 'status' }
 
       board.widgets = seed_kanban_board_queries.each_with_index.map do |query, i|

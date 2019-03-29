@@ -40,7 +40,7 @@ module DemoData
       print '    ↳ Creating custom fields...'
 
       # create some custom fields and add them to the project
-      Array(translate_with_base_url(project_key)[:custom_fields]).each do |name|
+      Array(project_data_for(key,'custom_fields')).each do |name|
         cf = WorkPackageCustomField.create!(
           name: name,
           regexp: '',
@@ -63,12 +63,6 @@ module DemoData
 
     def applicable?
       not WorkPackageCustomField.any?
-    end
-
-    private
-
-    def project_key
-      "seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{key}"
     end
   end
 end
