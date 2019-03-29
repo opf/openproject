@@ -54,7 +54,7 @@ module DemoData
     private
 
     def seed_demo_work_packages
-      work_packages_data = translate_with_base_url("seeders.demo_data.projects.#{key}.work_packages")
+      work_packages_data = project_data_for(key, 'work_packages')
 
       work_packages_data.each do |attributes|
         print '.'
@@ -152,7 +152,7 @@ module DemoData
     end
 
     def set_workpackage_relations
-      work_packages_data = translate_with_base_url("seeders.demo_data.projects.#{key}.work_packages")
+      work_packages_data =  project_data_for(key, 'work_packages')
 
       work_packages_data.each do |attributes|
         create_relations attributes

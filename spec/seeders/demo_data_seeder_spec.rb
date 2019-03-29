@@ -1,5 +1,7 @@
 #-- encoding: UTF-8
+
 #-- copyright
+
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
@@ -29,27 +31,40 @@
 
 require 'spec_helper'
 
+def translate_with_base_url(string)
+  I18n.t(string, deep_interpolation: true, base_url: OpenProject::Configuration.rails_relative_url_root)
+end
+
 describe 'seeds' do
-  it 'create the demo data' do
-    perform_deliveries = ActionMailer::Base.perform_deliveries
-    ActionMailer::Base.perform_deliveries = false
+  before do
+    allow(OpenProject::Configuration).to receive(:[]).and_call_original
+    allow(OpenProject::Configuration).to receive(:[]).with('edition').and_return(edition)
+  end
 
-    begin
-      # Avoid asynchronous DeliverWorkPackageCreatedJob
-      Delayed::Worker.delay_jobs = false
+  context 'standard edition' do
+    let(:edition) { 'standard' }
 
-      expect { BasicDataSeeder.new.seed! }.not_to raise_error
-      expect { AdminUserSeeder.new.seed! }.not_to raise_error
-      expect { DemoDataSeeder.new.seed! }.not_to raise_error
+    it 'create the demo data' do
+      perform_deliveries = ActionMailer::Base.perform_deliveries
+      ActionMailer::Base.perform_deliveries = false
 
-      expect(User.where(admin: true).count).to eq 1
-      expect(Project.count).to eq 2
-      expect(WorkPackage.count).to eq 41
-      expect(Wiki.count).to eq 2
-      expect(Query.where.not(hidden: true).count).to eq 8
-      expect(Query.count).to eq 12
-    ensure
-      ActionMailer::Base.perform_deliveries = perform_deliveries
+      begin
+        # Avoid asynchronous DeliverWorkPackageCreatedJob
+        Delayed::Worker.delay_jobs = false
+
+        expect { StandardSeeder::BasicDataSeeder.new.seed! }.not_to raise_error
+        expect { AdminUserSeeder.new.seed! }.not_to raise_error
+        expect { DemoDataSeeder.new.seed! }.not_to raise_error
+
+        expect(User.where(admin: true).count).to eq 1
+        expect(Project.count).to eq 2
+        expect(WorkPackage.count).to eq 41
+        expect(Wiki.count).to eq 2
+        expect(Query.where.not(hidden: true).count).to eq 8
+        expect(Query.count).to eq 12
+      ensure
+        ActionMailer::Base.perform_deliveries = perform_deliveries
+      end
     end
   end
 end

@@ -42,7 +42,9 @@ module OpenProject::Backlogs::Patches::ProjectSeederPatch
     def seed_versions(project, key)
       super
 
-      versions = Array(I18n.t("seeders.demo_data.projects.#{key}")[:versions])
+      return unless project_has_data_for?(key, 'versions')
+
+      versions = Array(project_data_for(key, 'versions'))
         .map { |data| Version.find_by(name: data[:name]) }
         .compact
 

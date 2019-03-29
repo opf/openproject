@@ -125,6 +125,11 @@ PATH
       openproject-pdf_export
 
 PATH
+  remote: modules/bim_seeder
+  specs:
+    openproject-bim_seeder (1.0.0)
+
+PATH
   remote: modules/boards
   specs:
     openproject-boards (1.0.0)
@@ -970,6 +975,7 @@ DEPENDENCIES
   openproject-auth_saml!
   openproject-avatars!
   openproject-backlogs!
+  openproject-bim_seeder!
   openproject-boards!
   openproject-costs!
   openproject-documents!

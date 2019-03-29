@@ -40,7 +40,7 @@ module DemoData
       print '    ↳ Creating custom fields...'
 
       # create some custom fields and add them to the project
-      Array(translate_with_base_url("seeders.demo_data.projects.#{key}")[:custom_fields]).each do |name|
+      Array(project_data_for(key,'custom_fields')).each do |name|
         cf = WorkPackageCustomField.create!(
           name: name,
           regexp: '',
