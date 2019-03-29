@@ -20,14 +20,14 @@ nl:
     close_form_title: Sluit formulier
     boards:
       upsale:
-        boards: Need to freely structure your work in a board view?
+        boards: Wilt u vrij de structuur van uw werk in een weergave op een bord?
         check_out_link: Bekijk de Enterprise Edition.
     card:
-      add_new: Add new card
+      add_new: Nieuwe kaart toevoegen
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: Entire card by
-      remove_from_list: Remove card from list
+        inline: 'Markeer inline:'
+        entire_card_by: Gehele kaart door
+      remove_from_list: Verwijder kaart uit lijst
     clipboard:
       browser_error: Uw browser ondersteunt kopiëren naar het klembord niet. Kopieer
         de geselecteerde tekst handmatig.
@@ -207,9 +207,9 @@ nl:
     label_ascending: Oplopend
     label_author: 'Auteur: %{user}'
     label_between: tussen
-    label_board: Board
+    label_board: Bord
     label_board_locked: Vergrendeld
-    label_board_plural: Boards
+    label_board_plural: Borden
     label_board_sticky: Sticky
     label_create_work_package: Nieuw werkpakket maken
     label_created_by: Gemaakt door
@@ -333,7 +333,7 @@ nl:
     label_upload_notification: Uploaden van bestanden...
     label_work_package_upload_notification: 'Uploaden van bestanden voor werk pakket
       #%{id}: %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} toegevoegd door %{author}"
     label_files_to_upload: 'Deze bestanden worden geüpload:'
     label_rejected_files: 'Deze bestanden kunnen niet worden geüpload:'
     label_rejected_files_reason: Deze bestanden kunnen niet worden geüpload gezien
@@ -365,15 +365,17 @@ nl:
         wiki: U kunt binnen de <b>Wiki</b> kennis delen en documenteren samen met
           uw team.
         backlogs:
-          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
-            you have the Product Backlog or a Bug Backlog, on the left you will have
-            the respective sprints. Here you can create <b>epics, user stories, and
-            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
-          task_board_select: "... and select the <b>Task board</b> entry."
-          task_board: The <b>Task board</b> visualizes the progress for this sprint.
-            Add new tasks or impediments with the + icon next to a user story. Via
-            drag'n'drop you can update the status.
+          overview: Beheer uw werk volgens <b>Backlogs</b> overzicht. <br> aan de
+            rechterkant heb je de Productbacklog of een Bugbacklog, aan de linkerkant
+            zul je de respectieve sprints. Hier kunt u het maken van <b>Epics, gebruiker
+            verhalen en bugs</b>, prioriteren via drag'n'drop en voeg ze toe aan een
+            sprint.
+          task_board_arrow: Open de vervolgkeuzelijst van de Sprint om te zien uw
+            <b>Takenlijst</b>...
+          task_board_select: "... en selecteer het <b>Taakbord</b>."
+          task_board: Het <b>takenbord</b> visualiseert de voortgang voor deze sprint.
+            Toevoegen van nieuwe taken of belemmeringen met de + pictogram naast het
+            verhaal van een gebruiker. Via drag'n'drop kunt u de status bijwerken.
         boards:
           overview: Manage your work within an intuitive <b>Boards</b> view.
           lists: You can create multiple lists (columns) within one Board view, e.g.
@@ -382,52 +384,24 @@ nl:
           drag: Drag & Drop your cards within a list to re-order, or the another list.
             A double click will open the details view.
         wp:
-          toggler: Now let's have a look at the <b>Work package</b> section, which
-            gives you a more detailed view of your work.
-          list: This is the <b>Work package</b> list with the important work within
-            your project, such as tasks, features, milestones, bugs, and more. <br>
-            You can create or edit a work package directly within this list. To see
-            its details you can double click on a row.
-          full_view: Within the <b>Work package details</b> you find all relevant
-            information, such as description, status and priority, activities, dependencies
-            or comments.
-          back_button: With the arrow you can navigate back to the work package list.
-          create_button: The <b>Create</b> button will add a new work package to your
-            project.
-          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-            for your project.
-          timeline: Here you can edit your project plan. Create new phases, milestones,
-            and add dependencies. All team members can see and update the latest plan
-            at any time.
-        backlogs_overview: Beheer uw werk volgens <b>Backlogs</b> overzicht. <br>
-          aan de rechterkant heb je de Productbacklog of een Bugbacklog, aan de linkerkant
-          zul je de respectieve sprints. Hier kunt u het maken van <b>Epics, gebruiker
-          verhalen en bugs</b>, prioriteren via drag'n'drop en voeg ze toe aan een
-          sprint.
-        backlogs_task_board_arrow: Open de vervolgkeuzelijst van de Sprint om te zien
-          uw <b>Takenlijst</b>...
-        backlogs_task_board_select: "... en selecteer het <b>Taakbord</b>."
-        backlogs_task_board: Het <b>takenbord</b> visualiseert de voortgang voor deze
-          sprint. Toevoegen van nieuwe taken of belemmeringen met de + pictogram naast
-          het verhaal van een gebruiker. Via drag'n'drop kunt u de status bijwerken.
-        wp_toggler: Laten we nu eens een kijkje op de <b>werk pakket</b> -sectie,
-          die je een meer gedetailleerde weergave van uw werk geeft.
-        wp_list: Dit is de <b>werk pakket</b> Lijst met het belangrijke werk dat binnen
-          uw project, zoals taken, functies, mijlpalen, bugs, en meer. <br> u kunt
-          het maken of bewerken van een werkpakket rechtstreeks vanuit deze lijst.
-          Om de details te bekijken kunt u dubbelklikken op een rij.
-        wp_full_view: In de <b>werk pakket details</b> vindt u alle relevante informatie,
-          zoals beschrijving, de status en de prioriteit, de activiteiten, de afhankelijkheden
-          of de opmerkingen.
-        wp_back_button: Met de pijltjestoetsen kunt u navigeren naar de pakketlijst
-          werk.
-        wp_create_button: De <b>maken</b> -knop zal een nieuw werkpakket aan uw project
-          toevoegen.
-        wp_timeline_button: U kunt met de <b>Gantt-diagram</b> een tijdlijn voor uw
-          project maken.
-        wp_timeline: Hier kunt u uw projectplan bewerken. Maak nieuwe fasen, mijlpalen,
-          en voeg afhankelijkheden toe. Alle teamleden kunnen de meest recente planning
-          op elk gewenst moment zien en bijwerken.
+          toggler: Laten we nu eens een kijkje op de <b>werk pakket</b> -sectie, die
+            je een meer gedetailleerde weergave van uw werk geeft.
+          list: Dit is de <b>werk pakket</b> Lijst met het belangrijke werk dat binnen
+            uw project, zoals taken, functies, mijlpalen, bugs, en meer. <br> u kunt
+            het maken of bewerken van een werkpakket rechtstreeks vanuit deze lijst.
+            Om de details te bekijken kunt u dubbelklikken op een rij.
+          full_view: In de <b>werk pakket details</b> vindt u alle relevante informatie,
+            zoals beschrijving, de status en de prioriteit, de activiteiten, de afhankelijkheden
+            of de opmerkingen.
+          back_button: Met de pijltjestoetsen kunt u navigeren naar de pakketlijst
+            werk.
+          create_button: De <b>maken</b> -knop zal een nieuw werkpakket aan uw project
+            toevoegen.
+          timeline_button: U kunt met de <b>Gantt-diagram</b> een tijdlijn voor uw
+            project maken.
+          timeline: Hier kunt u uw projectplan bewerken. Maak nieuwe fasen, mijlpalen,
+            en voeg afhankelijkheden toe. Alle teamleden kunnen de meest recente planning
+            op elk gewenst moment zien en bijwerken.
     password_confirmation:
       field_description: U moet uw wachtwoord invoeren om deze wijziging te bevestigen.
       title: Voer uw wachtwoord in om door te gaan
@@ -893,7 +867,7 @@ nl:
           de weergegeven werkpakketten verwijderd worden.
         deletes_children: Alle onderliggende werkpakketten en hun nakomelingen ook
           worden verwijderd.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Geen zichtbare resultaten om weer te geven.
     notice_successful_create: Aanmaak geslaagd.
     notice_successful_delete: Verwijdering geslaagd.
     notice_successful_update: Succesvolle wijziging.

@@ -1,15 +1,21 @@
+// Let board list span whole screen
+.controller-boards\/boards #content
+  height: 100%
+
 .boards-list--container
   display: flex
   flex-direction: row
   flex-wrap: nowrap
+  flex-grow: 1
 
   // Make it scrollable
   padding-bottom: 2px
   overflow-y: auto
 
 .boards-list--item
-  flex: 0 0 20%
-  margin-left: 2rem
+  flex: 0 0 300px
+  max-width: 300px
+  margin-left: 1rem
   position: relative
 
   &:first-child
@@ -19,16 +25,17 @@
   display: flex
   align-items: flex-start
 
-.board--name-header
-  list-style: none
-
 .boards-list-item-handle
   position: absolute
+  font-size: 14px
   left: 0
-  top: 24px
+  top: 20px
   z-index: 100
   opacity: 0
   cursor: grab
+
+  .board--container.-free &
+    top: 14px
 
   &:before
     padding: 0
@@ -38,29 +45,31 @@
     opacity: 1
 
 .boards-list--add-item
-  flex: 0 0 auto
+  flex: 0 0 230px
   border: 1px dashed #ccc
-  height: 200px
+  border-radius: 5px
+  // Same height as board list header
+  height: 43px
   margin-left: 30px
 
   // Center child text
   display: flex
   align-items: center
-  justify-items: center
+  justify-content: center
 
-  // Center self in lists
-  align-self: center
-
-  .boards-list--add-item-text
-    transform: rotate(90deg)
+  // Align self at top
+  align-self: flex-start
 
 .board--container
   position: relative
+  display: flex
+  flex-direction: column
+  height: 100%
 
   // Changes when container is editable
   &.-editable
-  .boards-list--add-item
-    cursor: pointer
+    .boards-list--add-item
+      cursor: pointer
 
-.boards-filters-container
+.boards-filters-container .work-packages--filters-optional-container
   margin-bottom: 1rem

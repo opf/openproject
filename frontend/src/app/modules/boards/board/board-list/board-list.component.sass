@@ -1,18 +1,21 @@
 .board-list--query-container
+  // 100% - board header height - padding
+  height: calc(100% - 43px - 10px)
   padding: 5px 0
-  height: 75vh
   overflow-y: auto
 
 .board-list--container
+  height: 100%
   border: 1px solid #ccc
+  border-radius: 5px
 
 .board-list--action-bar
   width: 100%
   height: 5px
-  border-bottom: 1px solid #f1f1f1
+  border-radius: 4px 4px 0 0
 
 .board-list--header
-  padding: 10px 10px 10px 15px
+  padding: 5px 10px 5px 15px
   border-bottom: 1px solid #ccc
   display: flex
   align-items: center
@@ -21,9 +24,3 @@
     flex: 1
     margin-bottom: 0
     margin-right: 0.25rem
-
-wp-embedded-table
-  wp-card-view
-
-  height: 100%
-  display: block

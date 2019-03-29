@@ -20,10 +20,10 @@ ko:
     close_form_title: 폼 닫기
     boards:
       upsale:
-        boards: Need to freely structure your work in a board view?
+        boards: 당신의 작품을 이사회의 관점에서 자유롭게 구조화하겠습니까?
         check_out_link: Enterprise Edition을 체크아웃하세요.
     card:
-      add_new: Add new card
+      add_new: 새로운 카드를 추가하다
       highlighting:
         inline: 'Highlight inline:'
         entire_card_by: Entire card by
@@ -197,7 +197,7 @@ ko:
     label_ascending: 오름차순
     label_author: '작성자: %{user}'
     label_between: 사이에
-    label_board: Board
+    label_board: 게시판
     label_board_locked: 잠김
     label_board_plural: Boards
     label_board_sticky: 스티커형
@@ -343,15 +343,13 @@ ko:
           언제든지 투어를 다시 시작할 수 있습니다.
         wiki: "<b>Wiki</b>에서 문서화하고 팀과 함께 지식을 공유할 수 있습니다."
         backlogs:
-          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
-            you have the Product Backlog or a Bug Backlog, on the left you will have
-            the respective sprints. Here you can create <b>epics, user stories, and
-            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
-          task_board_select: "... and select the <b>Task board</b> entry."
-          task_board: The <b>Task board</b> visualizes the progress for this sprint.
-            Add new tasks or impediments with the + icon next to a user story. Via
-            drag'n'drop you can update the status.
+          overview: "<b>백로그</b> 보기에서 작업을 관리하세요. <br> 오른쪽에 제품 백로그 또는 버그 백로그가 있고, 왼쪽에
+            해당 스프린트가 있습니다. 여기에서 <b>에픽, 사용자 이야기 및 버그</b>를 작성하고 드래그 앤 드롭으로 우선 순위를 정하고
+            스프린트에 추가할 수 있습니다."
+          task_board_arrow: "<b>작업 보드</b>를 보려면 스프린트 드롭다운을 여세요..."
+          task_board_select: "... 그리고 <b>작업보드</b> 항목을 선택하세요."
+          task_board: "<b>작업 보드</b>는 이 스프린트의 진행률을 시각화합니다. 사용자 이야기 옆에 있는 + 아이콘을 사용하여
+            새 작업이나 제한을 추가하세요. 드래그 앤 드롭으로 상태를 업데이트할 수 있습니다."
         boards:
           overview: Manage your work within an intuitive <b>Boards</b> view.
           lists: You can create multiple lists (columns) within one Board view, e.g.
@@ -360,40 +358,16 @@ ko:
           drag: Drag & Drop your cards within a list to re-order, or the another list.
             A double click will open the details view.
         wp:
-          toggler: Now let's have a look at the <b>Work package</b> section, which
-            gives you a more detailed view of your work.
-          list: This is the <b>Work package</b> list with the important work within
-            your project, such as tasks, features, milestones, bugs, and more. <br>
-            You can create or edit a work package directly within this list. To see
-            its details you can double click on a row.
-          full_view: Within the <b>Work package details</b> you find all relevant
-            information, such as description, status and priority, activities, dependencies
-            or comments.
-          back_button: With the arrow you can navigate back to the work package list.
-          create_button: The <b>Create</b> button will add a new work package to your
-            project.
-          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-            for your project.
-          timeline: Here you can edit your project plan. Create new phases, milestones,
-            and add dependencies. All team members can see and update the latest plan
-            at any time.
-        backlogs_overview: "<b>백로그</b> 보기에서 작업을 관리하세요. <br> 오른쪽에 제품 백로그 또는 버그 백로그가
-          있고, 왼쪽에 해당 스프린트가 있습니다. 여기에서 <b>에픽, 사용자 이야기 및 버그</b>를 작성하고 드래그 앤 드롭으로 우선
-          순위를 정하고 스프린트에 추가할 수 있습니다."
-        backlogs_task_board_arrow: "<b>작업 보드</b>를 보려면 스프린트 드롭다운을 여세요..."
-        backlogs_task_board_select: "... 그리고 <b>작업보드</b> 항목을 선택하세요."
-        backlogs_task_board: "<b>작업 보드</b>는 이 스프린트의 진행률을 시각화합니다. 사용자 이야기 옆에 있는 + 아이콘을
-          사용하여 새 작업이나 제한을 추가하세요. 드래그 앤 드롭으로 상태를 업데이트할 수 있습니다."
-        wp_toggler: 이제 <b>작업 패키지</b> 섹션을 살펴보겠습니다. 이 섹션에서는 작업의 자세한 보기가 제공됩니다.
-        wp_list: 작업, 기능, 마일스톤, 버그 등 프로젝트 내 중요 작업이 포함된 <b>작업 패키지</b> 목록입니다. <br> 목록에서
-          바로 작업 패키지를 만들거나 편집할 수 있습니다. 해당 세부 정보를 보려면 행을 두 번 클릭하면 됩니다.
-        wp_full_view: "<b>작업 패키지 세부 정보</b>에서 설명, 상태 및 우선 순위, 활동, 종속성 또는 코멘트 등 모든 관련
-          정보를 찾아볼 수 있습니다."
-        wp_back_button: 화살표를 사용하여 작업 패키지 목록으로 돌아갈 수 있습니다.
-        wp_create_button: "<b>만들기</b> 버튼은 프로젝트에 새로운 작업 패키지를 추가합니다."
-        wp_timeline_button: "<b>Gantt 차트</b>를 활성화하여 프로젝트의 타임라인을 만들 수 있습니다."
-        wp_timeline: 여기에서 프로젝트 계획을 편집할 수 있습니다. 새로운 단계, 마일스톤을 만들고 종속성을 추가하세요. 모든 팀원이
-          언제든지 최신 계획을 보고 업데이트할 수 있습니다.
+          toggler: 이제 <b>작업 패키지</b> 섹션을 살펴보겠습니다. 이 섹션에서는 작업의 자세한 보기가 제공됩니다.
+          list: 작업, 기능, 마일스톤, 버그 등 프로젝트 내 중요 작업이 포함된 <b>작업 패키지</b> 목록입니다. <br> 목록에서
+            바로 작업 패키지를 만들거나 편집할 수 있습니다. 해당 세부 정보를 보려면 행을 두 번 클릭하면 됩니다.
+          full_view: "<b>작업 패키지 세부 정보</b>에서 설명, 상태 및 우선 순위, 활동, 종속성 또는 코멘트 등 모든 관련
+            정보를 찾아볼 수 있습니다."
+          back_button: 화살표를 사용하여 작업 패키지 목록으로 돌아갈 수 있습니다.
+          create_button: "<b>만들기</b> 버튼은 프로젝트에 새로운 작업 패키지를 추가합니다."
+          timeline_button: "<b>Gantt 차트</b>를 활성화하여 프로젝트의 타임라인을 만들 수 있습니다."
+          timeline: 여기에서 프로젝트 계획을 편집할 수 있습니다. 새로운 단계, 마일스톤을 만들고 종속성을 추가하세요. 모든 팀원이
+            언제든지 최신 계획을 보고 업데이트할 수 있습니다.
     password_confirmation:
       field_description: 이 변경 내용을 확인하려면 계정 암호를 입력해야 합니다.
       title: 계속하려면 암호 확인

@@ -1378,7 +1378,7 @@ tr:
   label_group_by: Grupla
   label_group_new: Yeni grup
   label_group: Grup
-  label_group_named: Group %{name}
+  label_group_named: "%{name} Grubu"
   label_group_plural: Gruplar
   label_help: Yardım
   label_here: buraya
@@ -2861,9 +2861,9 @@ tr:
   oauth:
     application:
       singular: OAuth application
-      plural: OAuth applications
-      named: OAuth application '%{name}'
-      new: New OAuth application
+      plural: OAuth uygulamaları
+      named: Oauth uygulaması %{name}
+      new: Yeni OAuth uygulaması
       default_scopes: "(Default scopes)"
       instructions:
         name: The name of your application. This will be displayed to other users
@@ -2927,7 +2927,3 @@ tr:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  setting_mail_handler_api_enabled: Gelen e-posta web hizmetini etkinleştir
-  setting_mail_handler_api_description: E-posta web işleyici, OpenProject'in belirli
-    komutları enstrümantasyon mekanizması olarak (örneğin iş paketleri oluşturmak
-    ve güncellemek için) içeren e-postaları almasını sağlar.

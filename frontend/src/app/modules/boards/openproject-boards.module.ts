@@ -29,7 +29,7 @@
 import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
-import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
+import {Ng2StateDeclaration, UIRouter, UIRouterModule} from "@uirouter/angular";
 import {BoardComponent} from "core-app/modules/boards/board/board.component";
 import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
 import {BoardsRootComponent} from "core-app/modules/boards/boards-root/boards-root.component";
@@ -55,7 +55,9 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'boards',
     parent: 'root',
-    url: '/boards?query_props',
+    // The trailing slash is important
+    // cf., https://community.openproject.com/wp/29754
+    url: '/boards/?query_props',
     params: {
       // Use custom encoder/decoder that ensures validity of URL string
       query_props: {type: 'opQueryString'}
@@ -72,10 +74,10 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   },
   {
     name: 'boards.show',
-    url: '/{board_id}',
+    url: '{board_id}',
     params: {
-      board_id: { type: 'string' },
-      isNew: { type: 'bool' }
+      board_id: {type: 'int'},
+      isNew: {type: 'bool'}
     },
     component: BoardComponent,
     data: {
@@ -84,8 +86,19 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   }
 ];
 
-export function registerActionServices(injector:Injector) {
+export function uiRouterBoardsConfiguration(uiRouter:UIRouter) {
+  // Ensure boards/ are being redirected correctly
+  // cf., https://community.openproject.com/wp/29754
+  uiRouter.urlService.rules
+    .when(
+      new RegExp("^/projects/(.*)/boards$"),
+      match => `/projects/${match[1]}/boards/`
+    );
+}
+
+export function registerBoardsModule(injector:Injector) {
   return () => {
+    // Register action services
     const registry = injector.get(BoardActionsRegistryService);
     const statusAction = injector.get(BoardStatusActionService);
 
@@ -99,7 +112,10 @@ export function registerActionServices(injector:Injector) {
     OpenprojectWorkPackagesModule,
 
     // Routes for /boards
-    UIRouterModule.forChild({ states: BOARDS_ROUTES }),
+    UIRouterModule.forChild({
+      states: BOARDS_ROUTES,
+      config: uiRouterBoardsConfiguration
+    }),
   ],
   providers: [
     BoardService,
@@ -111,7 +127,7 @@ export function registerActionServices(injector:Injector) {
     BoardStatusActionService,
     {
       provide: APP_INITIALIZER,
-      useFactory: registerActionServices,
+      useFactory: registerBoardsModule,
       deps: [Injector],
       multi: true
     },
@@ -140,5 +156,6 @@ export function registerActionServices(injector:Injector) {
     AddListModalComponent,
   ]
 })
-export class OpenprojectBoardsModule { }
+export class OpenprojectBoardsModule {
+}
 

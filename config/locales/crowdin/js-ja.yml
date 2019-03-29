@@ -19,14 +19,14 @@ ja:
     close_form_title: フォームを閉じる
     boards:
       upsale:
-        boards: Need to freely structure your work in a board view?
+        boards: ボードビューであなたの作業を自由に構成する必要がありますか？
         check_out_link: エンタープライズ版をチェックしてください。
     card:
-      add_new: Add new card
+      add_new: 新規カード追加
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: Entire card by
-      remove_from_list: Remove card from list
+        inline: インラインを強調表示：
+        entire_card_by: カード全体で
+      remove_from_list: リストからカードを削除
     clipboard:
       browser_error: お使いのブラウザーでは、クリップボードへのコピーをサポートしていません。手動で選択したテキストをコピーしてください。
       copied_successful: 正常にクリップボードにコピーしました!
@@ -194,9 +194,9 @@ ja:
     label_ascending: 昇順
     label_author: '作者: %{user}'
     label_between: 次の範囲内
-    label_board: Board
+    label_board: ボード
     label_board_locked: ロックされている
-    label_board_plural: Boards
+    label_board_plural: ボード
     label_board_sticky: 固定する
     label_create_work_package: 新しい作業項目を作成
     label_created_by: 作成者：
@@ -315,7 +315,7 @@ ja:
     label_add_description: "%{file}の説明を追加"
     label_upload_notification: ファイルをアップロード中...
     label_work_package_upload_notification: '作業項目#%{id}: %{subject}用ファイルをアップロード中'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id}が%{author}によって追加されました"
     label_files_to_upload: 'これらのファイルをアップロードします:'
     label_rejected_files: これらのファイルをアップロードできません：
     label_rejected_files_reason: ファイルサイズが%{maximumFilesize}を越えたために、これらのファイルをアップロードできません
@@ -337,53 +337,25 @@ ja:
         welcome: 3分間の導入ツアーで、最も<b>重要な機能</b>を確認します。 <br>最後まで手順を完了することをお勧めします。 ツアーはいつでも再開できます。
         wiki: "<b>Wiki</b>内ではチームと一緒に知識を文書化して共有することができます。"
         backlogs:
-          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
-            you have the Product Backlog or a Bug Backlog, on the left you will have
-            the respective sprints. Here you can create <b>epics, user stories, and
-            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
-          task_board_select: "... and select the <b>Task board</b> entry."
-          task_board: The <b>Task board</b> visualizes the progress for this sprint.
-            Add new tasks or impediments with the + icon next to a user story. Via
-            drag'n'drop you can update the status.
+          overview: "<b>バックログ</b>ビューで作業を管理します。 <br>右側には製品バックログまたはバグバックログがあり、左側にはそれぞれのスプリントがあります。ここで、<b>エピック、ユーザーストーリー、およびバグ</b>を作成し、ドラッグアンドドロップで優先順位を付けてスプリントに追加することができます。"
+          task_board_arrow: "<b>タスクボード</b>を表示するには、スプリントのドロップダウンを開きます..."
+          task_board_select: "... <b>タスクボード</b>を選択します。"
+          task_board: "<b>タスクボード</b>はこのスプリントの進捗状況を視覚化します。ユーザーのストーリーの横にある+アイコンを使用して、新しいタスクや障害を追加します。
+            ドラッグ&ドロップ経由でステータスを更新することができます。"
         boards:
-          overview: Manage your work within an intuitive <b>Boards</b> view.
-          lists: You can create multiple lists (columns) within one Board view, e.g.
-            to create a KANBAN board.
-          add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          overview: 直感的な<b>ボード</b>ビューで作業を管理します。
+          lists: 1つの掲示板ビュー内に複数のリスト（列）を作成できます。 カンバンボードを作成します。
+          add: "+をクリックすると、ボード内のリストに<b>新しいカードを追加</b>します。"
+          drag: リスト内のカードをドラッグアンドドロップして並べ替えるか、別のリストに入れます。 ダブルクリックすると詳細ビューが開きます。
         wp:
-          toggler: Now let's have a look at the <b>Work package</b> section, which
-            gives you a more detailed view of your work.
-          list: This is the <b>Work package</b> list with the important work within
-            your project, such as tasks, features, milestones, bugs, and more. <br>
-            You can create or edit a work package directly within this list. To see
-            its details you can double click on a row.
-          full_view: Within the <b>Work package details</b> you find all relevant
-            information, such as description, status and priority, activities, dependencies
-            or comments.
-          back_button: With the arrow you can navigate back to the work package list.
-          create_button: The <b>Create</b> button will add a new work package to your
-            project.
-          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-            for your project.
-          timeline: Here you can edit your project plan. Create new phases, milestones,
-            and add dependencies. All team members can see and update the latest plan
-            at any time.
-        backlogs_overview: "<b>バックログ</b>ビューで作業を管理します。 <br>右側には製品バックログまたはバグバックログがあり、左側にはそれぞれのスプリントがあります。ここで、<b>エピック、ユーザーストーリー、およびバグ</b>を作成し、ドラッグアンドドロップで優先順位を付けてスプリントに追加することができます。"
-        backlogs_task_board_arrow: "<b>タスクボード</b>を表示するには、スプリントのドロップダウンを開きます..."
-        backlogs_task_board_select: "... <b>タスクボード</b>を選択します。"
-        backlogs_task_board: "<b>タスクボード</b>はこのスプリントの進捗状況を視覚化します。ユーザーのストーリーの横にある+アイコンを使用して、新しいタスクや障害を追加します。
-          ドラッグ&ドロップ経由でステータスを更新することができます。"
-        wp_toggler: 次に、<b>作業パッケージ</b>セクションを見て、作業の詳細を確認してください。
-        wp_list: これは、タスク、機能、マイルストーン、バグなど、プロジェクト内の重要な作業をまとめた<b>作業項目</b>リストです。 <br>このリスト内で作業パッケージを直接作成または編集できます。
-          詳細を見るには行をダブルクリックします。
-        wp_full_view: "<b>作業項目の詳細</b>には、説明、ステータス、優先度、アクティビティ、依存関係、コメントなどの関連情報がすべて表示されます。"
-        wp_back_button: 矢印を使用すると作業項目リストに戻ることができます。
-        wp_create_button: "<b>作成</b>ボタンをクリックすると、プロジェクトに新しい作業項目が追加されます。"
-        wp_timeline_button: "<b>ガントチャート</b>をアクティブにして、プロジェクトのタイムラインを作成することができます。"
-        wp_timeline: ここでプロジェクト計画を編集できます。 新しい段階、マイルストーンを作成し、依存関係を追加します。 すべてのチームメンバーは、いつでも最新のプランを見て更新することができます。
+          toggler: 次に、<b>作業パッケージ</b>セクションを見て、作業の詳細を確認してください。
+          list: これは、タスク、機能、マイルストーン、バグなど、プロジェクト内の重要な作業をまとめた<b>作業項目</b>リストです。 <br>このリスト内で作業パッケージを直接作成または編集できます。
+            詳細を見るには行をダブルクリックします。
+          full_view: "<b>作業項目の詳細</b>には、説明、ステータス、優先度、アクティビティ、依存関係、コメントなどの関連情報がすべて表示されます。"
+          back_button: 矢印を使用すると作業項目リストに戻ることができます。
+          create_button: "<b>作成</b>ボタンをクリックすると、プロジェクトに新しい作業項目が追加されます。"
+          timeline_button: "<b>ガントチャート</b>をアクティブにして、プロジェクトのタイムラインを作成することができます。"
+          timeline: ここでプロジェクト計画を編集できます。 新しい段階、マイルストーンを作成し、依存関係を追加します。 すべてのチームメンバーは、いつでも最新のプランを見て更新することができます。
     password_confirmation:
       field_description: この変更を確認するには、アカウントのパスワードを入力する必要があります。
       title: 続行するにはパスワードを確認してください
@@ -803,7 +775,7 @@ ja:
         has_children: ワークパッケージは %{childUnits} あります。
         confirm_deletion_children: 列挙された作業項目のすべての子孫が再帰的に削除されることを承認します。
         deletes_children: すべての子作業項目とその子孫も再帰的に削除されます。
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: 表示結果はありません。
     notice_successful_create: 正常に作成しました。
     notice_successful_delete: 正常に削除しました。
     notice_successful_update: 正常に更新しました。

@@ -107,6 +107,27 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
   }
 
   /**
+   * Replace a filter, or add a new one
+   */
+  public replace(id:string, modifier:(filter:QueryFilterInstanceResource) => void):void {
+    let filter:QueryFilterInstanceResource = this.instantiate(id);
+
+    this.state.doModify(filters => {
+      let newFilters = [...filters];
+      modifier(filter);
+
+      const index = this.findIndex(id);
+      if (index === -1) {
+        newFilters.push(filter);
+      } else {
+        newFilters.splice(index, 1, filter);
+      }
+
+      return newFilters;
+    });
+  }
+
+  /**
    * Modify a live filter and push it to the state.
    * Avoids copying the resource.
    *
@@ -129,10 +150,16 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
 
   /**
    * Get an instantiated filter without adding it to the current state
-   * @param filter
+   * @param filterOrId The query filter or id to instantiate
    */
-  public instantiate(filter:QueryFilterResource):QueryFilterInstanceResource {
-    let schema = _.find(this.availableSchemas, schema => (schema.filter.allowedValues as HalResource)[0].id === filter.id)!;
+  public instantiate(filterOrId:QueryFilterResource|string):QueryFilterInstanceResource {
+    let id = (filterOrId instanceof QueryFilterResource) ? filterOrId.id : filterOrId;
+
+    let schema = _.find(
+      this.availableSchemas,
+      schema => (schema.filter.allowedValues as HalResource)[0].id === id
+    )!;
+
     return schema.getFilter();
   }
 
@@ -140,13 +167,13 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
    * Remove one or more filters from the live state of filters.
    * @param filters Filters to be removed
    */
-  public remove(...filters:QueryFilterInstanceResource[]) {
-    let set = new Set<string>(filters.map(f => f.id));
+  public remove(...filters:(QueryFilterInstanceResource|string)[]) {
+    let mapper = (f:QueryFilterInstanceResource|string) => (f instanceof QueryFilterInstanceResource) ? f.id : f;
+    let set = new Set<string>(filters.map(mapper));
     this.state.doModify(value => {
-      return value.filter(f => !set.has(f.id));
+      return value.filter(f => !set.has(mapper(f)));
     });
   }
-
 
   /**
    * Return the remaining visible filters from the given filters set.

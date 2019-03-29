@@ -1,0 +1,99 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+en:
+  seeders:
+    standard:
+      demo_data:
+        projects:
+          demo-project:
+            project-overview:
+              top:
+                - id: b
+                  title: ''
+                  content: |
+                    ![Teaser](##attachment:"demo_project_teaser.png")
+              left:
+                - id: a
+                  title: Getting started
+                  content: |
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+
+                    Discover the most important features with our [Guided Tour](%{base_url}/projects/demo-project/work_packages/?start_onboarding_tour=true).
+
+                    _Try the following steps:_
+
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members](%{base_url}/projects/demo-project/members) in the project navigation.
+                    2. *View the work in your project*: &rightarrow; Go to [Work packages](%{base_url}/projects/demo-project/work_packages) in the project navigation.
+                    3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create](%{base_url}/projects/demo-project/work_packages/new).
+                    4. *Create and update a project plan*: &rightarrow; Go to [Project plan](%{base_url}/projects/demo-project/work_packages?query_id=##query.id:"Project plan") in the project navigation.
+                    5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules](%{base_url}/projects/demo-project/settings/modules).
+                    6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks](%{base_url}/projects/demo-project/work_packages/details/##wp.id:"Edit a work package"/overview?query_id=##query.id:"Tasks").
+
+                    Here you will find our [User Guides](https://www.openproject.org/help/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                  attachments:
+                    - demo_project_teaser.png
+                - block: project_description
+                - block: work_package_tracking
+              right:
+                - members
+                - news_latest
+          scrum-project:
+            project-overview:
+              top:
+                - id: b
+                  title: ''
+                  content: |
+                    ![Teaser](##attachment:"scrum_project_teaser.png")
+              left:
+                - id: a
+                  title: Getting started
+                  content: |
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+
+                    Discover the most important features with our [Guided Tour](%{base_url}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
+
+                    _Try the following steps:_
+
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members](%{base_url}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs](%{base_url}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *View your Task board*: &rightarrow; Go to [Backlogs](%{base_url}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:"Sprint 1").
+                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create](%{base_url}/projects/your-scrum-project/work_packages/new).
+                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:"Project plan") in the project navigation.
+                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs](%{base_url}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template](%{base_url}/projects/your-scrum-project/wiki/) based on your needs.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules](%{base_url}/projects/your-scrum-project/settings/modules).
+
+                    Here you will find our [User Guides](https://www.openproject.org/help/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                  attachments:
+                    - scrum_project_teaser.png
+                - block: project_description
+                - block: work_package_tracking
+              right:
+                - members
+                - news_latest

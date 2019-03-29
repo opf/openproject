@@ -20,14 +20,14 @@ ru:
     close_form_title: Закрыть форму
     boards:
       upsale:
-        boards: Need to freely structure your work in a board view?
+        boards: Нужно свободно структурировать свою работу в виде доски?
         check_out_link: Проверьте корпоративную версию.
     card:
-      add_new: Add new card
+      add_new: Добавить новую карточку
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: Entire card by
-      remove_from_list: Remove card from list
+        inline: 'Выделение:'
+        entire_card_by: Вся карточка по
+      remove_from_list: Удалить карточку из списка
     clipboard:
       browser_error: Ваш браузер не поддерживает копирование в буфер обмена. Пожалуйста,
         скопируйте выделенный текст вручную.
@@ -206,9 +206,9 @@ ru:
     label_ascending: По возрастанию
     label_author: 'Автор: %{user}'
     label_between: между
-    label_board: Board
+    label_board: Доска
     label_board_locked: Заперто
-    label_board_plural: Boards
+    label_board_plural: Доски
     label_board_sticky: Стикер
     label_create_work_package: Создать новый пакет работ
     label_created_by: Автор
@@ -331,7 +331,7 @@ ru:
     label_upload_notification: Загрузка файлов...
     label_work_package_upload_notification: 'Загрузка файлов для пакета работ #%{id}:
       %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} добавлен %{author}"
     label_files_to_upload: 'Эти файлы будут загружены:'
     label_rejected_files: 'Эти файлы не могут быть загружены:'
     label_rejected_files_reason: Эти файлы не могут быть загружены, как их размер
@@ -361,67 +361,41 @@ ru:
         wiki: В пределах <b>вики</b> возможно документирование и обмен знаниями в
           вашей команде.
         backlogs:
-          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
-            you have the Product Backlog or a Bug Backlog, on the left you will have
-            the respective sprints. Here you can create <b>epics, user stories, and
-            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
-          task_board_select: "... and select the <b>Task board</b> entry."
-          task_board: The <b>Task board</b> visualizes the progress for this sprint.
-            Add new tasks or impediments with the + icon next to a user story. Via
-            drag'n'drop you can update the status.
+          overview: Управляйте своей работой в представлении <b>Backlogs</b>. <br>
+            Справа список невыполненных работ и ошибки, слева им соответствующие спринты.
+            Здесь можно создавать <b>эпопеи, описания функциональности пользователей
+            и ошибок</b>, меняя их приоритет с помощью перетаскивания, и добавлять
+            их к спринту.
+          task_board_arrow: Чтобы увидеть вашу <b>Панель задач</b>, откройте раскрывающийся
+            список спринта...
+          task_board_select: "... и выберите строку <b>Панель задач</b>."
+          task_board: "<b>Панель задач</b> визуализирует прогресс этого спринта. Добавьте
+            новые задачи или помехи с помощью значка + рядом с историей пользователя.
+            Используя перетаскивание, вы можете обновить статус."
         boards:
-          overview: Manage your work within an intuitive <b>Boards</b> view.
-          lists: You can create multiple lists (columns) within one Board view, e.g.
-            to create a KANBAN board.
-          add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          overview: Управляйте работой в интуитивном представлении <b>Доски</b>.
+          lists: Можно создать несколько списков (столбцов) в пределах представления
+            одной Доски, например, создав доску KANBAN.
+          add: Клик по + <b>добавит новую карточку</b> к списку Доски.
+          drag: Перетащите ваши карты в список для повторного заказа, или другой список.
+            Двойной клик мыши откроет детальное представление.
         wp:
-          toggler: Now let's have a look at the <b>Work package</b> section, which
-            gives you a more detailed view of your work.
-          list: This is the <b>Work package</b> list with the important work within
-            your project, such as tasks, features, milestones, bugs, and more. <br>
-            You can create or edit a work package directly within this list. To see
-            its details you can double click on a row.
-          full_view: Within the <b>Work package details</b> you find all relevant
-            information, such as description, status and priority, activities, dependencies
-            or comments.
-          back_button: With the arrow you can navigate back to the work package list.
-          create_button: The <b>Create</b> button will add a new work package to your
-            project.
-          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-            for your project.
-          timeline: Here you can edit your project plan. Create new phases, milestones,
-            and add dependencies. All team members can see and update the latest plan
-            at any time.
-        backlogs_overview: Управляйте своей работой в представлении <b>Backlogs</b>.
-          <br> Справа список невыполненных работ и ошибки, слева им соответствующие
-          спринты. Здесь можно создавать <b>эпопеи, описания функциональности пользователей
-          и ошибок</b>, меняя их приоритет с помощью перетаскивания, и добавлять их
-          к спринту.
-        backlogs_task_board_arrow: Чтобы увидеть вашу <b>Панель задач</b>, откройте
-          раскрывающийся список спринта...
-        backlogs_task_board_select: "... и выберите строку <b>Панель задач</b>."
-        backlogs_task_board: "<b>Панель задач</b> визуализирует прогресс этого спринта.
-          Добавьте новые задачи или помехи с помощью значка + рядом с историей пользователя.
-          Используя перетаскивание, вы можете обновить статус."
-        wp_toggler: Давайте теперь в секции <b>Пакет работ</b> посмотрим более детальное
-          описание вашей работы.
-        wp_list: Это список <b>Пакета работ</b> с важной работой в рамках проекта
-          такими как задачи, функции, вехи, ошибки и многое другое. <br>Создать или
-          изменить пакет работ можно непосредственно в этом списке. Чтобы увидеть
-          его детали, нужно дважды щелкнуть по строке.
-        wp_full_view: 'В <b>Деталях пакета работ</b> вы найдете всю необходимую информацию:
-          описание, состояние и приоритет, активность, зависимости или комментарии.'
-        wp_back_button: Стрелка возвращает к списку пакетов работ.
-        wp_create_button: Кнопка <b>Создать</b> добавляет новый пакет работ к вашему
-          проекту.
-        wp_timeline_button: Вы можете активировать <b>Диаграмму Ганта</b> для создания
-          временной шкалы вашего проекта.
-        wp_timeline: Здесь вы можете редактировать план вашего проекта. Создать новые
-          фазы, вехи и добавить зависимости. Отредактированный план может быть отредактирован
-          любым членом вашей команды в любое время.
+          toggler: Давайте теперь в секции <b>Пакет работ</b> посмотрим более детальное
+            описание вашей работы.
+          list: Это список <b>Пакета работ</b> с важной работой в рамках проекта такими
+            как задачи, функции, вехи, ошибки и многое другое. <br>Создать или изменить
+            пакет работ можно непосредственно в этом списке. Чтобы увидеть его детали,
+            нужно дважды щелкнуть по строке.
+          full_view: 'В <b>Деталях пакета работ</b> вы найдете всю необходимую информацию:
+            описание, состояние и приоритет, активность, зависимости или комментарии.'
+          back_button: Стрелка возвращает к списку пакетов работ.
+          create_button: Кнопка <b>Создать</b> добавляет новый пакет работ к вашему
+            проекту.
+          timeline_button: Вы можете активировать <b>Диаграмму Ганта</b> для создания
+            временной шкалы вашего проекта.
+          timeline: Здесь вы можете редактировать план вашего проекта. Создать новые
+            фазы, вехи и добавить зависимости. Отредактированный план может быть отредактирован
+            любым членом вашей команды в любое время.
     password_confirmation:
       field_description: Необходимо ввести свой пароль для подтверждения изменений.
       title: Для продолжения введите свой пароль
@@ -885,7 +859,7 @@ ru:
           пакетов работ будут рекурсивно удалены.
         deletes_children: Все дочерние пакеты работ и их потомки будут также рекурсивно
           удалены.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Нет видимых результатов для отображения.
     notice_successful_create: Создание выполнено.
     notice_successful_delete: Удаление выполнено.
     notice_successful_update: Обновление выполнено.

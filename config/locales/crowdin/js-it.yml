@@ -365,15 +365,17 @@ it:
         wiki: Nella <b>Wiki</b> puoi documentare e condividere la conoscenza con il
           tuo team.
         backlogs:
-          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
-            you have the Product Backlog or a Bug Backlog, on the left you will have
-            the respective sprints. Here you can create <b>epics, user stories, and
-            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
-          task_board_select: "... and select the <b>Task board</b> entry."
-          task_board: The <b>Task board</b> visualizes the progress for this sprint.
-            Add new tasks or impediments with the + icon next to a user story. Via
-            drag'n'drop you can update the status.
+          overview: Gestisci il tuo lavoro nella visualizzazione <b>Backlogs</b>.
+            <br> A destra hai il Product Backlog o un Bug Backlog, a sinistra avrai
+            i rispettivi sprint. Qui puoi creare <b>epiche, storie utente, e bug</b>,
+            dare la priorità tramite drag'n'drop e aggiungerli a uno sprint.
+          task_board_arrow: Per vedere la tua <b>Scheda Mansioni</b>, apri il menu
+            a cascata Sprint...
+          task_board_select: "... e seleziona l'entrata <b>Tabella Mansioni</b>."
+          task_board: La <b>Tabella Mansioni</b> visualizza il progresso per questo
+            sprint. Aggiungi nuove mansioni o impedimenti con l'icona + vicino ad
+            una storia utente. Tramite trascinamento e rilascio puoi aggiornare lo
+            stato.
         boards:
           overview: Manage your work within an intuitive <b>Boards</b> view.
           lists: You can create multiple lists (columns) within one Board view, e.g.
@@ -382,52 +384,24 @@ it:
           drag: Drag & Drop your cards within a list to re-order, or the another list.
             A double click will open the details view.
         wp:
-          toggler: Now let's have a look at the <b>Work package</b> section, which
-            gives you a more detailed view of your work.
-          list: This is the <b>Work package</b> list with the important work within
-            your project, such as tasks, features, milestones, bugs, and more. <br>
-            You can create or edit a work package directly within this list. To see
-            its details you can double click on a row.
-          full_view: Within the <b>Work package details</b> you find all relevant
-            information, such as description, status and priority, activities, dependencies
-            or comments.
-          back_button: With the arrow you can navigate back to the work package list.
-          create_button: The <b>Create</b> button will add a new work package to your
-            project.
-          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-            for your project.
-          timeline: Here you can edit your project plan. Create new phases, milestones,
-            and add dependencies. All team members can see and update the latest plan
-            at any time.
-        backlogs_overview: Gestisci il tuo lavoro nella visualizzazione <b>Backlogs</b>.
-          <br> A destra hai il Product Backlog o un Bug Backlog, a sinistra avrai
-          i rispettivi sprint. Qui puoi creare <b>epiche, storie utente, e bug</b>,
-          dare la priorità tramite drag'n'drop e aggiungerli a uno sprint.
-        backlogs_task_board_arrow: Per vedere la tua <b>Scheda Mansioni</b>, apri
-          il menu a cascata Sprint...
-        backlogs_task_board_select: "... e seleziona l'entrata <b>Tabella Mansioni</b>."
-        backlogs_task_board: La <b>Tabella Mansioni</b> visualizza il progresso per
-          questo sprint. Aggiungi nuove mansioni o impedimenti con l'icona + vicino
-          ad una storia utente. Tramite trascinamento e rilascio puoi aggiornare lo
-          stato.
-        wp_toggler: Ora dai un'occhiata alla sezione <b>Pacchetto Lavoro</b>, che
-          ti da una più dettagliata vista del tuo lavoro.
-        wp_list: Questo è l'elenco <b>Pacchetto Lavoro</b> con l'importante lavoro
-          nel tuo progetto, come mansioni, funziono, pietre miliari, bug ed altro.
-          <br> Puoi creare o modificare un pacchetto lavoro direttamente in questo
-          elenco. Per vedere i suoi dettagli puoi cliccare due volte di fila.
-        wp_full_view: All'interno dei <b>Dettagli del pacchetto di lavoro</b> trovi
-          tutte le informazioni pertinenti, come descrizione, stato e priorità, attività,
-          dipendenze o commenti.
-        wp_back_button: Con la freccia puoi navigare indietro nell'elenco pacchetto
-          lavoro.
-        wp_create_button: Il pulsante <b>Crea</b> aggiungerà un nuovo pacchetto lavoro
-          al tuo progetto.
-        wp_timeline_button: Puoi attivare la <b>Classifica Gantt</b> per creare una
-          linea del tempo per il tuo progetto.
-        wp_timeline: Qui puoi modificare il tuo piano progetto. Crea nuove fasi, pietre
-          miliari ed aggiungere dipendenze. Tutti i membri del team possono vedere
-          ed aggiornare nsre l'ultimo piano ogni volta.
+          toggler: Ora dai un'occhiata alla sezione <b>Pacchetto Lavoro</b>, che ti
+            da una più dettagliata vista del tuo lavoro.
+          list: Questo è l'elenco <b>Pacchetto Lavoro</b> con l'importante lavoro
+            nel tuo progetto, come mansioni, funziono, pietre miliari, bug ed altro.
+            <br> Puoi creare o modificare un pacchetto lavoro direttamente in questo
+            elenco. Per vedere i suoi dettagli puoi cliccare due volte di fila.
+          full_view: All'interno dei <b>Dettagli del pacchetto di lavoro</b> trovi
+            tutte le informazioni pertinenti, come descrizione, stato e priorità,
+            attività, dipendenze o commenti.
+          back_button: Con la freccia puoi navigare indietro nell'elenco pacchetto
+            lavoro.
+          create_button: Il pulsante <b>Crea</b> aggiungerà un nuovo pacchetto lavoro
+            al tuo progetto.
+          timeline_button: Puoi attivare la <b>Classifica Gantt</b> per creare una
+            linea del tempo per il tuo progetto.
+          timeline: Qui puoi modificare il tuo piano progetto. Crea nuove fasi, pietre
+            miliari ed aggiungere dipendenze. Tutti i membri del team possono vedere
+            ed aggiornare nsre l'ultimo piano ogni volta.
     password_confirmation:
       field_description: È necessario inserire la password dell'account per confermare
         la modifica.
