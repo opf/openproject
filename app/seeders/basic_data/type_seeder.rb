@@ -52,9 +52,9 @@ module BasicData
       colors = Color.all
       colors = colors.map { |c| { c.name =>  c.id } }.reduce({}, :merge)
 
-      type_table.map do |name, values|
+      type_table.map do |_name, values|
         {
-          name:                 I18n.t("default_type_#{name}"),
+          name:                 I18n.t(values[5]),
           position:             values[0],
           is_default:           values[1],
           color_id:             colors[I18n.t(values[2])],
@@ -65,19 +65,11 @@ module BasicData
     end
 
     def type_names
-      %i[task milestone phase feature epic user_story bug]
+      raise NotImplementedError
     end
 
     def type_table
-      { # position is_default color_id is_in_roadmap is_milestone
-        task:       [1, true, :default_color_blue,        true,  false],
-        milestone:  [2, true, :default_color_green_light, false, true],
-        phase:      [3, true, :default_color_blue_dark,   false, false],
-        feature:    [4, true, :default_color_blue,        true,  false],
-        epic:       [5, true, :default_color_orange,      true,  false],
-        user_story: [6, true, :default_color_grey_dark,   true,  false],
-        bug:        [7, true, :default_color_red,         true,  false]
-      }
+      raise NotImplementedError
     end
   end
 end

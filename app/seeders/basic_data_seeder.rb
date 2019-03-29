@@ -28,16 +28,7 @@
 #++
 class BasicDataSeeder < CompositeSeeder
   def data_seeder_classes
-    [
-      BasicData::BuiltinRolesSeeder,
-      BasicData::RoleSeeder,
-      BasicData::ActivitySeeder,
-      BasicData::ColorSeeder,
-      BasicData::ColorSchemeSeeder,
-      BasicData::WorkflowSeeder,
-      BasicData::PrioritySeeder,
-      BasicData::SettingSeeder
-    ]
+    raise NotImplementedError
   end
 
   def namespace

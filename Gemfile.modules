@@ -39,6 +39,8 @@ group :opf_plugins do
 	gem 'openproject-github_integration',        path: 'modules/github_integration'
 	gem 'openproject-ldap_groups',               path: 'modules/ldap_groups'
 
-    gem 'grids',                                 path: 'modules/grids'
+	gem 'grids',                                 path: 'modules/grids'
 	gem 'openproject-boards',                    path: 'modules/boards'
+
+	gem 'openproject-bim_seeder',                path: 'modules/bim_seeder', require: !!(ENV['OPENPROJECT_EDITION'] == 'bim')
 end
