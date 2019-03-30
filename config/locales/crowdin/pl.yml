@@ -57,14 +57,14 @@ pl:
       no_results_content_title: Nie ma jeszcze żadnych trybów autoryzacji.
       no_results_content_text: Utwórz nowy tryb autoryzacji
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Szyfrowanie połączenia
     tls_mode:
       plain: Brak
       simple_tls: simple_tls
       start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
+      plain_description: Zwykłe, nie szyfrowane połączenie bez TLS.
+      simple_tls_description: Szyfrowanie TLS bez sprawdzonej poprawności certyfikatu.
+        Używaj z rozwagą i zaufanym połączeniem LDAP.
       start_tls_description: Explicit TLS encryption with full validation. Use for
         LDAP over TLS/SSL.
       section_more_info_link_html: 'This section concerns the connection security
