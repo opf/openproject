@@ -161,26 +161,26 @@ pl:
     general_text_Yes: Tak
     grid:
       add_modal:
-        choose_widget: Choose widget
+        choose_widget: Wybierz widżet
       widgets:
         documents:
           title: Dokumenty
-          no_results: No documents yet.
+          no_results: Nie ma jeszcze dokumentów.
         news:
           title: Aktualności
-          at: at
+          at: w
           no_results: Utwórz nowy raport.
         time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
+          title: Poświęcony czas (ostatnie 7 dni)
+          no_results: Brak zarejestrowanego czasu pracy w ostatnich 7 dniach.
         work_packages_accountable:
           title: Pakiety robocze, za które odpowiadam
         work_packages_assigned:
           title: Zadania przypisane do mnie
         work_packages_created:
-          title: Work packages created by me
+          title: Pakiety robocze stworzone przeze mnie
         work_packages_watched:
-          title: Work packages watched by me
+          title: Pakiety robocze obserwowane przeze mnie
         work_packages_calendar:
           title: Kalendarz
     label_activate: Aktywuj
@@ -533,7 +533,7 @@ pl:
     text_query_destroy_confirmation: Czy na pewno chcesz usunąć zaznaczony widok?
     text_attachment_destroy_confirmation: Jesteś pewien, że chcesz usunąć ten załącznik?
     timelines:
-      quarter_label: Q%{quarter_number}
+      quarter_label: Kwartał%{quarter_number}
       gantt_chart: Wykres Gantta
       labels:
         title: Konfiguracja etykiety
