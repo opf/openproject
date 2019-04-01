@@ -1,5 +1,6 @@
 <div *ngIf="workPackage"
-     class="work-package--single-view">
+     class="work-package--single-view"
+     [ngClass]="{'-can-have-columns' : workPackage.isNew }">
   <div class="wp-new--subject-wrapper"
        *ngIf="workPackage.isNew">
     <wp-edit-field [workPackageId]="workPackage.id"
