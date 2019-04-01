@@ -75,7 +75,7 @@ fr:
 '
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: Il n'y a actuellement aucun message pour le forum.
   colors:
     index:
       no_results_title_text: Aucune couleur pour le moment.
@@ -148,8 +148,8 @@ fr:
       failed: La suppression du projet %{name} a échoué
       failed_text: The request to delete project %{name} has failed. The project was
         left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      completed: Suppression du projet %{name} terminée
+      completed_text: La demande de suppression du projet '%{name}' a été terminée.
     index:
       no_results_title_text: Aucun projet pour le moment
       no_results_content_text: Créer un nouveau projet
@@ -157,8 +157,8 @@ fr:
       activities:
         no_results_title_text: Aucune activité disponible pour le moment.
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: Il n'y a actuellement aucun forum pour le projet.
+        no_results_content_text: Créer un nouveau forum
       categories:
         no_results_title_text: Aucune catégorie de lots de travaux pour le moment.
         no_results_content_text: Créer une nouvelle catégorie de lots de travaux
@@ -488,7 +488,7 @@ fr:
         type: Type
         watcher: Observateur
       doorkeeper/application:
-        uid: Client ID
+        uid: Id du client
         secret: Client secret
         owner: Propriétaire
         redirect_uri: URL de redirection
@@ -538,7 +538,7 @@ fr:
         too_long: est trop long (le maximum est de %{count} caractères).
         too_short: est trop court (le minimum est de %{count} caractères).
         unchangeable: ne peut pas être changé.
-        unremovable: cannot be removed.
+        unremovable: ne peut pas être supprimé.
         wrong_length: est de mauvaise longueur (devrait être %{count} caractères).
       models:
         custom_field:
@@ -1267,7 +1267,7 @@ fr:
   label_authentication: Authentification
   label_available_project_work_package_categories: Catégories de lots de travaux disponibles
   label_available_project_work_package_types: Types de paquet de travail disponible
-  label_available_project_forums: Available forums
+  label_available_project_forums: Forums disponibles
   label_available_project_versions: Versions disponibles
   label_available_project_repositories: Dépôts disponibles
   label_api_documentation: Documentation de l'API
@@ -1420,7 +1420,7 @@ fr:
   label_hierarchy_leaf: Feuille de hiérarchie
   label_home: Accueil
   label_subject_or_id: Subject or ID
-  label_impressum: Impressum
+  label_impressum: Mentions légales
   label_in: dans
   label_in_less_than: en moins de
   label_in_more_than: en plus de
@@ -1546,7 +1546,7 @@ fr:
   label_planning: Planification
   label_please_login: Veuillez vous connecter
   label_plugins: Plugins
-  label_modules_and_plugins: Modules and Plugins
+  label_modules_and_plugins: Modules et plugins
   label_precedes: précède
   label_preferences: Préférences
   label_preview: Aperçu
@@ -1554,7 +1554,7 @@ fr:
   label_previous_week: Semaine précédente
   label_principal_invite_via_email: " ou inviter de nouveaux utilisateurs par courriel"
   label_principal_search: Ajouter des utilisateurs ou groupes existant
-  label_privacy_policy: Data privacy and security policy
+  label_privacy_policy: Politique de confidentialité et de sécurité des données
   label_product_version: Version du produit
   label_professional_support: Support professionnel
   label_profile: Profil
@@ -1886,8 +1886,8 @@ fr:
   notice_account_update_failed: Le paramètre de compte n'a pas pu être enregistré.
     Veuillez consulter la page de votre compte.
   notice_account_updated: Le compte a été mis à jour avec succès.
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: Toutes les autres sessions liées à votre compte
+    ont été invalidées.
   notice_account_wrong_password: Mot de passe incorrect
   notice_account_registered_and_logged_in: Bienvenue, votre compte a été activé. Vous
     êtes maintenant connecté.
@@ -2317,7 +2317,7 @@ fr:
   setting_per_page_options: Options des objets par page
   setting_plain_text_mail: Courriel au format texte (pas de HTML)
   setting_protocol: Protocole
-  setting_security_badge_displayed: Display security badge
+  setting_security_badge_displayed: Afficher le badge de sécurité
   setting_registration_footer: Pied de page d’inscription
   setting_repositories_automatic_managed_vendor: Type de fournisseur de dépôt automatique
   setting_repositories_encodings: Encodages de référentiels
@@ -2972,14 +2972,14 @@ fr:
         register_intro: If you are developing an OAuth API client application for
           OpenProject, you can register it using this form for all users to use.
         default_scopes: ''
-    client_id: Client ID
+    client_id: Id du client
     client_secret_notice: 'This is the only time we can print the client secret, please
       note it down and keep it secure. It should be treated as a password and cannot
       be retrieved by OpenProject at a later time.
 
 '
     authorization_dialog:
-      authorize: Authorize
+      authorize: Autoriser
       cancel: Cancel and deny authorization.
       prompt_html: Authorize <strong>%{application_name}</strong> to use your account
         <em>%{login}</em>?
