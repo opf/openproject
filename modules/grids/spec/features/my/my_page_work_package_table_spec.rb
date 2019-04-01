@@ -50,7 +50,12 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
                       responsible: user
   end
 
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages add_work_packages]) }
+  let(:role) do
+    FactoryBot.create(:role,
+                      permissions: %i[view_work_packages
+                                      add_work_packages
+                                      save_queries])
+  end
 
   let(:user) do
     FactoryBot.create(:user,
@@ -74,11 +79,13 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
   it 'can add the widget and see the work packages of the filtered for types' do
     my_page.add_column(3, before_or_after: :before)
 
-    my_page.add_widget(2, 3, "Work package table")
+    my_page.add_widget(2, 3, "Work packages")
 
     sleep(0.2)
 
-    filter_area = Components::Grids::GridArea.new('.grid--area', text: "Work package table")
+    sleep(1)
+
+    filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
     created_area = Components::Grids::GridArea.new('.grid--area', text: "Work packages created by me")
 
     filter_area.expect_to_span(2, 3, 5, 4)
@@ -115,6 +122,13 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
     expect(filter_area.area)
       .to have_no_selector('.id', text: other_type_work_package.id)
 
+    scroll_to_element(filter_area.area)
+    within filter_area.area do
+      input = find('.editable-toolbar-title--input')
+      input.set('My WP Filter')
+      input.native.send_keys(:return)
+    end
+
     sleep(1)
 
     # The whole of the configuration survives a reload
@@ -123,7 +137,7 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
     visit root_path
     my_page.visit!
 
-    filter_area = Components::Grids::GridArea.new('.grid--area', text: "Work package table")
+    filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
     expect(filter_area.area)
       .to have_selector('.id', text: type_work_package.id)
 
@@ -134,5 +148,10 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
     # As other_type is filtered out
     expect(filter_area.area)
       .to have_no_selector('.id', text: other_type_work_package.id)
+
+    within filter_area.area do
+      expect(find('.editable-toolbar-title--input').value)
+        .to eql('My WP Filter')
+    end
   end
 end

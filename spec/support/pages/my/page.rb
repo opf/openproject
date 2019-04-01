@@ -70,7 +70,7 @@ module Pages
           expect(page)
             .to have_content(I18n.t('js.grid.add_modal.choose_widget'))
 
-          page.find('.grid--addable-widget', text: name).click
+          page.find('.grid--addable-widget', text: Regexp.new("^#{name}$")).click
         end
       end
 

@@ -1,0 +1,23 @@
+<h3 class="widget-box--header"
+    *ngIf="query"
+    cdkDragHandle>
+  <span class="grid--area-drag-handle
+               icon
+               icon-drag-handle"
+        cdkDragHandle></span>
+  <i class="icon-context icon-view-timeline" aria-hidden="true"></i>
+  <editable-toolbar-title [title]="query.name"
+                          [inFlight]="inFlight"
+                          (onSave)="renameQuery(query, $event)"
+                          [editable]="!!query.updateImmediately"
+                          class="widget-box--header-title">
+  </editable-toolbar-title>
+</h3>
+
+<ng-container wp-isolated-query-space>
+  <wp-embedded-table [queryId]="queryId"
+                     [configuration]="configuration"
+                     [externalHeight]="true"
+                     *ngIf="queryId">
+  </wp-embedded-table>
+</ng-container>

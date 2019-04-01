@@ -1,4 +1,4 @@
-import {HostBinding, Input, EventEmitter, Output} from "@angular/core";
+import {HostBinding, Input, EventEmitter, Output, HostListener} from "@angular/core";
 import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
