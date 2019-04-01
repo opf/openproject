@@ -27,6 +27,7 @@ $grid--header-width: 20px
     .widget-box
       height: 100%
 
+
   &.-resizing
     border: 1px solid $primary-color
     z-index: 100
@@ -46,6 +47,20 @@ $grid--header-width: 20px
   .cdk-drag-handle
     cursor: grab
 
+.grid--area-drag-handle
+  margin-left: -19px
+  padding-right: 1px
+  margin-top: 3px
+  opacity: 0
+  cursor: grab
+
+  &:before
+    padding: 0
+    color: #888
+
+  .grid--area.-widgeted:hover &
+    opacity: 1
+
 .grid--area-content
   height: 100%
 
@@ -53,6 +68,13 @@ $grid--header-width: 20px
     display: flex
     flex-direction: column
     height: 100%
+
+  input[type="text"].toolbar--editable-toolbar
+    font-size: 18px
+    font-weight: normal
+
+  .title-container
+    margin-bottom: 0px
 
 .grid--widget-content
   height: 100%
