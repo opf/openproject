@@ -57,13 +57,15 @@ module DemoData
 
     def seed_kanban_board
       board = ::Boards::Grid.new project: project
+
       board.name = project_data_for(key, 'boards.kanban.name')
-      board.options = { 'type' => 'action', 'attribute' => 'status' }
+      board.options = { 'type' => 'action', 'attribute' => 'status', 'highlightingMode' => 'priority' }
 
       board.widgets = seed_kanban_board_queries.each_with_index.map do |query, i|
         Grids::Widget.new start_row: 1, end_row: 2,
                           start_column: i + 1, end_column: i + 2,
-                          options: { query_id: query.id },
+                          options: { query_id: query.id,
+                                     filters: [{ status: { operator: '=', values: query.filters[0].values } }] },
                           identifier: 'work_package_query'
       end
 
@@ -78,7 +80,7 @@ module DemoData
     def seed_kanban_board_queries
       admin = User.admin.first
 
-      status_names = ['New', 'In progress', 'On hold', 'Closed']
+      status_names = ['New', 'In progress', 'Closed', 'Rejected']
       statuses = Status.where(name: status_names).to_a
 
       if statuses.size < status_names.size
