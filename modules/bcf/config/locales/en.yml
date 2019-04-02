@@ -3,6 +3,7 @@ en:
   bcf:
     label_bcf: 'BCF'
     linked_issues: "Linked issues"
+    experimental_badge: "Experimental"
 
     x_bcf_issues:
       zero: 'No BCF issues'
