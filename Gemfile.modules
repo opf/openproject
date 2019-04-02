@@ -43,5 +43,4 @@ group :opf_plugins do
 	gem 'openproject-boards',                    path: 'modules/boards'
 
 	gem 'openproject-bim_seeder',                path: 'modules/bim_seeder', require: !!(ENV['OPENPROJECT_EDITION'] == 'bim')
-	gem 'openproject-bcf',                       path: 'modules/bcf',                       require: !!(ENV['OPENPROJECT_EDITION'] == 'bim')
 end

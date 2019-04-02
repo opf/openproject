@@ -125,18 +125,9 @@ PATH
       openproject-pdf_export
 
 PATH
-  remote: modules/bcf
-  specs:
-    openproject-bcf (9.0.0)
-      activerecord-import
-      rails (~> 5)
-      rubyzip (~> 1.2)
-
-PATH
   remote: modules/bim_seeder
   specs:
     openproject-bim_seeder (1.0.0)
-      openproject-bcf
 
 PATH
   remote: modules/boards
@@ -984,7 +975,6 @@ DEPENDENCIES
   openproject-auth_saml!
   openproject-avatars!
   openproject-backlogs!
-  openproject-bcf!
   openproject-bim_seeder!
   openproject-boards!
   openproject-costs!

@@ -37,16 +37,13 @@ class WorkPackage::Exporter::Base
     self.options = options
   end
 
-  def self.list(query, options = {}, &block)
-    new(query, options).list(&block)
+  def self.list(query, options = {})
+    new(query, options).list
   end
 
-  def self.single(work_package, options = {}, &block)
-    new(work_package, options).single(&block)
+  def self.single(work_package, options = {})
+    new(work_package, options).single
   end
-
-  # Provide means to clean up after the export
-  def cleanup; end
 
   def page
     options[:page] || 1
@@ -60,15 +57,6 @@ class WorkPackage::Exporter::Base
 
   alias :query :object
   alias :work_package :object
-
-  # Remove characters that could cause problems on popular OSses
-  def sane_filename(name)
-    parts = name.split /(?<=.)\.(?=[^.])(?!.*\.[^.])/m
-
-    parts.map! { |s| s.gsub /[^a-z0-9\-]+/i, '_' }
-
-    parts.join '.'
-  end
 
   def work_packages
     @work_packages ||= query

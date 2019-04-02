@@ -45,12 +45,12 @@ class AddWorkPackageNoteService
     JournalManager.with_send_notifications send_notifications do
       work_package.add_journal(user, notes)
 
-      success, errors = validate_and_yield(work_package, user) do
+      result, errors = validate_and_yield(work_package, user) do
         work_package.save_journals
       end
 
-      journal = work_package.journals.last if success
-      ServiceResult.new(success: success, result: journal, errors: errors)
+      ServiceResult.new(success: result,
+                        errors: errors)
     end
   end
 end

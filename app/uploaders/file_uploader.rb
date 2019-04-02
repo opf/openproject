@@ -31,20 +31,6 @@ module FileUploader
     base.extend ClassMethods
   end
 
-  ##
-  # Returns an URL if the attachment is stored in an external (fog) attachment storage
-  # or nil otherwise.
-  def external_url
-    url = URI.parse download_url
-    url if url.host
-  rescue URI::InvalidURIError
-    nil
-  end
-
-  def external_storage?
-    !external_url.nil?
-  end
-
   def local_file
     file.to_file
   end
@@ -62,7 +48,7 @@ module FileUploader
   end
 
    # store! nil's the cache_id after it finishes so we need to remember it for deletion
- def remember_cache_id(_new_file)
+   def remember_cache_id(_new_file)
     @cache_id_was = cache_id
   end
 
