@@ -83,7 +83,7 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
     return this.wpTableTimeline.isVisible;
   }
 
-  public isAutoZoomEnabled():boolean {
+  public isAutoZoomEnabled() {
     return this.wpTableTimeline.isAutoZoomEnabled();
   }
 

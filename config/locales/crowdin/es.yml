@@ -76,7 +76,7 @@ es:
 '
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: Actualmente no hay publicaciones en el foro.
   colors:
     index:
       no_results_title_text: No existen colores por el momento.
@@ -160,8 +160,8 @@ es:
       activities:
         no_results_title_text: Actualmente no hay actividades disponibles.
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: Actualmente no hay foros para el proyecto.
+        no_results_content_text: Crear un foro
       categories:
         no_results_title_text: Actualmente no hay categorias de paquetes de trabajo.
         no_results_content_text: Crear una nueva categoria de paquete de trabajo
@@ -545,7 +545,7 @@ es:
         too_long: es demasiado largo (el máximo de caracteres es %{count}).
         too_short: es demasiado corto (el mínimo de caracteres es %{count}).
         unchangeable: no se puede cambiar.
-        unremovable: cannot be removed.
+        unremovable: no se puede eliminar.
         wrong_length: la longitud es incorrecta (debe ser %{count} caracteres).
       models:
         custom_field:
@@ -1272,7 +1272,7 @@ es:
   label_available_project_work_package_categories: Categorias de paquetes de trabjo
     disponibles
   label_available_project_work_package_types: Tipos de paquete de trabajo disponibles
-  label_available_project_forums: Available forums
+  label_available_project_forums: Foros disponibles
   label_available_project_versions: Versiones disponibles
   label_available_project_repositories: Repositorios disponibles
   label_api_documentation: Documentación de la API
@@ -1288,7 +1288,7 @@ es:
   label_branch: Sucursal
   label_browse: Explorar
   label_bulk_edit_selected_work_packages: Edición masiva de paquetes de trabajo
-  label_bundled: "(Bundled)"
+  label_bundled: "(Agrupado)"
   label_calendar: Calendario
   label_calendar_show: Mostrar Calendario
   label_category: Categoría
@@ -1424,7 +1424,7 @@ es:
   label_hierarchy_leaf: Hoja de jerarquía
   label_home: Inicio
   label_subject_or_id: Asunto o ID
-  label_impressum: Impressum
+  label_impressum: Aviso legal
   label_in: en
   label_in_less_than: en menos de
   label_in_more_than: en más de
@@ -1550,7 +1550,7 @@ es:
   label_planning: Planificación
   label_please_login: Por favor, identifíquese
   label_plugins: Extensiones
-  label_modules_and_plugins: Modules and Plugins
+  label_modules_and_plugins: Módulos y Plugins
   label_precedes: precede
   label_preferences: Preferencias
   label_preview: Vista preliminar
@@ -1558,7 +1558,7 @@ es:
   label_previous_week: Semana anterior
   label_principal_invite_via_email: " o invitar nuevos usuarios vía email"
   label_principal_search: Añadir usuarios o grupos existentes
-  label_privacy_policy: Data privacy and security policy
+  label_privacy_policy: Política de privacidad y seguridad de datos
   label_product_version: Versión del producto
   label_professional_support: Soporte profesional
   label_profile: Perfil
