@@ -17,10 +17,10 @@ module ::Bcf
 
     def index
       @issues = ::Bcf::Issue.in_project(@project)
-                        .with_markup
-                        .includes(:comments, :work_package, viewpoints: :attachments)
-                        .page(page_param)
-                        .per_page(per_page_param)
+                            .with_markup
+                            .includes(:comments, :work_package, viewpoints: :attachments)
+                            .page(page_param)
+                            .per_page(per_page_param)
     end
 
     def import; end
@@ -59,7 +59,7 @@ module ::Bcf
     end
 
     def get_issue_type
-      @issue_type = @project.types.find_by(name: 'Issue')
+      @issue_type = @project.types.find_by(name: 'Issue [BCF]')
     end
 
     def get_persisted_file

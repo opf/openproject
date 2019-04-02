@@ -33,6 +33,8 @@ module OpenProject::Bcf
 
     patches %i[WorkPackage]
 
+    patch_with_namespace :BasicData, :SettingSeeder
+
     extend_api_response(:v3, :work_packages, :work_package_collection) do
       require_relative 'patches/api/v3/export_formats'
 

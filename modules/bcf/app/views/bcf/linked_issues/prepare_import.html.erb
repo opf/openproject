@@ -1,7 +1,7 @@
 <%= stylesheet_link_tag 'bcf/bcf.css' %>
-<%= toolbar title: t('bcf.import') %>
+<%= toolbar title: t('bcf.bcf_xml.import_title') %>
 
-<p><%= t('bcf.import.num_issues_found', x_bcf_issues: t('bcf.x_bcf_issues', count: @listing.count)) %></p>
+<p><%= t('bcf.bcf_xml.import.num_issues_found', x_bcf_issues: t('bcf.x_bcf_issues', count: @listing.count)) %></p>
 
 <% @listing.each do |entry| %>
   <% issue = @issues.detect { |bcf| bcf.uuid == entry[:uuid] } %>
@@ -52,8 +52,8 @@
 <% end %>
 
 <%= form_tag({ action: :perform_import }, multipart: true, method: :post) do %>
-  <p><%= t('bcf.import.perform_description') %></p>
-  <%= submit_tag t('bcf.import.button_perform_import'), class: 'button -highlight' %>
+  <p><%= t('bcf.bcf_xml.import.perform_description') %></p>
+  <%= submit_tag t('bcf.bcf_xml.import.button_perform_import'), class: 'button -highlight' %>
   <%= link_to t(:button_cancel),
               { action: :index },
               class: 'button' %>

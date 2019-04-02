@@ -18,7 +18,7 @@ module OpenProject::Bcf::BcfXml
       @extractor = MarkupExtractor.new(entry)
 
       # TODO fixed type
-      @type = ::Type.find_by(name: 'Issue')
+      @type = ::Type.find_by(name: 'Issue [BCF]')
     end
 
     def extract!
