@@ -110,6 +110,8 @@ class WikiController < ApplicationController
   end
 
   def create
+    correct_double_encoding_of_entities
+
     @page.attributes = permitted_params.wiki_page
 
     @content.attributes = permitted_params.wiki_content
@@ -175,14 +177,7 @@ class WikiController < ApplicationController
       return
     end
 
-    entities = ['amp', 'lt', 'gt', 'quote', '#39']
-    params['content']['text'].scan(/<td>.*?<\/td>/).each do |val|
-      modif = val.dup
-      entities.each do |entity|
-        modif.gsub!(/([&])amp;(#{entity};)/, '\1\2')
-      end
-      params['content']['text'].gsub!(val, modif)
-    end
+    correct_double_encoding_of_entities
 
     @content = @page.content || @page.build_content
     return if locked?
@@ -382,6 +377,17 @@ class WikiController < ApplicationController
   end
 
   private
+
+  def correct_double_encoding_of_entities
+    entities = ['amp', 'lt', 'gt', 'quote', '#39']
+    params['content']['text'].scan(/<td>.*?<\/td>/).each do |val|
+      modif = val.dup
+      entities.each do |entity|
+        modif.gsub!(/([&])amp;(#{entity};)/, '\1\2')
+      end
+      params['content']['text'].gsub!(val, modif)
+    end
+  end
 
   def locked?
     return false if editable?
