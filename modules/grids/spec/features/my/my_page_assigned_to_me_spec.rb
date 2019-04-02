@@ -41,6 +41,14 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
                       author: user,
                       assigned_to: user
   end
+  let!(:assigned_work_package_2) do
+    FactoryBot.create :work_package,
+                      project: project,
+                      subject: 'My task 2',
+                      type: type,
+                      author: user,
+                      assigned_to: user
+  end
   let!(:assigned_to_other_work_package) do
     FactoryBot.create :work_package,
                       project: project,
@@ -153,5 +161,25 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
     expect(wp.assigned_to_id).to eq(user.id)
 
     embedded_table.expect_work_package_listed wp
+  end
+
+  it 'can paginate in embedded tables (Regression test #29845)' do
+    my_page.visit!
+
+    # exists as default
+    assigned_area.expect_to_exist
+    assigned_area.resize_to(2, 2)
+
+    expect(assigned_area.area)
+      .to have_selector('.subject', text: assigned_work_package.subject)
+    expect(assigned_area.area)
+      .not_to have_selector('.subject', text: assigned_work_package_2.subject)
+
+    assigned_area.area.find('.pagination--item a', text: '2').click
+
+    expect(assigned_area.area)
+      .not_to have_selector('.subject', text: assigned_work_package.subject)
+    expect(assigned_area.area)
+      .to have_selector('.subject', text: assigned_work_package_2.subject)
   end
 end
