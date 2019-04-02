@@ -14,6 +14,8 @@ export class BoardListsService {
 
   private readonly v3 = this.pathHelper.api.v3;
 
+  private _isNewQuery:boolean = false;
+
   constructor(private readonly CurrentProject:CurrentProjectService,
               private readonly pathHelper:PathHelperService,
               private readonly QueryDm:QueryDmService,
@@ -73,6 +75,14 @@ export class BoardListsService {
     board.addQuery(resource);
 
     return board;
+  }
+
+  public set isNew(val:boolean) {
+    this._isNewQuery = val;
+  }
+
+  public get isNew():boolean {
+    return this._isNewQuery;
   }
 
   private buildQueryRequest(params:Object) {
