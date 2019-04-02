@@ -1445,7 +1445,7 @@ tr:
   label_message_plural: Mesajlar
   label_message_posted: Mesaj eklendi
   label_min_max_length: En az - En çok uzunluk
-  label_minute_plural: notlar
+  label_minute_plural: dakika
   label_missing_api_access_key: Eksik API erişim anahtarı
   label_missing_feeds_access_key: Eksik RSS erişim anahtarı
   label_modification: "%{count} değişim"
