@@ -95,7 +95,7 @@ class WorkPackagesController < ApplicationController
   def export_single(mime_type)
     exporter = WorkPackage::Exporter.for_single(mime_type)
     exporter.single(work_package, params) do |export|
-      render_export_response export, fallback_path: work_package_path(work_packages)
+      render_export_response export, fallback_path: work_package_path(work_package)
     end
   end
 
