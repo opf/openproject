@@ -104,7 +104,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     this.authorisationService
       .observeUntil(componentDestroyed(this))
       .subscribe(() => {
-        this.showAddButton = this.wpInlineCreate.canAdd || this.canReference;
+        this.showAddButton = (this.wpInlineCreate.canAdd || this.canReference) && this.canManage;
       });
 
     this.querySpace.query
@@ -142,6 +142,14 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public get canManage() {
     return this.boardService.canManage;
+  }
+
+  public get canDelete() {
+    return this.canManage && !!this.query.delete;
+  }
+
+  public get canRename() {
+    return this.canManage && !!this.query.updateImmediately;
   }
 
   public initiallyFocused() {
