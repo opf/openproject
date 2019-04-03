@@ -184,7 +184,6 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def render_single_menu_node(item, caption, url, selected)
-
     link_text = ''.html_safe
     link_text << op_icon(item.icon) if item.icon.present?
     link_text << you_are_here_info(selected)

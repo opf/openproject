@@ -6,7 +6,6 @@ require_relative 'file_entry'
 
 module OpenProject::Bcf::BcfXml
   class IssueReader
-
     attr_reader :zip, :entry, :issue, :extractor, :project, :user, :type
 
     def initialize(project, zip, entry, current_user:)
@@ -51,7 +50,7 @@ module OpenProject::Bcf::BcfXml
         issue.work_package = wp
         create_comment(user, I18n.t('bcf.bcf_xml.import_update_comment')) unless wp.previous_changes.empty?
       else
-        Rails.logger.error "Failed to synchronize BCF #{issue.uuid} with work package: #{call.errors.full_messages.join("; ")}"
+        Rails.logger.error "Failed to synchronize BCF #{issue.uuid} with work package: #{call.errors.full_messages.join('; ')}"
       end
     end
 
@@ -87,7 +86,7 @@ module OpenProject::Bcf::BcfXml
         author: find_user_in_project(extractor.author),
         assigned_to: find_user_in_project(extractor.assignee),
         status_id: statuses.fetch(extractor.status, statuses[:default]),
-        priority_id: priorities.fetch(extractor.priority, priorities[:default]),
+        priority_id: priorities.fetch(extractor.priority, priorities[:default])
       }.compact
     end
 
@@ -106,7 +105,7 @@ module OpenProject::Bcf::BcfXml
         if call.success?
           comment.journal = call.result
         else
-          Rails.logger.error "Failed to create comment for BCF #{issue.uuid}: #{call.errors.full_messages.join("; ")}"
+          Rails.logger.error "Failed to create comment for BCF #{issue.uuid}: #{call.errors.full_messages.join('; ')}"
         end
       end
     end

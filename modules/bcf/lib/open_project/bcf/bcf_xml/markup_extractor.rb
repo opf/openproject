@@ -5,7 +5,6 @@
 
 module OpenProject::Bcf::BcfXml
   class MarkupExtractor
-
     attr_reader :entry, :markup, :doc
 
     def initialize(entry)

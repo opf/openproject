@@ -1,4 +1,5 @@
 # encoding: UTF-8
+
 $:.push File.expand_path("../lib", __FILE__)
 $:.push File.expand_path("../../lib", __dir__)
 
@@ -17,7 +18,7 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", "README.rdoc"]
   s.test_files = Dir["spec/**/*"]
 
+  s.add_dependency 'activerecord-import'
   s.add_dependency 'rails', '~> 5'
   s.add_dependency 'rubyzip', '~> 1.2'
-  s.add_dependency 'activerecord-import'
 end

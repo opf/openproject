@@ -1,5 +1,4 @@
 module Bcf
-
   ##
   # Module to set an initial UUID on the model
   # whenever it is created

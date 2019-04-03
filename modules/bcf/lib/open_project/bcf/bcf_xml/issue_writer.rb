@@ -2,7 +2,6 @@
 # Creates or updates a BCF issue and markup from a work package
 module OpenProject::Bcf::BcfXml
   class IssueWriter
-
     attr_reader :work_package, :issue, :markup_doc, :markup_node
 
     def self.update_from!(work_package)
@@ -24,7 +23,6 @@ module OpenProject::Bcf::BcfXml
     end
 
     def update
-
       # Replace topic node
       replace_topic
 
@@ -67,9 +65,7 @@ module OpenProject::Bcf::BcfXml
     def replace_topic
       markup_node.xpath('./Topic').remove
 
-      Nokogiri::XML::Builder.with(markup_node) do |xml|
-        topic xml
-      end
+      Nokogiri::XML::Builder.with(markup_node, &method(:topic))
     end
 
     ##
@@ -85,38 +81,47 @@ module OpenProject::Bcf::BcfXml
         xml.CreationAuthor work_package.author.mail
         xml.ReferenceLink url_helpers.work_package_url(work_package)
 
-        if priority = work_package.priority
-          xml.Priority priority.name
-        end
+        topic_priority(xml)
+        topic_due_date(xml)
+        topic_modified_author(xml)
+        topic_assigned_to(xml)
+      end
+    end
 
-        if work_package.due_date
-          xml.DueDate to_bcf_date(work_package.due_date)
-        end
+    def topic_assigned_to(xml)
+      if assignee = work_package.assigned_to
+        xml.AssignedTo assignee.mail
+      end
+    end
 
-        if journal = work_package.journals.select(:user_id).last
-          xml.ModifiedAuthor journal.user.mail if journal.user_id
-        end
+    def topic_modified_author(xml)
+      if journal = work_package.journals.select(:user_id).last
+        xml.ModifiedAuthor journal.user.mail if journal.user_id
+      end
+    end
 
-        if assignee = work_package.assigned_to
-          xml.AssignedTo assignee.mail
-        end
+    def topic_due_date(xml)
+      if work_package.due_date
+        xml.DueDate to_bcf_date(work_package.due_date)
+      end
+    end
+
+    def topic_priority(xml)
+      if priority = work_package.priority
+        xml.Priority priority.name
       end
     end
 
     def replace_comments
       markup_node.xpath('./Comment').remove
 
-      Nokogiri::XML::Builder.with(markup_node) do |xml|
-        comments xml
-      end
+      Nokogiri::XML::Builder.with(markup_node, &method(:comments))
     end
 
     def replace_viewpoints
       markup_node.xpath('./Viewpoints').remove
 
-      Nokogiri::XML::Builder.with(markup_node) do |xml|
-        viewpoints xml
-      end
+      Nokogiri::XML::Builder.with(markup_node, &method(:viewpoints))
     end
 
     ##
@@ -128,13 +133,13 @@ module OpenProject::Bcf::BcfXml
 
         # Create BCF comment reference for the journal
         comment = comments[journal.id]&.first || issue.comments.build(issue_id: issue, journal_id: journal.id)
-        comment_node xml, comment.uuid, journal, work_package
+        comment_node xml, comment.uuid, journal
       end
     end
 
     ##
     # Create a single topic node
-    def comment_node(xml, uuid, journal, work_package)
+    def comment_node(xml, uuid, journal)
       xml.Comment "Guid" => uuid do
         xml.Date to_bcf_datetime(journal.created_at)
         xml.Author journal.user.mail if journal.user_id

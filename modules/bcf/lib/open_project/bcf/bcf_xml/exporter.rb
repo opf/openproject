@@ -126,7 +126,9 @@ module OpenProject::Bcf::BcfXml
     def manifest_xml
       Nokogiri::XML::Builder.new do |xml|
         xml.comment created_by_comment
-        xml.Version "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance", "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema", "VersionId" => "2.1" do
+        xml.Version "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
+                    "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema",
+                    "VersionId" => "2.1" do
           xml.DetailedVersion "2.1"
         end
       end.to_xml

@@ -2,7 +2,6 @@
 # Helper class to provide uploads from IO streams.
 module OpenProject::Bcf::BcfXml
   class FileEntry < StringIO
-
     def initialize(stream, filename:)
       super(stream.read)
       @original_filename = filename

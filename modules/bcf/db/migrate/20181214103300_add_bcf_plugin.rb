@@ -1,5 +1,4 @@
 class AddBcfPlugin < ActiveRecord::Migration[5.1]
-
   def change
     create_table :bcf_issues do |t|
       t.text :uuid, index: true

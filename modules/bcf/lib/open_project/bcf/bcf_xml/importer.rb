@@ -3,7 +3,6 @@ require_relative 'issue_reader'
 
 module OpenProject::Bcf::BcfXml
   class Importer
-
     attr_reader :project, :zip, :current_user
 
     def initialize(project, current_user:)
