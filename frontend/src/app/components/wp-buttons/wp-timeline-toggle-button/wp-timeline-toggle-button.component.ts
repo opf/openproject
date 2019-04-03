@@ -83,8 +83,8 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
     return this.wpTableTimeline.isVisible;
   }
 
-  public isAutoZoomEnabled() {
-    return this.wpTableTimeline.isAutoZoomEnabled();
+  public isAutoZoom() {
+    return this.wpTableTimeline.isAutoZoom();
   }
 
   public updateZoomWithDelta(delta:number) {
@@ -103,11 +103,12 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
     this.wpTableTimeline.toggle();
   }
 
-  public toggleAutoZoom() {
-    this.wpTableTimeline.toggleAutoZoom();
+  public enableAutoZoom() {
+    this.wpTableTimeline.toggleAutoZoomEnabled(true);
+    this.wpTableTimeline.toggleAutoZoom(true);
   }
 
   public getAutoZoomToggleClass():string {
-    return this.isAutoZoomEnabled() ? '-disabled' : '';
+    return this.isAutoZoom() ? '-disabled' : '';
   }
 }

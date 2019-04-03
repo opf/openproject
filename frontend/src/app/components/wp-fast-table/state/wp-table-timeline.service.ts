@@ -136,10 +136,8 @@ export class WorkPackageTableTimelineService extends WorkPackageQueryStateServic
   }
 
   public updateZoomWithDelta(delta:number) {
-    if (this.isAutoZoomEnabled()) {
-      this.toggleAutoZoom();
-    }
-
+    this.toggleAutoZoom(false);
+    
     let idx = zoomLevelOrder.indexOf(this.current.zoomLevel);
     idx += delta;
 
@@ -150,6 +148,10 @@ export class WorkPackageTableTimelineService extends WorkPackageQueryStateServic
 
   public toggleAutoZoom(value = !this.current.autoZoom) {
     this.modify({ autoZoom: value });
+  }
+
+  public isAutoZoom():boolean {
+    return this.current.autoZoom;
   }
 
   public isAutoZoomEnabled():boolean|undefined {
