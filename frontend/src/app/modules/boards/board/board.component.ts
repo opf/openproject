@@ -91,7 +91,7 @@ export class BoardComponent implements OnInit, OnDestroy {
         let queryProps = this.state.params.query_props;
         this.filters = this.board.filters =  queryProps ? JSON.parse(queryProps) : this.board.filters;
 
-        if (board.isAction && !initialized) {
+        if (!initialized) {
           this.dynamicCss.requireHighlighting();
           initialized = true;
         }
