@@ -58,13 +58,9 @@ export class BoardFilterComponent implements OnInit, OnDestroy {
       .pipe(skip(1))
       .subscribe(() => {
 
-        let query_props:string|null = null;
         const filters:QueryFilterInstanceResource[] = this.wpTableFilters.current;
         let filterHash = this.urlParamsHelper.buildV3GetFilters(filters);
-
-        if (filters.length > 0) {
-          query_props = JSON.stringify(filterHash);
-        }
+        let query_props = JSON.stringify(filterHash);
 
         this.filters.emit(filterHash);
 
