@@ -8,6 +8,7 @@ import {GridWidgetArea} from "core-app/modules/grids/areas/grid-widget-area";
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {GridDragAndDropService} from "core-app/modules/grids/grid/drag-and-drop.service";
 import {GridResizeService} from "core-app/modules/grids/grid/resize.service";
+import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 
 @Injectable()
 export class GridAddWidgetService {
@@ -27,9 +28,9 @@ export class GridAddWidgetService {
       this.layout.widgetAreaIds.includes(area.guid);
   }
 
-  public widget(area:GridArea) {
+  public widget(area:GridArea, schema:SchemaResource) {
     this
-      .select(area)
+      .select(area, schema)
       .then((widgetResource) => {
         // try to set it to a 2 x 3 layout
         // but shrink if that is outside the grid or
@@ -75,9 +76,9 @@ export class GridAddWidgetService {
       });
   }
 
-  private select(area:GridArea) {
+  private select(area:GridArea, schema:SchemaResource) {
     return new Promise<GridWidgetResource>((resolve, reject) => {
-      const modal = this.opModalService.show(AddGridWidgetModal, this.injector);
+      const modal = this.opModalService.show(AddGridWidgetModal, this.injector, { schema: schema });
       modal.closingEvent.subscribe((modal:AddGridWidgetModal) => {
         let registered = modal.chosenWidget;
 

@@ -89,10 +89,11 @@ module Grids::Configuration
       @widget_register[identifier] = Array(grid_classes)
     end
 
-    def allowed_widget?(grid, identifier)
+    def allowed_widget?(grid, identifier, user)
       grid_classes = registered_widget_by_identifier[identifier]
 
-      (grid_classes || []).include?(grid)
+      (grid_classes || []).include?(grid) &&
+        widget_strategy(grid, identifier)&.allowed?(user)
     end
 
     def all_widget_identifiers(grid)
@@ -102,7 +103,7 @@ module Grids::Configuration
     end
 
     def widget_strategy(grid, identifier)
-      grid_register[grid.class.to_s].widget_strategy(identifier)
+      grid_register[grid.to_s]&.widget_strategy(identifier)
     end
 
     def writable?(grid, user)

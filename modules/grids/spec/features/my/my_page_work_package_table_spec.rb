@@ -50,17 +50,12 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
                       responsible: user
   end
 
-  let(:role) do
-    FactoryBot.create(:role,
-                      permissions: %i[view_work_packages
-                                      add_work_packages
-                                      save_queries])
-  end
+  let(:permissions) { %i[view_work_packages add_work_packages save_queries] }
 
   let(:user) do
     FactoryBot.create(:user,
                       member_in_project: project,
-                      member_through_role: role)
+                      member_with_permissions: permissions)
   end
   let(:my_page) do
     Pages::My::Page.new
@@ -76,82 +71,92 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
     my_page.visit!
   end
 
-  it 'can add the widget and see the work packages of the filtered for types' do
-    my_page.add_column(3, before_or_after: :before)
+  context 'with the permission to save queries' do
+    it 'can add the widget and see the work packages of the filtered for types' do
+      my_page.add_column(3, before_or_after: :before)
 
-    my_page.add_widget(2, 3, "Work packages")
+      my_page.add_widget(2, 3, "Work packages")
 
-    sleep(0.2)
+      sleep(1)
 
-    sleep(1)
+      filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
+      created_area = Components::Grids::GridArea.new('.grid--area', text: "Work packages created by me")
 
-    filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
-    created_area = Components::Grids::GridArea.new('.grid--area', text: "Work packages created by me")
+      filter_area.expect_to_span(2, 3, 5, 4)
+      filter_area.resize_to(6, 4)
 
-    filter_area.expect_to_span(2, 3, 5, 4)
-    filter_area.resize_to(6, 4)
+      filter_area.expect_to_span(2, 3, 7, 5)
+      ## enlarging the table area will have moved the created area down
+      created_area.expect_to_span(7, 4, 13, 6)
 
-    filter_area.expect_to_span(2, 3, 7, 5)
-    ## enlarging the table area will have moved the created area down
-    created_area.expect_to_span(7, 4, 13, 6)
+      # At the beginning, the default query is displayed
+      expect(filter_area.area)
+        .to have_selector('.subject', text: type_work_package.subject)
 
-    # At the beginning, the default query is displayed
-    expect(filter_area.area)
-      .to have_selector('.subject', text: type_work_package.subject)
+      expect(filter_area.area)
+        .to have_selector('.subject', text: other_type_work_package.subject)
 
-    expect(filter_area.area)
-      .to have_selector('.subject', text: other_type_work_package.subject)
+      # User has the ability to modify the query
 
-    # User has the ability to modify the query
+      modal.open_and_switch_to('Filters')
+      filters.expect_filter_count(2)
+      filters.add_filter_by('Type', 'is', type.name)
+      modal.save
 
-    modal.open_and_switch_to('Filters')
-    filters.expect_filter_count(2)
-    filters.add_filter_by('Type', 'is', type.name)
-    modal.save
+      columns.remove 'Subject'
 
-    columns.remove 'Subject'
+      expect(filter_area.area)
+        .to have_selector('.id', text: type_work_package.id)
 
-    expect(filter_area.area)
-      .to have_selector('.id', text: type_work_package.id)
+      # as the Subject column is disabled
+      expect(filter_area.area)
+        .to have_no_selector('.subject', text: type_work_package.subject)
 
-    # as the Subject column is disabled
-    expect(filter_area.area)
-      .to have_no_selector('.subject', text: type_work_package.subject)
+      # As other_type is filtered out
+      expect(filter_area.area)
+        .to have_no_selector('.id', text: other_type_work_package.id)
 
-    # As other_type is filtered out
-    expect(filter_area.area)
-      .to have_no_selector('.id', text: other_type_work_package.id)
+      scroll_to_element(filter_area.area)
+      within filter_area.area do
+        input = find('.editable-toolbar-title--input')
+        input.set('My WP Filter')
+        input.native.send_keys(:return)
+      end
 
-    scroll_to_element(filter_area.area)
-    within filter_area.area do
-      input = find('.editable-toolbar-title--input')
-      input.set('My WP Filter')
-      input.native.send_keys(:return)
+      sleep(1)
+
+      # The whole of the configuration survives a reload
+      # as it is persisted in the grid
+
+      visit root_path
+      my_page.visit!
+
+      filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
+      expect(filter_area.area)
+        .to have_selector('.id', text: type_work_package.id)
+
+      # as the Subject column is disabled
+      expect(filter_area.area)
+        .to have_no_selector('.subject', text: type_work_package.subject)
+
+      # As other_type is filtered out
+      expect(filter_area.area)
+        .to have_no_selector('.id', text: other_type_work_package.id)
+
+      within filter_area.area do
+        expect(find('.editable-toolbar-title--input').value)
+          .to eql('My WP Filter')
+      end
     end
+  end
 
-    sleep(1)
+  context 'without the permission to save queries' do
+    let(:permissions) { %i[view_work_packages add_work_packages] }
 
-    # The whole of the configuration survives a reload
-    # as it is persisted in the grid
+    it 'cannot add the widget' do
+      my_page.add_column(3, before_or_after: :before)
 
-    visit root_path
-    my_page.visit!
-
-    filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
-    expect(filter_area.area)
-      .to have_selector('.id', text: type_work_package.id)
-
-    # as the Subject column is disabled
-    expect(filter_area.area)
-      .to have_no_selector('.subject', text: type_work_package.subject)
-
-    # As other_type is filtered out
-    expect(filter_area.area)
-      .to have_no_selector('.id', text: other_type_work_package.id)
-
-    within filter_area.area do
-      expect(find('.editable-toolbar-title--input').value)
-        .to eql('My WP Filter')
+      my_page.expect_unable_to_add_widget(2, 3, "Work packages")
     end
   end
 end

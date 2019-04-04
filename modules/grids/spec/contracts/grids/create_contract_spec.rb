@@ -95,15 +95,25 @@ describe Grids::CreateContract do
     end
 
     context 'for widgets' do
-      it 'calls the grid configuration for the available values' do
-        widgets = double('widgets')
+      it 'calls the grid configuration for the available values but allows only those eligible' do
+        widgets = %i[widget1 widget2]
 
         allow(Grids::Configuration)
           .to receive(:all_widget_identifiers)
           .and_return(widgets)
 
+        allow(Grids::Configuration)
+          .to receive(:allowed_widget?)
+          .with(Grids::MyPage, :widget1, user)
+          .and_return(true)
+
+        allow(Grids::Configuration)
+          .to receive(:allowed_widget?)
+          .with(Grids::MyPage, :widget2, user)
+          .and_return(false)
+
         expect(instance.assignable_values(:widgets, user))
-          .to eql widgets
+          .to match_array [:widget1]
       end
     end
 
