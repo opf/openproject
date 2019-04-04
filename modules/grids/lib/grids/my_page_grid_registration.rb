@@ -13,6 +13,10 @@ module Grids
             'documents',
             'news'
 
+    widget_strategy 'work_packages_table' do
+      after_destroy -> { ::Query.find_by(id: options[:queryId])&.destroy }
+    end
+
     defaults(
       row_count: 7,
       column_count: 4,

@@ -34,5 +34,15 @@ module Grids
 
     belongs_to :grid
     serialize :options, Hash
+
+    after_destroy :execute_after_destroy_strategy
+
+    private
+
+    def execute_after_destroy_strategy
+      proc = Grids::Configuration.widget_strategy(grid, identifier).after_destroy
+
+      instance_exec(&proc)
+    end
   end
 end

@@ -95,6 +95,10 @@ class Grids::Configuration
       (grid_classes || []).include?(grid)
     end
 
+    def widget_strategy(grid, identifier)
+      grid_register[grid.class.to_s].widget_strategy(identifier)
+    end
+
     def writable?(grid, user)
       grid_register[grid.class.to_s]&.writable?(grid, user)
     end
@@ -117,6 +121,18 @@ class Grids::Configuration
 
     def url_helpers
       @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
+    end
+  end
+
+  class WidgetStrategy
+    class << self
+      def after_destroy(proc = nil)
+        if proc
+          @after_destroy = proc
+        end
+
+        @after_destroy ||= -> {}
+      end
     end
   end
 
@@ -144,6 +160,16 @@ class Grids::Configuration
         end
 
         @widgets
+      end
+
+      def widget_strategy(widget_name, &block)
+        @widget_strategies ||= {}
+
+        if block_given?
+          @widget_strategies[widget_name.to_s] = Class.new(Grids::Configuration::WidgetStrategy, &block)
+        end
+
+        @widget_strategies[widget_name.to_s] ||= Grids::Configuration::WidgetStrategy
       end
 
       def defaults(hash = nil)
