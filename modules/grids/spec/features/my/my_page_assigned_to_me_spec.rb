@@ -111,6 +111,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
         hierarchies.disable_via_header
         hierarchies.expect_no_hierarchies
 
+        sleep(0.2)
         # re-enable
         hierarchies.enable_via_header
 
