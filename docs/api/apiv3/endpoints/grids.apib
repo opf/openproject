@@ -582,6 +582,18 @@ A page link must be provided in the body when calling this end point.
                             "required": true,
                             "hasDefault": false,
                             "writable": true,
+                            "_embedded": {
+                                allowedValues: [
+                                    {
+                                        "_type": "GridWidget",
+                                        "identifier": "work_packages_assigned"
+                                    },
+                                    {
+                                        "_type": "GridWidget",
+                                        "identifier": "news"
+                                    }
+                                ]
+                            },
                             "_links": {}
                         },
                         "_links": {}
