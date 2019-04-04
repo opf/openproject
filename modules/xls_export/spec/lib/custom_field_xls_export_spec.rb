@@ -62,16 +62,14 @@ describe "WorkPackageXlsExport Custom Fields" do
   end
 
   let(:export) do
-    OpenProject::XlsExport::WorkPackageXlsExport.new(
-      query
-    )
+    OpenProject::XlsExport::WorkPackageXlsExport.new query
   end
 
   def load_sheet(export)
     f = Tempfile.new 'result.xls'
     begin
       f.binmode
-      f.write export.list.content
+      f.write export.list(&:content)
     ensure
       f.close
     end
