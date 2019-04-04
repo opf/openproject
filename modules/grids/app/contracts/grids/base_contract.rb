@@ -63,9 +63,9 @@ module Grids
       Grid
     end
 
-    def assignable_values(column, _user)
+    def assignable_values(column, user)
       if column == :widgets
-        config.all_widget_identifiers(grid_class)
+        all_allowed_widget_identifiers(user)
       end
     end
 
@@ -86,7 +86,7 @@ module Grids
       return unless config.registered_grid?(grid_class)
 
       undestroyed_widgets.each do |widget|
-        next if config.allowed_widget?(grid_class, widget.identifier)
+        next if config.allowed_widget?(grid_class, widget.identifier, user)
 
         errors.add(:widgets, :inclusion)
       end
@@ -178,6 +178,12 @@ module Grids
 
     def undestroyed_widgets
       model.widgets.reject(&:marked_for_destruction?)
+    end
+
+    def all_allowed_widget_identifiers(user)
+      config.all_widget_identifiers(grid_class).select do |identifier|
+        config.allowed_widget?(grid_class, identifier, user)
+      end
     end
 
     def grid_class

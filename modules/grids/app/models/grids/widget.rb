@@ -40,7 +40,7 @@ module Grids
     private
 
     def execute_after_destroy_strategy
-      proc = Grids::Configuration.widget_strategy(grid, identifier).after_destroy
+      proc = Grids::Configuration.widget_strategy(grid.class, identifier).after_destroy
 
       instance_exec(&proc)
     end

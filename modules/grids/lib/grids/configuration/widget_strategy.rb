@@ -38,6 +38,18 @@ module Grids::Configuration
 
         @after_destroy ||= -> {}
       end
+
+      def allowed(proc = nil)
+        if proc
+          @allowed = proc
+        end
+
+        @allowed ||= ->(_user) { true }
+      end
+
+      def allowed?(user)
+        allowed.(user)
+      end
     end
   end
 end

@@ -15,6 +15,8 @@ module Grids
 
     widget_strategy 'work_packages_table' do
       after_destroy -> { ::Query.find_by(id: options[:queryId])&.destroy }
+
+      allowed ->(user) { user.allowed_to_globally?(:save_queries) }
     end
 
     defaults(
