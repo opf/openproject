@@ -78,12 +78,13 @@ class WorkPackagesController < ApplicationController
     end
   end
 
-  protected
-
   def set_gon_settings
-    gon.settings = client_preferences
+    super
+
     gon.settings[:enabled_modules] = project ? project.enabled_modules.collect(&:name) : []
   end
+
+  protected
 
   def export_list(mime_type)
     exporter = WorkPackage::Exporter.for_list(mime_type)

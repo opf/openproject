@@ -11,7 +11,7 @@ module ::Boards
 
     # Pass some visibility settings via gon that are not
     # available through the global grids API
-    before_action :pass_gon
+    before_action :set_gon_settings
 
     menu_item :board_view
 
@@ -25,12 +25,8 @@ module ::Boards
 
     private
 
-    def pass_gon
-      gon.settings = client_preferences
-      gon.permission_flags = {
-        manage_board_views: current_user.allowed_to_in_project?(:manage_board_views, @project),
-        edit_work_packages: current_user.allowed_to_in_project?(:edit_work_packages, @project),
-      }
+    def set_gon_settings
+      super
     end
 
     def authorize_work_package_permission

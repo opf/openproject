@@ -310,6 +310,19 @@ class ApplicationController < ActionController::Base
     authorize(ctrl, action, global)
   end
 
+  # Pass some visibility settings via gon that are not
+  # available through the global grids API
+  def set_gon_settings
+    gon.settings = client_preferences
+
+    unless @project.nil?
+      gon.permission_flags = {
+        manage_board_views: current_user.allowed_to_in_project?(:manage_board_views, @project),
+        edit_work_packages: current_user.allowed_to_in_project?(:edit_work_packages, @project)
+      }
+    end
+  end
+
   # Find project of id params[:id]
   # Note: find() is Project.friendly.find()
   def find_project
