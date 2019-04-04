@@ -379,12 +379,9 @@ class WikiController < ApplicationController
   private
 
   def correct_double_encoding_of_entities
-    entities = ['amp', 'lt', 'gt', 'quote', '#39']
     params['content']['text'].scan(/<td>.*?<\/td>/).each do |val|
       modif = val.dup
-      entities.each do |entity|
-        modif.gsub!(/([&])amp;(#{entity};)/, '\1\2')
-      end
+      modif.gsub!(/([&])amp;((#x*\d+|[[:alnum:]]+);)/, '\1\2')
       params['content']['text'].gsub!(val, modif)
     end
   end
