@@ -86,6 +86,11 @@ module API
                                          required: true,
                                          has_default: false,
                                          visibility: false,
+                                         values_callback: -> do
+                                           represented.assignable_values(:widgets, current_user).map do |identifier|
+                                             OpenStruct.new(identifier: identifier)
+                                           end
+                                         end,
                                          value_representer: ::API::V3::Grids::WidgetRepresenter,
                                          link_factory: false
 

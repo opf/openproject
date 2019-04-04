@@ -94,6 +94,19 @@ describe Grids::CreateContract do
       end
     end
 
+    context 'for widgets' do
+      it 'calls the grid configuration for the available values' do
+        widgets = double('widgets')
+
+        allow(Grids::Configuration)
+          .to receive(:all_widget_identifiers)
+          .and_return(widgets)
+
+        expect(instance.assignable_values(:widgets, user))
+          .to eql widgets
+      end
+    end
+
     context 'for something else' do
       it 'returns nil' do
         expect(instance.assignable_values(:something, user))

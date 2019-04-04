@@ -95,6 +95,12 @@ module Grids::Configuration
       (grid_classes || []).include?(grid)
     end
 
+    def all_widget_identifiers(grid)
+      registered_widget_by_identifier.select do |_, grid_classes|
+        grid_classes.include?(grid)
+      end.keys
+    end
+
     def widget_strategy(grid, identifier)
       grid_register[grid.class.to_s].widget_strategy(identifier)
     end
