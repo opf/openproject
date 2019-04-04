@@ -443,7 +443,7 @@ zh-TW:
       group_by_relation_type: 按關聯類型分組
       add_parent: 增加現有的上一層
       add_new_child: 建立新子項
-      create_new: 新建
+      create_new: 新增
       add_existing: 添加現有的
       add_existing_child: 加入現有子項
       remove_child: 移除子項

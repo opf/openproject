@@ -34,6 +34,7 @@ import {GonService} from "core-app/modules/common/gon/gon.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {BoardService} from "app/modules/boards/board/board.service";
+import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
 
 @Component({
   selector: 'board-list',
@@ -91,7 +92,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly authorisationService:AuthorisationService,
               private readonly wpInlineCreate:WorkPackageInlineCreateService,
               private readonly loadingIndicator:LoadingIndicatorService,
-              private readonly boardService:BoardService) {
+              private readonly boardService:BoardService,
+              private readonly boardListService:BoardListsService) {
     super(I18n);
   }
 
@@ -142,12 +144,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     return this.boardService.canManage;
   }
 
-  /*
-  *  Unnamed lists shall be focused to make editing easier
-  */
-  public isInitiallyFocused() {
-    return !this.state.params.isNew &&
-           this.listName === this.text.unnamed_list;
+  public initiallyFocused() {
+    return this.boardListService.isNew && this.query.name === this.text.unnamed_list;
   }
 
   public addReferenceCard() {
@@ -176,6 +174,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .toPromise()
       .then(() => {
         this.inFlight = false;
+        this.boardListService.isNew = false;
         this.notifications.addSuccess(this.text.updateSuccessful);
       })
       .catch(() => this.inFlight = false);
