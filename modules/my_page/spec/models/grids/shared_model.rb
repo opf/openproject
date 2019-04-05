@@ -26,36 +26,52 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
-
-describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
-  include Rack::Test::Methods
-  include API::V3::Utilities::PathHelper
-
-  shared_let(:current_user) do
-    FactoryBot.create(:user)
-  end
-
-  let(:params) { {} }
-  subject(:response) { last_response }
-
-  before do
-    login_as(current_user)
-  end
-
-  describe '#post' do
-    before do
-      post path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+shared_examples_for 'grid attributes' do
+  describe 'attributes' do
+    it '#row_count' do
+      instance.row_count = 5
+      expect(instance.row_count)
+        .to eql 5
     end
 
-    context 'for a non existing grid' do
-      let(:path) { api_v3_paths.grid_form(5) }
+    it '#column_count' do
+      instance.column_count = 5
+      expect(instance.column_count)
+        .to eql 5
+    end
 
-      it 'returns 404 NOT FOUND' do
-        expect(subject.status)
-          .to eql 404
-      end
+    it '#name' do
+      instance.name = 'custom 123'
+      expect(instance.name)
+        .to eql 'custom 123'
+
+      # can be empty
+      instance.name = nil
+      expect(instance).to be_valid
+    end
+
+    it '#options' do
+      value = {
+        some: 'value',
+        and: {
+          also: 1
+        }
+      }
+
+      instance.options = value
+      expect(instance.options)
+        .to eql value
+    end
+
+    it '#widgets' do
+      widgets = [
+        Grids::Widget.new(start_row: 2),
+        Grids::Widget.new(start_row: 5)
+      ]
+
+      instance.widgets = widgets
+      expect(instance.widgets)
+        .to match_array widgets
     end
   end
 end

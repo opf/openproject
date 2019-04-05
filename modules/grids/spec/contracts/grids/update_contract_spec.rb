@@ -51,7 +51,7 @@ describe Grids::UpdateContract do
       instance.validate
       # scope because that is what type is called on the outside for grids
       expect(instance.errors.details[:scope])
-        .to match_array [{ error: :error_readonly }]
+        .to match_array [{ error: :error_readonly }, { error: :inclusion }]
     end
   end
 

@@ -76,8 +76,7 @@ module API
                                          value_representer: false,
                                          link_factory: ->(path) {
                                            {
-                                             href: path,
-                                             title: I18n.t(:label_my_page)
+                                             href: path
                                            }
                                          }
 

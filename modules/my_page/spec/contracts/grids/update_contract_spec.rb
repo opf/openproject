@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,39 +25,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
-require 'rack/test'
+require_relative './shared_examples'
 
-describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
-  include Rack::Test::Methods
-  include API::V3::Utilities::PathHelper
+describe Grids::UpdateContract do
+  include_context 'model contract'
+  include_context 'grid contract'
 
-  shared_let(:current_user) do
-    FactoryBot.create(:user)
-  end
-
-  let(:params) { {} }
-  subject(:response) { last_response }
-
-  before do
-    login_as(current_user)
-  end
-
-  describe '#post' do
-    before do
-      post path, params.to_json, 'CONTENT_TYPE' => 'application/json'
-    end
-
-    context 'for a non existing grid' do
-      let(:path) { api_v3_paths.grid_form(5) }
-
-      it 'returns 404 NOT FOUND' do
-        expect(subject.status)
-          .to eql 404
-      end
-    end
-  end
+  it_behaves_like 'shared grid contract attributes'
 end

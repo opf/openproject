@@ -1,5 +1,5 @@
-module Grids
-  class MyPageGridRegistration < ::Grids::Configuration::Registration
+module MyPage
+  class GridRegistration < ::Grids::Configuration::Registration
     grid_class 'Grids::MyPage'
     to_scope :my_page_path
 
