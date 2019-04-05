@@ -30,10 +30,9 @@ module ::Bcf
 
       begin
         @listing = @importer.get_extractor_list! @bcf_file.path
-        @issues = ::Bcf::Issue
-                    .with_markup
-                    .includes(work_package: %i[status priority assigned_to])
-                    .where(uuid: @listing.map { |e| e[:uuid] })
+        @issues = ::Bcf::Issue.with_markup
+                              .includes(work_package: %i[status priority assigned_to])
+                              .where(uuid: @listing.map { |e| e[:uuid] })
       rescue StandardError => e
         flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
         redirect_to action: :index
