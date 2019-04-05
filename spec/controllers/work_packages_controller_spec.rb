@@ -175,13 +175,10 @@ describe WorkPackagesController, type: :controller do
                                  mime_type: 'text/csv',
                                  title: 'blubs.csv')
 
-            mock_csv = double('csv exporter',
-                              list: mock_result)
-
             expect(WorkPackage::Exporter::CSV)
-              .to receive(:new)
+              .to receive(:list)
               .with(query, anything)
-              .and_return(mock_csv)
+              .and_yield(mock_result)
 
             expect(controller)
               .to receive(:send_data)
@@ -213,14 +210,6 @@ describe WorkPackagesController, type: :controller do
                                    mime_type: 'application/pdf',
                                    title: 'blubs.pdf')
 
-              mock_pdf = double('pdf exporter',
-                                list: mock_result)
-
-              expect(WorkPackage::Exporter::PDF)
-                .to receive(:new)
-                .with(query, anything)
-                .and_return(mock_pdf)
-
               expect(controller)
                 .to receive(:send_data)
                 .with(mock_result.content,
@@ -230,6 +219,11 @@ describe WorkPackagesController, type: :controller do
                 # the controller will and he will not find a suitable template
                 controller.render plain: 'success'
               end
+
+              expect(WorkPackage::Exporter::PDF)
+                .to receive(:list)
+                .with(query, anything)
+                .and_yield(mock_result)
             end
 
             it 'should fulfill the defined should_receives' do
@@ -261,13 +255,10 @@ describe WorkPackagesController, type: :controller do
                                    error?: true,
                                    message: 'because')
 
-              mock_pdf = double('pdf exporter',
-                                list: mock_result)
-
-              allow(WorkPackage::Exporter::PDF)
-                .to receive(:new)
+              expect(WorkPackage::Exporter::PDF)
+                .to receive(:list)
                 .with(query, anything)
-                .and_return(mock_pdf)
+                .and_yield(mock_result)
 
               call_action
             end
@@ -379,7 +370,7 @@ describe WorkPackagesController, type: :controller do
                             title: expected_name,
                             mime_type: expected_type)
 
-        expect(WorkPackage::Exporter::PDF).to receive(:single).and_return(pdf_result)
+        expect(WorkPackage::Exporter::PDF).to receive(:single).and_yield(pdf_result)
         expect(controller).to receive(:send_data).with(pdf_data,
                                                        type: expected_type,
                                                        filename: expected_name) do |*_args|

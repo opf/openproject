@@ -187,11 +187,17 @@ module Redmine::MenuManager::MenuHelper
     link_text = ''.html_safe
     link_text << op_icon(item.icon) if item.icon.present?
     link_text << you_are_here_info(selected)
-    link_text << content_tag(:span, caption, class: 'menu-item--title ellipsis', lang: menu_item_locale(item))
+    link_text << content_tag(:span,
+                             class: "menu-item--title ellipsis #{item.badge.present? ? '-has-badge' : ''}",
+                             lang: menu_item_locale(item)) do
+      ''.html_safe + caption + badge_for(item)
+    end
     link_text << ' '.html_safe + op_icon(item.icon_after) if item.icon_after.present?
     html_options = item.html_options(selected: selected)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
-    link_to link_text, url, html_options
+    link_to url, html_options do
+      link_text
+    end
   end
 
   def render_unattached_menu_item(menu_item, project)
@@ -265,10 +271,10 @@ module Redmine::MenuManager::MenuHelper
     end
 
     if project
-      return user && user.allowed_to?(node.url, project)
+      user && user.allowed_to?(node.url, project)
     else
       # outside a project, all menu items allowed
-      return true
+      true
     end
   end
 
@@ -308,5 +314,13 @@ module Redmine::MenuManager::MenuHelper
 
   def wiki_prefix?
     current_menu_item.to_s.match? /^wiki-/
+  end
+
+  def badge_for(item)
+    badge = ''.html_safe
+    if item.badge.present?
+      badge += ' '.html_safe + content_tag('span', I18n.t(item.badge), class: 'main-item--badge')
+    end
+    badge
   end
 end

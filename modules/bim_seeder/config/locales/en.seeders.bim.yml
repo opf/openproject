@@ -31,6 +31,7 @@ en:
       default_type_building_model: Building model
       default_type_defect: Defect
       default_type_approval: Approval
+      default_type_bcf_issue: Issue [BCF]
       demo_data:
         welcome:
           title: "Welcome to OpenProject BIM Edition!"
@@ -57,6 +58,7 @@ en:
               - work_package_tracking
               - news
               - wiki
+              - bcf
             news:
               - title: Welcome to your demo project
                 summary: >
@@ -70,6 +72,7 @@ en:
               - 'seeders.bim.default_type_building_model'
               - 'seeders.bim.default_type_defect'
               - 'seeders.bim.default_type_approval'
+              - 'seeders.bim.default_type_bcf_issue'
             categories:
               - Category 1 (to be changed in Project settings)
             queries:
@@ -105,6 +108,9 @@ en:
                   - type
                   - status
                   - assigned_to
+              - name: Issues [BCF]
+                status: open
+                type: 'seeders.bim.default_type_bcf_issue'
             work_packages:
               - subject: Project kick-off
                 description: Plan and execute the project kick-off.
@@ -181,10 +187,10 @@ en:
                       Please activate further [Modules](%{base_url}/projects/demo-project/settings/modules) in the Project settings in order to have more features in your project.
 
                       **You can:**
-                      * add a Scrum module (Backlogs),
                       * add time tracking, reporting, and budgets (Time Tracking, Cost Reports, Budgets),
                       * add a wiki,
                       * add meetings,
+                      * add BCF import/export,
                       * and more.
 
                       **Visuals:**

@@ -400,3 +400,21 @@ a.main-menu--parent-node
       .tree-menu--title
         @include varprop(color, main-menu-hover-font-color)
         text-decoration: none
+
+
+
+// Badges for menu items such as "EXPERIMENTAL" or "BETA"
+$badge_offset: 4px
+
+.menu-item--title.-has-badge
+  // As this is flex box with a vertical center we need this trick to undo centering the whole content including a badge.
+  // The goal is to leave the caption where it was before adding a badge.
+  margin-top: -1 * $badge_offset
+
+.main-item--badge
+  font-size: 10px
+  vertical-align: $badge_offset
+  text-transform: uppercase
+  margin-left: 4px
+  font-weight: bold
+  font-style: italic

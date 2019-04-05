@@ -128,8 +128,18 @@ class Attachment < ActiveRecord::Base
     container.present?
   end
 
+  ##
+  # Retrieve a local file,
+  # this may result in downloading the file first
   def diskfile
     file.local_file
+  end
+
+  ##
+  # Retrieve the local file path,
+  # this may result in downloading the file first to a tmpdir
+  def local_path
+    diskfile.path
   end
 
   def filename
@@ -138,9 +148,13 @@ class Attachment < ActiveRecord::Base
 
   def file=(file)
     super.tap do
-      set_content_type file
       set_file_size file
-      set_digest file
+
+      set_content_type file
+
+      if File.readable? file.path
+        set_digest file
+      end
     end
   end
 

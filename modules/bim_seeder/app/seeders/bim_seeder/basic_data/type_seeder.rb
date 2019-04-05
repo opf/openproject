@@ -32,7 +32,7 @@ module BimSeeder
   module BasicData
     class TypeSeeder < ::BasicData::TypeSeeder
       def type_names
-        %i[task milestone phase building_model defect approval]
+        %i[task milestone phase building_model defect approval bcf_issue]
       end
 
       def type_table
@@ -42,7 +42,8 @@ module BimSeeder
           phase:          [3, true, :default_color_blue_dark,   false, false, :default_type_phase],
           building_model: [4, true, :default_color_blue,        true,  false, 'seeders.bim.default_type_building_model'],
           defect:         [5, true, :default_color_red,         true,  false, 'seeders.bim.default_type_defect'],
-          approval:       [6, true, :default_color_grey_dark,   true,  false, 'seeders.bim.default_type_approval']
+          approval:       [6, true, :default_color_grey_dark,   true,  false, 'seeders.bim.default_type_approval'],
+          bcf_issue:      [6, true, :default_color_grey_red,    true,  false, 'seeders.bim.default_type_bcf_issue']
         }
       end
     end

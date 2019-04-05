@@ -65,7 +65,7 @@ describe "WorkPackageXlsExport" do
     f = Tempfile.new 'result.xls'
     begin
       f.binmode
-      f.write export.list.content
+      f.write export.list(&:content)
     ensure
       f.close
     end
