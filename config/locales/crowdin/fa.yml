@@ -343,7 +343,7 @@ fa:
         filesize: اندازه‌
       attribute_help_text:
         attribute_name: Attribute
-        help_text: Help text
+        help_text: متن راهنما
       auth_source:
         account: حساب کاربری
         attr_firstname: مشخصه نام
