@@ -1350,6 +1350,7 @@ sv-SE:
   label_equals: är
   label_everywhere: everywhere
   label_example: Exempel
+  label_import: Import
   label_export_to: 'Finns även som:'
   label_expanded_click_to_collapse: Expanderat. Klicka för att dölja
   label_f_hour: "%{value} timme"

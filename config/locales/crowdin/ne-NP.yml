@@ -1350,6 +1350,7 @@ ne-NP:
   label_equals: is
   label_everywhere: सबैतिर
   label_example: Example
+  label_import: Import
   label_export_to: 'Also available in:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} hour"

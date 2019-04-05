@@ -1383,6 +1383,7 @@ fr:
   label_equals: est
   label_everywhere: partout
   label_example: Exemple
+  label_import: Import
   label_export_to: 'Aussi disponible en :'
   label_expanded_click_to_collapse: Déplié. Cliquez pour replier
   label_f_hour: "%{value} heure"

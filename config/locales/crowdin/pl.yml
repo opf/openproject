@@ -1387,6 +1387,7 @@ pl:
   label_equals: jest
   label_everywhere: wszędzie
   label_example: Przykład
+  label_import: Import
   label_export_to: 'Dostępne również w:'
   label_expanded_click_to_collapse: Rozwinięto. Kliknij, aby zwinąć
   label_f_hour: "%{value} godzin"

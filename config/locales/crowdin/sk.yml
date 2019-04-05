@@ -1401,6 +1401,7 @@ sk:
   label_equals: je
   label_everywhere: všade
   label_example: Príklad
+  label_import: Import
   label_export_to: 'K dispozícii tiež ako:'
   label_expanded_click_to_collapse: Rozbalené. Kliknutí zbalíte
   label_f_hour: "%{value} hodina"

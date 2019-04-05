@@ -1357,6 +1357,7 @@ hu:
   label_equals: van
   label_everywhere: bárhol
   label_example: Példa
+  label_import: Import
   label_export_to: 'Is elérhető:'
   label_expanded_click_to_collapse: Kinyitva. Kattintson az összecsukáshoz
   label_f_hour: "%{value} óra"

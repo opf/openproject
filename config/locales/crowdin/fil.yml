@@ -1389,6 +1389,7 @@ fil:
   label_equals: ay
   label_everywhere: everywhere
   label_example: Halimbawa
+  label_import: Import
   label_export_to: 'Magagamit rin sa:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} oras"

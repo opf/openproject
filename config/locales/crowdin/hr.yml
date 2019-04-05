@@ -1370,6 +1370,7 @@ hr:
   label_equals: je
   label_everywhere: everywhere
   label_example: Primjer
+  label_import: Import
   label_export_to: 'Također dostupan kao:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} sat"

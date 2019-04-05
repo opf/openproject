@@ -1384,6 +1384,7 @@ lt:
   label_equals: yra
   label_everywhere: everywhere
   label_example: Pavyzdys
+  label_import: Import
   label_export_to: 'Taip pat galima rasti:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} valanda"

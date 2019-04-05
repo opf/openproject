@@ -1356,6 +1356,7 @@ af:
   label_equals: is
   label_everywhere: everywhere
   label_example: Voorbeeld
+  label_import: Import
   label_export_to: 'Ook beskikbaar in:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} uur"

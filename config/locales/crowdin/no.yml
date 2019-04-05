@@ -1348,6 +1348,7 @@
   label_equals: er
   label_everywhere: everywhere
   label_example: Eksempel
+  label_import: Import
   label_export_to: 'Også tilgjengelig i:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} time"

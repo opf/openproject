@@ -1352,6 +1352,7 @@ vi:
   label_equals: is
   label_everywhere: everywhere
   label_example: Ví dụ
+  label_import: Import
   label_export_to: 'Cũng có sẵn tại:'
   label_expanded_click_to_collapse: Mở rộng. Bấm vào để thu gọn
   label_f_hour: "%{value} giờ"

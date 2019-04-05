@@ -1349,6 +1349,7 @@ et:
   label_equals: võrdub
   label_everywhere: everywhere
   label_example: Näide
+  label_import: Import
   label_export_to: 'Saadaval ka:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} tund"

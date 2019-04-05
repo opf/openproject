@@ -1387,6 +1387,7 @@ es:
   label_equals: es
   label_everywhere: todo
   label_example: Ejemplo
+  label_import: Import
   label_export_to: 'También disponible en:'
   label_expanded_click_to_collapse: Expandido. Haga clic para contraer
   label_f_hour: "%{value} hora"

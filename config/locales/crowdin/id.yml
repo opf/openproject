@@ -1347,6 +1347,7 @@ id:
   label_equals: adalah
   label_everywhere: everywhere
   label_example: Contoh
+  label_import: Import
   label_export_to: 'Juga tersedia dalam:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} jam"
