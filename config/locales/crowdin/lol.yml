@@ -1239,7 +1239,7 @@ lol:
   label_equals: crwdns124642:0crwdne124642:0
   label_everywhere: crwdns124644:0crwdne124644:0
   label_example: crwdns124646:0crwdne124646:0
-  label_import: Import
+  label_import: crwdns129680:0crwdne129680:0
   label_export_to: crwdns124648:0crwdne124648:0
   label_expanded_click_to_collapse: crwdns124650:0crwdne124650:0
   label_f_hour: crwdns124652:0%{value}crwdne124652:0
