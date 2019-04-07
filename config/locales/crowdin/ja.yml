@@ -1248,7 +1248,7 @@ ja:
   label_equals: 等しい
   label_everywhere: どこにでも
   label_example: 例
-  label_import: Import
+  label_import: インポート
   label_export_to: こちらもアクセス可能：
   label_expanded_click_to_collapse: 拡大しました。クリックすると閉じます
   label_f_hour: "%{value}時間"
