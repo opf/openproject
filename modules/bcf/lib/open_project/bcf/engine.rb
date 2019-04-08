@@ -43,7 +43,10 @@ module OpenProject::Bcf
                  issue = represented.bcf_issue
                  bcf = {}
                  bcf[:viewpoints] = issue.viewpoints.map do |viewpoint|
-                   attachment_path(viewpoint.snapshot.id)
+                   {
+                     id: viewpoint.snapshot.id,
+                     file_name: viewpoint.snapshot.filename
+                   }
                  end
                  bcf
                },

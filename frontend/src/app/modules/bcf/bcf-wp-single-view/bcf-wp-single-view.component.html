@@ -1,2 +1,2 @@
 <h3 class="attributes-groupe header-text">BCF</h3>
-<img src="{{workPackage.bcf.viewpoints[0]}}" *ngIf="workPackage.bcf.viewpoints.length > 0">
+<img [src]="viewpoint.fullPath" *ngFor="let viewpoint of viewpoints;">
