@@ -69,7 +69,7 @@ end
 
 Redmine::MenuManager.map :account_menu do |menu|
   menu.push :my_page,
-            { controller: '/my', action: 'page' },
+            :my_page_path,
             if: Proc.new { User.current.logged? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },
@@ -77,7 +77,8 @@ Redmine::MenuManager.map :account_menu do |menu|
   menu.push :administration,
             { controller: '/users', action: 'index' },
             if: Proc.new { User.current.admin? }
-  menu.push :logout, :signout_path,
+  menu.push :logout,
+            :signout_path,
             if: Proc.new { User.current.logged? }
 end
 

@@ -45,12 +45,6 @@ class MyController < ApplicationController
   menu_item :access_token,        only: [:access_token]
   menu_item :mail_notifications,  only: [:mail_notifications]
 
-  # Show user's page
-  def index
-    render action: 'page', layout: 'no_menu'
-  end
-  alias :page :index
-
   def account; end
 
   def update_account

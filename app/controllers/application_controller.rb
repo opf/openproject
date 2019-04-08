@@ -263,12 +263,11 @@ class ApplicationController < ActionController::Base
       reset_session
 
       respond_to do |format|
-        format.any(:html, :atom) do redirect_to signin_path(back_url: login_back_url) end
+        format.any(:html, :atom) { redirect_to main_app.signin_path(back_url: login_back_url) }
 
-        auth_header = OpenProject::Authentication::WWWAuthenticate.response_header(
-          request_headers: request.headers)
+        auth_header = OpenProject::Authentication::WWWAuthenticate.response_header(request_headers: request.headers)
 
-        format.any(:xml, :js, :json)  do
+        format.any(:xml, :js, :json) do
           head :unauthorized,
                'X-Reason' => 'login needed',
                'WWW-Authenticate' => auth_header
@@ -581,9 +580,9 @@ class ApplicationController < ActionController::Base
 
   # Converts the errors on an ActiveRecord object into a common JSON format
   def object_errors_to_json(object)
-    object.errors.map { |attribute, error|
+    object.errors.map do |attribute, error|
       { attribute => error }
-    }.to_json
+    end.to_json
   end
 
   # Renders API response on validation failure
