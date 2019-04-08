@@ -74,6 +74,10 @@
     </div>
   </div>
 
+  <div *ngIf="workPackage.bcf">
+    <bcf-wp-single-view [workPackage]="workPackage"></bcf-wp-single-view>
+  </div>
+
   <div class="attributes-group description-group">
     <div class="attributes-group--header">
       <div class="attributes-group--header-container">
