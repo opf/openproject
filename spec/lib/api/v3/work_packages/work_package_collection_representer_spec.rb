@@ -206,6 +206,37 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       end
     end
 
+    context 'when the user has the edit_work_package permission in any project' do
+      before do
+        allow(user)
+          .to receive(:allowed_to?)
+          .and_return(false)
+
+        allow(user)
+          .to receive(:allowed_to?)
+          .with(:edit_work_packages, nil, global: true)
+          .and_return(allowed)
+      end
+
+      context 'when allowed' do
+        let(:allowed) { true }
+
+        it 'has a link to templated edit work_package' do
+          is_expected
+            .to be_json_eql(api_v3_paths.work_package_form('{work_package_id}').to_json)
+            .at_path('_links/editWorkPackage/href')
+        end
+      end
+
+      context 'when allowed' do
+        let(:allowed) { false }
+
+        it 'has no link to templated edit work_package' do
+          is_expected.not_to have_json_path('_links/editWorkPackage')
+        end
+      end
+    end
+
     context 'when the user has the add_work_package permission in any project' do
       before do
         allow(user)

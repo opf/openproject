@@ -32,6 +32,13 @@ module Grids
       Grids::Grid
     end
 
+    ##
+    # Returns the scope this query is filtered for, if any.
+    def filter_scope
+      scope_filter = filters.detect { |f| f.name.to_sym == :scope }
+      scope_filter&.values&.first
+    end
+
     def default_scope
       configs = ::Grids::Configuration.all
 

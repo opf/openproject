@@ -13,7 +13,7 @@
       <editable-toolbar-title [title]="query.name"
                               [inFlight]="inFlight"
                               (onSave)="renameQuery(query, $event)"
-                              [editable]="!!query.updateImmediately"
+                              [editable]="canRename"
                               [initialFocus]="initiallyFocused()"
                               class="-small">
       </editable-toolbar-title>
@@ -31,7 +31,7 @@
       </button>
 
       <div class="board-list--delete-icon">
-        <accessible-by-keyboard *ngIf="!!query.delete"
+        <accessible-by-keyboard *ngIf="canDelete"
                                 linkClass="button -narrow -no-decoration"
                                 (execute)="deleteList(query)">
           <op-icon icon-classes="icon-small icon-delete"></op-icon>
@@ -41,6 +41,7 @@
 
     <div class="board-list--query-container">
       <wp-card-view [dragAndDropEnabled]="dragAndDropEnabled"
+                    [workPackageAddedHandler]="workPackageAddedHandler"
                     [cardsRemovable]="board.isFree && canManage"
                     [highlightingMode]="board.highlightingMode">
       </wp-card-view>

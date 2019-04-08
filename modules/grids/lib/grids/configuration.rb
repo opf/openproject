@@ -95,6 +95,17 @@ class Grids::Configuration
       (grid_classes || []).include?(grid)
     end
 
+    ##
+    # Determines whether the given scope is writable by the current user
+    def writable_scope?(scope)
+      all_scopes.include? scope
+    end
+
+    ##
+    # Determine whether the given grid is writable
+    #
+    # @param grid Either a grid instance, or the grid class namespace (e.g., Grids::Grid)
+    # @param user the current user to check against
     def writable?(grid, user)
       grid_register[grid.class.to_s]&.writable?(grid, user)
     end

@@ -43,6 +43,7 @@ import {switchMap, tap} from "rxjs/operators";
 export class WorkPackageCardViewComponent  implements OnInit {
   @Input() public dragAndDropEnabled:boolean;
   @Input() public highlightingMode:CardHighlightingMode;
+  @Input() public workPackageAddedHandler:(wp:WorkPackageResource) => Promise<unknown>;
 
   public trackByHref = AngularTrackingHelpers.trackByHref;
   public query:QueryResource;
@@ -263,7 +264,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
    */
   async addWorkPackageToQuery(workPackage:WorkPackageResource, toIndex:number = -1):Promise<boolean> {
     try {
-      await this.reorderService.updateWorkPackage(this.querySpace, workPackage);
+      await this.workPackageAddedHandler(workPackage);
       const newOrder = await this.reorderService.add(this.currentOrder, workPackage.id!, toIndex);
       this.updateOrder(newOrder);
       return true;

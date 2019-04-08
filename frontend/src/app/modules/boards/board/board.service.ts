@@ -62,8 +62,8 @@ export class BoardService {
   /**
    * Check whether the current user can manage board-type grids.
    */
-  public get canManage():boolean {
-    return !!this.Gon.get('permission_flags', 'manage_board_views');
+  public canManage(board:Board):boolean {
+    return !!board.grid.$links.delete;
   }
 
 

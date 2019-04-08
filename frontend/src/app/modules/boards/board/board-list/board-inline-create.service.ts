@@ -63,7 +63,7 @@ export class BoardInlineCreateService extends WorkPackageInlineCreateService imp
   }
 
   public get canReference() {
-    return true;
+    return this.authorisationService.can('work_packages', 'editWorkPackage');
   }
 
   /**
