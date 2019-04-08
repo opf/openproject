@@ -149,7 +149,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public initiallyFocused() {
-    return this.boardListService.isNew && this.query.name === this.text.unnamed_list;
+    return !this.state.params.isNew && this.boardListService.isNew;
   }
 
   public addReferenceCard() {

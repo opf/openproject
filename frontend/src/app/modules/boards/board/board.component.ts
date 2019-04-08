@@ -120,7 +120,7 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.BoardCache.update(board);
         this.notifications.addSuccess(this.text.updateSuccessful);
         this.inFlight = false;
-        this.state.go('.', { query_props: null }, {custom: {notify: false}});
+        this.state.go('.', { query_props: null, isNew: false }, {custom: {notify: false}});
       });
   }
 
