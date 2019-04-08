@@ -123,6 +123,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .subscribe((board) => {
         this.dragAndDropEnabled = board.editable;
       });
+
+
+    this.updateQuery();
   }
 
   ngOnDestroy():void {
@@ -130,9 +133,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   ngOnChanges(changes:SimpleChanges) {
-    if (changes.filters) {
-      this.setQueryProps(this.filters);
-      this.loadQuery();
+    // When the changes were caused by an actual filter change
+    // and not by a change in lists
+    if (changes.filters && !changes.resource) {
+      this.updateQuery();
     }
   }
 
@@ -193,6 +197,11 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public get listName() {
     return this.query && this.query.name;
+  }
+
+  private updateQuery() {
+    this.setQueryProps(this.filters);
+    this.loadQuery();
   }
 
   private loadQuery() {
