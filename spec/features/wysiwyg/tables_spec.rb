@@ -53,7 +53,7 @@ describe 'Wysiwyg tables',
 
           # Edit table
           tds = editable.all('.table.ck-widget td')
-          values = %w(h1 h2 c1 c2)
+          values = %w(h1 h&2 c1 c&2)
           expect(tds.length).to eq(4)
 
           tds.each_with_index do |td, i|
@@ -70,9 +70,9 @@ describe 'Wysiwyg tables',
 
         within('#content') do
           expect(page).to have_selector('table td', text: 'h1')
-          expect(page).to have_selector('table td', text: 'h2')
+          expect(page).to have_selector('table td', text: 'h&2')
           expect(page).to have_selector('table td', text: 'c1')
-          expect(page).to have_selector('table td', text: 'c2')
+          expect(page).to have_selector('table td', text: 'c&2')
         end
       end
 
