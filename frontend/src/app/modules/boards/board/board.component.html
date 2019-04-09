@@ -48,7 +48,8 @@
 
     <div class="boards-filters-container">
       <board-filter [board]="board"
-                    (filters)="updateFilters($event)"></board-filter>
+                    [filters]="filters"
+                    (onFiltersChanged)="updateFilters($event)"></board-filter>
     </div>
 
   </ng-container>

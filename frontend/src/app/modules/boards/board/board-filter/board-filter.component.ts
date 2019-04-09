@@ -21,9 +21,16 @@ import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
   templateUrl: './board-filter.component.html'
 })
 export class BoardFilterComponent implements OnInit, OnDestroy {
+  /** Current active */
   @Input() public board:Board;
 
-  @Output() public filters = new DebouncedEventEmitter<ApiV3Filter[]>(componentDestroyed(this));
+  /** Transient set of active filters
+   * Either from saved board (then filters === board.filters)
+   * or from the unsaved query props
+   */
+  @Input() public filters:ApiV3Filter[];
+
+  @Output() public onFiltersChanged = new DebouncedEventEmitter<ApiV3Filter[]>(componentDestroyed(this));
 
   constructor(private readonly currentProjectService:CurrentProjectService,
               private readonly querySpace:IsolatedQuerySpace,
@@ -62,16 +69,16 @@ export class BoardFilterComponent implements OnInit, OnDestroy {
         let filterHash = this.urlParamsHelper.buildV3GetFilters(filters);
         let query_props = JSON.stringify(filterHash);
 
-        this.filters.emit(filterHash);
+        this.onFiltersChanged.emit(filterHash);
 
-        this.$state.go('.', { query_props: query_props }, {custom: {notify: false}});
+        this.$state.go('.', {query_props: query_props}, {custom: {notify: false}});
       });
   }
 
   private loadQueryForm() {
     this.queryFormDm
       .loadWithParams(
-        { filters: JSON.stringify(this.board.filters) },
+        {filters: JSON.stringify(this.filters)},
         undefined,
         this.currentProjectService.id
       )
