@@ -89,7 +89,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       .subscribe(board => {
         this.board = board;
         let queryProps = this.state.params.query_props;
-        this.filters = this.board.filters =  queryProps ? JSON.parse(queryProps) : this.board.filters;
+        this.filters = queryProps ? JSON.parse(queryProps) : this.board.filters;
 
         if (!initialized) {
           this.dynamicCss.requireHighlighting();
@@ -105,14 +105,14 @@ export class BoardComponent implements OnInit, OnDestroy {
   saveWithNameAndFilters(board:Board, newName:string) {
     board.name = newName;
     board.filters = this.filters;
-    return this.saveBoard(board);
+    return this.saveBoard(board, true);
   }
 
   showError(text = this.text.loadingError) {
     this.notifications.addError(text);
   }
 
-  saveBoard(board:Board) {
+  saveBoard(board:Board, resetFilters = false) {
     this.inFlight = true;
     this.Boards
       .save(board)
@@ -120,7 +120,8 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.BoardCache.update(board);
         this.notifications.addSuccess(this.text.updateSuccessful);
         this.inFlight = false;
-        this.state.go('.', { query_props: null, isNew: false }, {custom: {notify: false}});
+        let params = { isNew: false, query_props: (resetFilters ? null : this.state.params.query_props) };
+        this.state.go('.', params, {custom: {notify: false}});
       });
   }
 
