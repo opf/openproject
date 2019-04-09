@@ -38,8 +38,6 @@ jQuery(function($) {
     var content_type = $(this).data('contentType');
     toggleContentTypeForm(content_type, false);
 
-    $(window).off("beforeunload");
-
     return false;
   });
 
