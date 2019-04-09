@@ -20,7 +20,7 @@ import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
   selector: 'board-filter',
   templateUrl: './board-filter.component.html'
 })
-export class BoardFilterComponent implements OnInit, OnDestroy {
+export class BoardFilterComponent implements OnDestroy {
   /** Current active */
   @Input() public board:Board;
 
@@ -42,7 +42,14 @@ export class BoardFilterComponent implements OnInit, OnDestroy {
               private readonly queryFormDm:QueryFormDmService) {
   }
 
-  ngOnInit():void {
+  /**
+   * Avoid initializing onInit to avoid loading the form earlier
+   * than other parts of the board.
+   *
+   * Instead, the board component will instrument this method
+   * when children are loaded.
+   */
+  public doInitialize():void {
     // Initially load the form once to be able to render filters
     this.loadQueryForm();
 
