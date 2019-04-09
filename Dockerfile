@@ -27,6 +27,7 @@ RUN curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x6
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y  \
     postgresql-client \
+    mysql-client \
     poppler-utils \
     unrtf \
     tesseract-ocr \
@@ -58,7 +59,7 @@ COPY modules ./modules
 # OpenProject::Version is required by module versions in gemspecs
 RUN mkdir -p lib/open_project
 COPY lib/open_project/version.rb ./lib/open_project/
-RUN bundle install --deployment --with="docker opf_plugins" --without="test development mysql2" --jobs=8 --retry=3
+RUN bundle install --deployment --with="docker opf_plugins" --without="test development" --jobs=8 --retry=3
 
 # Finally, copy over the whole thing
 COPY . $APP_PATH
