@@ -33,7 +33,16 @@ describe 'boards onboarding tour', js: true do
   let(:user) { FactoryBot.create :admin,
                                  member_in_project: demo_project,
                                  member_through_role: role}
-  let(:permissions) { %i[show_board_views manage_board_views view_work_packages manage_public_queries] }
+  let(:permissions) do
+    %i[
+      show_board_views
+      manage_board_views
+      view_work_packages
+      edit_work_packages
+      add_work_packages
+      manage_public_queries
+    ]
+  end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
 
   let(:demo_project) do

@@ -44,13 +44,13 @@ export class SchemaCacheService {
    * @param href The schema's href.
    * @return A promise with the loaded schema.
    */
-  ensureLoaded(workPackage:WorkPackageResource):PromiseLike<any> {
+  ensureLoaded(workPackage:WorkPackageResource):Promise<unknown> {
     const state = this.state(workPackage);
 
     if (state.hasValue()) {
       return Promise.resolve(state.value);
     } else {
-      return this.load(workPackage).valuesPromise();
+      return this.load(workPackage).valuesPromise() as Promise<unknown>;
     }
   }
 

@@ -1,15 +1,10 @@
-import {Inject, Injectable, Injector} from "@angular/core";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {Injectable} from "@angular/core";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {debugLog} from "core-app/helpers/debug_output";
 import {States} from "core-components/states.service";
-import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
-import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
-import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {Observable, of, throwError} from "rxjs";
+import {Observable, throwError} from "rxjs";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 
 @Injectable()
@@ -17,9 +12,7 @@ export class ReorderQueryService {
 
   constructor(readonly states:States,
               readonly pathHelper:PathHelperService,
-              readonly injector:Injector,
               readonly queryDm:QueryDmService,
-              @Inject(IWorkPackageEditingServiceToken) protected readonly wpEditing:WorkPackageEditingService,
               readonly wpNotifications:WorkPackageNotificationService) {
   }
 
@@ -57,21 +50,6 @@ export class ReorderQueryService {
     }
 
     return order;
-  }
-
-  public updateWorkPackage(querySpace:IsolatedQuerySpace, workPackage:WorkPackageResource) {
-    let query = querySpace.query.value;
-
-    if (query) {
-      const changeset = this.wpEditing.changesetFor(workPackage);
-      const filter = new WorkPackageFilterValues(this.injector, changeset, query.filters);
-      filter.applyDefaultsFromFilters();
-
-      return changeset
-        .save();
-    }
-
-    return Promise.resolve();
   }
 
   public saveOrderInQuery(query:QueryResource|undefined, orderedIds:string[]):Observable<unknown> {

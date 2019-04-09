@@ -6,15 +6,17 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
-import {map} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 import {Board, BoardType} from "core-app/modules/boards/board/board";
 import {OpenprojectBoardsModule} from "core-app/modules/boards/openproject-boards.module";
+import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 
 @Injectable()
 export class BoardDmService {
 
   constructor(protected GridDm:GridDmService,
               protected PathHelper:PathHelperService,
+              protected authorisationService:AuthorisationService,
               protected CurrentProject:CurrentProjectService,
               protected halResourceService:HalResourceService) {
   }
@@ -31,6 +33,7 @@ export class BoardDmService {
         this.GridDm.list({ filters: [['scope', '=', [path]]] })
       )
       .pipe(
+        tap(collection => this.authorisationService.initModelAuth('boards', collection.$links)),
         map(collection => collection.elements.map(grid => new Board(grid)))
       );
   }
