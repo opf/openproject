@@ -13,8 +13,8 @@ jQuery(function($) {
     } else {
       // Otherwise we throw a warning
       // For browser compatibility we need to set the event return value
-      e.returnValue = '';
-      return '';
+      e.preventDefault();
+      return e.returnValue = I18n.t('js.modals.form_submit.text');
     }
   });
 
