@@ -29,7 +29,6 @@
 #++
 
 module MetaTagsHelper
-
   ##
   # Use meta-tags to output title and site name
   def output_title_and_meta_tags

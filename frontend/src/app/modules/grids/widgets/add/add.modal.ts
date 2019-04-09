@@ -26,7 +26,7 @@ export class AddGridWidgetModal extends OpModalComponent {
   }
 
   public get selectable() {
-    return this.widgetsService.registered.map((widget) => {
+    return this.eligibleWidgets.map((widget) => {
       return {
         identifier: widget.identifier,
         title: this.i18n.t(`js.grid.widgets.${widget.identifier}.title`),
@@ -44,5 +44,15 @@ export class AddGridWidgetModal extends OpModalComponent {
 
   public trackWidgetBy(widget:WidgetRegistration) {
     return widget.identifier;
+  }
+
+  private get eligibleWidgets() {
+    let schemaWidgetIdentifiers = this.locals.schema.widgets.allowedValues.map((widget:any) => {
+      return widget.identifier;
+    });
+
+    return this.widgetsService.registered.filter((widget) => {
+      return schemaWidgetIdentifiers.includes(widget.identifier);
+    });
   }
 }

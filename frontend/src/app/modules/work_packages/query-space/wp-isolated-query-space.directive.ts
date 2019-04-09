@@ -114,7 +114,7 @@ import {debugLog} from "core-app/helpers/debug_output";
 export class WorkPackageIsolatedQuerySpaceDirective {
 
   constructor(private elementRef:ElementRef,
-              private querySpace:IsolatedQuerySpace,
+              public querySpace:IsolatedQuerySpace,
               private injector:Injector) {
     debugLog("Opening isolated query space %O in %O", injector, elementRef.nativeElement);
   }

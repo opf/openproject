@@ -516,10 +516,11 @@ OpenProject::Application.routes.draw do
     match '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', via: :post, as: 'revoke_my_oauth_application'
   end
 
+  mount MyPage::Engine, at: "/my/page"
+
   scope controller: 'my' do
     get '/my/password', action: 'password'
     post '/my/change_password', action: 'change_password'
-    get '/my/page', action: 'page'
 
     get '/my/account', action: 'account'
     get '/my/settings', action: 'settings'

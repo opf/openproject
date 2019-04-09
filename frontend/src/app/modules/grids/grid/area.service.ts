@@ -11,7 +11,7 @@ import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 export class GridAreaService {
 
   private resource:GridResource;
-  private schema:SchemaResource;
+  public schema:SchemaResource;
 
   public numColumns:number = 0;
   public numRows:number = 0;
@@ -48,11 +48,16 @@ export class GridAreaService {
 
     this.resource.widgets = this.widgetResources;
     this.resource.rowCount = this.numRows;
+
     this.resource.columnCount = this.numColumns;
 
     if (save) {
-      this.gridDm.update(this.resource, this.schema);
+      this.saveGrid();
     }
+  }
+
+  public saveGrid() {
+    this.gridDm.update(this.resource, this.schema);
   }
 
   private buildGridAreas() {

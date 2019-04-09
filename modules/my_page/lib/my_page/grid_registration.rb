@@ -1,5 +1,5 @@
-module Grids
-  class MyPageGridRegistration < ::Grids::Configuration::Registration
+module MyPage
+  class GridRegistration < ::Grids::Configuration::Registration
     grid_class 'Grids::MyPage'
     to_scope :my_page_path
 
@@ -8,9 +8,16 @@ module Grids
             'work_packages_watched',
             'work_packages_created',
             'work_packages_calendar',
+            'work_packages_table',
             'time_entries_current_user',
             'documents',
             'news'
+
+    widget_strategy 'work_packages_table' do
+      after_destroy -> { ::Query.find_by(id: options[:queryId])&.destroy }
+
+      allowed ->(user) { user.allowed_to_globally?(:save_queries) }
+    end
 
     defaults(
       row_count: 7,

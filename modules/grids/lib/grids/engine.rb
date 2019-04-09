@@ -9,9 +9,5 @@ module Grids
 
       Queries::Register.filter query, Grids::Filters::ScopeFilter
     end
-
-    config.to_prepare do
-      Grids::MyPageGridRegistration.register!
-    end
   end
 end

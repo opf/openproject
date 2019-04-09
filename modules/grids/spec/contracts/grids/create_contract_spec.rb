@@ -38,9 +38,11 @@ describe Grids::CreateContract do
   it_behaves_like 'shared grid contract attributes'
 
   describe 'type' do
+    let(:grid) { FactoryBot.build_stubbed(:grid, default_values) }
+
     it_behaves_like 'is writable' do
       let(:attribute) { :type }
-      let(:value) { 'Grids::MyPage' }
+      let(:value) { 'Grids::Grid' }
     end
   end
 
@@ -51,15 +53,6 @@ describe Grids::CreateContract do
       let(:attribute) { :user_id }
       let(:value) { 5 }
     end
-
-    context 'for a Grids::MyPage' do
-      let(:grid) { FactoryBot.build_stubbed(:my_page, default_values) }
-
-      it_behaves_like 'is writable' do
-        let(:attribute) { :user_id }
-        let(:value) { 5 }
-      end
-    end
   end
 
   describe 'project_id' do
@@ -68,15 +61,6 @@ describe Grids::CreateContract do
     it_behaves_like 'is not writable' do
       let(:attribute) { :project_id }
       let(:value) { 5 }
-    end
-
-    context 'for a Grids::MyPage' do
-      let(:grid) { FactoryBot.build_stubbed(:my_page, default_values) }
-
-      it_behaves_like 'is not writable' do
-        let(:attribute) { :project_id }
-        let(:value) { 5 }
-      end
     end
   end
 
@@ -91,6 +75,29 @@ describe Grids::CreateContract do
 
         expect(instance.assignable_values(:scope, user))
           .to eql scopes
+      end
+    end
+
+    context 'for widgets' do
+      it 'calls the grid configuration for the available values but allows only those eligible' do
+        widgets = %i[widget1 widget2]
+
+        allow(Grids::Configuration)
+          .to receive(:all_widget_identifiers)
+          .and_return(widgets)
+
+        allow(Grids::Configuration)
+          .to receive(:allowed_widget?)
+          .with(Grids::Grid, :widget1, user)
+          .and_return(true)
+
+        allow(Grids::Configuration)
+          .to receive(:allowed_widget?)
+          .with(Grids::Grid, :widget2, user)
+          .and_return(false)
+
+        expect(instance.assignable_values(:widgets, user))
+          .to match_array [:widget1]
       end
     end
 

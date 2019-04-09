@@ -42,7 +42,7 @@ describe Grids::UpdateService, type: :model do
                         contract_class: contract_class)
   end
   let(:call_attributes) { {} }
-  let(:grid_class) { Grids::MyPage }
+  let(:grid_class) { Grids::Grid }
   let(:set_attributes_success) do
     true
   end
