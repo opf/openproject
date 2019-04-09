@@ -1,4 +1,13 @@
-import {Component, Injector, OnDestroy, OnInit, QueryList, ViewChildren, ViewEncapsulation} from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  Injector,
+  OnDestroy,
+  OnInit,
+  QueryList, ViewChild,
+  ViewChildren,
+  ViewEncapsulation
+} from "@angular/core";
 import {DragAndDropService} from "core-app/modules/boards/drag-and-drop/drag-and-drop.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -17,6 +26,7 @@ import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
+import {BoardFilterComponent} from "core-app/modules/boards/board/board-filter/board-filter.component";
 
 @Component({
   selector: 'board',
@@ -32,6 +42,16 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   /** Reference all query children to extract current actions */
   @ViewChildren(BoardListComponent) lists:QueryList<BoardListComponent>;
+
+  /** Reference to the filter component */
+  @ViewChild(BoardFilterComponent)
+  set content(v:BoardFilterComponent|undefined) {
+    // ViewChild reference may be undefined initially
+    // due to ngIf
+    if (v !== undefined) {
+      setTimeout(() => v.doInitialize());
+    }
+  }
 
   /** Board observable */
   public board:Board;
@@ -120,7 +140,7 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.BoardCache.update(board);
         this.notifications.addSuccess(this.text.updateSuccessful);
         this.inFlight = false;
-        let params = { isNew: false, query_props: (resetFilters ? null : this.state.params.query_props) };
+        let params = {isNew: false, query_props: (resetFilters ? null : this.state.params.query_props)};
         this.state.go('.', params, {custom: {notify: false}});
       });
   }
@@ -128,7 +148,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   addList(board:Board):any {
     if (board.isFree) {
       return this.BoardList
-        .addFreeQuery(board, { name: this.text.unnamed_list})
+        .addFreeQuery(board, {name: this.text.unnamed_list})
         .then(board => this.Boards.save(board))
         .then(saved => {
           this.BoardCache.update(saved);
@@ -140,7 +160,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       this.opModalService.show(
         AddListModalComponent,
         this.injector,
-        { board: board, queries: queries }
+        {board: board, queries: queries}
       );
     }
   }
