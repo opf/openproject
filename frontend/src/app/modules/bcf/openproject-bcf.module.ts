@@ -28,12 +28,14 @@
 
 import {NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {BcfWpSingleViewComponent} from "core-app/modules/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
+import {NgxGalleryModule} from "ngx-gallery";
+
 
 @NgModule({
   imports: [
     OpenprojectCommonModule,
+    NgxGalleryModule,
   ],
   providers: [
   ],
