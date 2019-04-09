@@ -13,8 +13,8 @@ jQuery(function($) {
     } else {
       // Otherwise we throw a warning
       // For browser compatibility we need to set the event return value
-      e.returnValue = '';
-      return '';
+      e.preventDefault();
+      return e.returnValue = I18n.t('js.modals.form_submit.text');
     }
   });
 
@@ -37,8 +37,6 @@ jQuery(function($) {
   $('.button--cancel-agenda').click(function() {
     var content_type = $(this).data('contentType');
     toggleContentTypeForm(content_type, false);
-
-    $(window).off("beforeunload");
 
     return false;
   });
