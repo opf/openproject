@@ -32,5 +32,11 @@
 # You can add backtrace silencers for libraries that you're using but don't wish to see in your backtraces.
 # Rails.backtrace_cleaner.add_silencer { |line| line =~ /my_noisy_library/ }
 
-# You can also remove all the silencers if you're trying to debug a problem that might stem from framework code.
-# Rails.backtrace_cleaner.remove_silencers!
+##
+# Remove the default backtrace silencer to allow other app paths
+# to be matched (e.g., the ones in modules)
+Rails.backtrace_cleaner.remove_silencers!
+
+# compare this with APP_DIRS_PATTERN in railties/lib/rails/backtrace_cleaner.rb
+fixed_dirs_patterns = /^\/?(app|config|lib|test|modules|\(\w*\))/
+Rails.backtrace_cleaner.add_silencer { |line| !fixed_dirs_patterns.match?(line) }
