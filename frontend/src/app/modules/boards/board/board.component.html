@@ -55,6 +55,7 @@
   </ng-container>
 
   <div class="boards-list--container"
+       #container
        *ngIf="showBoardListView()"
        cdkDropList
        [cdkDropListDisabled]="!board.editable"
@@ -64,7 +65,10 @@
     <div *ngFor="let query of board.queries; trackBy:trackByQueryId"
          class="boards-list--item"
          wp-isolated-query-space
-         cdkDrag>
+         cdkDrag
+         vsDragScroll
+         [cdkDragData]="query"
+         [vsDragScrollContainer]="container">
       <span *ngIf="board.editable"
             class="boards-list-item-handle icon icon-drag-handle"
             cdkDragHandle></span>

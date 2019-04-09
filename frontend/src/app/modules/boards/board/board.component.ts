@@ -1,6 +1,6 @@
 import {
-  AfterViewInit,
   Component,
+  ElementRef,
   Injector,
   OnDestroy,
   OnInit,
@@ -42,6 +42,9 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   /** Reference all query children to extract current actions */
   @ViewChildren(BoardListComponent) lists:QueryList<BoardListComponent>;
+
+  /** Container reference */
+  @ViewChild('container') public container:ElementRef;
 
   /** Reference to the filter component */
   @ViewChild(BoardFilterComponent)

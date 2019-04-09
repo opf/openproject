@@ -50,6 +50,7 @@ import {AddListModalComponent} from "core-app/modules/boards/board/add-list-moda
 import {BoardHighlightingTabComponent} from "core-app/modules/boards/board/configuration-modal/tabs/highlighting-tab.component";
 import {AddCardDropdownMenuDirective} from "core-app/modules/boards/board/add-card-dropdown/add-card-dropdown-menu.directive";
 import {BoardFilterComponent} from "core-app/modules/boards/board/board-filter/board-filter.component";
+import {DragScrollModule} from "cdk-drag-scroll";
 
 export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -110,6 +111,7 @@ export function registerBoardsModule(injector:Injector) {
   imports: [
     OpenprojectCommonModule,
     OpenprojectWorkPackagesModule,
+    DragScrollModule,
 
     // Routes for /boards
     UIRouterModule.forChild({
