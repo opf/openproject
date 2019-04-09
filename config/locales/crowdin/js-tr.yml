@@ -180,6 +180,8 @@ tr:
           title: Oluşturduğum iş paketleri
         work_packages_watched:
           title: İzlediğim iş paketleri
+        work_packages_table:
+          title: Work packages
         work_packages_calendar:
           title: Takvim
     label_activate: Etkinleştir

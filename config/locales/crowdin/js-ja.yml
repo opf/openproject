@@ -172,6 +172,8 @@ ja:
           title: 自分が作成した作業項目
         work_packages_watched:
           title: 自分が見た作業項目
+        work_packages_table:
+          title: Work packages
         work_packages_calendar:
           title: カレンダー
     label_activate: 有効にする
