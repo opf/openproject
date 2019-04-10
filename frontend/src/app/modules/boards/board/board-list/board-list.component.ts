@@ -40,6 +40,7 @@ import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 
 @Component({
   selector: 'board-list',
@@ -68,6 +69,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   /** The query resource being loaded */
   public query:QueryResource;
 
+  /** Query loading error, if present */
+  public loadingError:string|undefined;
+
   /** Rename inFlight */
   public inFlight:boolean;
 
@@ -81,6 +85,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     updateSuccessful: this.I18n.t('js.notice_successful_update'),
     areYouSure: this.I18n.t('js.text_are_you_sure'),
     unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
+    click_to_remove: this.I18n.t('js.boards.click_to_remove_list')
   };
 
   /** Are we allowed to drag & drop elements ? */
@@ -96,6 +101,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly notifications:NotificationsService,
               private readonly querySpace:IsolatedQuerySpace,
               private readonly Gon:GonService,
+              private readonly wpNotificationService:WorkPackageNotificationService,
               private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               private readonly authorisationService:AuthorisationService,
               private readonly wpInlineCreate:WorkPackageInlineCreateService,
@@ -149,6 +155,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     if (changes.filters && !changes.resource) {
       this.updateQuery();
     }
+  }
+
+  public get errorMessage() {
+    return this.I18n.t('js.boards.error_loading_the_list', { error_message: this.loadingError });
   }
 
   public get canReference() {
@@ -252,9 +262,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .pipe(
         withLoadingIndicator(this.indicatorInstance, 50),
       )
-      .subscribe(query => {
-        this.wpStatesInitialization.updateQuerySpace(query, query.results);
-      });
+      .subscribe(
+        query => this.wpStatesInitialization.updateQuerySpace(query, query.results),
+        error => this.loadingError = this.wpNotificationService.retrieveErrorMessage(error)
+      );
   }
 
   private get indicatorInstance() {

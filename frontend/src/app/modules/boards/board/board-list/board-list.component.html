@@ -47,4 +47,13 @@
       </wp-card-view>
     </div>
   </ng-container>
+  <div class="notification-box -error" *ngIf="loadingError">
+    <p>
+      <span [textContent]="errorMessage"></span>
+      &ngsp;
+      <a role="button" (accessibleClick)="onRemove.emit()">
+        <span [textContent]="text.click_to_remove"></span>
+      </a>
+    </p>
+  </div>
 </div>

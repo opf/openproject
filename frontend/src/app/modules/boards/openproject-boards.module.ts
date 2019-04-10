@@ -60,7 +60,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     url: '/boards/?query_props',
     params: {
       // Use custom encoder/decoder that ensures validity of URL string
-      query_props: {type: 'opQueryString'}
+      query_props: { type: 'opQueryString', dynamic: true }
     },
     redirectTo: 'boards.list',
     component: BoardsRootComponent
@@ -77,8 +77,9 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     url: '{board_id}',
     params: {
       board_id: {type: 'int'},
-      isNew: {type: 'bool'}
+      isNew: {type: 'bool', dynamic: true}
     },
+    reloadOnSearch: false,
     component: BoardComponent,
     data: {
       parent: 'boards'
