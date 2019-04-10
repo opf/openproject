@@ -24,8 +24,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
   let(:project) { FactoryBot.create(:project) }
   let(:role) do
-    FactoryBot.create(:role, permissions: [:view_linked_issues,
-                                           :view_work_packages])
+    FactoryBot.create(:role, permissions: %i[view_linked_issues view_work_packages])
   end
   let(:user) do
     FactoryBot.create(:user,
