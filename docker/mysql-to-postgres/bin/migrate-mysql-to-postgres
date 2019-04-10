@@ -1,0 +1,160 @@
+#!/usr/bin/env ruby
+
+db_url = String(ENV["DATABASE_URL"]).strip
+mysql_url = String(ENV["MYSQL_DATABASE_URL"]).strip
+
+if db_url == ""
+  puts "ERROR: expected DATABASE_URL in ENV"
+
+  exit 1
+end
+
+if db_url.start_with?("mysql")
+  puts "ERROR: You are running MySQL. OpenProject has dropped support for MySQL."
+  puts "       We can convert it to Postgres for you. Please setup postgres and "
+  puts "       rerun this with MYSQL_DATABASE_URL pointing to your original database "
+  puts "       and DATABASE_URL pointing to a new Postgres database."
+  puts ""
+  puts "EXAMPLE: docker run \\"
+  puts "           -e MYSQL_DATABASE_URL=mysql://openproject:<PASSWORD>@localhost:3306/openproject \\"
+  puts "           -e DATABASE_URL=postgresql://openproject:<PASSWORD>@localhost:5432/openproject \\"
+  puts "           -it openproject/community:latest"
+
+  exit 1
+end
+
+if db_url.start_with?("postgresql://") && mysql_url == ""
+  # nothing to do
+
+  exit 0
+end
+
+filtered_mysql_url = mysql_url.sub(/:([^:]*)@/, ":<password>@")
+filtered_db_url = db_url.sub(/:([^:]*)@/, ":<password>@")
+
+puts "Migrating database from MySQL to PostgreSQL."
+puts
+puts "Import"
+puts "  MySQL database"
+puts "    #{filtered_mysql_url}"
+puts "  into Postgres database "
+puts "    #{filtered_db_url}"
+puts "  ?"
+puts "WARNING: This resets the given Postgres database."
+puts
+print "Y/n "
+
+answer = gets.chomp
+
+if answer.downcase == "n"
+  exit 0
+end
+
+if !(db_url =~ /postgresql:\/\/(.+):(.+)@([^:]+)(?::(\d+))?\/(.+)/)
+  puts "ERROR: Could not parse database URL (#{filtered_db_url})"
+
+  exit 1
+end
+
+db_user, db_password, db_host, db_port, db_name = [$1, $2, $3, $4, $5]
+db_port ||= 5432
+
+require 'pty'
+
+def run(cmd, silent: false, record_output: true)
+  output = []
+
+  PTY.spawn(cmd) do |stdout, stdin, pid|
+    begin
+      stdout.each do |line|
+        output << line if record_output
+        puts line unless silent
+      end
+    rescue Errno::EIO
+      # raised when stdout is closed after process finished
+    end
+
+    Process.wait pid
+  end
+
+  [output.join("\n").strip, $?.to_i]
+end
+
+puts "Resetting target database..."
+drop_cmd = "PGPASSWORD=#{db_password} psql -U #{db_user} -h #{db_host} -p #{db_port} -c 'DROP DATABASE #{db_name}'"
+drop_output, _ = run drop_cmd, silent: true
+
+if drop_output.include?("database \"#{db_name}\" does not exist") || drop_output == "DROP DATABASE"
+  # that's ok then we don't have to drop it or dropped database successfully
+  puts "Database dropped"
+else
+  puts drop_output
+  exit 1 # something went wrong
+end
+
+puts "Creating database..."
+create_cmd = "PGPASSWORD=#{db_password} psql -U #{db_user} -h #{db_host} -p #{db_port} -c 'CREATE DATABASE #{db_name}'"
+create_output, _ = run create_cmd, silent: true
+
+if create_output == "CREATE DATABASE"
+  # created database successfully
+else
+  puts create_output
+  exit 1 # something went wrong
+end
+
+puts "Importing database ..."
+
+_, pgloader_status = run "pgloader --verbose #{mysql_url} #{db_url}", record_output: false
+
+if pgloader_status != 0
+  puts "\nFailed to import MySQL database into Postgres. See above."
+
+  exit pgloader_status
+end
+
+check_fulltext_cmd = "PGPASSWORD=#{db_password} psql -U #{db_user} -h #{db_host} -p #{db_port} -c \"select 'true' from schema_migrations where version = '20180122135443'\""
+check_output, check_status = run check_fulltext_cmd, silent: true
+
+if check_status != 0
+  puts check_output
+  puts "Failed to check full-text status of database. See above."
+
+  exit check_status
+end
+
+# if the version was present on MySQL already we need to redo it to
+# add the postgres specific columns.
+needs_fulltext_migration = check_output.include?("true")
+
+puts "Migrating database ..."
+
+_, migrate_status = run "bundle exec rake db:migrate", record_output: false
+
+if migrate_status != 0
+  puts "\nMigration failed. See above."
+
+  exit migrate_status
+end
+
+if needs_fulltext_migration
+  puts "Running full-text search migration"
+
+  _, redo_status = run "bundle exec rake db:migrate:redo VERSION=20180122135443", record_output: false
+
+  if redo_status != 0
+    puts "\nFull-text search migration failed. See above."
+
+    exit redo_status
+  end
+
+  _, extract_status = run "bundle exec rake attachments:extract_fulltext_where_missing", record_output: false
+
+  if extract_status != 0
+    puts "\nFull-text extraction failed. See above."
+
+    exit extract_status
+  end
+end
+
+puts "Migration from MySQL to Postgres completed successfully!"
