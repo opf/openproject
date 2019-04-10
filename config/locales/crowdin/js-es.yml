@@ -185,7 +185,7 @@ es:
         work_packages_watched:
           title: Paquetes de trabajo vigilados por mí
         work_packages_table:
-          title: Work packages
+          title: Paquetes de trabajo
         work_packages_calendar:
           title: Calendario
     label_activate: Activar

@@ -180,7 +180,7 @@ fil:
         work_packages_watched:
           title: Work packages watched by me
         work_packages_table:
-          title: Work packages
+          title: Ang mga work package
         work_packages_calendar:
           title: Kalendaryo
     label_activate: Aktibo

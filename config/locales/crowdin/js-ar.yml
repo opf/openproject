@@ -181,7 +181,7 @@ ar:
         work_packages_watched:
           title: Work packages watched by me
         work_packages_table:
-          title: Work packages
+          title: مجموعات العمل
         work_packages_calendar:
           title: التقويم
     label_activate: تفعيل

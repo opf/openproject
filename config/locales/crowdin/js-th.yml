@@ -180,7 +180,7 @@ th:
         work_packages_watched:
           title: Work packages watched by me
         work_packages_table:
-          title: Work packages
+          title: ชุดภารกิจ
         work_packages_calendar:
           title: ปฏิทิน
     label_activate: เปิดใช้งาน

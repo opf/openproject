@@ -184,7 +184,7 @@ nl:
         work_packages_watched:
           title: Werkpakketten bekeken door mij
         work_packages_table:
-          title: Work packages
+          title: Werkpakketten
         work_packages_calendar:
           title: Agenda
     label_activate: Activeren

@@ -183,7 +183,7 @@ ro:
         work_packages_watched:
           title: Work packages watched by me
         work_packages_table:
-          title: Work packages
+          title: Pachete de lucru
         work_packages_calendar:
           title: Calendar
     label_activate: Activare

@@ -181,7 +181,7 @@ hi:
         work_packages_watched:
           title: Work packages watched by me
         work_packages_table:
-          title: Work packages
+          title: कार्य पैकेज
         work_packages_calendar:
           title: कैलेंडर
     label_activate: Activate

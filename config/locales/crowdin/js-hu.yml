@@ -182,7 +182,7 @@ hu:
         work_packages_watched:
           title: Work packages watched by me
         work_packages_table:
-          title: Work packages
+          title: Munkacsomagok
         work_packages_calendar:
           title: Naptár
     label_activate: Aktivál

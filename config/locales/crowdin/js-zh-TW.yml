@@ -173,7 +173,7 @@ zh-TW:
         work_packages_watched:
           title: Work packages watched by me
         work_packages_table:
-          title: Work packages
+          title: 工作項目
         work_packages_calendar:
           title: 行事曆
     label_activate: 啟用

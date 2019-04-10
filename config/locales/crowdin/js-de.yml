@@ -189,7 +189,7 @@ de:
         work_packages_watched:
           title: Von mir beobachtete Arbeitspakete
         work_packages_table:
-          title: Work packages
+          title: Arbeitspakete
         work_packages_calendar:
           title: Kalender
     label_activate: Aktivieren

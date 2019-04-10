@@ -75,7 +75,7 @@ pt-BR:
 '
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: Atualmente não há postagens para o fórum.
   colors:
     index:
       no_results_title_text: Atualmente, não existem cores.
@@ -157,8 +157,8 @@ pt-BR:
       activities:
         no_results_title_text: Atualmente, não há atividades disponíveis.
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: Atualmente não há fóruns para o projeto.
+        no_results_content_text: Criar um novo fórum
       categories:
         no_results_title_text: Atualmente, não há categorias de pacote de trabalho.
         no_results_content_text: Criar uma nova categoria de pacote de trabalho
@@ -528,7 +528,7 @@ pt-BR:
         too_long: é muito longo (o máximo é %{count} caracteres).
         too_short: é muito curto (mínimo é %{count} caracteres).
         unchangeable: não pode ser alterado.
-        unremovable: cannot be removed.
+        unremovable: não pode ser removido.
         wrong_length: é o tamanho errado (deve ser %{count} caracteres).
       models:
         custom_field:
@@ -1242,7 +1242,7 @@ pt-BR:
   label_available_project_work_package_categories: Categorias de pacote de trabalho
     disponíveis
   label_available_project_work_package_types: Tipos de pacote de trabalho disponíveis
-  label_available_project_forums: Available forums
+  label_available_project_forums: Fóruns disponíveis
   label_available_project_versions: Versões disponíveis
   label_available_project_repositories: Repositórios disponíveis
   label_api_documentation: Documentação da API
@@ -1258,7 +1258,7 @@ pt-BR:
   label_branch: Ramo
   label_browse: Navegador
   label_bulk_edit_selected_work_packages: Editar em lote os pacotes de trabalho selecionados
-  label_bundled: "(Bundled)"
+  label_bundled: "(Empacotado)"
   label_calendar: Calendário
   label_calendar_show: Mostrar Calendário
   label_category: Categoria
@@ -1358,7 +1358,7 @@ pt-BR:
   label_equals: é
   label_everywhere: em todos os lugares
   label_example: Exemplo
-  label_import: Import
+  label_import: Importar
   label_export_to: 'Também disponível em:'
   label_expanded_click_to_collapse: Expandido. Clique para recolher
   label_f_hour: "%{value} hora"
@@ -1522,7 +1522,7 @@ pt-BR:
   label_planning: Planejamento
   label_please_login: Por favor, efetue o login
   label_plugins: Plugins
-  label_modules_and_plugins: Modules and Plugins
+  label_modules_and_plugins: Módulos e Plugins
   label_precedes: precede
   label_preferences: Preferências
   label_preview: Pré-visualizar
@@ -1530,7 +1530,7 @@ pt-BR:
   label_previous_week: Semana anterior
   label_principal_invite_via_email: " ou convidar novos usuários via e-mail"
   label_principal_search: Adicionar usuários existentes ou grupos
-  label_privacy_policy: Data privacy and security policy
+  label_privacy_policy: Política de privacidade e segurança de dados
   label_product_version: Versão do produto
   label_professional_support: Suporte profissional
   label_profile: Perfil

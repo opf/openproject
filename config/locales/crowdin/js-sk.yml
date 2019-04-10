@@ -24,11 +24,11 @@ sk:
         boards: Need to freely structure your work in a board view?
         check_out_link: Pozrite si verziu Enterprise.
     card:
-      add_new: Add new card
+      add_new: Pridať novú kartu
       highlighting:
         inline: 'Highlight inline:'
         entire_card_by: Entire card by
-      remove_from_list: Remove card from list
+      remove_from_list: Odstrániť kartu zo zoznamu
     clipboard:
       browser_error: Váš prehliadač nepodporuje kopírovanie do schránky. Manuálne
         skopírujte vybratý text.
@@ -183,7 +183,7 @@ sk:
         work_packages_watched:
           title: Pracovné balíčky sledované mnou
         work_packages_table:
-          title: Work packages
+          title: Pracovné balíčky
         work_packages_calendar:
           title: Kalendár
     label_activate: Aktivovať
@@ -332,7 +332,7 @@ sk:
     label_upload_notification: Nahrávanie súborov...
     label_work_package_upload_notification: 'Nahrávanie súborov pre Pracovný balík
       #%{id}: %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} pridané %{author}"
     label_files_to_upload: 'Tieto súbory budú odovzdané:'
     label_rejected_files: 'Tieto súbory nie je možné odovzdať:'
     label_rejected_files_reason: Tieto súbory nie je možné odovzdať, pretože ich veľkosť

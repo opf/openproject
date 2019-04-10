@@ -181,7 +181,7 @@ cs:
         work_packages_watched:
           title: Work packages watched by me
         work_packages_table:
-          title: Work packages
+          title: Pracovní balíčky
         work_packages_calendar:
           title: Kalendář
     label_activate: Aktivovat

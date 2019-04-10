@@ -181,7 +181,7 @@ bg:
         work_packages_watched:
           title: Work packages watched by me
         work_packages_table:
-          title: Work packages
+          title: Работни пакети
         work_packages_calendar:
           title: Календар
     label_activate: Activate

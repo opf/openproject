@@ -182,7 +182,7 @@ pl:
         work_packages_watched:
           title: Pakiety robocze obserwowane przeze mnie
         work_packages_table:
-          title: Work packages
+          title: Pakiety robocze
         work_packages_calendar:
           title: Kalendarz
     label_activate: Aktywuj

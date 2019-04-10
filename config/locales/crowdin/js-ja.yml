@@ -173,7 +173,7 @@ ja:
         work_packages_watched:
           title: 自分が見た作業項目
         work_packages_table:
-          title: Work packages
+          title: 作業項目
         work_packages_calendar:
           title: カレンダー
     label_activate: 有効にする

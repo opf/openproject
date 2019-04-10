@@ -181,7 +181,7 @@ tr:
         work_packages_watched:
           title: İzlediğim iş paketleri
         work_packages_table:
-          title: Work packages
+          title: İş paketleri
         work_packages_calendar:
           title: Takvim
     label_activate: Etkinleştir

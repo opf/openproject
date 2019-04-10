@@ -186,7 +186,7 @@ it:
         work_packages_watched:
           title: Pacchetti di lavoro visti da me
         work_packages_table:
-          title: Work packages
+          title: Macro-attività (work package)
         work_packages_calendar:
           title: Calendario
     label_activate: Attiva
