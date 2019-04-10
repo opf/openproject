@@ -52,8 +52,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   subject(:generated) { representer.to_json }
 
   describe 'with BCF issues' do
-    it { is_expected.to have_json_path('bcf') }
-    it { is_expected.to have_json_path('bcf/viewpoints') }
-    it { is_expected.to be_json_eql(["/attachments/#{bcf_issue.viewpoints.first.id}"].to_json).at_path('bcf/viewpoints') }
+    it do
+      is_expected.to be_json_eql([
+                                    {
+                                      file_name: bcf_issue.viewpoints.first.attachments.first.filename,
+                                      id: bcf_issue.viewpoints.first.attachments.first.id
+                                    }
+                                  ].to_json)
+                     .including('id')
+                     .at_path('bcf/viewpoints/')
+    end
   end
 end
