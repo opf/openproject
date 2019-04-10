@@ -51,15 +51,17 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
 
     this.galleryOptions = [
       {
-        // width: '600px',
-        // height: '400px',
+        width: '100%',
+        height: '400px',
         thumbnailsColumns: 4,
         imageAnimation: '',
         previewCloseOnEsc: true,
         previewKeyboardNavigation: true,
-        // imageSize: 'contain',
+        imageSize: 'contain',
+        imageArrowsAutoHide: true,
         thumbnailsArrowsAutoHide: true,
         thumbnailsAutoHide: true,
+        thumbnailsMargin: 5,
         thumbnailMargin: 5,
         previewDownload: true,
         arrowPrevIcon: 'icon-arrow-left2',
@@ -72,17 +74,17 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
       {
         breakpoint: 800,
         width: '100%',
-        height: '600px',
+        height: '300px',
         imagePercent: 80,
         thumbnailsPercent: 20,
-        thumbnailsMargin: 20,
-        thumbnailMargin: 20,
+        thumbnailsMargin: 5,
+        thumbnailMargin: 5,
         imageSize: 'contain',
       },
       // max-width 400
       {
         breakpoint: 400,
-        preview: false
+        height: '200px',
       }
     ];
 
@@ -93,6 +95,16 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
         big:    vp.fullPath,
       };
     });
+  }
+
+  public galleryPreviewOpen():void {
+    console.log("preview open");
+    jQuery('#top-menu')[0].style.zIndex = '10';
+  }
+
+  public gallleryPreviewClose():void {
+    console.log("preview close");
+    jQuery('#top-menu')[0].style.zIndex = '';
   }
 
   ngOnDestroy():void {
