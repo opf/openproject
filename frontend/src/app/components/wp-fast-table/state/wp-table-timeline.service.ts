@@ -74,18 +74,6 @@ export class WorkPackageTableTimelineService extends WorkPackageQueryStateServic
   public toggle() {
     let currentState = this.current;
     this.setVisible(!currentState.visible);
-
-    if (this.isAutoZoomEnabled() === undefined) {
-      this.toggleAutoZoomEnabled(true);
-    }
-
-    /**
-     * On first opening, activate auto zoom.
-     * Afterwards keep the zoom level.
-     */
-    if (!currentState.visible && this.isAutoZoomEnabled()) {
-      this.toggleAutoZoom(true);
-    }
   }
 
   public setVisible(value:boolean) {
@@ -136,8 +124,12 @@ export class WorkPackageTableTimelineService extends WorkPackageQueryStateServic
   }
 
   public updateZoomWithDelta(delta:number) {
-    this.toggleAutoZoom(false);
-    
+    if (this.isAutoZoom()) {
+      const target = delta < 0 ? 'days' : 'years';
+      this.setZoomLevel(target);
+      return;
+    }
+
     let idx = zoomLevelOrder.indexOf(this.current.zoomLevel);
     idx += delta;
 
@@ -146,20 +138,12 @@ export class WorkPackageTableTimelineService extends WorkPackageQueryStateServic
     }
   }
 
-  public toggleAutoZoom(value = !this.current.autoZoom) {
-    this.modify({ autoZoom: value });
-  }
-
   public isAutoZoom():boolean {
-    return this.current.autoZoom;
+    return this.current.zoomLevel === 'auto';
   }
 
-  public isAutoZoomEnabled():boolean|undefined {
-    return this.current.autoZoomEnabled;
-  }
-
-  public toggleAutoZoomEnabled(val = !this.current.autoZoomEnabled) {
-    this.modify({ autoZoomEnabled: val });
+  public enableAutozoom() {
+    this.modify({ zoomLevel: "auto" });
   }
 
   public get current():WorkPackageTableTimelineState {
@@ -184,9 +168,7 @@ export class WorkPackageTableTimelineService extends WorkPackageQueryStateServic
 
   private get defaultState():WorkPackageTableTimelineState {
     return {
-      autoZoom: false,
-      autoZoomEnabled: undefined,
-      zoomLevel: 'days',
+      zoomLevel: 'auto',
       visible: false,
       labels: this.defaultLabels
     };

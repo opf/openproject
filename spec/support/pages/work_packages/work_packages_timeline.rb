@@ -95,6 +95,10 @@ module Pages
       page.find('#work-packages-timeline-zoom-out-button').click
     end
 
+    def autozoom
+      page.find('#work-packages-timeline-zoom-auto-button').click
+    end
+
     def expect_zoom_at(value)
       unless ::Query.timeline_zoom_levels.key?(value)
         raise ArgumentError, "Invalid value"

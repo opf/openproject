@@ -15,7 +15,7 @@
     <button id="work-packages-timeline-zoom-out-button"
             class="button timeline-toolbar--button toolbar-icon"
             [attr.title]="text.zoomOut"
-            [disabled]="currentZoom == maxZoomLevel"
+            [disabled]="!isAutoZoom && currentZoom == maxZoomLevel"
             (click)="updateZoomWithDelta(1)">
       <op-icon icon-classes="icon-zoom-out button--icon"></op-icon>
     </button>
@@ -25,7 +25,7 @@
     <button id="work-packages-timeline-zoom-in-button"
             class="button timeline-toolbar--button toolbar-icon"
             [attr.title]="text.zoomIn"
-            [disabled]="currentZoom == minZoomLevel"
+            [disabled]="!isAutoZoom && currentZoom == minZoomLevel"
             (click)="updateZoomWithDelta(-1)">
       <op-icon icon-classes="icon-zoom-in button--icon"></op-icon>
     </button>

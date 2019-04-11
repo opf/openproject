@@ -44,7 +44,7 @@ export interface QueryResourceEmbedded {
   filters:QueryFilterInstanceResource[];
 }
 
-export type TimelineZoomLevel = 'days'|'weeks'|'months'|'quarters'|'years';
+export type TimelineZoomLevel = 'days'|'weeks'|'months'|'quarters'|'years'|'auto';
 
 export interface TimelineLabels {
   left:string|null;

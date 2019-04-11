@@ -19,7 +19,10 @@ export class WpTableConfigurationTimelinesTab implements TabComponent {
   public availableLabels:string[];
 
   public zoomLevel:TimelineZoomLevel;
-  public availableZoomLevels = zoomLevelOrder;
+
+  // Manualy build available zoom levels with zoom
+  // because it is not part of the order.
+  public availableZoomLevels:TimelineZoomLevel[] = ['auto', ...zoomLevelOrder];
 
   public text = {
     title: this.I18n.t('js.timelines.gantt_chart'),
@@ -33,7 +36,7 @@ export class WpTableConfigurationTimelinesTab implements TabComponent {
       months: this.I18n.t('js.timelines.zoom.months'),
       quarters: this.I18n.t('js.timelines.zoom.quarters'),
       years: this.I18n.t('js.timelines.zoom.years'),
-      autozoom: this.I18n.t('js.timelines.zoom.auto')
+      auto: this.I18n.t('js.timelines.zoom.auto')
     },
     labels: {
       title: this.I18n.t('js.timelines.labels.title'),
@@ -53,9 +56,8 @@ export class WpTableConfigurationTimelinesTab implements TabComponent {
   }
 
   public onSave() {
-    this.wpTableTimeline.toggleAutoZoom(false);
     let current = this.wpTableTimeline.current;
-    current.visible = this.timelineVisible
+    current.visible = this.timelineVisible;
     current.labels = this.labels;
     current.zoomLevel = this.zoomLevel;
     this.wpTableTimeline.state.putValue(current);

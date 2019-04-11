@@ -83,7 +83,7 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
     return this.wpTableTimeline.isVisible;
   }
 
-  public isAutoZoom() {
+  public get isAutoZoom() {
     return this.wpTableTimeline.isAutoZoom();
   }
 
@@ -104,11 +104,10 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
   }
 
   public enableAutoZoom() {
-    this.wpTableTimeline.toggleAutoZoomEnabled(true);
-    this.wpTableTimeline.toggleAutoZoom(true);
+    this.wpTableTimeline.enableAutozoom();
   }
 
   public getAutoZoomToggleClass():string {
-    return this.isAutoZoom() ? '-disabled' : '';
+    return this.isAutoZoom ? '-disabled' : '';
   }
 }
