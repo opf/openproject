@@ -108,7 +108,7 @@ shared_examples 'a workpackage autocomplete field' do
     field.activate!
     field.clear
     field.type(" ##{wp2.id}")
-    expect(page).to have_selector('.atwho-view-ul li.cur', text: wp2.to_s.strip)
+    expect(page).to have_selector('.mention-list-item', text: wp2.to_s.strip)
   end
 end
 
@@ -144,15 +144,17 @@ shared_examples 'a principal autocomplete field' do
 
     it 'autocompletes links to user profiles' do
       field.activate!
+      field.input_element.set('', fill_options: { clear: :backspace })
       field.input_element.send_keys(" @lau")
-      expect(page).to have_selector('.atwho-view-ul li', text: mentioned_user.name)
-      expect(page).to have_selector('.atwho-view-ul li.cur', text: mentioned_group.name)
-      expect(page).not_to have_selector('.atwho-view-ul li', text: user.name)
+      expect(page).to have_selector('.mention-list-item', text: mentioned_user.name)
+      expect(page).to have_selector('.mention-list-item', text: mentioned_group.name)
+      expect(page).not_to have_selector('.mention-list-item', text: user.name)
 
+      field.input_element.set('', fill_options: { clear: :backspace })
       field.input_element.send_keys(" @Laura Fo")
-      expect(page).to have_selector('.atwho-view-ul li.cur', text: mentioned_user.name)
-      expect(page).not_to have_selector('.atwho-view-ul li', text: mentioned_group.name)
-      expect(page).not_to have_selector('.atwho-view-ul li', text: user.name)
+      expect(page).to have_selector('.mention-list-item', text: mentioned_user.name)
+      expect(page).not_to have_selector('.mention-list-item', text: mentioned_group.name)
+      expect(page).not_to have_selector('.mention-list-item', text: user.name)
     end
   end
 
