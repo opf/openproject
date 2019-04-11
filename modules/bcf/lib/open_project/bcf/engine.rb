@@ -53,7 +53,6 @@ module OpenProject::Bcf
                if: ->(*) {
                  represented.bcf_issue.present?
                }
-
     end
 
     extend_api_response(:v3, :work_packages, :work_package_collection) do

@@ -54,13 +54,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   describe 'with BCF issues' do
     it do
       is_expected.to be_json_eql([
-                                    {
-                                      file_name: bcf_issue.viewpoints.first.attachments.first.filename,
-                                      id: bcf_issue.viewpoints.first.attachments.first.id
-                                    }
-                                  ].to_json)
-                     .including('id')
-                     .at_path('bcf/viewpoints/')
+        {
+          file_name: bcf_issue.viewpoints.first.attachments.first.filename,
+          id: bcf_issue.viewpoints.first.attachments.first.id
+        }
+      ].to_json)
+      .including('id')
+      .at_path('bcf/viewpoints/')
     end
   end
 end
