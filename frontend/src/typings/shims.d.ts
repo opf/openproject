@@ -54,7 +54,6 @@ declare global {
 
   interface JQuery {
     topShelf:any;
-    atwho:any;
     mark:any;
     select2:any;
   }

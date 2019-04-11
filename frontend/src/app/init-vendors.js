@@ -76,7 +76,6 @@ require('mark.js/dist/jquery.mark.min.js');
 // Micro Text fuzzy search library
 require('fuse.js');
 
-require('at.js/dist/js/jquery.atwho.js');
 require('../../vendor/select2/select2.min.js');
 
 require('moment-timezone/builds/moment-timezone-with-data.min.js');

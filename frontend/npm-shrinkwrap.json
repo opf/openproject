@@ -2003,11 +2003,6 @@
       "resolved": "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz",
       "integrity": "sha1-x57Zf380y48robyXkLzDZkdLS3k="
     },
-    "at.js": {
-      "version": "1.5.4",
-      "resolved": "https://registry.npmjs.org/at.js/-/at.js-1.5.4.tgz",
-      "integrity": "sha512-G8mgUb/PqShPoH8AyjuxsTGvIr1o716BtQUKDM44C8qN2W615y7KGJ68MlTGamd0J0D/m28emUkzagaHTdrGZw=="
-    },
     "atoa": {
       "version": "1.0.0",
       "resolved": "https://registry.npmjs.org/atoa/-/atoa-1.0.0.tgz",
