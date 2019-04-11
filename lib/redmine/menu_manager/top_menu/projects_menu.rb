@@ -59,7 +59,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   def project_index_item
     Redmine::MenuManager::MenuItem.new(
       :list_projects,
-      { controller: '/projects', action: 'index' },
+      main_app.projects_path,
       caption: t(:label_project_view_all),
       icon: "icon-show-all-projects icon4",
       html: {
@@ -71,7 +71,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   def project_new_item
     Redmine::MenuManager::MenuItem.new(
       :new_project,
-      { controller: '/projects', action: 'new' },
+      main_app.new_project_path,
       caption: Project.model_name.human,
       icon: "icon-add icon4",
       html: {
@@ -82,4 +82,6 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
       if: Proc.new { User.current.allowed_to?(:add_project, nil, global: true) }
     )
   end
+
+  include OpenProject::StaticRouting::UrlHelpers
 end

@@ -183,6 +183,8 @@ nl:
           title: Werkpakketten gemaakt door mij werk werk
         work_packages_watched:
           title: Werkpakketten bekeken door mij
+        work_packages_table:
+          title: Werkpakketten
         work_packages_calendar:
           title: Agenda
     label_activate: Activeren

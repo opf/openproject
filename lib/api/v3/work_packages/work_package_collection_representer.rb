@@ -74,13 +74,25 @@ module API
 
         link :sumsSchema do
           next unless total_sums || groups && groups.any?(&:has_sums?)
+
           {
             href: api_v3_paths.work_package_sums_schema
           }
         end
 
+        link :editWorkPackage do
+          next unless current_user_allowed_to_edit_work_packages?
+
+          {
+            href: api_v3_paths.work_package_form('{work_package_id}'),
+            method: :post,
+            templated: true
+          }
+        end
+
         link :createWorkPackage do
           next unless current_user_allowed_to_add_work_packages?
+
           {
             href: api_v3_paths.create_work_package_form,
             method: :post
@@ -89,6 +101,7 @@ module API
 
         link :createWorkPackageImmediate do
           next unless current_user_allowed_to_add_work_packages?
+
           {
             href: api_v3_paths.work_packages,
             method: :post
@@ -97,6 +110,7 @@ module API
 
         link :schemas do
           next if represented.empty?
+
           {
             href: schemas_path
           }
@@ -151,6 +165,10 @@ module API
 
         def current_user_allowed_to_add_work_packages?
           current_user.allowed_to?(:add_work_packages, project, global: project.nil?)
+        end
+
+        def current_user_allowed_to_edit_work_packages?
+          current_user.allowed_to?(:edit_work_packages, project, global: project.nil?)
         end
 
         def schemas

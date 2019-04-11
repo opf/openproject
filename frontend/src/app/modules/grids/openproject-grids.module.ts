@@ -50,6 +50,7 @@ import {Ng2StateDeclaration, UIRouterModule} from '@uirouter/angular';
 import {WidgetDocumentsComponent} from "core-app/modules/grids/widgets/documents/documents.component";
 import {WidgetNewsComponent} from "core-app/modules/grids/widgets/news/news.component";
 import {WidgetWpAccountableComponent} from './widgets/wp-accountable/wp-accountable.component';
+import {WidgetWpTableComponent} from "core-app/modules/grids/widgets/wp-table/wp-table.component";
 
 export const GRID_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -76,6 +77,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
                                   WidgetWpAccountableComponent,
                                   WidgetWpCreatedComponent,
                                   WidgetWpWatchedComponent,
+                                  WidgetWpTableComponent,
                                   WidgetWpCalendarComponent,
                                   WidgetTimeEntriesCurrentUserComponent]),
 
@@ -100,6 +102,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     WidgetWpCreatedComponent,
     WidgetWpWatchedComponent,
     WidgetWpCalendarComponent,
+    WidgetWpTableComponent,
     WidgetTimeEntriesCurrentUserComponent,
     AddGridWidgetModal,
 
@@ -141,6 +144,10 @@ export function registerWidgets(injector:Injector) {
         {
           identifier: 'work_packages_watched',
           component: WidgetWpWatchedComponent
+        },
+        {
+          identifier: 'work_packages_table',
+          component: WidgetWpTableComponent
         },
         {
           identifier: 'work_packages_calendar',

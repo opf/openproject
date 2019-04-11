@@ -55,14 +55,17 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
     this.updateWorkPackageList([val], false);
   }
 
-  updateWorkPackage(wp:WorkPackageResource, immediate:boolean = false) {
-    if (immediate) {
-      const wpId = getWorkPackageId(wp.id!);
-      this.multiState.get(wpId).putValue(wp);
-      return;
-    }
+  updateWorkPackage(wp:WorkPackageResource, immediate:boolean = false):Promise<void> {
+    const wpId = getWorkPackageId(wp.id!);
 
-    this.updateWorkPackageList([wp], false);
+    if (immediate || wp.isNew) {
+      this.multiState.get(wpId).putValue(wp);
+      return Promise.resolve();
+    } else {
+      return this.schemaCacheService.ensureLoaded(wp).then(() => {
+        this.multiState.get(wpId).putValue(wp);
+      });
+    }
   }
 
   updateWorkPackageList(list:WorkPackageResource[], skipOnIdentical = true) {
@@ -77,15 +80,15 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
         continue;
       }
 
-      // Check if the work package has changed
-      if (skipOnIdentical && state.hasValue() && _.isEqual(state.value!.$source, wp.$source)) {
-        debugLog('Skipping identical work package from updating');
-        continue;
-      }
-
       // Ensure the schema is loaded
       // so that no consumer needs to call schema#$load manually
       this.schemaCacheService.ensureLoaded(wp).then(() => {
+        // Check if the work package has changed
+        if (skipOnIdentical && state.hasValue() && _.isEqual(state.value!.$source, wp.$source)) {
+          debugLog('Skipping identical work package from updating');
+          return;
+        }
+
         this.multiState.get(workPackageId).putValue(wp);
       });
     }

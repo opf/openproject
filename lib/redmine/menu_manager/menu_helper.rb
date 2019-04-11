@@ -195,9 +195,8 @@ module Redmine::MenuManager::MenuHelper
     link_text << ' '.html_safe + op_icon(item.icon_after) if item.icon_after.present?
     html_options = item.html_options(selected: selected)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
-    link_to url, html_options do
-      link_text
-    end
+
+    link_to link_text, main_app_url(url), html_options
   end
 
   def render_unattached_menu_item(menu_item, project)
@@ -212,6 +211,7 @@ module Redmine::MenuManager::MenuHelper
 
   def current_menu_item_part_of_menu?(menu, project = nil)
     return true if no_menu_item_wiki_prefix? || wiki_prefix?
+
     all_menu_items_for(menu, project).each do |node|
       return true if node.name == current_menu_item
     end
@@ -231,6 +231,7 @@ module Redmine::MenuManager::MenuHelper
     items = []
     iteratable.each do |node|
       next if node.name == :root
+
       if allowed_node?(node, User.current, project) && visible_node?(menu, node)
         items << node
         if block_given?
@@ -248,7 +249,7 @@ module Redmine::MenuManager::MenuHelper
           when Hash
             project.nil? ? item.url : { item.param => project }.merge(item.url)
           when Symbol
-            send(item.url)
+            main_app.send(item.url)
           else
             item.url
           end
@@ -322,5 +323,13 @@ module Redmine::MenuManager::MenuHelper
       badge += ' '.html_safe + content_tag('span', I18n.t(item.badge), class: 'main-item--badge')
     end
     badge
+  end
+
+  def main_app_url(url)
+    if url.is_a? Symbol
+      main_app.send(url)
+    else
+      main_app.url_for(url)
+    end
   end
 end

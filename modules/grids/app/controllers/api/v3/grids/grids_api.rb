@@ -43,6 +43,7 @@ module API
             if query.valid?
               GridCollectionRepresenter.new(query.results,
                                             api_v3_paths.time_entries,
+                                            grid_scope: query.filter_scope,
                                             page: to_i_or_nil(params[:offset]),
                                             per_page: resolve_page_size(params[:pageSize]),
                                             current_user: current_user)

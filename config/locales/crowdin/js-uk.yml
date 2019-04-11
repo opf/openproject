@@ -181,6 +181,8 @@ uk:
           title: Пакети робіт створені мною
         work_packages_watched:
           title: Пакети робіт переглянуті мною
+        work_packages_table:
+          title: Work packages
         work_packages_calendar:
           title: Calendar
     label_activate: Activate

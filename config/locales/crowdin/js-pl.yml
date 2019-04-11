@@ -181,6 +181,8 @@ pl:
           title: Pakiety robocze stworzone przeze mnie
         work_packages_watched:
           title: Pakiety robocze obserwowane przeze mnie
+        work_packages_table:
+          title: Pakiety robocze
         work_packages_calendar:
           title: Kalendarz
     label_activate: Aktywuj

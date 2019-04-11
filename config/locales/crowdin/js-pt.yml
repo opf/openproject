@@ -182,6 +182,8 @@ pt:
           title: Pacotes de trabalho criados por mim
         work_packages_watched:
           title: Work packages watched by me
+        work_packages_table:
+          title: Tarefas
         work_packages_calendar:
           title: Calendário
     label_activate: Ativar

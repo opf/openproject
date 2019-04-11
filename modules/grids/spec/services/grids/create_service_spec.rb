@@ -50,7 +50,9 @@ describe Grids::CreateService, type: :model do
   end
   let(:scope) { "some/scope/url" }
   let(:call_attributes) { { scope: scope } }
-  let(:grid_class) { Grids::MyPage }
+  let(:grid_class) do
+    Grids::Grid
+  end
   let(:set_attributes_success) do
     true
   end

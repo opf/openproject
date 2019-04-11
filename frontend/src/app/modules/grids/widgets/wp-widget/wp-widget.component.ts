@@ -2,7 +2,6 @@ import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget
 import {OnInit} from "@angular/core";
 import {
   WorkPackageTableConfiguration,
-  WorkPackageTableConfigurationObject
 } from "core-components/wp-table/wp-table-configuration";
 
 export class WidgetWpListComponent extends AbstractWidgetComponent implements OnInit {

@@ -31,9 +31,7 @@ module OpenProject
                            .where(id: view_allowed)
                            .or(Project.where(id: manage_allowed))
 
-          paths = board_projects.map { |p| url_helpers.project_work_package_boards_path(p) }
-
-          paths if paths.any?
+          board_projects.map { |p| url_helpers.project_work_package_boards_path(p) }
         end
 
         alias_method :super_visible, :visible

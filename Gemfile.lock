@@ -181,6 +181,12 @@ PATH
       icalendar (~> 2.5.0)
 
 PATH
+  remote: modules/my_page
+  specs:
+    my_page (1.0.0)
+      grids
+
+PATH
   remote: modules/my_project_page
   specs:
     openproject-my_project_page (1.0.0)
@@ -970,6 +976,7 @@ DEPENDENCIES
   lograge (~> 0.10.0)
   meta-tags (~> 2.11.0)
   multi_json (~> 1.13.1)
+  my_page!
   mysql2 (~> 0.5.0)
   net-ldap (~> 0.16.0)
   newrelic_rpm

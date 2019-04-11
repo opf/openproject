@@ -180,6 +180,8 @@ lv:
           title: Work packages created by me
         work_packages_watched:
           title: Work packages watched by me
+        work_packages_table:
+          title: Pieteikumi
         work_packages_calendar:
           title: Kalendārs
     label_activate: Activate

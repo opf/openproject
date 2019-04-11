@@ -32,9 +32,6 @@ module Components
       include Capybara::DSL
       include RSpec::Matchers
 
-      def initialize
-      end
-
       def expect_column_not_available(name)
         modal_open? or open_modal
 

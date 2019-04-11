@@ -21,14 +21,15 @@ pt-BR:
     close_form_title: Fechar formulário
     boards:
       upsale:
-        boards: Need to freely structure your work in a board view?
+        boards: Precisa estruturar livremente seu trabalho em uma visualização de
+          quadro?
         check_out_link: Confira a versão Enterprise Edition.
     card:
-      add_new: Add new card
+      add_new: Adicionar novo cartão
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: Entire card by
-      remove_from_list: Remove card from list
+        inline: 'Destacar embutido:'
+        entire_card_by: Todo cartão por
+      remove_from_list: Remover cartão da lista
     clipboard:
       browser_error: Seu navegador não suporta copiar para a área de transferência.
         Por favor, copie o texto selecionado manualmente.
@@ -185,6 +186,8 @@ pt-BR:
           title: Pacotes de trabalho criados por mim
         work_packages_watched:
           title: Pacotes de trabalho observados por mim
+        work_packages_table:
+          title: Pacotes de trabalho
         work_packages_calendar:
           title: Calendário
     label_activate: Ativar
@@ -208,9 +211,9 @@ pt-BR:
     label_ascending: Ascendente
     label_author: 'Autor: %{user}'
     label_between: entre
-    label_board: Board
+    label_board: Quadro
     label_board_locked: Bloqueado
-    label_board_plural: Boards
+    label_board_plural: Quadros
     label_board_sticky: Afixado
     label_create_work_package: Criar novo pacote de trabalho
     label_created_by: Criado por
@@ -334,7 +337,7 @@ pt-BR:
     label_upload_notification: Enviando arquivos...
     label_work_package_upload_notification: 'Enviando arquivos para o pacote de trabalho
       #%{id}: %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} adicionado por %{author}"
     label_files_to_upload: 'Estes arquivos serão enviados:'
     label_rejected_files: 'Estes arquivos não podem ser enviados:'
     label_rejected_files_reason: Estes arquivos não podem ser enviados, pois seu tamanho
@@ -378,12 +381,13 @@ pt-BR:
             Adicione novas tarefas ou impedimentos com o + ícone ao lado de uma história
             de usuário. Arrastando e soltando você pode atualizar o status.
         boards:
-          overview: Manage your work within an intuitive <b>Boards</b> view.
-          lists: You can create multiple lists (columns) within one Board view, e.g.
-            to create a KANBAN board.
-          add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          overview: Gerencie seu trabalho através de uma visão intuitiva de <b>Quadros</b>.
+          lists: Você pode criar várias listas (colunas) dentro de uma visão de um
+            quadro, por exemplo, para criar um quadro KANBAN.
+          add: Clicar no + irá <b>adicionar um novo cartão</b> à lista dentro de um
+            Quadro.
+          drag: Arraste e solte seus cartões dentro de uma lista para re-ordenar,
+            ou mover para outra lista. Um duplo clique abrirá a visualização detalhada.
         wp:
           toggler: Agora vamos dar uma olhada na seção <b>Pacotes de trabalho</b>,
             que lhe fornece uma visão mais detalhada do seu trabalho.
@@ -862,7 +866,7 @@ pt-BR:
           pacotes de trabalho listados serão removidos recursivamente.
         deletes_children: Todos os pacotes de trabalho filhos e seus descendentes
           também serão excluídos recursivamente.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Nenhum resultado visível para exibir.
     notice_successful_create: Criado com sucesso.
     notice_successful_delete: Excluído com sucesso.
     notice_successful_update: Atualizado com sucesso.

@@ -535,7 +535,7 @@ sk:
         too_long: je príliš dlhý (maximum je %{count} znakov).
         too_short: je príliš krátky (minimum je %{count} znakov).
         unchangeable: nie je možné zmeniť.
-        unremovable: cannot be removed.
+        unremovable: nie je možné zmazať.
         wrong_length: má chybnú dĺžku (správne má byť %{count} znakov).
       models:
         custom_field:
@@ -1565,7 +1565,7 @@ sk:
   label_planning: Plánovanie
   label_please_login: Prosím prihláste sa
   label_plugins: Doplnky
-  label_modules_and_plugins: Modules and Plugins
+  label_modules_and_plugins: Moduly a Pluginy
   label_precedes: predchádza
   label_preferences: Predvoľby
   label_preview: Náhľad

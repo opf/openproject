@@ -32,6 +32,7 @@ import {StateService} from "@uirouter/core";
 import {States} from "core-components/states.service";
 import {input} from "reactivestates";
 import {switchMap, tap} from "rxjs/operators";
+import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
 
 
 @Component({
@@ -43,6 +44,7 @@ import {switchMap, tap} from "rxjs/operators";
 export class WorkPackageCardViewComponent  implements OnInit {
   @Input() public dragAndDropEnabled:boolean;
   @Input() public highlightingMode:CardHighlightingMode;
+  @Input() public workPackageAddedHandler:(wp:WorkPackageResource) => Promise<unknown>;
 
   public trackByHref = AngularTrackingHelpers.trackByHref;
   public query:QueryResource;
@@ -77,15 +79,9 @@ export class WorkPackageCardViewComponent  implements OnInit {
   public activeInlineCreateWp?:WorkPackageResource;
 
   // We remember when we want to update the query with a given order
-  private queryUpdateRequests = input<string[]>();
-
-  // This mapped observable requests the latest query automatically.
-  private queryLoading = this.queryUpdateRequests
-    .values$()
-    .pipe(
-      // Stream the query request, switchMap will call previous requests to be cancelled
-      switchMap((order:string[]) => this.reorderService.saveOrderInQuery(this.query, order))
-    );
+  private queryUpdates = new RequestSwitchmap(
+    (order:string[]) => this.reorderService.saveOrderInQuery(this.query, order)
+  );
 
   constructor(readonly querySpace:IsolatedQuerySpace,
               readonly states:States,
@@ -108,14 +104,11 @@ export class WorkPackageCardViewComponent  implements OnInit {
     this.registerCreationCallback();
 
     // Keep query loading requests
-    this.queryLoading
-      .pipe(
-        untilComponentDestroyed(this)
-      )
-      .subscribe(
-        undefined,
-        (error:any) => this.wpNotifications.handleRawError(error)
-      );
+    this.queryUpdates
+      .observe(componentDestroyed(this))
+      .subscribe({
+        error: (error:any) => this.wpNotifications.handleRawError(error)
+      });
 
     // Update permission on model updates
     this.authorisationService
@@ -234,7 +227,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
 
     this.workPackages = newOrder.map(id => this.states.workPackages.get(id).value!);
     // Ensure dragged work packages are being removed.
-    this.queryUpdateRequests.putValue(newOrder);
+    this.queryUpdates.request(newOrder);
     this.cdRef.detectChanges();
   }
 
@@ -263,7 +256,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
    */
   async addWorkPackageToQuery(workPackage:WorkPackageResource, toIndex:number = -1):Promise<boolean> {
     try {
-      await this.reorderService.updateWorkPackage(this.querySpace, workPackage);
+      await this.workPackageAddedHandler(workPackage);
       const newOrder = await this.reorderService.add(this.currentOrder, workPackage.id!, toIndex);
       this.updateOrder(newOrder);
       return true;

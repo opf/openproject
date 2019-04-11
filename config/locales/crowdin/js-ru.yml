@@ -183,6 +183,8 @@ ru:
           title: Пакеты работ, созданные мной
         work_packages_watched:
           title: Пакеты работ, просмотренные мной
+        work_packages_table:
+          title: Пакеты работ
         work_packages_calendar:
           title: Календарь
     label_activate: Активировать

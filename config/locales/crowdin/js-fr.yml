@@ -184,6 +184,8 @@ fr:
           title: Work packages created by me
         work_packages_watched:
           title: Work packages watched by me
+        work_packages_table:
+          title: Lots de Travaux
         work_packages_calendar:
           title: Calendrier
     label_activate: Activer

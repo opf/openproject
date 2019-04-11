@@ -1,4 +1,4 @@
-import {AfterContentInit, AfterViewInit, Component, Injector, OnInit} from "@angular/core";
+import {AfterContentInit, AfterViewInit, Component, Injector, OnDestroy, OnInit} from "@angular/core";
 import {Observable} from "rxjs";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardService} from "core-app/modules/boards/board/board.service";
@@ -9,12 +9,14 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {NewBoardModalComponent} from "core-app/modules/boards/new-board-modal/new-board-modal.component";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
+import {componentDestroyed} from "ng2-rx-componentdestroyed";
 
 @Component({
   templateUrl: './boards-index-page.component.html',
   styleUrls: ['./boards-index-page.component.sass']
 })
-export class BoardsIndexPageComponent implements AfterViewInit {
+export class BoardsIndexPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public text = {
     name: this.I18n.t('js.modals.label_name'),
@@ -33,6 +35,8 @@ export class BoardsIndexPageComponent implements AfterViewInit {
     upsaleCheckOutLink: this.I18n.t('js.boards.upsale.check_out_link')
   };
 
+  public canAdd = false;
+
   public boards$:Observable<Board[]> = this.boardCache.observeAll();
 
   constructor(private readonly boardService:BoardService,
@@ -41,17 +45,26 @@ export class BoardsIndexPageComponent implements AfterViewInit {
               private readonly notifications:NotificationsService,
               private readonly opModalService:OpModalService,
               private readonly loadingIndicatorService:LoadingIndicatorService,
+              private readonly authorisationService:AuthorisationService,
               private readonly injector:Injector,
               private readonly bannerService:BannersService) {
+  }
+
+  ngOnInit():void {
+    this.authorisationService
+      .observeUntil(componentDestroyed(this))
+      .subscribe(() => {
+        this.canAdd = this.authorisationService.can('boards', 'create');
+      });
+  }
+
+  ngOnDestroy():void {
+    // Nothing to do
   }
 
   ngAfterViewInit():void {
     const loadingIndicator = this.loadingIndicatorService.indicator('boards-module');
     loadingIndicator.promise = this.boardService.loadAllBoards();
-  }
-
-  get canManage() {
-    return this.boardService.canManage;
   }
 
   newBoard() {

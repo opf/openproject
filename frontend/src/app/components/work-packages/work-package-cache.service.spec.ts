@@ -128,9 +128,9 @@ describe('WorkPackageCacheService', () => {
         }
       });
 
-    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]]);
-    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]]);
-    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]]);
+    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]], false);
+    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]], false);
+    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]], false);
   });
 
 });

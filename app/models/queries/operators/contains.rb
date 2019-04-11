@@ -33,8 +33,13 @@ module Queries::Operators
     set_symbol '~'
 
     def self.sql_for_field(values, db_table, db_field)
+      like_query =
+        values.first.split(/\s+/)
+        .map { |substr| connection.quote_string(substr.downcase) }
+        .join("%")
+
       "COALESCE(LOWER(#{db_table}.#{db_field}), '') LIKE " +
-        "'%#{connection.quote_string(values.first.to_s.downcase)}%'"
+        "'%#{like_query}%'"
     end
   end
 end

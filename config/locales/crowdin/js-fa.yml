@@ -180,6 +180,8 @@ fa:
           title: Work packages created by me
         work_packages_watched:
           title: Work packages watched by me
+        work_packages_table:
+          title: Work packages
         work_packages_calendar:
           title: Calendar
     label_activate: Activate

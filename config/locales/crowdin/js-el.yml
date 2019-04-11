@@ -180,6 +180,8 @@ el:
           title: Εργασίες που δημιούργησα
         work_packages_watched:
           title: Εργασίες που παρακολουθώ
+        work_packages_table:
+          title: Work packages
         work_packages_calendar:
           title: Calendar
     label_activate: Activate

@@ -180,6 +180,8 @@ bg:
           title: Work packages created by me
         work_packages_watched:
           title: Work packages watched by me
+        work_packages_table:
+          title: Работни пакети
         work_packages_calendar:
           title: Календар
     label_activate: Activate
