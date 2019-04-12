@@ -7,7 +7,10 @@
                 'nextButton': {text: I18n.t('js.onboarding.buttons.next')},
                 onNext: function () {
                     $('.board-view-menu-item ~ .toggler')[0].click();
-                    $(".main-menu--children-sub-item:contains('KANBAN')")[0].click();
+
+                    waitForElement('.boards--menu-items', '#main-menu', function() {
+                      $(".main-menu--children-sub-item:contains('KANBAN')")[0].click();
+                    });
                 }
             },
             {

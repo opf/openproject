@@ -123,6 +123,9 @@ export class BoardComponent implements OnInit, OnDestroy {
     const id:string = this.state.params.board_id.toString();
     let initialized = false;
 
+    // Ensure board is being loaded
+    this.Boards.loadAllBoards();
+
     this.boardSaver
       .observe(componentDestroyed(this))
       .subscribe(

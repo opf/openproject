@@ -29,8 +29,8 @@
 import {Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
 import {TransitionService} from '@uirouter/core';
+import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
 
 @Component({
   selector: 'wp-resizer',
