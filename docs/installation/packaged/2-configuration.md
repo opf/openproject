@@ -81,9 +81,10 @@ accomplished using the the `–tail` flag. See example below:
 
     sudo openproject logs --tail
 
-On distributions that are based on systemd, you can also find the all logs via `journalctl`.
+Note:
 
-On older distributions that use either sysvinit or upstart, you will find all the logs in `/var/log/openproject/`.
+* On distributions that are based on systemd, all the logs are sent to journald, so you can also display them via `journalctl` as well.
+* On older distributions that use either sysvinit or upstart, all the logs are stored in `/var/log/openproject/`.
 
 #### Reconfigure the application
 
