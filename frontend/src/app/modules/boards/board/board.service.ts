@@ -123,7 +123,7 @@ export class BoardService {
    * @param board
    */
   private reorderWidgets(board:Board) {
-    board.grid.columnCount = board.grid.widgets.length;
+    board.grid.columnCount = Math.max(board.grid.widgets.length, 1);
     board.grid.widgets.map((el:GridWidgetResource, index:number) => {
       el.startColumn = index + 1;
       el.endColumn = index + 2;
