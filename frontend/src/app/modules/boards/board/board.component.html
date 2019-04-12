@@ -68,14 +68,13 @@
          cdkDrag
          vsDragScroll
          [cdkDragData]="query"
-         [vsDragScrollContainer]="container">
+         [vsDragScrollContainer]="_container">
       <span *ngIf="board.editable"
             class="boards-list-item-handle icon icon-drag-handle"
             cdkDragHandle></span>
       <board-list [resource]="query"
                   [board]="board"
                   (onRemove)="removeList(board, query)"
-                  [scrollContainer]="container"
                   [filters]="filters"></board-list>
     </div>
 

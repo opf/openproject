@@ -43,8 +43,20 @@ export class BoardComponent implements OnInit, OnDestroy {
   /** Reference all query children to extract current actions */
   @ViewChildren(BoardListComponent) lists:QueryList<BoardListComponent>;
 
+  public _container:HTMLElement;
+
   /** Container reference */
-  @ViewChild('container') public container:HTMLElement;
+  @ViewChild('container')
+  set container(v:ElementRef|undefined) {
+    // ViewChild reference may be undefined initially
+    // due to ngIf
+    if (v !== undefined) {
+      if (this._container === undefined) {
+        this.Drag.addScrollContainer(v.nativeElement);
+      }
+      setTimeout(() => this._container = v.nativeElement);
+    }
+  }
 
   /** Reference to the filter component */
   @ViewChild(BoardFilterComponent)
@@ -93,7 +105,8 @@ export class BoardComponent implements OnInit, OnDestroy {
               private readonly BoardCache:BoardCacheService,
               private readonly dynamicCss:DynamicCssService,
               private readonly Boards:BoardService,
-              private readonly Banner:BannersService) {
+              private readonly Banner:BannersService,
+              private readonly Drag:DragAndDropService) {
   }
 
   goBack() {

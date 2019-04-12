@@ -1,13 +1,8 @@
 import {Inject, Injectable, OnDestroy} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
 import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
+import {DomAutoscrollService} from "core-app/modules/common/drag-and-drop/dom-autoscroll.service";
 
-const autoScroll:any = require('dom-autoscroller');
-
-export interface IAutoScroller {
-  add:(...elements:unknown[]) => void;
-  destroy:(animation:boolean) => void;
-}
 
 export interface DragMember {
   dragContainer:HTMLElement;
@@ -29,7 +24,7 @@ export class DragAndDropService implements OnDestroy {
 
   public members:DragMember[] = [];
 
-  private autoscroll:IAutoScroller|undefined;
+  private autoscroll:any;
 
   private escapeListener = (evt:KeyboardEvent) => {
     if (this.drake && evt.key === 'Escape') {
@@ -65,19 +60,11 @@ export class DragAndDropService implements OnDestroy {
   public register(...members:DragMember[]) {
     this.members.push(...members);
     const dragContainer = members.map(m => m.dragContainer);
-    const scrollContainers =  members[0].scrollContainers;
 
     if (this.autoscroll) {
-      this.autoscroll.add(...scrollContainers);
+      this.autoscroll.add(...[dragContainer]);
     } else {
-      this.setupAutoscroll(scrollContainers);
-    }
-
-    const boardContainer = jQuery('.boards-list--container')[0];
-    if (this.autoscroll) {
-      this.autoscroll.add(...[boardContainer]);
-    } else {
-      this.setupAutoscroll([boardContainer]);
+      this.setupAutoscroll(dragContainer);
     }
 
     if (this.drake === null) {
@@ -87,14 +74,22 @@ export class DragAndDropService implements OnDestroy {
     }
   }
 
+  public addScrollContainer(el:Element) {
+    if (this.autoscroll) {
+      this.autoscroll.add(...[el]);
+    } else {
+      this.setupAutoscroll([el]);
+    }
+  }
+
   protected setupAutoscroll(containers:Element[]) {
     // Setup autoscroll
     const that = this;
 
-    this.autoscroll = autoScroll(
+    this.autoscroll = new DomAutoscrollService(
       containers,
       {
-        margin: 50,
+        margin: 150,
         maxSpeed: 15,
         scrollWhenOutside: true,
         autoScroll: function(this:{ down:boolean }) {

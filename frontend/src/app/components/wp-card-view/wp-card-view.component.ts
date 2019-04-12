@@ -43,7 +43,6 @@ import {switchMap, tap} from "rxjs/operators";
 export class WorkPackageCardViewComponent  implements OnInit {
   @Input() public dragAndDropEnabled:boolean;
   @Input() public highlightingMode:CardHighlightingMode;
-  @Input() public dragScrollContainer:HTMLElement;
 
   public trackByHref = AngularTrackingHelpers.trackByHref;
   public query:QueryResource;
