@@ -1,21 +1,16 @@
-import {OnDestroy, OnInit} from "@angular/core";
-import {
-  createPointCB,
-  getClientRect as getRect,
-  pointInside
-} from 'dom-plane';
+import {createPointCB, getClientRect as getRect, pointInside} from 'dom-plane';
 
-export class DomAutoscrollService implements OnInit, OnDestroy {
+export class DomAutoscrollService {
   public elements:(Element|Window)[];
   public scrolling:boolean;
   public down:boolean = false;
   public scrollWhenOutside:boolean;
-  public autoScroll:boolean;
+  public autoScroll:() => boolean;
   public maxSpeed:number;
   public margin:number;
   public animationFrame:number;
   public windowAnimationFrame:number;
-  public current:any;
+  public current:HTMLElement[];
   public point:any;
   public pointCB:any;
   public hasWindow:boolean;
@@ -31,53 +26,30 @@ export class DomAutoscrollService implements OnInit, OnDestroy {
     this.point = {};
     this.pointCB = createPointCB(this.point);
 
-    this.ngOnInit();
+    this.init();
   }
 
-
-  ngOnInit() {
+  public init() {
     window.addEventListener('mousemove', this.pointCB, false);
     window.addEventListener('touchmove', this.pointCB, false);
 
     this.hasWindow = !!_.find(this.elements, (element) => element === window);
 
-
-    window.addEventListener('mousedown', this.onDown.bind(this), false);
-    window.addEventListener('touchstart', this.onDown.bind(this), false);
-    window.addEventListener('mouseup', this.onUp.bind(this), false);
-    window.addEventListener('touchend', this.onUp.bind(this), false);
-
-    /*
-    IE does not trigger mouseup event when scrolling.
-    It is a known issue that Microsoft won't fix.
-    https://connect.microsoft.com/IE/feedback/details/783058/scrollbar-trigger-mousedown-but-not-mouseup
-    IE supports pointer events instead
-    */
-    window.addEventListener('pointerup', this.onUp.bind(this), false);
-
     window.addEventListener('mousemove', this.onMove.bind(this), false);
     window.addEventListener('touchmove', this.onMove.bind(this), false);
-
-    window.addEventListener('mouseleave', this.onMouseOut.bind(this), false);
+    window.addEventListener('mouseup', this.onUp.bind(this), false);
 
     window.addEventListener('scroll', this.setScroll.bind(this), true);
-
-
-
   }
   
-  ngOnDestroy() {
+  public destroy() {
     window.removeEventListener('mousemove', this.pointCB, false);
     window.removeEventListener('touchmove', this.pointCB, false);
-    window.removeEventListener('mousedown', this.onDown, false);
-    window.removeEventListener('touchstart', this.onDown, false);
-    window.removeEventListener('mouseup', this.onUp, false);
-    window.removeEventListener('touchend', this.onUp, false);
-    window.removeEventListener('pointerup', this.onUp, false);
-    window.removeEventListener('mouseleave', this.onMouseOut, false);
 
     window.removeEventListener('mousemove', this.onMove, false);
     window.removeEventListener('touchmove', this.onMove, false);
+
+    window.addEventListener('mouseup', this.onUp, false);
 
     window.removeEventListener('scroll', this.setScroll, true);
     this.elements = [];
@@ -90,6 +62,11 @@ export class DomAutoscrollService implements OnInit, OnDestroy {
 
   public remove(el:Element) {
     _.remove(this.elements, el);
+  }
+
+  public onUp() {
+    cancelAnimationFrame(this.animationFrame);
+    cancelAnimationFrame(this.windowAnimationFrame);
   }
 
   public setScroll(e:Event) {
@@ -105,88 +82,71 @@ export class DomAutoscrollService implements OnInit, OnDestroy {
     }
   }
 
-  public onDown() {
-    this.down = true;
-  }
-
-  public onUp() {
-    this.down = false;
-    this.cleanAnimation();
-  }
-
   public cleanAnimation() {
     cancelAnimationFrame(this.animationFrame);
     cancelAnimationFrame(this.windowAnimationFrame);
   }
 
-  public onMouseOut() {
-    this.down = false;
-  }
-
-  public getTarget(target:HTMLElement|null):HTMLElement|null {
+  public getTarget(target:HTMLElement):HTMLElement[] {
     if (!target) {
-      return null;
+      return [];
     }
 
-    if (this.current === target) {
-      return target;
-    }
+    let results = [];
 
+    // if (this.current === target) {
+    //   results.push(target);
+    // } else
     if (this.elements.includes(target)) {
-      return target;
+      results.push(target);
     }
 
-    while(target = target.parentNode as HTMLElement) {
-      if (this.elements.includes(target)) {
-        return target;
+    let targetObject = target;
+    while(targetObject = targetObject.parentNode as HTMLElement) {
+      if (this.elements.includes(targetObject)) {
+        results.push(targetObject);
       }
     }
 
-    return null;
+    return results;
   }
 
-  public getElementUnderPoint():HTMLElement {
-    let underPoint = null;
+  public getElementsUnderPoint():HTMLElement[] {
+    let underPoint = [];
 
     for(var i = 0; i < this.elements.length; i++) {
       if (this.inside(this.point, this.elements[i])) {
-        underPoint = this.elements[i];
+        underPoint.push(this.elements[i] as HTMLElement);
       }
     }
 
-    return (underPoint as HTMLElement);
+    return underPoint;
   }
 
   public onMove(event:MouseEvent) {
 
-    if (!this.autoScroll) return;
+    if (!this.autoScroll()) return;
 
     if ((event as any).dispatched) { return; }
 
-    let target = event.target as HTMLElement|null;
+    let target = [] as HTMLElement[];
+    if (event.target !== null) {
+      target.push(event.target as HTMLElement);
+    }
     let body = document.body;
 
-    if (this.current && !this.inside(this.point, this.current)) {
-      if (!this.scrollWhenOutside) {
-        this.current = null;
-      }
-    }
-
-    if (target && target.parentNode === body) {
+    if (target.length > 0 && target[0].parentNode === body) {
       //The special condition to improve speed.
-      target = this.getElementUnderPoint();
-    }else{
-      target = this.getTarget(target);
+      target = this.getElementsUnderPoint();
+    } else {
+      target = this.getTarget(target[0]);
 
-      if (!target) {
-        target = this.getElementUnderPoint();
+      if (target.length === 0) {
+        target = this.getElementsUnderPoint();
       }
     }
 
-
-    if (target && target !== this.current) {
-      this.current = target;
-    }
+    this.current = target;
 
     if (this.hasWindow) {
       cancelAnimationFrame(this.windowAnimationFrame);
@@ -194,7 +154,7 @@ export class DomAutoscrollService implements OnInit, OnDestroy {
     }
 
 
-    if (!this.current) {
+    if (this.current.length === 0) {
       return;
     }
 
@@ -211,11 +171,14 @@ export class DomAutoscrollService implements OnInit, OnDestroy {
 
   public scrollTick() {
 
-    if (!this.current) {
+    if (this.current.length === 0) {
       return;
     }
 
-    this.scrollAutomatically(this.current);
+    this.current.forEach((e) => {
+      console.log('automatically: %O', e);
+      this.scrollAutomatically(e);
+    });
 
     cancelAnimationFrame(this.animationFrame);
     this.animationFrame = requestAnimationFrame(this.scrollTick.bind(this));
@@ -255,10 +218,12 @@ export class DomAutoscrollService implements OnInit, OnDestroy {
     setTimeout(()=>{
 
       if (scrolly) {
+        console.log('Scroll Y: %O %O', el, scrolly);
         this.scrollY(el, scrolly);
       }
 
       if (scrollx) {
+        console.log('Scroll X: %O %O', el, scrollx);
         this.scrollX(el, scrollx);
       }
 
@@ -268,7 +233,7 @@ export class DomAutoscrollService implements OnInit, OnDestroy {
   public scrollY(el:any, amount:number) {
     if (el === window) {
       window.scrollTo(el.pageXOffset, el.pageYOffset + amount);
-    }else{
+    } else {
       el.scrollTop += amount;
     }
   }
@@ -276,7 +241,7 @@ export class DomAutoscrollService implements OnInit, OnDestroy {
   public scrollX(el:any, amount:number) {
     if (el === window) {
       window.scrollTo(el.pageXOffset + amount, el.pageYOffset);
-    }else{
+    } else {
       el.scrollLeft += amount;
     }
   }
@@ -284,7 +249,7 @@ export class DomAutoscrollService implements OnInit, OnDestroy {
   public inside(point:any, el:Element|Window, rect?:any) {
     if (!rect) {
       return pointInside(point, el);
-    }else{
+    } else {
       return (point.y > rect.top && point.y < rect.bottom &&
         point.x > rect.left && point.x < rect.right);
     }

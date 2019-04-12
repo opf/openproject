@@ -39,7 +39,7 @@ export class DragAndDropService implements OnDestroy {
 
   ngOnDestroy():void {
     this.document.documentElement.removeEventListener('keydown', this.escapeListener);
-    this.autoscroll && this.autoscroll.destroy(true);
+    this.autoscroll && this.autoscroll.destroy();
   }
 
   public remove(container:HTMLElement) {
@@ -57,26 +57,26 @@ export class DragAndDropService implements OnDestroy {
     return this.drake !== null;
   }
 
-  public register(...members:DragMember[]) {
-    this.members.push(...members);
-    const dragContainer = members.map(m => m.dragContainer);
+  public register(member:DragMember) {
+    this.members.push(member);
+    const dragContainer = member.dragContainer;
 
     if (this.autoscroll) {
-      this.autoscroll.add(...[dragContainer]);
+      this.autoscroll.add(dragContainer);
     } else {
-      this.setupAutoscroll(dragContainer);
+      this.setupAutoscroll([dragContainer]);
     }
 
     if (this.drake === null) {
-      this.initializeDrake(dragContainer);
+      this.initializeDrake([dragContainer]);
     } else {
-      this.drake.containers.push(...dragContainer);
+      this.drake.containers.push(dragContainer);
     }
   }
 
   public addScrollContainer(el:Element) {
     if (this.autoscroll) {
-      this.autoscroll.add(...[el]);
+      this.autoscroll.add(el);
     } else {
       this.setupAutoscroll([el]);
     }
@@ -92,13 +92,7 @@ export class DragAndDropService implements OnDestroy {
         margin: 150,
         maxSpeed: 15,
         scrollWhenOutside: true,
-        autoScroll: function(this:{ down:boolean }) {
-          if (!that.drake) {
-            return false;
-          }
-
-          return this.down && that.drake.dragging;
-        }
+        autoScroll: () => this.drake && this.drake.dragging
       });
   }
 
