@@ -156,6 +156,8 @@ import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card
 import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
+import {BcfWpSingleViewComponent} from "core-app/modules/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
+import {OpenprojectBcfModule} from "core-app/modules/bcf/openproject-bcf.module";
 
 @NgModule({
   imports: [
@@ -169,6 +171,8 @@ import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relat
     ChartsModule,
 
     OpenprojectAttachmentsModule,
+
+    OpenprojectBcfModule,
 
     // Work package custom actions
     //WpCustomActionsModule,

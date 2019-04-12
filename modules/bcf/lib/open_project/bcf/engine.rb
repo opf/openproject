@@ -36,6 +36,25 @@ module OpenProject::Bcf
 
     patch_with_namespace :BasicData, :SettingSeeder
 
+    extend_api_response(:v3, :work_packages, :work_package) do
+      property :bcf,
+               exec_context: :decorator,
+               getter: ->(*) {
+                 issue = represented.bcf_issue
+                 bcf = {}
+                 bcf[:viewpoints] = issue.viewpoints.map do |viewpoint|
+                   {
+                     id: viewpoint.snapshot.id,
+                     file_name: viewpoint.snapshot.filename
+                   }
+                 end
+                 bcf
+               },
+               if: ->(*) {
+                 represented.bcf_issue.present?
+               }
+    end
+
     extend_api_response(:v3, :work_packages, :work_package_collection) do
       require_relative 'patches/api/v3/export_formats'
 
