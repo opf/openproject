@@ -26,7 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {AfterContentInit, Component, EventEmitter, Input, Output, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+  AfterContentInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Observable, of, Subject} from "rxjs";
@@ -39,6 +48,7 @@ import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-c
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Component({
   selector: 'board-inline-add-autocompleter',
@@ -78,12 +88,14 @@ export class BoardInlineAddAutocompleterComponent implements AfterContentInit {
               private readonly wpNotificationsService:WorkPackageNotificationService,
               private readonly CurrentProject:CurrentProjectService,
               private readonly halResourceService:HalResourceService,
+              private readonly schemaCacheService:SchemaCacheService,
+              private readonly cdRef:ChangeDetectorRef,
               private readonly I18n:I18nService) {
   }
 
   ngAfterContentInit():void {
     if (!this.ngSelectComponent) {
-      return
+      return;
     }
     this.ngSelectComponent.open();
 
@@ -98,7 +110,12 @@ export class BoardInlineAddAutocompleterComponent implements AfterContentInit {
 
   public addWorkPackageToQuery(workPackage?:WorkPackageResource) {
     if (workPackage) {
-      this.onReferenced.emit(workPackage);
+      this.schemaCacheService
+        .ensureLoaded(workPackage)
+        .then(() => {
+          this.onReferenced.emit(workPackage);
+          this.ngSelectComponent.close();
+        });
     }
   }
 
