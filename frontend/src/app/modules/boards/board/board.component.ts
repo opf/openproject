@@ -44,7 +44,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   @ViewChildren(BoardListComponent) lists:QueryList<BoardListComponent>;
 
   /** Container reference */
-  @ViewChild('container') public container:ElementRef;
+  @ViewChild('container') public container:HTMLElement;
 
   /** Reference to the filter component */
   @ViewChild(BoardFilterComponent)

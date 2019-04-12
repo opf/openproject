@@ -10,7 +10,8 @@ export interface IAutoScroller {
 }
 
 export interface DragMember {
-  container:HTMLElement;
+  dragContainer:HTMLElement;
+  scrollContainers:HTMLElement[];
   /** Whether this element moves */
   moves:(element:HTMLElement, fromContainer:HTMLElement, handle:HTMLElement, sibling?:HTMLElement|null) => boolean;
   /** Move element in container */
@@ -49,12 +50,12 @@ export class DragAndDropService implements OnDestroy {
   public remove(container:HTMLElement) {
     if (this.initialized) {
       _.remove(this.drake!.containers, (el) => el === container);
-      _.remove(this.members, (el) => el.container === container);
+      _.remove(this.members, (el) => el.dragContainer === container);
     }
   }
 
   public member(container:HTMLElement):DragMember|undefined {
-    return _.find(this.members, el => el.container === container);
+    return _.find(this.members, el => el.dragContainer === container);
   }
 
   public get initialized() {
@@ -63,18 +64,26 @@ export class DragAndDropService implements OnDestroy {
 
   public register(...members:DragMember[]) {
     this.members.push(...members);
-    const containers = members.map(m => m.container);
+    const dragContainer = members.map(m => m.dragContainer);
+    const scrollContainers =  members[0].scrollContainers;
 
     if (this.autoscroll) {
-      this.autoscroll.add(...containers);
+      this.autoscroll.add(...scrollContainers);
     } else {
-      this.setupAutoscroll(containers);
+      this.setupAutoscroll(scrollContainers);
+    }
+
+    const boardContainer = jQuery('.boards-list--container')[0];
+    if (this.autoscroll) {
+      this.autoscroll.add(...[boardContainer]);
+    } else {
+      this.setupAutoscroll([boardContainer]);
     }
 
     if (this.drake === null) {
-      this.initializeDrake(containers);
+      this.initializeDrake(dragContainer);
     } else {
-      this.drake.containers.push(...containers);
+      this.drake.containers.push(...dragContainer);
     }
   }
 
@@ -85,8 +94,8 @@ export class DragAndDropService implements OnDestroy {
     this.autoscroll = autoScroll(
       containers,
       {
-        margin: 20,
-        maxSpeed: 5,
+        margin: 50,
+        maxSpeed: 15,
         scrollWhenOutside: true,
         autoScroll: function(this:{ down:boolean }) {
           if (!that.drake) {
@@ -104,7 +113,7 @@ export class DragAndDropService implements OnDestroy {
 
         let result = false;
         this.members.forEach(member => {
-          if (member.container === container) {
+          if (member.dragContainer === container) {
             result = member.moves(el, container, handle, sibling);
             return;
           }

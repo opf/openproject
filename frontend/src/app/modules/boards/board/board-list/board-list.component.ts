@@ -54,6 +54,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   /** Access the filters of the board */
   @Input() public filters:ApiV3Filter[];
 
+  @Input() public scrollContainer:HTMLElement;
+
   /** Access to the loading indicator element */
   @ViewChild('loadingIndicator') indicator:ElementRef;
 
