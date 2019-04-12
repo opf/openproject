@@ -2,7 +2,7 @@
 en:
   bcf:
     label_bcf: 'BCF'
-    linked_issues: "Linked issues"
+    issues: "Issues"
     experimental_badge: "Experimental"
 
     x_bcf_issues:

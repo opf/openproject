@@ -1,5 +1,5 @@
 module ::Bcf
-  class LinkedIssuesController < BaseController
+  class IssuesController < BaseController
     include PaginationHelper
 
     before_action :find_project_by_project_id

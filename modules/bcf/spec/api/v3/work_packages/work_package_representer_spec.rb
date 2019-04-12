@@ -59,8 +59,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           id: bcf_issue.viewpoints.first.attachments.first.id
         }
       ].to_json)
-      .including('id')
-      .at_path('bcf/viewpoints/')
+        .including('id')
+        .at_path('bcf/viewpoints/')
     end
   end
 end

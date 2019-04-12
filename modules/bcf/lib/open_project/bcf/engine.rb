@@ -15,15 +15,15 @@ module OpenProject::Bcf
 
       project_module :bcf do
         permission :view_linked_issues,
-                   'bcf/linked_issues': :index
+                   'bcf/issues': :index
 
         permission :manage_bcf,
-                   'bcf/linked_issues': %i[index import prepare_import perform_import]
+                   'bcf/issues': %i[index import prepare_import perform_import]
       end
 
       menu :project_menu,
            :bcf,
-           { controller: '/bcf/linked_issues', action: :index },
+           { controller: '/bcf/issues', action: :index },
            caption: :'bcf.label_bcf',
            param: :project_id,
            icon: 'icon2 icon-backlogs',
