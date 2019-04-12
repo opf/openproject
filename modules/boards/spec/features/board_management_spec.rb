@@ -155,6 +155,10 @@ describe 'Board management spec', type: :feature, js: true do
       expect(queries.first.name).to eq 'First'
       expect(queries.first.ordered_work_packages).to be_empty
 
+      # Remove first list
+      board_page.remove_list 'First'
+      board_page.expect_empty
+
       # Remove entire board
       board_page.delete_board
       board_index.expect_board 'Board foo', present: false

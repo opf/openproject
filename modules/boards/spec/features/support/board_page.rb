@@ -181,6 +181,10 @@ module Pages
       expect(page).to have_field('editable-toolbar-title', with: name)
     end
 
+    def expect_empty
+      expect(page).to have_no_selector('.boards-list--item')
+    end
+
     def remove_list(name)
       within_list(name) do
         page.find('.board-list--delete-icon a').click

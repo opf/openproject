@@ -24,12 +24,11 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
 import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
-import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
 import {from} from "rxjs";
 import {BoardFilterComponent} from "core-app/modules/boards/board/board-filter/board-filter.component";
-import {delay} from "rxjs/operators";
+import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 
 @Component({
   selector: 'board',
@@ -92,7 +91,10 @@ export class BoardComponent implements OnInit, OnDestroy {
           this.inFlight = false;
           return board;
         })
-        .catch(() => this.inFlight = false);
+        .catch((error) => {
+          this.inFlight = false;
+          throw error;
+        });
 
       return from(promise);
     }
@@ -103,6 +105,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   constructor(public readonly state:StateService,
               private readonly I18n:I18nService,
               private readonly notifications:NotificationsService,
+              private readonly wpNotifications:WorkPackageNotificationService,
               private readonly BoardList:BoardListsService,
               private readonly opModalService:OpModalService,
               private readonly injector:Injector,
@@ -122,10 +125,13 @@ export class BoardComponent implements OnInit, OnDestroy {
 
     this.boardSaver
       .observe(componentDestroyed(this))
-      .subscribe((board:Board) => {
-        this.BoardCache.update(board);
-        this.notifications.addSuccess(this.text.updateSuccessful);
-      });
+      .subscribe(
+        (board:Board) => {
+          this.BoardCache.update(board);
+          this.notifications.addSuccess(this.text.updateSuccessful);
+        },
+        (error:unknown) => this.wpNotifications.handleRawError(error)
+      );
 
     this.BoardCache
       .observe(id)

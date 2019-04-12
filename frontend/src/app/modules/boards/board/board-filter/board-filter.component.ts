@@ -32,6 +32,8 @@ export class BoardFilterComponent implements OnDestroy {
 
   @Output() public onFiltersChanged = new DebouncedEventEmitter<ApiV3Filter[]>(componentDestroyed(this));
 
+  initialized = false;
+
   constructor(private readonly currentProjectService:CurrentProjectService,
               private readonly querySpace:IsolatedQuerySpace,
               private readonly halResourceService:HalResourceService,
@@ -50,6 +52,14 @@ export class BoardFilterComponent implements OnDestroy {
    * when children are loaded.
    */
   public doInitialize():void {
+    if (this.initialized) {
+      return;
+    }
+
+    // Since we're being called from the board component
+    // ensure this happens only once.
+    this.initialized = true;
+
     // Initially load the form once to be able to render filters
     this.loadQueryForm();
 
