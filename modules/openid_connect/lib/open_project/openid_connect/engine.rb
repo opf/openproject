@@ -13,6 +13,7 @@ module OpenProject::OpenIDConnect
              settings: { 'default' => { 'providers' => {} } }
 
     assets %w(
+      openid_connect/auth_provider-azure.png
       openid_connect/auth_provider-google.png
       openid_connect/auth_provider-heroku.png
     )
