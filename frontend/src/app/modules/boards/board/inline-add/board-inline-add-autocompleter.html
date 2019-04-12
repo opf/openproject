@@ -4,6 +4,7 @@
            [multiple]="false"
            [loading]="isLoading"
            [typeahead]="searchInput$"
+           [closeOnSelect]="false"
            (close)="cancel()"
            (change)="addWorkPackageToQuery($event)">
   <ng-template ng-label-tmp let-item="item">
