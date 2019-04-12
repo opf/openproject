@@ -83,7 +83,7 @@ accomplished using the the `–tail` flag. See example below:
 
 Note:
 
-* On distributions that are based on systemd, all the logs are sent to journald, so you can also display them via `journalctl` as well.
+* On distributions that are based on systemd, all the logs are sent to journald, so you can also display them via `journalctl`.
 * On older distributions that use either sysvinit or upstart, all the logs are stored in `/var/log/openproject/`.
 
 #### Reconfigure the application
