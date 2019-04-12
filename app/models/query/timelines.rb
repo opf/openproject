@@ -31,7 +31,7 @@ module Query::Timelines
   extend ActiveSupport::Concern
 
   included do
-    enum timeline_zoom_level: %i(days weeks months quarters years)
+    enum timeline_zoom_level: %i(days weeks months quarters years auto)
     validates :timeline_zoom_level, inclusion: { in: timeline_zoom_levels.keys }
 
     serialize :timeline_labels, Hash

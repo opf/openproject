@@ -149,8 +149,6 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
         takeUntil(componentDestroyed(this))
       )
       .subscribe((timelineState:WorkPackageTableTimelineState) => {
-        this.viewParameters.settings.autoZoom = timelineState.autoZoom;
-        this.viewParameters.settings.zoomLevel = timelineState.zoomLevel;
         this.refreshRequest.putValue(undefined);
       });
   }
@@ -214,11 +212,12 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       return;
     }
 
-    if (this.wpTableTimeline.isAutoZoomEnabled()) {
+    if (this.wpTableTimeline.isAutoZoom()) {
       // Update autozoom level
       this.applyAutoZoomLevel();
+    } else {
+      this._viewParameters.settings.zoomLevel = this.wpTableTimeline.zoomLevel;
     }
-
 
     // Require dynamic CSS to be visible
     this.dynamicCssService.requireHighlighting();
@@ -423,15 +422,10 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   }
 
   private applyAutoZoomLevel() {
-    if (this.workPackageTable.configuration.isEmbedded || !this.viewParameters.settings.autoZoom) {
-      return;
-    }
-
     if (this.workPackageIdOrder.length === 0) {
       return;
     }
 
-    this.wpTableTimeline.toggleAutoZoomEnabled(false);
     const daysSpan = calculateDaySpan(this.workPackageIdOrder, this.states.workPackages, this._viewParameters);
     const timelineWidthInPx = this.$element.parent().width()! - (2 * requiredPixelMarginLeft);
 
@@ -445,7 +439,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
         // did the zoom level changed?
         if (previousZoomLevel !== zoomLevel) {
-          this.wpTableTimeline.setZoomLevel(zoomLevel);
+          this._viewParameters.settings.zoomLevel = zoomLevel;
           this.wpTableDirective.timeline.scrollLeft = 0;
         }
         return;
