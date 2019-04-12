@@ -783,7 +783,7 @@ fr:
   button_change_password: Changer de mot de passe
   button_check_all: Tout cocher
   button_clear: Effacer
-  button_click_to_reveal: Click to reveal
+  button_click_to_reveal: Cliquez pour révéler
   button_close: Fermer
   button_collapse_all: Tout replier
   button_configure: Configurer
@@ -1418,7 +1418,7 @@ fr:
   label_history: Historique
   label_hierarchy_leaf: Feuille de hiérarchie
   label_home: Accueil
-  label_subject_or_id: Subject or ID
+  label_subject_or_id: Objet ou ID
   label_impressum: Mentions légales
   label_in: dans
   label_in_less_than: en moins de
@@ -2906,7 +2906,7 @@ fr:
       schema: Schéma
   doorkeeper:
     pre_authorization:
-      status: Pre-authorization
+      status: Préautorisation
     errors:
       messages:
         invalid_request: Il manque à la requête un paramètre requis, inclut une valeur
@@ -2940,21 +2940,21 @@ fr:
         unsupported_grant_type: The authorization grant type is not supported by the
           authorization server.
         invalid_token:
-          revoked: The access token was revoked
-          expired: The access token expired
-          unknown: The access token is invalid
+          revoked: Le jeton d'accès a été révoqué
+          expired: Le jeton d'accès a expiré
+          unknown: Le jeton d'accès est invalide
   unsupported_browser:
-    title: Your browser is outdated and unsupported.
+    title: Votre navigateur est obsolète et non pris en charge.
     message: You may run into errors and degraded experience on this page.
     update_message: Veuillez mettre à jour votre navigateur.
     close_warning: Ignorer cet avertissement.
   oauth:
     application:
       singular: Applications OAuth
-      plural: OAuth applications
-      named: OAuth application '%{name}'
-      new: New OAuth application
-      default_scopes: "(Default scopes)"
+      plural: Applications OAuth
+      named: Application OAuth '%{name}'
+      new: Nouvelle application Oauth
+      default_scopes: "(Portée par défaut)"
       instructions:
         name: The name of your application. This will be displayed to other users
           upon authorization.
@@ -2979,17 +2979,17 @@ fr:
 '
     authorization_dialog:
       authorize: Autoriser
-      cancel: Cancel and deny authorization.
-      prompt_html: Authorize <strong>%{application_name}</strong> to use your account
-        <em>%{login}</em>?
-      title: Authorize %{application_name}
+      cancel: Annuler et refuser l'autorisation.
+      prompt_html: Autoriser <strong>%{application_name}</strong> à utiliser votre
+        compte <em>%{login}</em> ?
+      title: Autoriser %{application_name}
       wants_to_access_html: 'Cette application demande l''accès à votre compte OpenProject.
         <br/> <strong>Il a demandé les autorisations suivantes:</strong>Il a demandé
         les autorisations suivantes
 
 '
     scopes:
-      api_v3: Full API access
+      api_v3: Accès API complet
       api_v3_text: L'application recevra un accès complet en lecture et écriture à
         l'API OpenProject pour effectuer des actions en votre nom.
     grants:
@@ -3000,8 +3000,8 @@ fr:
       none_given: Aucune application OAuth n'a été autorisée à accéder à votre compte
         utilisateur.
     x_active_tokens:
-      one: one active token
-      other: "%{count} active token"
+      one: un jeton actif
+      other: un jeton actif %{count}
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
