@@ -3,8 +3,8 @@ tr:
   no_results_title_text: Şu anda gösterilecek bir şey yok.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within
-        this time frame.
+      no_results_title_text: Bu zaman dilimi içerisinde proje için herhangi bir faaliyet
+        olmamıştır.
   admin:
     plugins:
       no_results_title_text: Şu anda kullanılabilir eklenti mevcut değil.
@@ -85,7 +85,7 @@ tr:
       name: Eylemler
       add: Eylem ekle
       assigned_to:
-        executing_user_value: "(Assign to executing user)"
+        executing_user_value: "(Kullanıcıyı çalıştırma ata)"
     conditions: Koşullar
     plural: Özel eylemler
     new: Özel eylem ekle
@@ -190,8 +190,8 @@ tr:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Bu önceliğin rengini atamak veya değiştirmek için tıklayın.
+        Tablodaki iş paketlerini vurgulamak için kullanılabilir.
   reportings:
     index:
       no_results_title_text: Halen durum bildirimleri yok.
@@ -204,8 +204,8 @@ tr:
         <br/>
         <strong>Uyarı</strong>: Devralınan değerler (örneğin; çocuklardan ve bağlantılardan) hala geçerli olacaktır.
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        Bu durumun rengini atamak veya değiştirmek için tıklayın.
+        Durum düğmesinde gösterilir ve tablodaki iş paketlerini vurgulamak için kullanılabilir.
     index:
       no_results_title_text: Şu anda çalışma paketi durumu yok.
       no_results_content_text: Yeni durum ekle
@@ -218,14 +218,14 @@ tr:
       form_configuration: Formu yapılandırma
       projects: Projeler
       enabled_projects: Etkin projeler
-      add_group: Add attribute group
+      add_group: Özellik grubu ekle
       add_table: Bağlantılı iş paketlerinin tablosunu ekle
       edit_query: Tabloyu düzenle
       query_group_placeholder: Tabloya bir ad verin
       reset: Varsayılanlara geri yükle
       type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        Bu türün rengini atamak veya değiştirmek için tıklayın. Seçilen renk iş paketlerini ayırt eder
+        Gantt listelerinde.
   versions:
     overview:
       no_results_title_text: Bu sürüme atadığım iş paketi bulunmuyor.
@@ -238,13 +238,13 @@ tr:
       no_results_title_text: Sitemizde şuan iş akışı yok.
   work_packages:
     x_descendants:
-      one: One descendant work package
-      other: "%{count} work package descendants"
+      one: Bir soydan iş paketi
+      other: "%{count} Bir soydan iş paketi"
     bulk:
       could_not_be_saved: 'The following work packages could not be saved:'
     move:
-      no_common_statuses_exists: There is no status available for all selected work
-        packages. Their status cannot be changed.
+      no_common_statuses_exists: Seçilen tüm iş paketleri için uygun bir durum yoktur.
+        Durumları değiştirilemez.
       unsupported_for_multiple_projects: Birden çok projeden iş paketi için toplu
         taşıma / kopyalama desteklenmiyor
     list_simple:
@@ -304,10 +304,10 @@ tr:
           oturum açmanız mümkün olmaz. Eğer bu uygulamaya tekrar üye olmak isterseniz.
           uygulamanın izin verdiği yollarla bunu gerçekleştirebilirsiniz.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
+        other: Silme işlemini doğrulamak için %{name} girişini girin. Gönderildikten
+          sonra, şifrenizi onaylamanız istenir.
+        self: Silme işlemini doğrulamak için giriş bilgilerinizi %{name} girin. Gönderildikten
+          sonra, şifrenizi onaylamanız istenir.
     error_inactive_activation_by_mail: 'Hesabınız henüz etkinleştirilmedi. Hesabınızı
       etkinleştirmek için size gönderilen e-posta bağlantısını tıklatın.
 
@@ -513,7 +513,7 @@ tr:
         not_a_date: geçerli bir tarih değil.
         not_a_datetime: geçerli bir zaman değil.
         not_a_number: bir sayı değil.
-        not_allowed: is invalid because of missing permissions.
+        not_allowed: Eksik izinler nedeniyle geçersiz.
         not_an_integer: bir tamsayı değil.
         not_an_iso_date: 'geçerli bir tarih değil. Gerekli biçim:: YYYY-AA-GG.'
         not_same_project: aynı projeye ait değil.
@@ -534,8 +534,7 @@ tr:
           only_one_allowed: "(%{name}) yalnızca bir değer verilir."
           empty: "(%{name}) değeri boş olamaz."
           inclusion: "(%{name}) değer izin verilen değerlerden birine ayarlı değil."
-          not_logged_in: "(%{name}) value cannot be set because you are not logged
-            in."
+          not_logged_in: "(%{name}) değeri, giriş yapmadığınız için ayarlanamıyor."
           not_an_integer: "(%{name}) bir tamsayı değil."
           smaller_than_or_equal_to: "(%{name}) %{count} ' e eşit veya daha küçük olmalıdır."
           greater_than_or_equal_to: "(%{name}) sıfırdan büyük veya %{count} ' e eşit
@@ -614,8 +613,7 @@ tr:
             status_id:
               status_transition_invalid: geçerli kullanıcının rolleri için eski durumdan
                 yeni duruma geçerli bir geçiş mevcut olmadığından geçersiz.
-              status_invalid_in_type: is invalid because the current status does not
-                exist in this type.
+              status_invalid_in_type: Geçerli durum bu türde bulunmadığından geçersiz.
             type:
               cannot_be_milestone_due_to_children: kilometre taşı olmaz çünkü alt
                 iş paketlerine sahip.
@@ -633,7 +631,7 @@ tr:
               attribute_unknown: Geçersiz iş paketi özniteliği kullanıldı.
               duplicate_group: "'%{group}' grup adı, birden fazla kez kullanıldı.
                 Grup isimleri benzersiz olmalıdır."
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              query_invalid: 'Gömülü sorgu ''%{group}'' geçersiz: %{details}'
               group_without_name: Adsız gruplara izin verilmez.
         user:
           attributes:
@@ -823,16 +821,18 @@ tr:
     decline_warning_message: Onay vermeyi reddettiniz ve çıkış yaptınız.
     user_has_consented: Kullanıcı, belirtilen zamanda yapılandırılmış ifadenize izin
       verdi.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    not_yet_consented: Kullanıcı henüz onaylamadı, bir sonraki oturum açmada talep
+      edilecek.
+    contact_mail_instructions: Veri değişikliği veya kaldırma isteklerini gerçekleştirmek
+      için kullanıcıların bir veri denetleyicisine erişebilecekleri posta adresini
+      tanımlayın.
+    contact_your_administrator: Hesabınızın silinmesini istiyorsanız, lütfen yöneticinize
+      başvurun.
+    contact_this_mail_address: Hesabınızın silinmesini istiyorsanız, lütfen %{mail_address}
+      ile iletişime geçin.
+    text_update_consent_time: Kullanıcıları tekrar onaylamaya zorlamak için bu kutuyu
+      işaretleyin. Yukarıdaki izin bilgilerinin yasal yönünü değiştirdiğinizde etkinleştirin.
+    update_consent_last_time: 'Rıza son güncelleme: %{update_time}'
   copy_project:
     started: '"%{source_project_name}" adlı proje "%{target_project_name}" adlı yeni
       bir projeye kopyalanmaya başladı. "%{target_project_name}" projesi hazır olduğunda
@@ -1045,8 +1045,8 @@ tr:
   enumeration_reported_project_statuses: Bildirilen proje durumları
   error_auth_source_sso_failed: Çoklu oturum açma (SSO) için kullanıcı '%{value}'
     başarısız oldu
-  error_can_not_archive_project: 'This project cannot be archived: There is at least
-    one work package assigned to a version defined in this project.'
+  error_can_not_archive_project: 'Bu proje arşivlenemiyor: Bu projede tanımlanan bir
+    sürüme atanmış en az bir iş paketi var.'
   error_can_not_delete_entry: Girdi silinemiyor
   error_can_not_delete_custom_field: Özel alan silinemiyor
   error_can_not_delete_type: Bu tür iş paketleri içeriyor ve silinemez.
@@ -1061,20 +1061,20 @@ tr:
   error_custom_option_not_found: Seçenek yok.
   error_dependent_work_package: 'Bağımlı #%{related_id} %{related_subject} iş paketinde
     hata: %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_enterprise_activation_user_limit: Hesabınız etkinleştirilemedi (kullanıcı
+    limitine ulaşıldı). Erişim sağlamak için lütfen yöneticinize başvurun.
   error_failed_to_delete_entry: Girdi silinemedi.
   error_invalid_selected_value: Seçili değeri geçersiz.
   error_invalid_group_by: "%{value} ya göre guplandırılamadı"
   error_invalid_query_column: 'Geçersiz sorgu sütunu: %{value}'
   error_invalid_sort_criterion: 'Sütuna göre sıralama yapamazsınız: %{value}'
-  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
+  error_journal_attribute_not_present: Günlük  %{attribute} özniteliği içermiyor.
   error_pdf_export_too_many_columns: PDF Dışa Aktarma için çok fazla sütun seçili.
     Sütun sayısını azaltın.
   error_pdf_failed_to_export: 'PDF çıktısı kaydedilemedi: %{error}'
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did
-    you try to submit data on multiple browsers or tabs? Please close all tabs and
-    try again.
+  error_token_authenticity: Siteler Arası İstek Sahteciliği belirteci doğrulanamadı.
+    Birden fazla tarayıcı veya sekme hakkında veri göndermeyi denediniz mi? Lütfen
+    tüm sekmeleri kapatın ve tekrar deneyin
   error_work_package_done_ratios_not_updated: İş tamamlanma oranları güncellenmedi.
   error_work_package_not_found_in_project: Iş paketi bulunamadı veya bu projeye ait
     değil
@@ -1147,7 +1147,7 @@ tr:
   homescreen:
     additional:
       projects: Bu bölümdeki görülebilir en yeni projeler.
-      no_visible_projects: There are no visible projects in this instance.
+      no_visible_projects: Bu durumda görünür bir proje yok.
       users: Bu bölümdeki kaydolan en son kullanıcılar.
     blocks:
       community: OpenProject topluluğu
@@ -1277,7 +1277,7 @@ tr:
   label_close_versions: Tamamlanmış sürümleri kapat
   label_closed_work_packages: kapalı
   label_collapse: Daralt
-  label_collapsed_click_to_show: Collapsed. Click to show
+  label_collapsed_click_to_show: Daraltılmış. Göstermek için tıklayın
   label_configuration: konfigürasyon
   label_comment_add: Yorum ekle
   label_comment_added: Yorum eklendi
@@ -1343,7 +1343,7 @@ tr:
   label_enumeration_value: Numaralandırma değeri
   label_enumerations: Sayım Listesi
   label_enterprise: Kurumsal
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} aktif kullanıcı rezervasyonu"
   label_enterprise_edition: Kurumsal Sürüm
   label_environment: Ortam
   label_estimates_and_time: Tahminler & zaman
@@ -1352,7 +1352,7 @@ tr:
   label_example: Örnek
   label_import: Import
   label_export_to: 'Ayrıca şu adreste bulunabilir:'
-  label_expanded_click_to_collapse: Expanded. Click to collapse
+  label_expanded_click_to_collapse: Genişletilmiş. Daraltmak için tıklayın
   label_f_hour: "%{value} saat"
   label_f_hour_plural: "%{value} saat"
   label_feed_plural: Akışlar
@@ -1770,16 +1770,16 @@ tr:
   macro_execution_error: Makroyu çalıştırırken hata oluştu %{macro_name}
   macro_unavailable: Makro %{macro_name} görüntülenemiyor.
   macros:
-    placeholder: "[Placeholder] Macro %{macro_name}"
+    placeholder: "[Yer Tutucu] Makro %{macro_name}"
     errors:
       missing_or_invalid_parameter: Eksik ya da geçersiz macro parametreleri.
     legacy_warning:
-      timeline: This legacy timeline macro has been removed and is no longer available.
-        You can replace the functionality with an embedded table macro.
+      timeline: Bu eski zaman çizelgesi makrosu kaldırıldı ve artık kullanılamıyor.
+        İşlevselliği katıştırılmış tablo makrosu ile değiştirebilirsiniz.
     include_wiki_page:
       errors:
         page_not_found: Wiki sayfası '%{name} ' bulunamıyor.
-        circular_inclusion: Circular inclusion of pages detected.
+        circular_inclusion: Sayfaların dairesel olarak dahil edilmesi algılandı.
     create_work_package_link:
       errors:
         no_project_context: Proje içeriği dışından create_work_package_link makrosu
@@ -1808,12 +1808,12 @@ tr:
   mail_user_activation_limit_reached:
     subject: Kullanıcı etkinleştirme sınırına ulaşıldı
     message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+      Yeni bir kullanıcı (%{email}) yönettiğiniz bir OpenProject ortamında bir hesap oluşturmaya çalıştı (%{host}).
+      Kullanıcı sınırına ulaşıldığından beri kullanıcı hesaplarını etkinleştiremiyor.
     steps:
-      label: 'To allow the user to sign in you can either: '
-      a: Upgrade your payment plan ([here](upgrade_url))
-      b: Lock or delete an existing user ([here](users_url))
+      label: 'Kullanıcının oturum açmasına izin vermek için şunlardan birini yapabilirsiniz:'
+      a: Ödeme planınızı yükseltin ([here](upgrade_url))
+      b: Mevcut bir kullanıcıyı kilitle veya sil ([buradan](users_url))
   more_actions: Daha fazla işlev
   noscript_description: OpenProject'i kullanmak için JavaScript'i etkinleştirmeniz
     gerekiyor!
@@ -2202,8 +2202,8 @@ tr:
   setting_commit_ref_keywords: Anahtar kelimeleri referansla
   setting_consent_time: Rıza süresi
   setting_consent_info: Rıza bilgi metni
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_required: Onay gerekli
+  setting_consent_decline_mail: Onay iletişim posta adresi
   setting_cross_project_work_package_relations: Projeler arası iş paketi ilişkilerine
     izin ver
   setting_date_format: Tarih formatı
@@ -2403,8 +2403,11 @@ tr:
   text_journal_aggregation_time_explanation: Yaş farkı belirtilen zaman aralığından
     azsa dergileri görüntü için birleştirin. Bu aynı zamanda posta bildirimlerini
     aynı süreyle erteleyecektir.
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_changed: "%{label} %{old} <be/> <strong> 'den </strong>' e değiştirildi
+    %{new}"
+  text_journal_changed_plain: |-
+    %{label} %{old} den değiştirildi
+    %{new} 'e
   text_journal_changed_no_detail: "%{label} güncellendi"
   text_journal_changed_with_diff: "%{label} değişti ( %{link})"
   text_journal_deleted: "%{label}, ( %{old}) silindi"
@@ -2589,8 +2592,8 @@ tr:
       project_time_filter_historical_from: başlangıç
       project_time_filter_historical_to: bitiş
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
-        %{end_label} %{endspan}%{endspanunit} from now"
+      project_time_filter_relative: "%{start_label}  %{startspan} %{startspanunit}
+        önce, %{end_label}  %{endspan} %{endspanunit} bundan sonra"
       project_filters: Projeleri filtrele
       project_responsible: Sorumlularıyla birlikte projeleri göster
       project_status: Proje durumunu göster
@@ -2621,7 +2624,7 @@ tr:
       level5: Seviye 5 genişletin
       all: Tümünü göster
     reporting_for_project:
-      show: 'Status reported to project: %{title}'
+      show: Projeye rapor edilen durum:%{title}
       edit_delete: 'proje durum raporu: %{title}'
       history: 'Proje durum geçmişi: %{title}'
     reporting:
@@ -2655,7 +2658,7 @@ tr:
       quarters: Üç aylık
       years: Yıl
   title_remove_and_delete_user: Davet edilen kullanıcıyı projeden çıkarın ve onu silin.
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: Daha fazla kullanıcının kilidini açmak için yükseltme.
   tooltip_user_default_timezone: 'Yeni kullanıcılar için varsayılan saat dilimi. Bir
     kullanıcının ayarlarında değiştirilebilir.
 
@@ -2686,9 +2689,9 @@ tr:
     activate_and_reset_failed_logins: Başarısız oturum açma işlemlerinin kilidini
       aç ve sıfırla
     authentication_provider: Kimlik doğrulama sağlayıcısı
-    authentication_settings_disabled_due_to_external_authentication: 'This user authenticates
-      via an external authentication provider, so there is no password in OpenProject
-      to be changed.
+    authentication_settings_disabled_due_to_external_authentication: 'Bu kullanıcı
+      harici bir kimlik doğrulama sağlayıcısı aracılığıyla kimlik doğrulaması yapar,
+      böylece OpenProject''de değiştirilecek şifre yoktur.
 
 '
     authorization_rejected: Oturum açma izniniz yok.
@@ -2700,8 +2703,8 @@ tr:
     confirm_status_change: "'%{name}' durumunu değiştirmek üzeresiniz. Devam etmek
       istediğinizden emin misiniz?"
     deleted: Kullanıcı silindi
-    error_status_change_failed: 'Changing the user status failed due to the following
-      errors: %{errors}'
+    error_status_change_failed: Kullanıcı durumunu değiştirmek aşağıdaki hatalardan
+      dolayı başarısız oldu:%{errors}
     invite: Kullanıcı e-posta ile davet
     invited: davet
     lock: Kalıcı olarak kilit
@@ -2730,24 +2733,24 @@ tr:
     bırakıldı.
   warning: Uyarı
   warning_attachments_not_saved: "%{count} dosya (lar) kaydedilemedi."
-  warning_imminent_user_limit: 'You invited more users than are supported by your
-    current plan. Invited users may not be able to join your OpenProject environment.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users
-    in order to allow invited and registered users to join.
+  warning_imminent_user_limit: 'Mevcut planınız tarafından desteklenenden daha fazla
+    kullanıcı davet ettiniz. Davet edilen kullanıcılar OpenProject ortamınıza katılamayabilir.
+    Lütfen davet edilen ve kayıtlı kullanıcıların katılmasına izin vermek için <a
+    href="%{upgrade_url}"> planınızı yükseltin </a> veya mevcut kullanıcıları engelleyin.
 
 '
   warning_registration_token_expired: 'Etkinleştirme e-postası süresi doldu. Sana
     yeni bir %{email} gönderdik. Hesabınızı etkinleştirmek için linki tıklayınız.
 
 '
-  warning_user_limit_reached: 'User limit reached. You cannot activate any more users.
-    Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow
-    for additional users.
+  warning_user_limit_reached: 'Kullanıcı limitine ulaşıldı. Daha fazla kullanıcıyı
+    etkinleştiremezsiniz. Lütfen <a href="%{upgrade_url}"> planınızı yükseltin </a>
+    veya ek kullanıcılara izin vermek için üyeleri engelleyin.
 
 '
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached_instructions: 'Kullanıcı sınırınıza ulaştınız (%{current}/%{max}
+    aktif kullanıcılar). Enterprise Edition planınızı yükseltmek ve ek kullanıcılar
+    eklemek için lütfen sales@openproject.com adresine başvurun.
 
 '
   menu_item: Menü seçeneği
