@@ -5,8 +5,8 @@ tr:
       hide: Gizle
       loading: Yükleniyor ...
     attachments:
-      draggable_hint: 'Drag on editor field to inline image or reference attachment.
-        Closed editor fields will be opened while you keep dragging.
+      draggable_hint: 'Editör alanında, satır içi görüntüye veya referans ekine sürükleyin.
+        Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
 
 '
     autocomplete_select:
@@ -74,45 +74,45 @@ tr:
       macro:
         child_pages:
           button: Alt sayfalara bağlantılar
-          include_parent: Include parent
+          include_parent: Üst öğeyi dahil et
           text: "[Placeholder] Alt sayfalara bağlantılar"
           page: Viki sayfası
           this_page: bu sayfa
-          hint: 'Leave this field empty to list all child pages of the current page.
-            If you want to reference a different page, provide its title or slug.
+          hint: 'Geçerli sayfanın tüm alt sayfalarını listelemek için bu alanı boş
+            bırakın. Farklı bir sayfaya referans vermek istiyorsanız, başlığını veya
+            fişini belirtin.
 
 '
         code_block:
           button: Kod parçacığı ekle
           title: Kod parçacığını ekle / düzenle
           language: Biçimlendirme dili
-          language_hint: Enter the formatting language that will be used for highlighting
-            (if supported).
+          language_hint: Vurgulamak için kullanılacak formatlama dilini girin (destekleniyorsa).
         dropdown:
           macros: Makrolar
           chose_macro: Makro seçin
         toc: İçindekiler
-        toolbar_help: Click to select widget and show the toolbar. Double-click to
-          edit widget
+        toolbar_help: Widget'ı seçmek ve araç çubuğunu göstermek için tıklayın. Widget'ı
+          düzenlemek için çift tıklayın
         wiki_page_include:
-          button: Include content of another wiki page
-          text: "[Placeholder] Included wiki page of"
+          button: Başka bir wiki sayfasının içeriğini ekle
+          text: "[Placeholder] Dahil edilen wiki sayfası"
           page: Viki sayfası
           not_set: "(Sayfa ayarlanmadı)"
           hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+            Başlığını veya sümüklü böcek belirterek başka bir wiki sayfasının içeriğini ekleyin.
+            Başka bir projenin wiki sayfasını, aşağıdaki örnekte olduğu gibi iki nokta ile ayırarak ekleyebilirsiniz.
         work_package_button:
-          button: Insert create work package button
+          button: Çalışma paketi yarat düğmesi ekle
           type: İş paketi tipi
           button_style: Düğme biçimini kullan
-          button_style_hint: 'Optional: Check to make macro appear as a button, not
-            as a link.'
+          button_style_hint: 'İsteğe bağlı: Makronun bağlantı olarak değil, düğme
+            olarak görünmesini sağlayın.'
           without_type: İş paketini oluştur
           with_type: İş paketini oluştur (Tür %{typename})
         embedded_table:
           button: Gömülü iş paketi tablosu
-          text: "[Placeholder] Embedded work package table"
+          text: "[Yer Tutucu] Gömülü iş paketi tablosu"
         embedded_calendar:
           text: "[Placeholder] Göümülü takvim"
     custom_actions:
@@ -124,7 +124,7 @@ tr:
       cannot_save_changes_with_message: 'Değişikliklerinizin kaydedilememesine sebep
         olan hata: %{error}'
       query_saving: Görünüm kaydedilemedi.
-      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
+      embedded_table_loading: 'Gömülü görünüm yüklenemedi: %{message}'
     filter:
       description:
         text_open_filter: Bu filtreyi 'ALT' ve ok tuşları ile açın.
@@ -272,7 +272,7 @@ tr:
     label_sort_higher: Yukarı taşı
     label_sort_lower: Aşağı taşı
     label_sorting: Sıralama
-    label_star_query: Favored
+    label_star_query: avantajlı
     label_press_enter_to_save: Kaydetmek için enter tuşuna basın.
     label_public_query: Herkese Açık
     label_sum_for: Toplam
@@ -399,9 +399,9 @@ tr:
           eşsiz olmalıdır."
         error_no_table_configured: Please configure a table for %{group}.
         reset_title: Form ayarlarlarını sıfırlayın
-        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group and disable ALL custom
-          fields.
+        confirm_reset: 'Uyarı: Form yapılandırmasını sıfırlamak istediğinizden emin
+          misiniz? Bu, nitelikleri varsayılan gruplarına sıfırlar ve TÜM özel alanları
+          devre dışı bırakır.
 
 '
         upgrade_to_ee: Enterprise Edition sürümüne yükseltme
@@ -524,8 +524,8 @@ tr:
           özellikleri yerine etiketinin görüneceğini unutmayın.
 
 '
-      button_activate: Show Gantt chart
-      button_deactivate: Hide Gantt chart
+      button_activate: İş-Zaman çizelgesi göster
+      button_deactivate: İş-Zaman çizelgesi gizle.
       cancel: İptal
       change: Planlama değişikliği
       due_date: Bitiş tarihi
@@ -573,8 +573,8 @@ tr:
         quarters: Üç aylık
         years: Yıl
         slider: Yakınlaştırma kaydırıcısı
-        description: 'Select the initial zoom level that should be shown when autozoom
-          is not available.
+        description: 'Otomatik zoom mevcut olmadığında gösterilmesi gereken ilk yakınlaştırma
+          seviyesini seçin.
 
 '
     tl_toolbar:
@@ -662,7 +662,7 @@ tr:
           bileşenleri gizlemek için tıklayın
       faulty_query:
         title: İş paketleri yüklenemiyor.
-        description: Your view is erroneous and could not be processed.
+        description: Görüşün hatalı ve işlenemedi.
       no_results:
         title: Görüntülecek bir iş paketi bulunmuyor.
         description: Ya hiç iş paketi oluşturulmamış, ya da tüm iş paketeri filtrelenmiş.
@@ -725,12 +725,12 @@ tr:
         insert_columns: Sütun ekle ...
         filters: Filtreler
         display_sums: Toplamları görüntüle
-        confirm_edit_cancel: Are you sure you want to cancel editing the name of this
-          view? Title will be set back to previous value.
+        confirm_edit_cancel: Bu görünümün adını düzenlemeyi iptal etmek istediğinizden
+          emin misiniz? Başlık önceki değere ayarlanacaktır.
         click_to_edit_query_name: Bu görünümün başlığını düzenlemek için tıklayın.
         rename_query_placeholder: Bu görünümüm adı
         errors:
-          unretrievable_query: Unable to retrieve view from URL
+          unretrievable_query: URL’den görünüm alınamadı
           not_found: Böyle bir görünüm bulunmamakta
           duplicate_query_title: Bu isimde bir görünüm var. Yinede devam edilsin mi?
         text_no_results: Eşleşen görünüm bulunamadı.
@@ -744,36 +744,35 @@ tr:
         text_select_hint: Seçim kutuları 'ALT' ve ok tuşları ile açılmalıdır.
       table_configuration:
         button: Bu iş paketi tablosunu yapılandır
-        choose_display_mode: Display work packages as
+        choose_display_mode: İş paketlerini farklı olarak göster
         modal_title: İş paketi tablosu yapılandırma
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          view you're editing.
+        embedded_tab_disabled: Bu yapılandırma sekmesi, düzenlemekte olduğunuz katıştırılmış
+          görünüm için kullanılamaz.
         default: varsayılan
         display_settings: Görünüm ayarları
         default_mode: Düz liste
         hierarchy_mode: Hiyerarşi
-        hierarchy_hint: All filtered table results will be augmented with their ancestors.
-          Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
+        hierarchy_hint: Filtrelenen tüm tablo sonuçları atalarıyla artırılacaktır.
+          Hiyerarşiler genişletilebilir ve daraltılabilir.
+        display_sums_hint: Tüm toplanabilir özelliklerin toplamlarını, tablonun sonuçlarının
+          altındaki bir satırda görüntüleyin.
+        show_timeline_hint: Tablonun sağ tarafında etkileşimli bir gantt grafiği göster.
+          Tablo ve gantt tablosu arasındaki bölücüyü sürükleyerek genişliğini değiştirebilirsiniz.
         highlighting: Vurgulama
         highlighting_mode:
           description: Rekle vurgula
           none: Vurgulama
           inline: Vurgulanan öznitelik(ler)
           inline_all: Tüm öznitelikler
-          entire_row_by: Entire row by
+          entire_row_by: Tüm satır tarafından
           status: Durum
           priority: Öncelik
           type: Tür
-        columns_help_text: Use the input above to add or remove columns to your table
-          view. You can drag and drop the columns to reorder them.
+        columns_help_text: Tablo görünümünüze sütun eklemek veya kaldırmak için yukarıdaki
+          girişi kullanın. Yeniden düzenlemek için sütunları sürükleyip bırakabilirsiniz.
         upsale:
-          attribute_highlighting: Need certain work packages to stand out from the
-            mass?
+          attribute_highlighting: Kitleden sıyrılmak için bazı iş paketlerine mi ihtiyacınız
+            var?
           relation_columns: İş paketleri listesindeki ilişkileri görmek ister misiniz?
           check_out_link: Enterprise sürüme bakın.
         relation_filters:
@@ -825,10 +824,9 @@ tr:
         title: "%{label} için silme işlimini onaylayın"
         text: "%{label} silinecek. Emin misiniz?"
         has_children: 'İş paketi %{childUnits} alt paketlerine sahip:'
-        confirm_deletion_children: I acknowledge that ALL descendants of the listed
-          work packages will be recursively removed.
-        deletes_children: All child work packages and their descendants will also
-          be recursively deleted.
+        confirm_deletion_children: Listelenen iş paketlerinin TÜM soylarının tekrar
+          tekrar kaldırılacağını kabul ediyorum.
+        deletes_children: Tüm çocuk iş paketleri ve torunları da tekrar tekrar silinir.
     notice_successful_create: Oluşturma başarılı.
     notice_successful_delete: Silme başarılı.
     notice_successful_update: Güncelleme başarılı.
