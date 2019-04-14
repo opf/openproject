@@ -57,19 +57,19 @@ tr:
       no_results_content_title: Şu anda bir doğrulama modu bulunmamakta.
       no_results_content_text: Yeni bir doğrulama modu oluştur
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Bağlantı şifreleme
     tls_mode:
       plain: hiçbiri
-      simple_tls: simple_tls
-      start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      simple_tls: basit_tls
+      start_tls: başlat_tls
+      plain_description: Düz şifrelenmemiş bağlantı, TLS anlaşması yok.
+      simple_tls_description: Örtülü TLS şifrelemesi, ancak sertifika doğrulaması
+        yok. LDAP bağlantısına dikkat ve örtülü güven ile kullanın.
+      start_tls_description: Tam doğrulama ile açık TLS şifrelemesi. TLS / SSL üzerinden
+        LDAP için kullanın.
+      section_more_info_link_html: 'Bu bölüm, bu LDAP kimlik doğrulama kaynağının
+        bağlantı güvenliği ile ilgilidir. Daha fazla bilgi için <a href="%{link}">the
+        Net::LDAP belgelerini </a> ziyaret edin.
 
 '
   boards:
@@ -134,20 +134,20 @@ tr:
     memberships:
       no_results_title_text: Şu anda bu grubun bir parçası olan, bir proje bulunmamakta.
   incoming_mails:
-    ignore_filenames: 'Specify a list of names to ignore when processing attachments
-      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+    ignore_filenames: 'Gelen postalar için ekleri işlerken yok sayılacak adların bir
+      listesini belirtin (örneğin, imzalar veya simgeler). Her satıra bir dosya adı
+      girin.
 
 '
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      scheduled: Silme zamanlanmış ve arka planda gerçekleştirilmiştir. Sonuç size
+        bildirilecektir.
+      schedule_failed: 'Proje silinemiyor: %{errors}'
+      failed: "%{name} projesinin silinmesi başarısız oldu"
+      failed_text: "%{name} projesini silme isteği başarısız oldu. Proje arşivlendi."
+      completed: " %{name}  projesinin silinmesi tamamlandı"
+      completed_text: "'%{name}' projesini silme isteği tamamlandı."
     index:
       no_results_title_text: Şu anda hiç proje bulunmamakta
       no_results_content_text: Yeni bir proje oluşturun
@@ -241,7 +241,7 @@ tr:
       one: Bir soydan iş paketi
       other: "%{count} Bir soydan iş paketi"
     bulk:
-      could_not_be_saved: 'The following work packages could not be saved:'
+      could_not_be_saved: 'Aşağıdaki iş paketleri kaydedilemedi:'
     move:
       no_common_statuses_exists: Seçilen tüm iş paketleri için uygun bir durum yoktur.
         Durumları değiştirilemez.
@@ -475,13 +475,14 @@ tr:
         type: Tür
         watcher: Takipçi
       doorkeeper/application:
-        uid: Client ID
-        secret: Client secret
-        owner: Owner
-        redirect_uri: Redirect URI
-        client_credentials_user_id: Client Credentials User ID
-        scopes: Scopes
-        confidential: Confidential
+        uid: Müşteri Kimliği
+        secret: Müşteri gizliliği
+        owner: Ürün Sahibi
+        redirect_uri: Yönlendirme URI'si
+        client_credentials_user_id: Müşteri Kimlik Bilgileri ve Kullanıcı Kimliği
+          gereklidir
+        scopes: kapsamları
+        confidential: Gizli
     errors:
       messages:
         accepted: kabul edilmelidir.
@@ -541,19 +542,19 @@ tr:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: cannot contain a fragment.
+              fragment_present: parça içeremez.
               invalid_uri: geçerli bir URI olmalıdır.
-              relative_uri: must be an absolute URI.
-              secured_uri: must be an HTTPS/SSL URI.
-              forbidden_uri: is forbidden by the server.
+              relative_uri: mutlaka bir URI olmalıdır.
+              secured_uri: HTTPS / SSL URI olması gerekir.
+              forbidden_uri: sunucu tarafından yasaklanmıştır.
             scopes:
-              not_match_configured: doesn't match available scopes.
+              not_match_configured: mevcut kapsamlarla eşleşmiyor.
         enterprise_token:
           unreadable: okunamıyor. Desteklenen bir destek anahtarı olduğuna emin misiniz?
         grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          overlaps: üst üste gelmek.
+          outside: Grup dışında görünmektedir.
+          end_before_start: son değerin başlangıç değerinden daha büyük olması gerekir.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -684,7 +685,7 @@ tr:
       wiki_page: Viki sayfası
       workflow: İş akışı
       work_package: İş paketi
-      doorkeeper/application: OAuth application
+      doorkeeper/application: OAuth uygulaması
   errors:
     header_invalid_fields: 'Aşağıdaki alanları ile ilgili sorunlar oluştu:'
     field_erroneous_label: |-
@@ -760,7 +761,7 @@ tr:
   button_change_password: Parolayı değiştir
   button_check_all: Tümünü işaretle
   button_clear: Temizle
-  button_click_to_reveal: Click to reveal
+  button_click_to_reveal: Ortaya çıkarmak için tıklayın
   button_close: Kapat
   button_collapse_all: Tümünü daralt
   button_configure: Düzenle
@@ -790,7 +791,7 @@ tr:
   button_remove: Kaldır
   button_rename: Yeniden adlandır
   button_replace: Değiştir
-  button_revoke: Revoke
+  button_revoke: İptal etmek
   button_reply: Yanıt
   button_reset: Sıfırla
   button_rollback: Bu sürüme geri al
@@ -1103,7 +1104,7 @@ tr:
 '
   error_external_authentication_failed: Harici doğrulama sırasında bir hata oluştu.
     Lütfen tekrar deneyin.
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
+  error_attribute_not_highlightable: 'Nitelikler vurgulanmıyor: %{attributes}'
   events:
     project: Proje düzenlendi
     changeset: Değişiklikler düzenlendi
@@ -1386,7 +1387,7 @@ tr:
   label_hierarchy_leaf: Hiyerarşi ağacı
   label_home: Ana sayfa
   label_subject_or_id: Konu ya da ID
-  label_impressum: Impressum
+  label_impressum: Künye
   label_in: şurada
   label_in_less_than: daha azdır
   label_in_more_than: daha fazla
@@ -1519,7 +1520,7 @@ tr:
   label_previous_week: Geçen Hafta
   label_principal_invite_via_email: " veya yeni kullanıcılar e-posta ile davet et"
   label_principal_search: Mevcut kullanıcıları veya grupları ekle
-  label_privacy_policy: Data privacy and security policy
+  label_privacy_policy: Veri gizliliği ve güvenlik politikası
   label_product_version: Ürün sürümü
   label_professional_support: Profesyonel destek
   label_profile: Profil
@@ -1838,8 +1839,8 @@ tr:
   notice_account_update_failed: Hesabı ayarları kaydedilemedi. Lütfen hesap sayfanızın
     bir göz atın.
   notice_account_updated: Hesap başarıyla güncellendi.
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: Hesabınıza bağlı diğer tüm oturumlar geçersiz
+    hale getirildi.
   notice_account_wrong_password: Hatalı parola
   notice_account_registered_and_logged_in: Hoş geldiniz, hesabınız etkinleştirildi.
     Şimdi giriş yaptınız.
@@ -2240,7 +2241,7 @@ tr:
     kısaltın
   setting_mail_handler_body_delimiter_regex: Bu düzenli ifade ile uyuşan e-postaları
     kırp
-  setting_mail_handler_ignore_filenames: Ignored mail attachments
+  setting_mail_handler_ignore_filenames: Yoksayılan posta ekleri
   setting_new_project_user_role_id: Bir proje oluşturan yönetici olmayan bir kullanıcıya
     verilen rolü
   setting_password_active_rules: Aktif karakter sınıfları
@@ -2253,7 +2254,7 @@ tr:
   setting_per_page_options: Sayfa başı nesne seçenekleri
   setting_plain_text_mail: Düz metin postası (HTML yok)
   setting_protocol: Protokol
-  setting_security_badge_displayed: Display security badge
+  setting_security_badge_displayed: Güvenlik rozeti göster
   setting_registration_footer: Kayıt alt bilgisi
   setting_repositories_automatic_managed_vendor: Otomatik depo satıcısı türü
   setting_repositories_encodings: Depolar kodlamaları
@@ -2289,8 +2290,8 @@ tr:
   setting_wiki_compression: Wiki geçmişini sıkıştır
   setting_work_package_group_assignment: Gruplara iş atanmasına izin ver
   setting_work_package_list_default_highlighting_mode: Varsayılan vurgulama modu
-  setting_work_package_list_default_highlighted_attributes: Default inline highlighted
-    attributes
+  setting_work_package_list_default_highlighted_attributes: Varsayılan satır içi vurgulanan
+    özellikler
   settings:
     general: Genel
     other: Diğer
@@ -2302,7 +2303,7 @@ tr:
       deletion: Silme
     highlighting:
       mode_long:
-        inline: Highlight attribute(s) inline
+        inline: 'Satır içi öznitelikleri vurgula '
         none: Vurgulama
         status: Duruma göre tüm satır
         type: Türe göre tüm satır
@@ -2424,14 +2425,14 @@ tr:
   text_no_notes: Bu çalışma paketi için bir yorum bulunmuyor.
   text_notice_too_many_values_are_inperformant: 'Not: Her sayfada 100''den fazla öğe
     gösterildiğinde, sayfa yükleme süresi artabilir.'
-  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
-    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
-    administration panel, and on the home page. It is displayed to administrators
-    only. <br/> The badge will check your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide
-    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
-    configuration documentation</a>.
+  text_notice_security_badge_displayed_html: 'Not: Etkinleştirildiğinde, bu,  <a href="%{information_panel_path}">%{information_panel_label}</a>
+    yönetim panelinde ve giriş sayfasında yükleme durumunuzla birlikte bir rozet görüntüler.
+    Sadece yöneticilere gösterilir. <br/> Rozet, mevcut OpenProject sürümünüzü resmi
+    OpenProject sürüm veritabanına karşı kontrol eder ve sizi herhangi bir güncelleme
+    veya bilinen güvenlik açığı hakkında uyarır. Çekin sağladığı, mevcut güncellemeleri
+    sağlamak için hangi verilerin gerekli olduğu ve bu kontrolün nasıl devre dışı
+    bırakılacağı hakkında daha fazla bilgi için lütfen <a href="%{more_info_url}">
+    yapılandırma belgelerini </a> ziyaret edin.
 
 '
   text_own_membership_delete_confirmation: İzinlerinizden bazılarını veya tümünü kaldırmak
@@ -2819,113 +2820,115 @@ tr:
       schema: Şema
   doorkeeper:
     pre_authorization:
-      status: Pre-authorization
+      status: Ön yetkilendirme
     errors:
       messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
-        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
-          client redirect URI.
-        unauthorized_client: The client is not authorized to perform this request
-          using this method.
-        access_denied: The resource owner or authorization server denied the request.
-        invalid_scope: The requested scope is invalid, unknown, or malformed.
-        invalid_code_challenge_method: The code challenge method must be plain or
-          S256.
-        server_error: The authorization server encountered an unexpected condition
-          which prevented it from fulfilling the request.
-        temporarily_unavailable: The authorization server is currently unable to handle
-          the request due to a temporary overloading or maintenance of the server.
-        credential_flow_not_configured: Resource Owner Password Credentials flow failed
-          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
-        resource_owner_authenticator_not_configured: Resource Owner find failed due
-          to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
-        admin_authenticator_not_configured: Access to admin panel is forbidden due
-          to Doorkeeper.configure.admin_authenticator being unconfigured.
-        unsupported_response_type: The authorization server does not support this
-          response type.
-        invalid_client: Client authentication failed due to unknown client, no client
-          authentication included, or unsupported authentication method.
-        invalid_grant: The provided authorization grant is invalid, expired, revoked,
-          does not match the redirection URI used in the authorization request, or
-          was issued to another client.
-        unsupported_grant_type: The authorization grant type is not supported by the
-          authorization server.
+        invalid_request: İstekte gerekli bir parametre eksik, desteklenmeyen bir parametre
+          değeri içeriyor veya başka türlü hatalı biçimlendirilmiş.
+        invalid_redirect_uri: İstenen yönlendirme uri hatalı biçimlendirilmiş veya
+          müşteri yönlendirme URI'siyle eşleşmiyor.
+        unauthorized_client: Müşterinin bu yöntemi kullanarak bu talebi gerçekleştirme
+          yetkisi yok.
+        access_denied: Kaynak sahibi veya yetkilendirme sunucusu isteği reddetti.
+        invalid_scope: İstenen kapsam geçersiz, bilinmeyen veya hatalı biçimlendirilmiş.
+        invalid_code_challenge_method: Kod yükleme yöntemi düz veya S256 olmalıdır.
+        server_error: Yetkilendirme sunucusu, isteği yerine getirmesini engelleyen
+          beklenmeyen bir koşulla karşılaştı.
+        temporarily_unavailable: Yetkilendirme sunucusu şu anda sunucunun geçici bir
+          aşırı yüklenmesi veya bakımı nedeniyle isteği yerine getiremiyor.
+        credential_flow_not_configured: Kaynak Sahibi Şifresi Kimlik Bilgileri akışı,
+          Doorkeeper.configure.resource_owner_from_credentials'ın yapılandırılmamış
+          olması nedeniyle başarısız oldu.
+        resource_owner_authenticator_not_configured: Kaynak Sahibi, Doorkeeper.configure.resource_owner_authenticator'ın
+          yapılandırılmamış olması nedeniyle başarısız oldu.
+        admin_authenticator_not_configured: Doorkeeper.configure.admin_authenticator'ın
+          yapılandırılmamış olması nedeniyle yönetici paneline erişim yasaktır.
+        unsupported_response_type: Yetkilendirme sunucusu bu yanıt türünü desteklemiyor.
+        invalid_client: Müşteri kimlik doğrulaması, bilinmeyen müşteri, müşteri kimlik
+          doğrulaması eklenmemiş veya desteklenmeyen kimlik doğrulama yöntemi nedeniyle
+          başarısız oldu.
+        invalid_grant: Sağlanan yetkilendirme izni geçersiz, süresi dolmuş, iptal
+          edilmiş, yetkilendirme isteğinde kullanılan yönlendirme URI'siyle eşleşmiyor
+          veya başka bir müşteriye verilmiş.
+        unsupported_grant_type: Yetkilendirme izni türü, yetkilendirme sunucusu tarafından
+          desteklenmiyor.
         invalid_token:
-          revoked: The access token was revoked
-          expired: The access token expired
-          unknown: The access token is invalid
+          revoked: Erişim belirteci iptal edildi
+          expired: Erişim kartının süresi doldu
+          unknown: Erişim belirteci geçersiz
   unsupported_browser:
     title: Tarayıcınız güncel değil ya da desteklenmiyor.
-    message: You may run into errors and degraded experience on this page.
+    message: Bu sayfada hatalara ve bozulmuş deneyime maruz kalabilirsiniz.
     update_message: Lütfen tarayıcınızı güncelleyin.
     close_warning: Bu uyarıyı yoksay.
   oauth:
     application:
-      singular: OAuth application
+      singular: OAuth uygulaması
       plural: OAuth uygulamaları
       named: Oauth uygulaması %{name}
       new: Yeni OAuth uygulaması
-      default_scopes: "(Default scopes)"
+      default_scopes: "(Varsayılan kapsamlar)"
       instructions:
-        name: The name of your application. This will be displayed to other users
-          upon authorization.
-        redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
-          One entry per line. <br/> If you''re registering a desktop application,
-          use the following URL.
+        name: Uygulamanızın adı. Bu, yetkilendirildikten sonra diğer kullanıcılara
+          gösterilecektir.
+        redirect_uri_html: 'İzin verilen URL''ler yetkili kullanıcılar adresine yönlendirilebilir.
+          Her satıra bir giriş. <br/> Bir masaüstü uygulamasına kaydoluyorsanız, aşağıdaki
+          URL''yi kullanın.
 
 '
-        confidential: Check if the application will be used where the client secret
-          can be kept confidential. Native mobile apps and Single Page Apps are assumed
-          non-confidential.
-        client_credential_user_id: Optional user ID to impersonate when clients use
-          this application. Leave empty to allow public access only
-        register_intro: If you are developing an OAuth API client application for
-          OpenProject, you can register it using this form for all users to use.
+        confidential: Uygulamanın, müşteri sırrının gizli tutulabileceği yerlerde
+          kullanılıp kullanılmayacağını kontrol edin. Yerel mobil uygulamalar ve Tek
+          Sayfa Uygulamaları gizli değildir.
+        client_credential_user_id: İstemciler bu uygulamayı kullandıklarında kimliğe
+          bürünmek için isteğe bağlı kullanıcı kimliği. Yalnızca genel erişime izin
+          vermek için boş bırakın
+        register_intro: OpenProject için bir OAuth API istemci uygulaması geliştiriyorsanız,
+          tüm kullanıcıların kullanması için bu formu kullanarak kayıt olabilirsiniz.
         default_scopes: ''
-    client_id: Client ID
-    client_secret_notice: 'This is the only time we can print the client secret, please
-      note it down and keep it secure. It should be treated as a password and cannot
-      be retrieved by OpenProject at a later time.
+    client_id: Müşteri Kimliği
+    client_secret_notice: 'Müşterinin sırrını basabileceğimiz tek zaman bu, lütfen
+      not edin ve güvende tutun. Parola olarak değerlendirilmeli ve daha sonra OpenProject
+      tarafından alınamaz.
 
 '
     authorization_dialog:
       authorize: Yetkilendir
-      cancel: Cancel and deny authorization.
-      prompt_html: Authorize <strong>%{application_name}</strong> to use your account
-        <em>%{login}</em>?
-      title: Authorize %{application_name}
-      wants_to_access_html: 'This application requests access to your OpenProject
-        account. <br/> <strong>It has requested the following permissions:</strong>
+      cancel: İptal et ve izni reddet.
+      prompt_html: Hesabınızı <strong>%{application_name}</strong> kullanmak için
+        <em>%{login}</em>?yetkilendirilsin mi?
+      title: "%{application_name} adlı kişiyi yetkilendir"
+      wants_to_access_html: 'Bu uygulama OpenProject hesabınıza erişim istiyor. <br/>
+        <strong> Aşağıdaki izinleri istedi: </strong>
 
 '
     scopes:
-      api_v3: Full API access
-      api_v3_text: Application will receive full read & write access to the OpenProject
-        API to perform actions on your behalf.
+      api_v3: Tam API erişimi
+      api_v3_text: Uygulama, sizin adınıza işlem yapmak için OpenProject API'sine
+        tam okuma ve yazma erişimi alır.
     grants:
-      created_date: Approved on
+      created_date: Tarihinde onaylandı
       scopes: İzinler
-      successful_application_revocation: Revocation of application %{application_name}
-        successful.
-      none_given: No OAuth applications have been granted access to your user account.
+      successful_application_revocation: "%{application_name} uygulamasının iptali
+        başarılı oldu."
+      none_given: Hiçbir OAuth uygulamasına kullanıcı hesabınıza erişim izni verilmedi.
     x_active_tokens:
-      one: one active token
+      one: "%{count} aktif belirteç"
       other: "%{count} active token"
     flows:
-      authorization_code: Authorization code flow
-      client_credentials: Client credentials flow
-    client_credentials: User used for Client credentials
-    client_credentials_impersonation_set_to: Client credentials user set to
-    client_credentials_impersonation_warning: 'Note: Clients using the ''Client credentials''
-      flow in this application will have the rights of this user'
-    client_credentials_impersonation_html: 'By default, OpenProject provides OAuth
-      2.0 authorization via %{authorization_code_flow_link}. You can optionally enable
-      %{client_credentials_flow_link}, but you must provide a user on whose behalf
-      requests will be performed.
+      authorization_code: Yetki kodu akışı
+      client_credentials: Müşteri kimlik bilgisi akışı
+    client_credentials: Müşteri kimlik bilgileri için kullanılan kullanıcı
+    client_credentials_impersonation_set_to: İstemci kimlik bilgileri kullanıcısı
+      olarak ayarlandı
+    client_credentials_impersonation_warning: 'Not: Bu uygulamadaki ''Müşteri kimlik
+      bilgileri'' akışını kullanan müşteriler bu kullanıcının haklarına sahip olacak'
+    client_credentials_impersonation_html: 'Varsayılan olarak, OpenProject,%{authorization_code_flow_link}.
+      yoluyla OAuth 2.0 yetkilendirmesi sağlar. İsteğe bağlı olarak%{client_credentials_flow_link}
+      özelliğini etkinleştirebilirsiniz, ancak kendi adına istekleri gerçekleştirilecek
+      bir kullanıcı sağlamanız gerekir.
 
 '
-    authorization_error: An authorization error has occurred.
-    revoke_my_application_confirmation: Do you really want to remove this application?
-      This will revoke %{token_count} active for it.
-    my_registered_applications: Registered OAuth applications
+    authorization_error: Bir yetkilendirme hatası oluştu.
+    revoke_my_application_confirmation: Bu uygulamayı gerçekten kaldırmak istiyor
+      musunuz? Bu, %{token_count} aktif olanını iptal edecektir.
+    my_registered_applications: OAuth uygulamalarını kayıtedin
