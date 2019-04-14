@@ -20,14 +20,14 @@ tr:
     close_form_title: Formu kapat
     boards:
       upsale:
-        boards: Need to freely structure your work in a board view?
+        boards: Çalışmanızı serbestçe pano görünümünde yapılandırmanız mı gerekiyor?
         check_out_link: Enterprise sürüme bakın.
     card:
-      add_new: Add new card
+      add_new: Yeni kart ekleyin
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: Entire card by
-      remove_from_list: Remove card from list
+        inline: 'Satır içi vurgula:'
+        entire_card_by: Kartın tamamı
+      remove_from_list: Kartı listeden çıkar
     clipboard:
       browser_error: Tarayıcınız panoya kopyalamayı desteklemiyor. Metni lütfen elle
         kopyalayınız.
@@ -160,18 +160,18 @@ tr:
     general_text_Yes: Evet
     grid:
       add_modal:
-        choose_widget: Choose widget
+        choose_widget: Widget seç
       widgets:
         documents:
           title: Belgeler
           no_results: Henüz belge yok.
         news:
           title: Haberler
-          at: at
+          at: en
           no_results: Rapor için yeni birşey bulunamadı.
         time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
+          title: Harcanan zaman (son 7 gün)
+          no_results: Son 7 güne zaman girişi yok.
         work_packages_accountable:
           title: Sorumlusu olduğum iş paketleri
         work_packages_assigned:
@@ -206,9 +206,9 @@ tr:
     label_ascending: Azalan
     label_author: 'Yazar: %{user}'
     label_between: arasında
-    label_board: Board
+    label_board: Yazı tahtası
     label_board_locked: Kilitlendi
-    label_board_plural: Boards
+    label_board_plural: Kurulları
     label_board_sticky: Sabit
     label_create_work_package: Yeni iş paketi oluştur
     label_created_by: Oluşturan
@@ -331,7 +331,7 @@ tr:
     label_upload_notification: Dosyalar yükleniyor...
     label_work_package_upload_notification: "#%{id}: %{subject} iş paketi için dosyalar
       yükleniyor"
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "# %{id} %{author} tarafından eklendi"
     label_files_to_upload: 'Bu dosyalar yüklenecek:'
     label_rejected_files: 'Bu dosyalar yüklenemiyor:'
     label_rejected_files_reason: Dosyaların boyutu %{maximumFilesize} boyutunu aştığı
@@ -347,54 +347,55 @@ tr:
         next: Sonraki
         got_it: Anladım
       steps:
-        help_menu: In the <b>Help</b> menu you will find a user guide and additional
-          help resources. <br> Enjoy your work with OpenProject!
-        members: Invite new <b>Members</b> to join your project.
-        project_selection: Please select one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
-        sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
-          menu</b>.
+        help_menu: "<b> Yardım </b> menüsünde bir kullanım kılavuzu ve ek yardım kaynakları
+          bulacaksınız. <br> OpenProject ile çalışmanın tadını çıkarın!"
+        members: Projenize katılmak için yeni <b> Üyeler </b> davet edin.
+        project_selection: Başlamak için lütfen faydalı demo verileri olan projelerden
+          birini seçin. <br> <b> Demo proje </b> klasik proje yönetimi için en iyisidir,
+          <b> Scrum projesi </b> Çevik proje yönetimi için daha iyidir.
+        sidebar_arrow: Ok işereti ile projenin <b> Ana menüsüne </b> geri dönebilirsiniz.
         welcome: En <b>önemli özellikleri</b> öğrenmek için üç dakikalık bir tanıtım
           gezintisine çıkın. <br> Tüm adımları tamamlamanızı öneririz. Turu istediğiniz
           zaman yeniden başlatabilirsiniz.
-        wiki: Within the <b>Wiki</b> you can document and share knowledge together
-          with your team.
+        wiki: "<b> Wiki </b> içerisinde bilgileri ekibinizle birlikte belgeleyebilir
+          ve paylaşabilirsiniz."
         backlogs:
-          overview: Manage your work in the <b>Backlogs</b> view. <br> On the right
-            you have the Product Backlog or a Bug Backlog, on the left you will have
-            the respective sprints. Here you can create <b>epics, user stories, and
-            bugs</b>, prioritize via drag'n'drop and add them to a sprint.
-          task_board_arrow: To see your <b>Task board</b>, open the Sprint drop-down...
+          overview: Çalışmanızı <b> İş Listeleri </b> görünümünde yönetin. <br> Sağda,
+            Ürün İş Listesi veya bir Hata İş Listesi bulunur, solda ilgili bölümlere
+            sahip olursunuz. Burada, <b> destanlar, kullanıcı hikayeleri ve hatalar
+            </b> yaratabilir, drag'n'drop ile önceliklendirme yapabilir ve bunları
+            bir sprint'e ekleyebilirsiniz.
+          task_board_arrow: "<b> Görev tahtası </b> nızı görmek için Sprint açılır
+            menüsünü açın ..."
           task_board_select: "... ve <b>Görev tahtası</b> kayıtlarını seçin."
-          task_board: The <b>Task board</b> visualizes the progress for this sprint.
-            Add new tasks or impediments with the + icon next to a user story. Via
-            drag'n'drop you can update the status.
+          task_board: "<b> Görev panosu </b> bu sprint için kaydedilen ilerlemeyi
+            gösterir. Bir kullanıcı hikayesinin yanındaki + simgesi ile yeni görevler
+            veya engeller ekleyin. Sürükle ve bırak özelliği ile durumu güncelleyebilirsiniz."
         boards:
-          overview: Manage your work within an intuitive <b>Boards</b> view.
-          lists: You can create multiple lists (columns) within one Board view, e.g.
-            to create a KANBAN board.
-          add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          overview: Çalışmanızı sezgisel bir <b> Panolar </b> görünümünde yönetin.
+          lists: Bir Pano görünümünde, örneğin, çoklu listeler (sütunlar) oluşturabilirsiniz.
+            KANBAN kurulu oluşturmak için.
+          add: Bir Pano içindeki listeye + işaretini <b> yeni bir kart ekler </b>
+            ’i tıklayın.
+          drag: Yeniden sıralamak için kartlarınızı bir listede ya da başka bir listede
+            sürükleyip bırakın. Ayrıntılar görünümünde çift tıklatma açılacaktır.
         wp:
-          toggler: Now let's have a look at the <b>Work package</b> section, which
-            gives you a more detailed view of your work.
-          list: This is the <b>Work package</b> list with the important work within
-            your project, such as tasks, features, milestones, bugs, and more. <br>
-            You can create or edit a work package directly within this list. To see
-            its details you can double click on a row.
-          full_view: Within the <b>Work package details</b> you find all relevant
-            information, such as description, status and priority, activities, dependencies
-            or comments.
-          back_button: With the arrow you can navigate back to the work package list.
-          create_button: The <b>Create</b> button will add a new work package to your
-            project.
-          timeline_button: You can activate the <b>Gantt chart</b> to create a timeline
-            for your project.
-          timeline: Here you can edit your project plan. Create new phases, milestones,
-            and add dependencies. All team members can see and update the latest plan
-            at any time.
+          toggler: Şimdi, size çalışmanız hakkında daha ayrıntılı bir görünüm sağlayan
+            <b> İş paketi </b> bölümüne göz atalım.
+          list: Bu, projenizdeki görevler, özellikler, kilometre taşları, hatalar
+            ve daha fazlası gibi önemli çalışmaların yer aldığı <b> İş paketi </b>
+            listesidir. <br> Bir çalışma paketini doğrudan bu listeden oluşturabilir
+            veya düzenleyebilirsiniz. Detaylarını görmek için bir satır üzerine çift
+            tıklayabilirsiniz.
+          full_view: "<b> İş paketi ayrıntıları </b> 'nda açıklama, durum ve öncelik,
+            etkinlikler, bağımlılıklar veya yorumlar gibi tüm ilgili bilgileri bulabilirsiniz."
+          back_button: Ok işareti ile iş paketi listesine geri dönebilirsiniz.
+          create_button: "<b> Oluştur </b> düğmesi, projenize yeni bir iş paketi ekler."
+          timeline_button: Projeniz için bir zaman çizelgesi oluşturmak için <b> Gantt
+            şeması </b> 'nı etkinleştirebilirsiniz.
+          timeline: Burada proje planınızı düzenleyebilirsiniz. Yeni aşamalar, kilometre
+            taşları oluşturun ve bağımlılıklar ekleyin. Tüm ekip üyeleri en son planı
+            istedikleri zaman görebilir ve güncelleyebilir.
     password_confirmation:
       field_description: Bu değişikliği onaylamak için hesap parolanızı girmeniz gerekir.
       title: Devam etmek için parolanızı doğrulayın
@@ -421,7 +422,7 @@ tr:
       attribute_groups:
         error_duplicate_group_name: "%{group} ismi birden fazla kullanıldı. Grup isimleri
           eşsiz olmalıdır."
-        error_no_table_configured: Please configure a table for %{group}.
+        error_no_table_configured: Lütfen %{group} için bir tablo yapılandırın.
         reset_title: Form ayarlarlarını sıfırlayın
         confirm_reset: 'Uyarı: Form yapılandırmasını sıfırlamak istediğinizden emin
           misiniz? Bu, nitelikleri varsayılan gruplarına sıfırlar ve TÜM özel alanları
@@ -436,17 +437,17 @@ tr:
         more_information: Daha fazla bilgi
         nevermind: Boşver
         filter_types:
-          parent: being child of
-          precedes: preceding
+          parent: çocuğu olmak
+          precedes: önceki
           follows: takip etmek
-          relates: relating to
-          duplicates: duplicating
+          relates: ile ilgili
+          duplicates: çoğaltmak
           duplicated: tarafından çoğaltılır
           blocks: engelleme
           blocked: bağlı
-          partof: being part of
-          includes: including
-          requires: requiring
+          partof: parçası olmak
+          includes: dahil olmak üzere
+          requires: gerektiren
           required: tarafından gerekli
     time_entry:
       activity: Etkinlik
@@ -851,7 +852,7 @@ tr:
         confirm_deletion_children: Listelenen iş paketlerinin TÜM soylarının tekrar
           tekrar kaldırılacağını kabul ediyorum.
         deletes_children: Tüm çocuk iş paketleri ve torunları da tekrar tekrar silinir.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Gösterilecek görünür bir sonuç yok.
     notice_successful_create: Oluşturma başarılı.
     notice_successful_delete: Silme başarılı.
     notice_successful_update: Güncelleme başarılı.
@@ -903,4 +904,4 @@ tr:
       title:
         all_projects: tüm projeler
         project_and_subprojects: ve tüm alt projeler
-        search_for: Search for
+        search_for: Aramak

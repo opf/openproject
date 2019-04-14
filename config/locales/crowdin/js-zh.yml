@@ -195,9 +195,9 @@ zh:
     label_ascending: 升序
     label_author: '作者: %{user}'
     label_between: 介于
-    label_board: Board
+    label_board: 面板
     label_board_locked: 锁定
-    label_board_plural: Boards
+    label_board_plural: 面板
     label_board_sticky: 置顶
     label_create_work_package: 创建新的工作包
     label_created_by: 创建者
@@ -348,8 +348,7 @@ zh:
           lists: You can create multiple lists (columns) within one Board view, e.g.
             to create a KANBAN board.
           add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          drag: 将卡片拖放到列表或另一列表中进行重新排序。双击将打开详细视图。
         wp:
           toggler: 现在我们来看一下<b>工作包</b>部分，工作包提供了更详细的工作视图。
           list: 这是<b>工作包</b>列表，包含项目中的重要工作，例如任务、特征、里程碑和错误等。<br>您可以在这个列表中直接创建或编辑工作包。要查看工作包的详细信息，可以双击该行。
@@ -774,7 +773,7 @@ zh:
         has_children: '工作包有 %{childUnits}:'
         confirm_deletion_children: 我确认所列工作包的全部子工作包都将递归移除。
         deletes_children: 所有子工作包及其子级也将递归删除。
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: 无可供显示的结果。
     notice_successful_create: 成功创建。
     notice_successful_delete: 成功删除。
     notice_successful_update: 成功更新。
