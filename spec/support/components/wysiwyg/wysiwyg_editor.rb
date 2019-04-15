@@ -131,5 +131,9 @@ module Components
       container.find('.ck-button', visible: :all, text: 'Macros').click
       container.find('.ck-button', visible: :all, text: label).click
     end
+
+    def click_autocomplete(text)
+      page.find('.mention-list-item', text: text).click
+    end
   end
 end
