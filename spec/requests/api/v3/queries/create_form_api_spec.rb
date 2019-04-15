@@ -91,6 +91,11 @@ describe "POST /api/v3/queries/form", type: :request do
   end
 
   let(:additional_setup) {}
+  let(:perform_request) do
+    ->(*) {
+      post path, parameters.merge(override_params).to_json
+    }
+  end
 
   before do
     login_as(user)
@@ -98,8 +103,7 @@ describe "POST /api/v3/queries/form", type: :request do
     additional_setup
 
     header "Content-Type", "application/json"
-    post path,
-         parameters.merge(override_params).to_json
+    perform_request.call
   end
 
   it 'should return 200(OK)' do
@@ -179,29 +183,29 @@ describe "POST /api/v3/queries/form", type: :request do
         allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
         allow(EnterpriseToken)
           .to receive(:allows_to?)
-          .with(:work_package_query_relation_columns)
-          .and_return(relation_columns_allowed)
+                .with(:work_package_query_relation_columns)
+                .and_return(relation_columns_allowed)
       end
 
       context 'with relation columns allowed by the enterprise token' do
         it 'has the static, custom field and relation columns' do
           expected_columns = static_columns_json +
-                             custom_field_columns_json +
-                             relation_to_type_columns_json +
-                             relation_of_type_columns_json +
-                             non_project_type_relation_column_json
+            custom_field_columns_json +
+            relation_to_type_columns_json +
+            relation_of_type_columns_json +
+            non_project_type_relation_column_json
 
           actual_columns = form.dig('_embedded',
                                     'schema',
                                     'columns',
                                     '_embedded',
                                     'allowedValues')
-                               .map do |column|
-                                 {
-                                   '_type': column['_type'],
-                                   'id': column['id']
-                                 }
-                               end
+            .map do |column|
+            {
+              '_type': column['_type'],
+              'id': column['id']
+            }
+          end
 
           expect(actual_columns).to include *expected_columns
         end
@@ -212,19 +216,19 @@ describe "POST /api/v3/queries/form", type: :request do
 
         it 'has the static and custom field' do
           expected_columns = static_columns_json +
-                             custom_field_columns_json
+            custom_field_columns_json
 
           actual_columns = form.dig('_embedded',
                                     'schema',
                                     'columns',
                                     '_embedded',
                                     'allowedValues')
-                               .map do |column|
-                                 {
-                                   '_type': column['_type'],
-                                   'id': column['id']
-                                 }
-                               end
+            .map do |column|
+            {
+              '_type': column['_type'],
+              'id': column['id']
+            }
+          end
 
           expect(actual_columns).to include *expected_columns
           expect(actual_columns).not_to include(relation_to_type_columns_json)
@@ -272,28 +276,28 @@ describe "POST /api/v3/queries/form", type: :request do
         allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
         allow(EnterpriseToken)
           .to receive(:allows_to?)
-          .with(:work_package_query_relation_columns)
-          .and_return(relation_columns_allowed)
+                .with(:work_package_query_relation_columns)
+                .and_return(relation_columns_allowed)
       end
 
       context 'with relation columns allowed by the enterprise token' do
         it 'has the static, custom field and relation columns' do
           expected_columns = static_columns_json +
-                             custom_field_columns_json +
-                             relation_to_type_columns_json +
-                             relation_of_type_columns_json
+            custom_field_columns_json +
+            relation_to_type_columns_json +
+            relation_of_type_columns_json
 
           actual_columns = form.dig('_embedded',
                                     'schema',
                                     'columns',
                                     '_embedded',
                                     'allowedValues')
-                               .map do |column|
-                                 {
-                                   '_type': column['_type'],
-                                   'id': column['id']
-                                 }
-                               end
+            .map do |column|
+            {
+              '_type': column['_type'],
+              'id': column['id']
+            }
+          end
 
           expect(actual_columns).to include *expected_columns
           expect(actual_columns).not_to include(non_project_type_relation_column_json)
@@ -305,19 +309,19 @@ describe "POST /api/v3/queries/form", type: :request do
 
         it 'has the static and custom field' do
           expected_columns = static_columns_json +
-                             custom_field_columns_json
+            custom_field_columns_json
 
           actual_columns = form.dig('_embedded',
                                     'schema',
                                     'columns',
                                     '_embedded',
                                     'allowedValues')
-                               .map do |column|
-                                 {
-                                   '_type': column['_type'],
-                                   'id': column['id']
-                                 }
-                               end
+            .map do |column|
+            {
+              '_type': column['_type'],
+              'id': column['id']
+            }
+          end
 
           expect(actual_columns).to include *expected_columns
           expect(actual_columns).not_to include(relation_to_type_columns_json)
@@ -560,6 +564,59 @@ describe "POST /api/v3/queries/form", type: :request do
         expect(form.dig("_embedded", "validationErrors", "public", "message"))
           .to eq "Public - The user has no permission to create public views."
       end
+    end
+  end
+
+  describe 'posting to a project-query form with a CF present only there (Regression #29873)' do
+    let(:custom_field) do
+      FactoryBot.create(
+        :work_package_custom_field,
+        field_format: 'string',
+        default_value: nil,
+        is_required: true,
+        is_for_all: true
+      )
+    end
+    let!(:type) { FactoryBot.create(:type, custom_fields: [custom_field]) }
+    let!(:project) { FactoryBot.create(:project, types: [type], work_package_custom_fields: [custom_field]) }
+
+
+    let(:path_with_cf) {
+      uri = Addressable::URI.parse(path)
+      uri.query = {
+        filters: [{ "customField#{custom_field.id}": { "operator": "=", "values": ["ABC"] } }]
+      }.to_query
+
+      uri.to_s
+    }
+
+    let(:parameters) do
+      {
+        name: "Some Query",
+        _links: {
+          project: {
+            href: "/api/v3/projects/#{project.id}"
+          }
+        }
+      }
+    end
+
+    let(:perform_request) do
+      ->(*) { post path_with_cf, parameters.to_json }
+    end
+
+    it "returns a valid form" do
+      expect(form.dig("_embedded", "validationErrors")).to be_empty
+
+      filters = form.dig('_embedded', 'payload', 'filters')
+
+      # Expect one CF filter
+      expect(filters.length).to eq 1
+      cf_filter = filters.first
+
+      expect(cf_filter['values']).to eq ['ABC']
+      expect(cf_filter.dig('_links', 'filter', 'href')).to eq "/api/v3/queries/filters/customField#{custom_field.id}"
+      expect(cf_filter.dig('_links', 'operator', 'title')).to eq 'is'
     end
   end
 end
