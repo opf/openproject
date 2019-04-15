@@ -83,6 +83,7 @@ import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
 import {MainMenuToggleComponent} from "core-components/main-menu/main-menu-toggle.component";
 import {MainMenuNavigationService} from "core-components/main-menu/main-menu-navigation.service";
+import {registerLocaleData} from "@angular/common";
 
 @NgModule({
   imports: [
@@ -226,5 +227,20 @@ export function initializeServices(injector:Injector) {
     // Setup query configuration listener
     ExternalQueryConfiguration.setupListener();
     ExternalRelationQueryConfiguration.setupListener();
+
+    // Dynamically load the current locale for Angular
+    const localeId = I18n.locale;
+    try {
+      import(
+        /* webpackInclude: /(zh-TW|af|es|fa|no|ko|nl|zh|hr|he|th|pl|it|cs|pt|bg|vi|pt-BR|tr|de|fil|ar|az|ca|ru|ro|lol|hi|fr|et|ja|el|lt|hu|lv|sv-SE|id|ne-NP|da|uk|fi|sk)\.js$/ */
+        `@angular/common/locales/${localeId}.js`
+      )
+        .then((locale) => {
+          console.log("Got locale for " + localeId);
+          registerLocaleData(locale.default);
+        });
+    } catch (e) {
+      console.error("Failed to get matching locale data for " + localeId);
+    }
   };
 }
