@@ -69,7 +69,7 @@ export class QueryFormDmService {
    * @param projectIdentifier
    * @param payload
    */
-  public loadWithParams(params:{}, queryId:string|undefined, projectIdentifier:string|undefined|null, payload:any = {}):Promise<QueryFormResource> {
+  public loadWithParams(params:{[key:string]:unknown}, queryId:string|undefined, projectIdentifier:string|undefined|null, payload:any = {}):Promise<QueryFormResource> {
     // We need a valid payload so that we
     // can check whether form saving is possible.
     // The query needs a name to be valid.
@@ -82,6 +82,7 @@ export class QueryFormDmService {
       payload._links.project = {
         'href': this.pathHelper.api.v3.projects.id(projectIdentifier).toString()
       };
+
     }
 
     let href:string = this.pathHelper.api.v3.queries.optionalId(queryId).form.toString();

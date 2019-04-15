@@ -56,6 +56,8 @@ module API
 
           resource_link :operator,
                         getter: ->(*) {
+                          next if represented.operator.nil?
+
                           hash = {
                             href: api_v3_paths.query_operator(CGI.escape(represented.operator))
                           }
