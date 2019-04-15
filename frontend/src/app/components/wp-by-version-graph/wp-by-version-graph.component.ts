@@ -5,7 +5,6 @@ import {
   WorkPackageEmbeddedGraphDataset
 } from "core-components/wp-table/embedded/wp-embedded-graph.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 
 @Component({
   selector: 'wp-by-version-graph',
@@ -22,8 +21,8 @@ export class WorkPackageByVersionGraphComponent implements OnInit {
   public availableGroupBy:{label:string, key:string}[];
 
   constructor(readonly elementRef:ElementRef,
-              readonly wpTableRefresh:WorkPackageTableRefreshService,
               readonly I18n:I18nService) {
+
     this.availableGroupBy = [{label: I18n.t('js.work_packages.properties.category'), key: 'category'},
                              {label: I18n.t('js.work_packages.properties.type'), key: 'type'},
                              {label: I18n.t('js.work_packages.properties.status'), key: 'status'},
@@ -40,7 +39,7 @@ export class WorkPackageByVersionGraphComponent implements OnInit {
   }
 
   public setQueryProps() {
-    this.datasets.length = 0;
+    this.datasets = [];
 
     if (this.groupBy === 'status') {
       this.displayModeSingle = true;
@@ -52,7 +51,7 @@ export class WorkPackageByVersionGraphComponent implements OnInit {
     }
 
     if (this.currentGraph) {
-      this.wpTableRefresh.request('Refresh graph');
+      this.currentGraph.refresh();
     }
   }
 

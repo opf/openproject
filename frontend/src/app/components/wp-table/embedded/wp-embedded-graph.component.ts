@@ -28,26 +28,8 @@ export interface WorkPackageEmbeddedGraphDataset {
 
 @Component({
   selector: 'wp-embedded-graph',
-  templateUrl: './wp-embedded-graph.html',
-  providers: [
-    IsolatedQuerySpace,
-    OpTableActionsService,
-    WorkPackageStatesInitializationService,
-    WorkPackageTableRelationColumnsService,
-    WorkPackageTablePaginationService,
-    WorkPackageTableGroupByService,
-    WorkPackageTableHierarchiesService,
-    WorkPackageTableSortByService,
-    WorkPackageTableColumnsService,
-    WorkPackageTableFiltersService,
-    WorkPackageTableTimelineService,
-    WorkPackageTableSelection,
-    WorkPackageTableSumService,
-    WorkPackageTableAdditionalElementsService,
-    WorkPackageTableRefreshService,
-  ]
+  templateUrl: './wp-embedded-graph.html'
 })
-
 export class WorkPackageEmbeddedGraphComponent extends WorkPackageEmbeddedBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public datasets:WorkPackageEmbeddedGraphDataset[];
 
@@ -89,11 +71,12 @@ export class WorkPackageEmbeddedGraphComponent extends WorkPackageEmbeddedBaseCo
 
   private updateChartData() {
     let uniqLabels = _.uniq(this.datasets.reduce((array, dataset) => {
-      return array.concat(dataset.groups!.map((group) => group.value) as any);
+      let groups = (dataset.groups || []).map((group) => group.value) as any;
+      return array.concat(groups);
     }, [])) as string[];
 
     let labelCountMaps = this.datasets.map((dataset) => {
-      let countMap = dataset.groups!.reduce((hash, group) => {
+      let countMap = (dataset.groups || []).reduce((hash, group) => {
         hash[group.value] = group.count;
         return hash;
       }, {} as any);
@@ -138,6 +121,7 @@ export class WorkPackageEmbeddedGraphComponent extends WorkPackageEmbeddedBaseCo
     const promise = Promise.all(queries)
       .then((datasets) => {
         this.setLoaded();
+        this.updateChartData();
         return datasets;
       })
       .catch((error) => {
