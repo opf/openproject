@@ -159,8 +159,10 @@ You can check the output of `dpkg - l | grep mysql` to check for packages remova
 The following is an exemplary removal of an installed version MySQL 5.7. 
 
 ```
-[root@host] apt-get remove mysql-client-5.7 mysql-server-5.7 mysql-common
+[root@host] apt-get remove mysql-server
 ```
+
+**Note:** OpenProject still depends on `mysql-common` and other dev libraries of MySQL to build the `mysql2` gem for talking to MySQL databases. Depending on what packages you try to uninstall, `openproject` will be listed as a dependent package to be uninstalled if trying to uninstall `mysql-common`. Be careful here with the confirmation of removal, because it might just remove openproject itself due to the apt depndency management.
 
 
 ## Running openproject reconfigure
