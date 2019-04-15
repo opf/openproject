@@ -1046,6 +1046,7 @@ th:
   error_can_not_remove_role: บทบาทนี้ถูกใช้อยู่และไม่สามารถลบได้
   error_can_not_reopen_work_package_on_closed_version: มีการมอบหมายชุดภารกิจนี้ไปยังเวอร์ชั่นที่ปิดแล้ว
     ซึ่งไม่สามารถเปิดใหม่ได้
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: โปรดเลือกผู้ใช้และบทบาท
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.

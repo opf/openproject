@@ -1088,6 +1088,7 @@ de:
   error_can_not_remove_role: Diese Rolle wird verwendet und kann nicht gelöscht werden.
   error_can_not_reopen_work_package_on_closed_version: Das Arbeitspaket ist einer
     abgeschlossenen Version zugeordnet und kann daher nicht wieder geöffnet werden.
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Bitte wählen Sie einen Nutzer und eine Rolle.
   error_cookie_missing: Das OpenProject Cookie fehlt. Bitte stellen Sie sicher, dass
     Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt

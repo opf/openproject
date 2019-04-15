@@ -1082,6 +1082,7 @@ ro:
   error_can_not_remove_role: Acest rol este utilizat și nu poate fi șters.
   error_can_not_reopen_work_package_on_closed_version: Un pachet de lucru atribuit
     la o versiune închisă nu poate fi redeschis
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Alegeți un utilizator și un rol.
   error_cookie_missing: Cookie-ul OpenProject lipseşte. Vă rugăm să verificați setările
     referitoare la cookies, această aplicație nu va funcţiona corespunzător fără acestea.

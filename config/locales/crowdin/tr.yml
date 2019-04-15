@@ -1056,6 +1056,7 @@ tr:
   error_can_not_remove_role: Bu rol kullanımda ve silinemez.
   error_can_not_reopen_work_package_on_closed_version: Kapalı bir sürüme atanan bir
     iş paketi yeniden açılamaz
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Lütfen bir kullanıcı ve bir rol seçin.
   error_cookie_missing: OpenProject çerezi yok. Lütfen uygulamanın düzgün çalışabilmesi
     için, tarayıcınızda çerezlere izin verildiğine emin olun.

@@ -1050,6 +1050,7 @@ et:
   error_can_not_remove_role: See roll on kasutuses ja seda ei saa kustutada.
   error_can_not_reopen_work_package_on_closed_version: Suletud versiooni juurde kuulunud
     teemat ei saa taasavada
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Palun vali kasutaja ja roll.
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.

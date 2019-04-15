@@ -1085,6 +1085,7 @@ cs:
   error_can_not_remove_role: Tato role je používána a nelze ji odstranit.
   error_can_not_reopen_work_package_on_closed_version: Pracovní balíček v uzavřené
     verzi nemůže být znovu otevřen
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Vyberte uživatele a roli.
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.

@@ -1059,6 +1059,7 @@ pt-BR:
   error_can_not_remove_role: Este papel está em uso e não pode ser excluído.
   error_can_not_reopen_work_package_on_closed_version: Um pacote de trabalho atribuído
     a uma versão fechada não pode ser reaberto
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Por favor, escolha um usuário e um papel.
   error_cookie_missing: Está faltando o cookie do OpenProject. Por favor, certifique-se
     de que os cookies estão habilitados, sem os quais esta função não funcionará adequadamente.

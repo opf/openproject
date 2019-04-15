@@ -1050,6 +1050,7 @@ id:
   error_can_not_remove_role: Role ini sedang dipakai dan tidak dapat dihapus.
   error_can_not_reopen_work_package_on_closed_version: Paket-Penugasan yang telah
     berakhir tidak dapat dibuka kembali
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Silakan pilih user dan Role.
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.

@@ -965,6 +965,7 @@ lol:
   error_can_not_invite_user: crwdns124128:0crwdne124128:0
   error_can_not_remove_role: crwdns124130:0crwdne124130:0
   error_can_not_reopen_work_package_on_closed_version: crwdns124132:0crwdne124132:0
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: crwdns124134:0crwdne124134:0
   error_cookie_missing: crwdns124136:0crwdne124136:0
   error_custom_option_not_found: crwdns124138:0crwdne124138:0

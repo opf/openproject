@@ -1072,6 +1072,7 @@ hr:
   error_can_not_remove_role: Ova rola se koristi i ne može biti izbrisana.
   error_can_not_reopen_work_package_on_closed_version: Dodijeljeni radni paket zaključenoj
     verziji ne može biti ponovno otvoren
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Molim Vas odaberite korisnika i rolu.
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.

@@ -1103,6 +1103,7 @@ sk:
   error_can_not_remove_role: Táto rola sa používa a nedá sa odstrániť.
   error_can_not_reopen_work_package_on_closed_version: Pracovný balíček, ktorý je
     priradený na uzatvorenú verziu sa nedá znovu-otvoriť
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Zvoľte si, prosím, používateľ a rolu.
   error_cookie_missing: Chýbajú súbory cookie pre OpenProject. Skontrolujte, či sú
     povolené súbory cookie, nakoľko bez nich táto aplikácia nebude správne fungovať.

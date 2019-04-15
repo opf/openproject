@@ -1051,6 +1051,7 @@
   error_can_not_remove_role: Denne rollen er i bruk og kan ikke slettes.
   error_can_not_reopen_work_package_on_closed_version: En arbeidspakke tilknyttet
     en lukket versjon kan ikke gjenåpnes
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Velg en bruker og en rolle.
   error_cookie_missing: Cookie OpenProject mangler. Kontroller at informasjonskapsler
     er aktivert, dette programmet fungerer ikke riktig uten.

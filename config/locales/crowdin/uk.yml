@@ -1088,6 +1088,7 @@ uk:
   error_can_not_remove_role: Ця роль використовується і не може бути видалений.
   error_can_not_reopen_work_package_on_closed_version: Пакет робіт покладених на закритій
     версії не може бути відкритий
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Будь ласка виберіть користувача і роль.
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.

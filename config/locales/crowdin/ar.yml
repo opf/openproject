@@ -1116,6 +1116,7 @@ ar:
   error_can_not_remove_role: هذا الدور هو قيد الاستخدام ولا يمكن حذفه.
   error_can_not_reopen_work_package_on_closed_version: لا يمكن إعادة فتح مجموعة العمل
     المسندة الى نسخة مغلقة
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: الرجاءاختر مستخدم ودور.
   error_cookie_missing: ملف تعريف الارتباط "كوكي" لأوبن بروجكت مفقود. من فضلك تأكد
     من أن يتم تمكين ملفات تعريف الارتباط "كوكيز"، لأن هذا التطبيق لن يعمل بشكل صحيح

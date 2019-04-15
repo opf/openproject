@@ -1054,6 +1054,7 @@ af:
   error_can_not_remove_role: Hierdie rol word gebruik en kan nie geskrap word nie.
   error_can_not_reopen_work_package_on_closed_version: "'n Werkspakket wat toegewys
     is aan 'n geslote weergawe kan nie weer oopgemaak word nie"
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Kies 'n gebruiker en 'n rol.
   error_cookie_missing: Die OpenProject koekie word vermis. Verseker asseblief dat
     koekies geaktiveer is, aangesien hierdie toepassing nie behoorlik sal funksioneer

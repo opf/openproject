@@ -1077,6 +1077,7 @@ he:
   error_can_not_remove_role: תפקיד זה נמצא בשימוש ואינו יכול להמחק.
   error_can_not_reopen_work_package_on_closed_version: חבילת עבודה השייכת לגרסה שנסגרה
     אינה יכולה להפתח מחדש
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: נא לבחור משתמש ותפקיד.
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.

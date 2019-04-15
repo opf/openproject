@@ -1080,6 +1080,7 @@ fr:
   error_can_not_remove_role: Ce rôle est utilisé et ne peut être supprimé.
   error_can_not_reopen_work_package_on_closed_version: Un lot de travaux assigné à
     une version fermée ne peut être ré-ouvert
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Veuillez choisir un utilisateur et un rôle.
   error_cookie_missing: Le cookie OpenProject est manquant. Assurez-vous que les cookies
     sont activés, sans quoi cette application ne fonctionnera pas correctement.

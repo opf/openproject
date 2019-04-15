@@ -1089,6 +1089,7 @@ lt:
   error_can_not_remove_role: Ši rolė naudojama, todėl negali būti ištrinta.
   error_can_not_reopen_work_package_on_closed_version: Uždarytai versijai priskirtas
     darbų paketas negali būti atvertas
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Prašome pasirinkti vartotoją ir rolę.
   error_cookie_missing: OpenProject sausainėlis nerastas. Prašome patikrinti, ar sausainėliai
     yra įgalinti, nes kitaip aplikacija tinkamai neveiks.

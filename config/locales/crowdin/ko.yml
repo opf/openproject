@@ -1022,6 +1022,7 @@ ko:
   error_can_not_invite_user: 사용자에게 초대장을 보내지 못했습니다.
   error_can_not_remove_role: 이 역할은 현재 사용 중이며 삭제할 수 없습니다.
   error_can_not_reopen_work_package_on_closed_version: 닫힌 버전에 할당된 작업 패키지는 다시 열 수 없습니다.
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: 사용자 및 역할을 선택하세요.
   error_cookie_missing: OpenProject 쿠키가 없습니다. 이 응용 프로그램은 쿠키 없이 제대로 작동하지 않으므로, 쿠키를
     활성화해야 합니다.

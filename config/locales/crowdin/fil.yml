@@ -1085,6 +1085,7 @@ fil:
   error_can_not_remove_role: Itong tungkulin ay ginamit pa at hindi pwedeng burahin.
   error_can_not_reopen_work_package_on_closed_version: Ang work package ay nakatalaga
     sa isinarang bersyon na hindi pwede buksan muli
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Mangyaring pumili ng gumagamit at tungkulin.
   error_cookie_missing: Ang OpenProject cookie ay nawawala. Mangyaring siguraduhin
     na ang mga cookie ay pinagana, bilang aplikasyon na ito ay hindi gumagana ng maayos

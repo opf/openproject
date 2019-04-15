@@ -1050,6 +1050,7 @@ fi:
   error_can_not_remove_role: Tämä rooli on käytössä joten sitä ei voida poistaa.
   error_can_not_reopen_work_package_on_closed_version: Työn paketti määritetty suljettu
     versio ei voi avata uudelleen
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Please choose a user and a role.
   error_cookie_missing: OpenProject evästeen puuttuu. Varmista, että evästeet ovat
     käytössä, koska tämä sovellus ei toimi oikein ilman evästeitä.

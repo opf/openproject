@@ -1054,6 +1054,7 @@ vi:
   error_can_not_remove_role: Vai trò này đang được sử dụng và không thể bị xóa.
   error_can_not_reopen_work_package_on_closed_version: Không thể mở lại cho một work
     package đã được gán cho một phiên bản đã đóng
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Hãy chọn người dùng và một vai trò.
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.

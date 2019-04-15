@@ -1072,6 +1072,7 @@ pt:
   error_can_not_remove_role: Esta função já está a ser utilizada e não pode ser eliminada.
   error_can_not_reopen_work_package_on_closed_version: Uma tarefa atribuída a uma
     versão fechada não pode ser reaberta
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Por favor, escolha um utilizador e uma função.
   error_cookie_missing: O cookie OpenProject está em falta. Por favor, certifique-se
     de que os cookies estão habilitados, uma vez que esta aplicação não funcionará

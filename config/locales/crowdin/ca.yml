@@ -1064,6 +1064,7 @@ ca:
   error_can_not_remove_role: Aquest rol s'està utilitzant i no es pot suprimir.
   error_can_not_reopen_work_package_on_closed_version: Un paquet de treball assignat
     a una versió tancada no es pot reobrir
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Trieu un usuari i un rol.
   error_cookie_missing: La cookie d'OpenProject no s'ha trobat. Assegureu-vos que
     les cookies estan habilitades, ja que aquesta aplicació no pot funcionar correctament

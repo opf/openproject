@@ -1073,6 +1073,7 @@ nl:
   error_can_not_remove_role: Deze rol is in gebruik en kan niet worden verwijderd.
   error_can_not_reopen_work_package_on_closed_version: Een werkpakket toegewezen aan
     een gesloten versie kan niet worden heropend
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Kies een gebruiker en een rol.
   error_cookie_missing: De cookie voor OpenProject ontbreekt. Zorg ervoor dat cookies
     zijn ingeschakeld aangezien deze toepassing anders niet goed zal functioneren.

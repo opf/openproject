@@ -1053,6 +1053,7 @@ sv-SE:
   error_can_not_remove_role: Denna roll används och kan inte tas bort.
   error_can_not_reopen_work_package_on_closed_version: Ett arbetspaket som tilldelats
     en stängd version kan inte öppnas igen
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Välj en användare och en roll.
   error_cookie_missing: OpenProject cookie saknas. Vänligen kontrollera att cookies
     är aktiverade, eftersom detta program inte fungerar korrekt annars.

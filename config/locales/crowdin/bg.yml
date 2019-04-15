@@ -1055,6 +1055,7 @@ bg:
   error_can_not_remove_role: Тази роля се използва и не може да бъде изтрита.
   error_can_not_reopen_work_package_on_closed_version: Работен пакет, присвоен към
     затворена версия, не може да бъде отворен наново
+  error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Моля, изберете потребител и роля.
   error_cookie_missing: '"Бисквитката" на OpenProject липсва. Моля уверете се че cookies
     са активирани, тъй като това приложение не функционира правилно без тях.'
