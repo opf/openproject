@@ -1,6 +1,6 @@
 import {Injector} from '@angular/core';
 import {scrollTableRowIntoView} from 'core-components/wp-fast-table/helpers/wp-table-row-helpers';
-import {distinctUntilChanged, map, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, map, takeUntil, withLatestFrom} from 'rxjs/operators';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
 import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
@@ -37,6 +37,9 @@ export class HierarchyTransformer {
 
     this.wpTableHierarchies
       .observeUntil(this.querySpace.stopAllSubscriptions)
+      .pipe(
+        filter(() => this.querySpace.rendered.hasValue())
+      )
       .subscribe((state:WorkPackageTableHierarchies) => {
 
         if (state.isVisible === lastValue) {
@@ -61,7 +64,6 @@ export class HierarchyTransformer {
     // Mark which rows were hidden by some other hierarchy group
     // (e.g., by a collapsed parent)
     const collapsed:{ [index:number]:boolean } = {};
-
 
     // Hide all collapsed hierarchies
     _.each(state.collapsed, (isCollapsed:boolean, wpId:string) => {
