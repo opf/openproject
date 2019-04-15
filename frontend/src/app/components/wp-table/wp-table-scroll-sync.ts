@@ -68,7 +68,6 @@ function syncWheelEvent(jev: JQueryEventObject, elementTable: JQuery, elementTim
   if (deltaY === 0) {
     return;
   }
-  ev.preventDefault();
 
   deltaX = getPlattformAgnosticScrollAmount(deltaX); // apply only in target div
   deltaY = getPlattformAgnosticScrollAmount(deltaY); // apply in both divs
