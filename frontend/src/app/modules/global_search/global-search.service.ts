@@ -31,6 +31,7 @@ import {BehaviorSubject} from 'rxjs';
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "app/components/projects/current-project.service";
 import {Injector} from "@angular/core";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 @Injectable()
 export class GlobalSearchService {
@@ -54,7 +55,8 @@ export class GlobalSearchService {
 
   constructor(protected I18n:I18nService,
               protected injector:Injector,
-              readonly currentProjectService:CurrentProjectService) {
+              protected PathHelper:PathHelperService,
+              protected currentProjectService:CurrentProjectService) {
     this.initialize();
   }
 
@@ -95,7 +97,7 @@ export class GlobalSearchService {
   }
 
   public searchPath() {
-    let searchPath:string = '';
+    let searchPath:string = this.PathHelper.staticBase;
     if (this.currentProjectService.path && this.projectScope !== 'all') {
       searchPath = this.currentProjectService.path;
     }
