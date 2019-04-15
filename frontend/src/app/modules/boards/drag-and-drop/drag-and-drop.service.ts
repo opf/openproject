@@ -1,16 +1,12 @@
 import {Inject, Injectable, OnDestroy} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
 import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
+import {DomAutoscrollService} from "core-app/modules/common/drag-and-drop/dom-autoscroll.service";
 
-const autoScroll:any = require('dom-autoscroller');
-
-export interface IAutoScroller {
-  add:(...elements:unknown[]) => void;
-  destroy:(animation:boolean) => void;
-}
 
 export interface DragMember {
-  container:HTMLElement;
+  dragContainer:HTMLElement;
+  scrollContainers:HTMLElement[];
   /** Whether this element moves */
   moves:(element:HTMLElement, fromContainer:HTMLElement, handle:HTMLElement, sibling?:HTMLElement|null) => boolean;
   /** Move element in container */
@@ -28,7 +24,7 @@ export class DragAndDropService implements OnDestroy {
 
   public members:DragMember[] = [];
 
-  private autoscroll:IAutoScroller|undefined;
+  private autoscroll:any;
 
   private escapeListener = (evt:KeyboardEvent) => {
     if (this.drake && evt.key === 'Escape') {
@@ -43,58 +39,59 @@ export class DragAndDropService implements OnDestroy {
 
   ngOnDestroy():void {
     this.document.documentElement.removeEventListener('keydown', this.escapeListener);
-    this.autoscroll && this.autoscroll.destroy(true);
+    this.autoscroll && this.autoscroll.destroy();
   }
 
   public remove(container:HTMLElement) {
     if (this.initialized) {
       _.remove(this.drake!.containers, (el) => el === container);
-      _.remove(this.members, (el) => el.container === container);
+      _.remove(this.members, (el) => el.dragContainer === container);
     }
   }
 
   public member(container:HTMLElement):DragMember|undefined {
-    return _.find(this.members, el => el.container === container);
+    return _.find(this.members, el => el.dragContainer === container);
   }
 
   public get initialized() {
     return this.drake !== null;
   }
 
-  public register(...members:DragMember[]) {
-    this.members.push(...members);
-    const containers = members.map(m => m.container);
+  public register(member:DragMember) {
+    this.members.push(member);
+    const dragContainer = member.dragContainer;
 
     if (this.autoscroll) {
-      this.autoscroll.add(...containers);
+      this.autoscroll.add(dragContainer);
     } else {
-      this.setupAutoscroll(containers);
+      this.setupAutoscroll([dragContainer]);
     }
 
     if (this.drake === null) {
-      this.initializeDrake(containers);
+      this.initializeDrake([dragContainer]);
     } else {
-      this.drake.containers.push(...containers);
+      this.drake.containers.push(dragContainer);
     }
+  }
+
+  public addScrollContainer(el:Element) {
+    if (this.autoscroll) {
+      this.autoscroll.add(el);
+    } else {
+      this.setupAutoscroll([el]);
+    }
+    this.autoscroll.setOuterScrollContainer(el);
   }
 
   protected setupAutoscroll(containers:Element[]) {
     // Setup autoscroll
-    const that = this;
-
-    this.autoscroll = autoScroll(
+    this.autoscroll = new DomAutoscrollService(
       containers,
       {
-        margin: 20,
-        maxSpeed: 5,
+        margin: 100,
+        maxSpeed: 10,
         scrollWhenOutside: true,
-        autoScroll: function(this:{ down:boolean }) {
-          if (!that.drake) {
-            return false;
-          }
-
-          return this.down && that.drake.dragging;
-        }
+        autoScroll: () => this.drake && this.drake.dragging
       });
   }
 
@@ -104,7 +101,7 @@ export class DragAndDropService implements OnDestroy {
 
         let result = false;
         this.members.forEach(member => {
-          if (member.container === container) {
+          if (member.dragContainer === container) {
             result = member.moves(el, container, handle, sibling);
             return;
           }

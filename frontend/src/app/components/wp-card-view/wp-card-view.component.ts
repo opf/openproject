@@ -181,7 +181,8 @@ export class WorkPackageCardViewComponent  implements OnInit {
 
   registerDragAndDrop() {
     this.dragService.register({
-      container: this.container.nativeElement,
+      dragContainer: this.container.nativeElement,
+      scrollContainers: [this.container.nativeElement],
       moves: (card:HTMLElement) => this.dragAndDropEnabled && !card.dataset.isNew,
       onMoved: (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;
