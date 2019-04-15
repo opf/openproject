@@ -3,8 +3,10 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Injectable} from "@angular/core";
 
 export interface ICKEditorInstance {
-  getData():string;
+  getData(obtions:{trim:boolean}):string;
+
   setData(content:string):void;
+
   on(event:string, callback:Function):void;
 
   model:any;
@@ -51,7 +53,7 @@ export class CKEditorSetupService {
    * @param {ICKEditorContext} context
    * @returns {Promise<ICKEditorInstance>}
    */
-  public create(type:'full' | 'constrained', wrapper:HTMLElement, context:ICKEditorContext, initialData:string|null = null) {
+  public create(type:'full'|'constrained', wrapper:HTMLElement, context:ICKEditorContext, initialData:string|null = null) {
     const editor = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
     wrapper.classList.add(`ckeditor-type-${type}`);
 
@@ -65,14 +67,14 @@ export class CKEditorSetupService {
       .then((editor) => {
         // If initial data was passed, add to wrapper element
         if (initialDataSet) {
-          wrapper.appendChild(editor.element);
+          wrapper.appendChild((editor as any).ui.element);
         }
 
         // Allow custom events on wrapper to set/get data for debugging
         jQuery(wrapper)
           .on('op:ckeditor:setData', (event:any, data:string) => editor.setData(data))
           .on('op:ckeditor:clear', (event:any) => editor.setData(' '))
-          .on('op:ckeditor:getData', (event:any, cb:any) => cb(editor.getData()));
+          .on('op:ckeditor:getData', (event:any, cb:any) => cb(editor.getData({ trim: false })));
 
         return editor;
       });
@@ -81,8 +83,7 @@ export class CKEditorSetupService {
   private createConfig(context:ICKEditorContext):any {
     if (context.macros === 'none') {
       context.macros = false;
-    }
-    else if (context.macros === 'wp') {
+    } else if (context.macros === 'wp') {
       context.macros = [
         'OPMacroToc',
         'OPMacroEmbeddedTable',

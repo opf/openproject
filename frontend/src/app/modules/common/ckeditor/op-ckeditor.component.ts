@@ -106,7 +106,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
     if (this.manualMode) {
       return this._content = this.codeMirrorInstance!.getValue();
     } else {
-      return this._content = this.ckEditorInstance!.getData();
+      return this._content = this.ckEditorInstance!.getData({ trim: false });
     }
   }
 

@@ -48,7 +48,7 @@
     font-style: italic
     font-size: 0.8rem
     padding: 5px 0
-    
+
 .op-macro-list-button
   > .ck.ck-button
     text-align: left
@@ -65,6 +65,12 @@
 // Otherwise the toolbar will 'disappear' behind the topmenu
 .ck.ck-sticky-panel__placeholder
   height: 0 !important
-  
+
 .ck.ck-sticky-panel__content
   position: unset !important
+
+// Mentions autocomplete
+.ck-list__item .mention-list-item
+  display: block
+  max-width: 400px
+  @include text-shortener
