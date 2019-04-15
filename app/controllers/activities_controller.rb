@@ -52,7 +52,7 @@ class ActivitiesController < ApplicationController
 
     events = @activity.events(@date_from, @date_to)
     censor_events_from_projects_with_disabled_activity!(events) unless @project
-    
+
     respond_to do |format|
       format.html do
         @events_by_day = events.group_by { |e| e.event_datetime.in_time_zone(User.current.time_zone).to_date }
@@ -69,8 +69,9 @@ class ActivitiesController < ApplicationController
       end
     end
 
-  rescue ActiveRecord::RecordNotFound
-    render_404
+  rescue ActiveRecord::RecordNotFound => e
+    op_handle_warning "Failed to find all resources in activities: #{e.message}"
+    render_404 I18n.t(:error_can_not_find_all_resources)
   end
 
   private
