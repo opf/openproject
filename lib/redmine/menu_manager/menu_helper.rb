@@ -137,7 +137,7 @@ module Redmine::MenuManager::MenuHelper
 
   def render_menu_node_with_children(node, project = nil)
     caption, url, selected = extract_node_details(node, project)
-    html_options = {}
+    html_options = { data: { name: node.name } }
     if selected || any_item_selected?(node.children)
       html_options[:class] = 'open'
       selected = true
@@ -293,10 +293,10 @@ module Redmine::MenuManager::MenuHelper
 
   def render_single_node_or_partial(node, project)
     if node.partial
-      content_tag('li', render(partial: node.partial), class: 'partial')
+      content_tag('li', render(partial: node.partial), class: "partial", data: { name: node.name })
     else
       caption, url, selected = extract_node_details(node, project)
-      content_tag('li', render_single_menu_node(node, caption, url, selected))
+      content_tag('li', render_single_menu_node(node, caption, url, selected), data: { name: node.name })
     end
   end
 

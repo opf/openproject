@@ -41,7 +41,8 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {keyCodes} from "../../../../legacy/app/components/keyCodes.enum";
-import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
+import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
+import {MainMenuNavigationService} from "core-components/main-menu/main-menu-navigation.service";
 
 export type QueryCategory = 'starred' | 'public' | 'private' | 'default';
 
@@ -114,6 +115,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
               readonly loadingIndicator:LoadingIndicatorService,
               readonly pathHelper:PathHelperService,
               readonly wpStaticQueries:WorkPackageStaticQueriesService,
+              readonly mainMenuService:MainMenuNavigationService,
               readonly toggleService:MainMenuToggleService) {
   }
 
@@ -121,31 +123,15 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     this.queryResultsContainer = jQuery(this._queryResultsContainerElement.nativeElement);
     this.projectIdentifier = this.element.nativeElement.getAttribute('data-project-identifier');
 
-    jQuery(document).ready(() => {
-      // If we start out outside of the work packages module,
-      // we load the menu once the user clicks on the toggler next to the
-      // work packages menu item.
-      let toggler = jQuery('#main-menu-work-packages-wrapper .toggler');
-      toggler.one('click', event => {
-        this.initializeAutocomplete();
-      });
-      // If we start out on the work package report/summary page
-      // open the menu at once. Rails is instructed to mark
-      // the "work_packages" menu item to be selected.
-      if (jQuery('body').is(this.reportsBodySelector)) {
-        this.initializeAutocomplete();
-      }
-    });
-    // If we start on any work packages page, we open the menu on
-    // a transition, meaning initially.
-    this.unregisterTransitionListener = this.$transitions.onSuccess({}, (transition) => {
-      this.initializeAutocomplete();
-    });
+    // When activating the work packages submenu,
+    // either initially or through click on the toggle, load the results
+    this.mainMenuService
+      .onActivate('work_packages')
+      .subscribe(() => this.initializeAutocomplete());
 
     // Register click handler on results
     this.addClickHandler();
   }
-
 
   ngOnDestroy() {
     this.unregisterTransitionListener();

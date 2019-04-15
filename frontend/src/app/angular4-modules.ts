@@ -60,8 +60,6 @@ import {OpDragScrollDirective} from "core-app/modules/common/ui/op-drag-scroll.d
 import {OpenprojectPluginsModule} from "core-app/modules/plugins/openproject-plugins.module";
 import {ConfirmFormSubmitController} from "core-components/modals/confirm-form-submit/confirm-form-submit.directive";
 import {ProjectMenuAutocompleteComponent} from "core-components/projects/project-menu-autocomplete/project-menu-autocomplete.component";
-import {MainMenuToggleComponent} from "core-components/resizer/main-menu-toggle.component";
-import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 import {AttributeHelpTextModal} from "./modules/common/help-texts/attribute-help-text.modal";
 import {LinkedPluginsModule} from "core-app/modules/plugins/linked-plugins.module";
@@ -82,6 +80,9 @@ import {FullCalendarModule} from "ng-fullcalendar";
 import {OpenprojectBoardsModule} from "core-app/modules/boards/openproject-boards.module";
 import {OpenprojectGlobalSearchModule} from "core-app/modules/global_search/openproject-global-search.module";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
+import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
+import {MainMenuToggleComponent} from "core-components/main-menu/main-menu-toggle.component";
+import {MainMenuNavigationService} from "core-components/main-menu/main-menu-navigation.service";
 
 @NgModule({
   imports: [
@@ -149,6 +150,7 @@ import {DeviceService} from "core-app/modules/common/browser/device.service";
 
     // Main Menu
     MainMenuToggleService,
+    MainMenuNavigationService,
 
     // Augmenting Rails
     ModalWrapperAugmentService,
@@ -214,6 +216,9 @@ export function initializeServices(injector:Injector) {
     const ExternalRelationQueryConfiguration = injector.get(ExternalRelationQueryConfigurationService);
     const ModalWrapper = injector.get(ModalWrapperAugmentService);
     const EditorMacros = injector.get(EditorMacrosService);
+    const mainMenuNavigationService = injector.get(MainMenuNavigationService);
+
+    mainMenuNavigationService.register();
 
     // Setup modal wrapping
     ModalWrapper.setupListener();
