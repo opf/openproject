@@ -285,7 +285,7 @@ export class WorkPackagesListService {
       .then(() => {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
-        this.$state.go('.', { query_id: query!.id, query_props: null }, { reload: true });
+        this.$state.go('.', { query_id: query!.id, query_props: null }, {custom: {notify: false}});
         this.states.changes.queries.next(query!.id!);
       })
       .catch((error:ErrorResource) => {
