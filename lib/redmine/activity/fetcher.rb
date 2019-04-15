@@ -100,11 +100,11 @@ module Redmine
         end
 
         projects = Project.find(e.map(&:project_id).compact) if e.select { |e| !e.project_id.nil? }
-        users = User.find(e.map(&:author_id).compact)
+        users = User.where(id: e.map(&:author_id).compact).to_a
 
         e.each do |e|
-          e.event_author = users.find { |u| u.id == e.author_id } if e.author_id
-          e.project = projects.find { |p| p.id == e.project_id } if e.project_id
+          e.event_author = users.detect { |u| u.id == e.author_id } if e.author_id
+          e.project = projects.detect { |p| p.id == e.project_id } if e.project_id
         end
 
         e.sort! do |a, b| b.event_datetime <=> a.event_datetime end
