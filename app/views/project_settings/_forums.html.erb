@@ -35,10 +35,10 @@ See docs/COPYRIGHT.rdoc for more details.
     <div class="form--fieldset-control">
       <span class="form--fieldset-control-container">
         <%= link_to_if_authorized({ controller: '/forums', action: 'new', project_id: @project },
-                                  { aria: { label: t(:label_board_new) },
-                                    title: t(:label_board_new) }) do %>
+                                  { aria: { label: t(:label_forum_new) },
+                                    title: t(:label_forum_new) }) do %>
           <%= op_icon('icon-add icon-small') %>
-            <span><%= t('activerecord.models.board') %></span>
+            <span><%= t('activerecord.models.forum') %></span>
         <% end %>
       </span>
     </div>
@@ -120,10 +120,10 @@ See docs/COPYRIGHT.rdoc for more details.
       <div class="generic-table--action-buttons">
         <%= link_to_if_authorized({ controller: '/forums', action: 'new', project_id: @project },
                                   { class: 'button -alt-highlight',
-                                    aria: {label: t(:label_board_new)},
-                                    title: t(:label_board_new)}) do %>
+                                    aria: {label: t(:label_forum_new)},
+                                    title: t(:label_forum_new)}) do %>
           <%= op_icon('button--icon icon-add') %>
-          <span class="button--text"><%= t('activerecord.models.board') %></span>
+          <span class="button--text"><%= t('activerecord.models.forum') %></span>
         <% end %>
       </div>
     <% end %>
