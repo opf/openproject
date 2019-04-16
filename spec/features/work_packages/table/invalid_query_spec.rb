@@ -94,7 +94,7 @@ describe 'Invalid query spec', js: true do
     filters.expect_filter_count 2
 
     filters.open
-    filters.expect_filter_by('Assignee', 'is', I18n.t('js.placeholders.selection'))
+    filters.expect_filter_by('Assignee', 'is', :placeholder)
     filters.expect_filter_by('Status', 'is', [status.name, status2.name])
 
     group_by.enable_via_menu('Assignee')

@@ -117,6 +117,7 @@ export function bootstrapModule(injector:Injector) {
     PortalModule,
     DragDropModule,
     OpenprojectAccessibilityModule,
+    NgSelectModule,
 
     OpDatePickerComponent,
     OpDateTimeComponent,
@@ -154,9 +155,6 @@ export function bootstrapModule(injector:Injector) {
     OPContextMenuComponent,
 
     NoResultsComponent,
-
-    // Autocompleter Component
-    NgSelectModule,
 
     UserAutocompleterComponent,
 

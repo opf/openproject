@@ -164,26 +164,6 @@ module Pages
       page.driver.browser.action.click(row(work_package).native).perform
     end
 
-    def add_filter(label, operator, value)
-      open_filter_section
-
-      select(label, from: 'Add filter:')
-
-      filter_name = get_filter_name(label)
-
-      select(operator, from: "operators-#{filter_name}") if operator
-      select(value, from: "values-#{filter_name}") if value
-    end
-
-    def expect_filter(label, operator, value)
-      open_filter_section
-
-      filter_name = get_filter_name(label)
-
-      expect(page).to have_select("operators-#{filter_name}", selected: operator) if operator
-      expect(page).to have_select("values-#{filter_name}", selected: value) if value
-    end
-
     def open_full_screen_by_doubleclick(work_package)
       loading_indicator_saveguard
       # The 'id' column should have enough space to be clicked
@@ -236,12 +216,6 @@ module Pages
 
     def save
       click_setting_item /Save$/
-    end
-
-    def open_filter_section
-      unless page.has_selector?('#work-packages-filter-toggle-button.-active')
-        click_button('work-packages-filter-toggle-button')
-      end
     end
 
     def table_container

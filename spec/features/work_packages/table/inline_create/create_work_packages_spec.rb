@@ -23,6 +23,7 @@ describe 'inline create work package', js: true do
   let!(:project) { FactoryBot.create(:project, is_public: true, types: types) }
   let!(:existing_wp) { FactoryBot.create(:work_package, project: project) }
   let!(:priority) { FactoryBot.create :priority, is_default: true }
+  let(:filters) { ::Components::WorkPackages::Filters.new }
 
   before do
     workflow
@@ -93,6 +94,7 @@ describe 'inline create work package', js: true do
       let(:cf_list) do
         FactoryBot.create(:list_wp_custom_field, is_for_all: true, is_filter: true)
       end
+      let(:cf_accessor_frontend) { "customField#{cf_list.id}" }
       let(:types) { [type, cf_type] }
       let(:type) { FactoryBot.create(:type_standard) }
       let(:cf_type) { FactoryBot.create(:type, custom_fields: [cf_list]) }
@@ -100,7 +102,8 @@ describe 'inline create work package', js: true do
 
       it 'applies the filter value for the custom field' do
         wp_table.visit!
-        wp_table.add_filter cf_list.name, 'is', cf_list.custom_options.second.name
+        filters.open
+        filters.add_filter_by cf_list.name, 'is', cf_list.custom_options.second.name, cf_accessor_frontend
         columns.open_modal
         columns.add(cf_list.name, save_changes: true)
 

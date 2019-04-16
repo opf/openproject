@@ -47,14 +47,11 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
-  public isMultiselect:boolean;
   public _availableOptions:HalResource[] = [];
   public compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
 
   readonly text = {
     placeholder: this.I18n.t('js.placeholders.selection'),
-    enableMulti: this.I18n.t('js.work_packages.label_enable_multi_select'),
-    disableMulti: this.I18n.t('js.work_packages.label_disable_multi_select')
   };
 
   constructor(readonly RootDm:RootDmService,
@@ -65,39 +62,17 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isMultiselect = this.isValueMulti(true);
     this.fetchAllowedValues();
   }
 
   public get value() {
-    if (this.isValueMulti()) {
-      return this.filter.values;
-    } else if (this.filter.values.length > 0) {
-      return this.filter.values[0];
-    } else {
-      return null;
-    }
+    return this.filter.values;
   }
 
   public set value(val:any) {
     this.filter.values = _.castArray(val);
     this.filterChanged.emit(this.filter);
   }
-
-  public isValueMulti(ignoreStatus = false) {
-    return (this.isMultiselect && !ignoreStatus) ||
-      (this.filter.values && this.filter.values.length > 1);
-  }
-
-  public toggleMultiselect() {
-    this.isMultiselect = !this.isMultiselect;
-    return false;
-  }
-
-  public get hasNoValue() {
-    return _.isEmpty(this.filter.values);
-  }
-
 
   public get availableOptions() {
     return this._availableOptions;
