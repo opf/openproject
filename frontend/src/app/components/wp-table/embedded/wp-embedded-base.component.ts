@@ -22,7 +22,7 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
   public configuration:WorkPackageTableConfiguration;
   public error:string|null = null;
 
-  private initialized:boolean = false;
+  protected initialized:boolean = false;
 
   readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
   readonly querySpace:IsolatedQuerySpace  = this.injector.get(IsolatedQuerySpace);

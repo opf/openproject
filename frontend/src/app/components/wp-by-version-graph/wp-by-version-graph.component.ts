@@ -49,10 +49,6 @@ export class WorkPackageByVersionGraphComponent implements OnInit {
       this.datasets.push({ label: this.I18n.t('js.label_open_work_packages'), queryProps: this.propsOpen });
       this.datasets.push({ label: this.I18n.t('js.label_closed_work_packages'), queryProps: this.propsClosed });
     }
-
-    if (this.currentGraph) {
-      this.currentGraph.refresh();
-    }
   }
 
   public get propsBoth() {
