@@ -108,6 +108,12 @@ module Components
       warn "Failed to refocus on first editor element #{e}"
     end
 
+  def insert_link(link)
+      click_toolbar_button 'Link (Ctrl+K)'
+      page.find('.ck-input-text').set link
+      page.find('.ck-button-save').click
+    end
+
     def click_toolbar_button(label)
       # strangely, we need visible: :all here
       container.find('.ck-button', visible: :all, text: label).click
