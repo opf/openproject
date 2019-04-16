@@ -189,7 +189,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     this.cardView.addNewCard();
   }
 
-  public deleteList(query:QueryResource) {
+  public deleteList(query?:QueryResource) {
+    query = query ? query : this.query;
+
     if (!window.confirm(this.text.areYouSure)) {
       return;
     }

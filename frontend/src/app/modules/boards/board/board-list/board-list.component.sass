@@ -10,12 +10,16 @@
 .board-list--container
   height: 100%
 
+  &:hover
+    .board-list--delete-icon
+      visibility: visible
+
 .board-list--action-bar
   width: 100%
   height: 5px
 
 .board-list--header
-  padding: 5px 10px 5px 15px
+  padding: 5px 15px
   display: flex
   align-items: center
 
@@ -37,3 +41,10 @@
 
   &:hover
     background-color: #eeeeee50
+
+.board-list--menu
+  visibility: hidden
+  @include without-link-styling
+
+  a, a:hover
+    color: var(--light-gray)

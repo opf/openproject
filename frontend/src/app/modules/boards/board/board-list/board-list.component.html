@@ -18,12 +18,10 @@
                               class="-small">
       </editable-toolbar-title>
 
-      <div class="board-list--delete-icon">
-        <accessible-by-keyboard *ngIf="canDelete"
-                                linkClass="button -narrow -no-decoration"
-                                (execute)="deleteList(query)">
-          <op-icon icon-classes="icon-small icon-delete"></op-icon>
-        </accessible-by-keyboard>
+      <div class="board-list--menu">
+        <a boardListDropdown>
+          <op-icon icon-classes="icon-show-more-horizontal"></op-icon>
+        </a>
       </div>
     </div>
 

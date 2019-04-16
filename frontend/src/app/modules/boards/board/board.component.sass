@@ -19,15 +19,12 @@
 .boards-list--item
   flex: 0 0 300px
   max-width: 300px
-  margin-left: 1rem
   position: relative
-
-  &:first-child
-    margin-left: 0
 
 .board--header-container
   display: flex
   align-items: flex-start
+  margin-bottom: 0
 
 .boards-list-item-handle
   position: absolute
@@ -43,7 +40,7 @@
 
   &:before
     padding: 0
-    color: #888
+    color: var(--light-gray)
 
   .boards-list--item:hover &
     opacity: 1
