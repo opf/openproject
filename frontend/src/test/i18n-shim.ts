@@ -16,5 +16,12 @@ export class I18nShim implements GlobalI18n {
   lookup(translateId:string):boolean {
     return false;
   }
+
+  // Return the input for these helpers
+  public toNumber = _.identity;
+  public toPercentage = _.identity;
+  public toCurrency = _.identity;
+  public strftime = _.identity;
+  public toHumanSize = _.identity;
 }
 
