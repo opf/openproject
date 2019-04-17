@@ -267,6 +267,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this.activateSelectionMode(start.id!, end => {
       this.wpRelations
         .addCommonRelation(start.id!, 'follows', end.id!)
+        .then(() => this.refreshRequest.putValue(undefined))
         .catch((error:any) => this.wpNotificationsService.handleRawError(error, end));
     });
   }
@@ -275,6 +276,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this.activateSelectionMode(start.id!, end => {
       this.wpRelations
         .addCommonRelation(start.id!, 'precedes', end.id!)
+        .then(() => this.refreshRequest.putValue(undefined))
         .catch((error:any) => this.wpNotificationsService.handleRawError(error, end));
     });
   }
