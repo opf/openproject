@@ -28,6 +28,7 @@
 
 import {whenDebugging} from 'core-app/helpers/debug_output';
 import {enableReactiveStatesLogging} from "reactivestates";
+import 'hammerjs';
 
 // Global scripts previously part of the application.js
 // Avoid require.context since that crashes angular regularly
