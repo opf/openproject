@@ -12,7 +12,7 @@
        *ngFor="let wp of workPackages; trackBy:trackByHref"
        [attr.data-is-new]="wp.isNew || undefined"
        [attr.data-work-package-id]="wp.id"
-       (dblclick)="handleDblClick(wp)"
+       (doubleClickOrTap)="handleDblClick(wp)"
        [ngClass]="{'-draggable': dragAndDropEnabled }">
 
     <div class="wp-card--highlighting"
