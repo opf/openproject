@@ -35,10 +35,10 @@
 
 FactoryBot.define do
   factory :bcf_viewpoint_attachment, class: Attachment do
-    description  "snapshot"
-    filename     "snapshot.jpg"
-    content_type "image/jpeg"
-    author       User.current
+    description  { "snapshot" }
+    filename     { "snapshot.jpg" }
+    content_type { "image/jpeg" }
+    author       { User.current }
     file do
       OpenProject::Files.create_uploaded_file name: filename,
                                               content_type: content_type,

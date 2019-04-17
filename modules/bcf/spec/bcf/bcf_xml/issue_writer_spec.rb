@@ -19,18 +19,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::WorkPackageRepresenter do
-  include API::V3::Utilities::PathHelper
-
+describe ::OpenProject::Bcf::BcfXml::IssueWriter do
   let(:project) { FactoryBot.create(:project) }
-  let(:role) do
-    FactoryBot.create(:role, permissions: %i[view_linked_issues view_work_packages])
-  end
-  let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
-  end
   let(:markup) do
     <<-MARKUP
     <Markup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -110,35 +100,92 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     MARKUP
   end
   let(:bcf_issue) do
-    FactoryBot.create(:bcf_issue, markup: markup)
+    FactoryBot.create(:bcf_issue,
+                      markup: markup,
+                      project_id: project.id)
   end
+  let(:priority) { FactoryBot.create :priority_low }
+  let(:current_user) { FactoryBot.create(:user) }
+  let(:due_date) { DateTime.now }
+  let(:type) { FactoryBot.create :type, name: 'Issue [BCF]'}
   let(:work_package) do
     FactoryBot.create(:work_package,
                       project_id: project.id,
-                      bcf_issue: bcf_issue)
-  end
-  let(:representer) do
-    described_class.new(work_package,
-                        current_user: user,
-                        embed_links: true)
-  end
-
-  before(:each) do
-    allow(User).to receive(:current).and_return user
+                      bcf_issue: bcf_issue,
+                      priority: priority,
+                      author: current_user,
+                      assigned_to: current_user,
+                      due_date: due_date,
+                      type: type)
   end
 
-  subject(:generated) { representer.to_json }
+  before do
+    allow(User).to receive(:current).and_return current_user
 
-  describe 'with BCF issues' do
-    it "contains viewpoints" do
-      is_expected.to be_json_eql([
-        {
-          file_name: bcf_issue.viewpoints.first.attachments.first.filename,
-          id: bcf_issue.viewpoints.first.attachments.first.id
-        }
-      ].to_json)
-        .including('id')
-        .at_path('bcf/viewpoints/')
+    work_package
+  end
+
+  shared_examples_for "writes Topic" do
+    it "updates the Topic node" do
+      expect(subject.at('Markup')).to be_present
+      expect(subject.at('Topic')).to be_present
+
+      expect(subject.at('Topic/@Guid').content).to be_eql bcf_issue.uuid
+      expect(subject.at('Topic/@TopicStatus').content).to be_eql work_package.status.name
+      expect(subject.at('Topic/@TopicType').content).to be_eql 'Issue [BCF]'
+
+      expect(subject.at('Topic/Title').content).to be_eql work_package.subject
+      expect(subject.at('Topic/CreationDate').content).to be_eql work_package.created_at.iso8601
+      expect(subject.at('Topic/ModifiedDate').content).to be_eql work_package.updated_at.iso8601
+      expect(subject.at('Topic/Description').content).to be_eql work_package.description
+      expect(subject.at('Topic/CreationAuthor').content).to be_eql work_package.author.mail
+      expect(subject.at('Topic/ReferenceLink').content).to be_eql url_helpers.work_package_url(work_package)
+      expect(subject.at('Topic/Priority').content).to be_eql work_package.priority.name
+      expect(subject.at('Topic/ModifiedAuthor').content).to be_eql work_package.author.mail
+      expect(subject.at('Topic/AssignedTo').content).to be_eql work_package.assigned_to.mail
+      expect(subject.at('Topic/DueDate').content).to be_eql work_package.due_date.to_datetime.iso8601
     end
+  end
+
+  def valid_markup?(doc)
+    schema = Nokogiri::XML::Schema(File.read(File.join(Rails.root, 'modules/bcf/spec/bcf/bcf_xml/markup.xsd')))
+    errors = schema.validate(doc)
+    if errors.empty?
+      true
+    else
+      puts errors.map(&:message).join("\n")
+      false
+    end
+  end
+
+  shared_examples_for 'valid markup' do
+    it 'produces valid markup' do
+      expect(valid_markup? subject).to be_truthy
+    end
+  end
+
+  context 'no markup present yet' do
+    let(:markup) { nil }
+
+    subject { Nokogiri::XML described_class.update_from!(work_package).markup }
+
+    it_behaves_like 'writes Topic'
+    it_behaves_like 'valid markup'
+  end
+
+  context 'markup already present' do
+    subject { Nokogiri::XML described_class.update_from!(work_package).markup }
+
+    it_behaves_like 'writes Topic'
+    it_behaves_like 'valid markup'
+
+    it "maintains existing nodes and attributes untouched" do
+      expect(subject.at('Index').content).to be_eql "0"
+      expect(subject.at('BimSnippet')['SnippetType']).to be_eql "JSON"
+    end
+  end
+
+  def url_helpers
+    @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
   end
 end
