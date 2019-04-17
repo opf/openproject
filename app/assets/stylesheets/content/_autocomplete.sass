@@ -167,9 +167,13 @@ mark.ui-autocomplete-match
   .ng-value
     @include text-shortener
 
-.textarea-wrapper .ng-select .ng-select-container
+.ng-select.-multi-select .ng-select-container
   height: initial !important
   min-height: initial !important
+
+// Ensure dropdown is above modals
+.ng-dropdown-panel
+  z-index: 9500 !important
 
 .ng-option
   font-size: 0.875rem

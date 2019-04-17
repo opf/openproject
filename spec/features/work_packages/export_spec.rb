@@ -44,6 +44,7 @@ describe 'work package export', type: :feature do
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:filters) { ::Components::WorkPackages::Filters.new }
   let(:group_by) { ::Components::WorkPackages::GroupBy.new }
   let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
 
@@ -116,8 +117,7 @@ describe 'work package export', type: :feature do
 
   it 'shows only the work package with the right progress if filtered this way',
      js: true, retry: 2 do
-    select 'Progress (%)', from: 'add_filter_select'
-    fill_in 'values-percentageDone', with: '25'
+    filters.add_filter_by 'Progress (%)', 'is', ['25'], 'percentageDone'
 
     sleep 1
     loading_indicator_saveguard
@@ -133,8 +133,7 @@ describe 'work package export', type: :feature do
   end
 
   it 'shows only work packages of the filtered type', js: true, retry: 2 do
-    select 'Type', from: 'add_filter_select'
-    select wp_3.type.name, from: 'values-type'
+    filters.add_filter_by 'Type', 'is', wp_3.type.name
 
     expect(page).to have_no_content(wp_2.description) # safeguard
 
