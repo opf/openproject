@@ -187,7 +187,7 @@ module Pages
 
     def remove_list(name)
       within_list(name) do
-        page.find('.board-list--delete-icon a').click
+        page.find('.board-list--menu a').click
       end
 
       accept_alert_dialog!

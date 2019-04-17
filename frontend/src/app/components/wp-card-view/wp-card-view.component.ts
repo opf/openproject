@@ -53,8 +53,6 @@ export class WorkPackageCardViewComponent  implements OnInit {
   public text = {
     removeCard: this.I18n.t('js.card.remove_from_list'),
     addNewCard:  this.I18n.t('js.card.add_new'),
-    wpAddedBy: (wp:WorkPackageResource) =>
-      this.I18n.t('js.label_wp_id_added_by', {id: wp.id!, author: wp.author.name})
   };
 
   /** Inline create / reference properties */

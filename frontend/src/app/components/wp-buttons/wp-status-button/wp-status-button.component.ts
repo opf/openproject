@@ -38,10 +38,12 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 @Component({
   selector: 'wp-status-button',
+  styleUrls: ['./wp-status-button.component.sass'],
   templateUrl: './wp-status-button.html'
 })
 export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
   @Input('workPackage') public workPackage:WorkPackageResource;
+  @Input('containerClass') public containerClass:string;
 
   public text = {
     explanation: this.I18n.t('js.label_edit_status'),

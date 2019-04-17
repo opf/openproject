@@ -13,6 +13,7 @@
   &.-drop-zone
     background-color: #eaeaea60
 
+
 .wp-card
   user-select: none
   width: 100%
@@ -24,13 +25,27 @@
   box-shadow: 1px 1px 3px 0px lightgrey
   background: var(--body-background)
 
-  .wp-card--assignee
-    position: absolute
-    bottom: 5px
-    right: 0
-
   &:hover
     box-shadow: 0px 0px 10px lightgrey
+
+
+.wp-card--content:not(.-new)
+  display: grid
+  grid-template: auto auto auto / min-content auto auto
+  grid-row-gap: 10px
+  grid-column-gap: 5px
+  grid-template-areas: "type type type" "subject subject subject" "attributeTag avatar date"
+
+  .wp-card--type
+    grid-area: type
+  .wp-card--subject
+    grid-area: subject
+  .wp-card--assignee
+    grid-area: avatar
+  .wp-card--status
+    grid-area: attributeTag
+    max-width: 120px
+    overflow: hidden
 
 .wp-card--highlighting
   width: 5px
@@ -56,23 +71,6 @@ wp-edit-field
 
   &.-show, .wp-card:hover &
     opacity: 1
-
-.work-packages--subject-type-row
-  margin-bottom: 10px
-
-  .wp-card--type
-    margin-right: 5px
-
-  .wp-card--subject
-    @include text-shortener
-    white-space: normal
-
-  .-new
-    flex-wrap: wrap
-    .wp-card--type,
-    .wp-card--subject
-      flex-basis: 100%
-
 
 .wp-inline-create--reference-container
   margin-bottom: 3rem
