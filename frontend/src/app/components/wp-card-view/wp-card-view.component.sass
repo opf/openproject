@@ -19,7 +19,7 @@
   width: 100%
   border: 1px solid var(--widget-box-block-border-color)
   border-radius: 2px
-  padding: 10px 30px 10px 10px
+  padding: 15px
   margin-top: 10px
   position: relative
   box-shadow: 1px 1px 3px 0px lightgrey
@@ -31,20 +31,28 @@
 
 .wp-card--content:not(.-new)
   display: grid
-  grid-template: auto auto auto / min-content auto auto
+  // Creating an implicit grid here, enables us to let the first column shrink to 0,
+  // when there is no attribute shown.
+  // Thus the avatar then aligns with the type and the subject.
+  grid-auto-columns: auto 1fr auto
+  grid-auto-rows: auto auto auto
   grid-row-gap: 10px
-  grid-column-gap: 5px
   grid-template-areas: "type type type" "subject subject subject" "attributeTag avatar date"
+  overflow: hidden
 
   .wp-card--type
     grid-area: type
   .wp-card--subject
     grid-area: subject
+    max-width: 230px
+    @include text-shortener
+    white-space: normal
   .wp-card--assignee
     grid-area: avatar
   .wp-card--status
     grid-area: attributeTag
     max-width: 120px
+    margin-right: 5px
     overflow: hidden
 
 .wp-card--highlighting

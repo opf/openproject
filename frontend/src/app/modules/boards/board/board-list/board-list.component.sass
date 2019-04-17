@@ -1,22 +1,30 @@
 @import 'helpers'
 
+$board-list-max-width: 300px
+
 .board-list--query-container
   display: grid
   grid-template: 34px 1fr / 1fr
   // 100% - board header height
   height: calc(100% - 43px)
+  max-width: inherit
   overflow-y: auto
+
+  wp-card-view
+    max-width: inherit
 
 .board-list--container
   height: 100%
+  max-width: $board-list-max-width
 
   &:hover
     .board-list--menu
       visibility: visible
 
 .board-list--action-bar
-  width: 100%
+  width: calc(100% - 30px)
   height: 5px
+  margin: auto
 
 .board-list--header
   padding: 5px 15px

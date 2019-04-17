@@ -45,6 +45,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
   @Input() public dragAndDropEnabled:boolean;
   @Input() public highlightingMode:CardHighlightingMode;
   @Input() public workPackageAddedHandler:(wp:WorkPackageResource) => Promise<unknown>;
+  @Input() public showStatusButton:boolean = true;
 
   public trackByHref = AngularTrackingHelpers.trackByHref;
   public query:QueryResource;

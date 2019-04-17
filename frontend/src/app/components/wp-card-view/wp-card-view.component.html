@@ -51,7 +51,8 @@
           [ngClass]="typeHighlightingClass(wp)"></span>
       <span [textContent]="wpSubject(wp)"
             class="wp-card--subject -bold"></span>
-      <wp-status-button [workPackage]="wp"
+      <wp-status-button *ngIf="showStatusButton"
+                        [workPackage]="wp"
                         containerClass="-small"
                         class="wp-card--status">
       </wp-status-button>

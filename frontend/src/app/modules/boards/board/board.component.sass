@@ -1,3 +1,5 @@
+$board-list-max-width: 300px
+
 // Let board list span whole screen
 .controller-boards\/boards
   #content-wrapper
@@ -17,8 +19,8 @@
 
 
 .boards-list--item
-  flex: 0 0 300px
-  max-width: 300px
+  flex: 0 0 $board-list-max-width
+  max-width: $board-list-max-width
   position: relative
 
 .board--header-container

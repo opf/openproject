@@ -43,7 +43,8 @@
       <wp-card-view [dragAndDropEnabled]="dragAndDropEnabled"
                     [workPackageAddedHandler]="workPackageAddedHandler"
                     [cardsRemovable]="board.isFree && canManage"
-                    [highlightingMode]="board.highlightingMode">
+                    [highlightingMode]="board.highlightingMode"
+                    [showStatusButton]="board.isFree">
       </wp-card-view>
     </div>
   </ng-container>
