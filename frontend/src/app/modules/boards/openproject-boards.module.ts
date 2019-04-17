@@ -78,7 +78,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     url: '{board_id}',
     params: {
       board_id: {type: 'int'},
-      isNew: {type: 'bool', dynamic: true}
+      isNew: {type: 'bool', inherit: false, dynamic: true}
     },
     reloadOnSearch: false,
     component: BoardComponent,
