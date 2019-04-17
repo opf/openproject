@@ -47,6 +47,10 @@ module Grids::Configuration
       all.map(&:all_scopes).flatten.compact
     end
 
+    def writable_scopes
+      all.map(&:writable_scopes).flatten.compact
+    end
+
     def all
       grid_register.values
     end
@@ -109,7 +113,7 @@ module Grids::Configuration
     ##
     # Determines whether the given scope is writable by the current user
     def writable_scope?(scope)
-      all_scopes.include? scope
+      writable_scopes.include? scope
     end
 
     ##

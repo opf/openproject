@@ -23,13 +23,27 @@ module OpenProject
           nil
         end
 
+        def writable_scopes
+          manage_allowed = Project.allowed_to(User.current, :manage_board_views)
+
+          board_projects = Project.where(id: manage_allowed)
+
+          board_projects.map { |p| url_helpers.project_work_package_boards_path(p) }
+        end
+
+        ##
+        # Determines whether the given scope is writable by the current user
+        def writable_scope?(scope)
+          writable_scopes.include? scope
+        end
+
         def all_scopes
           view_allowed = Project.allowed_to(User.current, :show_board_views)
           manage_allowed = Project.allowed_to(User.current, :manage_board_views)
 
           board_projects = Project
-                           .where(id: view_allowed)
-                           .or(Project.where(id: manage_allowed))
+            .where(id: view_allowed)
+            .or(Project.where(id: manage_allowed))
 
           board_projects.map { |p| url_helpers.project_work_package_boards_path(p) }
         end
