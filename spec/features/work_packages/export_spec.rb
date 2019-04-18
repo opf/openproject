@@ -71,7 +71,8 @@ describe 'work package export', type: :feature do
 
   before do
     work_packages_page.visit_index
-    work_packages_page.click_toolbar_button 'Activate Filter'
+    filters.expect_filter_count 1
+    filters.open
 
     # render the CSV as plain text so we can run expectations against the output
     expect_any_instance_of(WorkPackagesController)

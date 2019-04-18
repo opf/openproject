@@ -14,9 +14,6 @@ export class DomAutoscrollService {
   public outerScrollContainer:HTMLElement;
   public point:any;
   public pointCB:any;
-  public onMoved:any;
-  public onMouseUp:any;
-  public onScroll:any;
 
   constructor(elements:Element[],
               params:any) {
@@ -33,21 +30,16 @@ export class DomAutoscrollService {
   }
 
   public init() {
-    this.onMoved =  this.onMove.bind(this);
-    this.onMouseUp =  this.onUp.bind(this);
-    this.onScroll =  this.setScroll.bind(this);
-
-    jQuery(window).on('mousemove touchmove', this.pointCB);
-    jQuery(window).on('mousemove touchmove', this.onMoved);
-    jQuery(window).on('mouseup', this.onMouseUp);
-    jQuery(window).on('scroll', this.onScroll);
+    jQuery(window).on('mousemove.domautoscroll touchmove.domautoscroll', (evt:any) => {
+      this.pointCB(evt);
+      this.onMove(evt);
+    });
+    jQuery(window).on('mouseup.domautoscroll touchend.domautoscroll', () => this.onUp());
+    jQuery(window).on('scroll.domautoscroll', (evt:any) => this.setScroll(evt));
   }
 
   public destroy() {
-    jQuery(window).off('mousemove touchmove', this.pointCB);
-    jQuery(window).off('mousemove touchmove', this.onMoved);
-    jQuery(window).off('mouseup', this.onMouseUp);
-    jQuery(window).off('scroll', this.onScroll);
+    jQuery(window).off('.domautoscroll');
 
     this.elements = [];
     this.cleanAnimation();
@@ -62,7 +54,7 @@ export class DomAutoscrollService {
     cancelAnimationFrame(this.windowAnimationFrame);
   }
 
-  public setScroll(e:Event) {
+  public setScroll(e:any) {
     for (let i = 0; i < this.elements.length; i++) {
       if (this.elements[i] === e.target) {
         this.scrolling = true;
@@ -112,10 +104,14 @@ export class DomAutoscrollService {
     return underPoint;
   }
 
-  public onMove(event:JQueryEventObject) {
-    if (!this.autoScroll()) { return };
+  public onMove(event:any) {
+    if (!this.autoScroll()) {
+      return;
+    }
 
-    if ((event as any).dispatched) { return; }
+    if (event.dispatched) {
+      return;
+    }
 
     let target = [] as HTMLElement[];
     if (event.target !== null) {
