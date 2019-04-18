@@ -4,6 +4,7 @@ $board-list-max-width: 300px
 .controller-boards\/boards
   #content-wrapper
     padding-bottom: 0
+    padding-left: 0
   #content
     height: 100%
 
@@ -23,10 +24,14 @@ $board-list-max-width: 300px
   max-width: $board-list-max-width
   position: relative
 
+  &:first-of-type
+    margin-left: 5px
+
 .board--header-container
   display: flex
   align-items: flex-start
   margin-bottom: 0
+  margin-left: 20px
 
 .boards-list-item-handle
   position: absolute
@@ -48,34 +53,23 @@ $board-list-max-width: 300px
     opacity: 1
 
 .boards-list--add-item
-  flex: 0 0 230px
-  border: 1px dashed #ccc
-  border-radius: 5px
+  flex: 0 0 auto
   // Same height as board list header
   height: 43px
-  margin-left: 30px
+  line-height: 43px
+  margin-left: 15px
+  font-size: 14px
+  cursor: pointer
+  color: var(--gray-dark)
 
-  // Center child text
-  display: flex
-  align-items: center
-  justify-content: center
-
-  // Align self at top
-  align-self: flex-start
+  &:hover
+    color: var(--body-font-color)
 
 .board--container
   position: relative
   display: flex
   flex-direction: column
   height: 100%
-
-  // Changes when container is editable
-  &.-editable
-    .boards-list--add-item
-      cursor: pointer
-
-      &:hover
-        background-color: #f0f0f080
 
 .boards-filters-container .work-packages--filters-optional-container
   margin-bottom: 1rem

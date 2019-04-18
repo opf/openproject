@@ -19,11 +19,12 @@
   width: 100%
   border: 1px solid var(--widget-box-block-border-color)
   border-radius: 2px
-  padding: 15px
+  padding: 10px
   margin-top: 10px
   position: relative
   box-shadow: 1px 1px 3px 0px lightgrey
   background: var(--body-background)
+  font-size: var(--card-font-size)
 
   &:hover
     box-shadow: 0px 0px 10px lightgrey
@@ -49,6 +50,7 @@
     white-space: normal
   .wp-card--assignee
     grid-area: avatar
+    place-self: center left
   .wp-card--status
     grid-area: attributeTag
     max-width: 120px
