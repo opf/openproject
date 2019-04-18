@@ -128,8 +128,8 @@ i
     margin: 0
 
 // Increase label width
-.action-show .attributes-group,
-.full-create .attributes-group
+.router--work-packages-full-view .attributes-group,
+.router--work-packages-full-create .attributes-group
   // We have to find a middle way between
   // (a) avoiding label wrap and
   // (b) ugly content wrap (e.g. in the label)
@@ -144,8 +144,8 @@ i
 
 // Implement two column layout for WP full screen view
 @media screen and (min-width: 92rem), print
-  .action-show .-can-have-columns,
-  .full-create .-can-have-columns
+  .router--work-packages-full-view .-can-have-columns,
+  .router--work-packages-full-create .-can-have-columns
 
     .-columns-2
       @include two-column-layout

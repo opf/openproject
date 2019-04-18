@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 @media screen and (max-width: 1248px), print
-  body.controller-work_packages
+  .router--work-packages-base
 
     // ------------- FULL SCREEN -------------------
-    &.action-show
+    &.router--work-packages-full-view
 
       #main
         #content-wrapper
@@ -74,7 +74,7 @@
           display: none
 
 @include breakpoint(1248px down)
-  body.controller-work_packages
+  .router--work-packages-base
     // --------------- ALL WP VIEWS ---------------
     .work-packages-tabletimeline--table-side
       contain: none
@@ -129,7 +129,7 @@
 
 
 @include breakpoint(680px down)
-  body.controller-work_packages.action-show
+  .router--work-packages-full-view
     #content
       position: relative
     .work-packages--show-view
@@ -147,7 +147,7 @@
     .work-packages-full-view--split-container
       border-top: none
 
-  body.controller-work_packages.action-details,
-  body.controller-work_packages.action-create
+  .router--work-packages-split-view,
+  .router--work-packages-split-view-new
     .work-packages-split-view--details-side
       overflow-x: auto

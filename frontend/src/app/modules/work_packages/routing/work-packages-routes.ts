@@ -48,6 +48,9 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     component: WorkPackagesBaseComponent,
     url: '/work_packages?query_id&query_props&start_onboarding_tour',
     redirectTo: 'work-packages.list',
+    data: {
+      bodyClasses: 'router--work-packages-base'
+    },
     params: {
       query_id: { type: 'query', dynamic: true },
       // Use custom encoder/decoder that ensures validity of URL string
@@ -63,7 +66,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     data: {
       allowMovingInEditMode: true,
-      bodyClasses: 'full-create'
+      bodyClasses: 'router--work-packages-full-create'
     },
   },
   {
@@ -73,7 +76,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     data: {
       allowMovingInEditMode: true,
-      bodyClasses: 'full-create'
+      bodyClasses: 'router--work-packages-full-create'
     },
   },
   {
@@ -83,7 +86,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     redirectTo: 'work-packages.show.activity',
     component: WorkPackagesFullViewComponent,
     data: {
-      bodyClasses: 'action-show'
+      bodyClasses: 'router--work-packages-full-view'
     }
   },
   {
@@ -124,7 +127,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     component: WorkPackagesListComponent,
     reloadOnSearch: false,
     data: {
-      bodyClasses: 'action-index'
+      bodyClasses: 'router--work-packages-list-view'
     }
   },
   {
@@ -134,7 +137,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     data: {
       allowMovingInEditMode: true,
-      bodyClasses: 'action-create',
+      bodyClasses: 'router--work-packages-split-view-new',
       parent: 'work-packages.list'
     },
   },
@@ -145,7 +148,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     data: {
       allowMovingInEditMode: true,
-      bodyClasses: 'action-details',
+      bodyClasses: 'router--work-packages-split-view',
       parent: 'work-packages.list'
     },
   },
@@ -162,7 +165,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
       }
     },
     data: {
-      bodyClasses: 'action-details'
+      bodyClasses: 'router--work-packages-split-view'
     },
   },
   {
