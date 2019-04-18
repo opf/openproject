@@ -90,6 +90,10 @@ module Grids::Configuration
         Array(url_helpers.send(@to_scope))
       end
 
+      def writable_scopes
+        all_scopes
+      end
+
       def visible(_user = User.current)
         ::Grids::Grid
           .where(type: grid_class)
