@@ -1,7 +1,10 @@
 <div class="inline-label ng-select-container"
      id="div-values-{{filter.id}}">
 
-  <ng-select [(ngModel)]="value"
+  <ng-select #ngSelectInstance
+             [(ngModel)]="value"
+             (add)="repositionDropdown()"
+             (remove)="repositionDropdown()"
              [compareWith]="compareByHrefOrString"
              [clearSearchOnAdd]="true"
              [placeholder]="text.placeholder"
