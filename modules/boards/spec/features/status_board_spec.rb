@@ -142,7 +142,7 @@ describe 'Status action board', type: :feature, js: true do
 
       # Try to drag to whatever, which has no workflow
       board_page.move_card(0, from: 'Closed', to: 'Whatever')
-      board_page.expect_notification(
+      board_page.expect_and_dismiss_notification(
         type: :error,
         message: "Status is invalid because no valid transition exists from old to new status for the current user's roles."
       )

@@ -87,15 +87,15 @@ describe 'Work Package boards spec', type: :feature, js: true do
     expect(page).to have_selector('.__hl_dot_type_' + type.id.to_s)
     expect(page).to have_selector('.__hl_dot_type_' + type2.id.to_s)
 
-    # Highlight whole card by type
-    board_page.change_board_highlighting 'entire-card', 'Type'
-    expect(page).to have_selector('.__hl_row_type_' + type.id.to_s)
-    expect(page).to have_selector('.__hl_row_type_' + type2.id.to_s)
-
     # Highlight whole card by priority
     board_page.change_board_highlighting 'entire-card', 'Priority'
     expect(page).to have_selector('.__hl_row_priority_' + priority.id.to_s)
     expect(page).to have_selector('.__hl_row_priority_' + priority2.id.to_s)
+
+    # Highlight whole card by type
+    board_page.change_board_highlighting 'entire-card', 'Type'
+    expect(page).to have_selector('.__hl_row_type_' + type.id.to_s)
+    expect(page).to have_selector('.__hl_row_type_' + type2.id.to_s)
 
     # Disable highlighting
     board_page.change_board_highlighting 'none'
