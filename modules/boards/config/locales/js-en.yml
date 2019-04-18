@@ -12,7 +12,7 @@ en:
       error_loading_the_list: "Error loading the list: %{error_message}"
       click_to_remove_list: "Click to remove this list"
       board_type:
-        free: 'Free board'
+        free: 'Basic board'
         free_text: >
           Create a board in which you can freely create lists and order your work packages within.
           Moving work packages between lists do not change the work package itself
