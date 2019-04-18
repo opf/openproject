@@ -22,6 +22,8 @@ ru:
       upsale:
         boards: Нужно свободно структурировать свою работу в виде доски?
         check_out_link: Проверьте корпоративную версию.
+      lists:
+        delete: Delete list
     card:
       add_new: Добавить новую карточку
       highlighting:

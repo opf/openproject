@@ -22,6 +22,8 @@ nl:
       upsale:
         boards: Wilt u vrij de structuur van uw werk in een weergave op een bord?
         check_out_link: Bekijk de Enterprise Edition.
+      lists:
+        delete: Delete list
     card:
       add_new: Nieuwe kaart toevoegen
       highlighting:

@@ -23,6 +23,8 @@ es:
       upsale:
         boards: "¿Necesitas estructurar libremente tu trabajo en una sección de tablero?"
         check_out_link: Vea la versión Enterprise Edition.
+      lists:
+        delete: Delete list
     card:
       add_new: Añadir nueva tarjeta
       highlighting:

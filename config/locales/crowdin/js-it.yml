@@ -23,6 +23,8 @@ it:
       upsale:
         boards: Need to freely structure your work in a board view?
         check_out_link: Scopri Enterprise Edition.
+      lists:
+        delete: Delete list
     card:
       add_new: Add new card
       highlighting:

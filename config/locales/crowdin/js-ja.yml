@@ -21,6 +21,8 @@ ja:
       upsale:
         boards: ボードビューであなたの作業を自由に構成する必要がありますか？
         check_out_link: エンタープライズ版をチェックしてください。
+      lists:
+        delete: Delete list
     card:
       add_new: 新規カード追加
       highlighting:

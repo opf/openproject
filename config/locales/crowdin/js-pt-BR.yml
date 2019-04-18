@@ -24,6 +24,8 @@ pt-BR:
         boards: Precisa estruturar livremente seu trabalho em uma visualização de
           quadro?
         check_out_link: Confira a versão Enterprise Edition.
+      lists:
+        delete: Delete list
     card:
       add_new: Adicionar novo cartão
       highlighting:

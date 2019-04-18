@@ -21,6 +21,8 @@ lol:
       upsale:
         boards: crwdns127048:0crwdne127048:0
         check_out_link: crwdns127050:0crwdne127050:0
+      lists:
+        delete: Delete list
     card:
       add_new: crwdns127052:0crwdne127052:0
       highlighting:

@@ -22,6 +22,8 @@ id:
       upsale:
         boards: Need to freely structure your work in a board view?
         check_out_link: Periksa edisi Perusahaan.
+      lists:
+        delete: Delete list
     card:
       add_new: Add new card
       highlighting:

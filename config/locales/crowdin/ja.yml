@@ -971,7 +971,7 @@ ja:
   error_can_not_invite_user: ユーザーへの招待状の送信に失敗しました。
   error_can_not_remove_role: このロールは使用されています。削除できません。
   error_can_not_reopen_work_package_on_closed_version: 終了したバージョンにひも付けされた作業項目は再度開けません。
-  error_can_not_find_all_resources: Could not find all related resources to this request.
+  error_can_not_find_all_resources: この要求に、すべての関連リソースを見つけられませんでした。
   error_check_user_and_role: ユーザとロールを選択してください。
   error_cookie_missing: OpenProject のcookieが見つかりません。cookieが有効であることを確認してください。そうしないとこのアプリケーションは正しく動作しません。
   error_custom_option_not_found: オプションが存在しません。

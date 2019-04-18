@@ -22,6 +22,8 @@ ne-NP:
       upsale:
         boards: बोर्ड दृश्यमा तपाईंको कामलाई सजिलै बनाउनु आवश्यक छ?
         check_out_link: Check out the Enterprise Edition.
+      lists:
+        delete: Delete list
     card:
       add_new: नयाँ कार्ड थप्नुहोस्
       highlighting:
