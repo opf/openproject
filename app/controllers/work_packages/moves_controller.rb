@@ -121,7 +121,7 @@ class WorkPackages::MovesController < ApplicationController
   def check_project_uniqueness
     unless @project
       # TODO: let users bulk move/copy work packages from different projects
-      render_error I18n.t('work_packages.move.unsupported_for_multiple_projects')
+      render_error message: :'work_packages.move.unsupported_for_multiple_projects', status: 400
       return false
     end
   end

@@ -58,6 +58,10 @@ class WorkPackagesController < ApplicationController
       format.atom do
         atom_journals
       end
+
+      format.all do
+        head :not_acceptable
+      end
     end
   end
 
