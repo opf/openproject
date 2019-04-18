@@ -4,6 +4,25 @@ module OpenProject::Bcf::BcfXml
   class IssueWriter
     attr_reader :work_package, :issue, :markup_doc, :markup_node
 
+    TOPIC_SEQUENCE = [
+      "ReferenceLink",
+      "Title",
+      "Priority",
+      "Index",
+      "Labels",
+      "CreationDate",
+      "CreationAuthor",
+      "ModifiedDate",
+      "ModifiedAuthor",
+      "DueDate",
+      "AssignedTo",
+      "Stage",
+      "Description",
+      "BimSnippet",
+      "DocumentReference",
+      "RelatedTopic"
+    ].freeze
+
     def self.update_from!(work_package)
       writer = new(work_package)
       writer.update
@@ -23,8 +42,8 @@ module OpenProject::Bcf::BcfXml
     end
 
     def update
-      # Replace topic node
-      replace_topic
+      # update or create topic node
+      topic
 
       # Override all current comments
       replace_comments
@@ -33,7 +52,7 @@ module OpenProject::Bcf::BcfXml
       replace_viewpoints
 
       # Replace the markup XML
-      issue.markup = markup_doc.to_xml
+      issue.markup = markup_doc.to_xml(indent: 2)
 
       # Save issue and potential new associations
       issue.save!
@@ -45,7 +64,7 @@ module OpenProject::Bcf::BcfXml
     # Get the nokogiri document from the markup xml
     def build_markup_document
       if issue.markup
-        Nokogiri::XML issue.markup
+        Nokogiri::XML issue.markup, &:noblanks
       else
         build_initial_markup_xml.doc
       end
@@ -61,54 +80,117 @@ module OpenProject::Bcf::BcfXml
     end
 
     ##
-    # Replace the topic node, if any
-    def replace_topic
-      markup_node.xpath('./Topic').remove
+    # Update the topic node, or create it
+    def topic
+      topic_node = fetch(markup_node, 'Topic')
 
-      Nokogiri::XML::Builder.with(markup_node, &method(:topic))
+      topic_attributes      topic_node
+
+      topic_reference_link  topic_node
+      topic_title           topic_node
+      topic_priority        topic_node
+      topic_creation_date   topic_node
+      topic_creation_author topic_node
+      topic_modified_date   topic_node
+      topic_modified_author topic_node
+      topic_due_date        topic_node
+      topic_assigned_to     topic_node
+      topic_description     topic_node
+
+      enforce_child_order(topic_node, TOPIC_SEQUENCE)
     end
 
-    ##
-    # Render the topic of the work package
-    def topic(xml)
-      xml.Topic "Guid" => issue.uuid,
-                "TopicType" => work_package.type.name,
-                "TopicStatus" => work_package.status.name do
-        xml.Title work_package.subject
-        xml.CreationDate to_bcf_datetime(work_package.created_at)
-        xml.ModifiedDate to_bcf_datetime(work_package.updated_at)
-        xml.Description work_package.description
-        xml.CreationAuthor work_package.author.mail
-        xml.ReferenceLink url_helpers.work_package_url(work_package)
+    def enforce_child_order(parent_node, sequence)
+      children_by_name = parent_node
+        .children
+        .select(&:element?)
+        .group_by(&:name)
 
-        topic_priority(xml)
-        topic_due_date(xml)
-        topic_modified_author(xml)
-        topic_assigned_to(xml)
+      sequence.reverse.each do |name|
+        if children_with_name = children_by_name[name]
+          children_with_name.each do |child|
+            parent_node.delete child
+            prepend_into_or_insert(parent_node, child)
+          end
+        end
       end
     end
 
-    def topic_assigned_to(xml)
-      if assignee = work_package.assigned_to
-        xml.AssignedTo assignee.mail
+    def prepend_into_or_insert(parent_node, node)
+      if first_child = parent_node.children.select(&:element?)&.first
+        first_child.previous = node
+      else
+        node.parent = parent_node
       end
     end
 
-    def topic_modified_author(xml)
-      if journal = work_package.journals.select(:user_id).last
-        xml.ModifiedAuthor journal.user.mail if journal.user_id
-      end
+    def fetch(parent_node, name)
+      node = parent_node.at(name) || Nokogiri::XML::Node.new(name, markup_doc)
+      node.parent = parent_node unless node.parent.present?
+      node
     end
 
-    def topic_due_date(xml)
-      if work_package.due_date
-        xml.DueDate to_bcf_date(work_package.due_date)
-      end
+    def topic_attributes(topic_node)
+      topic_node['Guid'] = issue.uuid
+      topic_node['TopicType'] = work_package.type.name # TODO: Looks wrong to me. Probably better to use original TopicType?
+      topic_node['TopicStatus'] = work_package.status.name
     end
 
-    def topic_priority(xml)
+    def topic_title(topic_node)
+      target = fetch(topic_node, 'Title')
+      target.content = work_package.subject
+    end
+
+    def topic_creation_date(topic_node)
+      target = fetch(topic_node, 'CreationDate')
+      target.content = to_bcf_datetime(work_package.created_at)
+    end
+
+    def topic_modified_date(topic_node)
+      target = fetch(topic_node, 'ModifiedDate')
+      target.content = to_bcf_datetime(work_package.updated_at)
+    end
+
+    def topic_description(topic_node)
+      target = fetch(topic_node, 'Description')
+      target.content = work_package.description
+    end
+
+    def topic_creation_author(topic_node)
+      target = fetch(topic_node, 'CreationAuthor')
+      target.content = work_package.author.mail
+    end
+
+    def topic_reference_link(topic_node)
+      target = fetch(topic_node, 'ReferenceLink')
+      target.content = url_helpers.work_package_url(work_package)
+    end
+
+    def topic_priority(topic_node)
       if priority = work_package.priority
-        xml.Priority priority.name
+        target = fetch(topic_node, 'Priority')
+        target.content = priority.name
+      end
+    end
+
+    def topic_assigned_to(topic_node)
+      if assignee = work_package.assigned_to
+        target = fetch(topic_node, 'AssignedTo')
+        target.content = assignee.mail
+      end
+    end
+
+    def topic_modified_author(topic_node)
+      if journal = work_package.journals.select(:user_id).last
+        target = fetch(topic_node, 'ModifiedAuthor')
+        target.content = journal.user.mail if journal.user_id
+      end
+    end
+
+    def topic_due_date(topic_node)
+      if work_package.due_date
+        target = fetch(topic_node, 'DueDate')
+        target.content = to_bcf_date(work_package.due_date.to_datetime)
       end
     end
 
