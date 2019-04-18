@@ -92,6 +92,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     jQuery(element).tooltip({
       content: this.contentString(workPackage),
       items: '.fc-content',
+      close: function () { jQuery(".ui-helper-hidden-accessible").remove(); },
       track: true
     });
   }
@@ -303,6 +304,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   private removeTooltip(target:ElementRef) {
     // deactivate tooltip so that it is not displayed on the wp show page
     jQuery(target).tooltip({
+      close: function () { jQuery(".ui-helper-hidden-accessible").remove(); },
       disabled: true
     });
   }
