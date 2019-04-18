@@ -91,6 +91,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   /** Are we allowed to drag & drop elements ? */
   public dragAndDropEnabled:boolean = false;
 
+  /** Initially focus the list */
+  public initiallyFocused:boolean = false;
+
   /** Editing handler to be passed into card component */
   public workPackageAddedHandler = (workPackage:WorkPackageResource) => this.addWorkPackage(workPackage);
 
@@ -116,6 +119,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   ngOnInit():void {
     const boardId:string = this.state.params.board_id.toString();
+
+    // Unset the isNew flag
+    this.initiallyFocused = this.resource.isNew;
+    this.resource.isNew = false;
 
     // Update permission on model updates
     this.authorisationService
@@ -177,10 +184,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     return this.canManage && !!this.query.updateImmediately;
   }
 
-  public initiallyFocused() {
-    return !this.state.params.isNew && this.boardListService.isNew;
-  }
-
   public addReferenceCard() {
     this.cardView.setReferenceMode(true);
   }
@@ -207,7 +210,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .toPromise()
       .then(() => {
         this.inFlight = false;
-        this.boardListService.isNew = false;
         this.notifications.addSuccess(this.text.updateSuccessful);
       })
       .catch(() => this.inFlight = false);

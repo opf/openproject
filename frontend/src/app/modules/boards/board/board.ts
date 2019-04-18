@@ -55,6 +55,7 @@ export class Board {
   }
 
   public addQuery(widget:GridWidgetResource) {
+    widget.isNew = true;
     this.grid.widgets.push(widget);
   }
 
