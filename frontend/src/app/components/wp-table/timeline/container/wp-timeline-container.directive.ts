@@ -59,6 +59,10 @@ import {WorkPackageTableTimelineState} from "core-components/wp-fast-table/wp-ta
 import {WorkPackageTimelineCell} from "core-components/wp-table/timeline/cells/wp-timeline-cell";
 import {selectorTimelineSide} from "core-components/wp-table/wp-table-scroll-sync";
 import {debugLog, timeOutput} from "core-app/helpers/debug_output";
+import {
+  WorkPackageTableRefreshRequest,
+  WorkPackageTableRefreshService
+} from "core-components/wp-table/wp-table-refresh-request.service";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -103,6 +107,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
               private wpRelations:WorkPackageRelationsService,
+              private wpTableRefresh:WorkPackageTableRefreshService,
               private wpTableHierarchies:WorkPackageTableHierarchiesService,
               readonly I18n:I18nService) {
   }
@@ -268,7 +273,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this.activateSelectionMode(start.id!, end => {
       this.wpRelations
         .addCommonRelation(start.id!, 'follows', end.id!)
-        .then(() => this.refreshRequest.putValue(undefined))
+        .then(() => this.wpTableRefresh.request('Timeline relation'))
         .catch((error:any) => this.wpNotificationsService.handleRawError(error, end));
     });
   }
@@ -277,7 +282,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this.activateSelectionMode(start.id!, end => {
       this.wpRelations
         .addCommonRelation(start.id!, 'precedes', end.id!)
-        .then(() => this.refreshRequest.putValue(undefined))
+        .then(() => this.wpTableRefresh.request('Timeline relation'))
         .catch((error:any) => this.wpNotificationsService.handleRawError(error, end));
     });
   }
