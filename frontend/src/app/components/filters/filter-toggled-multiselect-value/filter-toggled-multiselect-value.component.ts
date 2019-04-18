@@ -32,12 +32,13 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
-import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {NgSelectComponent} from "@ng-select/ng-select/dist";
 
 @Component({
   selector: 'filter-toggled-multiselect-value',
@@ -46,6 +47,8 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 export class FilterToggledMultiselectValueComponent implements OnInit {
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
+
+  @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
 
   public _availableOptions:HalResource[] = [];
   public compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
@@ -80,6 +83,12 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
 
   public set availableOptions(val:HalResource[]) {
     this._availableOptions = this.halSorting.sort(val);
+  }
+
+  public repositionDropdown() {
+    if (this.ngSelectInstance) {
+      setTimeout(() => this.ngSelectInstance.updateDropdownPosition(), 25);
+    }
   }
 
   private get isUserResource() {
