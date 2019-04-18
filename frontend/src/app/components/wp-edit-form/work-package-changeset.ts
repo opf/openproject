@@ -198,6 +198,7 @@ export class WorkPackageChangeset {
 
                 // Initialize any potentially new HAL values
                 savedWp.retainFrom(this.workPackage);
+                this.inFlight = false;
                 this.workPackage = savedWp;
                 this.wpCacheService.updateWorkPackage(this.workPackage, true);
 
@@ -225,7 +226,6 @@ export class WorkPackageChangeset {
     });
 
     promise
-      .then(() => this.inFlight = false)
       .catch(() => this.inFlight = false);
 
     return promise;

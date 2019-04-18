@@ -28,7 +28,7 @@
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
@@ -51,6 +51,7 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
   };
 
   constructor(readonly I18n:I18nService,
+              readonly cdRef:ChangeDetectorRef,
               readonly wpCacheService:WorkPackageCacheService,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService) {
   }
@@ -63,6 +64,7 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
       )
       .subscribe((wp) => {
         this.workPackage = wp;
+        this.cdRef.detectChanges();
         this.workPackage.status.$load();
       });
   }
@@ -85,10 +87,14 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
   }
 
   public get statusHighlightClass() {
-    return Highlighting.inlineClass('status', this.status.id!);
+    let status = this.status;
+    if (!status) { return }
+    return Highlighting.inlineClass('status', status.id!);
   }
 
-  public get status():HalResource {
+  public get status():HalResource|undefined {
+    if (!this.wpEditing) { return }
+
     let changeset = this.wpEditing.changesetFor(this.workPackage);
     return changeset.value('status');
   }
