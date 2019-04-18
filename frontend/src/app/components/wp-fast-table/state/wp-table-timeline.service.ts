@@ -38,6 +38,9 @@ import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-ta
 @Injectable()
 export class WorkPackageTableTimelineService extends WorkPackageQueryStateService<WorkPackageTableTimelineState> {
 
+  /** Remember the computed zoom level to correct zooming after leaving autozoom */
+  public appliedZoomLevel:TimelineZoomLevel|undefined = undefined;
+
   public constructor(protected readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);
   }
@@ -123,18 +126,19 @@ export class WorkPackageTableTimelineService extends WorkPackageQueryStateServic
     this.modify({ zoomLevel: level });
   }
 
-  public updateZoomWithDelta(delta:number) {
-    if (this.isAutoZoom()) {
-      const target = delta < 0 ? 'days' : 'years';
-      this.setZoomLevel(target);
-      return;
+  public updateZoomWithDelta(delta:number):void {
+    let level = this.current.zoomLevel;
+    if (level !== 'auto') {
+      return this.applyZoomLevel(level, delta);
     }
 
-    let idx = zoomLevelOrder.indexOf(this.current.zoomLevel);
-    idx += delta;
-
-    if (idx >= 0 && idx < zoomLevelOrder.length) {
-      this.setZoomLevel(zoomLevelOrder[idx]);
+    if (this.appliedZoomLevel && this.appliedZoomLevel !== 'auto') {
+      // When we have a real zoom value, use delta on that one
+      this.applyZoomLevel(this.appliedZoomLevel, delta);
+    } else {
+      // Use the maximum zoom value
+      const target = delta < 0 ? 'days' : 'years';
+      this.setZoomLevel(target);
     }
   }
 
@@ -156,6 +160,21 @@ export class WorkPackageTableTimelineService extends WorkPackageQueryStateServic
    */
   private modify(update:Partial<WorkPackageTableTimelineState>) {
     this.update({ ...this.current, ...update });
+  }
+
+  /**
+   * Apply a zoom level
+   *
+   * @param level Any zoom level except auto.
+   * @param delta The delta (e.g., 1, -1) to apply.
+   */
+  private applyZoomLevel(level:Exclude<TimelineZoomLevel, 'auto'>, delta:number) {
+    let idx = zoomLevelOrder.indexOf(level);
+    idx += delta;
+
+    if (idx >= 0 && idx < zoomLevelOrder.length) {
+      this.setZoomLevel(zoomLevelOrder[idx]);
+    }
   }
 
   private get defaultLabels():TimelineLabels {

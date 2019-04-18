@@ -217,6 +217,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       this.applyAutoZoomLevel();
     } else {
       this._viewParameters.settings.zoomLevel = this.wpTableTimeline.zoomLevel;
+      this.wpTableTimeline.appliedZoomLevel = this.wpTableTimeline.zoomLevel;
     }
 
     // Require dynamic CSS to be visible
@@ -442,6 +443,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
         // did the zoom level changed?
         if (previousZoomLevel !== zoomLevel) {
           this._viewParameters.settings.zoomLevel = zoomLevel;
+          this.wpTableTimeline.appliedZoomLevel = zoomLevel;
           this.wpTableDirective.timeline.scrollLeft = 0;
         }
         return;
