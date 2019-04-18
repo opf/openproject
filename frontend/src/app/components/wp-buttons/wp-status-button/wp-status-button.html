@@ -1,4 +1,6 @@
-<div class="wp-status-button" *ngIf="status">
+<div class="wp-status-button"
+     [ngClass]="containerClass"
+     *ngIf="status">
   <button class="button"
           [ngClass]="statusHighlightClass"
           [disabled]="isDisabled()"

@@ -174,20 +174,6 @@ i
   align-items: center
   padding-top: 0.5rem
 
-  .wp-status-button .button
-    @include text-shortener
-    padding: 5px
-    margin-bottom: 0
-    @include varprop(background-color, status-selector-bg-color)
-    border: none
-    color: white
-    white-space: nowrap
-    // Should not be longer than mobile screen width (margin of 15px left and right)
-    max-width: calc(100vw - 30px)
-
-    .button--text
-      margin: 0 5px
-
   attribute-help-text
     flex: 0
     .help-text--entry
@@ -199,12 +185,11 @@ i
   .work-packages--info-row
     flex: 1 1 200px
 
+  wp-status-button
+    // Should not be longer than mobile screen width (margin of 15px left and right)
+    max-width: calc(100vw - 30px)
+    
   attribute-help-text,
-  .wp-status-button,
+  wp-status-button,
   .work-packages--info-row
     margin-bottom: 0.5rem
-
-.work-packages--new .wp-status-button
-  padding: 3px
-  .button
-    height: 40px

@@ -17,33 +17,34 @@
                               [initialFocus]="initiallyFocused"
                               class="-small">
       </editable-toolbar-title>
+
+      <div class="board-list--menu">
+        <a boardListDropdown>
+          <op-icon icon-classes="icon-show-more-horizontal"></op-icon>
+        </a>
+      </div>
+    </div>
+
+    <div class="board-list--query-container"
+         [ngClass]="queryContainerClass">
       <button [title]="text.addCard"
               *ngIf="board.isAction && showAddButton"
               (accessibleClick)="addNewCard()"
-              class="board-list--card-add-button button -narrow">
+              class="board-list--add-button board-list--card-add-button button">
         <op-icon icon-classes="icon-small icon-add"></op-icon>
       </button>
       <button [title]="text.addCard"
               *ngIf="!board.isAction && showAddButton"
-              class="board-list--card-dropdown-button button -narrow"
+              class="board-list--add-button board-list--card-dropdown-button button"
               addCardDropdown>
         <op-icon icon-classes="icon-small icon-add"></op-icon>
       </button>
 
-      <div class="board-list--delete-icon">
-        <accessible-by-keyboard *ngIf="canDelete"
-                                linkClass="button -narrow -no-decoration"
-                                (execute)="deleteList(query)">
-          <op-icon icon-classes="icon-small icon-delete"></op-icon>
-        </accessible-by-keyboard>
-      </div>
-    </div>
-
-    <div class="board-list--query-container">
       <wp-card-view [dragAndDropEnabled]="dragAndDropEnabled"
                     [workPackageAddedHandler]="workPackageAddedHandler"
                     [cardsRemovable]="board.isFree && canManage"
-                    [highlightingMode]="board.highlightingMode">
+                    [highlightingMode]="board.highlightingMode"
+                    [showStatusButton]="board.isFree">
       </wp-card-view>
     </div>
   </ng-container>

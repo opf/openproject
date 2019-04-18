@@ -198,7 +198,8 @@ module OpenProject
       'timeline--separator'                                  => '3px solid #E7E7E7',
       'table-timeline--row-height'                           => '40px',
       'status-selector-bg-color'                             => '#F99601',
-      'status-selector-bg-hover-color'                       => '#E08600'
+      'status-selector-bg-hover-color'                       => '#E08600',
+      'card-font-size'                                       => '14px'
     }.freeze
 
     # Regular expression for references of other variables.

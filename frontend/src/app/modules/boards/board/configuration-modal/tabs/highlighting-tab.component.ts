@@ -19,7 +19,7 @@ export class BoardHighlightingTabComponent implements TabComponent {
   // Highlighting mode
   public highlightingMode:CardHighlightingMode = 'inline';
   public entireCardMode:boolean = false;
-  public lastEntireCardAttribute:CardHighlightingMode = 'status';
+  public lastEntireCardAttribute:CardHighlightingMode = 'type';
 
   // Current board resource
   public board:Board;
@@ -59,7 +59,7 @@ export class BoardHighlightingTabComponent implements TabComponent {
       this.highlightingMode = mode;
     }
 
-    if (['status', 'priority', 'type'].indexOf(this.highlightingMode) !== -1) {
+    if (['priority', 'type'].indexOf(this.highlightingMode) !== -1) {
       this.lastEntireCardAttribute = this.highlightingMode;
       this.entireCardMode = true;
     } else {

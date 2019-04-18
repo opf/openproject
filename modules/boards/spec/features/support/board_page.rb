@@ -70,15 +70,11 @@ module Pages
     end
 
     def add_card(list_name, card_title)
-      if action?
-        within_list(list_name) do
-          page.find('.board-list--card-add-button').click
-        end
-      else
-        within_list(list_name) do
-          page.find('.board-list--card-dropdown-button').click
-        end
+      within_list(list_name) do
+        page.find('.board-list--add-button ').click
+      end
 
+      unless action?
         # Add item in dropdown
         page.find('.menu-item', text: 'Add new card').click
       end
@@ -187,8 +183,11 @@ module Pages
 
     def remove_list(name)
       within_list(name) do
-        page.find('.board-list--delete-icon a').click
+        page.find('.board-list--header').hover
+        page.find('.board-list--menu a').click
       end
+
+      page.find('.dropdown-menu a', text: 'Delete list').click
 
       accept_alert_dialog!
       expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')

@@ -1,22 +1,33 @@
+@import 'helpers'
+
+$board-list-max-width: 300px
+
 .board-list--query-container
-  // 100% - board header height - padding
-  height: calc(100% - 43px - 10px)
-  padding: 5px 0
+  display: grid
+  grid-template: 34px 1fr / 1fr
+  // 100% - board header height
+  height: calc(100% - 43px)
+  max-width: inherit
   overflow-y: auto
+
+  wp-card-view
+    max-width: inherit
 
 .board-list--container
   height: 100%
-  border: 1px solid #ccc
-  border-radius: 5px
+  max-width: $board-list-max-width
+
+  &:hover
+    .board-list--menu
+      visibility: visible
 
 .board-list--action-bar
-  width: 100%
+  width: calc(100% - 30px)
   height: 5px
-  border-radius: 4px 4px 0 0
+  margin: auto
 
 .board-list--header
-  padding: 5px 10px 5px 15px
-  border-bottom: 1px solid #ccc
+  padding: 5px 15px
   display: flex
   align-items: center
 
@@ -29,3 +40,19 @@
   margin-top: 0
   // Avoids having to hide the drag&drop handle of the list
   z-index: 100
+
+.board-list--add-button
+  background-color: var(--body-background)
+  width: calc(100% - 30px)
+  margin: 0 15px
+  box-shadow: 1px 1px 3px 0px lightgrey
+
+  &:hover
+    background-color: #eeeeee50
+
+.board-list--menu
+  visibility: hidden
+  @include without-link-styling
+
+  a, a:hover
+    color: var(--light-gray)

@@ -123,6 +123,14 @@ export class DragAndDropService implements OnDestroy {
       el.dataset.sourceIndex = DragAndDropHelpers.findIndex(el).toString();
     });
 
+    this.drake.on('over', (el:HTMLElement, container:HTMLElement) => {
+      container.classList.add('-drop-zone');
+    });
+
+    this.drake.on('out', (el:HTMLElement, container:HTMLElement) => {
+      container.classList.remove('-drop-zone');
+    });
+
     this.drake.on('drop', async (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) => {
       try {
         await this.handleDrop(el, target, source, sibling);
