@@ -30,6 +30,8 @@ require 'rest-client'
 #++
 
 class WorkPackageWebhookJob < WebhookJob
+  include ::OpenProjectErrorHelper
+
   attr_reader :webhook_id
   attr_reader :journal_id
   attr_reader :event_name
@@ -46,21 +48,22 @@ class WorkPackageWebhookJob < WebhookJob
     body = request_body
     headers = request_headers
     exception = nil
+    response = nil
 
     if signature = request_signature(body)
       headers['X-OP-Signature'] = signature
     end
 
-    response = RestClient.post webhook.url, request_body, headers
-  rescue RestClient::Exception => e
-    response = e.response
+    begin
+      response = RestClient.post webhook.url, request_body, headers
+    rescue RestClient::Exception => e
+      response = e.response
+      exception = e
+    rescue StandardError => e
+      op_handle_error(e.message, reference: :webhook_job)
+      exception = e
+    end
 
-    raise e
-  rescue => e
-    exception = e
-
-    raise e
-  ensure
     ::Webhooks::Log.create(
       webhook: webhook,
       event_name: event_name,

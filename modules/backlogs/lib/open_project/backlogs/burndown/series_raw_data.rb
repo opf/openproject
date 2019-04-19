@@ -103,7 +103,7 @@ module OpenProject::Backlogs::Burndown
         AND #{fixed_version_query}
         AND #{project_id_query}
         AND #{type_id_query}
-        AND #{status_query}
+        #{and_status_query}
       JOIN
         (
           #{authoritative_journal_for_date(dates)}
@@ -149,7 +149,7 @@ module OpenProject::Backlogs::Burndown
                 AND #{fixed_version_query}
                 AND #{project_id_query}
                 AND #{type_id_query}
-                AND #{status_query})
+                #{and_status_query})
           GROUP BY
             CAST(j.created_at AS DATE),
             j.journable_type,
@@ -173,7 +173,7 @@ module OpenProject::Backlogs::Burndown
       }.join(' UNION ')
     end
 
-    def status_query
+    def and_status_query
       @status_query ||= begin
         non_closed_statuses = Status.where(is_closed: false).select(:id).map(&:id)
 
@@ -181,7 +181,11 @@ module OpenProject::Backlogs::Burndown
 
         open_status_ids = non_closed_statuses - done_statuses_for_project
 
-        "(#{Journal::WorkPackageJournal.table_name}.status_id IN (#{open_status_ids.join(',')}))"
+        if open_status_ids.empty?
+          ''
+        else
+          "AND (#{Journal::WorkPackageJournal.table_name}.status_id IN (#{open_status_ids.join(',')}))"
+        end
       end
     end
 

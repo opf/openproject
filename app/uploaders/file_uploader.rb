@@ -79,6 +79,8 @@ module FileUploader
   def cache!(new_file = sanitized_file)
     super
     @old_tmp_file = new_file
+  rescue => e
+    Rails.logger.error "Failed cache! of temporary upload file: #{e}"
   end
 
   def delete_old_tmp_file(_dummy)
