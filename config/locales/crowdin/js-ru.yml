@@ -23,7 +23,7 @@ ru:
         boards: Нужно свободно структурировать свою работу в виде доски?
         check_out_link: Проверьте корпоративную версию.
       lists:
-        delete: Delete list
+        delete: Удалить список
     card:
       add_new: Добавить новую карточку
       highlighting:

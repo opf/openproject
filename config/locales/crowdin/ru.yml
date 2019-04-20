@@ -1093,7 +1093,8 @@ ru:
   error_can_not_remove_role: Эта роль используется и не может быть удалена.
   error_can_not_reopen_work_package_on_closed_version: Пакет работ закрытого этапа
     проекта не может быть открыт заново
-  error_can_not_find_all_resources: Could not find all related resources to this request.
+  error_can_not_find_all_resources: Не удалось найти все связанные с этим запросом
+    ресурсы.
   error_check_user_and_role: Пожалуйста, выберите пользователя и роль.
   error_cookie_missing: Отсутствуют cookie OpenProject. Пожалуйста, убедитесь, что
     Cookie разрешены. Без них приложение не будет функционировать должным образом.
