@@ -23,7 +23,7 @@ tr:
         boards: Çalışmanızı serbestçe pano görünümünde yapılandırmanız mı gerekiyor?
         check_out_link: Enterprise sürüme bakın.
       lists:
-        delete: Delete list
+        delete: Listeyi silin
     card:
       add_new: Yeni kart ekleyin
       highlighting:
