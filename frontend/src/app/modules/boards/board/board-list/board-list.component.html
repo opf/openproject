@@ -11,6 +11,7 @@
 
     <div class="board-list--header">
       <editable-toolbar-title [title]="query.name"
+                              [smallHeader]="true"
                               [inFlight]="inFlight"
                               (onSave)="renameQuery(query, $event)"
                               [editable]="canRename"

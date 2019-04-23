@@ -26,6 +26,6 @@
 </div>
 <h2 *ngIf="!editable"
     [attr.title]="selectedTitle"
-    [ngClass]="{ '-disabled': disabled }"
+    [ngClass]="{ '-disabled': disabled, '-small': smallHeader }"
     class="editable-toolbar-title--fixed"> {{ selectedTitle | slice:0:50 }}
 </h2>

@@ -55,6 +55,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   @Input() public inFlight:boolean = false;
   @Input() public showSaveCondition:boolean = false;
   @Input() public initialFocus:boolean = false;
+  @Input() public smallHeader:boolean = false;
 
   @Output() public onSave = new EventEmitter<string>();
   @Output() public onEmptySubmit = new EventEmitter<void>();
