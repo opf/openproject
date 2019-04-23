@@ -273,7 +273,7 @@ describe 'My project page editing', type: :feature, js: true do
     let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
 
     it 'shows a 403 error' do
-      expect(page).to have_selector('h2', text: '403')
+      expect(page).to have_text '[Error 403]'
       expect(page).to have_no_selector('.widget-box')
     end
   end

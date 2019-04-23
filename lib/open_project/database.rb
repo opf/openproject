@@ -68,6 +68,24 @@ module OpenProject
     end
 
     ##
+    # Check pending database migrations
+    # and cache the result for up to one hour
+    def self.migrations_pending?(ensure_fresh: false)
+      cache_key = OpenProject::Cache::CacheKey.key('database_migrations')
+      cached_result = Rails.cache.read(cache_key)
+
+      # Ensure cache is busted if result is positive or unset
+      # and the value was cached
+      if ensure_fresh || cached_result != false
+        fresh_result = connection.migration_context.needs_migration?
+        Rails.cache.write(cache_key, expires_in: 1.hour)
+        return fresh_result
+      end
+
+      false
+    end
+
+    ##
     # Check the database version compatibility.
     # Raises an +InsufficientVersionError+ when the version is incompatible
     def self.check_version!
@@ -100,13 +118,19 @@ module OpenProject
 
     # Get the raw name of the currently used database adapter.
     # This string is set by the used adapter gem.
-    def self.adapter_name(connection)
+    def self.adapter_name(connection = self.connection)
       connection.adapter_name
+    end
+
+    # Get the AR base connection object handle
+    # will open a db connection implicitly
+    def self.connection
+      ActiveRecord::Base.connection
     end
 
     # returns the identifier of the specified connection
     # (defaults to ActiveRecord::Base.connection)
-    def self.name(connection = ActiveRecord::Base.connection)
+    def self.name(connection = self.connection)
       supported_adapters.find(proc { [:unknown, //] }) { |_adapter, regex|
         adapter_name(connection) =~ regex
       }[0]
@@ -118,7 +142,7 @@ module OpenProject
     # OpenProject::Database.mysql?(my_connection)
     supported_adapters.keys.each do |adapter|
       (class << self; self; end).class_eval do
-        define_method(:"#{adapter.to_s}?") do |connection = ActiveRecord::Base.connection|
+        define_method(:"#{adapter.to_s}?") do |connection = self.connection|
           send(:name, connection) == adapter
         end
       end

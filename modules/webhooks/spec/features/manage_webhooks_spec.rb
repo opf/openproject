@@ -10,7 +10,7 @@ describe 'Manage webhooks through UI', type: :feature, js: true do
 
     it 'forbids accessing the webhooks management view' do
       visit admin_outgoing_webhooks_path
-      expect(page).to have_selector('h2', text: '403')
+      expect(page).to have_text '[Error 403]'
     end
   end
 

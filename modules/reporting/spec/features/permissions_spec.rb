@@ -95,7 +95,7 @@ describe 'Cost report calculations', type: :feature, js: true do
     let!(:permissions) { %i() }
 
     it 'shows nothing' do
-      expect(page).to have_selector('h2', text: '403')
+      expect(page).to have_text '[Error 403]'
     end
   end
 

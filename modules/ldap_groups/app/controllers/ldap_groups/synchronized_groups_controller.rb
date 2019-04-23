@@ -28,6 +28,8 @@ module LdapGroups
       else
         render action: :new
       end
+    rescue ActionController::ParameterMissing
+      render_400
     end
 
     def destroy_info
