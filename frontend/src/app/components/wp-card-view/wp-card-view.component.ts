@@ -149,7 +149,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
   }
 
   public wpTypeAttribute(wp:WorkPackageResource) {
-    return wp.type.name + ':';
+    return wp.type.name;
   }
 
   public wpSubject(wp:WorkPackageResource) {

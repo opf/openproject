@@ -87,6 +87,13 @@
   a.-dark
     color: white
 
+[class^='__hl_dot_type'],
+[class*=' __hl_dot_type']
+  text-transform: uppercase
+  font-weight: bold
+  &:before
+    display: none !important
+
 [class^='__hl_dot_'],
 [class*=' __hl_dot_']
   &::before

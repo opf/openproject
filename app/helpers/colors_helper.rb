@@ -78,7 +78,12 @@ module ColorsHelper
       border_color = color.bright? ? '#555555' : color.hexcode
 
       concat ".__hl_inl_#{name}_#{entry.id} { #{inline_style}; }\n"
-      concat ".__hl_dot_#{name}_#{entry.id}::before { #{inline_style}; border-color: #{border_color}; }\n"
+      binding.pry
+      if name === 'type'
+        concat ".__hl_dot_#{name}_#{entry.id} { color: #{color.hexcode} !important;}"
+      else
+        concat ".__hl_dot_#{name}_#{entry.id}::before { #{inline_style}; border-color: #{border_color}; }\n"
+      end
       concat ".__hl_row_#{name}_#{entry.id} { #{row_style}; }\n"
 
       # Mark color as bright through CSS variable
