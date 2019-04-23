@@ -44,6 +44,7 @@ export class WorkPackageFilterContainerComponent implements OnDestroy {
 
   public visible = false;
   public filters = this.wpTableFilters.current;
+  public loaded = false;
 
   constructor(readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly wpFiltersService:WorkPackageFiltersService) {
@@ -51,6 +52,7 @@ export class WorkPackageFilterContainerComponent implements OnDestroy {
       .observeUntil(componentDestroyed(this))
       .subscribe(() => {
         this.filters = this.wpTableFilters.current;
+        this.loaded = true;
     });
 
     this.wpFiltersService

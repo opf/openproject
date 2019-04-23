@@ -28,11 +28,6 @@
 
 # Ensure the page is completely loaded before the spec is run.
 # The status filter is loaded very late in the page setup.
-def ensure_wp_table_loaded
-  expect(page).to have_selector('.advanced-filters--filter', visible: false),
-                  'Work package table page was not loaded in time'
-end
-
 shared_context 'ensure wp details pane update done' do
   after do
     raise "Expect to have a let called 'update_user' defining which user \

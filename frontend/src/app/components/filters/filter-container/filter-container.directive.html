@@ -6,8 +6,9 @@
   <span class="button--text" [textContent]="filterButtonText"></span>
 </button>
 
-<div class="work-packages--filters-optional-container" [hidden]="!visible">
-  <div id="query_form_content" class="hide-when-print">
+<div class="work-packages--filters-optional-container"
+     [ngClass]="{ '-loaded': loaded }">
+  <div id="query_form_content" class="hide-when-print" *ngIf="visible">
     <query-filters *ngIf="!!filters"
                    [filters]="filters"
                    [showCloseFilter]="true"

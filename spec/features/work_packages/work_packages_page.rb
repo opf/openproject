@@ -81,10 +81,6 @@ class WorkPackagesPage
     ensure_index_page_loaded
   end
 
-  def find_filter(filter_name)
-    find(".advanced-filters--filters #filter_#{filter_name}")
-  end
-
   def find_subject_field(text = nil)
     if text
       find('#inplace-edit--write-value--subject', text: text)
@@ -111,7 +107,7 @@ class WorkPackagesPage
 
   def ensure_index_page_loaded
     if Capybara.current_driver == Capybara.javascript_driver
-      expect(page).to have_selector('.advanced-filters--filter', visible: :all, wait: 20)
+      expect(page).to have_selector('.work-packages--filters-optional-container.-loaded', visible: :all, wait: 20)
     end
   end
 end

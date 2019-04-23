@@ -28,7 +28,7 @@
 
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageFiltersService} from "../../filters/wp-filters/wp-filters.service";
-import {Component, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
