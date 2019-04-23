@@ -172,7 +172,7 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'nokogiri', '~> 1.10.0'
+gem 'nokogiri', '~> 1.10.3'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'fog-aws'
