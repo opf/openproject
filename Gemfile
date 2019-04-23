@@ -165,7 +165,6 @@ gem 'autoprefixer-rails', '~> 9.4.5'
 # use until proper release no longer requiring sass exists
 gem 'bourbon', git: 'https://github.com/sikachu/bourbon', ref: 'a12ca168e74d3468c80500b21b525a4e12a19ef9'
 gem 'i18n-js', '~> 3.2.0'
-gem 'sass-rails'
 gem 'sassc-rails', '~> 2.1.0'
 gem 'sprockets', '~> 3.7.0'
 
@@ -249,7 +248,7 @@ end
 group :development do
   gem 'faker'
   gem 'letter_opener'
-  gem 'livingstyleguide', '~> 2.0.1'
+  gem 'livingstyleguide', '~> 2.1.0'
 
   gem 'spring'
   gem 'spring-commands-rspec'

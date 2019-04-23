@@ -26,8 +26,41 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-if defined?(LivingStyleGuide)
-  LivingStyleGuide.default_options[:scss_template] = OpenProject::LivingStyleGuide::Template
-end
+module OpenProject
+  module LivingStyleGuide
+    class Template < SassC::Rails::SassTemplate
+      attr_accessor :filename
+      attr_accessor :data
 
-Rails.application.config.sass.load_paths << Rails.root.join('frontend', 'node_modules', 'foundation-apps', 'scss')
+      def initialize(filename, options = {}, &block)
+        self.filename = filename
+        self.data = yield.gsub(/\n/, '')
+
+        super(options, &block)
+      end
+
+      def render(scope = nil, *)
+        engine = ::SassC::Engine.new(data, engine_options(scope))
+
+        Sprockets::Utils.module_include(::SassC::Script::Functions, @functions) do
+          engine.render
+        end
+      end
+
+      def engine_options(scope)
+        {
+          filename: filename,
+          line_comments: line_comments?,
+          syntax: self.class.syntax,
+          load_paths: scope.environment.paths,
+          importer: SassC::Rails::Importer,
+          sprockets: {
+            context: scope,
+            environment: scope.environment,
+            dependencies: scope.metadata[:dependency_paths]
+          }
+        }.merge!(config_options) { |key, left, right| safe_merge(key, left, right) }
+      end
+    end
+  end
+end
