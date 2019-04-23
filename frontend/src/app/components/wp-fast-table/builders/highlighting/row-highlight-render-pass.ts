@@ -46,12 +46,7 @@ export class HighlightingRenderPass {
 
       const id = property.id!;
       const element:HTMLElement = this.tablePass.tableBody.children[position] as HTMLElement;
-      element.classList.add(Highlighting.rowClass(highlightAttribute, id));
-
-      // If the applied color is bright, also apply the '-bright-row' class
-      if (Highlighting.isBright(styles, highlightAttribute, id)) {
-        element.classList.add('-bright-row');
-      }
+      element.classList.add(Highlighting.backgroundClass(highlightAttribute, id));
     });
   }
 

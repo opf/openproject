@@ -225,7 +225,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       return '';
     }
     const value = filter.values[0] as HalResource;
-    return Highlighting.rowClass(attribute, value.id!);
+    return Highlighting.backgroundClass(attribute, value.id!);
   }
 
   public get listName() {

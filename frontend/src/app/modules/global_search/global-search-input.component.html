@@ -47,7 +47,10 @@
           <ng-template #workPackageItemTemplate>
             <div tabindex="-1" class="global-search--option">
               <div class="global-search--option-wrapper" tabindex="-1">
-                <span class="global-search--wp-id __hl_dot_status_{{item.statusId}}" title="{{item.status}}" [ngOptionHighlight]="currentValue"> #{{item.id}} </span>
+                <span class="global-search--wp-id"
+                      title="{{item.status}}"
+                      [ngOptionHighlight]="currentValue"
+                      [ngClass]="statusHighlighting(item.statusId)"> #{{item.id}} </span>
                 <span class="global-search--wp-subject" [ngOptionHighlight]="currentValue"> {{item.subject}} </span>
               </div>
             </div>

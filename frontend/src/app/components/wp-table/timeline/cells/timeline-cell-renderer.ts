@@ -370,7 +370,7 @@ export class TimelineCellRenderer {
     }
 
     const id = type.id;
-    element.classList.add(Highlighting.rowClass('type', id!));
+    element.classList.add(Highlighting.backgroundClass('type', id!));
   }
 
   protected assignDate(changeset:WorkPackageChangeset, attributeName:string, value:moment.Moment) {
