@@ -40,6 +40,7 @@ export class DragAndDropService implements OnDestroy {
   ngOnDestroy():void {
     this.document.documentElement.removeEventListener('keydown', this.escapeListener);
     this.autoscroll && this.autoscroll.destroy();
+    this.drake && this.drake.destroy();
   }
 
   public remove(container:HTMLElement) {
