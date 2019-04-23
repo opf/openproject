@@ -57,6 +57,10 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     name: 'my_page',
     url: '/my/page',
     component: MyPageComponent,
+    data: {
+      bodyClasses: 'router--work-packages-my-page',
+      parent: 'work-packages'
+    }
   },
 ];
 
