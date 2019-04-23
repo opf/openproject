@@ -38,6 +38,15 @@ describe 'Query menu item', js: true do
     login_as(user)
   end
 
+  context 'visiting the global work packages page' do
+    let(:wp_table) { ::Pages::WorkPackagesTable.new }
+    it 'should show the query menu (Regression #30082)' do
+      wp_table.visit!
+      expect(page).to have_selector('.wp-query-menu--container')
+      expect(page).to have_selector('.wp-query-menu--item', wait: 20, minimum: 1)
+    end
+  end
+
   context 'filtering by version in project' do
     let(:version) { FactoryBot.create :version, project: project }
     let(:work_package_with_version) { FactoryBot.create :work_package, project: project, fixed_version: version }

@@ -126,7 +126,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     // When activating the work packages submenu,
     // either initially or through click on the toggle, load the results
     this.mainMenuService
-      .onActivate('work_packages')
+      .onActivate('work_packages', 'work_packages_query_select')
       .subscribe(() => this.initializeAutocomplete());
 
     // Register click handler on results
