@@ -1056,6 +1056,7 @@ af:
     is aan 'n geslote weergawe kan nie weer oopgemaak word nie"
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Kies 'n gebruiker en 'n rol.
+  error_code: Error %{code}
   error_cookie_missing: Die OpenProject koekie word vermis. Verseker asseblief dat
     koekies geaktiveer is, aangesien hierdie toepassing nie behoorlik sal funksioneer
     daarsonder nie.
@@ -1081,6 +1082,10 @@ af:
   error_work_package_not_found_in_project: Die werkspakket is nie gekry nie of behoort
     nie aan hierdie projek nie
   error_must_be_project_member: moet projeklid wees
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Geen verstek werkspakket status is gedefinieer
     nie. Kontroleer asseblief jou konfigurasie (gaan na "Administrasie -> Werkspakket
     statusse").
@@ -1645,6 +1650,7 @@ af:
   label_updated_time: Updated %{value} ago
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Updated by %{author} %{age} ago
+  label_upgrade_guides: Upgrade guides
   label_used_by: Used by
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects

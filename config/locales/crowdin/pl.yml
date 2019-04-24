@@ -1088,6 +1088,7 @@ pl:
     roboczego przypisanego do zamkniętej wersji
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Wybierz użytkownika i rolę.
+  error_code: Error %{code}
   error_cookie_missing: Brakuje pliku cookie OpenProject. Upewnij się, że obsługa
     plików cookie jest włączona, ponieważ bez tego aplikacja nie będzie funkcjonować
     prawidłowo.
@@ -1114,6 +1115,10 @@ pl:
   error_work_package_not_found_in_project: Pakiet roboczy nie został znaleziony lub
     nie należy do tego projektu
   error_must_be_project_member: musi być członkiem projektu
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Nie zdefiniowano domyślnego statusu pakietu
     roboczego. Proszę sprawdzić konfigurację (przejdź do „Administracja -> Statusy
     pakietów roboczych”).
@@ -1677,6 +1682,7 @@ pl:
   label_updated_time: Aktualizacja %{value} temu
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Zaktualizowane przez %{author} %{age} temu
+  label_upgrade_guides: Upgrade guides
   label_used_by: Używane przez
   label_used_by_types: Używane wg typów
   label_used_in_projects: Używane w projektach

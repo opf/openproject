@@ -1053,6 +1053,7 @@
     en lukket versjon kan ikke gjenåpnes
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Velg en bruker og en rolle.
+  error_code: Error %{code}
   error_cookie_missing: Cookie OpenProject mangler. Kontroller at informasjonskapsler
     er aktivert, dette programmet fungerer ikke riktig uten.
   error_custom_option_not_found: Option does not exist.
@@ -1077,6 +1078,10 @@
   error_work_package_not_found_in_project: Arbeidspakken ble ikke funnet eller tilhører
     ikke dette prosjektet
   error_must_be_project_member: må være prosjektmedlem
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Standard status for arbeidspakke er ikke definert.
     Vennligst kontrollèr innstillingene (Gå til "Administrasjon -> Status for arbeidspakker").
   error_no_type_in_project: Prosjektet mangler en tilknyttet type. Vennligst kontrollèr
@@ -1636,6 +1641,7 @@
   label_updated_time: Oppdatert for %{value} siden
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Oppdatert av %{author} for %{age} siden
+  label_upgrade_guides: Upgrade guides
   label_used_by: Brukt av
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects

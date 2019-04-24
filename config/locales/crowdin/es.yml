@@ -1087,6 +1087,7 @@ es:
     un paquete de trabajo asignado a una versión cerrada
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Por favor elige un usuario y un rol.
+  error_code: Error %{code}
   error_cookie_missing: No se encuentra la cookie de OpenProject. Por favor asegúrese
     de que las cookies están habilitadas, ya que sin ellas esta aplicación no funcionará
     correctamente.
@@ -1112,6 +1113,10 @@ es:
   error_work_package_not_found_in_project: El paquete de trabajo no se ha encontrado
     o no pertenece a este proyecto
   error_must_be_project_member: debe ser miembro del proyecto
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Ningún estado del paquete trabajo predeterminado
     está definido. Por favor, compruebe su configuración (ir a "Administración-> Situación
     del paquete de trabajo").
@@ -1678,6 +1683,7 @@ es:
   label_updated_time: "%{value} actualizado hace"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Actualizado por %{author} hace %{age}
+  label_upgrade_guides: Upgrade guides
   label_used_by: Utilizado por
   label_used_by_types: Utilizado por tipos
   label_used_in_projects: Utilizado en proyectos

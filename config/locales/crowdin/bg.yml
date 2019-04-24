@@ -1057,6 +1057,7 @@ bg:
     затворена версия, не може да бъде отворен наново
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Моля, изберете потребител и роля.
+  error_code: Error %{code}
   error_cookie_missing: '"Бисквитката" на OpenProject липсва. Моля уверете се че cookies
     са активирани, тъй като това приложение не функционира правилно без тях.'
   error_custom_option_not_found: Option does not exist.
@@ -1081,6 +1082,10 @@ bg:
   error_work_package_not_found_in_project: Работен пакет не е намерен или не принадлежи
     на този проект
   error_must_be_project_member: трябва да бъде член проекта
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Не е дефиниран работен пакет по подразбиране.
     Моля проверете конфигурацията ( Отидете на Администрация -> Статуси на работни
     пакети).
@@ -1645,6 +1650,7 @@ bg:
   label_updated_time: Актуализиран преди %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Актуализирана от %{author} преди %{age}
+  label_upgrade_guides: Upgrade guides
   label_used_by: Използван от
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects

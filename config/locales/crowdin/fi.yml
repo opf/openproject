@@ -1052,6 +1052,7 @@ fi:
     versio ei voi avata uudelleen
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Please choose a user and a role.
+  error_code: Error %{code}
   error_cookie_missing: OpenProject evästeen puuttuu. Varmista, että evästeet ovat
     käytössä, koska tämä sovellus ei toimi oikein ilman evästeitä.
   error_custom_option_not_found: Vaihtoehtoa ei ole olemassa.
@@ -1076,6 +1077,10 @@ fi:
   error_work_package_not_found_in_project: Toimia paketti ei löydy tai ei kuulu tähän
     projektiin
   error_must_be_project_member: on oltava projekti jäsen
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: No default work package status is defined.
     Please check your configuration (Go to "Administration -> Work package statuses").
   error_no_type_in_project: Ei tyyppi liittyy tähän projekti. Ole hyvä ja tarkista
@@ -1636,6 +1641,7 @@ fi:
   label_updated_time: Päivitetty %{value} sitten
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Päivittänyt %{author} %{age} sitten
+  label_upgrade_guides: Upgrade guides
   label_used_by: Käyttää
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects

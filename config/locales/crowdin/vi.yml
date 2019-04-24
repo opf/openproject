@@ -1056,6 +1056,7 @@ vi:
     package đã được gán cho một phiên bản đã đóng
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Hãy chọn người dùng và một vai trò.
+  error_code: Error %{code}
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
@@ -1080,6 +1081,10 @@ vi:
   error_work_package_not_found_in_project: Work package không được tìm thấy hoặc không
     thuộc về dự án này
   error_must_be_project_member: phải là thành viên dự án
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Không có tình trạng mặc định được định nghĩa
     cho work package. Vui lòng kiểm tra cấu hình của bạn (đi đến "Quản lý-> các trạng
     thái của work package").
@@ -1641,6 +1646,7 @@ vi:
   label_updated_time: Cập nhật cách đây %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Cập nhật bởi %{author} cách đây %{age}
+  label_upgrade_guides: Upgrade guides
   label_used_by: Được dùng bởi
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects

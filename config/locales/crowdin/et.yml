@@ -1052,6 +1052,7 @@ et:
     teemat ei saa taasavada
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Palun vali kasutaja ja roll.
+  error_code: Error %{code}
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
@@ -1075,6 +1076,10 @@ et:
   error_work_package_not_found_in_project: Teemat ei leitud või see ei kuulu siia
     projekti
   error_must_be_project_member: peab olema projekti liige
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Teema algolek on määramata. Palun vaata seadistused
     üle ("Seadistused -> Teemade olekud").
   error_no_type_in_project: Ühtegi tüüpi ei ole seotud selle projektiga. Palun kontrolli
@@ -1637,6 +1642,7 @@ et:
   label_updated_time: Uuendatud %{value} tagasi
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Uuendatud %{author} poolt %{age} tagasi
+  label_upgrade_guides: Upgrade guides
   label_used_by: Kasutab
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects

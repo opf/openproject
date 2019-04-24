@@ -1057,6 +1057,7 @@ hu:
     nem lehet újra nyitni
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Légy szíves válassz felhasználót és szerepkört
+  error_code: Error %{code}
   error_cookie_missing: Hiányzó OpenProject cookie. Ellenőrizze, hogy böngészőjében
     a cookie-k használata engedélyezve van, mert anélkül ez az alkalmazás nem tud
     megfelelően működni.
@@ -1082,6 +1083,10 @@ hu:
   error_work_package_not_found_in_project: A feladatcsoport nem található, vagy nem
     tartozik ehhez a projekthez
   error_must_be_project_member: projekt tagnak kell lennie
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Nincs alapértelmezett feladatcsoport állapot
     meghatározva. Kérjük, ellenőrizze a konfigurációt ("Adminisztráció - feladatcsoport
     állapotok").
@@ -1646,6 +1651,7 @@ hu:
   label_updated_time: Ezelőtt frissített %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Frissítve %{author} %{age} ezelőtt
+  label_upgrade_guides: Upgrade guides
   label_used_by: Által használt
   label_used_by_types: Használt típusok szerint
   label_used_in_projects: Használt projektek szerint

@@ -1074,6 +1074,7 @@ hr:
     verziji ne može biti ponovno otvoren
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Molim Vas odaberite korisnika i rolu.
+  error_code: Error %{code}
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Opcija ne postoji.
@@ -1098,6 +1099,10 @@ hr:
   error_work_package_not_found_in_project: Radni paket nije pronađen ili ne pripada
     ovom projektu
   error_must_be_project_member: mora biti član projekta
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Početna vrijednost statusa radnog paketa nije
     definirana. Molimo vas provjerite konfiguraciju (Idite na "Administracija->Status
     radnih paketa").
@@ -1659,6 +1664,7 @@ hr:
   label_updated_time: Ažurirano prije %{value}
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: Ažurirao korisnik %{author} prije %{age}
+  label_upgrade_guides: Upgrade guides
   label_used_by: Koristio
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects

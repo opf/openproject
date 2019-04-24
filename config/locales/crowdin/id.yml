@@ -1052,6 +1052,7 @@ id:
     berakhir tidak dapat dibuka kembali
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Silakan pilih user dan Role.
+  error_code: Error %{code}
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Pilihan tidak ada.
@@ -1076,6 +1077,10 @@ id:
   error_work_package_not_found_in_project: Paket-Penugasan tidak ditemukan atau tidak
     termasuk dalam Project ini
   error_must_be_project_member: harus sbg Project Member
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Status Paket-Penugasan default tidak didefinisikan.
     Silakan periksa konfigurasi (ke "Administrasi -> Paket-Penugasan Status").
   error_no_type_in_project: Tidak ada Tipe terasosiasi dengan Project ini. Silakan
@@ -1635,6 +1640,7 @@ id:
   label_updated_time: Diperbarui %{value} yang lalu
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Diperbarui oleh %{author} %{age} yang lalu
+  label_upgrade_guides: Upgrade guides
   label_used_by: Digunakan oleh
   label_used_by_types: Digunakan oleh jenis
   label_used_in_projects: Digunakan dalam proyek-proyek

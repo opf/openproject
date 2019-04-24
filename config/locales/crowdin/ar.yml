@@ -1118,6 +1118,7 @@ ar:
     المسندة الى نسخة مغلقة
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: الرجاءاختر مستخدم ودور.
+  error_code: Error %{code}
   error_cookie_missing: ملف تعريف الارتباط "كوكي" لأوبن بروجكت مفقود. من فضلك تأكد
     من أن يتم تمكين ملفات تعريف الارتباط "كوكيز"، لأن هذا التطبيق لن يعمل بشكل صحيح
     دون ذلك.
@@ -1142,6 +1143,10 @@ ar:
   error_work_package_not_found_in_project: مجموعة العمل غير موجودة, أو أنها لا تخص
     هذا المشروع
   error_must_be_project_member: يجب أن تكون عضو في المشروع
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: لم يتم تعريف حالة افتراضية لمجموعة العمل.
     رجاء تحقق من اعداداتك ( من "ادارة-->حالات مجموعة العمل").
   error_no_type_in_project: هذا المشروع غير مرتبط بأي نوع. رجاء تحقق من اعدادات المشروع.
@@ -1701,6 +1706,7 @@ ar:
   label_updated_time: قبل%{value} تحديث
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: قبل %{author}%{age} تحديث وفق
+  label_upgrade_guides: Upgrade guides
   label_used_by: مستخدم من قبل
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects

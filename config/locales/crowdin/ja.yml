@@ -973,6 +973,7 @@ ja:
   error_can_not_reopen_work_package_on_closed_version: 終了したバージョンにひも付けされた作業項目は再度開けません。
   error_can_not_find_all_resources: この要求に、すべての関連リソースを見つけられませんでした。
   error_check_user_and_role: ユーザとロールを選択してください。
+  error_code: Error %{code}
   error_cookie_missing: OpenProject のcookieが見つかりません。cookieが有効であることを確認してください。そうしないとこのアプリケーションは正しく動作しません。
   error_custom_option_not_found: オプションが存在しません。
   error_dependent_work_package: '依存するワークパッケージのエラー#%{related_id} %{related_subject}:
@@ -991,6 +992,10 @@ ja:
   error_work_package_done_ratios_not_updated: 作業項目の進捗率が更新できません。
   error_work_package_not_found_in_project: 作業項目が見つからないか、このプロジェクトに属してないかです。
   error_must_be_project_member: プロジェクトのメンバーである必要があります。
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: 作業項目の既定のステータスが定義されていません。 設定をご確認してください（管理→作業項目ステータス）。
   error_no_type_in_project: このプロジェクトには関連付けている作業項目の型がありません。プロジェクトの設定をご確認してください。
   error_omniauth_registration_timed_out: 外部認証プロバイダーを経由して登録がタイムアウトしました。もう一度やり直してください。
@@ -1536,6 +1541,7 @@ ja:
   label_updated_time: "%{value}前に更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author}が%{age}前に更新"
+  label_upgrade_guides: Upgrade guides
   label_used_by: 使用中
   label_used_by_types: タイプで使用
   label_used_in_projects: プロジェクトで使用

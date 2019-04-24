@@ -1075,6 +1075,7 @@ nl:
     een gesloten versie kan niet worden heropend
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Kies een gebruiker en een rol.
+  error_code: Error %{code}
   error_cookie_missing: De cookie voor OpenProject ontbreekt. Zorg ervoor dat cookies
     zijn ingeschakeld aangezien deze toepassing anders niet goed zal functioneren.
   error_custom_option_not_found: Optie bestaat niet.
@@ -1098,6 +1099,10 @@ nl:
   error_work_package_not_found_in_project: Het werkpakket werd niet gevonden of maakt
     geen deel uit van dit project
   error_must_be_project_member: moet een project lid zijn
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Geen standaard werkpakket status is gedefinieerd.
     Controleer uw configuratie (Ga naar 'Administratie-> werkpakket statussen').
   error_no_type_in_project: Er is geen type gekoppeld aan dit project. Controleer
@@ -1661,6 +1666,7 @@ nl:
   label_updated_time: Bijgewerkt %{value} geleden
   label_updated_time_at: "%%{author} %{age}"
   label_updated_time_by: Bijgewerkt door %{author} %{age} geleden
+  label_upgrade_guides: Upgrade guides
   label_used_by: Gebruikt door
   label_used_by_types: Wordt gebruikt door types
   label_used_in_projects: Wordt gebruikt in projecten

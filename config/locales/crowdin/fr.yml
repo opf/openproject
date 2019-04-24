@@ -489,7 +489,7 @@ fr:
         watcher: Observateur
       doorkeeper/application:
         uid: Id du client
-        secret: Client secret
+        secret: Clé secrète du client
         owner: Propriétaire
         redirect_uri: URL de redirection
         client_credentials_user_id: Client Credentials User ID
@@ -1082,6 +1082,7 @@ fr:
     une version fermée ne peut être ré-ouvert
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Veuillez choisir un utilisateur et un rôle.
+  error_code: Error %{code}
   error_cookie_missing: Le cookie OpenProject est manquant. Assurez-vous que les cookies
     sont activés, sans quoi cette application ne fonctionnera pas correctement.
   error_custom_option_not_found: L'option n'existe pas.
@@ -1107,6 +1108,10 @@ fr:
   error_work_package_not_found_in_project: Le Lot de Travaux n'a pas été trouvé ou
     n'appartient pas à ce projet
   error_must_be_project_member: doit être membre du projet
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Aucun statut de lot de travaux par défaut
     n'est défini. Veuillez vérifier votre configuration (Allez dans "Administration
     -> Statuts des lots de travaux").
@@ -1673,6 +1678,7 @@ fr:
   label_updated_time: Mis à jour il y a %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Mis à jour par %{author} il y a %{age}
+  label_upgrade_guides: Upgrade guides
   label_used_by: Utilisé par
   label_used_by_types: Utilisé par types
   label_used_in_projects: Utilisé dans les projets
@@ -2931,24 +2937,26 @@ fr:
           due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
         resource_owner_authenticator_not_configured: Resource Owner find failed due
           to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
-        admin_authenticator_not_configured: Access to admin panel is forbidden due
-          to Doorkeeper.configure.admin_authenticator being unconfigured.
-        unsupported_response_type: The authorization server does not support this
-          response type.
-        invalid_client: Client authentication failed due to unknown client, no client
-          authentication included, or unsupported authentication method.
-        invalid_grant: The provided authorization grant is invalid, expired, revoked,
-          does not match the redirection URI used in the authorization request, or
-          was issued to another client.
-        unsupported_grant_type: The authorization grant type is not supported by the
-          authorization server.
+        admin_authenticator_not_configured: L'accès au panneau d'administration est
+          interdit en raison de l'absence de configuration de Doorkeeper.configure.admin_authenticator.
+        unsupported_response_type: Le serveur d'autorisation ne supporte pas ce type
+          de réponse.
+        invalid_client: L'authentification du client a échoué en raison d'un client
+          inconnu, d'une authentification du client non supportée ou d'une méthode
+          d'authentification non supportée.
+        invalid_grant: L'autorisation accordée est invalide, expirée, révoquée, ne
+          correspond pas à l'URI de redirection utilisée dans la demande d'autorisation
+          ou a été accordée à un autre client.
+        unsupported_grant_type: Le type de subvention d'autorisation n'est pas supporté
+          par le serveur d'autorisation.
         invalid_token:
           revoked: Le jeton d'accès a été révoqué
           expired: Le jeton d'accès a expiré
           unknown: Le jeton d'accès est invalide
   unsupported_browser:
     title: Votre navigateur est obsolète et non pris en charge.
-    message: You may run into errors and degraded experience on this page.
+    message: Vous pouvez rencontrer des erreurs et une expérience dégradée sur cette
+      page.
     update_message: Veuillez mettre à jour votre navigateur.
     close_warning: Ignorer cet avertissement.
   oauth:
@@ -2959,8 +2967,8 @@ fr:
       new: Nouvelle application Oauth
       default_scopes: "(Portée par défaut)"
       instructions:
-        name: The name of your application. This will be displayed to other users
-          upon authorization.
+        name: Le nom de votre application. Ceci sera affiché aux autres utilisateurs
+          sur autorisation.
         redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
           One entry per line. <br/> If you''re registering a desktop application,
           use the following URL.

@@ -1091,6 +1091,7 @@ lt:
     darbų paketas negali būti atvertas
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Prašome pasirinkti vartotoją ir rolę.
+  error_code: Error %{code}
   error_cookie_missing: OpenProject sausainėlis nerastas. Prašome patikrinti, ar sausainėliai
     yra įgalinti, nes kitaip aplikacija tinkamai neveiks.
   error_custom_option_not_found: Galimybė neegzistuoja.
@@ -1114,6 +1115,10 @@ lt:
   error_work_package_not_found_in_project: Darbų paketas nerastas arba nepriklauso
     šiam projektui
   error_must_be_project_member: turi būti projekto narys
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Numatytoji darbų paketo būsena nenustatyta.
     Prašome patikrinti nustatymus (Eiti į „Administravimas“->„Darbų paketų būsenos“).
   error_no_type_in_project: Joks tipas nepriskirtas šiam projektui. Prašome patikrinti
@@ -1675,6 +1680,7 @@ lt:
   label_updated_time: Atnaujinta prieš %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author} atnaujino prieš %{age}"
+  label_upgrade_guides: Upgrade guides
   label_used_by: Naudotas
   label_used_by_types: Naudojama šių tipų
   label_used_in_projects: Naudojama šių projektų

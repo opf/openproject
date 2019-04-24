@@ -979,6 +979,7 @@ zh-TW:
   error_can_not_reopen_work_package_on_closed_version: 被指定到已關閉版本的工作項目將無法重新開啟
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: 請選擇一個使用者與一個角色。
+  error_code: Error %{code}
   error_cookie_missing: OpenProject的Cookie遺失了。請確保瀏覽器的Cookie已經啟用，否則本應用程式將無法正常做用。
   error_custom_option_not_found: 選項不存在。
   error_dependent_work_package: '相關工作包中的錯誤%{related_id} %{related_subject}: %{error}'
@@ -995,6 +996,10 @@ zh-TW:
   error_work_package_done_ratios_not_updated: 工作項目完成比例未更新
   error_work_package_not_found_in_project: 工作項目找不到或是不屬於這個專案
   error_must_be_project_member: 必須是專案的成員
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: 沒有定義預設的工作項目狀態。請檢查您的設定 (前往 "管理 -> 工作項目狀態")。
   error_no_type_in_project: 這個專案沒有關聯的類型，請檢查專案設定。
   error_omniauth_registration_timed_out: 外部身份驗證註冊逾時，請再試一次。
@@ -1539,6 +1544,7 @@ zh-TW:
   label_updated_time: "%{value}前更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: 由%{author}於%{age}前更新
+  label_upgrade_guides: Upgrade guides
   label_used_by: 使用者
   label_used_by_types: 被類別使用中
   label_used_in_projects: 被專案使用中

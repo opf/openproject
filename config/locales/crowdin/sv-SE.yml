@@ -1055,6 +1055,7 @@ sv-SE:
     en stängd version kan inte öppnas igen
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Välj en användare och en roll.
+  error_code: Error %{code}
   error_cookie_missing: OpenProject cookie saknas. Vänligen kontrollera att cookies
     är aktiverade, eftersom detta program inte fungerar korrekt annars.
   error_custom_option_not_found: Alternativet finns inte.
@@ -1079,6 +1080,10 @@ sv-SE:
   error_work_package_not_found_in_project: Arbetspaketet hittades inte eller hör inte
     till detta projekt
   error_must_be_project_member: måste vara projektmedlem
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Inget standardvärde för status för arbetspaket
     har definieras. Vänligen kontrollera din konfiguration (gå till "Administration->
     arbetspaket status").
@@ -1638,6 +1643,7 @@ sv-SE:
   label_updated_time: Uppdaterad %{value} sen
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Uppdaterad av %{author} %{age} sen
+  label_upgrade_guides: Upgrade guides
   label_used_by: Används av
   label_used_by_types: Används av typer
   label_used_in_projects: Används i projekt

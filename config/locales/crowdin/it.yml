@@ -1076,6 +1076,7 @@ it:
     assegnata ad una versione chiusa non può essere riaperta
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Si prega di scegliere un utente e un ruolo.
+  error_code: Error %{code}
   error_cookie_missing: Il cookie di OpenProject è mancante. Prego, verifica che i
     cookie siano attivati, questa applicazione non funziona correttamente senza.
   error_custom_option_not_found: L'opzione non esiste.
@@ -1100,6 +1101,10 @@ it:
   error_work_package_not_found_in_project: La macro-attività (work package) non è
     stata trovato o non appartiene a questo progetto
   error_must_be_project_member: deve essere membro del progetto
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Non è configurato alcuno stato predefinito
     per le macro-attività. Per favore controlla la tua configurazione (vai a "Amministrazione
     -> Stato macro-attività").
@@ -1668,6 +1673,7 @@ it:
   label_updated_time: Aggiornato %{value} fa
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: Aggiornato da %{author} %{age} fa
+  label_upgrade_guides: Upgrade guides
   label_used_by: Usato da
   label_used_by_types: Utilizzato dai tipi
   label_used_in_projects: Utilizzato nei progetti

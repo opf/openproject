@@ -1087,6 +1087,7 @@ fil:
     sa isinarang bersyon na hindi pwede buksan muli
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Mangyaring pumili ng gumagamit at tungkulin.
+  error_code: Error %{code}
   error_cookie_missing: Ang OpenProject cookie ay nawawala. Mangyaring siguraduhin
     na ang mga cookie ay pinagana, bilang aplikasyon na ito ay hindi gumagana ng maayos
     na hindi kasama ang.
@@ -1112,6 +1113,10 @@ fil:
   error_work_package_not_found_in_project: Ang work package ay hindi natagpuan o hindi
     kabilang sa proyektong ito
   error_must_be_project_member: dapat ay miyembro ng proyekto
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Walang default work package estado ang tinukoy.
     Mangyaring suriin ang iyong kumpigurasyon ( Pumunta sa "Administration -> Work
     package statuses").
@@ -1680,6 +1685,7 @@ fil:
   label_updated_time: I-update ang nakalipas na %{value}
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: Naka-update sa %{author}%{age} na nakalipas
+  label_upgrade_guides: Upgrade guides
   label_used_by: Ginamit ni
   label_used_by_types: Ginamit sa mga uri
   label_used_in_projects: Ginamit sa mga proyekto

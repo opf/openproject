@@ -1096,6 +1096,7 @@ ru:
   error_can_not_find_all_resources: Не удалось найти все связанные с этим запросом
     ресурсы.
   error_check_user_and_role: Пожалуйста, выберите пользователя и роль.
+  error_code: Error %{code}
   error_cookie_missing: Отсутствуют cookie OpenProject. Пожалуйста, убедитесь, что
     Cookie разрешены. Без них приложение не будет функционировать должным образом.
   error_custom_option_not_found: Параметр не существует.
@@ -1120,6 +1121,10 @@ ru:
   error_work_package_not_found_in_project: Пакет работ не найден или не принадлежит
     к этому проекту
   error_must_be_project_member: должен быть участник проекта
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Пакету работ не может быть присвоен статус
     по умолчанию. Пожалуйста, проверьте конфигурацию («Администрирование –> Статус
     пакета работ»).
@@ -1684,6 +1689,7 @@ ru:
   label_updated_time: Обновлено %{value} назад
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Обновил %{author} %{age} назад
+  label_upgrade_guides: Upgrade guides
   label_used_by: Используется
   label_used_by_types: Используемые типы
   label_used_in_projects: Используется в проектах

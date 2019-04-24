@@ -1079,6 +1079,7 @@ he:
     אינה יכולה להפתח מחדש
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: נא לבחור משתמש ותפקיד.
+  error_code: Error %{code}
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
@@ -1102,6 +1103,10 @@ he:
   error_work_package_not_found_in_project: חבילת העבודה לא נמצאה או לא שייכת לפרוייקט
     זה
   error_must_be_project_member: חייב להיות חבר בפרוייקט
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: אין הגדרת סטטוס ברירת מחדל לחבילת עבודה. אנא
     בדוק את ההגדרות שלך (לך אל ״ניהול -> סטטוסי חבילת עבודה״).
   error_no_type_in_project: אין סוג המשויך לפרויקט זה. אנא בדוק את הגדרות הפרוייקט.
@@ -1658,6 +1663,7 @@ he:
   label_updated_time: Updated %{value} ago
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Updated by %{author} %{age} ago
+  label_upgrade_guides: Upgrade guides
   label_used_by: Used by
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects

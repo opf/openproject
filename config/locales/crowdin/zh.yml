@@ -978,6 +978,7 @@ zh:
   error_can_not_reopen_work_package_on_closed_version: 不能重新打开一个已经分配给已关闭版本的工作包
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: 请选择用户和角色。
+  error_code: Error %{code}
   error_cookie_missing: OpenProject cookie 丢失。请确保已启用 cookie，因为如果不启用，此应用程序将无法正常运行。
   error_custom_option_not_found: 选项不存在。
   error_dependent_work_package: '相关工作包中的错误%{related_id} %{related_subject}: %{error}'
@@ -994,6 +995,10 @@ zh:
   error_work_package_done_ratios_not_updated: 工作包完成比率不更新。
   error_work_package_not_found_in_project: 工作包找不到或不属于此项目
   error_must_be_project_member: 必须是项目成员
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: 没有定义默认的工作包状态。请检查您的配置 （转到"管理-> 工作包状态"）。
   error_no_type_in_project: 没有类型与此项目关联。请检查的项目设置。
   error_omniauth_registration_timed_out: 通过外部身份验证提供程序注册超时。请再试一次。
@@ -1538,6 +1543,7 @@ zh:
   label_updated_time: "%{value} 前更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author} 于 %{age} 前更新"
+  label_upgrade_guides: Upgrade guides
   label_used_by: 使用于
   label_used_by_types: 用于类型
   label_used_in_projects: 用于项目

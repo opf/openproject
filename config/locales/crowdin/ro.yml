@@ -1084,6 +1084,7 @@ ro:
     la o versiune închisă nu poate fi redeschis
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Alegeți un utilizator și un rol.
+  error_code: Error %{code}
   error_cookie_missing: Cookie-ul OpenProject lipseşte. Vă rugăm să verificați setările
     referitoare la cookies, această aplicație nu va funcţiona corespunzător fără acestea.
   error_custom_option_not_found: Option does not exist.
@@ -1108,6 +1109,10 @@ ro:
   error_work_package_not_found_in_project: Pachetul de lucru nu a fost găsit sau nu
     aparține acestui proiect
   error_must_be_project_member: trebuie să fie membru al proiectului
+  error_migrations_are_pending: Your OpenProject installation has pending database
+    migrations. You have likely missed running the migrations on your last upgrade.
+    Please check the upgrade guide to properly upgrade your installation.
+  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
   error_no_default_work_package_status: Nu există un status implicit al pachetelor
     de lucru. Verificați configurația ("Administrare -> Stări pachete de lucru").
   error_no_type_in_project: Nu există un tip asociat cu proiectul. Verificați setările
@@ -1671,6 +1676,7 @@ ro:
   label_updated_time: Actualizat acum %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Actualizat de către %{author} acum %{age}
+  label_upgrade_guides: Upgrade guides
   label_used_by: Folosit de
   label_used_by_types: Folosit/ă/e de tipurile
   label_used_in_projects: Folosit/ă/e în proiectele
