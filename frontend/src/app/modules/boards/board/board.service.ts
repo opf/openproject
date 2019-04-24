@@ -54,7 +54,7 @@ export class BoardService {
       .allInScope()
       .toPromise()
       .then((boards) => {
-        boards.forEach(b => this.boardCache.update(b));
+        boards.forEach(b => this.buildOrderAndUpdate(b));
         return boards;
       });
   }
@@ -129,5 +129,13 @@ export class BoardService {
       el.endColumn = index + 2;
       return el;
     });
+  }
+
+  /**
+   * Put the board widgets in correct order and update cache
+   */
+  private buildOrderAndUpdate(board:Board) {
+    board.sortWidgets();
+    this.boardCache.update(board);
   }
 }
