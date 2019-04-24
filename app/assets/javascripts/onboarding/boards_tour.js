@@ -9,7 +9,7 @@
                     $('.board-view-menu-item ~ .toggler')[0].click();
 
                     waitForElement('.boards--menu-items', '#main-menu', function() {
-                      $(".main-menu--children-sub-item:contains('KANBAN')")[0].click();
+                      $(".main-menu--children-sub-item:contains('Kanban')")[0].click();
                     });
                 }
             },
@@ -27,7 +27,7 @@
                 }
             },
             {
-                'next .board-list--card-dropdown-button': I18n.t('js.onboarding.steps.boards.add'),
+                'next .board-list--add-button': I18n.t('js.onboarding.steps.boards.add'),
                 'showSkip': false,
                 'nextButton': {text: I18n.t('js.onboarding.buttons.next')},
             },

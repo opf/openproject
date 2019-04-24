@@ -124,9 +124,9 @@
             waitForElement('.work-package--results-tbody', '#content', function() {
                 var steps;
 
-                // Check for EE edition, available seed data of boards, and correct project.
+                // Check for EE edition, and available seed data of boards.
                 // Then add boards to the tour, otherwise skip it.
-                if (eeTokenAvailable && boardsDemoDataAvailable && currentTourPart !== 'startMainTourFromBacklogs') {
+                if (eeTokenAvailable && boardsDemoDataAvailable) {
                     steps = wpOnboardingTourSteps.concat(boardTourSteps).concat(menuTourSteps);
                 } else {
                     steps = wpOnboardingTourSteps.concat(menuTourSteps);
