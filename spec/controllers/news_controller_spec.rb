@@ -145,7 +145,7 @@ describe NewsController, type: :controller do
       expect(assigns(:news)).not_to be_nil
       expect(assigns(:news)).to be_new_record
 
-      expect(response.body).to have_selector('div#errorExplanation', text: /1 error/)
+      expect(response.body).to have_selector('div.notification-box.-error', text: /1 error/)
     end
   end
 

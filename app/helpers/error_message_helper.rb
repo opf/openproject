@@ -34,7 +34,7 @@ module ErrorMessageHelper
 
     error_messages = objects.map { |o| o.errors.full_messages }.flatten
 
-    render_error_messages_partial(error_messages, options[:object])
+    render_error_messages_partial(error_messages, options)
   end
 
   # Will take a contract to display the errors in a rails form.
@@ -51,7 +51,7 @@ module ErrorMessageHelper
       end
     end
 
-    render_error_messages_partial(error_messages, object)
+    render_error_messages_partial(error_messages, { object: object })
   end
 
   def extract_objects_from_params(params)
@@ -68,11 +68,12 @@ module ErrorMessageHelper
     [objects.compact, options]
   end
 
-  def render_error_messages_partial(messages, object)
+  def render_error_messages_partial(messages, options)
     unless messages.empty?
       render partial: 'common/validation_error',
              locals: { error_messages: messages,
-                       object_name:  object.class.model_name.human }
+                       classes: options[:classes],
+                       object_name:  options[:object].class.model_name.human }
     end
   end
 end

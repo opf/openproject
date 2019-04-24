@@ -1,0 +1,26 @@
+.warning-bar--wrapper
+  position: fixed
+  bottom: 0
+  z-index: 1001
+  width: 100%
+
+.warning-bar--item
+  background-color: #f4f4aa
+  padding: 10px
+
+  h1
+    font-size: 12px
+    font-weight: bold
+
+  p
+    font-size: 0.9rem
+    margin: 0
+
+  a
+    font-weight: bold
+
+.unsupported-browser-warning--icon
+  cursor: pointer
+
+  .unsupported-browser-warning--pane:hover &:before
+    @include icon-mixin-close

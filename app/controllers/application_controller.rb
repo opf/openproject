@@ -42,6 +42,7 @@ class ApplicationController < ActionController::Base
   include I18n
   include Redmine::I18n
   include HookHelper
+  include ErrorsHelper
   include ::OpenProject::Authentication::SessionExpiry
   include AdditionalUrlHelpers
   include OpenProjectErrorHelper
@@ -111,6 +112,10 @@ class ApplicationController < ActionController::Base
   rescue_from ActionController::ParameterMissing do |exception|
     render body:   "Required parameter missing: #{exception.param}",
            status: :bad_request
+  end
+
+  rescue_from StandardError do |exception|
+    render_500 exception: exception
   end
 
   before_action :user_setup,
@@ -455,73 +460,6 @@ class ApplicationController < ActionController::Base
     )
 
     redirect_to policy.redirect_url
-  end
-
-  def render_400(options = {})
-    @project = nil
-    render_error({ message: :notice_bad_request, status: 400 }.merge(options))
-    false
-  end
-
-  def render_403(options = {})
-    @project = nil
-    render_error({ message: :notice_not_authorized, status: 403 }.merge(options))
-    false
-  end
-
-  def render_404(options = {})
-    render_error({ message: :notice_file_not_found, status: 404 }.merge(options))
-    false
-  end
-
-  def render_500(options = {})
-    message = t(:notice_internal_server_error, app_title: Setting.app_title)
-
-    if $ERROR_INFO.is_a?(ActionView::ActionViewError)
-      @template.instance_variable_set('@project', nil)
-      @template.instance_variable_set('@status', 500)
-      @template.instance_variable_set('@message', message)
-    else
-      @project = nil
-    end
-
-    render_error({ message: message }.merge(options))
-    false
-  end
-
-  def render_optional_error_file(status_code)
-    user_setup unless User.current.id == session[:user_id]
-
-    case status_code
-    when :not_found
-      render_404
-    when :internal_server_error
-      render_500
-    else
-      super
-    end
-  end
-
-  # Renders an error response
-  def render_error(arg)
-    arg = { message: arg } unless arg.is_a?(Hash)
-
-    @status = arg[:status] || 500
-    @message = arg[:message]
-
-    if @status >= 500
-      op_handle_error "[Error #@status] #@message"
-    end
-
-    @message = l(@message) if @message.is_a?(Symbol)
-    respond_to do |format|
-      format.html do
-        render template: 'common/error', layout: use_layout, status: @status
-      end
-      format.any do
-        head @status
-      end
-    end
   end
 
   # Picks which layout to use based on the request

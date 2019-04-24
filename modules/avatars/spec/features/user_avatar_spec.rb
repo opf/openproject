@@ -21,7 +21,7 @@ describe 'User avatar management', type: :feature, js: true do
     let(:target_user) { user }
     it 'forbids the user to access' do
       visit avatar_management_path
-      expect(page).to have_selector('h2', text: '403')
+      expect(page).to have_text('[Error 403]')
     end
   end
 
@@ -31,7 +31,7 @@ describe 'User avatar management', type: :feature, js: true do
 
     it 'forbids the user to access' do
       visit avatar_management_path
-      expect(page).to have_selector('h2', text: '403')
+      expect(page).to have_text('[Error 403]')
     end
   end
 

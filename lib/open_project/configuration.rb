@@ -139,7 +139,10 @@ module OpenProject
       # Display update / security badge, enabled by default
       'security_badge_displayed' => true,
       'installation_type' => "manual",
-      'security_badge_url' => "https://releases.openproject.com/v1/check.svg"
+      'security_badge_url' => "https://releases.openproject.com/v1/check.svg",
+
+      # Check for missing migrations in internal errors
+      'migration_check_on_exceptions' => true,
     }
 
     @config = nil

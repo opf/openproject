@@ -1021,6 +1021,7 @@ en:
   error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_can_not_find_all_resources: "Could not find all related resources to this request."
   error_check_user_and_role: "Please choose a user and a role."
+  error_code: "Error %{code}"
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Option does not exist."
   error_dependent_work_package: "Error in dependent work package #%{related_id} %{related_subject}: %{error}"
@@ -1037,6 +1038,8 @@ en:
   error_work_package_done_ratios_not_updated: "Work package done ratios not updated."
   error_work_package_not_found_in_project: "The work package was not found or does not belong to this project"
   error_must_be_project_member: "must be project member"
+  error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
+  error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
   error_no_default_work_package_status: "No default work package status is defined. Please check your configuration (Go to \"Administration -> Work package statuses\")."
   error_no_type_in_project: "No type is associated to this project. Please check the Project settings."
   error_omniauth_registration_timed_out: "The registration via an external authentication provider timed out. Please try again."
@@ -1591,6 +1594,7 @@ en:
   label_updated_time: "Updated %{value} ago"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Updated by %{author} %{age} ago"
+  label_upgrade_guides: 'Upgrade guides'
   label_used_by: "Used by"
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"

@@ -91,7 +91,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= crowdin_in_context_translation %>
 </head>
 <body class="<%= body_css_classes %> __overflowing_element_container __overflowing_body" data-relative_url_root="<%= root_path %>" data-overflowing-identifier=".__overflowing_body">
-<%= render partial: 'browser/unsupported_browser' if unsupported_browser? %>
+<%= render partial: 'warning_bar/warning_bar' %>
 <noscript>
   <div class="top-shelf">
     <p>
