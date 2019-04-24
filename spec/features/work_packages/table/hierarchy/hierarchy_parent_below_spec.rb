@@ -41,6 +41,7 @@ describe 'Work Package table hierarchy parent below', js: true do
     let(:query) do
       query              = FactoryBot.build(:query, user: user, project: project)
       query.column_names = ['id', 'subject', 'type']
+      query.sort_criteria = [%w(id asc)]
       query.filters.clear
       query.add_filter('type_id', '=', [type_task.id])
       query.show_hierarchies = true
@@ -102,7 +103,7 @@ describe 'Work Package table hierarchy parent below', js: true do
     let(:query) do
       query              = FactoryBot.build(:query, user: user, project: project)
       query.column_names = %w(id subject)
-      query.sort_criteria = [%w(subject asc)]
+      query.sort_criteria = [%w(subject asc), %w(id asc)]
       query.show_hierarchies = true
 
       query.save!
