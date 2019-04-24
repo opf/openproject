@@ -124,7 +124,7 @@ module Pages
     def create_wp_split_screen(type)
       click_wp_create_button
 
-      find('#types-context-menu .menu-item', text: type, wait: 10).click
+      find('#types-context-menu .menu-item', text: type.name.upcase, wait: 10).click
 
       SplitWorkPackageCreate.new(project: project)
     end
@@ -137,14 +137,14 @@ module Pages
       click_wp_create_button
 
       expect(page)
-        .to have_selector('#types-context-menu .menu-item', text: type.name)
+        .to have_selector('#types-context-menu .menu-item', text: type.name.upcase)
     end
 
     def expect_type_not_available_for_create(type)
       click_wp_create_button
 
       expect(page)
-        .to have_no_selector('#types-context-menu .menu-item', text: type.name)
+        .to have_no_selector('#types-context-menu .menu-item', text: type.name.upcase)
     end
 
     def open_split_view(work_package)

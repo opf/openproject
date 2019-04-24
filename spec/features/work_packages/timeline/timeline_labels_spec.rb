@@ -120,13 +120,13 @@ RSpec.feature 'Work package timeline labels',
     # Check overriden labels
     row = wp_timeline.timeline_row work_package.id
     row.expect_labels left: user.name,
-                      right: type.name,
+                      right: type.name.upcase,
                       farRight: work_package.status.name
 
     # Check default labels (milestone)
     row = wp_timeline.timeline_row milestone_work_package.id
     row.expect_labels left: '-',
-                      right: milestone_type.name,
+                      right: milestone_type.name.upcase,
                       farRight: milestone_work_package.status.name
 
     # Save the query
@@ -147,13 +147,13 @@ RSpec.feature 'Work package timeline labels',
     # Check overridden labels
     row = wp_timeline.timeline_row work_package.id
     row.expect_labels left: user.name,
-                      right: type.name,
+                      right: type.name.upcase,
                       farRight: work_package.status.name
 
     # Check overridden labels (milestone)
     row = wp_timeline.timeline_row milestone_work_package.id
     row.expect_labels left: '-',
-                      right: milestone_type.name,
+                      right: milestone_type.name.upcase,
                       farRight: milestone_work_package.status.name
 
     # Set labels to start|due|subject

@@ -132,8 +132,8 @@ describe 'Work Package highlighting fields',
     expect(query.highlighting_mode).to eq(:status)
 
     ## This disables any inline styles
-    expect(page).to have_no_selector('[class*="__hl_inlinestatus"]')
-    expect(page).to have_no_selector('[class*="__hl_inlinepriority"]')
+    expect(page).to have_no_selector('[class*="__hl_inline_status"]')
+    expect(page).to have_no_selector('[class*="__hl_inline_priority"]')
     expect(page).to have_no_selector('[class*="__hl_date"]')
 
     # Highlight entire row by priority
@@ -156,15 +156,15 @@ describe 'Work Package highlighting fields',
     expect(query.highlighting_mode).to eq(:priority)
 
     ## This disables any inline styles
-    expect(page).to have_no_selector('[class*="__hl_inlinestatus"]')
-    expect(page).to have_no_selector('[class*="__hl_inlinepriority"]')
+    expect(page).to have_no_selector('[class*="__hl_inline_status"]')
+    expect(page).to have_no_selector('[class*="__hl_inline_priority"]')
     expect(page).to have_no_selector('[class*="__hl_date"]')
 
     # No highlighting
     highlighting.switch_highlighting_mode 'No highlighting'
     expect(page).to have_no_selector('[class*="__hl_background"]')
-    expect(page).to have_no_selector('[class*="__hl_inlinestatus"]')
-    expect(page).to have_no_selector('[class*="__hl_inlinepriority"]')
+    expect(page).to have_no_selector('[class*="__hl_background_status"]')
+    expect(page).to have_no_selector('[class*="__hl_background_priority"]')
     expect(page).to have_no_selector('[class*="__hl_date"]')
 
     # Save query
@@ -175,7 +175,7 @@ describe 'Work Package highlighting fields',
 
     # Expect highlighted fields in single view even when table disabled
     wp_table.open_full_screen_by_doubleclick wp_1
-    expect(page).to have_selector(".wp-status-button .__hl_inlinestatus_#{status1.id}")
+    expect(page).to have_selector(".wp-status-button .__hl_background_status_#{status1.id}")
     expect(page).to have_selector(".__hl_inline_priority_#{priority1.id}")
   end
 end

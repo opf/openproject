@@ -72,7 +72,7 @@ describe 'new work package', js: true do
 
   shared_examples 'work package creation workflow' do
     before do
-      create_method.call('Task', project.name)
+      create_method.call(type_task, project.name)
 
       expect(page).to have_selector(safeguard_selector, wait: 10)
     end
@@ -89,10 +89,10 @@ describe 'new work package', js: true do
 
       subject_field.expect_state_text(subject)
 
-      create_method.call('Bug', project.name)
+      create_method.call(type_bug, project.name)
       expect(page).to have_selector(safeguard_selector, wait: 10)
 
-      type_field.expect_state_text 'Bug'
+      type_field.expect_state_text type_bug.name
     end
 
     it 'saves the work package with enter' do
@@ -142,12 +142,12 @@ describe 'new work package', js: true do
         wp_page.subject_field.set(subject)
         type_field.activate!
         type_field.openSelectField
-        type_field.set_value 'Bug'
+        type_field.set_value type_bug.name
 
         save_work_package!
 
         wp_page.expect_attributes subject: subject
-        wp_page.expect_attributes type: 'Bug'
+        wp_page.expect_attributes type: type_bug.name.upcase
       end
 
       context 'custom fields' do
@@ -217,7 +217,7 @@ describe 'new work package', js: true do
     it 'reloads the table and selects the new work package' do
       expect(page).to have_no_selector('.wp--row')
 
-      create_work_package('Task', project.name)
+      create_work_package(type_task, project.name)
       expect(page).to have_selector(safeguard_selector, wait: 10)
 
       wp_page.subject_field.set('new work package')

@@ -122,7 +122,7 @@ describe 'edit work package', js: true do
                               status: status2.name,
                               description: 'a new description'
 
-    wp_page.expect_attributes type: type2.name,
+    wp_page.expect_attributes type: type2.name.upcase,
                               responsible: manager.name,
                               assignee: manager.name,
                               startDate: '03/04/2013',

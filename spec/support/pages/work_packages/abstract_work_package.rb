@@ -264,11 +264,11 @@ module Pages
     def click_create_wp_button(type)
       find('.add-work-package:not([disabled])', text: 'Create').click
 
-      find('#types-context-menu .menu-item', text: type, wait: 10).click
+      find('#types-context-menu .menu-item', text: type.name.upcase, wait: 10).click
     end
 
     def select_type(type)
-      find(@type_field_selector + ' option', text: type).select_option
+      find(@type_field_selector + ' option', text: type.name.upcase).select_option
     end
 
     def subject_field
