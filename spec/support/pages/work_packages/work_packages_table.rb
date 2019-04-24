@@ -83,9 +83,13 @@ module Pages
     end
 
     def expect_work_package_order(*ids)
-      rows = page.all '.wp-table--row'
-      ids = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
-      expect(rows.map { |el| el['data-work-package-id'] }).to match_array(ids)
+      retry_block do
+        rows = page.all '.wp-table--row'
+        expected = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
+        found = rows.map { |el| el['data-work-package-id'] }
+
+        raise "Order is incorrect: #{found.inspect} != #{expected.inspect}" unless found == expected
+      end
     end
 
     def expect_no_work_package_listed
