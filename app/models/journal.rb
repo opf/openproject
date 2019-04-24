@@ -59,19 +59,17 @@ class Journal < ActiveRecord::Base
   # Note for PostgreSQL: If this is called from inside a transaction, the lock will last until the
   #   end of that transaction.
   # Note for MySQL: THis method does not currently change anything (no locking at all)
-  def self.with_write_lock
+  def self.with_write_lock(journable)
+    lock_name =
     if OpenProject::Database.mysql?
-      Journal.transaction do
-        # MySQL is very weak when combining transactions and locks. Using an emulation layer to
-        # automatically release an advisory lock at the end of the transaction
-        TransactionalLock::AdvisoryLock.new('journals.write_lock').acquire
-        yield
-      end
+      # MySQL only supports a single lock
+      "journals.write_lock"
     else
-      Journal.transaction do
-        ActiveRecord::Base.connection.execute("LOCK TABLE #{table_name} IN SHARE ROW EXCLUSIVE MODE")
-        yield
-      end
+      "journal.#{journable.class}.#{journable.id}"
+    end
+
+    Journal.with_advisory_lock(lock_name, timeout_seconds: 60) do
+      yield
     end
   end
 
