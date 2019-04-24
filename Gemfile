@@ -138,8 +138,7 @@ gem 'lograge', '~> 0.10.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 8.0.1', require: false
 
-gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.git',
-                          branch: 'master'
+gem 'with_advisory_lock'
 
 gem 'prawn', '~> 2.2'
 gem 'prawn-table', '~> 0.2.2'
