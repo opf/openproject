@@ -2921,7 +2921,7 @@ tr:
         başarılı oldu."
       none_given: Hiçbir OAuth uygulamasına kullanıcı hesabınıza erişim izni verilmedi.
     x_active_tokens:
-      one: "%{count} aktif belirteç"
+      one: "%{count} bir aktif belirteç"
       other: "%{count} active token"
     flows:
       authorization_code: Yetki kodu akışı

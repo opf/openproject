@@ -967,7 +967,7 @@ lol:
   error_can_not_reopen_work_package_on_closed_version: crwdns124132:0crwdne124132:0
   error_can_not_find_all_resources: crwdns129684:0crwdne129684:0
   error_check_user_and_role: crwdns124134:0crwdne124134:0
-  error_code: Error %{code}
+  error_code: crwdns129688:0%{code}crwdne129688:0
   error_cookie_missing: crwdns124136:0crwdne124136:0
   error_custom_option_not_found: crwdns124138:0crwdne124138:0
   error_dependent_work_package: crwdns124140:0%{related_id}crwdnd124140:0%{related_subject}crwdnd124140:0%{error}crwdne124140:0
@@ -984,10 +984,8 @@ lol:
   error_work_package_done_ratios_not_updated: crwdns124162:0crwdne124162:0
   error_work_package_not_found_in_project: crwdns124164:0crwdne124164:0
   error_must_be_project_member: crwdns124166:0crwdne124166:0
-  error_migrations_are_pending: Your OpenProject installation has pending database
-    migrations. You have likely missed running the migrations on your last upgrade.
-    Please check the upgrade guide to properly upgrade your installation.
-  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
+  error_migrations_are_pending: crwdns129690:0crwdne129690:0
+  error_migrations_visit_upgrade_guides: crwdns129692:0crwdne129692:0
   error_no_default_work_package_status: crwdns124168:0crwdne124168:0
   error_no_type_in_project: crwdns124170:0crwdne124170:0
   error_omniauth_registration_timed_out: crwdns124172:0crwdne124172:0
@@ -1531,7 +1529,7 @@ lol:
   label_updated_time: crwdns125208:0%{value}crwdne125208:0
   label_updated_time_at: crwdns125210:0%{author}crwdnd125210:0%{age}crwdne125210:0
   label_updated_time_by: crwdns125212:0%{author}crwdnd125212:0%{age}crwdne125212:0
-  label_upgrade_guides: Upgrade guides
+  label_upgrade_guides: crwdns129694:0crwdne129694:0
   label_used_by: crwdns125214:0crwdne125214:0
   label_used_by_types: crwdns125216:0crwdne125216:0
   label_used_in_projects: crwdns125218:0crwdne125218:0
