@@ -68,9 +68,15 @@ class Journal < ActiveRecord::Base
       "journal.#{journable.class}.#{journable.id}"
     end
 
-    Journal.with_advisory_lock(lock_name, timeout_seconds: 60) do
+    result = Journal.with_advisory_lock_result(lock_name, timeout_seconds: 60) do
       yield
     end
+
+    unless result.lock_was_acquired?
+      raise "Failed to acquire write lock to journable #{journable.class} #{journable.id}"
+    end
+
+    result.result
   end
 
   def changed_data=(changed_attributes)
