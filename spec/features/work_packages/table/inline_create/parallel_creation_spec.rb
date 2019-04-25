@@ -36,7 +36,7 @@ describe 'Parallel work package creation spec', js: true do
     subject_field.set_value subject
 
     # Create in split screen
-    split = wp_table.create_wp_split_screen type.name
+    split = wp_table.create_wp_split_screen type
     description_field = WorkPackageEditorField.new split, 'description'
     description_field.expect_active!
     description_field.set_value description

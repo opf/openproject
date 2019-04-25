@@ -50,6 +50,7 @@ import {NgSelectComponent} from "@ng-select/ng-select";
 import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {Subject} from "rxjs";
+import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -202,6 +203,10 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     if (this.noResults) {
       this.searchInScope(this.currentScope);
     }
+  }
+
+  public statusHighlighting(statusId:string) {
+    return Highlighting.inlineClass('status', statusId);
   }
 
   // get work packages result list and append it to suggestions

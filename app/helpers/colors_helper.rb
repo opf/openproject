@@ -66,20 +66,22 @@ module ColorsHelper
       color = entry.color
 
       if color.nil?
-        concat ".__hl_dot_#{name}_#{entry.id}::before { display: none }\n"
+        concat ".__hl_inline_#{name}_#{entry.id}::before { display: none }\n"
         next
       end
 
       styles = color.color_styles
 
-      inline_style = styles.map { |k,v| "#{k}:#{v} !important"}.join(';')
-      row_style = "background-color: #{color.hexcode} !important;"
-
+      background_style = styles.map { |k,v| "#{k}:#{v} !important"}.join(';')
       border_color = color.bright? ? '#555555' : color.hexcode
 
-      concat ".__hl_inl_#{name}_#{entry.id} { #{inline_style}; }\n"
-      concat ".__hl_dot_#{name}_#{entry.id}::before { #{inline_style}; border-color: #{border_color}; }\n"
-      concat ".__hl_row_#{name}_#{entry.id} { #{row_style}; }\n"
+      if name === 'type'
+        concat ".__hl_inline_#{name}_#{entry.id} { color: #{color.hexcode} !important;}"
+      else
+        concat ".__hl_inline_#{name}_#{entry.id}::before { #{background_style}; border-color: #{border_color}; }\n"
+      end
+
+      concat ".__hl_background_#{name}_#{entry.id} { #{background_style}; }\n"
 
       # Mark color as bright through CSS variable
       # so it can be used to add a separate -bright class

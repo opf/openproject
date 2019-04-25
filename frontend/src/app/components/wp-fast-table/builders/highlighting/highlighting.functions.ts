@@ -1,14 +1,10 @@
 export namespace Highlighting {
-  export function rowClass(property:string, id:string|number) {
-    return `__hl_row_${property}_${id}`;
+  export function backgroundClass(property:string, id:string|number) {
+    return `__hl_background_${property}_${id}`;
   }
 
   export function inlineClass(property:string, id:string|number) {
-    return `__hl_inl_${property}_${id}`;
-  }
-
-  export function dotClass(property:string, id:string|number) {
-    return `__hl_dot_${property}_${id}`;
+    return `__hl_inline_${property}_${id}`;
   }
 
   /**

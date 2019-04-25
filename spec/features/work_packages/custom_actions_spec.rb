@@ -424,7 +424,7 @@ describe 'Custom actions', type: :feature, js: true do
 
     wp_page.expect_attributes assignee: '-',
                               status: rejected_status.name,
-                              type: other_type.name,
+                              type: other_type.name.upcase,
                               "customField#{date_custom_field.id}" => (Date.today + 5.days).strftime('%m/%d/%Y')
     expect(page)
       .to have_content(I18n.t('js.project.work_package_belongs_to', projectname: other_project.name))

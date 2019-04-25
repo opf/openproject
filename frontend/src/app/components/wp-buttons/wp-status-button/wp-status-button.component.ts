@@ -89,7 +89,7 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
   public get statusHighlightClass() {
     let status = this.status;
     if (!status) { return }
-    return Highlighting.inlineClass('status', status.id!);
+    return Highlighting.backgroundClass('status', status.id!);
   }
 
   public get status():HalResource|undefined {

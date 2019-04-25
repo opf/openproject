@@ -87,8 +87,17 @@
   a.-dark
     color: white
 
-[class^='__hl_dot_'],
-[class*=' __hl_dot_']
+
+// -------------------------- Highlighting colors -----------------------------
+// Inline: type
+[class^='__hl_inline_type'],
+[class*=' __hl_inline_type']
+  text-transform: uppercase
+  font-weight: bold
+
+// Inline: all except type
+[class^='__hl_inline_']:not([class^='__hl_inline_type']),
+[class*=' __hl_inline_']:not([class*='__hl_inline_type'])
   &::before
     content: ''
     display: inline-block
@@ -103,8 +112,8 @@
       height: 10px
 
 @mixin dot_border_width_style
-  [class^='__hl_dot_'],
-  [class*=' __hl_dot_']
+  [class^='__hl_inline_'],
+  [class*=' __hl_inline_']
     &::before
       border-width: 1px
       border-style: solid

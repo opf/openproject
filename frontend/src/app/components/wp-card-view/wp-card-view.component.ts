@@ -149,7 +149,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
   }
 
   public wpTypeAttribute(wp:WorkPackageResource) {
-    return wp.type.name + ':';
+    return wp.type.name;
   }
 
   public wpSubject(wp:WorkPackageResource) {
@@ -161,19 +161,19 @@ export class WorkPackageCardViewComponent  implements OnInit {
   }
 
   public typeHighlightingClass(wp:WorkPackageResource) {
-    return this.attributeDotHighlighting('type', wp);
+    return this.attributeHighlighting('type', wp);
   }
 
   private cardHighlighting(wp:WorkPackageResource) {
     if (['status', 'priority', 'type'].includes(this.highlightingMode)) {
-      return Highlighting.rowClass(this.highlightingMode, wp[this.highlightingMode].id);
+      return Highlighting.backgroundClass(this.highlightingMode, wp[this.highlightingMode].id);
     }
     return '';
   }
 
-  private attributeDotHighlighting(type:string, wp:WorkPackageResource) {
+  private attributeHighlighting(type:string, wp:WorkPackageResource) {
     if (this.highlightingMode === 'inline') {
-      return Highlighting.dotClass(type, wp.type.id!);
+      return Highlighting.inlineClass(type, wp.type.id!);
     }
     return '';
   }
