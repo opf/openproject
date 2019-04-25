@@ -71,7 +71,8 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     name: 'boards.list',
     component: BoardsIndexPageComponent,
     data: {
-      parent: 'boards'
+      parent: 'boards',
+      bodyClasses: 'router--boards-list-view'
     }
   },
   {
@@ -84,7 +85,8 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     component: BoardComponent,
     data: {
-      parent: 'boards'
+      parent: 'boards',
+      bodyClasses: 'router--boards-full-view'
     }
   }
 ];
