@@ -78,7 +78,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
 
   public get value() {
     const val = this.changeset.value(this.name);
-    return val[0];
+    return val ? val[0] : val;
   }
 
   /**
@@ -88,7 +88,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
    */
   public buildSelectedOption() {
     const value:HalResource[] = this.changeset.value(this.name);
-    return value.map(val => this.findValueOption(val));
+    return value ? value.map(val => this.findValueOption(val)) : [];
   }
 
   public get selectedOption() {
