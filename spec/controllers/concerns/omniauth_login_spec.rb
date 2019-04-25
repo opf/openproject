@@ -431,6 +431,24 @@ describe AccountController, type: :controller do
         end
       end
 
+      context 'with an invited user and self registration disabled',
+              with_settings: { self_registration: '0' } do
+        before do
+          user.invite
+          user.save!
+
+          post :omniauth_login, params: { provider: :google }
+        end
+
+        it 'should show a notice about the activated account' do
+          expect(flash[:notice]).to eq(I18n.t('notice_account_registered_and_logged_in'))
+        end
+
+        it 'should activate the user' do
+          expect(user.reload).to be_active
+        end
+      end
+
       context 'with a locked account',
               with_settings: { brute_force_block_after_failed_logins?: false } do
         before do
