@@ -7,6 +7,8 @@
 .warning-bar--item
   background-color: #f4f4aa
   padding: 10px
+  display: flex
+  align-items: center
 
   h1
     font-size: 12px
@@ -19,8 +21,8 @@
   a
     font-weight: bold
 
-.unsupported-browser-warning--icon
+.warning-bar--disable-on-hover
   cursor: pointer
 
-  .unsupported-browser-warning--pane:hover &:before
+  .warning-bar--item:hover &:before
     @include icon-mixin-close

@@ -86,6 +86,10 @@ module OpenProject
               href: 'https://www.openproject.org/operations/upgrading/',
               label: :label_upgrade_guides
             },
+            postgres_migration: {
+              href: 'https://www.openproject.org/operations/upgrading/migrating-packaged-openproject-database-postgresql/',
+              label: :'homescreen.links.postgres_migration'
+            },
             configuration_guide: {
               href: 'https://www.openproject.org/operations/configuration/',
               label: 'links.configuration_guide'

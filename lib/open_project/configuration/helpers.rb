@@ -73,6 +73,7 @@ module OpenProject
         array self['blacklisted_routes']
       end
 
+
       def available_file_uploaders
         uploaders = {
           file: ::LocalFileUploader

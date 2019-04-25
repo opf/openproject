@@ -376,6 +376,10 @@ module ApplicationHelper
       link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")
   end
 
+  def current_layout
+    controller.send :_layout, ["html"]
+  end
+
   # Generates the HTML for a progress bar
   # Params:
   # * pcts:
