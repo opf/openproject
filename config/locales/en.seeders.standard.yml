@@ -399,6 +399,7 @@ en:
               - news
               - wiki
               - work_package_tracking
+              - board_view
             news:
               - title: Welcome to your Scrum demo project
                 summary: >
@@ -516,6 +517,11 @@ en:
                 status: open
                 type: :default_type_task
                 hierarchy: true
+            boards:
+              kanban:
+                name: 'Kanban board'
+              basic:
+                name: 'Task board'
             work_packages:
               - subject: New login screen
                 status: :default_status_in_specification
@@ -528,18 +534,18 @@ en:
                 version: Bug Backlog
                 position: 1
               - subject: New website
-                status: :default_status_new
+                status: :default_status_specified
                 type: :default_type_epic
                 start: 26
                 duration: 0
                 children:
                   - subject: Newsletter registration form
-                    status: :default_status_new
+                    status: :default_status_in_progress
                     type: :default_type_user_story
                     version: Product Backlog
                     position: 6
                   - subject: Implement product tour
-                    status: :default_status_new
+                    status: :default_status_in_specification
                     type: :default_type_user_story
                     version: Product Backlog
                     position: 4
@@ -578,7 +584,7 @@ en:
                     type: :default_type_task
                     version: Sprint 1
               - subject: Wrong hover color
-                status: :default_status_confirmed
+                status: :default_status_rejected
                 type: :default_type_bug
                 version: Sprint 1
                 position: 4
@@ -616,20 +622,20 @@ en:
                 duration: 0
                 children:
                   - subject: Set up navigation concept for website.
-                    status: :default_status_new
+                    status: :default_status_in_specification
                     type: :default_type_task
                     version: Sprint 1
                     start: 25
                     duration: 0
               - subject: Internal link structure
-                status: :default_status_new
+                status: :default_status_closed
                 type: :default_type_user_story
                 version: Product Backlog
                 position: 5
                 start: 25
                 duration: 0
               - subject: Develop v1.0
-                status: :default_status_new
+                status: :default_status_in_progress
                 type: :default_type_phase
                 start: 14
                 duration: 3

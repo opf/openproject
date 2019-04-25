@@ -126,7 +126,16 @@ module DemoData
     def seed_basic_board_queries
       admin = User.admin.first
 
-      lists = query_list_work_package_association
+      wps = if project.name === 'Scrum project'
+              scrum_query_work_packages
+            else
+              basic_query_work_packages
+            end
+
+      lists = [{ name: 'Today', wps: wps[0] },
+               { name: 'Tomorrow', wps: wps[1] },
+               { name: 'Later', wps: wps[2] },
+               { name: 'Never', wps: wps[3] }]
 
       lists.map do |list|
         Query.new(project: project, user: admin).tap do |query|
@@ -142,10 +151,22 @@ module DemoData
           query.save!
         end
       end
+
     end
 
-    def query_list_work_package_association
-      wps = [
+    def scrum_query_work_packages
+      [
+        [WorkPackage.find_by(subject: 'New website').id,
+         WorkPackage.find_by(subject: 'SSL certificate').id,
+         WorkPackage.find_by(subject: 'Choose a content management system').id],
+        [WorkPackage.find_by(subject: 'New login screen').id],
+        [WorkPackage.find_by(subject: 'Set-up Staging environment').id],
+        [WorkPackage.find_by(subject: 'Wrong hover color').id]
+      ]
+    end
+
+    def basic_query_work_packages
+      [
         [WorkPackage.find_by(subject: 'Create a new project').id,
          WorkPackage.find_by(subject: 'Edit a work package').id,
          WorkPackage.find_by(subject: 'Create work packages').id,
@@ -154,11 +175,6 @@ module DemoData
         [WorkPackage.find_by(subject: 'Invite new team members').id],
         [WorkPackage.find_by(subject: 'Customize project overview page').id]
       ]
-
-      [{ name: 'Today', wps: wps[0] },
-       { name: 'Tomorrow', wps: wps[1] },
-       { name: 'Later', wps: wps[2] },
-       { name: 'Never', wps: wps[3] }]
     end
   end
 end
