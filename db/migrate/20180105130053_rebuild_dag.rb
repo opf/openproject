@@ -66,6 +66,8 @@ class RebuildDag < ActiveRecord::Migration[5.0]
                  name: 'index_relations_to_from_only_follows'
     remove_index :relations,
                  name: 'index_relations_direct_non_hierarchy'
+    remove_index :relations,
+                 name: 'index_relations_on_type_columns'
 
     truncate_closure_entries
   end
