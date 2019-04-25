@@ -6,7 +6,8 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
   selector: 'enterprise-banner',
   styleUrls: ['./enterprise-banner.component.sass'],
   template: `
-      <div class="notification-box -ee-upsale">
+      <div class="notification-box -ee-upsale"
+           [ngClass]="{'-left-margin': leftMargin }">
         <div class="notification-box--content">
           <p class="-bold" [textContent]="text.enterpriseFeature"></p>
           <p [textContent]="textMessage"></p>
@@ -18,6 +19,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
   `
 })
 export class EnterpriseBannerComponent {
+  @Input() public leftMargin:boolean = false;
   @Input() public textMessage:string;
   @Input() public linkMessage:string;
   @Input() public opReferrer:string;
