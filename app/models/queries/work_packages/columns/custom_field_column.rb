@@ -49,7 +49,7 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
   end
 
   def set_groupable!(custom_field)
-    self.groupable = custom_field.order_statements if groupable_custom_field?(custom_field)
+    self.groupable = custom_field.group_by_statements if groupable_custom_field?(custom_field)
     self.groupable ||= false
   end
 

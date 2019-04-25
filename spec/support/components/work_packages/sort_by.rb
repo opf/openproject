@@ -32,10 +32,10 @@ module Components
       include Capybara::DSL
       include RSpec::Matchers
 
-      def sort_via_header(name, descending: false)
+      def sort_via_header(name, selector: nil, descending: false)
         text = descending ? 'Sort descending' : 'Sort ascending'
 
-        open_table_column_context_menu(name)
+        open_table_column_context_menu(name, selector)
 
         within_column_context_menu do
           click_link text
@@ -104,8 +104,8 @@ module Components
         ['desc', 'descending'].include?(direction.to_s)
       end
 
-      def open_table_column_context_menu(name)
-        page.find(".generic-table--sort-header ##{name.downcase}").click
+      def open_table_column_context_menu(name, id = name.downcase)
+        page.find(".generic-table--sort-header ##{id}").click
       end
 
       def within_column_context_menu
