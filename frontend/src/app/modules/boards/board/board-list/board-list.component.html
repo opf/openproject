@@ -27,7 +27,7 @@
     </div>
 
     <div class="board-list--query-container"
-         [ngClass]="queryContainerClass">
+         [ngClass]="{ '-with-create-button': showAddButton }">
       <button [title]="text.addCard"
               *ngIf="board.isAction && showAddButton"
               (accessibleClick)="addNewCard()"
