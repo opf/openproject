@@ -157,4 +157,13 @@ if needs_fulltext_migration
   end
 end
 
+puts "Re-building DAG to create Postgres-specific indices"
+_, dag_status = run "bundle exec rake db:migrate:redo VERSION=20180105130053", record_output: false
+
+if dag_status != 0
+  puts "\nRebuild DAG migration failed. See above."
+
+  exit dag_status
+end
+
 puts "Migration from MySQL to Postgres completed successfully!"
