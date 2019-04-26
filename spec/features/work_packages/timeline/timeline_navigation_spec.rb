@@ -130,9 +130,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
     wp_timeline.expect_zoom_at :auto
 
     # Zooming in = days
-    wp_timeline.zoom_in
-    wp_timeline.expect_zoom_at :days
-    # From there, zoom behaves normally
+    expect(wp_timeline.zoom_in_button).to be_disabled
     wp_timeline.zoom_out
     wp_timeline.expect_zoom_at :weeks
 
