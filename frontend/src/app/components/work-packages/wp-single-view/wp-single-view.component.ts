@@ -45,6 +45,7 @@ import {IWorkPackageEditingServiceToken} from '../../wp-edit-form/work-package-e
 import {DynamicCssService} from '../../../modules/common/dynamic-css/dynamic-css.service';
 import {HookService} from 'core-app/modules/plugins/hook-service';
 import {randomString} from "core-app/helpers/random-string";
+import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 
 export interface FieldDescriptor {
   name:string;
@@ -127,7 +128,8 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected wpCacheService:WorkPackageCacheService,
               protected hook:HookService,
               protected injector:Injector,
-              readonly elementRef:ElementRef) {
+              readonly elementRef:ElementRef,
+              readonly browserDetector:BrowserDetector) {
   }
 
   public ngOnInit() {
@@ -241,6 +243,13 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     let projectPath = this.PathHelper.projectPath(id);
     let project = `<a href="${projectPath}">${this.workPackage.project.name}<a>`;
     return this.I18n.t('js.project.work_package_belongs_to', {projectname: project});
+  }
+
+  /*
+   * Show two column layout for new WP per default, but disable in MS Edge (#29941)
+   */
+  public get enableTwoColumnLayout() {
+    return this.workPackage.isNew && !this.browserDetector.isEdge;
   }
 
   /**
