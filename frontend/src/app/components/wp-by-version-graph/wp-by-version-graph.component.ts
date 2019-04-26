@@ -9,6 +9,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 @Component({
   selector: 'wp-by-version-graph',
   templateUrl: './wp-by-version-graph.template.html',
+  styleUrls: ['./wp-by-version-graph.sass']
 })
 
 export class WorkPackageByVersionGraphComponent implements OnInit {
