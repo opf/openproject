@@ -1,15 +1,10 @@
 #!/usr/bin/env ruby
+require 'uri'
 
-db_url = String(ENV["DATABASE_URL"]).strip
-mysql_url = String(ENV["MYSQL_DATABASE_URL"]).strip
+db_url = URI(ENV.fetch("DATABASE_URL"))
+mysql_url = URI(ENV.fetch("MYSQL_DATABASE_URL")) if ENV.has_key?("MYSQL_DATABASE_URL")
 
-if db_url == ""
-  puts "ERROR: expected DATABASE_URL in ENV"
-
-  exit 1
-end
-
-if db_url.start_with?("mysql")
+if db_url.scheme.start_with?("mysql")
   puts "WARNING: You are running MySQL. OpenProject will drop support for MySQL in 10.0."
   puts "         We can convert it to Postgres for you. Please setup postgres and "
   puts "         rerun this with MYSQL_DATABASE_URL pointing to your original database "
@@ -23,22 +18,21 @@ if db_url.start_with?("mysql")
   exit 0 # MySQL still supported until 9.x - with 10.0 we must make this an error (exit 1)
 end
 
-if db_url.start_with?("postgresql://") && mysql_url == ""
+if db_url.scheme.start_with?("postgresql") && !mysql_url.nil?
   # nothing to do
-
   exit 0
 end
 
-filtered_mysql_url = mysql_url.sub(/:([^:]*)@/, ":<password>@")
-filtered_db_url = db_url.sub(/:([^:]*)@/, ":<password>@")
+filtered_mysql_url = mysql_url.dup.tap{|url| url.password = "REDACTED"}
+filtered_db_url = db_url.dup.tap{|url| url.password = "REDACTED"}
 
 puts "Migrating database from MySQL to PostgreSQL."
 puts
 puts "Import"
 puts "  MySQL database"
-puts "    #{filtered_mysql_url}"
+puts "    #{filtered_mysql_url.to_s}"
 puts "  into Postgres database "
-puts "    #{filtered_db_url}"
+puts "    #{filtered_db_url.to_s}"
 puts "  ?"
 puts "WARNING: This resets the given Postgres database."
 puts
@@ -50,14 +44,14 @@ if answer.downcase == "n"
   exit 0
 end
 
-if !(db_url =~ /postgresql:\/\/(.+):(.+)@([^:]+)(?::(\d+))?\/(.+)/)
+db_user, db_password, db_host, db_port, db_name = db_url.user, db_url.password, db_url.host, db_url.port, db_url.path.sub("/", "")
+db_port ||= 5432
+
+if [db_host, db_name, db_port].any?{|value| [nil, ""].include?(value)}
   puts "ERROR: Could not parse database URL (#{filtered_db_url})"
 
   exit 1
 end
-
-db_user, db_password, db_host, db_port, db_name = [$1, $2, $3, $4, $5]
-db_port ||= 5432
 
 require 'pty'
 
