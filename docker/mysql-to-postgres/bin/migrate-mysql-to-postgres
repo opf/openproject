@@ -10,17 +10,17 @@ if db_url == ""
 end
 
 if db_url.start_with?("mysql")
-  puts "ERROR: You are running MySQL. OpenProject has dropped support for MySQL."
-  puts "       We can convert it to Postgres for you. Please setup postgres and "
-  puts "       rerun this with MYSQL_DATABASE_URL pointing to your original database "
-  puts "       and DATABASE_URL pointing to a new Postgres database."
+  puts "WARNING: You are running MySQL. OpenProject has dropped support for MySQL."
+  puts "         We can convert it to Postgres for you. Please setup postgres and "
+  puts "         rerun this with MYSQL_DATABASE_URL pointing to your original database "
+  puts "         and DATABASE_URL pointing to a new Postgres database."
   puts ""
   puts "EXAMPLE: docker run \\"
   puts "           -e MYSQL_DATABASE_URL=mysql://openproject:<PASSWORD>@localhost:3306/openproject \\"
   puts "           -e DATABASE_URL=postgresql://openproject:<PASSWORD>@localhost:5432/openproject \\"
   puts "           -it openproject/community:latest"
 
-  exit 1
+  exit 0 # MySQL still supported until 9.x - with 10.0 we must make this an error (exit 1)
 end
 
 if db_url.start_with?("postgresql://") && mysql_url == ""
