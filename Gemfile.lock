@@ -16,8 +16,8 @@ GIT
 
 GIT
   remote: https://github.com/finnlabs/omniauth-openid-connect.git
-  revision: 46f0c33bee2c885c89dd2866f5cf847da62b3482
-  ref: 46f0c33bee2c885c89dd2866f5cf847da62b3482
+  revision: 9e7fd0e7bd36d40451c6b3c2ea641e8d237c295d
+  ref: 9e7fd0e7bd36d40451c6b3c2ea641e8d237c295d
   specs:
     omniauth-openid-connect (0.3.0)
       addressable (~> 2.5)
@@ -26,10 +26,10 @@ GIT
 
 GIT
   remote: https://github.com/finnlabs/omniauth-openid_connect-providers.git
-  revision: b8b9d4be88fb48a1fa4f4afd9fd226dac54430f8
-  ref: b8b9d4be88fb48a1fa4f4afd9fd226dac54430f8
+  revision: 552205c402b921689552532b4591737dc030625b
+  ref: 552205c402b921689552532b4591737dc030625b
   specs:
-    omniauth-openid_connect-providers (0.1.0)
+    omniauth-openid_connect-providers (0.1.1)
       omniauth-openid-connect (>= 0.2.1)
 
 GIT
@@ -867,9 +867,9 @@ GEM
     validate_email (0.1.6)
       activemodel (>= 3.0)
       mail (>= 2.2.5)
-    validate_url (1.0.2)
+    validate_url (1.0.8)
       activemodel (>= 3.0.0)
-      addressable
+      public_suffix
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
