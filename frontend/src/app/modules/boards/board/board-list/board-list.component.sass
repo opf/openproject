@@ -3,12 +3,15 @@
 $board-list-max-width: 300px
 
 .board-list--query-container
-  display: grid
-  grid-template: 34px 1fr / 1fr
   // 100% - board header height
   height: calc(100% - 43px)
   max-width: inherit
   overflow-y: auto
+
+  // Ensure grid is only applied if button is visible
+  &.-with-create-button
+    display: grid
+    grid-template: 34px 1fr / 1fr
 
   wp-card-view
     max-width: inherit
