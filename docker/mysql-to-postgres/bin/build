@@ -17,5 +17,5 @@ git clone https://github.com/dimitri/pgloader.git
 cd pgloader
 git checkout v3.6.1
 make CL=ccl pgloader >& /tmp/pgloader-compile.log || (cat /tmp/pgloader-compile.log && exit 1)
-mv /opt/pgloader/build/bin/pgloader /usr/local/bin/pgloader
+mv /opt/pgloader/build/bin/pgloader /usr/local/bin/pgloader-ccl
 rm -rf /opt/pgloader

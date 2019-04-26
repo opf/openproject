@@ -105,7 +105,7 @@ end
 
 puts "Importing database ..."
 
-_, pgloader_status = run "pgloader --verbose #{mysql_url} #{db_url}", record_output: false
+_, pgloader_status = run "pgloader-ccl --verbose #{mysql_url} #{db_url}", record_output: false
 
 if pgloader_status != 0
   puts "\nFailed to import MySQL database into Postgres. See above."
