@@ -116,7 +116,7 @@ if pgloader_status != 0
   exit 1
 end
 
-check_fulltext_cmd = "PGPASSWORD=#{db_password} psql -U #{db_user} -h #{db_host} -p #{db_port} -d #{db_name} -c \"select 'true' from schema_migrations where version = '20180122135443'\""
+check_fulltext_cmd = "PGPASSWORD=#{db_password} psql -o /dev/stdout -U #{db_user} -h #{db_host} -p #{db_port} -d #{db_name} -c \"select 'true' from schema_migrations where version = '20180122135443'\""
 check_output, check_status = run check_fulltext_cmd, silent: true
 
 if check_status != 0
