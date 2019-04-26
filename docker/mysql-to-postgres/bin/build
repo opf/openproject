@@ -10,7 +10,7 @@ tar -xzf ccl-1.11.5-linuxx86.tar.gz
 rm ccl-1.11.5-linuxx86.tar.gz
 ln -s /opt/ccl/scripts/ccl64 /usr/local/bin/ccl
 
-export CCL_DEFAULT_DIRECTORY /opt/ccl
+export CCL_DEFAULT_DIRECTORY=/opt/ccl
 
 # build pgloader from source using CCL as the lisp runtime
 git clone https://github.com/dimitri/pgloader.git
