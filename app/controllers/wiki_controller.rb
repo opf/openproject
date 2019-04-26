@@ -393,7 +393,7 @@ class WikiController < ApplicationController
   end
 
   def wiki_page_title
-    params[:title] || action_name == 'new_child' ? '' : params[:id].to_s.capitalize.tr('-', ' ')
+    params[:title] || (action_name == 'new_child' ? '' : params[:id].to_s.capitalize.tr('-', ' '))
   end
 
   def find_wiki
