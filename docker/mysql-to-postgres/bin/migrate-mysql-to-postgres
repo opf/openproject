@@ -70,6 +70,9 @@ def run(cmd, silent: false, record_output: true)
       end
     rescue Errno::EIO
       # raised when stdout is closed after process finished
+    ensure
+      stdout.close
+      stdin.close
     end
 
     Process.wait pid
