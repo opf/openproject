@@ -87,12 +87,20 @@ module Pages
       ::Components::Timelines::TimelineRow.new  page.find(timeline_row_selector(wp_id))
     end
 
+    def zoom_in_button
+      page.find('#work-packages-timeline-zoom-in-button')
+    end
+
     def zoom_in
-      page.find('#work-packages-timeline-zoom-in-button').click
+      zoom_in_button.click
     end
 
     def zoom_out
-      page.find('#work-packages-timeline-zoom-out-button').click
+      zoom_out_button.click
+    end
+
+    def zoom_out_button
+      page.find('#work-packages-timeline-zoom-out-button')
     end
 
     def autozoom

@@ -448,9 +448,10 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
         // did the zoom level changed?
         if (previousZoomLevel !== zoomLevel) {
           this._viewParameters.settings.zoomLevel = zoomLevel;
-          this.wpTableTimeline.appliedZoomLevel = zoomLevel;
           this.wpTableDirective.timeline.scrollLeft = 0;
         }
+
+        this.wpTableTimeline.appliedZoomLevel = zoomLevel;
         return;
       }
     }
