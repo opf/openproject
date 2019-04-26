@@ -150,9 +150,15 @@ html:not(.-browser-mobile)
 
 // On edge, pointer-events only work on
 // block or inline-block elements
-html.-browser-edge
-  .wp-table--cell-container .inplace-edit
+body.-browser-edge
+  .wp-table--cell-span
     display: inline-block !important
+
+  // Ensure height is set in table
+  .work-package-table .wp-table--cell-span
+    height: 22px !important
+    line-height: 22px !important
+
 
 .inplace-editing--container
   display: inline-block
