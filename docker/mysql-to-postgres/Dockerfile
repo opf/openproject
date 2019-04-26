@@ -15,7 +15,7 @@ RUN apt-get update -qq && \
 
 # pgloader
 ENV CCL_DEFAULT_DIRECTORY /opt/ccl
-COPY docker/mysql-to-postgres/bin/mysql-to-postgres/bin/build /tmp/build-pgloader
+COPY docker/mysql-to-postgres/bin/build /tmp/build-pgloader
 RUN /tmp/build-pgloader && rm /tmp/build-pgloader
 COPY docker/mysql-to-postgres/bin/migrate-mysql-to-postgres /usr/local/bin/
 
