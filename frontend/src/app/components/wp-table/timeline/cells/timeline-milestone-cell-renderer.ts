@@ -2,7 +2,7 @@ import * as moment from 'moment';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {
   calculatePositionValueForDayCountingPx,
-  RenderInfo,
+  RenderInfo, timelineBackgroundElementClass,
   timelineElementCssClass
 } from '../wp-timeline';
 import {CellDateMovement, LabelPosition, TimelineCellRenderer} from './timeline-cell-renderer';
@@ -125,8 +125,8 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     const diamond = jQuery('.diamond', element)[0];
 
-    element.style.width = 15 + 'px';
-    element.style.height = 15 + 'px';
+    diamond.style.width = 15 + 'px';
+    diamond.style.height = 15 + 'px';
     diamond.style.width = 15 + 'px';
     diamond.style.height = 15 + 'px';
     diamond.style.marginLeft = -(15 / 2) + (renderInfo.viewParams.pixelPerDay / 2) + 'px';

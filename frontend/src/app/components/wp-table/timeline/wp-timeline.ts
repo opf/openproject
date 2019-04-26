@@ -34,6 +34,7 @@ import {RenderedRow} from '../../wp-fast-table/builders/primary-render-pass';
 import Moment = moment.Moment;
 
 export const timelineElementCssClass = 'timeline-element';
+export const timelineBackgroundElementClass = 'timeline-element--bg';
 export const timelineGridElementCssClass = 'wp-timeline--grid-element';
 export const timelineMarkerSelectionStartClass = 'selection-start';
 
