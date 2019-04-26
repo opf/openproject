@@ -69,8 +69,7 @@ describe 'Query menu item', js: true do
 
       find('.button', text: 'Save').click
 
-      wp_table.expect_notification message: 'Successful creation.'
-      expect(page).to have_selector('.ui-menu-item', text: 'Some query name')
+      expect(page).to have_selector('.ui-menu-item', text: 'Some query name', wait: 20)
 
       last_query = Query.last
       expect(last_query.is_public).to be_truthy
