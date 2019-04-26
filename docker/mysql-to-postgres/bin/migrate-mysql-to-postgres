@@ -4,6 +4,9 @@ require 'uri'
 db_url = URI(ENV.fetch("DATABASE_URL"))
 mysql_url = URI(ENV.fetch("MYSQL_DATABASE_URL")) if ENV.has_key?("MYSQL_DATABASE_URL")
 
+db_url.query = nil
+mysql_url.query = nil
+
 if db_url.scheme.start_with?("mysql")
   puts "WARNING: You are running MySQL. OpenProject will drop support for MySQL in 10.0."
   puts "         We can convert it to Postgres for you. Please setup postgres and "
@@ -75,7 +78,7 @@ def run(cmd, silent: false, record_output: true)
 end
 
 puts "Resetting target database..."
-drop_cmd = "PGPASSWORD=#{db_password} psql -U #{db_user} -h #{db_host} -p #{db_port} -c 'DROP DATABASE #{db_name}'"
+drop_cmd = "PGPASSWORD=#{db_password} psql -U #{db_user} -h #{db_host} -p #{db_port} -d postgres -c 'DROP DATABASE #{db_name}'"
 drop_output, _ = run drop_cmd, silent: true
 
 if drop_output.include?("database \"#{db_name}\" does not exist") || drop_output == "DROP DATABASE"
@@ -87,7 +90,7 @@ else
 end
 
 puts "Creating database..."
-create_cmd = "PGPASSWORD=#{db_password} psql -U #{db_user} -h #{db_host} -p #{db_port} -c 'CREATE DATABASE #{db_name}'"
+create_cmd = "PGPASSWORD=#{db_password} psql -U #{db_user} -h #{db_host} -p #{db_port} -d postgres -c 'CREATE DATABASE #{db_name}'"
 create_output, _ = run create_cmd, silent: true
 
 if create_output == "CREATE DATABASE"
@@ -107,7 +110,7 @@ if pgloader_status != 0
   exit pgloader_status
 end
 
-check_fulltext_cmd = "PGPASSWORD=#{db_password} psql -U #{db_user} -h #{db_host} -p #{db_port} -c \"select 'true' from schema_migrations where version = '20180122135443'\""
+check_fulltext_cmd = "PGPASSWORD=#{db_password} psql -U #{db_user} -h #{db_host} -p #{db_port} -d #{db_name} -c \"select 'true' from schema_migrations where version = '20180122135443'\""
 check_output, check_status = run check_fulltext_cmd, silent: true
 
 if check_status != 0
@@ -134,7 +137,7 @@ end
 if needs_fulltext_migration
   puts "Running full-text search migration"
 
-  _, redo_status = run "bundle exec rake db:migrate:redo VERSION=20180122135443", record_output: false
+  _, redo_status = run "bundle exec rake db:migrate:up VERSION=20180122135443", record_output: false
 
   if redo_status != 0
     puts "\nFull-text search migration failed. See above."
