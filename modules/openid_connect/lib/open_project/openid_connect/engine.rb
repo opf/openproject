@@ -46,7 +46,7 @@ module OpenProject::OpenIDConnect
 
       strategy :openid_connect do
         # update base redirect URI in case settings changed
-        Providers.configure base_redirect_uri: "#{Setting.protocol}://#{Setting.host_name}"
+        Providers.configure base_redirect_uri: "#{Setting.protocol}://#{Setting.host_name}#{OpenProject::Configuration['rails_relative_url_root']}"
         Providers.load(configuration).map(&:to_h)
       end
     end
