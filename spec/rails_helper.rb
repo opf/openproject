@@ -75,4 +75,7 @@ RSpec.configure do |config|
   config.include JsonSpec::Helpers
 
   OpenProject::Configuration['attachments_storage_path'] = 'tmp/files'
+
+  # Hide warning bars by default
+  OpenProject::Configuration['show_warning_bars'] = false
 end

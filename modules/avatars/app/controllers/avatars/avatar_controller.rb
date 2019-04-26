@@ -8,6 +8,9 @@ module ::Avatars
                 filename: filename_for_content_disposition(@avatar.filename),
                 type: @avatar.content_type,
                 disposition: 'inline'
+    rescue StandardError => e
+      Rails.logger.error "Failed to render avatar for #{@avatar&.id}: #{e.message}"
+      head :not_found
     end
 
     private
@@ -16,14 +19,15 @@ module ::Avatars
       @avatar = User.get_local_avatar(params[:id])
 
       unless @avatar
-        render_404
-        return false
+        head :not_found
+        false
       end
     end
 
     def ensure_enabled
       unless ::OpenProject::Avatars::AvatarManager.local_avatars_enabled?
-        render_404
+        head :not_found
+        false
       end
     end
   end

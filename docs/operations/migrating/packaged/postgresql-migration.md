@@ -123,17 +123,18 @@ export POSTGRES_DATABASE_URL="postgresql://openproject:<PASSWORD>@localhost/open
 
 ## Migrating the databases
 
-You are now ready to use `pgloader`. You simply point it the old and new database URL
+You are now ready to use `pgloader`. You simply point it the old and new database URL while specifying the option
+`--with "preserve index names"` which ensures that index names are kept identical.
 
 ```bash
-pgloader --verbose $MYSQL_DATABASE_URL $POSTGRES_DATABASE_URL
+pgloader --verbose --with "preserve index names" $MYSQL_DATABASE_URL $POSTGRES_DATABASE_URL
 ```
 
 This might take a while depending on current installation size.
 
 ### Index attachments for fulltext search
 
-One of the benefits of using PostgreSql over MySql is the support for fulltext search on attachments. The fulltext search feature relies on the existence of two additional columns for attachments that need to be added now ff the migration to PostgreSql is done for an OpenProject >= **8.0**. If the OpenProject version is below **8.0** the next two commands can be skipped.
+One of the benefits of using PostgreSQL over MySql is the support for fulltext search on attachments. The fulltext search feature relies on the existence of two additional columns for attachments that need to be added now ff the migration to PostgreSql is done for an OpenProject >= **8.0**. If the OpenProject version is below **8.0** the next two commands can be skipped.
 
 In order to add the necessary columns to the database, run
 
@@ -149,6 +150,14 @@ openproject run rails attachments:extract_fulltext_where_missing
 
 If a large set of attachments already exists, executing the command might take a while.
 
+### Indexes on relations table
+
+You will also need to rebuild the index on the relations table. Simply run the following command
+to re-run the migration.
+
+```bash
+openproject run rails db:migrate:redo VERSION=20180105130053
+```
 
 ## Optional: Uninstall MySQL
 
@@ -174,9 +183,8 @@ openproject reconfigure
 ```
 
 
-
-In the MySQL installation screen, select `skip` now. Keep all other values the same by simply confirming them by pressing  `enter` .
-
+In the database installation screen, select `skip` now.
+Keep all other values the same by simply confirming them by pressing  `enter` .
 
 
 After the configuration process has run through, your database will be running on PostgreSQL!
