@@ -101,7 +101,10 @@ describe Setting, type: :model do
         expect(Setting.installation_uuid).not_to be_blank
       end
 
-      it "returns the existing value if any", with_settings: { installation_uuid: "abcd1234" } do
+      it "returns the existing value if any" do
+        # can't use with_settings since Setting.installation_uuid has a custom implementation
+        allow(Setting).to receive(:installation_uuid).and_return "abcd1234"
+
         expect(Setting.installation_uuid).to eq("abcd1234")
       end
 

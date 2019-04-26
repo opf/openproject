@@ -34,12 +34,7 @@ describe AccountController, type: :controller do
     User.current = nil
   end
 
-  context 'GET #omniauth_login' do
-    before do
-      allow(Setting).to receive(:self_registration?).and_return(true)
-      allow(Setting).to receive(:self_registration).and_return('3')
-    end
-
+  context 'GET #omniauth_login', with_settings: { self_registration: '3' } do
     describe 'with on-the-fly registration' do
       context 'providing all required fields' do
         let(:omniauth_hash) do
@@ -306,7 +301,7 @@ describe AccountController, type: :controller do
               if auth.info.name == config.google_name
                 dec.approve
               else
-                dec.reject "#{auth.info.name} can fuck right off"
+                dec.reject "Go away #{auth.info.name}!"
               end
             end
 
@@ -382,7 +377,7 @@ describe AccountController, type: :controller do
               post :omniauth_login, params: { provider: :google }
 
               expect(response).to redirect_to signin_path
-              expect(flash[:error]).to eq 'foo can fuck right off'
+              expect(flash[:error]).to eq 'Go away foo!'
             end
 
             it 'is approved against any other provider' do
@@ -397,9 +392,9 @@ describe AccountController, type: :controller do
               post :omniauth_login, params: { provider: :google }
 
               expect(response).to redirect_to home_url(first_time_user: true)
-              # authorization is successful which results in the registration
+              # The authorization is successful which results in the registration
               # of a new user in this case because we changed the provider
-              # and there isn't a user with that identity URL yet ...
+              # and there isn't a user with that identity URL yet.
             end
 
             # ... and to confirm that, here's what happens when the authorization fails
@@ -419,7 +414,7 @@ describe AccountController, type: :controller do
       end
 
       context 'with a registered and not activated accout',
-              with_settings: { self_registration: 1 } do
+              with_settings: { self_registration: '1' } do
         before do
           user.register
           user.save!
@@ -428,11 +423,29 @@ describe AccountController, type: :controller do
         end
 
         it 'should show an error about a not activated account' do
-          expect(flash[:error]).to eql(I18n.t('account.error_inactive_manual_activation'))
+          expect(flash[:error]).to eql(I18n.t('account.error_inactive_activation_by_mail'))
         end
 
         it 'should redirect to signin_path' do
           expect(response).to redirect_to signin_path
+        end
+      end
+
+      context 'with an invited user and self registration disabled',
+              with_settings: { self_registration: '0' } do
+        before do
+          user.invite
+          user.save!
+
+          post :omniauth_login, params: { provider: :google }
+        end
+
+        it 'should show a notice about the activated account' do
+          expect(flash[:notice]).to eq(I18n.t('notice_account_registered_and_logged_in'))
+        end
+
+        it 'should activate the user' do
+          expect(user.reload).to be_active
         end
       end
 

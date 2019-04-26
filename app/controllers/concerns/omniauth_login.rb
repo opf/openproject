@@ -111,7 +111,7 @@ module Concerns::OmniauthLogin
   # in our database) will be created using this method.
   def create_user_from_omniauth(user, auth_hash)
     # Self-registration off
-    return self_registration_disabled unless Setting.self_registration?
+    return self_registration_disabled unless Setting.self_registration? || user.invited?
 
     fill_user_fields_from_omniauth user, auth_hash
 
