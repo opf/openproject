@@ -41,26 +41,12 @@ RUN apt-get update -qq && \
     supervisor && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-###->-### install pgloader
-
-# install Clozure CL to avoid memory issues with the standard SBCL
-RUN cd /opt && \
-  wget https://github.com/Clozure/ccl/releases/download/v1.11.5/ccl-1.11.5-linuxx86.tar.gz && \
-  tar -xzf ccl-1.11.5-linuxx86.tar.gz && \
-  rm ccl-1.11.5-linuxx86.tar.gz && \
-  ln -s /opt/ccl/scripts/ccl64 /usr/local/bin/ccl
-
+# pgloader
 ENV CCL_DEFAULT_DIRECTORY /opt/ccl
-
-# build pgloader from source using CCL as the lisp runtime
-RUN cd /opt && \
-  git clone https://github.com/dimitri/pgloader.git && \
-  cd pgloader && \
-  make CL=ccl pgloader && \
-  mv /opt/pgloader/build/bin/pgloader /usr/local/bin/pgloader && \
-  rm -rf /opt/pgloader
-
-###-<-### pgloader installed
+COPY docker/mysql-to-postgres/bin/mysql-to-postgres/bin/build /tmp/build-pgloader
+RUN /tmp/build-pgloader && rm /tmp/build-pgloader
+# Add MySQL-to-Postgres migration script to path (used in entrypoint.sh)
+COPY docker/mysql-to-postgres/bin/migrate-mysql-to-postgres /usr/local/bin/
 
 # Set up pg defaults
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.6/main/pg_hba.conf
@@ -101,9 +87,6 @@ RUN bash docker/precompile-assets.sh
 
 # ports
 EXPOSE 80 5432
-
-# Add MySQL-to-Postgres migration script to path (used in entrypoint.sh)
-COPY docker/mysql-to-postgres/bin/migrate-mysql-to-postgres /usr/local/bin/
 
 # volumes to export
 VOLUME ["$PGDATA", "$APP_DATA_PATH"]

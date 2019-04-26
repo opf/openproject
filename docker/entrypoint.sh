@@ -4,11 +4,7 @@ set -e
 set -o pipefail
 
 if [ -n "$DATABASE_URL" ]; then
-	migrate-mysql-to-postgres
-
-	if [ ! $? = 0 ]; then
-		exit 1
-	fi
+	/usr/local/bin/migrate-mysql-to-postgres || exit 1
 fi
 
 # handle legacy configs

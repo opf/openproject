@@ -1,6 +1,8 @@
 FROM ruby:2.6-stretch
 MAINTAINER operations@openproject.com
 
+ENV PGLOADER_DEPENDENCIES "libsqlite3-dev make curl gawk freetds-dev libzip-dev"
+
 # Install
 #
 #  1) mysql and postgres clients
@@ -8,26 +10,13 @@ MAINTAINER operations@openproject.com
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
     mysql-client postgresql-client \
-    libsqlite3-dev make curl gawk freetds-dev libzip-dev && \
+    $PGLOADER_DEPENDENCIES && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# install Clozure CL to avoid memory issues with the standard SBCL
-RUN cd /opt && \
-  wget https://github.com/Clozure/ccl/releases/download/v1.11.5/ccl-1.11.5-linuxx86.tar.gz && \
-  tar -xzf ccl-1.11.5-linuxx86.tar.gz && \
-  rm ccl-1.11.5-linuxx86.tar.gz && \
-  ln -s /opt/ccl/scripts/ccl64 /usr/local/bin/ccl
-
+# pgloader
 ENV CCL_DEFAULT_DIRECTORY /opt/ccl
-
-# build pgloader from source using CCL as the lisp runtime
-RUN cd /opt && \
-  git clone https://github.com/dimitri/pgloader.git && \
-  cd pgloader && \
-  make CL=ccl pgloader && \
-  mv /opt/pgloader/build/bin/pgloader /usr/local/bin/pgloader && \
-  rm -rf /opt/pgloader
-
-COPY bin/migrate-mysql-to-postgres /usr/local/bin/
+COPY docker/mysql-to-postgres/bin/mysql-to-postgres/bin/build /tmp/build-pgloader
+RUN /tmp/build-pgloader && rm /tmp/build-pgloader
+COPY docker/mysql-to-postgres/bin/migrate-mysql-to-postgres /usr/local/bin/
 
 CMD ["migrate-mysql-to-postgres"]
