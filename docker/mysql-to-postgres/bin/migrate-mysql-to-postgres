@@ -55,6 +55,10 @@ end
 
 require 'pty'
 
+# Memcached is not yet running at this point so we use the file cache store.
+# This will and is supposed to affect the spawned ruby processes.
+ENV["RAILS_CACHE_STORE"] = "file_store"
+
 def run(cmd, silent: false, record_output: true)
   output = []
 
@@ -129,8 +133,6 @@ _, migrate_status = run "bundle exec rake db:migrate", record_output: false
 
 if migrate_status != 0
   puts "\nMigration failed. See above."
-
-  exit 1
 end
 
 if needs_fulltext_migration
@@ -163,7 +165,7 @@ if needs_fulltext_migration
   end
 end
 
-puts "Re-building DAG to create Postgres-specific indices"
+puts "\nRe-building DAG to create Postgres-specific indices"
 _, dag_status = run "bundle exec rake db:migrate:redo VERSION=20180105130053", record_output: false
 
 if dag_status != 0
