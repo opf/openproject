@@ -3,6 +3,8 @@
 set -e
 set -o pipefail
 
+APACHE_PIDFILE=/run/apache2/apache2.pid
+
 # handle legacy configs
 if [ -d "$PGDATA_LEGACY" ]; then
 	echo "WARN: You are using a legacy volume path for your postgres data. You should mount your postgres volumes at $PGDATA instead of $PGDATA_LEGACY."
@@ -34,6 +36,11 @@ fi
 if [ "$(id -u)" = '0' ]; then
 	mkdir -p $APP_DATA_PATH/{files,git,svn}
 	chown -R $APP_USER:$APP_USER $APP_DATA_PATH
+
+	# Clean up a dangling PID file of apache
+	if [ -e "$APACHE_PIDFILE" ]; then
+	  rm -f $APACHE_PIDFILE || true
+	fi
 
 	if [ ! -z "$ATTACHMENTS_STORAGE_PATH" ]; then
 		mkdir -p "$ATTACHMENTS_STORAGE_PATH"
