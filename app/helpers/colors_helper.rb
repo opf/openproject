@@ -77,6 +77,7 @@ module ColorsHelper
 
       if name === 'type'
         concat ".__hl_inline_#{name}_#{entry.id} { color: #{color.hexcode} !important;}"
+        concat ".__hl_inline_#{name}_#{entry.id} { -webkit-text-stroke: 0.5px grey;}" if color.super_bright?
       else
         concat ".__hl_inline_#{name}_#{entry.id}::before { #{background_style}; border-color: #{border_color}; }\n"
       end
