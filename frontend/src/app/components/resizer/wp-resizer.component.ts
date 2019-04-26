@@ -31,6 +31,7 @@ import {distinctUntilChanged} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {TransitionService} from '@uirouter/core';
 import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
+import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 
 @Component({
   selector: 'wp-resizer',
@@ -52,7 +53,8 @@ export class WpResizerDirective implements OnInit, OnDestroy {
 
   constructor(readonly toggleService:MainMenuToggleService,
               private elementRef:ElementRef,
-              readonly $transitions:TransitionService) {
+              readonly $transitions:TransitionService,
+              readonly browserDetector:BrowserDetector) {
   }
 
   ngOnInit() {
@@ -200,7 +202,8 @@ export class WpResizerDirective implements OnInit, OnDestroy {
   }
 
   private toggleColumns(element:HTMLElement, checkWidth:number = 750) {
-    if (element) {
+    // Disable two column layout for MS Edge (#29941)
+    if (element && !this.browserDetector.isEdge) {
       jQuery(element).toggleClass('-can-have-columns', element.offsetWidth > checkWidth);
     }
   }
