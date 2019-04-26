@@ -197,10 +197,10 @@ hu:
       no_results_content_text: Állapot jelentés hozzáadása
   statuses:
     edit:
-      status_readonly_html: "Válaszd ki ezt az opciót a Feladatcsoport csak olvashatóvá
-        tételéhez.\nNo attributes can be changed with the exception of the status.
-        \n<br/> \n<strong>Note</strong>: Örökölt értékek (pl. a gyermektől, vagy kapcsolatoktól)
-        meg fognak maradni.\n"
+      status_readonly_html: |
+        Jelölje be ezt az opciót, ha ezt az állapotot tartalmazó munkacsomagokat csak olvashatóvá kívánja jelölni. Az állapot kivételével semmilyen attribútum nem módosítható.
+        <br/>
+        <strong>Megjegyzés</strong>: az örökölt értékek (például a gyermekobjektum vagy a kapcsolatok) továbbra is érvényesek.
       status_color_text: |
         Ide kattintva rendelhet vagy változtathatja meg a színét az állapotnak.
         Az állapot gomb látható és kiemelhető a feladatcsoport táblázatban.
@@ -217,9 +217,9 @@ hu:
       projects: Projektek
       enabled_projects: Engedélyezett projektek
       add_group: Tulajdonságcsoport
-      add_table: Add table of related work packages
-      edit_query: Edit table
-      query_group_placeholder: Give the table a name
+      add_table: Táblázat hozzáadása a kapcsolódó munkacsomagokhoz
+      edit_query: Táblázat szerkesztése
+      query_group_placeholder: Adja meg a tábla nevét
       reset: Alapbeállítások visszaállítása
       type_color_text: 'Kattintson az adott típus színének hozzárendeléséhez vagy
         megváltoztatásához. A kiválasztott szín különbözteti meg a feladatcsoportokat
@@ -390,7 +390,7 @@ hu:
         to: Kapcsolódó feladatcsoport
       status:
         is_closed: Lezárt feladatcsoport
-        is_readonly: Feladatcsoport csak olvasható
+        is_readonly: Munkacsomag csak olvasható
       journal:
         notes: Jegyzet
       member:
@@ -1239,7 +1239,7 @@ hu:
   label_authentication: Hitelesítés
   label_available_project_work_package_categories: Rendelkezésre álló munkacsomag
     kategóriák
-  label_available_project_work_package_types: Available work package types
+  label_available_project_work_package_types: Rendelkezésre álló munkacsomag típusok
   label_available_project_boards: Rendelkezésre álló táblák
   label_available_project_versions: Rendelkezésre álló verziók
   label_available_project_repositories: Rendelkezésre álló tárolók
@@ -2265,7 +2265,7 @@ hu:
   setting_per_page_options: Objektum per oldal opció
   setting_plain_text_mail: Egyszerű szöveges e-mail (nem HTML)
   setting_protocol: Protokol
-  setting_security_badge_displayed: Display security badge
+  setting_security_badge_displayed: Biztonsági állapot kijelzés
   setting_registration_footer: Regisztráció lábléc
   setting_repositories_automatic_managed_vendor: Automatikus tároló típus
   setting_repositories_encodings: Tárolók kódolásai
