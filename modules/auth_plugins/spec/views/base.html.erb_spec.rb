@@ -1,13 +1,12 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -24,12 +23,37 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::AuthPlugins
-  class Hooks < Redmine::Hook::ViewListener
-    render_on :view_account_login_auth_provider, partial: 'hooks/login/providers'
-    render_on :view_layouts_base_html_head, partial: 'hooks/login/providers_css'
+require 'spec_helper'
+
+describe 'layouts/base', type: :view do
+  describe 'authenticator plugin' do
+    include Redmine::MenuManager::MenuHelper
+    helper Redmine::MenuManager::MenuHelper
+    let(:anonymous) { FactoryBot.build_stubbed(:anonymous) }
+
+    before do
+      allow(view).to receive(:current_menu_item).and_return('overview')
+      allow(view).to receive(:default_breadcrumb)
+      allow(view).to receive(:current_user).and_return anonymous
+      allow(OpenProject::Plugins::AuthPlugin).to receive(:providers).and_return([provider])
+    end
+
+    context 'with an authenticator with given icon' do
+      let(:provider) do
+        { name: 'foob_auth', icon: 'image.png' }
+      end
+
+      before do
+        render
+      end
+
+      it 'adds the CSS to render the icon' do
+        expect(rendered).to have_text(/background-image:(?:.*)image.png/)
+      end
+    end
   end
 end
+
