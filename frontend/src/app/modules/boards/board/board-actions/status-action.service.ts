@@ -46,9 +46,6 @@ export class BoardStatusActionService implements BoardActionService {
       .then((results) =>
         Promise.all<unknown>(
           results.map((status:StatusResource) => {
-            if (status.isClosed) {
-              return this.addActionQuery(board, status);
-            }
 
             if (status.isDefault) {
               return this.addActionQuery(board, status);
