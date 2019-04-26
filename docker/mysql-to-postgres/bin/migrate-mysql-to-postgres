@@ -145,7 +145,7 @@ if needs_fulltext_migration
   if redo_status != 0
     puts "\nFull-text search migration failed. See above."
 
-    exit redo_status
+    exit 1
   end
 
   _, extract_status = run "bundle exec rake attachments:extract_fulltext_where_missing", record_output: false
@@ -153,7 +153,7 @@ if needs_fulltext_migration
   if extract_status != 0
     puts "\nFull-text extraction failed. See above."
 
-    exit extract_status
+    exit 1
   end
 end
 
@@ -163,7 +163,7 @@ _, dag_status = run "bundle exec rake db:migrate:redo VERSION=20180105130053", r
 if dag_status != 0
   puts "\nRebuild DAG migration failed. See above."
 
-  exit dag_status
+  exit 1
 end
 
 puts "Migration from MySQL to Postgres completed successfully!"
