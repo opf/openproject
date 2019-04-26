@@ -49,13 +49,7 @@ module ErrorsHelper
   def render_500(options = {})
     message = t(:notice_internal_server_error, app_title: Setting.app_title)
 
-    if $ERROR_INFO.is_a?(ActionView::ActionViewError)
-      @template.instance_variable_set('@project', nil)
-      @template.instance_variable_set('@status', 500)
-      @template.instance_variable_set('@message', message)
-    else
-      @project = nil
-    end
+    unset_template_magic
 
     # Append error information
     if current_user.admin?
@@ -107,6 +101,18 @@ module ErrorsHelper
       format.any do
         head @status
       end
+    end
+
+    def unset_template_magic
+      if $ERROR_INFO.is_a?(ActionView::ActionViewError)
+        @template.instance_variable_set('@project', nil)
+        @template.instance_variable_set('@status', 500)
+        @template.instance_variable_set('@message', message)
+      else
+        @project = nil
+      end
+    rescue StandardError
+      # bad luck
     end
   end
 end
