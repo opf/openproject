@@ -38,7 +38,7 @@ puts "WARNING: This resets the given Postgres database."
 puts
 print "Y/n "
 
-answer = gets.chomp
+answer = ENV.fetch("FORCE_YES") { gets.chomp }
 
 if answer.downcase == "n"
   exit 0
