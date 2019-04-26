@@ -21,16 +21,16 @@ de:
     close_form_title: Formular schließen
     boards:
       upsale:
-        boards: Need to freely structure your work in a board view?
+        boards: Möchten Sie Ihre Aufgaben in einer Board-Ansicht frei strukturieren?
         check_out_link: Testen Sie die Enterprise Edition.
       lists:
-        delete: Delete list
+        delete: Liste löschen
     card:
-      add_new: Add new card
+      add_new: Neue Karte hinzufügen
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: Entire card by
-      remove_from_list: Remove card from list
+        inline: 'Hervorheben neben Attribut:'
+        entire_card_by: Gesamte Karte nach
+      remove_from_list: Karte aus Liste entfernen
     clipboard:
       browser_error: Ihr Browser unterstützt das Kopieren in die Zwischenablage nicht
         nativ. Bitte selektieren und kopieren Sie den Text händisch.
@@ -340,7 +340,7 @@ de:
     label_upload_notification: Dateien werden hochgeladen...
     label_work_package_upload_notification: 'Hochladen von Dateien für Arbeitspaket
       #%{id}: %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} erstellt von %{author}"
     label_files_to_upload: 'Diese Dateien werden hochgeladen:'
     label_rejected_files: 'Diese Dateien können nicht hochgeladen werden:'
     label_rejected_files_reason: Diese Dateien können nicht hochgeladen werden, da
@@ -382,12 +382,13 @@ de:
             können neue Aufgaben oder Sprint-Hindernisse mit dem + Icon einer User
             Story hinzufügen, einer Person zuweisen und mit Drag & Drop aktualisieren.
         boards:
-          overview: Manage your work within an intuitive <b>Boards</b> view.
-          lists: You can create multiple lists (columns) within one Board view, e.g.
-            to create a KANBAN board.
-          add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          overview: Verwalten Sie Ihre Arbeit in einer intuitiven <b>Boards</b> -Ansicht.
+          lists: Sie können mehrere Listen (Spalten) innerhalb einer Board-Ansicht
+            erstellen, z.B. um ein KANBAN-Board zu erstellen.
+          add: Klicken Sie + um <b>eine neue Karte</b> zur Liste eines Boards hinzufügen.
+          drag: Ziehen Sie Ihre Karten in eine Liste, um diese zu sortieren oder weisen
+            Sie diese einer anderen Liste zu. Ein Doppelklick auf eine Karte öffnet
+            die Detailansicht.
         wp:
           toggler: Hier sind die <b>Arbeitspakete</b>, die Ihnen eine detailliertere
             Sicht auf die Arbeit in Ihrem Projekt geben.
@@ -872,7 +873,7 @@ de:
           der hier aufgeführten Arbeitspakete rekursiv entfernt werden.
         deletes_children: Alle untergeordneten Arbeitspaketen und deren Nachkommen
           werden auch rekursiv gelöscht.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Keine sichtbaren Ergebnisse anzuzeigen.
     notice_successful_create: Erfolgreich angelegt.
     notice_successful_delete: Erfolgreich gelöscht.
     notice_successful_update: Erfolgreich aktualisiert.

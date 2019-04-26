@@ -1391,7 +1391,7 @@ fi:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Koti
   label_subject_or_id: Subject or ID
-  label_impressum: Impressum
+  label_impressum: Legal notice
   label_in: tässä
   label_in_less_than: pienempi kuin
   label_in_more_than: suurempi kuin

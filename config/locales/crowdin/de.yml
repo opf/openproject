@@ -76,7 +76,7 @@ de:
 '
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: Zur Zeit existieren keine Forumseinträge für dieses Forum.
   colors:
     index:
       no_results_title_text: Derzeit gibt es keine Farben.
@@ -160,8 +160,8 @@ de:
       activities:
         no_results_title_text: Zur Zeit stehen keine Aktivitäten zur Verfügung.
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: Derzeit gibt es keine Foren für dieses Projekt.
+        no_results_content_text: Neues Forum erstellen
       categories:
         no_results_title_text: Derzeit gibt es keine Arbeitspaket-Kategorien.
         no_results_content_text: Neue Arbeitspaket-Kategorie erstellen
@@ -543,7 +543,7 @@ de:
         too_long: ist zu lang (nicht mehr als %{count} Zeichen).
         too_short: ist zu kurz (nicht weniger als %{count} Zeichen).
         unchangeable: kann nicht geändert werden.
-        unremovable: cannot be removed.
+        unremovable: kann nicht entfernt werden.
         wrong_length: hat die falsche Länge (muss genau %{count} Zeichen haben).
       models:
         custom_field:
@@ -1088,9 +1088,10 @@ de:
   error_can_not_remove_role: Diese Rolle wird verwendet und kann nicht gelöscht werden.
   error_can_not_reopen_work_package_on_closed_version: Das Arbeitspaket ist einer
     abgeschlossenen Version zugeordnet und kann daher nicht wieder geöffnet werden.
-  error_can_not_find_all_resources: Could not find all related resources to this request.
+  error_can_not_find_all_resources: Konnte nicht alle verwandten Ressourcen für diese
+    Anfrage finden.
   error_check_user_and_role: Bitte wählen Sie einen Nutzer und eine Rolle.
-  error_code: Error %{code}
+  error_code: Fehler %{code}
   error_cookie_missing: Das OpenProject Cookie fehlt. Bitte stellen Sie sicher, dass
     Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt
     funktioniert.
@@ -1117,10 +1118,12 @@ de:
   error_work_package_not_found_in_project: Das Arbeitspaket wurde nicht gefunden oder
     gehört nicht zu diesem Projekt.
   error_must_be_project_member: muss Mitglied des Projekts sein
-  error_migrations_are_pending: Your OpenProject installation has pending database
-    migrations. You have likely missed running the migrations on your last upgrade.
-    Please check the upgrade guide to properly upgrade your installation.
-  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
+  error_migrations_are_pending: Ihre OpenProject-Installation hat noch ausstehende
+    Datenbankmigrationen. Sie haben wahrscheinlich die Migration für Ihr letztes Upgrade
+    nicht durchgeführt. Bitte überprüfen Sie die Upgrade-Anleitung, um Ihre Installation
+    korrekt zu aktualisieren.
+  error_migrations_visit_upgrade_guides: Bitte besuchen Sie unsere Dokumentation zur
+    Aktualisierung von OpenProject
   error_no_default_work_package_status: Es ist kein Status als Standard definiert.
     Bitte überprüfen Sie Ihre Konfiguration (unter "Administration -> Arbeitspaket-Status").
   error_no_type_in_project: Diesem Projekt ist kein Typ zugeordnet. Bitte überprüfen
@@ -1281,7 +1284,7 @@ de:
   label_authentication: Authentifizierung
   label_available_project_work_package_categories: Verfügbare Arbeitspaket-Kategorien
   label_available_project_work_package_types: Verfügbare Arbeitspaket-Typen
-  label_available_project_forums: Available forums
+  label_available_project_forums: Verfügbare Foren
   label_available_project_versions: Verfügbare Versionen
   label_available_project_repositories: Verfügbare Projektarchive
   label_api_documentation: API-Dokumentation
@@ -1297,7 +1300,7 @@ de:
   label_branch: Zweig
   label_browse: Codebrowser
   label_bulk_edit_selected_work_packages: Alle ausgewählten Arbeitspakete bearbeiten
-  label_bundled: "(Bundled)"
+  label_bundled: "(Gebündelt)"
   label_calendar: Kalender
   label_calendar_show: Kalender anzeigen
   label_category: Kategorie
@@ -1435,7 +1438,7 @@ de:
   label_hierarchy_leaf: Hierarchie-Blatt
   label_home: Hauptseite
   label_subject_or_id: Titel oder ID
-  label_impressum: Impressum
+  label_impressum: Legal notice
   label_in: an
   label_in_less_than: in weniger als
   label_in_more_than: in mehr als
@@ -1561,7 +1564,7 @@ de:
   label_planning: Terminplanung
   label_please_login: Anmelden
   label_plugins: Plugins
-  label_modules_and_plugins: Modules and Plugins
+  label_modules_and_plugins: Module und Plugins
   label_precedes: Vorgänger von
   label_preferences: Präferenzen
   label_preview: Vorschau
@@ -1569,7 +1572,7 @@ de:
   label_previous_week: Woche zurück
   label_principal_invite_via_email: " oder Nutzer per E-Mail einladen"
   label_principal_search: Vorhandene Benutzer / Gruppen hinzufügen
-  label_privacy_policy: Data privacy and security policy
+  label_privacy_policy: Datenschutz- und Sicherheitsrichtlinien
   label_product_version: Produktversion
   label_professional_support: Professionelle Unterstützung
   label_profile: Profil
@@ -1686,7 +1689,7 @@ de:
   label_updated_time: Vor %{value} aktualisiert
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Von %{author} vor %{age} aktualisiert
-  label_upgrade_guides: Upgrade guides
+  label_upgrade_guides: Upgrade-Anleitungen
   label_used_by: Benutzt von
   label_used_by_types: Verwendet von Typen
   label_used_in_projects: Verwendet in Projekten
