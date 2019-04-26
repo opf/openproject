@@ -10,7 +10,7 @@ if db_url == ""
 end
 
 if db_url.start_with?("mysql")
-  puts "WARNING: You are running MySQL. OpenProject has dropped support for MySQL."
+  puts "WARNING: You are running MySQL. OpenProject will drop support for MySQL in 10.0."
   puts "         We can convert it to Postgres for you. Please setup postgres and "
   puts "         rerun this with MYSQL_DATABASE_URL pointing to your original database "
   puts "         and DATABASE_URL pointing to a new Postgres database."
