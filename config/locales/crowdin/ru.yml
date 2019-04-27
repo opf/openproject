@@ -1213,6 +1213,7 @@ ru:
           версией вы существенно поможете сообществу открытого исходного кода.
     links:
       upgrade_enterprise_edition: Обновите до корпоративной версии
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: Руководство пользователя
       faq: ЧаВо
       glossary: Глоссарий
@@ -1438,7 +1439,7 @@ ru:
   label_hierarchy_leaf: Уровень иерархии
   label_home: Главная
   label_subject_or_id: Тема или ID
-  label_impressum: Legal notice
+  label_impressum: Правовое уведомление
   label_in: в
   label_in_less_than: менее чем
   label_in_more_than: более чем
@@ -2842,6 +2843,10 @@ ru:
 '
   menu_item: Пункт меню
   menu_item_setting: Видимость
+  mysql_deprecation:
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: Пункт меню для wiki-страницы  «%{title}»
   wiki_menu_item_setting: Видимость
   wiki_menu_item_new_main_item_explanation: 'Вы удалили только элемент главного меню

@@ -1076,6 +1076,7 @@ zh-TW:
         you_contribute: 開發人員也需要生活費。使用企業版，您可以為此 Open-Source 社區工作提供大力的財力支持。
     links:
       upgrade_enterprise_edition: 升級到企業版
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: 使用手冊
       faq: 問答集
       glossary: '術語表 '
@@ -2518,6 +2519,10 @@ zh-TW:
 '
   menu_item: 選單項目
   menu_item_setting: 可見度
+  mysql_deprecation:
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: Wikipage "%{title}" 的功能表項目
   wiki_menu_item_setting: 可見度
   wiki_menu_item_new_main_item_explanation: '您正在刪除 wiki 唯一的主功能表項目。現在, 您必須選擇一個 wiki

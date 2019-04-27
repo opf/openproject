@@ -1230,6 +1230,7 @@ ar:
           you substantially contribute to this Open-Source community effort.
     links:
       upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: دليل المستخدم
       faq: الاسئلة الاكثر شيوعا(FAQ)
       glossary: معجم المصطلحات
@@ -2826,6 +2827,10 @@ ar:
 '
   menu_item: عناصر القائمة
   menu_item_setting: الظهور
+  mysql_deprecation:
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: عنصر القائمة "%{title}"
   wiki_menu_item_setting: الظهور
   wiki_menu_item_new_main_item_explanation: 'يتم حذف عنصر القائمة Wiki الرئيسي فقط.

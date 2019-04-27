@@ -25,7 +25,7 @@ pt-BR:
           quadro?
         check_out_link: Confira a versão Enterprise Edition.
       lists:
-        delete: Delete list
+        delete: Apagar lista
     card:
       add_new: Adicionar novo cartão
       highlighting:

@@ -1059,9 +1059,10 @@ pt-BR:
   error_can_not_remove_role: Este papel está em uso e não pode ser excluído.
   error_can_not_reopen_work_package_on_closed_version: Um pacote de trabalho atribuído
     a uma versão fechada não pode ser reaberto
-  error_can_not_find_all_resources: Could not find all related resources to this request.
+  error_can_not_find_all_resources: Não foi possível encontrar todos os recursos relacionados
+    a esta solicitação.
   error_check_user_and_role: Por favor, escolha um usuário e um papel.
-  error_code: Error %{code}
+  error_code: Erro %{code}
   error_cookie_missing: Está faltando o cookie do OpenProject. Por favor, certifique-se
     de que os cookies estão habilitados, sem os quais esta função não funcionará adequadamente.
   error_custom_option_not_found: A opção não existe.
@@ -1086,10 +1087,12 @@ pt-BR:
   error_work_package_not_found_in_project: O pacote de trabalho não foi encontrado
     ou não pertence a este projeto
   error_must_be_project_member: deve ser membro do projeto
-  error_migrations_are_pending: Your OpenProject installation has pending database
-    migrations. You have likely missed running the migrations on your last upgrade.
-    Please check the upgrade guide to properly upgrade your installation.
-  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
+  error_migrations_are_pending: Sua instalação do OpenProject tem migrações de banco
+    de dados pendentes. Você provavelmente esqueceu de executar as migrações depois
+    da sua última atualização. Por favor, verifique o guia de atualização para atualizar
+    sua instalação corretamente.
+  error_migrations_visit_upgrade_guides: Por favor, visite nossa documentação do guia
+    de atualização
   error_no_default_work_package_status: Nenhuma situação padrão de pacote de trabalho
     foi definida. Por favor, verifique sua configuração (vá em "Administração-> Situação
     de pacotes de trabalho").
@@ -1176,6 +1179,7 @@ pt-BR:
           Enterprise Edition você contribui para o esforço da comunidade Open-Source.
     links:
       upgrade_enterprise_edition: Atualizar para a versão Enterprise Edition
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: Guias do usuário
       faq: Perguntas Freqüentes
       glossary: Glossário
@@ -1402,7 +1406,7 @@ pt-BR:
   label_hierarchy_leaf: Folha de hierarquia
   label_home: Início
   label_subject_or_id: Assunto ou ID
-  label_impressum: Legal notice
+  label_impressum: Aviso legal
   label_in: em
   label_in_less_than: em menos de
   label_in_more_than: em mais de
@@ -1653,7 +1657,7 @@ pt-BR:
   label_updated_time: Atualizado há %{value} atrás
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Atualizado por %{author} %{age} atrás
-  label_upgrade_guides: Upgrade guides
+  label_upgrade_guides: Guias de atualização
   label_used_by: Usado por
   label_used_by_types: Utilizado por tipos
   label_used_in_projects: Utilizado em projetos
@@ -2790,6 +2794,10 @@ pt-BR:
 '
   menu_item: Item de menu
   menu_item_setting: Visibilidade
+  mysql_deprecation:
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: Item de menu para página wiki "%{title}"
   wiki_menu_item_setting: Visibilidade
   wiki_menu_item_new_main_item_explanation: 'Você está excluindo somente o item de

@@ -1075,6 +1075,7 @@ zh:
         you_contribute: 开发人员也需要支付账单。使用企业版，您可以为此 Open-Source 社区工作提供大力的财力支持。
     links:
       upgrade_enterprise_edition: 升级到企业版
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: 用户指南
       faq: 常见问题
       glossary: 术语表
@@ -2499,6 +2500,10 @@ zh:
 '
   menu_item: 菜单项
   menu_item_setting: 可见性
+  mysql_deprecation:
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: wiki页面” %{title} “的菜单项
   wiki_menu_item_setting: 可见性
   wiki_menu_item_new_main_item_explanation: '您正在删除唯一的主wiki菜单项。您现在需要选择一个wiki页面生成新的主项目。若要删除wiki，wiki模块可以由管理员停用。

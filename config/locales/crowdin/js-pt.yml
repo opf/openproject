@@ -21,16 +21,16 @@ pt:
     close_form_title: Fechar formulário
     boards:
       upsale:
-        boards: Need to freely structure your work in a board view?
+        boards: Precisa estruturar livremente seu trabalho na visualização de quadro?
         check_out_link: Experimente a versão Enterprise Edition.
       lists:
-        delete: Delete list
+        delete: Apagar lista
     card:
-      add_new: Add new card
+      add_new: Adicionar novo cartão
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: Entire card by
-      remove_from_list: Remove card from list
+        inline: 'Destacar inline:'
+        entire_card_by: Cartão inteiro por
+      remove_from_list: Apagar cartão da lista
     clipboard:
       browser_error: O seu navegador não suporta o copiar para a área de transferência.
         Por favor, copie manualmente o texto selecionado.
@@ -209,9 +209,9 @@ pt:
     label_ascending: Ascendente
     label_author: 'Autor: %{user}'
     label_between: entre
-    label_board: Board
+    label_board: Quadro
     label_board_locked: Bloqueado
-    label_board_plural: Boards
+    label_board_plural: Quadros
     label_board_sticky: Pegajoso
     label_create_work_package: Criar nova tarefa
     label_created_by: Criado por
@@ -335,7 +335,7 @@ pt:
     label_upload_notification: A carregar ficheiros...
     label_work_package_upload_notification: 'Upload de ficheiros para a tarefa #%{id}:
       %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} adicionado por %{author}"
     label_files_to_upload: 'Esses ficheiros serão enviados:'
     label_rejected_files: 'Esses ficheiros não podem ser carregados:'
     label_rejected_files_reason: Esses ficheiros não podem ser carregados enquanto
@@ -374,12 +374,13 @@ pt:
             Adicione novas tarefas ou impedimentos com o ícone + ao lado de uma história
             de utilizador. Ao arrastar e soltar pode atualizar o status.
         boards:
-          overview: Manage your work within an intuitive <b>Boards</b> view.
-          lists: You can create multiple lists (columns) within one Board view, e.g.
-            to create a KANBAN board.
-          add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          overview: Gerencie seu trabalho dentro de uma visão intuitiva de <b>Quadros</b>.
+          lists: Você pode criar várias listas (colunas) dentro de uma visão de um
+            board, por exemplo, para criar um quadro de KANBAN.
+          add: Clique no + irá <b>adicionar um novo cartão</b> à lista dentro de um
+            Quadro.
+          drag: Arraste e solte seus cartões dentro de uma lista para re-ordenar ou
+            outra lista. Um duplo clique irá abrir a visualização de detalhes.
         wp:
           toggler: Agora vamosespreitar a seção de <b>Pacote de trabalho</b>, que
             lhe dá uma visão mais detalhada do seu trabalho.
@@ -856,7 +857,7 @@ pt:
           de trabalho listados serão recursivamente removidos.
         deletes_children: Todos os pacotes de trabalho filhos e seus descendentes
           serão também recursivamente apagados.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Nenhum resultado visível para exibir.
     notice_successful_create: Criado com sucesso.
     notice_successful_delete: Eliminado com sucesso.
     notice_successful_update: Actualizado com sucesso.

@@ -1211,6 +1211,7 @@ de:
           OpenProject bei.
     links:
       upgrade_enterprise_edition: Auf Enterprise-Edition upgraden
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: Benutzerhandbuch
       faq: Häufig gestellte Fragen
       glossary: Glossar
@@ -1438,7 +1439,7 @@ de:
   label_hierarchy_leaf: Hierarchie-Blatt
   label_home: Hauptseite
   label_subject_or_id: Titel oder ID
-  label_impressum: Legal notice
+  label_impressum: Impressum
   label_in: an
   label_in_less_than: in weniger als
   label_in_more_than: in mehr als
@@ -2847,6 +2848,10 @@ de:
 '
   menu_item: Menüpunkt
   menu_item_setting: Sichtbarkeit
+  mysql_deprecation:
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: Menüpunkt für die Wikiseite "%{title}"
   wiki_menu_item_setting: Sichtbarkeit
   wiki_menu_item_new_main_item_explanation: 'Der einzige Wiki-Hauptmenüpunkt wird

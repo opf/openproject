@@ -1169,6 +1169,7 @@ sv-SE:
           Edition bidrar du väsentligt till detta open source-projekt.
     links:
       upgrade_enterprise_edition: Uppgradera till Enterprise Edition
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: Användarguider
       faq: Vanliga frågor (FAQ)
       glossary: Ordlista
@@ -2752,6 +2753,10 @@ sv-SE:
 '
   menu_item: Menyalternativ
   menu_item_setting: Synlighet
+  mysql_deprecation:
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: Menyobjekt för wiki-sida "%{title}"
   wiki_menu_item_setting: Synlighet
   wiki_menu_item_new_main_item_explanation: 'Du tar bort det enda huvudobjektet i

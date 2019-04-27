@@ -1189,6 +1189,7 @@ hr:
           you substantially contribute to this Open-Source community effort.
     links:
       upgrade_enterprise_edition: Nadogradnja na izdanje Enterprise
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: Korisnički priručnici
       faq: Često postavljana pitanja
       glossary: Kazalo pojmova
@@ -2796,6 +2797,10 @@ hr:
 '
   menu_item: Stavka izbornika
   menu_item_setting: Vidljivost
+  mysql_deprecation:
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: Stavka izbornika za wiki stranicu "%{title}"
   wiki_menu_item_setting: Vidljivost
   wiki_menu_item_new_main_item_explanation: 'Izbrisati će te samo glavnu stavku wiki

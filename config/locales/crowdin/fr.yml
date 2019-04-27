@@ -1201,6 +1201,7 @@ fr:
           de la communauté Open-Source.
     links:
       upgrade_enterprise_edition: Passer à la version Entreprise
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: Guides d'utilisation
       faq: FAQ
       glossary: Lexique
@@ -2839,6 +2840,10 @@ fr:
 '
   menu_item: Éléments de menu
   menu_item_setting: Visibilité
+  mysql_deprecation:
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: Élément de menu pour wikipage « %{title} »
   wiki_menu_item_setting: Visibilité
   wiki_menu_item_new_main_item_explanation: 'Vous êtes en train de supprimer l''élement

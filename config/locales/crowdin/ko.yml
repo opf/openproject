@@ -1128,6 +1128,7 @@ ko:
           노력에 실질적으로 기여할 수 있습니다.
     links:
       upgrade_enterprise_edition: Enterprise Edition으로 업그레이드 하세요.
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: 사용자 가이드
       faq: FAQ
       glossary: 용어집
@@ -2616,6 +2617,10 @@ ko:
 '
   menu_item: 메뉴 항목
   menu_item_setting: 표시 여부
+  mysql_deprecation:
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: 위키 페이지 "%{title}"에 대한 메뉴 항목
   wiki_menu_item_setting: 표시 여부
   wiki_menu_item_new_main_item_explanation: '유일한 기본 위키 메뉴 항목을 삭제하려고 합니다. 이제 새로운 기본

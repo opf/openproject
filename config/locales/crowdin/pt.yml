@@ -75,7 +75,7 @@ pt:
 '
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: Atualmente, não existem publicações para o fórum.
   colors:
     index:
       no_results_title_text: Atualmente, não existem cores.
@@ -158,8 +158,8 @@ pt:
       activities:
         no_results_title_text: Atualmente, não existem atividades disponíveis.
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: Atualmente, não existem fóruns para o projeto.
+        no_results_content_text: Criar novo fórum
       categories:
         no_results_title_text: Atualmente, não existem categorias de pacote de trabalho.
         no_results_content_text: Criar uma nova categoria de pacote de trabalho
@@ -537,7 +537,7 @@ pt:
         too_long: é muito longo (o máximo é %{count} caracteres).
         too_short: é muito curto (o mínimo é de %{count} carateres).
         unchangeable: não pode ser alterado.
-        unremovable: cannot be removed.
+        unremovable: não pode ser removido.
         wrong_length: tamanho errado (deve ser %{count} caracteres).
       models:
         custom_field:
@@ -1072,9 +1072,10 @@ pt:
   error_can_not_remove_role: Esta função já está a ser utilizada e não pode ser eliminada.
   error_can_not_reopen_work_package_on_closed_version: Uma tarefa atribuída a uma
     versão fechada não pode ser reaberta
-  error_can_not_find_all_resources: Could not find all related resources to this request.
+  error_can_not_find_all_resources: Não foi possível encontrar todos os recursos relacionados
+    a esta solicitação.
   error_check_user_and_role: Por favor, escolha um utilizador e uma função.
-  error_code: Error %{code}
+  error_code: Erro %{code}
   error_cookie_missing: O cookie OpenProject está em falta. Por favor, certifique-se
     de que os cookies estão habilitados, uma vez que esta aplicação não funcionará
     corretamente sem eles.
@@ -1100,10 +1101,12 @@ pt:
   error_work_package_not_found_in_project: A tarefa não foi encontrada ou não pertence
     a este projecto
   error_must_be_project_member: deve ser membro do projeto
-  error_migrations_are_pending: Your OpenProject installation has pending database
-    migrations. You have likely missed running the migrations on your last upgrade.
-    Please check the upgrade guide to properly upgrade your installation.
-  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
+  error_migrations_are_pending: Sua instalação do OpenProject tem migrações de banco
+    de dados pendentes. Você provavelmente esqueceu de executar as migrações depois
+    da sua última atualização. Por favor, verifique o guia de atualização para atualizar
+    sua instalação corretamente.
+  error_migrations_visit_upgrade_guides: Por favor, visite nossa documentação do guia
+    de atualização
   error_no_default_work_package_status: Não está definido um estado padrão para os
     pacotes de trabalho. Verifique a sua configuração (dirija-se a "Administração
     -> Estados de pacotes de trabalho").
@@ -1191,6 +1194,7 @@ pt:
           desta comunidade de código aberto.
     links:
       upgrade_enterprise_edition: Atualizar para a versão Enterprise
+      postgres_migration: Migrating your installation to PostgreSQL
       user_guides: Guia do Utilizador
       faq: FAQ (Perguntas Mais Frequentes)
       glossary: Glossário
@@ -1263,7 +1267,7 @@ pt:
   label_available_project_work_package_categories: Categorias de pacotes de trabalho
     disponíveis
   label_available_project_work_package_types: Tipos de pacotes de trabalho disponíveis
-  label_available_project_forums: Available forums
+  label_available_project_forums: Fóruns disponíveis
   label_available_project_versions: Versões disponíveis
   label_available_project_repositories: Repositórios disponíveis
   label_api_documentation: Documentação da API
@@ -1279,7 +1283,7 @@ pt:
   label_branch: Ramo
   label_browse: Navegador
   label_bulk_edit_selected_work_packages: Editar tarefas selecionadas de seguida
-  label_bundled: "(Bundled)"
+  label_bundled: "(Empacotado)"
   label_calendar: Calendário
   label_calendar_show: Mostrar calendário
   label_category: Categoria
@@ -1379,7 +1383,7 @@ pt:
   label_equals: é
   label_everywhere: everywhere
   label_example: Exemplo
-  label_import: Import
+  label_import: Importar
   label_export_to: 'Também disponível em:'
   label_expanded_click_to_collapse: Expandido. Clique para ocultar
   label_f_hour: "%{value} hora"
@@ -1417,7 +1421,7 @@ pt:
   label_hierarchy_leaf: Folha da hierarquia
   label_home: Início
   label_subject_or_id: Subject or ID
-  label_impressum: Legal notice
+  label_impressum: Aviso legal
   label_in: em
   label_in_less_than: em menos de
   label_in_more_than: em mais de
@@ -1543,7 +1547,7 @@ pt:
   label_planning: Planeamento
   label_please_login: Por favor inicie sessão
   label_plugins: Plugins
-  label_modules_and_plugins: Modules and Plugins
+  label_modules_and_plugins: Módulos e Complementos
   label_precedes: precede
   label_preferences: Preferências
   label_preview: Pré visualizar
@@ -1669,7 +1673,7 @@ pt:
   label_updated_time: Alterado há %{value} atrás
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Atualizado por %{author} há %{age}
-  label_upgrade_guides: Upgrade guides
+  label_upgrade_guides: Guias de atualização
   label_used_by: Utilizado por
   label_used_by_types: Utilizado por tipos
   label_used_in_projects: Utilizado em projetos
@@ -2816,6 +2820,10 @@ pt:
 '
   menu_item: Item de menu
   menu_item_setting: Visibilidade
+  mysql_deprecation:
+    notice: |
+      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
+      This process is easy when following our migration guides:
   wiki_menu_item_for: Item de menu para página wiki "%{title}"
   wiki_menu_item_setting: Visibilidade
   wiki_menu_item_new_main_item_explanation: 'Está a apagar o único item de menu wiki
