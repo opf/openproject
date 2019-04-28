@@ -1061,7 +1061,7 @@ lol:
         you_contribute: crwdns124290:0crwdne124290:0
     links:
       upgrade_enterprise_edition: crwdns124292:0crwdne124292:0
-      postgres_migration: Migrating your installation to PostgreSQL
+      postgres_migration: crwdns129698:0crwdne129698:0
       user_guides: crwdns124294:0crwdne124294:0
       faq: crwdns124296:0crwdne124296:0
       glossary: crwdns124298:0crwdne124298:0
@@ -2466,9 +2466,9 @@ lol:
   menu_item: crwdns126830:0crwdne126830:0
   menu_item_setting: crwdns126832:0crwdne126832:0
   mysql_deprecation:
-    notice: |
-      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
-      This process is easy when following our migration guides:
+    notice: 'crwdns129700:0crwdne129700:0
+
+'
   wiki_menu_item_for: crwdns126834:0%{title}crwdne126834:0
   wiki_menu_item_setting: crwdns126836:0crwdne126836:0
   wiki_menu_item_new_main_item_explanation: 'crwdns126838:0crwdne126838:0

@@ -1058,7 +1058,7 @@ tr:
     iş paketi yeniden açılamaz
   error_can_not_find_all_resources: Bu istekle ilgili tüm kaynaklar bulunamadı.
   error_check_user_and_role: Lütfen bir kullanıcı ve bir rol seçin.
-  error_code: Error %{code}
+  error_code: Hata  %{code}
   error_cookie_missing: OpenProject çerezi yok. Lütfen uygulamanın düzgün çalışabilmesi
     için, tarayıcınızda çerezlere izin verildiğine emin olun.
   error_custom_option_not_found: Seçenek yok.
@@ -1082,10 +1082,12 @@ tr:
   error_work_package_not_found_in_project: Iş paketi bulunamadı veya bu projeye ait
     değil
   error_must_be_project_member: projesi üyesi olmalıdır
-  error_migrations_are_pending: Your OpenProject installation has pending database
-    migrations. You have likely missed running the migrations on your last upgrade.
-    Please check the upgrade guide to properly upgrade your installation.
-  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
+  error_migrations_are_pending: OpenProject kurulumunuzda bekleyen veritabanı geçişleri
+    var. Son yükseltme işleminizde geçiş işlemlerini gerçekleştirme ihtimalinizi büyük
+    olasılıkla kaçırdınız. Lütfen kurulumunuzu uygun şekilde yükseltmek için yükseltme
+    kılavuzunu kontrol edin.
+  error_migrations_visit_upgrade_guides: Lütfen yükseltme kılavuzu belgelerimizi ziyaret
+    edin
   error_no_default_work_package_status: Varsayılan iş paketi durumu tanımlanmadı.
     Lütfen yapılandırmanızı kontrol edin ("Yönetim -> İş paketi durumu " na gidin).
   error_no_type_in_project: Bu proje ile ilişkili bir tür yok. Lütfen Proje ayarlarını
@@ -1396,7 +1398,7 @@ tr:
   label_hierarchy_leaf: Hiyerarşi ağacı
   label_home: Ana sayfa
   label_subject_or_id: Konu ya da ID
-  label_impressum: Legal notice
+  label_impressum: Yasal Uyarı
   label_in: şurada
   label_in_less_than: daha azdır
   label_in_more_than: daha fazla
@@ -1646,7 +1648,7 @@ tr:
   label_updated_time: "%{value} önce güncellendi"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author} tarafından %{age} önce güncellendi"
-  label_upgrade_guides: Upgrade guides
+  label_upgrade_guides: Yükseltme rehberleri
   label_used_by: Kullanan
   label_used_by_types: Türleri tarafından kullanılan
   label_used_in_projects: Projede kullanılan
@@ -2765,9 +2767,12 @@ tr:
   menu_item: Menü seçeneği
   menu_item_setting: Görünürlük
   mysql_deprecation:
-    notice: |
-      Future versions of OpenProject will likely drop or reduce support for MySQL and MariaDB databases. Your installation is still running on MySQL and we suggest you migrate your installation to PostgreSQL.
-      This process is easy when following our migration guides:
+    notice: 'Future versions of OpenProject will likely drop or reduce support for
+      MySQL and MariaDB databases. Your installation is still running on MySQL and
+      we suggest you migrate your installation to PostgreSQL. This process is easy
+      when following our migration guides:
+
+'
   wiki_menu_item_for: Wikipage için menü öğesi " %{title} "
   wiki_menu_item_setting: Görünürlük
   wiki_menu_item_new_main_item_explanation: 'Sadece ana wiki menü öğesini silmektesiniz.
