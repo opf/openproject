@@ -32,6 +32,23 @@ OkComputer::Registry.register "delayed_jobs_never_ran",
 # Make dj backed up optional due to bursts
 OkComputer.make_optional %w(delayed_jobs_backed_up)
 
+# Register web worker check for web + database
+OkComputer::CheckCollection.new('web').tap do |collection|
+  collection.register :default, OkComputer::Registry.fetch('default')
+  collection.register :database, OkComputer::Registry.fetch('database')
+  OkComputer::Registry.default_collection.register 'web', collection
+end
+
+# Register full check for web + database + dj worker
+OkComputer::CheckCollection.new('full').tap do |collection|
+  collection.register :default, OkComputer::Registry.fetch('default')
+  collection.register :database, OkComputer::Registry.fetch('database')
+  collection.register :delayed_jobs_backed_up, OkComputer::Registry.fetch('delayed_jobs_backed_up')
+  collection.register :delayed_jobs_never_ran, OkComputer::Registry.fetch('delayed_jobs_never_ran')
+  OkComputer::Registry.default_collection.register 'full', collection
+end
+
+
 # Check if authentication required
 authentication_password = OpenProject::Configuration.health_checks_authentication_password
 if authentication_password.present?
