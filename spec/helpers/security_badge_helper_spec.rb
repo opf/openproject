@@ -29,7 +29,12 @@
 require 'spec_helper'
 
 describe SecurityBadgeHelper, type: :helper do
-  describe '#security_badge_url', with_settings: { installation_uuid: 'abcd1234' } do
+  describe '#security_badge_url' do
+    before do
+      # can't use with_settings since Setting.installation_uuid has a custom implementation
+      allow(Setting).to receive(:installation_uuid).and_return 'abcd1234'
+    end
+
     it "generates a URL with the release API path and the details of the installation" do
       uri = URI.parse(helper.security_badge_url)
       query = Rack::Utils.parse_nested_query(uri.query)

@@ -78,9 +78,11 @@ export class WorkPackageContextMenuHelperService {
   }
 
   public getPermittedActionLinks(workPackage:WorkPackageResource, permittedActionConstants:any):WorkPackageAction[] {
-    var singularPermittedActions:any[] = [];
+    let singularPermittedActions: any[] = [];
 
-    var allowedActions = this.getAllowedActions(workPackage, permittedActionConstants);
+    let allowedActions = this.getAllowedActions(workPackage, permittedActionConstants);
+
+    allowedActions = allowedActions.concat(this.getAllowedRelationActions(workPackage));
 
     _.each(allowedActions, (allowedAction) => {
       singularPermittedActions.push({
@@ -95,10 +97,10 @@ export class WorkPackageContextMenuHelperService {
   }
 
   public getIntersectOfPermittedActions(workPackages:any) {
-    var bulkPermittedActions:any = [];
+    let bulkPermittedActions: any = [];
 
-    var permittedActions = _.filter(this.BULK_ACTIONS, (action:any) => {
-      return _.every(workPackages, (workPackage:WorkPackageResource) => {
+    let permittedActions = _.filter(this.BULK_ACTIONS, (action: any) => {
+      return _.every(workPackages, (workPackage: WorkPackageResource) => {
         return this.getAllowedActions(workPackage, [action]).length >= 1;
       });
     });
@@ -115,22 +117,22 @@ export class WorkPackageContextMenuHelperService {
   }
 
   public getBulkActionLink(action:any, workPackages:any) {
-    var workPackageIdParams = {
-      'ids[]': workPackages.map(function(wp:any){
+    let workPackageIdParams = {
+      'ids[]': workPackages.map(function (wp: any) {
         return wp.id;
       })
     };
-    var serializedIdParams = this.UrlParamsHelper.buildQueryString(workPackageIdParams);
+    let serializedIdParams = this.UrlParamsHelper.buildQueryString(workPackageIdParams);
 
-    var linkAndQueryString = action.href.split('?');
-    var link = linkAndQueryString.shift();
-    var queryParts = linkAndQueryString.concat(new Array(serializedIdParams));
+    let linkAndQueryString = action.href.split('?');
+    let link = linkAndQueryString.shift();
+    let queryParts = linkAndQueryString.concat(new Array(serializedIdParams));
 
     return link + '?' + queryParts.join('&');
   }
 
-  public getAllowedActions(workPackage:WorkPackageResource, actions:WorkPackageAction[]):WorkPackageAction[] {
-    var allowedActions:WorkPackageAction[] = [];
+  private getAllowedActions(workPackage:WorkPackageResource, actions:WorkPackageAction[]):WorkPackageAction[] {
+    let allowedActions: WorkPackageAction[] = [];
 
     _.each(actions, (action) => {
       if (workPackage.hasOwnProperty(action.link)) {
@@ -141,10 +143,16 @@ export class WorkPackageContextMenuHelperService {
 
     _.each(this.HookService.call('workPackageTableContextMenu'), (action) => {
       if (workPackage.hasOwnProperty(action.link)) {
-        var index = action.indexBy ? action.indexBy(allowedActions) : allowedActions.length;
+        let index = action.indexBy ? action.indexBy(allowedActions) : allowedActions.length;
         allowedActions.splice(index, 0, action)
       }
     });
+
+    return allowedActions;
+  }
+
+  private getAllowedRelationActions(workPackage:WorkPackageResource) {
+    let allowedActions: WorkPackageAction[] = [];
 
     if (workPackage.addRelation && this.wpTableTimeline.isVisible) {
       allowedActions.push({
@@ -169,6 +177,7 @@ export class WorkPackageContextMenuHelperService {
 
     return allowedActions;
   }
+
 
   public getPermittedActions(workPackages:WorkPackageResource[], permittedActionConstants:any):WorkPackageAction[] {
     if (workPackages.length === 1) {

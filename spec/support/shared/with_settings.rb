@@ -46,21 +46,21 @@ RSpec.configure do |config|
     if settings.present?
       settings = aggregate_mocked_settings(example, settings)
 
+      allow(Setting).to receive(:[]).and_call_original
+
       settings.each do |k, v|
-        bare, questionmarked = if k.to_s.ends_with?('?')
-                                 [k.to_s[0..-2].to_sym, k]
-                               else
-                                 [k, "#{k}?".to_sym]
-                               end
+        name = k.to_s.sub(/\?\Z/, '') # remove trailing question mark if present to get setting name
 
-        raise "#{k} is not a valid setting" unless Setting.respond_to?(bare)
+        raise "#{k} is not a valid setting" unless Setting.respond_to?(name)
 
-        if Setting.available_settings[bare.to_s] && Setting.available_settings[bare.to_s]['format'] == 'boolean'
-          allow(Setting).to receive(bare).and_return(v)
-          allow(Setting).to receive(questionmarked).and_return(v)
-        else
-          allow(Setting).to receive(k).and_return(v)
+        expect(name).not_to start_with("localized_"), ->() do
+          base = name[10..-1]
+
+          "Don't use `#{name}` in `with_settings`. Do this: `with_settings: { #{base}: { \"en\" => \"#{v}\" } }`"
         end
+
+        allow(Setting).to receive(:[]).with(name).and_return v
+        allow(Setting).to receive(:[]).with(name.to_sym).and_return v
       end
     end
   end

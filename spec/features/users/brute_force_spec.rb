@@ -102,12 +102,12 @@ describe 'Loggin (with brute force protection)', type: :feature do
     login_with login, invalid_password
 
     expect(page)
-      .to have_content(I18n.t(:notice_account_invalid_credentials_or_blocked))
+      .to have_content(I18n.t(:notice_account_invalid_credentials))
 
     new_login_attempt(login, invalid_password)
 
     expect(page)
-      .to have_content(I18n.t(:notice_account_invalid_credentials_or_blocked))
+      .to have_content(I18n.t(:notice_account_invalid_credentials))
 
     new_login_attempt(login, password)
 
