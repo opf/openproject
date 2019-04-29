@@ -220,8 +220,8 @@ module API
       e.error_response status: 401, message: representer.to_json, headers: warden.headers, log: false
     end
 
-    error_response ActiveRecord::RecordNotFound, ::API::Errors::NotFound
-    error_response ActiveRecord::StaleObjectError, ::API::Errors::Conflict
+    error_response ActiveRecord::RecordNotFound, ::API::Errors::NotFound, log: false
+    error_response ActiveRecord::StaleObjectError, ::API::Errors::Conflict, log: false
 
     error_response MultiJson::ParseError, ::API::Errors::ParseError
 
