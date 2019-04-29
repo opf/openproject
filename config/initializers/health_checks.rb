@@ -40,6 +40,7 @@ end
 OkComputer::CheckCollection.new('full').tap do |collection|
   collection.register :default, OkComputer::Registry.fetch('default')
   collection.register :database, OkComputer::Registry.fetch('database')
+  collection.register :mail, OkComputer::ActionMailerCheck.new
   collection.register :delayed_jobs_backed_up, OkComputer::Registry.fetch('delayed_jobs_backed_up')
   collection.register :delayed_jobs_never_ran, OkComputer::Registry.fetch('delayed_jobs_never_ran')
   OkComputer::Registry.default_collection.register 'full', collection
