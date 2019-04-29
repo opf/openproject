@@ -357,9 +357,6 @@ repository_checkout_data:
       enabled: 0
     subversion:
       enabled: 0
-api_max_page_size:
-  format: int
-  default: 500
 demo_projects_available:
   default: false
 boards_demo_data_available:
