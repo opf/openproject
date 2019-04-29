@@ -30,7 +30,7 @@ module API
   module V3
     module Groups
       class GroupsAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::ParamsHelper
+        helpers ::API::Utilities::PageSizeHelper
 
         resources :groups do
           params do

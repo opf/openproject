@@ -30,7 +30,7 @@ module API
   module V3
     module News
       class NewsAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::ParamsHelper
+        helpers ::API::Utilities::PageSizeHelper
 
         resources :news do
           get do

@@ -32,7 +32,7 @@ module API
   module V3
     module WorkPackages
       class WatchersAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::ParamsHelper
+        helpers ::API::Utilities::PageSizeHelper
 
         get '/available_watchers' do
           authorize(:add_work_package_watchers, context: @work_package.project)

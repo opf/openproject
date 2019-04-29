@@ -30,15 +30,37 @@
 
 module API
   module Utilities
-    module ParamsHelper
+    module PageSizeHelper
+
+      # Set a default max size to ensure backwards compatibility
+      # with the previous private setting `maximum_page_size`.
+      # The actual value is taken from
+      # max(Setting.per_page_options)
+      DEFAULT_API_MAX_SIZE ||= 500
+
+      ##
+      # Determine set page_size from string
       def resolve_page_size(string)
         resolved_value = to_i_or_nil(string)
         # a page size of 0 is a magic number for the maximum page size value
-        if resolved_value == 0 || resolved_value.to_i > Setting.api_max_page_size.to_i
-          resolved_value = Setting.api_max_page_size.to_i
+        if resolved_value == 0 || resolved_value.to_i > maximum_page_size
+          resolved_value = maximum_page_size
         end
         resolved_value
       end
+
+      ##
+      # Get the maximum allowed page size from
+      # the largest option of per_page size,
+      # or the magic fallback value 500.
+      def maximum_page_size
+        [
+          DEFAULT_API_MAX_SIZE,
+          Setting.per_page_options_array.max
+        ].max
+      end
+
+      private
 
       def to_i_or_nil(string)
         string ? string.to_i : nil

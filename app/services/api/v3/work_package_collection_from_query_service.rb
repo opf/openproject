@@ -30,7 +30,7 @@ module API
   module V3
     class WorkPackageCollectionFromQueryService
       include Utilities::PathHelper
-      include ::API::Utilities::ParamsHelper
+      include ::API::Utilities::PageSizeHelper
 
       def initialize(query, user)
         self.query = query
