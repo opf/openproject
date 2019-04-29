@@ -74,8 +74,15 @@ module Components
         expect(page).to have_conditional_selector(present, '.advanced-filters--add-filter-value option', text: name)
       end
 
+      def expect_loaded
+        expect(filter_button).to have_selector('.badge', wait: 20)
+      end
+
       def add_filter_by(name, operator, value, selector = nil)
-        select name, from: "add_filter_select"
+        select_autocomplete page.find('.advanced-filters--add-filter-value'),
+                            query: name,
+                            results_selector: '.ng-dropdown-panel-items'
+
 
         set_filter(name, operator, value, selector)
       end
