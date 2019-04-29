@@ -26,32 +26,30 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Principals
-      class PrincipalsAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::PageSizeHelper
+require 'spec_helper'
 
-        resource :principals do
-          get do
-            query = ParamsToQueryService.new(Principal, current_user).call(params)
+describe ::API::Utilities::PageSizeHelper do
+  let(:clazz) do
+    Class.new do
+      include ::API::Utilities::PageSizeHelper
+    end
+  end
+  let(:subject) { clazz.new }
 
-            if query.valid?
-              principals = query
-                           .results
-                           .where(id: Principal.in_visible_project_or_me(current_user))
-                           .includes(:preference)
+  describe '#maximum_page_size' do
+    context 'when small values in per_page_options',
+            with_settings: { per_page_options: '20,100' } do
 
-              ::API::V3::Users::PaginatedUserCollectionRepresenter.new(principals,
-                                                                       api_v3_paths.principals,
-                                                                       page: to_i_or_nil(params[:offset]),
-                                                                       per_page: resolve_page_size(params[:pageSize]),
-                                                                       current_user: current_user)
-            else
-              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
-            end
-          end
-        end
+      it 'uses the magical number 500' do
+        expect(subject.maximum_page_size).to eq(500)
+      end
+    end
+
+    context 'when larger values in per_page_options',
+            with_settings: { per_page_options: '20,100,1000' } do
+
+      it 'uses that value' do
+        expect(subject.maximum_page_size).to eq(1000)
       end
     end
   end

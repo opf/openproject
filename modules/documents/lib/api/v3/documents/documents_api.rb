@@ -33,7 +33,7 @@ module API
   module V3
     module Documents
       class DocumentsAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::ParamsHelper
+        helpers ::API::Utilities::PageSizeHelper
 
         resources :documents do
           get do

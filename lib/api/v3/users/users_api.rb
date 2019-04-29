@@ -33,7 +33,7 @@ module API
   module V3
     module Users
       class UsersAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::ParamsHelper
+        helpers ::API::Utilities::PageSizeHelper
 
         helpers do
           def user_transition(allowed)
