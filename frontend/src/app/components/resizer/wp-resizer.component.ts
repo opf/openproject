@@ -176,9 +176,9 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     this.oldPosition = (e.clientX || e.pageX);
 
     // Get new value depending on the delta
-    // The resizingElement is not allowed to be smaller than 480px
+    // The resizingElement is not allowed to be smaller than 500px
     this.elementFlex = this.elementFlex + delta;
-    let newValue = this.elementFlex < 480 ? 480 : this.elementFlex;
+    let newValue = this.elementFlex < 500 ? 500 : this.elementFlex;
 
     // Store item in local storage
     window.OpenProject.guardedLocalStorage(this.localStorageKey, String(newValue));
