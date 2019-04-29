@@ -32,6 +32,16 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
   include Queries::WorkPackages::Filter::FilterOnTsvMixin
   include Queries::WorkPackages::Filter::TextFilterOnJoinMixin
 
+  attr_reader :join_table_suffix
+
+  def initialize(name, options = {})
+    super name, options
+
+    # Generate a uniq suffix to add to the join table
+    # because attachment filters may be used multiple times
+    @join_table_suffix = SecureRandom.hex(4)
+  end
+
   def type
     :text
   end
@@ -44,7 +54,11 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
     Queries::Operators::All.sql_for_field(values, join_table_alias, 'id')
   end
 
-  private
+  protected
+
+  def join_table_alias
+    "#{self.class.key}_#{join_table}_#{join_table_suffix}"
+  end
 
   def join_table
     Attachment.table_name
