@@ -32,8 +32,9 @@ OpenProject::Application.routes.draw do
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
   # Route for health_checks
+  get '/health_check' => 'ok_computer/ok_computer#show', check: 'web'
   # Override the default `all` checks route to return the full check
-  get '/health_checks/all' => redirect("#{rails_relative_url_root}/health_checks/full")
+  get '/health_checks/all' => 'ok_computer/ok_computer#show', check: 'full'
   mount OkComputer::Engine, at: "/health_checks"
 
   # Redirect deprecated issue links to new work packages uris
