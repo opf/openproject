@@ -480,8 +480,6 @@ GEM
     hashdiff (0.3.8)
     hashery (2.1.2)
     hashie (3.6.0)
-    health_check (3.0.0)
-      railties (>= 5.0)
     html-pipeline (2.8.3)
       activesupport (>= 2)
       nokogiri (>= 1.4)
@@ -936,7 +934,6 @@ DEPENDENCIES
   gon (~> 6.2.1)
   grape (~> 1.2.3)
   grids!
-  health_check
   html-pipeline (~> 2.8.0)
   htmldiff
   i18n-js (~> 3.2.0)
