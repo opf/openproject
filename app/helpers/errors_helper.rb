@@ -102,17 +102,17 @@ module ErrorsHelper
         head @status
       end
     end
+  end
 
-    def unset_template_magic
-      if $ERROR_INFO.is_a?(ActionView::ActionViewError)
-        @template.instance_variable_set('@project', nil)
-        @template.instance_variable_set('@status', 500)
-        @template.instance_variable_set('@message', message)
-      else
-        @project = nil
-      end
-    rescue StandardError
-      # bad luck
+  def unset_template_magic
+    if $ERROR_INFO.is_a?(ActionView::ActionViewError)
+      @template.instance_variable_set('@project', nil)
+      @template.instance_variable_set('@status', 500)
+      @template.instance_variable_set('@message', message)
+    else
+      @project = nil
     end
+  rescue StandardError
+    # bad luck
   end
 end
