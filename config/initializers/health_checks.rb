@@ -17,9 +17,6 @@ class DelayedJobNeverRanCheck < OkComputer::Check
   end
 end
 
-# Mount at /health_checks
-OkComputer.mount_at = 'health_checks'
-
 # Register delayed_job backed up test
 dj_max = OpenProject::Configuration.health_checks_jobs_queue_count_threshold
 OkComputer::Registry.register "delayed_jobs_backed_up",

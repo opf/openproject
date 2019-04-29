@@ -31,6 +31,11 @@ OpenProject::Application.routes.draw do
   root to: 'homescreen#index', as: 'home'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
+  # Route for health_checks
+  # Override the default `all` checks route to return the full check
+  get '/health_checks/all' => redirect("#{rails_relative_url_root}/health_checks/full")
+  mount OkComputer::Engine, at: "/health_checks"
+
   # Redirect deprecated issue links to new work packages uris
   get '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages")
   # The URI.escape doesn't escape / unless you ask it to.
