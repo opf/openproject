@@ -20,7 +20,7 @@
       </editable-toolbar-title>
 
       <div class="board-list--menu">
-        <a boardListDropdown>
+        <a boardListDropdown class="board-list--more-menu" *ngIf="canDelete">
           <op-icon icon-classes="icon-show-more-horizontal"></op-icon>
         </a>
       </div>
