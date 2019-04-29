@@ -29,10 +29,13 @@
 #++
 
 module ColorsHelper
-  def options_for_colors(colored_thing, default_label: I18n.t('colors.label_no_color'), default_color: '')
-    s = content_tag(:option, default_label, value: default_color)
+  def options_for_colors(colored_thing, allow_bright_colors)
+    colors = []
     Color.find_each do |c|
+      next if !allow_bright_colors && c.bright?
+
       options = {}
+      options[:name] = c.name
       options[:value] = c.id
       options[:data] = {
         color: c.hexcode,
@@ -41,9 +44,9 @@ module ColorsHelper
       }
       options[:selected] = true if c.id == colored_thing.color_id
 
-      s << content_tag(:option, c.name, options)
+      colors.push(options)
     end
-    s
+    colors.to_json
   end
 
   def darken_color(hex_color, amount = 0.4)
@@ -59,6 +62,15 @@ module ColorsHelper
     background = color.contrasting_color(dark_color: '#333', light_color: 'transparent')
     style = "background-color: #{background}; color: #{color.hexcode}"
     content_tag(:span, color.hexcode, class: 'color--text-preview', style: style)
+  end
+
+  def color_css
+    Color.find_each do |color|
+      concat ".__hl_inline_color_#{color.id}_dot::before { background-color: #{color.hexcode} !important;}"
+      concat ".__hl_inline_color_#{color.id}_dot::before { border: 1px solid #555555 !important;}" if color.bright?
+      concat ".__hl_inline_color_#{color.id}_text { color: #{color.hexcode} !important;}"
+      concat ".__hl_inline_color_#{color.id}_text { -webkit-text-stroke: 0.5px grey;}" if color.super_bright?
+    end
   end
 
   def resource_color_css(name, scope)

@@ -7,6 +7,14 @@ export namespace Highlighting {
     return `__hl_inline_${property}_${id}`;
   }
 
+  export function colorClass(highlightColorTextInline:boolean, id:string|number) {
+    if (highlightColorTextInline) {
+      return `__hl_inline_color_${id}_text`;
+    } else {
+      return `__hl_inline_color_${id}_dot`;
+    }
+  }
+
   /**
    * Given the difference from today (negative = n days in the past),
    * output the fixed overdue classes

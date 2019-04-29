@@ -28,73 +28,54 @@
 
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-
-export const selector = 'colors-autocompleter';
+import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
 
 @Component({
-  selector: selector,
-  template: '',
+  template: `
+    <ng-select [items]="options"
+               [virtualScroll]="true"
+               bindLabel="name"
+               bindValue="value"
+               [(ngModel)]="selectedColor"
+               appendTo="body">
+      <ng-template ng-label-tmp let-item="item">
+        <span [ngClass]="highlightColor(item)">{{item.name}}</span>
+      </ng-template>
+      <ng-template ng-option-tmp let-item="item" let-index="index">
+        <span [ngClass]="highlightColor(item)">{{item.name}}</span>
+      </ng-template>
+    </ng-select>
+  `,
+  selector: 'colors-autocompleter'
 })
-
 export class ColorsAutocompleter implements OnInit {
-  private $element:JQuery;
-  private $select:JQuery;
+  public options:any[];
+  public selectedColor:any;
+  public highlightTextInline:boolean = false;
 
-  constructor(private readonly elementRef:ElementRef) {
+  constructor(protected elementRef:ElementRef,
+              protected readonly dynamicCssService:DynamicCssService) {
   }
 
   ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
-    this.$select = jQuery(this.$element.parent().find('select.colors-autocomplete'));
-
-    this.$select.removeClass('form--select');
-    this.setupSelect2();
+    this.dynamicCssService.requireHighlighting();
+    this.options = JSON.parse(this.elementRef.nativeElement.dataset.colors);
+    this.highlightTextInline =  JSON.parse(this.elementRef.nativeElement.dataset.highlighttextinline);
+    this.selectedColor = this.options.find((item) => item.selected === true).value;
   }
 
-  protected formatter(state:any) {
-    const item:JQuery = jQuery(state.element);
-    const color = item.data('color');
-    const contrastingColor = item.data('background');
-    const bright = item.data('bright');
-
-    // Special case, no color
-    if (!color) {
-      const div = jQuery('<div>')
-      .append(item.text())
-      .addClass('ui-menu-item-wrapper');
-
-      return div;
+  private highlightColor(item:any) {
+    let highlightingClass;
+    if (this.highlightTextInline) {
+      highlightingClass = '__hl_inline_type_ ';
+    } else {
+      highlightingClass = '__hl_inline_ ';
     }
-
-    const colorSquare = jQuery('<span>')
-      .addClass('color--preview')
-      .css('background-color', color);
-
-    const colorText = jQuery('<span>')
-      .addClass('color--text-preview')
-      .css('color', bright ? '#333333' : '#FFFFFF')
-      .css('background-color', color)
-      .text(item.text());
-
-    const div = jQuery('<div>')
-      .append(colorSquare)
-      .append(colorText)
-      .addClass('ui-menu-item-wrapper');
-
-    return div;
+    return highlightingClass + Highlighting.colorClass(this.highlightTextInline, item.value);
   }
 
-  protected setupSelect2() {
-    this.$select.select2({
-      formatResult: this.formatter,
-      formatSelection: this.formatter,
-      escapeMarkup: (m:any) => m
-    });
-  }
 }
 
-DynamicBootstrapper.register({
-  selector: selector,
-  cls: ColorsAutocompleter
-});
+DynamicBootstrapper.register({ selector: 'colors-autocompleter', cls: ColorsAutocompleter });
 
