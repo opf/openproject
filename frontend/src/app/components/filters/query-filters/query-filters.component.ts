@@ -28,7 +28,16 @@
 
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageFiltersService} from "../../filters/wp-filters/wp-filters.service";
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -36,6 +45,7 @@ import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-r
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
+import {NgSelectComponent} from "@ng-select/ng-select";
 
 const ADD_FILTER_SELECT_INDEX = -1;
 
@@ -46,12 +56,12 @@ const ADD_FILTER_SELECT_INDEX = -1;
 })
 export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
+  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
   @Input() public filters:QueryFilterInstanceResource[];
   @Input() public showCloseFilter:boolean = false;
   @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
 
 
-  public filterToBeAdded:QueryFilterResource|undefined;
   public remainingFilters:any[] = [];
   public eeShowBanners:boolean = false;
   public focusElementIndex:number = 0;
@@ -92,13 +102,13 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
     if (filterToBeAdded) {
       let newFilter = this.wpTableFilters.instantiate(filterToBeAdded);
       this.filters.push(newFilter);
-      this.filterToBeAdded = undefined;
 
       const index = this.currentFilterLength();
       this.updateFilterFocus(index);
       this.updateRemainingFilters();
 
       this.filtersChanged.emit(this.filters);
+      this.ngSelectComponent.clearItem(filterToBeAdded);
     }
   }
 

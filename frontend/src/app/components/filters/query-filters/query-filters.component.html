@@ -51,16 +51,19 @@
       </label>
 
       <div class="advanced-filters--add-filter-value">
-        <select class="advanced-filters--select"
-                id="add_filter_select"
-                [ngModel]="filterToBeAdded"
-                (ngModelChange)="onFilterAdded($event)">
-          <option [textContent]="text.please_select" value="" disabled></option>
-          <option *ngFor="let filter of remainingFilters"
-                  [textContent]="filter.name"
-                  [ngValue]="filter">
-          </option>
-        </select>
+        <ng-select [items]="remainingFilters"
+                   [clearSearchOnAdd]="true"
+                   [multiple]="false"
+                   [clearable]="true"
+                   [clearOnBackspace]="true"
+                   [closeOnSelect]="true"
+                   [virtualScroll]="true"
+                   [placeholder]="text.please_select"
+                   (change)="onFilterAdded($event)"
+                   id="add_filter_select"
+                   bindLabel="name"
+                   appendTo="body">
+        </ng-select>
       </div>
 
       <enterprise-banner class="advanced-filters--add-filter-info"
