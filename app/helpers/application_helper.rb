@@ -367,6 +367,7 @@ module ApplicationHelper
       params.permit!
       back_url = url_for(params)
     end
+
     hidden_field_tag('back_url', back_url) unless back_url.blank?
   end
 

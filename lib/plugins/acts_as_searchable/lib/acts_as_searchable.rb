@@ -118,7 +118,7 @@ module Redmine
               sql << ' OR ' + tsv_clauses.join(' OR ')
             end
 
-            find_conditions = [sql, * (tokens.map { |w| "%#{w.downcase}%" } * token_clauses.size).sort]
+            find_conditions = [sql, *(tokens.map { |w| "%#{w.downcase}%" } * token_clauses.size).sort]
 
             project_conditions = [searchable_projects_condition]
 
@@ -152,7 +152,7 @@ module Redmine
                          Project.allowed_to(User.current, searchable_options[:permission])
                        end
 
-            "#{searchable_options[:project_key]} IN (#{projects .select(:id).to_sql})"
+            "#{searchable_options[:project_key]} IN (#{projects.select(:id).to_sql})"
           end
         end
       end
