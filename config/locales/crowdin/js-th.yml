@@ -257,6 +257,7 @@ th:
     label_more_than_ago: มากกว่าวันที่ผ่านมา
     label_my_page: หน้าของฉัน
     label_next: ถัดไป
+    label_no_color: No color
     label_no_data: ไม่มีข้อมูลให้แสดง
     label_no_due_date: ไม่มีวันสิ้นสุด
     label_no_start_date: ไม่มีวันเริ่มต้น

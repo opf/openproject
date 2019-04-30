@@ -259,6 +259,7 @@ ca:
     label_more_than_ago: fa més dies
     label_my_page: La meva pàgina
     label_next: Següent
+    label_no_color: No color
     label_no_data: No hi ha dades per mostrar
     label_no_due_date: no hi ha data de finalització
     label_no_start_date: no hi ha data d'inici

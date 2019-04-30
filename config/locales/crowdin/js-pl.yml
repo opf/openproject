@@ -257,6 +257,7 @@ pl:
     label_more_than_ago: Więcej niż dni temu
     label_my_page: Moja strona
     label_next: Następny
+    label_no_color: No color
     label_no_data: Brak danych do pokazania
     label_no_due_date: brak daty zakończenia
     label_no_start_date: brak daty rozpoczęcia
