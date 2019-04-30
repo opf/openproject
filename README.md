@@ -38,6 +38,8 @@ will keep our community secure. If you happen to come across a security issue we
 you to disclose it to us privately to allow our users and community enough time to
 upgrade. Security issues will always take precedence over anything else in the pipeline.
 
+For more information on how to disclosure a security vulnerability, [please see this page](docs/security/README.md).
+
 ## License
 
 OpenProject is licensed under the terms of the GNU General Public License version 3.
