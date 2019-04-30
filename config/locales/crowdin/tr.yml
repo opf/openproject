@@ -1171,7 +1171,7 @@ tr:
           Edition ile Açık-Kaynak topluluğu çalışmalarına küçük bir katkı yapabilirsiniz.
     links:
       upgrade_enterprise_edition: Enterprise Edition sürümüne yükseltme
-      postgres_migration: Migrating your installation to PostgreSQL
+      postgres_migration: Kurulumunuzu PostgreSQL'e taşıyın
       user_guides: Kullanıcı rehberleri
       faq: SSS
       glossary: Terimler sözlüğü
@@ -2767,10 +2767,10 @@ tr:
   menu_item: Menü seçeneği
   menu_item_setting: Görünürlük
   mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
+    notice: 'OpenProject''in gelecekteki sürümleri MySQL ve MariaDB veritabanları
+      için desteği büyük olasılıkla düşürecek veya azaltacaktır. Kurulumunuz hala
+      MySQL''de çalışıyor ve kurulumunuzu PostgreSQL''e geçirmenizi öneririz. Geçiş
+      rehberlerimizi takip ederken bu işlem kolaydır:
 
 '
   wiki_menu_item_for: Wikipage için menü öğesi " %{title} "

@@ -973,7 +973,7 @@ ja:
   error_can_not_reopen_work_package_on_closed_version: 終了したバージョンにひも付けされた作業項目は再度開けません。
   error_can_not_find_all_resources: この要求に、すべての関連リソースを見つけられませんでした。
   error_check_user_and_role: ユーザとロールを選択してください。
-  error_code: Error %{code}
+  error_code: エラー %{code}
   error_cookie_missing: OpenProject のcookieが見つかりません。cookieが有効であることを確認してください。そうしないとこのアプリケーションは正しく動作しません。
   error_custom_option_not_found: オプションが存在しません。
   error_dependent_work_package: '依存するワークパッケージのエラー#%{related_id} %{related_subject}:
@@ -992,10 +992,8 @@ ja:
   error_work_package_done_ratios_not_updated: 作業項目の進捗率が更新できません。
   error_work_package_not_found_in_project: 作業項目が見つからないか、このプロジェクトに属してないかです。
   error_must_be_project_member: プロジェクトのメンバーである必要があります。
-  error_migrations_are_pending: Your OpenProject installation has pending database
-    migrations. You have likely missed running the migrations on your last upgrade.
-    Please check the upgrade guide to properly upgrade your installation.
-  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
+  error_migrations_are_pending: OpenProject のインストールはデータベースの移行が保留中です。前回のアップグレード時に移行の実行を行っていない可能性があります。アップグレードガイドを確認して、適切にインストールをアップグレードしてください。
+  error_migrations_visit_upgrade_guides: アップグレードガイドのドキュメントをご覧ください
   error_no_default_work_package_status: 作業項目の既定のステータスが定義されていません。 設定をご確認してください（管理→作業項目ステータス）。
   error_no_type_in_project: このプロジェクトには関連付けている作業項目の型がありません。プロジェクトの設定をご確認してください。
   error_omniauth_registration_timed_out: 外部認証プロバイダーを経由して登録がタイムアウトしました。もう一度やり直してください。
@@ -1072,7 +1070,7 @@ ja:
         you_contribute: 開発者も請求に支払う必要があります。エンタープライズ版で、実質的に、このオープンソース コミュニティの努力に貢献できます。
     links:
       upgrade_enterprise_edition: エンタープライズ版にアップグレード
-      postgres_migration: Migrating your installation to PostgreSQL
+      postgres_migration: PostgreSQL にインストールを移行しています
       user_guides: ユーザーガイド
       faq: FAQ
       glossary: 用語集
@@ -1292,7 +1290,7 @@ ja:
   label_hierarchy_leaf: 階層枚
   label_home: ホーム
   label_subject_or_id: 件名またはID
-  label_impressum: Legal notice
+  label_impressum: 法的情報
   label_in: 今日から○日後
   label_in_less_than: 今日から○日後以前
   label_in_more_than: 今日から○日後以降
@@ -1542,7 +1540,7 @@ ja:
   label_updated_time: "%{value}前に更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author}が%{age}前に更新"
-  label_upgrade_guides: Upgrade guides
+  label_upgrade_guides: アップグレードガイド
   label_used_by: 使用中
   label_used_by_types: タイプで使用
   label_used_in_projects: プロジェクトで使用
@@ -2515,10 +2513,8 @@ ja:
   menu_item: メニュー項目
   menu_item_setting: 可視性
   mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
+    notice: 'OpenProject の将来のバージョンは MariaDB と MySQL データベースのサポートがなくなる可能性があります。MySQL
+      のインストールが実行中の場合、PostgreSQL のインストールと移行をお勧めします。 移行ガイドに従うと、このプロセスを簡単に行うことができます:
 
 '
   wiki_menu_item_for: Wikiページ"%{title}"のメニュー項目
