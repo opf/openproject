@@ -252,7 +252,7 @@ en:
       reset: "Reset to defaults"
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts.
+        in Gantt charts. It is therefore recommended to use a strong color.
 
   versions:
     overview:

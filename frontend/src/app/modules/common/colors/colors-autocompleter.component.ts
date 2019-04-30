@@ -28,73 +28,84 @@
 
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-
-export const selector = 'colors-autocompleter';
+import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
-  selector: selector,
-  template: '',
+  template: `
+    <ng-select [items]="options"
+               [virtualScroll]="true"
+               bindLabel="name"
+               bindValue="value"
+               [(ngModel)]="selectedOption"
+               (change)="onModelChange($event)"
+               [clearable]="false"
+               appendTo="body">
+      <ng-template ng-label-tmp let-item="item">
+        <span [ngClass]="highlightColor(item)">{{item.name}}</span>
+      </ng-template>
+      <ng-template ng-option-tmp let-item="item" let-index="index">
+        <span [ngClass]="highlightColor(item)">{{item.name}}</span>
+      </ng-template>
+    </ng-select>
+  `,
+  selector: 'colors-autocompleter'
 })
-
 export class ColorsAutocompleter implements OnInit {
-  private $element:JQuery;
-  private $select:JQuery;
+  public options:any[];
+  public selectedOption:any;
+  private highlightTextInline:boolean = false;
+  private updateInputField:HTMLInputElement|undefined;
+  private selectedColorId:string;
 
-  constructor(private readonly elementRef:ElementRef) {
+  constructor(protected elementRef:ElementRef,
+              protected readonly I18n:I18nService,
+              protected readonly dynamicCssService:DynamicCssService) {
   }
 
   ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
-    this.$select = jQuery(this.$element.parent().find('select.colors-autocomplete'));
+    this.dynamicCssService.requireHighlighting();
+    this.setColorOptions();
 
-    this.$select.removeClass('form--select');
-    this.setupSelect2();
+    this.updateInputField = document.getElementsByName(this.elementRef.nativeElement.dataset.updateInput)[0] as HTMLInputElement|undefined;
+    this.highlightTextInline =  JSON.parse(this.elementRef.nativeElement.dataset.highlightTextInline);
   }
 
-  protected formatter(state:any) {
-    const item:JQuery = jQuery(state.element);
-    const color = item.data('color');
-    const contrastingColor = item.data('background');
-    const bright = item.data('bright');
-
-    // Special case, no color
-    if (!color) {
-      const div = jQuery('<div>')
-      .append(item.text())
-      .addClass('ui-menu-item-wrapper');
-
-      return div;
+  public onModelChange(color:any) {
+    if (color && this.updateInputField) {
+      this.updateInputField.value = color.value;
     }
-
-    const colorSquare = jQuery('<span>')
-      .addClass('color--preview')
-      .css('background-color', color);
-
-    const colorText = jQuery('<span>')
-      .addClass('color--text-preview')
-      .css('color', bright ? '#333333' : '#FFFFFF')
-      .css('background-color', color)
-      .text(item.text());
-
-    const div = jQuery('<div>')
-      .append(colorSquare)
-      .append(colorText)
-      .addClass('ui-menu-item-wrapper');
-
-    return div;
   }
 
-  protected setupSelect2() {
-    this.$select.select2({
-      formatResult: this.formatter,
-      formatSelection: this.formatter,
-      escapeMarkup: (m:any) => m
-    });
+  private setColorOptions() {
+    this.options = JSON.parse(this.elementRef.nativeElement.dataset.colors);
+    this.options.unshift({name: this.I18n.t('js.label_no_color'), value: ''});
+
+    this.selectedOption = this.options.find((item) => item.selected === true);
+
+    if (this.selectedOption) {
+      this.selectedOption = this.selectedOption.value;
+    } else {
+      // Differentiate between "No color" and a color that is now not selectable any more
+      this.selectedColorId = this.elementRef.nativeElement.dataset.selectedColor;
+      this.selectedOption = this.selectedColorId ? this.selectedColorId : '';
+    }
   }
+
+  private highlightColor(item:any) {
+    if (item.value === '') { return; }
+
+    let highlightingClass;
+    if (this.highlightTextInline) {
+      highlightingClass = '__hl_inline_type_ ';
+    } else {
+      highlightingClass = '__hl_inline_ ';
+    }
+    return highlightingClass + Highlighting.colorClass(this.highlightTextInline, item.value);
+  }
+
 }
 
-DynamicBootstrapper.register({
-  selector: selector,
-  cls: ColorsAutocompleter
-});
+DynamicBootstrapper.register({ selector: 'colors-autocompleter', cls: ColorsAutocompleter });
 
