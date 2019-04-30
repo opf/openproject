@@ -1213,7 +1213,7 @@ ru:
           версией вы существенно поможете сообществу открытого исходного кода.
     links:
       upgrade_enterprise_edition: Обновите до корпоративной версии
-      postgres_migration: Migrating your installation to PostgreSQL
+      postgres_migration: Перенос вашей установки в PostgreSQL
       user_guides: Руководство пользователя
       faq: ЧаВо
       glossary: Глоссарий
@@ -2844,10 +2844,10 @@ ru:
   menu_item: Пункт меню
   menu_item_setting: Видимость
   mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
+    notice: 'Будущие версии OpenProject, скорее всего, сократят или сократят поддержку
+      баз данных MySQL и MariaDB. Ваша установка все еще работает на MySQL, и мы предлагаем
+      вам перенести вашу установку на PostgreSQL. Этот процесс легко при следовании
+      нашим инструкциям по миграции:
 
 '
   wiki_menu_item_for: Пункт меню для wiki-страницы  «%{title}»
