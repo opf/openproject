@@ -2987,7 +2987,3 @@ pt:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
-  setting_mail_handler_api_enabled: Ativar webservice de entrada de e-mail
-  setting_mail_handler_api_description: O gestor web de email permite que o OpenProject
-    receba emails com comandos específicos, como um mecanismo de instrumentação (por
-    exemplo, para criar e atualizar pacotes de trabalho).

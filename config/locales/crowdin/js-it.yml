@@ -154,26 +154,26 @@ it:
     general_text_Yes: Si
     grid:
       add_modal:
-        choose_widget: Choose widget
+        choose_widget: Scegli widget
       widgets:
         documents:
-          title: Documents
-          no_results: No documents yet.
+          title: Documenti
+          no_results: Nessun documento ancora.
         news:
           title: Notizie
-          at: at
+          at: a
           no_results: Niente di nuovo da segnalare.
         time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
+          title: Tempo trascorso (ultimi 7 giorni)
+          no_results: Nessuna voce sul tempo per gli ultimi 7 giorni.
         work_packages_accountable:
           title: Macro-attività di cui sono responsabile del risultato
         work_packages_assigned:
           title: Pacchetti di lavoro assegnati a me
         work_packages_created:
-          title: Work packages created by me
+          title: Pacchetti di lavoro creati da me
         work_packages_watched:
-          title: Work packages watched by me
+          title: Pacchetti di lavoro visti da me
         work_packages_calendar:
           title: Calendario
     label_activate: Attiva

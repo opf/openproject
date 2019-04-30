@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -37,5 +38,3 @@ if Setting.table_exists? # don't want to prevent migrations
   defaults = Set.new I18n.fallbacks.defaults + Setting.available_languages.map(&:to_sym)
   I18n.fallbacks.defaults = defaults
 end
-
-require 'open_project'

@@ -172,7 +172,7 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'nokogiri', '~> 1.10.0'
+gem 'nokogiri', '~> 1.10.3'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'fog-aws'
@@ -289,6 +289,9 @@ platforms :mri, :mingw, :x64_mingw do
   group :postgres do
     gem 'pg', '~> 1.1.0'
   end
+
+  # Support application loading when no database exists yet.
+  gem 'activerecord-nulldb-adapter', '~> 0.3.9'
 end
 
 group :opf_plugins do
@@ -299,11 +302,8 @@ group :docker, optional: true do
   gem 'passenger', '~> 6.0.1'
 
   # Used to easily precompile assets
-  gem 'health_check', require: !!ENV['HEROKU']
   gem 'newrelic_rpm', require: !!ENV['HEROKU']
   gem 'rails_12factor', require: !!ENV['HEROKU']
-  # Require specific version of sqlite3 for rails
-  gem 'sqlite3', '~> 1.3.6', require: false
 end
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles

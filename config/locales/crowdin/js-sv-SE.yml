@@ -155,7 +155,7 @@ sv-SE:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Dokument
           no_results: No documents yet.
         news:
           title: Nyheter

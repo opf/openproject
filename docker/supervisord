@@ -3,24 +3,22 @@
 set -e
 set -o pipefail
 
-PGDATA=${PGDATA:=/var/lib/postgresql/9.6/main}
+indent() {
+	sed -u 's/^/       /'
+}
+
+echo "-----> Starting the all-in-one OpenProject setup at $BASH_SOURCE..."
+
+if [ "$PGDATA" == "" ]; then
+	echo "No PGDATA environment variable defined. Aborting." | indent
+	exit 2
+fi
+
 PGUSER=${PGUSER:=postgres}
 PGPASSWORD=${PGPASSWORD:=postgres}
 PG_STARTUP_WAIT_TIME=${PG_STARTUP_WAIT_TIME:=10}
 SUPERVISORD_LOG_LEVEL=${SUPERVISORD_LOG_LEVEL:=info}
 PGBIN="/usr/lib/postgresql/9.6/bin"
-
-if [ ! -z "$ATTACHMENTS_STORAGE_PATH" ]; then
-	mkdir -p "$ATTACHMENTS_STORAGE_PATH"
-	chown -R app:app "$ATTACHMENTS_STORAGE_PATH"
-fi
-
-if [ "$(id -u)" = '0' ]; then
-    echo "-----> Ensure $APP_PATH is owned by $APP_USER"
-	mkdir -p "$APP_PATH/log" "$APP_PATH/tmp" "$APP_PATH/files"
-	chown $APP_USER:$APP_USER "$APP_PATH"
-	chown -R $APP_USER:$APP_USER "$APP_PATH/log" "$APP_PATH/tmp" "$APP_PATH/files" "$APP_PATH/public"
-fi
 
 dbhost=$(ruby -ruri -e 'puts URI(ENV.fetch("DATABASE_URL")).host')
 pwfile=$(mktemp)
@@ -28,7 +26,7 @@ echo "$PGPASSWORD" > $pwfile
 chown postgres $pwfile
 
 PLUGIN_GEMFILE_TMP=$(mktemp)
-PLUGIN_GEMFILE=/usr/src/app/Gemfile.local
+PLUGIN_GEMFILE=$APP_PATH/Gemfile.local
 
 if [ "$PLUGIN_GEMFILE_URL" != "" ]; then
 	echo "Fetching custom gemfile from ${PLUGIN_GEMFILE_URL}..."
@@ -37,37 +35,43 @@ if [ "$PLUGIN_GEMFILE_URL" != "" ]; then
 	# set custom plugin gemfile if file is readable and non-empty
 	if [ -s "$PLUGIN_GEMFILE_TMP" ]; then
 		mv "$PLUGIN_GEMFILE_TMP" "$PLUGIN_GEMFILE"
-		chown app.app "$PLUGIN_GEMFILE"
+		chown $APP_USER:$APP_USER "$PLUGIN_GEMFILE"
 	fi
 fi
 
-indent() {
-	sed -u 's/^/       /'
-}
-
 install_plugins() {
-	pushd /usr/src/app
+	pushd $APP_PATH >/dev/null
 
 	if [ -s "$PLUGIN_GEMFILE" ]; then
 		echo "Installing plugins..."
 		bundle install
+
+		echo "Installing frontend dependencies..."
+		pushd $APP_PATH/frontend >/dev/null
+		if [ "$(id -u)" = '0' ]; then
+			su - $APP_USER -c "cd $APP_PATH/frontend && npm install"
+		else
+			npm install
+		fi
+		popd >/dev/null
+
 		echo "Precompiling new assets..."
 		bundle exec rake assets:precompile
 
 		echo "Plugins installed"
 	fi
 
-	popd
+	popd >/dev/null
 }
 
 migrate() {
 	wait_for_postgres
-	pushd /usr/src/app
+	pushd $APP_PATH >/dev/null
 	/etc/init.d/memcached start
 	bundle exec rake db:migrate db:seed db:structure:dump
 	/etc/init.d/memcached stop
-	chown app:app db/structure.sql
-	popd
+	chown "$APP_USER.$APP_USER" db/structure.sql
+	popd >/dev/null
 }
 
 wait_for_postgres() {
@@ -108,5 +112,4 @@ echo "-----> Database setup finished."
 echo "       On first installation, the default admin credentials are login: admin, password: admin"
 
 echo "-----> Launching supervisord..."
-exec /usr/bin/supervisord -e ${SUPERVISORD_LOG_LEVEL}
-
+exec /usr/bin/supervisord -c $APP_PATH/docker/supervisord.conf -e ${SUPERVISORD_LOG_LEVEL}

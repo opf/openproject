@@ -152,7 +152,7 @@ da:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Dokumenter
           no_results: No documents yet.
         news:
           title: Nyheder

@@ -151,7 +151,7 @@ fil:
         choose_widget: Choose widget
       widgets:
         documents:
-          title: Documents
+          title: Mga dokumento
           no_results: No documents yet.
         news:
           title: Mga balita

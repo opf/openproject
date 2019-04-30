@@ -28,39 +28,40 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-def aggregate_mocked_settings(example, settings)
-  # We have to manually check parent groups for with_settings:,
-  # since they are being ignored otherwise
-  example.example_group.parents.each do |parent|
-    if parent.respond_to?(:metadata) && parent.metadata[:with_settings]
-      settings.reverse_merge!(parent.metadata[:with_settings])
-    end
-  end
+module OpenProject
+  module NullDbFallback
+    class << self
+      def fallback
+        ActiveRecord::Base.connection
+      rescue ActiveRecord::NoDatabaseError
+        applied!
+        ActiveRecord::Base.establish_connection adapter: :nulldb
+      end
 
-  settings
-end
+      def reset
+        return unless applied?
 
-RSpec.configure do |config|
-  config.before(:each) do |example|
-    settings = example.metadata[:with_settings]
-    if settings.present?
-      settings = aggregate_mocked_settings(example, settings)
+        ActiveRecord::Base.establish_connection(database_config)
+      end
 
-      allow(Setting).to receive(:[]).and_call_original
+      private
 
-      settings.each do |k, v|
-        name = k.to_s.sub(/\?\Z/, '') # remove trailing question mark if present to get setting name
+      attr_accessor :applied
 
-        raise "#{k} is not a valid setting" unless Setting.respond_to?(name)
+      def applied!
+        self.applied = true
+      end
 
-        expect(name).not_to start_with("localized_"), ->() do
-          base = name[10..-1]
+      def unapplied!
+        self.applied = false
+      end
 
-          "Don't use `#{name}` in `with_settings`. Do this: `with_settings: { #{base}: { \"en\" => \"#{v}\" } }`"
-        end
+      def applied?
+        !!applied
+      end
 
-        allow(Setting).to receive(:[]).with(name).and_return v
-        allow(Setting).to receive(:[]).with(name.to_sym).and_return v
+      def database_config
+        YAML.load_file(File.join(Rails.root, "config", "database.yml"))[Rails.env]
       end
     end
   end

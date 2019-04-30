@@ -1,6 +1,6 @@
 <VirtualHost *:80>
   ServerName <%= ENV.fetch('SERVER_NAME') { "_default_" } %>
-  DocumentRoot /usr/src/app/public
+  DocumentRoot <%= ENV.fetch('APP_PATH') %>/public
 
   ProxyRequests off
 
