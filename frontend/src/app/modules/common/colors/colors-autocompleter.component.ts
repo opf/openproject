@@ -30,6 +30,7 @@ import {Component, ElementRef, OnInit} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   template: `
@@ -37,7 +38,9 @@ import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css
                [virtualScroll]="true"
                bindLabel="name"
                bindValue="value"
-               [(ngModel)]="selectedColor"
+               [(ngModel)]="selectedOption"
+               (change)="onModelChange($event)"
+               [clearable]="false"
                appendTo="body">
       <ng-template ng-label-tmp let-item="item">
         <span [ngClass]="highlightColor(item)">{{item.name}}</span>
@@ -51,21 +54,48 @@ import {DynamicCssService} from "core-app/modules/common/dynamic-css/dynamic-css
 })
 export class ColorsAutocompleter implements OnInit {
   public options:any[];
-  public selectedColor:any;
-  public highlightTextInline:boolean = false;
+  public selectedOption:any;
+  private highlightTextInline:boolean = false;
+  private updateInputField:HTMLInputElement|undefined;
+  private selectedColorId:string;
 
   constructor(protected elementRef:ElementRef,
+              protected readonly I18n:I18nService,
               protected readonly dynamicCssService:DynamicCssService) {
   }
 
   ngOnInit() {
     this.dynamicCssService.requireHighlighting();
+    this.setColorOptions();
+
+    this.updateInputField = document.getElementsByName(this.elementRef.nativeElement.dataset.updateInput)[0] as HTMLInputElement|undefined;
+    this.highlightTextInline =  JSON.parse(this.elementRef.nativeElement.dataset.highlightTextInline);
+  }
+
+  public onModelChange(color:any) {
+    if (color && this.updateInputField) {
+      this.updateInputField.value = color.value;
+    }
+  }
+
+  private setColorOptions() {
     this.options = JSON.parse(this.elementRef.nativeElement.dataset.colors);
-    this.highlightTextInline =  JSON.parse(this.elementRef.nativeElement.dataset.highlighttextinline);
-    this.selectedColor = this.options.find((item) => item.selected === true).value;
+    this.options.unshift({name: this.I18n.t('js.label_no_color'), value: ''});
+
+    this.selectedOption = this.options.find((item) => item.selected === true);
+
+    if (this.selectedOption) {
+      this.selectedOption = this.selectedOption.value;
+    } else {
+      // Differentiate between "No color" and a color that is now not selectable any more
+      this.selectedColorId = this.elementRef.nativeElement.dataset.selectedColor;
+      this.selectedOption = this.selectedColorId ? this.selectedColorId : '';
+    }
   }
 
   private highlightColor(item:any) {
+    if (item.value === '') { return; }
+
     let highlightingClass;
     if (this.highlightTextInline) {
       highlightingClass = '__hl_inline_type_ ';

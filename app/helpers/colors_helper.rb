@@ -32,7 +32,7 @@ module ColorsHelper
   def options_for_colors(colored_thing, allow_bright_colors)
     colors = []
     Color.find_each do |c|
-      next if !allow_bright_colors && c.bright?
+      next if !allow_bright_colors && c.super_bright?
 
       options = {}
       options[:name] = c.name
@@ -47,6 +47,10 @@ module ColorsHelper
       colors.push(options)
     end
     colors.to_json
+  end
+
+  def selected_color(colored_thing)
+    colored_thing.color_id
   end
 
   def darken_color(hex_color, amount = 0.4)
@@ -64,15 +68,21 @@ module ColorsHelper
     content_tag(:span, color.hexcode, class: 'color--text-preview', style: style)
   end
 
+  #
+  # Styles to display colors itself (e.g. for the colors autocompleter)
+  ##
   def color_css
     Color.find_each do |color|
       concat ".__hl_inline_color_#{color.id}_dot::before { background-color: #{color.hexcode} !important;}"
       concat ".__hl_inline_color_#{color.id}_dot::before { border: 1px solid #555555 !important;}" if color.bright?
       concat ".__hl_inline_color_#{color.id}_text { color: #{color.hexcode} !important;}"
-      concat ".__hl_inline_color_#{color.id}_text { -webkit-text-stroke: 0.5px grey;}" if color.super_bright?
+      concat ".__hl_inline_color_#{color.id}_text { -webkit-text-stroke: 0.5px grey; text-stroke: 0.5px grey;}" if color.super_bright?
     end
   end
 
+  #
+  # Styles to display the color of attributes (type, status etc.) for example in the WP view
+  ##
   def resource_color_css(name, scope)
     scope.includes(:color).find_each do |entry|
       color = entry.color
