@@ -40,7 +40,7 @@ module OnboardingSteps
 
     next_button.click
     expect(page)
-      .to have_text 'Drag & Drop your cards within a list to re-order, or the another list. A double click will open the details view.'
+      .to have_text 'Drag & Drop your cards within a list to re-order, or to drag to another list. A double click will open the details view.'
   end
 end
 
