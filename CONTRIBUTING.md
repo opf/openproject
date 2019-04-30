@@ -111,7 +111,7 @@ which are not labelled as `work in progress` by us.
 
 ## Security
 
-If you notice a security issue in OpenProject, please send us a gpg encrypted email to security@openproject.org and describe the issue you found. Download our public gpg key [here](https://pgp.mit.edu/pks/lookup?op=get&search=0x7D669C6D47533958).
+If you notice a security issue in OpenProject, please send us a gpg encrypted email to security@openproject.com and describe the issue you found. Download our public gpg key [here](https://pgp.mit.edu/pks/lookup?op=get&search=0x7D669C6D47533958).
 
 Please include a description on how to reproduce the issue if possible. Our security team will get your email and will attempt to reproduce and fix the issue as soon as possible.
 

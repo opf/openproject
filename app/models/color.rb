@@ -72,6 +72,13 @@ class Color < ActiveRecord::Base
   end
 
   ##
+  # Returns whether the color is very bright according to
+  # YIQ lightness.
+  def super_bright?
+    brightness_yiq >= 200
+  end
+
+  ##
   # Sum the color values of each channel
   # Same as in frontend color-contrast.functions.ts
   def brightness_yiq

@@ -59,7 +59,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= styled_form_tag(url_for(controller: '/work_packages/bulk', action: :update),
              method: :put, class: '-wide-labels') do %>
-  <%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
+  <% @work_packages.each do |wp| %>
+    <%= hidden_field_tag 'ids[]', wp.id %>
+  <% end %>
   <%= back_url_hidden_field_tag %>
   <section class="form--section">
     <fieldset class="form--fieldset">

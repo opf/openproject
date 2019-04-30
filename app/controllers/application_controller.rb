@@ -114,8 +114,10 @@ class ApplicationController < ActionController::Base
            status: :bad_request
   end
 
-  rescue_from StandardError do |exception|
-    render_500 exception: exception
+  unless Rails.application.config.consider_all_requests_local
+    rescue_from StandardError do |exception|
+      render_500 exception: exception
+    end
   end
 
   before_action :user_setup,

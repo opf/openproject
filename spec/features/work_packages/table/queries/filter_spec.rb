@@ -214,10 +214,11 @@ describe 'filter work packages', js: true do
     end
 
     it 'allows filtering, saving and retrieving the saved filter' do
+
+      # Wait for form to load
+      filters.expect_loaded
+
       filters.open
-
-      expect(page).to have_selector('#add_filter_select option', text: list_cf.name, wait: 10)
-
       filters.add_filter_by(list_cf.name,
                             'is not',
                             list_cf.custom_options.last.value,

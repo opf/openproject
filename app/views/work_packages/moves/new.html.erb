@@ -46,7 +46,9 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= styled_form_tag({action: 'create'},
                     id: 'move_form',
                     class: '-wide-labels') do %>
-  <%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
+  <% @work_packages.each do |wp| %>
+    <%= hidden_field_tag 'ids[]', wp.id %>
+  <% end %>
   <%= back_url_hidden_field_tag %>
   <refresh-on-form-changes
     url="<%= url_for(action: 'new') %>"

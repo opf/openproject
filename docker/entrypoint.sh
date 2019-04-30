@@ -5,6 +5,10 @@ set -o pipefail
 
 APACHE_PIDFILE=/run/apache2/apache2.pid
 
+if [ -n "$DATABASE_URL" ]; then
+	/usr/local/bin/migrate-mysql-to-postgres || exit 1
+fi
+
 # handle legacy configs
 if [ -d "$PGDATA_LEGACY" ]; then
 	echo "WARN: You are using a legacy volume path for your postgres data. You should mount your postgres volumes at $PGDATA instead of $PGDATA_LEGACY."

@@ -38,6 +38,6 @@ class Queries::Projects::Orders::LatestActivityAtOrder < Queries::BaseOrder
   private
 
   def order
-    model.order("activity.#{attribute} #{direction}")
+    model.order("activity.latest_activity_at #{direction}")
   end
 end
