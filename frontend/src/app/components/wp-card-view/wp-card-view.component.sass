@@ -19,7 +19,7 @@
   width: 100%
   border: 1px solid var(--widget-box-block-border-color)
   border-radius: 2px
-  padding: 10px 20px 10px 10px
+  padding: 10px 12px 10px 10px
   margin-top: 10px
   position: relative
   box-shadow: 1px 1px 3px 0px lightgrey
@@ -38,7 +38,7 @@
   grid-auto-columns: auto 1fr auto
   grid-auto-rows: auto auto auto
   grid-row-gap: 10px
-  grid-template-areas: "type type type" "subject subject subject" "attributeTag avatar date"
+  grid-template-areas: "type type type" "subject subject subject" "attributeTag avatar idlink"
   overflow: hidden
 
   .wp-card--type
@@ -51,6 +51,9 @@
   .wp-card--assignee
     grid-area: avatar
     place-self: center left
+  .wp-card--id
+    text-align: right
+    grid-area: idlink
   .wp-card--status
     grid-area: attributeTag
     max-width: 120px
