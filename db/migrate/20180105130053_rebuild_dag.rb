@@ -58,16 +58,18 @@ class RebuildDag < ActiveRecord::Migration[5.0]
   def down
     remove_column :relations, :count
 
-    remove_index :relations,
-                 name: 'index_relations_hierarchy_follows_scheduling'
-    remove_index :relations,
-                 name: 'index_relations_only_hierarchy'
-    remove_index :relations,
-                 name: 'index_relations_to_from_only_follows'
-    remove_index :relations,
-                 name: 'index_relations_direct_non_hierarchy'
-    remove_index :relations,
-                 name: 'index_relations_on_type_columns'
+    if index_exists? :relations, 'index_relations_hierarchy_follows_scheduling'
+      remove_index :relations,
+                   name: 'index_relations_hierarchy_follows_scheduling'
+      remove_index :relations,
+                   name: 'index_relations_only_hierarchy'
+      remove_index :relations,
+                   name: 'index_relations_to_from_only_follows'
+      remove_index :relations,
+                   name: 'index_relations_direct_non_hierarchy'
+      remove_index :relations,
+                   name: 'index_relations_on_type_columns'
+    end
 
     truncate_closure_entries
   end
