@@ -1,0 +1,26 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "17b434f459d32ad7cb67e8623cb0bb8a220368cfded118582167787985739fcd",
+      "check_name": "SendFile",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/custom_styles_controller.rb",
+      "line": 129,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(CustomStyle.current.send(path_method))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CustomStylesController",
+        "method": "file_download"
+      },
+      "user_input": "CustomStyle.current.send(path_method)",
+      "confidence": "Medium",
+      "note": "False positive (confirmed by oliverguenther): No user input in access to file name"
+    }
+  ],
+  "updated": "2018-04-30 08:02:12 +0200",
+  "brakeman_version": "4.5.0"
+}
