@@ -56,7 +56,7 @@ class Journal::AggregatedJournal
       # Therefore we have to provide the notes_id to the aggregation on top of it being used
       # in the where clause to pick the desired AggregatedJournal.
       raw_journal = query_aggregated_journals(journal_id: notes_id)
-                    .where("#{table_name}.id = #{notes_id}")
+                    .where("#{table_name}.id = ?", notes_id)
                     .first
 
       raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
