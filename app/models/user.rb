@@ -444,10 +444,16 @@ class User < Principal
   end
 
   def notified_project_ids=(ids)
-    Member.where(['user_id = ?', id])
-      .update_all("mail_notification = #{self.class.connection.quoted_false}")
-    Member.where(['user_id = ? AND project_id IN (?)', id, ids])
-      .update_all("mail_notification = #{self.class.connection.quoted_true}") if ids && !ids.empty?
+    Member
+      .where(user_id: id)
+      .update_all(mail_notification: false)
+
+    if ids && !ids.empty?
+      Member
+        .where(user_id: id, project_id: ids)
+        .update_all(mail_notification: true)
+    end
+
     @notified_projects_ids = nil
     notified_projects_ids
   end

@@ -259,13 +259,17 @@ class Version < ActiveRecord::Base
     @issues_progress ||= {}
     @issues_progress[open] ||= begin
       progress = 0
+
       if issues_count > 0
         ratio = open ? 'done_ratio' : 100
+        sum_sql = self.class.sanitize_sql_array(
+          ["COALESCE(#{WorkPackage.table_name}.estimated_hours, ?) * #{ratio}", estimated_average]
+        )
 
         done = fixed_issues
                .where(statuses: { is_closed: !open })
                .includes(:status)
-               .sum("COALESCE(#{WorkPackage.table_name}.estimated_hours, #{estimated_average}) * #{ratio}")
+               .sum(sum_sql)
         progress = done.to_f / (estimated_average * issues_count)
       end
       progress

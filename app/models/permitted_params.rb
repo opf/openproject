@@ -305,12 +305,7 @@ class PermittedParams
                                                 type_ids: [],
                                                 enabled_module_names: [])
 
-    unless params[:project][:custom_field_values].nil?
-      # Permit the sub-hash for custom_field_values
-      whitelist[:custom_field_values] = params[:project][:custom_field_values].permit!
-    end
-
-    whitelist
+    whitelist.merge(custom_field_values(:project))
   end
 
   def time_entry
