@@ -227,8 +227,8 @@ nl:
       query_group_placeholder: Geef de tabel een naam
       reset: Standaardinstellingen herstellen
       type_color_text: |
-        Klik op toewijzen of wijzigen van de kleur van dit type. De geselecteerde kleur onderscheidt werk pakketten
-        in Gantt-diagrammen.
+        Click to assign or change the color of this type. The selected color distinguishes work packages
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Er zijn momenteel geen werkpakketten toegewezen aan deze

@@ -226,10 +226,9 @@ pt-BR:
       edit_query: Editar tabela
       query_group_placeholder: Nomear tabela
       reset: Redefinir para os padrões
-      type_color_text: 'Clique para atribuir ou alterar a cor deste tipo. A cor selecionada
-        diferencia pacotes de trabalho em gráficos de Gantt.
-
-'
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color distinguishes work packages
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Não há pacote de trabalho atribuído a esta versão.
@@ -1179,7 +1178,7 @@ pt-BR:
           Enterprise Edition você contribui para o esforço da comunidade Open-Source.
     links:
       upgrade_enterprise_edition: Atualizar para a versão Enterprise Edition
-      postgres_migration: Migrating your installation to PostgreSQL
+      postgres_migration: A migrar a sua instalação para PostgreSQL
       user_guides: Guias do usuário
       faq: Perguntas Freqüentes
       glossary: Glossário
@@ -2795,10 +2794,10 @@ pt-BR:
   menu_item: Item de menu
   menu_item_setting: Visibilidade
   mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
+    notice: 'As versões futuras do OpenProject irão provavelmente abandonar ou reduzir
+      o suporte para bases de dados MySQL e MariaDB. A sua instalação ainda está em
+      execução no MySQL, e sugerimos que migre a sua instalação para o PostgreSQL.
+      Este processo é fácil se seguir os nossos guias de migração:
 
 '
   wiki_menu_item_for: Item de menu para página wiki "%{title}"

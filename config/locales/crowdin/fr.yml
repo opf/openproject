@@ -226,11 +226,9 @@ fr:
       edit_query: Modifier le tableau
       query_group_placeholder: Donner un nom au tableau
       reset: Rétablir les valeurs par défaut
-      type_color_text: 'Cliquez pour assigner ou modifier la couleur de ce type. La
-        couleur sélectionnée distingue les lots de travaux dans les diagrammes de
-        Gantt.
-
-'
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color distinguishes work packages
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Il n'y a actuellement aucun lot de travaux assigné à

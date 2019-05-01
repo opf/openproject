@@ -258,7 +258,7 @@ cs:
     label_more_than_ago: před více jak (dny)
     label_my_page: Moje stránka
     label_next: Další
-    label_no_color: No color
+    label_no_color: Bez barvy
     label_no_data: No data to display
     label_no_due_date: žádné datum ukončení
     label_no_start_date: žádné datum začátku
@@ -379,8 +379,8 @@ cs:
           lists: You can create multiple lists (columns) within one Board view, e.g.
             to create a KANBAN board.
           add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: Now let's have a look at the <b>Work package</b> section, which
             gives you a more detailed view of your work.

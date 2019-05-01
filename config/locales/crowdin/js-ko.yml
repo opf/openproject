@@ -251,7 +251,7 @@ ko:
     label_more_than_ago: 일 이상 전
     label_my_page: 내 페이지
     label_next: 다음
-    label_no_color: No color
+    label_no_color: 색상 없음
     label_no_data: 표시할 데이터가 없습니다.
     label_no_due_date: 종료일이 지정되지 않음
     label_no_start_date: 시작일이 지정되지 않음
@@ -360,8 +360,8 @@ ko:
           lists: You can create multiple lists (columns) within one Board view, e.g.
             to create a KANBAN board.
           add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: 이제 <b>작업 패키지</b> 섹션을 살펴보겠습니다. 이 섹션에서는 작업의 자세한 보기가 제공됩니다.
           list: 작업, 기능, 마일스톤, 버그 등 프로젝트 내 중요 작업이 포함된 <b>작업 패키지</b> 목록입니다. <br> 목록에서

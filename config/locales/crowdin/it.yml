@@ -64,14 +64,14 @@ it:
       plain: nessuno
       simple_tls: simple_tls
       start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      plain_description: Connessione non crittografata, nessuna negoziazione TLS.
+      simple_tls_description: Crittografia TLS implicita, ma senza convalida del certificato.
+        Usala con cautela e se la connessione LDAP è affidabile.
+      start_tls_description: Crittografia TLS esplicita con convalida completa. Per
+        l'uso di LDAP su SSL/TLS.
+      section_more_info_link_html: 'Questa sezione riguarda la sicurezza della connessione
+        di questa fonte di autenticazione LDAP. Per ulteriori informazioni, visita
+        <a href="%{link}">the Net::LDAP documentation</a>.
 
 '
   forums:
@@ -136,8 +136,9 @@ it:
     memberships:
       no_results_title_text: Al momento nessun progetto fa parte di questo gruppo.
   incoming_mails:
-    ignore_filenames: 'Specify a list of names to ignore when processing attachments
-      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+    ignore_filenames: 'Specifica un elenco di nomi da ignorare durante l''elaborazione
+      di allegati per posta in arrivo (ad esempio firme o icone). Immettere un nome
+      file per riga.
 
 '
   projects:
@@ -227,8 +228,8 @@ it:
       query_group_placeholder: Assegnare un nome alla tabella
       reset: Ripristino predefinite
       type_color_text: |
-        Clicca per assegnare o modificare il colore di questo tipo. Il colore selezionato distingue le macro-attività
-        nei Diagrammi di Gantt.
+        Click to assign or change the color of this type. The selected color distinguishes work packages
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Al momento non vi è alcuna macro-attività assegnata a
@@ -245,7 +246,7 @@ it:
       one: Una macro-attività discendente
       other: "%{count} macro-attività discendenti"
     bulk:
-      could_not_be_saved: 'The following work packages could not be saved:'
+      could_not_be_saved: 'Le seguenti macro-attività non possono essere salvate:'
     move:
       no_common_statuses_exists: Nessuno stato disponibile per tutte le macro-attività
         selezionate. Non è possibile cambiare lo stato.
@@ -565,7 +566,7 @@ it:
         grids/grid:
           overlaps: sovrapposizione.
           outside: è fuori dalla griglia.
-          end_before_start: end value needs to be larger than the start value.
+          end_before_start: il valore finale deve essere più grande del valore iniziale.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -1555,7 +1556,7 @@ it:
   label_previous_week: Settimana precedente
   label_principal_invite_via_email: " o invita nuovi utenti via e-mail"
   label_principal_search: Aggiungi utenti o gruppi esistenti
-  label_privacy_policy: Data privacy and security policy
+  label_privacy_policy: Politica di privacy e sicurezza dei dati
   label_product_version: Versione del prodotto
   label_professional_support: Supporto professionale
   label_profile: Profilo
@@ -1674,7 +1675,7 @@ it:
   label_updated_time: Aggiornato %{value} fa
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: Aggiornato da %{author} %{age} fa
-  label_upgrade_guides: Upgrade guides
+  label_upgrade_guides: Aggiorna guide
   label_used_by: Usato da
   label_used_by_types: Utilizzato dai tipi
   label_used_in_projects: Utilizzato nei progetti
@@ -1888,8 +1889,8 @@ it:
   notice_account_update_failed: L'impostazione dell'account non può essere salvata.
     Controlla la pagina del tuo account.
   notice_account_updated: Account aggiornato con successo.
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: Tutte le altre sessioni legate al tuo account
+    sono state invalidate.
   notice_account_wrong_password: Password sbagliata
   notice_account_registered_and_logged_in: Benvenuto, il tuo account è stato attivato.
     Sei già connesso.
@@ -2510,14 +2511,15 @@ it:
   text_no_notes: Non ci sono commenti disponibili per questa macro-attività.
   text_notice_too_many_values_are_inperformant: 'Nota: La visualizzazione di più di
     100 elementi per pagina può aumentare il tempo di caricamento della pagina.'
-  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
-    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
-    administration panel, and on the home page. It is displayed to administrators
-    only. <br/> The badge will check your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide
-    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
-    configuration documentation</a>.
+  text_notice_security_badge_displayed_html: 'Nota: se abilitata questa opzione visualizzerà
+    un badge con lo stato dell''installazione nel pannello di amministrazione di <a
+    href="%{information_panel_path}">%{information_panel_label}</a> e sulla home page.
+    Verrà visualizzata solo agli amministratori. <br/> il badge controllerà la tua
+    attuale versione di OpenProject con l''ultima versione rilasciata per avvisarti
+    di eventuali aggiornamenti o risoluzioni di vulnerabilità note. Per ulteriori
+    informazioni sulle funzionalità offerte dal controllo, su quali dati è necessario
+    fornire per ottenere gli aggiornamenti disponibili e su come disabilitare questo
+    controllo, visita <a href="%{more_info_url}">la documentazione sulla configurazione</a>.
 
 '
   text_own_membership_delete_confirmation: |-
@@ -2936,46 +2938,48 @@ it:
         access_denied: Il proprietario della risorsa o il server di autorizzazione
           hanno rifiutato la richiesta.
         invalid_scope: Lo scopo richiesto non è non valido, sconosciuto o malformato.
-        invalid_code_challenge_method: The code challenge method must be plain or
-          S256.
-        server_error: The authorization server encountered an unexpected condition
-          which prevented it from fulfilling the request.
-        temporarily_unavailable: The authorization server is currently unable to handle
-          the request due to a temporary overloading or maintenance of the server.
-        credential_flow_not_configured: Resource Owner Password Credentials flow failed
-          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
-        resource_owner_authenticator_not_configured: Resource Owner find failed due
-          to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
-        admin_authenticator_not_configured: Access to admin panel is forbidden due
-          to Doorkeeper.configure.admin_authenticator being unconfigured.
-        unsupported_response_type: The authorization server does not support this
-          response type.
-        invalid_client: Client authentication failed due to unknown client, no client
-          authentication included, or unsupported authentication method.
-        invalid_grant: The provided authorization grant is invalid, expired, revoked,
-          does not match the redirection URI used in the authorization request, or
-          was issued to another client.
-        unsupported_grant_type: The authorization grant type is not supported by the
-          authorization server.
+        invalid_code_challenge_method: Il metodo di sfida del codice deve essere semplice
+          o S256.
+        server_error: Il server di autorizzazione ha riscontrato una condizione inaspettata
+          che ha impedito di elaborare la richiesta.
+        temporarily_unavailable: Il server di autorizzazione non è attualmente in
+          grado di gestire la richiesta a causa di un sovraccarico temporaneo o della
+          manutenzione del server.
+        credential_flow_not_configured: Il flusso delle Credenziali del Proprietario
+          della Risorsa non è riuscito a causa della mancata configurazione di Doorkeeper.configure.resource_owner_from_credentials.
+        resource_owner_authenticator_not_configured: Ricerca del Proprietario della
+          Risorsa non riuscita a causa della mancata configurazione di Doorkeeper.configure.resource_owner_authenticator.
+        admin_authenticator_not_configured: Impossibile accedere al pannello di amministrazione
+          a causa della mancata configurazione di Doorkeeper.configure.admin_authenticator.
+        unsupported_response_type: Il server di autorizzazione non supporta questo
+          tipo di risposta.
+        invalid_client: L'autenticazione del client non è riuscita a causa di client
+          sconosciuti, della mancata inclusione dell'autenticazione nel client, o
+          del mancato supporto del metodo di autenticazione.
+        invalid_grant: Il permesso di autorizzazione fornito non è valido, è scaduto,
+          è revocato, non corrisponde all'URI di reindirizzamento utilizzato nella
+          richiesta di autorizzazione oppure è stato rilasciato per un altro client.
+        unsupported_grant_type: Il tipo di permesso di autorizzazione non è supportato
+          dal server di autorizzazione.
         invalid_token:
-          revoked: The access token was revoked
+          revoked: Il token di accesso è stato revocato
           expired: Il token di accesso è scaduto
           unknown: Il token di accesso non è valido
   unsupported_browser:
     title: Il tuo browser è obsoleto e non supportato.
-    message: You may run into errors and degraded experience on this page.
+    message: Puoi incorrere in errori ed esperienza non ottimizzata su questa pagina.
     update_message: Aggiornare il browser, prego.
     close_warning: Ignora questo avviso.
   oauth:
     application:
       singular: Applicazione OAuth
       plural: Applicazioni OAuth
-      named: OAuth application '%{name}'
-      new: New OAuth application
-      default_scopes: "(Default scopes)"
+      named: Applicazione OAuth "%{name}"
+      new: Nuova Applicazione OAuth
+      default_scopes: "(Ambiti predefiniti)"
       instructions:
-        name: The name of your application. This will be displayed to other users
-          upon authorization.
+        name: Il nome della tua applicazione. Verrà visualizzato dagli altri utenti
+          all'autorizzazione.
         redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
           One entry per line. <br/> If you''re registering a desktop application,
           use the following URL.
@@ -3000,21 +3004,22 @@ it:
       cancel: Cancel and deny authorization.
       prompt_html: Authorize <strong>%{application_name}</strong> to use your account
         <em>%{login}</em>?
-      title: Authorize %{application_name}
-      wants_to_access_html: 'This application requests access to your OpenProject
-        account. <br/> <strong>It has requested the following permissions:</strong>
+      title: Autorizza %{application_name}
+      wants_to_access_html: 'Questa applicazione richiede l''accesso al tuo account
+        OpenProject. <br/> <strong>Ha richiesto i seguenti permessi:</strong>
 
 '
     scopes:
-      api_v3: Full API access
-      api_v3_text: Application will receive full read & write access to the OpenProject
-        API to perform actions on your behalf.
+      api_v3: Accesso Completo API
+      api_v3_text: L'applicazione riceverà l'accesso completo alla lettura e scrittura
+        delle API OpenProject per eseguire azioni a tuo nome.
     grants:
       created_date: Approvato il
       scopes: Permessi
-      successful_application_revocation: Revocation of application %{application_name}
-        successful.
-      none_given: No OAuth applications have been granted access to your user account.
+      successful_application_revocation: Revoca dell'applicazione %{application_name}
+        riuscita.
+      none_given: Nessuna applicazione OAuth ha il permesso per accedere al tuo account
+        utente.
     x_active_tokens:
       one: un token attivo
       other: "%{count} token attivi"

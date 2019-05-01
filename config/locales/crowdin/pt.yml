@@ -58,19 +58,19 @@ pt:
       no_results_content_title: Atualmente, não existem modos de autenticação.
       no_results_content_text: Criar um novo modo de autenticação
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Encriptação da ligação
     tls_mode:
       plain: nenhum
       simple_tls: simple_tls
       start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      plain_description: Ligação simples não encriptada, sem negociação TLS.
+      simple_tls_description: Encriptação TLS implícita, mas sem validação de certificado.
+        Use com cautela e confiança implícita da ligação LDAP.
+      start_tls_description: Criptografia TLS explícita com validação completa. Use
+        para LDAP sobre TLS/SSL.
+      section_more_info_link_html: 'Esta seção diz respeito à segurança de ligação
+        desta fonte de autenticação LDAP. Para mais informações, visite a documentação
+        <a href="%{link}">the Net::LDAP</a>.
 
 '
   forums:
@@ -137,20 +137,21 @@ pt:
       no_results_title_text: Atualmente, não existem projetos pertencentes a este
         grupo.
   incoming_mails:
-    ignore_filenames: 'Specify a list of names to ignore when processing attachments
-      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+    ignore_filenames: 'Especifique uma lista de nomes a ignorar ao processar anexos
+      para emails recebidos (por exemplo, assinaturas ou ícones). Digite um nome de
+      ficheiro por linha.
 
 '
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      scheduled: A eliminação foi programada e é realizada em segundo plano. Será
+        notificado do resultado.
+      schedule_failed: 'O projeto não pode ser apagado: %{errors}'
+      failed: A eliminação do projeto %{name} falhou
+      failed_text: O pedido para eliminar o projeto %{name} falhou. O projeto ficou
+        arquivado.
+      completed: A eliminação do projeto %{name} está completa
+      completed_text: O pedido para eliminar o projeto '%{name}' foi concluído.
     index:
       no_results_title_text: Atualmente, não existem projetos
       no_results_content_text: Crie um novo projeto
@@ -228,8 +229,8 @@ pt:
       query_group_placeholder: Dê um nome à tabela
       reset: Repor predefinições
       type_color_text: |
-        Clique para atribuir ou alterar a cor deste tipo. A cor selecionada distingue pacotes de trabalho
-        em gráficos de Gantt.
+        Click to assign or change the color of this type. The selected color distinguishes work packages
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Atualmente não existem pacotes de trabalho atribuídos
@@ -246,7 +247,7 @@ pt:
       one: Um pacote de trabalho descendente
       other: "%{count} pacotes de trabalho descendentes"
     bulk:
-      could_not_be_saved: 'The following work packages could not be saved:'
+      could_not_be_saved: 'Os seguintes pacotes de trabalho não puderam ser guardados:'
     move:
       no_common_statuses_exists: Não há nenhum status disponível para todos os pacotes
         de trabalho selecionados. O seu status não pode ser alterado.
@@ -393,9 +394,9 @@ pt:
         encoded_token: Token de suporte da versão Enterprise
         active_user_count_restriction: Máximo de utilizadores ativos
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
+        page: Página
+        row_count: Número de linhas
+        column_count: Número de colunas
         widgets: Widgets
       relation:
         delay: Atraso
@@ -488,13 +489,13 @@ pt:
         type: Tipo
         watcher: Monitor
       doorkeeper/application:
-        uid: Client ID
-        secret: Client secret
-        owner: Owner
-        redirect_uri: Redirect URI
-        client_credentials_user_id: Client Credentials User ID
-        scopes: Scopes
-        confidential: Confidential
+        uid: ID de cliente
+        secret: Segredo do cliente
+        owner: Proprietário
+        redirect_uri: Redirecionar URI
+        client_credentials_user_id: ID de utilizador de Credenciais do Cliente
+        scopes: Âmbitos
+        confidential: Confidencial
     errors:
       messages:
         accepted: deve ser aceite.
@@ -554,19 +555,19 @@ pt:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
-              secured_uri: must be an HTTPS/SSL URI.
-              forbidden_uri: is forbidden by the server.
+              fragment_present: não pode conter um fragmento.
+              invalid_uri: deve ser uma URI válida.
+              relative_uri: deve ser uma URI absoluta.
+              secured_uri: deve ser uma URI HTTPS/SSL.
+              forbidden_uri: é proibido pelo servidor.
             scopes:
-              not_match_configured: doesn't match available scopes.
+              not_match_configured: não corresponde a âmbitos disponíveis.
         enterprise_token:
           unreadable: não foi possível ler. Tem a certeza que é um token de suporte?
         grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          overlaps: sobreposição.
+          outside: está fora da rede.
+          end_before_start: o valor final tem de ser maior que o valor inicial.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -700,7 +701,7 @@ pt:
       wiki_page: Página wiki
       workflow: Fluxo de trabalho
       work_package: Pacote de trabalho
-      doorkeeper/application: OAuth application
+      doorkeeper/application: Aplicação OAuth
   errors:
     header_invalid_fields: 'Existem problemas com os seguintes campos:'
     field_erroneous_label: |-
@@ -776,7 +777,7 @@ pt:
   button_change_password: Alterar senha
   button_check_all: Seleccionar Todos
   button_clear: Limpar
-  button_click_to_reveal: Click to reveal
+  button_click_to_reveal: Clique para revelar
   button_close: Fechar
   button_collapse_all: Ocultar tudo
   button_configure: Configurar
@@ -806,7 +807,7 @@ pt:
   button_remove: Remover
   button_rename: Alterar o nome
   button_replace: Substituir
-  button_revoke: Revoke
+  button_revoke: Revogar
   button_reply: Responder
   button_reset: Reiniciar
   button_rollback: Reverter para esta versão
@@ -1194,7 +1195,7 @@ pt:
           desta comunidade de código aberto.
     links:
       upgrade_enterprise_edition: Atualizar para a versão Enterprise
-      postgres_migration: Migrating your installation to PostgreSQL
+      postgres_migration: A migrar a sua instalação para PostgreSQL
       user_guides: Guia do Utilizador
       faq: FAQ (Perguntas Mais Frequentes)
       glossary: Glossário
@@ -1381,7 +1382,7 @@ pt:
   label_environment: Ambiente
   label_estimates_and_time: Valores estimados e tempo
   label_equals: é
-  label_everywhere: everywhere
+  label_everywhere: em todo o lado
   label_example: Exemplo
   label_import: Importar
   label_export_to: 'Também disponível em:'
@@ -1420,7 +1421,7 @@ pt:
   label_history: Histórico
   label_hierarchy_leaf: Folha da hierarquia
   label_home: Início
-  label_subject_or_id: Subject or ID
+  label_subject_or_id: ID ou Assunto
   label_impressum: Aviso legal
   label_in: em
   label_in_less_than: em menos de
@@ -1555,7 +1556,7 @@ pt:
   label_previous_week: Semana passada
   label_principal_invite_via_email: " ou convide novos utilizadores via correio eletrónico"
   label_principal_search: Adicionar utilizadores ou grupos existentes
-  label_privacy_policy: Data privacy and security policy
+  label_privacy_policy: Política de privacidade e segurança de dados
   label_product_version: Versão do produto
   label_professional_support: Suporte profissional
   label_profile: Perfil
@@ -1703,7 +1704,7 @@ pt:
   label_view_diff: Ver diferenças
   label_view_revisions: Ver revisões
   label_watched_work_packages: Pacotes de trabalho observados
-  label_what_is_this: What is this?
+  label_what_is_this: O que é isto?
   label_week: Semana
   label_wiki_content_added: Página wiki adicionada
   label_wiki_content_updated: Página wiki atualizada
@@ -1883,8 +1884,8 @@ pt:
   notice_account_update_failed: A definição de conta não pôde ser guardada. Por favor
     confira a página da sua conta.
   notice_account_updated: Conta foi actualizada com sucesso.
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: Todas as outras sessões ligadas à sua conta
+    foram invalidadas.
   notice_account_wrong_password: Senha errada
   notice_account_registered_and_logged_in: Bem-vindo, sua conta foi ativada. Agora
     você está autenticado.
@@ -2298,7 +2299,7 @@ pt:
   setting_mail_handler_body_delimiters: Truncar e-mails depois de uma destas linhas
   setting_mail_handler_body_delimiter_regex: Truncar emails com correspondência a
     este regex
-  setting_mail_handler_ignore_filenames: Ignored mail attachments
+  setting_mail_handler_ignore_filenames: Anexos de e-mail ignorados
   setting_new_project_user_role_id: Função atribuída a um utilizador não-administrador
     que cria um projeto
   setting_password_active_rules: Ativar classes de caráter
@@ -2311,7 +2312,7 @@ pt:
   setting_per_page_options: Opções de objetos por página
   setting_plain_text_mail: Mensagens de texto simples (sem HTML)
   setting_protocol: Protocolo
-  setting_security_badge_displayed: Display security badge
+  setting_security_badge_displayed: Mostrar emblema de segurança
   setting_registration_footer: Rodapé de registo
   setting_repositories_automatic_managed_vendor: Tipo de fornecedor de repositório
     automático
@@ -2821,10 +2822,10 @@ pt:
   menu_item: Item de menu
   menu_item_setting: Visibilidade
   mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
+    notice: 'As versões futuras do OpenProject irão provavelmente abandonar ou reduzir
+      o suporte para bases de dados MySQL e MariaDB. A sua instalação ainda está em
+      execução no MySQL, e sugerimos que migre a sua instalação para o PostgreSQL.
+      Este processo é fácil se seguir os nossos guias de migração:
 
 '
   wiki_menu_item_for: Item de menu para página wiki "%{title}"
@@ -2897,60 +2898,61 @@ pt:
       schema: Esquema
   doorkeeper:
     pre_authorization:
-      status: Pre-authorization
+      status: Pré-autorização
     errors:
       messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
+        invalid_request: Falta um parâmetro obrigatório à solicitação, inclui um valor
+          de parâmetro não suportado, ou está disforme de alguma forma.
         invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
           client redirect URI.
         unauthorized_client: The client is not authorized to perform this request
           using this method.
         access_denied: The resource owner or authorization server denied the request.
-        invalid_scope: The requested scope is invalid, unknown, or malformed.
-        invalid_code_challenge_method: The code challenge method must be plain or
-          S256.
-        server_error: The authorization server encountered an unexpected condition
-          which prevented it from fulfilling the request.
-        temporarily_unavailable: The authorization server is currently unable to handle
-          the request due to a temporary overloading or maintenance of the server.
-        credential_flow_not_configured: Resource Owner Password Credentials flow failed
-          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
-        resource_owner_authenticator_not_configured: Resource Owner find failed due
-          to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
-        admin_authenticator_not_configured: Access to admin panel is forbidden due
-          to Doorkeeper.configure.admin_authenticator being unconfigured.
-        unsupported_response_type: The authorization server does not support this
-          response type.
-        invalid_client: Client authentication failed due to unknown client, no client
-          authentication included, or unsupported authentication method.
-        invalid_grant: The provided authorization grant is invalid, expired, revoked,
-          does not match the redirection URI used in the authorization request, or
-          was issued to another client.
-        unsupported_grant_type: The authorization grant type is not supported by the
-          authorization server.
+        invalid_scope: O âmbito solicitado é inválido, desconhecido ou disforme.
+        invalid_code_challenge_method: O método de desafio do código deve ser simples
+          ou S256.
+        server_error: O servidor de autorização encontrou uma condição inesperada
+          que impediu o cumprimento do pedido.
+        temporarily_unavailable: O servidor de autorização não é capaz de lidar com
+          o pedido devido a uma sobrecarga temporária ou manutenção do servidor.
+        credential_flow_not_configured: Fluxo de Credenciais de Senha do Proprietário
+          de Recursos falhou devido ao Doorkeeper.configure.resource_owner_from_credentials
+          não estar configurado.
+        resource_owner_authenticator_not_configured: Proprietário de Recursos falhou
+          devido ao Doorkeeper.configure.resource_owner_authenticator não estar configurado.
+        admin_authenticator_not_configured: O acesso ao painel de administração é
+          proibido devido ao Doorkeeper.configure.admin_autenticaator não estar configurado.
+        unsupported_response_type: O servidor de autorização não suporta este tipo
+          de resposta.
+        invalid_client: Falha na autenticação do cliente devido a cliente desconhecido,
+          nenhum método de autenticação de cliente incluído ou não suportado.
+        invalid_grant: A autorização fornecida é inválida, expirou, foi revogada,
+          não corresponde ao URI de redirecionamento usado na solicitação de autorização,
+          ou foi emitida para outro cliente.
+        unsupported_grant_type: O tipo de autorização não é suportado pelo servidor
+          de autorização.
         invalid_token:
-          revoked: The access token was revoked
-          expired: The access token expired
-          unknown: The access token is invalid
+          revoked: O token de acesso foi revogado
+          expired: O token de acesso expirou
+          unknown: O token de acesso é inválido
   unsupported_browser:
-    title: Your browser is outdated and unsupported.
-    message: You may run into errors and degraded experience on this page.
+    title: O seu navegador está desatualizado e não é suportado.
+    message: Pode encontrar erros e uma experiência degradada desta página.
     update_message: Por favor, atualize o seu browser.
     close_warning: Ignore este aviso.
   oauth:
     application:
-      singular: OAuth application
-      plural: OAuth applications
-      named: OAuth application '%{name}'
-      new: New OAuth application
-      default_scopes: "(Default scopes)"
+      singular: Aplicação OAuth
+      plural: Aplicações OAuth
+      named: Aplicação OAuth '%{name}'
+      new: Nova aplicação OAuth
+      default_scopes: "(Âmbitos predefinidos)"
       instructions:
-        name: The name of your application. This will be displayed to other users
-          upon authorization.
-        redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
-          One entry per line. <br/> If you''re registering a desktop application,
-          use the following URL.
+        name: O nome da sua aplicação. Isto será exibido aos outros utilizadores após
+          a autorização.
+        redirect_uri_html: 'Os utilizadores autorizados com URLs podem ser redirecionados
+          para. Uma entrada por linha. <br/> Se estiver a registar uma aplicação de
+          desktop, use a seguinte URL.
 
 '
         confidential: Check if the application will be used where the client secret
@@ -2961,49 +2963,50 @@ pt:
         register_intro: If you are developing an OAuth API client application for
           OpenProject, you can register it using this form for all users to use.
         default_scopes: ''
-    client_id: Client ID
+    client_id: ID de cliente
     client_secret_notice: 'This is the only time we can print the client secret, please
       note it down and keep it secure. It should be treated as a password and cannot
       be retrieved by OpenProject at a later time.
 
 '
     authorization_dialog:
-      authorize: Authorize
-      cancel: Cancel and deny authorization.
-      prompt_html: Authorize <strong>%{application_name}</strong> to use your account
-        <em>%{login}</em>?
-      title: Authorize %{application_name}
+      authorize: Autorizar
+      cancel: Cancelar e negar autorização.
+      prompt_html: Autorizar <strong>%{application_name}</strong> para usar a sua
+        conta <em>%{login}</em>?
+      title: Autorizar %{application_name}
       wants_to_access_html: 'This application requests access to your OpenProject
         account. <br/> <strong>It has requested the following permissions:</strong>
 
 '
     scopes:
-      api_v3: Full API access
+      api_v3: Acesso completo à API
       api_v3_text: Application will receive full read & write access to the OpenProject
         API to perform actions on your behalf.
     grants:
-      created_date: Approved on
+      created_date: Aprovado em
       scopes: Permissões
-      successful_application_revocation: Revocation of application %{application_name}
-        successful.
+      successful_application_revocation: Revogação da aplicação %{application_name}
+        bem sucedida.
       none_given: No OAuth applications have been granted access to your user account.
     x_active_tokens:
-      one: one active token
-      other: "%{count} active token"
+      one: um token ativo
+      other: "%{count} tokens ativos"
     flows:
-      authorization_code: Authorization code flow
-      client_credentials: Client credentials flow
-    client_credentials: User used for Client credentials
-    client_credentials_impersonation_set_to: Client credentials user set to
-    client_credentials_impersonation_warning: 'Note: Clients using the ''Client credentials''
-      flow in this application will have the rights of this user'
+      authorization_code: Fluxo de código de autorização
+      client_credentials: Fluxo de credenciais do cliente
+    client_credentials: Utilizador usado para credenciais do cliente
+    client_credentials_impersonation_set_to: Utilizador de credenciais do cliente
+      definido para
+    client_credentials_impersonation_warning: 'Nota: Clientes que usam o fluxo ''Credenciais
+      do cliente'' nestae aplicação terão os direitos deste utilizador'
     client_credentials_impersonation_html: 'By default, OpenProject provides OAuth
       2.0 authorization via %{authorization_code_flow_link}. You can optionally enable
       %{client_credentials_flow_link}, but you must provide a user on whose behalf
       requests will be performed.
 
 '
-    authorization_error: An authorization error has occurred.
-    revoke_my_application_confirmation: Do you really want to remove this application?
-      This will revoke %{token_count} active for it.
-    my_registered_applications: Registered OAuth applications
+    authorization_error: Ocorreu um erro de autorização.
+    revoke_my_application_confirmation: Pretende remover esta aplicação? Isto irá
+      revogar %{token_count} ativo para ela.
+    my_registered_applications: Aplicações OAuth registadas

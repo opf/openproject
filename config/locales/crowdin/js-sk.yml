@@ -259,7 +259,7 @@ sk:
     label_more_than_ago: pred viac než dňom
     label_my_page: Moja stránka
     label_next: Ďalšie
-    label_no_color: No color
+    label_no_color: Žiadna farba
     label_no_data: Žiadne dáta na zobrazenie
     label_no_due_date: bez dátumu ukončenia
     label_no_start_date: žiadny dátum začatia
@@ -380,8 +380,8 @@ sk:
           lists: You can create multiple lists (columns) within one Board view, e.g.
             to create a KANBAN board.
           add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: Tu sú <b>Pracovné balíčky</b>, ktoré vám poskytnú podrobnejší pohľad
             na prácu vo vašom projekte.

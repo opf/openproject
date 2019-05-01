@@ -265,7 +265,7 @@ de:
     label_more_than_ago: vor mehr als (Tage)
     label_my_page: Meine Seite
     label_next: Weiter
-    label_no_color: No color
+    label_no_color: Keine Farbe
     label_no_data: Es sind keine Daten vorhanden
     label_no_due_date: kein Abgabedatum
     label_no_start_date: kein Startdatum
@@ -387,9 +387,8 @@ de:
           lists: Sie können mehrere Listen (Spalten) innerhalb einer Board-Ansicht
             erstellen, z.B. um ein KANBAN-Board zu erstellen.
           add: Klicken Sie + um <b>eine neue Karte</b> zur Liste eines Boards hinzufügen.
-          drag: Ziehen Sie Ihre Karten in eine Liste, um diese zu sortieren oder weisen
-            Sie diese einer anderen Liste zu. Ein Doppelklick auf eine Karte öffnet
-            die Detailansicht.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: Hier sind die <b>Arbeitspakete</b>, die Ihnen eine detailliertere
             Sicht auf die Arbeit in Ihrem Projekt geben.
