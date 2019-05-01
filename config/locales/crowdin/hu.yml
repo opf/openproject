@@ -221,11 +221,9 @@ hu:
       edit_query: Táblázat szerkesztése
       query_group_placeholder: Adja meg a tábla nevét
       reset: Alapbeállítások visszaállítása
-      type_color_text: 'Kattintson az adott típus színének hozzárendeléséhez vagy
-        megváltoztatásához. A kiválasztott szín különbözteti meg a feladatcsoportokat
-        a Gantt-diagramokban.
-
-'
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color distinguishes work packages
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Jelenleg nincsenek ehhez a verzióhoz hozzárendelt feladatcsoportok.

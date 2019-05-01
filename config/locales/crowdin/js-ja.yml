@@ -248,7 +248,7 @@ ja:
     label_more_than_ago: 今日より○日前以前
     label_my_page: 個人ページ
     label_next: 次へ
-    label_no_color: No color
+    label_no_color: 色なし
     label_no_data: 表示できるデータがありません。
     label_no_due_date: 完了日なし
     label_no_start_date: 開始日なし
@@ -351,7 +351,8 @@ ja:
           overview: 直感的な<b>ボード</b>ビューで作業を管理します。
           lists: 1つの掲示板ビュー内に複数のリスト（列）を作成できます。 カンバンボードを作成します。
           add: "+をクリックすると、ボード内のリストに<b>新しいカードを追加</b>します。"
-          drag: リスト内のカードをドラッグアンドドロップして並べ替えるか、別のリストに入れます。 ダブルクリックすると詳細ビューが開きます。
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: 次に、<b>作業パッケージ</b>セクションを見て、作業の詳細を確認してください。
           list: これは、タスク、機能、マイルストーン、バグなど、プロジェクト内の重要な作業をまとめた<b>作業項目</b>リストです。 <br>このリスト内で作業パッケージを直接作成または編集できます。

@@ -224,10 +224,9 @@ ru:
       edit_query: Изменить таблицу
       query_group_placeholder: Дайте таблице название
       reset: Восстановить значения по умолчанию
-      type_color_text: 'Щелкните, чтобы задать или изменить цвет этого типа. Выбранный
-        цвет позволяет различать пакеты работ на диаграммах Ганта.
-
-'
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color distinguishes work packages
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: В настоящее время пакетов работ для этой версии нет.

@@ -248,7 +248,7 @@ zh-TW:
     label_more_than_ago: 很多天之前
     label_my_page: 我的首頁
     label_next: 下一個
-    label_no_color: No color
+    label_no_color: 無顏色
     label_no_data: 沒有資料可顯示
     label_no_due_date: 無結束日期
     label_no_start_date: 無開始日期
@@ -353,8 +353,8 @@ zh-TW:
           lists: You can create multiple lists (columns) within one Board view, e.g.
             to create a KANBAN board.
           add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: 現在, 讓我們來看看 <b>工作包</b> 部分, 它為您提供了更詳細的工作視圖。
           list: 這是 <b>工作包</b> 清單, 其中包含專案中的重要工作, 如任務、功能、里程碑、bug 等。 <br> 您可以直接在此清單中創建或編輯工作包。要查看其詳細資訊,

@@ -258,7 +258,7 @@ hi:
     label_more_than_ago: more than days ago
     label_my_page: My page
     label_next: Next
-    label_no_color: No color
+    label_no_color: कोई रंग नहीं
     label_no_data: प्रदर्शित करने के लिए कोई डेटा नहीं
     label_no_due_date: कोई समाप्ति दिनांक नहीं
     label_no_start_date: कोई प्रारंभ दिनांक नहीं
@@ -378,8 +378,8 @@ hi:
           lists: You can create multiple lists (columns) within one Board view, e.g.
             to create a KANBAN board.
           add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: Now let's have a look at the <b>Work package</b> section, which
             gives you a more detailed view of your work.

@@ -261,7 +261,7 @@ hu:
     label_more_than_ago: több, nappal ezelőtt
     label_my_page: Az én oldalam
     label_next: " Következő"
-    label_no_color: No color
+    label_no_color: Nincs szín
     label_no_data: Nincs megjelenítendő adat
     label_no_due_date: nincs záró dátuma
     label_no_start_date: nincs kezdő dátuma
@@ -379,8 +379,8 @@ hu:
           lists: You can create multiple lists (columns) within one Board view, e.g.
             to create a KANBAN board.
           add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: Most vessünk egy pillantást a <b>Feladatcsoport</b> kiválasztására,
             amely részletesebb képet ad a munkáról.

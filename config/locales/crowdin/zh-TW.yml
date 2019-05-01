@@ -204,9 +204,9 @@ zh-TW:
       edit_query: 編輯表格
       query_group_placeholder: 給表格命名
       reset: 重設為預設值
-      type_color_text: '點擊來指定或變更工作項目類型的顏色。被選取的顏色將在甘特圖中用來區別工作項目。
-
-'
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color distinguishes work packages
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: 目前沒有工作包分配給此版本。

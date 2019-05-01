@@ -264,7 +264,7 @@ pt-BR:
     label_more_than_ago: mais do que dias atrás
     label_my_page: Minha página
     label_next: Próxima
-    label_no_color: No color
+    label_no_color: Sem cor
     label_no_data: Sem dados para exibir
     label_no_due_date: nenhuma data de término
     label_no_start_date: nenhuma data de início
@@ -389,8 +389,8 @@ pt-BR:
             quadro, por exemplo, para criar um quadro KANBAN.
           add: Clicar no + irá <b>adicionar um novo cartão</b> à lista dentro de um
             Quadro.
-          drag: Arraste e solte seus cartões dentro de uma lista para re-ordenar,
-            ou mover para outra lista. Um duplo clique abrirá a visualização detalhada.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: Agora vamos dar uma olhada na seção <b>Pacotes de trabalho</b>,
             que lhe fornece uma visão mais detalhada do seu trabalho.

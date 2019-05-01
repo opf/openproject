@@ -259,7 +259,7 @@ lt:
     label_more_than_ago: daugiau nei prieš dieną
     label_my_page: Mano puslapis
     label_next: Kitas
-    label_no_color: No color
+    label_no_color: Be spalvų
     label_no_data: Nėra rodytinų duomenų
     label_no_due_date: nėra pabaigos datos
     label_no_start_date: nėra pradžios datos
@@ -376,8 +376,8 @@ lt:
           lists: You can create multiple lists (columns) within one Board view, e.g.
             to create a KANBAN board.
           add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: Dabar žvilgtelėkime į <b>Darbų paketų</b> skyrių, kuris suteikia
             išsamesnį vaizdą apie jūsų darbus.

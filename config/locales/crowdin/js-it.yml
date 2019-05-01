@@ -24,13 +24,13 @@ it:
         boards: Need to freely structure your work in a board view?
         check_out_link: Scopri Enterprise Edition.
       lists:
-        delete: Delete list
+        delete: Elimina elenco
     card:
-      add_new: Add new card
+      add_new: Aggiungi una nuova carta
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: Entire card by
-      remove_from_list: Remove card from list
+        inline: 'Evidenzia in linea:'
+        entire_card_by: Tutta la carta per
+      remove_from_list: Rimuovi la carta dall'elenco
     clipboard:
       browser_error: Il tuo browser non supporta la copia negli appunti. Copia il
         testo selezionato manualmente.
@@ -212,9 +212,9 @@ it:
     label_ascending: Crescente
     label_author: 'Autore: %{user}'
     label_between: tra
-    label_board: Board
+    label_board: Tabellone
     label_board_locked: Chiuso
-    label_board_plural: Boards
+    label_board_plural: Tabelloni
     label_board_sticky: In evidenza
     label_create_work_package: Crea una nuova macro-attività (work package)
     label_created_by: Creato da
@@ -263,7 +263,7 @@ it:
     label_more_than_ago: più di qualche giorno fa
     label_my_page: La mia pagina
     label_next: Prossimo
-    label_no_color: No color
+    label_no_color: Nessun colore
     label_no_data: Nessun dato da visualizzare
     label_no_due_date: nessuna data di fine
     label_no_start_date: nessuna data di inizio
@@ -338,7 +338,7 @@ it:
     label_upload_notification: Caricamento dei file...
     label_work_package_upload_notification: 'Caricamento dei file per la macro-attività
       #%{id}: %{subject} in corso'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} aggiunto da%{author}"
     label_files_to_upload: 'Verranno caricati questi files:'
     label_rejected_files: 'Questi file non possono essere caricati:'
     label_rejected_files_reason: Questi file non possono essere caricati perchè la
@@ -383,11 +383,12 @@ it:
             stato.
         boards:
           overview: Manage your work within an intuitive <b>Boards</b> view.
-          lists: You can create multiple lists (columns) within one Board view, e.g.
-            to create a KANBAN board.
-          add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          lists: Puoi creare più elenchi (colonne) all'interno di una sola vista Tabellone,
+            ad esempio per creare un tabellone KANBAN.
+          add: Clicca su + <b>per aggiungere una nuova carta</b> alla lista all'interno
+            di un Tabellone.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: Ora dai un'occhiata alla sezione <b>Pacchetto Lavoro</b>, che ti
             da una più dettagliata vista del tuo lavoro.
@@ -873,7 +874,7 @@ it:
           elencate verranno eliminati in modo ricorsivo.
         deletes_children: Tutte le macro-attività ed i relativi discendenti verranno
           eliminati ricorsivamente.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Nessun risultato visibile da mostrare.
     notice_successful_create: Creato con successo.
     notice_successful_delete: Cancellato con successo.
     notice_successful_update: Aggiornato con successo.

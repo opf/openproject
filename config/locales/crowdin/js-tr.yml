@@ -259,7 +259,7 @@ tr:
     label_more_than_ago: günler önce
     label_my_page: Benim sayfam
     label_next: Sonraki
-    label_no_color: No color
+    label_no_color: Renk yok
     label_no_data: Görüntülenecek veri yok
     label_no_due_date: bitiş tarihi yok
     label_no_start_date: başlangıç tarihi yok
@@ -380,8 +380,8 @@ tr:
             KANBAN kurulu oluşturmak için.
           add: Bir Pano içindeki listeye + işaretini <b> yeni bir kart ekler </b>
             ’i tıklayın.
-          drag: Yeniden sıralamak için kartlarınızı bir listede ya da başka bir listede
-            sürükleyip bırakın. Ayrıntılar görünümünde çift tıklatma açılacaktır.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: Şimdi, size çalışmanız hakkında daha ayrıntılı bir görünüm sağlayan
             <b> İş paketi </b> bölümüne göz atalım.

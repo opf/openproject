@@ -257,7 +257,7 @@ pl:
     label_more_than_ago: Więcej niż dni temu
     label_my_page: Moja strona
     label_next: Następny
-    label_no_color: No color
+    label_no_color: Bez koloru
     label_no_data: Brak danych do pokazania
     label_no_due_date: brak daty zakończenia
     label_no_start_date: brak daty rozpoczęcia
@@ -377,8 +377,8 @@ pl:
           lists: You can create multiple lists (columns) within one Board view, e.g.
             to create a KANBAN board.
           add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: Teraz przyjrzyjmy się sekcji <b>Zadania</b>, która zapewnia bardziej
             szczegółowy widok Twojej pracy.

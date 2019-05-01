@@ -205,9 +205,9 @@ zh:
       edit_query: 编辑表
       query_group_placeholder: 为表命名
       reset: 重置为默认值
-      type_color_text: '单击可以分配或更改此类型的颜色。选定颜色可区分甘特图中的工作包。
-
-'
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color distinguishes work packages
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: 目前没有工作包分配给此版本。

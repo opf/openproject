@@ -227,11 +227,9 @@ hi:
       edit_query: Edit table
       query_group_placeholder: Give the table a name
       reset: Reset to defaults
-      type_color_text: 'इस प्रकार का रंग असाइन करने या बदलने के लिए क्लिक करें । चयनित
-        रंग कार्य पैकेज को अलग करते है < div class = "notranslate" > 0 </div> गैंट
-        चार्ट्स में ।
-
-'
+      type_color_text: |
+        Click to assign or change the color of this type. The selected color distinguishes work packages
+        in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this

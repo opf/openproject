@@ -262,7 +262,7 @@ fr:
     label_more_than_ago: il y a plus de quelques jours
     label_my_page: Ma page
     label_next: Suivante
-    label_no_color: No color
+    label_no_color: Aucune couleur
     label_no_data: Aucune donnée à afficher
     label_no_due_date: pas d'échéance
     label_no_start_date: pas de date de début
@@ -391,8 +391,8 @@ fr:
           lists: You can create multiple lists (columns) within one Board view, e.g.
             to create a KANBAN board.
           add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or the another list.
-            A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: Maintenant, jetons un coup d'oeil à la section <b>Paquet de Travail</b>,
             qui vous donne une vue plus détaillée de votre travail.

@@ -247,7 +247,7 @@ zh:
     label_more_than_ago: 更多天前
     label_my_page: 我的页面
     label_next: 下一个
-    label_no_color: No color
+    label_no_color: 无颜色
     label_no_data: 没有要显示的数据
     label_no_due_date: 没有结束日期
     label_no_start_date: 没有开始日期
@@ -351,7 +351,8 @@ zh:
           lists: You can create multiple lists (columns) within one Board view, e.g.
             to create a KANBAN board.
           add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: 将卡片拖放到列表或另一列表中进行重新排序。双击将打开详细视图。
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: 现在我们来看一下<b>工作包</b>部分，工作包提供了更详细的工作视图。
           list: 这是<b>工作包</b>列表，包含项目中的重要工作，例如任务、特征、里程碑和错误等。<br>您可以在这个列表中直接创建或编辑工作包。要查看工作包的详细信息，可以双击该行。
