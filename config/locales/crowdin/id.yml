@@ -75,7 +75,7 @@ id:
 '
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: Saat ini tidak ada postingan di forum.
   colors:
     index:
       no_results_title_text: Tidak ada warna saat ini.
@@ -157,8 +157,8 @@ id:
       activities:
         no_results_title_text: There are currently no activities available.
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: Tidak ada forum pada project.
+        no_results_content_text: Buat forum baru
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -226,9 +226,10 @@ id:
       edit_query: Edit table
       query_group_placeholder: Give the table a name
       reset: Disetel ulang ke kondisi bawaan
-      type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts. It is therefore recommended to use a strong color.
+      type_color_text: 'Klik untuk menetapkan atau mengubah warna tipe ini. warna
+        yang dipilah akan membedakan paket kerja.
+
+'
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this
@@ -525,7 +526,7 @@ id:
         too_long: panjang karakter maksimal %{count}.
         too_short: minimal %{count} karakter.
         unchangeable: cannot be changed.
-        unremovable: cannot be removed.
+        unremovable: tidak bisa dihapus.
         wrong_length: panjang tidak sesuai (harus %{count} karakter).
       models:
         custom_field:
@@ -1050,7 +1051,8 @@ id:
   error_can_not_remove_role: Role ini sedang dipakai dan tidak dapat dihapus.
   error_can_not_reopen_work_package_on_closed_version: Paket-Penugasan yang telah
     berakhir tidak dapat dibuka kembali
-  error_can_not_find_all_resources: Could not find all related resources to this request.
+  error_can_not_find_all_resources: Tidak dapat menemukan semua sumber daya terkait
+    permintaan ini.
   error_check_user_and_role: Silakan pilih user dan Role.
   error_code: Error %{code}
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
@@ -1077,10 +1079,11 @@ id:
   error_work_package_not_found_in_project: Paket-Penugasan tidak ditemukan atau tidak
     termasuk dalam Project ini
   error_must_be_project_member: harus sbg Project Member
-  error_migrations_are_pending: Your OpenProject installation has pending database
-    migrations. You have likely missed running the migrations on your last upgrade.
-    Please check the upgrade guide to properly upgrade your installation.
-  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
+  error_migrations_are_pending: Instalasi OpenProject anda tertunda karena migrasi
+    databse. kemungkinan anda melewatkan migrasi yang ada saat upgrade terakhir. silahkan
+    periksa panduan upgrade untuk meng-upgrade dengan benar.
+  error_migrations_visit_upgrade_guides: Silahkan kunjungi panduan dokumentasi upgrade
+    kami
   error_no_default_work_package_status: Status Paket-Penugasan default tidak didefinisikan.
     Silakan periksa konfigurasi (ke "Administrasi -> Paket-Penugasan Status").
   error_no_type_in_project: Tidak ada Tipe terasosiasi dengan Project ini. Silakan
@@ -1165,7 +1168,7 @@ id:
           ini.
     links:
       upgrade_enterprise_edition: Tingkatkan ke edisi enterprise
-      postgres_migration: Migrating your installation to PostgreSQL
+      postgres_migration: Migrasi instalasi anda ke PostgreSQL
       user_guides: User guides
       faq: FAQ
       glossary: Glossary
@@ -1238,7 +1241,7 @@ id:
   label_authentication: Otentikasi
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
-  label_available_project_forums: Available forums
+  label_available_project_forums: Forums tersedia
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1254,7 +1257,7 @@ id:
   label_branch: Branch
   label_browse: Browse
   label_bulk_edit_selected_work_packages: Edit masal Paket-Penugasan yang dipilih
-  label_bundled: "(Bundled)"
+  label_bundled: "(dibundel)"
   label_calendar: Kalender
   label_calendar_show: Tampilkan kalender
   label_category: Kategori
@@ -1354,7 +1357,7 @@ id:
   label_equals: adalah
   label_everywhere: everywhere
   label_example: Contoh
-  label_import: Import
+  label_import: Impor
   label_export_to: 'Juga tersedia dalam:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} jam"
@@ -1391,7 +1394,7 @@ id:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
   label_subject_or_id: Subject or ID
-  label_impressum: Legal notice
+  label_impressum: Pernyataan hukum
   label_in: dalam
   label_in_less_than: kurang dari
   label_in_more_than: lebih dari
@@ -1517,7 +1520,7 @@ id:
   label_planning: Perencanaan
   label_please_login: Silakan login
   label_plugins: Plugin
-  label_modules_and_plugins: Modules and Plugins
+  label_modules_and_plugins: Modul dan Plugin
   label_precedes: mendahului
   label_preferences: Preferensi
   label_preview: Preview
@@ -1641,7 +1644,7 @@ id:
   label_updated_time: Diperbarui %{value} yang lalu
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Diperbarui oleh %{author} %{age} yang lalu
-  label_upgrade_guides: Upgrade guides
+  label_upgrade_guides: Panduan upgrade
   label_used_by: Digunakan oleh
   label_used_by_types: Digunakan oleh jenis
   label_used_in_projects: Digunakan dalam proyek-proyek
@@ -2748,10 +2751,10 @@ id:
   menu_item: Menu item
   menu_item_setting: Visibilitas
   mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
+    notice: 'Versi lanjut OpenProject kemungkinan akan menghentikan atau mengurangi
+      dukungan terhadap database Mysql dan MariaDB. Instalasi anda masih menggunakan
+      MySQL dan kami sarankan anda untuk melakukan migrasi ke PostgreSQL. Agar proses
+      migrasi lebih mudah disarankan untuk mengikuti panduan migrasi kami:
 
 '
   wiki_menu_item_for: Menu untuk Halaman Wiki "%{title}"

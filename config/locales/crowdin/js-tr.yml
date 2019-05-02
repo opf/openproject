@@ -380,8 +380,8 @@ tr:
             KANBAN kurulu oluşturmak için.
           add: Bir Pano içindeki listeye + işaretini <b> yeni bir kart ekler </b>
             ’i tıklayın.
-          drag: Drag & Drop your cards within a list to re-order, or to drag to another
-            list. A double click will open the details view.
+          drag: Yeniden sıralamak veya başka bir listeye sürüklemek için kartlarınızı
+            bir listede sürükleyip bırakın. Ayrıntılar görünümünde çift tıklatma açılacaktır.
         wp:
           toggler: Şimdi, size çalışmanız hakkında daha ayrıntılı bir görünüm sağlayan
             <b> İş paketi </b> bölümüne göz atalım.

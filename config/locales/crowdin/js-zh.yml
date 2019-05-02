@@ -19,16 +19,16 @@ zh:
     close_form_title: 关闭表单
     boards:
       upsale:
-        boards: Need to freely structure your work in a board view?
+        boards: 需要在面板视图中自由地组织您的工作？
         check_out_link: 签出企业版。
       lists:
-        delete: Delete list
+        delete: 删除列表
     card:
-      add_new: Add new card
+      add_new: 添加新卡
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: Entire card by
-      remove_from_list: Remove card from list
+        inline: 突出显示内联：
+        entire_card_by: 整个卡
+      remove_from_list: 从列表中移除卡
     clipboard:
       browser_error: 您的浏览器不支持复制到剪贴板，请手动复制选定的文本。
       copied_successful: 成功复制到剪贴板!
@@ -160,7 +160,7 @@ zh:
           no_results: 没有文档。
         news:
           title: 新闻
-          at: at
+          at: 位置：
           no_results: 没有新消息报告。
         time_entries_current_user:
           title: 花费时间 (最近 7天)
@@ -319,7 +319,7 @@ zh:
     label_add_description: 为%{file} 添加说明
     label_upload_notification: 正在上传文件…
     label_work_package_upload_notification: '正在为 #%{id}: %{subject} 工作包上传文件'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id}，由 %{author} 添加"
     label_files_to_upload: '这些文件将被上传:'
     label_rejected_files: '这些文件无法上传:'
     label_rejected_files_reason: 这些文件不能上传，因为它们大于 %{maximumFilesize}
@@ -347,12 +347,10 @@ zh:
           task_board_select: "…并选择<b>任务面板</b>条目。"
           task_board: "<b>任务面板</b>将此 sprint 的进度可视化。使用用户故事旁边的 + 图标添加新任务或障碍。通过拖放可以更新状态。"
         boards:
-          overview: Manage your work within an intuitive <b>Boards</b> view.
-          lists: You can create multiple lists (columns) within one Board view, e.g.
-            to create a KANBAN board.
-          add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or to drag to another
-            list. A double click will open the details view.
+          overview: 在直观的<b>面板</b>视图中管理您的工作。
+          lists: 您可以在一个面板视图中创建多个列表（列），例如创建看板面板。
+          add: 单击 + 将向面板内的列表中<b>添加新卡</b>。
+          drag: 在列表中拖放卡片进行重新排序，或者拖动到另一个列表中。双击将打开详细信息视图。
         wp:
           toggler: 现在我们来看一下<b>工作包</b>部分，工作包提供了更详细的工作视图。
           list: 这是<b>工作包</b>列表，包含项目中的重要工作，例如任务、特征、里程碑和错误等。<br>您可以在这个列表中直接创建或编辑工作包。要查看工作包的详细信息，可以双击该行。
@@ -491,7 +489,7 @@ zh:
     text_query_destroy_confirmation: 确定要删除所选视图吗？
     text_attachment_destroy_confirmation: 你确定要删除这个附件?
     timelines:
-      quarter_label: Q%{quarter_number}
+      quarter_label: 第 %{quarter_number} 季度
       gantt_chart: 甘特图
       labels:
         title: 标签配置

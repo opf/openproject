@@ -231,8 +231,8 @@ es:
       query_group_placeholder: Asigne un nombre a la tabla
       reset: Restablecer valores predeterminados
       type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts. It is therefore recommended to use a strong color.
+        Haga clic para asignar o cambiar el color de este tipo. El color seleccionado permite distinguir los paquetes de trabajo
+        en los diagramas de Gantt. Por lo tanto, se recomienda usar un color fuerte.
   versions:
     overview:
       no_results_title_text: Actualmente no hay paquetes de trabajo asignados a esta
@@ -1083,7 +1083,8 @@ es:
   error_can_not_remove_role: Este rol esta en uso y no puede ser eliminado
   error_can_not_reopen_work_package_on_closed_version: No se puede volver a abrir
     un paquete de trabajo asignado a una versión cerrada
-  error_can_not_find_all_resources: Could not find all related resources to this request.
+  error_can_not_find_all_resources: No se encontraron todos los recursos relacionados
+    con esta solicitud.
   error_check_user_and_role: Por favor elige un usuario y un rol.
   error_code: Error %{code}
   error_cookie_missing: No se encuentra la cookie de OpenProject. Por favor asegúrese
@@ -1111,10 +1112,11 @@ es:
   error_work_package_not_found_in_project: El paquete de trabajo no se ha encontrado
     o no pertenece a este proyecto
   error_must_be_project_member: debe ser miembro del proyecto
-  error_migrations_are_pending: Your OpenProject installation has pending database
-    migrations. You have likely missed running the migrations on your last upgrade.
-    Please check the upgrade guide to properly upgrade your installation.
-  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
+  error_migrations_are_pending: Su instalación de OpenProject tiene migraciones de
+    bases de datos pendientes. Es probable que haya pasado por alto la ejecución de
+    las migraciones en la última actualización. Consulte la guía de actualización
+    para actualizar correctamente su instalación.
+  error_migrations_visit_upgrade_guides: Visite la documentación de la Guía de actualización
   error_no_default_work_package_status: Ningún estado del paquete trabajo predeterminado
     está definido. Por favor, compruebe su configuración (ir a "Administración-> Situación
     del paquete de trabajo").
@@ -1203,7 +1205,7 @@ es:
           de esta comunidad de código abierto.
     links:
       upgrade_enterprise_edition: Actualizar hasta versión corporativa
-      postgres_migration: Migrating your installation to PostgreSQL
+      postgres_migration: Migrando su instalación a PostgreSQL
       user_guides: Guia de usuario
       faq: Preguntas Frecuentes
       glossary: Glosario
@@ -1392,7 +1394,7 @@ es:
   label_equals: es
   label_everywhere: todo
   label_example: Ejemplo
-  label_import: Import
+  label_import: Importar
   label_export_to: 'También disponible en:'
   label_expanded_click_to_collapse: Expandido. Haga clic para contraer
   label_f_hour: "%{value} hora"
@@ -1430,7 +1432,7 @@ es:
   label_hierarchy_leaf: Hoja de jerarquía
   label_home: Inicio
   label_subject_or_id: Asunto o ID
-  label_impressum: Legal notice
+  label_impressum: Aviso legal
   label_in: en
   label_in_less_than: en menos de
   label_in_more_than: en más de
@@ -1682,7 +1684,7 @@ es:
   label_updated_time: "%{value} actualizado hace"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Actualizado por %{author} hace %{age}
-  label_upgrade_guides: Upgrade guides
+  label_upgrade_guides: Guías de actualización
   label_used_by: Utilizado por
   label_used_by_types: Utilizado por tipos
   label_used_in_projects: Utilizado en proyectos
@@ -2848,10 +2850,10 @@ es:
   menu_item: Elemento de menú
   menu_item_setting: Visibilidad
   mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
+    notice: 'Es probable que en las próximas versiones de OpenProject se elimine o
+      reduzca la compatibilidad con las bases de datos de MySQL y MariaDB. Su instalación
+      aún se ejecuta con MySQL, por lo que le sugerimos que migre la instalación a
+      PostgreSQL. Siga nuestras guías de migración para realizar este sencillo proceso:
 
 '
   wiki_menu_item_for: Elemento de menú para wiki '%{title}'

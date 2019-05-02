@@ -199,8 +199,8 @@ ja:
       query_group_placeholder: テーブルに名前を付けます
       reset: デフォルトに戻す
       type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts. It is therefore recommended to use a strong color.
+        クリックして、このタイプの色を割り当てたり、変更します。選択した色は、ガントチャートのワークパッケージを区別します。
+        したがって、はっきりした色を使用することをお勧めします。
   versions:
     overview:
       no_results_title_text: このバージョンに割り当てられている作業項目はありません。

@@ -229,8 +229,8 @@ pt:
       query_group_placeholder: Dê um nome à tabela
       reset: Repor predefinições
       type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts. It is therefore recommended to use a strong color.
+        Clique para atribuir ou alterar a cor deste tipo. A cor selecionada distingue os pacotes de trabalho
+        em gráficos Gantt. Por isso, é recomendado usar uma cor forte.
   versions:
     overview:
       no_results_title_text: Atualmente não existem pacotes de trabalho atribuídos
@@ -2489,14 +2489,14 @@ pt:
   text_no_notes: Não há comentários disponíveis para este pacote de trabalho.
   text_notice_too_many_values_are_inperformant: 'Nota: Exibir mais de 100 itens por
     página pode aumentar o tempo de carregamento da página.'
-  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
-    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
-    administration panel, and on the home page. It is displayed to administrators
-    only. <br/> The badge will check your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide
-    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
-    configuration documentation</a>.
+  text_notice_security_badge_displayed_html: 'Nota: se ativo, irá mostrar um emblema
+    com o estado da sua instalação no painel de administração <a href="%{information_panel_path}">%{information_panel_label}</a>
+    e na página inicial. Só é mostrado a administradores. <br/> O emblema verificará
+    a sua versão atual do OpenProject em relação à base de dados oficial da versão
+    do OpenProject para o alertar sobre quaisquer atualizações ou vulnerabilidades
+    conhecidas. Para obter mais informações sobre o que a verificação fornece, quais
+    os dados que são necessários para fornecer atualizações disponíveis e como desativar
+    esta verificação, visite <a href="%{more_info_url}">the configuration documentation</a>.
 
 '
   text_own_membership_delete_confirmation: |-
@@ -2903,11 +2903,12 @@ pt:
       messages:
         invalid_request: Falta um parâmetro obrigatório à solicitação, inclui um valor
           de parâmetro não suportado, ou está disforme de alguma forma.
-        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
-          client redirect URI.
-        unauthorized_client: The client is not authorized to perform this request
-          using this method.
-        access_denied: The resource owner or authorization server denied the request.
+        invalid_redirect_uri: O uri de redirecionamento solicitado é disforme ou não
+          corresponde ao URI de redirecionamento do cliente.
+        unauthorized_client: O cliente não está autorizado a executar este pedido
+          através deste método.
+        access_denied: O proprietário do recurso ou o servidor de autorização negou
+          o pedido.
         invalid_scope: O âmbito solicitado é inválido, desconhecido ou disforme.
         invalid_code_challenge_method: O método de desafio do código deve ser simples
           ou S256.
@@ -2955,18 +2956,20 @@ pt:
           desktop, use a seguinte URL.
 
 '
-        confidential: Check if the application will be used where the client secret
-          can be kept confidential. Native mobile apps and Single Page Apps are assumed
-          non-confidential.
-        client_credential_user_id: Optional user ID to impersonate when clients use
-          this application. Leave empty to allow public access only
-        register_intro: If you are developing an OAuth API client application for
-          OpenProject, you can register it using this form for all users to use.
+        confidential: Verifique se a aplicação será usada num local em que o segredo
+          do cliente possa permanecer confidencial. As aplicações móveis nativas e
+          as Aplicações de Página Única são consideradas não-confidenciais.
+        client_credential_user_id: ID opcional de utilizador para simular quando os
+          clientes utilizam esta aplicação. Deixe em branco para permitir apenas o
+          acesso público
+        register_intro: Se está a desenvolver uma aplicação de cliente OAuth API para
+          OpenProject, pode registá-la através deste formulário para que todos os
+          utilizadores a possam usar.
         default_scopes: ''
     client_id: ID de cliente
-    client_secret_notice: 'This is the only time we can print the client secret, please
-      note it down and keep it secure. It should be treated as a password and cannot
-      be retrieved by OpenProject at a later time.
+    client_secret_notice: 'Esta é a única vez que podemos imprimir o segredo do cliente,
+      por favor anote-o e mantenha-o seguro. Deve ser tratado como uma palavra-passe
+      e não pode ser recuperado mais tarde pelo OpenProject.
 
 '
     authorization_dialog:
@@ -2975,20 +2978,20 @@ pt:
       prompt_html: Autorizar <strong>%{application_name}</strong> para usar a sua
         conta <em>%{login}</em>?
       title: Autorizar %{application_name}
-      wants_to_access_html: 'This application requests access to your OpenProject
-        account. <br/> <strong>It has requested the following permissions:</strong>
+      wants_to_access_html: 'Esta aplicação solicita acesso à sua conta do OpenProject.
+        <br/> <strong>Solicitou as seguintes permissões:</strong>
 
 '
     scopes:
       api_v3: Acesso completo à API
-      api_v3_text: Application will receive full read & write access to the OpenProject
-        API to perform actions on your behalf.
+      api_v3_text: A aplicação receberá acesso completo de leitura e escrita à API
+        OpenProject para executar ações em seu nome.
     grants:
       created_date: Aprovado em
       scopes: Permissões
       successful_application_revocation: Revogação da aplicação %{application_name}
         bem sucedida.
-      none_given: No OAuth applications have been granted access to your user account.
+      none_given: Nenhuma aplicação OAuth foi autorizada a aceder à sua conta de utilizador.
     x_active_tokens:
       one: um token ativo
       other: "%{count} tokens ativos"
@@ -3000,10 +3003,10 @@ pt:
       definido para
     client_credentials_impersonation_warning: 'Nota: Clientes que usam o fluxo ''Credenciais
       do cliente'' nestae aplicação terão os direitos deste utilizador'
-    client_credentials_impersonation_html: 'By default, OpenProject provides OAuth
-      2.0 authorization via %{authorization_code_flow_link}. You can optionally enable
-      %{client_credentials_flow_link}, but you must provide a user on whose behalf
-      requests will be performed.
+    client_credentials_impersonation_html: 'Por padrão, o OpenProject fornece autorização
+      OAuth 2.0 via %{authorization_code_flow_link}. Opcionalmente, pode habilitar
+      %{client_credentials_flow_link}, mas deve fornecer um utilizador em cujo nome
+      serão feitos os pedidos.
 
 '
     authorization_error: Ocorreu um erro de autorização.

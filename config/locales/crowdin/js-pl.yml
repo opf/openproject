@@ -20,16 +20,16 @@ pl:
     close_form_title: Zamknij formularz
     boards:
       upsale:
-        boards: Need to freely structure your work in a board view?
+        boards: Chcesz dowolnie kształtować swoją pracę w widoku tablicy?
         check_out_link: Sprawdź wersję Enterprise.
       lists:
-        delete: Delete list
+        delete: Usuń listę
     card:
-      add_new: Add new card
+      add_new: Dodaj nową kartę
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: Entire card by
-      remove_from_list: Remove card from list
+        inline: 'Wyróżniaj w treści:'
+        entire_card_by: Cała karta do
+      remove_from_list: Usuń kartę z listy
     clipboard:
       browser_error: Twoja przeglądarka nie obsługuje kopiowania do schowka. Skopiuj
         tekst ręcznie.
@@ -207,9 +207,9 @@ pl:
     label_ascending: Rosnąco
     label_author: 'Autor: %{user}'
     label_between: pomiędzy
-    label_board: Board
+    label_board: Tablica
     label_board_locked: Zablokowany
-    label_board_plural: Boards
+    label_board_plural: Tablice
     label_board_sticky: Przyklejony
     label_create_work_package: Utwórz nowy pakiet roboczy
     label_created_by: Utworzony przez
@@ -332,7 +332,7 @@ pl:
     label_upload_notification: Przesyłanie plików...
     label_work_package_upload_notification: 'Wgrywanie plików dla Zestawu Zadań #%{id}:
       %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id}, dodane przez %{author}"
     label_files_to_upload: 'Pliki te zostaną przesłane:'
     label_rejected_files: 'Pliki nie mogą być przesłane:'
     label_rejected_files_reason: Wymienione pliki nie mogą być przesłane gdyż ich
@@ -373,12 +373,12 @@ pl:
             zadania lub przeszkody za pomocą ikony + obok wpisu użytkownika. Stan
             można zaktualizować metodą przeciągania i upuszczania."
         boards:
-          overview: Manage your work within an intuitive <b>Boards</b> view.
-          lists: You can create multiple lists (columns) within one Board view, e.g.
-            to create a KANBAN board.
-          add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or to drag to another
-            list. A double click will open the details view.
+          overview: Zarządzać pracą w intuicyjnym widoku <b>Tablice</b>.
+          lists: Można utworzyć wiele list (kolumn) w jednym widoku tablicy, np. w
+            celu utworzenia tablicy KANBAN.
+          add: Kliknięcie przycisku + <b>dodaje nową kartę</b> do listy na tablicy.
+          drag: Przeciągaj i upuszczaj karty w obrębie listy, aby zmienić ich kolejność
+            lub przeciągaj je do innej listy. Dwukrotne kliknięcie otwiera widok szczegółów.
         wp:
           toggler: Teraz przyjrzyjmy się sekcji <b>Zadania</b>, która zapewnia bardziej
             szczegółowy widok Twojej pracy.
@@ -857,7 +857,7 @@ pl:
           roboczych z listy będą rekurencyjnie usuwane.
         deletes_children: Wszystkie pakiety podrzędne i ich elementy potomne również
           będą rekursywnie usuwane.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Brak widocznych wyników do wyświetlenia.
     notice_successful_create: Tworzenie zakończone sukcesem.
     notice_successful_delete: Usuwanie zakończone sukcesem.
     notice_successful_update: Aktualizacja zakończona sukcesem.

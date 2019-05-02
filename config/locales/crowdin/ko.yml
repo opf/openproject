@@ -54,18 +54,16 @@ ko:
       simple_tls: 단순 TLS
       start_tls: TLS 시작
       plain_description: 일반 암호화 되지 않은 연결 TLS 협상 없음
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
-      section_more_info_link_html: 'This section concerns the connection security
-        of this LDAP authentication source. For more information, visit <a href="%{link}">the
-        Net::LDAP documentation</a>.
+      simple_tls_description: 암시적 TLS 암호화이지만, 인증서 유효성 검사가 없습니다. LDAP 연결에 대해 주의를 기울이고
+        암시적 신뢰에 따라 사용하십시오.
+      start_tls_description: 완전한 유효성 검사를 사용하는 명시적 TLS 암호화입니다. TLS/SSL에서 LDAP을 사용하십시오.
+      section_more_info_link_html: '본 섹션에서는 이 LDAP 인증 소스의 연결 보안에 대해 설명합니다. 자세한 내용은
+        <a href="%{link}">Net::LDAP 문서</a>를 참조하십시오.
 
 '
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: 포럼에 대한 포스트가 현재 없습니다.
   colors:
     index:
       no_results_title_text: 색깔이 없습니다.
@@ -122,20 +120,18 @@ ko:
     memberships:
       no_results_title_text: 이 그룹에 프로젝트 파트가 없습니다.
   incoming_mails:
-    ignore_filenames: 'Specify a list of names to ignore when processing attachments
-      for incoming mails (e.g., signatures or icons). Enter one filename per line.
+    ignore_filenames: '받는 메일의 첨부 파일을 처리할 때 무시할 이름 목록을 지정하십시오(예: 서명 또는 아이콘). 라인 하나에
+      파일 이름 하나를 입력하십시오.
 
 '
   projects:
     delete:
-      scheduled: Deletion has been scheduled and is perfomed in the background. You
-        will be notified of the result.
-      schedule_failed: 'Project cannot be deleted: %{errors}'
-      failed: Deletion of project %{name} has failed
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
-      completed: Deletion of project %{name} completed
-      completed_text: The request to delete project '%{name}' has been completed.
+      scheduled: 삭제가 예약되었으며 백그라운드에서 수행됩니다. 결과 알림이 제공될 것입니다.
+      schedule_failed: '프로젝트를 삭제할 수 없습니다: %{errors}'
+      failed: 프로젝트 %{name} 삭제가 실패했습니다.
+      failed_text: 프로젝트 %{name} 삭제 요청이 실패했습니다. 프로젝트가 보관되었습니다.
+      completed: 프로젝트 %{name} 삭제가 완료되었습니다.
+      completed_text: 프로젝트 '%{name}' 삭제 요청이 완료되었습니다.
     index:
       no_results_title_text: 프로젝트가 없습니다.
       no_results_content_text: 새 프로젝트 생성
@@ -143,8 +139,8 @@ ko:
       activities:
         no_results_title_text: 가능한 활동이 없습니다.
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: 프로젝트에 대한 포럼이 현재 없습니다.
+        no_results_content_text: 새로운 포럼 만들기
       categories:
         no_results_title_text: 작업 패키지 구분이 없습니다.
         no_results_content_text: 새 작업 패키지 구분 생성
@@ -210,8 +206,8 @@ ko:
       query_group_placeholder: 테이블에 이름 지정
       reset: 기본값으로 초기화
       type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts. It is therefore recommended to use a strong color.
+        클릭하여 이 유형의 색상을 할당하거나 변경하십시오. 선택한 색상은 Gantt 차트에서 작업 패키지를 구분합니다.
+        따라서 뚜렷한 색상을 사용하는 것이 좋습니다.
   versions:
     overview:
       no_results_title_text: 이 버전에 할당된 작업 패키지가 없습니다.
@@ -227,7 +223,7 @@ ko:
       one: One descendant work package
       other: "%{count}개 작업 패키지 하위 항목"
     bulk:
-      could_not_be_saved: 'The following work packages could not be saved:'
+      could_not_be_saved: '다음 작업 패키지를 저장할 수 없습니다:'
     move:
       no_common_statuses_exists: 선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다.
       unsupported_for_multiple_projects: 여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다.
@@ -351,8 +347,8 @@ ko:
         active_user_count_restriction: 최대 활성 사용자
       grids/grid:
         page: 페이지
-        row_count: Number of rows
-        column_count: Number of columns
+        row_count: 행 수
+        column_count: 열 수
         widgets: 위젯
       relation:
         delay: 지연
@@ -444,12 +440,12 @@ ko:
         watcher: 주시자
       doorkeeper/application:
         uid: 고객 ID
-        secret: Client secret
+        secret: 클라이언트 비밀번호
         owner: 소유자
-        redirect_uri: Redirect URI
-        client_credentials_user_id: Client Credentials User ID
-        scopes: Scopes
-        confidential: Confidential
+        redirect_uri: 리디렉션 URI
+        client_credentials_user_id: 클라이언트 자격 증명 사용자 ID
+        scopes: 범위
+        confidential: 기밀
     errors:
       messages:
         accepted: 허용 되어야 합니다.
@@ -491,7 +487,7 @@ ko:
         too_long: 은(는) 너무 깁니다 (최대 %{count}자까지 가능합니다)
         too_short: 은(는) 너무 짧습니다. (최소 %{count} 자 이상이어야 합니다)
         unchangeable: "- 변경할 수 없습니다."
-        unremovable: cannot be removed.
+        unremovable: "- 제거할 수 없습니다."
         wrong_length: 너무 짧습니다 (최소 %{count} 자 이상이어야 합니다).
       models:
         custom_field:
@@ -507,19 +503,19 @@ ko:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
-              secured_uri: must be an HTTPS/SSL URI.
-              forbidden_uri: is forbidden by the server.
+              fragment_present: "- 조각을 포함할 수 없습니다."
+              invalid_uri: "- 유효한 URI여야 합니다."
+              relative_uri: "- 절대 URI여야 합니다."
+              secured_uri: "- HTTPS/SSL URI여야 합니다."
+              forbidden_uri: "- 서버에 의해 금지되었습니다."
             scopes:
-              not_match_configured: doesn't match available scopes.
+              not_match_configured: "- 사용 가능한 범위와 일치하지 않습니다."
         enterprise_token:
           unreadable: 읽을 수 없습니다. 지원하는 토큰이 확실한가요?
         grids/grid:
           overlaps: 오버랩
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+          outside: "- 그리드의 외부에 있습니다."
+          end_before_start: 종료 값은 시작 값보다 커야 합니다.
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -644,7 +640,7 @@ ko:
       wiki_page: 위키 페이지
       workflow: 워크플로
       work_package: 작업 패키지
-      doorkeeper/application: OAuth application
+      doorkeeper/application: OAuth 애플리케이션
   errors:
     header_invalid_fields: 다음 필드에 문제가 있습니다.
     field_erroneous_label: "이 필드는 유효 하지 않습니다: %{full_errors} \n유효한 값을 입력 해 주십시오."
@@ -718,7 +714,7 @@ ko:
   button_change_password: 암호 변경
   button_check_all: 모두 선택
   button_clear: 선택 취소
-  button_click_to_reveal: Click to reveal
+  button_click_to_reveal: 표시하려면 클릭
   button_close: 닫기
   button_collapse_all: 모두 축소
   button_configure: 구성
@@ -748,7 +744,7 @@ ko:
   button_remove: 제거
   button_rename: 이름 바꾸기
   button_replace: 교체하기
-  button_revoke: Revoke
+  button_revoke: 취소
   button_reply: 회신
   button_reset: 재설정
   button_rollback: 이 버전으로 롤백
@@ -1022,9 +1018,9 @@ ko:
   error_can_not_invite_user: 사용자에게 초대장을 보내지 못했습니다.
   error_can_not_remove_role: 이 역할은 현재 사용 중이며 삭제할 수 없습니다.
   error_can_not_reopen_work_package_on_closed_version: 닫힌 버전에 할당된 작업 패키지는 다시 열 수 없습니다.
-  error_can_not_find_all_resources: Could not find all related resources to this request.
+  error_can_not_find_all_resources: 이 요청 관련 리소스 일부를 찾을 수 없습니다.
   error_check_user_and_role: 사용자 및 역할을 선택하세요.
-  error_code: Error %{code}
+  error_code: 오류 %{code}
   error_cookie_missing: OpenProject 쿠키가 없습니다. 이 응용 프로그램은 쿠키 없이 제대로 작동하지 않으므로, 쿠키를
     활성화해야 합니다.
   error_custom_option_not_found: 존재하지 않는 옵션입니다.
@@ -1045,10 +1041,9 @@ ko:
   error_work_package_done_ratios_not_updated: 작업 패키지 완료 비율이 업데이트되지 않았습니다.
   error_work_package_not_found_in_project: 작업 패키지가 없거나 이 프로젝트에 속하지 않습니다.
   error_must_be_project_member: 은(는) 프로젝트 멤버여야 합니다.
-  error_migrations_are_pending: Your OpenProject installation has pending database
-    migrations. You have likely missed running the migrations on your last upgrade.
-    Please check the upgrade guide to properly upgrade your installation.
-  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
+  error_migrations_are_pending: OpenProject 설치에 보류 중인 데이터베이스 마이그레이션이 있습니다. 지난 업그레이드에서
+    마이그레이션을 실행하지 않았을 가능성이 있습니다. 업그레이드 가이드를 확인하여 제대로 설치를 업그레이드하세요.
+  error_migrations_visit_upgrade_guides: 업그레이드 가이드 문서를 참조하십시오.
   error_no_default_work_package_status: 기본 작업 패키지 상태가 정의되지 않았습니다. 구성을 확인하세요("관리 ->
     작업 패키지 상태"로 이동).
   error_no_type_in_project: 이 프로젝트에 유형이 연결되어 있지 않습니다. 프로젝트 설정을 확인하세요.
@@ -1128,7 +1123,7 @@ ko:
           노력에 실질적으로 기여할 수 있습니다.
     links:
       upgrade_enterprise_edition: Enterprise Edition으로 업그레이드 하세요.
-      postgres_migration: Migrating your installation to PostgreSQL
+      postgres_migration: 설치를 PostgreSQL로 마이그레이션
       user_guides: 사용자 가이드
       faq: FAQ
       glossary: 용어집
@@ -1197,7 +1192,7 @@ ko:
   label_authentication: 인증
   label_available_project_work_package_categories: 사용 가능한 작업 패키지 카테고리
   label_available_project_work_package_types: 사용 가능한 작업 패키지 유형
-  label_available_project_forums: Available forums
+  label_available_project_forums: 사용 가능한 포럼
   label_available_project_versions: 사용 가능한 버전
   label_available_project_repositories: 사용 가능한 저장소
   label_api_documentation: API 설명서
@@ -1213,7 +1208,7 @@ ko:
   label_branch: 브랜치
   label_browse: 찾아보기
   label_bulk_edit_selected_work_packages: 선택된 작업 패키지 일괄 편집
-  label_bundled: "(Bundled)"
+  label_bundled: "(번들)"
   label_calendar: 달력
   label_calendar_show: 달력 표시
   label_category: 카테고리
@@ -1312,7 +1307,7 @@ ko:
   label_equals: 일치함
   label_everywhere: 어디에 있든지
   label_example: 예
-  label_import: Import
+  label_import: 가져오기
   label_export_to: '다음에서도 사용 가능:'
   label_expanded_click_to_collapse: 확장되었습니다. 축소하려면 클릭하세요.
   label_f_hour: "%{value}시간"
@@ -1348,8 +1343,8 @@ ko:
   label_history: 기록
   label_hierarchy_leaf: 계층 구조 리프
   label_home: 홈
-  label_subject_or_id: Subject or ID
-  label_impressum: Legal notice
+  label_subject_or_id: 제목 또는 ID
+  label_impressum: 법적 고지
   label_in: "-"
   label_in_less_than: 보다 작음
   label_in_more_than: 보다 큼
@@ -1475,7 +1470,7 @@ ko:
   label_planning: 계획
   label_please_login: 로그인하세요.
   label_plugins: 플러그인
-  label_modules_and_plugins: Modules and Plugins
+  label_modules_and_plugins: 모듈 및 플러그인
   label_precedes: 선행
   label_preferences: 기본 설정
   label_preview: 미리 보기
@@ -1483,7 +1478,7 @@ ko:
   label_previous_week: 이전 주
   label_principal_invite_via_email: " 또는 이메일을 통해 새 사용자 초대하기"
   label_principal_search: 기존 사용자 또는 그룹 추가
-  label_privacy_policy: Data privacy and security policy
+  label_privacy_policy: 데이터 프라이버시 및 보안 정책
   label_product_version: 제품 버전
   label_professional_support: 전문적 지원
   label_profile: 프로필
@@ -1598,7 +1593,7 @@ ko:
   label_updated_time: "%{value} 전에 업데이트됨"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author}이(가) %{age} 전에 업데이트함"
-  label_upgrade_guides: Upgrade guides
+  label_upgrade_guides: 업그레이드 가이드
   label_used_by: 사용한 사용자
   label_used_by_types: 유형별로 사용됨
   label_used_in_projects: 프로젝트에서 사용됨
@@ -1794,8 +1789,7 @@ ko:
   notice_account_unknown_email: 알 수 없는 사용자입니다.
   notice_account_update_failed: 계정 설정을 저장할 수 없습니다. 계정 페이지를 살펴 보십시오.
   notice_account_updated: 계정이 업데이트되었습니다.
-  notice_account_other_session_expired: All other sessions tied to your account have
-    been invalidated.
+  notice_account_other_session_expired: 계정에 연결된 다른 모든 세션이 무효화되었습니다.
   notice_account_wrong_password: 잘못된 암호
   notice_account_registered_and_logged_in: 환영합니다. 계정이 활성화되었습니다 이제 로그인되었습니다.
   notice_activation_failed: 계정이 활성화 되지 못했습니다.
@@ -2162,7 +2156,7 @@ ko:
   setting_mail_handler_api_key: API 키
   setting_mail_handler_body_delimiters: 이러한 줄 중 하나 다음에 이메일 자르기
   setting_mail_handler_body_delimiter_regex: 이 정규식에 일치하는 이메일을 자름
-  setting_mail_handler_ignore_filenames: Ignored mail attachments
+  setting_mail_handler_ignore_filenames: 무시된 메일 첨부 파일
   setting_new_project_user_role_id: 프로젝트를 만드는 비관리자 사용자에게 지정된 역할
   setting_password_active_rules: 활성 문자 클래스
   setting_password_count_former_banned: 재사용 금지된 최근에 사용한 암호 수
@@ -2172,7 +2166,7 @@ ko:
   setting_per_page_options: 페이지당 개체 옵션
   setting_plain_text_mail: 일반 텍스트 메일(HTML 없음)
   setting_protocol: 프로토콜
-  setting_security_badge_displayed: Display security badge
+  setting_security_badge_displayed: 보안 배지 표시
   setting_registration_footer: 등록 꼬리말
   setting_repositories_automatic_managed_vendor: 자동 리포지토리 공급업체 유형
   setting_repositories_encodings: 리포지토리 인코딩
@@ -2322,14 +2316,11 @@ ko:
   text_no_notes: 이 작업 패키지에 사용할 수 있는 코멘트가 없습니다.
   text_notice_too_many_values_are_inperformant: '참고: 페이지당 100개가 넘는 항목을 표시하면 페이지 로드
     시간이 늘어날 수 있습니다.'
-  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display
-    a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a>
-    administration panel, and on the home page. It is displayed to administrators
-    only. <br/> The badge will check your current OpenProject version against the
-    official OpenProject release database to alert you of any updates or known vulnerabilities.
-    For more information on what the check provides, what data is needed to provide
-    available updates, and how to disable this check, please visit <a href="%{more_info_url}">the
-    configuration documentation</a>.
+  text_notice_security_badge_displayed_html: '참고: 활성화하는 경우, <a href="%{information_panel_path}">%{information_panel_label}</a>
+    관리 패널 및 홈페이지에서 설치 상태가 나오는 배지가 표시됩니다. 배지는 관리자에게만 표시됩니다. <br/> 배지는 공식 OpenProject
+    릴리스 데이터베이스와 비교하여 현재 OpenProject 버전을 확인하고 업데이트 또는 알려진 취약성에 대해 알려줍니다. 이 검사에서 제공하는
+    사항, 사용 가능한 업데이트를 제공하기 위해 필요한 데이터 및 이 검사를 비활성화하는 방법에 대한 자세한 내용은 <a href="%{more_info_url}">구성
+    문서</a>를 참조하십시오.
 
 '
   text_own_membership_delete_confirmation: |-
@@ -2618,10 +2609,9 @@ ko:
   menu_item: 메뉴 항목
   menu_item_setting: 표시 여부
   mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
+    notice: '향후 버전의 OpenProject에서는 MariaDB 및 MySQL 데이터베이스에 대한 지원이 없어지거나 줄어들 가능성이 있습니다.
+      MySQL에서 설치가 계속 실행되고 있는 경우 PostgreSQL에 설치를 마이그레이션하는 것이 좋습니다. 마이그레이션 가이드를 따르면
+      이 프로세스를 손쉽게 할 수 있습니다.
 
 '
   wiki_menu_item_for: 위키 페이지 "%{title}"에 대한 메뉴 항목
@@ -2685,113 +2675,99 @@ ko:
       schema: 스키마
   doorkeeper:
     pre_authorization:
-      status: Pre-authorization
+      status: 사전 권한 부여
     errors:
       messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
-        invalid_redirect_uri: The requested redirect uri is malformed or doesn't match
-          client redirect URI.
-        unauthorized_client: The client is not authorized to perform this request
-          using this method.
-        access_denied: The resource owner or authorization server denied the request.
-        invalid_scope: The requested scope is invalid, unknown, or malformed.
-        invalid_code_challenge_method: The code challenge method must be plain or
-          S256.
-        server_error: The authorization server encountered an unexpected condition
-          which prevented it from fulfilling the request.
-        temporarily_unavailable: The authorization server is currently unable to handle
-          the request due to a temporary overloading or maintenance of the server.
-        credential_flow_not_configured: Resource Owner Password Credentials flow failed
-          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
+        invalid_request: 이 요청에는 필요한 매개 변수가 없거나, 지원되지 않는 매개 변수 값이 포함되어 있거나, 형식이 잘못되었습니다.
+        invalid_redirect_uri: 요청한 리디렉션 URI가 잘못된 형식이거나 클라이언트 리디렉션 URI와 일치하지 않습니다.
+        unauthorized_client: 클라이언트가 이 방법을 사용하여 해당 요청을 실행하도록 허용되지 않았습니다.
+        access_denied: 리소스 소유자 또는 권한 부여 서버가 요청을 거부했습니다.
+        invalid_scope: 요청한 범위가 유효하지 않거나, 알 수 없거나, 잘못된 형식입니다.
+        invalid_code_challenge_method: 코드 챌린지 방식은 일반 또는 S256이어야 합니다.
+        server_error: 권한 부여 서버에 예기치 않은 상태가 발생하여, 요청을 수행할 수 없습니다.
+        temporarily_unavailable: 권한 부여 서버가 일시적인 과부하 또는 유지 관리로 인해 요청을 현재 처리할 수 없습니다.
+        credential_flow_not_configured: Doorkeeper.configure.resource_owner_from_credentials
+          구성이 되지 않아 리소스 소유자 암호 자격 증명 흐름이 실패했습니다.
         resource_owner_authenticator_not_configured: Resource Owner find failed due
-          to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
-        admin_authenticator_not_configured: Access to admin panel is forbidden due
-          to Doorkeeper.configure.admin_authenticator being unconfigured.
-        unsupported_response_type: The authorization server does not support this
-          response type.
-        invalid_client: Client authentication failed due to unknown client, no client
-          authentication included, or unsupported authentication method.
-        invalid_grant: The provided authorization grant is invalid, expired, revoked,
-          does not match the redirection URI used in the authorization request, or
-          was issued to another client.
-        unsupported_grant_type: The authorization grant type is not supported by the
-          authorization server.
+          to Doorkeeper.configure.resource_owner_authenticator 구성이 되지 않아 리소스 소유자 찾기에
+          실패했습니다.
+        admin_authenticator_not_configured: Doorkeeper.configure.admin_authenticator
+          구성이 되지 않아 관리자 패널에 대한 액세스가 금지되었습니다.
+        unsupported_response_type: 권한 부여 서버가 이 응답 유형을 지원하지 않습니다.
+        invalid_client: 알 수 없는 클라이언트, 포함되지 않은 클라이언트 인증 또는 지원되지 않는 인증 방법으로 인해 클라이언트
+          인증이 실패했습니다.
+        invalid_grant: 제공된 권한 부여가 잘못되거나, 만료되거나, 취소되었거나, 권한 부여 요청에 사용된 리디렉션 URI와 일치하지
+          않거나, 다른 클라이언트에 지정되었습니다.
+        unsupported_grant_type: 권한 부여 유형이 권한 부여 서버에 의해 지원되지 않습니다.
         invalid_token:
-          revoked: The access token was revoked
-          expired: The access token expired
-          unknown: The access token is invalid
+          revoked: 액세스 토큰이 취소되었습니다.
+          expired: 액세스 토큰이 만료되었습니다.
+          unknown: 액세스 토큰이 잘못되었습니다.
   unsupported_browser:
-    title: Your browser is outdated and unsupported.
-    message: You may run into errors and degraded experience on this page.
+    title: 해당 브라우저는 오래되어 지원되지 않습니다.
+    message: 이 페이지에서 오류가 발생하고 기능이 저하될 수 있습니다.
     update_message: 브라우저를 업데이트하시기 바랍니다.
     close_warning: 이 경고를 무시하십시오.
   oauth:
     application:
-      singular: OAuth application
-      plural: OAuth applications
-      named: OAuth application '%{name}'
-      new: New OAuth application
-      default_scopes: "(Default scopes)"
+      singular: OAuth 애플리케이션
+      plural: OAuth 애플리케이션
+      named: OAuth 애플리케이션 '%{name}'
+      new: 새로운 OAuth 애플리케이션
+      default_scopes: "(기본 범위)"
       instructions:
-        name: The name of your application. This will be displayed to other users
-          upon authorization.
-        redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
-          One entry per line. <br/> If you''re registering a desktop application,
-          use the following URL.
+        name: 애플리케이션 이름입니다. 권한 부여 시 다른 사용자에게 표시됩니다.
+        redirect_uri_html: '허용된 URL 인증 사용자로 리디렉션될 수 있습니다. 라인별로 하나의 엔트리가 있습니다. <br/>
+          데스크톱 애플리케이션을 등록하려면 다음 URL을 사용하세요.
 
 '
-        confidential: Check if the application will be used where the client secret
-          can be kept confidential. Native mobile apps and Single Page Apps are assumed
-          non-confidential.
-        client_credential_user_id: Optional user ID to impersonate when clients use
-          this application. Leave empty to allow public access only
-        register_intro: If you are developing an OAuth API client application for
-          OpenProject, you can register it using this form for all users to use.
+        confidential: 클라이언트 비밀번호를 기밀로 유지할 수 있는 위치에서 애플리케이션이 사용되는지 여부를 확인합니다. 네이티브
+          모바일 앱과 싱글 페이지 앱은 기밀로 간주되지 않습니다.
+        client_credential_user_id: 클라이언트가 이 애플리케이션을 사용할 때 가장하기 위한 선택적 사용자 ID입니다. 공용
+          액세스만 허용하려면 비워두세요.
+        register_intro: OpenProject용 OAuth API 클라이언트 애플리케이션을 개발할 경우 이 양식을 사용하여 모든
+          사용자가 사용할 수 있도록 등록할 수 있습니다.
         default_scopes: ''
     client_id: 고객 ID
-    client_secret_notice: 'This is the only time we can print the client secret, please
-      note it down and keep it secure. It should be treated as a password and cannot
-      be retrieved by OpenProject at a later time.
+    client_secret_notice: '클라이언트 비밀번호를 인쇄할 수 있는 유일한 순간입니다. 이 비밀번호를 기록하고 안전하게 보관하십시오.
+      이 비밀번호는 암호로 취급해야 하며 나중에 OpenProject로 검색할 수 없습니다.
 
 '
     authorization_dialog:
-      authorize: Authorize
-      cancel: Cancel and deny authorization.
-      prompt_html: Authorize <strong>%{application_name}</strong> to use your account
-        <em>%{login}</em>?
-      title: Authorize %{application_name}
-      wants_to_access_html: 'This application requests access to your OpenProject
-        account. <br/> <strong>It has requested the following permissions:</strong>
+      authorize: 권한 부여
+      cancel: 취소하고 권한 부여를 거부합니다.
+      prompt_html: 계정 <em>%{login}</em>을(를) 사용하도록 <strong>%{application_name}</strong>에
+        권한을 부여하시겠습니까?
+      title: "%{application_name} 권한 부여"
+      wants_to_access_html: '이 애플리케이션은 사용자의 OpenProject 계정에 대한 액세스 권한을 요청합니다. <br/>
+        <strong>다음과 같은 사용 권한을 요청했습니다:</strong>
 
 '
     scopes:
-      api_v3: Full API access
-      api_v3_text: Application will receive full read & write access to the OpenProject
-        API to perform actions on your behalf.
+      api_v3: 전체 API 액세스
+      api_v3_text: 애플리케이션은 사용자를 대신하여 작업을 수행하기 위해 OpenProject API에 대한 전체 읽기 및 쓰기 액세스
+        권한을 받습니다.
     grants:
-      created_date: Approved on
+      created_date: '승인:'
       scopes: 권한
-      successful_application_revocation: Revocation of application %{application_name}
-        successful.
-      none_given: No OAuth applications have been granted access to your user account.
+      successful_application_revocation: 애플리케이션 %{application_name} 취소에 성공했습니다.
+      none_given: 사용자 계정에 대한 액세스 권한이 OAuth 애플리케이션에 부여되지 않았습니다.
     x_active_tokens:
       one: one active token
-      other: "%{count} active token"
+      other: "%{count}개 활성 토큰"
     flows:
-      authorization_code: Authorization code flow
-      client_credentials: Client credentials flow
-    client_credentials: User used for Client credentials
-    client_credentials_impersonation_set_to: Client credentials user set to
-    client_credentials_impersonation_warning: 'Note: Clients using the ''Client credentials''
-      flow in this application will have the rights of this user'
-    client_credentials_impersonation_html: 'By default, OpenProject provides OAuth
-      2.0 authorization via %{authorization_code_flow_link}. You can optionally enable
-      %{client_credentials_flow_link}, but you must provide a user on whose behalf
-      requests will be performed.
+      authorization_code: 권한 부여 코드 흐름
+      client_credentials: 클라이언트 자격 증명 흐름
+    client_credentials: 클라이언트 자격 증명에 사용된 사용자
+    client_credentials_impersonation_set_to: '클라이언트 자격 증명 사용자 설정:'
+    client_credentials_impersonation_warning: '참고: 이 애플리케이션에서 ''클라이언트 자격 증명'' 흐름을
+      사용하는 클라이언트는 이 사용자의 권한을 갖게 됩니다.'
+    client_credentials_impersonation_html: '기본적으로, OpenProject는 %{authorization_code_flow_link}에서
+      OAuth 2.0 인증을 제공합니다. 선택적으로 %{client_credentials_flow_link}을(를) 활성화할 수 있지만, 대신하여
+      요청을 수행할 대상 사용자를 제공해야 합니다.
 
 '
-    authorization_error: An authorization error has occurred.
-    revoke_my_application_confirmation: Do you really want to remove this application?
-      This will revoke %{token_count} active for it.
-    my_registered_applications: Registered OAuth applications
+    authorization_error: 권한 부여 오류가 발생했습니다.
+    revoke_my_application_confirmation: 이 애플리케이션을 제거하시겠습니까? 그러면 이 애플리케이션에 대해 활성화된
+      %{token_count}개가 취소됩니다.
+    my_registered_applications: 등록된 OAuth 애플리케이션
