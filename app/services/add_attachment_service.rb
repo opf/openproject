@@ -55,16 +55,18 @@ class AddAttachmentService
     ActiveRecord::Base.transaction do
       attachment.save!
 
-      if container.respond_to? :add_journal
-        # reload to get the newly added attachment
-        container.attachments.reload
-        container.add_journal author
-        # We allow invalid containers to be saved as
-        # adding the attachments does not change the validity of the container
-        # but without that leeway, the user needs to fix the container before
-        # the attachment can be added.
-        container.save!(validate: false)
-      end
+      add_journal if container.respond_to? :add_journal
     end
+  end
+
+  def add_journal
+    # reload to get the newly added attachment
+    container.attachments.reload
+    container.add_journal author
+    # We allow invalid containers to be saved as
+    # adding the attachments does not change the validity of the container
+    # but without that leeway, the user needs to fix the container before
+    # the attachment can be added.
+    container.save!(validate: false)
   end
 end
