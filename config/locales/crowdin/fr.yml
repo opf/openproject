@@ -63,11 +63,11 @@ fr:
       plain: aucun(e)
       simple_tls: simple_tls
       start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
-      simple_tls_description: Implicit TLS encryption, but no certificate validation.
-        Use with caution and implicit trust of the LDAP connection.
-      start_tls_description: Explicit TLS encryption with full validation. Use for
-        LDAP over TLS/SSL.
+      plain_description: Connexion non cryptée, aucune négociation TLS.
+      simple_tls_description: Cryptage TLS implicite, mais aucune validation de certificat.
+        Utiliser avec prudence et confiance implicite de la connexion LDAP.
+      start_tls_description: Cryptage TLS explicite avec validation complète. Utiliser
+        pour LDAP via TLS/SSL.
       section_more_info_link_html: 'Cette section concerne la sécurité de connexion
         de cette source d''authentification LDAP. Pour plus d''informations, visitez
         <a href="%{link}">the Net::LDAP documentation</a>.
@@ -146,8 +146,8 @@ fr:
         serez informé du résultat.
       schedule_failed: 'Le projet ne peut pas être supprimé : %{errors}'
       failed: La suppression du projet %{name} a échoué
-      failed_text: The request to delete project %{name} has failed. The project was
-        left archived.
+      failed_text: La demande de suppression du projet %{name} a échoué. Le projet
+        a été archivé.
       completed: Suppression du projet %{name} terminée
       completed_text: La demande de suppression du projet '%{name}' a été terminée.
     index:
@@ -226,9 +226,11 @@ fr:
       edit_query: Modifier le tableau
       query_group_placeholder: Donner un nom au tableau
       reset: Rétablir les valeurs par défaut
-      type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts. It is therefore recommended to use a strong color.
+      type_color_text: 'Cliquez pour assigner ou modifier la couleur de ce type. La
+        couleur sélectionnée distingue les lots de travaux dans les diagrammes de
+        Gantt. Il est donc recommandé d''utiliser une couleur forte.
+
+'
   versions:
     overview:
       no_results_title_text: Il n'y a actuellement aucun lot de travaux assigné à
@@ -245,7 +247,8 @@ fr:
       one: Un lot de travaux descendant
       other: "%{count} lots de travaux descendants"
     bulk:
-      could_not_be_saved: 'The following work packages could not be saved:'
+      could_not_be_saved: 'Les lots de travaux suivants n''ont pas pu être sauvegardés
+        :'
     move:
       no_common_statuses_exists: Il n’y a pas de statut disponible pour tous les lots
         de travaux sélectionnés. Ce statut ne peut pas être changé.
@@ -490,7 +493,8 @@ fr:
         secret: Clé secrète du client
         owner: Propriétaire
         redirect_uri: URL de redirection
-        client_credentials_user_id: Client Credentials User ID
+        client_credentials_user_id: ID d'utilisateur d'informations d'identification
+          client
         scopes: Portées
         confidential: Confidentielle
     errors:
@@ -559,12 +563,12 @@ fr:
               secured_uri: doit être une URI HTTPS/SSL.
               forbidden_uri: est interdit par le serveur.
             scopes:
-              not_match_configured: doesn't match available scopes.
+              not_match_configured: ne correspond pas aux portées disponibles.
         enterprise_token:
           unreadable: ne peut être lu. Êtes-vous sûr qu'il s'agisse d'une licence
             Entreprise ?
         grids/grid:
-          overlaps: overlap.
+          overlaps: superposition.
           outside: est hors de la grille.
           end_before_start: la valeur finale doit être supérieure à la valeur de départ.
         parse_schema_filter_params_service:
@@ -1078,9 +1082,10 @@ fr:
   error_can_not_remove_role: Ce rôle est utilisé et ne peut être supprimé.
   error_can_not_reopen_work_package_on_closed_version: Un lot de travaux assigné à
     une version fermée ne peut être ré-ouvert
-  error_can_not_find_all_resources: Could not find all related resources to this request.
+  error_can_not_find_all_resources: Impossible de trouver toutes les ressources liées
+    à cette demande.
   error_check_user_and_role: Veuillez choisir un utilisateur et un rôle.
-  error_code: Error %{code}
+  error_code: Erreur %{code}
   error_cookie_missing: Le cookie OpenProject est manquant. Assurez-vous que les cookies
     sont activés, sans quoi cette application ne fonctionnera pas correctement.
   error_custom_option_not_found: L'option n'existe pas.
@@ -1106,10 +1111,12 @@ fr:
   error_work_package_not_found_in_project: Le Lot de Travaux n'a pas été trouvé ou
     n'appartient pas à ce projet
   error_must_be_project_member: doit être membre du projet
-  error_migrations_are_pending: Your OpenProject installation has pending database
-    migrations. You have likely missed running the migrations on your last upgrade.
-    Please check the upgrade guide to properly upgrade your installation.
-  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
+  error_migrations_are_pending: Votre installation OpenProject a des migrations de
+    base de données en attente. Vous n'avez probablement pas exécuté les migrations
+    lors de votre dernière mise à jour. Veuillez consulter le guide de mise à jour
+    afin de mettre votre installation correctement à jour.
+  error_migrations_visit_upgrade_guides: Veuillez consulter notre documentation du
+    guide de mise à jour
   error_no_default_work_package_status: Aucun statut de lot de travaux par défaut
     n'est défini. Veuillez vérifier votre configuration (Allez dans "Administration
     -> Statuts des lots de travaux").
@@ -1199,7 +1206,7 @@ fr:
           de la communauté Open-Source.
     links:
       upgrade_enterprise_edition: Passer à la version Entreprise
-      postgres_migration: Migrating your installation to PostgreSQL
+      postgres_migration: Migration de votre installation vers PostgreSQL
       user_guides: Guides d'utilisation
       faq: FAQ
       glossary: Lexique
@@ -1288,7 +1295,7 @@ fr:
   label_branch: Branche
   label_browse: Parcourir
   label_bulk_edit_selected_work_packages: Edition en masse des Lots de Travaux selectionnés
-  label_bundled: "(Bundled)"
+  label_bundled: "(Inclus)"
   label_calendar: Calendrier
   label_calendar_show: Afficher le calendrier
   label_category: Catégorie
@@ -1388,7 +1395,7 @@ fr:
   label_equals: est
   label_everywhere: partout
   label_example: Exemple
-  label_import: Import
+  label_import: Importer
   label_export_to: 'Aussi disponible en :'
   label_expanded_click_to_collapse: Déplié. Cliquez pour replier
   label_f_hour: "%{value} heure"
@@ -1426,7 +1433,7 @@ fr:
   label_hierarchy_leaf: Feuille de hiérarchie
   label_home: Accueil
   label_subject_or_id: Objet ou ID
-  label_impressum: Legal notice
+  label_impressum: Mentions légales
   label_in: dans
   label_in_less_than: en moins de
   label_in_more_than: en plus de
@@ -1677,7 +1684,7 @@ fr:
   label_updated_time: Mis à jour il y a %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Mis à jour par %{author} il y a %{age}
-  label_upgrade_guides: Upgrade guides
+  label_upgrade_guides: Guide de mise à jour
   label_used_by: Utilisé par
   label_used_by_types: Utilisé par types
   label_used_in_projects: Utilisé dans les projets
@@ -2839,10 +2846,11 @@ fr:
   menu_item: Éléments de menu
   menu_item_setting: Visibilité
   mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
+    notice: 'Les futures versions d''OpenProject vont probablement abandonner ou réduire
+      le support des bases de données MySQL et MariaDB. Votre installation est toujours
+      exécutée sur MySQL et nous vous conseillons de migrer votre installation vers
+      PostgreSQL. Ce processus est facile lorsque vous suivez nos guides de migration
+      :
 
 '
   wiki_menu_item_for: Élément de menu pour wikipage « %{title} »
@@ -2932,17 +2940,20 @@ fr:
           en utilisant cette méthode.
         access_denied: Le propriétaire de la ressource ou le serveur d'autorisation
           a refusé la demande.
-        invalid_scope: The requested scope is invalid, unknown, or malformed.
-        invalid_code_challenge_method: The code challenge method must be plain or
-          S256.
-        server_error: The authorization server encountered an unexpected condition
-          which prevented it from fulfilling the request.
-        temporarily_unavailable: The authorization server is currently unable to handle
-          the request due to a temporary overloading or maintenance of the server.
-        credential_flow_not_configured: Resource Owner Password Credentials flow failed
-          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
-        resource_owner_authenticator_not_configured: Resource Owner find failed due
-          to Doorkeeper.configure.resource_owner_authenticator being unconfigured.
+        invalid_scope: La portée demandée est invalide, inconnue ou incorrecte.
+        invalid_code_challenge_method: La méthode de défi du code doit être simple
+          ou S256.
+        server_error: Le serveur d'autorisation a rencontré une condition inattendue
+          qui l'a empêché de remplir la requête.
+        temporarily_unavailable: Le serveur d'autorisation n'est pas en mesure de
+          gérer la requête en raison d'une surcharge temporaire ou d'une maintenance
+          du serveur.
+        credential_flow_not_configured: Échec du flux des informations d'identification
+          du mot de passe du propriétaire de la ressource car Doorkeeper.configure.resource_owner_from_credentials
+          non configurés.
+        resource_owner_authenticator_not_configured: Impossible de trouver le propriétaire
+          de la ressource car Doorkeeper.configure.resource_owner_authenticator non
+          configuré.
         admin_authenticator_not_configured: L'accès au panneau d'administration est
           interdit en raison de l'absence de configuration de Doorkeeper.configure.admin_authenticator.
         unsupported_response_type: Le serveur d'autorisation ne supporte pas ce type
@@ -2975,23 +2986,26 @@ fr:
       instructions:
         name: Le nom de votre application. Ceci sera affiché aux autres utilisateurs
           sur autorisation.
-        redirect_uri_html: 'The allowed URLs authorized users can be redirected to.
-          One entry per line. <br/> If you''re registering a desktop application,
-          use the following URL.
+        redirect_uri_html: 'Les URL autorisées où peuvent être redirigés les utilisateurs.
+          Une entrée par ligne. <br/> Si vous enregistrez une application de bureau,
+          utilisez l''URL suivante.
 
 '
-        confidential: Check if the application will be used where the client secret
-          can be kept confidential. Native mobile apps and Single Page Apps are assumed
-          non-confidential.
-        client_credential_user_id: Optional user ID to impersonate when clients use
-          this application. Leave empty to allow public access only
-        register_intro: If you are developing an OAuth API client application for
-          OpenProject, you can register it using this form for all users to use.
+        confidential: Vérifiez si l'application peut être utilisée lorsque le secret
+          du client peut être gardé confidentiel. Les applications mobiles natives
+          et les applications à page unique ne sont pas considérées comme confidentielles.
+        client_credential_user_id: ID utilisateur facultatif à emprunter lorsque les
+          clients utilisent cette application. Laisser vide pour permettre l'accès
+          public uniquement
+        register_intro: Si vous développez une application client OAuth API pour OpenProject,
+          vous pouvez l'enregistrer en utilisant ce formulaire pour qu’elle soit utilisée
+          par tous les utilisateurs.
         default_scopes: ''
     client_id: Id du client
-    client_secret_notice: 'This is the only time we can print the client secret, please
-      note it down and keep it secure. It should be treated as a password and cannot
-      be retrieved by OpenProject at a later time.
+    client_secret_notice: 'Il s’agit de la seule fois où nous pouvons imprimer le
+      secret du client, veuillez en prendre note et le garder dans un lieu sûr. Il
+      doit être traité comme un mot de passe et ne peut pas être récupéré par OpenProject
+      ultérieurement.
 
 '
     authorization_dialog:
@@ -3020,19 +3034,22 @@ fr:
       one: un jeton actif
       other: un jeton actif %{count}
     flows:
-      authorization_code: Authorization code flow
-      client_credentials: Client credentials flow
-    client_credentials: User used for Client credentials
-    client_credentials_impersonation_set_to: Client credentials user set to
-    client_credentials_impersonation_warning: 'Note: Clients using the ''Client credentials''
-      flow in this application will have the rights of this user'
-    client_credentials_impersonation_html: 'By default, OpenProject provides OAuth
-      2.0 authorization via %{authorization_code_flow_link}. You can optionally enable
-      %{client_credentials_flow_link}, but you must provide a user on whose behalf
-      requests will be performed.
+      authorization_code: Flux de code d'autorisation
+      client_credentials: Flux des informations d'identification client
+    client_credentials: Utilisateur utilisé pour les informations d’identification
+      client
+    client_credentials_impersonation_set_to: Utilisateur d’informations d'identification
+      client défini sur
+    client_credentials_impersonation_warning: 'Remarque : Les clients qui utilisent
+      le flux « Informations d’identification client » dans cette application auront
+      les droits de cet utilisateur'
+    client_credentials_impersonation_html: 'Par défaut, OpenProject fournit l''autorisation
+      OAuth 2.0 via %{authorization_code_flow_link}. Vous pouvez activer optionnellement
+      %{client_credentials_flow_link}, mais vous devez fournir un utilisateur avec
+      lequel les requêtes de nom seront effectuées.
 
 '
-    authorization_error: An authorization error has occurred.
-    revoke_my_application_confirmation: Do you really want to remove this application?
-      This will revoke %{token_count} active for it.
-    my_registered_applications: Registered OAuth applications
+    authorization_error: Une erreur d'autorisation s'est produite.
+    revoke_my_application_confirmation: Voulez-vous vraiment supprimer cette application
+      ? Ceci va révoquer %{token_count} actif pour elle.
+    my_registered_applications: Applications OAuth enregistrées

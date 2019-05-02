@@ -24,7 +24,7 @@ es:
         boards: "¿Necesitas estructurar libremente tu trabajo en una sección de tablero?"
         check_out_link: Vea la versión Enterprise Edition.
       lists:
-        delete: Delete list
+        delete: Eliminar lista
     card:
       add_new: Añadir nueva tarjeta
       highlighting:
@@ -389,8 +389,9 @@ es:
             sección del Tablero, por ej. para crear un tablero KANBAN.
           add: Al hacer click en + <b>se añadirá una nueva tarjeta</b> a la lista
             dentro de un Tablero.
-          drag: Drag & Drop your cards within a list to re-order, or to drag to another
-            list. A double click will open the details view.
+          drag: Arrastre y coloque las tarjetas dentro de una lista para cambiar el
+            orden, o bien arrástrelas a otra lista. Al hacer doble clic, se abre la
+            vista de detalles.
         wp:
           toggler: Ahora, veamos la sección <b>Paquete de trabajo</b>, que ofrece
             una vista más detallada de su trabajo.

@@ -226,9 +226,11 @@ pt-BR:
       edit_query: Editar tabela
       query_group_placeholder: Nomear tabela
       reset: Redefinir para os padrões
-      type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts. It is therefore recommended to use a strong color.
+      type_color_text: 'Clique para atribuir ou alterar a cor deste tipo. A cor selecionada
+        distingue os pacotes de trabalho em gráficos Gantt. Por isso, recomenda-se
+        o uso de uma cor forte.
+
+'
   versions:
     overview:
       no_results_title_text: Não há pacote de trabalho atribuído a esta versão.
@@ -1086,10 +1088,10 @@ pt-BR:
   error_work_package_not_found_in_project: O pacote de trabalho não foi encontrado
     ou não pertence a este projeto
   error_must_be_project_member: deve ser membro do projeto
-  error_migrations_are_pending: Sua instalação do OpenProject tem migrações de banco
-    de dados pendentes. Você provavelmente esqueceu de executar as migrações depois
-    da sua última atualização. Por favor, verifique o guia de atualização para atualizar
-    sua instalação corretamente.
+  error_migrations_are_pending: Sua instalação do OpenProject possui migrações de
+    banco de dados pendentes. Você provavelmente esqueceu de executar as migrações
+    em sua última atualização. Por favor, verifique o guia de atualização para atualizar
+    adequadamente sua instalação.
   error_migrations_visit_upgrade_guides: Por favor, visite nossa documentação do guia
     de atualização
   error_no_default_work_package_status: Nenhuma situação padrão de pacote de trabalho
@@ -1178,7 +1180,7 @@ pt-BR:
           Enterprise Edition você contribui para o esforço da comunidade Open-Source.
     links:
       upgrade_enterprise_edition: Atualizar para a versão Enterprise Edition
-      postgres_migration: A migrar a sua instalação para PostgreSQL
+      postgres_migration: Migrando sua instalação para PostgreSQL
       user_guides: Guias do usuário
       faq: Perguntas Freqüentes
       glossary: Glossário
@@ -2794,10 +2796,10 @@ pt-BR:
   menu_item: Item de menu
   menu_item_setting: Visibilidade
   mysql_deprecation:
-    notice: 'As versões futuras do OpenProject irão provavelmente abandonar ou reduzir
-      o suporte para bases de dados MySQL e MariaDB. A sua instalação ainda está em
-      execução no MySQL, e sugerimos que migre a sua instalação para o PostgreSQL.
-      Este processo é fácil se seguir os nossos guias de migração:
+    notice: 'As versões posteriores do OpenProject irão provavelmente abandonar ou
+      reduzir o suporte às bases de dados MySQL e MariaDB. Sua instalação continua
+      a ser executada no MySQL e sugerimos que você migre-a para o PostgreSQL. Este
+      processo é fácil quando nossos guias de migração são seguidos:
 
 '
   wiki_menu_item_for: Item de menu para página wiki "%{title}"

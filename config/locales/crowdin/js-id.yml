@@ -5,16 +5,16 @@ id:
       hide: Sembunyikan
       loading: Loading ...
     attachments:
-      draggable_hint: 'Drag on editor field to inline image or reference attachment.
-        Closed editor fields will be opened while you keep dragging.
+      draggable_hint: 'Drag pada kotak editor untuk memasukan gambar atau referensikan
+        lampiran. kotak editor akan tetap terbuka saat anda masih melakukan drag.
 
 '
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
+        multi: Tambah "%{name}"
         single: Pilih "%{name}"
-      remove: Remove %{name}
-      active: Active %{label} %{name}
+      remove: Hapus %{name}
+      active: Aktif %{label} %{name}
     close_popup_title: Tutup
     close_filter_title: Tutup Penyaring
     close_form_title: Tutup formulir
@@ -77,7 +77,7 @@ id:
     description_selected_columns: Kolom dipilih
     description_subwork_package: 'Child of work package #%{id}'
     editor:
-      preview: Toggle preview mode
+      preview: Beralih ke mode preview
       source_code: Toggle Markdown source mode
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
       error_initialization_failed: Failed to initialize CKEditor!
@@ -86,32 +86,33 @@ id:
         wysiwyg: Switch to WYSIWYG editor
       macro:
         child_pages:
-          button: Links to child pages
-          include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          button: Tautkan ke anak halaman
+          include_parent: Sertakan induk
+          text: "[Placeholder] Tertaut pada anak halaman ke"
           page: Halaman Wiki
-          this_page: this page
-          hint: 'Leave this field empty to list all child pages of the current page.
-            If you want to reference a different page, provide its title or slug.
+          this_page: halaman ini
+          hint: 'Kosongkan kolom ini untuk mencantumkan semua anak halaman dari halaman
+            ini. jika anda ingin mereferensikan halaman berbeda, tambahkan judul atau
+            hal terkait.
 
 '
         code_block:
-          button: Insert code snippet
-          title: Insert / edit Code snippet
-          language: Formatting language
-          language_hint: Enter the formatting language that will be used for highlighting
-            (if supported).
+          button: Sisipkan cuplikan koda
+          title: Sisipkan / edit cuplikan kode
+          language: Memformat bahasa
+          language_hint: Masukan format bahasa yang akan digunakan untuk menyorot(jika
+            didukung).
         dropdown:
-          macros: Macros
-          chose_macro: Chose macro
+          macros: Makro
+          chose_macro: Pilih makro
         toc: Table of contents
-        toolbar_help: Click to select widget and show the toolbar. Double-click to
-          edit widget
+        toolbar_help: Klik untuk memilih widget dan menampilkan toolbar. klik dua
+          kali untuk mengedit widget
         wiki_page_include:
-          button: Include content of another wiki page
-          text: "[Placeholder] Included wiki page of"
+          button: Sertakan isi dari wiki halaman lain
+          text: "[Placeholder] termasuk halaman wiki dari"
           page: Halaman Wiki
-          not_set: "(Page not yet set)"
+          not_set: "(Halaman belum diatur)"
           hint: |
             Include the content of another wiki page by specifying its title or slug.
             You can include the wiki page of another project by separating them with a colon like the following example.

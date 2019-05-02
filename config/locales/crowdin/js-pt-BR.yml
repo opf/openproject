@@ -25,7 +25,7 @@ pt-BR:
           quadro?
         check_out_link: Confira a versão Enterprise Edition.
       lists:
-        delete: Apagar lista
+        delete: Excluir lista
     card:
       add_new: Adicionar novo cartão
       highlighting:
@@ -389,8 +389,9 @@ pt-BR:
             quadro, por exemplo, para criar um quadro KANBAN.
           add: Clicar no + irá <b>adicionar um novo cartão</b> à lista dentro de um
             Quadro.
-          drag: Drag & Drop your cards within a list to re-order, or to drag to another
-            list. A double click will open the details view.
+          drag: Arraste e solte seus cartões dentro de uma lista para re-organizar
+            ou arraste para outra lista. Um clique duplo abrirá a visualização de
+            detalhes.
         wp:
           toggler: Agora vamos dar uma olhada na seção <b>Pacotes de trabalho</b>,
             que lhe fornece uma visão mais detalhada do seu trabalho.

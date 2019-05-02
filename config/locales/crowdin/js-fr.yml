@@ -21,10 +21,11 @@ fr:
     close_form_title: Fermer le formulaire
     boards:
       upsale:
-        boards: Need to freely structure your work in a board view?
+        boards: Vous avez besoin de structurer votre travail librement dans un affichage
+          en tableaux ?
         check_out_link: Découvrez l’édition entreprise.
       lists:
-        delete: Delete list
+        delete: Supprimer la liste
     card:
       add_new: Ajouter une nouvelle carte
       highlighting:
@@ -52,7 +53,7 @@ fr:
     button_duplicate: Dupliquer
     button_edit: Éditer
     button_filter: Filtre
-    button_advanced_filter: Advanced filter
+    button_advanced_filter: Filtre avancé
     button_list_view: Vue en liste
     button_show_view: Affichage plein écran
     button_log_time: Consigner temps
@@ -166,26 +167,26 @@ fr:
     general_text_Yes: Oui
     grid:
       add_modal:
-        choose_widget: Choose widget
+        choose_widget: Choisir un widget
       widgets:
         documents:
           title: Documents
-          no_results: No documents yet.
+          no_results: Encore aucun document.
         news:
           title: Actualités
-          at: at
+          at: à
           no_results: Rien de nouveau à signaler.
         time_entries_current_user:
-          title: Spent time (last 7 days)
-          no_results: No time entries for the last 7 days.
+          title: Temps passé (7 derniers jours)
+          no_results: Aucune entrée de temps pour les 7 derniers jours.
         work_packages_accountable:
           title: Lots de Travaux dont je suis responsable
         work_packages_assigned:
           title: Lots de Travaux m'étant assignés
         work_packages_created:
-          title: Work packages created by me
+          title: Lots de travaux que j'ai créés
         work_packages_watched:
-          title: Work packages watched by me
+          title: Lots de travaux que j'ai observés
         work_packages_table:
           title: Lots de Travaux
         work_packages_calendar:
@@ -387,12 +388,13 @@ fr:
             + à côté d’un récit utilisateur. Vous pouvez mettre à jour l’état via
             un glisser/déposer.
         boards:
-          overview: Manage your work within an intuitive <b>Boards</b> view.
-          lists: You can create multiple lists (columns) within one Board view, e.g.
-            to create a KANBAN board.
-          add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or to drag to another
-            list. A double click will open the details view.
+          overview: Gérez votre travail avec un affichage intuitif en <b>Tableaux</b>.
+          lists: Vous pouvez créer plusieurs listes (colonnes) dans un affichage en
+            Tableaux, par exemple pour créer un tableau KANBAN.
+          add: Cliquez sur le + va <b>ajouter une nouvelle carte</b> à la liste dans
+            un Tableau.
+          drag: Glissez et déposez vos cartes dans une liste pour recommander ou faites
+            glisser vers une autre liste. Un double clic ouvrira l’affichage en détails.
         wp:
           toggler: Maintenant, jetons un coup d'oeil à la section <b>Paquet de Travail</b>,
             qui vous donne une vue plus détaillée de votre travail.
@@ -882,7 +884,7 @@ fr:
           de travaux de la liste seront supprimés récursivement.
         deletes_children: Tous les lots de travaux enfants et leurs descendants seront
           également supprimés récursivement.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Aucun résultat visible à afficher.
     notice_successful_create: Création réussie.
     notice_successful_delete: Suppression réussie.
     notice_successful_update: Mise à jour réussie.
