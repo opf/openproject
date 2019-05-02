@@ -18,7 +18,7 @@ if db_url.scheme.start_with?("mysql")
   exit 0 # MySQL still supported until 9.x - with 10.0 we must make this an error (exit 1)
 end
 
-if db_url.scheme.start_with?("postgresql") && mysql_url.nil?
+if db_url.scheme.start_with?("postgres") && mysql_url.nil?
   # nothing to do
   exit 0
 end
