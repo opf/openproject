@@ -130,7 +130,7 @@ end
 # add the postgres specific columns.
 needs_fulltext_migration = check_output.include?("true")
 
-puts "Migrating database ..."
+puts "Running OpenProject migrations ..."
 
 _, migrate_status = run "bundle exec rake db:migrate", record_output: false
 

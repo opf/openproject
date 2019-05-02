@@ -39,9 +39,15 @@ module Migration
       end
     end
 
+    def index_exists_by_name?(table_name, index_name)
+      ActiveRecord::Base.connection
+        .indexes(table_name)
+        .detect { |index| index.name == index_name}
+    end
+
     def remove_index_if_exists(table_name, index_name)
-      if index_exists? table_name, index_name
-        remove_index table_name, index_name
+      if index_exists_by_name? table_name, index_name
+        remove_index table_name, name: index_name
       end
     end
 
