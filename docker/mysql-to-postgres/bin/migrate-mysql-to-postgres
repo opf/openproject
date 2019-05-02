@@ -131,6 +131,19 @@ if check_status != 0
   exit 1
 end
 
+# We need to ensure primary keys get renamed to `<table_name>_pkey`
+# because pgloader uses unique index names and we will otherwise be unable
+# to rename them in the future
+puts "Renaming primary keys"
+
+_, redo_status = run "bundle exec rake db:migrate:redo VERSION=20190502102512", record_output: false
+
+if redo_status != 0
+  puts "\nRenaming of indices for PostgreSQL failed. See above."
+
+  exit 1
+end
+
 # if the version was present on MySQL already we need to redo it to
 # add the postgres specific columns.
 needs_fulltext_migration = check_output.include?("true")
