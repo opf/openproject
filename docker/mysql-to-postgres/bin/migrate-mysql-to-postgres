@@ -108,7 +108,7 @@ puts "Importing database ..."
 
 mysql_url.query = nil
 mysql_url.scheme = "mysql"
-_, pgloader_status = run "pgloader-ccl --verbose #{mysql_url} #{db_url}", record_output: false
+_, pgloader_status = run "pgloader-ccl --with \"preserve index names\" --verbose #{mysql_url} #{db_url}", record_output: false
 
 if pgloader_status != 0
   puts "\nFailed to import MySQL database into Postgres. See above."
