@@ -6,15 +6,6 @@ class RenamePlanningElemntTypeColorsToColors < ActiveRecord::Migration[5.1]
       rename_index :planning_element_type_colors, :timelines_colors_pkey, :planning_element_type_colors_pkey
     end
 
-    if ActiveRecord::Base.connection.execute("SELECT 1 as value FROM pg_class c WHERE c.relkind = 'S' and c.relname = 'planning_element_type_colors_id_seq'").to_a.present? ||
-      begin
-        puts "Renaming id_seq to pkey which seems to be required by rename_table"
-        rename_index :planning_element_type_colors, :planning_element_type_colors_id_seq, :planning_element_type_colors_pkey
-      rescue => e
-        raise e unless e.message.match? /planning_element_type_colors_pkey.+?already exists/
-      end
-    end
-
     rename_table :planning_element_type_colors, :colors
     remove_column :colors, :position
   end
