@@ -49,6 +49,11 @@
       <span [textContent]="wpTypeAttribute(wp)"
           class="wp-card--type"
           [ngClass]="typeHighlightingClass(wp)"></span>
+      <a uiSref="work-packages.show"
+         [uiParams]="{workPackageId: wp.id}"
+         class="wp-card--id">
+        #{{wp.id}}
+      </a>
       <span [textContent]="wpSubject(wp)"
             class="wp-card--subject"></span>
       <wp-status-button *ngIf="showStatusButton"
