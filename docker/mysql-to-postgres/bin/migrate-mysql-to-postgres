@@ -23,6 +23,11 @@ if db_url.scheme.start_with?("postgres") && mysql_url.nil?
   exit 0
 end
 
+# Correct the URL scheme
+if mysql_url.scheme == 'mysql2'
+  mysql_url.scheme = 'mysql'
+end
+
 filtered_mysql_url = mysql_url.dup.tap{|url| url.password = "REDACTED"}
 filtered_db_url = db_url.dup.tap{|url| url.password = "REDACTED"}
 
