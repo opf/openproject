@@ -71,10 +71,6 @@ Pass in `DATABASE_URL` pointing to your new PostgreSQL database. Fill the templa
 export POSTGRES_DATABASE_URL="postgresql://openproject:<PASSWORD>@localhost/openproject
 ```
 
-
-
-
-
 ## Running the migration via Docker
 
 OpenProject provides a simple conversion script that you can run as a single command via Docker.
@@ -82,14 +78,18 @@ OpenProject provides a simple conversion script that you can run as a single com
 To run the migration script within the container, simply run the following command, replacing the content of the environment variables with your actual values.
 
 
+### Adapting the hostname
+
+**Note:** Depending on your docker installation and networking, you may need to replace the hostname `localhost` in the database URLs
+with `host.docker.internal` to access the docker host. On Mac for example, localhost will refer to the docker client.
+
 
 ```bash
-docker run \
-  -it openproject/community:latest
+docker run -it \
   -e MYSQL_DATABASE_URL=$MYSQL_DATABASE_URL \
-  -e DATABASE_URL=$POSTGRES_DATABASE_URL
+  -e DATABASE_URL=$POSTGRES_DATABASE_URL \
+  openproject/community:latest
 ```
-
 
 
 This will perform all necessary steps to perform the migration. Afterwards, simply remove the `MYSQL_DATABASE_URL`environment variable again and start your container as usual.
