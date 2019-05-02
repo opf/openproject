@@ -1,14 +1,9 @@
 # encoding: UTF-8
 
-$:.push File.expand_path("../lib", __FILE__)
-$:.push File.expand_path("../../lib", __dir__)
-
-require "open_project/bcf/version"
-
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "openproject-bcf"
-  s.version     = OpenProject::Bcf::VERSION
+  s.version     = "1.0.0"
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
   s.homepage    = "https://community.openproject.org/"

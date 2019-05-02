@@ -119,7 +119,7 @@ PATH
 PATH
   remote: modules/bcf
   specs:
-    openproject-bcf (9.0.0)
+    openproject-bcf (1.0.0)
       activerecord-import
       rails (~> 5)
       rubyzip (~> 1.2)
