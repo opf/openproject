@@ -30,10 +30,7 @@ module API
     module Repositories
       class RevisionsAPI < ::API::OpenProjectAPI
         resources :revisions do
-          params do
-            requires :id, desc: 'Revision id'
-          end
-          route_param :id do
+          route_param :id, type: Integer, desc: 'Revision ID' do
             helpers do
               attr_reader :revision
 
@@ -42,7 +39,7 @@ module API
               end
             end
 
-            before do
+            after_validation do
               @revision = Changeset.find(params[:id])
 
               authorize(:view_changesets, context: revision.project) do

@@ -92,7 +92,7 @@ describe 'API v3 Type resource' do
         context 'invalid type id' do
           let(:get_path) { api_v3_paths.type 'bogus' }
 
-          it_behaves_like 'not found' do
+          it_behaves_like 'param validation error' do
             let(:id) { 'bogus' }
             let(:type) { 'Type' }
           end

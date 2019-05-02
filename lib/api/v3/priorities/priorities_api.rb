@@ -35,7 +35,7 @@ module API
     module Priorities
       class PrioritiesAPI < ::API::OpenProjectAPI
         resources :priorities do
-          before do
+          after_validation do
             authorize(:view_work_packages, global: true)
 
             @priorities = IssuePriority.all
@@ -47,8 +47,8 @@ module API
                                               current_user: current_user)
           end
 
-          route_param :id do
-            before do
+          route_param :id, type: Integer, desc: 'Priority ID' do
+            after_validation do
               @priority = IssuePriority.find(params[:id])
             end
 

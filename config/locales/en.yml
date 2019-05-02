@@ -2626,6 +2626,7 @@ en:
     attributes:
       lock_version: "Lock Version"
     errors:
+      code_400: "Bad request: %{message}"
       code_401: "You need to be authenticated to access this resource."
       code_401_wrong_credentials: "You did not provide the correct credentials."
       code_403: "You are not authorized to access this resource."

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,25 +27,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/users/user_collection_representer'
-
 module API
-  module V3
-    module Projects
-      class AvailableResponsiblesAPI < ::API::OpenProjectAPI
-        resource :available_responsibles do
-          after_validation do
-            authorize(:view_work_packages, global: true, user: current_user)
-          end
+  module Errors
+    class BadRequest < ErrorBase
+      identifier 'urn:openproject-org:api:v3:errors:BadRequest'
 
-          get do
-            available_responsibles = @project.possible_responsibles.includes(:preference)
-            self_link = api_v3_paths.available_responsibles(@project.id)
-            Users::UserCollectionRepresenter.new(available_responsibles,
-                                                 self_link,
-                                                 current_user: current_user)
-          end
-        end
+      def initialize(e)
+        super 400, I18n.t('api_v3.errors.code_400', message: e.message)
       end
     end
   end

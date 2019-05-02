@@ -115,7 +115,7 @@ module API
           end
 
           route_param :render_format do
-            before do
+            after_validation do
               @format = params[:render_format]
             end
 

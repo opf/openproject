@@ -35,7 +35,7 @@ module API
     module Statuses
       class StatusesAPI < ::API::OpenProjectAPI
         resources :statuses do
-          before do
+          after_validation do
             authorize(:view_work_packages, global: true)
           end
 
@@ -45,7 +45,7 @@ module API
                                             current_user: current_user)
           end
 
-          route_param :id do
+          route_param :id, type: Integer, desc: 'Status ID' do
             helpers do
               # Note that naming the method #status or having
               # a variable named @status colides with grape.

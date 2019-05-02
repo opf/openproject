@@ -33,10 +33,7 @@ module API
         helpers ::API::Utilities::PageSizeHelper
 
         resources :groups do
-          params do
-            requires :id, desc: 'Group\'s id'
-          end
-          route_param :id do
+          route_param :id, type: Integer, desc: 'Group ID' do
             helpers do
               def group_scope
                 if current_user.allowed_to_globally?(:manage_members)

@@ -32,7 +32,7 @@ module API
     module Budgets
       class BudgetsAPI < ::API::OpenProjectAPI
         resources :budgets do
-          route_param :id do
+          route_param :id, type: Integer, desc: 'Budget ID' do
             before do
               @budget = CostObject.find(params[:id])
 

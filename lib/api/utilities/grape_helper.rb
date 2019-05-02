@@ -56,7 +56,7 @@ module API
           if error.nil?
             error_response_lambda
           else
-            lambda { instance_exec error.new, &error_response_lambda }
+            lambda { |e| instance_exec error.new(e), &error_response_lambda }
           end
 
         # We do this lambda business because #rescue_from behaves differently

@@ -40,7 +40,7 @@ module API
                           user: current_user)
           end
 
-          route_param :id do
+          route_param :id, type: Integer, desc: 'Cost type ID' do
             before do
               @cost_type = CostType.active.find(params[:id])
             end

@@ -67,7 +67,7 @@ module API
           end
 
           namespace 'available_projects' do
-            before do
+            after_validation do
               authorize(:view_work_packages, global: true, user: current_user)
             end
 
@@ -96,11 +96,8 @@ module API
             create_query request_body, current_user
           end
 
-          params do
-            requires :id, desc: 'Query id'
-          end
-          route_param :id do
-            before do
+          route_param :id, type: Integer, desc: 'Query ID' do
+            after_validation do
               @query = Query.find(params[:id])
 
               authorize_by_policy(:show) do

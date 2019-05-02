@@ -33,7 +33,7 @@ module API
     module WorkPackages
       class AvailableProjectsOnCreateAPI < ::API::OpenProjectAPI
         resource :available_projects do
-          before do
+          after_validation do
             authorize(:add_work_packages, global: true)
           end
 

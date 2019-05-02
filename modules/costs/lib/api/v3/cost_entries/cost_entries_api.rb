@@ -34,7 +34,7 @@ module API
     module CostEntries
       class CostEntriesAPI < ::API::OpenProjectAPI
         resources :cost_entries do
-          route_param :id do
+          route_param :id, type: Integer, desc: 'Cost entry ID' do
             before do
               @cost_entry = CostEntry.find(params[:id])
 

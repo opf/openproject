@@ -57,8 +57,8 @@ module API
           mount CreateFormAPI
           mount ::API::V3::Grids::Schemas::GridSchemaAPI
 
-          route_param :id do
-            before do
+          route_param :id, type: Integer, desc: 'Grid ID' do
+            after_validation do
               @grid = ::Grids::Query
                       .new(user: current_user)
                       .results
