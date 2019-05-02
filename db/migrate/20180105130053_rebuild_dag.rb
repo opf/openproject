@@ -25,8 +25,11 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require_relative './migration_utils/utils'
 
 class RebuildDag < ActiveRecord::Migration[5.0]
+  include ::Migration::Utils
+
   def up
     truncate_closure_entries
     remove_duplicate_relations
@@ -58,16 +61,11 @@ class RebuildDag < ActiveRecord::Migration[5.0]
   def down
     remove_column :relations, :count
 
-    if index_exists? :relations, 'index_relations_hierarchy_follows_scheduling'
-      remove_index :relations,
-                   name: 'index_relations_hierarchy_follows_scheduling'
-      remove_index :relations,
-                   name: 'index_relations_only_hierarchy'
-      remove_index :relations,
-                   name: 'index_relations_to_from_only_follows'
-      remove_index :relations,
-                   name: 'index_relations_direct_non_hierarchy'
-    end
+    remove_index_if_exists :relations, 'index_relations_hierarchy_follows_scheduling'
+    remove_index_if_exists :relations, 'index_relations_only_hierarchy'
+    remove_index_if_exists :relations, 'index_relations_to_from_only_follows'
+    remove_index_if_exists :relations, 'index_relations_direct_non_hierarchy'
+    remove_index_if_exists :relations, 'index_relations_on_type_columns'
 
     truncate_closure_entries
   end
@@ -92,7 +90,7 @@ class RebuildDag < ActiveRecord::Migration[5.0]
                 AND relations.includes = 0
                 AND relations.requires = 0
                 AND (hierarchy + relates + duplicates + follows + blocks + includes + requires > 0)
-              SQL
+    SQL
 
     add_index :relations,
               %i(from_id to_id hierarchy),
@@ -104,7 +102,7 @@ class RebuildDag < ActiveRecord::Migration[5.0]
                 AND relations.blocks = 0
                 AND relations.includes = 0
                 AND relations.requires = 0
-              SQL
+    SQL
 
     add_index :relations,
               %i(to_id follows from_id),
@@ -116,7 +114,7 @@ class RebuildDag < ActiveRecord::Migration[5.0]
                 AND blocks = 0
                 AND includes = 0
                 AND requires = 0
-              SQL
+    SQL
   end
 
   def add_non_hierarchy_index
