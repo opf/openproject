@@ -2796,8 +2796,8 @@ pt-BR:
   menu_item: Item de menu
   menu_item_setting: Visibilidade
   mysql_deprecation:
-    notice: 'As versões posteriores do OpenProject irão provavelmente abandonar ou
-      reduzir o suporte às bases de dados MySQL e MariaDB. Sua instalação continua
+    notice: 'As versões posteriores do OpenProject irão, provavelmente, abandonar
+      ou reduzir o suporte às bases de dados MySQL e MariaDB. Sua instalação continua
       a ser executada no MySQL e sugerimos que você migre-a para o PostgreSQL. Este
       processo é fácil quando nossos guias de migração são seguidos:
 
