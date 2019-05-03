@@ -59,7 +59,9 @@ class RebuildDag < ActiveRecord::Migration[5.0]
   end
 
   def down
-    remove_column :relations, :count
+    if column_exists? :relations, :count
+      remove_column :relations, :count
+    end
 
     remove_index_if_exists :relations, 'index_relations_hierarchy_follows_scheduling'
     remove_index_if_exists :relations, 'index_relations_only_hierarchy'
