@@ -21,7 +21,8 @@ it:
     close_form_title: Chiudi il modulo
     boards:
       upsale:
-        boards: Need to freely structure your work in a board view?
+        boards: Hai bisogno di strutturare in modo libero il tuo lavoro con delle
+          viste a schede?
         check_out_link: Scopri Enterprise Edition.
       lists:
         delete: Elimina elenco
@@ -382,13 +383,13 @@ it:
             una storia utente. Tramite trascinamento e rilascio puoi aggiornare lo
             stato.
         boards:
-          overview: Manage your work within an intuitive <b>Boards</b> view.
+          overview: Gestisci il tuo lavoro usando le viste <b>Tabellone</b> intuitive.
           lists: Puoi creare più elenchi (colonne) all'interno di una sola vista Tabellone,
             ad esempio per creare un tabellone KANBAN.
           add: Clicca su + <b>per aggiungere una nuova carta</b> alla lista all'interno
             di un Tabellone.
-          drag: Drag & Drop your cards within a list to re-order, or to drag to another
-            list. A double click will open the details view.
+          drag: Trascina e rilascia le carte in un elenco per riordinarle o trascinarle
+            in un'altra lista. Il doppio clic aprirà la vista sui dettagli.
         wp:
           toggler: Ora dai un'occhiata alla sezione <b>Pacchetto Lavoro</b>, che ti
             da una più dettagliata vista del tuo lavoro.
