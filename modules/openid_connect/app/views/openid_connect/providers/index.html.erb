@@ -1,0 +1,16 @@
+<% html_title(t(:label_administration), t('openid_connect.providers.plural')) -%>
+<% local_assigns[:additional_breadcrumb] = t('openid_connect.providers.plural') %>
+
+<%= toolbar title: t('openid_connect.providers.plural') do %>
+  <li class="toolbar-item">
+    <%= link_to new_openid_connect_provider_path,
+          { class: 'button -alt-highlight',
+            aria: {label: t('openid_connect.providers.label_add_new')},
+            title: t('openid_connect.providers.label_add_new')} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t('openid_connect.providers.singular') %></span>
+    <% end if openid_connect_providers_available_for_configure.any? %>
+  </li>
+<% end %>
+
+<%= cell ::OpenIDConnect::Providers::TableCell, providers %>

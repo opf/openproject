@@ -145,6 +145,10 @@ describe 'OpenID Connect', type: :rails_request do
             'google' => {
               'identifier' => 'does not',
               'secret' => 'matter'
+            },
+            'azure' => {
+              'identifier' => 'IDENTIFIER',
+              'secret' => 'SECRET'
             }
           }
 
@@ -152,6 +156,7 @@ describe 'OpenID Connect', type: :rails_request do
 
       get '/login'
       expect(response.body).to match /Google/i
+      expect(response.body).to match /Azure/i
 
       expect { click_on_signin('google') }.not_to raise_error
       expect(response.status).to be 302
