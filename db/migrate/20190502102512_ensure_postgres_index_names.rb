@@ -2,6 +2,7 @@ class EnsurePostgresIndexNames < ActiveRecord::Migration[5.2]
   def up
     if OpenProject::Database.mysql?
       warn "You're using MySQL, skipping index renaming. You will need to re-run this when switching to PostgreSQL"
+      return
     end
 
     sql = <<~SQL
