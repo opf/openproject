@@ -97,7 +97,7 @@ openproject config:get DATABASE_URL
 # mysql2://user:password@localhost:3306/dbname
 
 # Re-export but replace mysql2 with mysql!
-export MYSQL_DATABSAE_URL="mysql://user:password@localhost:3306/dbname"
+export MYSQL_DATABASE_URL="mysql://user:password@localhost:3306/dbname"
 ```
 
 
@@ -163,7 +163,7 @@ openproject run rails db:migrate:redo VERSION=20180105130053
 
 If you let the packaged installation auto-install MySQL before and no longer need it, you can remove MySQL packages. 
 
-You can check the output of `dpkg - l | grep mysql` to check for packages removable. Only keep `libmysqlclient-dev`  for Ruby dependencies on the mysql adapter.
+You can check the output of `dpkg -l | grep mysql` to check for packages removable. Only keep `libmysqlclient-dev`  for Ruby dependencies on the mysql adapter.
 
 The following is an exemplary removal of an installed version MySQL 5.7. 
 
