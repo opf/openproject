@@ -143,6 +143,9 @@ module OpenProject
 
       # Check for missing migrations in internal errors
       'migration_check_on_exceptions' => true,
+      
+      # Show pending migrations as warning bar
+      'show_pending_migrations_warning' => true,
 
       # Render warning bars (pending migrations, deprecation, unsupported browsers)
       # Set to false to globally disable this for all users!

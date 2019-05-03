@@ -30,7 +30,9 @@
 
 module WarningBarHelper
   def render_pending_migrations_warning?
-    current_user.admin? && OpenProject::Database.migrations_pending?
+    current_user.admin? &&
+      OpenProject::Configuration.show_pending_migrations_warning? &&
+      OpenProject::Database.migrations_pending?
   end
 
   def render_mysql_deprecation_warning?
