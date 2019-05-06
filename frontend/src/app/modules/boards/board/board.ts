@@ -47,7 +47,7 @@ export class Board {
   }
 
   public get highlightingMode():CardHighlightingMode {
-    return (this.grid.options.highlightingMode || 'none') as CardHighlightingMode;
+    return (this.grid.options.highlightingMode || 'inline') as CardHighlightingMode;
   }
 
   public set name(name:string) {
