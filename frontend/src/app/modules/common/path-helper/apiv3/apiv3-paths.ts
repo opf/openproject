@@ -72,6 +72,9 @@ export class ApiV3Paths {
   // /api/v3/types
   public readonly types = new Apiv3TypesPaths(this.apiV3Base);
 
+  // /api/v3/versions
+  public readonly versions = new SimpleResourceCollection(this.apiV3Base, 'versions');
+
   // /api/v3/work_packages
   public readonly work_packages = new ApiV3WorkPackagesPaths(this.apiV3Base);
 
