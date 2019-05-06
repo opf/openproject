@@ -84,7 +84,7 @@ export class NewBoardModalComponent extends OpModalComponent {
   }
 
   createAction() {
-    this.create({ type: 'action', attribute: this.available[0].attribute });
+    this.create({ type: 'action', attribute: this.actionAttributeSelect.nativeElement.value! });
   }
 
   private create(params:{ type:BoardType, attribute?:string }) {
