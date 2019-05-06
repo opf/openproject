@@ -154,7 +154,7 @@ class WorkPackage < ActiveRecord::Base
   # for details.                                    #
   ###################################################
   acts_as_attachable after_remove: :attachments_changed,
-                     order: "#{Attachment.table_name}.filename",
+                     order: "#{Attachment.table_name}.file",
                      add_on_new_permission: :add_work_packages,
                      add_on_persisted_permission: :edit_work_packages,
                      modification_blocked: ->(*) { readonly_status? }
