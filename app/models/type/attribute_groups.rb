@@ -109,6 +109,7 @@ module Type::AttributeGroups
   ##
   # Update the attribute groups object.
   def attribute_groups=(groups)
+    attribute_groups_will_change!
     self.attribute_groups_objects = to_attribute_group_class(groups)
   end
 
