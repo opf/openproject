@@ -655,6 +655,7 @@ es:
             attribute_groups:
               attribute_unknown: Se ha usado un atributo de paquete de trabajo no
                 válido.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: El nombre de grupo “%{group}” se usó más de una vez.
                 Los nombres de grupo tienen que ser únicos.
               query_invalid: 'La consulta insertada “%{group}” no es válida: %{details}'

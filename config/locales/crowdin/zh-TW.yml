@@ -569,6 +569,7 @@ zh-TW:
           attributes:
             attribute_groups:
               attribute_unknown: 使用了無效的工作包屬性。
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: 群組名稱 %{group} 已被使用，群組名稱不可重複。
               query_invalid: '這個遷入的查詢 ''%{group}'' 是無效的: %{details}'
               group_without_name: 不允許未命名的群組。

@@ -565,6 +565,7 @@ zh:
           attributes:
             attribute_groups:
               attribute_unknown: 已使用无效的工作包属性。
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: 组名 %{group} 已多次使用。组名不能重复。
               query_invalid: '嵌入式查询 "%{group}" 无效: %{details}'
               group_without_name: 不允许未命名的群组。

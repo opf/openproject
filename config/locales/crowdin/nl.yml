@@ -643,6 +643,7 @@ nl:
           attributes:
             attribute_groups:
               attribute_unknown: Ongeldig werk pakket attribuut wordt gebruikt.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: De groep naam ‘%{group}’ word meer dan één keer gebruikt.
                 Groep namen moeten uniek zijn.
               query_invalid: 'De ingesloten zoekopdracht ''%{group}'' is ongeldig:

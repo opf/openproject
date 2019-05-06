@@ -585,6 +585,7 @@ ko:
           attributes:
             attribute_groups:
               attribute_unknown: 잘못된 작업 패키지 특성이 사용되었습니다.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: "'%{group}'(이)라는 그룹 이름이 두 번 이상 사용되었습니다. 그룹 이름은 중복될
                 수 없습니다."
               query_invalid: 포함된 쿼리 '%{group}'이(가) 잘못되었습니다. %{details}

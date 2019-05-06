@@ -637,6 +637,7 @@ hi:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: समूह का नाम ' %{group} ' एक से अधिक बार प्रयोग किया
                 जाता है । समूह नाम अनंय होना आवश्यक है ।
               query_invalid: 'एंबेडेड क्वेरी ''%{group} '' अमान्य है: %{details}'
