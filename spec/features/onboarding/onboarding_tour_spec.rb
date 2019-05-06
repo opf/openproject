@@ -104,7 +104,7 @@ describe 'onboarding tour for new users', js: true do
 
       it 'and I continue the tutorial' do
         next_button.click
-        expect(page).to have_text 'Please select one of the projects with useful demo data to get started.'
+        expect(page).to have_text 'Please click on one of the projects with useful demo data to get started'
 
         find('.welcome').click_link 'Demo project'
         expect(page).to have_current_path "/projects/#{project.identifier}/work_packages?start_onboarding_tour=true"
