@@ -29,10 +29,24 @@ module ::Bcf
       @bcf_file = params[:bcf_file]
 
       begin
+        @roles = Role.find_all_givable
+
         @listing = @importer.get_extractor_list! @bcf_file.path
-        @issues = ::Bcf::Issue.with_markup
-                              .includes(work_package: %i[status priority assigned_to])
-                              .where(uuid: @listing.map { |e| e[:uuid] })
+        if @listing.blank?
+          raise(StandardError.new I18n.t('bcf.exceptions.file_invalid'))
+        end
+
+        @issues = ::Bcf::Issue.with_markup.includes(work_package: %i[status priority assigned_to]).where(uuid: @listing.map { |e| e[:uuid] })
+
+
+        all_people = @listing.map { |entry| entry[:people] }.flatten.uniq
+        all_mails = @listing.map { |entry| entry[:mail_addresses] }.flatten.uniq
+
+        @known_users = User.where(mail: all_mails).includes(:memberships)
+        @unknown_mails = all_mails.map(&:downcase) - @known_users.map(&:mail).map(&:downcase)
+        @members = @known_users.select { |user| user.projects.map(&:id).include? @project.id }
+        @non_members = @known_users - @members
+        @invalid_people = all_people - all_mails
       rescue StandardError => e
         flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
         redirect_to action: :index

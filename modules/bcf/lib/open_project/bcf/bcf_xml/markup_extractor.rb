@@ -57,7 +57,7 @@ module OpenProject::Bcf::BcfXml
           uuid: node['Guid'],
           viewpoint: node.xpath('Viewpoint/text()').to_s,
           snapshot: node.xpath('Snapshot/text()').to_s
-        }
+        }.with_indifferent_access
       end
     end
 
@@ -68,8 +68,20 @@ module OpenProject::Bcf::BcfXml
           date: node.xpath('Date/text()').to_s,
           author: node.xpath('Author/text()').to_s,
           comment: node.xpath('Comment/text()').to_s
-        }
+        }.with_indifferent_access
       end
+    end
+
+    def mail_addresses
+      people.filter do |person|
+        # person value is an email address
+        person =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+      end
+      .uniq
+    end
+
+    def people
+      ([assignee, author] + comments.map { |comment| comment[:author] }).filter(&:present?).uniq
     end
 
     private

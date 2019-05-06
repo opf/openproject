@@ -94,7 +94,7 @@ module OpenProject::Bcf::BcfXml
     # Extend comments with new or updated values from XML
     def build_comments
       extractor.comments.each do |data|
-        next if issue.comments.has_uuid?(data[:uuid])
+        next if issue.comments.has_uuid?(data[:uuid]) # Comment has already been imported once.
         comment = issue.comments.build data.slice(:uuid)
 
         # Cannot link to a journal when no work package

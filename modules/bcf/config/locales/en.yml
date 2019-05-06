@@ -4,6 +4,8 @@ en:
     label_bcf: 'BCF'
     issues: "Issues"
     experimental_badge: "Experimental"
+    exceptions:
+      file_invalid: "BCF file invalid"
 
     x_bcf_issues:
       zero: 'No BCF issues'

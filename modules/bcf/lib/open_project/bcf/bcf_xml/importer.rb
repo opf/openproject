@@ -15,7 +15,7 @@ module OpenProject::Bcf::BcfXml
     # but do not perform the import
     def get_extractor_list!(file)
       Zip::File.open(file) do |zip|
-        yield_topic_entries(zip)
+        yield_markup_bcf_files(zip)
           .map do |entry|
           to_listing(MarkupExtractor.new(entry))
         end
@@ -44,11 +44,13 @@ module OpenProject::Bcf::BcfXml
       Hash[keys.map { |k| [k, extractor.public_send(k)] }].tap do |attributes|
         attributes[:viewpoint_count] = extractor.viewpoints.count
         attributes[:comments_count] = extractor.comments.count
+        attributes[:people] = extractor.people
+        attributes[:mail_addresses] = extractor.mail_addresses
       end
     end
 
     def synchronize_topics(zip)
-      yield_topic_entries(zip)
+      yield_markup_bcf_files(zip)
         .map do |entry|
           issue = IssueReader.new(project, zip, entry, current_user: current_user).extract!
           issue.save
@@ -57,9 +59,9 @@ module OpenProject::Bcf::BcfXml
     end
 
     ##
-    # Yields topic entries and their uuid from the ZIP files
+    # Yields topic bcf files (that contain topic entries and their uuid) from the ZIP files
     # while skipping all other entries
-    def yield_topic_entries(zip)
+    def yield_markup_bcf_files(zip)
       zip.select { |entry| entry.name.end_with?('markup.bcf') }
     end
   end
