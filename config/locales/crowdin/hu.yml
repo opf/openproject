@@ -73,7 +73,7 @@ hu:
 '
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: Jelenleg nincs fórumbejegyzés.
   colors:
     index:
       no_results_title_text: Jelenleg nincsenek színek.
@@ -154,8 +154,8 @@ hu:
       activities:
         no_results_title_text: Jelenleg nincs elérhető esemény.
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: Jelenleg nincsenek fórumok a projekthez.
+        no_results_content_text: Új fórum létrehozása
       categories:
         no_results_title_text: Jelenleg nincsenek munkacsomag kategóriák.
         no_results_content_text: Hozzon létre egy új munkacsomag kategóriát
@@ -221,9 +221,11 @@ hu:
       edit_query: Táblázat szerkesztése
       query_group_placeholder: Adja meg a tábla nevét
       reset: Alapbeállítások visszaállítása
-      type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts. It is therefore recommended to use a strong color.
+      type_color_text: 'Kattintson az adott típus színének hozzárendeléséhez vagy
+        megváltoztatásához. A kiválasztott szín különbözteti meg a feladatcsoportokat
+        a Gantt-diagramokban. Erős színek használata javasolt.
+
+'
   versions:
     overview:
       no_results_title_text: Jelenleg nincsenek ehhez a verzióhoz hozzárendelt feladatcsoportok.
@@ -523,7 +525,7 @@ hu:
         too_long: túl hosszú (nem lehet több %{count} karakternél).
         too_short: túl rövid (legalább %{count} karakter kell legyen).
         unchangeable: nem módosítható.
-        unremovable: cannot be removed.
+        unremovable: nem törölhető.
         wrong_length: nem megfelelő hosszúságú (%{count} karakter szükséges).
       models:
         custom_field:
@@ -1054,9 +1056,9 @@ hu:
   error_can_not_remove_role: Ez a szerepkör használatban van, nem lehet törölni
   error_can_not_reopen_work_package_on_closed_version: A feladatcsoport lezárt verzió,
     nem lehet újra nyitni
-  error_can_not_find_all_resources: Could not find all related resources to this request.
+  error_can_not_find_all_resources: Nem található a kéréshez tartozó minden erőforrás.
   error_check_user_and_role: Légy szíves válassz felhasználót és szerepkört
-  error_code: Error %{code}
+  error_code: 'Hibakód: %{code}'
   error_cookie_missing: Hiányzó OpenProject cookie. Ellenőrizze, hogy böngészőjében
     a cookie-k használata engedélyezve van, mert anélkül ez az alkalmazás nem tud
     megfelelően működni.
@@ -1082,10 +1084,10 @@ hu:
   error_work_package_not_found_in_project: A feladatcsoport nem található, vagy nem
     tartozik ehhez a projekthez
   error_must_be_project_member: projekt tagnak kell lennie
-  error_migrations_are_pending: Your OpenProject installation has pending database
-    migrations. You have likely missed running the migrations on your last upgrade.
-    Please check the upgrade guide to properly upgrade your installation.
-  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
+  error_migrations_are_pending: Az Openproject adatbázisának költöztetése függőben
+    van. Valószínűleg elmulasztotta lefuttatni az átvitelt a legutóbbi frissítéskor.
+    Kérjük, a megfelelő frissítéshez kövesse a frissítési útmutatót.
+  error_migrations_visit_upgrade_guides: Kérjük, látogassa meg a frissítési útmutatót
   error_no_default_work_package_status: Nincs alapértelmezett feladatcsoport állapot
     meghatározva. Kérjük, ellenőrizze a konfigurációt ("Adminisztráció - feladatcsoport
     állapotok").
@@ -1172,7 +1174,7 @@ hu:
           verzióval jelentősen hozzájárulsz a nyílt forráskódú közösség erőfeszítéseihez.
     links:
       upgrade_enterprise_edition: Frissítés a Vállalati Verzióra
-      postgres_migration: Migrating your installation to PostgreSQL
+      postgres_migration: A rendszer költöztetése PostreSQL-re
       user_guides: Felhasználói útmutató
       faq: GY. I. K.
       glossary: Szószedet
@@ -1246,7 +1248,7 @@ hu:
   label_available_project_work_package_categories: Rendelkezésre álló munkacsomag
     kategóriák
   label_available_project_work_package_types: Rendelkezésre álló munkacsomag típusok
-  label_available_project_forums: Available forums
+  label_available_project_forums: Elérhető fórumok
   label_available_project_versions: Rendelkezésre álló verziók
   label_available_project_repositories: Rendelkezésre álló tárolók
   label_api_documentation: API dokumentáció
@@ -1363,7 +1365,7 @@ hu:
   label_equals: van
   label_everywhere: bárhol
   label_example: Példa
-  label_import: Import
+  label_import: Importálás
   label_export_to: 'Is elérhető:'
   label_expanded_click_to_collapse: Kinyitva. Kattintson az összecsukáshoz
   label_f_hour: "%{value} óra"
@@ -1401,7 +1403,7 @@ hu:
   label_hierarchy_leaf: Hierarchia szint
   label_home: Home
   label_subject_or_id: Subject or ID
-  label_impressum: Legal notice
+  label_impressum: Jogi nyilatkozat
   label_in: in
   label_in_less_than: kevesebb, mint
   label_in_more_than: több mint
@@ -1527,7 +1529,7 @@ hu:
   label_planning: Tervezés
   label_please_login: Kérjük, jelentkezzen be
   label_plugins: Modulok
-  label_modules_and_plugins: Modules and Plugins
+  label_modules_and_plugins: Modulok és kiegészítők
   label_precedes: megelőzi
   label_preferences: Tulajdonságok
   label_preview: Előnézet
@@ -1651,7 +1653,7 @@ hu:
   label_updated_time: Ezelőtt frissített %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Frissítve %{author} %{age} ezelőtt
-  label_upgrade_guides: Upgrade guides
+  label_upgrade_guides: Frissítési útmutatók
   label_used_by: Által használt
   label_used_by_types: Használt típusok szerint
   label_used_in_projects: Használt projektek szerint
@@ -2781,10 +2783,10 @@ hu:
   menu_item: Menüpont
   menu_item_setting: Látható
   mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
+    notice: 'Az Openproject jövőbeli verziói valószínűleg nem vagy kevésbé fogják
+      támogatni a MySQL és MariaDB adatbázisokat. Az Ön telepítése még MySQL-t használ,
+      ezért azt javasoljuk, költöztesse PostgreSQL adatbázisra. A folyamat egyszerű,
+      ha követi az útmutatónkat:
 
 '
   wiki_menu_item_for: Wikipage "%{title}" menüeleme

@@ -388,8 +388,8 @@ it:
             ad esempio per creare un tabellone KANBAN.
           add: Clicca su + <b>per aggiungere una nuova carta</b> alla lista all'interno
             di un Tabellone.
-          drag: Trascina e rilascia le carte in un elenco per riordinarle o trascinarle
-            in un'altra lista. Il doppio clic aprirà la vista sui dettagli.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: Ora dai un'occhiata alla sezione <b>Pacchetto Lavoro</b>, che ti
             da una più dettagliata vista del tuo lavoro.

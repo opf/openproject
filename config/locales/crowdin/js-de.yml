@@ -386,7 +386,7 @@ de:
           overview: Verwalten Sie Ihre Arbeit in einer intuitiven <b>Boards</b> -Ansicht.
           lists: Sie können mehrere Listen (Spalten) innerhalb einer Board-Ansicht
             erstellen, z.B. um ein KANBAN-Board zu erstellen.
-          add: Klicken Sie + um <b>eine neue Karte</b> zur Liste eines Boards hinzufügen.
+          add: Klicken Sie + um <b>eine neue Karte</b> zur Liste eines Boards hinzuzufügen.
           drag: Drag & Drop your cards within a list to re-order, or to drag to another
             list. A double click will open the details view.
         wp:

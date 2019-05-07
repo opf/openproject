@@ -377,8 +377,8 @@ pl:
           lists: Można utworzyć wiele list (kolumn) w jednym widoku tablicy, np. w
             celu utworzenia tablicy KANBAN.
           add: Kliknięcie przycisku + <b>dodaje nową kartę</b> do listy na tablicy.
-          drag: Przeciągaj i upuszczaj karty w obrębie listy, aby zmienić ich kolejność
-            lub przeciągaj je do innej listy. Dwukrotne kliknięcie otwiera widok szczegółów.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: Teraz przyjrzyjmy się sekcji <b>Zadania</b>, która zapewnia bardziej
             szczegółowy widok Twojej pracy.

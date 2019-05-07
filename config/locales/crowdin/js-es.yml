@@ -389,9 +389,8 @@ es:
             sección del Tablero, por ej. para crear un tablero KANBAN.
           add: Al hacer click en + <b>se añadirá una nueva tarjeta</b> a la lista
             dentro de un Tablero.
-          drag: Arrastre y coloque las tarjetas dentro de una lista para cambiar el
-            orden, o bien arrástrelas a otra lista. Al hacer doble clic, se abre la
-            vista de detalles.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: Ahora, veamos la sección <b>Paquete de trabajo</b>, que ofrece
             una vista más detallada de su trabajo.

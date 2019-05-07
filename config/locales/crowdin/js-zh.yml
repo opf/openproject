@@ -350,7 +350,8 @@ zh:
           overview: 在直观的<b>面板</b>视图中管理您的工作。
           lists: 您可以在一个面板视图中创建多个列表（列），例如创建看板面板。
           add: 单击 + 将向面板内的列表中<b>添加新卡</b>。
-          drag: 在列表中拖放卡片进行重新排序，或者拖动到另一个列表中。双击将打开详细信息视图。
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: 现在我们来看一下<b>工作包</b>部分，工作包提供了更详细的工作视图。
           list: 这是<b>工作包</b>列表，包含项目中的重要工作，例如任务、特征、里程碑和错误等。<br>您可以在这个列表中直接创建或编辑工作包。要查看工作包的详细信息，可以双击该行。

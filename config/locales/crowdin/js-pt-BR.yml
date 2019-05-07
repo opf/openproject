@@ -389,9 +389,8 @@ pt-BR:
             quadro, por exemplo, para criar um quadro KANBAN.
           add: Clicar no + irá <b>adicionar um novo cartão</b> à lista dentro de um
             Quadro.
-          drag: Arraste e solte seus cartões dentro de uma lista para re-organizar
-            ou para arrastar para outra lista. Um clique duplo abrirá a visualização
-            de detalhes.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: Agora vamos dar uma olhada na seção <b>Pacotes de trabalho</b>,
             que lhe fornece uma visão mais detalhada do seu trabalho.
