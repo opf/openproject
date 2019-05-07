@@ -393,8 +393,8 @@ fr:
             Tableaux, par exemple pour créer un tableau KANBAN.
           add: Cliquez sur le + va <b>ajouter une nouvelle carte</b> à la liste dans
             un Tableau.
-          drag: Glissez et déposez vos cartes dans une liste pour recommander ou faites
-            glisser vers une autre liste. Un double clic ouvrira l’affichage en détails.
+          drag: Drag & Drop your cards within a list to re-order, or to drag to another
+            list. A double click will open the details view.
         wp:
           toggler: Maintenant, jetons un coup d'oeil à la section <b>Paquet de Travail</b>,
             qui vous donne une vue plus détaillée de votre travail.

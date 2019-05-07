@@ -1603,8 +1603,8 @@ de:
   label_registration_automatic_activation: Automatische Kontoaktivierung
   label_registration_manual_activation: Manuelle Kontoaktivierung
   label_related_work_packages: Zugehörige Arbeitspakete
-  label_relates: Beziehung mit
-  label_relates_to: Beziehung mit
+  label_relates: Verwandt mit
+  label_relates_to: Verwandt mit
   label_relation_delete: Beziehung löschen
   label_relation_new: Neue Beziehung
   label_release_notes: Release Notes

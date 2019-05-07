@@ -1106,8 +1106,8 @@ pt:
     de dados pendentes. Você provavelmente esqueceu de executar as migrações depois
     da sua última atualização. Por favor, verifique o guia de atualização para atualizar
     sua instalação corretamente.
-  error_migrations_visit_upgrade_guides: Por favor, visite nossa documentação do guia
-    de atualização
+  error_migrations_visit_upgrade_guides: Por favor, visite a nossa documentação do
+    guia de atualização
   error_no_default_work_package_status: Não está definido um estado padrão para os
     pacotes de trabalho. Verifique a sua configuração (dirija-se a "Administração
     -> Estados de pacotes de trabalho").
