@@ -38,7 +38,6 @@ module ::Bcf
 
         @issues = ::Bcf::Issue.with_markup.includes(work_package: %i[status priority assigned_to]).where(uuid: @listing.map { |e| e[:uuid] })
 
-
         all_people = @listing.map { |entry| entry[:people] }.flatten.uniq
         all_mails = @listing.map { |entry| entry[:mail_addresses] }.flatten.uniq
 

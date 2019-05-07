@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::Bcf::IssuesController, type: :controller do
   let(:manage_bcf_role) { FactoryBot.create(:role, permissions: %i[manage_bcf view_linked_issues view_work_packages]) }
   let(:collaborator_role) {FactoryBot.create(:role, permissions: %i[view_linked_issues view_work_packages])}
-  let(:bcf_manager) { FactoryBot.create(:user) }
+  let(:bcf_manager) { FactoryBot.create(:user, firstname: "BCF Manager") }
   let(:collaborator) { FactoryBot.create(:user) }
 
   let(:non_member) { FactoryBot.create(:user) }
@@ -53,7 +53,34 @@ describe ::Bcf::IssuesController, type: :controller do
   before do
     bcf_manager_member
     member
-    allow(User).to receive(:current).and_return(bcf_manager)
+    login_as(bcf_manager)
+  end
+
+  shared_examples_for 'check permissions' do
+    context 'without sufficient permissions' do
+      before do
+        action
+      end
+
+      context 'not member of project' do
+        let(:bcf_manager_member) {}
+        it 'will return "not authorized"' do
+          expect(response).to_not be_successful
+        end
+      end
+
+      context 'no manage_bcf permission' do
+        let(:bcf_manager_member) {
+          FactoryBot.create(:member,
+                            project: project,
+                            user: bcf_manager,
+                            roles: [collaborator_role])
+        }
+        it 'will return "not authorized"' do
+          expect(response).to_not be_successful
+        end
+      end
+    end
   end
 
   describe '#prepare_import' do
@@ -74,6 +101,8 @@ describe ::Bcf::IssuesController, type: :controller do
         expect { action }.to change { Attachment.count }.by(1)
         expect(response).to be_successful
       end
+
+      it_behaves_like "check permissions"
     end
 
     context 'with invalid BCF file' do
@@ -83,6 +112,32 @@ describe ::Bcf::IssuesController, type: :controller do
         expect { action }.to change { Attachment.count }.by(1)
         expect(response).to redirect_to '/projects/bim_project/issues'
       end
+    end
+  end
+
+  describe '#perform_import' do
+    let(:action) do
+      post :perform_import, params: { project_id: project.identifier.to_s }
+    end
+
+
+    context 'with valid BCF file' do
+      let(:filename) { 'MaximumInformation.bcf' }
+      let(:file) { Rack::Test::UploadedFile.new(
+        File.join(Rails.root, "modules/bcf/spec/fixtures/files/#{filename}"),
+        'application/octet-stream') }
+
+      before do
+        allow_any_instance_of(Attachment).to receive(:local_file).and_return(file)
+        allow(Attachment).to receive(:find_by).and_return(Attachment.new)
+      end
+
+      it 'should be successful' do
+        expect { action }.to change { Attachment.count }.by(0)
+        expect(response).to redirect_to '/projects/bim_project/issues'
+      end
+
+      it_behaves_like "check permissions"
     end
   end
 end
