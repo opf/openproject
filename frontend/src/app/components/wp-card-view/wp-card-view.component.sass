@@ -34,11 +34,8 @@
 
 .wp-card--content:not(.-new)
   display: grid
-  // Creating an implicit grid here, enables us to let the first column shrink to 0,
-  // when there is no attribute shown.
-  // Thus the avatar then aligns with the type and the subject.
-  grid-auto-columns: auto 1fr auto
-  grid-auto-rows: auto auto auto
+  grid-template-columns: auto 1fr auto
+  grid-template-rows: auto auto auto
   grid-row-gap: 10px
   grid-template-areas: "type type type" "subject subject subject" "attributeTag avatar idlink"
   overflow: hidden
