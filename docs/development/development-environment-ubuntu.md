@@ -2,7 +2,7 @@
 
 To develop OpenProject a setup similar to that for using OpenProject in production is needed.
 
-This guide assumes that you have a Ubuntu 16.04. installation installation with administrative rights. This guide will work
+This guide assumes that you have a Ubuntu 11.04. installation installation with administrative rights. This guide will work
 analogous with all other distributions, but may require slight changes in the required packages. _Please, help us to extend this guide with information on other distributions should there be required changes._
 
 OpenProject will be installed with a PostgreSQL database. This guide will work analogous with a MySQL installation, though. 
@@ -17,7 +17,7 @@ We need an active Ruby and Node JS environment to run OpenProject. To this end, 
 
 ```bash
 [dev@ubuntu]# sudo apt-get update
-[dev@ubuntu]# sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev libmysqlclient-dev libpq-dev libsqlite3-dev libreadline-dev libffi6
+[dev@ubuntu]# sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev libmysqlclient-dev libpq-dev  libreadline-dev libffi6
 ```
 
 ## Install Ruby 2.6.
@@ -54,20 +54,20 @@ ruby-build is an addon to rbenv that installs ruby versions
 **Installing ruby-2.6**
 
 With both installed, we can now install the actual ruby version 2.6. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `2.6.1`, which we also require.
+At the time of this writing, the latest stable version is `2.6.3`, which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
 and install that version.
 
 ```bash
 # Install the required version as read from the Gemfile
-[dev@ubuntu]# rbenv install 2.6.1
+[dev@ubuntu]# rbenv install 2.6.3
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
 
 ```bash
-[dev@ubuntu]# rbenv global 2.6.1
+[dev@ubuntu]# rbenv global 2.6.3
 ```
 
 You also need to install [bundler](https://github.com/bundler/bundler/), the ruby gem bundler.
@@ -78,7 +78,7 @@ You also need to install [bundler](https://github.com/bundler/bundler/), the rub
 
 ## Setup PostgreSQL database
 
-Next, install a PostgreSQL database. If you wish to use a MySQL database instead and have installed one, skip these steps.
+Next, install a PostgreSQL database.
 
 ```bash
 [dev@debian]# sudo apt-get install postgresql postgresql-client
@@ -144,7 +144,7 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```bash
 [dev@ubuntu]# ruby --version
-ruby 2.6.1p33 (2019-01-30 revision 66950) [x86_64-darwin16]
+ruby 2.6.3p62 (2019-04-16 revision 67580) [x86_64-linux]
 
 [dev@ubuntu]# bundler --version
 Bundler version 2.0.1
@@ -199,8 +199,6 @@ test:
   database: openproject_test
 ```
 
-**NOTE:** If you want to use MySQL instead and have a database installed, simply use the MySQL section of the exemplary `database.yml.example` configuration file.
-
 ## Finish the Installation of OpenProject
 
 Now, run the following tasks to migrate and seed the dev database, and prepare the test setup for running tests locally.
@@ -247,15 +245,18 @@ To run OpenProject manually, you need to run the rails server and the webpack fr
 
 This will start the development server on port `3000` by default.
 
-**Webpack bundling**
+**Angular frontend**
+
+To run the frontend server, please run
 
 ```bash
-[dev@ubuntu]# RAILS_ENV=development npm run webpack-watch
+[dev@ubuntu]# RAILS_ENV=development npm run serve
 ```
 
 This will watch for any changes within the `frontend/` and compile the application javascript bundle on demand. You will need to watch this tab for the compilation output,
 should you be working on the TypeScript / Angular frontend part.
 
+You can then access the application either through `localhost:3000` (Rails server) or through the frontend proxied `http://localhost:4200`, which will provide hot reloading for changed frontend code.
 
 ## Start Coding
 
