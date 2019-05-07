@@ -50,5 +50,11 @@ export class VersionDmService {
       .toPromise();
   }
 
+  public listForProject(projectId:string):Promise<CollectionResource<VersionResource>> {
+    return this.halResourceService
+      .get<CollectionResource<VersionResource>>(this.pathHelper.api.v3.projects.id(projectId).versions.toString())
+      .toPromise();
+  }
+
 
 }

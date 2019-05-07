@@ -9,6 +9,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 @Injectable()
 export class BoardVersionActionService implements BoardActionService {
@@ -16,7 +17,8 @@ export class BoardVersionActionService implements BoardActionService {
   constructor(protected pathHelper:PathHelperService,
               protected boardListService:BoardListsService,
               protected I18n:I18nService,
-              protected versionDm:VersionDmService) {
+              protected versionDm:VersionDmService,
+              protected currentProject:CurrentProjectService) {
   }
 
   public get localizedName() {
@@ -44,8 +46,7 @@ export class BoardVersionActionService implements BoardActionService {
       .then((results) =>
         Promise.all<unknown>(
           results.map((version:VersionResource) => {
-
-            if (version.isDefault) {
+            if(version.status === 'open') {
               return this.addActionQuery(board, version);
             }
 
@@ -88,8 +89,12 @@ export class BoardVersionActionService implements BoardActionService {
   }
 
   private getVersions():Promise<VersionResource[]> {
+    if (this.currentProject.id === null) {
+      return Promise.resolve([]);
+    }
+
     return this.versionDm
-      .list()
+      .listForProject(this.currentProject.id)
       .then(collection => collection.elements);
   }
 }
