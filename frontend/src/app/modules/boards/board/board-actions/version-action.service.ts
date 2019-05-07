@@ -46,7 +46,7 @@ export class BoardVersionActionService implements BoardActionService {
       .then((results) =>
         Promise.all<unknown>(
           results.map((version:VersionResource) => {
-            if(version.status === 'open') {
+            if (version.definingProject.name === this.currentProject.name) {
               return this.addActionQuery(board, version);
             }
 
@@ -95,6 +95,6 @@ export class BoardVersionActionService implements BoardActionService {
 
     return this.versionDm
       .listForProject(this.currentProject.id)
-      .then(collection => collection.elements);
+      .then(collection => collection.elements.filter(version => version.status === 'open'));
   }
 }
