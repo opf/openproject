@@ -177,6 +177,10 @@ module Pages
       expect(page).to have_field('editable-toolbar-title', with: name)
     end
 
+    def expect_no_list(name)
+      expect(page).not_to have_field('editable-toolbar-title', with: name)
+    end
+
     def expect_empty
       expect(page).to have_no_selector('.boards-list--item')
     end
@@ -193,6 +197,16 @@ module Pages
       expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
 
       expect(page).to have_no_selector list_selector(name)
+    end
+
+    def expect_list_option(name, present: true)
+      page.find('.boards-list--add-item').click
+      if present
+        expect(page).to have_select('new_board_action_select', options: [name])
+      else
+        expect(page).not_to have_select('new_board_action_select', options: [name])
+      end
+      click_on 'Cancel'
     end
 
     def visit!

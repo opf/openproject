@@ -45,6 +45,7 @@ import {BoardsMenuComponent} from "core-app/modules/boards/boards-sidebar/boards
 import {BoardDmService} from "core-app/modules/boards/board/board-dm.service";
 import {NewBoardModalComponent} from "core-app/modules/boards/new-board-modal/new-board-modal.component";
 import {BoardStatusActionService} from "core-app/modules/boards/board/board-actions/status-action.service";
+import {BoardVersionActionService} from "core-app/modules/boards/board/board-actions/version-action.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
 import {BoardHighlightingTabComponent} from "core-app/modules/boards/board/configuration-modal/tabs/highlighting-tab.component";
@@ -106,8 +107,10 @@ export function registerBoardsModule(injector:Injector) {
     // Register action services
     const registry = injector.get(BoardActionsRegistryService);
     const statusAction = injector.get(BoardStatusActionService);
+    const versionAction = injector.get(BoardVersionActionService);
 
     registry.add('status', statusAction);
+    registry.add('version', versionAction);
   };
 }
 
@@ -131,6 +134,7 @@ export function registerBoardsModule(injector:Injector) {
     BoardConfigurationService,
     BoardActionsRegistryService,
     BoardStatusActionService,
+    BoardVersionActionService,
     {
       provide: APP_INITIALIZER,
       useFactory: registerBoardsModule,

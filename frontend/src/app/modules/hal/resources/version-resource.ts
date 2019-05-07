@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,27 +24,13 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {SimpleResource} from 'core-app/modules/common/path-helper/apiv3/path-resources';
-import {Apiv3QueriesPaths} from 'core-app/modules/common/path-helper/apiv3/queries/apiv3-queries-paths';
-import {Apiv3TypesPaths} from "core-app/modules/common/path-helper/apiv3/types/apiv3-types-paths";
-import {ApiV3WorkPackagesPaths} from "core-app/modules/common/path-helper/apiv3/work_packages/apiv3-work-packages-paths";
-import {Apiv3VersionPaths} from "core-app/modules/common/path-helper/apiv3/versions/apiv3-version-paths";
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
-export class Apiv3ProjectPaths extends SimpleResource {
-  // Base path
-  public readonly path:string;
+export class VersionResource extends HalResource {
+  status:string;
 
-  constructor(projectPath:string, readonly projectId:string|number) {
-    super(projectPath, projectId);
-  }
-
-  public readonly queries = new Apiv3QueriesPaths(this.path);
-
-  public readonly types = new Apiv3TypesPaths(this.path);
-
-  public readonly work_packages = new ApiV3WorkPackagesPaths(this.path);
-
-  public readonly versions = new Apiv3VersionPaths(this.path);
+  public definingProject:HalResource;
 }
+
