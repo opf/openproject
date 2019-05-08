@@ -125,11 +125,11 @@ export class DragAndDropService implements OnDestroy {
     });
 
     this.drake.on('over', (el:HTMLElement, container:HTMLElement) => {
-      container.classList.add('-drop-zone');
+      container.closest('.drop-zone')!.classList.add('-dragged-over');
     });
 
     this.drake.on('out', (el:HTMLElement, container:HTMLElement) => {
-      container.classList.remove('-drop-zone');
+      container.closest('.drop-zone')!.classList.remove('-dragged-over');
     });
 
     this.drake.on('drop', async (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) => {
