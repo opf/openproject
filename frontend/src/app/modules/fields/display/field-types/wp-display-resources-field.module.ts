@@ -26,17 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-
-export const cssClassCustomOption = 'custom-option';
+import {cssClassCustomOption, DisplayField} from "core-app/modules/fields/display/display-field.module";
 
 export class ResourcesDisplayField extends DisplayField {
-  private text = {
-    empty: this.I18n.t('js.work_packages.no_value'),
-    placeholder: this.I18n.t('js.placeholders.default')
-  };
-
   public isEmpty():boolean {
     return _.isEmpty(this.value);
   }
@@ -69,18 +61,6 @@ export class ResourcesDisplayField extends DisplayField {
     } else {
       this.renderValues(values, element);
     }
-  }
-
-  /**
-   * Render an empty placeholder if no values are present
-   */
-  protected renderEmpty(element:HTMLElement) {
-    const emptyDiv = document.createElement('div');
-    emptyDiv.setAttribute('title', this.text.empty);
-    emptyDiv.textContent = this.text.placeholder;
-    emptyDiv.classList.add(cssClassCustomOption, '-empty');
-
-    element.appendChild(emptyDiv);
   }
 
   /**

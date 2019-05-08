@@ -43,6 +43,7 @@ import {SpentTimeDisplayField} from "core-app/modules/fields/display/field-types
 import {IdDisplayField} from "core-app/modules/fields/display/field-types/wp-display-id-field.module";
 import {HighlightedResourceDisplayField} from "core-app/modules/fields/display/field-types/wp-display-highlighted-resource-field.module";
 import {TypeDisplayField} from "core-app/modules/fields/display/field-types/wp-display-type-field.module";
+import {UserDisplayField} from "core-app/modules/fields/display/field-types/wp-display-user-field.modules";
 
 export function initializeCoreDisplayFields(displayFieldService:DisplayFieldService) {
   return () => {
@@ -57,7 +58,6 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       ])
       .addFieldType(TypeDisplayField, 'type', ['Type'])
       .addFieldType(ResourceDisplayField, 'resource', [
-        'User',
         'Project',
         'Version',
         'Category',
@@ -72,6 +72,7 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addFieldType(ProgressDisplayField, 'progress', ['percentageDone'])
       .addFieldType(WorkPackageDisplayField, 'work_package', ['WorkPackage'])
       .addFieldType(SpentTimeDisplayField, 'spentTime', ['spentTime'])
-      .addFieldType(IdDisplayField, 'id', ['id']);
+      .addFieldType(IdDisplayField, 'id', ['id'])
+      .addFieldType(UserDisplayField, 'User', ['User']);
   };
 }
