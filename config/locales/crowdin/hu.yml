@@ -223,7 +223,7 @@ hu:
       reset: Alapbeállítások visszaállítása
       type_color_text: 'Kattintson az adott típus színének hozzárendeléséhez vagy
         megváltoztatásához. A kiválasztott szín különbözteti meg a feladatcsoportokat
-        a Gantt-diagramokban. Erős színek használata javasolt.
+        a Gantt-diagramokban. Élénk színek használata javasolt.
 
 '
   versions:
@@ -1056,7 +1056,7 @@ hu:
   error_can_not_remove_role: Ez a szerepkör használatban van, nem lehet törölni
   error_can_not_reopen_work_package_on_closed_version: A feladatcsoport lezárt verzió,
     nem lehet újra nyitni
-  error_can_not_find_all_resources: Nem található a kéréshez tartozó minden erőforrás.
+  error_can_not_find_all_resources: Nem található a kéréshez tartozó összes erőforrás.
   error_check_user_and_role: Légy szíves válassz felhasználót és szerepkört
   error_code: 'Hibakód: %{code}'
   error_cookie_missing: Hiányzó OpenProject cookie. Ellenőrizze, hogy böngészőjében
@@ -1084,10 +1084,10 @@ hu:
   error_work_package_not_found_in_project: A feladatcsoport nem található, vagy nem
     tartozik ehhez a projekthez
   error_must_be_project_member: projekt tagnak kell lennie
-  error_migrations_are_pending: Az Openproject adatbázisának költöztetése függőben
+  error_migrations_are_pending: Az Openproject adatbázisainak költöztetése függőben
     van. Valószínűleg elmulasztotta lefuttatni az átvitelt a legutóbbi frissítéskor.
     Kérjük, a megfelelő frissítéshez kövesse a frissítési útmutatót.
-  error_migrations_visit_upgrade_guides: Kérjük, látogassa meg a frissítési útmutatót
+  error_migrations_visit_upgrade_guides: Kérjük, látogassa meg frissítési útmutatónkat
   error_no_default_work_package_status: Nincs alapértelmezett feladatcsoport állapot
     meghatározva. Kérjük, ellenőrizze a konfigurációt ("Adminisztráció - feladatcsoport
     állapotok").
@@ -2783,10 +2783,10 @@ hu:
   menu_item: Menüpont
   menu_item_setting: Látható
   mysql_deprecation:
-    notice: 'Az Openproject jövőbeli verziói valószínűleg nem vagy kevésbé fogják
+    notice: 'Az Openproject jövőbeli verziói valószínűleg nem vagy korlátozottan fogják
       támogatni a MySQL és MariaDB adatbázisokat. Az Ön telepítése még MySQL-t használ,
-      ezért azt javasoljuk, költöztesse PostgreSQL adatbázisra. A folyamat egyszerű,
-      ha követi az útmutatónkat:
+      ezért azt javasoljuk, költöztesse át PostgreSQL adatbázisra. Az eljárás egyszerű,
+      kövesse útmutatónkat:
 
 '
   wiki_menu_item_for: Wikipage "%{title}" menüeleme
