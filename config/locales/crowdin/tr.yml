@@ -526,7 +526,7 @@ tr:
         too_long: çok uzun (en fazla %{count} karakterdir).
         too_short: çok kısa (en az %{count} karakterdir).
         unchangeable: değiştirilemez.
-        unremovable: kaldırılamaz
+        unremovable: kaldırılamadı.
         wrong_length: uzunluğu yanlıştır (%{count} karakter olmalıdır).
       models:
         custom_field:
@@ -1360,7 +1360,7 @@ tr:
   label_equals: şuysa
   label_everywhere: heryer
   label_example: Örnek
-  label_import: İçeri Aktarmak
+  label_import: İçeri Aktar
   label_export_to: 'Ayrıca şu adreste bulunabilir:'
   label_expanded_click_to_collapse: Genişletilmiş. Daraltmak için tıklayın
   label_f_hour: "%{value} saat"
@@ -1398,7 +1398,7 @@ tr:
   label_hierarchy_leaf: Hiyerarşi ağacı
   label_home: Ana sayfa
   label_subject_or_id: Konu ya da ID
-  label_impressum: Yasal Uyarı
+  label_impressum: Yasal uyarı
   label_in: şurada
   label_in_less_than: daha azdır
   label_in_more_than: daha fazla
@@ -2931,8 +2931,8 @@ tr:
         başarılı oldu."
       none_given: Hiçbir OAuth uygulamasına kullanıcı hesabınıza erişim izni verilmedi.
     x_active_tokens:
-      one: "%{count} bir aktif belirteç"
-      other: "%{count} active token"
+      one: bir aktif belirteç
+      other: "%{count} aktif belirteç"
     flows:
       authorization_code: Yetki kodu akışı
       client_credentials: Müşteri kimlik bilgisi akışı
