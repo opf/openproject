@@ -23,8 +23,6 @@ export class BoardHighlightingTabComponent implements TabComponent {
     highlighting_mode: {
       description: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.description'),
       none: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.none'),
-      inline: this.I18n.t('js.card.highlighting.inline'),
-      status: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.status'),
       type: this.I18n.t('js.work_packages.properties.type'),
       priority: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.priority'),
       entire_card_by: this.I18n.t('js.card.highlighting.entire_card_by'),

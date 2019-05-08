@@ -51,7 +51,6 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     type: {
       association: 'type',
       sortable: "position",
-      highlightable: true,
       groupable: true
     },
     parent: {
