@@ -172,10 +172,7 @@ export class WorkPackageCardViewComponent  implements OnInit {
   }
 
   private attributeHighlighting(type:string, wp:WorkPackageResource) {
-    if (this.highlightingMode === 'inline') {
-      return Highlighting.inlineClass(type, wp.type.id!);
-    }
-    return '';
+    return Highlighting.inlineClass(type, wp.type.id!);
   }
 
   registerDragAndDrop() {

@@ -82,8 +82,7 @@ describe 'Work Package boards spec', type: :feature, js: true do
     board_page.expect_card 'Open', wp.subject
     board_page.expect_card 'Open', wp2.subject
 
-    # Highlight inline
-    board_page.change_board_highlighting 'inline'
+    # Highlight type inline is always active
     expect(page).to have_selector('.__hl_inline_type_' + type.id.to_s)
     expect(page).to have_selector('.__hl_inline_type_' + type2.id.to_s)
 
@@ -99,7 +98,11 @@ describe 'Work Package boards spec', type: :feature, js: true do
 
     # Disable highlighting
     board_page.change_board_highlighting 'none'
-    expect(page).not_to have_selector('.__hl_background_priority_' + priority.id.to_s)
-    expect(page).not_to have_selector('.__hl_background_priority_' + priority2.id.to_s)
+    expect(page).not_to have_selector('.__hl_background_type_' + type.id.to_s)
+    expect(page).not_to have_selector('.__hl_background_type_' + type2.id.to_s)
+
+    # Type is still shown highlighted
+    expect(page).to have_selector('.__hl_inline_type_' + type.id.to_s)
+    expect(page).to have_selector('.__hl_inline_type_' + type2.id.to_s)
   end
 end
