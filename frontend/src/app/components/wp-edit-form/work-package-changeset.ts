@@ -166,7 +166,11 @@ export class WorkPackageChangeset {
         .update(payload)
         .then((form:FormResource) => {
           this.form = form;
-          this.workPackage.$initialize({ ...form.payload.$source, id: this.workPackage.id });
+          this.workPackage.$initialize({
+            ...this.workPackage.$source,
+            ...form.payload.$source,
+            id: this.workPackage.id
+          });
 
           this.buildResource();
 

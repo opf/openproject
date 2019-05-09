@@ -86,8 +86,19 @@ class WorkPackages::SetAttributesService
     work_package.author ||= user
     work_package.status ||= Status.default
 
+    unless work_package.description.present?
+      set_templated_description
+    end
+
     if Setting.work_package_startdate_is_adddate?
       work_package.start_date ||= Date.today
+    end
+  end
+
+  def set_templated_description
+    type = work_package.type
+    if type&.description&.present?
+      work_package.description = type.description
     end
   end
 
