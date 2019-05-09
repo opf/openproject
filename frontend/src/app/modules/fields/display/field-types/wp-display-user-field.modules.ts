@@ -27,8 +27,11 @@
 // ++
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
 
 export class UserDisplayField extends DisplayField {
+  public userDisplayPortal = this.$injector.get(UserFieldPortalService);
+
   public get value() {
     if (this.schema) {
       return this.attribute && this.attribute.name;
@@ -38,13 +41,11 @@ export class UserDisplayField extends DisplayField {
     }
   }
 
-  public render(element:HTMLElement, displayText:string): void {
+  public render(element:HTMLElement, displayText:string):void {
     if (this.placeholder === displayText) {
       this.renderEmpty(element);
     } else {
-      element.innerHTML = `
-        <div class="avatar-mini avatar-default">${displayText.charAt(0)}</div>
-      `;
+      this.userDisplayPortal.create(element, this.attribute)
     }
   }
 }

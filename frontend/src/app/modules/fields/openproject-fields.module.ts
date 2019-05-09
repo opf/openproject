@@ -48,6 +48,8 @@ import {EditFieldControlsComponent,} from "core-app/modules/fields/edit/field-co
 import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
 import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
 import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-editor.module';
+import {UserFieldPortalComponent} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal.component";
+import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
 
 @NgModule({
   imports: [
@@ -58,9 +60,11 @@ import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-edito
   exports: [
     EditFieldControlsComponent,
     EditFormPortalComponent,
+    UserFieldPortalComponent,
   ],
   providers: [
     WorkPackageEditingPortalService,
+    UserFieldPortalService,
     DisplayFieldService,
     EditFieldService,
     { provide: APP_INITIALIZER, useFactory: initializeCoreEditFields, deps: [EditFieldService], multi: true },
@@ -68,6 +72,7 @@ import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-edito
   ],
   declarations: [
     EditFormPortalComponent,
+    UserFieldPortalComponent,
     EditFieldComponent,
     BooleanEditFieldComponent,
     DateEditFieldComponent,
@@ -83,6 +88,7 @@ import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-edito
   ],
   entryComponents: [
     EditFormPortalComponent,
+    UserFieldPortalComponent,
     EditFieldComponent,
     BooleanEditFieldComponent,
     DateEditFieldComponent,
