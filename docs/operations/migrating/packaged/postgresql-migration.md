@@ -16,7 +16,6 @@ This guide should leave you with a set of archives that you should manually move
 - **Repositories**: svn- and git-&lt;timestamp&gt;.tar.gz
 
 
-
 ## Installation of pgloader
 
 We ship a custom version of pgloader (named `pgloader-ccl`), which embeds some memory optimizations useful when you are migrating from a large MySQL database. This also allows us to provide a unified migration experience for all installation types. This package is available for all the currently supported distributions at https://packager.io/gh/opf/pgloader-ccl.
@@ -124,11 +123,6 @@ openproject config:get DATABASE_URL
 ```
 
 
-
-**Please note:** Ensure that the URL starts with `mysql://` , not with ` mysql2://` !
-
-
-
 ## Configuring OpenProject to use the PostgreSQL database
 
 Form the `DATABASE_URL` string to match your entered password and pass it to the openproject configuration. The following command also exports it to the current shell as `POSTGRES_DATABASE_URL`
@@ -139,9 +133,7 @@ export POSTGRES_DATABASE_URL="postgresql://openproject:<PASSWORD>@localhost/open
 ```
 
 
-
 **Please note:**  Replace  `<PASSWORD>`  with the password you provided above. If you used any special characters, [check whether they need to be percent-encoded](https://developer.mozilla.org/en-US/docs/Glossary/percent-encoding) for the database URL.
-
 
 
 ## Migrating the database
