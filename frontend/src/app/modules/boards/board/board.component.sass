@@ -55,12 +55,15 @@ $board-list-max-width: 300px
 .boards-list--add-item
   flex: 0 0 auto
   // Same height as board list header
-  height: 43px
-  line-height: 43px
-  margin-left: 15px
+  height: 42px
+  line-height: 42px
+  margin: 5px 0 0 15px
   font-size: 14px
   cursor: pointer
   color: var(--gray-dark)
+
+  .board--container.-free &
+    margin-top: 0
 
   &:hover
     color: var(--body-font-color)
