@@ -35,6 +35,7 @@ describe 'new work package', js: true do
     if expect_success
       notification.expect_success('Successful creation.')
     end
+
   end
 
   def create_work_package(type, project)
@@ -92,7 +93,8 @@ describe 'new work package', js: true do
       create_method.call(type_bug, project.name)
       expect(page).to have_selector(safeguard_selector, wait: 10)
 
-      type_field.expect_state_text type_bug.name
+      # Use regex to not be case sensitive
+      type_field.expect_state_text /#{type_bug.name}/i
     end
 
     it 'saves the work package with enter' do

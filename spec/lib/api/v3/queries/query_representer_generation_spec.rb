@@ -571,7 +571,7 @@ describe ::API::V3::Queries::QueryRepresenter do
             end
 
             let(:highlighted_attributes) do
-              [status, type, priority, due_date]
+              [status, priority, due_date]
             end
 
             it 'links an array of highlighted attributes' do

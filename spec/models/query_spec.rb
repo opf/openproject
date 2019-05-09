@@ -92,7 +92,7 @@ describe Query, type: :model do
   describe 'highlighting' do
     context 'with EE' do
       it '#hightlighted_attrirbutes accepts valid values' do
-        query.highlighted_attributes = %w(status type priority due_date)
+        query.highlighted_attributes = %w(status priority due_date)
         expect(query).to be_valid
       end
 
@@ -132,7 +132,7 @@ describe Query, type: :model do
       end
 
       describe '#highlighted_columns returns a valid subset of Columns' do
-        let(:highlighted_attributes) { %i{status type priority due_date foo} }
+        let(:highlighted_attributes) { %i{status priority due_date foo} }
 
         before do
           query.highlighted_attributes = highlighted_attributes
@@ -142,7 +142,7 @@ describe Query, type: :model do
           query.valid_subset!
 
           expect(query.highlighted_columns.map(&:name))
-            .to match_array %i{status type priority due_date}
+            .to match_array %i{status priority due_date}
         end
       end
     end
@@ -601,7 +601,7 @@ describe Query, type: :model do
     end
 
     context 'highlighted_attributes' do
-      let(:highlighted_attributes) { %i{status type priority due_date foo} }
+      let(:highlighted_attributes) { %i{status priority due_date foo} }
 
       before do
         query.highlighted_attributes = highlighted_attributes
@@ -611,7 +611,7 @@ describe Query, type: :model do
         query.valid_subset!
 
         expect(query.highlighted_attributes)
-          .to match_array %i{status type priority due_date}
+          .to match_array %i{status priority due_date}
       end
     end
   end
