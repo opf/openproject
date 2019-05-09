@@ -8,7 +8,7 @@ This guide will migrate your packaged MySQL installation to a PostgreSQL install
 
 Before beginning the migration, please ensure you have created a backup of your current installation. Please follow our [backup and restore documentation](https://www.openproject.org/operations/backup/backup-guide-packaged-installation/) for our packaged installation.
 
-This guide should leave you with a set of archives that you should manually move to your new environment:
+This guide should leave you with a set of archives that you can use to restore, should the migration end up in an unstable state:
 
 - **Database**: mysql-dump-&lt;timestamp&gt;.sql.gz
 - **Attachments**: attachments-&lt;timestamp&gt;.tar.gz
@@ -111,9 +111,9 @@ Lastly, exit the system user
 # You will be root again now.
 ```
 
-## Remember the current database URL
+## Set the MYSQL_DATABASE_URL to migrate from
 
-Note down or copy the current MySQL `DATABASE_URL`. The following command exports it to the curent shell as `MYSQL_DATABASE_URL`:
+The following command saves the current MySQL `DATABASE_URL` as `MYSQL_DATABASE_URL` in the OpenProject configuration:
 
 ```bash
 openproject config:set MYSQL_DATABASE_URL=$(openproject config:get DATABASE_URL)
@@ -123,10 +123,11 @@ openproject config:get MYSQL_DATABASE_URL
 # mysql2://user:password@localhost:3306/dbname
 ```
 
+This will be used later by the migration script.
 
 ## Configuring OpenProject to use the PostgreSQL database
 
-Form the `DATABASE_URL` string to match your entered password and pass it to the openproject configuration. The following command also exports it to the current shell as `POSTGRES_DATABASE_URL`
+Form the `DATABASE_URL` string to match your selected password and add it to the openproject configuration:
 
 ```bash
 openproject config:set DATABASE_URL="postgresql://openproject:<PASSWORD>@localhost/openproject"
