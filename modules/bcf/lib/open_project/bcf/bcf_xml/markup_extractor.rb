@@ -9,7 +9,7 @@ module OpenProject::Bcf::BcfXml
 
     def initialize(entry)
       @markup = entry.get_input_stream.read
-      @doc = Nokogiri::XML markup
+      @doc = Nokogiri::XML markup, nil, 'UTF-8'
     end
 
     def uuid
