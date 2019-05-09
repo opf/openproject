@@ -19,37 +19,63 @@ This guide should leave you with a set of archives that you should manually move
 
 ## Installation of pgloader
 
+We ship a custom version of pgloader (named `pgloader-ccl`), which embeds some memory optimizations useful when you are migrating from a large MySQL database. This also allows us to provide a unified migration experience for all installation types. This package is available for all the currently supported distributions at https://packager.io/gh/opf/pgloader-ccl.
 
-
-### Apt Systems
-
-For systems with APT package managers (Debian, Ubuntu), you should already have `pgloader` available and can install as root with with:
+### Ubuntu 18.04
 
 ```
-[root@host] apt-get install pgloader
+wget -qO- https://dl.packager.io/srv/opf/pgloader-ccl/key | sudo apt-key add -
+sudo wget -O /etc/apt/sources.list.d/pgloader-ccl.list \
+  https://dl.packager.io/srv/opf/pgloader-ccl/master/installer/ubuntu/18.04.repo
+sudo apt-get update
+sudo apt-get install pgloader-ccl
 ```
 
-
-
-[For other installations, please see the project page itself for steps on installing with Docker or from source](https://github.com/dimitri/pgloader#install).
-
-
-
-After installation, check that pgloader is in your path and accessible:
-
-
+### Ubuntu 16.04
 
 ```
-[root@host] pgloader --version
-
-# Should output something of the kind
-pgloader version "3.5.2"
-compiled with SBCL 1.4.5.debian
+wget -qO- https://dl.packager.io/srv/opf/pgloader-ccl/key | sudo apt-key add -
+sudo wget -O /etc/apt/sources.list.d/pgloader-ccl.list \
+  https://dl.packager.io/srv/opf/pgloader-ccl/master/installer/ubuntu/16.04.repo
+sudo apt-get update
+sudo apt-get install pgloader-ccl
 ```
 
+### Debian 9
 
+```
+wget -qO- https://dl.packager.io/srv/opf/pgloader-ccl/key | sudo apt-key add -
+sudo wget -O /etc/apt/sources.list.d/pgloader-ccl.list \
+  https://dl.packager.io/srv/opf/pgloader-ccl/master/installer/debian/9.repo
+sudo apt-get update
+sudo apt-get install pgloader-ccl
+```
 
+### Debian 8
 
+```
+wget -qO- https://dl.packager.io/srv/opf/pgloader-ccl/key | sudo apt-key add -
+sudo wget -O /etc/apt/sources.list.d/pgloader-ccl.list \
+  https://dl.packager.io/srv/opf/pgloader-ccl/master/installer/debian/8.repo
+sudo apt-get update
+sudo apt-get install pgloader-ccl
+```
+
+### CentOS / RHEL 7
+
+```
+sudo wget -O /etc/yum.repos.d/pgloader-ccl.repo \
+  https://dl.packager.io/srv/opf/pgloader-ccl/master/installer/el/7.repo
+sudo yum install pgloader-ccl
+```
+
+### SuSE Enterprise Linux 12
+
+```
+sudo wget -O /etc/zypp/repos.d/pgloader-ccl.repo \
+  https://dl.packager.io/srv/opf/pgloader-ccl/master/installer/sles/12.repo
+sudo zypper install pgloader-ccl
+```
 
 ## Optional: Install and create PostgreSQL database
 
@@ -95,9 +121,6 @@ openproject config:get DATABASE_URL
 
 # Will output something of the kind
 # mysql2://user:password@localhost:3306/dbname
-
-# Re-export but replace mysql2 with mysql!
-export MYSQL_DATABASE_URL="mysql://user:password@localhost:3306/dbname"
 ```
 
 
@@ -121,49 +144,21 @@ export POSTGRES_DATABASE_URL="postgresql://openproject:<PASSWORD>@localhost/open
 
 
 
-## Migrating the databases
+## Migrating the database
 
-You are now ready to use `pgloader`. You simply point it the old and new database URL while specifying the option
-`--with "preserve index names"` which ensures that index names are kept identical.
+You are now ready to migrate from MySQL to PostgreSQL. The OpenProject packages embed a migration script that can be launched as follows:
 
-```bash
-pgloader --verbose --with "preserve index names" $MYSQL_DATABASE_URL $POSTGRES_DATABASE_URL
+```
+sudo openproject run ./docker/mysql-to-postgres/bin/migrate-mysql-to-postgres MYSQL_DATABASE_URL="mysql2://user:password@localhost:3306/dbname"
 ```
 
 This might take a while depending on current installation size.
 
-### Index attachments for fulltext search
-
-One of the benefits of using PostgreSQL over MySql is the support for fulltext search on attachments. The fulltext search feature relies on the existence of two additional columns for attachments that need to be added now ff the migration to PostgreSql is done for an OpenProject >= **8.0**. If the OpenProject version is below **8.0** the next two commands can be skipped.
-
-In order to add the necessary columns to the database, run
-
-```bash
-openproject run rails db:migrate:redo VERSION=20180122135443
-```
-
-After the columns have been added, the index has to be created for already uploaded attachments
-
-```bash
-openproject run rails attachments:extract_fulltext_where_missing
-```
-
-If a large set of attachments already exists, executing the command might take a while.
-
-### Indexes on relations table
-
-You will also need to rebuild the index on the relations table. Simply run the following command
-to re-run the migration.
-
-```bash
-openproject run rails db:migrate:redo VERSION=20180105130053
-```
-
 ## Optional: Uninstall MySQL
 
-If you let the packaged installation auto-install MySQL before and no longer need it, you can remove MySQL packages. 
+If the packaged installation auto-installed MySQL before and you no longer need it (i.e. only OpenProject used a MySQL database on your server), you can remove the MySQL packages. 
 
-You can check the output of `dpkg -l | grep mysql` to check for packages removable. Only keep `libmysqlclient-dev`  for Ruby dependencies on the mysql adapter.
+You can check the output of `dpkg -l | grep mysql` to check for packages to be removed. Only keep `libmysqlclient-dev`  for Ruby dependencies on the mysql adapter.
 
 The following is an exemplary removal of an installed version MySQL 5.7. 
 
@@ -171,12 +166,12 @@ The following is an exemplary removal of an installed version MySQL 5.7.
 [root@host] apt-get remove mysql-server
 ```
 
-**Note:** OpenProject still depends on `mysql-common` and other dev libraries of MySQL to build the `mysql2` gem for talking to MySQL databases. Depending on what packages you try to uninstall, `openproject` will be listed as a dependent package to be uninstalled if trying to uninstall `mysql-common`. Be careful here with the confirmation of removal, because it might just remove openproject itself due to the apt depndency management.
+**Note:** OpenProject still depends on `mysql-common` and other dev libraries of MySQL to build the `mysql2` gem for talking to MySQL databases. Depending on what packages you try to uninstall, `openproject` will be listed as a dependent package to be uninstalled if trying to uninstall `mysql-common`. Be careful here with the confirmation of removal, because it might just remove openproject itself due to the apt dependency management.
 
 
 ## Running openproject reconfigure
 
-After you restored all data and updated your installer.dat, all you need to do is run through the configuration process of the packaged installation to remove the MySQL configuration
+After you migrated your data, all you need to do is run through the configuration process of the packaged installation to remove the MySQL configuration
 
 ```bash
 openproject reconfigure
