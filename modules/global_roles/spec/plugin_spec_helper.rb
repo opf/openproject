@@ -36,6 +36,14 @@ module OpenProject
         Redmine::Plugin.all.detect { |x| x.id == name.to_sym }.present?
       end
 
+      def doubled_permissions
+        [
+          double('Permission', name: :perm1, project_module: 'Foo'),
+          double('Permission', name: :perm2, project_module: 'Foo'),
+          double('Permission', name: :perm3, project_module: 'Foo'),
+        ]
+      end
+
       def mocks_for_member_roles
         @role = mock_model Role
         allow(Role).to receive(:new).and_return(@role)
@@ -57,9 +65,10 @@ module OpenProject
       end
 
       def mock_permissions_on(role)
-        permissions = [:perm1, :perm2, :perm3]
+        permissions = doubled_permissions
         allow(role).to receive(:setable_permissions).and_return(permissions)
-        allow(role).to receive(:permissions).and_return(permissions << :perm4)
+        perm4 = double('Permission', name: :perm4, project_module: 'Foo')
+        allow(role).to receive(:permissions).and_return(permissions << perm4)
       end
 
       def mock_role_find
@@ -129,6 +138,7 @@ module OpenProject
         permission = Object.new
         allow(permission).to receive(:public?).and_return(is_public)
         allow(permission).to receive(:global?).and_return(is_global)
+        allow(permission).to receive(:project_module).and_return('Foo')
         permission
       end
 

@@ -18,8 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 ++#%>
 
-<% perms_by_module = permissions.group_by {|p| p.project_module.to_s} %>
-<% perms_by_module.keys.sort.each do |mod| %>
+<% @permissions.each do |mod, mod_permissions| %>
   <% if globalRole === 'false' %>
     <% module_name = mod.blank? ? 'fieldset--' + Project.model_name.human.downcase.gsub(' ', '_') : 'fieldset--' + l_or_humanize(mod, prefix: 'project_module_').downcase.gsub(' ', '_') %>
     <fieldset class="form--fieldset -collapsible" id="<%= module_name %>">
@@ -37,7 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       </span>
     </div>
     <div class="-columns-2">
-      <% perms_by_module[mod].each do |permission| %>
+      <% (mod_permissions || []).each do |permission| %>
         <div class="form--field">
           <div class="form--field-container">
             <label class="form--label-with-check-box">
