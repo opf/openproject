@@ -29,27 +29,33 @@
 require 'spec_helper'
 
 describe ::Bcf::IssuesController, type: :controller do
-  let(:manage_bcf_role) { FactoryBot.create(:role, permissions: %i[manage_bcf view_linked_issues view_work_packages]) }
-  let(:collaborator_role) {FactoryBot.create(:role, permissions: %i[view_linked_issues view_work_packages])}
+  let(:manage_bcf_role) do
+    FactoryBot.create(:role,
+                      permissions: %i[manage_bcf view_linked_issues view_work_packages])
+  end
+  let(:collaborator_role) do
+    FactoryBot.create(:role,
+                      permissions: %i[view_linked_issues view_work_packages])
+  end
   let(:bcf_manager) { FactoryBot.create(:user, firstname: "BCF Manager") }
   let(:collaborator) { FactoryBot.create(:user) }
 
   let(:non_member) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create(:project,
-                                    identifier: 'bim_project'
-  ) }
-  let(:member) {
+  let(:project) do
+    FactoryBot.create(:project, identifier: 'bim_project')
+  end
+  let(:member) do
     FactoryBot.create(:member,
                       project: project,
                       user: collaborator,
                       roles: [collaborator_role])
-  }
-  let(:bcf_manager_member) {
+  end
+  let(:bcf_manager_member) do
     FactoryBot.create(:member,
                       project: project,
                       user: bcf_manager,
                       roles: [manage_bcf_role])
-  }
+  end
   before do
     bcf_manager_member
     member
@@ -58,9 +64,7 @@ describe ::Bcf::IssuesController, type: :controller do
 
   shared_examples_for 'check permissions' do
     context 'without sufficient permissions' do
-      before do
-        action
-      end
+      before { action }
 
       context 'not member of project' do
         let(:bcf_manager_member) {}
@@ -70,12 +74,12 @@ describe ::Bcf::IssuesController, type: :controller do
       end
 
       context 'no manage_bcf permission' do
-        let(:bcf_manager_member) {
+        let(:bcf_manager_member) do
           FactoryBot.create(:member,
                             project: project,
                             user: bcf_manager,
                             roles: [collaborator_role])
-        }
+        end
         it 'will return "not authorized"' do
           expect(response).to_not be_successful
         end
@@ -84,18 +88,24 @@ describe ::Bcf::IssuesController, type: :controller do
   end
 
   describe '#prepare_import' do
-    let(:params) { { project_id: project.identifier.to_s,
-                     bcf_file: file} }
-
+    let(:params) do
+      {
+        project_id: project.identifier.to_s,
+        bcf_file: file
+      }
+    end
     let(:action) do
       post :prepare_import, params: params
     end
 
     context 'with valid BCF file' do
       let(:filename) { 'MaximumInformation.bcf' }
-      let(:file) { Rack::Test::UploadedFile.new(
-        File.join(Rails.root, "modules/bcf/spec/fixtures/files/#{filename}"),
-        'application/octet-stream') }
+      let(:file) do
+        Rack::Test::UploadedFile.new(
+          File.join(Rails.root, "modules/bcf/spec/fixtures/files/#{filename}"),
+          'application/octet-stream'
+        )
+      end
 
       it 'should be successful' do
         expect { action }.to change { Attachment.count }.by(1)
@@ -120,12 +130,14 @@ describe ::Bcf::IssuesController, type: :controller do
       post :perform_import, params: { project_id: project.identifier.to_s }
     end
 
-
     context 'with valid BCF file' do
       let(:filename) { 'MaximumInformation.bcf' }
-      let(:file) { Rack::Test::UploadedFile.new(
-        File.join(Rails.root, "modules/bcf/spec/fixtures/files/#{filename}"),
-        'application/octet-stream') }
+      let(:file) do
+        Rack::Test::UploadedFile.new(
+          File.join(Rails.root, "modules/bcf/spec/fixtures/files/#{filename}"),
+          'application/octet-stream'
+        )
+      end
 
       before do
         allow_any_instance_of(Attachment).to receive(:local_file).and_return(file)

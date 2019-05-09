@@ -140,15 +140,5 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         .including('id')
         .at_path('bcf/viewpoints/')
     end
-
-    it "contains topic labels" do
-      is_expected.to be_json_eql([
-                                   {
-                                     labels: ["Structural", "IT Development"]
-                                   }
-                                 ].to_json)
-                       .including('id')
-                       .at_path('bcf/topic/')
-    end
   end
 end

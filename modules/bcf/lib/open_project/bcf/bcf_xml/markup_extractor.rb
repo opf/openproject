@@ -73,11 +73,12 @@ module OpenProject::Bcf::BcfXml
     end
 
     def mail_addresses
-      people.filter do |person|
-        # person value is an email address
-        person =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-      end
-      .uniq
+      people
+        .filter do |person|
+          # person value is an email address
+          person =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+        end
+        .uniq
     end
 
     def people

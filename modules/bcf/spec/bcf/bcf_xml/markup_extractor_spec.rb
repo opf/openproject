@@ -22,9 +22,10 @@ require 'spec_helper'
 describe ::OpenProject::Bcf::BcfXml::MarkupExtractor do
   let(:filename) { 'MaximumInformation.bcf' }
   let(:file) do
-   Rack::Test::UploadedFile.new(
+    Rack::Test::UploadedFile.new(
       File.join(Rails.root, "modules/bcf/spec/fixtures/files/#{filename}"),
-      'application/octet-stream')
+      'application/octet-stream'
+    )
   end
   let(:entries) do
     Zip::File.open(file) do |zip|
@@ -32,7 +33,7 @@ describe ::OpenProject::Bcf::BcfXml::MarkupExtractor do
     end
   end
 
-  subject { described_class.new entries.second }
+  subject { described_class.new(entries.first) }
 
   it '#initialize' do
     expect(subject).to be_a described_class

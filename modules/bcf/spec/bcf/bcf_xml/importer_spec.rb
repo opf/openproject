@@ -27,20 +27,35 @@ describe ::OpenProject::Bcf::BcfXml::Importer do
       'application/octet-stream')
   end
   let(:type) { FactoryBot.create :type, name: 'Issue [BCF]' }
-  let(:project) { FactoryBot.create(:project,
-                                    identifier: 'bim_project',
-                                    types: [type]) }
-  let(:member_role) { FactoryBot.create(:role, permissions: %i[view_linked_issues view_work_packages]) }
-  let(:manage_bcf_role) { FactoryBot.create(:role, permissions: %i[manage_bcf view_linked_issues view_work_packages edit_work_packages add_work_packages]) }
+  let(:project) do
+    FactoryBot.create(:project,
+                      identifier: 'bim_project',
+                      types: [type])
+  end
+  let(:member_role) do
+    FactoryBot.create(:role,
+                      permissions: %i[view_linked_issues view_work_packages])
+  end
+  let(:manage_bcf_role) do
+    FactoryBot.create(
+      :role,
+      permissions: %i[manage_bcf view_linked_issues view_work_packages edit_work_packages add_work_packages]
+    )
+  end
   let(:bcf_manager) { FactoryBot.create(:user) }
-  let(:workflow) { FactoryBot.create(:workflow_with_default_status, role: manage_bcf_role, type: type) }
+  let(:workflow) do
+    FactoryBot.create(:workflow_with_default_status,
+                      role: manage_bcf_role,
+                      type: type)
+  end
   let(:priority) { FactoryBot.create :default_priority }
   let(:bcf_manager_member) {
     FactoryBot.create(:member,
-    project: project,
-    user: bcf_manager,
-    roles: [manage_bcf_role, member_role])
+                      project: project,
+                      user: bcf_manager,
+                      roles: [manage_bcf_role, member_role])
   }
+
   subject { described_class.new project, current_user: bcf_manager }
 
   before do
@@ -64,7 +79,7 @@ describe ::OpenProject::Bcf::BcfXml::Importer do
 
   describe '#import!' do
     it 'imports successfully' do
-      expect(subject.import! file).to be_present
+      expect(subject.import!(file)).to be_present
     end
 
     it 'creates to work packages' do
