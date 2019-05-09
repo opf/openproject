@@ -116,7 +116,8 @@ Lastly, exit the system user
 Note down or copy the current MySQL `DATABASE_URL`. The following command exports it to the curent shell as `MYSQL_DATABASE_URL`:
 
 ```bash
-openproject config:get DATABASE_URL
+openproject config:set MYSQL_DATABASE_URL=$(openproject config:get DATABASE_URL)
+openproject config:get MYSQL_DATABASE_URL
 
 # Will output something of the kind
 # mysql2://user:password@localhost:3306/dbname
@@ -129,7 +130,6 @@ Form the `DATABASE_URL` string to match your entered password and pass it to the
 
 ```bash
 openproject config:set DATABASE_URL="postgresql://openproject:<PASSWORD>@localhost/openproject"
-export POSTGRES_DATABASE_URL="postgresql://openproject:<PASSWORD>@localhost/openproject"
 ```
 
 
@@ -141,7 +141,7 @@ export POSTGRES_DATABASE_URL="postgresql://openproject:<PASSWORD>@localhost/open
 You are now ready to migrate from MySQL to PostgreSQL. The OpenProject packages embed a migration script that can be launched as follows:
 
 ```
-sudo openproject run ./docker/mysql-to-postgres/bin/migrate-mysql-to-postgres MYSQL_DATABASE_URL="mysql2://user:password@localhost:3306/dbname"
+sudo openproject run ./docker/mysql-to-postgres/bin/migrate-mysql-to-postgres
 ```
 
 This might take a while depending on current installation size.
@@ -156,6 +156,7 @@ The following is an exemplary removal of an installed version MySQL 5.7.
 
 ```
 [root@host] apt-get remove mysql-server
+[root@host] openproject config:unset MYSQL_DATABASE_URL
 ```
 
 **Note:** OpenProject still depends on `mysql-common` and other dev libraries of MySQL to build the `mysql2` gem for talking to MySQL databases. Depending on what packages you try to uninstall, `openproject` will be listed as a dependent package to be uninstalled if trying to uninstall `mysql-common`. Be careful here with the confirmation of removal, because it might just remove openproject itself due to the apt dependency management.
