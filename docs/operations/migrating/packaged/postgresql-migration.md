@@ -116,7 +116,7 @@ Lastly, exit the system user
 The following command saves the current MySQL `DATABASE_URL` as `MYSQL_DATABASE_URL` in the OpenProject configuration:
 
 ```bash
-openproject config:set MYSQL_DATABASE_URL=$(openproject config:get DATABASE_URL)
+openproject config:set MYSQL_DATABASE_URL="$(openproject config:get DATABASE_URL)"
 openproject config:get MYSQL_DATABASE_URL
 
 # Will output something of the kind
