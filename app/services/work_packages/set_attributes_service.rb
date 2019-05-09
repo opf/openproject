@@ -115,7 +115,7 @@ class WorkPackages::SetAttributesService
   end
 
   def update_project_dependent_attributes
-    return unless work_package.project_id_changed? && work_package.project_id
+    return unless work_package.project_id_changed? && work_package.project
 
     set_fixed_version_to_nil
     reassign_category
