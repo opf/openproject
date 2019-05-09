@@ -87,6 +87,16 @@ export class WorkPackageChangeset {
     this.resetForm();
   }
 
+  /**
+   * Remove some of the changes by key
+   * @param changes
+   */
+  public clearSome(...changes:string[]) {
+    changes.forEach((key) => {
+      delete this.changes[key];
+    });
+  }
+
   public resetForm() {
     this.form = null;
   }
@@ -156,6 +166,7 @@ export class WorkPackageChangeset {
         .update(payload)
         .then((form:FormResource) => {
           this.form = form;
+          this.workPackage.$initialize({ ...form.payload.$source, id: this.workPackage.id });
 
           this.buildResource();
 
@@ -359,7 +370,7 @@ export class WorkPackageChangeset {
       return;
     }
 
-    let payload:any = this.workPackage.$source;
+    let payload:any = this.workPackage.$plain();
 
     const resource = this.halResourceService.createHalResourceOfType('WorkPackage', this.mergeWithPayload(payload));
 

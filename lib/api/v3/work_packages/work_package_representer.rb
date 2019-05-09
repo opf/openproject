@@ -324,7 +324,14 @@ module API
         property :description,
                  exec_context: :decorator,
                  getter: ->(*) {
-                   ::API::Decorators::Formattable.new(represented.description, object: represented)
+                   type = represented&.type
+                   description = represented&.description
+
+                   if !description.present? && type&.description
+                     ::API::Decorators::Formattable.new(type.description, object: represented)
+                   else
+                     ::API::Decorators::Formattable.new(description, object: represented)
+                   end
                  },
                  setter: ->(fragment:, **) {
                    represented.description = fragment['raw']

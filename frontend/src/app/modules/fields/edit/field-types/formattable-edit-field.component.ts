@@ -131,6 +131,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public reset() {
+    this.changeset.clearSome(this.name);
+
     if (this.instance) {
       this.instance.content = this.rawValue;
     }
@@ -154,5 +156,20 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
 
   public get isFormattable() {
     return true;
+  }
+
+  protected initialize() {
+    if (this.resource.isNew && this.instance) {
+      this.instance
+        .getTransformedContent()
+        .then((val) => {
+
+          // Reset CKEditor when reloading after type/form changes
+          if (!val) {
+            this.reset();
+          }
+          this.rawValue = val;
+        });
+    }
   }
 }
