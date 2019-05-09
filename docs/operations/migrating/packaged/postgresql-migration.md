@@ -172,8 +172,8 @@ openproject reconfigure
 ```
 
 
-In the database installation screen, select `skip` now.
-Keep all other values the same by simply confirming them by pressing  `enter` .
+In the database installation screen, make sure to select `skip`.
+Keep all other values the same by simply confirming them by pressing `enter` .
 
 
-After the configuration process has run through, your database will be running on PostgreSQL!
+After the configuration process has run through, your OpenProject installation will be running on PostgreSQL!
