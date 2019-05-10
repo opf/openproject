@@ -47,6 +47,10 @@ class WorkPackageField
   end
   alias :expect_text :expect_state_text
 
+  def expect_user_value(user)
+    expect(context).to have_selector(".wp-edit-field--display-field[title='#{user}']")
+  end
+
   def expect_value(value)
     expect(input_element.value).to eq(value)
   end

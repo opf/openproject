@@ -105,9 +105,11 @@ module Pages
 
     def expect_attributes(attribute_expectations)
       attribute_expectations.each do |label_name, value|
-        label = label_name.to_s
+        label = label_name.to_s.downcase
         if label == 'status'
           expect(page).to have_selector(".wp-status-button .button", text: value, wait: 10)
+        elsif label == 'assignee' || label == 'responsible'
+          expect(page).to have_selector(".wp-edit-field--display-field[title='#{value}']", wait: 10)
         else
           expect(page).to have_selector(".wp-edit-field.#{label.camelize(:lower)}", text: value, wait: 10)
         end

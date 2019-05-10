@@ -69,12 +69,14 @@ module Components
           labelLeft: left,
           labelRight: right,
           labelFarRight: farRight
-        }.each do |className, text|
-          if text.nil?
+        }.each do |className, options|
+          if options[:text].nil?
             expect(container).to have_selector(".#{className}", visible: :all)
             expect(container).to have_no_selector(".#{className}.not-empty", wait: 0)
+          elsif options[:avatar_expected]
+            expect(container).to have_selector(".#{className}.not-empty [title='#{options[:text]}']")
           else
-            expect(container).to have_selector(".#{className}.not-empty", text: text)
+            expect(container).to have_selector(".#{className}.not-empty", text: options[:text])
           end
         end
       end

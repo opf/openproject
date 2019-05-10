@@ -132,7 +132,7 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
 
       # Expect assignee to be set to the current user
       assignee_field = wp_table.edit_field(nil, :assignee)
-      assignee_field.expect_state_text assignee.name
+      assignee_field.expect_user_value assignee.name
 
       # Expect type set to task
       assignee_field = wp_table.edit_field(nil, :type)
