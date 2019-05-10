@@ -34,15 +34,11 @@ describe 'API v3 Version resource' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    user = FactoryBot.create(:user,
-                              member_in_project: project,
-                              member_through_role: role)
-
-    allow(User).to receive(:current).and_return user
-
-    user
+    FactoryBot.create(:user,
+                       member_in_project: project,
+                       member_with_permissions: permissions)
   end
-  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let(:permissions) { [:view_work_packages] }
   let(:project) { FactoryBot.create(:project, is_public: false) }
   let(:other_project) { FactoryBot.create(:project, is_public: false) }
   let(:version_in_project) { FactoryBot.build(:version, project: project) }
@@ -53,7 +49,7 @@ describe 'API v3 Version resource' do
 
   subject(:response) { last_response }
 
-  describe '#get (:id)' do
+  describe 'GET api/v3/versions/:id' do
     let(:get_path) { api_v3_paths.version version_in_project.id }
 
     shared_examples_for 'successful response' do
@@ -70,7 +66,7 @@ describe 'API v3 Version resource' do
     context 'logged in user with permissions' do
       before do
         version_in_project.save!
-        current_user
+        login_as current_user
 
         get get_path
       end
@@ -85,7 +81,7 @@ describe 'API v3 Version resource' do
 
       before do
         version_in_other_project.save!
-        current_user
+        login_as current_user
 
         get get_path
       end
@@ -96,11 +92,11 @@ describe 'API v3 Version resource' do
     end
 
     context 'logged in user without permission' do
-      let(:role) { FactoryBot.create(:role, permissions: []) }
+      let(:permissions) { [] }
 
       before(:each) do
         version_in_project.save!
-        current_user
+        login_as current_user
 
         get get_path
       end
@@ -109,14 +105,29 @@ describe 'API v3 Version resource' do
     end
   end
 
-  describe '#get /versions' do
+  describe 'POST api/v3/versions' do
+    let(:path) { api_v3_paths.versions }
+    let(:body) { {}.to_json }
+
+    before do
+      login_as current_user
+
+      post path, body, 'CONTENT_TYPE' => 'application/json'
+    end
+
+    it 'responds with 200' do
+      expect(last_response.status).to eq(200)
+    end
+  end
+
+  describe 'GET api/v3/versions' do
     let(:get_path) { api_v3_paths.versions }
     let(:response) { last_response }
     let(:versions) { [version_in_project] }
 
     before do
       versions.map(&:save!)
-      current_user
+      login_as current_user
 
       get get_path
     end

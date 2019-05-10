@@ -42,6 +42,10 @@ module API
                                                                     params)
           end
 
+          post do
+            status 200
+          end
+
           route_param :id do
             before do
               @version = Version.find(params[:id])
