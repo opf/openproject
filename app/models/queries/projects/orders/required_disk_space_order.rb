@@ -38,8 +38,6 @@ class Queries::Projects::Orders::RequiredDiskSpaceOrder < Queries::BaseOrder
   private
 
   def order
-    attribute = Project.required_disk_space_sum
-
-    model.order("#{attribute} #{direction}")
+    model.order(Project.required_disk_space_sum => direction)
   end
 end
