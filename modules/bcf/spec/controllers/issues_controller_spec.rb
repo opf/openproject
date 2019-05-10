@@ -31,11 +31,11 @@ require 'spec_helper'
 describe ::Bcf::IssuesController, type: :controller do
   let(:manage_bcf_role) do
     FactoryBot.create(:role,
-                      permissions: %i[manage_bcf view_linked_issues view_work_packages])
+                      permissions: %i[manage_bcf view_linked_issues view_work_packages add_work_packages edit_work_packages])
   end
   let(:collaborator_role) do
     FactoryBot.create(:role,
-                      permissions: %i[view_linked_issues view_work_packages])
+                      permissions: %i[view_linked_issues view_work_packages add_work_packages edit_work_packages])
   end
   let(:bcf_manager) { FactoryBot.create(:user, firstname: "BCF Manager") }
   let(:collaborator) { FactoryBot.create(:user) }
