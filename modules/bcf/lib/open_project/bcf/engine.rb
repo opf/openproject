@@ -61,6 +61,15 @@ module OpenProject::Bcf
       prepend Patches::Api::V3::ExportFormats
     end
 
+    add_api_path :bcf_xml do |project_id|
+      "#{project(project_id)}/bcf_xml"
+    end
+
+    add_api_endpoint 'API::V3::Projects::ProjectsAPI' do
+      content_type :binary, 'application/octet-stream'
+      mount ::API::V3::BcfXml::BcfXmlAPI
+    end
+
     initializer 'bcf.register_hooks' do
       # don't use require_dependency to not reload hooks in development mode
       require 'open_project/xls_export/hooks/work_package_hook.rb'
