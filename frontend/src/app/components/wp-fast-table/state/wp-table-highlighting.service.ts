@@ -61,10 +61,7 @@ export class WorkPackageTableHighlightingService extends WorkPackageQueryStateSe
 
     super.update(this.filteredValue(value));
 
-    // Load dynamic highlighting CSS if enabled
-    if (!this.isDisabled) {
-      this.dynamicCssService.requireHighlighting();
-    }
+    this.dynamicCssService.requireHighlighting();
   }
 
   public valueFromQuery(query:QueryResource):WorkPackageTableHighlight {

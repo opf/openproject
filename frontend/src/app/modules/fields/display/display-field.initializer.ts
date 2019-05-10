@@ -42,6 +42,7 @@ import {WorkPackageDisplayField} from "core-app/modules/fields/display/field-typ
 import {SpentTimeDisplayField} from "core-app/modules/fields/display/field-types/wp-display-spent-time-field.module";
 import {IdDisplayField} from "core-app/modules/fields/display/field-types/wp-display-id-field.module";
 import {HighlightedResourceDisplayField} from "core-app/modules/fields/display/field-types/wp-display-highlighted-resource-field.module";
+import {TypeDisplayField} from "core-app/modules/fields/display/field-types/wp-display-type-field.module";
 
 export function initializeCoreDisplayFields(displayFieldService:DisplayFieldService) {
   return () => {
@@ -52,9 +53,9 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addFieldType(IntegerDisplayField, 'integer', ['Integer'])
       .addFieldType(HighlightedResourceDisplayField, 'highlight', [
         'Status',
-        'Type',
         'Priority'
       ])
+      .addFieldType(TypeDisplayField, 'type', ['Type'])
       .addFieldType(ResourceDisplayField, 'resource', [
         'User',
         'Project',

@@ -4,12 +4,7 @@ import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-por
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {Board} from "core-app/modules/boards/board/board";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
-import {
-  CardHighlightingMode,
-  HighlightingMode
-} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
-import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 
 @Component({
   templateUrl: './highlighting-tab.component.html'
@@ -17,7 +12,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 export class BoardHighlightingTabComponent implements TabComponent {
 
   // Highlighting mode
-  public highlightingMode:CardHighlightingMode = 'inline';
+  public highlightingMode:CardHighlightingMode = 'none';
   public entireCardMode:boolean = false;
   public lastEntireCardAttribute:CardHighlightingMode = 'type';
 
@@ -28,8 +23,6 @@ export class BoardHighlightingTabComponent implements TabComponent {
     highlighting_mode: {
       description: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.description'),
       none: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.none'),
-      inline: this.I18n.t('js.card.highlighting.inline'),
-      status: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.status'),
       type: this.I18n.t('js.work_packages.properties.type'),
       priority: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.priority'),
       entire_card_by: this.I18n.t('js.card.highlighting.entire_card_by'),
