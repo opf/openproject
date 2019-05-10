@@ -43,7 +43,24 @@ module API
           end
 
           post do
-            status 200
+            # TODO: extract into shareable method
+            # Also extract time entries
+            params = API::V3::ParseResourceParamsService
+                     .new(current_user, model: Version)
+                     .call(request_body)
+                     .result
+
+            call = ::Versions::CreateService
+                   .new(user: current_user)
+                   .call(params)
+
+            if call.success?
+              VersionRepresenter.create(call.result,
+                                        current_user: current_user,
+                                        embed_links: true)
+            else
+              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+            end
           end
 
           route_param :id do

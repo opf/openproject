@@ -73,6 +73,7 @@ class VersionsController < ApplicationController
   end
 
   def create
+    # TODO: refactor to make use of Create service
     # TODO: refactor with code above in #new
     @version = @project.versions.build
     if permitted_params.version.present?

@@ -197,10 +197,11 @@ class Version < ActiveRecord::Base
     to_s_with_project.downcase <=> other.to_s_with_project.downcase
   end
 
+  # TODO: move into contract and use in forms
   # Returns the sharings that +user+ can set the version to
   def allowed_sharings(user = User.current)
     VERSION_SHARINGS.select do |s|
-      if sharing == s
+      if sharing_was == s
         true
       else
         case s

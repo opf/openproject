@@ -38,7 +38,7 @@ describe 'API v3 Version resource' do
                        member_in_project: project,
                        member_with_permissions: permissions)
   end
-  let(:permissions) { [:view_work_packages] }
+  let(:permissions) { [:view_work_packages, :manage_versions] }
   let(:project) { FactoryBot.create(:project, is_public: false) }
   let(:other_project) { FactoryBot.create(:project, is_public: false) }
   let(:version_in_project) { FactoryBot.build(:version, project: project) }
@@ -107,7 +107,16 @@ describe 'API v3 Version resource' do
 
   describe 'POST api/v3/versions' do
     let(:path) { api_v3_paths.versions }
-    let(:body) { {}.to_json }
+    let(:body) do
+      {
+        name: 'New version',
+        _links: {
+          definingProject: {
+            href: api_v3_paths.project(project.id)
+          }
+        }
+      }.to_json
+    end
 
     before do
       login_as current_user
@@ -115,8 +124,33 @@ describe 'API v3 Version resource' do
       post path, body, 'CONTENT_TYPE' => 'application/json'
     end
 
-    it 'responds with 200' do
-      expect(last_response.status).to eq(200)
+    it 'responds with 201' do
+      expect(last_response.status).to eq(201)
+    end
+
+    it 'creates the version' do
+      expect(Version.find_by(name: 'New version'))
+        .to be_present
+    end
+
+    it 'returns the newly created version' do
+      expect(last_response.body)
+        .to be_json_eql('Version'.to_json)
+        .at_path('_type')
+
+      expect(last_response.body)
+        .to be_json_eql('New version'.to_json)
+        .at_path('name')
+
+      expect(last_response.body)
+        .to be_json_eql(project.name.to_json)
+        .at_path('_links/definingProject/title')
+    end
+
+    context 'when lacking the manage permissions' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'unauthorized access'
     end
   end
 
