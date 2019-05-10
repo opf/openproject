@@ -33,6 +33,8 @@ export class UserFieldPortalService {
 
     // Attach the portal to the outlet
     outlet.attachComponentPortal(portal);
+
+    return outlet;
   }
 }
 

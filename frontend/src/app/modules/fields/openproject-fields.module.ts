@@ -50,6 +50,7 @@ import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-
 import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-editor.module';
 import {UserFieldPortalComponent} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal.component";
 import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
+import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 
 @NgModule({
   imports: [
@@ -65,6 +66,7 @@ import {UserFieldPortalService} from "core-app/modules/fields/display/display-po
   providers: [
     WorkPackageEditingPortalService,
     UserFieldPortalService,
+    PortalCleanupService,
     DisplayFieldService,
     EditFieldService,
     { provide: APP_INITIALIZER, useFactory: initializeCoreEditFields, deps: [EditFieldService], multi: true },

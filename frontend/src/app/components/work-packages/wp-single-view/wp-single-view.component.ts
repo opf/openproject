@@ -46,6 +46,7 @@ import {DynamicCssService} from '../../../modules/common/dynamic-css/dynamic-css
 import {HookService} from 'core-app/modules/plugins/hook-service';
 import {randomString} from "core-app/helpers/random-string";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
+import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 
 export interface FieldDescriptor {
   name:string;
@@ -78,6 +79,8 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
 })
 export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   @Input('workPackage') public workPackage:WorkPackageResource;
+
+  public portalCleanupService:PortalCleanupService = this.injector.get(PortalCleanupService);
 
   // Grouped fields returned from API
   public groupedFields:GroupDescriptor[] = [];
@@ -186,7 +189,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Nothing to do
+    this.portalCleanupService.clear();
   }
 
   /**
