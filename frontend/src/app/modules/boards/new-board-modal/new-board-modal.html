@@ -28,10 +28,19 @@
         <h3 [textContent]="text.action_board"></h3>
         <p [textContent]="text.action_board_text"></p>
 
-        <p>
-          {{text.select_attribute}}:
-          <b> {{available[0].text}} </b>
-        </p>
+        <div class="form--field">
+          <div class="form--field-container">
+            <div class="form--select-container -slim">
+              <label class="form--label" for="new_board_action_select" [textContent]="text.select_attribute"></label>
+              <select #actionAttributeSelect
+                      name="new_board_action_select"
+                      id="new_board_action_select"
+                      class="new-board--action-select">
+                <option *ngFor="let item of available" [value]="item.attribute" [textContent]="item.text"></option>
+              </select>
+            </div>
+          </div>
+        </div>
 
         <button class="button"
                 [disabled]="inFlight"

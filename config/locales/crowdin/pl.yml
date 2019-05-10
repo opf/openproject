@@ -634,6 +634,7 @@ pl:
           attributes:
             attribute_groups:
               attribute_unknown: Użyto nieprawidłowego atrybutu zadania.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: Nazwy grupy %{group} użyto więcej niż raz. Nazwy grup
                 muszą być niepowtarzalne.
               query_invalid: 'Osadzona kwerenda %{group} jest nieprawidłowowa: %{details}'

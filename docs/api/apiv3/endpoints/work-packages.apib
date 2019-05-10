@@ -637,7 +637,7 @@ For more details and all possible responses see the general specification of [Fo
 
     + pageSize = DEPENDING ON CONFIGURATION (optional, integer, `25`) ... Number of elements to display per page.
 
-    + filters = `[{ "status_id": { "operator": "o", "values": null }}]` (optional, string, `[{ "type_id": { "operator": "=", "values": ['1', '2'] }" }]`) ... JSON specifying filter conditions.
+    + filters = `[{ "status_id": { "operator": "o", "values": null }}]` (optional, string, `[{ "type_id": { "operator": "=", "values": ['1', '2'] }}]`) ... JSON specifying filter conditions.
     Accepts the same format as returned by the [queries](#queries) endpoint. If no filter is to be applied, the client should send an empty array (`[]`).
 
     + sortBy = ["id", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
@@ -823,7 +823,7 @@ A project link must be set when creating work packages through this route.
 
     + pageSize = DEPENDING ON CONFIGURATION (optional, integer, `25`) ... Number of elements to display per page.
 
-    + filters = `[{ "status_id": { "operator": "o", "values": null }}]` (optional, string, `[{ "type_id": { "operator": "=", "values": ['1', '2'] }" }]`) ... JSON specifying filter conditions.
+    + filters = `[{ "status_id": { "operator": "o", "values": null }}]` (optional, string, `[{ "type_id": { "operator": "=", "values": ['1', '2'] }}]`) ... JSON specifying filter conditions.
     Accepts the same format as returned by the [queries](#queries) endpoint. If no filter is to be applied, the client should send an empty array (`[]`).
 
     + sortBy = ["id", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
@@ -1563,7 +1563,7 @@ While the endpoint does support the pageSize parameter to limit the number of re
 + Parameters
     + pageSize (optional, integer, `25`) ... Maximum number of candidates to list (default 10)
 
-    + filters (optional, string, `[{ "status_id": { "operator": "o", "values": null }" }]`) ... JSON specifying filter conditions.
+    + filters (optional, string, `[{ "status_id": { "operator": "o", "values": null } }]`) ... JSON specifying filter conditions.
         Accepts the same format as returned by the [queries](#queries) endpoint.
 
     + query (optional, string, `"rollout"`) ... Shortcut for filtering by ID or subject

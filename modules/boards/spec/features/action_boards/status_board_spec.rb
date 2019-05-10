@@ -27,8 +27,8 @@
 #++
 
 require 'spec_helper'
-require_relative './support/board_index_page'
-require_relative './support/board_page'
+require_relative './../support//board_index_page'
+require_relative './../support/board_page'
 
 describe 'Status action board', type: :feature, js: true do
   let(:user) do

@@ -633,6 +633,7 @@ sv-SE:
           attributes:
             attribute_groups:
               attribute_unknown: Ogiltig attribut för arbetspaket används.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: Namnet %{group} används redan. Gruppnamn måste vara
                 unika.
               query_invalid: 'Den inbäddade frågan ''%{group}'' är ogiltigt: %{details}'

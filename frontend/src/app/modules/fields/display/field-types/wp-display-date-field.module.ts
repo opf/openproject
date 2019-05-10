@@ -27,8 +27,6 @@
 // ++
 
 import {TimezoneService} from 'core-components/datetime/timezone.service';
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {HighlightableDisplayField} from "core-app/modules/fields/display/field-types/wp-display-highlightable-field.module";
 

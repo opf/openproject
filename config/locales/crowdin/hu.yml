@@ -629,6 +629,7 @@ hu:
           attributes:
             attribute_groups:
               attribute_unknown: Érvénytelen feladatcsoport attribútumot használt.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: A %{group} név már használatban van. A csoport névnek
                 egyedinek kell lennie.
               query_invalid: 'A beágyazott lekérdezés ''%{group}'' érvénytelen: %{details}'

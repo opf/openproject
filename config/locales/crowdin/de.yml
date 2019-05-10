@@ -654,6 +654,7 @@ de:
           attributes:
             attribute_groups:
               attribute_unknown: Ungültige Arbeitspaket-Attribute verwendet.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: Der Gruppen-Name %{group} wird mehr als einmal verwendet.
                 Gruppen-Namen müssen eindeutig sein.
               query_invalid: 'Die eingebettete Ansicht ''%{group}'' ist ungültig:

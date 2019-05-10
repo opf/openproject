@@ -651,6 +651,7 @@ fr:
           attributes:
             attribute_groups:
               attribute_unknown: Attribut du lot de travaux invalide utilisé.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: Le nom de groupe "%{group}" est utilisé plus d’une
                 fois. Les noms de groupe doivent être uniques.
               query_invalid: 'La requête intégrée "%{group}" est invalide : %{details}'

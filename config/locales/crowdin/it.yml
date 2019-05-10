@@ -646,6 +646,7 @@ it:
           attributes:
             attribute_groups:
               attribute_unknown: Attributo di macro-attività non valido utilizzato.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: Il nome di gruppo "%{group}" è usato più di una volta.
                 I nomi dei gruppi devono essere univoci.
               query_invalid: 'La query incorporata "%{group}" non è valida: %{details}'

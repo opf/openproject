@@ -10,16 +10,12 @@
   padding: 0 15px
   border-radius: 2px
 
-  &.-drop-zone
-    background-color: #eaeaea60
-
-
 .wp-card
   user-select: none
   width: 100%
   border: 1px solid var(--widget-box-block-border-color)
   border-radius: 2px
-  padding: 10px 12px 10px 10px
+  padding: 10px
   margin-top: 10px
   position: relative
   box-shadow: 1px 1px 3px 0px lightgrey
@@ -29,14 +25,13 @@
   &:hover
     box-shadow: 0px 0px 10px lightgrey
 
+  &.-new
+    padding-right: 25px
 
 .wp-card--content:not(.-new)
   display: grid
-  // Creating an implicit grid here, enables us to let the first column shrink to 0,
-  // when there is no attribute shown.
-  // Thus the avatar then aligns with the type and the subject.
-  grid-auto-columns: auto 1fr auto
-  grid-auto-rows: auto auto auto
+  grid-template-columns: auto 1fr auto
+  grid-template-rows: auto auto auto
   grid-row-gap: 10px
   grid-template-areas: "type type type" "subject subject subject" "attributeTag avatar idlink"
   overflow: hidden
@@ -52,8 +47,8 @@
     grid-area: avatar
     place-self: center left
   .wp-card--id
-    text-align: right
     grid-area: idlink
+    place-self: center right
   .wp-card--status
     grid-area: attributeTag
     max-width: 120px
@@ -79,7 +74,7 @@ wp-edit-field
 .wp-card--inline-cancel-button
   position: absolute
   right: 0
-  top: 4px
+  top: 5px
   opacity: 0
 
   &.-show, .wp-card:hover &

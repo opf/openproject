@@ -644,6 +644,7 @@ sk:
           attributes:
             attribute_groups:
               attribute_unknown: Použitý neplatný atribút pracovného balíčka.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: Názov skupiny '%{group}' sa používa viackrát. Názvy
                 skupín musia byť jedinečné.
               query_invalid: 'Vložený dopyt ''%{group}'' je neplatný: %{details}'

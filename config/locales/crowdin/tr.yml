@@ -630,6 +630,7 @@ tr:
           attributes:
             attribute_groups:
               attribute_unknown: Geçersiz iş paketi özniteliği kullanıldı.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: "'%{group}' grup adı, birden fazla kez kullanıldı.
                 Grup isimleri benzersiz olmalıdır."
               query_invalid: 'Gömülü sorgu ''%{group}'' geçersiz: %{details}'

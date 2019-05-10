@@ -164,10 +164,13 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       let startDate = this.eventDate(workPackage, 'start');
       let endDate = this.eventDate(workPackage, 'due');
 
+      let exclusiveEnd = moment(endDate).add(1, 'days');
+
       return {
         title: workPackage.subject,
         start: startDate,
-        end: endDate,
+        end: exclusiveEnd,
+        allDay: true,
         className: `__hl_background_type_${workPackage.type.id}`,
         workPackage: workPackage
       };

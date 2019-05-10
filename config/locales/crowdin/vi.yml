@@ -632,6 +632,7 @@ vi:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: Nhóm tên '%{group}' được sử dụng nhiều hơn một lần.
                 Tên nhóm phải là duy nhất.
               query_invalid: 'Truy vấn nhúng ''%{group}'' là không hợp lệ: %{details}'
