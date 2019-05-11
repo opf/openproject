@@ -355,10 +355,9 @@ hu:
         help_menu: A <b>Súgó</b> menüben találja a felhasználói útmutatót és további
           segítséget. <br> Élvezze az OpenProject munkáját!
         members: Új <b>tagok</b> meghívása, hogy a projekthez csatlakozzanak.
-        project_selection: Kérjük, válasszon egyet a projektek közül, amelyek használható
-          példa adatokat tartalmaznak az induláshoz. <br> A <b> Demo projekt </b>
-          a legjobban megfelel a klasszikus projektmenedzsmentnek, míg a <b> Scrum
-          projekt </b> jobb az agilis projektmenedzsment számára.
+        project_selection: Please click on one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
         sidebar_arrow: A nyíl segítségével visszatérhet a projekt <b>főmenüjébe</b>.
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -379,8 +378,8 @@ hu:
           lists: You can create multiple lists (columns) within one Board view, e.g.
             to create a KANBAN board.
           add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or to drag to another
-            list. A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
         wp:
           toggler: Most vessünk egy pillantást a <b>Feladatcsoport</b> kiválasztására,
             amely részletesebb képet ad a munkáról.

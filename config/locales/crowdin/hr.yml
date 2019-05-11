@@ -2248,7 +2248,7 @@ hr:
   setting_commit_logs_encoding: Commitajte kodiranje poruka
   setting_commit_logtime_activity_id: Aktivnost za zabilježeno vrijeme
   setting_commit_logtime_enabled: Omogućite zapis vremena
-  setting_commit_ref_keywords: Referencing keywords
+  setting_commit_ref_keywords: Referentne ključne riječi
   setting_consent_time: Vrijeme pristanka
   setting_consent_info: Tekst informacije sugkasnosti
   setting_consent_required: Potrebna suglasnost

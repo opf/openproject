@@ -361,10 +361,9 @@ fr:
           et des ressources d'aide supplémentaires. <br> profiter de votre travail
           avec OpenProject!
         members: Inviter des nouveaux<b>membres</b> à participer à votre projet.
-        project_selection: Veuillez sélectionner un des projets avec des données de
-          démonstration utile pour commencer. <br> Le <b>projet de démo</b> convient
-          le mieux pour la gestion de projet classique, tandis que le <b>projet Scrum</b>
-          est meilleur pour la gestion de projet Agile.
+        project_selection: Please click on one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
         sidebar_arrow: Avec la flèche, vous pouvez naviguer vers le <b>Menu Principal</b>
           du projet.
         welcome: Faites une visite d’introduction de trois minutes d’apprendre le
@@ -393,8 +392,8 @@ fr:
             Tableaux, par exemple pour créer un tableau KANBAN.
           add: Cliquez sur le + va <b>ajouter une nouvelle carte</b> à la liste dans
             un Tableau.
-          drag: Drag & Drop your cards within a list to re-order, or to drag to another
-            list. A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
         wp:
           toggler: Maintenant, jetons un coup d'oeil à la section <b>Paquet de Travail</b>,
             qui vous donne une vue plus détaillée de votre travail.

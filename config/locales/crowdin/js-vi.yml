@@ -355,7 +355,7 @@ vi:
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
         members: Invite new <b>Members</b> to join your project.
-        project_selection: Please select one of the projects with useful demo data
+        project_selection: Please click on one of the projects with useful demo data
           to get started. <br> The <b>Demo project</b> suits best for classical project
           management, while the <b>Scrum project</b> is better for Agile project management.
         sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
@@ -380,8 +380,8 @@ vi:
           lists: You can create multiple lists (columns) within one Board view, e.g.
             to create a KANBAN board.
           add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or to drag to another
-            list. A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
         wp:
           toggler: Now let's have a look at the <b>Work package</b> section, which
             gives you a more detailed view of your work.

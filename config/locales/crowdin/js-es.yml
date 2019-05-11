@@ -359,10 +359,9 @@ es:
         help_menu: En el menú <b>Ayuda</b>, encontrará una guía del usuario y recursos
           de ayuda adicionales. <br> ¡Disfrute de su trabajo con OpenProject!
         members: Invite a nuevos <b>Miembros</b> a unirse al proyecto.
-        project_selection: Para empezar, seleccione uno de los proyectos con datos
-          de demostración útiles. <br> El <b>proyecto de demostración</b> es la opción
-          recomendada para la gestión de proyectos clásica, mientras que el <b>proyecto
-          Scrum</b> es el más adecuado para la gestión de proyectos ágil.
+        project_selection: Please click on one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
         sidebar_arrow: Con la flecha, puede volver al <b>Menú principal</b> del proyecto.
         welcome: Realice un paseo de introducción de tres minutos para conocer las
           <b>características más importantes</b>. <br> Le recomendamos que complete
@@ -389,8 +388,8 @@ es:
             sección del Tablero, por ej. para crear un tablero KANBAN.
           add: Al hacer click en + <b>se añadirá una nueva tarjeta</b> a la lista
             dentro de un Tablero.
-          drag: Drag & Drop your cards within a list to re-order, or to drag to another
-            list. A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
         wp:
           toggler: Ahora, veamos la sección <b>Paquete de trabajo</b>, que ofrece
             una vista más detallada de su trabajo.
