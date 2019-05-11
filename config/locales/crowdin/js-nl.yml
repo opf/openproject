@@ -358,10 +358,9 @@ nl:
         help_menu: In het menu <b>Help</b> vindt u een handleiding en aanvullende
           help-bronnen. <br> genieten van uw werk met OpenProject!
         members: Nodig nieuwe <b>leden,</b> uit voor uw project.
-        project_selection: Gelieve één van de projecten te selecteren met voor u nuttige
-          voorbeeldgegevens. alvorens aan de slag te gaan <br> Het <b>Demo project</b>
-          is gebaseerd op het klassieke projectmanagement, terwijl het <b>Scrum-project</b>
-          Een beter voorbeeld is voor Agile projectmanagement.
+        project_selection: Please click on one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
         sidebar_arrow: U kunt met de pijl terug navigeren naar het <b>Hoofd menu</b>
           van het project.
         welcome: Neem drie minuten introductie rondleiding om de meeste <b>belangrijke
@@ -386,8 +385,8 @@ nl:
           lists: You can create multiple lists (columns) within one Board view, e.g.
             to create a KANBAN board.
           add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or to drag to another
-            list. A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
         wp:
           toggler: Laten we nu eens een kijkje op de <b>werk pakket</b> -sectie, die
             je een meer gedetailleerde weergave van uw werk geeft.

@@ -336,7 +336,9 @@ zh:
       steps:
         help_menu: 在<b>帮助</b>菜单中，您可以找到用户指南和其他帮助资源。<br>使用 OpenProject 享受您的工作！
         members: 邀请新<b>成员</b>加入您的项目。
-        project_selection: 请选择包含有用演示数据的项目开始。<br><b>演示项目</b>最适合经典项目管理，而 <b>Scrum 项目</b>更适合敏捷项目管理。
+        project_selection: Please click on one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
         sidebar_arrow: 使用箭头可以导航回项目的<b>主菜单</b>。
         welcome: 通过三分钟的导览了解<b>最重要的功能</b> 。<br>我们建议您完成所有步骤。您可以随时重新浏览介绍。
         wiki: 在 <b>Wiki</b> 中，您可以记录并与您的团队共享知识。
@@ -350,8 +352,8 @@ zh:
           overview: 在直观的<b>面板</b>视图中管理您的工作。
           lists: 您可以在一个面板视图中创建多个列表（列），例如创建看板面板。
           add: 单击 + 将向面板内的列表中<b>添加新卡</b>。
-          drag: Drag & Drop your cards within a list to re-order, or to drag to another
-            list. A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
         wp:
           toggler: 现在我们来看一下<b>工作包</b>部分，工作包提供了更详细的工作视图。
           list: 这是<b>工作包</b>列表，包含项目中的重要工作，例如任务、特征、里程碑和错误等。<br>您可以在这个列表中直接创建或编辑工作包。要查看工作包的详细信息，可以双击该行。

@@ -355,8 +355,9 @@ hi:
           help resources. <br> Enjoy your work with OpenProject!
         members: अपने प्रोजेक्ट में शामिल होने के लिए नए सदस्यों को आमंत्रित करें
           ।
-        project_selection: प्रारंभ करने के लिए कृपया डेमो डेटा सहित २ परियोजनाओं में
-          से किसी एक का चयन करें ।
+        project_selection: Please click on one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
         sidebar_arrow: तीर के साथ आप वापस परियोजना के मुख्य मेनु में जा सकते हैं ।
         welcome: Take a three minutes introduction tour to learn the most <b>important
           features</b>. <br> We recommend completing the steps until the end. You
@@ -378,8 +379,8 @@ hi:
           lists: You can create multiple lists (columns) within one Board view, e.g.
             to create a KANBAN board.
           add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or to drag to another
-            list. A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
         wp:
           toggler: Now let's have a look at the <b>Work package</b> section, which
             gives you a more detailed view of your work.

@@ -337,7 +337,9 @@ ja:
       steps:
         help_menu: "<b>ヘルプ</b>メニューには、ユーザーガイドとその他のヘルプリソースがあります。 <br> OpenProjectであなたの仕事をお楽しみください！"
         members: 新しい<b>メンバー</b>を招待してプロジェクトに参加してください。
-        project_selection: 開始するには、便利なデモデータを含むプロジェクトの1つを選択してください。 <br> <b>デモプロジェクト</b>は古典的なプロジェクト管理に最適ですが、<b>スクラムプロジェクト</b>はアジャイルプロジェクト管理に適しています。
+        project_selection: Please click on one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
         sidebar_arrow: 矢印を使って、プロジェクトの<b>メインメニュー</b>に戻ることができます。
         welcome: 3分間の導入ツアーで、最も<b>重要な機能</b>を確認します。 <br>最後まで手順を完了することをお勧めします。 ツアーはいつでも再開できます。
         wiki: "<b>Wiki</b>内ではチームと一緒に知識を文書化して共有することができます。"
@@ -351,8 +353,8 @@ ja:
           overview: 直感的な<b>ボード</b>ビューで作業を管理します。
           lists: 1つの掲示板ビュー内に複数のリスト（列）を作成できます。 カンバンボードを作成します。
           add: "+をクリックすると、ボード内のリストに<b>新しいカードを追加</b>します。"
-          drag: Drag & Drop your cards within a list to re-order, or to drag to another
-            list. A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
         wp:
           toggler: 次に、<b>作業パッケージ</b>セクションを見て、作業の詳細を確認してください。
           list: これは、タスク、機能、マイルストーン、バグなど、プロジェクト内の重要な作業をまとめた<b>作業項目</b>リストです。 <br>このリスト内で作業パッケージを直接作成または編集できます。

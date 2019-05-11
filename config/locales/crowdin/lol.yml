@@ -562,7 +562,7 @@ lol:
           attributes:
             attribute_groups:
               attribute_unknown: crwdns123452:0crwdne123452:0
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              attribute_unknown_name: crwdns129748:0%{attribute}crwdne129748:0
               duplicate_group: crwdns123454:0%{group}crwdne123454:0
               query_invalid: crwdns123456:0%{group}crwdnd123456:0%{details}crwdne123456:0
               group_without_name: crwdns123458:0crwdne123458:0

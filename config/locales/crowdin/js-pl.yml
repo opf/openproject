@@ -351,10 +351,9 @@ pl:
         help_menu: W menu <b>Pomoc</b> znajdziesz przewodnik użytkownika i dodatkowe
           zasoby pomocy. <br> Życzymy miłej pracy w OpenProject!
         members: Zaproś nowych <b>członków</b> do swojego projektu.
-        project_selection: Aby rozpocząć, wybierz jeden z projektów z przydatnymi
-          danymi demonstracyjnymi. <br> <b>Projekt Demo</b> najlepiej nadaje się do
-          klasycznego zarządzania projektami, natomiast <b>projekt Scrum</b> jest
-          lepszy do zwinnego zarządzania projektami.
+        project_selection: Please click on one of the projects with useful demo data
+          to get started. <br> The <b>Demo project</b> suits best for classical project
+          management, while the <b>Scrum project</b> is better for Agile project management.
         sidebar_arrow: Strzałka umożliwia powrót do <b>menu głównego</b> projektu.
         welcome: "Poświęć trzy minuty na zapoznanie się z <b>najważniejszymi funkcjami</b>.
           \n <br> Zalecamy wykonanie tych kroków do końca. Zwiedzanie można w każdej
@@ -377,8 +376,8 @@ pl:
           lists: Można utworzyć wiele list (kolumn) w jednym widoku tablicy, np. w
             celu utworzenia tablicy KANBAN.
           add: Kliknięcie przycisku + <b>dodaje nową kartę</b> do listy na tablicy.
-          drag: Drag & Drop your cards within a list to re-order, or to drag to another
-            list. A double click will open the details view.
+          drag: Drag & Drop your cards within a list to re-order, or to another list.
+            A double click will open the details view.
         wp:
           toggler: Teraz przyjrzyjmy się sekcji <b>Zadania</b>, która zapewnia bardziej
             szczegółowy widok Twojej pracy.
