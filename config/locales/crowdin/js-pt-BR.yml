@@ -360,9 +360,10 @@ pt-BR:
         help_menu: No menu <b>Ajuda</b> você vai encontrar um guia do usuário e recursos
           adicionais de ajuda. <br> Aprecie o seu trabalho com OpenProject!
         members: Convide novos <b>Membros</b> para participar de seu projeto.
-        project_selection: Please click on one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
+        project_selection: Por favor, selecione um dos projetos com dados de demonstração
+          úties para começar. <br> O <b>Projeto de Demonstração</b> é o melhor para
+          gerenciamento de projetos tradicionais, enquanto o <b>Projeto Scrum</b>
+          é melhor para gerenciamento ágil de projetos.
         sidebar_arrow: Com a seta, você pode navegar para o <b>menu principal</b>
           do projeto.
         welcome: Acompanhe um tour de apresentação de 3 minutos para descobrir mais
@@ -388,8 +389,8 @@ pt-BR:
             quadro, por exemplo, para criar um quadro KANBAN.
           add: Clicar no + irá <b>adicionar um novo cartão</b> à lista dentro de um
             Quadro.
-          drag: Drag & Drop your cards within a list to re-order, or to another list.
-            A double click will open the details view.
+          drag: Arraste e solte seus cartões dentro de uma lista para reordenar ou
+            mover para outra lista. Um clique duplo abrirá a visualização detalhada.
         wp:
           toggler: Agora vamos dar uma olhada na seção <b>Pacotes de trabalho</b>,
             que lhe fornece uma visão mais detalhada do seu trabalho.
