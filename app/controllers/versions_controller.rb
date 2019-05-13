@@ -101,6 +101,7 @@ class VersionsController < ApplicationController
       attributes.delete('sharing') unless @version.allowed_sharings.include?(attributes['sharing'])
       @version.attributes = attributes
       if @version.save
+        @version.touch if only_custom_values_updated?
         flash[:notice] = l(:notice_successful_update)
         redirect_back_or_default(settings_project_path(tab: 'versions', id: @project))
       else
@@ -144,5 +145,9 @@ class VersionsController < ApplicationController
     else
       @selected_type_ids = (default_types || selectable_types).map { |t| t.id.to_s }
     end
+  end
+
+  def only_custom_values_updated?
+    @version.saved_changes.empty? && @version.custom_values.map(&:saved_changes).any?(&:present?)
   end
 end

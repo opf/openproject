@@ -185,49 +185,38 @@ describe ::API::V3::Users::UserRepresenter do
         representer.to_json
       end
 
-      describe 'caching' do
-        it 'is based on the representer\'s cache_key' do
-          expect(OpenProject::Cache)
-            .to receive(:fetch)
-            .with(representer.json_cache_key)
-            .and_call_original
+      describe '#json_cache_key' do
+        let(:auth_source) { FactoryBot.build_stubbed(:auth_source) }
 
-          representer.to_json
+        before do
+          user.auth_source = auth_source
+        end
+        let!(:former_cache_key) { representer.json_cache_key }
+
+        it 'includes the name of the representer class' do
+          expect(representer.json_cache_key)
+            .to include('API', 'V3', 'Users', 'UserRepresenter')
         end
 
-        describe '#json_cache_key' do
-          let(:auth_source) { FactoryBot.build_stubbed(:auth_source) }
-
-          before do
-            user.auth_source = auth_source
-          end
-          let!(:former_cache_key) { representer.json_cache_key }
-
-          it 'includes the name of the representer class' do
-            expect(representer.json_cache_key)
-              .to include('API', 'V3', 'Users', 'UserRepresenter')
-          end
-
-          it 'changes when the locale changes' do
-            I18n.with_locale(:fr) do
-              expect(representer.json_cache_key)
-                .not_to eql former_cache_key
-            end
-          end
-
-          it 'changes when the user is updated' do
-            user.updated_on = Time.now + 20.seconds
-
+        it 'changes when the locale changes' do
+          I18n.with_locale(:fr) do
             expect(representer.json_cache_key)
               .not_to eql former_cache_key
           end
+        end
 
-          it 'changes when the user\'s auth_source is updated' do
-            user.auth_source.updated_at = Time.now + 20.seconds
+        it 'changes when the user is updated' do
+          user.updated_on = Time.now + 20.seconds
 
-            expect(representer.json_cache_key)
-              .not_to eql former_cache_key
-          end
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the user\'s auth_source is updated' do
+          user.auth_source.updated_at = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
         end
       end
     end

@@ -67,7 +67,15 @@ module API
         end
 
         def json_cache_key
-          self.class.name.to_s.split('::') + [
+          # In case of dynamically created classes like
+          # custom field injected subclasses.
+          classname = if self.class.name.nil?
+                        self.class.superclass.name
+                      else
+                        self.class.name
+                      end
+
+          classname.to_s.split('::') + [
             'json',
             I18n.locale,
             json_key_representer_parts
@@ -179,6 +187,8 @@ module API
 
         def json_key_representer_parts
           cacheable = [represented]
+
+          cacheable.concat(represented.available_custom_fields) if represented.respond_to?(:available_custom_fields)
 
           self.class.cached_representer_configuration[:key_parts].each do |association|
             cacheable << represented.send(association)

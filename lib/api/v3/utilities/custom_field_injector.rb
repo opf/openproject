@@ -59,9 +59,9 @@ module API
         }.freeze
 
         REPRESENTER_MAP = {
-          'user' => Users::UserRepresenter,
-          'version' => Versions::VersionRepresenter,
-          'list' => CustomOptions::CustomOptionRepresenter
+          'user' => '::API::V3::Users::UserRepresenter',
+          'version' => '::API::V3::Versions::VersionRepresenter',
+          'list' => '::API::V3::CustomOptions::CustomOptionRepresenter'
         }.freeze
 
         class << self
@@ -257,7 +257,7 @@ module API
 
             next unless value
 
-            representer_class = REPRESENTER_MAP[custom_field.field_format]
+            representer_class = REPRESENTER_MAP[custom_field.field_format].constantize
 
             representer_class.new(value, current_user: current_user)
           end

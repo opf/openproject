@@ -41,10 +41,13 @@ describe 'API v3 Version resource' do
   let(:permissions) { [:view_work_packages, :manage_versions] }
   let(:project) { FactoryBot.create(:project, is_public: false) }
   let(:other_project) { FactoryBot.create(:project, is_public: false) }
-  let(:version_in_project) { FactoryBot.build(:version, project: project) }
+  let!(:int_cf) { FactoryBot.create(:int_version_custom_field) }
+  let(:version_in_project) { FactoryBot.build(:version, project: project, custom_field_values: { int_cf.id => 123 }) }
   let(:version_in_other_project) do
-    FactoryBot.build(:version, project: other_project,
-                                sharing: 'system')
+    FactoryBot.build(:version,
+                     project: other_project,
+                     sharing: 'system',
+                     custom_field_values: { int_cf.id => 123 })
   end
 
   subject(:response) { last_response }
@@ -58,8 +61,17 @@ describe 'API v3 Version resource' do
       end
 
       it 'returns the version' do
-        expect(last_response.body).to be_json_eql('Version'.to_json).at_path('_type')
-        expect(last_response.body).to be_json_eql(expected_version.id.to_json).at_path('id')
+        expect(last_response.body)
+          .to be_json_eql('Version'.to_json)
+          .at_path('_type')
+
+        expect(last_response.body)
+          .to be_json_eql(expected_version.id.to_json)
+          .at_path('id')
+
+        expect(last_response.body)
+          .to be_json_eql(123.to_json)
+          .at_path("customField#{int_cf.id}")
       end
     end
 
@@ -107,12 +119,18 @@ describe 'API v3 Version resource' do
 
   describe 'POST api/v3/versions' do
     let(:path) { api_v3_paths.versions }
+    let!(:int_cf) { FactoryBot.create(:int_version_custom_field) }
+    let!(:list_cf) { FactoryBot.create(:list_version_custom_field) }
     let(:body) do
       {
         name: 'New version',
+        "customField#{int_cf.id}": 5,
         _links: {
           definingProject: {
             href: api_v3_paths.project(project.id)
+          },
+          "customField#{list_cf.id}": {
+            href: api_v3_paths.custom_option(list_cf.custom_options.first.id)
           }
         }
       }.to_json
@@ -145,10 +163,35 @@ describe 'API v3 Version resource' do
       expect(last_response.body)
         .to be_json_eql(project.name.to_json)
         .at_path('_links/definingProject/title')
+
+      expect(last_response.body)
+        .to be_json_eql(api_v3_paths.custom_option(list_cf.custom_options.first.id).to_json)
+        .at_path("_links/customField#{list_cf.id}/href")
+
+      expect(last_response.body)
+        .to be_json_eql(5.to_json)
+        .at_path("customField#{int_cf.id}")
     end
 
     context 'when lacking the manage permissions' do
       let(:permissions) { [] }
+
+      it_behaves_like 'unauthorized access'
+    end
+
+    context 'when having the manage permission in a different project' do
+      let(:other_membership) do
+        FactoryBot.create(:member,
+                          project: FactoryBot.create(:project),
+                          roles: [FactoryBot.create(:role, permissions: [:manage_versions])])
+      end
+
+      let(:permissions) {
+        # load early
+        other_membership
+
+        [:view_work_packages]
+      }
 
       it_behaves_like 'unauthorized access'
     end

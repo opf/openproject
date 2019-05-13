@@ -81,7 +81,7 @@ module API
             end
 
             get do
-              VersionRepresenter.new(@version, current_user: current_user)
+              VersionRepresenter.create(@version, current_user: current_user)
             end
 
             mount ::API::V3::Versions::ProjectsByVersionAPI

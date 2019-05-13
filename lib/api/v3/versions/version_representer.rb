@@ -37,6 +37,7 @@ module API
       class VersionRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
         include ::API::Caching::CachedRepresenter
+        extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
         cached_representer key_parts: %i(project)
 
