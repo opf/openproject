@@ -31,15 +31,17 @@ module API
     module Utilities
       class DefaultCreate
         class << self
-          def call(model:)
-            service = create_service(model)
-            representer = representer(model)
+          def call(model: nil, representer: nil)
+            raise ::ArgumentError, 'One of model or representer needs to be provided' unless model || representer
+
+            service = deduce_service(model, representer)
+            representer ||= deduce_representer(model)
 
             -> do
               params = API::V3::ParseResourceParamsService
-                         .new(current_user, model: model)
-                         .call(request_body)
-                         .result
+                       .new(current_user, model: model, representer: representer)
+                       .call(request_body)
+                       .result
 
               call = service
                      .new(user: current_user)
@@ -57,11 +59,17 @@ module API
 
           private
 
-          def create_service(model)
-            "::#{model.name.pluralize}::CreateService".constantize
+          def deduce_service(model, representer)
+            namespace = if model
+                          model.name
+                        else
+                          representer.name.gsub('Representer', '')
+                        end.demodulize.pluralize
+
+            "::#{namespace}::CreateService".constantize
           end
 
-          def representer(model)
+          def deduce_representer(model)
             "::API::V3::#{model.name.pluralize}::#{model.name}Representer".constantize
           end
         end

@@ -52,24 +52,7 @@ module API
             end
           end
 
-          post do
-            params = API::V3::ParseResourceParamsService
-                     .new(current_user, representer: GridRepresenter)
-                     .call(request_body)
-                     .result
-
-            call = ::Grids::CreateService
-                   .new(user: current_user)
-                   .call(attributes: params)
-
-            if call.success?
-              GridRepresenter.create(call.result,
-                                     current_user: current_user,
-                                     embed_links: true)
-            else
-              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
-            end
-          end
+          post &::API::V3::Utilities::DefaultCreate.call(representer: GridRepresenter)
 
           mount CreateFormAPI
           mount ::API::V3::Grids::Schemas::GridSchemaAPI
