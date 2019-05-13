@@ -73,22 +73,21 @@ class VersionsController < ApplicationController
   end
 
   def create
-    # TODO: refactor to make use of Create service
-    # TODO: refactor with code above in #new
-    @version = @project.versions.build
-    if permitted_params.version.present?
-      attributes = permitted_params.version.dup
-      attributes.delete('sharing') unless attributes.nil? || @version.allowed_sharings.include?(attributes['sharing'])
-      @version.attributes = attributes
-    end
+    attributes = permitted_params
+                 .version
+                 .merge(project_id: @project.id)
 
-    if request.post?
-      if @version.save
-        flash[:notice] = l(:notice_successful_create)
-        redirect_back_or_default(controller: '/project_settings', action: 'show', tab: 'versions', id: @project)
-      else
-        render action: 'new'
-      end
+    call = Versions::CreateService
+           .new(user: current_user)
+           .call(attributes)
+
+    @version = call.result
+
+    if call.success?
+      flash[:notice] = l(:notice_successful_create)
+      redirect_back_or_version_settings
+    else
+      render action: 'new'
     end
   end
 
@@ -103,7 +102,7 @@ class VersionsController < ApplicationController
       if @version.save
         @version.touch if only_custom_values_updated?
         flash[:notice] = l(:notice_successful_update)
-        redirect_back_or_default(settings_project_path(tab: 'versions', id: @project))
+        redirect_back_or_version_settings
       else
         respond_to do |format|
           format.html do
@@ -133,6 +132,10 @@ class VersionsController < ApplicationController
 
   private
 
+  def redirect_back_or_version_settings
+    redirect_back_or_default(settings_project_path(tab: 'versions', id: @project))
+  end
+
   def find_project
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
@@ -140,11 +143,11 @@ class VersionsController < ApplicationController
   end
 
   def retrieve_selected_type_ids(selectable_types, default_types = nil)
-    if ids = params[:type_ids]
-      @selected_type_ids = (ids.is_a? Array) ? ids.map { |id| id.to_i.to_s } : ids.split('/').map { |id| id.to_i.to_s }
-    else
-      @selected_type_ids = (default_types || selectable_types).map { |t| t.id.to_s }
-    end
+    @selected_type_ids = if (ids = params[:type_ids])
+                           ids.is_a?(Array) ? ids : ids.split('/')
+                         else
+                           default_types || selectable_types
+                         end.map { |t| t.id.to_s }
   end
 
   def only_custom_values_updated?
