@@ -94,17 +94,17 @@ RSpec.feature 'Work package timeline labels',
   it 'shows and allows to configure labels' do
     # Check default labels (bar type)
     row = wp_timeline.timeline_row work_package.id
-    row.expect_labels left: { text: nil },
-                      right: { text: nil },
-                      farRight: { text: 'My subject' }
+    row.expect_labels left: nil,
+                      right: nil,
+                      farRight: 'My subject'
 
     row.expect_hovered_labels left: today, right: tomorrow
 
     # Check default labels (milestone)
     row = wp_timeline.timeline_row milestone_work_package.id
-    row.expect_labels left: { text: nil },
-                      right: { text: nil },
-                      farRight: { text: 'My milestone' }
+    row.expect_labels left: nil,
+                      right: nil,
+                      farRight: 'My milestone'
     row.expect_hovered_labels left: nil, right: future
 
     # Modify label configuration
@@ -119,15 +119,15 @@ RSpec.feature 'Work package timeline labels',
 
     # Check overriden labels
     row = wp_timeline.timeline_row work_package.id
-    row.expect_labels left: { text: user.name, avatar_expected: true },
-                      right: { text: type.name.upcase },
-                      farRight: { text: work_package.status.name }
+    row.expect_labels left: user.name,
+                      right: type.name.upcase,
+                      farRight: work_package.status.name
 
     # Check default labels (milestone)
     row = wp_timeline.timeline_row milestone_work_package.id
-    row.expect_labels left: { text: '-' },
-                      right: { text: milestone_type.name.upcase },
-                      farRight: { text: milestone_work_package.status.name }
+    row.expect_labels left: '-',
+                      right: milestone_type.name.upcase,
+                      farRight: milestone_work_package.status.name
 
     # Save the query
     settings_menu.open_and_save_query 'changed labels'
@@ -146,15 +146,15 @@ RSpec.feature 'Work package timeline labels',
 
     # Check overridden labels
     row = wp_timeline.timeline_row work_package.id
-    row.expect_labels left: { text: user.name, avatar_expected: true },
-                      right: { text: type.name.upcase },
-                      farRight: { text: work_package.status.name }
+    row.expect_labels left: user.name,
+                      right: type.name.upcase,
+                      farRight: work_package.status.name
 
     # Check overridden labels (milestone)
     row = wp_timeline.timeline_row milestone_work_package.id
-    row.expect_labels left: { text: '-' },
-                      right: { text: milestone_type.name.upcase },
-                      farRight: { text: milestone_work_package.status.name }
+    row.expect_labels left: '-',
+                      right: milestone_type.name.upcase,
+                      farRight: milestone_work_package.status.name
 
     # Set labels to start|due|subject
     config_modal.open!
@@ -168,15 +168,15 @@ RSpec.feature 'Work package timeline labels',
 
     # Check overriden labels
     row = wp_timeline.timeline_row work_package.id
-    row.expect_labels left: { text: today },
-                      right: { text: tomorrow },
-                      farRight: { text: work_package.subject }
+    row.expect_labels left: today,
+                      right: tomorrow,
+                      farRight: work_package.subject
 
     # Check default labels (milestone)
     row = wp_timeline.timeline_row milestone_work_package.id
-    row.expect_labels left: { text: nil },
-                      right: { text: future },
-                      farRight: { text: milestone_work_package.subject }
+    row.expect_labels left: nil,
+                      right: future,
+                      farRight: milestone_work_package.subject
 
   end
 end
