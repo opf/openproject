@@ -52,7 +52,7 @@ module API
             end
           end
 
-          post &::API::V3::Utilities::DefaultCreate.call(representer: GridRepresenter)
+          post &::API::V3::Utilities::DefaultCreate.new(representer: GridRepresenter).mount
 
           mount CreateFormAPI
           mount ::API::V3::Grids::Schemas::GridSchemaAPI

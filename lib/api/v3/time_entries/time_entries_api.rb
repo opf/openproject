@@ -49,7 +49,7 @@ module API
             end
           end
 
-          post &::API::V3::Utilities::DefaultCreate.call(model: TimeEntry)
+          post &::API::V3::Utilities::DefaultCreate.new(model: TimeEntry).mount
 
           params do
             requires :id, desc: 'Time entry\'s id'

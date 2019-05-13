@@ -30,48 +30,74 @@ module API
   module V3
     module Utilities
       class DefaultCreate
-        class << self
-          def call(model: nil, representer: nil)
-            raise ::ArgumentError, 'One of model or representer needs to be provided' unless model || representer
+        def initialize(model: nil, representer: nil)
+          raise ::ArgumentError, 'One of model or representer needs to be provided' unless model || representer
 
-            service = deduce_service(model, representer)
-            representer ||= deduce_representer(model)
+          self.model = model
+          self.representer = representer || deduce_representer(model)
+        end
 
-            -> do
-              params = API::V3::ParseResourceParamsService
-                       .new(current_user, model: model, representer: representer)
-                       .call(request_body)
-                       .result
+        def mount
+          create = self
 
-              call = service
-                     .new(user: current_user)
-                     .call(params)
+          -> do
+            params = create.parse(current_user, request_body)
 
-              if call.success?
-                representer.create(call.result,
-                                   current_user: current_user,
-                                   embed_links: true)
-              else
-                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
-              end
+            call = create.process(current_user, params)
+
+            if call.success?
+              create.present_success(current_user, call.result)
+            else
+              create.present_error(call.errors)
             end
           end
+        end
 
-          private
+        def parse(current_user, request_body)
+          API::V3::ParseResourceParamsService
+            .new(current_user, model: model, representer: representer)
+            .call(request_body)
+            .result
+        end
 
-          def deduce_service(model, representer)
-            namespace = if model
-                          model.name
-                        else
-                          representer.name.gsub('Representer', '')
-                        end.demodulize.pluralize
+        def process(current_user, params)
+          service
+            .new(user: current_user)
+            .call(params)
+        end
 
-            "::#{namespace}::CreateService".constantize
-          end
+        def present_success(current_user, result)
+          representer.create(result,
+                             current_user: current_user,
+                             embed_links: true)
+        end
 
-          def deduce_representer(model)
-            "::API::V3::#{model.name.pluralize}::#{model.name}Representer".constantize
-          end
+        def present_error(errors)
+          fail ::API::Errors::ErrorBase.create_and_merge_errors(errors)
+        end
+
+        private
+
+        attr_accessor :model,
+                      :representer
+
+
+        def service
+          @service ||= deduce_service
+        end
+
+        def deduce_service
+          namespace = if model
+                        model.name
+                      else
+                        representer.name.gsub('Representer', '')
+                      end.demodulize.pluralize
+
+          "::#{namespace}::CreateService".constantize
+        end
+
+        def deduce_representer(model)
+          "::API::V3::#{model.name.pluralize}::#{model.name}Representer".constantize
         end
       end
     end

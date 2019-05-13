@@ -42,7 +42,7 @@ module API
                                                                     params)
           end
 
-          post &::API::V3::Utilities::DefaultCreate.call(model: Version)
+          post &::API::V3::Utilities::DefaultCreate.new(model: Version).mount
 
           route_param :id do
             before do
