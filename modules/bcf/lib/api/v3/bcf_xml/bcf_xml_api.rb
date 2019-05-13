@@ -41,7 +41,7 @@ module API
                 # This may be overriden when multipart is allowed (file uploads)
                 def allowed_content_types
                   if post_request?
-                    %w(application/octet-stream)
+                    %w(multipart/form-data)
                   else
                     super
                   end
@@ -60,11 +60,13 @@ module API
                 end
 
                 begin
-                  file = request.body
+                  file = params[:bcf_xml_file][:tempfile]
                   importer = ::OpenProject::Bcf::BcfXml::Importer.new project, current_user: current_user
                   importer.import! file
                 rescue StandardError => e
                   raise API::Errors::InternalError.new e.message
+                ensure
+                  file.delete
                 end
               end
             end
