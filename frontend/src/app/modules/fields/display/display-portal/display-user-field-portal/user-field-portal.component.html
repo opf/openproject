@@ -1,5 +1,8 @@
-<user-avatar [attr.data-user]="userUrl"
-             data-class-list="avatar-mini">
-</user-avatar>
-
-<span [textContent]="user.name"></span>
+<span [ngClass]="{'-multi-line': multiLines}"
+     *ngFor="let user of users; let last = last">
+  <user-avatar [attr.data-user]="user.href"
+               data-class-list="avatar-mini">
+  </user-avatar>
+  <span [textContent]="user.name"></span>
+  <span *ngIf="!multiLines && !last">, </span>
+</span>

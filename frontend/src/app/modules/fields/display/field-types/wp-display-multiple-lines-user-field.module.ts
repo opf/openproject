@@ -26,31 +26,34 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import {ResourcesDisplayField} from "./wp-display-resources-field.module";
+import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
+import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
 import {DomPortalOutlet} from "@angular/cdk/portal";
-import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
+import {UserResource} from "core-app/modules/hal/resources/user-resource";
 
-export class UserDisplayField extends DisplayField {
+export class MultipleLinesUserFieldModule extends ResourcesDisplayField {
   public userDisplayPortal = this.$injector.get(UserFieldPortalService);
   public portalCleanup = this.$injector.get(PortalCleanupService);
   public outlet:DomPortalOutlet;
 
-  public get value() {
-    if (this.schema) {
-      return this.attribute && this.attribute.name;
-    }
-    else {
-      return null;
+  public render(element:HTMLElement, displayText:string):void {
+    const values = this.attribute;
+    element.setAttribute('title', displayText);
+    element.textContent = displayText;
+
+    element.innerHTML = '';
+
+    if (values.length === 0) {
+      this.renderEmpty(element);
+    } else {
+      this.renderValues(values, element);
     }
   }
 
-  public render(element:HTMLElement, displayText:string):void {
-    if (this.placeholder === displayText) {
-      this.renderEmpty(element);
-    } else {
-      this.outlet = this.userDisplayPortal.create(element, [this.attribute]);
-      this.portalCleanup.add(() => this.outlet.dispose());
-    }
+  protected renderValues(values:UserResource[], element:HTMLElement) {
+    this.outlet = this.userDisplayPortal.create(element, values, true);
+    this.portalCleanup.add(() => this.outlet.dispose());
   }
 }

@@ -26,31 +26,57 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import {ResourcesDisplayField} from "./wp-display-resources-field.module";
+import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
+import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
 import {DomPortalOutlet} from "@angular/cdk/portal";
-import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
+import {UserResource} from "core-app/modules/hal/resources/user-resource";
 
-export class UserDisplayField extends DisplayField {
+export class MultipleUserFieldModule extends ResourcesDisplayField {
   public userDisplayPortal = this.$injector.get(UserFieldPortalService);
   public portalCleanup = this.$injector.get(PortalCleanupService);
   public outlet:DomPortalOutlet;
 
-  public get value() {
-    if (this.schema) {
-      return this.attribute && this.attribute.name;
-    }
-    else {
-      return null;
+
+  public render(element:HTMLElement, displayText:string):void {
+    const names = this.value;
+    element.innerHTML = '';
+    element.setAttribute('title', names.join(', '));
+
+    if (names.length === 0) {
+      this.renderEmpty(element);
+    } else {
+      this.renderValues(this.attribute, element);
     }
   }
 
-  public render(element:HTMLElement, displayText:string):void {
-    if (this.placeholder === displayText) {
-      this.renderEmpty(element);
-    } else {
-      this.outlet = this.userDisplayPortal.create(element, [this.attribute]);
-      this.portalCleanup.add(() => this.outlet.dispose());
+  /**
+   * Renders at most the first two values, followed by a badge indicating
+   * the total count.
+   */
+  protected renderValues(values:UserResource[], element:HTMLElement) {
+    const content = document.createDocumentFragment();
+
+    this.renderAbridgedValues(element, values);
+
+    if (values.length > 2) {
+      const dots = document.createElement('span');
+      dots.innerHTML = '... ';
+      content.appendChild(dots);
+
+      const badge = this.optionDiv(values.length.toString(), 'badge', '-secondary');
+      content.appendChild(badge);
     }
+
+    element.appendChild(content);
+
+  }
+
+  public renderAbridgedValues(element:HTMLElement, values:UserResource[]) {
+    const valueForDisplay = _.take(values, 2);
+
+    this.outlet = this.userDisplayPortal.create(element, valueForDisplay);
+    this.portalCleanup.add(() => this.outlet.dispose());
   }
 }
