@@ -353,9 +353,9 @@ tr:
         help_menu: "<b> Yardım </b> menüsünde bir kullanım kılavuzu ve ek yardım kaynakları
           bulacaksınız. <br> OpenProject ile çalışmanın tadını çıkarın!"
         members: Projenize katılmak için yeni <b> Üyeler </b> davet edin.
-        project_selection: Please click on one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
+        project_selection: Başlamak için lütfen faydalı demo verileri olan projelerden
+          birine tıklayın. <br> <b> Demo proje </b> klasik proje yönetimi için en
+          iyisidir, <b> Scrum projesi </b> Çevik proje yönetimi için daha iyidir.
         sidebar_arrow: Ok işereti ile projenin <b> Ana menüsüne </b> geri dönebilirsiniz.
         welcome: En <b>önemli özellikleri</b> öğrenmek için üç dakikalık bir tanıtım
           gezintisine çıkın. <br> Tüm adımları tamamlamanızı öneririz. Turu istediğiniz
@@ -379,8 +379,8 @@ tr:
           lists: Bir Pano görünümünde, örneğin, çoklu listeler (sütunlar) oluşturabilirsiniz.
             KANBAN kurulu oluşturmak için.
           add: "+ işaretine tıklamak bir Pano içindeki listeye <b>yeni bir kart ekle</b>yecektir."
-          drag: Drag & Drop your cards within a list to re-order, or to another list.
-            A double click will open the details view.
+          drag: Yeniden sıralamak için kartlarınızı bir listede ya da başka bir listeye
+            sürükleyip bırakın. Ayrıntılar görünümünde çift tıklatma açılacaktır.
         wp:
           toggler: Şimdi, size çalışmanız hakkında daha ayrıntılı bir görünüm sağlayan
             <b> İş paketi </b> bölümüne göz atalım.
