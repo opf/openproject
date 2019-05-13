@@ -257,9 +257,9 @@ module API
 
             next unless value
 
-            representer_class = REPRESENTER_MAP[custom_field.field_format].constantize
-
-            representer_class.new(value, current_user: current_user)
+            REPRESENTER_MAP[custom_field.field_format]
+              .constantize
+              .new(value, current_user: current_user)
           end
         end
 

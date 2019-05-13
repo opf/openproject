@@ -187,20 +187,27 @@ module API
 
         def json_key_representer_parts
           cacheable = [represented]
+          cacheable << json_key_custom_fields
+          cacheable << json_key_parts_of_represented
+          cacheable << json_key_dependencies
 
-          cacheable.concat(represented.available_custom_fields) if represented.respond_to?(:available_custom_fields)
+          OpenProject::Cache::CacheKey.expand(cacheable.flatten.compact)
+        end
 
-          self.class.cached_representer_configuration[:key_parts].each do |association|
-            cacheable << represented.send(association)
+        def json_key_parts_of_represented
+          self.class.cached_representer_configuration[:key_parts].map do |association|
+            represented.send(association)
           end
+        end
 
-          # Concat additional dependencies that may either be additional strings
-          # or cachable objects
-          if callable_dependencies = self.class.cached_representer_configuration[:dependencies]
-            cacheable.concat callable_dependencies.call
-          end
+        def json_key_custom_fields
+          represented.available_custom_fields if represented.respond_to?(:available_custom_fields)
+        end
 
-          OpenProject::Cache::CacheKey.expand(cacheable)
+        def json_key_dependencies
+          callable_dependencies = self.class.cached_representer_configuration[:dependencies]
+
+          callable_dependencies&.call
         end
 
         def no_caching?
