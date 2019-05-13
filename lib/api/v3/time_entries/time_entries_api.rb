@@ -49,25 +49,7 @@ module API
             end
           end
 
-          post do
-            params = API::V3::ParseResourceParamsService
-                     .new(current_user, model: TimeEntry)
-                     .call(request_body)
-                     .result
-
-            result = ::TimeEntries::CreateService
-                     .new(user: current_user)
-                     .call(params)
-
-            if result.success?
-              new_entry = result.result
-              TimeEntryRepresenter.create(new_entry,
-                                          current_user: current_user,
-                                          embed_links: true)
-            else
-              fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
-            end
-          end
+          post &::API::V3::Utilities::DefaultCreate.call(model: TimeEntry)
 
           params do
             requires :id, desc: 'Time entry\'s id'
