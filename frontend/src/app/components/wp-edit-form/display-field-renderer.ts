@@ -7,6 +7,7 @@ import {DisplayFieldContext, DisplayFieldService} from "core-app/modules/fields/
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 import {MultipleLinesStringObjectsDisplayField} from "core-app/modules/fields/display/field-types/wp-display-multiple-lines-string-objects-field.module";
 import {ProgressTextDisplayField} from "core-app/modules/fields/display/field-types/wp-display-progress-text-field.module";
+import {MultipleLinesUserFieldModule} from "core-app/modules/fields/display/field-types/wp-display-multiple-lines-user-field.module";
 
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';
@@ -82,9 +83,13 @@ export class DisplayFieldRenderer {
     const context:DisplayFieldContext = { container: this.container, injector: this.injector, options: this.options };
 
     // We handle multi value fields differently in the single view context
-    const isMultiLinesField = ['[]CustomOption', '[]User'].indexOf(fieldSchema.type) >= 0;
-    if (this.container === 'single-view' && isMultiLinesField) {
+    const isCustomMultiLinesField = ['[]CustomOption'].indexOf(fieldSchema.type) >= 0;
+    if (this.container === 'single-view' && isCustomMultiLinesField) {
       return new MultipleLinesStringObjectsDisplayField(workPackage, name, fieldSchema, context) as DisplayField;
+    }
+    const isUserMultiLinesField = ['[]User'].indexOf(fieldSchema.type) >= 0;
+    if (this.container === 'single-view' && isUserMultiLinesField) {
+      return new MultipleLinesUserFieldModule(workPackage, name, fieldSchema, context) as DisplayField;
     }
 
     // We handle progress differently in the timeline

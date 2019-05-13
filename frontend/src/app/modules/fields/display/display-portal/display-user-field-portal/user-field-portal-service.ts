@@ -16,7 +16,7 @@ export class UserFieldPortalService {
 
   }
 
-  public create(container:HTMLElement, user:UserResource) {
+  public create(container:HTMLElement, users:UserResource[], multiLines:boolean = false) {
     // Create the portal outlet
     const outlet = new DomPortalOutlet(
       container,
@@ -26,7 +26,7 @@ export class UserFieldPortalService {
     );
 
     // Create an injector that contains injectable reference to the user
-    const localInjector = createLocalInjector(this.injector, user);
+    const localInjector = createLocalInjector(this.injector, users, multiLines);
 
     // Create a portal for the display field
     const portal = new ComponentPortal(UserFieldPortalComponent, null, localInjector);
