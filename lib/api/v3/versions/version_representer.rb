@@ -51,7 +51,7 @@ module API
 
         associated_resource :project,
                             as: :definingProject,
-                            skip_render: ->(*) { !represented.project.visible?(current_user) }
+                            skip_render: ->(*) { !represented.project || !represented.project.visible?(current_user) }
 
         link :availableInProjects do
           {
@@ -96,12 +96,12 @@ module API
         property :created_on,
                  as: 'createdAt',
                  exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on, allow_nil: true) }
 
         property :updated_on,
                  as: 'updatedAt',
                  exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_on) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_on, allow_nil: true) }
 
         def _type
           'Version'

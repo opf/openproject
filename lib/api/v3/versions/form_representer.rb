@@ -30,9 +30,11 @@
 
 module API
   module V3
-    module Grids
-      class CreateFormRepresenter < FormRepresenter
-        include API::Decorators::CreateForm
+    module Versions
+      class FormRepresenter < ::API::Decorators::SimpleForm
+        def model
+          Version
+        end
       end
     end
   end

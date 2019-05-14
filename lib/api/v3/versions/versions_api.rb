@@ -45,6 +45,7 @@ module API
           post &::API::V3::Utilities::DefaultCreate.new(model: Version).mount
 
           mount ::API::V3::Versions::Schemas::VersionSchemaAPI
+          mount ::API::V3::Versions::CreateFormAPI
 
           route_param :id do
             before do

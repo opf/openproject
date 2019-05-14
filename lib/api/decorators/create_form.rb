@@ -29,10 +29,28 @@
 #++
 
 module API
-  module V3
-    module Grids
-      class CreateFormRepresenter < FormRepresenter
-        include API::Decorators::CreateForm
+  module Decorators
+    module CreateForm
+      def form_url
+        api_v3_paths.send(:"create_#{downcase_model_name}_form")
+      end
+
+      def resource_url
+        api_v3_paths.send(downcase_model_name.pluralize)
+      end
+
+      def commit_method
+        :post
+      end
+
+      def contract_class
+        "::#{model.name.pluralize}::CreateContract".constantize
+      end
+
+      private
+
+      def downcase_model_name
+        model.name.downcase
       end
     end
   end

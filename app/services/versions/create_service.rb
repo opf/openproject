@@ -40,24 +40,25 @@ module Versions
     end
 
     def call(params)
-      version = Version.new
+      attributes_call = set_attributes(params)
 
-      version.attributes = params
+      if attributes_call.success? &&
+        !version.save
+        attributes_call.errors = version.errors
+        attributes_call.success = false
+      end
 
-      assign_defaults(version)
-
-      success, errors = validate_and_save(version, user)
-
-      ServiceResult.new(success: success,
-                        errors: errors,
-                        result: version)
+      attributes_call
     end
 
     private
 
-    def assign_defaults(version)
-      version.sharing ||= 'none'
-      version.status ||= 'open'
+    def set_attributes(params)
+      SetAttributesService
+        .new(user: user,
+             version: Version.new,
+             contract_class: contract_class)
+        .call(params)
     end
   end
 end

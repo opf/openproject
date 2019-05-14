@@ -40,17 +40,12 @@ module Grids
 
     attribute :type
 
-    def assignable_values(column, _user)
-      case column
-      when :scope
-        Grids::Configuration.all_scopes
-      else
-        super
-      end
-    end
-
     def writable?(attribute)
       attribute == :scope || super
+    end
+
+    def assignable_scopes
+      Grids::Configuration.all_scopes
     end
   end
 end

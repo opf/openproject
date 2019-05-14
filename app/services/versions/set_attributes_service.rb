@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,15 +25,47 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Grids
-      class CreateFormRepresenter < FormRepresenter
-        include API::Decorators::CreateForm
-      end
+module Versions
+  class SetAttributesService
+    include Concerns::Contracted
+
+    def initialize(user:, version:, contract_class:)
+      self.user = user
+      self.version = version
+      self.contract_class = contract_class
+    end
+
+    def call(params)
+      version.attributes = params
+
+      assign_defaults(version)
+
+      validate_and_result
+    end
+
+    private
+
+    attr_accessor :user,
+                  :version,
+                  :contract_class
+
+
+    def validate_and_result
+      success, errors = validate(version, user)
+
+      ServiceResult.new(success: success,
+                        errors: errors,
+                        result: version)
+    end
+
+    def assign_defaults(version)
+      return unless version.new_record?
+
+      version.sharing ||= 'none'
+      version.status ||= 'open'
     end
   end
 end

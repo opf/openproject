@@ -33,6 +33,8 @@ require 'model_contract'
 module Grids
   class BaseContract < ::ModelContract
     include OpenProject::StaticRouting::UrlHelpers
+    include AssignableValuesContract
+
     attribute :row_count do
       validate_positive_integer(:row_count)
     end
@@ -63,14 +65,12 @@ module Grids
       Grid
     end
 
-    def assignable_values(column, user)
-      if column == :widgets
-        all_allowed_widget_identifiers(user)
-      end
-    end
-
     def edit_allowed?
       config.writable?(model, user)
+    end
+
+    def assignable_widgets
+      all_allowed_widget_identifiers(user)
     end
 
     private

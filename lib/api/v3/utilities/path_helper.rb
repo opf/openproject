@@ -394,6 +394,10 @@ module API
             "#{versions}/schema"
           end
 
+          def self.create_version_form
+            "#{versions}/form"
+          end
+
           def self.versions_by_project(project_id)
             "#{project(project_id)}/versions"
           end

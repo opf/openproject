@@ -28,6 +28,8 @@
 
 module Versions
   class BaseContract < ::ModelContract
+    include AssignableValuesContract
+
     def self.model
       Version
     end
@@ -47,6 +49,14 @@ module Versions
     attribute :status
     attribute :sharing
     attribute :wiki_page_title
+
+    def assignable_statuses
+      Version::VERSION_STATUSES
+    end
+
+    def assignable_sharings
+      model.allowed_sharings(user)
+    end
 
     private
 

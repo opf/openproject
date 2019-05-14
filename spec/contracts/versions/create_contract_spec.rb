@@ -43,5 +43,54 @@ describe Versions::CreateContract do
     end
 
     subject(:contract) { described_class.new(version, current_user) }
+
+    describe 'assignable_values' do
+
+      context 'for project' do
+        let(:assignable_projects) { double('assignable projects') }
+
+        before do
+          allow(Project)
+            .to receive(:allowed_to)
+            .with(current_user, :manage_versions)
+            .and_return(assignable_projects)
+        end
+
+        it 'is all projects the user has :manage_versions permission in' do
+          expect(subject.assignable_values(:project, current_user))
+            .to eql assignable_projects
+        end
+      end
+
+      context 'for status' do
+        it 'is a list of all available status' do
+          expect(subject.assignable_values(:status, current_user))
+            .to eql %w(open locked closed)
+        end
+      end
+
+      context 'for sharing' do
+        let(:assignable_sharings) { double('assignable sharings') }
+
+        before do
+          allow(version)
+            .to receive(:allowed_sharings)
+            .with(current_user)
+            .and_return(assignable_sharings)
+        end
+
+        it 'is delegated to the version' do
+          expect(subject.assignable_values(:sharing, current_user))
+            .to eql assignable_sharings
+        end
+      end
+
+      context 'for something else' do
+        it 'is nil' do
+          expect(subject.assignable_values(:start_date, current_user))
+            .to be_nil
+        end
+      end
+    end
   end
 end
