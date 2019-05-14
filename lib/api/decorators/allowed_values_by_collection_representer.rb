@@ -39,7 +39,6 @@ module API
                   :link_factory,
                   :allowed_values_getter
 
-
       def initialize(type:,
                      name:,
                      value_representer:,

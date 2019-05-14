@@ -67,7 +67,7 @@ module API
       end
 
       def payload_representer
-        "API::V3::#{model.name.pluralize}::#{model.name}PayloadRepresenter"
+        "API::V3::#{model_name.pluralize}::#{model_name}PayloadRepresenter"
           .constantize
           .new(represented, current_user: current_user)
       end
@@ -75,7 +75,7 @@ module API
       def schema_representer
         contract = contract_class.new(represented, current_user)
 
-        "API::V3::#{model.name.pluralize}::Schemas::#{model.name}SchemaRepresenter"
+        "API::V3::#{model_name.pluralize}::Schemas::#{model_name}SchemaRepresenter"
           .constantize
           .new(contract,
                form_embedded: true,
@@ -88,6 +88,12 @@ module API
 
       def model
         raise NotImplementedError, "subclass responsibility"
+      end
+
+      private
+
+      def model_name
+        model.name.demodulize
       end
     end
   end

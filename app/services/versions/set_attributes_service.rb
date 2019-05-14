@@ -52,7 +52,6 @@ module Versions
                   :version,
                   :contract_class
 
-
     def validate_and_result
       success, errors = validate(version, user)
 

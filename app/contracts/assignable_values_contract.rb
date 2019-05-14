@@ -2,10 +2,8 @@ module AssignableValuesContract
   def assignable_values(column, _user)
     method_name = "assignable_#{column.to_s.pluralize}"
 
-    if respond_to?(method_name, :true)
+    if respond_to?(method_name, true)
       send(method_name)
-    else
-      nil
     end
   end
 end

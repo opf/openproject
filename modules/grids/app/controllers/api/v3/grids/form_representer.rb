@@ -33,7 +33,7 @@ module API
     module Grids
       class FormRepresenter < ::API::Decorators::SimpleForm
         def model
-          Grid
+          ::Grids::Grid
         end
       end
     end

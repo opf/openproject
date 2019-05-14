@@ -67,7 +67,7 @@ module API
                  visibility: false
 
           schema_with_allowed_string_collection :status,
-                                                 type: 'String'
+                                                type: 'String'
 
           schema_with_allowed_string_collection :sharing,
                                                 type: 'String'
@@ -103,4 +103,3 @@ module API
     end
   end
 end
-

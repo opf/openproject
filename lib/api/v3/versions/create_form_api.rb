@@ -46,10 +46,10 @@ module API
                      .result
 
             call = ::Versions::SetAttributesService
-                     .new(user: current_user,
-                          version: Version.new,
-                          contract_class: ::Versions::CreateContract)
-                     .call(params)
+                   .new(user: current_user,
+                        version: Version.new,
+                        contract_class: ::Versions::CreateContract)
+                   .call(params)
 
             api_errors = ::API::Errors::ErrorBase.create_errors(call.errors)
 

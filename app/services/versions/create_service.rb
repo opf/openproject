@@ -43,8 +43,8 @@ module Versions
       attributes_call = set_attributes(params)
 
       if attributes_call.success? &&
-        !version.save
-        attributes_call.errors = version.errors
+         !attributes_call.result.save
+        attributes_call.errors = attributes_call.result.errors
         attributes_call.success = false
       end
 

@@ -44,13 +44,13 @@ module API
       end
 
       def contract_class
-        "::#{model.name.pluralize}::CreateContract".constantize
+        "::#{model_name.pluralize}::CreateContract".constantize
       end
 
       private
 
       def downcase_model_name
-        model.name.downcase
+        model_name.downcase
       end
     end
   end
