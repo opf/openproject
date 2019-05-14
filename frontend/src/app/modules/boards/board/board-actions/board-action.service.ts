@@ -32,4 +32,10 @@ export interface BoardActionService {
    * Get available values from the active queries
    */
   getAvailableValues(board:Board, queries:QueryResource[]):Promise<HalResource[]>;
+
+  /**
+   * Get action specific items that shall be shown in the list menu
+   * @returns {any[]}
+   */
+  getAdditionalListMenuItems(actionAttributeValue:HalResource):any[];
 }

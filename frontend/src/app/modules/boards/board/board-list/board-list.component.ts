@@ -1,7 +1,9 @@
 import {
   Component,
   ElementRef,
-  EventEmitter, Inject, Injector,
+  EventEmitter,
+  Inject,
+  Injector,
   Input,
   OnChanges,
   OnDestroy,
@@ -30,17 +32,16 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
-import {GonService} from "core-app/modules/common/gon/gon.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {BoardService} from "app/modules/boards/board/board.service";
-import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {BoardListService} from "core-app/modules/boards/board/board-list/board-list.service";
 
 @Component({
   selector: 'board-list',
@@ -103,7 +104,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly boardCache:BoardCacheService,
               private readonly notifications:NotificationsService,
               private readonly querySpace:IsolatedQuerySpace,
-              private readonly Gon:GonService,
               private readonly wpNotificationService:WorkPackageNotificationService,
               private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               private readonly authorisationService:AuthorisationService,
@@ -113,7 +113,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly loadingIndicator:LoadingIndicatorService,
               private readonly wpCacheService:WorkPackageCacheService,
               private readonly boardService:BoardService,
-              private readonly boardListService:BoardListsService) {
+              private readonly boardListService:BoardListService) {
     super(I18n);
   }
 
@@ -219,12 +219,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public boardListActionColorClass(query:QueryResource):string {
     const attribute = this.board.actionAttribute!;
-    const filter = _.find(query.filters, f => f.id === attribute);
-
-    if (!(filter && filter.values[0] instanceof HalResource)) {
-      return '';
-    }
-    const value = filter.values[0] as HalResource;
+    const value = this.boardListService.getActionAttributeValue(this.board, query);
     return Highlighting.backgroundClass(attribute, value.id!);
   }
 

@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {Board} from "core-app/modules/boards/board/board";
 import {StatusDmService} from "core-app/modules/hal/dm-services/status-dm.service";
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
@@ -13,8 +12,7 @@ import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 @Injectable()
 export class BoardStatusActionService implements BoardActionService {
 
-  constructor(protected pathHelper:PathHelperService,
-              protected boardListService:BoardListsService,
+  constructor(protected boardListsService:BoardListsService,
               protected I18n:I18nService,
               protected statusDm:StatusDmService) {
   }
@@ -66,7 +64,7 @@ export class BoardStatusActionService implements BoardActionService {
       values: [value.id]
     }};
 
-    return this.boardListService.addQuery(board, params, [filter]);
+    return this.boardListsService.addQuery(board, params, [filter]);
   }
 
   /**
@@ -91,5 +89,9 @@ export class BoardStatusActionService implements BoardActionService {
     return this.statusDm
       .list()
       .then(collection => collection.elements);
+  }
+
+  public getAdditionalListMenuItems(actionAttributeValue:HalResource) {
+    return [];
   }
 }

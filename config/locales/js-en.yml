@@ -53,6 +53,7 @@ en:
         check_out_link: 'Check out the Enterprise Edition.'
       lists:
         delete: 'Delete list'
+        edit_version: 'Edit version'
 
     card:
       add_new: 'Add new card'
