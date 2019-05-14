@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Input} from '@angular/core';
+import {Component, Injector, Input, OnDestroy} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {
@@ -34,15 +34,17 @@ import {
   GroupDescriptor
 } from 'core-components/work-packages/wp-single-view/wp-single-view.component';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 
 @Component({
   selector: 'wp-attribute-group',
   templateUrl: './wp-attribute-group.template.html'
 })
-export class WorkPackageFormAttributeGroupComponent {
+export class WorkPackageFormAttributeGroupComponent implements OnDestroy {
   @Input() public workPackage:WorkPackageResource;
   @Input() public group:GroupDescriptor;
 
+  public portalCleanupService:PortalCleanupService = this.injector.get(PortalCleanupService);
   public text = {
     date: {
       startDate: this.I18n.t('js.label_no_start_date'),
@@ -51,7 +53,12 @@ export class WorkPackageFormAttributeGroupComponent {
   };
 
   constructor(readonly I18n:I18nService,
-              public wpEditFieldGroup:WorkPackageEditFieldGroupComponent) {
+              public wpEditFieldGroup:WorkPackageEditFieldGroupComponent,
+              protected injector:Injector) {
+  }
+
+  ngOnDestroy() {
+    this.portalCleanupService.clear();
   }
 
   public trackByName(_index:number, elem:{ name:string }) {
