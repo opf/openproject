@@ -406,15 +406,11 @@ a.main-menu--parent-node
 // Badges for menu items such as "EXPERIMENTAL" or "BETA"
 $badge_offset: 4px
 
-.menu-item--title.-has-badge
-  // As this is flex box with a vertical center we need this trick to undo centering the whole content including a badge.
-  // The goal is to leave the caption where it was before adding a badge.
-  margin-top: -1 * $badge_offset
-
 .main-item--badge
   font-size: 10px
-  vertical-align: $badge_offset
+  position: relative
+  top: -$badge_offset
   text-transform: uppercase
-  margin-left: 4px
+  margin-left: 5px
   font-weight: bold
   font-style: italic

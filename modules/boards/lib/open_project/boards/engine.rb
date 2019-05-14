@@ -39,7 +39,8 @@ module OpenProject::Boards
            caption: :'boards.label_boards',
            after: :work_packages,
            param: :project_id,
-           icon: 'icon2 icon-boards'
+           icon: 'icon2 icon-boards',
+           badge: 'boards.new_badge'
 
       menu :project_menu,
            :board_menu,
