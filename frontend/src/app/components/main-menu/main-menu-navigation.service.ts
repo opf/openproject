@@ -101,7 +101,7 @@ export class MainMenuNavigationService {
     }
 
     jQuery('#main-menu ul.main-menu--children').each(function(_i, child) {
-      var title = jQuery(child).parents('li').find('.main-item-wrapper .menu-item--title').text();
+      var title = jQuery(child).parents('li').find('.main-item-wrapper .menu-item--title').contents()[0].textContent;
       var parentURL = jQuery(child).parents('li').find('.main-item-wrapper > a').attr('href');
       var header = jQuery('<div class="main-menu--children-menu-header"></div>');
       var upLink = jQuery('<a class="main-menu--arrow-left-to-project" href="#"><i class="icon-arrow-left1" aria-hidden="true"></i></a>');

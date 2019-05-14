@@ -320,7 +320,7 @@ module Redmine::MenuManager::MenuHelper
   def badge_for(item)
     badge = ''.html_safe
     if item.badge.present?
-      badge += ' '.html_safe + content_tag('span', I18n.t(item.badge), class: 'main-item--badge')
+      badge += content_tag('span', I18n.t(item.badge), class: 'main-item--badge')
     end
     badge
   end
