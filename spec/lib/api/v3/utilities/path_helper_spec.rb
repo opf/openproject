@@ -600,6 +600,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/versions/42/projects'
   end
 
+  describe '#version_schema' do
+    subject { helper.version_schema }
+
+    it_behaves_like 'api v3 path', '/versions/schema'
+  end
+
   describe '#work_packages_by_project' do
     subject { helper.work_packages_by_project 42 }
 

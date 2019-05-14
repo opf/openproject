@@ -43,6 +43,12 @@ module API
 
         self_link
 
+        link :schema do
+          {
+            href: api_v3_paths.version_schema
+          }
+        end
+
         associated_resource :project,
                             as: :definingProject,
                             skip_render: ->(*) { !represented.project.visible?(current_user) }
@@ -53,8 +59,11 @@ module API
           }
         end
 
-        property :id, render_nil: true
-        property :name, render_nil: true
+        property :id,
+                 render_nil: true
+
+        property :name,
+                 render_nil: true
 
         property :description,
                  exec_context: :decorator,
@@ -71,6 +80,7 @@ module API
                    datetime_formatter.format_date(represented.start_date, allow_nil: true)
                  },
                  render_nil: true
+
         property :due_date,
                  as: 'endDate',
                  exec_context: :decorator,
@@ -78,11 +88,16 @@ module API
                    datetime_formatter.format_date(represented.due_date, allow_nil: true)
                  },
                  render_nil: true
-        property :status, render_nil: true
+
+        property :status
+
+        property :sharing
+
         property :created_on,
                  as: 'createdAt',
                  exec_context: :decorator,
                  getter: ->(*) { datetime_formatter.format_datetime(represented.created_on) }
+
         property :updated_on,
                  as: 'updatedAt',
                  exec_context: :decorator,

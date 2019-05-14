@@ -40,7 +40,6 @@ module Versions
       super
     end
 
-    attribute :project_id
     attribute :name
     attribute :description
     attribute :start_date

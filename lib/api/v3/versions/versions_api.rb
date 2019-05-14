@@ -44,6 +44,8 @@ module API
 
           post &::API::V3::Utilities::DefaultCreate.new(model: Version).mount
 
+          mount ::API::V3::Versions::Schemas::VersionSchemaAPI
+
           route_param :id do
             before do
               @version = Version.find(params[:id])

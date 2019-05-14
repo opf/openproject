@@ -81,7 +81,6 @@ module API
         attr_accessor :model,
                       :representer
 
-
         def service
           @service ||= deduce_service
         end

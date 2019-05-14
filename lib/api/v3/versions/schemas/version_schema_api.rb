@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,11 +23,29 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Versions
-  class CreateContract < BaseContract
-    attribute :project_id
+module API
+  module V3
+    module Versions
+      module Schemas
+        class VersionSchemaAPI < ::API::OpenProjectAPI
+          resources :schema do
+            before do
+              authorize :manage_versions, global: true
+            end
+
+            get do
+              contract = ::Versions::CreateContract.new(Version.new, current_user)
+
+              ::API::V3::Versions::Schemas::VersionSchemaRepresenter.new(contract,
+                                                                         api_v3_paths.version_schema,
+                                                                         current_user: current_user)
+            end
+          end
+        end
+      end
+    end
   end
 end

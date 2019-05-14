@@ -35,7 +35,10 @@ module API
   module Decorators
     class AllowedValuesByCollectionRepresenter < PropertySchemaRepresenter
       attr_accessor :allowed_values
-      attr_reader :value_representer, :link_factory
+      attr_reader :value_representer,
+                  :link_factory,
+                  :allowed_values_getter
+
 
       def initialize(type:,
                      name:,
@@ -46,9 +49,11 @@ module API
                      writable: true,
                      visibility: nil,
                      attribute_group: nil,
-                     current_user: nil)
+                     current_user: nil,
+                     allowed_values_getter: nil)
         @value_representer = value_representer
         @link_factory = link_factory
+        @allowed_values_getter = allowed_values_getter
 
         super(type: type,
               name: name,
@@ -71,19 +76,29 @@ module API
       collection :allowed_values,
                  exec_context: :decorator,
                  embedded: true,
-                 getter: ->(*) {
-                   next unless allowed_values && value_representer
-
-                   allowed_values.map do |value|
-                     representer = if value_representer.respond_to?(:call)
-                                     value_representer.(value)
-                                   else
-                                     value_representer
-                                   end
-
-                     representer.new(value, current_user: current_user)
+                 getter: ->(*) do
+                   if allowed_values_getter
+                     instance_exec(&allowed_values_getter)
+                   else
+                     allowed_values_getter_default
                    end
-                 }
+                 end
+
+      private
+
+      def allowed_values_getter_default
+        return unless allowed_values && value_representer
+
+        allowed_values.map do |value|
+          representer = if value_representer.respond_to?(:call)
+                          value_representer.(value)
+                        else
+                          value_representer
+                        end
+
+          representer.new(value, current_user: current_user)
+        end
+      end
     end
   end
 end

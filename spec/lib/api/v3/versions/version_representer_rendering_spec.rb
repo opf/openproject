@@ -50,6 +50,13 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
       end
     end
 
+    describe 'to schema' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'schema' }
+        let(:href) { api_v3_paths.version_schema }
+      end
+    end
+
     describe 'to the defining project' do
       context 'if the user has the permission to see the project' do
         before do
@@ -125,7 +132,17 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
       let(:json_path) { 'endDate' }
     end
 
-    it { is_expected.to be_json_eql(version.status.to_json).at_path('status') }
+    it 'has a status' do
+      is_expected
+        .to be_json_eql(version.status.to_json)
+        .at_path('status')
+    end
+
+    it 'has a sharing' do
+      is_expected
+        .to be_json_eql(version.sharing.to_json)
+        .at_path('sharing')
+    end
 
     it_behaves_like 'has UTC ISO 8601 date and time' do
       let(:date) { version.created_on }

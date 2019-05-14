@@ -390,6 +390,10 @@ module API
             "#{root}/versions"
           end
 
+          def self.version_schema
+            "#{versions}/schema"
+          end
+
           def self.versions_by_project(project_id)
             "#{project(project_id)}/versions"
           end
