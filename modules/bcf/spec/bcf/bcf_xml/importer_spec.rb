@@ -56,7 +56,7 @@ describe ::OpenProject::Bcf::BcfXml::Importer do
                       roles: [manage_bcf_role, member_role])
   }
 
-  subject { described_class.new project, current_user: bcf_manager }
+  subject { described_class.new file, project, current_user: bcf_manager }
 
   before do
     workflow
@@ -79,11 +79,11 @@ describe ::OpenProject::Bcf::BcfXml::Importer do
 
   describe '#import!' do
     it 'imports successfully' do
-      expect(subject.import!(file)).to be_present
+      expect(subject.import!).to be_present
     end
 
     it 'creates to work packages' do
-      subject.import! file
+      subject.import!
 
       expect(::Bcf::Issue.count).to be_eql 2
       expect(WorkPackage.count).to be_eql 2

@@ -55,12 +55,9 @@ module ::Bcf
     def import; end
 
     def prepare_import
-      @bcf_file = params[:bcf_file]
-
       begin
         @roles = Role.find_all_givable
-
-        @listing = @importer.get_extractor_list! @bcf_file.path
+        @listing = @importer.get_extractor_list
         if @listing.blank?
           raise(StandardError.new(I18n.t('bcf.exceptions.file_invalid')))
         end
@@ -68,15 +65,6 @@ module ::Bcf
         @issues = ::Bcf::Issue.with_markup
                     .includes(work_package: %i[status priority assigned_to])
                     .where(uuid: @listing.map { |e| e[:uuid] })
-
-        all_people = @listing.map { |entry| entry[:people] }.flatten.uniq
-        all_mails = @listing.map { |entry| entry[:mail_addresses] }.flatten.uniq
-
-        @known_users = User.where(mail: all_mails).includes(:memberships)
-        @unknown_mails = all_mails.map(&:downcase) - @known_users.map(&:mail).map(&:downcase)
-        @members = @known_users.select { |user| user.projects.map(&:id).include? @project.id }
-        @non_members = @known_users - @members
-        @invalid_people = all_people - all_mails
       rescue StandardError => e
         flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
         redirect_to action: :index
@@ -85,7 +73,7 @@ module ::Bcf
 
     def perform_import
       begin
-        result = @importer.import! @bcf_attachment.local_path
+        result = @importer.import!
         flash[:notice] = I18n.t('bcf.bcf_xml.import_successful', count: result)
       rescue StandardError => e
         flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
@@ -98,7 +86,7 @@ module ::Bcf
     private
 
     def build_importer
-      @importer = ::OpenProject::Bcf::BcfXml::Importer.new @project, current_user: current_user
+      @importer = ::OpenProject::Bcf::BcfXml::Importer.new @bcf_xml_file, @project, current_user: current_user
     end
 
     def get_issue_type
@@ -107,13 +95,15 @@ module ::Bcf
 
     def get_persisted_file
       @bcf_attachment = Attachment.find_by! id: session[:bcf_file_id], author: current_user
+      @bcf_xml_file = File.new @bcf_attachment.local_path
     rescue ActiveRecord::RecordNotFound
       render_404 'BCF file not found'
     end
 
     def persist_file
       file = params[:bcf_file]
-      @bcf_attachment = Attachment.create! file: file, description: file.original_filename, author: current_user
+      @bcf_attachment = Attachment.create! file: file, description: params[:bcf_file].original_filename, author: current_user
+      @bcf_xml_file = File.new @bcf_attachment.local_path
       session[:bcf_file_id] = @bcf_attachment.id
     rescue StandardError => e
       flash[:error] = "Failed to persist BCF file: #{e.message}"

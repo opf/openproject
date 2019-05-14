@@ -3,18 +3,21 @@ require_relative 'issue_reader'
 
 module OpenProject::Bcf::BcfXml
   class Importer
-    attr_reader :project, :zip, :current_user
+    attr_reader :file, :project, :current_user, :instance_cache
 
-    def initialize(project, current_user:)
+    def initialize(file, project, current_user:)
+      @file = file
       @project = project
       @current_user = current_user
+
+      @instance_cache = {}
     end
 
     ##
     # Get a list of issues contained in a BCF
     # but do not perform the import
-    def get_extractor_list!(file)
-      Zip::File.open(file) do |zip|
+    def get_extractor_list
+      @extractor_list ||= Zip::File.open(@file) do |zip|
         yield_markup_bcf_files(zip)
           .map do |entry|
           to_listing(MarkupExtractor.new(entry))
@@ -22,8 +25,36 @@ module OpenProject::Bcf::BcfXml
       end
     end
 
-    def import!(file)
-      Zip::File.open(file) do |zip|
+    def all_people
+      @instance_cache[:all_people] ||= get_extractor_list.map { |entry| entry[:people] }.flatten.uniq
+    end
+
+    def all_mails
+      @instance_cache[:all_mails] ||= get_extractor_list.map { |entry| entry[:mail_addresses] }.flatten.uniq
+    end
+
+    def known_users
+      @instance_cache[:known_users] ||= User.where(mail: all_mails).includes(:memberships)
+    end
+
+    def unknown_mails
+      @instance_cache[:unknown_mails] ||= all_mails.map(&:downcase) - known_users.map(&:mail).map(&:downcase)
+    end
+
+    def members
+      @instance_cache[:members] ||= known_users.select { |user| user.projects.map(&:id).include? @project.id }
+    end
+
+    def non_members
+      @instance_cache[:non_members] ||= known_users - members
+    end
+
+    def invalid_people
+      @instance_cache[:invalid_people] ||= all_people - all_mails
+    end
+
+    def import!
+      Zip::File.open(@file) do |zip|
         # Extract all topics of the zip and save them
         synchronize_topics(zip)
 

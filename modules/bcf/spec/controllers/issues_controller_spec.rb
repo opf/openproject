@@ -140,7 +140,7 @@ describe ::Bcf::IssuesController, type: :controller do
       end
 
       before do
-        allow_any_instance_of(Attachment).to receive(:local_file).and_return(file)
+        allow_any_instance_of(Attachment).to receive(:diskfile).and_return(file)
         allow(Attachment).to receive(:find_by).and_return(Attachment.new)
       end
 
