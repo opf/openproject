@@ -481,7 +481,7 @@ tr:
         redirect_uri: Yönlendirme URI'si
         client_credentials_user_id: Müşteri Kimlik Bilgileri ve Kullanıcı Kimliği
           gereklidir
-        scopes: kapsamları
+        scopes: Kapsamlar
         confidential: Gizli
     errors:
       messages:

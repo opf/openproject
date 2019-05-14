@@ -375,7 +375,7 @@ tr:
             gösterir. Bir kullanıcı hikayesinin yanındaki + simgesi ile yeni görevler
             veya engeller ekleyin. Sürükle ve bırak özelliği ile durumu güncelleyebilirsiniz."
         boards:
-          overview: Çalışmanızı sezgisel <b>Panolar</b> görünümünde yönetin.
+          overview: Çalışmanızı sezgisel bir <b> Panolar </b> görünümünde yönetin.
           lists: Bir Pano görünümünde, örneğin, çoklu listeler (sütunlar) oluşturabilirsiniz.
             KANBAN kurulu oluşturmak için.
           add: "+ işaretine tıklamak bir Pano içindeki listeye <b>yeni bir kart ekle</b>yecektir."
