@@ -80,7 +80,7 @@ module API
         date_time_property :created_on,
                            as: 'createdAt'
 
-        date_time_property :updated_at,
+        date_time_property :updated_on,
                            as: 'updatedAt'
 
         def _type

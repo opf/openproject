@@ -78,9 +78,11 @@ module API
 
         def default_date_setter(name)
           ->(fragment:, decorator:, **) {
-            date = decorator.datetime_formatter.parse_date(fragment,
-                                                           name,
-                                                           allow_nil: true)
+            date = decorator
+                   .datetime_formatter
+                   .parse_date(fragment,
+                               name.to_s.camelize(:lower),
+                               allow_nil: true)
 
             send(:"#{name}=", date)
           }

@@ -123,7 +123,9 @@ shared_examples_for 'version contract' do
   end
 
   context 'if sharing is nil' do
-    let(:version_sharing) { nil }
+    before do
+      version.sharing = 'nil'
+    end
 
     it 'is invalid' do
       expect_valid(false, sharing: %i(inclusion))
@@ -131,7 +133,9 @@ shared_examples_for 'version contract' do
   end
 
   context 'if sharing is bogus' do
-    let(:version_sharing) { 'bogus' }
+    before do
+      version.sharing = 'bogus'
+    end
 
     it 'is invalid' do
       expect_valid(false, sharing: %i(inclusion))
@@ -139,14 +143,19 @@ shared_examples_for 'version contract' do
   end
 
   context 'if sharing is system and the user an admin' do
-    let(:version_sharing) { 'system' }
     let(:current_user) { FactoryBot.build_stubbed(:admin) }
+
+    before do
+      version.sharing = 'system'
+    end
 
     it_behaves_like 'is valid'
   end
 
   context 'if sharing is system and the user no admin' do
-    let(:version_sharing) { 'system' }
+    before do
+      version.sharing = 'system'
+    end
 
     it 'is invalid' do
       expect_valid(false, sharing: %i(inclusion))
@@ -154,20 +163,26 @@ shared_examples_for 'version contract' do
   end
 
   context 'if sharing is descendants' do
-    let(:version_sharing) { 'descendants' }
+    before do
+      version.sharing = 'descendants'
+    end
 
     it_behaves_like 'is valid'
   end
 
   context 'if sharing is tree and the user has manage permission on the root project' do
-    let(:version_sharing) { 'tree' }
+    before do
+      version.sharing = 'tree'
+    end
 
     it_behaves_like 'is valid'
   end
 
   context 'if sharing is tree and the user has no manage permission on the root project' do
-    let(:version_sharing) { 'tree' }
     let(:root_permissions) { [] }
+    before do
+      version.sharing = 'tree'
+    end
 
     it 'is invalid' do
       expect_valid(false, sharing: %i(inclusion))
@@ -175,14 +190,19 @@ shared_examples_for 'version contract' do
   end
 
   context 'if sharing is hierarchy and the user has manage permission on the root project' do
-    let(:version_sharing) { 'hierarchy' }
+    before do
+      version.sharing = 'hierarchy'
+    end
 
     it_behaves_like 'is valid'
   end
 
   context 'if sharing is hierarchy and the user has no manage permission on the root project' do
-    let(:version_sharing) { 'hierarchy' }
     let(:root_permissions) { [] }
+
+    before do
+      version.sharing = 'hierarchy'
+    end
 
     it 'is invalid' do
       expect_valid(false, sharing: %i(inclusion))

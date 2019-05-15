@@ -31,38 +31,11 @@ module API
     module Versions
       class CreateFormAPI < ::API::OpenProjectAPI
         resource :form do
-          helpers do
-            include API::V3::Utilities::FormHelper
-          end
-
           before do
             authorize :manage_versions, global: true
           end
 
-          post do
-            params = API::V3::ParseResourceParamsService
-                     .new(current_user, model: Version, representer: VersionPayloadRepresenter)
-                     .call(request_body)
-                     .result
-
-            call = ::Versions::SetAttributesService
-                   .new(user: current_user,
-                        version: Version.new,
-                        contract_class: ::Versions::CreateContract)
-                   .call(params)
-
-            api_errors = ::API::Errors::ErrorBase.create_errors(call.errors)
-
-            # errors for invalid data (e.g. validation errors) are handled inside the form
-            if only_validation_errors(api_errors)
-              status 200
-              CreateFormRepresenter.new(call.result,
-                                        errors: api_errors,
-                                        current_user: current_user)
-            else
-              fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
-            end
-          end
+          post &::API::V3::Utilities::DefaultCreateForm.new(model: Version).mount
         end
       end
     end

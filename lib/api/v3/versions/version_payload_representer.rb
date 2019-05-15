@@ -38,8 +38,13 @@ module API
 
         def writeable_attributes
           @writeable_attributes ||= begin
+            static = if represented.new_record?
+                       %w[endDate definingProject]
+                     else
+                       %w[endDate]
+                     end
             super +
-              %w[endDate definingProject] +
+              static +
               represented.custom_field_values.map { |cv| "customField#{cv.custom_field_id}" }
           end
         end

@@ -26,34 +26,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/work_package_payload_representer'
-
 module API
   module V3
-    module WorkPackages
-      module FormHelper
-        extend Grape::API::Helpers
-        include ::API::V3::Utilities::FormHelper
-
-        def respond_with_work_package_form(work_package, contract_class:, form_class:, action: :update)
-          parameters = parse_body
-
-          result = ::WorkPackages::SetAttributesService
-                   .new(user: current_user, work_package: work_package, contract_class: contract_class)
-                   .call(parameters)
-
-          api_errors = ::API::Errors::ErrorBase.create_errors(result.errors)
-
-          # errors for invalid data (e.g. validation errors) are handled inside the form
-          if only_validation_errors(api_errors)
-            status 200
-            form_class.new(work_package,
-                           current_user: current_user,
-                           errors: api_errors,
-                           action: action)
-          else
-            fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
+    module Utilities
+      class DefaultCreateForm < DefaultForm
+        def default_instance_generator(model)
+          ->(_params, _current_user) do
+            model.new
           end
+        end
+
+        private
+
+        def update_or_create
+          "Create"
         end
       end
     end

@@ -29,35 +29,27 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe Versions::CreateContract do
+describe Versions::UpdateContract do
   it_behaves_like 'version contract' do
     let(:version) do
-      Version.new(name: version_name,
-                  project: version_project,
-                  description: version_description,
-                  start_date: version_start_date,
-                  effective_date: version_due_date,
-                  status: version_status,
-                  sharing: version_sharing,
-                  wiki_page_title: version_wiki_page_title)
+      FactoryBot.build_stubbed(:version,
+                               name: version_name,
+                               project: version_project,
+                               description: version_description,
+                               start_date: version_start_date,
+                               effective_date: version_due_date,
+                               status: version_status,
+                               sharing: version_sharing,
+                               wiki_page_title: version_wiki_page_title)
     end
 
     subject(:contract) { described_class.new(version, current_user) }
 
     describe 'assignable_values' do
       context 'for project' do
-        let(:assignable_projects) { double('assignable projects') }
-
-        before do
-          allow(Project)
-            .to receive(:allowed_to)
-            .with(current_user, :manage_versions)
-            .and_return(assignable_projects)
-        end
-
-        it 'is all projects the user has :manage_versions permission in' do
+        it 'is empty' do
           expect(subject.assignable_values(:project, current_user))
-            .to eql assignable_projects
+            .to be_empty
         end
       end
 

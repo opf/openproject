@@ -100,9 +100,11 @@ module API
                    end
                  end
 
-        date_time_property :created_at
+        date_time_property :created_at,
+                           render_nil: false
 
-        date_time_property :updated_at
+        date_time_property :updated_at,
+                           render_nil: false
 
         def _type
           'Grid'

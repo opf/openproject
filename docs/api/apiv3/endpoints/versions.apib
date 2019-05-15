@@ -375,7 +375,7 @@ There is no form and schema resource for versions, yet.
 ## Version create form [/api/v3/versions/form]
 
 This endpoint returns a form allowing a guided creation of new versions.
-The returned form will be pre-filled with default values for every property (e.g. 'status' and 'sharing'), if available.
+The returned payload part of the form will be pre-filled with default values for every property (e.g. 'status' and 'sharing'), if available.
 
 For more details and all possible responses see the general specification of [Forms](#forms).
 
@@ -668,6 +668,270 @@ For more details and all possible responses see the general specification of [Fo
                 "message": "You are not authorized to access this resource."
             }
 
+## Version update form [/api/v3/versions/{id}/form]
+
+This endpoint returns a form allowing a guided modification of existing versions.
+The returned payload part of the form will be contain a merge between the already existing properties' values (as long as they are writeable) and the provided values with the later having precedence.
+
+For more details and all possible responses see the general specification of [Forms](#forms).
+
+## Version update form [POST]
+
++ Request Update version form
+
+    + Body
+
+            {
+                "name": ""
+                "endDate": "2018-01-10",
+                "startDate": "2018-01-01",
+                "status": "closed",
+                "sharing": "system",
+                "customField14": "blubs"
+            }
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_type": "Form",
+                "_embedded": {
+                    "payload": {
+                        "name": "",
+                        "description": {
+                            "raw": "",
+                        },
+                        "startDate": "2018-01-01",
+                        "endDate": "2018-01-10",
+                        "status": "closed",
+                        "sharing": "system",
+                        "customField14": "blubs",
+                        "_links":
+                            "customField40": {
+                                "href": null,
+                                "title": null
+                            }
+                        }
+                    },
+                    "schema": {
+                        "_type": "Schema",
+                        "_dependencies": [],
+                        "id": {
+                            "type": "Integer",
+                            "name": "ID",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "name": {
+                            "type": "String",
+                            "name": "Name",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "minLength": 1,
+                            "maxLength": 60
+                        },
+                        "description": {
+                            "type": "Formattable",
+                            "name": "Description",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true
+                        },
+                        "startDate": {
+                            "type": "Date",
+                            "name": "Start date",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true
+                        },
+                        "endDate": {
+                            "type": "Date",
+                            "name": "Finish date",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "status": {
+                            "type": "String",
+                            "name": "Status",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default",
+                            "_embedded": {
+                                "allowedValues": [
+                                    "open",
+                                    "locked",
+                                    "closed"
+                                ]
+                            },
+                            "_links": {}
+                        },
+                        "sharing": {
+                            "type": "String",
+                            "name": "Sharing",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default",
+                            "_embedded": {
+                                "allowedValues": [
+                                    "none",
+                                    "descendants",
+                                    "hierarchy",
+                                    "tree",
+                                    "system"
+                                ]
+                            },
+                            "_links": {}
+                        },
+                        "createdAt": {
+                            "type": "DateTime",
+                            "name": "Created on",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "updatedAt": {
+                            "type": "DateTime",
+                            "name": "Updated on",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "definingProject": {
+                            "type": "Project",
+                            "name": "Project",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false,
+                            "_links": {}
+                        },
+                        "customField14": {
+                            "type": "String",
+                            "name": "text CF",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default"
+                        },
+                        "customField40": {
+                            "type": "CustomOption",
+                            "name": "List CF",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default",
+                            "_embedded": {
+                                "allowedValues": [
+                                    {
+                                        "_type": "CustomOption",
+                                        "id": 516,
+                                        "value": "First option",
+                                        "_links": {
+                                            "self": {
+                                                "href": "/api/v3/custom_options/516",
+                                                "title": "First option"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "_type": "CustomOption",
+                                        "id": 517,
+                                        "value": "Second option",
+                                        "_links": {
+                                            "self": {
+                                                "href": "/api/v3/custom_options/517",
+                                                "title": "Second option"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "_type": "CustomOption",
+                                        "id": 518,
+                                        "value": "Third option",
+                                        "_links": {
+                                            "self": {
+                                                "href": "/api/v3/custom_options/518",
+                                                "title": "Third option"
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            "_links": {
+                                "allowedValues": [
+                                    {
+                                        "href": "/api/v3/custom_options/516",
+                                        "title": "First option"
+                                    },
+                                    {
+                                        "href": "/api/v3/custom_options/517",
+                                        "title": "Second option"
+                                    },
+                                    {
+                                        "href": "/api/v3/custom_options/518",
+                                        "title": "Third option"
+                                    }
+                                ]
+                            }
+                        },
+                        "_links": {}
+                    },
+                    "validationErrors": {
+                        "name": {
+                            "_type": "Error",
+                            "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                            "message": "Name can't be blank.",
+                            "_embedded": {
+                                "details": {
+                                    "attribute": "name"
+                                }
+                            }
+                        }
+                    }
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/versions/form",
+                        "method": "post"
+                    },
+                    "validate": {
+                        "href": "/api/v3/versions/form",
+                        "method": "post"
+                    }
+                }
+            }
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** manage versions in the version's project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
 ## Versions by Project [/api/v3/projects/{project_id}/versions]
 
 + Model
@@ -740,6 +1004,7 @@ For more details and all possible responses see the general specification of [Fo
                     ]
                 }
             }
+
 
 ## List versions available in a project [GET]
 

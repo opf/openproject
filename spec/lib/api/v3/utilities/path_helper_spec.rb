@@ -582,6 +582,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/versions/42'
   end
 
+  describe '#version_form' do
+    subject { helper.version_form(42) }
+
+    it_behaves_like 'api v3 path', '/versions/42/form'
+  end
+
   describe '#versions' do
     subject { helper.versions }
 
