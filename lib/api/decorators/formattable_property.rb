@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,24 +29,47 @@
 #++
 
 module API
-  module V3
-    module Versions
-      module Schemas
-        class VersionSchemaAPI < ::API::OpenProjectAPI
-          resources :schema do
-            before do
-              authorize_any %i[manage_versions view_work_packages],
-                            global: true
-            end
+  module Decorators
+    module FormattableProperty
+      def self.included(base)
+        base.extend ClassMethods
+      end
 
-            get do
-              contract = ::Versions::CreateContract.new(Version.new, current_user)
+      def self.prepended(base)
+        base.extend ClassMethods
+      end
 
-              ::API::V3::Versions::Schemas::VersionSchemaRepresenter.create(contract,
-                                                                            api_v3_paths.version_schema,
-                                                                            current_user: current_user)
-            end
-          end
+      module ClassMethods
+        def formattable_property(name,
+                                 getter: default_formattable_getter(name),
+                                 setter: default_formattable_setter(name),
+                                 **args)
+
+          attributes = {
+            exec_context: :decorator,
+            getter: getter,
+            setter: setter,
+            render_nil: true
+          }
+
+          property name,
+                   attributes.merge(**args)
+        end
+
+        private
+
+        def default_formattable_getter(name)
+          ->(*) {
+            ::API::Decorators::Formattable.new(represented.send(name),
+                                               object: represented,
+                                               plain: true)
+          }
+        end
+
+        def default_formattable_setter(name)
+          ->(fragment:, **) {
+            represented.send(:"#{name}=", fragment['raw'])
+          }
         end
       end
     end

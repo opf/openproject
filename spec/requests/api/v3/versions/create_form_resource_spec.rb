@@ -35,9 +35,11 @@ describe ::API::V3::Versions::CreateFormAPI, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:project) { FactoryBot.create(:project) }
-  let(:user) { FactoryBot.create(:user,
-                                 member_in_project: project,
-                                 member_with_permissions: permissions) }
+  let(:user) do
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_with_permissions: permissions)
+  end
   let(:permissions) { [:manage_versions] }
 
   let(:path) { api_v3_paths.create_version_form }
@@ -105,6 +107,82 @@ describe ::API::V3::Versions::CreateFormAPI, content_type: :json do
         expect(subject.body)
           .to be_json_eql(api_v3_paths.versions.to_json)
           .at_path('_links/commit/href')
+      end
+    end
+
+    context 'with all parameters' do
+      let!(:int_cf) { FactoryBot.create(:int_version_custom_field) }
+      let!(:list_cf) { FactoryBot.create(:list_version_custom_field) }
+      let(:parameters) do
+        {
+          name: 'New version',
+          description: {
+            raw: 'A new description'
+          },
+          "customField#{int_cf.id}": 5,
+          "startDate": "2018-01-01",
+          "endDate": "2018-01-09",
+          "status": "closed",
+          "sharing": "descendants",
+          _links: {
+            definingProject: {
+              href: api_v3_paths.project(project.id)
+            },
+            "customField#{list_cf.id}": {
+              href: api_v3_paths.custom_option(list_cf.custom_options.first.id)
+            }
+          }
+        }
+      end
+
+      it 'has 0 validation errors' do
+        expect(subject.body).to have_json_size(0).at_path('_embedded/validationErrors')
+      end
+
+      it 'has the values prefilled in the payload' do
+        body = subject.body
+
+        expect(body)
+          .to be_json_eql('New version'.to_json)
+          .at_path('_embedded/payload/name')
+
+        expect(last_response.body)
+          .to be_json_eql('<p>A new description</p>'.to_json)
+          .at_path('_embedded/payload/description/html')
+
+        expect(last_response.body)
+          .to be_json_eql('2018-01-01'.to_json)
+          .at_path('_embedded/payload/startDate')
+
+        expect(last_response.body)
+          .to be_json_eql('2018-01-09'.to_json)
+          .at_path('_embedded/payload/endDate')
+
+        expect(last_response.body)
+          .to be_json_eql('closed'.to_json)
+          .at_path('_embedded/payload/status')
+
+        expect(last_response.body)
+          .to be_json_eql('descendants'.to_json)
+          .at_path('_embedded/payload/sharing')
+
+        expect(body)
+          .to be_json_eql(api_v3_paths.project(project.id).to_json)
+          .at_path('_embedded/payload/_links/definingProject/href')
+
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.custom_option(list_cf.custom_options.first.id).to_json)
+          .at_path("_embedded/payload/_links/customField#{list_cf.id}/href")
+
+        expect(last_response.body)
+          .to be_json_eql(5.to_json)
+          .at_path("_embedded/payload/customField#{int_cf.id}")
+      end
+
+      it 'has a commit link' do
+        expect(subject.body)
+          .to be_json_eql(api_v3_paths.versions.to_json)
+                .at_path('_links/commit/href')
       end
     end
 

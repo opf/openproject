@@ -35,8 +35,8 @@ describe 'API v3 Version resource' do
 
   let(:current_user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_with_permissions: permissions)
+                      member_in_project: project,
+                      member_with_permissions: permissions)
   end
   let(:permissions) { [:view_work_packages, :manage_versions] }
   let(:project) { FactoryBot.create(:project, is_public: false) }
@@ -124,7 +124,14 @@ describe 'API v3 Version resource' do
     let(:body) do
       {
         name: 'New version',
+        description: {
+          raw: 'A new description'
+        },
         "customField#{int_cf.id}": 5,
+        "startDate": "2018-01-01",
+        "endDate": "2018-01-09",
+        "status": "closed",
+        "sharing": "descendants",
         _links: {
           definingProject: {
             href: api_v3_paths.project(project.id)
@@ -159,6 +166,26 @@ describe 'API v3 Version resource' do
       expect(last_response.body)
         .to be_json_eql('New version'.to_json)
         .at_path('name')
+
+      expect(last_response.body)
+        .to be_json_eql('<p>A new description</p>'.to_json)
+        .at_path('description/html')
+
+      expect(last_response.body)
+        .to be_json_eql('2018-01-01'.to_json)
+        .at_path('startDate')
+
+      expect(last_response.body)
+        .to be_json_eql('2018-01-09'.to_json)
+        .at_path('endDate')
+
+      expect(last_response.body)
+        .to be_json_eql('closed'.to_json)
+        .at_path('status')
+
+      expect(last_response.body)
+        .to be_json_eql('descendants'.to_json)
+        .at_path('sharing')
 
       expect(last_response.body)
         .to be_json_eql(project.name.to_json)

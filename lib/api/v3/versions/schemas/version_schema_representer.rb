@@ -33,6 +33,10 @@ module API
     module Versions
       module Schemas
         class VersionSchemaRepresenter < ::API::Decorators::SchemaRepresenter
+          extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
+
+          custom_field_injector type: :schema_representer
+
           def initialize(represented, self_link = nil, current_user: nil, form_embedded: false)
             super(represented,
                   self_link,

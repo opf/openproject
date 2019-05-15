@@ -46,6 +46,11 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
       nil
     end
   end
+
+  let(:custom_field) do
+    FactoryBot.build_stubbed(:int_version_custom_field)
+  end
+
   let(:contract) do
     contract = double('contract')
 
@@ -74,6 +79,10 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
       .to receive(:assignable_values)
       .with(:sharing, current_user)
       .and_return(allowed_sharings)
+
+    allow(contract)
+      .to receive(:available_custom_fields)
+      .and_return([custom_field])
 
     contract
   end
@@ -161,6 +170,17 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
       end
 
       it_behaves_like 'has no visibility property'
+    end
+
+    describe 'int custom field' do
+      let(:path) { "customField#{custom_field.id}" }
+
+      it_behaves_like 'has basic schema properties' do
+        let(:type) { 'Integer' }
+        let(:name) { custom_field.name }
+        let(:required) { false }
+        let(:writable) { true }
+      end
     end
 
     describe 'startDate' do

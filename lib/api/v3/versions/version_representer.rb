@@ -36,6 +36,8 @@ module API
     module Versions
       class VersionRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
+        include API::Decorators::DateProperty
+        include API::Decorators::FormattableProperty
         include ::API::Caching::CachedRepresenter
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
@@ -65,43 +67,23 @@ module API
         property :name,
                  render_nil: true
 
-        property :description,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   ::API::Decorators::Formattable.new(represented.description,
-                                                      object: represented,
-                                                      plain: true)
-                 },
-                 render_nil: true
+        formattable_property :description
 
-        property :start_date,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   datetime_formatter.format_date(represented.start_date, allow_nil: true)
-                 },
-                 render_nil: true
+        date_property :start_date
 
-        property :due_date,
-                 as: 'endDate',
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   datetime_formatter.format_date(represented.due_date, allow_nil: true)
-                 },
-                 render_nil: true
+        date_property :effective_date,
+                      as: 'endDate',
+                      writeable: true
 
         property :status
 
         property :sharing
 
-        property :created_on,
-                 as: 'createdAt',
-                 exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on, allow_nil: true) }
+        date_time_property :created_on,
+                           as: 'createdAt'
 
-        property :updated_on,
-                 as: 'updatedAt',
-                 exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_on, allow_nil: true) }
+        date_time_property :updated_on,
+                           as: 'updatedAt'
 
         def _type
           'Version'

@@ -34,6 +34,9 @@ module Versions
       Version
     end
 
+    delegate :available_custom_fields,
+             to: :model
+
     def validate
       user_allowed_to_manage
       validate_project_is_set
@@ -56,6 +59,10 @@ module Versions
 
     def assignable_sharings
       model.allowed_sharings(user)
+    end
+
+    def assignable_custom_field_values(custom_field)
+      custom_field.possible_values
     end
 
     private
