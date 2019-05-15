@@ -46,7 +46,6 @@ module API
                           **args)
 
           attributes = {
-            exec_context: :decorator,
             getter: getter,
             setter: setter,
             render_nil: true
@@ -61,7 +60,6 @@ module API
                                **args)
 
           attributes = {
-            exec_context: :decorator,
             getter: getter,
             render_nil: true
           }
@@ -73,24 +71,24 @@ module API
         private
 
         def default_date_getter(name)
-          ->(*) {
-            datetime_formatter.format_date(represented.send(name), allow_nil: true)
+          ->(represented:, decorator:, **) {
+            decorator.datetime_formatter.format_date(represented.send(name), allow_nil: true)
           }
         end
 
         def default_date_setter(name)
-          ->(fragment:, **) {
-            date = datetime_formatter.parse_date(fragment,
-                                                 name,
-                                                 allow_nil: true)
+          ->(fragment:, decorator:, **) {
+            date = decorator.datetime_formatter.parse_date(fragment,
+                                                           name,
+                                                           allow_nil: true)
 
-            represented.send(:"#{name}=", date)
+            send(:"#{name}=", date)
           }
         end
 
         def default_date_time_getter(name)
-          ->(*) {
-            datetime_formatter.format_datetime(represented.send(name), allow_nil: true)
+          ->(represented:, decorator:, **) {
+            decorator.datetime_formatter.format_datetime(represented.send(name), allow_nil: true)
           }
         end
       end

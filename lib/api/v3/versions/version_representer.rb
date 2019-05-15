@@ -67,7 +67,8 @@ module API
         property :name,
                  render_nil: true
 
-        formattable_property :description
+        formattable_property :description,
+                             plain: true
 
         date_property :start_date
 

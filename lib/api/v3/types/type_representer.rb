@@ -31,6 +31,7 @@ module API
   module V3
     module Types
       class TypeRepresenter < ::API::Decorators::Single
+        include API::Decorators::DateProperty
         include ::API::Caching::CachedRepresenter
 
         self_link
@@ -38,17 +39,14 @@ module API
         property :id
         property :name
         property :color,
-                 getter: -> (*) { color.hexcode if color },
+                 getter: ->(*) { color.hexcode if color },
                  render_nil: true
         property :position
         property :is_default
         property :is_milestone
-        property :created_at,
-                 exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_at) }
-        property :updated_at,
-                 exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_at) }
+
+        date_time_property :created_at
+        date_time_property :updated_at
 
         def _type
           'Type'

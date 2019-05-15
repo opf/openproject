@@ -32,6 +32,8 @@ module API
     module Repositories
       class RevisionRepresenter < ::API::Decorators::Single
         include API::V3::Utilities
+        include API::Decorators::DateProperty
+        include API::Decorators::FormattableProperty
 
         self_link path: :revision,
                   title_getter: ->(*) { nil }
@@ -63,20 +65,14 @@ module API
         property :identifier
         property :format_identifier, as: :formattedIdentifier
         property :author, as: :authorName
-        property :message,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   ::API::Decorators::Formattable.new(represented.comments,
-                                                      object: represented,
-                                                      plain: true)
-                 },
-                 render_nil: true
 
-        property :created_at,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   datetime_formatter.format_datetime(represented.committed_on)
-                 }
+        formattable_property :comments,
+                             as: :message,
+                             plain: true,
+                             uncacheable: true
+
+        date_time_property :committed_on,
+                           as: 'createdAt'
 
         def _type
           'Revision'

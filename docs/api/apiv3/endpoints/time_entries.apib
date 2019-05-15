@@ -38,7 +38,11 @@ Depending on custom fields defined for time entries, additional properties might
             {
                 "_type": "TimeEntry",
                 "id": 1,
-                "comment": "Some text explaing why the time entry was created",
+                "comment": {
+                    "format": "plain",
+                    "raw": "Some text explaining why the time entry was created",
+                    "html": "<p>Some text explaining why the time entry was created</p>"
+                },
                 "spentOn": "2015-03-20",
                 "hours": "PT5H",
                 "createdAt": "2015-03-20T12:56:56Z",
@@ -170,7 +174,11 @@ Permanently deletes the specified time entry.
                       {
                           "_type": "TimeEntry",
                           "id": 5,
-                          "comment": "Some comment",
+                          "comment": {
+                              "format": "plain",
+                              "raw": "Some comment",
+                              "html": "<p>Some comment</p>"
+                          },
                           "spentOn": "2015-03-20",
                           "hours": "PT5H",
                           "createdAt": "2015-03-20T12:56:56Z",
@@ -208,7 +216,11 @@ Permanently deletes the specified time entry.
                       {
                           "_type": "TimeEntry",
                           "id": 10,
-                          "comment": "Another comment",
+                          "comment": {
+                              "format": "plain",
+                              "raw": "Another comment",
+                              "html": "<p>Another comment</p>"
+                          },
                           "spentOn": "2015-03-21",
                           "hours": "PT7H",
                           "createdAt": "2015-03-20T12:56:56Z",
@@ -339,7 +351,9 @@ There is no form and schema resource for time entries, yet.
                   }
                 },
                 "hours": 'PT5H',
-                "comment": "some comment",
+                "comment": {
+                    "raw": "Some comment",
+                },
                 "spentOn": "2017-07-28",
                 "customField1": {
                   raw: 'some text custom field value'
@@ -422,7 +436,9 @@ There is no form and schema resource for time entries, yet.
                   }
                 },
                 "hours": 'PT5H',
-                "comment": "some comment",
+                "comment": {
+                  "raw": "Some comment",
+                },
                 "spentOn": "2017-07-28",
                 "customField1": {
                   raw: 'some text custom field value'

@@ -34,6 +34,7 @@ module API
   module V3
     module Projects
       class ProjectRepresenter < ::API::Decorators::Single
+        include API::Decorators::DateProperty
         include ::API::Caching::CachedRepresenter
 
         self_link
@@ -76,14 +77,11 @@ module API
         property :name,         render_nil: true
         property :description,  render_nil: true
 
-        property :created_on,
-                 as: 'createdAt',
-                 exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on) }
-        property :updated_on,
-                 as: 'updatedAt',
-                 exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_on) }
+        date_time_property :created_on,
+                           as: 'createdAt'
+
+        date_time_property :updated_at,
+                           as: 'updatedAt'
 
         def _type
           'Project'

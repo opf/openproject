@@ -41,7 +41,8 @@ module API
 
       module ClassMethods
         def formattable_property(name,
-                                 getter: default_formattable_getter(name),
+                                 plain: false,
+                                 getter: default_formattable_getter(name, plain),
                                  setter: default_formattable_setter(name),
                                  **args)
 
@@ -58,11 +59,11 @@ module API
 
         private
 
-        def default_formattable_getter(name)
+        def default_formattable_getter(name, plain = false)
           ->(*) {
             ::API::Decorators::Formattable.new(represented.send(name),
                                                object: represented,
-                                               plain: true)
+                                               plain: plain)
           }
         end
 
