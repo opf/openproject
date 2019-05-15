@@ -84,4 +84,8 @@ export class Board {
       return a.startColumn - b.startColumn;
     });
   }
+
+  public showStatusButton() {
+    return this.actionAttribute !== 'status';
+  }
 }
