@@ -75,7 +75,7 @@ uk:
 '
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: На даний момент на форумі немає публікацій.
   colors:
     index:
       no_results_title_text: There are currently no colors.
@@ -156,8 +156,8 @@ uk:
       activities:
         no_results_title_text: There are currently no activities available.
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: Наразі не існує форумів для проекту.
+        no_results_content_text: Створити новий форум
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -226,8 +226,8 @@ uk:
       query_group_placeholder: Найменувати таблицю
       reset: Reset to defaults
       type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts. It is therefore recommended to use a strong color.
+        Натисніть, щоб призначити або змінити колір цього типу. Вибраний колір відрізняє робочі пакети
+        у діаграмах Ганта. Тому рекомендується використовувати темний колір.
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this
@@ -351,24 +351,24 @@ uk:
       auth_source:
         account: Обліковий запис
         attr_firstname: Атрибут ім'я
-        attr_lastname: Lastname attribute
-        attr_login: Login attribute
-        attr_mail: Email attribute
-        base_dn: Base DN
+        attr_lastname: Атрибут прізвища
+        attr_login: Атрибут входу
+        attr_mail: Атрибут електронної скриньки
+        base_dn: База DN
         host: Хост
-        onthefly: On-the-fly user creation
-        port: Port
+        onthefly: Створення користувача на льоту
+        port: Порт
       changeset:
         repository: Repository
       comment:
-        commented: Commented
+        commented: Коментар
       custom_action:
         actions: Actions
       custom_field:
         default_value: Значення за замовчуванням
-        editable: Editable
-        field_format: Format
-        is_filter: Used as a filter
+        editable: Може бути відредаговане
+        field_format: Формат
+        is_filter: Використовується як фільтр
         is_required: Обов'язкове поле
         max_length: Максимальна довжина
         min_length: Мінімальна довжина
@@ -391,11 +391,11 @@ uk:
         column_count: Number of columns
         widgets: Widgets
       relation:
-        delay: Delay
-        from: Work package
-        to: Related work package
+        delay: Затримка
+        from: Пакет робіт
+        to: Пов'язаний робочий пакет
       status:
-        is_closed: Work package closed
+        is_closed: Робочий пакет закритий
         is_readonly: Пакет робіт лише для перегляду
       journal:
         notes: Нотатки
@@ -404,28 +404,28 @@ uk:
       project:
         identifier: Ідентифікатор
         latest_activity_at: Latest activity at
-        parent: Subproject of
-        queries: Queries
+        parent: Підпроект
+        queries: Запити
         types: Типи
         versions: Версії
-        work_packages: Work Packages
+        work_packages: Пакет робіт
       query:
-        column_names: Columns
+        column_names: Стовпці
         relations_to_type_column: Relations to %{type}
         relations_of_type_column: "%{type} relations"
-        group_by: Group results by
-        filters: Filters
+        group_by: Групувати результати по
+        filters: Фільтри
         timeline_labels: Timeline labels
       repository:
-        url: URL
+        url: Посилання
       role:
         assignable: Work packages can be assigned to users and groups in possession
           of this role in the respective project
       time_entry:
-        activity: Activity
-        hours: Hours
-        spent_on: Date
-        type: Type
+        activity: Активність
+        hours: Години
+        spent_on: Дата
+        type: Тип
       type:
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
@@ -441,13 +441,13 @@ uk:
         last_login_on: Останній вхід
         mail_notification: Email сповіщення
         new_password: Новий пароль
-        password_confirmation: Confirmation
+        password_confirmation: Підтвердження
         consented_at: Consented at
       user_preference:
-        comments_sorting: Display comments
-        hide_mail: Hide my email address
-        impaired: Accessibility mode
-        time_zone: Time zone
+        comments_sorting: Відображення коментарів
+        hide_mail: Приховувати мій email
+        impaired: Режим спеціальних можливостей
+        time_zone: Часовий пояс
         auto_hide_popups: Auto-hide success notifications
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
           changes
@@ -458,9 +458,9 @@ uk:
         text: Текст
       wiki_page:
         parent_title: Головна сторінка
-        redirect_existing_links: Redirect existing links
+        redirect_existing_links: Перенаправити існуючі посилання
       planning_element_type_color:
-        hexcode: Hex code
+        hexcode: Двійковий код
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -468,17 +468,17 @@ uk:
         done_ratio: Progress (%)
         end_insertion: End of the insertion
         end_deletion: End of the deletion
-        fixed_version: Version
-        parent: Parent
-        parent_issue: Parent
-        parent_work_package: Parent
-        priority: Priority
+        fixed_version: Версія
+        parent: Джерело
+        parent_issue: Джерело
+        parent_work_package: Джерело
+        priority: Пріоритет
         progress: Progress (%)
-        spent_hours: Spent time
-        spent_time: Spent time
+        spent_hours: Трудовитрати
+        spent_time: Трудовитрати
         subproject: Subproject
         time_entries: Log time
-        type: Type
+        type: Тип
         watcher: Watcher
       doorkeeper/application:
         uid: Client ID
@@ -531,7 +531,7 @@ uk:
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
         unchangeable: cannot be changed.
-        unremovable: cannot be removed.
+        unremovable: неможливо видалити.
         wrong_length: is the wrong length (should be %{count} characters).
       models:
         custom_field:
@@ -633,7 +633,7 @@ uk:
           attributes:
             attribute_groups:
               attribute_unknown: Invalid work package attribute used.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              attribute_unknown_name: Недійсний атрибут робочого пакета:%{attribute}
               duplicate_group: The group name '%{group}' is used more than once. Group
                 names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
@@ -687,19 +687,19 @@ uk:
       member: Member
       news: News
       project: Project
-      query: Custom query
+      query: Частковий запит
       role:
         one: роль
         other: Роль
         few: Роль
         many: Роль
-      type: Type
-      user: User
-      version: Version
+      type: Тип
+      user: Користувач
+      version: Версія
       wiki: Wiki
-      wiki_page: Wiki page
-      workflow: Workflow
-      work_package: Work package
+      wiki_page: Сторінка Wiki
+      workflow: Робочий процес
+      work_package: Пакет робіт
       doorkeeper/application: OAuth application
   errors:
     header_invalid_fields: 'Були проблеми з наступними полями:'
@@ -707,78 +707,78 @@ uk:
       This field is invalid: %{full_errors}
       Please enter a valid value.
   activity:
-    created: 'Created: %{title}'
-    updated: 'Updated: %{title}'
+    created: 'Створено: %{title}'
+    updated: 'Оновлено: %{title}'
   attributes:
-    active: Active
-    assigned_to: Assignee
-    assignee: Assignee
-    attachments: Attachments
-    author: Author
-    base: 'General Error:'
-    blocks_ids: IDs of blocked work packages
+    active: Активний
+    assigned_to: Призначений
+    assignee: Призначений
+    attachments: Вкладення
+    author: Автор
+    base: 'Загальна помилка:'
+    blocks_ids: Ідентифікатори заблокованих робочих пакетів
     category: Category
     comment: Comment
     comments: Comment
-    content: Content
+    content: Контент
     color: Колір
-    created_at: Created on
-    created_on: Created on
+    created_at: Створений
+    created_on: Створений
     custom_options: Можливі значення
-    custom_values: Custom fields
-    date: Date
-    default_columns: Default columns
-    description: Description
-    display_sums: Display Sums
+    custom_values: Індивідуальні поля
+    date: Дата
+    default_columns: Типові колонки
+    description: Опис
+    display_sums: Відображати суми
     due_date: Finish date
-    estimated_hours: Estimated time
-    estimated_time: Estimated time
-    firstname: First name
+    estimated_hours: Час (приблизно)
+    estimated_time: Час (приблизно)
+    firstname: Ім'я
     group: Group
     groups: Groups
-    groupname: Group name
-    id: ID
+    groupname: Назва групи
+    id: "№"
     is_default: Значення за замовчуванням
-    is_for_all: For all projects
-    is_public: Public
-    issue: Work package
-    lastname: Last name
-    login: Login
-    mail: Email
-    name: Name
-    password: Password
-    priority: Priority
+    is_for_all: Для усіх проектів
+    is_public: Публічний
+    issue: Пакет робіт
+    lastname: Прізвище
+    login: Логін
+    mail: Електронна пошта
+    name: Ім’я
+    password: Пароль
+    priority: Пріоритет
     project: Project
     responsible: Accountable
     role: роль
     roles: Роль
-    start_date: Start date
-    status: Status
-    subject: Subject
-    summary: Summary
-    title: Title
-    type: Type
-    updated_at: Updated on
-    updated_on: Updated on
-    user: User
-    version: Version
-    work_package: Work package
-  button_add: Add
+    start_date: Початок
+    status: Статус
+    subject: Тема
+    summary: Резюме
+    title: Назва
+    type: Тип
+    updated_at: Оновлене
+    updated_on: Оновлене
+    user: Користувач
+    version: Версія
+    work_package: Пакет робіт
+  button_add: Додати
   button_add_member: Add member
-  button_add_watcher: Add watcher
-  button_annotate: Annotate
-  button_apply: Apply
-  button_archive: Archive
-  button_back: Back
-  button_cancel: Cancel
-  button_change: Change
-  button_change_parent_page: Change parent page
-  button_change_password: Change password
-  button_check_all: Check all
-  button_clear: Clear
+  button_add_watcher: Додати спостерігача
+  button_annotate: Коментувати
+  button_apply: Застосувати
+  button_archive: Архів
+  button_back: Назад
+  button_cancel: Скасувати
+  button_change: Змінити
+  button_change_parent_page: Змінити батьківську сторінку
+  button_change_password: Змінити пароль
+  button_check_all: Перевірити все
+  button_clear: Очистити
   button_click_to_reveal: Click to reveal
   button_close: Close
-  button_collapse_all: Collapse all
+  button_collapse_all: Згорнути все
   button_configure: Configure
   button_continue: Continue
   button_copy: Copy
@@ -857,7 +857,7 @@ uk:
     text:
       failed: Could not copy project "%{source_project_name}" to project "%{target_project_name}".
       succeeded: Copied project "%{source_project_name}" to "%{target_project_name}".
-  create_new_page: Wiki page
+  create_new_page: Сторінка Wiki
   date:
     abbr_day_names:
     - Sun
@@ -869,44 +869,44 @@ uk:
     - Sat
     abbr_month_names:
     - 
-    - Jan
-    - Feb
-    - Mar
-    - Apr
-    - May
-    - Jun
-    - Jul
-    - Aug
-    - Sep
-    - Oct
-    - Nov
-    - Dec
+    - Січ
+    - Лют
+    - Бер
+    - Кві
+    - Тра
+    - Чер
+    - Лип
+    - Серп
+    - Вер
+    - Жов
+    - Лис
+    - Гру
     day_names:
-    - Sunday
-    - Monday
-    - Tuesday
-    - Wednesday
-    - Thursday
-    - Friday
-    - Saturday
+    - Неділя
+    - Понеділок
+    - Вівторок
+    - Середа
+    - Четвер
+    - П'ятниця
+    - Субота
     formats:
-      default: "%m/%d/%Y"
-      long: "%B %d, %Y"
-      short: "%b %d"
+      default: "%d. %m. %Y"
+      long: "%d %B %Y"
+      short: "%d %b"
     month_names:
     - 
-    - January
-    - February
-    - March
-    - April
-    - May
-    - June
-    - July
-    - August
-    - September
-    - October
-    - November
-    - December
+    - Січень
+    - Лютий
+    - Березень
+    - Квітень
+    - Тра
+    - Червень
+    - Липень
+    - Серпень
+    - Вересень
+    - Жовтень
+    - Листопад
+    - Грудень
     order:
     - :year
     - :month
@@ -1089,9 +1089,10 @@ uk:
   error_can_not_remove_role: Ця роль використовується і не може бути видалений.
   error_can_not_reopen_work_package_on_closed_version: Пакет робіт покладених на закритій
     версії не може бути відкритий
-  error_can_not_find_all_resources: Could not find all related resources to this request.
+  error_can_not_find_all_resources: Не вдалося знайти всі відповідні ресурси для цього
+    запиту.
   error_check_user_and_role: Будь ласка виберіть користувача і роль.
-  error_code: Error %{code}
+  error_code: Помилка %{code}
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
@@ -1115,10 +1116,11 @@ uk:
   error_work_package_not_found_in_project: The work package was not found or does
     not belong to this project
   error_must_be_project_member: must be project member
-  error_migrations_are_pending: Your OpenProject installation has pending database
-    migrations. You have likely missed running the migrations on your last upgrade.
-    Please check the upgrade guide to properly upgrade your installation.
-  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
+  error_migrations_are_pending: У вашій установці OpenProject міститься міграція бази
+    даних. Можливо, ви пропустили міграції під час останнього оновлення. Перевірте
+    керівництво з оновлення, щоб належним чином оновити інсталяцію.
+  error_migrations_visit_upgrade_guides: Будь ласка, відвідайте нашу документацію
+    з оновлення
   error_no_default_work_package_status: No default work package status is defined.
     Please check your configuration (Go to "Administration -> Work package statuses").
   error_no_type_in_project: No type is associated to this project. Please check the
@@ -1205,7 +1207,7 @@ uk:
           you substantially contribute to this Open-Source community effort.
     links:
       upgrade_enterprise_edition: Upgrade to Enterprise Edition
-      postgres_migration: Migrating your installation to PostgreSQL
+      postgres_migration: Міграція інсталяції в PostgreSQL
       user_guides: User guides
       faq: FAQ
       glossary: Glossary
@@ -1233,10 +1235,10 @@ uk:
       indefinite_expiration: Never
   label_accessibility: Accessibility
   label_account: Обліковий запис
-  label_active: Active
+  label_active: Активний
   label_activate_user: Activate user
   label_active_in_new_projects: Active in new projects
-  label_activity: Activity
+  label_activity: Активність
   label_add_edit_translations: Add and edit translations
   label_add_another_file: Add another file
   label_add_columns: Add selected columns
@@ -1278,7 +1280,7 @@ uk:
   label_authentication: Authentication
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Доступні типи пакетів робіт
-  label_available_project_forums: Available forums
+  label_available_project_forums: Доступні форуми
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
@@ -1294,7 +1296,7 @@ uk:
   label_branch: Branch
   label_browse: Browse
   label_bulk_edit_selected_work_packages: Bulk edit selected work packages
-  label_bundled: "(Bundled)"
+  label_bundled: "(В комплекті)"
   label_calendar: Calendar
   label_calendar_show: Show Calendar
   label_category: Category
@@ -1329,9 +1331,9 @@ uk:
   label_comment_plural: Comments
   label_commits_per_author: Commits per author
   label_commits_per_month: Commits per month
-  label_confirmation: Confirmation
+  label_confirmation: Підтвердження
   label_contains: contains
-  label_content: Content
+  label_content: Контент
   label_copied: copied
   label_copy_to_clipboard: Copy to clipboard
   label_copy_same_as_target: Same as target
@@ -1344,10 +1346,10 @@ uk:
   label_current_version: Current version
   label_custom_field_add_no_type: Add this field to a work package type
   label_custom_field_new: New custom field
-  label_custom_field_plural: Custom fields
+  label_custom_field_plural: Індивідуальні поля
   label_custom_field_default_type: Empty type
   label_custom_style: Design
-  label_date: Date
+  label_date: Дата
   label_date_and_time: Date and time
   label_date_from: From
   label_date_from_to: From %{start} to %{end}
@@ -1393,7 +1395,7 @@ uk:
   label_equals: is
   label_everywhere: everywhere
   label_example: Example
-  label_import: Import
+  label_import: Імпортувати
   label_export_to: 'Also available in:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} hour"
@@ -1405,7 +1407,7 @@ uk:
   label_file_added: File added
   label_file_plural: Files
   label_filter_add: Add filter
-  label_filter_plural: Filters
+  label_filter_plural: Фільтри
   label_filters_toggle: Show/hide filters
   label_float: Float
   label_folder: Folder
@@ -1431,7 +1433,7 @@ uk:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
   label_subject_or_id: Subject or ID
-  label_impressum: Legal notice
+  label_impressum: Правове повідомлення
   label_in: in
   label_in_less_than: in less than
   label_in_more_than: in more than
@@ -1534,7 +1536,7 @@ uk:
   label_open_work_packages: open
   label_open_work_packages_plural: open
   label_openproject_website: OpenProject website
-  label_optional_description: Description
+  label_optional_description: Опис
   label_options: Options
   label_other: Other
   label_overall_activity: Overall activity
@@ -1557,7 +1559,7 @@ uk:
   label_planning: Planning
   label_please_login: Please log in
   label_plugins: Plugins
-  label_modules_and_plugins: Modules and Plugins
+  label_modules_and_plugins: Модулі та плагіни
   label_precedes: precedes
   label_preferences: Preferences
   label_preview: Preview
@@ -1642,11 +1644,11 @@ uk:
   label_sort_highest: Move to top
   label_sort_lower: Move down
   label_sort_lowest: Move to bottom
-  label_spent_time: Spent time
+  label_spent_time: Трудовитрати
   label_start_to_end: start to end
   label_start_to_start: start to start
   label_statistics: Statistics
-  label_status: Status
+  label_status: Статус
   label_status_updated: Work package status updated
   label_stay_logged_in: Stay logged in
   label_storage_free_space: Remaining disk space
@@ -1658,7 +1660,7 @@ uk:
   label_subproject_new: New subproject
   label_subproject_plural: Subprojects
   label_subtask_plural: Subtasks
-  label_summary: Summary
+  label_summary: Резюме
   label_system: System
   label_system_storage: Storage information
   label_table_of_contents: Table of contents
@@ -1666,8 +1668,8 @@ uk:
   label_text: Long text
   label_this_month: this month
   label_this_week: this week
-  label_this_year: this year
-  label_time_entry_plural: Spent time
+  label_this_year: цей рік
+  label_time_entry_plural: Трудовитрати
   label_time_sheet_menu: Time sheet
   label_time_tracking: Time tracking
   label_today: today
@@ -1681,11 +1683,11 @@ uk:
   label_updated_time: Updated %{value} ago
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Updated by %{author} %{age} ago
-  label_upgrade_guides: Upgrade guides
+  label_upgrade_guides: Оновлення керівництва
   label_used_by: Used by
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
-  label_user: User
+  label_user: Користувач
   label_user_named: User %{name}
   label_user_activity: "%{value}'s activity"
   label_user_anonymous: Anonymous
@@ -1721,14 +1723,14 @@ uk:
   label_wiki_page_attachments: Wiki page attachments
   label_wiki_page_id: ID вікі-сторінки
   label_wiki_navigation: Wiki navigation
-  label_wiki_page: Wiki page
+  label_wiki_page: Сторінка Wiki
   label_wiki_page_plural: Wiki pages
   label_wiki_show_index_page_link: Show submenu item 'Table of Contents'
   label_wiki_show_menu_item: Show as menu item in project navigation
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
   label_wiki_show_submenu_item: 'Показати як пункт підменю '
   label_wiki_start: Початкова сторінка
-  label_work_package: Work package
+  label_work_package: Пакет робіт
   label_work_package_added: Work package added
   label_work_package_attachments: Work package attachments
   label_work_package_category_new: New category
@@ -1753,9 +1755,9 @@ uk:
     for
   label_work_package_view_all_watched: View all watched work packages
   label_work_package_watchers: Watchers
-  label_workflow: Workflow
+  label_workflow: Робочий процес
   label_workflow_plural: Workflows
-  label_workflow_summary: Summary
+  label_workflow_summary: Резюме
   label_x_closed_work_packages_abbr:
     one: 1 closed
     other: "%{count} closed"
@@ -2074,7 +2076,7 @@ uk:
       title: Change the project's identifier
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
-  project_module_activity: Activity
+  project_module_activity: Активність
   project_module_forums: Forums
   project_module_calendar: Calendar
   project_module_work_package_tracking: Work package tracking
@@ -2604,13 +2606,13 @@ uk:
         date: date
         default: default
       column:
-        assigned_to: Assignee
-        type: Type
+        assigned_to: Призначений
+        type: Тип
         due_date: End date
-        name: Name
-        status: Status
-        start_date: Start date
-      columns: Columns
+        name: Ім’я
+        status: Статус
+        start_date: Початок
+      columns: Стовпці
       comparisons: Comparisons
       comparison:
         absolute: Absolute
@@ -2809,10 +2811,10 @@ uk:
   menu_item: Menu item
   menu_item_setting: Visibility
   mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
+    notice: 'Майбутні версії OpenProject, швидше за все, завершать або зменшать підтримку
+      баз даних MySQL і MariaDB. Ваша інсталяція продовжує працювати на MySQL, і ми
+      пропонуємо вам перенести інсталяцію до PostgreSQL. Цей процес простий, якщо
+      дотримуватися наших міграційних посібників:
 
 '
   wiki_menu_item_for: Menu item for wikipage "%{title}"

@@ -24,12 +24,12 @@ sk:
         boards: Need to freely structure your work in a board view?
         check_out_link: Pozrite si verziu Enterprise.
       lists:
-        delete: Delete list
+        delete: Vymazať zoznam
     card:
       add_new: Pridať novú kartu
       highlighting:
         inline: 'Highlight inline:'
-        entire_card_by: Entire card by
+        entire_card_by: Celý riadok o
       remove_from_list: Odstrániť kartu zo zoznamu
     clipboard:
       browser_error: Váš prehliadač nepodporuje kopírovanie do schránky. Manuálne
@@ -209,9 +209,9 @@ sk:
     label_ascending: Vzostupne
     label_author: 'Autor: %{user}'
     label_between: medzi
-    label_board: Board
+    label_board: Nástenka
     label_board_locked: Uzamknuté
-    label_board_plural: Boards
+    label_board_plural: Nástenky
     label_board_sticky: Dôležité (vždy vyššie)
     label_create_work_package: Vytvoriť nový pracovný balíček
     label_created_by: Vytvoril(a)
@@ -354,9 +354,9 @@ sk:
         help_menu: V ponuke <b>Help</b> nájdete používateľskú príručku a ďalšie zdroje
           pomoci. <br> Užite si svoju prácu s programom OpenProject!
         members: Pozvať nových <b>Členov</b> do vášho projektu.
-        project_selection: Please click on one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
+        project_selection: 'Vyberte jeden z projektov s užitočnými demo dátami: <br><b>"Demo
+          projekt"</b> je vhodný pre klasické riadenie projektov, <b>"Scrum projekt"</b>
+          je vhodný pre agilné riadenie projektov.'
         sidebar_arrow: Pomocou šípky sa môžete vrátiť späť k projektom <b>Hlavná ponuka</b>.
         welcome: Urobte si tri minúty čas na úvodnú prehliadku, aby ste sa naučili
           čo najviac <b>dôležité funkcie</b>.<br> Doporučujeme dokončiť prehliadku
@@ -861,7 +861,7 @@ sk:
           balíčkov, ktoré sú tu uvedené, budú odstránené rekurzívne.
         deletes_children: Všetky podradené pracovné balíčky a s nimi súvisiace budú
           rekurzívne odstránené.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Žiadne viditeľné výsledky na zobrazenie.
     notice_successful_create: Úspešne vytvorené.
     notice_successful_delete: Úspešne zmazané.
     notice_successful_update: Úspešne aktualizované.
