@@ -632,7 +632,8 @@ ru:
           attributes:
             attribute_groups:
               attribute_unknown: Используется недопустимый атрибут пакета работ.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              attribute_unknown_name: 'Используется неверный атрибут пакета работ:
+                %{attribute}'
               duplicate_group: Имя группы '%{group}' используется более одного раза.
                 Имена групп должны быть уникальными.
               query_invalid: 'Встроенный запрос ''%{group}'' является недопустимым:

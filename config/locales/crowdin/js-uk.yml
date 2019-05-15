@@ -20,31 +20,31 @@ uk:
     close_form_title: Закрити форму
     boards:
       upsale:
-        boards: Need to freely structure your work in a board view?
+        boards: Структурувати свій робочий простір у вигляді дошки?
         check_out_link: Check out the Enterprise Edition.
       lists:
-        delete: Delete list
+        delete: Вилучити список
     card:
-      add_new: Add new card
+      add_new: Додати нову картку
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: Entire card by
-      remove_from_list: Remove card from list
+        inline: 'Виділіть у рядку:'
+        entire_card_by: Пов'язана картка
+      remove_from_list: Вилучити зі списку
     clipboard:
       browser_error: Ваш браузер не підтримує копіювання до буфера обміну. Потрібно
         скопіювати виділений текст вручну.
       copied_successful: Успішно скопійовано до буфера обміну!
-    button_add_watcher: Add watcher
-    button_back: Back
+    button_add_watcher: Додати спостерігача
+    button_back: Назад
     button_back_to_list_view: Повернутися до списку
-    button_cancel: Cancel
+    button_cancel: Скасувати
     button_close: Close
-    button_check_all: Check all
+    button_check_all: Перевірити все
     button_configure-form: Configure form
     button_confirm: Підтвердити
     button_continue: Continue
     button_copy: Copy
-    button_custom-fields: Custom fields
+    button_custom-fields: Індивідуальні поля
     button_delete: Delete
     button_delete_watcher: Видалити спостерігача
     button_details_view: Докладне подання
@@ -89,7 +89,7 @@ uk:
           button: Links to child pages
           include_parent: Include parent
           text: "[Placeholder] Links to child pages of"
-          page: Wiki page
+          page: Сторінка Wiki
           this_page: this page
           hint: 'Leave this field empty to list all child pages of the current page.
             If you want to reference a different page, provide its title or slug.
@@ -110,7 +110,7 @@ uk:
         wiki_page_include:
           button: Include content of another wiki page
           text: "[Placeholder] Included wiki page of"
-          page: Wiki page
+          page: Сторінка Wiki
           not_set: "(Page not yet set)"
           hint: |
             Include the content of another wiki page by specifying its title or slug.
@@ -208,23 +208,23 @@ uk:
     label_ascending: Ascending
     label_author: 'Автор: %{user}'
     label_between: between
-    label_board: Board
+    label_board: Дошка
     label_board_locked: Locked
-    label_board_plural: Boards
+    label_board_plural: Дошки
     label_board_sticky: Sticky
     label_create_work_package: Create new work package
     label_created_by: Створено
-    label_date: Date
+    label_date: Дата
     label_date_with_format: 'Введіть %{date_attribute}, використовуючи наступний формат:
       %{format}'
     label_deactivate: Деактивувати
     label_descending: Descending
-    label_description: Description
+    label_description: Опис
     label_cancel_comment: Скасувати коментар
     label_closed_work_packages: closed
     label_collapse: Collapse
     label_collapsed: згорнуто
-    label_collapse_all: Collapse all
+    label_collapse_all: Згорнути все
     label_comment: Comment
     label_committed_at: "%{committed_revision_link}, %{date}"
     label_committed_link: зафіксовано редакцію %{revision_identifier}
@@ -270,7 +270,7 @@ uk:
     label_open_menu: Open menu
     label_open_context_menu: Open context menu
     label_open_work_packages: open
-    label_password: Password
+    label_password: Пароль
     label_previous: Previous
     label_per_page: 'К-сть на сторінку:'
     label_please_wait: Будь ласка, зачекайте
@@ -292,9 +292,9 @@ uk:
     label_sorting: Сортування
     label_star_query: Favored
     label_press_enter_to_save: Press enter to save.
-    label_public_query: Public
+    label_public_query: Публічний
     label_sum_for: Сума для
-    label_subject: Subject
+    label_subject: Тема
     label_this_week: this week
     label_today: today
     label_up: Up
@@ -304,7 +304,7 @@ uk:
     label_total_amount: 'Всього: %{amount}'
     label_updated_on: оновлено
     label_warning: Warning
-    label_work_package: Work package
+    label_work_package: Пакет робіт
     label_work_package_plural: Work packages
     label_watch: Watch
     label_watch_work_package: Спостерігати за робочим пакетом
@@ -319,7 +319,7 @@ uk:
     label_starred_queries: Favorite views
     label_global_queries: Public views
     label_custom_queries: Private views
-    label_columns: Columns
+    label_columns: Стовпці
     label_attachments: Files
     label_drop_files: Перетягніть файли сюди
     label_drop_files_hint: або клацніть, щоб додати файли
@@ -335,7 +335,7 @@ uk:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Завантаження файлів для пакета робіт
       #%{id}: %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} додано користувачем %{author}"
     label_files_to_upload: 'Ці файли будуть завантажені на сервер:'
     label_rejected_files: 'Ці файли не можуть бути завантажені на сервер:'
     label_rejected_files_reason: Ці файли не можуть бути завантажені на сервер, оскільки
@@ -354,9 +354,10 @@ uk:
         help_menu: In the <b>Help</b> menu you will find a user guide and additional
           help resources. <br> Enjoy your work with OpenProject!
         members: Invite new <b>Members</b> to join your project.
-        project_selection: Please click on one of the projects with useful demo data
-          to get started. <br> The <b>Demo project</b> suits best for classical project
-          management, while the <b>Scrum project</b> is better for Agile project management.
+        project_selection: Натисніть один з проектів з корисними демонстраційними
+          даними, щоб розпочати роботу. <br> <b> Демо-проект </b> найкраще підходить
+          для класичного управління проектами, в той час як <b> Scrum-проект </b>
+          є кращим для Agile управління проектами.
         sidebar_arrow: With the arrow you can navigate back to the project's <b>Main
           menu</b>.
         welcome: Здійсніть трихвилинний ознайомчий огляд для вивчення <b>найважливішого
@@ -375,12 +376,14 @@ uk:
             Add new tasks or impediments with the + icon next to a user story. Via
             drag'n'drop you can update the status.
         boards:
-          overview: Manage your work within an intuitive <b>Boards</b> view.
-          lists: You can create multiple lists (columns) within one Board view, e.g.
-            to create a KANBAN board.
-          add: Click the + will <b>add a new card</b> to the list within a Board.
-          drag: Drag & Drop your cards within a list to re-order, or to another list.
-            A double click will open the details view.
+          overview: Керуйте своєю роботою в інтуїтивному вигляді на <b> Дошках</b>.
+          lists: Можна створити декілька списків (стовпців) у межах однієї дошки,
+            наприклад, створити дошку KANBAN.
+          add: Натисніть кнопку +, щоб <b> додати нову карту </b> до списку в межах
+            Дошки.
+          drag: |-
+            113/5000
+            Перетягніть ваші карти в список, щоб змінити порядок або на інший список. Подвійний клік відкриє вікно деталізації.
         wp:
           toggler: Now let's have a look at the <b>Work package</b> section, which
             gives you a more detailed view of your work.
@@ -450,12 +453,12 @@ uk:
           blocked: blocked by
           partof: being part of
           includes: including
-          requires: requiring
-          required: required by
+          requires: вимагає
+          required: обов’язково
     time_entry:
-      activity: Activity
+      activity: Активність
       comment: Comment
-      hours: Hours
+      hours: Години
     watchers:
       label_loading: завантаження спостерігачів...
       label_error_loading: Під час завантаження спостерігачів сталася помилка
@@ -464,7 +467,7 @@ uk:
       label_discard: Скасувати вибір
       typeahead_placeholder: Search for possible watchers
     relation_labels:
-      parent: Parent
+      parent: Джерело
       children: Дочірні елементи
       relates: Пов'язано з
       duplicates: Дублікати
@@ -479,7 +482,7 @@ uk:
       required: Required by
       relation_type: relation type
     relations_hierarchy:
-      parent_headline: Parent
+      parent_headline: Джерело
       hierarchy_headline: Hierarchy
       children_headline: Дочірні елементи
     relation_buttons:
@@ -558,7 +561,7 @@ uk:
 '
       button_activate: Show Gantt chart
       button_deactivate: Hide Gantt chart
-      cancel: Cancel
+      cancel: Скасувати
       change: Change in planning
       due_date: Finish date
       empty: "(empty)"
@@ -575,7 +578,7 @@ uk:
       filter:
         grouping_other: Other
         noneSelection: "(none)"
-      name: Name
+      name: Ім’я
       outline: Reset Outline
       outlines:
         aggregation: Показати тільки агрегати
@@ -585,11 +588,11 @@ uk:
         level4: Розширити рівень 4
         level5: Розширити рівень 5
         all: Show all
-      project_status: Project status
+      project_status: Статус Проекту
       really_close_dialog: Ви дійсно хочете закрити діалог і втратити введені дані?
-      responsible: Responsible
+      responsible: Надійний
       save: Save
-      start_date: Start date
+      start_date: Початок
       tooManyProjects: Більше, ніж %{count} проект(-и,-ів). Будь ласка, використайте
         точніший фільтр!
       selection_mode:
@@ -636,7 +639,7 @@ uk:
         edit: Bulk edit
         copy: Bulk copy
         delete: Bulk delete
-      button_clear: Clear
+      button_clear: Очистити
       comment_added: Коментар був успішно доданий.
       comment_send_failed: Сталася помилка. Не вдалося додати коментар.
       comment_updated: Коментар був успішно оновлений.
@@ -704,34 +707,34 @@ uk:
         estimatesAndTime: Оцінки та час
         other: Other
       properties:
-        assignee: Assignee
-        author: Author
-        createdAt: Created on
-        description: Description
-        date: Date
+        assignee: Призначений
+        author: Автор
+        createdAt: Створений
+        description: Опис
+        date: Дата
         dueDate: Finish date
-        estimatedTime: Estimated time
-        spentTime: Spent time
+        estimatedTime: Час (приблизно)
+        spentTime: Трудовитрати
         category: Category
         percentageDone: Процент виконання
-        priority: Priority
+        priority: Пріоритет
         projectName: Project
-        responsible: Responsible
-        startDate: Start date
-        status: Status
-        subject: Subject
-        title: Title
-        type: Type
-        updatedAt: Updated on
-        versionName: Version
-        version: Version
+        responsible: Надійний
+        startDate: Початок
+        status: Статус
+        subject: Тема
+        title: Назва
+        type: Тип
+        updatedAt: Оновлене
+        versionName: Версія
+        version: Версія
       default_queries:
         latest_activity: Latest activity
         created_by_me: Created by me
         assigned_to_me: Assigned to me
         recently_created: Recently created
         all_open: All open
-        summary: Summary
+        summary: Резюме
       jump_marks:
         pagination: Перейти до розбиття таблиці на сторінки
         label_pagination: Клацніть тут, щоб пропустити пакунки робіт і перейти до
@@ -742,8 +745,8 @@ uk:
         default: "-"
         description: Клацніть, щоб ввести опис...
       query:
-        column_names: Columns
-        group_by: Group results by
+        column_names: Стовпці
+        group_by: Групувати результати по
         group: Group by
         group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
           mode being active.
@@ -755,8 +758,8 @@ uk:
         move_column_right: Перемістити стовпець праворуч
         hide_column: Приховати стовпчик
         insert_columns: Вставити стовпці ...
-        filters: Filters
-        display_sums: Display Sums
+        filters: Фільтри
+        display_sums: Відображати суми
         confirm_edit_cancel: Are you sure you want to cancel editing the name of this
           view? Title will be set back to previous value.
         click_to_edit_query_name: Click to edit title of this view.
@@ -799,9 +802,9 @@ uk:
           inline: Highlighted attribute(s)
           inline_all: All attributes
           entire_row_by: Entire row by
-          status: Status
-          priority: Priority
-          type: Type
+          status: Статус
+          priority: Пріоритет
+          type: Тип
         columns_help_text: Use the input above to add or remove columns to your table
           view. You can drag and drop the columns to reorder them.
         upsale:
@@ -814,10 +817,10 @@ uk:
           second_part: the current work package
       tabs:
         overview: Overview
-        activity: Activity
+        activity: Активність
         relations: Зв'язки
         watchers: Watchers
-        attachments: Attachments
+        attachments: Вкладення
       time_relative:
         days: days
         weeks: weeks
@@ -839,18 +842,18 @@ uk:
         page_settings: Rename view ...
         delete: Delete
       filter: Filter
-      unselected_title: Work package
+      unselected_title: Пакет робіт
       search_query_label: Search saved views
       search_query_title: Click to search saved views
       placeholder_query_title: Set a title for this view
     modals:
       label_settings: Rename view
-      label_name: Name
+      label_name: Ім’я
       label_delete_page: Видалити поточну сторінку
-      button_apply: Apply
+      button_apply: Застосувати
       button_save: Save
       button_submit: Submit
-      button_cancel: Cancel
+      button_cancel: Скасувати
       form_submit:
         title: Confirm to continue
         text: Are you sure you want to perform this action?
@@ -862,7 +865,7 @@ uk:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Не відображаються видимі результати.
     notice_successful_create: Successful creation.
     notice_successful_delete: Successful deletion.
     notice_successful_update: Successful update.
@@ -875,7 +878,7 @@ uk:
       button_save: "%{attribute}: Зберегти"
       button_cancel: "%{attribute}: Скасувати"
       button_save_all: Save
-      button_cancel_all: Cancel
+      button_cancel_all: Скасувати
       link_formatting_help: Довідка щодо форматування тексту
       btn_preview_enable: Preview
       btn_preview_disable: Відключити попередній перегляд
