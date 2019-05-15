@@ -232,6 +232,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     return this.query && this.query.name;
   }
 
+  public showCardStatusButton() {
+    return this.board.showStatusButton();
+  }
+
   private updateQuery() {
     this.setQueryProps(this.filters);
     this.loadQuery();

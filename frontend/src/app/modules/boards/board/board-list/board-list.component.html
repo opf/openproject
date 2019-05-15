@@ -45,7 +45,7 @@
                     [workPackageAddedHandler]="workPackageAddedHandler"
                     [cardsRemovable]="board.isFree && canManage"
                     [highlightingMode]="board.highlightingMode"
-                    [showStatusButton]="board.isFree">
+                    [showStatusButton]="showCardStatusButton()">
       </wp-card-view>
     </div>
   </ng-container>
