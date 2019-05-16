@@ -30,9 +30,9 @@
 class VersionsController < ApplicationController
   menu_item :roadmap
   model_object Version
-  before_action :find_model_object, except: [:index, :new, :create, :close_completed]
-  before_action :find_project_from_association, except: [:index, :new, :create, :close_completed]
-  before_action :find_project, only: [:index, :new, :create, :close_completed]
+  before_action :find_model_object, except: %i[index new create close_completed]
+  before_action :find_project_from_association, except: %i[index new create close_completed]
+  before_action :find_project, only: %i[index new create close_completed]
   before_action :authorize
 
   def index
@@ -49,7 +49,10 @@ class VersionsController < ApplicationController
     @issues_by_version = {}
     unless @selected_type_ids.empty?
       @versions.each do |version|
-        issues = version.fixed_issues.visible.includes(:project, :status, :type, :priority)
+        issues = version
+                 .fixed_issues
+                 .visible
+                 .includes(:project, :status, :type, :priority)
                  .where(type_id: @selected_type_ids, project_id: project_ids)
                  .order("#{Project.table_name}.lft, #{::Type.table_name}.position, #{WorkPackage.table_name}.id")
         @issues_by_version[version] = issues
@@ -59,17 +62,15 @@ class VersionsController < ApplicationController
   end
 
   def show
-    @issues = @version.fixed_issues.visible.includes(:status, :type, :priority)
+    @issues = @version
+              .fixed_issues
+              .visible
+              .includes(:status, :type, :priority)
               .order("#{::Type.table_name}.position, #{WorkPackage.table_name}.id")
   end
 
   def new
     @version = @project.versions.build
-    if permitted_params.version.present?
-      attributes = permitted_params.version.dup
-      attributes.delete('sharing') unless attributes.nil? || @version.allowed_sharings.include?(attributes['sharing'])
-      @version.attributes = attributes
-    end
   end
 
   def create
@@ -91,25 +92,23 @@ class VersionsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
-    if request.patch? && permitted_params.version
-      attributes = permitted_params.version.dup
-      attributes.delete('sharing') unless @version.allowed_sharings.include?(attributes['sharing'])
-      @version.attributes = attributes
-      if @version.save
-        @version.touch if only_custom_values_updated?
-        flash[:notice] = l(:notice_successful_update)
-        redirect_back_or_version_settings
-      else
-        respond_to do |format|
-          format.html do
-            render action: 'edit'
-          end
-        end
-      end
+    attributes = permitted_params
+                 .version
+
+    call = Versions::UpdateService
+           .new(user: current_user,
+                version: @version)
+           .call(attributes)
+
+    if call.success?
+      flash[:notice] = l(:notice_successful_update)
+      redirect_back_or_version_settings
+    else
+
+      render action: 'edit'
     end
   end
 
@@ -117,17 +116,17 @@ class VersionsController < ApplicationController
     if request.put?
       @project.close_completed_versions
     end
-    redirect_to controller: '/project_settings', action: 'show', tab: 'versions', id: @project
+    redirect_to settings_project_path(tab: 'versions', id: @project)
   end
 
   def destroy
     if @version.fixed_issues.empty?
       @version.destroy
-      redirect_to controller: '/project_settings', action: 'show', tab: 'versions', id: @project
     else
       flash[:error] = l(:notice_unable_delete_version)
-      redirect_to controller: '/project_settings', action: 'show', tab: 'versions', id: @project
     end
+
+    redirect_to settings_project_path(tab: 'versions', id: @project)
   end
 
   private
@@ -148,9 +147,5 @@ class VersionsController < ApplicationController
                          else
                            default_types || selectable_types
                          end.map { |t| t.id.to_s }
-  end
-
-  def only_custom_values_updated?
-    @version.saved_changes.empty? && @version.custom_values.map(&:saved_changes).any?(&:present?)
   end
 end

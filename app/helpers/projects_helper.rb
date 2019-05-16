@@ -115,11 +115,6 @@ module ProjectsHelper
     end
   end
 
-  def format_version_sharing(sharing)
-    sharing = 'none' unless Version::VERSION_SHARINGS.include?(sharing)
-    l("label_version_sharing_#{sharing}")
-  end
-
   def filter_set?
     params[:filters].present?
   end
