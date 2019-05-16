@@ -500,8 +500,8 @@ uk:
       add_new_relation: Create new relation
       add_existing_relation: Add existing relation
       update_description: Set or update description of this relation
-      toggle_description: Toggle relation description
-      update_relation: Click to change the relation type
+      toggle_description: Переключити опис відносин
+      update_relation: Натисніть, щоб змінити тип відносини
       add_follower: Add follower
       add_predecessor: Add predecessor
       remove: Видалити зв'язок
@@ -596,8 +596,8 @@ uk:
       tooManyProjects: Більше, ніж %{count} проект(-и,-ів). Будь ласка, використайте
         точніший фільтр!
       selection_mode:
-        notification: Click on any highlighted work package to create the relation.
-          Press escape to cancel.
+        notification: Натисніть будь-який виділений робочий пакет, щоб створити відношення.
+          Натисніть клавішу Escape, щоб скасувати.
       zoom:
         in: Zoom in
         out: Zoom out
