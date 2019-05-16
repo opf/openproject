@@ -2,6 +2,13 @@
 
 Work Packages can be assigned to a version. As such, versions serve to group Work Packages into logical units where each group comprises all the work packages that needs to be finished in order for the version to be finished.
 
+## Actions
+
+| Link                | Description                                                              | Condition                              |
+|:-------------------:|--------------------------------------------------------------------------| ---------------------------------------|
+| update              | Form endpoint that aids in preparing and performing edits on the version | **Permission**: manage versions        |
+| updateImmediately   | Directly perform edits on the version                                    | **Permission**: manage versions        |
+
 ## Linked Properties
 |  Link               | Description                              | Type          | Constraints                                                    | Supported operations |
 |:-------------------:|----------------------------------------- | ------------- | -------------------------------------------------------------- | -------------------- |
@@ -12,16 +19,17 @@ Work Packages can be assigned to a version. As such, versions serve to group Wor
 Depending on custom fields defined for versions, additional linked properties might exist.
 
 ## Local Properties
-| Property    | Description                                   | Type        | Constraints | Supported operations |
-| :---------: | --------------------------------------------- | ----------- | ----------- | -------------------- |
-| id          | Version id                                    | Integer     | x > 0       | READ                 |
-| name        | Version name                                  | String      | not null    | READ                 |
-| description |                                               | Formattable |             | READ                 |
-| startDate   |                                               | Date        |             | READ                 |
-| endDate     |                                               | Date        |             | READ                 |
-| status      | The current status of the version             | String      | not null    | READ                 |
-| createdAt   | Time of creation                              | DateTime    | not null    | READ                 |
-| updatedAt   | Time of the most recent change to the version | DateTime    | not null    | READ                 |
+| Property    | Description                                   | Type        | Constraints                                        | Supported operations |
+| :---------: | --------------------------------------------- | ----------- | -----------                                        | -------------------- |
+| id          | Version id                                    | Integer     | x > 0                                              | READ                 |
+| name        | Version name                                  | String      | not null, may not exceed 60 characters             | READ / WRITE         |
+| description |                                               | Formattable |                                                    | READ / WRITE         |
+| startDate   |                                               | Date        |                                                    | READ / WRITE         |
+| endDate     |                                               | Date        |                                                    | READ / WRITE         |
+| status      | The current status of the version             | String      | not null, only 'open', 'finished', 'closed'        | READ / WRITE         |
+| sharing     | The current status of the version             | String      | not null, limited to fixed set as defined by form  | READ / WRITE         |
+| createdAt   | Time of creation                              | DateTime    | not null                                           | READ                 |
+| updatedAt   | Time of the most recent change to the version | DateTime    | not null                                           | READ                 |
 
 Depending on custom fields defined for versions, additional properties might exist.
 
@@ -33,6 +41,8 @@ Depending on custom fields defined for versions, additional properties might exi
             {
                 "_links": {
                     "self": { "href": "/api/v3/versions/11" },
+                    "update": { "href": "/api/v3/versions/11/form", "method": "POST" }
+                    "updateImmediately": { "href": "/api/v3/versions/11", "method": "PATCH" }
                     "definingProject": { "href": "/api/v3/projects/11" },
                     "availableInProjects": { "href": "/api/v3/versions/11/projects" }
                     "customField4": {
@@ -49,7 +59,8 @@ Depending on custom fields defined for versions, additional properties might exi
                 },
                 "startDate": "2014-11-20",
                 "endDate": null,
-                "status": "Open",
+                "status": "open",
+                "sharing": "system",
                 "customField14": "1234567890",
             }
 

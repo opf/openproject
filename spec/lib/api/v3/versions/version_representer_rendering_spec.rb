@@ -39,6 +39,15 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
 
   it { is_expected.to include_json('Version'.to_json).at_path('_type') }
 
+  before do
+    allow(user)
+      .to receive(:allowed_to?) do |permission, project|
+        project == version.project && permissions.include?(permission)
+      end
+    end
+
+  let(:permissions) { [:manage_versions] }
+
   describe 'links' do
     it { is_expected.to have_json_type(Object).at_path('_links') }
 
@@ -54,6 +63,40 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'schema' }
         let(:href) { api_v3_paths.version_schema }
+      end
+    end
+
+    describe 'to update' do
+      context 'if manage versions permissions are granted' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'update' }
+          let(:href) { api_v3_paths.version_form(version.id) }
+        end
+      end
+
+      describe 'if manage versions permissions are lacking' do
+        let(:permissions) { [] }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'update' }
+        end
+      end
+    end
+
+    describe 'to updateImmediately' do
+      context 'if manage versions permissions are granted' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'updateImmediately' }
+          let(:href) { api_v3_paths.version(version.id) }
+        end
+      end
+
+      describe 'if manage versions permissions are lacking' do
+        let(:permissions) { [] }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'updateImmediately' }
+        end
       end
     end
 
