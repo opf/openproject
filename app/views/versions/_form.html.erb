@@ -71,5 +71,11 @@ See docs/COPYRIGHT.rdoc for more details.
                container_class: '-slim' %>
 </div>
 
+<% if @project.enabled_modules.map(&:name).include?("backlogs") %>
+
+  <%= version_settings_fields(version, @project).html_safe %>
+
+<% end %>
+
 <%= render partial: "customizable/form",
            locals: { form: f, all_fields: true, only_required: false } %>

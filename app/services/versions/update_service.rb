@@ -44,13 +44,15 @@ module Versions
     def call(params)
       attributes_call = set_attributes(params)
 
-      if attributes_call.failure?
-        # nothing to do
-      elsif !attributes_call.result.save
-        attributes_call.errors = attributes_call.result.errors
-        attributes_call.success = false
-      elsif only_custom_values_updated?
-        version.touch
+      Version.transaction do
+        if attributes_call.failure?
+          # nothing to do
+        elsif !attributes_call.result.save
+          attributes_call.errors = attributes_call.result.errors
+          attributes_call.success = false
+        else
+          after_save
+        end
       end
 
       attributes_call
@@ -66,8 +68,34 @@ module Versions
         .call(params)
     end
 
+    def after_save
+      version.touch if only_custom_values_updated?
+      update_wps_from_sharing_change if version.saved_change_to_sharing?
+    end
+
+    # Update the issue's fixed versions. Used if a version's sharing changes.
+    def update_wps_from_sharing_change
+      if no_valid_version_before_or_now? ||
+         sharing_now_less_broad?
+        WorkPackage.update_versions_from_sharing_change version
+      end
+    end
+
     def only_custom_values_updated?
       version.saved_changes.empty? && version.custom_values.map(&:saved_changes).any?(&:present?)
+    end
+
+    def no_valid_version_before_or_now?
+      version_sharings.index(version.sharing_before_last_save).nil? ||
+        version_sharings.index(version.sharing).nil?
+    end
+
+    def sharing_now_less_broad?
+      version_sharings.index(version.sharing_before_last_save) > version_sharings.index(version.sharing)
+    end
+
+    def version_sharings
+      Version::VERSION_SHARINGS
     end
   end
 end

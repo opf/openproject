@@ -57,8 +57,25 @@ module Versions
       Version::VERSION_STATUSES
     end
 
+    # Returns the sharings that +user+ can set the version to
     def assignable_sharings
-      model.allowed_sharings(user)
+      Version::VERSION_SHARINGS.select do |s|
+        if model.sharing_was == s
+          true
+        else
+          case s
+          when 'system'
+            # Only admin users can set a systemwide sharing
+            user.admin?
+          when 'hierarchy', 'tree'
+            # Only users allowed to manage versions of the root project can
+            # set sharing to hierarchy or tree
+            model.project.nil? || user.allowed_to?(:manage_versions, model.project.root)
+          else
+            true
+          end
+        end
+      end
     end
 
     def assignable_custom_field_values(custom_field)
@@ -68,7 +85,7 @@ module Versions
     private
 
     def validate_sharing_included
-      if model.sharing_changed? && !model.allowed_sharings(user).include?(model.sharing)
+      if model.sharing_changed? && !assignable_sharings.include?(model.sharing)
         errors.add :sharing, :inclusion
       end
     end
