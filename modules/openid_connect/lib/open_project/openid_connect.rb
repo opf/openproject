@@ -3,7 +3,6 @@ module OpenProject
     require 'omniauth/openid_connect/providers'
     require 'open_project/openid_connect/engine'
 
-
     def providers
       # update base redirect URI in case settings changed
       ::OmniAuth::OpenIDConnect::Providers.configure(
@@ -17,10 +16,10 @@ module OpenProject
 
     def configuration
       from_settings = if Setting.plugin_openproject_openid_connect.is_a? Hash
-        Hash(Setting.plugin_openproject_openid_connect["providers"])
-      else
-        {}
-      end
+                        Hash(Setting.plugin_openproject_openid_connect["providers"])
+                      else
+                        {}
+                      end
       # Settings override configuration.yml
       Hash(OpenProject::Configuration["openid_connect"]).deep_merge(from_settings)
     end

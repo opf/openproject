@@ -56,7 +56,8 @@ describe 'OpenID Connect', type: :rails_request do
     # provider to retrieve user information such as name and email address.
     # Since the test is not supposed to make an actual call it is be stubbed too.
     allow_any_instance_of(OpenIDConnect::AccessToken).to receive(:userinfo!).and_return(
-      OpenIDConnect::ResponseObject::UserInfo.new(user_info))
+      OpenIDConnect::ResponseObject::UserInfo.new(user_info)
+    )
 
     # enable storing the access token in a cookie
     OpenProject::Configuration['omniauth_store_access_token_in_cookie'] = true
@@ -65,14 +66,12 @@ describe 'OpenID Connect', type: :rails_request do
   describe 'sign-up and login' do
     before do
       allow(Setting).to receive(:plugin_openproject_openid_connect).and_return(
-
-          'providers' => {
-            'heroku' => {
-              'identifier' => 'does not',
-              'secret' => 'matter'
-            }
+        'providers' => {
+          'heroku' => {
+            'identifier' => 'does not',
+            'secret' => 'matter'
           }
-
+        }
       )
     end
 
@@ -140,18 +139,16 @@ describe 'OpenID Connect', type: :rails_request do
   context 'provider configuration through the settings' do
     it 'should make providers that have been configured through settings available without requiring a restart' do
       allow(Setting).to receive(:plugin_openproject_openid_connect).and_return(
-
-          'providers' => {
-            'google' => {
-              'identifier' => 'does not',
-              'secret' => 'matter'
-            },
-            'azure' => {
-              'identifier' => 'IDENTIFIER',
-              'secret' => 'SECRET'
-            }
+        'providers' => {
+          'google' => {
+            'identifier' => 'does not',
+            'secret' => 'matter'
+          },
+          'azure' => {
+            'identifier' => 'IDENTIFIER',
+            'secret' => 'SECRET'
           }
-
+        }
       )
 
       get '/login'

@@ -6,8 +6,7 @@ module OpenIDConnect
     before_action :require_admin
     before_action :find_provider, only: [:edit, :update, :destroy]
 
-    def index
-    end
+    def index; end
 
     def new
       if openid_connect_providers_available_for_configure.none?
@@ -28,8 +27,7 @@ module OpenIDConnect
       end
     end
 
-    def edit
-    end
+    def edit; end
 
     def update
       @provider = ::OpenIDConnect::Provider.initialize_with(
@@ -54,29 +52,30 @@ module OpenIDConnect
     end
 
     private
-      def create_params
-        params.require(:openid_connect_provider).permit(:name, :display_name, :identifier, :secret)
-      end
 
-      def update_params
-        params.require(:openid_connect_provider).permit(:display_name, :identifier, :secret)
-      end
+    def create_params
+      params.require(:openid_connect_provider).permit(:name, :display_name, :identifier, :secret)
+    end
 
-      def find_provider
-        @provider = providers.find{|provider| provider.id.to_s == params[:id].to_s}
-        if @provider.nil?
-          render_404
-        end
-      end
+    def update_params
+      params.require(:openid_connect_provider).permit(:display_name, :identifier, :secret)
+    end
 
-      def providers
-        @providers ||= OpenProject::OpenIDConnect.providers
+    def find_provider
+      @provider = providers.find { |provider| provider.id.to_s == params[:id].to_s }
+      if @provider.nil?
+        render_404
       end
-      helper_method :providers
+    end
 
-      def openid_connect_providers_available_for_configure
-        Provider::ALLOWED_TYPES.dup - providers.map(&:name)
-      end
-      helper_method :openid_connect_providers_available_for_configure
+    def providers
+      @providers ||= OpenProject::OpenIDConnect.providers
+    end
+    helper_method :providers
+
+    def openid_connect_providers_available_for_configure
+      Provider::ALLOWED_TYPES.dup - providers.map(&:name)
+    end
+    helper_method :openid_connect_providers_available_for_configure
   end
 end

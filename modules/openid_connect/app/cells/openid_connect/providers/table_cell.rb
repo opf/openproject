@@ -17,7 +17,7 @@ module OpenIDConnect
 
       def headers
         [
-          ['name', caption: I18n.t('attributes.name')],
+          ['name', caption: I18n.t('attributes.name')]
         ]
       end
     end

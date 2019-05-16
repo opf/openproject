@@ -4,7 +4,7 @@ module OpenIDConnect
 
     class NewProvider < OpenStruct
       def to_h
-        @table.dup.delete_if{|k,v| v.blank?}
+        @table.dup.delete_if { |_k, v| v.blank? }
       end
     end
 
@@ -27,7 +27,7 @@ module OpenIDConnect
     end
 
     def self.initialize_with(params)
-      self.new(NewProvider.new(params))
+      new(NewProvider.new(params))
     end
 
     def new_record?
@@ -35,7 +35,7 @@ module OpenIDConnect
     end
 
     def persisted?
-      omniauth_provider.kind_of?(OmniAuth::OpenIDConnect::Provider)
+      omniauth_provider.is_a?(OmniAuth::OpenIDConnect::Provider)
     end
 
     def id

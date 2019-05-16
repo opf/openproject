@@ -21,7 +21,7 @@ describe ::OpenIDConnect::ProvidersController, type: :controller do
     {
       name: 'azure',
       identifier: "IDENTIFIER",
-      secret: "SECRET",
+      secret: "SECRET"
     }
   end
 
@@ -77,14 +77,14 @@ describe ::OpenIDConnect::ProvidersController, type: :controller do
 
   describe '#create' do
     it 'is successful if valid params' do
-      post :create, params: {openid_connect_provider: valid_params}
+      post :create, params: { openid_connect_provider: valid_params }
       expect(flash[:notice]).to eq(I18n.t(:notice_successful_create))
       expect(Setting.plugin_openproject_openid_connect["providers"]).to have_key("azure")
       expect(response).to be_redirect
     end
 
     it 'renders an error if invalid params' do
-      post :create, params: {openid_connect_provider: valid_params.merge(identifier: "")}
+      post :create, params: { openid_connect_provider: valid_params.merge(identifier: "") }
       expect(response).to render_template 'new'
     end
   end
@@ -119,10 +119,10 @@ describe ::OpenIDConnect::ProvidersController, type: :controller do
       }
     } do
       it 'successfully updates the provider configuration' do
-        put :update, params: {id: "azure", openid_connect_provider: valid_params.merge(secret: "NEWSECRET")}
+        put :update, params: { id: "azure", openid_connect_provider: valid_params.merge(secret: "NEWSECRET") }
         expect(response).to be_redirect
         expect(flash[:notice]).to be_present
-        provider = OpenProject::OpenIDConnect.providers.find{|provider| provider.name == "azure"}
+        provider = OpenProject::OpenIDConnect.providers.find { |item| item.name == "azure" }
         expect(provider.secret).to eq("NEWSECRET")
       end
     end
@@ -136,7 +136,7 @@ describe ::OpenIDConnect::ProvidersController, type: :controller do
     } do
 
       it 'removes the provider' do
-        delete :destroy, params: {id: "azure"}
+        delete :destroy, params: { id: "azure" }
         expect(response).to be_redirect
         expect(flash[:notice]).to be_present
         expect(OpenProject::OpenIDConnect.providers).to be_empty

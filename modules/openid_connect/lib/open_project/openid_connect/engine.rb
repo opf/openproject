@@ -12,11 +12,11 @@ module OpenProject::OpenIDConnect
              bundled: true,
              settings: { 'default' => { 'providers' => {} } } do
       menu :admin_menu,
-        :plugin_openid_connect,
-        :openid_connect_providers_path,
-        after: :ldap_authentication,
-        caption: ->(*) { I18n.t('openid_connect.menu_title') },
-        icon: 'icon2 icon-relations'
+           :plugin_openid_connect,
+           :openid_connect_providers_path,
+           after: :ldap_authentication,
+           caption: ->(*) { I18n.t('openid_connect.menu_title') },
+           icon: 'icon2 icon-relations'
     end
 
     assets %w(
@@ -32,9 +32,9 @@ module OpenProject::OpenIDConnect
         config.ssl_config.set_default_paths
       end
 
-      OmniAuth::OpenIDConnect::Providers.configure custom_options: [
-        :display_name?, :icon?, :sso?, :issuer?,
-        :check_session_iframe?, :end_session_endpoint?
+      OmniAuth::OpenIDConnect::Providers.configure custom_options: %i[
+        display_name? icon? sso? issuer?
+        check_session_iframe? end_session_endpoint?
       ]
 
       strategy :openid_connect do
@@ -46,8 +46,7 @@ module OpenProject::OpenIDConnect
       # If response_mode 'form_post' is chosen,
       # the IP sends a POST to the callback. Only if
       # the sameSite flag is not set on the session cookie, is the cookie send along with the request.
-      if OpenProject::Configuration['openid_connect'] &&
-        OpenProject::Configuration['openid_connect'].any? { |_, v| v['response_mode']&.to_s == 'form_post' }
+      if OpenProject::Configuration['openid_connect']&.any? { |_, v| v['response_mode']&.to_s == 'form_post' }
         SecureHeaders::Configuration.default.cookies[:samesite][:lax] = false
         # Need to reload the secure_headers config to
         # avoid having set defaults (e.g. https) when changing the cookie values
@@ -68,7 +67,7 @@ module OpenProject::OpenIDConnect
           # put it into a cookie
           if context && access_token
             context.send(:cookies)[:_open_project_session_access_token] = {
-              value:  access_token,
+              value: access_token,
               secure: secure_cookie
             }
           end
