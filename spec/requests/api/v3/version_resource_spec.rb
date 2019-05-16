@@ -113,7 +113,10 @@ describe 'API v3 Version resource', content_type: :json do
         get get_path
       end
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like 'not found' do
+        let(:id) { version_in_project.id }
+        let(:type) { 'Version' }
+      end
     end
   end
 
@@ -244,9 +247,18 @@ describe 'API v3 Version resource', content_type: :json do
     end
 
     context 'if lacking the manage permissions' do
-      let(:permissions) { [] }
+      let(:permissions) { [:view_work_packages] }
 
       it_behaves_like 'unauthorized access'
+    end
+
+    context 'if lacking the manage permissions' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'not found' do
+        let(:id) { version.id }
+        let(:type) { 'Version' }
+      end
     end
 
     context 'if having the manage permission in a different project' do

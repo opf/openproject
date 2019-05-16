@@ -69,16 +69,7 @@ module API
             end
 
             patch &::API::V3::Utilities::DefaultUpdate.new(model: TimeEntry).mount
-
-            delete do
-              call = ::TimeEntries::DeleteService.new(time_entry: @time_entry, user: current_user).call
-
-              if call.success?
-                status 204
-              else
-                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
-              end
-            end
+            delete &::API::V3::Utilities::DefaultDelete.new(model: TimeEntry).mount
           end
 
           mount ::API::V3::TimeEntries::TimeEntriesActivityAPI

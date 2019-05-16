@@ -70,7 +70,7 @@ module API
                                   current_user: current_user)
             end
 
-            # Hack to be able to use the DefaultUpdate mount while having the permission check
+            # Hack to be able to use the Default* mount while having the permission check
             # not affecting the GET request
             namespace do
               before do
@@ -80,18 +80,7 @@ module API
               end
 
               patch &::API::V3::Utilities::DefaultUpdate.new(model: ::Grids::Grid).mount
-
-              delete do
-                call = ::Grids::DeleteService
-                       .new(user: current_user, grid: @grid)
-                       .call
-
-                if call.success?
-                  status 204
-                else
-                  fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
-                end
-              end
+              patch &::API::V3::Utilities::DefaultDelete.new(model: ::Grids::Grid).mount
 
               mount UpdateFormAPI
             end

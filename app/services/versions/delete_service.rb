@@ -39,7 +39,7 @@ module Versions
     def call
       error_or_destroy
 
-      ServiceResult.new success: version.errors.empty?,
+      ServiceResult.new success: error_or_destroy,
                         result: version
     end
 
@@ -48,6 +48,7 @@ module Versions
         version.destroy
       else
         version.errors.add(:base, :error_unauthorized)
+        false
       end
     end
   end

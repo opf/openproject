@@ -71,21 +71,7 @@ module API
             end
 
             patch &::API::V3::Utilities::DefaultUpdate.new(model: Version).mount
-
-            delete do
-              call = ::Versions::DeleteService
-                     .new(
-                       user: current_user,
-                       version: @version
-                     )
-                     .call
-
-              if call.success?
-                status 204
-              else
-                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
-              end
-            end
+            delete &::API::V3::Utilities::DefaultDelete.new(model: Version).mount
 
             mount ::API::V3::Versions::UpdateFormAPI
             mount ::API::V3::Versions::ProjectsByVersionAPI

@@ -107,22 +107,9 @@ module API
               end
             end
 
-            delete do
-              authorize(:delete_work_packages, context: @work_package.project)
-
-              call = ::WorkPackages::DestroyService
-                     .new(
-                       user: current_user,
-                       work_package: @work_package
-                     )
-                     .call
-
-              if call.success?
-                status 204
-              else
-                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
-              end
-            end
+            delete &::API::V3::Utilities::DefaultDelete.new(model: WorkPackage,
+                                                            process_service: ::WorkPackages::DestroyService)
+                                                       .mount
 
             mount ::API::V3::WorkPackages::WatchersAPI
             mount ::API::V3::Activities::ActivitiesByWorkPackageAPI
