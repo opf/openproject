@@ -3,77 +3,27 @@
 
 <p><%= t('bcf.bcf_xml.import.num_issues_found', x_bcf_issues: t('bcf.x_bcf_issues', count: @listing.count)) %></p>
 <%= form_tag({ action: :perform_import }, multipart: true, method: :post) do %>
-
-  <% if @importer&.invalid_people.any? %>
-    <h3>Invalid e-mail addresses</h3>
-    <table class="attributes-table">
-      <thead>
-      <tr>
-        <th>e-Mail address</th>
-        <th>Action</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @importer.invalid_people.each do |mail| %>
-        <tr>
-          <td> <%= mail %></td>
-          <td>Recommendation: Try to correct the data before importing here.</td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-  <% end %>
+  <%= render 'import_options_hidden_fields' %>
+  <%# if @importer&.invalid_people.any? %>
+<!--    <h3>Invalid e-mail addresses</h3>-->
+<!--    <table class="attributes-table">-->
+<!--      <thead>-->
+<!--      <tr>-->
+<!--        <th>e-Mail address</th>-->
+<!--        <th>Action</th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+      <%# @importer.invalid_people.each do |mail| %>
+<!--        <tr>-->
+<!--          <td> <%#= mail %></td>-->
+<!--          <td>Recommendation: Try to correct the data before importing here.</td>-->
+<!--        </tr>-->
+      <%# end %>
+<!--      </tbody>-->
+<!--    </table>-->
+  <%# end %>
   <hr>
-  <% if @importer&.unknown_mails.any? %>
-    <h3>Unknown e-mail addresses</h3>
-    <table class="attributes-table">
-      <thead>
-      <tr>
-        <th>e-Mail address</th>
-        <th>Action</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @importer.unknown_mails.each do |mail| %>
-        <tr>
-          <td> <%= mail %></td>
-          <td>invite and give role</td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-    <% if @roles.any? %>
-      <p>Do you want to invite them as members to the project "<%= @project.name %>"?</p>
-      <div class="form--field -full-width">
-        <div class="form--field-container">
-          <label class="option-label">
-            <input type="radio" name="invite_unknown" value="true" checked>
-              Yes, make them members with role
-              <% options = @roles.collect { |obj| [obj.name, obj.id] } %>
-              <%= select_tag 'member[role_ids][]', options_for_select(options),
-                             multiple: false,
-                             no_label: true,
-                             title:    l(:label_role_search),
-                             tabIndex: 0,
-                             class:    'form--select form--inline-select',
-                             id:       'member_role_ids' %>
-             (recommended)
-          </label>
-        </div>
-      </div>
-      <div class="form--field -full-width">
-        <div class="form--field-container">
-          <label class="option-label">
-            <input type="radio" name="invite_unknown" value="false">No, import them as <i>anonymous</i> users (not recommended)
-          </label>
-        </div>
-      </div>
-    <% else %>
-      <p>
-        <%= I18n.t('text_no_roles_defined') %>
-      </p>
-    <% end %>
-  <% end %>
 
   <% if false #@importer.non_members.any? %>
     <h3>Known, but non project members</h3>
@@ -114,7 +64,6 @@
     <% end %>
   <% end %>
 
-
   <% @listing.each do |entry| %>
 
     <% issue = @issues.detect { |bcf| bcf.uuid == entry[:uuid] } %>
@@ -124,6 +73,7 @@
       <table class="attributes-table">
         <thead>
           <tr>
+            <th></th>
             <th>Work package</th>
             <th>Title</th>
             <th>Status</th>
@@ -136,10 +86,11 @@
         </thead>
         <tbody>
           <tr>
+            <td><b>About to import</b></td>
             <% if issue && issue.work_package %>
-              <td><%= link_to_work_package issue.work_package %></td>
+              <td></td>
             <% else  %>
-              <td>(will be created)</td>
+              <td>(Will create work package)</td>
             <% end %>
             <td><%= entry[:title] || '-' %></td>
             <td><%= entry[:status] || '-' %></td>
@@ -151,7 +102,8 @@
           </tr>
           <% if issue&.work_package %>
             <tr>
-              <td></td>
+              <td><b>Work package state before import</b></td>
+              <td><%= link_to_work_package issue.work_package %></td>
               <td><%= issue.work_package.subject %></td>
               <td><%= issue.work_package.status.name %></td>
               <td><%= issue.work_package.priority.name %></td>

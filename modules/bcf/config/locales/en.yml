@@ -25,6 +25,7 @@ en:
         num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
         button_prepare: 'Prepare import'
         button_perform_import: 'Confirm import'
+        button_proceed: 'Proceed'
         description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
         perform_description: "Do you want to import or update the issues listed above?"
   export:

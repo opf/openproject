@@ -35,10 +35,11 @@ module ::Bcf
     before_action :authorize
 
     before_action :check_file_param, only: %i[prepare_import]
-    before_action :get_persisted_file, only: %i[perform_import]
+    before_action :get_persisted_file, only: %i[perform_import configure_import]
     before_action :persist_file, only: %i[prepare_import]
+    before_action :set_import_options, only: %i[prepare_import configure_import perform_import]
 
-    before_action :build_importer, only: %i[prepare_import perform_import]
+    before_action :build_importer, only: %i[prepare_import configure_import perform_import]
 
     before_action :get_issue_type
 
@@ -56,15 +57,16 @@ module ::Bcf
 
     def prepare_import
       begin
-        @roles = Role.find_all_givable
-        @listing = @importer.get_extractor_list
-        if @listing.blank?
-          raise(StandardError.new(I18n.t('bcf.exceptions.file_invalid')))
-        end
+        render_next
+      rescue StandardError => e
+        flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
+        redirect_to action: :index
+      end
+    end
 
-        @issues = ::Bcf::Issue.with_markup
-                    .includes(work_package: %i[status priority assigned_to])
-                    .where(uuid: @listing.map { |e| e[:uuid] })
+    def configure_import
+      begin
+        render_next
       rescue StandardError => e
         flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
         redirect_to action: :index
@@ -73,7 +75,7 @@ module ::Bcf
 
     def perform_import
       begin
-        result = @importer.import!
+        result = @importer.import!(@import_options)
         flash[:notice] = I18n.t('bcf.bcf_xml.import_successful', count: result)
       rescue StandardError => e
         flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
@@ -84,6 +86,30 @@ module ::Bcf
     end
 
     private
+
+    def set_import_options
+      @import_options = {
+        unknown_mails_action: params.dig(:import_options, :unknown_mails_action),
+        unknown_mails_invite_role_ids: params.dig(:import_options, :unknown_mails_invite_role_ids) || [],
+      }
+    end
+
+    def render_next
+      if @importer.unknown_mails.any? && !params.dig(:import_options, :unknown_mails_action)
+        @roles = Role.find_all_givable
+        render 'bcf/issues/configure_unknown_mails'
+      else
+        @listing = @importer.get_extractor_list
+        if @listing.blank?
+          raise(StandardError.new(I18n.t('bcf.exceptions.file_invalid')))
+        end
+
+        @issues = ::Bcf::Issue.with_markup
+                    .includes(work_package: %i[status priority assigned_to])
+                    .where(uuid: @listing.map { |e| e[:uuid] })
+        render 'bcf/issues/diff_on_work_packages'
+      end
+    end
 
     def build_importer
       @importer = ::OpenProject::Bcf::BcfXml::Importer.new @bcf_xml_file, @project, current_user: current_user
@@ -119,3 +145,25 @@ module ::Bcf
     end
   end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

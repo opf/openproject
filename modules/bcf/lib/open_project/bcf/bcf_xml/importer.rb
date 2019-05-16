@@ -53,8 +53,10 @@ module OpenProject::Bcf::BcfXml
       @instance_cache[:invalid_people] ||= all_people - all_mails
     end
 
-    def import!
+    def import!(options = {})
       Zip::File.open(@file) do |zip|
+        treat_unknown_mails(options)
+
         # Extract all topics of the zip and save them
         synchronize_topics(zip)
 
@@ -62,13 +64,35 @@ module OpenProject::Bcf::BcfXml
 
         # TODO: Extract BIM snippets
       end
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error "Failed to import BCF Zip #{file}: #{e} #{e.message}"
       Rails.logger.debug { e.backtrace.join("\n") }
-      raise e
+      raise
     end
 
     private
+
+    ##
+    # Invite all unknown email addresses and add them
+    def treat_unknown_mails(options)
+      if options[:unknown_mails_action] == 'invite' && options[:unknown_mails_invite_role_ids].any?
+        if User.current.admin?
+          if enterprise_allow_new_users?
+            unknown_mails.each do |mail|
+              user = UserInvitation.invite_new_user(email: mail)
+              member = Member.create(user: user, project: project)
+              membership_service = ::Members::EditMembershipService.new(member, save: true, current_user: User.current)
+              membership_service.call(attributes: {role_ids: options[:unknown_mails_invite_role_ids]})
+            end
+          else
+            raise StandardError.new 'Enterprise Edition user limit reached.'
+          end
+        else
+          raise StandardError.new 'For inviting new users you need admin privileges.'
+        end
+      end
+
+    end
 
     def to_listing(extractor)
       keys = %i[uuid title priority status description author assignee modified_author due_date]
@@ -94,6 +118,10 @@ module OpenProject::Bcf::BcfXml
     # while skipping all other entries
     def yield_markup_bcf_files(zip)
       zip.select { |entry| entry.name.end_with?('markup.bcf') }
+    end
+
+    def enterprise_allow_new_users?
+      !OpenProject::Enterprise.user_limit_reached? || !OpenProject::Enterprise.fail_fast?
     end
   end
 end
