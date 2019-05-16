@@ -149,6 +149,14 @@ describe 'Work Package highlighting fields',
     expect(wp1_row.native.css_value('background-color')).to eq('rgba(18, 52, 86, 1)')
     expect(wp2_row.native.css_value('background-color')).to eq('rgba(0, 0, 0, 0)')
 
+    # Highlighting is kept even after a hard reload (Regression #30217)
+    page.driver.refresh
+    expect(page).to have_selector("#{wp_table.row_selector(wp_1)}.__hl_background_priority_#{priority1.id}")
+    expect(page).to have_selector("#{wp_table.row_selector(wp_2)}.__hl_background_priority_#{priority_no_color.id}")
+    expect(page).to have_no_selector('[class*="__hl_inline_status"]')
+    expect(page).to have_no_selector('[class*="__hl_inline_priority"]')
+    expect(page).to have_no_selector('[class*="__hl_date"]')
+
     # Save query
     wp_table.save
     wp_table.expect_and_dismiss_notification message: 'Successful update.'
