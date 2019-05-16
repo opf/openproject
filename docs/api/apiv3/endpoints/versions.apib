@@ -88,12 +88,15 @@ Depending on custom fields defined for versions, additional properties might exi
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
-                "message": "The specified version does not exist."
+                "message": "The requested resource could not be found."
             }
 
 ## Update Versions [PATCH]
 
 Updates the given version by applying the attributes provided in the body. Please note that while there is a fixed set of attributes, custom fields can extend a version's attributes and are accepted by the endpoint.
+
++ Parameters
+    + id (required, integer, `1`) ... Version id
 
 + Request Update version
 
@@ -142,6 +145,24 @@ Updates the given version by applying the attributes provided in the body. Pleas
                 "message": "You are not authorized to access this resource."
             }
 
++ Response 404 (application/hal+json)
+
+    Returned if the version does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage versions (any project where the version is available)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
 + Response 422 (application/hal+json)
 
     Returned if:
@@ -159,6 +180,51 @@ Updates the given version by applying the attributes provided in the body. Pleas
                         "attribute"=>"name"
                     }
                 }
+            }
+
+## Delete Version [DELETE]
+
+Deletes the version. Work packages associated to the version will no longer be assigned to it.
+
++ Parameters
+    + id (required, integer, `1`) ... Version id
+
++ Response 204 (application/hal+json)
+
+    Returned if the version was successfully deleted
+
+    + Body
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** manage versions
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the version does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage versions (any project where the version is available)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
             }
 
 

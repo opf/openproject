@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Version resource' do
+describe 'API v3 Version resource', content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -155,7 +155,7 @@ describe 'API v3 Version resource' do
     before do
       login_as current_user
 
-      patch path, body, 'CONTENT_TYPE' => 'application/json'
+      patch path, body
     end
 
     it 'responds with 200' do
@@ -296,7 +296,7 @@ describe 'API v3 Version resource' do
     before do
       login_as current_user
 
-      post path, body, 'CONTENT_TYPE' => 'application/json'
+      post path, body
     end
 
     it 'responds with 201' do
@@ -419,6 +419,57 @@ describe 'API v3 Version resource' do
         expect(response.body)
           .to be_json_eql(api_v3_paths.version(shared_version_in_project.id).to_json)
           .at_path('_embedded/elements/0/_links/self/href')
+      end
+    end
+  end
+
+  describe 'DELETE /api/v3/versions/:id' do
+    let(:path) { api_v3_paths.version(version.id) }
+    let(:version) do
+      FactoryBot.create(:version,
+                        project: project)
+    end
+
+    before do
+      login_as current_user
+
+      delete path
+    end
+
+    subject { last_response }
+
+    context 'with required permissions' do
+      it 'responds with HTTP No Content' do
+        expect(subject.status).to eq 204
+      end
+
+      it 'deletes the version' do
+        expect(Version.exists?(version.id)).to be_falsey
+      end
+
+      context 'for a non-existent version' do
+        let(:path) { api_v3_paths.version 1337 }
+
+        it_behaves_like 'not found' do
+          let(:id) { 1337 }
+          let(:type) { 'Version' }
+        end
+      end
+    end
+
+    context 'without permission to see versions' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'not found'
+    end
+
+    context 'without permission to delete versions' do
+      let(:permissions) { [:view_work_packages] }
+
+      it_behaves_like 'unauthorized access'
+
+      it 'does not delete the version' do
+        expect(Version.exists?(version.id)).to be_truthy
       end
     end
   end
