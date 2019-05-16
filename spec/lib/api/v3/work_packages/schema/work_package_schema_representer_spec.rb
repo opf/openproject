@@ -73,14 +73,12 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:base_schema_link) { nil }
   let(:hide_self_link) { false }
   let(:embedded) { true }
-  let(:action) { :update }
   let(:representer) do
     described_class.create(schema,
                            self_link,
                            form_embedded: embedded,
                            base_schema_link: base_schema_link,
-                           current_user: current_user,
-                           action: action)
+                           current_user: current_user)
   end
   let(:available_custom_fields) { [] }
 
@@ -574,8 +572,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
       end
 
-      context 'when creating' do
-        let(:action) { :create }
+      context 'when creating (new_record)' do
+        let(:work_package) do
+          FactoryBot.build(:stubbed_work_package, project: project, type: wp_type) do |wp|
+            allow(wp)
+              .to receive(:available_custom_fields)
+              .and_return(available_custom_fields)
+          end
+        end
 
         it_behaves_like 'links to allowed values via collection link' do
           let(:path) { 'project' }

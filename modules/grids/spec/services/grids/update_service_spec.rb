@@ -80,7 +80,7 @@ describe Grids::UpdateService, type: :model do
 
   describe 'call' do
     shared_examples_for 'service call' do
-      subject { instance.call(attributes: call_attributes) }
+      subject { instance.call(call_attributes) }
 
       it 'is successful' do
         expect(subject.success?).to be_truthy

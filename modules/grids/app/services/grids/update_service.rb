@@ -41,7 +41,7 @@ class Grids::UpdateService
     self.contract_class = contract_class
   end
 
-  def call(attributes: {})
+  def call(attributes)
     in_context(false) do
       create(attributes)
     end

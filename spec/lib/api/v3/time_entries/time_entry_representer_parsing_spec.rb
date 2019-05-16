@@ -77,7 +77,9 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
         }
       },
       "hours" => 'PT5H',
-      "comment" => "some comment",
+      "comment" => {
+        "raw" => "some comment"
+      },
       "spentOn" => "2017-07-28",
       "customField11" => {
         "raw" => "some text"

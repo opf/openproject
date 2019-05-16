@@ -69,18 +69,18 @@ describe Versions::CreateContract do
       end
 
       context 'for sharing' do
-        let(:assignable_sharings) { double('assignable sharings') }
-
-        before do
-          allow(version)
-            .to receive(:allowed_sharings)
-            .with(current_user)
-            .and_return(assignable_sharings)
+        it 'is a list of values' do
+          expect(subject.assignable_values(:sharing, current_user))
+            .to match_array %w(none descendants hierarchy tree)
         end
 
-        it 'is delegated to the version' do
-          expect(subject.assignable_values(:sharing, current_user))
-            .to eql assignable_sharings
+        context 'if the user is admin' do
+          let(:current_user) { FactoryBot.build_stubbed(:admin) }
+
+          it 'is a list of values' do
+            expect(subject.assignable_values(:sharing, current_user))
+              .to match_array %w(none descendants system hierarchy tree)
+          end
         end
       end
 
