@@ -174,11 +174,11 @@ module Pages
     end
 
     def expect_list(name)
-      expect(page).to have_field('editable-toolbar-title', with: name)
+      expect(page).to have_selector('editable-toolbar-title', text: name)
     end
 
     def expect_no_list(name)
-      expect(page).not_to have_field('editable-toolbar-title', with: name)
+      expect(page).not_to have_selector('editable-toolbar-title', text: name)
     end
 
     def expect_empty
