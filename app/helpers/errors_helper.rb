@@ -89,7 +89,7 @@ module ErrorsHelper
     @message = arg[:message]
 
     if @status >= 500
-      op_handle_error "[Error #@status] #@message"
+      op_handle_error arg[:exception] || "[Error #@status] #@message"
     end
 
     @message = l(@message) if @message.is_a?(Symbol)
