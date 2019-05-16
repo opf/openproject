@@ -23,13 +23,13 @@ el:
         boards: Need to freely structure your work in a board view?
         check_out_link: Check out the Enterprise Edition.
       lists:
-        delete: Delete list
+        delete: Διαγραφή λίστας
     card:
-      add_new: Add new card
+      add_new: Προσθέστε νέα κάρτα
       highlighting:
         inline: 'Highlight inline:'
         entire_card_by: Entire card by
-      remove_from_list: Remove card from list
+      remove_from_list: Αφαίρεση από τη λίστα
     clipboard:
       browser_error: Your browser doesn't support copying to clipboard. Please copy
         the selected text manually.
@@ -207,9 +207,9 @@ el:
     label_ascending: Ascending
     label_author: 'Author: %{user}'
     label_between: between
-    label_board: Board
+    label_board: Πινακας
     label_board_locked: Locked
-    label_board_plural: Boards
+    label_board_plural: Πινακες
     label_board_sticky: Sticky
     label_create_work_package: Create new work package
     label_created_by: Created by
@@ -334,7 +334,7 @@ el:
     label_upload_notification: Uploading files...
     label_work_package_upload_notification: 'Uploading files for Work package #%{id}:
       %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} προστέθηκε από %{author}"
     label_files_to_upload: 'These files will be uploaded:'
     label_rejected_files: 'These files cannot be uploaded:'
     label_rejected_files_reason: These files cannot be uploaded as their size is greater
@@ -857,7 +857,7 @@ el:
           work packages will be recursively removed.
         deletes_children: All child work packages and their descendants will also
           be recursively deleted.
-    notice_no_results_to_display: No visible results to display.
+    notice_no_results_to_display: Δεν υπάρχουν αποτελέσματα για εμφάνιση.
     notice_successful_create: Successful creation.
     notice_successful_delete: Successful deletion.
     notice_successful_update: Successful update.

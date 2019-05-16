@@ -157,7 +157,7 @@ el:
         no_results_title_text: There are currently no activities available.
       forums:
         no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_content_text: Δημιουργία νέου forum
       categories:
         no_results_title_text: There are currently no work package categories.
         no_results_content_text: Create a new work package category
@@ -529,7 +529,7 @@ el:
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
         unchangeable: cannot be changed.
-        unremovable: cannot be removed.
+        unremovable: δεν μπορεί να αφαιρεθεί.
         wrong_length: is the wrong length (should be %{count} characters).
       models:
         custom_field:
@@ -1055,7 +1055,7 @@ el:
     a closed version cannot be reopened
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_check_user_and_role: Please choose a user and a role.
-  error_code: Error %{code}
+  error_code: Σφάλμα %{code}
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
@@ -1357,7 +1357,7 @@ el:
   label_equals: is
   label_everywhere: everywhere
   label_example: Example
-  label_import: Import
+  label_import: Εισαγωγή
   label_export_to: 'Also available in:'
   label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} hour"
@@ -1395,7 +1395,7 @@ el:
   label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
   label_subject_or_id: Subject or ID
-  label_impressum: Legal notice
+  label_impressum: Νομικές επισημάνσεις
   label_in: in
   label_in_less_than: in less than
   label_in_more_than: in more than
@@ -1521,7 +1521,7 @@ el:
   label_planning: Planning
   label_please_login: Please log in
   label_plugins: Plugins
-  label_modules_and_plugins: Modules and Plugins
+  label_modules_and_plugins: Πρόσθετα και Υπηρεσίες
   label_precedes: precedes
   label_preferences: Preferences
   label_preview: Preview
@@ -1644,7 +1644,7 @@ el:
   label_updated_time: Updated %{value} ago
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Updated by %{author} %{age} ago
-  label_upgrade_guides: Upgrade guides
+  label_upgrade_guides: Οδηγίες αναβάθμισης
   label_used_by: Used by
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects

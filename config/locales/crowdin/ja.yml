@@ -565,7 +565,7 @@ ja:
           attributes:
             attribute_groups:
               attribute_unknown: 無効なワークパッケージの属性が使用されています。
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              attribute_unknown_name: '無効なワークパッケージの属性が使用されています: %{attribute}'
               duplicate_group: グループ名 '%{group}' は複数回使用されています。グループ名は一意でなければなりません。
               query_invalid: 埋め込みクエリ '%{group}' は無効です： %{details}
               group_without_name: 名前のないグループは指定できません。
