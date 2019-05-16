@@ -5,10 +5,11 @@ require 'features/page_objects/notification'
 
 describe 'new work package', js: true do
   let(:type_task) { FactoryBot.create(:type_task, description: "# New Task template\n\nHello there") }
+  let(:type_bug) { FactoryBot.create(:type_bug, description: "# New Bug template\n\nGeneral Kenobi") }
   let!(:status) { FactoryBot.create(:status, is_default: true) }
   let!(:priority) { FactoryBot.create(:priority, is_default: true) }
   let!(:project) do
-    FactoryBot.create(:project, types: [type_task])
+    FactoryBot.create(:project, types: [type_task, type_bug])
   end
 
   let(:user) { FactoryBot.create :admin }
@@ -19,6 +20,37 @@ describe 'new work package', js: true do
   let(:type_field) { wp_page.edit_field :type }
   let(:notification) { PageObjects::Notifications.new(page) }
   let(:wp_page) { Pages::FullWorkPackageCreate.new }
+
+
+  # Changing the type changes the description if it was empty or still the default.
+  # Changes in the description shall not be overridden.
+  def change_type_and_expect_description
+    type_field.openSelectField
+    type_field.set_value type_task
+    expect(page).to have_selector('.wp-edit-field.description h1', text: 'New Task template')
+
+    type_field.openSelectField
+    type_field.set_value type_bug
+    expect(page).to have_selector('.wp-edit-field.description h1', text: 'New Bug template')
+
+    description_field.set_value 'Something different than the default.'
+
+    type_field.openSelectField
+    type_field.set_value type_task
+    expect(page).not_to have_selector('.wp-edit-field.description h1', text: 'New Task template')
+
+    description_field.set_value ''
+
+    type_field.openSelectField
+    type_field.set_value type_bug
+    expect(page).to have_selector('.wp-edit-field.description h1', text: 'New Bug template')
+
+    scroll_to_and_click find('#work-packages--edit-actions-save')
+    wp_page.expect_notification message: 'Successful creation.'
+
+    expect(page).to have_selector('.wp-edit-field--display-field.description h1', text: 'New Bug template')
+  end
+
 
   before do
     login_as(user)
@@ -37,13 +69,7 @@ describe 'new work package', js: true do
       # Wait until project is set
       expect(page).to have_no_selector('.wp-project-context--warning')
 
-      type_field.openSelectField
-      type_field.set_value type_task
-
-      scroll_to_and_click find('#work-packages--edit-actions-save')
-      wp_page.expect_notification message: 'Successful creation.'
-
-      expect(page).to have_selector('.wp-edit-field--display-field.description h1', text: 'New Task template')
+      change_type_and_expect_description
     end
   end
 
@@ -59,10 +85,9 @@ describe 'new work package', js: true do
 
       subject_field.set_value 'Foobar!'
 
-      scroll_to_and_click find('#work-packages--edit-actions-save')
-      wp_page.expect_notification message: 'Successful creation.'
+      type_field.activate!
 
-      expect(page).to have_selector('.wp-edit-field--display-field.description h1', text: 'New Task template')
+      change_type_and_expect_description
     end
   end
 end

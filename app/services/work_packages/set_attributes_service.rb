@@ -86,20 +86,18 @@ class WorkPackages::SetAttributesService
     work_package.author ||= user
     work_package.status ||= Status.default
 
-    unless work_package.description.present?
-      set_templated_description
-    end
+    set_templated_description if non_or_default_description?
 
-    if Setting.work_package_startdate_is_adddate?
-      work_package.start_date ||= Date.today
-    end
+    work_package.start_date ||= Date.today if Setting.work_package_startdate_is_adddate?
+  end
+
+  def non_or_default_description?
+    work_package.description.blank? ||
+      Type.pluck(:description).compact.map(&method(:normalize_whitespace)).include?(normalize_whitespace(work_package.description))
   end
 
   def set_templated_description
-    type = work_package.type
-    if type&.description&.present?
-      work_package.description = type.description
-    end
+    work_package.description = work_package.type&.description
   end
 
   def set_custom_attributes(attributes)
@@ -203,5 +201,9 @@ class WorkPackages::SetAttributesService
     if min_start && (min_start > current_start_date)
       min_start
     end
+  end
+
+  def normalize_whitespace(string)
+    string.gsub(/\s/, ' ').squeeze(' ')
   end
 end

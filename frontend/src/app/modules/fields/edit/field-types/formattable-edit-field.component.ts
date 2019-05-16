@@ -165,9 +165,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
         .then((val) => {
 
           // Reset CKEditor when reloading after type/form changes
-          if (!val) {
-            this.reset();
-          }
+          this.reset();
           this.rawValue = val;
         });
     }
