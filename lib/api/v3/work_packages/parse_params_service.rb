@@ -31,7 +31,7 @@ module API
     module WorkPackages
       class ParseParamsService < API::V3::ParseResourceParamsService
         # Be compatible to super
-        def initialize(user, **args)
+        def initialize(user, **_args)
           super(user, model: WorkPackage, representer: ::API::V3::WorkPackages::WorkPackagePayloadRepresenter)
         end
 

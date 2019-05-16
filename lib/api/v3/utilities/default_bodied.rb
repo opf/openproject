@@ -30,7 +30,7 @@ module API
   module V3
     module Utilities
       class DefaultBodied
-        def default_instance_generator(model)
+        def default_instance_generator(_model)
           raise NotImplementedError
         end
 

@@ -73,7 +73,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% if @project.enabled_modules.map(&:name).include?("backlogs") %>
 
-  <%= version_settings_fields(version, @project).html_safe %>
+  <%= version_settings_fields(version, @project) %>
 
 <% end %>
 
