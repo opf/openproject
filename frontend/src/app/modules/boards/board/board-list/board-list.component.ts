@@ -181,7 +181,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public get canRename() {
-    return this.canManage && !!this.query.updateImmediately;
+    return this.canManage &&
+           !!this.query.updateImmediately &&
+           this.board.isFree;
   }
 
   public addReferenceCard() {
