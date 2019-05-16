@@ -28,22 +28,8 @@
 
 module API
   module V3
-    module Utilities
-      class DefaultCreate < DefaultModify
-        def default_instance_generator(model)
-          ->(_params, _current_user) do
-          end
-        end
-
-        def success_status
-          :created
-        end
-
-        private
-
-        def update_or_create
-          "Create"
-        end
+    module TimeEntries
+      class TimeEntryPayloadRepresenter < TimeEntryRepresenter
       end
     end
   end

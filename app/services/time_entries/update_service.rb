@@ -42,7 +42,7 @@ module TimeEntries
       self.contract_class = TimeEntries::UpdateContract
     end
 
-    def call(attributes: {})
+    def call(attributes)
       set_attributes attributes
 
       success, errors = validate_and_save(time_entry, user)

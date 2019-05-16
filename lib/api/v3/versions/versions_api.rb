@@ -68,6 +68,8 @@ module API
               VersionRepresenter.create(@version, current_user: current_user, embed_links: true)
             end
 
+            patch &::API::V3::Utilities::DefaultUpdate.new(model: Version).mount
+
             mount ::API::V3::Versions::UpdateFormAPI
             mount ::API::V3::Versions::ProjectsByVersionAPI
           end

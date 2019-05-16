@@ -29,20 +29,17 @@
 module API
   module V3
     module Utilities
-      class DefaultCreate < DefaultModify
+      class DefaultUpdate < DefaultModify
         def default_instance_generator(model)
           ->(_params, _current_user) do
+            instance_variable_get("@#{model.name.demodulize.underscore}")
           end
-        end
-
-        def success_status
-          :created
         end
 
         private
 
         def update_or_create
-          "Create"
+          "Update"
         end
       end
     end

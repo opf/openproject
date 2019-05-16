@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,28 +25,42 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Utilities
-      class DefaultCreate < DefaultModify
-        def default_instance_generator(model)
-          ->(_params, _current_user) do
-          end
-        end
+module Versions
+  class UpdateService
+    include Concerns::Contracted
 
-        def success_status
-          :created
-        end
+    attr_reader :user,
+                :version
 
-        private
+    def initialize(user:, version:)
+      @user = user
+      @version = version
+      self.contract_class = Versions::UpdateContract
+    end
 
-        def update_or_create
-          "Create"
-        end
+    def call(params)
+      attributes_call = set_attributes(params)
+
+      if attributes_call.success? &&
+         !attributes_call.result.save
+        attributes_call.errors = attributes_call.result.errors
+        attributes_call.success = false
       end
+
+      attributes_call
+    end
+
+    private
+
+    def set_attributes(params)
+      SetAttributesService
+        .new(user: user,
+             version: version,
+             contract_class: contract_class)
+        .call(params)
     end
   end
 end

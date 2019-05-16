@@ -80,6 +80,77 @@ Depending on custom fields defined for versions, additional properties might exi
                 "message": "The specified version does not exist."
             }
 
+## Update Versions [PATCH]
+
+Updates the given version by applying the attributes provided in the body. Please note that while there is a fixed set of attributes, custom fields can extend a version's attributes and are accepted by the endpoint.
+
++ Request Update version
+
+    + Body
+
+            {
+                "endDate": "2018-01-10",
+                "startDate": "2018-01-01",
+                "status": "closed",
+                "sharing": "system",
+                "customField14": "blubs",
+                "_links": {
+                    "definingProject": {
+                        "href": "/api/v3/projects/1"
+                    }
+                }
+            }
+
++ Response 200
+
+    [Version][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Manage versions in the version's project.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Name cannot be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute"=>"name"
+                    }
+                }
+            }
+
+
 ## Versions [/api/v3/versions{?filters}]
 
 + Model

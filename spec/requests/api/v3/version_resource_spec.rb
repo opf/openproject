@@ -38,7 +38,7 @@ describe 'API v3 Version resource' do
                       member_in_project: project,
                       member_with_permissions: permissions)
   end
-  let(:permissions) { [:view_work_packages, :manage_versions] }
+  let(:permissions) { %i[view_work_packages manage_versions] }
   let(:project) { FactoryBot.create(:project, is_public: false) }
   let(:other_project) { FactoryBot.create(:project, is_public: false) }
   let!(:int_cf) { FactoryBot.create(:int_version_custom_field) }
@@ -111,6 +111,156 @@ describe 'API v3 Version resource' do
         login_as current_user
 
         get get_path
+      end
+
+      it_behaves_like 'unauthorized access'
+    end
+  end
+
+  describe 'PATCH api/v3/versions' do
+    let(:path) { api_v3_paths.version(version.id) }
+    let(:version) do
+      FactoryBot.create(:version,
+                        name: 'Old name',
+                        description: 'Old description',
+                        start_date: '2017-06-01',
+                        effective_date: '2017-07-01',
+                        status: 'open',
+                        sharing: 'none',
+                        project: project,
+                        custom_field_values: { int_cf.id => 123,
+                                               list_cf.id => list_cf.custom_options.first.id })
+    end
+    let!(:int_cf) { FactoryBot.create(:int_version_custom_field) }
+    let!(:list_cf) { FactoryBot.create(:list_version_custom_field) }
+    let(:body) do
+      {
+        name: 'New name',
+        description: {
+          raw: 'New description'
+        },
+        "customField#{int_cf.id}": 5,
+        "startDate": "2018-01-01",
+        "endDate": "2018-01-09",
+        "status": "closed",
+        "sharing": "descendants",
+        _links: {
+          "customField#{list_cf.id}": {
+            href: api_v3_paths.custom_option(list_cf.custom_options.last.id)
+          }
+        }
+      }.to_json
+    end
+
+    before do
+      login_as current_user
+
+      patch path, body, 'CONTENT_TYPE' => 'application/json'
+    end
+
+    it 'responds with 200' do
+      expect(last_response.status).to eq(200)
+    end
+
+    it 'updates the version' do
+      expect(Version.find_by(name: 'New name'))
+        .to be_present
+    end
+
+    it 'returns the newly created version' do
+      expect(last_response.body)
+        .to be_json_eql('Version'.to_json)
+        .at_path('_type')
+
+      expect(last_response.body)
+        .to be_json_eql('New name'.to_json)
+        .at_path('name')
+
+      expect(last_response.body)
+        .to be_json_eql('<p>New description</p>'.to_json)
+        .at_path('description/html')
+
+      expect(last_response.body)
+        .to be_json_eql('2018-01-01'.to_json)
+        .at_path('startDate')
+
+      expect(last_response.body)
+        .to be_json_eql('2018-01-09'.to_json)
+        .at_path('endDate')
+
+      expect(last_response.body)
+        .to be_json_eql('closed'.to_json)
+        .at_path('status')
+
+      expect(last_response.body)
+        .to be_json_eql('descendants'.to_json)
+        .at_path('sharing')
+
+      # unchanged
+      expect(last_response.body)
+        .to be_json_eql(project.name.to_json)
+        .at_path('_links/definingProject/title')
+
+      expect(last_response.body)
+        .to be_json_eql(api_v3_paths.custom_option(list_cf.custom_options.last.id).to_json)
+        .at_path("_links/customField#{list_cf.id}/href")
+
+      expect(last_response.body)
+        .to be_json_eql(5.to_json)
+        .at_path("customField#{int_cf.id}")
+    end
+
+    context 'if attempting to switch the project' do
+      let(:other_project) do
+        FactoryBot.create(:project).tap do |p|
+          FactoryBot.create(:member,
+                            project: p,
+                            roles: [FactoryBot.create(:role, permissions: [:manage_versions])],
+                            user: current_user)
+        end
+      end
+
+      let(:other_membership) do
+      end
+      let(:body) do
+        {
+          _links: {
+            "definingProject": {
+              "href": api_v3_paths.project(other_project.id)
+
+            }
+          }
+        }.to_json
+      end
+
+      it 'returns 422' do
+        expect(last_response.status)
+          .to eql(422)
+
+        expect(last_response.body)
+          .to be_json_eql("You must not write a read-only attribute.".to_json)
+          .at_path('message')
+      end
+    end
+
+    context 'if lacking the manage permissions' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'unauthorized access'
+    end
+
+    context 'if having the manage permission in a different project' do
+      let(:other_membership) do
+        FactoryBot.create(:member,
+                          project: FactoryBot.create(:project),
+                          roles: [FactoryBot.create(:role, permissions: [:manage_versions])])
+      end
+
+      let(:permissions) do
+        # load early
+        other_membership
+
+        [:view_work_packages]
       end
 
       it_behaves_like 'unauthorized access'
@@ -200,25 +350,25 @@ describe 'API v3 Version resource' do
         .at_path("customField#{int_cf.id}")
     end
 
-    context 'when lacking the manage permissions' do
+    context 'if lacking the manage permissions' do
       let(:permissions) { [] }
 
       it_behaves_like 'unauthorized access'
     end
 
-    context 'when having the manage permission in a different project' do
+    context 'if having the manage permission in a different project' do
       let(:other_membership) do
         FactoryBot.create(:member,
                           project: FactoryBot.create(:project),
                           roles: [FactoryBot.create(:role, permissions: [:manage_versions])])
       end
 
-      let(:permissions) {
+      let(:permissions) do
         # load early
         other_membership
 
         [:view_work_packages]
-      }
+      end
 
       it_behaves_like 'unauthorized access'
     end

@@ -31,10 +31,6 @@ module API
     module Grids
       class UpdateFormAPI < ::API::OpenProjectAPI
         resource :form do
-          before do
-            raise_if_lacking_manage_permission
-          end
-
           post &::API::V3::Utilities::DefaultUpdateForm.new(model: ::Grids::Grid,
                                                             instance_generator: ->(params, _current_user) {
                                                               if params[:scope]
