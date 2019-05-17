@@ -35,7 +35,7 @@ module API
             authorize :manage_versions, global: true
           end
 
-          post &::API::V3::Utilities::DefaultCreateForm.new(model: Version).mount
+          post &::API::V3::Utilities::Endpoints::CreateForm.new(model: Version).mount
         end
       end
     end

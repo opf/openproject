@@ -29,17 +29,38 @@
 module API
   module V3
     module Utilities
-      class DefaultUpdateForm < DefaultForm
-        def default_instance_generator(model)
-          ->(_params) do
-            instance_variable_get("@#{model.name.demodulize.underscore}")
+      module Endpoints
+        class Modify < Bodied
+          def default_instance_generator(model)
+            ->(_params, _current_user) do
+              instance_variable_get("@#{model.name.demodulize.underscore}")
+            end
           end
-        end
 
-        private
+          private
 
-        def update_or_create
-          "Update"
+          def present_success(current_user, call)
+            render_representer
+              .create(call.result,
+                      current_user: current_user,
+                      embed_links: true)
+          end
+
+          def present_error(call)
+            fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+          end
+
+          def deduce_process_service
+            "::#{deduce_namespace}::#{update_or_create}Service".constantize
+          end
+
+          def deduce_render_representer
+            "::API::V3::#{deduce_namespace}::#{model.name.demodulize}Representer".constantize
+          end
+
+          def deduce_process_contract
+            nil
+          end
         end
       end
     end

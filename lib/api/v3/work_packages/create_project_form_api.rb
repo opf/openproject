@@ -31,12 +31,12 @@ module API
     module WorkPackages
       class CreateProjectFormAPI < ::API::OpenProjectAPI
         resource :form do
-          post &::API::V3::Utilities::DefaultCreateForm.new(model: WorkPackage,
-                                                            parse_service: WorkPackages::ParseParamsService,
-                                                            instance_generator: ->(*) {
-                                                              WorkPackage.new(author: current_user, project: @project)
-                                                            })
-                                                       .mount
+          post &::API::V3::Utilities::Endpoints::CreateForm.new(model: WorkPackage,
+                                                                parse_service: WorkPackages::ParseParamsService,
+                                                                instance_generator: ->(*) {
+                                                                  WorkPackage.new(author: current_user, project: @project)
+                                                                })
+                                                           .mount
         end
       end
     end

@@ -27,7 +27,6 @@
 #++
 
 require 'api/v3/work_packages/work_package_representer'
-require 'api/v3/work_packages/create_work_packages'
 
 module API
   module V3
@@ -59,13 +58,13 @@ module API
             end
           end
 
-          post &::API::V3::Utilities::DefaultCreate.new(model: WorkPackage,
-                                                        parse_service: WorkPackages::ParseParamsService,
-                                                        params_modifier: ->(attributes) {
-                                                          attributes[:send_notifications] = notify_according_to_params
-                                                          attributes
-                                                        })
-                                                   .mount
+          post &::API::V3::Utilities::Endpoints::Create.new(model: WorkPackage,
+                                                            parse_service: WorkPackages::ParseParamsService,
+                                                            params_modifier: ->(attributes) {
+                                                              attributes[:send_notifications] = notify_according_to_params
+                                                              attributes
+                                                            })
+                                                       .mount
 
           params do
             requires :id, desc: 'Work package id', type: Integer
@@ -97,9 +96,9 @@ module API
                                                                })
                                                           .mount
 
-            delete &::API::V3::Utilities::DefaultDelete.new(model: WorkPackage,
-                                                            process_service: ::WorkPackages::DestroyService)
-                                                       .mount
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: WorkPackage,
+                                                                process_service: ::WorkPackages::DestroyService)
+                                                           .mount
 
             mount ::API::V3::WorkPackages::WatchersAPI
             mount ::API::V3::Activities::ActivitiesByWorkPackageAPI

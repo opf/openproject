@@ -29,34 +29,22 @@
 module API
   module V3
     module Utilities
-      class DefaultForm < DefaultBodied
-        def success?(call)
-          only_validation_errors?(api_errors(call))
-        end
+      module Endpoints
+        class Create < Modify
+          def default_instance_generator(_model)
+            ->(_params) do
+            end
+          end
 
-        def present_success(current_user, call)
-          render_representer
-            .new(call.result,
-                 errors: api_errors(call),
-                 current_user: current_user)
-        end
+          def success_status
+            :created
+          end
 
-        def present_error(call)
-          fail ::API::Errors::MultipleErrors.create_if_many(api_errors(call))
-        end
+          private
 
-        def only_validation_errors?(errors)
-          errors.all? { |error| error.code == 422 }
-        end
-
-        private
-
-        def api_errors(call)
-          ::API::Errors::ErrorBase.create_errors(call.errors)
-        end
-
-        def deduce_render_representer
-          "::API::V3::#{deduce_namespace}::#{update_or_create}FormRepresenter".constantize
+          def update_or_create
+            "Create"
+          end
         end
       end
     end

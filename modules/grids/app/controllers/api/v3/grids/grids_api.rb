@@ -52,7 +52,7 @@ module API
             end
           end
 
-          post &::API::V3::Utilities::DefaultCreate.new(model: ::Grids::Grid).mount
+          post &::API::V3::Utilities::Endpoints::Create.new(model: ::Grids::Grid).mount
 
           mount CreateFormAPI
           mount ::API::V3::Grids::Schemas::GridSchemaAPI
@@ -79,8 +79,8 @@ module API
                 end
               end
 
-              patch &::API::V3::Utilities::DefaultUpdate.new(model: ::Grids::Grid).mount
-              delete &::API::V3::Utilities::DefaultDelete.new(model: ::Grids::Grid).mount
+              patch &::API::V3::Utilities::Endpoints::Update.new(model: ::Grids::Grid).mount
+              delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::Grids::Grid).mount
 
               mount UpdateFormAPI
             end

@@ -26,8 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/create_work_packages'
-
 module API
   module V3
     module WorkPackages
@@ -47,14 +45,14 @@ module API
             service.result
           end
 
-          post &::API::V3::Utilities::DefaultCreate.new(model: WorkPackage,
-                                                        parse_service: WorkPackages::ParseParamsService,
-                                                        params_modifier: ->(attributes) {
-                                                          attributes[:project_id] = @project.id
-                                                          attributes[:send_notifications] = notify_according_to_params
-                                                          attributes
-                                                        })
-                                                   .mount
+          post &::API::V3::Utilities::Endpoints::Create.new(model: WorkPackage,
+                                                            parse_service: WorkPackages::ParseParamsService,
+                                                            params_modifier: ->(attributes) {
+                                                              attributes[:project_id] = @project.id
+                                                              attributes[:send_notifications] = notify_according_to_params
+                                                              attributes
+                                                            })
+                                                       .mount
 
           mount ::API::V3::WorkPackages::CreateProjectFormAPI
         end

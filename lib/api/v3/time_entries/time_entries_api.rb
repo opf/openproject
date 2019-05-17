@@ -49,7 +49,7 @@ module API
             end
           end
 
-          post &::API::V3::Utilities::DefaultCreate.new(model: TimeEntry).mount
+          post &::API::V3::Utilities::Endpoints::Create.new(model: TimeEntry).mount
 
           params do
             requires :id, desc: 'Time entry\'s id'
@@ -68,8 +68,8 @@ module API
                                           embed_links: true)
             end
 
-            patch &::API::V3::Utilities::DefaultUpdate.new(model: TimeEntry).mount
-            delete &::API::V3::Utilities::DefaultDelete.new(model: TimeEntry).mount
+            patch &::API::V3::Utilities::Endpoints::Update.new(model: TimeEntry).mount
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: TimeEntry).mount
           end
 
           mount ::API::V3::TimeEntries::TimeEntriesActivityAPI

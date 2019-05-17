@@ -31,16 +31,17 @@ module API
     module Grids
       class UpdateFormAPI < ::API::OpenProjectAPI
         resource :form do
-          post &::API::V3::Utilities::DefaultUpdateForm.new(model: ::Grids::Grid,
-                                                            params_modifier: ->(params) {
-                                                              if params[:scope]
-                                                                params[:type] = ::Grids::Configuration
-                                                                                  .class_from_scope(params.delete(:scope)).to_s
-                                                              end
+          post &::API::V3::Utilities::Endpoints::UpdateForm.new(model: ::Grids::Grid,
+                                                                params_modifier: ->(params) {
+                                                                  if params[:scope]
+                                                                    params[:type] = ::Grids::Configuration
+                                                                                    .class_from_scope(params.delete(:scope))
+                                                                                    .to_s
+                                                                  end
 
-                                                              params
-                                                            })
-                                                       .mount
+                                                                  params
+                                                                })
+                                                           .mount
         end
       end
     end

@@ -31,8 +31,9 @@ module API
     module WorkPackages
       class UpdateFormAPI < ::API::OpenProjectAPI
         resource :form do
-          post &::API::V3::Utilities::DefaultUpdateForm.new(model: WorkPackage,
-                                                            parse_service: WorkPackages::ParseParamsService).mount
+          post &::API::V3::Utilities::Endpoints::UpdateForm.new(model: WorkPackage,
+                                                                parse_service: WorkPackages::ParseParamsService)
+                                                           .mount
         end
       end
     end

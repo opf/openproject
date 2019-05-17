@@ -42,7 +42,7 @@ module API
                                                                     params)
           end
 
-          post &::API::V3::Utilities::DefaultCreate.new(model: Version).mount
+          post &::API::V3::Utilities::Endpoints::Create.new(model: Version).mount
 
           mount ::API::V3::Versions::Schemas::VersionSchemaAPI
           mount ::API::V3::Versions::CreateFormAPI
@@ -70,8 +70,8 @@ module API
               VersionRepresenter.create(@version, current_user: current_user, embed_links: true)
             end
 
-            patch &::API::V3::Utilities::DefaultUpdate.new(model: Version).mount
-            delete &::API::V3::Utilities::DefaultDelete.new(model: Version).mount
+            patch &::API::V3::Utilities::Endpoints::Update.new(model: Version).mount
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: Version).mount
 
             mount ::API::V3::Versions::UpdateFormAPI
             mount ::API::V3::Versions::ProjectsByVersionAPI

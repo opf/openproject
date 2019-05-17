@@ -29,17 +29,19 @@
 module API
   module V3
     module Utilities
-      class DefaultUpdate < DefaultModify
-        def default_instance_generator(model)
-          ->(_params) do
-            instance_variable_get("@#{model.name.demodulize.underscore}")
+      module Endpoints
+        class CreateForm < Form
+          def default_instance_generator(model)
+            ->(_params) do
+              model.new
+            end
           end
-        end
 
-        private
+          private
 
-        def update_or_create
-          "Update"
+          def update_or_create
+            "Create"
+          end
         end
       end
     end
