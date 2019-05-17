@@ -32,7 +32,7 @@ module API
       class CreateFormAPI < ::API::OpenProjectAPI
         resource :form do
           post &::API::V3::Utilities::DefaultCreateForm.new(model: ::Grids::Grid,
-                                                            instance_generator: ->(params, current_user) {
+                                                            instance_generator: ->(params) {
                                                               ::Grids::Factory.build(params.delete(:scope), current_user)
                                                             }).mount
         end

@@ -31,7 +31,7 @@ module API
     module Utilities
       class DefaultCreate < DefaultModify
         def default_instance_generator(_model)
-          ->(_params, _current_user) do
+          ->(_params) do
           end
         end
 

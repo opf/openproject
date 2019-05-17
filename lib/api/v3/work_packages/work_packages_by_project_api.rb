@@ -33,7 +33,7 @@ module API
     module WorkPackages
       class WorkPackagesByProjectAPI < ::API::OpenProjectAPI
         resources :work_packages do
-          helpers ::API::V3::WorkPackages::CreateWorkPackages
+          helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
           get do
             authorize(:view_work_packages, context: @project)
@@ -47,11 +47,14 @@ module API
             service.result
           end
 
-          post do
-            create_work_packages(request_body, current_user) do |work_package|
-              work_package.project_id = @project.id
-            end
-          end
+          post &::API::V3::Utilities::DefaultCreate.new(model: WorkPackage,
+                                                        parse_service: WorkPackages::ParseParamsService,
+                                                        params_modifier: ->(attributes) {
+                                                          attributes[:project_id] = @project.id
+                                                          attributes[:send_notifications] = notify_according_to_params
+                                                          attributes
+                                                        })
+                                                   .mount
 
           mount ::API::V3::WorkPackages::CreateProjectFormAPI
         end

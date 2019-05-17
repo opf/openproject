@@ -68,7 +68,7 @@ class WorkPackages::CopyService
     WorkPackages::CreateService
       .new(user: user,
            contract_class: contract_class)
-      .call(attributes: attributes,
+      .call(attributes,
             send_notifications: send_notifications)
   end
 

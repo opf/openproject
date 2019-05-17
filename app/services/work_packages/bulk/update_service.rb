@@ -63,8 +63,8 @@ module WorkPackages
           call_hook(:controller_work_packages_bulk_edit_before_save, params: params, work_package: work_package)
 
           service_call = WorkPackages::UpdateService
-            .new(user: user, work_package: work_package)
-            .call(attributes: attributes, send_notifications: params[:send_notification] == '1')
+                         .new(user: user, work_package: work_package)
+                         .call(attributes, send_notifications: params[:send_notification] == '1')
 
           if service_call.success?
             saved << work_package.id

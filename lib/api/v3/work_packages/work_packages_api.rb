@@ -34,7 +34,7 @@ module API
     module WorkPackages
       class WorkPackagesAPI < ::API::OpenProjectAPI
         resources :work_packages do
-          helpers ::API::V3::WorkPackages::CreateWorkPackages
+          helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
           # The endpoint needs to be mounted before the GET :work_packages/:id.
           # Otherwise, the matcher for the :id also seems to match available_projects.
@@ -59,9 +59,13 @@ module API
             end
           end
 
-          post do
-            create_work_packages(request_body, current_user)
-          end
+          post &::API::V3::Utilities::DefaultCreate.new(model: WorkPackage,
+                                                        parse_service: WorkPackages::ParseParamsService,
+                                                        params_modifier: ->(attributes) {
+                                                          attributes[:send_notifications] = notify_according_to_params
+                                                          attributes
+                                                        })
+                                                   .mount
 
           params do
             requires :id, desc: 'Work package id', type: Integer
@@ -85,27 +89,13 @@ module API
               work_package_representer
             end
 
-            patch do
-              parameters = ::API::V3::WorkPackages::ParseParamsService
-                           .new(current_user)
-                           .call(request_body)
-                           .result
-
-              call = ::WorkPackages::UpdateService
-                     .new(
-                       user: current_user,
-                       work_package: @work_package
-                     )
-                     .call(attributes: parameters, send_notifications: notify_according_to_params)
-
-              if call.success?
-                @work_package.reload
-
-                work_package_representer
-              else
-                handle_work_package_errors @work_package, call
-              end
-            end
+            patch &::API::V3::WorkPackages::UpdateEndPoint.new(model: WorkPackage,
+                                                               parse_service: ::API::V3::WorkPackages::ParseParamsService,
+                                                               params_modifier: ->(attributes) {
+                                                                 attributes[:send_notifications] = notify_according_to_params
+                                                                 attributes
+                                                               })
+                                                          .mount
 
             delete &::API::V3::Utilities::DefaultDelete.new(model: WorkPackage,
                                                             process_service: ::WorkPackages::DestroyService)

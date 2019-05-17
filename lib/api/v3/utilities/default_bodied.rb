@@ -34,12 +34,20 @@ module API
           raise NotImplementedError
         end
 
+        def default_params_modifier
+          ->(params) do
+            params
+          end
+        end
+
         def initialize(model:,
                        instance_generator: default_instance_generator(model),
+                       params_modifier: default_params_modifier,
                        process_service: nil,
                        parse_service: API::V3::ParseResourceParamsService)
           self.model = model
           self.instance_generator = instance_generator
+          self.params_modifier = params_modifier
           self.parse_representer = deduce_parse_representer
           self.render_representer = deduce_render_representer
           self.process_contract = deduce_process_contract
@@ -53,8 +61,10 @@ module API
           -> do
             params = update.parse(current_user, request_body)
 
+            params = instance_exec(params, &update.params_modifier)
+
             call = update.process(current_user,
-                                  instance_exec(params, current_user, &update.instance_generator),
+                                  instance_exec(params, &update.instance_generator),
                                   params)
 
             update.render(current_user, call) do
@@ -100,6 +110,7 @@ module API
                       :instance_generator,
                       :parse_representer,
                       :render_representer,
+                      :params_modifier,
                       :process_contract,
                       :process_service,
                       :parse_service

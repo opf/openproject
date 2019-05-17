@@ -51,7 +51,7 @@ class WorkPackages::MoveService
     WorkPackages::UpdateService
       .new(user: user,
            work_package: work_package)
-      .call(attributes: attributes)
+      .call(attributes)
   end
 
   def copy_with_updated_parent_id(wp, attributes, ancestors)

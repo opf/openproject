@@ -31,7 +31,7 @@ module API
     module Utilities
       class DefaultDelete
         def default_instance_generator(model)
-          ->(_params, _current_user) do
+          ->(_params) do
             instance_variable_get("@#{model.name.demodulize.underscore}")
           end
         end
@@ -49,7 +49,7 @@ module API
 
           -> do
             call = delete.process(current_user,
-                                  instance_exec(params, current_user, &delete.instance_generator))
+                                  instance_exec(params, &delete.instance_generator))
 
             delete.render(call) do
               status delete.success_status

@@ -32,14 +32,15 @@ module API
       class UpdateFormAPI < ::API::OpenProjectAPI
         resource :form do
           post &::API::V3::Utilities::DefaultUpdateForm.new(model: ::Grids::Grid,
-                                                            instance_generator: ->(params, _current_user) {
+                                                            params_modifier: ->(params) {
                                                               if params[:scope]
                                                                 params[:type] = ::Grids::Configuration
-                                                                                .class_from_scope(params.delete(:scope)).to_s
+                                                                                  .class_from_scope(params.delete(:scope)).to_s
                                                               end
 
-                                                              @grid
-                                                            }).mount
+                                                              params
+                                                            })
+                                                       .mount
         end
       end
     end

@@ -69,7 +69,7 @@ describe WorkPackages::CreateService, 'integration', type: :model do
   end
   let(:service_result) do
     instance
-      .call(attributes: attributes)
+      .call(attributes)
   end
 
   before do
@@ -138,7 +138,7 @@ describe WorkPackages::CreateService, 'integration', type: :model do
       end
 
       it 'reports on invalid attachments and sets the new if everything is valid' do
-        result = instance.call(attributes: attributes.merge(attachment_ids: [other_users_attachment.id]))
+        result = instance.call(attributes.merge(attachment_ids: [other_users_attachment.id]))
 
         expect(result)
           .to be_failure
@@ -153,7 +153,7 @@ describe WorkPackages::CreateService, 'integration', type: :model do
         expect(other_users_attachment.reload.container)
           .to be_nil
 
-        result = instance.call(attributes: attributes.merge(attachment_ids: [users_attachment.id]))
+        result = instance.call(attributes.merge(attachment_ids: [users_attachment.id]))
 
         expect(result)
           .to be_success

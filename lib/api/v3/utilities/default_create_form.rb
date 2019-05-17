@@ -31,7 +31,7 @@ module API
     module Utilities
       class DefaultCreateForm < DefaultForm
         def default_instance_generator(model)
-          ->(_params, _current_user) do
+          ->(_params) do
             model.new
           end
         end

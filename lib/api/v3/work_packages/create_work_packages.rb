@@ -69,7 +69,7 @@ module API
         def create_work_package(current_user, work_package, attributes, send_notification)
           create_service = ::WorkPackages::CreateService.new(user: current_user)
 
-          create_service.call(attributes: attributes,
+          create_service.call(attributes,
                               work_package: work_package,
                               send_notifications: send_notification)
         end

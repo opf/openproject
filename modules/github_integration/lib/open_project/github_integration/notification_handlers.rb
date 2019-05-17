@@ -87,7 +87,7 @@ module OpenProject::GithubIntegration
       wps.each do |wp|
         ::WorkPackages::UpdateService
           .new(user: user, work_package: wp)
-          .call(attributes: attributes, send_notifications: false)
+          .call(attributes, send_notifications: false)
       end
     end
 

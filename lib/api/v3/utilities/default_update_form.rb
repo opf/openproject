@@ -31,7 +31,7 @@ module API
     module Utilities
       class DefaultUpdateForm < DefaultForm
         def default_instance_generator(model)
-          ->(_params, _current_user) do
+          ->(_params) do
             instance_variable_get("@#{model.name.demodulize.underscore}")
           end
         end

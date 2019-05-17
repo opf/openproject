@@ -142,7 +142,7 @@ describe WorkPackages::MoveService, type: :model do
 
       expect(update_double)
         .to receive(:call)
-        .with(attributes: expected_attributes)
+        .with(expected_attributes)
         .and_return(child_service_result)
     end
 
