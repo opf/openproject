@@ -16,7 +16,7 @@ module OpenProject::OpenIDConnect
            :openid_connect_providers_path,
            after: :ldap_authentication,
            caption: ->(*) { I18n.t('openid_connect.menu_title') },
-           icon: 'icon2 icon-relations'
+           icon: 'icon2 icon-openid'
     end
 
     assets %w(

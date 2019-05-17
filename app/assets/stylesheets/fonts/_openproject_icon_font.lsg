@@ -149,6 +149,7 @@
 <li><span class="icon icon-no-zen-mode"></span>no-zen-mode</li>
 <li><span class="icon icon-not-supported"></span>not-supported</li>
 <li><span class="icon icon-notes"></span>notes</li>
+<li><span class="icon icon-openid"></span>openid</li>
 <li><span class="icon icon-openproject"></span>openproject</li>
 <li><span class="icon icon-ordered-list"></span>ordered-list</li>
 <li><span class="icon icon-outline"></span>outline</li>
