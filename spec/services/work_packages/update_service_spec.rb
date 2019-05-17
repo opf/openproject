@@ -93,7 +93,7 @@ describe WorkPackages::UpdateService, type: :model do
     end
 
     shared_examples_for 'service call' do
-      subject { instance.call(call_attributes, send_notifications: send_notifications) }
+      subject { instance.call(call_attributes.merge(send_notifications: send_notifications).symbolize_keys) }
 
       it 'is successful' do
         expect(subject.success?).to be_truthy

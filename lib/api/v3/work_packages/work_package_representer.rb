@@ -338,6 +338,15 @@ module API
 
         date_property :date,
                       getter: default_date_getter(:due_date),
+                      setter: ->(fragment:, decorator:, **) {
+                        date = decorator
+                               .datetime_formatter
+                               .parse_date(fragment,
+                                           name.to_s.camelize(:lower),
+                                           allow_nil: true)
+
+                        self.due_date = self.start_date = date
+                      },
                       skip_render: ->(represented:, **) {
                         !represented.milestone?
                       }

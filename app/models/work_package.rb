@@ -229,10 +229,6 @@ class WorkPackage < ActiveRecord::Base
       .or(relations_to)
   end
 
-  def date=(new_date)
-    self.due_date = self.start_date = new_date
-  end
-
   def relation(id)
     Relation.of_work_package(self).find(id)
   end

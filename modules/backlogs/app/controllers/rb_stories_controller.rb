@@ -80,6 +80,6 @@ class RbStoriesController < RbApplicationController
   end
 
   def story_params
-    params.permit(PERMITTED_PARAMS).merge(project: @project)
+    params.permit(PERMITTED_PARAMS).merge(project: @project).to_h
   end
 end

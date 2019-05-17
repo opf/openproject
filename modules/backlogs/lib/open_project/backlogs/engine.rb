@@ -139,6 +139,12 @@ module OpenProject::Backlogs
     patch_with_namespace :WorkPackages, :SetAttributesService
     patch_with_namespace :WorkPackages, :BaseContract
 
+    config.to_prepare do
+      next if Versions::BaseContract.included_modules.include?(OpenProject::Backlogs::Patches::VersionBaseContractPatch)
+
+      Versions::BaseContract.prepend(OpenProject::Backlogs::Patches::VersionBaseContractPatch)
+    end
+
     extend_api_response(:v3, :work_packages, :work_package) do
       property :position,
                render_nil: true,

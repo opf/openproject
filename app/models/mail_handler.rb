@@ -483,7 +483,7 @@ class MailHandler < ActionMailer::Base
     service_call = WorkPackages::CreateService
                    .new(user: user,
                         contract_class: work_package_create_contract_class)
-                   .call(attributes, work_package: work_package)
+                   .call(attributes.merge(work_package: work_package).symbolize_keys)
 
     if service_call.success?
       work_package = service_call.result
@@ -513,7 +513,7 @@ class MailHandler < ActionMailer::Base
                    .new(user: user,
                         work_package: work_package,
                         contract_class: work_package_update_contract_class)
-                   .call(attributes)
+                   .call(attributes.symbolize_keys)
 
     if service_call.success?
       service_call.result

@@ -64,7 +64,7 @@ module WorkPackages
 
           service_call = WorkPackages::UpdateService
                          .new(user: user, work_package: work_package)
-                         .call(attributes, send_notifications: params[:send_notification] == '1')
+                         .call(attributes.merge(send_notifications: params[:send_notification] == '1').symbolize_keys)
 
           if service_call.success?
             saved << work_package.id
@@ -86,7 +86,7 @@ module WorkPackages
         end
         attributes[:custom_field_values].reject! { |_k, v| v.blank? } if attributes[:custom_field_values]
         attributes.delete :custom_field_values if not attributes.has_key?(:custom_field_values) or attributes[:custom_field_values].empty?
-        attributes
+        attributes.to_h
       end
     end
   end

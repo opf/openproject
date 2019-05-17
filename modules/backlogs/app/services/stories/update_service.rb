@@ -45,7 +45,7 @@ class Stories::UpdateService
     create_call = WorkPackages::UpdateService
                   .new(user: user,
                        work_package: story)
-                  .call(attributes)
+                  .call(attributes.symbolize_keys)
 
     if create_call.success? && prev
       create_call.result.move_after prev

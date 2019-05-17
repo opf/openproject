@@ -88,8 +88,8 @@ Feature: Version Settings
     And the project uses the following modules:
         | backlogs |
     And the project has the following sprints:
-        | name       | start_date | effective_date | sharing       |
-        | shared     | 2010-01-01        | 2010-01-31     | system        |
+        | name       | start_date | effective_date | sharing       | wiki_page_title |
+        | shared     | 2010-01-01        | 2010-01-31     | system        | blubs    |
     And I am working in project "ecookbook"
 
     When I go to the settings/versions page of the project called "ecookbook"

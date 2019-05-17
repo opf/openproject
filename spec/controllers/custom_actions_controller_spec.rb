@@ -317,7 +317,7 @@ describe CustomActionsController, type: :controller do
 
       allow(service)
         .to receive(:call)
-        .with(permitted_params.to_h.merge(conditions: {}))
+        .with(attributes: permitted_params.to_h.merge(conditions: {}))
         .and_yield(service_result)
 
       service

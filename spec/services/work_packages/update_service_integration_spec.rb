@@ -104,8 +104,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
   end
 
   subject do
-    instance.call(attributes,
-                  send_notifications: false)
+    instance.call(attributes.merge(send_notifications: false).symbolize_keys)
   end
 
   describe '#call' do

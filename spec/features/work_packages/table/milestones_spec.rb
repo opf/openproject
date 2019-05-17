@@ -5,12 +5,12 @@ describe 'Inline editing milestones', js: true do
 
   let(:type) { FactoryBot.create :type, is_milestone: true }
   let(:project) { FactoryBot.create(:project, types: [type]) }
-  let!(:work_package) {
+  let!(:work_package) do
     FactoryBot.create(:work_package,
                       project: project,
-                      type:    type,
+                      type: type,
                       subject: 'Foobar')
-  }
+  end
 
   let!(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let!(:query) do

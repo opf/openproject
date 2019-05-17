@@ -165,7 +165,7 @@ module Project::Copy
                        .new(user: User.current,
                             work_package: issue,
                             contract_class: WorkPackages::CopyProjectContract)
-                       .call(attributes: overrides)
+                       .call(overrides)
 
         if service_call.success?
           new_work_package = service_call.result

@@ -58,7 +58,9 @@ module OpenProject::Backlogs::Patches::VersionsControllerPatch
           if permitted_params.version.present? && permitted_params.version[:version_settings_attributes].present?
             params['version'] = { version_settings_attributes: permitted_params.version[:version_settings_attributes] }
           else
-            redirect_to settings_project_path(tab: 'versions', id: @project)
+            # This is an unfortunate hack giving how plugins work at the moment.
+            # In this else branch we want the `version` to be an empty hash.
+            permitted_params.define_singleton_method :version, lambda { {} }
           end
         end
       end
