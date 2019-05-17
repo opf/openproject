@@ -58,9 +58,7 @@ module OpenProject::Backlogs::Patches::VersionsControllerPatch
           if permitted_params.version.present? && permitted_params.version[:version_settings_attributes].present?
             params['version'] = { version_settings_attributes: permitted_params.version[:version_settings_attributes] }
           else
-            # This is an unfortunate hack giving how plugins work at the moment.
-            # In this else branch we want the `version` to be an empty hash.
-            permitted_params.define_singleton_method :version, lambda { {} }
+            redirect_to settings_project_path(tab: 'versions', id: @project)
           end
         end
       end
@@ -77,8 +75,8 @@ module OpenProject::Backlogs::Patches::VersionsControllerPatch
       # This forces the current project for the nested version settings in order
       # to prevent it from being set through firebug etc. #mass_assignment
       def add_project_to_version_settings_attributes
-        if  permitted_params.version['version_settings_attributes'].present?
-           params['version']['version_settings_attributes'].each do |attr_hash|
+        if permitted_params.version['version_settings_attributes'].present?
+          params['version']['version_settings_attributes'].each do |attr_hash|
             attr_hash['project_id'] = @project.id
           end
         end

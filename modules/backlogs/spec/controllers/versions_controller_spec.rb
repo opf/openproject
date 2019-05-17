@@ -36,38 +36,58 @@
 require 'spec_helper'
 
 describe VersionsController, type: :controller do
-  before do
-    allow(@controller).to receive(:authorize)
+  let(:version) do
+    FactoryBot.create(:version,
+                      sharing: 'system')
+  end
 
+  let(:other_project) do
+    FactoryBot.create(:project).tap do |p|
+      FactoryBot.create(:member,
+                        user: current_user,
+                        roles: [FactoryBot.create(:role, permissions: [:manage_versions])],
+                        project: p)
+    end
+  end
+
+  let(:current_user) do
+    FactoryBot.create(:user,
+                      member_in_project: version.project,
+                      member_with_permissions: [:manage_versions])
+  end
+
+  before do
     # Create a version assigned to a project
-    @version = FactoryBot.create(:version)
-    @oldVersionName = @version.name
+    @oldVersionName = version.name
     @newVersionName = 'NewVersionName'
-    # Create another project
-    @project = FactoryBot.create(:project)
+
     # Create params to update version
     @params = {}
-    @params[:id] = @version.id
+    @params[:id] = version.id
     @params[:version] = { name: @newVersionName }
+  end
+
+  before do
+    login_as current_user
   end
 
   describe 'update' do
     it 'does not allow to update versions from different projects' do
-      @params[:project_id] = @project.id
+      @params[:project_id] = other_project.id
       patch 'update', params: @params
-      @version.reload
+      version.reload
 
-      expect(response).to redirect_to controller: '/project_settings', action: 'show', tab: 'versions', id: @project
-      expect(@version.name).to eq(@oldVersionName)
+      expect(response).to redirect_to controller: '/project_settings', action: 'show', tab: 'versions', id: other_project
+      expect(version.name).to eq(@oldVersionName)
     end
 
     it 'allows to update versions from the version project' do
-      @params[:project_id] = @version.project.id
+      @params[:project_id] = version.project.id
       patch 'update', params: @params
-      @version.reload
+      version.reload
 
-      expect(response).to redirect_to controller: '/project_settings', action: 'show', tab: 'versions', id: @version.project
-      expect(@version.name).to eq(@newVersionName)
+      expect(response).to redirect_to controller: '/project_settings', action: 'show', tab: 'versions', id: version.project
+      expect(version.name).to eq(@newVersionName)
     end
   end
 end

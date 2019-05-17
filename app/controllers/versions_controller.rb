@@ -107,7 +107,6 @@ class VersionsController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_back_or_version_settings
     else
-
       render action: 'edit'
     end
   end

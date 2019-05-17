@@ -32,6 +32,7 @@ module API
       class CreateProjectFormAPI < ::API::OpenProjectAPI
         resource :form do
           post &::API::V3::Utilities::DefaultCreateForm.new(model: WorkPackage,
+                                                            parse_service: WorkPackages::ParseParamsService,
                                                             instance_generator: ->(_params, current_user) {
                                                               WorkPackage.new(author: current_user, project: @project)
                                                             })

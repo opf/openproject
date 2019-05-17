@@ -35,7 +35,6 @@ describe 'new work package', js: true do
     if expect_success
       notification.expect_success('Successful creation.')
     end
-
   end
 
   def create_work_package(type, project)
@@ -134,7 +133,6 @@ describe 'new work package', js: true do
         save_work_package!
         expect(page).to have_selector('#tabs')
 
-
         subject_field.expect_state_text(subject)
         description_field = wp_page.edit_field :description
         description_field.expect_state_text(description)
@@ -167,7 +165,8 @@ describe 'new work package', js: true do
             field_format: 'list',
             possible_values: %w(foo bar xyz),
             is_required: false,
-            is_for_all: true)
+            is_for_all: true
+          )
         end
         let(:custom_fields) do
           [custom_field1, custom_field2]
@@ -175,8 +174,8 @@ describe 'new work package', js: true do
         let(:type_task) { FactoryBot.create(:type_task, custom_fields: custom_fields) }
         let(:project) do
           FactoryBot.create(:project,
-                             types: types,
-                             work_package_custom_fields: custom_fields)
+                            types: types,
+                            work_package_custom_fields: custom_fields)
         end
 
         it do

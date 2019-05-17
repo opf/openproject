@@ -217,11 +217,19 @@ describe ::API::V3::Versions::UpdateFormAPI, content_type: :json do
       end
     end
 
-    context 'without the necessary permission' do
-      let(:permissions) { [] }
+    context 'without the necessary edit permission' do
+      let(:permissions) { [:view_work_packages] }
 
       it 'returns 403 Not Authorized' do
         expect(response.status).to eq(403)
+      end
+    end
+
+    context 'without the necessary view permission' do
+      let(:permissions) { [] }
+
+      it 'returns 404 Not Found' do
+        expect(response.status).to eq(404)
       end
     end
   end

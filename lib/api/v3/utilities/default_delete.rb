@@ -45,14 +45,14 @@ module API
         end
 
         def mount
-          update = self
+          delete = self
 
           -> do
-            call = update.process(current_user,
-                                  instance_exec(params, current_user, &update.instance_generator))
+            call = delete.process(current_user,
+                                  instance_exec(params, current_user, &delete.instance_generator))
 
-            update.render(call) do
-              status update.success_status
+            delete.render(call) do
+              status delete.success_status
             end
           end
         end

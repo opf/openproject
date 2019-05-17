@@ -80,7 +80,7 @@ module API
               end
 
               patch &::API::V3::Utilities::DefaultUpdate.new(model: ::Grids::Grid).mount
-              patch &::API::V3::Utilities::DefaultDelete.new(model: ::Grids::Grid).mount
+              delete &::API::V3::Utilities::DefaultDelete.new(model: ::Grids::Grid).mount
 
               mount UpdateFormAPI
             end
