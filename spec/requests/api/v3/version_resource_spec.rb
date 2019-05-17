@@ -469,6 +469,26 @@ describe 'API v3 Version resource', content_type: :json do
       end
     end
 
+    context 'with work packages attached to it' do
+      let(:version) do
+        FactoryBot.create(:version,
+                          project: project).tap do |v|
+          FactoryBot.create(:work_package,
+                            project: project,
+                            fixed_version: v)
+        end
+      end
+
+      it 'returns a 422' do
+        expect(subject.status)
+          .to eql 422
+      end
+
+      it 'does not delete the version' do
+        expect(Version.exists?(version.id)).to be_truthy
+      end
+    end
+
     context 'without permission to see versions' do
       let(:permissions) { [] }
 

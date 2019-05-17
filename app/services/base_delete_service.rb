@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,20 +23,46 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Versions::DeleteService < BaseDeleteService
-  attr_accessor :version
+class BaseDeleteService
+  include ::Shared::ServiceContext
+  include ::Concerns::Contracted
 
-  def initialize(user:, version:, contract_class: default_contract)
-    super(user: user, contract_class: contract_class)
-    self.version = version
+  attr_accessor :user,
+                :contract_class
+
+  def initialize(user:, contract_class: default_contract)
+    self.user = user
+    self.contract_class = contract_class
   end
 
-  private
+  def call
+    in_context(false) do
+      delete
+    end
+  end
+
+  def default_contract
+    "#{model_klass.name.demodulize.pluralize}::DeleteContract".constantize
+  end
+
+  protected
+
+  def delete
+    result, errors = validate_and_yield(model, user) do
+      model.destroy
+    end
+
+    ServiceResult.new(success: result, errors: errors)
+  end
 
   def model_klass
-    ::Version
+    raise NotImplementedError
+  end
+
+  def model
+    send(model_klass.name.demodulize.underscore)
   end
 end

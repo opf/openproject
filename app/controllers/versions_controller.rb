@@ -119,10 +119,13 @@ class VersionsController < ApplicationController
   end
 
   def destroy
-    if @version.fixed_issues.empty?
-      @version.destroy
-    else
-      flash[:error] = l(:notice_unable_delete_version)
+    call = Versions::DeleteService
+           .new(user: current_user,
+                version: @version)
+           .call
+
+    unless call.success?
+      flash[:error] = call.errors.full_messages
     end
 
     redirect_to settings_project_path(tab: 'versions', id: @project)

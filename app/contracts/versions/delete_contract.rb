@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,20 +23,30 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Versions::DeleteService < BaseDeleteService
-  attr_accessor :version
+require 'grids/base_contract'
 
-  def initialize(user:, version:, contract_class: default_contract)
-    super(user: user, contract_class: contract_class)
-    self.version = version
-  end
+module Versions
+  class DeleteContract < BaseContract
+    # super checks that we can manage the version
+    def validate
+      validate_no_work_packages_attached
 
-  private
+      super
+    end
 
-  def model_klass
-    ::Version
+    protected
+
+    def validate_no_work_packages_attached
+      return unless model.fixed_issues.exists?
+
+      errors.add(:base, :undeletable_work_packages_attached)
+    end
+
+    def validate_model?
+      false
+    end
   end
 end
