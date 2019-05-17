@@ -366,3 +366,6 @@ security_badge_displayed:
   default: true
 installation_uuid:
   default: null
+oauth_allow_remapping_of_existing_users:
+  default: false
+  format: boolean

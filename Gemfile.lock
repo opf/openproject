@@ -26,8 +26,8 @@ GIT
 
 GIT
   remote: https://github.com/finnlabs/omniauth-openid_connect-providers.git
-  revision: 552205c402b921689552532b4591737dc030625b
-  ref: 552205c402b921689552532b4591737dc030625b
+  revision: 1d65afd2cbb0ff9cd294a764a4387e0fb36c92f4
+  ref: 1d65afd2cbb0ff9cd294a764a4387e0fb36c92f4
   specs:
     omniauth-openid_connect-providers (0.1.1)
       omniauth-openid-connect (>= 0.2.1)

@@ -273,7 +273,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       l(label)
     elsif label
       label
-    elsif @object.is_a?(ActiveRecord::Base)
+    elsif @object.class.respond_to?(:human_attribute_name)
       @object.class.human_attribute_name(field)
     else
       l(field)
