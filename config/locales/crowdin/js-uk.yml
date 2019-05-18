@@ -2,7 +2,7 @@
 uk:
   js:
     ajax:
-      hide: Hide
+      hide: Приховати
       loading: Завантаження ...
     attachments:
       draggable_hint: 'Перетягніть поле редактора, щоб вбудувати зображення або вкладені
@@ -44,38 +44,38 @@ uk:
     button_configure-form: Configure form
     button_confirm: Підтвердити
     button_continue: Continue
-    button_copy: Copy
+    button_copy: Копіювати
     button_custom-fields: Індивідуальні поля
-    button_delete: Delete
+    button_delete: Видалити
     button_delete_watcher: Видалити спостерігача
     button_details_view: Докладне подання
-    button_duplicate: Duplicate
-    button_edit: Edit
-    button_filter: Filter
+    button_duplicate: Дублювати
+    button_edit: Редагувати
+    button_filter: Фільтр
     button_advanced_filter: Розширений фільтр
     button_list_view: Подання списком
     button_show_view: Повноекранний режим
     button_log_time: Час журналу
     button_more: More
-    button_move: Move
+    button_move: Перемістити
     button_open_details: Відкрити докладне подання
     button_close_details: Close details view
     button_open_fullscreen: Відкрити на весь екран
-    button_quote: Quote
-    button_save: Save
-    button_settings: Settings
-    button_uncheck_all: Uncheck all
-    button_update: Update
+    button_quote: Цитата
+    button_save: Зберегти
+    button_settings: Налаштування
+    button_uncheck_all: Зняти усі відмітки
+    button_update: Оновити
     button_export-pdf: Завантажити PDF
     button_export-atom: Завантажити Atom
     calendar:
-      title: Calendar
+      title: Календар
       too_many: Пакетів робіт більше (%{count}), ніж може відобразити календар (%{max}).
         Застосуйте фільтри для відображення релевантних пакетів.
-    description_available_columns: Available Columns
-    description_current_position: 'You are here:'
+    description_available_columns: Доступні стовпці
+    description_current_position: 'Ви знаходитесь тут:'
     description_select_work_package: 'Виберіть пакет робіт #%{id}'
-    description_selected_columns: Selected Columns
+    description_selected_columns: Вибрані колонки
     description_subwork_package: 'Нащадок пакету робіт #%{id}'
     editor:
       preview: Перемкнути режим попереднього перегляду
@@ -159,10 +159,10 @@ uk:
           three: Третій критерій впорядкування
       upsale_for_more: Щоб отримати додаткові фільтри, ознайомтеся з
       upsale_link: корпоративне видання.
-    general_text_no: 'no'
-    general_text_yes: 'yes'
-    general_text_No: 'No'
-    general_text_Yes: 'Yes'
+    general_text_no: ні
+    general_text_yes: так
+    general_text_No: Ні
+    general_text_Yes: Так
     grid:
       add_modal:
         choose_widget: Оберіть віджет
@@ -180,15 +180,15 @@ uk:
         work_packages_accountable:
           title: Робочі пакети, за які я відповідаю
         work_packages_assigned:
-          title: Work packages assigned to me
+          title: Робочі пакети призначені мені
         work_packages_created:
           title: Пакети робіт створені мною
         work_packages_watched:
           title: Пакети робіт переглянуті мною
         work_packages_table:
-          title: Work packages
+          title: Пакет робіт
         work_packages_calendar:
-          title: Calendar
+          title: Календар
     label_activate: Activate
     label_activity_no: Запис активності номер %{activityNo}
     label_activity_with_comment_no: Запис активності номер %{activityNo}. Має коментар
@@ -200,56 +200,56 @@ uk:
     label_add_comment_title: Comment and type @ to notify other people
     label_add_row_after: Додати рядок після
     label_add_row_before: Додати рядок перед
-    label_add_selected_columns: Add selected columns
+    label_add_selected_columns: Додати вибрані стовпці
     label_added_by: додав(-ла)
     label_added_time_by: Додав(-ла) %{author} %{age}
-    label_ago: days ago
-    label_all: all
+    label_ago: днів тому
+    label_all: всі
     label_all_work_packages: всі пакети в роботі
     label_and: and
-    label_ascending: Ascending
+    label_ascending: За зростанням
     label_author: 'Автор: %{user}'
     label_between: between
     label_board: Дошка
-    label_board_locked: Locked
+    label_board_locked: Заблоковано
     label_board_plural: Дошки
-    label_board_sticky: Sticky
+    label_board_sticky: Приліплена
     label_create_work_package: Create new work package
     label_created_by: Створено
     label_date: Дата
     label_date_with_format: 'Введіть %{date_attribute}, використовуючи наступний формат:
       %{format}'
     label_deactivate: Деактивувати
-    label_descending: Descending
+    label_descending: За спаданням
     label_description: Опис
     label_cancel_comment: Скасувати коментар
-    label_closed_work_packages: closed
-    label_collapse: Collapse
+    label_closed_work_packages: зачинено
+    label_collapse: Згорнути
     label_collapsed: згорнуто
     label_collapse_all: Згорнути все
     label_comment: Коментар
     label_committed_at: "%{committed_revision_link}, %{date}"
     label_committed_link: зафіксовано редакцію %{revision_identifier}
-    label_contains: contains
+    label_contains: містить
     label_created_on: створено
     label_edit_comment: Редагувати цей коментар
     label_edit_status: Edit the status of the work package
-    label_equals: is
+    label_equals: є
     label_expand: Розгорнути
     label_expanded: розгорнуто
-    label_expand_all: Expand all
+    label_expand_all: Розгорнути все
     label_expand_project_menu: Розгорніть меню проекту
     label_export: Експорт
     label_filename: Файл
     label_filesize: Розмір
     label_greater_or_equal: ">="
-    label_group_by: Group by
+    label_group_by: Групувати за
     label_hide_attributes: Показати менше
     label_hide_column: Приховати стовпчик
     label_hide_project_menu: Згорнути меню проекту
-    label_in: in
-    label_in_less_than: in less than
-    label_in_more_than: in more than
+    label_in: в
+    label_in_less_than: менш ніж
+    label_in_more_than: більше ніж
     label_latest_activity: Останні дії
     label_last_updated_on: Останнє оновлення
     label_less_or_equal: "<="
@@ -269,18 +269,18 @@ uk:
     label_not_contains: doesn't contain
     label_not_equals: is not
     label_on: на
-    label_open_menu: Open menu
+    label_open_menu: Відкрити меню
     label_open_context_menu: Відкрийте контекстне меню
-    label_open_work_packages: open
+    label_open_work_packages: відкрити
     label_password: Пароль
-    label_previous: Previous
+    label_previous: Попередній
     label_per_page: 'К-сть на сторінку:'
     label_please_wait: Будь ласка, зачекайте
     label_visibility_settings: Налаштування видимості ...
     label_quote_comment: Цитувати цей коментар
-    label_reset: Reset
+    label_reset: Скинути
     label_remove_column: Видалити стовпець
-    label_remove_columns: Remove selected columns
+    label_remove_columns: Видалити вибрані стовпці
     label_remove_row: Видалити рядок
     label_save_as: Зберегти як
     label_select_watcher: Виберіть спостерігача...
@@ -289,16 +289,16 @@ uk:
     label_show_in_menu: Показати вигляд у меню
     label_sort_by: Sort by
     label_sorted_by: відсортовано за
-    label_sort_higher: Move up
-    label_sort_lower: Move down
+    label_sort_higher: Рухатися вгору
+    label_sort_lower: Пересунути нижче
     label_sorting: Сортування
     label_star_query: Улюблений
     label_press_enter_to_save: Натисніть enter, щоб зберегти.
     label_public_query: Публічний
     label_sum_for: Сума для
     label_subject: Тема
-    label_this_week: this week
-    label_today: today
+    label_this_week: цього тижня
+    label_today: сьогодні
     label_up: Вгору
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
@@ -307,14 +307,14 @@ uk:
     label_updated_on: оновлено
     label_warning: Warning
     label_work_package: Пакет робіт
-    label_work_package_plural: Work packages
-    label_watch: Watch
+    label_work_package_plural: Пакет робіт
+    label_watch: Спостерігати
     label_watch_work_package: Спостерігати за робочим пакетом
     label_watcher_added_successfully: Спостерігач успішно доданий!
     label_watcher_deleted_successfully: Спостерігач успішно видалений!
     label_work_package_details_you_are_here: Ви знаходитесь на вкладці %{tab} для
       %{type} %{subject}.
-    label_unwatch: Unwatch
+    label_unwatch: Перестати відстежувати
     label_unwatch_work_package: Припинити спостерігати за пакетом робіт
     label_uploaded_by: Завантажено
     label_default_queries: Перегляд за умовчанням
@@ -322,7 +322,7 @@ uk:
     label_global_queries: Види громадськості
     label_custom_queries: Приватні види
     label_columns: Стовпці
-    label_attachments: Files
+    label_attachments: Файли
     label_drop_files: Перетягніть файли сюди
     label_drop_files_hint: або клацніть, щоб додати файли
     label_drop_folders_hint: Ви не можете завантажувати теки як вкладення. Будь ласка,
@@ -448,9 +448,9 @@ uk:
           follows: наступні
           relates: у зв'язку з
           duplicates: дублювання
-          duplicated: duplicated by
+          duplicated: Дублюється
           blocks: blocking
-          blocked: blocked by
+          blocked: заблоковано
           partof: будучи частиною
           includes: у тому числі
           requires: вимагає
@@ -463,7 +463,7 @@ uk:
       label_loading: завантаження спостерігачів...
       label_error_loading: Під час завантаження спостерігачів сталася помилка
       label_search_watchers: Пошук спостерігачів
-      label_add: Add watchers
+      label_add: Додати спостерігачів
       label_discard: Скасувати вибір
       typeahead_placeholder: Search for possible watchers
     relation_labels:
@@ -531,7 +531,7 @@ uk:
         zero: You cannot select any items
         few: Ви можете вибрати тільки {{limit}} елементи
         many: Ви можете вибрати лише {{limit}}
-    project_menu_details: Details
+    project_menu_details: Детальніше
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -576,10 +576,10 @@ uk:
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
-        grouping_other: Other
+        grouping_other: Інше
         noneSelection: "(none)"
       name: Ім’я
-      outline: Reset Outline
+      outline: Скинути виділення
       outlines:
         aggregation: Показати тільки агрегати
         level1: Розширити рівень 1
@@ -591,7 +591,7 @@ uk:
       project_status: Статус Проекту
       really_close_dialog: Ви дійсно хочете закрити діалог і втратити введені дані?
       responsible: Надійний
-      save: Save
+      save: Зберегти
       start_date: Початок
       tooManyProjects: Більше, ніж %{count} проект(-и,-ів). Будь ласка, використайте
         точніший фільтр!
@@ -628,7 +628,7 @@ uk:
       heading3: Заголовок 3
       unordered_list: Невпорядкований список
       ordered_list: Нумерований список
-      quote: Quote
+      quote: Цитата
       unquote: Скасувати цитування
       preformatted_text: Попередньо відформатований текст
       wiki_link: Посилання на вікі-сторінку
@@ -644,8 +644,8 @@ uk:
       comment_send_failed: Сталася помилка. Не вдалося додати коментар.
       comment_updated: Коментар був успішно оновлений.
       confirm_edit_cancel: Ви дійсно бажаєте скасувати редагування пакету робіт?
-      description_filter: Filter
-      description_enter_text: Enter text
+      description_filter: Фільтр
+      description_enter_text: Введіть текст
       description_options_hide: Сховати опції
       description_options_show: Показати опції
       error:
@@ -661,9 +661,9 @@ uk:
       key_value: "%{key}: %{value}"
       label_enable_multi_select: Дозволити мультивибір
       label_disable_multi_select: Не дозволяти мультивибір
-      label_filter_add: Add filter
+      label_filter_add: Додати фільтр
       label_filter_by_text: Фільтрування за текстом
-      label_options: Options
+      label_options: Опції
       label_column_multiselect: 'Поле комбінованого випадаючого списку: виділіть за
         допомогою клавіш зі стрілками, підтвердьте вибір з Enter, видаліть з Backspace'
       message_error_during_bulk_delete: Сталася помилка під час спроби вилучення пакету
@@ -679,11 +679,11 @@ uk:
       inline_create:
         title: Клацніть тут, щоб додати до цього списку новий пакет робіт
       create:
-        title: New work package
+        title: Новий пакет робіт
         header: Новий %{type}
         header_no_type: New work package (Type not yet set)
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
-        button: Create
+        button: Створити
       copy:
         title: Копіювати робочий пакет
       hierarchy:
@@ -702,10 +702,10 @@ uk:
         title: Немає пакетів робіт для показу.
         description: Або нічого не було створено, або всі пакети робіт відфільтровані.
       property_groups:
-        details: Details
+        details: Детальніше
         people: Люди
         estimatesAndTime: Оцінки та час
-        other: Other
+        other: Інше
       properties:
         assignee: Призначений
         author: Автор
@@ -747,7 +747,7 @@ uk:
       query:
         column_names: Стовпці
         group_by: Групувати результати по
-        group: Group by
+        group: Групувати за
         group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
           mode being active.
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
@@ -815,13 +815,13 @@ uk:
           first_part: Показати всі робочі пакети
           second_part: поточний пакет робіт
       tabs:
-        overview: Overview
+        overview: Огляд
         activity: Активність
         relations: Зв'язки
-        watchers: Watchers
+        watchers: Спостерігачі
         attachments: Вкладення
       time_relative:
-        days: days
+        days: днів
         weeks: weeks
         months: months
     toolbar:
@@ -834,13 +834,13 @@ uk:
         display_hierarchy: Display hierarchy
         hide_hierarchy: Hide hierarchy
         hide_sums: Приховати суми
-        save: Save
+        save: Зберегти
         save_as: Зберегти як ...
         export: Експортувати ...
         visibility_settings: Налаштування видимості ...
         page_settings: Перейменувати перегляд ...
-        delete: Delete
-      filter: Filter
+        delete: Видалити
+      filter: Фільтр
       unselected_title: Пакет робіт
       search_query_label: Пошук збережених переглядів
       search_query_title: Натисніть, щоб знайти збережені перегляди
@@ -850,8 +850,8 @@ uk:
       label_name: Ім’я
       label_delete_page: Видалити поточну сторінку
       button_apply: Застосувати
-      button_save: Save
-      button_submit: Submit
+      button_save: Зберегти
+      button_submit: Підтвердити
       button_cancel: Скасувати
       form_submit:
         title: Confirm to continue
@@ -865,10 +865,10 @@ uk:
         deletes_children: Всі дочірні робочі пакети та їх нащадки також будуть рекурсивно
           видалені.
     notice_no_results_to_display: Не відображаються видимі результати.
-    notice_successful_create: Successful creation.
-    notice_successful_delete: Successful deletion.
-    notice_successful_update: Successful update.
-    notice_bad_request: Bad Request.
+    notice_successful_create: Створення успішно завершене.
+    notice_successful_delete: Видалення успішно завершене.
+    notice_successful_update: Успішно оновлено.
+    notice_bad_request: Неправильний Запит.
     relations:
       empty: Немає жодних зв'язків
       remove: Видалити зв'язок
@@ -876,10 +876,10 @@ uk:
       button_edit: "%{attribute}: Редагувати"
       button_save: "%{attribute}: Зберегти"
       button_cancel: "%{attribute}: Скасувати"
-      button_save_all: Save
+      button_save_all: Зберегти
       button_cancel_all: Скасувати
       link_formatting_help: Довідка щодо форматування тексту
-      btn_preview_enable: Preview
+      btn_preview_enable: Попередній перегляд
       btn_preview_disable: Відключити попередній перегляд
       null_value_label: Значення відсутнє
       clear_value_label: "-"
@@ -907,16 +907,16 @@ uk:
         many: "%{count} work package children"
       hour:
         one: 1 година
-        other: "%{count} годин"
+        other: "%{count} години"
         zero: 0 hours
         few: "%{count} години"
-        many: "%{count} hours"
+        many: "%{count} години"
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode
     global_search:
       all_projects: У всіх проектах
-      search: Search
+      search: Пошук
       close_search: Закрити пошук
       current_project: У цьому проекті
       current_project_and_all_descendants: У цьому проекті + підпроекти
