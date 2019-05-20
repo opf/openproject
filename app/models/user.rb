@@ -923,3 +923,5 @@ class DeletedUser < User
 
   def destroy; false end
 end
+
+require_dependency "system_user"
