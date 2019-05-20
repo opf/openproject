@@ -149,4 +149,16 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     expect(page).to have_selector('.errorExplanation',
                                   text: I18n.t('notice_not_authorized'))
   end
+
+  # Regression #29994
+  scenario 'access the work package views directly from a non-angular view' do
+    visit project_path(project)
+
+    find('#main-menu-work-packages ~ .toggler').click
+    expect(page).to have_selector('.wp-query-menu--search-ul')
+    find('.wp-query-menu--item-link', text: query.name).click
+
+    expect(page).not_to have_selector('.title-container', text: 'Overview')
+    page.should have_field('editable-toolbar-title', with: query.name)
+  end
 end

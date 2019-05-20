@@ -150,7 +150,7 @@ export function initializeUiRouterListeners(injector:Injector) {
         // Only move to the URL if we're not coming from an initial URL load
         // (cases like /work_packages/invalid/activity which render a 403 without frontend,
         // but trigger the ui-router state)
-        if (!(transition.options().source === 'url' || firstRoute.isEmpty)) {
+        if (transition.options().source !== 'url' && transition.options().source !== 'redirect') {
           const target = stateService.href(toState, toParams);
           window.location.href = target;
           return false;
