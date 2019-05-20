@@ -219,7 +219,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public boardListActionColorClass(query:QueryResource):string {
     const attribute = this.board.actionAttribute!;
-    const value = this.boardListService.getActionAttributeValue(this.board, query);
+    const value = this.boardListService.getActionAttributeValue(this.board, query) as HalResource;
     return Highlighting.backgroundClass(attribute, value.id!);
   }
 

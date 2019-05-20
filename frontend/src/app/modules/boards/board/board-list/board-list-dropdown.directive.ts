@@ -63,7 +63,6 @@ export class BoardListDropdownMenuDirective extends OpContextMenuTrigger {
 
     super(elementRef, opContextMenu);
     this.board = this.boardList.board;
-    this.actionService = this.boardActions.get(this.board.actionAttribute!);
   }
 
   protected open(evt:JQueryEventObject) {
@@ -100,20 +99,27 @@ export class BoardListDropdownMenuDirective extends OpContextMenuTrigger {
       }
     ];
 
-    this.querySpace.query.values$().subscribe((query) => {
-      const actionAttributeValue = this.BoardListService.getActionAttributeValue(this.board, query);
-      if (actionAttributeValue !== '') {
-        this.actionService.getAdditionalListMenuItems(actionAttributeValue).forEach((item) => {
-          this.items.push({
-            linkText: item.linkText,
-            onClick: () => {
-              item.externalAction();
-              return true;
-            }
+    // Add action specific menu entries
+    if (this.board.isAction) {
+      this.actionService = this.boardActions.get(this.board.actionAttribute!);
+      this.querySpace.query.values$().subscribe((query) => {
+        const actionAttributeValue = this.BoardListService.getActionAttributeValue(this.board, query);
+
+        if (actionAttributeValue !== '') {
+          this.actionService.getAdditionalListMenuItems(actionAttributeValue).then((items) => {
+            items.forEach((item:any) => {
+              this.items.push({
+                linkText: item.linkText,
+                onClick: () => {
+                  item.externalAction();
+                  return true;
+                }
+              });
+            });
           });
-        });
-      }
-    });
+        }
+      });
+    }
 
     return this.items;
   }

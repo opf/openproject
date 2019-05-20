@@ -37,5 +37,5 @@ export interface BoardActionService {
    * Get action specific items that shall be shown in the list menu
    * @returns {any[]}
    */
-  getAdditionalListMenuItems(actionAttributeValue:HalResource):any[];
+  getAdditionalListMenuItems(actionAttributeValue:HalResource):Promise<any>;
 }

@@ -91,7 +91,7 @@ export class BoardStatusActionService implements BoardActionService {
       .then(collection => collection.elements);
   }
 
-  public getAdditionalListMenuItems(actionAttributeValue:HalResource) {
-    return [];
+  public getAdditionalListMenuItems(actionAttributeValue:HalResource):Promise<any> {
+    return Promise.resolve([]);
   }
 }

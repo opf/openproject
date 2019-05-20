@@ -9,6 +9,7 @@ import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 @Injectable()
 export class BoardVersionActionService implements BoardActionService {
@@ -16,7 +17,8 @@ export class BoardVersionActionService implements BoardActionService {
   constructor(protected boardListsService:BoardListsService,
               protected I18n:I18nService,
               protected versionDm:VersionDmService,
-              protected currentProject:CurrentProjectService) {
+              protected currentProject:CurrentProjectService,
+              protected pathHelper:PathHelperService) {
   }
 
   public get localizedName() {
@@ -96,17 +98,26 @@ export class BoardVersionActionService implements BoardActionService {
       .then(collection => collection.elements.filter(version => version.status === 'open'));
   }
 
-  public getAdditionalListMenuItems(actionAttributeValue:HalResource) {
-    var items = [];
-    // ToDo: Check once API implemented
-    if (actionAttributeValue.$links.update) {
-      items.push(
-        {
-          linkText: this.I18n.t('js.boards.lists.edit_version'),
-          externalAction: () => window.open(actionAttributeValue.$links.update.href, '_blank')
+  public getAdditionalListMenuItems(actionAttributeValue:HalResource):Promise<any> {
+    var items:any = [];
+    const actionID = actionAttributeValue.id;
+
+    if (actionID) {
+      return this.versionDm.one(parseInt(actionID)).then((version) => {
+        // Show entry only with correct permissions
+        if (version.$links.update) {
+          items.push(
+            {
+              linkText: this.I18n.t('js.boards.lists.edit_version'),
+              externalAction: () => window.open(this.pathHelper.versionEditPath(actionID), '_blank')
+            }
+          );
         }
-      );
+
+        return items;
+      });
+    } else {
+      return Promise.resolve(items);
     }
-    return items;
   }
 }
