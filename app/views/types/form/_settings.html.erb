@@ -55,6 +55,14 @@ See docs/COPYRIGHT.rdoc for more details.
                               container_class: '-slim') %>
       </div>
     <% end %>
+
+    <div class="form--field">
+      <%= f.text_area :description,
+                      class: 'wiki-edit wiki-toolbar',
+                      container_class: '-xxwide',
+                      with_text_formatting: true %>
+    </div>
+
     <!--[eoform:type]-->
 
   </div>

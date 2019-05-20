@@ -43,6 +43,7 @@ module Types
     attribute :is_default
     attribute :color_id
     attribute :project_ids
+    attribute :description
     attribute :attribute_groups
 
     validate :validate_current_user_is_admin

@@ -87,6 +87,16 @@ export class WorkPackageChangeset {
     this.resetForm();
   }
 
+  /**
+   * Remove some of the changes by key
+   * @param changes
+   */
+  public clearSome(...changes:string[]) {
+    changes.forEach((key) => {
+      delete this.changes[key];
+    });
+  }
+
   public resetForm() {
     this.form = null;
   }
@@ -156,6 +166,8 @@ export class WorkPackageChangeset {
         .update(payload)
         .then((form:FormResource) => {
           this.form = form;
+
+          this.rebuildDefaults(form.payload);
 
           this.buildResource();
 
@@ -229,6 +241,21 @@ export class WorkPackageChangeset {
       .catch(() => this.inFlight = false);
 
     return promise;
+  }
+
+  /**
+   * Rebuild default attributes we know might change
+   * Will only apply for new work packages.
+   */
+  private rebuildDefaults(payload:HalResource) {
+    if (!this.workPackage.isNew) {
+      return;
+    }
+
+    // Take over the description from the form
+    // Either it's the same as our changeset or it was set by
+    // a default type value.
+    this.setValue('description', payload.description);
   }
 
   /**
@@ -359,7 +386,7 @@ export class WorkPackageChangeset {
       return;
     }
 
-    let payload:any = this.workPackage.$source;
+    let payload:any = this.workPackage.$plain();
 
     const resource = this.halResourceService.createHalResourceOfType('WorkPackage', this.mergeWithPayload(payload));
 

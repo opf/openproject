@@ -60,7 +60,7 @@ export class EditFieldComponent extends Field implements OnInit, OnDestroy {
   public self = this;
 
   /** JQuery accessor to element ref */
-  protected $element:JQuery<HTMLElement>;
+  protected $element:JQuery;
 
   constructor(readonly I18n:I18nService,
               readonly elementRef:ElementRef,
