@@ -37,14 +37,8 @@ describe RolesController, type: :controller do
   end
 
   shared_examples_for 'global assigns' do
-    it {expect(assigns(:global_permissions)).to eql @global_role.setable_permissions}
     it {expect(assigns(:global_roles)).to eql @global_roles}
     it {expect(assigns(:global_role)).to eql @global_role}
-  end
-
-  shared_examples_for 'permission assigns' do
-    it {expect(assigns(:member_permissions)).to eql @member_role.setable_permissions}
-    it {expect(assigns(:global_permissions)).to eql GlobalRole.setable_permissions}
   end
 
   shared_examples_for 'successful create' do
@@ -80,6 +74,7 @@ describe RolesController, type: :controller do
     describe 'VERB', :new do
       before do
         @member_role = mocks_for_creating Role
+        allow(::Redmine::AccessControl).to receive(:sorted_modules).and_return(%w(Foo))
         allow(GlobalRole).to receive(:setable_permissions).and_return(doubled_permissions)
         @non_member_role = mock_model Role
         mock_permissions_on @non_member_role
@@ -89,12 +84,14 @@ describe RolesController, type: :controller do
         get 'new'
       end
 
-      it {expect(response).to be_successful}
-      it {expect(response).to render_template 'roles/new'}
-      it {expect(assigns(:member_permissions)).to eql @member_role.setable_permissions}
-      it {expect(assigns(:roles)).to eql @roles}
-      it {expect(assigns(:role)).to eql @member_role}
-      it {expect(assigns(:global_permissions)).to eql GlobalRole.setable_permissions}
+      it 'renders new' do
+        expect(response).to be_successful
+        expect(response).to render_template 'roles/new'
+        expect(assigns(:permissions))
+          .to eql([['Foo', @member_role.setable_permissions]])
+        expect(assigns(:roles)).to eql @roles
+        expect(assigns(:role)).to eql @member_role
+      end
     end
 
     describe 'VERB', :edit do
@@ -187,7 +184,6 @@ describe RolesController, type: :controller do
               it_should_behave_like 'failed create'
               it {expect(assigns(:role)).to eql @member_role}
               it {expect(assigns(:roles)).to eql Role.all}
-              it_should_behave_like 'permission assigns'
             end
           end
         end
@@ -233,7 +229,6 @@ describe RolesController, type: :controller do
               it_should_behave_like 'failed create'
               it {expect(assigns(:role)).to eql @global_role}
               it {expect(assigns(:roles)).to eql Role.all}
-              it_should_behave_like 'permission assigns'
             end
           end
         end

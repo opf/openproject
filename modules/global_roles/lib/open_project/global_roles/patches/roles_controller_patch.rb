@@ -49,6 +49,7 @@ module OpenProject::GlobalRoles::Patches
           redirect_to action: 'index'
         else
           define_setable_permissions
+          @roles = Role.order(Arel.sql('builtin, position'))
           render template: 'roles/new'
         end
       end

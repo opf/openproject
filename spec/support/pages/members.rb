@@ -213,6 +213,10 @@ module Pages
       select.select role_name
     end
 
+    def expect_role(role_name, present: true)
+      expect(page).to have_conditional_selector(present, '#member_role_ids option', text: role_name)
+    end
+
     def enter_principal_search!(principal_name)
       find('#s2id_member_user_ids')
         .find('.select2-choices .select2-input')
