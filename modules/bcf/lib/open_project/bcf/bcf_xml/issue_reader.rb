@@ -144,6 +144,13 @@ module OpenProject::Bcf::BcfXml
       if created_at = extractor.creation_date || user != author
         wp.update_columns(created_at: created_at,
                           author_id: author.id)
+
+        journal = wp.journals.first
+        journal.update_columns(created_at: created_at,
+                                         user_id: author.id)
+
+        wp_journal = ::WorkPackageJournal.find_by(journal_id: journal.id)
+        wp_journal.update_columns author_id: author.id
       end
     end
 
