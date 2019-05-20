@@ -52,7 +52,12 @@ class Member < ActiveRecord::Base
   }
 
   def self.visible(user)
-    where(project_id: Project.visible_by(user))
+    view_members = Project.where(id: Project.allowed_to(user, :view_members))
+    manage_members = Project.where(id: Project.allowed_to(user, :manage_members))
+
+    project_scope = view_members.or(manage_members)
+
+    where(project_id: project_scope.select(:id))
   end
 
   def name

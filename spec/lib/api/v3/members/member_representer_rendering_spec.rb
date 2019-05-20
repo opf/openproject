@@ -71,5 +71,9 @@ describe ::API::V3::Members::MemberRepresenter, 'rendering' do
     it_behaves_like 'property', :_type do
       let(:value) { 'Member' }
     end
+
+    it_behaves_like 'property', :id do
+      let(:value) { member.id }
+    end
   end
 end

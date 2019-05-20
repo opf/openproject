@@ -39,4 +39,8 @@ module Queries::Members
   Queries::Register.filter query, filter_ns::BlockedFilter
   Queries::Register.filter query, filter_ns::GroupFilter
   Queries::Register.filter query, filter_ns::RoleFilter
+
+  order_ns = Queries::Members::Orders
+
+  Queries::Register.order query, order_ns::DefaultOrder
 end

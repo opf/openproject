@@ -36,7 +36,7 @@ module API
         #include API::Decorators::FormattableProperty
         #include API::Decorators::DateProperty
 
-        self_link title_getter: ->(*) { represented.user.name }
+        self_link title_getter: ->(*) { represented.principal.name }
 
         #defaults render_nil: true
 
@@ -58,16 +58,12 @@ module API
         #  }
         #end
 
-        #property :id
-
-
+        property :id
 
         #associated_resource :project
 
         #date_time_property :created_on,
         #                   as: 'createdAt'
-        #date_time_property :updated_on,
-        #                   as: 'updatedAt'
         def _type
           'Member'
         end

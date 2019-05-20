@@ -36,30 +36,29 @@ module API
           def initialize(model:)
             self.model = model
             self.render_representer = deduce_render_representer
-            #self.representer_self_path = deduce_representer_self_path
           end
 
           def mount
             index = self
 
             -> do
-              query = index.parse(current_user, params)
+              query = index.parse(params)
 
               self_path = api_v3_paths.send(index.self_path)
 
-              index.render(current_user, query, params, self_path)
+              index.render(query, params, self_path)
             end
           end
 
-          def parse(current_user, params)
+          def parse(params)
             ParamsToQueryService
-              .new(model, current_user)
+              .new(model, User.current)
               .call(params)
           end
 
-          def render(current_user, query, params, self_path)
+          def render(query, params, self_path)
             if query.valid?
-              render_success(current_user, query, params, self_path)
+              render_success(query, params, self_path)
             else
               render_error(query)
             end
@@ -70,31 +69,26 @@ module API
           end
 
           attr_accessor :model,
-                        :render_representer#,
-            #            :representer_self_path
+                        :render_representer
 
           private
 
-          def render_success(current_user, query, params, self_path)
+          def render_success(query, params, self_path)
             render_representer
               .new(query.results,
                    self_path,
                    page: to_i_or_nil(params[:offset]),
                    per_page: resolve_page_size(params[:pageSize]),
-                   current_user: current_user)
+                   current_user: User.current)
           end
 
-          def render_error(_call)
+          def render_error(query)
             raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
           end
 
           def deduce_render_representer
             "::API::V3::#{deduce_namespace}::#{demodulized_name}CollectionRepresenter".constantize
           end
-
-          #def deduce_representer_self_path
-          #  api_v3_paths.send(demodulized_name.underscore.pluralize)
-          #end
 
           def deduce_namespace
             demodulized_name.pluralize
