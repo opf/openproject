@@ -56,6 +56,7 @@ module OpenProject::Bcf::BcfXml
     def import!(options = {})
       Zip::File.open(@file) do |zip|
         treat_unknown_mails(options)
+        clear_instance_cache
 
         # Extract all topics of the zip and save them
         synchronize_topics(zip)
@@ -122,6 +123,10 @@ module OpenProject::Bcf::BcfXml
 
     def enterprise_allow_new_users?
       !OpenProject::Enterprise.user_limit_reached? || !OpenProject::Enterprise.fail_fast?
+    end
+
+    def clear_instance_cache
+      @instance_cache = {}
     end
   end
 end

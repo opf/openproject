@@ -57,9 +57,25 @@ module OpenProject::Bcf::BcfXml
     def create_work_package
       wp = WorkPackage.new work_package_attributes
 
-      CreateWorkPackageService
+      call = CreateWorkPackageService
         .new(user: user)
         .call(wp, send_notifications: false)
+
+      if call.success?
+        overwrite_where_necessary(wp)
+      else
+        issue.destroy
+      end
+
+      call
+    end
+
+    def author
+      find_user_in_project(extractor.author) || User.system
+    end
+
+    def assignee
+      find_user_in_project(extractor.assignee)
     end
 
     def update_work_package
@@ -83,8 +99,7 @@ module OpenProject::Bcf::BcfXml
         due_date: extractor.due_date,
 
         # Mapped attributes
-        author: find_user_in_project(extractor.author),
-        assigned_to: find_user_in_project(extractor.assignee),
+        assigned_to: assignee,
         status_id: statuses.fetch(extractor.status, statuses[:default]),
         priority_id: priorities.fetch(extractor.priority, priorities[:default])
       }.compact
@@ -122,6 +137,14 @@ module OpenProject::Bcf::BcfXml
       return user unless author.allowed_to?(:add_work_package_notes, project)
 
       author
+    end
+
+    def overwrite_where_necessary(wp)
+      # Overwrite readonly timestamp "created_at"
+      if created_at = extractor.creation_date || user != author
+        wp.update_columns(created_at: created_at,
+                          author_id: author.id)
+      end
     end
 
     ##
