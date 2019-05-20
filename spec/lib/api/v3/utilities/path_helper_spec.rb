@@ -214,6 +214,18 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/grids/42/form'
   end
 
+  describe '#members' do
+    subject { helper.members }
+
+    it_behaves_like 'api v3 path', '/members'
+  end
+
+  describe '#member' do
+    subject { helper.member(42) }
+
+    it_behaves_like 'api v3 path', '/members/42'
+  end
+
   describe '#message' do
     subject { helper.message(42) }
 

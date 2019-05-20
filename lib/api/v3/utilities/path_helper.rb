@@ -159,6 +159,14 @@ module API
             "#{root}/help_texts/#{id}"
           end
 
+          def self.members
+            "#{root}/members"
+          end
+
+          def self.member(id)
+            "#{members}/#{id}"
+          end
+
           def self.message(id)
             "#{root}/messages/#{id}"
           end
