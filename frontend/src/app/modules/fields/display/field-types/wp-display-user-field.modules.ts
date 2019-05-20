@@ -26,33 +26,31 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ResourcesDisplayField} from "./wp-display-resources-field.module";
-import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
+import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
+import {DomPortalOutlet} from "@angular/cdk/portal";
+import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 
-export class MultipleLinesStringObjectsDisplayField extends ResourcesDisplayField {
+export class UserDisplayField extends DisplayField {
+  public userDisplayPortal = this.$injector.get(UserFieldPortalService);
+  public portalCleanup = this.$injector.get(PortalCleanupService);
+  public outlet:DomPortalOutlet;
 
-  public render(element:HTMLElement, displayText:string):void {
-    const values = this.value;
-    element.setAttribute('title', displayText);
-    element.textContent = displayText;
-
-    element.innerHTML = '';
-
-    if (values.length === 0) {
-      this.renderEmpty(element);
-    } else {
-      this.renderValues(values, element);
+  public get value() {
+    if (this.schema) {
+      return this.attribute && this.attribute.name;
+    }
+    else {
+      return null;
     }
   }
 
-  protected renderValues(values:string[], element:HTMLElement) {
-    values.forEach((value) => {
-      const div = document.createElement('div');
-      div.classList.add(cssClassCustomOption, '-multiple-lines');
-      div.setAttribute('title', value);
-      div.textContent = value;
-
-      element.appendChild(div);
-    });
+  public render(element:HTMLElement, displayText:string):void {
+    if (this.placeholder === displayText) {
+      this.renderEmpty(element);
+    } else {
+      this.outlet = this.userDisplayPortal.create(element, [this.attribute]);
+      this.portalCleanup.add(() => this.outlet.dispose());
+    }
   }
 }

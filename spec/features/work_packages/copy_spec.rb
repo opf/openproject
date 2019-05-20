@@ -117,8 +117,8 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
                                         Description: 'Copied WP Description',
                                         Version: original_work_package.fixed_version,
                                         Priority: original_work_package.priority,
-                                        Assignee: original_work_package.assigned_to,
-                                        Responsible: original_work_package.responsible
+                                        Assignee: original_work_package.assigned_to.name,
+                                        Responsible: original_work_package.responsible.name
 
     work_package_page.expect_activity user, number: 1
     work_package_page.expect_current_path

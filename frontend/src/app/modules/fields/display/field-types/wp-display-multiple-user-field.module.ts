@@ -26,40 +26,28 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {cssClassCustomOption, DisplayField} from "core-app/modules/fields/display/display-field.module";
+import {ResourcesDisplayField} from "./wp-display-resources-field.module";
+import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
+import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
+import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
+import {DomPortalOutlet} from "@angular/cdk/portal";
+import {UserResource} from "core-app/modules/hal/resources/user-resource";
 
-export class ResourcesDisplayField extends DisplayField {
-  public isEmpty():boolean {
-    return _.isEmpty(this.value);
-  }
+export class MultipleUserFieldModule extends ResourcesDisplayField {
+  public userDisplayPortal = this.$injector.get(UserFieldPortalService);
+  public portalCleanup = this.$injector.get(PortalCleanupService);
+  public outlet:DomPortalOutlet;
 
-  public get value() {
-    let cf = this.resource[this.name];
-    if (this.schema && cf) {
-
-      if (cf.elements) {
-        return cf.elements.map((e:any) => e.name);
-      } else if (cf.map) {
-        return cf.map((e:any) => e.name);
-      } else if (cf.name) {
-        return [cf.name];
-      } else {
-        return ["error: " + JSON.stringify(cf)];
-      }
-    }
-
-    return [];
-  }
 
   public render(element:HTMLElement, displayText:string):void {
-    const values = this.value;
+    const names = this.value;
     element.innerHTML = '';
-    element.setAttribute('title', values.join(', '));
+    element.setAttribute('title', names.join(', '));
 
-    if (values.length === 0) {
+    if (names.length === 0) {
       this.renderEmpty(element);
     } else {
-      this.renderValues(values, element);
+      this.renderValues(this.attribute, element);
     }
   }
 
@@ -67,45 +55,28 @@ export class ResourcesDisplayField extends DisplayField {
    * Renders at most the first two values, followed by a badge indicating
    * the total count.
    */
-  protected renderValues(values:any[], element:HTMLElement) {
+  protected renderValues(values:UserResource[], element:HTMLElement) {
     const content = document.createDocumentFragment();
-    const abridged = this.optionDiv(this.valueAbridged(values));
 
-    content.appendChild(abridged);
+    this.renderAbridgedValues(element, values);
 
     if (values.length > 2) {
+      const dots = document.createElement('span');
+      dots.innerHTML = '... ';
+      content.appendChild(dots);
+
       const badge = this.optionDiv(values.length.toString(), 'badge', '-secondary');
       content.appendChild(badge);
     }
 
     element.appendChild(content);
+
   }
 
-  /**
-   * Build .custom-option div/span nodes with the given text
-   */
-  protected optionDiv(text:string, ...classes:string[]) {
-    const div = document.createElement('div');
-    const span = document.createElement('span');
-    div.classList.add(cssClassCustomOption);
-    span.classList.add(...classes);
-    span.textContent = text;
-
-    div.appendChild(span);
-
-    return div;
-  }
-
-  /**
-   * Return the first two joined values, if any.
-   */
-  protected valueAbridged(values:any[]) {
+  public renderAbridgedValues(element:HTMLElement, values:UserResource[]) {
     const valueForDisplay = _.take(values, 2);
 
-    if (values.length > 2) {
-      valueForDisplay.push('... ');
-    }
-
-    return valueForDisplay.join(', ');
+    this.outlet = this.userDisplayPortal.create(element, valueForDisplay);
+    this.portalCleanup.add(() => this.outlet.dispose());
   }
 }

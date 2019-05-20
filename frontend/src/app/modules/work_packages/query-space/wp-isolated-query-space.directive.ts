@@ -59,6 +59,7 @@ import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedd
 import {WpRelationInlineCreateService} from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 import {debugLog} from "core-app/helpers/debug_output";
+import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy
@@ -109,6 +110,8 @@ import {debugLog} from "core-app/helpers/debug_output";
 
     WorkPackageStatesInitializationService,
     ReorderQueryService,
+
+    PortalCleanupService,
   ]
 })
 export class WorkPackageIsolatedQuerySpaceDirective {

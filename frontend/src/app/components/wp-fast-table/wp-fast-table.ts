@@ -16,6 +16,7 @@ import {WorkPackageTableEditingContext} from './wp-table-editing';
 
 import {WorkPackageTableRow} from './wp-table.interfaces';
 import {WorkPackageTableConfiguration} from 'core-app/components/wp-table/wp-table-configuration';
+import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 
 export class WorkPackageTable {
 
@@ -24,6 +25,7 @@ export class WorkPackageTable {
   public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   public states:States = this.injector.get(States);
   public I18n:I18nService = this.injector.get(I18nService);
+  public portalCleanupService:PortalCleanupService = this.injector.get(PortalCleanupService);
 
   public originalRows:string[] = [];
   public originalRowIndex:{ [id:string]:WorkPackageTableRow } = {};
@@ -142,6 +144,7 @@ export class WorkPackageTable {
 
 
   private performRenderPass() {
+    this.portalCleanupService.clear();
     this.editing.reset();
     const renderPass = this.lastRenderPass = this.rowBuilder.buildRows();
 
