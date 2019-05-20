@@ -84,7 +84,7 @@ export class ResourcesDisplayField extends DisplayField {
   /**
    * Build .custom-option div/span nodes with the given text
    */
-  private optionDiv(text:string, ...classes:string[]) {
+  protected optionDiv(text:string, ...classes:string[]) {
     const div = document.createElement('div');
     const span = document.createElement('span');
     div.classList.add(cssClassCustomOption);
@@ -99,7 +99,7 @@ export class ResourcesDisplayField extends DisplayField {
   /**
    * Return the first two joined values, if any.
    */
-  private valueAbridged(values:any[]) {
+  protected valueAbridged(values:any[]) {
     const valueForDisplay = _.take(values, 2);
 
     if (values.length > 2) {

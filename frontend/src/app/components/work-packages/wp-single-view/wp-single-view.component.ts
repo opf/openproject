@@ -46,6 +46,7 @@ import {DynamicCssService} from '../../../modules/common/dynamic-css/dynamic-css
 import {HookService} from 'core-app/modules/plugins/hook-service';
 import {randomString} from "core-app/helpers/random-string";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
+import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 
 export interface FieldDescriptor {
   name:string;
@@ -75,6 +76,9 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
 @Component({
   templateUrl: './wp-single-view.html',
   selector: 'wp-single-view',
+  providers: [
+    PortalCleanupService
+  ]
 })
 export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   @Input('workPackage') public workPackage:WorkPackageResource;
@@ -129,6 +133,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected hook:HookService,
               protected injector:Injector,
               readonly elementRef:ElementRef,
+              readonly cleanupService:PortalCleanupService,
               readonly browserDetector:BrowserDetector) {
   }
 
@@ -186,7 +191,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Nothing to do
+    this.cleanupService.clear();
   }
 
   /**

@@ -66,7 +66,6 @@ import {PortalCleanupService} from "core-app/modules/fields/display/display-port
   providers: [
     WorkPackageEditingPortalService,
     UserFieldPortalService,
-    PortalCleanupService,
     DisplayFieldService,
     EditFieldService,
     { provide: APP_INITIALIZER, useFactory: initializeCoreEditFields, deps: [EditFieldService], multi: true },

@@ -111,6 +111,7 @@
 
     <ng-container wp-isolated-query-space>
       <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
+                   [ndcDynamicInjector]="injector"
                    [ndcDynamicInputs]="{ workPackage: workPackage,
                                          group: group,
                                          query: group.query }" >
