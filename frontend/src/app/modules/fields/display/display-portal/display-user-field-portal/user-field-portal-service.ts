@@ -32,7 +32,7 @@ export class UserFieldPortalService {
     const portal = new ComponentPortal(UserFieldPortalComponent, null, localInjector);
 
     // Attach the portal to the outlet
-    outlet.attachComponentPortal(portal);
+    setTimeout(() => outlet.attachComponentPortal(portal));
 
     return outlet;
   }
