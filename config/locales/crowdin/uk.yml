@@ -59,7 +59,7 @@ uk:
   ldap_auth_sources:
     connection_encryption: Підключення шифрування
     tls_mode:
-      plain: none
+      plain: нічого
       simple_tls: Звичайний_TLS
       start_tls: Запустити_TLS
       plain_description: Незашифроване з’эднання, без TLS передачі.
@@ -348,10 +348,10 @@ uk:
         help_text: Help text
       auth_source:
         account: Обліковий запис
-        attr_firstname: Атрибут ім'я
-        attr_lastname: Атрибут прізвища
-        attr_login: Атрибут входу
-        attr_mail: Атрибут електронної скриньки
+        attr_firstname: Атрибут Ім'я
+        attr_lastname: Атрибут Прізвище
+        attr_login: Атрибут Реєстрація
+        attr_mail: Атрибут Email
         base_dn: База DN
         host: Хост
         onthefly: Створення користувача на льоту
@@ -1468,72 +1468,72 @@ uk:
   label_last_n_days: останні %{count} днів
   label_last_week: ост. тиждень
   label_latest_revision: Остання версія
-  label_latest_revision_plural: Latest revisions
-  label_ldap_authentication: LDAP authentication
+  label_latest_revision_plural: Останні версії
+  label_ldap_authentication: Авторизація за допомогою LDAP
   label_less_or_equal: "<="
-  label_less_than_ago: less than days ago
+  label_less_than_ago: менше, ніж день тому
   label_list: Список
-  label_loading: Loading...
+  label_loading: Завантаження...
   label_lock_user: Lock user
-  label_logged_as: Logged in as
+  label_logged_as: Ви увійшли як
   label_login: Увійти
   label_custom_logo: Custom logo
   label_custom_favicon: призначені для користувача іконки
   label_custom_touch_icon: Призначений для користувача значок логотипу
-  label_logout: Sign out
-  label_main_menu: Side Menu
+  label_logout: Вийти
+  label_main_menu: Бокове меню
   label_manage_groups: Manage groups
   label_managed_repositories_vendor: Managed %{vendor} repositories
-  label_max_size: Maximum size
-  label_me: me
-  label_member_new: New member
-  label_member_plural: Members
+  label_max_size: Максимальний розмір
+  label_me: мені
+  label_member_new: Новий учасник
+  label_member_plural: Учасники
   label_view_all_members: View all members
-  label_menu_item_name: Name of menu item
+  label_menu_item_name: Назва пункту меню
   label_message: Message
-  label_message_last: Last message
-  label_message_new: New message
-  label_message_plural: Messages
-  label_message_posted: Message added
-  label_min_max_length: Min - Max length
+  label_message_last: Останнє повідомлення
+  label_message_new: Нове повідомлення
+  label_message_plural: Повідомлення
+  label_message_posted: Повідомлення додано
+  label_min_max_length: Мінімальна - максимальна довжина
   label_minute_plural: minutes
   label_missing_api_access_key: Missing API access key
   label_missing_feeds_access_key: Missing RSS access key
-  label_modification: "%{count} change"
-  label_modified: modified
-  label_module_plural: Modules
-  label_modules: Modules
-  label_month: Month
-  label_months_from: months from
-  label_more: More
-  label_more_than_ago: more than days ago
-  label_move_work_package: Move work package
-  label_my_account: My account
-  label_my_account_data: My account data
-  label_my_page: My page
-  label_my_projects: My projects
-  label_my_queries: My custom queries
+  label_modification: "%{count} змін"
+  label_modified: змінено
+  label_module_plural: Модулі
+  label_modules: Модулі
+  label_month: Місяць
+  label_months_from: місяців(ця) з
+  label_more: Більше
+  label_more_than_ago: більш ніж днів(я) назад
+  label_move_work_package: Перемістити робочий пакет
+  label_my_account: Мій обліковий запис
+  label_my_account_data: Мої дані облікового запису
+  label_my_page: Моя сторінка
+  label_my_projects: Мої проекти
+  label_my_queries: Мої збережені запити
   label_never: Never
   label_new: Новий
-  label_new_statuses_allowed: New statuses allowed
-  label_news_added: News added
-  label_news_comment_added: Comment added to a news
-  label_news_latest: Latest news
-  label_news_new: Add news
-  label_news_edit: Edit news
+  label_new_statuses_allowed: Дозволені нові статуси
+  label_news_added: Новину додано
+  label_news_comment_added: Добавлено новий коментар до новини
+  label_news_latest: Останні новини
+  label_news_new: Додати новини
+  label_news_edit: Редагувати новини
   label_news_plural: Новини
-  label_news_view_all: View all news
-  label_next: Next
-  label_next_week: Next week
-  label_no_change_option: "(No change)"
-  label_no_data: No data to display
+  label_news_view_all: Подивитися всі новини
+  label_next: Далі
+  label_next_week: Наступний тиждень
+  label_no_change_option: "(Немає змін)"
+  label_no_data: Немає даних для відображення
   label_no_parent_page: Немає початкової сторінки
   label_nothing_display: Nothing to display
-  label_nobody: nobody
-  label_none: none
-  label_none_parentheses: "(none)"
-  label_not_contains: doesn't contain
-  label_not_equals: is not
+  label_nobody: жодні
+  label_none: нічого
+  label_none_parentheses: "(нічого)"
+  label_not_contains: не містить
+  label_not_equals: немає
   label_notify_member_plural: Оновлення електронної пошти
   label_on: на
   label_open_menu: Відкрити меню
@@ -1800,39 +1800,40 @@ uk:
   label_yesterday: вчора
   label_keyboard_function: Функція
   label_keyboard_shortcut: Ярлик
-  label_keyboard_accesskey: Accesskey
+  label_keyboard_accesskey: Ключ доступу
   label_keyboard_shortcut_help_heading: Доступні Комбінації Клавіш
-  label_keyboard_shortcut_within_project: 'Project related shortcuts:'
-  label_keyboard_shortcut_global_shortcuts: 'Global shortcuts:'
-  label_keyboard_shortcut_some_pages_only: 'Special shortcuts:'
-  label_keyboard_shortcut_search_global: Global search
-  label_keyboard_shortcut_search_project: Find a project
+  label_keyboard_shortcut_within_project: 'Комбінації клавіш, пов’язаних із проектом:'
+  label_keyboard_shortcut_global_shortcuts: 'Глобальні скорочення:'
+  label_keyboard_shortcut_some_pages_only: 'Спеціальні скорочення:'
+  label_keyboard_shortcut_search_global: Глобальний пошук
+  label_keyboard_shortcut_search_project: Знайти проект
   label_keyboard_shortcut_go_my_page: Go to my page
-  label_keyboard_shortcut_show_help: Show this help message
-  label_keyboard_shortcut_go_overview: Go to project overview
-  label_keyboard_shortcut_go_work_package: Go to project work packages
-  label_keyboard_shortcut_go_wiki: Go to project wiki
-  label_keyboard_shortcut_go_activity: Go to project activities
-  label_keyboard_shortcut_go_calendar: Go to project calendar
-  label_keyboard_shortcut_go_news: Go to project news
-  label_keyboard_shortcut_go_timelines: Go to timelines
-  label_keyboard_shortcut_new_work_package: Create new work package
-  label_keyboard_shortcut_details_package: Show work packages details pane
+  label_keyboard_shortcut_show_help: Показати це довідкове повідомлення
+  label_keyboard_shortcut_go_overview: Перейти до огляду проекту
+  label_keyboard_shortcut_go_work_package: Перейти до робочих пакетів проекту
+  label_keyboard_shortcut_go_wiki: Перейти до wiki-сторінки проекту
+  label_keyboard_shortcut_go_activity: Перейти до проектної діяльності
+  label_keyboard_shortcut_go_calendar: Перейти до календаря проекту
+  label_keyboard_shortcut_go_news: Перейти до новин проекту
+  label_keyboard_shortcut_go_timelines: Перейти до термінів
+  label_keyboard_shortcut_new_work_package: Створити новий робочий пакет
+  label_keyboard_shortcut_details_package: Показати подробиці робочих пакетів
   label_keyboard_shortcut_go_edit: Перейдіть до редагування поточного елемента (на
     сторінках тільки)
-  label_keyboard_shortcut_open_more_menu: Open more-menu (on detail pages only)
-  label_keyboard_shortcut_go_preview: Go to preview the current edit (on edit pages
-    only)
-  label_keyboard_shortcut_focus_previous_item: Focus previous list element (on some
-    lists only)
-  label_keyboard_shortcut_focus_next_item: Focus next list element (on some lists
-    only)
+  label_keyboard_shortcut_open_more_menu: Відкрити детальніше меню (лише на сторінках
+    з деталями)
+  label_keyboard_shortcut_go_preview: Перейти до попереднього перегляду внесених змін
+    (лише на сторінках редагування)
+  label_keyboard_shortcut_focus_previous_item: Сфокусуватися на попередньому елементі
+    списку (лише в деяких списках)
+  label_keyboard_shortcut_focus_next_item: Сфокусуватися на наступному елементі списку
+    (лише в деяких списках)
   auth_source:
-    using_abstract_auth_source: Can't use an abstract authentication source.
-    ldap_error: 'LDAP-Error: %{error_message}'
-    ldap_auth_failed: Could not authenticate at the LDAP-Server.
-  macro_execution_error: Error executing the macro %{macro_name}
-  macro_unavailable: Macro %{macro_name} cannot be displayed.
+    using_abstract_auth_source: Неможливо використовувати абстрактне джерело автентифікації.
+    ldap_error: 'LDAP-Помилка: %{error_message}'
+    ldap_auth_failed: Не вдалося перевірити автентичність через LDAP-сервер.
+  macro_execution_error: Помилка виконання макросу %{macro_name}
+  macro_unavailable: Макрос %{macro_name} не може бути відображений.
   macros:
     placeholder: "[Placeholder] Макрос %{macro_name}"
     errors:
@@ -1853,23 +1854,24 @@ uk:
       link_name_type: New %{type_name}
   mail:
     actions: Actions
-  mail_body_account_activation_request: 'A new user (%{value}) has registered. The
-    account is pending your approval:'
-  mail_body_account_information: Your account information
-  mail_body_account_information_external: You can use your %{value} account to log
-    in.
+  mail_body_account_activation_request: 'Новий користувач (%{value}) зареєструвався.
+    Його обліковий запис чекає на ваше підтвердження:'
+  mail_body_account_information: Інформація по Вашому обліковому запису
+  mail_body_account_information_external: Ви можете використовувати ваш %{value} обліковий
+    запис для входу.
   mail_body_lost_password: 'Щоб змінити пароль, натисніть на посилання:'
   mail_body_register: 'Для активації облікового запису, перейдіть за наступним посиланням:'
-  mail_body_reminder: "%{count} work package(s) that are assigned to you are due in
-    the next %{days} days:"
-  mail_body_wiki_content_added: The '%{id}' wiki page has been added by %{author}.
-  mail_body_wiki_content_updated: The '%{id}' wiki page has been updated by %{author}.
-  mail_subject_account_activation_request: "%{value} account activation request"
-  mail_subject_lost_password: Your %{value} password
-  mail_subject_register: Your %{value} account activation
-  mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
-  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
-  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
+  mail_body_reminder: "%{count} призначених на Вас робочих пакетів на наступні %{days}
+    днів:"
+  mail_body_wiki_content_added: "%{author} додав(ла) wiki-сторінку %{id}."
+  mail_body_wiki_content_updated: "%{author} оновив(ла) wiki-сторінку %{id}."
+  mail_subject_account_activation_request: Запит на активацію облікового запису %{value}
+  mail_subject_lost_password: Ваш %{value} пароль
+  mail_subject_register: Активація облікового запису %{value}
+  mail_subject_reminder: "%{count} призначених на Вас робочих пакетів в найближчі
+    %{days} дні"
+  mail_subject_wiki_content_added: Wiki-сторінка '%{id}' була додана
+  mail_subject_wiki_content_updated: Wiki-сторінка '%{id}' була оновлена
   mail_user_activation_limit_reached:
     subject: User activation limit reached
     message: |
@@ -1879,36 +1881,37 @@ uk:
       label: 'To allow the user to sign in you can either: '
       a: Upgrade your payment plan ([here](upgrade_url))
       b: Lock or delete an existing user ([here](users_url))
-  more_actions: More functions
-  noscript_description: You need to activate JavaScript in order to use OpenProject!
-  noscript_heading: JavaScript disabled
-  noscript_learn_more: Learn more
+  more_actions: Додаткові функції
+  noscript_description: Щоб використовувати OpenProject, потрібно ввімкнути підтримку
+    JavaScript у Вашому браузері!
+  noscript_heading: JavaScript відключений
+  noscript_learn_more: Дізнатися більше
   notice_accessibility_mode: The accessibility mode can be enabled in your [account
     settings](url).
   notice_account_activated: Ваш обліковий запис активовано. Тепер ви можете увійти
     в систему.
   notice_account_already_activated: The account has already been activated.
   notice_account_invalid_token: Invalid activation token
-  notice_account_invalid_credentials: Invalid user or password
+  notice_account_invalid_credentials: Неправильне ім’я користувача або пароль
   notice_account_invalid_credentials_or_blocked: Неправильне ім'я користувача або
     пароль або ваш обліковий запис заблокований через багаторазових невдалих спроб
     входу. Якщо це так, то вона буде автоматично розблокована протягом короткого часу.
   notice_account_lost_email_sent: Електронний лист з інструкціями щодо зміни паролю
     було надіслано до вас.
-  notice_account_new_password_forced: A new password is required.
-  notice_account_password_expired: Your password expired after %{days} days. Please
-    set a new one.
+  notice_account_new_password_forced: Потрібен новий пароль.
+  notice_account_password_expired: Термін дії вашого пароля закінчиться через %{days}
+    днів. Будь ласка змініть пароль на новий.
   notice_account_password_updated: Пароль було успішно оновлено.
   notice_account_pending: Ваш обліковий запис створено і тепер очікує схвалення адміністратора.
   notice_account_register_done: Обліковий запис було успішно створено. Для активації
     облікового запису, перейдіть по посиланню яка була відправлена вам на пошту.
-  notice_account_unknown_email: Unknown user.
+  notice_account_unknown_email: Невідомий користувач.
   notice_account_update_failed: Account setting could not be saved. Please have a
     look at your account page.
   notice_account_updated: Обліковий запис було успішно оновлено.
   notice_account_other_session_expired: Усі інші сеанси, пов'язані з вашим обліковим
     записом, визнані недійсними.
-  notice_account_wrong_password: Wrong password
+  notice_account_wrong_password: Невірний пароль
   notice_account_registered_and_logged_in: Ласкаво просимо, ваша обліковий запис активований.
     Ви зараз увійшли.
   notice_activation_failed: The account could not be activated.
@@ -2024,49 +2027,49 @@ uk:
   permission_delete_wiki_pages_attachments: Видалення прикріплених файлів
   permission_edit_work_package_notes: Редагувати примітки
   permission_edit_work_packages: Редагувати робочі пакети
-  permission_edit_messages: Edit messages
-  permission_edit_own_work_package_notes: Edit own notes
-  permission_edit_own_messages: Edit own messages
-  permission_edit_own_time_entries: Edit own time logs
-  permission_edit_project: Edit project
-  permission_edit_reportings: Edit reportings
-  permission_edit_time_entries: Edit time logs
-  permission_edit_timelines: Edit timelines
-  permission_edit_wiki_pages: Edit wiki pages
+  permission_edit_messages: Редагування повідомлень
+  permission_edit_own_work_package_notes: Редагувати власні нотатки
+  permission_edit_own_messages: Редагування власних повідомлень
+  permission_edit_own_time_entries: Редагування власного обліку часу
+  permission_edit_project: Редагувати проект
+  permission_edit_reportings: Редагування звітів
+  permission_edit_time_entries: Редагування обліку часу
+  permission_edit_timelines: Змінити часові рамки
+  permission_edit_wiki_pages: Редагування wiki-сторінок
   permission_export_work_packages: Експорт робочих пакетів
-  permission_export_wiki_pages: Export wiki pages
-  permission_list_attachments: List attachments
-  permission_log_time: Log spent time
-  permission_manage_forums: Manage forums
+  permission_export_wiki_pages: Експорт wiki-сторінок
+  permission_list_attachments: Список вкладень
+  permission_log_time: Облік трудовитрат
+  permission_manage_forums: Управління форумами
   permission_manage_categories: Управління категоріями пакет робота
-  permission_manage_work_package_relations: Manage work package relations
+  permission_manage_work_package_relations: Управління зв'язками робочого пакету
   permission_manage_members: Управління учасниками
-  permission_manage_news: Manage news
-  permission_manage_project_activities: Manage project activities
+  permission_manage_news: Управління новинами
+  permission_manage_project_activities: Управління проектною діяльністю
   permission_manage_public_queries: Керуйте переглядами громадськості
-  permission_manage_repository: Manage repository
-  permission_manage_subtasks: Manage subtasks
-  permission_manage_versions: Manage versions
-  permission_manage_wiki: Manage wiki
-  permission_manage_wiki_menu: Manage wiki menu
-  permission_move_work_packages: Move work packages
-  permission_protect_wiki_pages: Protect wiki pages
-  permission_rename_wiki_pages: Rename wiki pages
+  permission_manage_repository: Управління сховищем
+  permission_manage_subtasks: Управління підзадачами
+  permission_manage_versions: Управління версіями
+  permission_manage_wiki: Управління wiki
+  permission_manage_wiki_menu: Керування wiki-меню
+  permission_move_work_packages: Перемістити робочі пакети
+  permission_protect_wiki_pages: Захист wiki-сторінок
+  permission_rename_wiki_pages: Перейменування wiki-сторінок
   permission_save_queries: Зберегти перегляди
-  permission_select_project_modules: Select project modules
-  permission_manage_types: Select types
-  permission_view_calendar: View calendar
+  permission_select_project_modules: Вибір модулів проекту
+  permission_manage_types: Виберіть типи
+  permission_view_calendar: Перегляд календаря
   permission_view_changesets: View repository revisions in OpenProject
-  permission_view_commit_author_statistics: View commit author statistics
-  permission_view_work_package_watchers: View watchers list
+  permission_view_commit_author_statistics: Перегляд статистики комітів автора
+  permission_view_work_package_watchers: Перегляд списку спостерігачів
   permission_view_work_packages: View work packages
-  permission_view_messages: View messages
+  permission_view_messages: Перегляд повідомлень
   permission_view_members: Перегляд учасників
-  permission_view_reportings: View reportings
-  permission_view_time_entries: View spent time
-  permission_view_timelines: View timelines
-  permission_view_wiki_edits: View wiki history
-  permission_view_wiki_pages: View wiki
+  permission_view_reportings: Перегляд звітів
+  permission_view_time_entries: Перегляд трудовитрат
+  permission_view_timelines: Переглянути часові рамки
+  permission_view_wiki_edits: Перегляд історії wiki
+  permission_view_wiki_pages: Перегляд wiki
   placeholders:
     default: "-"
   project:
@@ -2090,14 +2093,14 @@ uk:
   project_module_news: Новини
   project_module_repository: Репозиторій
   project_module_time_tracking: Відстеження часу
-  project_module_timelines: Timelines
+  project_module_timelines: Терміни
   project_module_wiki: Wiki
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
     active_or_archived: Active or archived
-    assigned_to_role: Assignee's role
-    member_of_group: Assignee's group
+    assigned_to_role: Роль виконавця
+    member_of_group: Група виконавця
     assignee_or_group: Assignee or belonging group
     subproject_id: Підпроект
     name_or_identifier: Name or identifier
@@ -2249,10 +2252,10 @@ uk:
   setting_smtp_user_name: SMTP username
   setting_smtp_password: SMTP password
   setting_smtp_domain: SMTP HELLO domain
-  setting_activity_days_default: Days displayed on project activity
-  setting_app_subtitle: Application subtitle
-  setting_app_title: Application title
-  setting_attachment_max_size: Attachment max. size
+  setting_activity_days_default: Кількість днів, відображених в Діях
+  setting_app_subtitle: Підзаголовок додатку
+  setting_app_title: Назва додатку
+  setting_attachment_max_size: Максимальний розмір вкладення
   setting_autofetch_changesets: Autofetch repository changes
   setting_autologin: Автовхід
   setting_available_languages: Доступні мови
@@ -2345,11 +2348,12 @@ uk:
   setting_sys_api_description: The repository management web service provides integration
     and user authorization for accessing repositories.
   setting_time_format: Time format
-  setting_accessibility_mode_for_anonymous: Enable accessibility mode for anonymous
-    users
-  setting_user_format: Users display format
+  setting_accessibility_mode_for_anonymous: Увімкніть режим доступності для анонімних
+    користувачів
+  setting_user_format: Формат відображення користувачів
   setting_user_default_timezone: Часовий пояс користувача за замовчуванням
-  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_admins: Облікові записи користувачів можуть бути видалені
+    адміністраторами
   setting_users_deletable_by_self: Користувачі можуть видаляти свої акаунти
   setting_welcome_text: Welcome block text
   setting_welcome_title: Welcome block title
@@ -2363,7 +2367,7 @@ uk:
     general: Загальні
     other: Інше
     passwords: Паролі
-    session: Session
+    session: Сесія
     brute_force_prevention: Автоматизоване блокування користувачів
     user:
       default_preferences: Параметри за умовчанням
@@ -2378,25 +2382,25 @@ uk:
   text_formatting:
     markdown: Markdown
     plain: Простий текст
-  status_active: active
+  status_active: активний
   status_archived: archived
   status_invited: invited
   status_locked: locked
   status_registered: registered
   support:
     array:
-      sentence_connector: and
-      skip_last_comma: 'false'
+      sentence_connector: і
+      skip_last_comma: хибне значення
   text_accessibility_hint: The accessibility mode is designed for users who are blind,
     motorically handicaped or have a bad eyesight. For the latter focused elements
     are specially highlighted. Please notice, that the Backlogs module is not available
     in this mode.
   text_access_token_hint: Access tokens allow you to grant external applications access
     to resources in OpenProject.
-  text_analyze: 'Further analyze: %{subject}'
-  text_are_you_sure: Are you sure?
-  text_are_you_sure_with_children: Delete work package and all child work packages?
-  text_assign_to_project: Assign to the project
+  text_analyze: 'Подальший аналіз: %{subject}'
+  text_are_you_sure: Ви впевненені?
+  text_are_you_sure_with_children: Видалити робочий пакет і всі дочірні робочі пакети?
+  text_assign_to_project: Призначити на проект
   text_form_configuration: 'You can customize which fields will be displayed in work
     package forms. You can freely group the fields to reflect the needs for your domain.
 
@@ -2404,11 +2408,11 @@ uk:
   text_form_configuration_drag_to_activate: Drag fields from here to activate them
   text_form_configuration_required_attribute: Attribute is marked required and thus
     always shown
-  text_caracters_maximum: "%{count} characters maximum."
-  text_caracters_minimum: Must be at least %{count} characters long.
-  text_comma_separated: Multiple values allowed (comma separated).
+  text_caracters_maximum: "%{count} символів(а) максимум."
+  text_caracters_minimum: Повинно мати якнайменше %{count} символів(а) у довжину.
+  text_comma_separated: Допустимі декілька значень (розділені комою).
   text_comment_wiki_page: 'Comment to wiki page: %{page}'
-  text_custom_field_possible_values_info: One line for each value
+  text_custom_field_possible_values_info: По одному значенню в кожному рядку
   text_custom_field_hint_activate_per_project: 'When using custom fields: Keep in
     mind that custom fields need to be activated per project, too.
 
@@ -2436,53 +2440,53 @@ uk:
   text_database_allows_tsv: База даних дозволяє TSVector (необов'язково)
   text_default_administrator_account_changed: Обліковий запис адміністратора за замовчуванням
     змінений
-  text_default_encoding: 'Default: UTF-8'
+  text_default_encoding: 'По замовчуванню: UTF-8'
   text_destroy: Видалити
-  text_destroy_with_associated: 'There are additional objects assossociated with the
-    work package(s) that are to be deleted. Those objects are of the following types:'
+  text_destroy_with_associated: 'Існують додаткові об''єкти, асоційовані з робочими
+    пакетами, які потрібно видалити. Ці об''єкти мають наступні типи:'
   text_destroy_what_to_do: Що ти хочеш зробити?
-  text_diff_truncated: "... This diff was truncated because it exceeds the maximum
-    size that can be displayed."
+  text_diff_truncated: "... Це порівняння (diff) було скорочене, оскільки воно перевищує
+    максимальний розмір, який можна відобразити."
   text_email_delivery_not_configured: |-
-    Email delivery is not configured, and notifications are disabled.
-    Configure your SMTP server in config/configuration.yml and restart the application to enable them.
-  text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
-  text_file_repository_writable: Attachments directory writable
-  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+    Параметри роботи з поштовим сервером не налаштовані і функція сповіщення по email не активна.
+    Налаштувати параметри для Вашого SMTP-сервера Ви можете в файлі config/configuration.yml. Для застосування змін перезапустіть програму.
+  text_enumeration_category_reassign_to: 'Надати їм наступне значення:'
+  text_enumeration_destroy_question: "%{count} об'єктам призначено дане значення."
+  text_file_repository_writable: Папка вкладень доступна для запису
+  text_git_repo_example: пуста локальна тека репозиторію (напр. /gitrepo, c:\gitrepo)
   text_hint_date_format: Enter a date in the form of YYYY-MM-DD. Other formats may
     be changed to an unwanted date.
   text_hint_disable_with_0: 'Note: Disable with 0'
   text_hours_between: Between %{min} and %{max} hours.
-  text_work_package_added: Work package %{id} has been reported by %{author}.
-  text_work_package_category_destroy_assignments: Remove category assignments
-  text_work_package_category_destroy_question: Some work packages (%{count}) are assigned
-    to this category. What do you want to do?
-  text_work_package_category_reassign_to: Reassign work packages to this category
-  text_work_package_updated: Work package %{id} has been updated by %{author}.
+  text_work_package_added: Автор %{author} відзвітував по робочому пакету %{id}.
+  text_work_package_category_destroy_assignments: Видалити призначення категорії
+  text_work_package_category_destroy_question: Деякі робочі пакети (%{count}) були
+    призначені для цієї категорії. Що ви хочете зробити?
+  text_work_package_category_reassign_to: Перепризначити робочі пакети до даної категорії
+  text_work_package_updated: "%{author} оновив робочий пакет %{id}."
   text_work_package_watcher_added: You have been added as a watcher to Work package
     %{id} by %{watcher_setter}.
-  text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
-    work package(s)?
-  text_work_packages_ref_in_commit_messages: Referencing and fixing work packages
-    in commit messages
-  text_journal_added: "%{label} %{value} added"
+  text_work_packages_destroy_confirmation: Ви впевнені у тому, що хочете видалити
+    вибрані робочі пакети?
+  text_work_packages_ref_in_commit_messages: Посилання та фіксація робочих пакетів
+    у повідомленнях комітів
+  text_journal_added: "%{label} %{value} доданий"
   text_journal_aggregation_time_explanation: Combine journals for display if their
     age difference is less than the specified timespan. This will also delay mail
     notifications by the same amount of time.
   text_journal_changed: "%{label} змінено з %{old} <br/><strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} змінено з %{old}  в %{new}"
-  text_journal_changed_no_detail: "%{label} updated"
-  text_journal_changed_with_diff: "%{label} changed (%{link})"
-  text_journal_deleted: "%{label} deleted (%{old})"
-  text_journal_deleted_with_diff: "%{label} deleted (%{link})"
-  text_journal_set_to: "%{label} set to %{value}"
-  text_journal_set_with_diff: "%{label} set (%{link})"
+  text_journal_changed_no_detail: "%{label} оновлено"
+  text_journal_changed_with_diff: "%{label} змінено (%{link})"
+  text_journal_deleted: "%{label} видалено (%{old})"
+  text_journal_deleted_with_diff: "%{label} видалено (%{link})"
+  text_journal_set_to: Параметр %{label} змінився на %{value}
+  text_journal_set_with_diff: "%{label} встановлено (%{link})"
   text_latest_note: 'The latest comment is: %{note}'
-  text_length_between: Length between %{min} and %{max} characters.
-  text_line_separated: Multiple values allowed (one line for each value).
-  text_load_default_configuration: Load the default configuration
-  text_min_max_length_info: 0 means no restriction
+  text_length_between: Довжина між %{min} і %{max} символів.
+  text_line_separated: Дозволено кілька значень (по одному значенню в рядок).
+  text_load_default_configuration: Завантажити Конфігурацію по замовчуванню
+  text_min_max_length_info: 0 означає відсутність заборон
   text_no_roles_defined: There are no roles defined.
   text_no_access_tokens_configurable: There are no access tokens which can be configured.
   text_no_configuration_data: |-
@@ -2502,12 +2506,12 @@ uk:
 
 '
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  text_plugin_assets_writable: Plugin assets directory writable
-  text_powered_by: Powered by %{link}
-  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and
-    underscores are allowed, must start with a lower case letter.
+    Ви збираєтесь видалити деякі або всі права, через що можуть зникнути права на редагування цього проекту.
+    Ви впевнені що хочете продовжити?
+  text_plugin_assets_writable: Каталог ресурсів модулів доступний для запису
+  text_powered_by: Працює на %{link}
+  text_project_identifier_info: Допускаються тільки рядкові малі букви (a-z), цифри,
+    тире та нижнє підкреслення. Початок має бути з малої літери.
   text_reassign: 'Reassign to work package:'
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_regexp_multiline: The regex is applied in a multi-line mode. e.g., ^---\s+
@@ -2591,83 +2595,79 @@ uk:
         Please check the appropriate section in the configuration, resetting it can
         help solve this problem.
       report_epicfail: The timeline could not be loaded due to an unexpected error.
-      report_timeout: The timeline could not be loaded in a reasonable amount of time.
+      report_timeout: Часова шкала не може бути завантажена в розумний період часу.
     filter:
       errors:
-        timeframe_start: 'The timeframe start '
-        timeframe_end: 'The timeframe end '
-        compare_to_relative: 'The value of the relative comparison '
-        compare_to_absolute: 'The value of the absolute comparison '
-        planning_element_time_relative_one: 'The start for work packages in a certain
-          timeframe '
-        planning_element_time_relative_two: 'The end for work packages in a certain
-          timeframe '
-        planning_element_time_absolute_one: 'The start for work packages in a certain
-          timeframe  '
-        planning_element_time_absolute_two: 'The end for work packages in a certain
-          timeframe  '
+        timeframe_start: 'Термін початку '
+        timeframe_end: 'Термін закінчення '
+        compare_to_relative: 'Значення відносного порівняння '
+        compare_to_absolute: 'Значення абсолютного порівняння '
+        planning_element_time_relative_one: 'Старт для робочих пакетів у певний термін '
+        planning_element_time_relative_two: 'Закінчення робочих пакетів у певний термін '
+        planning_element_time_absolute_one: 'Старт для робочих пакетів у певний термін  '
+        planning_element_time_absolute_two: 'Закінчення робочих пакетів у певний термін  '
       sort:
-        sortation: Sort by
-        alphabet: alphabet
-        explicit_order: explicit order
-        project_sortation: Sort projects by
-        date: date
-        default: default
+        sortation: Сортувати за
+        alphabet: по алфавіту
+        explicit_order: явний порядок
+        project_sortation: Сортувати проекти за
+        date: дата
+        default: типовий
       column:
         assigned_to: Призначений
         type: Тип
-        due_date: End date
+        due_date: Кінцева дата
         name: Ім’я
         status: Статус
         start_date: Початок
       columns: Стовпці
-      comparisons: Comparisons
+      comparisons: Порівняння
       comparison:
-        absolute: Absolute
-        none: None
-        relative: Relative
+        absolute: Абсолютно
+        none: Жодного
+        relative: Відносно
         compare_relative_prefix: Порівняння поточного планування
-        compare_relative_suffix: ago
-        compare_absolute: Compare current planning to %{date}
+        compare_relative_suffix: тому назад
+        compare_absolute: Порівняння поточного планування з %{date}
       time_relative:
         days: днів
-        weeks: weeks
-        months: months
+        weeks: тижнів
+        months: місяців
       exclude_own_work_packages: Приховати робочі пакети від цього проекту
-      exclude_reporters: Hide other projects
-      exclude_empty: Hide empty projects
-      grouping: Grouping
-      grouping_hide_group: Hide group "%{group}"
-      grouping_one: First grouping criterion
-      grouping_one_phrase: Is a subproject of
+      exclude_reporters: Приховати інші проекти
+      exclude_empty: Приховати порожні проекти
+      grouping: Групування
+      grouping_hide_group: Приховати групу "%{group}"
+      grouping_one: Перший критерій групування
+      grouping_one_phrase: Це підпроект
       grouping_other: Інше
-      hide_chart: Hide chart
-      noneElement: "(none)"
-      noneSelection: "(none)"
+      hide_chart: Сховати діаграму
+      noneElement: "(нічого)"
+      noneSelection: "(нічого)"
       outline: Початковий план розширення
-      parent: Show subprojects of
-      work_package_filters: Filter work packages
+      parent: Показати підпроекти
+      work_package_filters: Фільтрувати робочі пакети
       work_package_responsible: Покажіть робочі пакети з підзвітністю
-      work_package_assignee: Show work packages with assignee
-      types: Show types
-      status: Show status
+      work_package_assignee: Покажіть робочі пакети з уповноваженими
+      types: Показати типи
+      status: Показати стан
       project_time_filter: Проекти з пакетом роботи певного виду в певний період часу
-      project_time_filter_timeframe: Timeframe
+      project_time_filter_timeframe: Часові рамки
       project_time_filter_historical_from: from
       project_time_filter_historical_to: to
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
-        %{end_label} %{endspan}%{endspanunit} from now"
-      project_filters: Filter projects
+      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} тому,
+        до %{end_label} %{endspan}%{endspanunit} з цього часу"
+      project_filters: Фільтрувати проекти
       project_responsible: Покажіть проекти з підзвітністю
-      project_status: Show project status
+      project_status: Показати статус проекту
       timeframe: Show timeframe
       timeframe_end: to
       timeframe_start: from
-      timeline: General Settings
-      zoom: Zoom factor
+      timeline: Загальні налаштування
+      zoom: Коефіцієнт масштабування
     history: Історія
-    new_color: New color
+    new_color: Новий колір
     new_association: New dependency
     new_work_package: Новий пакет робіт
     new_reporting: New reporting
@@ -2710,7 +2710,7 @@ uk:
     start: Start
     timeline: Timeline report
     timelines: Timeline reports
-    settings: Timelines
+    settings: Терміни
     vertical_work_package: Vertical work packages
     you_are_viewing_the_selected_timeline: Ви переглядаєте вибраного звіту строки
     zoom:
@@ -2749,7 +2749,7 @@ uk:
   total_progress: Total progress
   user:
     all: всі
-    active: active
+    active: активний
     activate: Activate
     activate_and_reset_failed_logins: Активація та скидання невдалих входів
     authentication_provider: Authentication Provider
