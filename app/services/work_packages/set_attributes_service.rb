@@ -69,6 +69,7 @@ class WorkPackages::SetAttributesService
     update_dates
     reset_custom_values
     reassign_invalid_status_if_type_changed
+    set_templated_description
   end
 
   def set_static_attributes(attributes)
@@ -86,18 +87,40 @@ class WorkPackages::SetAttributesService
     work_package.author ||= user
     work_package.status ||= Status.default
 
-    set_templated_description if non_or_default_description?
-
     work_package.start_date ||= Date.today if Setting.work_package_startdate_is_adddate?
   end
 
   def non_or_default_description?
-    work_package.description.blank? ||
-      Type.pluck(:description).compact.map(&method(:normalize_whitespace)).include?(normalize_whitespace(work_package.description))
+    work_package.description.blank? || false
   end
 
   def set_templated_description
-    work_package.description = work_package.type&.description
+    # We only set this if the work package is new
+    return unless work_package.new_record?
+
+    # And the type was changed
+    return unless work_package.type_id_changed?
+
+    # And the new type has a default text
+    default_description = work_package.type&.description
+    return unless default_description.present?
+
+    # And the current description matches ANY current default text
+    return unless work_package.description.blank? || is_default_description?
+
+    work_package.description = default_description
+  end
+
+  def is_default_description?
+    Type
+      .pluck(:description)
+      .compact
+      .map(&method(:normalize_whitespace))
+      .include?(normalize_whitespace(work_package.description))
+  end
+
+  def normalize_whitespace(string)
+    string.gsub(/\s/, ' ').squeeze(' ')
   end
 
   def set_custom_attributes(attributes)
@@ -201,9 +224,5 @@ class WorkPackages::SetAttributesService
     if min_start && (min_start > current_start_date)
       min_start
     end
-  end
-
-  def normalize_whitespace(string)
-    string.gsub(/\s/, ' ').squeeze(' ')
   end
 end

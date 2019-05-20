@@ -166,11 +166,8 @@ export class WorkPackageChangeset {
         .update(payload)
         .then((form:FormResource) => {
           this.form = form;
-          this.workPackage.$initialize({
-            ...this.workPackage.$source,
-            ...form.payload.$source,
-            id: this.workPackage.id
-          });
+
+          this.rebuildDefaults(form.payload);
 
           this.buildResource();
 
@@ -244,6 +241,21 @@ export class WorkPackageChangeset {
       .catch(() => this.inFlight = false);
 
     return promise;
+  }
+
+  /**
+   * Rebuild default attributes we know might change
+   * Will only apply for new work packages.
+   */
+  private rebuildDefaults(payload:HalResource) {
+    if (!this.workPackage.isNew) {
+      return;
+    }
+
+    // Take over the description from the form
+    // Either it's the same as our changeset or it was set by
+    // a default type value.
+    this.setValue('description', payload.description);
   }
 
   /**
