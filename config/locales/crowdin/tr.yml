@@ -420,6 +420,7 @@ tr:
         spent_on: Tarih
         type: Tür
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Yol haritasında varsayılan olarak gösterilsin
         is_default: Yeni projelerde varsayılan olarak aktif

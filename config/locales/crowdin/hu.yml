@@ -421,6 +421,7 @@ hu:
         spent_on: Dátum
         type: Típus
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Alapértelmezés szerint az ütemterv jelenik meg
         is_default: Alapértelmezetten aktiválva az új projekteknél

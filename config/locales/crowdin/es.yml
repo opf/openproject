@@ -439,6 +439,7 @@ es:
         spent_on: Fecha
         type: Tipo
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Mostrado en el plan de desarrollo de forma predeterminada
         is_default: Activado para nuevos proyectos de forma predeterminada

@@ -423,6 +423,7 @@ fa:
         spent_on: تاریخ
         type: نوع
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default

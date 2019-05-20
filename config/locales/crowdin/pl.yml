@@ -423,6 +423,7 @@ pl:
         spent_on: Data
         type: Typ
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Domyślnie wyświetlany w planie działania
         is_default: Domyślnie aktywny dla nowych projektów

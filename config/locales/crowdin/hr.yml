@@ -427,6 +427,7 @@ hr:
         spent_on: Datum
         type: Tip
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default

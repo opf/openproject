@@ -372,6 +372,7 @@ ja:
         spent_on: 日付
         type: 種別
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: デフォルトでロードマップに表示されます
         is_default: デフォルトで新規プロジェクト用に有効化

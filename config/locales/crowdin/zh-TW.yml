@@ -376,6 +376,7 @@ zh-TW:
         spent_on: 日期
         type: 類型
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: 在 RoadMap 預設為顯示
         is_default: 新專案的預設啟動類型

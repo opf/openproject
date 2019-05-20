@@ -421,6 +421,7 @@ id:
         spent_on: Tanggal
         type: Tipe
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default

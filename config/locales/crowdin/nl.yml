@@ -431,6 +431,7 @@ nl:
         spent_on: Datum
         type: Type
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Standaard weergegeven in roadmap
         is_default: Standaart ingesteld voor nieuwe projecten

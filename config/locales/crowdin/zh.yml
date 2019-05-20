@@ -372,6 +372,7 @@ zh:
         spent_on: 日期
         type: 类型
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: 默认在版本蓝图中显示
         is_default: 默认激活新项目

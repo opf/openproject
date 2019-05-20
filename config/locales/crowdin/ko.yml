@@ -386,6 +386,7 @@ ko:
         spent_on: 날짜
         type: 타입
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: 기본적으로 로드맵에 표시됨
         is_default: 새 프로젝트에 대해 기본적으로 활성화됨

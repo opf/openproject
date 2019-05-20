@@ -433,6 +433,7 @@ it:
         spent_on: Data
         type: Tipo
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Visualizzato nella tabella di marcia per impostazione predefinita
         is_default: Attivato nei nuovi progetti per impostazione predefinita

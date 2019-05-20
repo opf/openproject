@@ -435,6 +435,7 @@ pt:
         spent_on: Data
         type: Tipo
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Exibido no roteiro por padrão
         is_default: Ativado para novos projetos por padrão

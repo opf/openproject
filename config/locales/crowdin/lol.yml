@@ -369,6 +369,7 @@ lol:
         spent_on: crwdns123164:0crwdne123164:0
         type: crwdns123166:0crwdne123166:0
       type:
+        description: Default text for description
         attribute_groups: crwdns123168:0crwdne123168:0
         is_in_roadmap: crwdns123170:0crwdne123170:0
         is_default: crwdns123172:0crwdne123172:0

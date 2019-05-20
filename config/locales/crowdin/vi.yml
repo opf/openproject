@@ -58,7 +58,7 @@ vi:
       no_results_content_title: Không có hiện tại không có chế độ xác thực.
       no_results_content_text: Tạo một chế độ xác thực mới
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Mã hóa kết nối
     tls_mode:
       plain: không
       simple_tls: simple_tls
@@ -424,6 +424,7 @@ vi:
         spent_on: Ngày
         type: Kiểu
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Hiển thị trong lộ trình mặc định
         is_default: Kích hoạt cho các dự án mới theo mặc định

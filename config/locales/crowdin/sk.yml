@@ -430,6 +430,7 @@ sk:
         spent_on: Dátum
         type: Typ
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Zobraziť v Roadmap štandardne
         is_default: Aktivované pre nové projekty štandardne

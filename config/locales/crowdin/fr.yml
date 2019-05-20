@@ -434,6 +434,7 @@ fr:
         spent_on: Date
         type: Type
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Affiché par défaut dans la feuille de route
         is_default: Activé par défaut pour les nouveaux projets

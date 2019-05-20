@@ -425,6 +425,7 @@ ru:
         spent_on: Дата
         type: Тип
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: По умолчанию отображается в дорожной карте
         is_default: В новых проектах активируется по умолчанию

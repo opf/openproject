@@ -428,6 +428,7 @@ hi:
         spent_on: तिथि
         type: प्रकार
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: डिफ़ॉल्ट रूप से रोडमैप में प्रदर्शित
         is_default: डिफ़ॉल्ट रूप से नए प्रोजेक्ट्स के लिए सक्रिय

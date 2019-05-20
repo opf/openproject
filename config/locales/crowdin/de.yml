@@ -437,6 +437,7 @@ de:
         spent_on: Datum
         type: Typ
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: In Roadmap standardmäßig angezeigt
         is_default: Typ für neue Projekte standardmäßig aktiviert

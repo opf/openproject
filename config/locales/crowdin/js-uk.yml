@@ -56,7 +56,7 @@ uk:
     button_list_view: Подання списком
     button_show_view: Повноекранний режим
     button_log_time: Час журналу
-    button_more: More
+    button_more: Більше
     button_move: Перемістити
     button_open_details: Відкрити докладне подання
     button_close_details: Close details view
@@ -146,7 +146,7 @@ uk:
         text_close_filter: Щоб вибрати запис - встановіть на ньому фокус, наприклад,
           натиснувши Enter. Щоб залишити без фільтру - виберіть перший (порожній)
           елемент.
-      noneElement: "(none)"
+      noneElement: "(нічого)"
       time_zone_converted:
         two_values: "%{from} - %{to} in your local time."
         only_start: From %{from} in your local time.
@@ -206,7 +206,7 @@ uk:
     label_ago: днів тому
     label_all: всі
     label_all_work_packages: всі пакети в роботі
-    label_and: and
+    label_and: і
     label_ascending: За зростанням
     label_author: 'Автор: %{user}'
     label_between: between
@@ -214,7 +214,7 @@ uk:
     label_board_locked: Заблоковано
     label_board_plural: Дошки
     label_board_sticky: Приліплена
-    label_create_work_package: Create new work package
+    label_create_work_package: Створити новий робочий пакет
     label_created_by: Створено
     label_date: Дата
     label_date_with_format: 'Введіть %{date_attribute}, використовуючи наступний формат:
@@ -253,21 +253,21 @@ uk:
     label_latest_activity: Останні дії
     label_last_updated_on: Останнє оновлення
     label_less_or_equal: "<="
-    label_less_than_ago: less than days ago
-    label_loading: Loading...
-    label_me: me
+    label_less_than_ago: менше, ніж день тому
+    label_loading: Завантаження...
+    label_me: мені
     label_menu_collapse: згорнути
     label_menu_expand: розгорнути
-    label_more_than_ago: more than days ago
-    label_my_page: My page
-    label_next: Next
+    label_more_than_ago: більш ніж днів(я) назад
+    label_my_page: Моя сторінка
+    label_next: Далі
     label_no_color: Без кольору
-    label_no_data: No data to display
+    label_no_data: Немає даних для відображення
     label_no_due_date: немає дати завершення
     label_no_start_date: немає дати початку
-    label_none: none
-    label_not_contains: doesn't contain
-    label_not_equals: is not
+    label_none: нічого
+    label_not_contains: не містить
+    label_not_equals: немає
     label_on: на
     label_open_menu: Відкрити меню
     label_open_context_menu: Відкрийте контекстне меню
@@ -287,7 +287,7 @@ uk:
     label_selected_filter_list: Вибрані фільтри
     label_show_attributes: Показати всі атрибути
     label_show_in_menu: Показати вигляд у меню
-    label_sort_by: Sort by
+    label_sort_by: Сортувати за
     label_sorted_by: відсортовано за
     label_sort_higher: Рухатися вгору
     label_sort_lower: Пересунути нижче
@@ -350,7 +350,7 @@ uk:
     onboarding:
       buttons:
         skip: Пропустити
-        next: Next
+        next: Далі
         got_it: Зрозуміло
       steps:
         help_menu: У меню <b>Довідка</b> ви знайдете посібник користувача та додаткові
@@ -424,7 +424,7 @@ uk:
       click_to_switch_context: Open this work package in that project.
       autocompleter:
         label: Project autocompletion
-    text_are_you_sure: Are you sure?
+    text_are_you_sure: Ви впевненені?
     types:
       attribute_groups:
         error_duplicate_group_name: The name %{group} is used more than once. Group
@@ -540,8 +540,8 @@ uk:
       activate_asc: activate to apply an ascending sort
       activate_dsc: activate to apply a descending sort
       activate_no: activate to remove the sort
-    text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
-      work package(s)?
+    text_work_packages_destroy_confirmation: Ви впевнені у тому, що хочете видалити
+      вибрані робочі пакети?
     text_query_destroy_confirmation: Ви дійсно бажаєте видалити вибраний вигляд?
     text_attachment_destroy_confirmation: Ви впевнені, що бажаєте видалити вкладення?
     timelines:
@@ -573,11 +573,10 @@ uk:
           Please check the appropriate section in the configuration, resetting it
           can help solve this problem.
         report_epicfail: The timeline could not be loaded due to an unexpected error.
-        report_timeout: The timeline could not be loaded in a reasonable amount of
-          time.
+        report_timeout: Часова шкала не може бути завантажена в розумний період часу.
       filter:
         grouping_other: Інше
-        noneSelection: "(none)"
+        noneSelection: "(нічого)"
       name: Ім’я
       outline: Скинути виділення
       outlines:
@@ -784,7 +783,7 @@ uk:
         modal_title: Конфігурація таблиці робочих пакетів
         embedded_tab_disabled: Ця вкладка конфігурації недоступна для вбудованого
           вигляду, який ви редагуєте.
-        default: default
+        default: типовий
         display_settings: Параметри дисплея
         default_mode: Плоский список
         hierarchy_mode: Ієрархія
@@ -822,8 +821,8 @@ uk:
         attachments: Вкладення
       time_relative:
         days: днів
-        weeks: weeks
-        months: months
+        weeks: тижнів
+        months: місяців
     toolbar:
       settings:
         configure_view: Налаштувати перегляд ...
