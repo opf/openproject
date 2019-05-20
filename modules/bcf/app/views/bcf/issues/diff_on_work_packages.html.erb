@@ -78,6 +78,7 @@
             <th>Title</th>
             <th>Status</th>
             <th>Priority</th>
+            <th>Author</th>
             <th>Assignee</th>
             <th>Due date</th>
             <th># Viewpoints</th>
@@ -95,6 +96,7 @@
             <td><%= entry[:title] || '-' %></td>
             <td><%= entry[:status] || '-' %></td>
             <td><%= entry[:priority] || '-' %></td>
+            <td><%= entry[:author] || '-' %></td>
             <td><%= entry[:assignee] || '-' %></td>
             <td><%= format_date(entry[:due_date]) || '-' %></td>
             <td><%= entry[:viewpoint_count] %></td>
@@ -107,6 +109,7 @@
               <td><%= issue.work_package.subject %></td>
               <td><%= issue.work_package.status.name %></td>
               <td><%= issue.work_package.priority.name %></td>
+              <td><%= issue.work_package.author&.name %></td>
               <td><%= issue.work_package.assigned_to&.name %></td>
               <td><%= format_date(issue.work_package.due_date) %></td>
               <td><%= issue.viewpoints.count %></td>
