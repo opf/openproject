@@ -299,6 +299,9 @@ export class WorkPackageTableFiltersService extends WorkPackageQueryStateService
   public replaceIfComplete(newState:QueryFilterInstanceResource[]) {
     if (this.isComplete(newState)) {
       this.update(newState);
+      return true;
+    } else {
+      return false;
     }
   }
 

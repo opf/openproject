@@ -1,4 +1,3 @@
-
 // Based on spinkit by Tobias Ahlin.
 //
 // The MIT License (MIT)
@@ -22,14 +21,9 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 .loading-indicator--background
-  position: absolute
-  top: 0
-  left: 0
-  right: 0
-  bottom: 0
+  @include overlay-background
   @include varprop(background, loading-indicator-bg-color)
   @include varprop(opacity, loading-indicator-bg-opacity)
-  z-index: 900
 
 // Ensure loading indicator is rendered correctly in each location
 .loading-indicator--location

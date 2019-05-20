@@ -53,6 +53,8 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
   public _availableOptions:HalResource[] = [];
   public compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
 
+  private _isEmpty:boolean;
+
   readonly text = {
     placeholder: this.I18n.t('js.placeholders.selection'),
   };
@@ -83,6 +85,10 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
 
   public set availableOptions(val:HalResource[]) {
     this._availableOptions = this.halSorting.sort(val);
+  }
+
+  public get isEmpty():boolean {
+    return this._isEmpty = this.value.length === 0;
   }
 
   public repositionDropdown() {
