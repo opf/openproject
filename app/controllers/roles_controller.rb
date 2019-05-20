@@ -63,7 +63,7 @@ class RolesController < ApplicationController
       redirect_to action: 'index'
       notify_changed_roles(:added, @role)
     else
-      @permissions = @role.setable_permissions
+      define_setable_permissions
       @roles = Role.order(Arel.sql('builtin, position'))
 
       render action: 'new'
@@ -153,11 +153,15 @@ class RolesController < ApplicationController
   end
 
   def define_setable_permissions
-    perms_by_module = @role.setable_permissions.group_by {|p| p.project_module.to_s}
-    @permissions = ::Redmine::AccessControl
-                     .sorted_modules
-                     .select {|module_name| perms_by_module[module_name].present?}
-                     .map do |module_name|
+    @permissions = group_permissions_by_module(@role.setable_permissions)
+  end
+
+  def group_permissions_by_module(perms)
+    perms_by_module = perms.group_by {|p| p.project_module.to_s}
+    ::Redmine::AccessControl
+      .sorted_modules
+      .select {|module_name| perms_by_module[module_name].present?}
+      .map do |module_name|
       [module_name, perms_by_module[module_name]]
     end
   end

@@ -21,29 +21,26 @@ module OpenProject::GlobalRoles::Patches
   module RolesControllerPatch
     def self.included(base)
       base.prepend InstanceMethods
+
+      base.class_eval do
+        before_action :define_global_permissions
+      end
     end
 
     module InstanceMethods
-      def new
-        super
-
-        @member_permissions = (@role.setable_permissions || @permissions)
-        @global_permissions = GlobalRole.setable_permissions
-      end
-
       def create
         if params['global_role']
           create_global_role
         else
-          # we have to duplicate unpatched behaviour here in order to set the parameters for the overwritten views
-          @role = Role.new(permitted_params.role? || { permissions: Role.non_member.permissions })
-          @member_permissions = (@role.setable_permissions || @permissions)
-          @global_permissions = GlobalRole.setable_permissions
           super
         end
-     end
+      end
 
       private
+
+      def define_global_permissions
+        @global_permissions = group_permissions_by_module(GlobalRole.setable_permissions)
+      end
 
       def create_global_role
         @role = GlobalRole.new permitted_params.role
@@ -51,9 +48,7 @@ module OpenProject::GlobalRoles::Patches
           flash[:notice] = l(:notice_successful_create)
           redirect_to action: 'index'
         else
-          @roles = Role.order(Arel.sql('builtin, position')).to_a
-          @member_permissions = Role.new.setable_permissions
-          @global_permissions = GlobalRole.setable_permissions
+          define_setable_permissions
           render template: 'roles/new'
         end
       end
