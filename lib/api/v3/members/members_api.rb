@@ -34,6 +34,17 @@ module API
 
         resources :members do
           get &::API::V3::Utilities::Endpoints::Index.new(model: Member).mount
+
+          route_param :id do
+            before do
+              @member = ::Queries::Members::MemberQuery
+                        .new(user: current_user)
+                        .results
+                        .find(params['id'])
+            end
+
+            get &::API::V3::Utilities::Endpoints::Show.new(model: Member).mount
+          end
         end
       end
     end

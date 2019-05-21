@@ -264,42 +264,52 @@ describe 'API v3 members resource', type: :request do
     end
   end
 
-  #describe 'GET /api/v3/time_entries/:id' do
-    #let(:path) { api_v3_paths.time_entry(time_entry.id) }
+  describe 'GET /api/v3/members/:id' do
+    let(:path) { api_v3_paths.member(other_member.id) }
 
-    #before do
-    #  time_entry
-    #  custom_value
+    let(:members) { [own_member, other_member] }
 
-    #  get path
-    #end
+    before do
+      members
 
-    #it 'returns 200 OK' do
-    #  expect(subject.status)
-    #    .to eql(200)
-    #end
+      login_as(current_user)
 
-    #it 'returns the time entry' do
-    #  expect(subject.body)
-    #    .to be_json_eql('TimeEntry'.to_json)
-    #          .at_path('_type')
+      get path
+    end
 
-    #  expect(subject.body)
-    #    .to be_json_eql(time_entry.id.to_json)
-    #          .at_path('id')
+    it 'returns 200 OK' do
+      expect(subject.status)
+        .to eql(200)
+    end
 
-    #  expect(subject.body)
-    #    .to be_json_eql(custom_value.value.to_json)
-    #          .at_path("customField#{custom_field.id}/raw")
-    #end
+    it 'returns the member' do
+      expect(subject.body)
+        .to be_json_eql('Member'.to_json)
+        .at_path('_type')
 
-    #context 'when lacking permissions' do
-    #  let(:permissions) { [] }
+      expect(subject.body)
+        .to be_json_eql(other_member.id.to_json)
+        .at_path('id')
+    end
 
-    #  it 'returns 404 NOT FOUND' do
-    #    expect(subject.status)
-    #      .to eql(404)
-    #  end
-    #end
-  #end
+    context 'if querying an invisible member' do
+      let(:path) { api_v3_paths.member(invisible_member.id) }
+
+      let(:members) { [own_member, invisible_member] }
+
+      it 'returns 404 NOT FOUND' do
+        expect(subject.status)
+          .to eql(404)
+      end
+    end
+
+    context 'without the necessary permissions' do
+      let(:permissions) { [] }
+
+      it 'returns 404 NOT FOUND' do
+        expect(subject.status)
+          .to eql(404)
+      end
+    end
+  end
 end
