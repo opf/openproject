@@ -28,7 +28,8 @@
 #++
 
 class Member < ActiveRecord::Base
-  belongs_to :user
+  extend DeprecatedAlias
+
   belongs_to :principal, foreign_key: 'user_id'
   has_many :member_roles, dependent: :destroy, autosave: true
   has_many :roles, through: :member_roles
@@ -75,6 +76,9 @@ class Member < ActiveRecord::Base
   end
 
   alias :base_role_ids= :role_ids=
+
+  deprecated_alias :user, :principal
+  deprecated_alias :user=, :principal=
 
   # Set the roles for this member to the given roles_or_role_ids, immediately
   # save the changes and destroy the member in case no role is left.
