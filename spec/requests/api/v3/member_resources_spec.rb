@@ -67,7 +67,7 @@ describe 'API v3 members resource', type: :request do
       get path
     end
 
-    let(:path) { api_v3_paths.members }
+    let(:path) { "#{api_v3_paths.members}?sortBy=#{[%i(id asc)].to_json}" }
     let(:filter_path) { "#{api_v3_paths.members}?#{{ filters: filters.to_json }.to_query}&sortBy=#{[%i(id asc)].to_json}" }
 
     context 'without params' do
@@ -86,11 +86,11 @@ describe 'API v3 members resource', type: :request do
           .at_path('total')
 
         expect(subject.body)
-          .to be_json_eql(other_member.id.to_json)
+          .to be_json_eql(own_member.id.to_json)
           .at_path('_embedded/elements/0/id')
 
         expect(subject.body)
-          .to be_json_eql(own_member.id.to_json)
+          .to be_json_eql(other_member.id.to_json)
           .at_path('_embedded/elements/1/id')
       end
     end
@@ -137,11 +137,11 @@ describe 'API v3 members resource', type: :request do
           .at_path('total')
 
         expect(subject.body)
-          .to be_json_eql(group_member.id.to_json)
+          .to be_json_eql(own_member.id.to_json)
           .at_path('_embedded/elements/0/id')
 
         expect(subject.body)
-          .to be_json_eql(own_member.id.to_json)
+          .to be_json_eql(group_member.id.to_json)
           .at_path('_embedded/elements/1/id')
       end
     end

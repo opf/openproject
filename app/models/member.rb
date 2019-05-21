@@ -126,11 +126,11 @@ class Member < ActiveRecord::Base
     member_roles.detect(&:inherited_from).nil?
   end
 
-  def include?(user)
+  def include?(principal)
     if principal.is_a?(Group)
-      !user.nil? && user.groups.include?(principal)
+      !principal.nil? && principal.groups.include?(principal)
     else
-      self.user == user
+      self.principal == principal
     end
   end
 
@@ -139,8 +139,9 @@ class Member < ActiveRecord::Base
   # Note: This logic is duplicated for mass deletion in `app/models/group/destroy.rb`.
   #       Accordingly it has to be changed there too should this bit change at all.
   def remove_from_category_assignments
-    Category.where(['project_id = ? AND assigned_to_id = ?', project_id, user_id])
-      .update_all 'assigned_to_id = NULL' if user
+    Category
+      .where(project_id: project_id, assigned_to_id: user_id)
+      .update_all(assigned_to_id: nil)
   end
 
   ##
@@ -148,7 +149,7 @@ class Member < ActiveRecord::Base
   # and haven't been activated yet. Only applies if the member is actually a user
   # as opposed to a group.
   def disposable?
-    user && user.invited? && user.memberships.none? { |m| m.project_id != project_id }
+    principal&.invited? && principal.memberships.none? { |m| m.project_id != project_id }
   end
 
   protected
@@ -239,8 +240,8 @@ class Member < ActiveRecord::Base
   # Note: This logic is duplicated for mass deletion in `app/models/group/destroy.rb`.
   #       Accordingly it has to be changed there too should this bit change at all.
   def unwatch_from_permission_change
-    if user
-      Watcher.prune(user: user, project_id: project.id)
+    if principal
+      Watcher.prune(user: principal, project_id: project.id)
     end
   end
 
