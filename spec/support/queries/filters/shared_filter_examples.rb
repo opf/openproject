@@ -236,11 +236,7 @@ shared_examples_for 'list_all query filter' do
     end
   end
   let(:expected_table_name) do
-    if joins
-      joins
-    else
-      model.table_name
-    end
+    joins || model.table_name
   end
 
   describe '#scope' do

@@ -68,6 +68,7 @@ describe 'API v3 members resource', type: :request do
     end
 
     let(:path) { api_v3_paths.members }
+    let(:filter_path) { "#{api_v3_paths.members}?#{{ filters: filters.to_json }.to_query}&sortBy=#{[%i(id asc)].to_json}" }
 
     context 'without params' do
       it 'responds 200 OK' do
@@ -146,14 +147,14 @@ describe 'API v3 members resource', type: :request do
     end
 
     context 'filtering by user name' do
-      let(:path) do
-        filter = [{ 'any_name_attribute' => {
+      let(:filters) do
+        [{ 'any_name_attribute' => {
           'operator' => '~',
           'values' => [other_member.user.login]
         } }]
-
-        "#{api_v3_paths.members}?#{{ filters: filter.to_json }.to_query}"
       end
+
+      let(:path) { filter_path }
 
       it 'contains only the filtered member in the response' do
         expect(subject.body)
@@ -178,14 +179,14 @@ describe 'API v3 members resource', type: :request do
 
       let(:other_project) { FactoryBot.create(:project) }
 
-      let(:path) do
-        filter = [{ 'project' => {
+      let(:filters) do
+        [{ 'project' => {
           'operator' => '=',
           'values' => [other_project.id]
         } }]
-
-        "#{api_v3_paths.members}?#{{ filters: filter.to_json }.to_query}"
       end
+
+      let(:path) { filter_path }
 
       it 'contains only the filtered members in the response' do
         expect(subject.body)
@@ -198,17 +199,51 @@ describe 'API v3 members resource', type: :request do
       end
     end
 
+    context 'filtering by principal' do
+      let(:group) { FactoryBot.create(:group) }
+      let(:group_member) do
+        FactoryBot.create(:member,
+                          roles: [FactoryBot.create(:role)],
+                          principal: group,
+                          project: project)
+      end
+      let(:members) { [own_member, other_member, group_member, invisible_member] }
+
+      let(:filters) do
+        [{ 'principal' => {
+          'operator' => '=',
+          'values' => [group.id.to_s, current_user.id.to_s]
+        } }]
+      end
+
+      let(:path) { filter_path }
+
+      it 'contains only the filtered members in the response' do
+        expect(subject.body)
+          .to be_json_eql('2')
+          .at_path('total')
+
+        expect(subject.body)
+          .to be_json_eql(own_member.id.to_json)
+          .at_path('_embedded/elements/0/id')
+
+        expect(subject.body)
+          .to be_json_eql(group_member.id.to_json)
+          .at_path('_embedded/elements/1/id')
+      end
+    end
+
     context 'invalid filter' do
       let(:members) { [own_member] }
 
-      let(:path) do
-        filter = [{ 'bogus' => {
+      let(:filters) do
+        [{ 'bogus' => {
           'operator' => '=',
           'values' => ['1']
         } }]
-
-        "#{api_v3_paths.members}?#{{ filters: filter.to_json }.to_query}"
       end
+
+      let(:path) { filter_path }
 
       it 'returns an error' do
         expect(subject.status).to eq(400)

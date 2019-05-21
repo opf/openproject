@@ -28,20 +28,42 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Members
-  query = Queries::Members::MemberQuery
-  filter_ns = Queries::Members::Filters
+class Queries::Members::Filters::PrincipalFilter < Queries::Members::Filters::MemberFilter
+  include Queries::Filters::Shared::MeValueFilter
 
-  Queries::Register.filter query, filter_ns::NameFilter
-  Queries::Register.filter query, filter_ns::AnyNameAttributeFilter
-  Queries::Register.filter query, filter_ns::ProjectFilter
-  Queries::Register.filter query, filter_ns::StatusFilter
-  Queries::Register.filter query, filter_ns::BlockedFilter
-  Queries::Register.filter query, filter_ns::GroupFilter
-  Queries::Register.filter query, filter_ns::RoleFilter
-  Queries::Register.filter query, filter_ns::PrincipalFilter
+  def allowed_values
+    @allowed_values ||= begin
+      values = Principal
+               .active_or_registered
+               .in_visible_project
+               .map { |s| [s.name, s.id.to_s] }
+               .sort
 
-  order_ns = Queries::Members::Orders
+      me_allowed_value + values
+    end
+  end
 
-  Queries::Register.order query, order_ns::DefaultOrder
+  def available?
+    allowed_values.any?
+  end
+
+  def ar_object_filter?
+    true
+  end
+
+  def principal_resource?
+    true
+  end
+
+  def where
+    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, :user_id)
+  end
+
+  def type
+    :list_optional
+  end
+
+  def self.key
+    :principal_id
+  end
 end

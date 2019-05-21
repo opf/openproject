@@ -33,6 +33,8 @@ describe ::API::V3::Users::UserRepresenter do
   let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:representer) { described_class.new(user, current_user: current_user) }
 
+  include API::V3::Utilities::PathHelper
+
   context 'generation' do
     subject(:generated) { representer.to_json }
 
@@ -171,6 +173,50 @@ describe ::API::V3::Users::UserRepresenter do
 
         it 'should not link to delete' do
           expect(subject).not_to have_json_path('_links/delete/href')
+        end
+      end
+
+      describe 'members' do
+        before do
+          allow(current_user)
+            .to receive(:allowed_to?) do |action, _project, options|
+            permissions.include?(action) && options[:global]
+          end
+        end
+
+        let(:href) do
+          filters = [{ 'principal' => {
+            'operator' => '=',
+            'values' => [user.id.to_s]
+          } }]
+
+          "#{api_v3_paths.members}?#{{ filters: filters.to_json }.to_query}"
+        end
+
+        context 'if the user has the :view_members permissions' do
+          let(:permissions) { [:view_members] }
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'members' }
+            let(:title) { I18n.t(:label_member_plural) }
+          end
+        end
+
+        context 'if the user has the :manage_members permissions' do
+          let(:permissions) { [:manage_members] }
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'members' }
+            let(:title) { I18n.t(:label_member_plural) }
+          end
+        end
+
+        context 'if the user lacks permissions' do
+          let(:permissions) { [] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'members' }
+          end
         end
       end
     end

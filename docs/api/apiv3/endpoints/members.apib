@@ -1,0 +1,113 @@
+# Group Members
+
+Users and groups can become members of a project. Such a membership will also have one or more roles assigned to it. By that, members control the permissions a user has within a project.
+
+## Linked Properties
+|  Link               | Description                                                   | Type             | Constraints                                                    | Supported operations |
+|:-------------------:|-----------------------------------------                      | -------------    | -------------------------------------------------------------- | -------------------- |
+| self                | This member                                                   | Member           | not null                                                       | READ                 |
+| project             | The project for which the membership is granted               | Project          | not null                                                       | READ                 |
+| roles               | The list of roles the user or group is granted in the project | RoleCollection   | not null                                                       | READ                 |
+| principal           | The user or group that was granted membership                 | User or Group    | not null                                                       | READ                 |
+
+## Local Properties
+| Property    | Description                                   | Type        | Constraints                                        | Supported operations |
+| :---------: | --------------------------------------------- | ----------- | -----------                                        | -------------------- |
+| id          | Member id                                     | Integer     | x > 0                                              | READ                 |
+| createdAt   | Time of creation                              | DateTime    | not null                                           | READ                 |
+
+## Member [/api/v3/members/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/members/11" }
+                },
+                "_type": "Member",
+                "id": 11,
+                "createdAt": "2015-03-20T12:56:56Z"
+            }
+
+## View member [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... member id
+
++ Response 200 (application/hal+json)
+
+    [Member][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the member does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view members **or** manage members
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a member. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
+## Members [/api/v3/members{?filters}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/members" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/members/11" }
+                            },
+                            "_type": "Member",
+                            "id": 11,
+                            "createdAt": "2015-03-20T12:56:56Z"
+                        },
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/members/41" }
+                            },
+                            "_type": "Member",
+                            "id": 41,
+                            "createdAt": "2019-12-22T12:56:06Z"
+                        }
+                    ]
+                }
+            }
+
+## List members [GET]
+
+Returns a collection of members. The client can choose to filter the members similar to how work packages are filtered. In addition to the provided filters, the server will reduce the result set to only contain members, for which the requesting client has sufficient permissions (*view_members*, *manage_members*).
+
++ Parameters
+    + filters (optional, string, `[{ "name": { "operator": "=", "values": ["A User"] }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+    Currently supported filters are:
+      + any_name_attribute: filters members based on the name of the principal. All possible name variants (and also email and login) are searched.
+      + blocked: reduces the result set to all members that are temporarily blocked or that are not blocked temporarily.
+      + group: filters members based on the name of a group. The group however is not the principal used for filtering. Rather, the members of the group are used as the filter values.
+      + name: filters members based on the name of the principal. Note that only the name is used which depends on a setting in the OpenProject instance.
+      + principal: filters members based on the id of the principal.
+      + role: filters members based on the id of any role assigned to the member.
+      + status: filters members based on the status of the principal.
+
++ Response 200 (application/hal+json)
+
+    [Members][]
