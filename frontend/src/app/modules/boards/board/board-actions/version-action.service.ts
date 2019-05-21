@@ -88,33 +88,34 @@ export class BoardVersionActionService implements BoardActionService {
       );
   }
 
-  public createNewAction(name:string):Promise<HalResource|void> {
-    if (this.currentProject.id !== null) {
-      var payload:any = {};
-      payload['name'] = name;
-      payload['_links'] = {
-        definingProject: {
-          href: this.pathHelper.api.v3.projects.id(this.currentProject.id).path
-        }
-      };
-      return this.versionDm.createVersion(payload);
-    } else {
-      return Promise.reject('No project given');
-    }
+  /**
+   * Checks for correct permissions
+   * (whether the current project is in the list of allowed values in the version create form)
+   * @returns {Promise<boolean>}
+   */
+  public canCreateNewActionElements():Promise<boolean> {
+    var that = this;
+    return this.versionDm.emptyCreateForm(this.getVersionPayload('')).then((form) => {
+       return form.schema.definingProject.allowedValues.some((e:HalResource) => e.id === that.currentProject.id!);
+    });
   }
 
-  private getVersions():Promise<VersionResource[]> {
-    if (this.currentProject.id === null) {
-      return Promise.resolve([]);
-    }
-
-    return this.versionDm
-      .listForProject(this.currentProject.id)
-      .then(collection => collection.elements.filter(version => version.status === 'open'));
+  /**
+   * Creates a new version with the given name
+   * @param {string} the name of the new version
+   * @returns {Promise<HalResource | void>}
+   */
+  public createNewActionElement(name:string):Promise<HalResource|void> {
+    return this.versionDm.createVersion(this.getVersionPayload(name));
   }
 
+  /**
+   * Adds an entry to the list menu to edit the version if allowed
+   * @param {HalResource} actionAttributeValue
+   * @returns {Promise<any>}
+   */
   public getAdditionalListMenuItems(actionAttributeValue:HalResource):Promise<any> {
-    var items:any = [];
+    var items: any = [];
     const actionID = actionAttributeValue.id;
 
     if (actionID) {
@@ -134,5 +135,27 @@ export class BoardVersionActionService implements BoardActionService {
     } else {
       return Promise.resolve(items);
     }
+  }
+
+  private getVersions():Promise<VersionResource[]> {
+    if (this.currentProject.id === null) {
+      return Promise.resolve([]);
+    }
+
+    return this.versionDm
+      .listForProject(this.currentProject.id)
+      .then(collection => collection.elements.filter(version => version.status === 'open'));
+  }
+
+  private getVersionPayload(name:string) {
+    let payload:any = {};
+    payload['name'] = name;
+    payload['_links'] = {
+      definingProject: {
+        href: this.pathHelper.api.v3.projects.id(this.currentProject.id!).path
+      }
+    };
+
+    return payload;
   }
 }

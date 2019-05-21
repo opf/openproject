@@ -69,6 +69,12 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   public trackByHref = AngularTrackingHelpers.trackByHref;
 
+  /* Is it allowed to add new action attributes from within the modal */
+  public createAllowed:boolean;
+
+  /* Do not close on outside click (because the select option are appended to the body */
+  public closeOnOutsideClick = false;
+
   public text:any = {
     title: this.I18n.t('js.boards.add_list'),
     button_continue: this.I18n.t('js.button_continue'),
@@ -108,9 +114,16 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     this.actionService
       .getAvailableValues(this.board, this.queries)
       .then(available => {
-        this.selectedAttribute = available[0];
         this.availableValues = available;
       });
+
+    this.actionService.canCreateNewActionElements().then((val) => {
+      this.createAllowed = val;
+    });
+  }
+
+  onModelChange(element:HalResource) {
+    this.selectedAttribute = element;
   }
 
   create() {
@@ -125,7 +138,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   }
 
   createNewElement(name:string) {
-    this.actionService.createNewAction(name).then((newElement) => {
+    this.actionService.createNewActionElement(name).then((newElement) => {
       if (newElement) {
         this.selectedAttribute = newElement;
         this.create();

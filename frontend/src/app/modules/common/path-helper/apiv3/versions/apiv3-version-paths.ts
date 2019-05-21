@@ -34,6 +34,8 @@ import {
 export class Apiv3VersionPaths extends SimpleResourceCollection {
   // Base path
   public readonly path:string;
+  // /api/v3/versions/form
+  public readonly form = new SimpleResource(this.path, 'form');
 
   constructor(basePath:string) {
     super(basePath, 'versions');

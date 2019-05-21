@@ -40,8 +40,14 @@ export interface BoardActionService {
   getAdditionalListMenuItems(actionAttributeValue:HalResource):Promise<any>;
 
   /*
+   * Whether it is allowed to add new action entries (e.g. a new version)
+   * @returns {boolean}
+   */
+  canCreateNewActionElements():Promise<boolean>;
+
+  /**
    * Creates a new action entry (e.g. a new version) to be selectable as a list
    * @returns {any}
    */
-  createNewAction(name:string):Promise<HalResource|void>;
+  createNewActionElement(name:string):Promise<HalResource|void>;
 }

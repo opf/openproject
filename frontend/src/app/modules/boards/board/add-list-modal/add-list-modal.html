@@ -18,18 +18,28 @@
           <div class="form--field-container">
             <div class="form--select-container -slim">
               <label class="form--label" for="new_board_action_select" [textContent]="actionService.localizedName"></label>
-              <ng-select #actionAttributeSelect
-                         [(ngModel)]="selectedAttribute"
+              <ng-select *ngIf="createAllowed"
+                         #actionAttributeSelect
                          name="new_board_action_select"
                          class="new-board--action-select"
                          [items]="availableValues"
                          [addTag]="createNewElement.bind(this)"
-                         [clearSearchOnAdd]="true"
+                         (change)="onModelChange($event)"
                          bindLabel="name"
                          appendTo="body">
                 <ng-template ng-tag-tmp let-search="searchTerm">
                   <b [textContent]="text.add_new_action"></b>: {{search}}
                 </ng-template>
+              </ng-select>
+
+              <ng-select *ngIf="!createAllowed"
+                         #actionAttributeSelect
+                         name="new_board_action_select"
+                         class="new-board--action-select"
+                         [items]="availableValues"
+                         (change)="onModelChange($event)"
+                         bindLabel="name"
+                         appendTo="body">
               </ng-select>
             </div>
           </div>
