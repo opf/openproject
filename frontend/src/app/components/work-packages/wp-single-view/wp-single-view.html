@@ -109,12 +109,18 @@
       </div>
     </div>
 
-    <ng-container wp-isolated-query-space>
+    <ng-container wp-isolated-query-space *ngIf="group.isolated">
       <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
-                   [ndcDynamicInjector]="injector"
                    [ndcDynamicInputs]="{ workPackage: workPackage,
                                          group: group,
                                          query: group.query }" >
+      </ndc-dynamic>
+    </ng-container>
+
+    <ng-container *ngIf="!group.isolated">
+      <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
+                   [ndcDynamicInjector]="injector"
+                   [ndcDynamicInputs]="{ workPackage: workPackage, group: group }">
       </ndc-dynamic>
     </ng-container>
   </div>
