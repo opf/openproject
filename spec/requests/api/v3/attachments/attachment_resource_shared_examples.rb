@@ -29,30 +29,37 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Attachment resource', type: :request, content_type: :json do
+shared_examples 'an APIv3 attachment resource', type: :request, content_type: :json do |include_by_container = true|
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
   include FileHelpers
 
-  let(:current_user) do
+  let(:current_user) { user_with_permissions }
+
+  let(:user_with_permissions) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
+
   let(:author) do
     current_user
   end
+
   let(:project) { FactoryBot.create(:project, is_public: false) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) do
-    %i[view_work_packages view_wiki_pages delete_wiki_pages_attachments
-       edit_work_packages edit_wiki_pages edit_messages]
-  end
-  let(:work_package) { FactoryBot.create(:work_package, author: current_user, project: project) }
+
   let(:attachment) { FactoryBot.create(:attachment, container: container, author: author) }
-  let(:wiki) { FactoryBot.create(:wiki, project: project) }
-  let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki) }
-  let(:forum) { FactoryBot.create(:forum, project: project) }
-  let(:forum_message) { FactoryBot.create(:message, forum: forum) }
-  let(:container) { work_package }
+  let(:container) { send attachment_type }
+
+  let(:attachment_type) { raise "attachment type goes here, e.g. work_package" }
+  let(:permissions) { all_permissions }
+
+  let(:all_permissions) { Array([create_permission, read_permission, update_permission]).flatten.compact }
+
+  let(:create_permission) { raise "permissions go here, e.g. add_work_packages" }
+  let(:read_permission) { raise "permissions go here, e.g. view_work_packages" }
+  let(:update_permission) { raise "permissions go here, e.g. edit_work_packages" }
+
+  let(:missing_permissions_user) { user_with_permissions }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -62,43 +69,36 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
     subject(:response) { last_response }
     let(:get_path) { api_v3_paths.attachment attachment.id }
 
-    %i[wiki_page work_package forum_message].each do |attachment_type|
-      context "with a #{attachment_type} attachment" do
-        let(:container) { send(attachment_type) }
+    let(:container) { send(attachment_type) }
 
-        context 'logged in user' do
-          before do
-            get get_path
-          end
+    context 'logged in user' do
+      before do
+        get get_path
+      end
 
-          it 'should respond with 200' do
-            expect(subject.status).to eq(200)
-          end
+      it 'should respond with 200' do
+        expect(subject.status).to eq(200)
+      end
 
-          it 'should respond with correct attachment' do
-            expect(subject.body).to be_json_eql(attachment.filename.to_json).at_path('fileName')
-          end
+      it 'should respond with correct attachment' do
+        expect(subject.body).to be_json_eql(attachment.filename.to_json).at_path('fileName')
+      end
 
-          context 'requesting nonexistent attachment' do
-            let(:get_path) { api_v3_paths.attachment 9999 }
+      context 'requesting nonexistent attachment' do
+        let(:get_path) { api_v3_paths.attachment 9999 }
 
-            it_behaves_like 'not found' do
-              let(:id) { 9999 }
-              let(:type) { 'Attachment' }
-            end
-          end
+        it_behaves_like 'not found' do
+          let(:id) { 9999 }
+          let(:type) { 'Attachment' }
+        end
+      end
 
-          context 'requesting attachments without sufficient permissions' do
-            if attachment_type == :forum_message
-              let(:current_user) { FactoryBot.create(:user) }
-            else
-              let(:permissions) { [] }
-            end
+      context 'requesting attachments without sufficient permissions' do
+        let(:current_user) { missing_permissions_user }
+        let(:permissions) { all_permissions - Array(read_permission) }
 
-            it_behaves_like 'not found' do
-              let(:type) { 'Attachment' }
-            end
-          end
+        it_behaves_like 'not found' do
+          let(:type) { 'Attachment' }
         end
       end
     end
@@ -208,29 +208,23 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
       end
     end
 
-    %i[wiki_page work_package forum_message].each do |attachment_type|
-      context "with a #{attachment_type} attachment" do
-        let(:container) { send(attachment_type) }
+    context 'with required permissions' do
+      it_behaves_like 'deletes the attachment'
 
-        context 'with required permissions' do
-          it_behaves_like 'deletes the attachment'
+      context 'for a non-existent attachment' do
+        let(:path) { api_v3_paths.attachment 1337 }
 
-          context 'for a non-existent attachment' do
-            let(:path) { api_v3_paths.attachment 1337 }
-
-            it_behaves_like 'not found' do
-              let(:id) { 1337 }
-              let(:type) { 'Attachment' }
-            end
-          end
-        end
-
-        context 'without required permissions' do
-          let(:permissions) { %i[view_work_packages view_wiki_pages] }
-
-          it_behaves_like 'does not delete the attachment'
+        it_behaves_like 'not found' do
+          let(:id) { 1337 }
+          let(:type) { 'Attachment' }
         end
       end
+    end
+
+    context 'without required permissions' do
+      let(:permissions) { all_permissions - Array(update_permission) }
+
+      it_behaves_like 'does not delete the attachment'
     end
 
     context "with an uncontainered attachment" do
@@ -305,6 +299,101 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
           expect(subject.headers['Location'])
             .to eql external_url
         end
+      end
+    end
+  end
+
+  context 'by container', if: include_by_container do
+    subject(:response) { last_response }
+
+    describe '#get' do
+      let(:get_path) { api_v3_paths.send "attachments_by_#{attachment_type}", container.id }
+
+      before do
+        FactoryBot.create_list(:attachment, 2, container: container)
+        get get_path
+      end
+
+      it 'should respond with 200' do
+        expect(subject.status).to eq(200)
+      end
+
+      it_behaves_like 'API V3 collection response', 2, 2, 'Attachment'
+    end
+
+    describe '#post' do
+      let(:request_path) { api_v3_paths.send "attachments_by_#{attachment_type}", container.id }
+      let(:request_parts) { { metadata: metadata, file: file } }
+      let(:metadata) { { fileName: 'cat.png' }.to_json }
+      let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
+      let(:max_file_size) { 1 } # given in kiB
+
+      before do
+        allow(Setting).to receive(:attachment_max_size).and_return max_file_size.to_s
+        post request_path, request_parts
+      end
+
+      it 'should respond with HTTP Created' do
+        expect(subject.status).to eq(201)
+      end
+
+      it 'should return the new attachment' do
+        expect(subject.body).to be_json_eql('Attachment'.to_json).at_path('_type')
+      end
+
+      it 'ignores the original file name' do
+        expect(subject.body).to be_json_eql('cat.png'.to_json).at_path('fileName')
+      end
+
+      context 'metadata section is missing' do
+        let(:request_parts) { { file: file } }
+
+        it_behaves_like 'invalid request body', I18n.t('api_v3.errors.multipart_body_error')
+      end
+
+      context 'file section is missing' do
+        # rack-test won't send a multipart request without a file being present
+        # however as long as we depend on correctly named sections this test should do just fine
+        let(:request_parts) { { metadata: metadata, wrongFileSection: file } }
+
+        it_behaves_like 'invalid request body', I18n.t('api_v3.errors.multipart_body_error')
+      end
+
+      context 'metadata section is no valid JSON' do
+        let(:metadata) { '"fileName": "cat.png"' }
+
+        it_behaves_like 'parse error'
+      end
+
+      context 'metadata is missing the fileName' do
+        let(:metadata) { Hash.new.to_json }
+
+        it_behaves_like 'constraint violation' do
+          let(:message) { "fileName #{I18n.t('activerecord.errors.messages.blank')}" }
+        end
+      end
+
+      context 'file is too large' do
+        let(:file) { mock_uploaded_file(content: 'a' * 2.kilobytes) }
+        let(:expanded_localization) do
+          I18n.t('activerecord.errors.messages.file_too_large', count: max_file_size.kilobytes)
+        end
+
+        it_behaves_like 'constraint violation' do
+          let(:message) { "File #{expanded_localization}" }
+        end
+      end
+
+      context 'only allowed to add, but not to edit' do
+        let(:permissions) { all_permissions - Array(update_permission) }
+
+        it_behaves_like 'unauthorized access'
+      end
+
+      context 'only allowed to view' do
+        let(:permissions) { Array(read_permission) }
+
+        it_behaves_like 'unauthorized access'
       end
     end
   end
