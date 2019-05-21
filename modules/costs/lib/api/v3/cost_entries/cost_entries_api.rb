@@ -35,7 +35,7 @@ module API
       class CostEntriesAPI < ::API::OpenProjectAPI
         resources :cost_entries do
           route_param :id, type: Integer, desc: 'Cost entry ID' do
-            before do
+            after_validation do
               @cost_entry = CostEntry.find(params[:id])
 
               authorize(:view_cost_entries, context: @cost_entry.project) do

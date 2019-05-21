@@ -33,7 +33,7 @@ module API
       class BudgetsAPI < ::API::OpenProjectAPI
         resources :budgets do
           route_param :id, type: Integer, desc: 'Budget ID' do
-            before do
+            after_validation do
               @budget = CostObject.find(params[:id])
 
               authorize_any([:view_work_packages, :view_budgets], projects: @budget.project)

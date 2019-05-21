@@ -73,7 +73,7 @@ module API
             # Hack to be able to use the Default* mount while having the permission check
             # not affecting the GET request
             namespace do
-              before do
+              after_validation do
                 unless ::Grids::UpdateContract.new(@grid, current_user).edit_allowed?
                   raise ActiveRecord::RecordNotFound
                 end

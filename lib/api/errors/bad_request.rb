@@ -31,9 +31,10 @@ module API
   module Errors
     class BadRequest < ErrorBase
       identifier 'urn:openproject-org:api:v3:errors:BadRequest'
+      code 400
 
-      def initialize(e)
-        super 400, I18n.t('api_v3.errors.code_400', message: e.message)
+      def initialize(message)
+        super I18n.t('api_v3.errors.code_400', message: message)
       end
     end
   end

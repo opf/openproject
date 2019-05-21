@@ -30,7 +30,8 @@
 module API
   module Errors
     class ErrorBase < Grape::Exceptions::Base
-      attr_reader :code, :message, :details, :errors, :property
+      attr_reader :message, :details, :errors, :property
+      delegate :code, to: :class
 
       class << self
         ##
@@ -70,6 +71,15 @@ module API
           @identifier
         end
 
+        ##
+        # Allows defining this error class's http code
+        # Used to read it otherwise.
+        def code(status = nil)
+          @code = status if status
+
+          @code
+        end
+
         private
 
         def convert_ar_to_api_errors(errors)
@@ -90,8 +100,7 @@ module API
         end
       end
 
-      def initialize(code, message)
-        @code = code
+      def initialize(message)
         @message = message
         @errors = []
       end

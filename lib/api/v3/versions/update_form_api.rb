@@ -31,7 +31,7 @@ module API
     module Versions
       class UpdateFormAPI < ::API::OpenProjectAPI
         resource :form do
-          before do
+          after_validation do
             authorize :manage_versions, global: true
           end
 
