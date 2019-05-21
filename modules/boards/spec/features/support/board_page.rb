@@ -146,18 +146,25 @@ module Pages
       end
 
       count = list_count
-      page.find('.boards-list--add-item').click
 
       if value.nil?
+        page.find('.boards-list--add-item').click
         expect(page).to have_selector('.board-list--container', count: count + 1)
       else
-        select value, from: 'new_board_action_select'
+        open_and_fill_add_list_modal value
+        page.find('.ng-option-label', text: name).click
         click_on 'Continue'
       end
 
       unless name.nil?
         rename_list 'Unnamed list', name
       end
+    end
+
+    def add_list_with_new_value(name)
+      open_and_fill_add_list_modal name
+
+      page.find('.ng-option', text: 'Create new: ' + name).click
     end
 
     def save
@@ -200,11 +207,12 @@ module Pages
     end
 
     def expect_list_option(name, present: true)
-      page.find('.boards-list--add-item').click
+      open_and_fill_add_list_modal name
+
       if present
-        expect(page).to have_select('new_board_action_select', options: [name])
+        expect(page).to have_selector('.ng-option-label', text: name)
       else
-        expect(page).not_to have_select('new_board_action_select', options: [name])
+        expect(page).not_to have_selector('.ng-option-label', text: name)
       end
       click_on 'Cancel'
     end
@@ -296,6 +304,13 @@ module Pages
       end
 
       click_button 'Apply'
+    end
+
+    def open_and_fill_add_list_modal(name)
+      page.find('.boards-list--add-item').click
+      page.find('.op-modal--modal-container .new-list--action-select').click
+
+      page.find('.op-modal--modal-container .new-list--action-select input').set(name)
     end
   end
 end

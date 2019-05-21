@@ -36,18 +36,28 @@ describe 'Version action board', type: :feature, js: true do
                       member_in_projects: [project, second_project],
                       member_through_role: role)
   end
+
+  let(:second_user) do
+    FactoryBot.create(:user,
+                      member_in_projects: [project, second_project],
+                      member_through_role: role_board_manager)
+  end
   let(:type) { FactoryBot.create(:type_standard) }
   let!(:priority) { FactoryBot.create :default_priority }
   let!(:status) { FactoryBot.create :default_status }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role_board_manager) { FactoryBot.create(:role, permissions: permissions_board_manager) }
 
   let(:project) { FactoryBot.create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
   let(:second_project) { FactoryBot.create(:project) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:permissions) {
-    %i[show_board_views manage_board_views add_work_packages
+    %i[show_board_views manage_board_views add_work_packages manage_versions
        edit_work_packages view_work_packages manage_public_queries]
+  }
+  let(:permissions_board_manager) {
+    %i[show_board_views manage_board_views view_work_packages manage_public_queries]
   }
 
   let!(:open_version) { FactoryBot.create :version, project: project, name: 'Open version' }
@@ -59,28 +69,36 @@ describe 'Version action board', type: :feature, js: true do
   let!(:work_package) { FactoryBot.create :work_package, project: project, subject: 'Foo', fixed_version: open_version }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
+  def create_new_version_board
+    board_index.visit!
+
+    # Create new board
+    board_page = board_index.create_board action: :Version
+
+    # expect lists of open versions
+    board_page.expect_list 'Open version'
+    board_page.expect_list 'A second version'
+    board_page.expect_no_list 'Shared version'
+    board_page.expect_no_list 'Closed version'
+    board_page.expect_no_list 'Version of another project'
+
+    board_page
+  end
+
   before do
     with_enterprise_token :board_view
     project
-    login_as(user)
   end
 
   context 'with full boards permissions' do
+    before do
+      login_as(user)
+    end
+
     it 'allows management of boards' do
-      board_index.visit!
-
-      # Create new board
-      board_page = board_index.create_board action: :Version
-
-      # expect lists of open versions
-      board_page.expect_list 'Open version'
-      board_page.expect_list 'A second version'
-      board_page.expect_no_list 'Shared version'
-      board_page.expect_no_list 'Closed version'
-      board_page.expect_no_list 'Version of another project'
+      board_page = create_new_version_board
 
       board_page.expect_card 'Open version', work_package.subject, present: true
-
 
       board_page.expect_list_option 'Shared version'
       board_page.expect_list_option 'Closed version', present: false
@@ -184,6 +202,31 @@ describe 'Version action board', type: :feature, js: true do
 
       subjects = WorkPackage.where(id: second.ordered_work_packages).pluck(:subject, :fixed_version_id)
       expect(subjects).to match_array [['Task 1', other_version.id]]
+    end
+
+    it 'allows adding new versions from within the board' do
+      board_page = create_new_version_board
+
+      # Add new version (and list)
+      board_page.add_list_with_new_value 'Completely new version'
+      board_page.expect_list 'Completely new version'
+
+      visit settings_project_path(project, tab: 'versions')
+      expect(page).to have_content 'Completely new version'
+    end
+  end
+
+  context 'with limited permissions' do
+    before do
+      login_as(second_user)
+    end
+
+    it 'does not allow to create new versions from within the board' do
+      board_page = create_new_version_board
+
+      board_page.open_and_fill_add_list_modal 'Completely new version'
+
+      expect(page).not_to have_selector('.ng-option', text: 'Completely new version')
     end
   end
 end

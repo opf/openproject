@@ -17,11 +17,11 @@
         <div class="form--field">
           <div class="form--field-container">
             <div class="form--select-container -slim">
-              <label class="form--label" for="new_board_action_select" [textContent]="actionService.localizedName"></label>
+              <label class="form--label" for="new_list_action_select" [textContent]="actionService.localizedName"></label>
               <ng-select *ngIf="createAllowed"
                          #actionAttributeSelect
-                         name="new_board_action_select"
-                         class="new-board--action-select"
+                         name="new_list_action_select"
+                         class="new-list--action-select"
                          [items]="availableValues"
                          [addTag]="createNewElement.bind(this)"
                          (change)="onModelChange($event)"
@@ -34,8 +34,8 @@
 
               <ng-select *ngIf="!createAllowed"
                          #actionAttributeSelect
-                         name="new_board_action_select"
-                         class="new-board--action-select"
+                         name="new_list_action_select"
+                         class="new-list--action-select"
                          [items]="availableValues"
                          (change)="onModelChange($event)"
                          bindLabel="name"
