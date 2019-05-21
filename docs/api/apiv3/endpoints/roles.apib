@@ -44,6 +44,32 @@ Fetch an individual role.
 
     [Role][]
 
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions to see roles.
+
+    **Required permission:** view members **or** manage members
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to view this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the role does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
 ## Roles [/api/v3/roles]
 
 + Model

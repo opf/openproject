@@ -42,11 +42,13 @@ module API
           end
 
           route_param :id, type: Integer, desc: 'Role ID' do
-            get do
-              role = Role.find(params[:id])
+            before do
+              authorize_any(%i[view_members manage_members], global: true)
 
-              RoleRepresenter.new(role, current_user: current_user)
+              @role = Role.find(params[:id])
             end
+
+            get &::API::V3::Utilities::Endpoints::Show.new(model: Role).mount
           end
         end
       end

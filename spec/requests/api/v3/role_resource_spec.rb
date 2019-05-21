@@ -29,21 +29,24 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Role resource' do
+describe 'API v3 roles resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryBot.create(:user) }
-  let(:role) { FactoryBot.create(:role) }
-
-  before do
-    # Avoid having a builtin role left over from another spec
-    Role.delete_all
-
-    allow(User).to receive(:current).and_return current_user
+  let(:current_user) do
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_with_permissions: permissions)
   end
+  let(:role) do
+    FactoryBot.create(:role)
+  end
+  let(:permissions) { %i[view_members manage_members] }
+  let(:project) { FactoryBot.create(:project) }
 
-  describe '#get /roles' do
+  subject(:response) { last_response }
+
+  describe 'GET api/v3/roles' do
     let(:get_path) { api_v3_paths.roles }
     let(:response) { last_response }
 
@@ -61,31 +64,50 @@ describe 'API v3 Role resource' do
     it_behaves_like 'API V3 collection response', 1, 1, 'Role'
   end
 
-  describe '#get /roles/:id' do
-    let(:get_path) { api_v3_paths.role(role.id) }
-    let(:response) { last_response }
+  describe 'GET /api/v3/roles/:id' do
+    let(:path) { api_v3_paths.role(role.id) }
+
+    let(:roles) { [role] }
 
     before do
-      role
+      roles
 
-      get get_path
+      login_as(current_user)
+
+      get path
     end
 
-    it 'succeeds' do
-      expect(last_response.status)
+    it 'returns 200 OK' do
+      expect(subject.status)
         .to eql(200)
     end
 
-    it 'returns the role' do
-      expect(last_response.body)
-        .to be_json_eql(get_path.to_json)
-        .at_path('_links/self/href')
+    it 'returns the member' do
+      expect(subject.body)
+        .to be_json_eql('Role'.to_json)
+        .at_path('_type')
+
+      expect(subject.body)
+        .to be_json_eql(role.id.to_json)
+        .at_path('id')
     end
 
-    context 'for non existing role id' do
-      let(:get_path) { api_v3_paths.role(0) }
+    context 'if querying an non existent' do
+      let(:path) { api_v3_paths.role(0) }
 
-      it_behaves_like 'not found'
+      it 'returns 404 NOT FOUND' do
+        expect(subject.status)
+          .to eql(404)
+      end
+    end
+
+    context 'without the necessary permissions' do
+      let(:permissions) { [] }
+
+      it 'returns 403' do
+        expect(subject.status)
+          .to eql(403)
+      end
     end
   end
 end
