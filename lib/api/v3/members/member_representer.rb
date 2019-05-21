@@ -60,7 +60,12 @@ module API
 
         property :id
 
-        #associated_resource :project
+        associated_resource :project
+
+        associated_resource :principal,
+                            getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:principal),
+                            setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:principal),
+                            link: ::API::V3::Principals::AssociatedSubclassLambda.link(:principal, getter: 'user_id')
 
         #date_time_property :created_on,
         #                   as: 'createdAt'

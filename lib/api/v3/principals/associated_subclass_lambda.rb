@@ -34,7 +34,7 @@ module API
       module AssociatedSubclassLambda
         include ::API::Decorators::LinkedResource
 
-        def self.link(name)
+        def self.link(name, getter: "#{name}_id")
           ->(*) {
             instance = represented.send(name)
 
@@ -51,7 +51,11 @@ module API
                         raise "undefined subclass for #{instance}"
                       end
 
-            instance_exec(&self.class.associated_resource_default_link(name, v3_path, -> { false }, :name))
+            instance_exec(&self.class.associated_resource_default_link(name,
+                                                                       v3_path: v3_path,
+                                                                       skip_link: -> { false },
+                                                                       title_attribute: :name,
+                                                                       getter: getter))
           }
         end
 

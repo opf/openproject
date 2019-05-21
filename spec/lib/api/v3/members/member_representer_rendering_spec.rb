@@ -34,14 +34,16 @@ describe ::API::V3::Members::MemberRepresenter, 'rendering' do
   let(:member) do
     FactoryBot.build_stubbed(:member,
                              roles: roles,
-                             user: user,
+                             principal: principal,
                              project: project)
   end
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:roles) { [role1, role2] }
   let(:role1) { FactoryBot.build_stubbed(:role) }
   let(:role2) { FactoryBot.build_stubbed(:role) }
+  let(:principal) { user }
   let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:group) { FactoryBot.build_stubbed(:group) }
   let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:permissions) do
     [:manage_members]
@@ -60,10 +62,40 @@ describe ::API::V3::Members::MemberRepresenter, 'rendering' do
   end
 
   describe '_links' do
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'self' }
-      let(:href) { api_v3_paths.member member.id }
-      let(:title) { user.name }
+    describe 'self' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'self' }
+        let(:href) { api_v3_paths.member member.id }
+        let(:title) { user.name }
+      end
+    end
+
+    describe 'project' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'project' }
+        let(:href) { api_v3_paths.project(project.id) }
+        let(:title) { project.name }
+      end
+    end
+
+    describe 'principal' do
+      context 'for a user principal' do
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'principal' }
+          let(:href) { api_v3_paths.user(user.id) }
+          let(:title) { user.name }
+        end
+      end
+
+      context 'for a group principal' do
+        let(:principal) { group }
+
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'principal' }
+          let(:href) { api_v3_paths.group(group.id) }
+          let(:title) { group.name }
+        end
+      end
     end
   end
 
@@ -74,6 +106,52 @@ describe ::API::V3::Members::MemberRepresenter, 'rendering' do
 
     it_behaves_like 'property', :id do
       let(:value) { member.id }
+    end
+  end
+
+  describe '_embedded' do
+    describe 'project' do
+      let(:embedded_path) { '_embedded/project' }
+
+      it 'has the project embedded' do
+        is_expected
+          .to be_json_eql('Project'.to_json)
+          .at_path("#{embedded_path}/_type")
+
+        is_expected
+          .to be_json_eql(project.name.to_json)
+          .at_path("#{embedded_path}/name")
+      end
+    end
+
+    describe 'principal' do
+      let(:embedded_path) { '_embedded/principal' }
+
+      context 'for a user principal' do
+        it 'has the user embedded' do
+          is_expected
+            .to be_json_eql('User'.to_json)
+            .at_path("#{embedded_path}/_type")
+
+          is_expected
+            .to be_json_eql(user.name.to_json)
+            .at_path("#{embedded_path}/name")
+        end
+      end
+
+      context 'for a group principal' do
+        let(:principal) { group }
+
+        it 'has the group embedded' do
+          is_expected
+            .to be_json_eql('Group'.to_json)
+            .at_path("#{embedded_path}/_type")
+
+          is_expected
+            .to be_json_eql(group.name.to_json)
+            .at_path("#{embedded_path}/name")
+        end
+      end
     end
   end
 end

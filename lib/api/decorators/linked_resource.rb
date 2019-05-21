@@ -124,7 +124,10 @@ module API
                                 uncacheable_link: false,
                                 getter: associated_resource_default_getter(name, representer),
                                 setter: associated_resource_default_setter(name, as, v3_path),
-                                link: associated_resource_default_link(name, v3_path, skip_link, link_title_attribute))
+                                link: associated_resource_default_link(name,
+                                                                       v3_path: v3_path,
+                                                                       skip_link: skip_link,
+                                                                       title_attribute: link_title_attribute))
 
           resource((as || name),
                    getter: getter,
@@ -164,7 +167,11 @@ module API
           end
         end
 
-        def associated_resource_default_link(name, v3_path, skip_link, link_title_attribute)
+        def associated_resource_default_link(name,
+                                             v3_path:,
+                                             skip_link:,
+                                             title_attribute:,
+                                             getter: :"#{name}_id")
           ->(*) do
             next if instance_exec(&skip_link)
 
@@ -172,7 +179,8 @@ module API
               .new(represented,
                    path: v3_path,
                    property_name: name,
-                   title_attribute: link_title_attribute)
+                   title_attribute: title_attribute,
+                   getter: getter)
               .to_hash
           end
         end
