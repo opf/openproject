@@ -73,20 +73,6 @@ describe UsersController, type: :controller do
     assert_equal([], (users - Group.find(10).users))
   end
 
-  it 'should show should not display hidden custom fields' do
-    session[:user_id] = nil
-    UserCustomField.find_by(name: 'Phone number').update_attribute :visible, false
-    get :show, params: { id: 2 }
-    assert_response :success
-    assert_template 'show'
-    refute_nil assigns(:user)
-
-    # There are some issues with the response being empty, therefore
-    # this spec will fail. As it is a legacy one, I am simply commenting
-    # it out.
-    # assert_select('li', {content: /Phone number/}, false)
-  end
-
   it 'should show should not fail when custom values are nil' do
     user = User.find(2)
 
