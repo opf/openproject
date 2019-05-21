@@ -278,6 +278,23 @@ describe 'new work package', js: true do
     it_behaves_like 'work package creation workflow' do
       let(:create_method) { method(:create_work_package_globally) }
     end
+
+    it 'can stop and re-create with correct selection (Regression #30216)' do
+      create_work_package_globally(type_bug, project.name)
+
+      click_on 'Cancel'
+
+      wp_page.click_add_wp_button
+      expect(page).to have_no_selector('.ng-value', text: project.name)
+
+      project_field.openSelectField
+      project_field.set_value project.name
+
+      type_field.openSelectField
+      type_field.set_value type_bug
+
+      click_on 'Cancel'
+    end
   end
 
   context 'as a user with no permissions' do
