@@ -507,7 +507,7 @@ class Project < ActiveRecord::Base
   def notified_users
     # TODO: User part should be extracted to User#notify_about?
     notified_members = members.select do |member|
-      setting = member.user.mail_notification
+      setting = member.principal.mail_notification
 
       (setting == 'selected' && member.mail_notification?) || setting == 'all'
     end

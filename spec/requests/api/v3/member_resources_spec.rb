@@ -150,7 +150,7 @@ describe 'API v3 members resource', type: :request do
       let(:filters) do
         [{ 'any_name_attribute' => {
           'operator' => '~',
-          'values' => [other_member.user.login]
+          'values' => [other_member.principal.login]
         } }]
       end
 

@@ -28,7 +28,7 @@ module Members
       if user
         link = mail_to(user.mail)
 
-        if member.user && member.user.invited?
+        if member.principal&.invited?
           i = content_tag "i", "", title: t("text_user_invited"), class: "icon icon-mail1"
 
           link + i

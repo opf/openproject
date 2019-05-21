@@ -143,7 +143,7 @@ module OpenProject::Costs
             number_to_currency(rate),
             controller: "/hourly_rates",
             action: rate_action,
-            id: member.user,
+            id: member.principal,
             project_id: project
           )
         end
@@ -162,7 +162,7 @@ module OpenProject::Costs
       end
 
       def rate
-        member.user.current_rate(project).try(:rate) || 0.0
+        member.principal.current_rate(project).try(:rate) || 0.0
       end
 
       def rate_action
@@ -178,7 +178,7 @@ module OpenProject::Costs
       end
 
       def showing_user?
-        member.user.present?
+        member.principal.present?
       end
 
       def costs_enabled?
@@ -186,11 +186,11 @@ module OpenProject::Costs
       end
 
       def allow_view?
-        table.current_user.allowed_to? :view_hourly_rates, project, for: member.user
+        table.current_user.allowed_to? :view_hourly_rates, project
       end
 
       def allow_edit?
-        table.current_user.allowed_to? :edit_hourly_rates, project, for: member.user
+        table.current_user.allowed_to? :edit_hourly_rates, project
       end
     end
   end
