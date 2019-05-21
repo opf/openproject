@@ -38,4 +38,10 @@ export interface BoardActionService {
    * @returns {any[]}
    */
   getAdditionalListMenuItems(actionAttributeValue:HalResource):Promise<any>;
+
+  /*
+   * Creates a new action entry (e.g. a new version) to be selectable as a list
+   * @returns {any}
+   */
+  createNewAction(name:string):Promise<HalResource|void>;
 }

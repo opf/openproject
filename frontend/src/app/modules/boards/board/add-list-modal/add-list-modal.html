@@ -18,15 +18,19 @@
           <div class="form--field-container">
             <div class="form--select-container -slim">
               <label class="form--label" for="new_board_action_select" [textContent]="actionService.localizedName"></label>
-              <select #actionAttributeSelect
-                      [(ngModel)]="selectedAttribute"
-                      name="new_board_action_select"
-                      class="new-board--action-select">
-                <option *ngFor="let item of availableValues; trackBy:trackByHref"
-                        [ngValue]="item"
-                        [textContent]="item.name">
-                </option>
-              </select>
+              <ng-select #actionAttributeSelect
+                         [(ngModel)]="selectedAttribute"
+                         name="new_board_action_select"
+                         class="new-board--action-select"
+                         [items]="availableValues"
+                         [addTag]="createNewElement.bind(this)"
+                         [clearSearchOnAdd]="true"
+                         bindLabel="name"
+                         appendTo="body">
+                <ng-template ng-tag-tmp let-search="searchTerm">
+                  <b [textContent]="text.add_new_action"></b>: {{search}}
+                </ng-template>
+              </ng-select>
             </div>
           </div>
         </div>

@@ -91,6 +91,14 @@ GIT
       thor (~> 0.19)
 
 PATH
+  remote: /Users/hdinger/code/saas-openproject/vendor/plugins/openproject-subscriptions
+  specs:
+    openproject-subscriptions (8.1.0)
+      chargebee (~> 2.5, >= 2.5.9)
+      countries (~> 2.1, >= 2.1.4)
+      rails (~> 5.0)
+
+PATH
   remote: modules/auth_plugins
   specs:
     openproject-auth_plugins (1.0.0)
@@ -373,6 +381,9 @@ GEM
     cells-rails (0.0.9)
       actionpack (>= 3.0)
       cells (>= 4.1.6, < 5.0.0)
+    chargebee (2.6.5)
+      json_pure (~> 2.1)
+      rest-client (>= 1.8, < 3.0)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
     chromedriver-helper (2.1.0)
@@ -384,6 +395,11 @@ GEM
     commonmarker (0.17.9)
       ruby-enum (~> 0.5)
     concurrent-ruby (1.1.5)
+    countries (2.1.4)
+      i18n_data (~> 0.8.0)
+      money (~> 6.9)
+      sixarm_ruby_unaccent (~> 1.1)
+      unicode_utils (~> 1.4)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.4)
@@ -510,6 +526,7 @@ GEM
       concurrent-ruby (~> 1.0)
     i18n-js (3.2.1)
       i18n (>= 0.6.6)
+    i18n_data (0.8.0)
     icalendar (2.5.3)
       ice_cube (~> 0.16)
     ice_cube (0.16.3)
@@ -527,6 +544,7 @@ GEM
       activesupport (>= 4.2)
       aes_key_wrap
       bindata
+    json_pure (2.2.0)
     json_spec (1.1.5)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
@@ -572,6 +590,8 @@ GEM
     minisyntax (0.2.5)
     minitest (5.11.3)
     mixlib-shellout (2.1.0)
+    money (6.13.3)
+      i18n (>= 0.6.4, <= 2)
     msgpack (1.2.6)
     multi_json (1.13.1)
     multi_test (0.1.2)
@@ -809,6 +829,7 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
+    sixarm_ruby_unaccent (1.2.0)
     spreadsheet (0.8.9)
       ruby-ole (>= 1.0)
     spring (2.0.2)
@@ -855,6 +876,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.5)
     unicode-display_width (1.4.1)
+    unicode_utils (1.4.0)
     unicorn (5.4.1)
       kgio (~> 2.6)
       raindrops (~> 0.7)
@@ -981,6 +1003,7 @@ DEPENDENCIES
   openproject-openid_connect!
   openproject-pdf_export!
   openproject-reporting!
+  openproject-subscriptions!
   openproject-token (~> 1.0.1)
   openproject-translations!
   openproject-two_factor_authentication!

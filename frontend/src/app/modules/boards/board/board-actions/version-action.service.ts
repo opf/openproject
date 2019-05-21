@@ -88,6 +88,21 @@ export class BoardVersionActionService implements BoardActionService {
       );
   }
 
+  public createNewAction(name:string):Promise<HalResource|void> {
+    if (this.currentProject.id !== null) {
+      var payload:any = {};
+      payload['name'] = name;
+      payload['_links'] = {
+        definingProject: {
+          href: this.pathHelper.api.v3.projects.id(this.currentProject.id).path
+        }
+      };
+      return this.versionDm.createVersion(payload);
+    } else {
+      return Promise.reject('No project given');
+    }
+  }
+
   private getVersions():Promise<VersionResource[]> {
     if (this.currentProject.id === null) {
       return Promise.resolve([]);

@@ -32,6 +32,9 @@ import {
 } from 'core-app/modules/common/path-helper/apiv3/path-resources';
 
 export class Apiv3VersionPaths extends SimpleResourceCollection {
+  // Base path
+  public readonly path:string;
+
   constructor(basePath:string) {
     super(basePath, 'versions');
   }

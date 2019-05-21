@@ -38,6 +38,12 @@ export class VersionDmService {
               protected pathHelper:PathHelperService) {
   }
 
+  public createVersion(payload:any):Promise<VersionResource> {
+    return this.halResourceService
+      .post<VersionResource>(this.pathHelper.api.v3.versions.path, payload)
+      .toPromise();
+  }
+
   public one(id:number):Promise<VersionResource> {
     return this.halResourceService
       .get<VersionResource>(this.pathHelper.api.v3.versions.id(id).toString())
@@ -55,6 +61,4 @@ export class VersionDmService {
       .get<CollectionResource<VersionResource>>(this.pathHelper.api.v3.projects.id(projectId).versions.toString())
       .toPromise();
   }
-
-
 }

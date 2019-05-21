@@ -82,6 +82,8 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     action_board_text: this.I18n.t('js.boards.board_type.action_text'),
     select_attribute: this.I18n.t('js.boards.board_type.select_attribute'),
     placeholder: this.I18n.t('js.placeholders.selection'),
+
+    add_new_action: this.I18n.t('js.boards.add.create_new'),
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -120,6 +122,15 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
         this.boardCache.update(board);
         this.state.go('boards.show', { board_id: board.id, isNew: true });
       });
+  }
+
+  createNewElement(name:string) {
+    this.actionService.createNewAction(name).then((newElement) => {
+      if (newElement) {
+        this.selectedAttribute = newElement;
+        this.create();
+      }
+    });
   }
 }
 
