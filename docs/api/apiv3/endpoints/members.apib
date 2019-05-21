@@ -22,12 +22,40 @@ Users and groups can become members of a project. Such a membership will also ha
     + Body
 
             {
-                "_links": {
-                    "self": { "href": "/api/v3/members/11" }
+                "_links":
+                    "self": {
+                        "href": "/api/v3/members/11",
+                        "title": "Some user"
+                    },
+                    "project": {
+                        "href": "/api/v3/projects/3",
+                        "title": "A project"
+                    },
+                    "principal": {
+                        "href": "/api/v3/users/4",
+                        "title": "Some user"
+                    },
+                    "roles": [
+                        {
+                            "href": "/api/v3/roles/5",
+                            "title": "Member"
+                        },
+                        {
+                            "href": "/api/v3/roles/4",
+                            "title": "Reader"
+                        }
+                    ]
                 },
                 "_type": "Member",
                 "id": 11,
-                "createdAt": "2015-03-20T12:56:56Z"
+                "createdAt": "2015-03-20T12:56:56Z",
+                "_embedded": {
+                    "project": "<-- omitted for brevity -->",
+                    "principal": "<-- omitted for brevity -->",
+                    "roles": [
+                        "<-- omitted for brevity -->"
+                    ]
+                }
             }
 
 ## View member [GET]

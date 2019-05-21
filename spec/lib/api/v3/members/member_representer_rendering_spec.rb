@@ -35,7 +35,8 @@ describe ::API::V3::Members::MemberRepresenter, 'rendering' do
     FactoryBot.build_stubbed(:member,
                              roles: roles,
                              principal: principal,
-                             project: project)
+                             project: project,
+                             created_on: Time.current)
   end
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:roles) { [role1, role2] }
@@ -97,6 +98,24 @@ describe ::API::V3::Members::MemberRepresenter, 'rendering' do
         end
       end
     end
+
+    describe 'roles' do
+      it_behaves_like 'has a link collection' do
+        let(:link) { 'roles' }
+        let(:hrefs) do
+          [
+            {
+              href: api_v3_paths.role(role1.id),
+              title: role1.name
+            },
+            {
+              href: api_v3_paths.role(role2.id),
+              title: role2.name
+            }
+          ]
+        end
+      end
+    end
   end
 
   describe 'properties' do
@@ -106,6 +125,13 @@ describe ::API::V3::Members::MemberRepresenter, 'rendering' do
 
     it_behaves_like 'property', :id do
       let(:value) { member.id }
+    end
+
+    describe 'createdAt' do
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { member.created_on }
+        let(:json_path) { 'createdAt' }
+      end
     end
   end
 
@@ -151,6 +177,28 @@ describe ::API::V3::Members::MemberRepresenter, 'rendering' do
             .to be_json_eql(group.name.to_json)
             .at_path("#{embedded_path}/name")
         end
+      end
+    end
+
+    describe 'roles' do
+      let(:embedded_path) { '_embedded/roles' }
+
+      it 'has an array of roles embedded' do
+        is_expected
+          .to be_json_eql('Role'.to_json)
+          .at_path("#{embedded_path}/0/_type")
+
+        is_expected
+          .to be_json_eql(role1.name.to_json)
+          .at_path("#{embedded_path}/0/name")
+
+        is_expected
+          .to be_json_eql('Role'.to_json)
+          .at_path("#{embedded_path}/1/_type")
+
+        is_expected
+          .to be_json_eql(role2.name.to_json)
+          .at_path("#{embedded_path}/1/name")
       end
     end
   end

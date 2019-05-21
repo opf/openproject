@@ -33,30 +33,9 @@ module API
     module Members
       class MemberRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
-        #include API::Decorators::FormattableProperty
-        #include API::Decorators::DateProperty
+        include API::Decorators::DateProperty
 
         self_link title_getter: ->(*) { represented.principal.name }
-
-        #defaults render_nil: true
-
-        #link :updateImmediately do
-        #  next unless update_allowed?
-
-        #  {
-        #    href: api_v3_paths.time_entry(represented.id),
-        #    method: :patch
-        #  }
-        #end
-
-        #link :delete do
-        #  next unless update_allowed?
-
-        #  {
-        #    href: api_v3_paths.time_entry(represented.id),
-        #    method: :delete
-        #  }
-        #end
 
         property :id
 
@@ -67,20 +46,14 @@ module API
                             setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:principal),
                             link: ::API::V3::Principals::AssociatedSubclassLambda.link(:principal, getter: 'user_id')
 
-        #date_time_property :created_on,
-        #                   as: 'createdAt'
+        associated_resources :roles
+
+        date_time_property :created_on,
+                           as: 'createdAt'
+
         def _type
           'Member'
         end
-
-        #def update_allowed?
-        #  current_user_allowed_to(:edit_time_entries, context: represented.project) ||
-        #    represented.user_id == current_user.id && current_user_allowed_to(:edit_own_time_entries, context: represented.project)
-        #end
-
-        #def current_user_allowed_to(permission, context:)
-        #  current_user.allowed_to?(permission, context)
-        #end
       end
     end
   end

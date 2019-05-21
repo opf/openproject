@@ -188,13 +188,16 @@ module API
         def associated_resources(name,
                                  as: name,
                                  representer: nil,
-                                 v3_path: name,
+                                 v3_path: name.to_s.singularize.to_sym,
                                  skip_render: ->(*) { false },
                                  skip_link: skip_render,
                                  link_title_attribute: :name,
                                  getter: associated_resources_default_getter(name, representer),
                                  setter: associated_resources_default_setter(name, v3_path),
-                                 link: associated_resources_default_link(name, v3_path, skip_link, link_title_attribute))
+                                 link: associated_resources_default_link(name,
+                                                                         v3_path: v3_path,
+                                                                         skip_link: skip_link,
+                                                                         title_attribute: link_title_attribute))
 
           resources(as,
                     getter: getter,
@@ -225,16 +228,20 @@ module API
           end
         end
 
-        def associated_resources_default_link(name, v3_path, skip_link, link_title_attribute)
+        def associated_resources_default_link(name,
+                                              v3_path:,
+                                              skip_link:,
+                                              title_attribute:)
           ->(*) do
             next if instance_exec(&skip_link)
 
             represented.send(name).map do |associated|
               ::API::Decorators::LinkObject
-                .new(represented,
+                .new(associated,
+                     property_name: :itself,
                      path: v3_path,
-                     property_name: associated.name,
-                     title_attribute: link_title_attribute)
+                     getter: :id,
+                     title_attribute: title_attribute)
                 .to_hash
             end
           end
