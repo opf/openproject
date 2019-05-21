@@ -41,9 +41,9 @@
         <op-icon icon-classes="icon-small icon-add"></op-icon>
       </button>
 
-      <wp-card-view [dragAndDropEnabled]="dragAndDropEnabled"
+      <wp-card-view [dragAndDropEnabled]="canEdit"
                     [workPackageAddedHandler]="workPackageAddedHandler"
-                    [cardsRemovable]="board.isFree && canManage"
+                    [cardsRemovable]="board.isFree && canEdit"
                     [highlightingMode]="board.highlightingMode"
                     [showStatusButton]="showCardStatusButton()">
       </wp-card-view>

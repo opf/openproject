@@ -31,7 +31,7 @@
 require 'spec_helper'
 
 describe UpdateQueryService do
-  let(:query) { FactoryBot.create(:query) }
+  let(:query) { FactoryBot.create(:query, user: user) }
   let(:menu_item) do
     FactoryBot.create(:query_menu_item,
                        query: query)

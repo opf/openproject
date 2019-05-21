@@ -228,7 +228,7 @@ module Pages
       find('.board--back-button').click
     end
 
-    def expect_editable(editable)
+    def expect_editable_board(editable)
       # Editable / draggable check
       expect(page).to have_conditional_selector(editable, '.board--container.-editable')
 
@@ -237,7 +237,9 @@ module Pages
 
       # Add new list
       expect(page).to have_conditional_selector(editable, '.boards-list--add-item')
+    end
 
+    def expect_editable_list(editable)
       # Add new / existing card
       expect(page).to have_conditional_selector(editable, '.board-list--card-dropdown-button')
     end

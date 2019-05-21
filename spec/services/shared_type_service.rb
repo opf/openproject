@@ -127,7 +127,7 @@ shared_examples_for 'type service' do
         ['group1', query_params]
       end
       let(:params) { { attribute_groups: [query_group_params] } }
-      let(:query) { FactoryBot.create(:query) }
+      let(:query) { FactoryBot.create(:query, user_id: 0) }
       let(:service_result) { ServiceResult.new(success: true, result: query) }
 
       before do
