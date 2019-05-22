@@ -62,6 +62,7 @@ export interface GroupDescriptor {
   id:string;
   members:FieldDescriptor[];
   query?:QueryResource;
+  isolated:boolean;
   type:string;
 }
 
@@ -275,7 +276,8 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
           name: group.name,
           id: groupId || randomString(16),
           members: this.getFields(resource, group.attributes),
-          type: group._type
+          type: group._type,
+          isolated: false
         };
       } else {
         return {
@@ -284,7 +286,8 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
           query: group._embedded.query,
           relationType: group.relationType,
           members: [group._embedded.query],
-          type: group._type
+          type: group._type,
+          isolated: true
         };
       }
     });
