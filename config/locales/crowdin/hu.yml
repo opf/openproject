@@ -660,6 +660,9 @@ hu:
         member:
           principal_blank: Kérem, válasszon legalább egy felhasználót vagy csoportot.
           role_blank: kérem, válasszon legalább egy szerepkört.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Kérjük, ellenőrizze az alábbi mezőket:'
         header:
@@ -1064,11 +1067,11 @@ hu:
     a cookie-k használata engedélyezve van, mert anélkül ez az alkalmazás nem tud
     megfelelően működni.
   error_custom_option_not_found: A beállítás nem létezik.
-  error_dependent_work_package: 'Hiba a függő feladatcsoportban #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Fiókját nem lehet aktiválni (elérte a felhasználói
     korlátot). Kérjük, lépjen kapcsolatba rendszergazdájával a hozzáféréshez.
   error_failed_to_delete_entry: Nem sikerült törölni ezt a bejegyzést.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Kijelölt érték érvénytelen.
   error_invalid_group_by: 'Nem csoportosítható e szerint: %{value}'
   error_invalid_query_column: 'Érvénytelen lekérdezési oszlop: %{value}'
@@ -1454,6 +1457,7 @@ hu:
   label_max_size: Maximális mérete
   label_me: Nekem
   label_member_new: Új tag
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Tagok
   label_view_all_members: Az összes tag megtekintése
   label_menu_item_name: A menüpont neve
@@ -1919,7 +1923,6 @@ hu:
   notice_to_many_principals_to_display: Túl sok a találat. Szűkítse le a keresést  az
     új tagok (vagy csoport) nevének beírásával.
   notice_unable_delete_time_entry: Nem tudom törtölni az idő naplóbejegyzést.
-  notice_unable_delete_version: Nem lehet törölni a verziót.
   notice_user_missing_authentication_method: A felhasználónak még jelszót kell választani,
     vagy más módon kell bejelentkeznie.
   notice_user_invitation_resent: Meghívó elküldve a %{email} címre.
@@ -2813,6 +2816,7 @@ hu:
     attributes:
       lock_version: Lezárt változat
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Az erőforrás eléréséhez azonosítás szükséges.
       code_401_wrong_credentials: Nem megfelelő hitelesítési adatok kerültek megadásra.
       code_403: Ön nem jogosult az erőforrás eléréséhez.
@@ -2965,3 +2969,6 @@ hu:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  error_dependent_work_package: 'Hiba a függő feladatcsoportban #%{related_id} %{related_subject}:
+    %{error}'
+  notice_unable_delete_version: Nem lehet törölni a verziót.

@@ -670,6 +670,9 @@ ca:
         member:
           principal_blank: Trieu com a mínim un usuari o grup.
           role_blank: Seleccioneu almenys un rol.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Si us plau, revisi els camps següents:'
         header:
@@ -1073,11 +1076,11 @@ ca:
     les cookies estan habilitades, ja que aquesta aplicació no pot funcionar correctament
     sense.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1462,6 +1465,7 @@ ca:
   label_max_size: Mida màxima
   label_me: jo mateix
   label_member_new: Nou membre
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Membres
   label_view_all_members: Veure tots els membres
   label_menu_item_name: Nom de l'element de menú
@@ -1934,7 +1938,6 @@ ca:
     Afini la cerca escrivint el nom del nou membre (o grup).
   notice_unable_delete_time_entry: No s'ha pogut suprimir l'entrada del registre de
     temps.
-  notice_unable_delete_version: No s'ha pogut suprimir la versió.
   notice_user_missing_authentication_method: L'usuari encara ha de triar una contrassenya
     o una altra manera d'iniciar la sessió.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2850,6 +2853,7 @@ ca:
     attributes:
       lock_version: Bloquejar versió
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Cal que esteu autenticat per accedir a aquest recurs.
       code_401_wrong_credentials: No heu proporcionat les credencials correctes.
       code_403: No està autoritzat a accedir a aquest recurs.
@@ -3005,3 +3009,6 @@ ca:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  notice_unable_delete_version: No s'ha pogut suprimir la versió.

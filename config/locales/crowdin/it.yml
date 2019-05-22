@@ -679,6 +679,9 @@ it:
         member:
           principal_blank: Si prega di scegliere almeno un utente o un gruppo.
           role_blank: Si prega di scegliere almeno un ruolo.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Perfavore controlla i seguenti campi:'
         header:
@@ -1086,12 +1089,12 @@ it:
   error_cookie_missing: Il cookie di OpenProject è mancante. Prego, verifica che i
     cookie siano attivati, questa applicazione non funziona correttamente senza.
   error_custom_option_not_found: L'opzione non esiste.
-  error_dependent_work_package: 'Errore nel pacchetto di lavoro dipendente #%{related_id}
-    %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: Il tuo account potrebbe non essere attivo
     (raggiunto il limite utente). Si prega di contattare l'amministratore per ottenere
     l'accesso.
   error_failed_to_delete_entry: Cancellazione voce non riuscita.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Valore selezionato non valido.
   error_invalid_group_by: 'Impossibile raggruppare per: %{value}'
   error_invalid_query_column: 'Colonna di query non valida: %{value}'
@@ -1477,6 +1480,7 @@ it:
   label_max_size: Dimensione massima
   label_me: io
   label_member_new: Nuovo membro
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Membri
   label_view_all_members: Visualizza tutti i membri
   label_menu_item_name: Nome della voce di menu
@@ -1950,7 +1954,6 @@ it:
     Affina la ricerca digitando il nome del nuovo membro (o gruppo).
   notice_unable_delete_time_entry: Impossibile eliminare la registrazione di orario
     effettuato.
-  notice_unable_delete_version: Impossibile eliminare la versione.
   notice_user_missing_authentication_method: L'utente deve ancora scegliere una password
     o un altro sistema di autenticazione.
   notice_user_invitation_resent: Un invito è stato inviato a %{email}.
@@ -2885,6 +2888,7 @@ it:
     attributes:
       lock_version: Blocca Versione
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Devi essere autenticato per accedere a questa risorsa.
       code_401_wrong_credentials: Non hai fornito le credenziali corrette.
       code_403: Non sei autorizzato ad accedere a questa risorsa.
@@ -3046,3 +3050,6 @@ it:
     revoke_my_application_confirmation: Vuoi davvero rimuovere questa applicazione?
       Questo revocherà %{token_count} attivo per essa.
     my_registered_applications: Applicazioni OAuth registrate
+  error_dependent_work_package: 'Errore nel pacchetto di lavoro dipendente #%{related_id}
+    %{related_subject}: %{error}'
+  notice_unable_delete_version: Impossibile eliminare la versione.

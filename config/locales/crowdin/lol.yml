@@ -588,6 +588,9 @@ lol:
         member:
           principal_blank: crwdns123480:0crwdne123480:0
           role_blank: crwdns123482:0crwdne123482:0
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: crwdns123484:0crwdne123484:0
         header:
@@ -972,9 +975,10 @@ lol:
   error_code: crwdns129688:0%{code}crwdne129688:0
   error_cookie_missing: crwdns124136:0crwdne124136:0
   error_custom_option_not_found: crwdns124138:0crwdne124138:0
-  error_dependent_work_package: crwdns124140:0%{related_id}crwdnd124140:0%{related_subject}crwdnd124140:0%{error}crwdne124140:0
   error_enterprise_activation_user_limit: crwdns124142:0crwdne124142:0
   error_failed_to_delete_entry: crwdns124144:0crwdne124144:0
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: crwdns124146:0crwdne124146:0
   error_invalid_group_by: crwdns124148:0%{value}crwdne124148:0
   error_invalid_query_column: crwdns124150:0%{value}crwdne124150:0
@@ -1333,6 +1337,7 @@ lol:
   label_max_size: crwdns124812:0crwdne124812:0
   label_me: crwdns124814:0crwdne124814:0
   label_member_new: crwdns124816:0crwdne124816:0
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: crwdns124818:0crwdne124818:0
   label_view_all_members: crwdns124820:0crwdne124820:0
   label_menu_item_name: crwdns124822:0crwdne124822:0
@@ -1756,7 +1761,6 @@ lol:
   notice_successful_update: crwdns125598:0crwdne125598:0
   notice_to_many_principals_to_display: crwdns125600:0crwdne125600:0
   notice_unable_delete_time_entry: crwdns125602:0crwdne125602:0
-  notice_unable_delete_version: crwdns125604:0crwdne125604:0
   notice_user_missing_authentication_method: crwdns125606:0crwdne125606:0
   notice_user_invitation_resent: crwdns125608:0%{email}crwdne125608:0
   present_access_key_value: crwdns125610:0%{key_name}crwdnd125610:0%{value}crwdne125610:0
@@ -2490,6 +2494,7 @@ lol:
     attributes:
       lock_version: crwdns126852:0crwdne126852:0
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: crwdns126854:0crwdne126854:0
       code_401_wrong_credentials: crwdns126856:0crwdne126856:0
       code_403: crwdns126858:0crwdne126858:0
@@ -2604,3 +2609,5 @@ lol:
     authorization_error: crwdns127022:0crwdne127022:0
     revoke_my_application_confirmation: crwdns127024:0%{token_count}crwdne127024:0
     my_registered_applications: crwdns127026:0crwdne127026:0
+  error_dependent_work_package: crwdns124140:0%{related_id}crwdnd124140:0%{related_subject}crwdnd124140:0%{error}crwdne124140:0
+  notice_unable_delete_version: crwdns125604:0crwdne125604:0

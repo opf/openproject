@@ -592,6 +592,9 @@ ja:
         member:
           principal_blank: 一つ以上のユーザまたはグループを選択してください。
           role_blank: 1つ以上のロールを選択してください。
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 次のフィールドをチェックしてください：
         header:
@@ -978,10 +981,10 @@ ja:
   error_code: エラー %{code}
   error_cookie_missing: OpenProject のcookieが見つかりません。cookieが有効であることを確認してください。そうしないとこのアプリケーションは正しく動作しません。
   error_custom_option_not_found: オプションが存在しません。
-  error_dependent_work_package: '依存するワークパッケージのエラー#%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: あなたのアカウントを有効にすることができませんでした（ユーザー制限に達しました）。アクセスするには管理者に連絡してください。
   error_failed_to_delete_entry: このエントリを削除できませんでした。
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: 選択された値が無効です。
   error_invalid_group_by: 'グループ化できません: %{value}'
   error_invalid_query_column: '無効なクエリ列: %{value}'
@@ -1342,6 +1345,7 @@ ja:
   label_max_size: 最大サイズ
   label_me: 自分
   label_member_new: 新規メンバー
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: メンバー
   label_view_all_members: すべてのメンバーを表示
   label_menu_item_name: メニュー項目の名称
@@ -1766,7 +1770,6 @@ ja:
   notice_successful_update: 正常に更新しました。
   notice_to_many_principals_to_display: 検索結果が多すぎです。新たにメンバー名（またはグループ名）を入力して検索を絞り込んでください。
   notice_unable_delete_time_entry: 作業時間記録を削除できません。
-  notice_unable_delete_version: バージョンを削除できません。
   notice_user_missing_authentication_method: ユーザーは、サインインのパスワードまたは別の方法を選択する必要があります。
   notice_user_invitation_resent: "%{email} に招待状が送信されました。"
   present_access_key_value: "%{key_name} は: %{value}"
@@ -2538,6 +2541,7 @@ ja:
     attributes:
       lock_version: ロックバージョン
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: このリソースへのアクセスするには認証を行う必要があります。
       code_401_wrong_credentials: 正しい認証情報が提供されていません。
       code_403: このリソースにアクセスする権限がありません。
@@ -2657,3 +2661,6 @@ ja:
     revoke_my_application_confirmation: 本当にこのアプリケーションを削除しますか？ これにより %{token_count}
       が無効になります。
     my_registered_applications: 登録済みのOAuthアプリケーション
+  error_dependent_work_package: '依存するワークパッケージのエラー#%{related_id} %{related_subject}:
+    %{error}'
+  notice_unable_delete_version: バージョンを削除できません。
