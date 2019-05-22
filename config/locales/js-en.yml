@@ -54,6 +54,8 @@ en:
       lists:
         delete: 'Delete list'
         edit_version: 'Edit version'
+      add:
+        create_new: 'Create new'
 
     card:
       add_new: 'Add new card'

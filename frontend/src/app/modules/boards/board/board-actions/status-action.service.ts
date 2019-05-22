@@ -85,6 +85,14 @@ export class BoardStatusActionService implements BoardActionService {
       );
   }
 
+  public canCreateNewActionElements():Promise<boolean> {
+    return Promise.resolve(false);
+  }
+
+  public createNewActionElement(name:string):Promise<HalResource|void> {
+    return Promise.reject('Endpoint to create status does not exist.');
+  }
+
   private getStatuses():Promise<StatusResource[]> {
     return this.statusDm
       .list()

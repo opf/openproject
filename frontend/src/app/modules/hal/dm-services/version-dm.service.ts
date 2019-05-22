@@ -31,12 +31,26 @@ import {Injectable} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Injectable()
 export class VersionDmService {
   constructor(protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService) {
   }
+
+  public createVersion(payload:any):Promise<VersionResource> {
+    return this.halResourceService
+      .post<VersionResource>(this.pathHelper.api.v3.versions.path, payload)
+      .toPromise();
+  }
+
+  public emptyCreateForm(payload:any):Promise<HalResource> {
+    return this.halResourceService
+      .post<VersionResource>(this.pathHelper.api.v3.versions.form.toString(), payload)
+      .toPromise();
+  }
+
 
   public one(id:number):Promise<VersionResource> {
     return this.halResourceService
@@ -55,6 +69,4 @@ export class VersionDmService {
       .get<CollectionResource<VersionResource>>(this.pathHelper.api.v3.projects.id(projectId).versions.toString())
       .toPromise();
   }
-
-
 }
