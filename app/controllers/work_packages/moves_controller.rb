@@ -70,7 +70,6 @@ class WorkPackages::MovesController < ApplicationController
       end
     end
 
-
     set_flash_from_bulk_work_package_save(@work_packages, unsaved_work_package_ids)
 
     if params[:follow]

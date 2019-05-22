@@ -41,11 +41,11 @@ class Tasks::CreateService
   end
 
   def call(attributes: {}, prev: '')
-    attributes.merge! type_id: Task.type
+    attributes[:type_id] = Task.type
 
     create_call = WorkPackages::CreateService
                   .new(user: user)
-                  .call(attributes: attributes)
+                  .call(attributes)
 
     if create_call.success?
       create_call.result.move_after prev

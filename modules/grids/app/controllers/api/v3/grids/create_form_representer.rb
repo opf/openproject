@@ -32,21 +32,7 @@ module API
   module V3
     module Grids
       class CreateFormRepresenter < FormRepresenter
-        def form_url
-          api_v3_paths.create_grid_form
-        end
-
-        def resource_url
-          api_v3_paths.grids
-        end
-
-        def commit_method
-          :post
-        end
-
-        def contract_class
-          ::Grids::CreateContract
-        end
+        include API::Decorators::CreateForm
       end
     end
   end

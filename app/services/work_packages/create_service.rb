@@ -41,9 +41,9 @@ class WorkPackages::CreateService
     self.contract_class = contract_class
   end
 
-  def call(attributes: {},
-           work_package: WorkPackage.new,
-           send_notifications: true)
+  def call(work_package: WorkPackage.new,
+           send_notifications: true,
+           **attributes)
     in_context(send_notifications) do
       create(attributes, work_package)
     end

@@ -37,6 +37,24 @@ module API
     module Versions
       class VersionCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
         element_decorator ::API::V3::Versions::VersionRepresenter
+
+        link :createVersionImmediately do
+          next unless current_user.allowed_to_globally?(:manage_versions)
+
+          {
+            href: api_v3_paths.versions,
+            method: :post
+          }
+        end
+
+        link :createVersion do
+          next unless current_user.allowed_to_globally?(:manage_versions)
+
+          {
+            href: api_v3_paths.create_version_form,
+            method: :post
+          }
+        end
       end
     end
   end

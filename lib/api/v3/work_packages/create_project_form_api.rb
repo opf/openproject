@@ -26,24 +26,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/form_helper'
-require 'create_work_package_service'
-require 'work_packages/create_contract'
-
 module API
   module V3
     module WorkPackages
       class CreateProjectFormAPI < ::API::OpenProjectAPI
         resource :form do
-          helpers ::API::V3::WorkPackages::FormHelper
-
-          post do
-            work_package = WorkPackage.new(project: @project)
-            respond_with_work_package_form(work_package,
-                                           contract_class: ::WorkPackages::CreateContract,
-                                           form_class: CreateProjectFormRepresenter,
-                                           action: :create)
-          end
+          post &::API::V3::Utilities::Endpoints::CreateForm.new(model: WorkPackage,
+                                                                parse_service: WorkPackages::ParseParamsService,
+                                                                instance_generator: ->(*) {
+                                                                  WorkPackage.new(author: current_user, project: @project)
+                                                                })
+                                                           .mount
         end
       end
     end

@@ -656,6 +656,8 @@ en:
         member:
           principal_blank: "Please choose at least one user or group."
           role_blank: "Please choose at least one role."
+        version:
+          undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
       template:
         body: "Please check the following fields:"
         header:
@@ -1026,9 +1028,9 @@ en:
   error_code: "Error %{code}"
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Option does not exist."
-  error_dependent_work_package: "Error in dependent work package #%{related_id} %{related_subject}: %{error}"
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_invalid_group_by: "Can't group by: %{value}"
   error_invalid_query_column: "Invalid query column: %{value}"
@@ -1830,7 +1832,6 @@ en:
   notice_successful_update: "Successful update."
   notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
   notice_unable_delete_time_entry: "Unable to delete time log entry."
-  notice_unable_delete_version: "Unable to delete version."
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "Your %{key_name} is: %{value}"

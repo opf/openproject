@@ -49,25 +49,7 @@ module API
             end
           end
 
-          post do
-            params = API::V3::ParseResourceParamsService
-                     .new(current_user, model: TimeEntry)
-                     .call(request_body)
-                     .result
-
-            result = ::TimeEntries::CreateService
-                     .new(user: current_user)
-                     .call(params)
-
-            if result.success?
-              new_entry = result.result
-              TimeEntryRepresenter.create(new_entry,
-                                          current_user: current_user,
-                                          embed_links: true)
-            else
-              fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
-            end
-          end
+          post &::API::V3::Utilities::Endpoints::Create.new(model: TimeEntry).mount
 
           params do
             requires :id, desc: 'Time entry\'s id'
@@ -86,35 +68,8 @@ module API
                                           embed_links: true)
             end
 
-            patch do
-              params = API::V3::ParseResourceParamsService
-                       .new(current_user, model: TimeEntry)
-                       .call(request_body)
-                       .result
-
-              result = ::TimeEntries::UpdateService
-                       .new(time_entry: @time_entry, user: current_user)
-                       .call(attributes: params)
-
-              if result.success?
-                updated_entry = result.result
-                TimeEntryRepresenter.create(updated_entry,
-                                            current_user: current_user,
-                                            embed_links: true)
-              else
-                fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
-              end
-            end
-
-            delete do
-              call = ::TimeEntries::DeleteService.new(time_entry: @time_entry, user: current_user).call
-
-              if call.success?
-                status 204
-              else
-                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
-              end
-            end
+            patch &::API::V3::Utilities::Endpoints::Update.new(model: TimeEntry).mount
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: TimeEntry).mount
           end
 
           mount ::API::V3::TimeEntries::TimeEntriesActivityAPI

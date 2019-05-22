@@ -33,6 +33,8 @@ module API
     module WorkPackages
       class WorkPackageRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
+        include API::Decorators::DateProperty
+        include API::Decorators::FormattableProperty
         include API::Caching::CachedRepresenter
         include ::API::V3::Attachments::AttachableRepresenterMixin
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
@@ -321,46 +323,33 @@ module API
         property :subject,
                  render_nil: true
 
-        property :description,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   ::API::Decorators::Formattable.new(represented.description, object: represented)
-                 },
-                 setter: ->(fragment:, **) {
-                   represented.description = fragment['raw']
-                 },
-                 uncacheable: true,
-                 render_nil: true
+        formattable_property :description,
+                             uncacheable: true
 
-        property :start_date,
-                 exec_context: :decorator,
-                 getter: ->(*) do
-                   datetime_formatter.format_date(represented.start_date, allow_nil: true)
-                 end,
-                 render_nil: true,
-                 skip_render: ->(_) {
-                   represented.milestone?
-                 }
+        date_property :start_date,
+                      skip_render: ->(represented:, **) {
+                        represented.milestone?
+                      }
 
-        property :due_date,
-                 exec_context: :decorator,
-                 getter: ->(*) do
-                   datetime_formatter.format_date(represented.due_date, allow_nil: true)
-                 end,
-                 render_nil: true,
-                 skip_render: ->(_) {
-                   represented.milestone?
-                 }
+        date_property :due_date,
+                      skip_render: ->(represented:, **) {
+                        represented.milestone?
+                      }
 
-        property :date,
-                 exec_context: :decorator,
-                 getter: ->(*) do
-                   datetime_formatter.format_date(represented.due_date, allow_nil: true)
-                 end,
-                 render_nil: true,
-                 skip_render: ->(*) {
-                   !represented.milestone?
-                 }
+        date_property :date,
+                      getter: default_date_getter(:due_date),
+                      setter: ->(fragment:, decorator:, **) {
+                        date = decorator
+                               .datetime_formatter
+                               .parse_date(fragment,
+                                           name.to_s.camelize(:lower),
+                                           allow_nil: true)
+
+                        self.due_date = self.start_date = date
+                      },
+                      skip_render: ->(represented:, **) {
+                        !represented.milestone?
+                      }
 
         property :estimated_time,
                  exec_context: :decorator,
@@ -385,19 +374,9 @@ module API
                  render_nil: true,
                  if: ->(*) { Setting.work_package_done_ratio != 'disabled' }
 
-        property :created_at,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   next unless represented.created_at
-                   datetime_formatter.format_datetime(represented.created_at)
-                 }
+        date_time_property :created_at
 
-        property :updated_at,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   next unless represented.updated_at
-                   datetime_formatter.format_datetime(represented.updated_at)
-                 }
+        date_time_property :updated_at
 
         property :watchers,
                  embedded: true,
@@ -544,42 +523,10 @@ module API
           @visible_children ||= represented.children.select(&:visible?)
         end
 
-        def date=(value)
-          new_date = datetime_formatter.parse_date(value,
-                                                   'date',
-                                                   allow_nil: true)
-
-          represented.due_date = represented.start_date = new_date
-        end
-
-        def due_date=(value)
-          represented.due_date = datetime_formatter.parse_date(value,
-                                                               'dueDate',
-                                                               allow_nil: true)
-        end
-
-        def start_date=(value)
-          represented.start_date = datetime_formatter.parse_date(value,
-                                                                 'startDate',
-                                                                 allow_nil: true)
-        end
-
         def estimated_time=(value)
           represented.estimated_hours = datetime_formatter.parse_duration_to_hours(value,
                                                                                    'estimatedTime',
                                                                                    allow_nil: true)
-        end
-
-        def created_at=(value)
-          represented.created_at = datetime_formatter.parse_datetime(value,
-                                                                     'createdAt',
-                                                                     allow_nil: true)
-        end
-
-        def updated_at=(value)
-          represented.updated_at = datetime_formatter.parse_datetime(value,
-                                                                     'updatedAt',
-                                                                     allow_nil: true)
         end
 
         def spent_time=(value)

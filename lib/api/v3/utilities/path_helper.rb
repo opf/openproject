@@ -386,8 +386,20 @@ module API
             "#{root}/versions/#{version_id}"
           end
 
+          def self.version_form(version_id)
+            "#{version(version_id)}/form"
+          end
+
           def self.versions
             "#{root}/versions"
+          end
+
+          def self.version_schema
+            "#{versions}/schema"
+          end
+
+          def self.create_version_form
+            "#{versions}/form"
           end
 
           def self.versions_by_project(project_id)

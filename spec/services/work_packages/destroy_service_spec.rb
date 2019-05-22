@@ -43,6 +43,7 @@ describe WorkPackages::DestroyService do
            work_package: work_package)
   end
   let(:destroyed_result) { true }
+  let(:destroy_allowed) { true }
   subject { instance.call }
 
   before do
@@ -53,6 +54,11 @@ describe WorkPackages::DestroyService do
     allow(work_package)
       .to receive(:destroyed?)
       .and_return(destroyed_result)
+
+    allow(user)
+      .to receive(:allowed_to?)
+      .with(:delete_work_packages, work_package.project)
+      .and_return(destroy_allowed)
   end
 
   it 'destroys the work package' do
@@ -172,7 +178,7 @@ describe WorkPackages::DestroyService do
         .to match_array [work_package] + descendants
     end
 
-    context 'when the work package could not be destroyed' do
+    context 'if the work package could not be destroyed' do
       let(:destroyed_result) { false }
 
       it 'does not destroy the descendants' do

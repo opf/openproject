@@ -79,7 +79,6 @@ module API
           def initialize(schema, self_link, context)
             @base_schema_link = context.delete(:base_schema_link) || nil
             @show_lock_version = !context.delete(:hide_lock_version)
-            @action = context.delete(:action) || :update
             super(schema, self_link, context)
           end
 
@@ -164,7 +163,7 @@ module API
                                    type: 'Project',
                                    required: true,
                                    href_callback: ->(*) {
-                                     if @action == :create
+                                     if represented.work_package&.new_record?
                                        api_v3_paths.available_projects_on_create
                                      else
                                        api_v3_paths.available_projects_on_edit(represented.id)

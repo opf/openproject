@@ -34,6 +34,8 @@ module API
     module News
       class NewsRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
+        include API::Decorators::DateProperty
+        include API::Decorators::FormattableProperty
         include API::Caching::CachedRepresenter
 
         cached_representer key_parts: %i(project author),
@@ -47,20 +49,11 @@ module API
 
         property :summary
 
-        property :description,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   ::API::Decorators::Formattable.new(represented.description, object: represented)
-                 },
-                 uncacheable: true,
-                 render_nil: true
+        formattable_property :description,
+                             uncacheable: true
 
-        property :created_at,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   next unless represented.created_on
-                   datetime_formatter.format_datetime(represented.created_on)
-                 }
+        date_time_property :created_on,
+                           as: :createdAt
 
         associated_resource :project,
                             link: ->(*) do

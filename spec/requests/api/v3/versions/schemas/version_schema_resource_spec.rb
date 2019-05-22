@@ -26,35 +26,55 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/work_package_payload_representer'
+require 'spec_helper'
+require 'rack/test'
 
-module API
-  module V3
-    module WorkPackages
-      module FormHelper
-        extend Grape::API::Helpers
-        include ::API::V3::Utilities::FormHelper
+describe 'API v3 Version schema resource', type: :request, content_type: :json do
+  include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
-        def respond_with_work_package_form(work_package, contract_class:, form_class:, action: :update)
-          parameters = parse_body
+  let(:project) { FactoryBot.create(:project) }
+  let(:current_user) do
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_with_permissions: permissions)
+  end
 
-          result = ::WorkPackages::SetAttributesService
-                   .new(user: current_user, work_package: work_package, contract_class: contract_class)
-                   .call(parameters)
+  let(:permissions) { [:manage_versions] }
 
-          api_errors = ::API::Errors::ErrorBase.create_errors(result.errors)
+  let(:path) { api_v3_paths.version_schema }
 
-          # errors for invalid data (e.g. validation errors) are handled inside the form
-          if only_validation_errors(api_errors)
-            status 200
-            form_class.new(work_package,
-                           current_user: current_user,
-                           errors: api_errors,
-                           action: action)
-          else
-            fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
-          end
-        end
+  before do
+    login_as(current_user)
+  end
+
+  subject(:response) { last_response }
+
+  describe '#GET /versions/schema' do
+    before do
+      get path
+    end
+
+    it 'responds with 200 OK' do
+      expect(subject.status).to eq(200)
+    end
+
+    it 'returns a schema' do
+      expect(subject.body)
+        .to be_json_eql('Schema'.to_json)
+        .at_path '_type'
+    end
+
+    it 'does not embed' do
+      expect(subject.body)
+        .not_to have_json_path('definingProject/_links/allowedValues')
+    end
+
+    context 'if lacking permissions' do
+      let(:permissions) { [] }
+
+      it 'responds with 403' do
+        expect(subject.status).to eq(403)
       end
     end
   end

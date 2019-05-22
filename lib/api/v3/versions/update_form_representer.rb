@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,26 +28,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/work_package_payload_representer'
-
 module API
   module V3
-    module Utilities
-      module FormHelper
-        extend Grape::API::Helpers
-
-        private
-
-        def only_validation_errors(errors)
-          errors.all? { |error| error.code == 422 }
-        end
-
-        def parse_body
-          ::API::V3::WorkPackages::ParseParamsService
-            .new(current_user)
-            .call(request_body)
-            .result
-        end
+    module Versions
+      class UpdateFormRepresenter < FormRepresenter
+        include API::Decorators::UpdateForm
       end
     end
   end

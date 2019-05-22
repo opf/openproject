@@ -77,8 +77,8 @@ module OpenProject::Backlogs::Patches::VersionsControllerPatch
       # This forces the current project for the nested version settings in order
       # to prevent it from being set through firebug etc. #mass_assignment
       def add_project_to_version_settings_attributes
-        if  permitted_params.version['version_settings_attributes'].present?
-           params['version']['version_settings_attributes'].each do |attr_hash|
+        if permitted_params.version['version_settings_attributes'].present?
+          params['version']['version_settings_attributes'].each do |attr_hash|
             attr_hash['project_id'] = @project.id
           end
         end

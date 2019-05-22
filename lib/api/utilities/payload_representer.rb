@@ -70,6 +70,7 @@ module API
 
       def self.add_filter(property, filter)
         return if property[:render_filter].include?(filter)
+
         property.merge!(render_filter: filter)
       end
 

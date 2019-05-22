@@ -39,7 +39,7 @@ module API
         property :name
         property :is_closed, render_nil: true
         property :color,
-                 getter: -> (*) { color.hexcode if color },
+                 getter: ->(*) { color.hexcode if color },
                  render_nil: true
         property :is_default, render_nil: true
         property :is_readonly, render_nil: true

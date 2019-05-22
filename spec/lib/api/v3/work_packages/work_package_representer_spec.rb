@@ -49,7 +49,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                              parent: parent,
                              type: type,
                              project: project,
-                             priority: priority) do |wp|
+                             priority: priority,
+                             status: status) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
         .and_return(available_custom_fields)
@@ -73,6 +74,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:permissions) { all_permissions }
   let(:project) { FactoryBot.build_stubbed(:project_with_types) }
   let(:type) { project.types.first }
+  let(:status) { FactoryBot.build_stubbed(:status, updated_at: Time.now) }
   let(:available_custom_fields) { [] }
 
   before(:each) do
@@ -954,8 +956,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to have_json_type(Object).at_path('_embedded') }
 
       describe 'status' do
-        let(:status) { work_package.status }
-
         it { is_expected.to have_json_path('_embedded/status') }
 
         it { is_expected.to be_json_eql('Status'.to_json).at_path('_embedded/status/_type') }

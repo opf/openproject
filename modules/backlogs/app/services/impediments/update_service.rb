@@ -42,11 +42,9 @@ class Impediments::UpdateService
   end
 
   def call(attributes: {})
-    call = WorkPackages::UpdateService
+    WorkPackages::UpdateService
       .new(user: user,
            work_package: impediment)
-      .call(attributes: attributes)
-
-    call
+      .call(attributes)
   end
 end
