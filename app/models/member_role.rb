@@ -89,7 +89,7 @@ class MemberRole < ActiveRecord::Base
   def remove_role_from_group_users
     inherited_roles_by_member = MemberRole
                                 .where(inherited_from: id)
-                                .includes(member: [:principal, :member_roles])
+                                .includes(member: %i[principal member_roles])
                                 .group_by(&:member)
 
     inherited_roles_by_member.each do |member, member_roles|
