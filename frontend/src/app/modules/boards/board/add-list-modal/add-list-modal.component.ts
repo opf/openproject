@@ -41,12 +41,14 @@ import {BoardActionService} from "core-app/modules/boards/board/board-actions/bo
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import {NgSelectComponent} from "@ng-select/ng-select/dist";
 
 @Component({
   templateUrl: './add-list-modal.html'
 })
 export class AddListModalComponent extends OpModalComponent implements OnInit {
-  @ViewChild('actionAttributeSelect') actionAttributeSelect:ElementRef;
+  @ViewChild('addActionAttributeSelect') addAutoCompleter:NgSelectComponent;
+  @ViewChild('actionAttributeSelect') autoCompleter:NgSelectComponent;
 
   public showClose:boolean;
 
@@ -119,7 +121,12 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
     this.actionService.canCreateNewActionElements().then((val) => {
       this.createAllowed = val;
+
+      setTimeout(() => {
+        this.createAllowed ? this.addAutoCompleter.focus() : this.autoCompleter.focus();
+      });
     });
+
   }
 
   onModelChange(element:HalResource) {
