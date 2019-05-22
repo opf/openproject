@@ -214,7 +214,7 @@ module Pages
       else
         expect(page).not_to have_selector('.ng-option-label', text: name)
       end
-      click_on 'Cancel'
+      find('body').send_keys [:escape]
     end
 
     def visit!
@@ -308,8 +308,6 @@ module Pages
 
     def open_and_fill_add_list_modal(name)
       page.find('.boards-list--add-item').click
-      page.find('.op-modal--modal-container .new-list--action-select').click
-
       page.find('.op-modal--modal-container .new-list--action-select input').set(name)
     end
   end
