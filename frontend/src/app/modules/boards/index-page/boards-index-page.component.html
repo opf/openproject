@@ -103,8 +103,28 @@
   </div>
 </div>
 
-<enterprise-banner *ngIf="!showBoardIndexView()"
-                   [linkMessage]="text.upsaleCheckOutLink"
-                   [textMessage]="text.upsaleBoards"
-                   opReferrer="boards">
-</enterprise-banner>
+<div *ngIf="!showBoardIndexView()"
+     class="boards--teaser-container">
+  <p>{{ text.teaser_text }}</p>
+  <p>{{ text.enterprise }}</p>
+
+  <a class="button -alt-highlight -with-icon icon-checkmark"
+     [href]="eeLink()"
+     target='blank'>
+    {{ text.upgrade }}
+  </a>
+
+  <a class="button -highlight-inverted"
+     [href]="demoLink()" >
+    {{ text.personal_demo }}
+  </a>
+
+  <div class="boards--teaser-video-container">
+    <iframe [src]="teaserVideoURL()"
+            class="boards--teaser-video"
+            frameborder="0"
+            allow="autoplay; fullscreen"
+            allowfullscreen>
+    </iframe>
+  </div>
+</div>
