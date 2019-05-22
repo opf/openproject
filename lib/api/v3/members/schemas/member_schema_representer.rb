@@ -46,8 +46,6 @@ module API
                  type: 'DateTime',
                  visibility: false
 
-          # TODO: turn into link collection using a permissions filter
-          #       also do that for the projects in the versions schema
           schema_with_allowed_link :project,
                                    has_default: false,
                                    required: true,

@@ -618,6 +618,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/versions'
   end
 
+  describe '#versions_available_projects' do
+    subject { helper.versions_available_projects }
+
+    it_behaves_like 'api v3 path', '/versions/available_projects'
+  end
+
   describe '#versions_by_project' do
     subject { helper.versions_by_project 42 }
 

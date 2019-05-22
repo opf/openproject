@@ -36,16 +36,13 @@ describe 'API v3 members available projects resource', type: :request do
   let(:current_user) do
     FactoryBot.create(:user)
   end
-  let(:other_user) do
-    FactoryBot.create(:user)
-  end
   let(:own_member) do
     FactoryBot.create(:member,
                       roles: [FactoryBot.create(:role, permissions: permissions)],
                       project: project,
                       user: current_user)
   end
-  let(:permissions) { %i[view_members manage_members] }
+  let(:permissions) { %i[view_versions manage_versions] }
   let(:manage_project) do
     FactoryBot.create(:project).tap do |p|
       FactoryBot.create(:member,
@@ -54,19 +51,27 @@ describe 'API v3 members available projects resource', type: :request do
                         user: current_user)
     end
   end
-  let(:membered_project) do
+  let(:view_project) do
     FactoryBot.create(:project).tap do |p|
       FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: permissions)],
+                        roles: [FactoryBot.create(:role, permissions: [:view_versions])],
                         project: p,
                         user: current_user)
-
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: permissions)],
-                        project: p,
-                        user: other_user)
     end
   end
+  #let(:membered_project) do
+  #  FactoryBot.create(:project).tap do |p|
+  #    FactoryBot.create(:member,
+  #                      roles: [FactoryBot.create(:role, permissions: permissions)],
+  #                      project: p,
+  #                      user: current_user)
+
+  #    FactoryBot.create(:member,
+  #                      roles: [FactoryBot.create(:role, permissions: permissions)],
+  #                      project: p,
+  #                      user: other_user)
+  #  end
+  #end
   let(:unauthorized_project) do
     FactoryBot.create(:public_project)
   end
@@ -74,7 +79,7 @@ describe 'API v3 members available projects resource', type: :request do
   subject(:response) { last_response }
 
   describe 'GET api/v3/members/available_projects' do
-    let(:projects) { [manage_project, unauthorized_project] }
+    let(:projects) { [manage_project, view_project, unauthorized_project] }
 
     before do
       projects
@@ -83,15 +88,14 @@ describe 'API v3 members available projects resource', type: :request do
       get path
     end
 
-    let(:path) { api_v3_paths.members_available_projects }
-    let(:filter_path) { "#{api_v3_paths.members_available_projects}?#{{ filters: filters.to_json }.to_query}" }
+    let(:path) { api_v3_paths.versions_available_projects }
 
     context 'without params' do
       it 'responds 200 OK' do
         expect(subject.status).to eq(200)
       end
 
-      it 'returns a collection of projects containing only the ones for which the user has :manage_members permission' do
+      it 'returns a collection of projects containing only the ones for which the user has :manage_versions permission' do
         expect(subject.body)
           .to be_json_eql('Collection'.to_json)
           .at_path('_type')
@@ -106,29 +110,8 @@ describe 'API v3 members available projects resource', type: :request do
       end
     end
 
-    context 'invalid filter' do
-      let(:members) { [own_member] }
-
-      let(:filters) do
-        [{ 'bogus' => {
-          'operator' => '=',
-          'values' => ['1']
-        } }]
-      end
-
-      let(:path) { filter_path }
-
-      it 'returns an error' do
-        expect(subject.status).to eq(400)
-
-        expect(subject.body)
-          .to be_json_eql('urn:openproject-org:api:v3:errors:InvalidQuery'.to_json)
-          .at_path('errorIdentifier')
-      end
-    end
-
     context 'without permissions' do
-      let(:permissions) { [:view_members] }
+      let(:permissions) { [:view_versions] }
 
       it 'returns a 403' do
         expect(subject.status)

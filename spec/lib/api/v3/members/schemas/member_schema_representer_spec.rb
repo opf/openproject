@@ -119,7 +119,7 @@ describe ::API::V3::Members::Schemas::MemberSchemaRepresenter do
       context 'if having a new record' do
         it_behaves_like 'has basic schema properties' do
           let(:type) { 'Project' }
-          let(:name) { Version.human_attribute_name('project') }
+          let(:name) { Member.human_attribute_name('project') }
           let(:required) { true }
           let(:writable) { true }
         end

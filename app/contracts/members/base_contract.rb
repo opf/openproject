@@ -34,6 +34,7 @@ module Members
 
     delegate :principal,
              :project,
+             :new_record?,
              to: :model
 
     def validate

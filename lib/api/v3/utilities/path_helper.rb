@@ -410,6 +410,10 @@ module API
             "#{root}/versions"
           end
 
+          def self.versions_available_projects
+            "#{versions}/available_projects"
+          end
+
           def self.version_schema
             "#{versions}/schema"
           end

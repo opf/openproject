@@ -28,15 +28,15 @@
 
 module API
   module V3
-    module Members
+    module Versions
       class AvailableProjectsAPI < ::API::OpenProjectAPI
         before do
-          authorize :manage_members, global: true
+          authorize :manage_versions, global: true
         end
 
         resources :available_projects do
           get &::API::V3::Utilities::Endpoints::Index.new(model: Project,
-                                                          scope: -> { Project.allowed_to(User.current, :manage_members) })
+                                                          scope: -> { Project.allowed_to(User.current, :manage_versions) })
                                                      .mount
         end
       end
