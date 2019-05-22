@@ -561,8 +561,13 @@ class User < Principal
   # Return user's roles for project
   def roles_for_project(project)
     roles = []
+
     # No role on archived projects
     return roles unless project && project.active?
+
+    # Return all roles if user is admin
+    return Role.givable.to_a if admin?
+
     if logged?
       # Find project membership
       membership = memberships.detect { |m| m.project_id == project.id }
