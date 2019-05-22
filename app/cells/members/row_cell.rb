@@ -39,7 +39,12 @@ module Members
     end
 
     def roles
-      label = h member.roles.sort.collect(&:name).join(', ')
+      label =
+        if user&.admin?
+          I18n.t(:label_member_all_admin)
+        else
+          h member.roles.sort.collect(&:name).join(', ')
+        end
       span = content_tag "span", label, id: "member-#{member.id}-roles"
 
       if may_update?
@@ -72,12 +77,18 @@ module Members
     end
 
     def may_update?
+      !user&.admin && table.authorize_update
+    end
+
+    def may_delete?
       table.authorize_update
     end
 
     def button_links
-      if may_update?
+      if may_update? && may_delete?
         [edit_link, delete_link].compact
+      elsif may_delete?
+        [delete_link].compact
       else
         []
       end

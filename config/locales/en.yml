@@ -1398,6 +1398,7 @@ en:
   label_max_size: "Maximum size"
   label_me: "me"
   label_member_new: "New member"
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Members"
   label_view_all_members: "View all members"
   label_menu_item_name: "Name of menu item"
