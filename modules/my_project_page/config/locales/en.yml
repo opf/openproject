@@ -33,7 +33,6 @@ en:
   label_work_packages_responsible_for: "Work packages I am accountable for"
   label_work_packages_assigned_to_me: "Work packages assigned to me"
   label_work_packages_watched: "Watched work packages"
-  label_work_package_tracking: " Work package tracking"
   label_members: "Members"
   label_member_view_all: "View all members"
   label_no_visible_members: "This project has no visible members."

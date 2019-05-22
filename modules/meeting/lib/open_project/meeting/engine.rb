@@ -31,11 +31,11 @@ module OpenProject::Meeting
              bundled: true do
 
       project_module :meetings do
+        permission :view_meetings, meetings: [:index, :show], meeting_agendas: [:history, :show, :diff], meeting_minutes: [:history, :show, :diff]
         permission :create_meetings, { meetings: [:new, :create, :copy] }, require: :member
         permission :edit_meetings, { meetings: [:edit, :update] }, require: :member
         permission :delete_meetings, { meetings: [:destroy] }, require: :member
         permission :meetings_send_invite, { meetings: [:icalendar] }, require: :member
-        permission :view_meetings, meetings: [:index, :show], meeting_agendas: [:history, :show, :diff], meeting_minutes: [:history, :show, :diff]
         permission :create_meeting_agendas, { meeting_agendas: [:update, :preview] }, require: :member
         permission :close_meeting_agendas, { meeting_agendas: [:close, :open] }, require: :member
         permission :send_meeting_agendas_notification, { meeting_agendas: [:notify] }, require: :member

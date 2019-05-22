@@ -30,17 +30,32 @@
 module Redmine
   module AccessControl
     class << self
+      include ::Redmine::I18n
+
       def map
         mapper = Mapper.new
         yield mapper
         @permissions ||= []
         @permissions += mapper.mapped_permissions
+        @modules ||= []
+        @modules += mapper.mapped_modules
         @project_modules_without_permissions ||= []
         @project_modules_without_permissions += mapper.project_modules_without_permissions
       end
 
+      # Get a sorted array of module names
+      def sorted_modules
+        modules
+          .sort_by { |a| [-a[:order], l_or_humanize(a[:name], prefix: 'project_module_')] }
+          .map { |entry| entry[:name].to_s }
+      end
+
       def permissions
         @permissions
+      end
+
+      def modules
+        @modules.uniq { |mod| mod[:name] }
       end
 
       # Returns the permission of given name or nil if it wasn't found
@@ -107,7 +122,9 @@ module Redmine
         mapped_permissions << Permission.new(name, hash, options)
       end
 
-      def project_module(name, _options = {})
+      def project_module(name, options = {})
+        mapped_modules << { name: name, order: 0 }.merge(options)
+
         if block_given?
           @project_module = name
           yield self
@@ -115,6 +132,10 @@ module Redmine
         else
           project_modules_without_permissions << name
         end
+      end
+
+      def mapped_modules
+        @mapped_modules ||= []
       end
 
       def mapped_permissions
