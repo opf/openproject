@@ -44,7 +44,7 @@ module API
           end
 
           route_param :id do
-            before do
+            after_validation do
               @project = Project.find(params[:id])
 
               authorize(:view_project, context: @project) do

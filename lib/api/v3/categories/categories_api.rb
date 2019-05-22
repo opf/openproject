@@ -34,8 +34,8 @@ module API
     module Categories
       class CategoriesAPI < ::API::OpenProjectAPI
         resources :categories do
-          route_param :id do
-            before do
+          route_param :id, type: Integer, desc: 'Category ID' do
+            after_validation do
               @category = Category.find(params[:id])
               authorize(:view_project, context: @category.project) do
                 raise API::Errors::NotFound.new

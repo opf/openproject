@@ -37,7 +37,7 @@ module API
             end
           end
 
-          route_param :id do
+          route_param :id, type: Integer, desc: 'Wiki page ID' do
             get do
               ::API::V3::WikiPages::WikiPageRepresenter.new(wiki_page,
                                                             current_user: current_user,

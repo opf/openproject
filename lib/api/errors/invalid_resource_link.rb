@@ -31,6 +31,7 @@ module API
   module Errors
     class InvalidResourceLink < ErrorBase
       identifier 'urn:openproject-org:api:v3:errors:ResourceTypeMismatch'
+      code 422
 
       def initialize(property_name, expected_link, actual_link)
         expected_i18n = Array(expected_link).join("' #{I18n.t('concatenation.single')} '")
@@ -40,7 +41,7 @@ module API
                          expected: expected_i18n,
                          actual: actual_link)
 
-        super(422, message)
+        super message
       end
     end
   end

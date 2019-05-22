@@ -34,7 +34,7 @@ module API
     module Versions
       class ProjectsByVersionAPI < ::API::OpenProjectAPI
         resources :projects do
-          before do
+          after_validation do
             @projects = @version.projects.visible(current_user)
 
             # Authorization for accessing the version is done in the versions

@@ -66,18 +66,15 @@ module API
                                                             })
                                                        .mount
 
-          params do
-            requires :id, desc: 'Work package id', type: Integer
-          end
-          route_param :id do
+          route_param :id, type: Integer, desc: 'Work package ID' do
             helpers WorkPackagesSharedHelpers
 
             helpers do
               attr_reader :work_package
             end
 
-            before do
-              @work_package = WorkPackage.find(params[:id])
+            after_validation do
+              @work_package = WorkPackage.find(declared_params[:id])
 
               authorize(:view_work_packages, context: @work_package.project) do
                 raise API::Errors::NotFound.new

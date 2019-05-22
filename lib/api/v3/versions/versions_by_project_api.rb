@@ -35,7 +35,7 @@ module API
     module Versions
       class VersionsByProjectAPI < ::API::OpenProjectAPI
         resources :versions do
-          before do
+          after_validation do
             @versions = @project.shared_versions
 
             authorize_any %i(view_work_packages manage_versions), projects: @project

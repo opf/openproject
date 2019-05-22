@@ -57,8 +57,8 @@ module API
           mount CreateFormAPI
           mount ::API::V3::Grids::Schemas::GridSchemaAPI
 
-          route_param :id do
-            before do
+          route_param :id, type: Integer, desc: 'Grid ID' do
+            after_validation do
               @grid = ::Grids::Query
                       .new(user: current_user)
                       .results
@@ -73,7 +73,7 @@ module API
             # Hack to be able to use the Default* mount while having the permission check
             # not affecting the GET request
             namespace do
-              before do
+              after_validation do
                 unless ::Grids::UpdateContract.new(@grid, current_user).edit_allowed?
                   raise ActiveRecord::RecordNotFound
                 end

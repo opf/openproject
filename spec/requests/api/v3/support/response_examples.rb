@@ -120,6 +120,16 @@ shared_examples_for 'not found' do
   end
 end
 
+shared_examples_for 'param validation error' do
+  subject { JSON.parse(last_response.body) }
+
+  it 'results in a validation error' do
+    expect(last_response.status).to eq(400)
+    expect(subject['errorIdentifier']).to eq("urn:openproject-org:api:v3:errors:BadRequest")
+    expect(subject['message']).to match /Bad request: .+? is invalid/
+  end
+end
+
 shared_examples_for 'update conflict' do
   it_behaves_like 'error response',
                   409,

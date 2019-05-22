@@ -31,6 +31,7 @@ module API
   module Errors
     class PropertyFormatError < ErrorBase
       identifier 'urn:openproject-org:api:v3:errors:PropertyFormatError'
+      code 422
 
       attr_accessor :property
 
@@ -41,7 +42,7 @@ module API
                          property: property,
                          expected_format: expected_format,
                          actual: actual_value)
-        super 422, message
+        super message
       end
 
       def details

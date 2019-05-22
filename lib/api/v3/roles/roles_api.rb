@@ -41,7 +41,7 @@ module API
                                           current_user: current_user)
           end
 
-          route_param :id do
+          route_param :id, type: Integer, desc: 'Role ID' do
             get do
               role = Role.find(params[:id])
 

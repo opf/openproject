@@ -31,9 +31,16 @@ module API
   module Errors
     class InternalError < ErrorBase
       identifier 'urn:openproject-org:api:v3:errors:InternalServerError'
+      code 500
 
-      def initialize(message = I18n.t('api_v3.errors.code_500'))
-        super 500, message
+      def initialize(error_message = nil)
+        error = I18n.t('api_v3.errors.code_500')
+
+        if message
+          error += " #{error_message}"
+        end
+
+        super error
       end
     end
   end
