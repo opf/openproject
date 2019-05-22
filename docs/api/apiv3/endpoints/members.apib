@@ -139,3 +139,79 @@ Returns a collection of members. The client can choose to filter the members sim
 + Response 200 (application/hal+json)
 
     [Members][]
+
+## Member schema [/api/v3/members/schemas]
+
++ Model
+    + Body
+
+            {
+            }
+
+## View member schema [GET]
+
++ Response 200 (application/hal+json)
+
+    [Member schema][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions to see the schema.
+
+    **Required permission:** manage members or view members on any project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
+## Member create form [/api/v3/members/form]
+
+This endpoint returns a form allowing a guided creation of new members.
+
+For more details and all possible responses see the general specification of [Forms](#forms).
+
+## Member create form [POST]
+
++ Request Create member form
+
+    + Body
+
+            {
+            }
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+            }
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** manage members in any project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }

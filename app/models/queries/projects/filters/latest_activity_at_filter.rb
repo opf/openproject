@@ -54,8 +54,4 @@ class Queries::Projects::Filters::LatestActivityAtFilter < Queries::Projects::Fi
   def where
     operator_strategy.sql_for_field(values, "activity", self.class.key)
   end
-
-  def order
-    9
-  end
 end

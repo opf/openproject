@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,32 +23,28 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Members
-      class MembersAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::PageSizeHelper
+module Members
+  class BaseContract < ::ModelContract
+    def self.model
+      Member
+    end
 
-        resources :members do
-          get &::API::V3::Utilities::Endpoints::Index.new(model: Member).mount
+    delegate :principal,
+             :project,
+             to: :model
 
-          mount ::API::V3::Members::AvailableProjectsAPI
-          mount ::API::V3::Members::Schemas::MemberSchemaAPI
+    def validate
+      user_allowed_to_manage
 
-          route_param :id do
-            before do
-              @member = ::Queries::Members::MemberQuery
-                        .new(user: current_user)
-                        .results
-                        .find(params['id'])
-            end
+      super
+    end
 
-            get &::API::V3::Utilities::Endpoints::Show.new(model: Member).mount
-          end
-        end
+    def user_allowed_to_manage
+      if model.project && !user.allowed_to?(:manage_members, model.project)
+        errors.add :base, :error_unauthorized
       end
     end
   end

@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,29 +28,37 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Members
-      class MembersAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::PageSizeHelper
+require 'spec_helper'
 
-        resources :members do
-          get &::API::V3::Utilities::Endpoints::Index.new(model: Member).mount
+describe Queries::Projects::Filters::PrincipalFilter, type: :model do
+  let(:group1) { FactoryBot.build_stubbed(:group) }
+  let(:group2) { FactoryBot.build_stubbed(:group) }
+  let(:user1) { FactoryBot.build_stubbed(:user) }
+  let(:user2) { FactoryBot.build_stubbed(:user) }
 
-          mount ::API::V3::Members::AvailableProjectsAPI
-          mount ::API::V3::Members::Schemas::MemberSchemaAPI
+  before do
+    allow(Principal)
+      .to receive(:pluck)
+      .with(:id)
+      .and_return([group1.id,
+                   group2.id,
+                   user1.id,
+                   user2.id])
+  end
 
-          route_param :id do
-            before do
-              @member = ::Queries::Members::MemberQuery
-                        .new(user: current_user)
-                        .results
-                        .find(params['id'])
-            end
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :principal }
+    let(:type) { :list_optional }
+    let(:name) { Principal.model_name.human }
 
-            get &::API::V3::Utilities::Endpoints::Show.new(model: Member).mount
-          end
-        end
+    describe '#allowed_values' do
+      it 'is a list of the possible values' do
+        expected = [[group1.id, group1.id.to_s],
+                    [group2.id, group2.id.to_s],
+                    [user1.id, user1.id.to_s],
+                    [user2.id, user2.id.to_s]]
+
+        expect(instance.allowed_values).to match_array(expected)
       end
     end
   end

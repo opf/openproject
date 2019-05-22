@@ -132,7 +132,7 @@ class MembersController < ApplicationController
         render partial: 'members/autocomplete_for_member',
                locals: { project: @project,
                          principals: @principals,
-                         roles: Role.find_all_givable }
+                         roles: Role.givable }
       end
     end
   end
@@ -189,7 +189,7 @@ class MembersController < ApplicationController
   end
 
   def set_roles_and_principles!
-    @roles = Role.find_all_givable
+    @roles = Role.givable
     # Check if there is at least one principal that can be added to the project
     @principals_available = @project.possible_members('', 1)
   end

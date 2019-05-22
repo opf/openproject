@@ -33,7 +33,7 @@ See docs/COPYRIGHT.rdoc for more details.
         Redmine::AccessControl.available_project_modules.collect {|m| [l_or_humanize(m, prefix: "project_module_"), m.to_s]}) %></div>
     <div class="form--field"><%= setting_check_box :sequential_project_identifiers %></div>
     <div class="form--field"><%= setting_select :new_project_user_role_id,
-                      Role.find_all_givable.collect {|r| [r.name, r.id.to_s]},
+                      Role.givable.collect {|r| [r.name, r.id.to_s]},
                       blank: "--- #{t(:actionview_instancetag_blank_option)} ---",
                       container_class: '-middle' %></div>
   </section>

@@ -33,8 +33,9 @@ module API
         class Index
           include ::API::Utilities::PageSizeHelper
 
-          def initialize(model:)
-            self.model = model
+          def initialize(model:, scope: nil)
+            self.model = model_class(model)
+            self.scope = scope
             self.render_representer = deduce_render_representer
           end
 
@@ -45,8 +46,9 @@ module API
               query = index.parse(params)
 
               self_path = api_v3_paths.send(index.self_path)
+              base_scope = index.scope ? instance_exec(&index.scope) : index.model
 
-              index.render(query, params, self_path)
+              index.render(query, params, self_path, base_scope)
             end
           end
 
@@ -56,9 +58,9 @@ module API
               .call(params)
           end
 
-          def render(query, params, self_path)
+          def render(query, params, self_path, base_scope)
             if query.valid?
-              render_success(query, params, self_path)
+              render_success(query, params, self_path, base_scope)
             else
               render_error(query)
             end
@@ -69,17 +71,39 @@ module API
           end
 
           attr_accessor :model,
+                        :scope,
                         :render_representer
 
           private
 
-          def render_success(query, params, self_path)
+          def render_success(query, params, self_path, base_scope)
+            results = merge_scopes(base_scope, query.results)
+
+            if paginated_representer?
+              render_paginated_success(results, params, self_path)
+            else
+              render_unpaginated_success(results, self_path)
+            end
+          end
+
+          def render_paginated_success(results, params, self_path)
             render_representer
-              .new(query.results,
+              .new(results,
                    self_path,
                    page: to_i_or_nil(params[:offset]),
                    per_page: resolve_page_size(params[:pageSize]),
                    current_user: User.current)
+          end
+
+          def render_unpaginated_success(results, self_path)
+            render_representer
+              .new(results,
+                   self_path,
+                   current_user: User.current)
+          end
+
+          def paginated_representer?
+            render_representer.ancestors.include?(::API::Decorators::OffsetPaginatedCollection)
           end
 
           def render_error(query)
@@ -96,6 +120,30 @@ module API
 
           def demodulized_name
             model.name.demodulize
+          end
+
+          def model_class(scope)
+            if scope.is_a? Class
+              scope
+            else
+              scope.model
+            end
+          end
+
+          def with_based_scope(other_scope)
+            if scope
+              merge_scopes(scope, other_scope)
+            else
+              other_scope
+            end
+          end
+
+          def merge_scopes(scope_a, scope_b)
+            if scope_a.is_a? Class
+              scope_b
+            else
+              scope_a.merge(scope_b)
+            end
           end
         end
       end

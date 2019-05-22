@@ -220,10 +220,22 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/members'
   end
 
+  describe '#members_available_projects' do
+    subject { helper.members_available_projects }
+
+    it_behaves_like 'api v3 path', '/members/available_projects'
+  end
+
   describe '#member' do
     subject { helper.member(42) }
 
     it_behaves_like 'api v3 path', '/members/42'
+  end
+
+  describe '#member_schema' do
+    subject { helper.member_schema }
+
+    it_behaves_like 'api v3 path', '/members/schema'
   end
 
   describe '#message' do

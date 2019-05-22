@@ -163,8 +163,16 @@ module API
             "#{root}/members"
           end
 
+          def self.members_available_projects
+            "#{members}/available_projects"
+          end
+
           def self.member(id)
             "#{members}/#{id}"
+          end
+
+          def self.member_schema
+            "#{members}/schema"
           end
 
           def self.message(id)
@@ -487,6 +495,14 @@ module API
 
           def self.work_packages_by_project(project_id)
             "#{project(project_id)}/work_packages"
+          end
+
+          def self.path_for(path, filters: nil)
+            if filters&.any?
+              "#{send(path)}?#{{ filters: filters.to_json }.to_query}"
+            else
+              send(path)
+            end
           end
         end
 

@@ -35,7 +35,7 @@ class Member < ActiveRecord::Base
   has_many :roles, through: :member_roles
   belongs_to :project
 
-  validates_presence_of :project
+  validates_presence_of :project, :principal
   validates_uniqueness_of :user_id, scope: :project_id
 
   validate :validate_presence_of_role

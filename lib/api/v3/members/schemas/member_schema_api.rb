@@ -29,24 +29,15 @@
 module API
   module V3
     module Members
-      class MembersAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::PageSizeHelper
-
-        resources :members do
-          get &::API::V3::Utilities::Endpoints::Index.new(model: Member).mount
-
-          mount ::API::V3::Members::AvailableProjectsAPI
-          mount ::API::V3::Members::Schemas::MemberSchemaAPI
-
-          route_param :id do
+      module Schemas
+        class MemberSchemaAPI < ::API::OpenProjectAPI
+          resources :schema do
             before do
-              @member = ::Queries::Members::MemberQuery
-                        .new(user: current_user)
-                        .results
-                        .find(params['id'])
+              authorize_any %i[manage_members view_members],
+                            global: true
             end
 
-            get &::API::V3::Utilities::Endpoints::Show.new(model: Member).mount
+            get &::API::V3::Utilities::Endpoints::Schema.new(model: Member).mount
           end
         end
       end

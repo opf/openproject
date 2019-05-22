@@ -26,30 +26,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Members
-      class MembersAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::PageSizeHelper
+require 'spec_helper'
+require_relative './shared_contract_examples'
 
-        resources :members do
-          get &::API::V3::Utilities::Endpoints::Index.new(model: Member).mount
-
-          mount ::API::V3::Members::AvailableProjectsAPI
-          mount ::API::V3::Members::Schemas::MemberSchemaAPI
-
-          route_param :id do
-            before do
-              @member = ::Queries::Members::MemberQuery
-                        .new(user: current_user)
-                        .results
-                        .find(params['id'])
-            end
-
-            get &::API::V3::Utilities::Endpoints::Show.new(model: Member).mount
-          end
-        end
-      end
+describe Members::CreateContract do
+  it_behaves_like 'member contract' do
+    let(:member) do
+      Member.new(project: member_project,
+                 roles: member_roles,
+                 principal: member_principal)
     end
+
+    subject(:contract) { described_class.new(member, current_user) }
   end
 end
