@@ -2609,5 +2609,5 @@ lol:
     authorization_error: crwdns127022:0crwdne127022:0
     revoke_my_application_confirmation: crwdns127024:0%{token_count}crwdne127024:0
     my_registered_applications: crwdns127026:0crwdne127026:0
-  error_dependent_work_package: crwdns124140:0%{related_id}crwdnd124140:0%{related_subject}crwdnd124140:0%{error}crwdne124140:0
-  notice_unable_delete_version: crwdns125604:0crwdne125604:0
+  error_dependent_work_package: crwdns129780:0%{related_id}crwdnd129780:0%{related_subject}crwdnd129780:0%{error}crwdne129780:0
+  notice_unable_delete_version: crwdns129782:0crwdne129782:0

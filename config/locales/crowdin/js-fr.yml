@@ -28,8 +28,7 @@ fr:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Vous avez besoin de structurer votre travail librement dans un affichage
-          en tableaux ?
+        boards: Need to freely structure your work in a board view?
         check_out_link: Découvrez l’édition entreprise.
       lists:
         delete: Supprimer la liste

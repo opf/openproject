@@ -28,7 +28,7 @@ es:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: "¿Necesitas estructurar libremente tu trabajo en una sección de tablero?"
+        boards: Need to freely structure your work in a board view?
         check_out_link: Vea la versión Enterprise Edition.
       lists:
         delete: Eliminar lista

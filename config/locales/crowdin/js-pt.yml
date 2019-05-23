@@ -28,7 +28,7 @@ pt:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Precisa estruturar livremente seu trabalho na visualização de quadro?
+        boards: Need to freely structure your work in a board view?
         check_out_link: Experimente a versão Enterprise Edition.
       lists:
         delete: Apagar lista

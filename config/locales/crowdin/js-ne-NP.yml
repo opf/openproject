@@ -27,7 +27,7 @@ ne-NP:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: बोर्ड दृश्यमा तपाईंको कामलाई सजिलै बनाउनु आवश्यक छ?
+        boards: Need to freely structure your work in a board view?
         check_out_link: Check out the Enterprise Edition.
       lists:
         delete: Delete list
