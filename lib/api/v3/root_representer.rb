@@ -45,12 +45,12 @@ module API
         }
       end
 
-      link :members do
+      link :memberships do
         next unless current_user.allowed_to?(:view_members, nil, global: true) ||
                     current_user.allowed_to?(:manage_members, nil, global: true)
 
         {
-          href: api_v3_paths.members
+          href: api_v3_paths.memberships
         }
       end
 

@@ -63,13 +63,13 @@ describe ::API::V3::RootRepresenter do
         let(:href) { api_v3_paths.configuration }
       end
 
-      describe 'members' do
+      describe 'memberships' do
         context 'if having the view_members permission in any project' do
           let(:permissions) { [:view_members] }
 
           it_behaves_like 'has an untitled link' do
-            let(:link) { 'members' }
-            let(:href) { api_v3_paths.members }
+            let(:link) { 'memberships' }
+            let(:href) { api_v3_paths.memberships }
           end
         end
 
@@ -77,8 +77,8 @@ describe ::API::V3::RootRepresenter do
           let(:permissions) { [:manage_members] }
 
           it_behaves_like 'has an untitled link' do
-            let(:link) { 'members' }
-            let(:href) { api_v3_paths.members }
+            let(:link) { 'memberships' }
+            let(:href) { api_v3_paths.memberships }
           end
         end
 

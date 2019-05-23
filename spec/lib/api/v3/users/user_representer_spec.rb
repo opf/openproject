@@ -190,7 +190,7 @@ describe ::API::V3::Users::UserRepresenter do
             'values' => [user.id.to_s]
           } }]
 
-          api_v3_paths.path_for(:members, filters: filters)
+          api_v3_paths.path_for(:memberships, filters: filters)
         end
 
         context 'if the user has the :view_members permissions' do

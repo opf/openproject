@@ -221,7 +221,7 @@ describe ::API::V3::Utilities::PathHelper do
   end
 
   describe '#memberships_available_projects' do
-    subject { helper.members_available_projects }
+    subject { helper.memberships_available_projects }
 
     it_behaves_like 'api v3 path', '/memberships/available_projects'
   end
