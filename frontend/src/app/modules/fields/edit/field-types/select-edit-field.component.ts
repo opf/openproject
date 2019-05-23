@@ -35,6 +35,7 @@ import {AngularTrackingHelpers} from "core-components/angular/tracking-functions
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
+import {SelectAutocompleterRegisterService} from "app/modules/fields/edit/field-types/select-autocompleter-register.service";
 
 export interface ValueOption {
   name:string;
@@ -45,6 +46,8 @@ export interface ValueOption {
   templateUrl: './select-edit-field.component.html'
 })
 export class SelectEditFieldComponent extends EditFieldComponent implements OnInit {
+  public selectAutocompleterRegister = this.injector.get(SelectAutocompleterRegisterService);
+
   public options:any[];
   public valueOptions:ValueOption[];
   public template:string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html';
@@ -58,6 +61,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   private _autocompleterComponent:CreateAutocompleterComponent;
 
   public referenceOutputs = {
+    onCreate: (newElement:HalResource) => this.onCreate(newElement),
     onChange: (value:HalResource) => this.onChange(value),
     onKeydown: (event:JQueryEventObject) => this.handler.handleUserKeydown(event, true),
     onOpen: () => this.onOpen(),
@@ -84,7 +88,8 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   public autocompleterComponent() {
-    return CreateAutocompleterComponent;
+    let type = this.schema.type;
+    return this.selectAutocompleterRegister.getAutocompleterOfAttribute(type) || CreateAutocompleterComponent;
   }
 
   public ngOnInit() {
@@ -137,6 +142,12 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       ||
       (!this.value && this.schema.required)
     );
+  }
+
+  public onCreate(newElement:HalResource) {
+    this.options.push(newElement);
+    this.selectedOption = { name: newElement.name, $href: newElement.$href };
+    this.handler.handleUserSubmit();
   }
 
   public onOpen() {

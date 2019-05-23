@@ -120,8 +120,8 @@ export class CreateAutocompleterComponent implements AfterViewInit {
     this.createAllowed ? this.addAutoCompleter.open() : this.autoCompleter.open();
   }
 
-  public createNewElement(name:string) {
-    this.onCreate.emit(name);
+  public createNewElement(newElement:string) {
+    this.onCreate.emit(newElement);
   }
 
   public changeModel(element:HalResource) {

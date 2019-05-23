@@ -41,7 +41,11 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
                           [appendTo]="'body'"
                           [model]=""
                           (onCreate)="createNewVersion($event)"
-                          (onChange)="onModelChanged($event)">
+                          (onChange)="onModelChanged($event)"
+                          (onOpen)="opened()"
+                          (onClose)="closed()"
+                          (onKeydown)="keyPressed($event)"
+                          (onAfterViewInit)="afterViewinited($event)">
     </create-autocompleter>
   `,
   selector: 'version-autocompleter'
@@ -53,6 +57,10 @@ export class VersionAutocompleterComponent implements OnInit {
 
   @Output() public onCreate = new EventEmitter<VersionResource>();
   @Output() public onChange = new EventEmitter<VersionResource>();
+  @Output() public onOpen = new EventEmitter<void>();
+  @Output() public onKeydown = new EventEmitter<JQueryEventObject>();
+  @Output() public onClose = new EventEmitter<void>();
+  @Output() public onAfterViewInit = new EventEmitter<VersionAutocompleterComponent>();
 
   constructor(readonly currentProject:CurrentProjectService,
               readonly pathHelper:PathHelperService,
@@ -85,6 +93,22 @@ export class VersionAutocompleterComponent implements OnInit {
 
   public onModelChanged(element:VersionResource) {
     this.onChange.emit(element);
+  }
+
+  public opened() {
+    this.onOpen.emit();
+  }
+
+  public closed() {
+    this.onClose.emit();
+  }
+
+  public keyPressed(event:JQueryEventObject) {
+    this.onKeydown.emit(event);
+  }
+
+  public afterViewinited() {
+    this.onAfterViewInit.emit(this);
   }
 
   private getVersionPayload(name:string) {
