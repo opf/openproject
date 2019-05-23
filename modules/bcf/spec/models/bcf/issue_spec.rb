@@ -128,20 +128,33 @@ describe ::Bcf::Issue, type: :model do
   end
 
   context '#markup_doc' do
+    subject { issue }
+
     it "returns a Nokogiri::XML::Document" do
-      expect(issue.markup_doc).to be_a Nokogiri::XML::Document
+      expect(subject.markup_doc).to be_a Nokogiri::XML::Document
     end
 
     it "caches the document" do
-      first_fetched_doc = issue.markup_doc
-      expect(issue.markup_doc).to be_eql(first_fetched_doc)
+      first_fetched_doc = subject.markup_doc
+      expect(subject.markup_doc).to be_eql(first_fetched_doc)
     end
 
     it "invalidates the cache after an update of the issue" do
-      first_fetched_doc = issue.markup_doc
-      issue.markup = issue.markup + ' '
-      issue.save
-      expect(issue.markup_doc).to_not be_eql(first_fetched_doc)
+      first_fetched_doc = subject.markup_doc
+      subject.markup = subject.markup + ' '
+      subject.save
+      expect(subject.markup_doc).to_not be_eql(first_fetched_doc)
+    end
+
+    it "provides attributes" do
+      expect(subject.title).to be_eql 'Maximum Content'
+      expect(subject.description).to be_eql 'This is a topic with all informations present.'
+      expect(subject.priority_text).to be_eql 'High'
+      expect(subject.status_text).to be_eql 'Open'
+      expect(subject.assignee_text).to be_eql 'andy@example.com'
+      expect(subject.index_text).to be_eql '0'
+      expect(subject.labels).to contain_exactly 'Structural', 'IT Development'
+      expect(subject.due_date_text).to be_nil
     end
   end
 end

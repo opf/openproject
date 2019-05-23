@@ -5,8 +5,6 @@ module Bcf
     belongs_to :work_package
     belongs_to :project
 
-    attr_reader(:markup_doc)
-
     after_update :invalidate_markup_cache
 
     class << self
@@ -21,9 +19,9 @@ module Bcf
                extract_first_node(priority_path, 'priority_text'),
                extract_first_node(status_path, 'status_text'),
                extract_first_node(assignee_path, 'assignee_text'),
-               extract_first_node('/Markup/Topic/DueDate/text()', 'due_date_text'),
-               extract_first_node('/Markup/Topic/Index/text()', 'index_text'),
-               extract_nodes('/Markup/Topic/Labels/text()', 'labels')
+               extract_first_node(due_date_path, 'due_date_text'),
+               extract_first_node(index_path, 'index_text'),
+               extract_nodes(labels_path, 'labels')
       end
 
       def title_path
@@ -46,6 +44,18 @@ module Bcf
         '/Markup/Topic/AssignedTo/text()'
       end
 
+      def due_date_path
+        '/Markup/Topic/DueDate/text()'
+      end
+
+      def index_path
+        '/Markup/Topic/Index/text()'
+      end
+
+      def labels_path
+        '/Markup/Topic/Labels/text()'
+      end
+
       private
 
       def extract_first_node(path, as)
@@ -61,7 +71,7 @@ module Bcf
       if attributes.keys.include? 'title'
         self[:title]
       else
-        markup_doc.xpath(self.class.title_path).first.to_s
+        markup_doc.xpath(self.class.title_path).first.to_s.presence
       end
     end
 
@@ -69,7 +79,63 @@ module Bcf
       if attributes.keys.include? 'description'
         self[:description]
       else
-        markup_doc.xpath(self.class.description_path).first.to_s
+        markup_doc.xpath(self.class.description_path).first.to_s.presence
+      end
+    end
+
+    def priority_text
+      if attributes.keys.include? 'priority_text'
+        self[:priority_text]
+      else
+        markup_doc.xpath(self.class.priority_path).first.to_s.presence
+      end
+    end
+
+    def status_text
+      if attributes.keys.include? 'status_text'
+        self[:status_text]
+      else
+        markup_doc.xpath(self.class.status_path).first.to_s.presence
+      end
+    end
+
+    def status_text
+      if attributes.keys.include? 'status_text'
+        self[:status_text]
+      else
+        markup_doc.xpath(self.class.status_path).first.to_s.presence
+      end
+    end
+
+    def assignee_text
+      if attributes.keys.include? 'assignee_text'
+        self[:assignee_text]
+      else
+        markup_doc.xpath(self.class.assignee_path).first.to_s.presence
+      end
+    end
+
+    def due_date_text
+      if attributes.keys.include? 'due_date_text'
+        self[:due_date_text]
+      else
+        markup_doc.xpath(self.class.due_date_path).first.to_s.presence
+      end
+    end
+
+    def index_text
+      if attributes.keys.include? 'index_text'
+        self[:index_text]
+      else
+        markup_doc.xpath(self.class.index_path).first.to_s.presence
+      end
+    end
+
+    def labels
+      if attributes.keys.include? 'labels'
+        self[:labels]
+      else
+        markup_doc.xpath(self.class.labels_path).map(&:to_s)
       end
     end
 
