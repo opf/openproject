@@ -56,12 +56,12 @@ hu:
       no_results_content_title: Jelenleg nincs autentikációs mód.
       no_results_content_text: Új autentikációs mód létrehozása
   ldap_auth_sources:
-    connection_encryption: Connection encryption
+    connection_encryption: Kapcsolat titkosítása
     tls_mode:
       plain: Nincs
-      simple_tls: simple_tls
-      start_tls: start_tls
-      plain_description: Plain unencrypted connection, no TLS negotiation.
+      simple_tls: Egyszerű_TLS
+      start_tls: Start_TLS
+      plain_description: Egyszerű, nem titkosított kapcsolat, nincs TLS egyeztetés.
       simple_tls_description: Implicit TLS encryption, but no certificate validation.
         Use with caution and implicit trust of the LDAP connection.
       start_tls_description: Explicit TLS encryption with full validation. Use for
@@ -380,10 +380,10 @@ hu:
         encoded_token: Vállalati támogatás kulcs
         active_user_count_restriction: Maximális aktív felhasználók
       grids/grid:
-        page: Page
-        row_count: Number of rows
-        column_count: Number of columns
-        widgets: Widgets
+        page: Oldal
+        row_count: Sorok száma
+        column_count: Oszlopok száma
+        widgets: Kisalkalmazások
       relation:
         delay: Késés
         from: Feladatcsoport
@@ -476,9 +476,9 @@ hu:
         type: Típus
         watcher: Megfigyelő
       doorkeeper/application:
-        uid: Client ID
+        uid: Ügyfél azonosító
         secret: Client secret
-        owner: Owner
+        owner: Tulajdonos
         redirect_uri: Redirect URI
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
@@ -692,7 +692,7 @@ hu:
       wiki_page: Wiki oldal
       workflow: Munkafolyamat
       work_package: Feladatcsoport
-      doorkeeper/application: OAuth application
+      doorkeeper/application: OAuth alkalmazás
   errors:
     header_invalid_fields: 'Problémák merültek fel az alábbi mezőkkel:'
     field_erroneous_label: 'Ez a mező érvénytelen: %{full_errors} kérjük, adjon meg
@@ -2902,10 +2902,10 @@ hu:
     close_warning: Figyelmeztetés figyelmen kívül hagyása.
   oauth:
     application:
-      singular: OAuth application
-      plural: OAuth applications
+      singular: OAuth alkalmazás
+      plural: OAuth alkalmazások
       named: OAuth application '%{name}'
-      new: New OAuth application
+      new: Új OAuth alkalmazás
       default_scopes: "(Default scopes)"
       instructions:
         name: The name of your application. This will be displayed to other users
@@ -2923,7 +2923,7 @@ hu:
         register_intro: If you are developing an OAuth API client application for
           OpenProject, you can register it using this form for all users to use.
         default_scopes: ''
-    client_id: Client ID
+    client_id: Ügyfél azonosító
     client_secret_notice: 'This is the only time we can print the client secret, please
       note it down and keep it secure. It should be treated as a password and cannot
       be retrieved by OpenProject at a later time.
@@ -2965,10 +2965,10 @@ hu:
       requests will be performed.
 
 '
-    authorization_error: An authorization error has occurred.
+    authorization_error: Engedélyezési hiba történt.
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
-    my_registered_applications: Registered OAuth applications
+    my_registered_applications: Regisztrált OAuth alkalmazások
   error_dependent_work_package: 'Hiba a függő feladatcsoportban #%{related_id} %{related_subject}:
     %{error}'
   notice_unable_delete_version: Nem lehet törölni a verziót.

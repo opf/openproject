@@ -27,7 +27,7 @@ ko:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: 당신의 작품을 이사회의 관점에서 자유롭게 구조화하겠습니까?
+        boards: Need to freely structure your work in a board view?
         check_out_link: Enterprise Edition을 체크아웃하세요.
       lists:
         delete: 목록 삭제

@@ -28,8 +28,7 @@ it:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Hai bisogno di strutturare in modo libero il tuo lavoro con delle
-          viste a schede?
+        boards: Need to freely structure your work in a board view?
         check_out_link: Scopri Enterprise Edition.
       lists:
         delete: Elimina elenco

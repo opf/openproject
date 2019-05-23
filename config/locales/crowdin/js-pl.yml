@@ -27,7 +27,7 @@ pl:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Chcesz dowolnie kształtować swoją pracę w widoku tablicy?
+        boards: Need to freely structure your work in a board view?
         check_out_link: Sprawdź wersję Enterprise.
       lists:
         delete: Usuń listę

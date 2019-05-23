@@ -26,7 +26,7 @@ ja:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: ボードビューであなたの作業を自由に構成する必要がありますか？
+        boards: Need to freely structure your work in a board view?
         check_out_link: エンタープライズ版をチェックしてください。
       lists:
         delete: リストを削除
