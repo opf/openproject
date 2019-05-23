@@ -24,7 +24,8 @@ describe ::OpenProject::Bcf::BcfXml::Importer do
   let(:file) do
     Rack::Test::UploadedFile.new(
       File.join(Rails.root, "modules/bcf/spec/fixtures/files/#{filename}"),
-      'application/octet-stream')
+      'application/octet-stream'
+    )
   end
   let(:type) { FactoryBot.create :type, name: 'Issue [BCF]' }
   let(:project) do
@@ -49,12 +50,12 @@ describe ::OpenProject::Bcf::BcfXml::Importer do
                       type: type)
   end
   let(:priority) { FactoryBot.create :default_priority }
-  let(:bcf_manager_member) {
+  let(:bcf_manager_member) do
     FactoryBot.create(:member,
                       project: project,
                       user: bcf_manager,
                       roles: [manage_bcf_role, member_role])
-  }
+  end
 
   subject { described_class.new file, project, current_user: bcf_manager }
 

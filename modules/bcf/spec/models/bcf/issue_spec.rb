@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::Bcf::Issue, type: :model do
-  let(:type) { FactoryBot.create :type, name: "Issue [BCF]"}
+  let(:type) { FactoryBot.create :type, name: "Issue [BCF]" }
   let(:work_package) { FactoryBot.create :work_package, type: type }
   let(:markup) do
     <<-MARKUP

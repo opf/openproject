@@ -16,7 +16,7 @@ module OpenProject::Bcf::BcfXml
     ##
     # Get a list of issues contained in a BCF
     # but do not perform the import
-    def get_extractor_list
+    def extractor_list
       @extractor_list ||= Zip::File.open(@file) do |zip|
         yield_markup_bcf_files(zip)
           .map do |entry|
@@ -26,11 +26,11 @@ module OpenProject::Bcf::BcfXml
     end
 
     def all_people
-      @instance_cache[:all_people] ||= get_extractor_list.map { |entry| entry[:people] }.flatten.uniq
+      @instance_cache[:all_people] ||= extractor_list.map { |entry| entry[:people] }.flatten.uniq
     end
 
     def all_mails
-      @instance_cache[:all_mails] ||= get_extractor_list.map { |entry| entry[:mail_addresses] }.flatten.uniq
+      @instance_cache[:all_mails] ||= extractor_list.map { |entry| entry[:mail_addresses] }.flatten.uniq
     end
 
     def known_users
