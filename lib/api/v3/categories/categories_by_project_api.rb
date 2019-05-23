@@ -34,7 +34,7 @@ module API
     module Categories
       class CategoriesByProjectAPI < ::API::OpenProjectAPI
         resources :categories do
-          before do
+          after_validation do
             @categories = @project.categories
           end
 

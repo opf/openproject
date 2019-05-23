@@ -176,6 +176,10 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     this.form.editMode = false;
     this.wpEditing.stopEditing(this.workPackage.id!);
     this.form.destroy();
+
+    if (this.workPackage.isNew) {
+      this.wpCreate.cancelCreation();
+    }
   }
 
   public saveWorkPackage() {

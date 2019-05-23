@@ -65,7 +65,7 @@ export class WorkPackageTableHighlightingService extends WorkPackageQueryStateSe
   }
 
   public valueFromQuery(query:QueryResource):WorkPackageTableHighlight {
-    const highlight = { mode: query.highlightingMode || 'inline', highlightedAttributes: query.highlightedAttributes };
+    const highlight = { mode: query.highlightingMode || 'inline', selectedAttributes: query.highlightedAttributes };
     return this.filteredValue(highlight);
   }
 

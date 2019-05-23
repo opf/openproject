@@ -426,6 +426,7 @@ cs:
         spent_on: Datum
         type: Typ
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -666,6 +667,9 @@ cs:
         member:
           principal_blank: Zvolte alespoň jednoho uživatele nebo skupinu.
           role_blank: Vyberte prosím alespoň jednu roli.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Zkontrolujte, prosím, následující pole:'
         header:
@@ -1092,11 +1096,11 @@ cs:
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Nastavení neexistuje.
-  error_dependent_work_package: 'Chyba v závislém balíčku #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Váš účet nebyl aktivován (dosažen limit
     počtu uživatelů). Prosím obraťte se na správce pro získání přístupu.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1478,6 +1482,7 @@ cs:
   label_max_size: Maximální velikost
   label_me: já
   label_member_new: Nový člen
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Členové
   label_view_all_members: Zobrazit všechny členy
   label_menu_item_name: Název položky menu
@@ -1950,7 +1955,6 @@ cs:
     There are too many results.
     Narrow down the search by typing in the name of the new member (or group).
   notice_unable_delete_time_entry: Nelze odstranit položku protokolu čas.
-  notice_unable_delete_version: Nelze odstranit verzi.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
   notice_user_invitation_resent: Pozvánka byla odeslána na %{email}.
@@ -2842,6 +2846,7 @@ cs:
     attributes:
       lock_version: Uzamknout verzi
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Pro přístup k tomuto prostředku musíte být přihlášeni.
       code_401_wrong_credentials: Neposkytli jste správné přihlašovací údaje.
       code_403: Nemáte oprávnění k přístupu k tomuto zdroji.
@@ -2998,3 +3003,6 @@ cs:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  error_dependent_work_package: 'Chyba v závislém balíčku #%{related_id} %{related_subject}:
+    %{error}'
+  notice_unable_delete_version: Nelze odstranit verzi.

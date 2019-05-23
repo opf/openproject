@@ -44,6 +44,8 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) {},
                  setter: ->(fragment:, **) do
+                   next unless fragment.is_a?(Array)
+
                    ids = fragment.map do |link|
                      ::API::Utilities::ResourceLinkParser.parse_id link['href'],
                                                                    property: :attachment,

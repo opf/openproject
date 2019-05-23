@@ -53,6 +53,7 @@ import {AddCardDropdownMenuDirective} from "core-app/modules/boards/board/add-ca
 import {BoardFilterComponent} from "core-app/modules/boards/board/board-filter/board-filter.component";
 import {DragScrollModule} from "cdk-drag-scroll";
 import {BoardListDropdownMenuDirective} from "core-app/modules/boards/board/board-list/board-list-dropdown.directive";
+import {BoardListService} from "core-app/modules/boards/board/board-list/board-list.service";
 
 export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -129,6 +130,7 @@ export function registerBoardsModule(injector:Injector) {
   providers: [
     BoardService,
     BoardDmService,
+    BoardListService,
     BoardListsService,
     BoardCacheService,
     BoardConfigurationService,

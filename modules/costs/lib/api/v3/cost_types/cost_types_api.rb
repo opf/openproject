@@ -34,14 +34,14 @@ module API
     module CostTypes
       class CostTypesAPI < ::API::OpenProjectAPI
         resources :cost_types do
-          before do
+          after_validation do
             authorize_any([:view_cost_entries, :view_own_cost_entries],
                           global: true,
                           user: current_user)
           end
 
-          route_param :id do
-            before do
+          route_param :id, type: Integer, desc: 'Cost type ID' do
+            after_validation do
               @cost_type = CostType.active.find(params[:id])
             end
 

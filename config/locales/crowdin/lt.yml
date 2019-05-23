@@ -425,6 +425,7 @@ lt:
         spent_on: Data
         type: Tipas
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -664,6 +665,9 @@ lt:
         member:
           principal_blank: Prašome pasirinkti bent vieną vartotoją ar grupę.
           role_blank: Prašome pasirinkti bent vieną rolę.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Prašome patikrinti šiuos laukelius:'
         header:
@@ -1096,11 +1100,11 @@ lt:
   error_cookie_missing: OpenProject sausainėlis nerastas. Prašome patikrinti, ar sausainėliai
     yra įgalinti, nes kitaip aplikacija tinkamai neveiks.
   error_custom_option_not_found: Galimybė neegzistuoja.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Jūsų paskyra negali būti aktyvuota (pasiektas
     vartotojų limitas). Prašome kreiptis į savo sistemos administratorių.
   error_failed_to_delete_entry: Šio įrašo nepavyko panaikinti.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Negalima grupuoti naudojant: %{value}'
   error_invalid_query_column: 'Netinkamas užklausos stulpelis: %{value}'
@@ -1480,6 +1484,7 @@ lt:
   label_max_size: Maksimalus dydis
   label_me: aš
   label_member_new: Naujas narys
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Nariai
   label_view_all_members: Rodyti visus narius
   label_menu_item_name: Meniu punkto pavadinimas
@@ -1957,7 +1962,6 @@ lt:
   notice_to_many_principals_to_display: Per daug rezultatų. Susiaurinkite paiešką
     pradėdami įvesti naujo nario (ar grupės) pavadinimą.
   notice_unable_delete_time_entry: Neįmano ištrinti laiko žurnalo įrašo.
-  notice_unable_delete_version: Neįmanoma ištrinti versijos.
   notice_user_missing_authentication_method: Vartotojas dar nepasirinko slaptažodžio
     ar kitokio būdo prisijungimui.
   notice_user_invitation_resent: Pakvietimas buvo nusiųstas į %{email}.
@@ -2867,6 +2871,7 @@ lt:
     attributes:
       lock_version: Užrakto versija
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Jums reikia būti autentifikuotam, kad galėtumėte pasiekti šį resursą.
       code_401_wrong_credentials: Jūs nepateikėte teisingų prisijungimo duomenų.
       code_403: Jūs nesate autorizuotas šiam resursui pasiekti.
@@ -3023,3 +3028,6 @@ lt:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  notice_unable_delete_version: Neįmanoma ištrinti versijos.

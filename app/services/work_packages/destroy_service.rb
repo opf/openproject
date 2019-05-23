@@ -51,19 +51,30 @@ class WorkPackages::DestroyService
     result = ServiceResult.new success: true,
                                result: work_package
 
-    descendants = work_package.descendants.to_a
+    WorkPackage.transaction do
+      descendants = work_package.descendants.to_a
 
-    result.success = work_package.destroy
+      result.success = error_or_destroy
 
-    if result.success?
-      update_ancestors_all_attributes(result.all_results).each do |ancestor_result|
-        result.merge!(ancestor_result)
+      if result.success?
+        update_ancestors_all_attributes(result.all_results).each do |ancestor_result|
+          result.merge!(ancestor_result)
+        end
+
+        destroy_descendants(descendants, result)
       end
-
-      destroy_descendants(descendants, result)
     end
 
     result
+  end
+
+  def error_or_destroy
+    if user.allowed_to?(:delete_work_packages, work_package.project)
+      work_package.destroy
+    else
+      work_package.errors.add(:base, :error_unauthorized)
+      false
+    end
   end
 
   def destroy_descendants(descendants, result)

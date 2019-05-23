@@ -52,38 +52,13 @@ module API
             end
           end
 
-          post do
-            params = API::V3::ParseResourceParamsService
-                     .new(current_user, representer: GridRepresenter)
-                     .call(request_body)
-                     .result
-
-            call = ::Grids::CreateService
-                   .new(user: current_user)
-                   .call(attributes: params)
-
-            if call.success?
-              GridRepresenter.create(call.result,
-                                     current_user: current_user,
-                                     embed_links: true)
-            else
-              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
-            end
-          end
+          post &::API::V3::Utilities::Endpoints::Create.new(model: ::Grids::Grid).mount
 
           mount CreateFormAPI
           mount ::API::V3::Grids::Schemas::GridSchemaAPI
 
-          route_param :id do
-            helpers do
-              def raise_if_lacking_manage_permission
-                unless ::Grids::UpdateContract.new(@grid, current_user).edit_allowed?
-                  raise ActiveRecord::RecordNotFound
-                end
-              end
-            end
-
-            before do
+          route_param :id, type: Integer, desc: 'Grid ID' do
+            after_validation do
               @grid = ::Grids::Query
                       .new(user: current_user)
                       .results
@@ -95,47 +70,20 @@ module API
                                   current_user: current_user)
             end
 
-            patch do
-              raise_if_lacking_manage_permission
-
-              params = API::V3::ParseResourceParamsService
-                       .new(current_user, representer: GridRepresenter)
-                       .call(request_body)
-                       .result
-
-              if params[:scope]
-                params[:type] = ::Grids::Configuration.class_from_scope(params.delete(:scope)).to_s
+            # Hack to be able to use the Default* mount while having the permission check
+            # not affecting the GET request
+            namespace do
+              after_validation do
+                unless ::Grids::UpdateContract.new(@grid, current_user).edit_allowed?
+                  raise ActiveRecord::RecordNotFound
+                end
               end
 
-              call = ::Grids::UpdateService
-                     .new(user: current_user,
-                          grid: @grid)
-                     .call(attributes: params)
+              patch &::API::V3::Utilities::Endpoints::Update.new(model: ::Grids::Grid).mount
+              delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::Grids::Grid).mount
 
-              if call.success?
-                GridRepresenter.create(call.result,
-                                       current_user: current_user,
-                                       embed_links: true)
-              else
-                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
-              end
+              mount UpdateFormAPI
             end
-
-            delete do
-              raise_if_lacking_manage_permission
-
-              call = ::Grids::DeleteService
-                .new(user: current_user, grid: @grid)
-                .call
-
-              if call.success?
-                status 204
-              else
-                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
-              end
-            end
-
-            mount UpdateFormAPI
           end
         end
       end

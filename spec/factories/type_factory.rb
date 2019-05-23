@@ -30,6 +30,7 @@ FactoryBot.define do
   factory :type do
     sequence(:position) { |p| p }
     name { |a| "Type No. #{a.position}" }
+    description { nil }
     created_at { Time.now }
     updated_at { Time.now }
 

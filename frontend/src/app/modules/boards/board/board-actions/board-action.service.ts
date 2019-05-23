@@ -32,4 +32,22 @@ export interface BoardActionService {
    * Get available values from the active queries
    */
   getAvailableValues(board:Board, queries:QueryResource[]):Promise<HalResource[]>;
+
+  /**
+   * Get action specific items that shall be shown in the list menu
+   * @returns {any[]}
+   */
+  getAdditionalListMenuItems(actionAttributeValue:HalResource):Promise<any>;
+
+  /*
+   * Whether it is allowed to add new action entries (e.g. a new version)
+   * @returns {boolean}
+   */
+  canCreateNewActionElements():Promise<boolean>;
+
+  /**
+   * Creates a new action entry (e.g. a new version) to be selectable as a list
+   * @returns {any}
+   */
+  createNewActionElement(name:string):Promise<HalResource|void>;
 }

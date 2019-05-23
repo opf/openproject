@@ -175,6 +175,7 @@ module API
                           true,
                           false,
                           true,
+                          :filters,
                           :filters
 
           schema_with_allowed_collection :group_by,

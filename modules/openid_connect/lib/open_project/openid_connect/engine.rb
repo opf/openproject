@@ -10,7 +10,14 @@ module OpenProject::OpenIDConnect
     register 'openproject-openid_connect',
              author_url: 'http://finn.de',
              bundled: true,
-             settings: { 'default' => { 'providers' => {} } }
+             settings: { 'default' => { 'providers' => {} } } do
+      menu :admin_menu,
+           :plugin_openid_connect,
+           :openid_connect_providers_path,
+           after: :ldap_authentication,
+           caption: ->(*) { I18n.t('openid_connect.menu_title') },
+           icon: 'icon2 icon-openid'
+    end
 
     assets %w(
       openid_connect/auth_provider-azure.png
@@ -19,45 +26,27 @@ module OpenProject::OpenIDConnect
     )
 
     register_auth_providers do
-      require 'omniauth/openid_connect/providers'
-
-      Providers = OmniAuth::OpenIDConnect::Providers
-
       # Use OpenSSL default certificate store instead of HTTPClient's.
       # It's outdated and it's unclear how it's managed.
       OpenIDConnect.http_config do |config|
         config.ssl_config.set_default_paths
       end
 
-      def configuration
-        from_settings = if Setting.plugin_openproject_openid_connect.is_a? Hash
-          Hash(Setting.plugin_openproject_openid_connect["providers"])
-        else
-          {}
-        end
-        # Settings override configuration.yml
-        Hash(OpenProject::Configuration["openid_connect"]).deep_merge(from_settings)
-      end
-
-      Providers.configure custom_options: [
-        :display_name?, :icon?, :sso?, :issuer?,
-        :check_session_iframe?, :end_session_endpoint?
+      OmniAuth::OpenIDConnect::Providers.configure custom_options: %i[
+        display_name? icon? sso? issuer?
+        check_session_iframe? end_session_endpoint?
       ]
 
       strategy :openid_connect do
-        # update base redirect URI in case settings changed
-        Providers.configure base_redirect_uri: "#{Setting.protocol}://#{Setting.host_name}#{OpenProject::Configuration['rails_relative_url_root']}"
-        Providers.load(configuration).map(&:to_h)
+        OpenProject::OpenIDConnect.providers.map(&:to_h)
       end
     end
 
-    #config.to_prepare do
     initializer 'openid_connect.form_post_method' do
       # If response_mode 'form_post' is chosen,
       # the IP sends a POST to the callback. Only if
       # the sameSite flag is not set on the session cookie, is the cookie send along with the request.
-      if OpenProject::Configuration['openid_connect'] &&
-        OpenProject::Configuration['openid_connect'].any? { |_, v| v['response_mode']&.to_s == 'form_post' }
+      if OpenProject::Configuration['openid_connect']&.any? { |_, v| v['response_mode']&.to_s == 'form_post' }
         SecureHeaders::Configuration.default.cookies[:samesite][:lax] = false
         # Need to reload the secure_headers config to
         # avoid having set defaults (e.g. https) when changing the cookie values
@@ -78,7 +67,7 @@ module OpenProject::OpenIDConnect
           # put it into a cookie
           if context && access_token
             context.send(:cookies)[:_open_project_session_access_token] = {
-              value:  access_token,
+              value: access_token,
               secure: secure_cookie
             }
           end

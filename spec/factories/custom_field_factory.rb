@@ -204,5 +204,21 @@ FactoryBot.define do
       field_format { 'text' }
       sequence(:name) { |n| "TimeEntryCustomField #{n}" }
     end
+
+    factory :version_custom_field, class: VersionCustomField do
+      field_format { 'text' }
+      sequence(:name) { |n| "Version Custom Field #{n}" }
+
+      factory :int_version_custom_field do
+        sequence(:name) { |n| "Int version custom field #{n}" }
+        field_format { 'int' }
+      end
+
+      factory :list_version_custom_field do
+        sequence(:name) { |n| "List version custom field #{n}" }
+        field_format { 'list' }
+        possible_values { ['A', 'B', 'C', 'D', 'E', 'F', 'G'] }
+      end
+    end
   end
 end

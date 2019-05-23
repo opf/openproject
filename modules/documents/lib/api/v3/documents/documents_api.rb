@@ -52,7 +52,7 @@ module API
             end
           end
 
-          route_param :id do
+          route_param :id, type: Integer, desc: 'Document ID' do
             helpers do
               def document
                 Document.visible.find(params[:id])

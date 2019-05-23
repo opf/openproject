@@ -427,6 +427,7 @@ bg:
         spent_on: Дата
         type: Тип
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -663,6 +664,9 @@ bg:
         member:
           principal_blank: Моля изберете поне един потребител или група.
           role_blank: Моля, изберете поне една роля.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Моля проверете следните полета:'
         header:
@@ -1062,11 +1066,11 @@ bg:
   error_cookie_missing: '"Бисквитката" на OpenProject липсва. Моля уверете се че cookies
     са активирани, тъй като това приложение не функционира правилно без тях.'
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1451,6 +1455,7 @@ bg:
   label_max_size: Максимален размер
   label_me: мен
   label_member_new: Нов потребител
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Потребители
   label_view_all_members: Покажи всички членове
   label_menu_item_name: Име на елемент от меню
@@ -1912,7 +1917,6 @@ bg:
   notice_to_many_principals_to_display: Има твърде много резултати. Стесните търсенето,
     като въведете името на нов член (или група).
   notice_unable_delete_time_entry: Не може да изтриете запис в регистъра на време.
-  notice_unable_delete_version: Не може да изтриете версия.
   notice_user_missing_authentication_method: Потребителят все още не е избрал парола
     или друг начин за влизане.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2792,6 +2796,7 @@ bg:
     attributes:
       lock_version: Lock Version
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: You need to be authenticated to access this resource.
       code_401_wrong_credentials: You did not provide the correct credentials.
       code_403: You are not authorized to access this resource.
@@ -2946,3 +2951,6 @@ bg:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  notice_unable_delete_version: Не може да изтриете версия.

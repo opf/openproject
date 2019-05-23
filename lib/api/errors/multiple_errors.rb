@@ -31,6 +31,7 @@ module API
   module Errors
     class MultipleErrors < ErrorBase
       identifier 'urn:openproject-org:api:v3:errors:MultipleErrors'
+      code 422
 
       def self.create_if_many(errors)
         raise ArgumentError, 'expected at least one error' unless errors.any?
@@ -40,7 +41,7 @@ module API
       end
 
       def initialize(errors)
-        super 422, I18n.t('api_v3.errors.multiple_errors')
+        super I18n.t('api_v3.errors.multiple_errors')
 
         @errors = errors
       end

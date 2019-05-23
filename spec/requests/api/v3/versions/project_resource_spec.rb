@@ -35,8 +35,8 @@ describe "API v3 version's projects resource" do
 
   let(:current_user) do
     user = FactoryBot.create(:user,
-                              member_in_project: project,
-                              member_through_role: role)
+                             member_in_project: project,
+                             member_through_role: role)
 
     allow(User).to receive(:current).and_return user
 
@@ -92,7 +92,7 @@ describe "API v3 version's projects resource" do
         get get_path
       end
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like 'not found'
     end
   end
 end

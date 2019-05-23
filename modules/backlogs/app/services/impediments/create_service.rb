@@ -41,10 +41,10 @@ class Impediments::CreateService
   end
 
   def call(attributes: {})
-    attributes.merge! type_id: Impediment.type
+    attributes[:type_id] = Impediment.type
 
     WorkPackages::CreateService
       .new(user: user)
-      .call(attributes: attributes, work_package: Impediment.new)
+      .call(attributes.merge(work_package: Impediment.new).symbolize_keys)
   end
 end

@@ -39,15 +39,11 @@ module API
               end
             end
 
-            params do
-              requires :id, desc: 'Filter id'
-            end
-
-            before do
+            after_validation do
               authorize(:view_work_packages, global: true, user: current_user)
             end
 
-            route_param :id do
+            route_param :id, type: String, regexp: /\A\w+\z/, desc: 'Filter ID' do
               get do
                 ar_id = convert_to_ar(params[:id])
                 filter_class = Query.find_registered_filter(ar_id)

@@ -437,6 +437,7 @@ de:
         spent_on: Datum
         type: Typ
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: In Roadmap standardmäßig angezeigt
         is_default: Typ für neue Projekte standardmäßig aktiviert
@@ -684,6 +685,9 @@ de:
         member:
           principal_blank: Bitte wählen Sie mindestens einen Benutzer oder eine Gruppe.
           role_blank: Bitte wählen Sie mindestens eine Rolle.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Bitte überprüfen Sie die folgenden Felder:'
         header:
@@ -1096,12 +1100,12 @@ de:
     Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt
     funktioniert.
   error_custom_option_not_found: Option ist nicht vorhanden.
-  error_dependent_work_package: 'Fehler in abhängigem Arbeitspaket #%{related_id}
-    %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: Ihr Konto konnte nicht aktiviert werden
     (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff
     zu erhalten.
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Ausgewählter Wert ist ungültig.
   error_invalid_group_by: 'Kann nicht gruppieren nach: %{value}'
   error_invalid_query_column: 'Ungültige Filter-Spalte: %{value}'
@@ -1489,6 +1493,7 @@ de:
   label_max_size: Maximale Größe
   label_me: ich
   label_member_new: Neues Mitglied
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Mitglieder
   label_view_all_members: Alle Mitglieder anzeigen
   label_menu_item_name: Name des Menüpunktes
@@ -1960,7 +1965,6 @@ de:
     Bitte engen Sie die Suche ein, indem sie den Namen der Person (oder der Gruppe) eingeben.
   notice_unable_delete_time_entry: Der Zeiterfassungseintrag konnte nicht gelöscht
     werden.
-  notice_unable_delete_version: Die Version konnte nicht gelöscht werden.
   notice_user_missing_authentication_method: Benutzer muss noch ein Passwort oder
     eine andere Authentifizierungsmethode wählen.
   notice_user_invitation_resent: Eine Einladung wurde an %{email} gesendet.
@@ -2879,6 +2883,7 @@ de:
     attributes:
       lock_version: Version sperren
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu
         können.
       code_401_wrong_credentials: Die von Ihnen benutzten Zugangsdaten sind nicht
@@ -3042,3 +3047,6 @@ de:
     revoke_my_application_confirmation: Möchten Sie diese Anwendung wirklich entfernen?
       Dies wird %{token_count} aktive Token widerrufen.
     my_registered_applications: Registrierte OAuth-Anwendungen
+  error_dependent_work_package: 'Fehler in abhängigem Arbeitspaket #%{related_id}
+    %{related_subject}: %{error}'
+  notice_unable_delete_version: Die Version konnte nicht gelöscht werden.

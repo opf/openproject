@@ -41,12 +41,14 @@ import {BoardActionService} from "core-app/modules/boards/board/board-actions/bo
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import {NgSelectComponent} from "@ng-select/ng-select/dist";
 
 @Component({
   templateUrl: './add-list-modal.html'
 })
 export class AddListModalComponent extends OpModalComponent implements OnInit {
-  @ViewChild('actionAttributeSelect') actionAttributeSelect:ElementRef;
+  @ViewChild('addActionAttributeSelect') addAutoCompleter:NgSelectComponent;
+  @ViewChild('actionAttributeSelect') autoCompleter:NgSelectComponent;
 
   public showClose:boolean;
 
@@ -69,6 +71,12 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   public trackByHref = AngularTrackingHelpers.trackByHref;
 
+  /* Is it allowed to add new action attributes from within the modal */
+  public createAllowed:boolean;
+
+  /* Do not close on outside click (because the select option are appended to the body */
+  public closeOnOutsideClick = false;
+
   public text:any = {
     title: this.I18n.t('js.boards.add_list'),
     button_continue: this.I18n.t('js.button_continue'),
@@ -82,6 +90,8 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     action_board_text: this.I18n.t('js.boards.board_type.action_text'),
     select_attribute: this.I18n.t('js.boards.board_type.select_attribute'),
     placeholder: this.I18n.t('js.placeholders.selection'),
+
+    add_new_action: this.I18n.t('js.boards.add.create_new'),
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -106,9 +116,21 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     this.actionService
       .getAvailableValues(this.board, this.queries)
       .then(available => {
-        this.selectedAttribute = available[0];
         this.availableValues = available;
       });
+
+    this.actionService.canCreateNewActionElements().then((val) => {
+      this.createAllowed = val;
+
+      setTimeout(() => {
+        this.createAllowed ? this.addAutoCompleter.focus() : this.autoCompleter.focus();
+      });
+    });
+
+  }
+
+  onModelChange(element:HalResource) {
+    this.selectedAttribute = element;
   }
 
   create() {
@@ -120,6 +142,15 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
         this.boardCache.update(board);
         this.state.go('boards.show', { board_id: board.id, isNew: true });
       });
+  }
+
+  createNewElement(name:string) {
+    this.actionService.createNewActionElement(name).then((newElement) => {
+      if (newElement) {
+        this.selectedAttribute = newElement;
+        this.create();
+      }
+    });
   }
 }
 

@@ -90,8 +90,8 @@ $scrollbar-color: #DDDDDD
 
 @mixin styled-scroll-bar-vertical
   // Firefox specific styles
-  scrollbar-color: $scrollbar-color transparent
-  scrollbar-width: none
+  scrollbar-color: transparent transparent
+  scrollbar-width: thin
 
   // Other browser styles
   &::-webkit-scrollbar
@@ -106,7 +106,7 @@ $scrollbar-color: #DDDDDD
     visibility: hidden
 
   &:hover
-    scrollbar-width: thin
+    scrollbar-color: $scrollbar-color transparent
     &::-webkit-scrollbar-thumb
       visibility: visible
 
@@ -140,3 +140,11 @@ $scrollbar-color: #DDDDDD
     // as if it would result in showing the backside of this element.
     // This leads to input and select elements not showing their values.
     backface-visibility: visible
+
+@mixin overlay-background
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  z-index: 900

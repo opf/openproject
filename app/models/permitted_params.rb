@@ -606,6 +606,8 @@ class PermittedParams
           :is_milestone,
           :is_default,
           :color_id,
+          :default,
+          :description,
           project_ids: []
         ],
         user: %i(

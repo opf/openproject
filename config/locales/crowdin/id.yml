@@ -421,6 +421,7 @@ id:
         spent_on: Tanggal
         type: Tipe
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -658,6 +659,9 @@ id:
         member:
           principal_blank: Silakan pilih setidaknya satu user atau grup.
           role_blank: Silakan pilih setidaknya satu Role.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Silakan periksa isian berikut :'
         header:
@@ -1059,11 +1063,11 @@ id:
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Pilihan tidak ada.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Gagal untuk menghapus isian ini.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Tidak dapat dikelompokkan dengan: %{value}'
   error_invalid_query_column: 'Permintaan tidak valid kolom: %{value}'
@@ -1445,6 +1449,7 @@ id:
   label_max_size: Ukuran maks.
   label_me: saya
   label_member_new: Member baru
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Member
   label_view_all_members: View all members
   label_menu_item_name: Nama item menu
@@ -1900,7 +1905,6 @@ id:
   notice_to_many_principals_to_display: Ada terlalu banyak hasil. Persempit pencarian
     dengan mengetik nama member baru (atau grup).
   notice_unable_delete_time_entry: Entri time log tidak bisa dihapus.
-  notice_unable_delete_version: Gagal menghapus versi.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
   notice_user_invitation_resent: Sebuah undangan telah dikirim ke %{email}.
@@ -2781,6 +2785,7 @@ id:
     attributes:
       lock_version: Lock Version
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Anda perlu dikonfirmasi untuk mengakses sumber ini.
       code_401_wrong_credentials: You did not provide the correct credentials.
       code_403: Anda tidak diizinkan untuk mengakses sumber ini.
@@ -2935,3 +2940,6 @@ id:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  notice_unable_delete_version: Gagal menghapus versi.

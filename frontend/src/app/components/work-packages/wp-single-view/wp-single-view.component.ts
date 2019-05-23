@@ -46,6 +46,7 @@ import {DynamicCssService} from '../../../modules/common/dynamic-css/dynamic-css
 import {HookService} from 'core-app/modules/plugins/hook-service';
 import {randomString} from "core-app/helpers/random-string";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
+import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 
 export interface FieldDescriptor {
   name:string;
@@ -61,6 +62,7 @@ export interface GroupDescriptor {
   id:string;
   members:FieldDescriptor[];
   query?:QueryResource;
+  isolated:boolean;
   type:string;
 }
 
@@ -75,6 +77,9 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
 @Component({
   templateUrl: './wp-single-view.html',
   selector: 'wp-single-view',
+  providers: [
+    PortalCleanupService
+  ]
 })
 export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   @Input('workPackage') public workPackage:WorkPackageResource;
@@ -129,6 +134,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected hook:HookService,
               protected injector:Injector,
               readonly elementRef:ElementRef,
+              readonly cleanupService:PortalCleanupService,
               readonly browserDetector:BrowserDetector) {
   }
 
@@ -186,7 +192,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Nothing to do
+    this.cleanupService.clear();
   }
 
   /**
@@ -270,7 +276,8 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
           name: group.name,
           id: groupId || randomString(16),
           members: this.getFields(resource, group.attributes),
-          type: group._type
+          type: group._type,
+          isolated: false
         };
       } else {
         return {
@@ -279,7 +286,8 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
           query: group._embedded.query,
           relationType: group.relationType,
           members: [group._embedded.query],
-          type: group._type
+          type: group._type,
+          isolated: true
         };
       }
     });

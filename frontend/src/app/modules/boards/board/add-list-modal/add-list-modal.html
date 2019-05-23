@@ -1,5 +1,5 @@
 <div class="op-modal--portal confirm-form-submit--modal  ngdialog-theme-openproject">
-  <div class="op-modal--modal-container confirm-dialog--modal loading-indicator--location"
+  <div class="op-modal--modal-container confirm-dialog--modal loading-indicator--location -slim"
        data-indicator-name="modal"
        tabindex="0">
     <div class="op-modal--modal-header">
@@ -16,17 +16,31 @@
     <div class="ngdialog-body op-modal--modal-body">
         <div class="form--field">
           <div class="form--field-container">
-            <div class="form--select-container -slim">
-              <label class="form--label" for="new_board_action_select" [textContent]="actionService.localizedName"></label>
-              <select #actionAttributeSelect
-                      [(ngModel)]="selectedAttribute"
-                      name="new_board_action_select"
-                      class="new-board--action-select">
-                <option *ngFor="let item of availableValues; trackBy:trackByHref"
-                        [ngValue]="item"
-                        [textContent]="item.name">
-                </option>
-              </select>
+            <div class="form--select-container">
+              <label class="form--label" for="new_list_action_select" [textContent]="actionService.localizedName"></label>
+              <ng-select *ngIf="createAllowed"
+                         #addActionAttributeSelect
+                         name="new_list_action_select"
+                         class="new-list--action-select"
+                         [items]="availableValues"
+                         [addTag]="createNewElement.bind(this)"
+                         (change)="onModelChange($event)"
+                         bindLabel="name"
+                         appendTo="body">
+                <ng-template ng-tag-tmp let-search="searchTerm">
+                  <b [textContent]="text.add_new_action"></b>: {{search}}
+                </ng-template>
+              </ng-select>
+
+              <ng-select *ngIf="!createAllowed"
+                         #actionAttributeSelect
+                         name="new_list_action_select"
+                         class="new-list--action-select"
+                         [items]="availableValues"
+                         (change)="onModelChange($event)"
+                         bindLabel="name"
+                         appendTo="body">
+              </ng-select>
             </div>
           </div>
         </div>

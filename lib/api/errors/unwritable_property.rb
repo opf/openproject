@@ -31,9 +31,10 @@ module API
   module Errors
     class UnwritableProperty < ErrorBase
       identifier 'urn:openproject-org:api:v3:errors:PropertyIsReadOnly'
+      code 422
 
       def initialize(property)
-        super 422, I18n.t('api_v3.errors.writing_read_only_attributes')
+        super I18n.t('api_v3.errors.writing_read_only_attributes')
 
         @property = property
         @details = { attribute: property }

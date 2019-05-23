@@ -31,10 +31,7 @@ module API
   module Errors
     class InvalidRenderContext < ErrorBase
       identifier 'urn:openproject-org:api:v3:errors:InvalidRenderContext'
-
-      def initialize(message)
-        super 400, message
-      end
+      code 400
     end
   end
 end

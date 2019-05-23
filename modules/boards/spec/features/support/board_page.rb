@@ -146,18 +146,25 @@ module Pages
       end
 
       count = list_count
-      page.find('.boards-list--add-item').click
 
       if value.nil?
+        page.find('.boards-list--add-item').click
         expect(page).to have_selector('.board-list--container', count: count + 1)
       else
-        select value, from: 'new_board_action_select'
+        open_and_fill_add_list_modal value
+        page.find('.ng-option-label', text: name).click
         click_on 'Continue'
       end
 
       unless name.nil?
         rename_list 'Unnamed list', name
       end
+    end
+
+    def add_list_with_new_value(name)
+      open_and_fill_add_list_modal name
+
+      page.find('.ng-option', text: 'Create new: ' + name).click
     end
 
     def save
@@ -174,11 +181,11 @@ module Pages
     end
 
     def expect_list(name)
-      expect(page).to have_field('editable-toolbar-title', with: name)
+      expect(page).to have_selector('editable-toolbar-title', text: name)
     end
 
     def expect_no_list(name)
-      expect(page).not_to have_field('editable-toolbar-title', with: name)
+      expect(page).not_to have_selector('editable-toolbar-title', text: name)
     end
 
     def expect_empty
@@ -200,13 +207,14 @@ module Pages
     end
 
     def expect_list_option(name, present: true)
-      page.find('.boards-list--add-item').click
+      open_and_fill_add_list_modal name
+
       if present
-        expect(page).to have_select('new_board_action_select', options: [name])
+        expect(page).to have_selector('.ng-option-label', text: name)
       else
-        expect(page).not_to have_select('new_board_action_select', options: [name])
+        expect(page).not_to have_selector('.ng-option-label', text: name)
       end
-      click_on 'Cancel'
+      find('body').send_keys [:escape]
     end
 
     def visit!
@@ -228,7 +236,7 @@ module Pages
       find('.board--back-button').click
     end
 
-    def expect_editable(editable)
+    def expect_editable_board(editable)
       # Editable / draggable check
       expect(page).to have_conditional_selector(editable, '.board--container.-editable')
 
@@ -237,7 +245,9 @@ module Pages
 
       # Add new list
       expect(page).to have_conditional_selector(editable, '.boards-list--add-item')
+    end
 
+    def expect_editable_list(editable)
       # Add new / existing card
       expect(page).to have_conditional_selector(editable, '.board-list--card-dropdown-button')
     end
@@ -296,6 +306,11 @@ module Pages
       end
 
       click_button 'Apply'
+    end
+
+    def open_and_fill_add_list_modal(name)
+      page.find('.boards-list--add-item').click
+      page.find('.op-modal--modal-container .new-list--action-select input').set(name)
     end
   end
 end

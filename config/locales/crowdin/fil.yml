@@ -444,6 +444,7 @@ fil:
         spent_on: Petsa
         type: Uri
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -688,6 +689,9 @@ fil:
         member:
           principal_blank: Mangayring pumili na kahit isang gumagamit o grupo.
           role_blank: Mangyaring pumili ng kahit isang tungkulin.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Mangyaring suriin ang mga sumusunod na mga patlang:'
         header:
@@ -1093,11 +1097,11 @@ fil:
     na ang mga cookie ay pinagana, bilang aplikasyon na ito ay hindi gumagana ng maayos
     na hindi kasama ang.
   error_custom_option_not_found: Ang opsyon ay hindi umiiral.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Nabigong burahin ang entry na ito.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Hindi ma grupo sa pamamagitan ng: %{value}'
   error_invalid_query_column: Hindi balido ang hanay ng query:%{value}
@@ -1485,6 +1489,7 @@ fil:
   label_max_size: Pinakamataas na laki
   label_me: ako
   label_member_new: Bagong miyembro
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Mga miyembro
   label_view_all_members: Tingnan ang lahat na mga miyembro
   label_menu_item_name: Pangalan ng pagpipiliang aytem
@@ -1957,7 +1962,6 @@ fil:
     Mayroong maraming resulta.
     I-narrow down ang paghahanap sa pamamagitan ng pagtype ng pangalan ng bagong miyembro (o grupo).
   notice_unable_delete_time_entry: Hindi mabura ang oras ng log entry.
-  notice_unable_delete_version: Hindi mabura ang bersyon.
   notice_user_missing_authentication_method: Ang user ay pipili pa ng password o iba
     pang paraan para maka pag-sign in.
   notice_user_invitation_resent: Isang imbitasyon ay ipinadala sa %{email}.
@@ -2892,6 +2896,7 @@ fil:
     attributes:
       lock_version: Nakakandadong bersyon
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Kailangan mong magpatunay para ma-akses mo ang mapagkukunan na ito.
       code_401_wrong_credentials: Hindi mo na naibigay ang tamang mga kredensyal.
       code_403: Ikaw ay hindi pwedeng magpatunay na mag-akses sa mapagkukunan na ito.
@@ -3052,3 +3057,6 @@ fil:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  notice_unable_delete_version: Hindi mabura ang bersyon.

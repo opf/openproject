@@ -70,8 +70,11 @@ class RbImpedimentsController < RbApplicationController
     # fetching the record.
     params.delete(:project_id)
 
-    hash = params.permit(:fixed_version_id, :status_id, :id, :sprint_id,
-                         :assigned_to_id, :remaining_hours, :subject, :blocks_ids)
+    hash = params
+           .permit(:fixed_version_id, :status_id, :id, :sprint_id,
+                   :assigned_to_id, :remaining_hours, :subject, :blocks_ids)
+           .to_h
+           .symbolize_keys
 
     # We block block_ids only when user is not allowed to create or update the
     # instance passed.

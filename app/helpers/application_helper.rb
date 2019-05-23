@@ -362,8 +362,12 @@ module ApplicationHelper
   def back_url_to_current_page_hidden_field_tag
     back_url = params[:back_url]
     if back_url.present?
-      hidden_field_tag('back_url', back_url.to_s)
+      back_url = back_url.to_s
+    elsif request.get? and !params.blank?
+      back_url = request.url
     end
+
+    hidden_field_tag('back_url', back_url) unless back_url.blank?
   end
 
   def check_all_links(form_name)

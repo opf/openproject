@@ -48,11 +48,8 @@ module API
                                                               current_user: current_user)
           end
 
-          params do
-            requires :id, desc: 'Attachment id'
-          end
-          route_param :id do
-            before do
+          route_param :id, type: Integer, desc: 'Attachment ID' do
+            after_validation do
               @attachment = Attachment.find(params[:id])
 
               raise ::API::Errors::NotFound.new unless @attachment.visible?(current_user)

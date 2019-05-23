@@ -424,6 +424,7 @@ fi:
         spent_on: Päivä
         type: Tyyppi
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -660,6 +661,9 @@ fi:
         member:
           principal_blank: Valitse vähintään yksi käyttäjä tai ryhmä.
           role_blank: Valitse vähintään yksi rooli.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Tarkista seuraavat kentät:'
         header:
@@ -1057,11 +1061,11 @@ fi:
   error_cookie_missing: OpenProject evästeen puuttuu. Varmista, että evästeet ovat
     käytössä, koska tämä sovellus ei toimi oikein ilman evästeitä.
   error_custom_option_not_found: Vaihtoehtoa ei ole olemassa.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Tämän merkinnän poisto ei onnistunut.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1443,6 +1447,7 @@ fi:
   label_max_size: Suurin koko
   label_me: minä
   label_member_new: Uusi jäsen
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Jäsenet
   label_view_all_members: Näytä kaikki jäsenet
   label_menu_item_name: Valinnan nimi
@@ -1898,7 +1903,6 @@ fi:
     On liian paljon tuloksia.
     Rajata hakua kirjoittamalla nimi uuden jäsenen (tai ryhmä).
   notice_unable_delete_time_entry: Ei voi poistaa aikakirjausta.
-  notice_unable_delete_version: Version poisto epäonnistui
   notice_user_missing_authentication_method: Käyttäjä on vielä valita salasana tai
     toinen tapa kirjautua sisään.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2776,6 +2780,7 @@ fi:
     attributes:
       lock_version: Lock Version
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Sinun täytyy olla todennettu pääsy tähän resurssiin.
       code_401_wrong_credentials: Et ole antanut oikeita käyttäjätietoja.
       code_403: Sinulla ei ole oikeutta käyttää tätä resurssia.
@@ -2929,3 +2934,6 @@ fi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  notice_unable_delete_version: Version poisto epäonnistui

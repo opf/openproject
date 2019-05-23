@@ -47,10 +47,10 @@ module OpenProject::Documents
                           icon: 'icon2 icon-notes'
 
       project_module :documents do |_map|
+        permission :view_documents, documents: [:index, :show, :download]
         permission :manage_documents, {
           documents: [:new, :create, :edit, :update, :destroy, :add_attachment]
           }, require: :loggedin
-        permission :view_documents, documents: [:index, :show, :download]
       end
 
       Redmine::Notifiable.all << Redmine::Notifiable.new('document_added')

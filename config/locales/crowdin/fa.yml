@@ -423,6 +423,7 @@ fa:
         spent_on: تاریخ
         type: نوع
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Displayed in roadmap by default
         is_default: Activated for new projects by default
@@ -659,6 +660,9 @@ fa:
         member:
           principal_blank: لطفا حداقل یک کاربر یا گروه را انتخاب کنید.
           role_blank: Please choose at least one role.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Please check the following fields:'
         header:
@@ -1058,11 +1062,11 @@ fa:
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1444,6 +1448,7 @@ fa:
   label_max_size: Maximum size
   label_me: me
   label_member_new: New member
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Members
   label_view_all_members: View all members
   label_menu_item_name: Name of menu item
@@ -1900,7 +1905,6 @@ fa:
     There are too many results.
     Narrow down the search by typing in the name of the new member (or group).
   notice_unable_delete_time_entry: Unable to delete time log entry.
-  notice_unable_delete_version: Unable to delete version.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
   notice_user_invitation_resent: ایمیل دعوت به %{email} فرستاده شده است.
@@ -2782,6 +2786,7 @@ fa:
     attributes:
       lock_version: قفل نگارش
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: لازم است برای دسترسی به این منبع تأیید اعتبار شوید.
       code_401_wrong_credentials: اطلاعات اعتبارسنجی درستی ارایه نکرده اید.
       code_403: You are not authorized to access this resource.
@@ -2935,3 +2940,6 @@ fa:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  notice_unable_delete_version: Unable to delete version.

@@ -415,7 +415,9 @@ describe 'API v3 time_entry resource', type: :request do
           }
         },
         "hours": 'PT5H',
-        "comment": "some comment",
+        "comment": {
+          raw: "some comment"
+        },
         "spentOn": "2017-07-28",
         "customField#{custom_field.id}": {
           raw: 'some cf text'

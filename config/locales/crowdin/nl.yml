@@ -431,6 +431,7 @@ nl:
         spent_on: Datum
         type: Type
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Standaard weergegeven in roadmap
         is_default: Standaart ingesteld voor nieuwe projecten
@@ -674,6 +675,9 @@ nl:
         member:
           principal_blank: Kies ten minste één gebruiker of groep.
           role_blank: Kies ten minste één rol.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Controleer de volgende velden:'
         header:
@@ -1080,11 +1084,11 @@ nl:
   error_cookie_missing: De cookie voor OpenProject ontbreekt. Zorg ervoor dat cookies
     zijn ingeschakeld aangezien deze toepassing anders niet goed zal functioneren.
   error_custom_option_not_found: Optie bestaat niet.
-  error_dependent_work_package: 'Fout in afhankelijke werkpakket #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Uw account kon niet worden geactiveerd (gebruikerslimiet
     bereikt). Neem contact op met uw beheerder om toegang te krijgen.
   error_failed_to_delete_entry: Fout bij het verwijderen van deze ingave.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: De geselecteerde waarde is ongeldig.
   error_invalid_group_by: 'Kan niet groeperen op: %{value}'
   error_invalid_query_column: 'Ongeldige zoekopdracht kolom: %{value}'
@@ -1467,6 +1471,7 @@ nl:
   label_max_size: Maximale Grootte
   label_me: ik
   label_member_new: Nieuw lid
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Leden
   label_view_all_members: Alle leden bekijken
   label_menu_item_name: Naam van het menu-item
@@ -1935,7 +1940,6 @@ nl:
   notice_to_many_principals_to_display: Er zijn te veel resultaten. Verklein de mogelijkheden
     door een naam in te geven van een nieuw lid of groep.
   notice_unable_delete_time_entry: Niet in staat om tijdlog te verwijderen.
-  notice_unable_delete_version: Niet in staat om versie te verwijderen.
   notice_user_missing_authentication_method: Gebruiker dient nog een wachtwoord te
     kiezen of een andere manier om in te loggen te bepalen.
   notice_user_invitation_resent: Een nieuwe uitnodiging is verstuurd naar %{email}.
@@ -2845,6 +2849,7 @@ nl:
     attributes:
       lock_version: Vergrendel versie
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: U moet geauthenticeerd zijn om toegang te hebben tot deze resource.
       code_401_wrong_credentials: U heeft niet de juiste referenties opgeven.
       code_403: U bent niet gemachtigd om toegang te hebben tot deze resource.
@@ -3006,3 +3011,6 @@ nl:
     revoke_my_application_confirmation: Weet u zeker dat u deze applicatie wilt verwijderen?
       Dit zal %{token_count} actief voor deze verwijderen.
     my_registered_applications: Geregistreerde OAuth toepassingen
+  error_dependent_work_package: 'Fout in afhankelijke werkpakket #%{related_id} %{related_subject}:
+    %{error}'
+  notice_unable_delete_version: Niet in staat om versie te verwijderen.

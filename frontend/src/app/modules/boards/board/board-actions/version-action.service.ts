@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {Board} from "core-app/modules/boards/board/board";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
@@ -10,15 +9,16 @@ import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 @Injectable()
 export class BoardVersionActionService implements BoardActionService {
 
-  constructor(protected pathHelper:PathHelperService,
-              protected boardListService:BoardListsService,
+  constructor(protected boardListsService:BoardListsService,
               protected I18n:I18nService,
               protected versionDm:VersionDmService,
-              protected currentProject:CurrentProjectService) {
+              protected currentProject:CurrentProjectService,
+              protected pathHelper:PathHelperService) {
   }
 
   public get localizedName() {
@@ -43,8 +43,8 @@ export class BoardVersionActionService implements BoardActionService {
 
   public addActionQueries(board:Board):Promise<Board> {
     return this.getVersions()
-      .then((results) =>
-        Promise.all<unknown>(
+      .then((results) => {
+        return Promise.all<unknown>(
           results.map((version:VersionResource) => {
             if (version.definingProject.name === this.currentProject.name) {
               return this.addActionQuery(board, version);
@@ -53,8 +53,8 @@ export class BoardVersionActionService implements BoardActionService {
             return Promise.resolve(board);
           })
         )
-          .then(() => board)
-      );
+          .then(() => board);
+      });
   }
 
   public addActionQuery(board:Board, value:HalResource):Promise<Board> {
@@ -67,7 +67,7 @@ export class BoardVersionActionService implements BoardActionService {
       values: [value.id]
     }};
 
-    return this.boardListService.addQuery(board, params, [filter]);
+    return this.boardListsService.addQuery(board, params, [filter]);
   }
 
   /**
@@ -88,6 +88,55 @@ export class BoardVersionActionService implements BoardActionService {
       );
   }
 
+  /**
+   * Checks for correct permissions
+   * (whether the current project is in the list of allowed values in the version create form)
+   * @returns {Promise<boolean>}
+   */
+  public canCreateNewActionElements():Promise<boolean> {
+    var that = this;
+    return this.versionDm.emptyCreateForm(this.getVersionPayload('')).then((form) => {
+       return form.schema.definingProject.allowedValues.some((e:HalResource) => e.id === that.currentProject.id!);
+    });
+  }
+
+  /**
+   * Creates a new version with the given name
+   * @param {string} the name of the new version
+   * @returns {Promise<HalResource | void>}
+   */
+  public createNewActionElement(name:string):Promise<HalResource|void> {
+    return this.versionDm.createVersion(this.getVersionPayload(name));
+  }
+
+  /**
+   * Adds an entry to the list menu to edit the version if allowed
+   * @param {HalResource} actionAttributeValue
+   * @returns {Promise<any>}
+   */
+  public getAdditionalListMenuItems(actionAttributeValue:HalResource):Promise<any> {
+    var items: any = [];
+    const actionID = actionAttributeValue.id;
+
+    if (actionID) {
+      return this.versionDm.one(parseInt(actionID)).then((version) => {
+        // Show entry only with correct permissions
+        if (version.$links.update) {
+          items.push(
+            {
+              linkText: this.I18n.t('js.boards.lists.edit_version'),
+              externalAction: () => window.open(this.pathHelper.versionEditPath(actionID), '_blank')
+            }
+          );
+        }
+
+        return items;
+      });
+    } else {
+      return Promise.resolve(items);
+    }
+  }
+
   private getVersions():Promise<VersionResource[]> {
     if (this.currentProject.id === null) {
       return Promise.resolve([]);
@@ -96,5 +145,17 @@ export class BoardVersionActionService implements BoardActionService {
     return this.versionDm
       .listForProject(this.currentProject.id)
       .then(collection => collection.elements.filter(version => version.status === 'open'));
+  }
+
+  private getVersionPayload(name:string) {
+    let payload:any = {};
+    payload['name'] = name;
+    payload['_links'] = {
+      definingProject: {
+        href: this.pathHelper.api.v3.projects.id(this.currentProject.id!).path
+      }
+    };
+
+    return payload;
   }
 }

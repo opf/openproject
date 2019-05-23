@@ -31,9 +31,10 @@ module API
   module Errors
     class ParseError < InvalidRequestBody
       identifier InvalidRequestBody.identifier
+      code 400
 
-      def initialize(message: I18n.t('api_v3.errors.invalid_json'), details: nil)
-        super(message)
+      def initialize(message = nil, details: nil)
+        super I18n.t('api_v3.errors.invalid_json')
 
         if details
           @details = { parseError: clean_parse_error(details) }

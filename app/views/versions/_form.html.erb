@@ -30,8 +30,8 @@ See docs/COPYRIGHT.rdoc for more details.
 <%
   # locals: f, project
   version = f.object
+  contract = version_contract(version)
 %>
-
 
 <%= error_messages_for 'version' %>
 <%= back_url_hidden_field_tag %>
@@ -46,7 +46,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <div class="form--field">
   <%= f.select :status,
-               Version::VERSION_STATUSES.collect { |s| [t("version_status_#{s}"), s] },
+               contract.assignable_statuses.map { |s| [t("version_status_#{s}"), s] },
                container_class: '-slim' %>
 </div>
 
@@ -67,9 +67,15 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <div class="form--field">
   <%= f.select :sharing,
-               version.allowed_sharings.collect { |v| [format_version_sharing(v), v] },
+               contract.assignable_sharings.map { |v| [format_version_sharing(v), v] },
                container_class: '-slim' %>
 </div>
+
+<% if @project.enabled_modules.map(&:name).include?("backlogs") %>
+
+  <%= version_settings_fields(version, @project) %>
+
+<% end %>
 
 <%= render partial: "customizable/form",
            locals: { form: f, all_fields: true, only_required: false } %>

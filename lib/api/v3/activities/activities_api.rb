@@ -33,12 +33,9 @@ module API
     module Activities
       class ActivitiesAPI < ::API::OpenProjectAPI
         resources :activities do
-          params do
-            requires :id, type: Integer, desc: 'Activity id'
-          end
-          route_param :id do
-            before do
-              @activity = Journal::AggregatedJournal.with_notes_id(params[:id])
+          route_param :id, type: Integer, desc: 'Activity ID' do
+            after_validation do
+              @activity = Journal::AggregatedJournal.with_notes_id(declared_params[:id])
               raise API::Errors::NotFound unless @activity
 
               authorize(:view_project, context: @activity.journable.project)
@@ -68,7 +65,7 @@ module API
             patch do
               editable_activity = Journal.find(@activity.notes_id)
               authorize_edit_own(editable_activity)
-              editable_activity.notes = params[:comment]
+              editable_activity.notes = declared_params[:comment]
               save_activity(editable_activity)
 
               ActivityRepresenter.new(@activity.reloaded, current_user: current_user)

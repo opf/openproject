@@ -39,7 +39,7 @@ module API
             end
           end
 
-          before do
+          after_validation do
             fail ::API::Errors::Unauthenticated unless current_user.logged?
             @preferences = current_user.pref
           end

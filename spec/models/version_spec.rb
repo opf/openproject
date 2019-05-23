@@ -53,11 +53,6 @@ describe Version, type: :model do
     end
   end
 
-  context 'deprecated methods' do
-    it { is_expected.to respond_to :completed_pourcent }
-    it { is_expected.to respond_to :closed_pourcent    }
-  end
-
   describe '#systemwide' do
     it 'contains the version if it is shared with all projects' do
       version.sharing = 'system'

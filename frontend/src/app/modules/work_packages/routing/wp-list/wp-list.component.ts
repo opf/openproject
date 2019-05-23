@@ -35,7 +35,8 @@ import {take} from "rxjs/operators";
 
 @Component({
   selector: 'wp-list',
-  templateUrl: './wp.list.component.html'
+  templateUrl: './wp.list.component.html',
+  styleUrls: ['./wp-list.component.sass']
 })
 export class WorkPackagesListComponent extends WorkPackagesViewBase implements OnDestroy {
   text = {
@@ -63,6 +64,9 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
   /** Project identifier of the list */
   projectIdentifier = this.$state.params['projectPath'] || null;
+
+  /** An overlay over the table shown for example when the filters are invalid */
+  showResultOverlay = false;
 
   private readonly titleService:OpTitleService = this.injector.get(OpTitleService);
 
@@ -155,6 +159,10 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     }
 
     return promise;
+  }
+
+  public updateResultVisibility(completed:boolean) {
+    this.showResultOverlay = !completed;
   }
 
   protected updateQueryOnParamsChanges() {

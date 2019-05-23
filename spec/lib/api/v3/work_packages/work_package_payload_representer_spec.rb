@@ -431,6 +431,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       copy[:_links] = links
       copy.to_json
     end
+    let(:work_package) do
+      OpenStruct.new available_custom_fields: available_custom_fields
+    end
 
     subject { representer.from_json(json) }
 
@@ -513,7 +516,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     shared_examples_for 'linked resource' do
       let(:path) { api_v3_paths.send(attribute_name, id) }
       let(:association_name) { attribute_name + '_id' }
-      let(:id) { work_package.send(association_name) + 1 }
+      let(:id) { work_package.send(association_name).to_i + 1 }
       let(:links) do
         { attribute_name => href }
       end
@@ -523,7 +526,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         let(:href) { { href: path } }
 
         it 'sets attribute to the specified id' do
-          expect(representer_attribute).to eql(id)
+          expect(representer_attribute.to_i).to eql(id)
         end
       end
 

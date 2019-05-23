@@ -34,7 +34,6 @@
 #++
 
 class RbTasksController < RbApplicationController
-
   # This is a constant here because we will recruit it elsewhere to whitelist
   # attributes. This is necessary for now as we still directly use `attributes=`
   # in non-controller code.
@@ -73,6 +72,6 @@ class RbTasksController < RbApplicationController
   end
 
   def task_params
-    params.permit(PERMITTED_PARAMS)
+    params.permit(PERMITTED_PARAMS).to_h.symbolize_keys
   end
 end

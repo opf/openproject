@@ -35,7 +35,7 @@ module API
     module Types
       class TypesAPI < ::API::OpenProjectAPI
         resources :types do
-          before do
+          after_validation do
             authorize_any([:view_work_packages, :manage_types], global: true)
           end
 
@@ -44,8 +44,8 @@ module API
             TypeCollectionRepresenter.new(types, api_v3_paths.types, current_user: current_user)
           end
 
-          namespace ':id' do
-            before do
+          route_param :id, type: Integer, desc: 'Type ID' do
+            after_validation do
               type = Type.find(params[:id])
               @representer = TypeRepresenter.new(type, current_user: current_user)
             end

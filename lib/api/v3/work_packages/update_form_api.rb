@@ -26,20 +26,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/form_helper'
-
 module API
   module V3
     module WorkPackages
       class UpdateFormAPI < ::API::OpenProjectAPI
         resource :form do
-          helpers ::API::V3::WorkPackages::FormHelper
-
-          post do
-            respond_with_work_package_form(@work_package,
-                                           contract_class: ::WorkPackages::UpdateContract,
-                                           form_class: UpdateFormRepresenter)
-          end
+          post &::API::V3::Utilities::Endpoints::UpdateForm.new(model: WorkPackage,
+                                                                parse_service: WorkPackages::ParseParamsService)
+                                                           .mount
         end
       end
     end

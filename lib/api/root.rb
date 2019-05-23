@@ -77,6 +77,14 @@ module API
         env['warden']
       end
 
+      ##
+      # Helper to access only the declared
+      # params to avoid unvalidated access
+      # (e.g., in before blocks)
+      def declared_params
+        declared(params)
+      end
+
       def request_body
         env['api.request.body']
       end
@@ -228,6 +236,9 @@ module API
     error_response ::API::Errors::Unauthenticated, headers: auth_headers, log: false
     error_response ::API::Errors::ErrorBase, rescue_subclasses: true, log: false
 
+    # Handle grape validation errors
+    error_response ::Grape::Exceptions::ValidationErrors, ::API::Errors::BadRequest, log: false
+
     # hide internal errors behind the same JSON response as all other errors
     # only doing it in production to allow for easier debugging
     if Rails.env.production?
@@ -235,7 +246,7 @@ module API
     end
 
     # run authentication before each request
-    before do
+    after_validation do
       authenticate
       set_localization
       enforce_content_type

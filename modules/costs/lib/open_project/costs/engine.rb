@@ -63,11 +63,6 @@ module OpenProject::Costs
         permission :edit_cost_objects, { cost_objects: [:index, :show, :edit, :update, :destroy, :new, :create, :copy] }
       end
 
-      # register additional permissions for the time log
-      project_module :time_tracking do
-        permission :view_own_time_entries, { timelog: [:index, :report] }
-      end
-
       # Menu extensions
       menu :admin_menu,
            :cost_types,

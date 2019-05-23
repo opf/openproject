@@ -53,7 +53,7 @@ export class ReorderQueryService {
   }
 
   public saveOrderInQuery(query:QueryResource|undefined, orderedIds:string[]):Observable<unknown> {
-    if (query && !!query.updateImmediately) {
+    if (query && !!query.updateOrderedWorkPackages) {
       const orderedWorkPackages = orderedIds
         .map(id => this.pathHelper.api.v3.work_packages.id(id).toString());
 

@@ -427,6 +427,7 @@ pt-BR:
         spent_on: Data
         type: Tipo
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Exibido no planejamento como padrão
         is_default: Ativado para novos projetos por padrão
@@ -665,6 +666,9 @@ pt-BR:
         member:
           principal_blank: Por favor, escolha ao menos um usuário ou grupo.
           role_blank: Por favor, escolha ao menos um papel.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Por favor, verifique os seguintes campos:'
         header:
@@ -1069,11 +1073,11 @@ pt-BR:
   error_cookie_missing: Está faltando o cookie do OpenProject. Por favor, certifique-se
     de que os cookies estão habilitados, sem os quais esta função não funcionará adequadamente.
   error_custom_option_not_found: A opção não existe.
-  error_dependent_work_package: 'Erro no pacote de trabalho dependente #%{related_id}
-    %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: Sua conta não pôde ser ativada (limite de
     usuários atingido). Por favor, contate o administrador para obter acesso.
   error_failed_to_delete_entry: Falha ao excluir esta entrada.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Valor selecionado inválido.
   error_invalid_group_by: 'Não é possível agrupar por: %{value}'
   error_invalid_query_column: 'Coluna de consulta inválida: %{value}'
@@ -1459,6 +1463,7 @@ pt-BR:
   label_max_size: Tamanho máximo
   label_me: eu
   label_member_new: Novo membro
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Membros
   label_view_all_members: Visualizar todos os membros
   label_menu_item_name: Nome do item de menu
@@ -1925,7 +1930,6 @@ pt-BR:
   notice_to_many_principals_to_display: Existem muitos resultados. Reduza a busca,
     digitando o nome do novo membro (ou grupo).
   notice_unable_delete_time_entry: Não é possível excluir o registro de tempo.
-  notice_unable_delete_version: Não é possível excluir a versão.
   notice_user_missing_authentication_method: Usuário ainda tem que escolher uma senha
     ou outra maneira de acesso.
   notice_user_invitation_resent: Um convite foi enviado para %{email}.
@@ -2828,6 +2832,7 @@ pt-BR:
     attributes:
       lock_version: Bloquear versão
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Você precisa estar autenticado para acessar este recurso.
       code_401_wrong_credentials: Você não forneceu as credenciais corretas.
       code_403: Você não está autorizado a acessar este recurso.
@@ -2988,3 +2993,6 @@ pt-BR:
     revoke_my_application_confirmation: Você quer realmente remover esta aplicação?
       Isso irá revogar %{token_count} ativo(s) para ele.
     my_registered_applications: Aplicações OAuth registradas
+  error_dependent_work_package: 'Erro no pacote de trabalho dependente #%{related_id}
+    %{related_subject}: %{error}'
+  notice_unable_delete_version: Não é possível excluir a versão.

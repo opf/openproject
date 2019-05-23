@@ -376,6 +376,7 @@ zh-TW:
         spent_on: 日期
         type: 類型
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: 在 RoadMap 預設為顯示
         is_default: 新專案的預設啟動類型
@@ -595,6 +596,9 @@ zh-TW:
         member:
           principal_blank: 請至少選擇一個使用者或群組。
           role_blank: 請至少選擇一個角色。
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 請檢查下列欄位：
         header:
@@ -983,9 +987,10 @@ zh-TW:
   error_code: Error %{code}
   error_cookie_missing: OpenProject的Cookie遺失了。請確保瀏覽器的Cookie已經啟用，否則本應用程式將無法正常做用。
   error_custom_option_not_found: 選項不存在。
-  error_dependent_work_package: '相關工作包中的錯誤%{related_id} %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: 無法啟動您的帳戶 (已達到使用者限制)。請與管理員聯繫以獲取存取權限。
   error_failed_to_delete_entry: 刪除此項目失敗。
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: 不合法的項目數值。
   error_invalid_group_by: 無法按照 %{value} 分組
   error_invalid_query_column: 無效的查詢欄：%{value}
@@ -1347,6 +1352,7 @@ zh-TW:
   label_max_size: 最大容量
   label_me: 我
   label_member_new: 新成員
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: 成員
   label_view_all_members: 查看所有的成員
   label_menu_item_name: 選單項目名稱
@@ -1775,7 +1781,6 @@ zh-TW:
     搜尋的結果太多。
     請透過輸入新成員 (群組) 的名稱來縮小搜尋的範圍。
   notice_unable_delete_time_entry: 無法刪除時間日誌項目
-  notice_unable_delete_version: 無法刪除版本
   notice_user_missing_authentication_method: 用戶尚未選擇密碼或其他方式登錄。
   notice_user_invitation_resent: 已向 %{email} 發送邀請。
   present_access_key_value: 您的 %{key_name} 是 %{value}
@@ -2547,6 +2552,7 @@ zh-TW:
     attributes:
       lock_version: 鎖定版本
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: |-
         You need to be authenticated to access this resource.
         您必須取得授權才能使用這個資源。
@@ -2683,3 +2689,5 @@ zh-TW:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  error_dependent_work_package: '相關工作包中的錯誤%{related_id} %{related_subject}: %{error}'
+  notice_unable_delete_version: 無法刪除版本

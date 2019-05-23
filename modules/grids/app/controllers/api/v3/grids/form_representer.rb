@@ -31,57 +31,9 @@
 module API
   module V3
     module Grids
-      class FormRepresenter < ::API::Decorators::Form
-        link :self do
-          {
-            href: form_url,
-            method: :post
-          }
-        end
-
-        link :validate do
-          {
-            href: form_url,
-            method: :post
-          }
-        end
-
-        link :commit do
-          next unless @errors.empty?
-
-          {
-            href: resource_url,
-            method: commit_method
-          }
-        end
-
-        def commit_method
-          raise NotImplementedError, "subclass responsibility"
-        end
-
-        def form_url
-          raise NotImplementedError, "subclass responsibility"
-        end
-
-        def resource_url
-          raise NotImplementedError, "subclass responsibility"
-        end
-
-        def payload_representer
-          GridPayloadRepresenter
-            .new(represented, current_user: current_user)
-        end
-
-        def schema_representer
-          contract = contract_class.new(represented, current_user)
-
-          API::V3::Grids::Schemas::GridSchemaRepresenter.new(contract,
-                                                             form_embedded: true,
-                                                             current_user: current_user)
-        end
-
-        def contract_class
-          raise NotImplementedError, "subclass responsibility"
+      class FormRepresenter < ::API::Decorators::SimpleForm
+        def model
+          ::Grids::Grid
         end
       end
     end

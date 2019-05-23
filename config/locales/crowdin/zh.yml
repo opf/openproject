@@ -372,6 +372,7 @@ zh:
         spent_on: 日期
         type: 类型
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: 默认在版本蓝图中显示
         is_default: 默认激活新项目
@@ -591,6 +592,9 @@ zh:
         member:
           principal_blank: 请选择至少一个用户或组。
           role_blank: 请选择至少一个角色。
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 请检查以下字段：
         header:
@@ -977,9 +981,10 @@ zh:
   error_code: 错误 %{code}
   error_cookie_missing: OpenProject cookie 丢失。请确保已启用 cookie，因为如果不启用，此应用程序将无法正常运行。
   error_custom_option_not_found: 选项不存在。
-  error_dependent_work_package: '相关工作包中的错误%{related_id} %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: 无法激活您的帐户 (已达到用户限制)。请与管理员联系以获取访问权限。
   error_failed_to_delete_entry: 无法删除此条目。
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: 选中的值无效。
   error_invalid_group_by: 无法按照 %{value} 分组
   error_invalid_query_column: 无效的查询列：%{value}
@@ -1339,6 +1344,7 @@ zh:
   label_max_size: 最大
   label_me: 我
   label_member_new: 新成员
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: 成员
   label_view_all_members: 查看所有成员
   label_menu_item_name: 菜单项名称
@@ -1766,7 +1772,6 @@ zh:
   notice_successful_update: 成功更新。
   notice_to_many_principals_to_display: 有太多结果。\n键入新成员（或组）缩小搜索。
   notice_unable_delete_time_entry: 不能删除时间记录条目。
-  notice_unable_delete_version: 不能删除版本。
   notice_user_missing_authentication_method: 用户尚未选择密码或另一种方式登录。
   notice_user_invitation_resent: 邀请已发送到 %{email}。
   present_access_key_value: '你的 %{key_name} 是: %{value}'
@@ -2512,6 +2517,7 @@ zh:
     attributes:
       lock_version: 锁版
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: 你需要被授权访问该资源。
       code_401_wrong_credentials: 你没有提供正确的凭据。
       code_403: 您无权访问此资源。
@@ -2628,3 +2634,5 @@ zh:
     authorization_error: 发生了验证错误。
     revoke_my_application_confirmation: 确定想要移除此应用程序吗？这将撤销对其有效的 %{token_count}。
     my_registered_applications: 已注册的 OAuth 应用程序
+  error_dependent_work_package: '相关工作包中的错误%{related_id} %{related_subject}: %{error}'
+  notice_unable_delete_version: 不能删除版本。

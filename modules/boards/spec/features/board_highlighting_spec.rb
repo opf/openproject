@@ -78,7 +78,7 @@ describe 'Work Package boards spec', type: :feature, js: true do
     board_page = board_index.create_board action: :Status
 
     # See the work packages
-    board_page.expect_query 'Open', editable: true
+    board_page.expect_query 'Open', editable: false
     board_page.expect_card 'Open', wp.subject
     board_page.expect_card 'Open', wp2.subject
 

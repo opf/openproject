@@ -68,7 +68,7 @@ module API
       end
 
       def struct
-        if model
+        if model&.new.respond_to?(:available_custom_fields)
           OpenStruct.new available_custom_fields: model.new.available_custom_fields
         else
           OpenStruct.new

@@ -31,31 +31,25 @@ describe RolesController, type: :controller do
   end
 
   shared_examples_for 'index' do
-    it { expect(response).to be_successful }
-    it { expect(assigns(:roles)).to eql(@roles) }
-    it { expect(response).to render_template 'roles/index' }
+    it {expect(response).to be_successful}
+    it {expect(assigns(:roles)).to eql(@roles)}
+    it {expect(response).to render_template 'roles/index'}
   end
 
   shared_examples_for 'global assigns' do
-    it { expect(assigns(:global_permissions)).to eql @global_role.setable_permissions }
-    it { expect(assigns(:global_roles)).to eql @global_roles }
-    it { expect(assigns(:global_role)).to eql @global_role }
-  end
-
-  shared_examples_for 'permission assigns' do
-    it { expect(assigns(:member_permissions)).to eql @member_role.setable_permissions }
-    it { expect(assigns(:global_permissions)).to eql GlobalRole.setable_permissions }
+    it {expect(assigns(:global_roles)).to eql @global_roles}
+    it {expect(assigns(:global_role)).to eql @global_role}
   end
 
   shared_examples_for 'successful create' do
-    it { expect(response).to be_redirect }
-    it { expect(response).to redirect_to '/admin/roles' }
-    it { expect(flash[:notice]).to eql I18n.t(:notice_successful_create) }
+    it {expect(response).to be_redirect}
+    it {expect(response).to redirect_to '/admin/roles'}
+    it {expect(flash[:notice]).to eql I18n.t(:notice_successful_create)}
   end
 
   shared_examples_for 'failed create' do
-    it { expect(response).to be_successful }
-    it { expect(response).to render_template 'new' }
+    it {expect(response).to be_successful}
+    it {expect(response).to render_template 'new'}
   end
 
   describe 'WITH get' do
@@ -65,13 +59,13 @@ describe RolesController, type: :controller do
       end
 
       describe 'html' do
-        before { get 'index' }
+        before {get 'index'}
 
         it_should_behave_like 'index'
       end
 
       describe 'xhr' do
-        before { get :index, xhr: true }
+        before {get :index, xhr: true}
 
         it_should_behave_like 'index'
       end
@@ -80,7 +74,8 @@ describe RolesController, type: :controller do
     describe 'VERB', :new do
       before do
         @member_role = mocks_for_creating Role
-        allow(GlobalRole).to receive(:setable_permissions).and_return([:perm1, :perm2, :perm3])
+        allow(::Redmine::AccessControl).to receive(:sorted_modules).and_return(%w(Foo))
+        allow(GlobalRole).to receive(:setable_permissions).and_return(doubled_permissions)
         @non_member_role = mock_model Role
         mock_permissions_on @non_member_role
         allow(Role).to receive(:non_member).and_return(@non_member_role)
@@ -89,12 +84,14 @@ describe RolesController, type: :controller do
         get 'new'
       end
 
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template 'roles/new' }
-      it { expect(assigns(:member_permissions)).to eql @member_role.setable_permissions }
-      it { expect(assigns(:roles)).to eql @roles }
-      it { expect(assigns(:role)).to eql @member_role }
-      it { expect(assigns(:global_permissions)).to eql GlobalRole.setable_permissions }
+      it 'renders new' do
+        expect(response).to be_successful
+        expect(response).to render_template 'roles/new'
+        expect(assigns(:permissions))
+          .to eql([['Foo', @member_role.setable_permissions]])
+        expect(assigns(:roles)).to eql @roles
+        expect(assigns(:role)).to eql @member_role
+      end
     end
 
     describe 'VERB', :edit do
@@ -106,19 +103,26 @@ describe RolesController, type: :controller do
 
       describe 'WITH member_role id' do
         before do
-          @params = { 'id' => '1' }
+          @params = {'id' => '1'}
           allow(Role).to receive(:find).and_return(@member_role)
         end
 
         describe 'RESULT' do
           describe 'success' do
             describe 'html' do
-              before { get :edit, params: @params }
+              before do
+                allow(::Redmine::AccessControl).to receive(:sorted_modules).and_return(%w(Foo))
+                get :edit, params: @params
+              end
 
-              it { expect(response).to be_successful }
-              it { expect(response).to render_template 'roles/edit' }
-              it { expect(assigns(:role)).to eql @member_role }
-              it { expect(assigns(:permissions)).to eql @member_role.setable_permissions }
+
+              it do
+                expect(response).to be_successful
+                expect(response).to render_template 'roles/edit'
+                expect(assigns(:role)).to eql @member_role
+                expect(assigns(:permissions))
+                  .to eql([['Foo', @member_role.setable_permissions]])
+              end
             end
           end
         end
@@ -138,9 +142,9 @@ describe RolesController, type: :controller do
     describe 'VERB', :create do
       describe 'WITH member_role params' do
         before do
-          @params = { 'role' => { 'name' => 'role',
-                                  'permissions' => %w(perm1 perm2 perm3),
-                                  'assignable' => '1' } }
+          @params = {'role' => {'name' => 'role',
+                                'permissions' => %w(perm1 perm2 perm3),
+                                'assignable' => '1'}}
         end
 
         describe 'RESULT' do
@@ -148,8 +152,8 @@ describe RolesController, type: :controller do
             before(:each) do
               expect(Role)
                 .to receive(:new)
-                .with(ActionController::Parameters.new(@params['role']).permit!)
-                .and_return(@member_role)
+                      .with(ActionController::Parameters.new(@params['role']).permit!)
+                      .and_return(@member_role)
               allow(@member_role).to receive(:save).and_return(true)
               allow(@member_role).to receive(:errors).and_return([])
             end
@@ -160,7 +164,7 @@ describe RolesController, type: :controller do
               end
 
               it_should_behave_like 'successful create'
-              it { expect(assigns(:role)).to eql @member_role }
+              it {expect(assigns(:role)).to eql @member_role}
             end
           end
 
@@ -168,19 +172,18 @@ describe RolesController, type: :controller do
             before(:each) do
               expect(Role)
                 .to receive(:new)
-                .with(ActionController::Parameters.new(@params['role']).permit!)
-                .and_return(@member_role)
+                      .with(ActionController::Parameters.new(@params['role']).permit!)
+                      .and_return(@member_role)
               allow(@member_role).to receive(:save).and_return(false)
               allow(@member_role).to receive(:errors).and_return(['something is wrong'])
             end
 
             describe 'html' do
-              before { post 'create', params: @params }
+              before {post 'create', params: @params}
 
               it_should_behave_like 'failed create'
-              it { expect(assigns(:role)).to eql @member_role }
-              it { expect(assigns(:roles)).to eql Role.all }
-              it_should_behave_like 'permission assigns'
+              it {expect(assigns(:role)).to eql @member_role}
+              it {expect(assigns(:roles)).to eql Role.all}
             end
           end
         end
@@ -188,10 +191,10 @@ describe RolesController, type: :controller do
 
       describe 'WITH global_role params' do
         before do
-          @params = { 'role' => { 'name' => 'role',
-                                  'permissions' => %w(perm1 perm2 perm3)
-                              },
-                      'global_role' => '1' }
+          @params = {'role' => {'name' => 'role',
+                                'permissions' => %w(perm1 perm2 perm3)
+          },
+                     'global_role' => '1'}
         end
 
         describe 'RESULTS' do
@@ -199,13 +202,13 @@ describe RolesController, type: :controller do
             before(:each) do
               expect(GlobalRole)
                 .to receive(:new)
-                .with(ActionController::Parameters.new(@params['role']).permit!)
-                .and_return(@global_role)
+                      .with(ActionController::Parameters.new(@params['role']).permit!)
+                      .and_return(@global_role)
               allow(@global_role).to receive(:save).and_return(true)
             end
 
             describe 'html' do
-              before { post 'create', params: @params }
+              before {post 'create', params: @params}
 
               it_should_behave_like 'successful create'
             end
@@ -215,18 +218,17 @@ describe RolesController, type: :controller do
             before(:each) do
               expect(GlobalRole)
                 .to receive(:new)
-                .with(ActionController::Parameters.new(@params['role']).permit!)
-                .and_return(@global_role)
+                      .with(ActionController::Parameters.new(@params['role']).permit!)
+                      .and_return(@global_role)
               allow(@global_role).to receive(:save).and_return(false)
             end
 
             describe 'html' do
-              before { post 'create', params: @params }
+              before {post 'create', params: @params}
 
               it_should_behave_like 'failed create'
-              it { expect(assigns(:role)).to eql @global_role }
-              it { expect(assigns(:roles)).to eql Role.all }
-              it_should_behave_like 'permission assigns'
+              it {expect(assigns(:role)).to eql @global_role}
+              it {expect(assigns(:roles)).to eql Role.all}
             end
           end
         end
@@ -241,14 +243,14 @@ describe RolesController, type: :controller do
             post 'destroy', params: @params
           end
 
-          it { expect(response).to be_redirect }
-          it { expect(response).to redirect_to '/admin/roles' }
+          it {expect(response).to be_redirect}
+          it {expect(response).to redirect_to '/admin/roles'}
         end
       end
 
       describe 'WITH member_role params' do
         before do
-          @params = { 'class' => 'Role', 'id' => '1' }
+          @params = {'class' => 'Role', 'id' => '1'}
           @role = @member_role
         end
 
@@ -259,7 +261,7 @@ describe RolesController, type: :controller do
 
       describe 'WITH global_role params' do
         before do
-          @params = { 'class' => 'Role', 'id' => '2' }
+          @params = {'class' => 'Role', 'id' => '2'}
           @role = @global_role
         end
 
@@ -276,15 +278,15 @@ describe RolesController, type: :controller do
             before do
               expect(@role)
                 .to receive(:update_attributes)
-                .with(ActionController::Parameters.new(@params['role']).permit!)
-                .and_return(true)
+                      .with(ActionController::Parameters.new(@params['role']).permit!)
+                      .and_return(true)
               allow(@role).to receive(:errors).and_return([])
               post :update, params: @params
             end
 
-            it { expect(response).to be_redirect }
-            it { expect(response).to redirect_to '/admin/roles' }
-            it { expect(flash[:notice]).to eql I18n.t(:notice_successful_update) }
+            it {expect(response).to be_redirect}
+            it {expect(response).to redirect_to '/admin/roles'}
+            it {expect(flash[:notice]).to eql I18n.t(:notice_successful_update)}
           end
         end
 
@@ -293,22 +295,22 @@ describe RolesController, type: :controller do
             before(:each) do
               expect(@role)
                 .to receive(:update_attributes)
-                .with(ActionController::Parameters.new(@params['role']).permit!)
-                .and_return(false)
+                      .with(ActionController::Parameters.new(@params['role']).permit!)
+                      .and_return(false)
               allow(@role).to receive(:errors).and_return(['something is wrong'])
               post :update, params: @params
             end
 
-            it { expect(response).to render_template 'roles/edit' }
+            it {expect(response).to render_template 'roles/edit'}
           end
         end
       end
 
       describe 'WITH member_role params' do
         before do
-          @params = { 'role' => { 'permissions' => %w(permA permB),
-                                  'name' => 'schmu' },
-                      'id' => '1' }
+          @params = {'role' => {'permissions' => %w(permA permB),
+                                'name' => 'schmu'},
+                     'id' => '1'}
           @role = @member_role
         end
 
@@ -319,9 +321,9 @@ describe RolesController, type: :controller do
 
       describe 'WITH global_role params' do
         before do
-          @params = { 'role' => { 'permissions' => %w(permA permB),
-                                  'name' => 'schmu' },
-                      'id' => '2' }
+          @params = {'role' => {'permissions' => %w(permA permB),
+                                'name' => 'schmu'},
+                     'id' => '2'}
           @role = @global_role
         end
 

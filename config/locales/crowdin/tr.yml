@@ -420,6 +420,7 @@ tr:
         spent_on: Tarih
         type: Tür
       type:
+        description: Default text for description
         attribute_groups: ''
         is_in_roadmap: Yol haritasında varsayılan olarak gösterilsin
         is_default: Yeni projelerde varsayılan olarak aktif
@@ -658,6 +659,9 @@ tr:
         member:
           principal_blank: Lütfen en az bir kullanıcı veya grup seçin.
           role_blank: Lütfen en az bir rol seçin.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Lütfen aşağıdaki alanları kontrol edin:'
         header:
@@ -1063,11 +1067,11 @@ tr:
   error_cookie_missing: OpenProject çerezi yok. Lütfen uygulamanın düzgün çalışabilmesi
     için, tarayıcınızda çerezlere izin verildiğine emin olun.
   error_custom_option_not_found: Seçenek yok.
-  error_dependent_work_package: 'Bağımlı #%{related_id} %{related_subject} iş paketinde
-    hata: %{error}'
   error_enterprise_activation_user_limit: Hesabınız etkinleştirilemedi (kullanıcı
     limitine ulaşıldı). Erişim sağlamak için lütfen yöneticinize başvurun.
   error_failed_to_delete_entry: Girdi silinemedi.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Seçili değeri geçersiz.
   error_invalid_group_by: "%{value} ya göre guplandırılamadı"
   error_invalid_query_column: 'Geçersiz sorgu sütunu: %{value}'
@@ -1449,6 +1453,7 @@ tr:
   label_max_size: Maksimum boyut
   label_me: ben
   label_member_new: Yeni Üye
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Üyeler
   label_view_all_members: Tüm üyeleri göster
   label_menu_item_name: Menü öğesinin ismi
@@ -1904,7 +1909,6 @@ tr:
   notice_to_many_principals_to_display: Çok fazla sonuç var. Yeni üyenin (veya grubun)
     adını yazarak aramayı daraltın.
   notice_unable_delete_time_entry: Zaman kaydı girişi silinemiyor.
-  notice_unable_delete_version: Sürüm açılamadı.
   notice_user_missing_authentication_method: Kullanıcı henüz şifre veya oturum açmak
     için başka bir yol seçmemiştir.
   notice_user_invitation_resent: "%{email} adresine bir davet gönderildi."
@@ -2796,6 +2800,7 @@ tr:
     attributes:
       lock_version: Sürümü Kilitle
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Bu kaynağa erişim sağlayabilmeniz için yetkilendirilmiş olmalısınız
       code_401_wrong_credentials: Doğru kimlik bilgilerini sağlamadınız.
       code_403: Bu kaynağa erişim için yetkiniz yoktur.
@@ -2952,3 +2957,6 @@ tr:
     revoke_my_application_confirmation: Bu uygulamayı gerçekten kaldırmak istiyor
       musunuz? Bu, %{token_count} aktif olanını iptal edecektir.
     my_registered_applications: OAuth uygulamalarını kayıtedin
+  error_dependent_work_package: 'Bağımlı #%{related_id} %{related_subject} iş paketinde
+    hata: %{error}'
+  notice_unable_delete_version: Sürüm açılamadı.
