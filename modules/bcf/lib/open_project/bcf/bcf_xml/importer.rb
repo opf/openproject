@@ -109,9 +109,11 @@ module OpenProject::Bcf::BcfXml
       yield_markup_bcf_files(zip)
         .map do |entry|
           issue = IssueReader.new(project, zip, entry, current_user: current_user).extract!
-          issue.save
+          if issue.errors.blank?
+            issue.save
+          end
+          issue
         end
-        .count
     end
 
     ##

@@ -18,7 +18,7 @@ module OpenProject::Bcf
                    'bcf/issues': :index
 
         permission :manage_bcf,
-                   'bcf/issues': %i[index import prepare_import configure_import perform_import]
+                   'bcf/issues': %i[index upload prepare_import configure_import perform_import]
       end
 
       menu :project_menu,

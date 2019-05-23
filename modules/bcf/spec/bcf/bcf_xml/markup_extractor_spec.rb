@@ -65,12 +65,24 @@ describe ::OpenProject::Bcf::BcfXml::MarkupExtractor do
     expect(subject.author).to be_eql 'mike@example.com'
   end
 
+  it '#modified_author' do
+    expect(subject.modified_author).to be_eql 'mike@example.com'
+  end
+
   it '#assignee' do
     expect(subject.assignee).to be_eql 'andy@example.com'
   end
 
   it '#due_date' do
     expect(subject.due_date).to be_nil
+  end
+
+  it '#creation_date' do
+    expect(subject.creation_date).to eql Date.iso8601('2015-06-21T12:00:00Z')
+  end
+
+  it '#modified_date' do
+    expect(subject.modified_date).to eql Date.iso8601('2015-06-21T14:22:47Z')
   end
 
   it '#viewpoints' do

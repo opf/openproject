@@ -38,9 +38,15 @@ module OpenProject::Bcf::BcfXml
     private
 
     def synchronize_with_work_package
+      is_update = false
       call =
         if issue.work_package
-          update_work_package
+          is_update = true
+          if import_is_newer?
+            update_work_package
+          else
+            import_is_outdated(issue)
+          end
         else
           create_work_package
         end
@@ -48,10 +54,14 @@ module OpenProject::Bcf::BcfXml
       if call.success?
         wp = call.result
         issue.work_package = wp
-        create_comment(user, I18n.t('bcf.bcf_xml.import_update_comment')) unless wp.previous_changes.empty?
+        create_comment(user, I18n.t('bcf.bcf_xml.import_update_comment')) if is_update
       else
         Rails.logger.error "Failed to synchronize BCF #{issue.uuid} with work package: #{call.errors.full_messages.join('; ')}"
       end
+    end
+
+    def import_is_newer?
+      extractor.modified_date && extractor.modified_date > issue.work_package.updated_at
     end
 
     def create_work_package
@@ -63,8 +73,6 @@ module OpenProject::Bcf::BcfXml
 
       if call.success?
         overwrite_where_necessary(wp)
-      else
-        issue.destroy
       end
 
       call
@@ -225,6 +233,10 @@ module OpenProject::Bcf::BcfXml
     # Keep a hash map of current status ids for faster lookup
     def priorities
       @priorities ||= Hash[IssuePriority.pluck(:name, :id)].merge(default: IssuePriority.default.try(:id))
+    end
+    def import_is_outdated(issue)
+      issue.errors.add :base, :conflict, message: I18n.t('bcf.bcf_xml.import.work_package_has_newer_changes', bcf_uuid: issue.uuid)
+      ServiceResult.new(success: false, errors: issue.errors, result: issue)
     end
   end
 end

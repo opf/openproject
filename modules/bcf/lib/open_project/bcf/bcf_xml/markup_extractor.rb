@@ -49,6 +49,11 @@ module OpenProject::Bcf::BcfXml
       Date.iso8601(date) unless date.nil?
     end
 
+    def modified_date
+      date = extract_non_empty :ModifiedDate
+      Date.iso8601(date) unless date.nil?
+    end
+
     def due_date
       date = extract_non_empty :DueDate
       Date.iso8601(date) unless date.nil?

@@ -53,7 +53,7 @@ module ::Bcf
                             .per_page(per_page_param)
     end
 
-    def import; end
+    def upload; end
 
     def prepare_import
       begin
@@ -75,14 +75,20 @@ module ::Bcf
 
     def perform_import
       begin
-        result = @importer.import!(@import_options)
-        flash[:notice] = I18n.t('bcf.bcf_xml.import_successful', count: result)
+        results = @importer.import!(@import_options).flatten
+        @issues = {successful: [], failed: []}
+        results.each do |issue|
+          if issue.errors.present?
+            @issues[:failed] << issue
+          else
+            @issues[:successful] << issue
+          end
+        end
       rescue StandardError => e
         flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
       end
 
       @bcf_attachment.destroy
-      redirect_to action: :index
     end
 
     private
