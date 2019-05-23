@@ -55,6 +55,7 @@ module OpenProject::Bcf::BcfXml
 
     def import!(options = {})
       Zip::File.open(@file) do |zip|
+        treat_invalid_people(options)
         treat_unknown_mails(options)
         clear_instance_cache
 
@@ -75,33 +76,46 @@ module OpenProject::Bcf::BcfXml
 
     ##
     # Invite all unknown email addresses and add them
+    def treat_invalid_people(options)
+      unless options[:invalid_people_action] == 'anonymize'
+        raise StandardError.new 'Invalid people found in import. Use valid e-mail addresses.'
+      end
+    end
+
+    ##
+    # Invite all unknown email addresses and add them
     def treat_unknown_mails(options)
-      if options[:unknown_mails_action] == 'invite' && options[:unknown_mails_invite_role_ids].any?
-        if User.current.admin?
-          if enterprise_allow_new_users?
-            unknown_mails.each do |mail|
-              user = UserInvitation.invite_new_user(email: mail)
-              member = Member.create(user: user, project: project)
-              membership_service = ::Members::EditMembershipService.new(member, save: true, current_user: User.current)
-              membership_service.call(attributes: {role_ids: options[:unknown_mails_invite_role_ids]})
-            end
-          else
-            raise StandardError.new 'Enterprise Edition user limit reached.'
-          end
-        else
-          raise StandardError.new 'For inviting new users you need admin privileges.'
+      if treat_unknown_mails?(options)
+        raise StandardError.new 'For inviting new users you need admin privileges.' unless User.current.admin?
+        raise StandardError.new 'Enterprise Edition user limit reached.' unless enterprise_allow_new_users?
+
+        unknown_mails.each do |mail|
+          add_unknown_mail(mail, options)
         end
       end
+    end
 
+    def add_unknown_mail(mail, options)
+      user = UserInvitation.invite_new_user(email: mail)
+      member = Member.create(user: user,
+                             project: project)
+      membership_service = ::Members::EditMembershipService.new(member,
+                                                                save: true,
+                                                                current_user: User.current)
+      membership_service.call(attributes: { role_ids: options[:unknown_mails_invite_role_ids] })
+    end
+
+    def treat_unknown_mails?(options)
+      options[:unknown_mails_action] == 'invite' && options[:unknown_mails_invite_role_ids].any?
     end
 
     def to_listing(extractor)
       keys = %i[uuid title priority status description author assignee modified_author due_date]
       Hash[keys.map { |k| [k, extractor.public_send(k)] }].tap do |attributes|
         attributes[:viewpoint_count] = extractor.viewpoints.count
-        attributes[:comments_count] = extractor.comments.count
-        attributes[:people] = extractor.people
-        attributes[:mail_addresses] = extractor.mail_addresses
+        attributes[:comments_count]  = extractor.comments.count
+        attributes[:people]          = extractor.people
+        attributes[:mail_addresses]  = extractor.mail_addresses
       end
     end
 

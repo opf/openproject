@@ -3,53 +3,37 @@
 
 <%= form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
   <%= render 'import_options_hidden_fields' %>
-  <% if @importer.invalid_people.any? %>
-    <h3>What to do with invalid e-mail addresses</h3>
-    <table class="attributes-table">
-      <thead>
-      <tr>
-        <th>e-Mail address</th>
-        <th>Action</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @importer.invalid_people.each do |mail| %>
-        <tr>
-          <td> <%= mail %></td>
-          <td>Recommendation: Try to correct the data before importing here.</td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-  <% end %>
-  <hr>
-  <% if @importer&.unknown_mails.any? %>
+  <% if @importer.unknown_mails.any? %>
     <% if @roles.any? %>
       <% if User.current.admin? %>
-        <h3>What to do with unknown e-mail addresses?</h3>
-
+        <h3>Unknown e-mail addresses found</h3>
+        <ul>
+          <% @importer.unknown_mails.each do |mail| %>
+            <li> <%= mail %></li>
+          <% end %>
+        </ul>
         <p>Do you want to invite them as members to the project "<%= @project.name %>"?</p>
         <div class="form--field -full-width">
           <div class="form--field-container">
             <label class="option-label">
               <input type="radio" name="import_options[unknown_mails_action]" value="invite" checked>
-                Yes, make them members with role
-                <% options = @roles.collect { |obj| [obj.name, obj.id] } %>
-                <%= select_tag 'import_options[unknown_mails_invite_role_ids][]', options_for_select(options),
-                               multiple: false,
-                               no_label: true,
-                               title:    l(:label_role_search),
-                               tabIndex: 0,
-                               class:    'form--select form--inline-select',
-                               id:       'unknown_mails_invite_role_ids' %>
-               (recommended)
+              Yes, make them members with role
+              <% options = @roles.collect { |obj| [obj.name, obj.id] } %>
+              <%= select_tag 'import_options[unknown_mails_invite_role_ids][]', options_for_select(options),
+                             multiple: false,
+                             no_label: true,
+                             title:    l(:label_role_search),
+                             tabIndex: 0,
+                             class:    'form--select form--inline-select',
+                             id:       'unknown_mails_invite_role_ids' %>
+              (recommended)
             </label>
           </div>
         </div>
         <div class="form--field -full-width">
           <div class="form--field-container">
             <label class="option-label">
-              <input type="radio" name="inmport_options[unknown_mails_action]" value="anonymize">No, import them as <i>anonymous</i> users (not recommended)
+              <input type="radio" name="import_options[unknown_mails_action]" value="anonymize">No, import them as <i>System</i> user (not recommended)
             </label>
           </div>
         </div>
@@ -75,46 +59,6 @@
       </p>
     <% end %>
   <% end %>
-
-  <% if false #@importer.non_members.any? %>
-    <h3>Known, but non project members</h3>
-    <table class="attributes-table">
-      <thead>
-      <tr>
-        <th>e-Mail address</th>
-        <th>Action</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @importer.non_members.each do |user| %>
-        <tr>
-          <td> <%= user.mail %></td>
-          <td>give role</td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-
-    <% if @roles.any? %>
-      <p>Do you want to add them as members to the project "<%= @project.name %>"? (Recommended)</p>
-
-      <input type="radio">Yes, make them members with role
-        <% options = @roles.collect { |obj| [obj.name, obj.id] } %>
-        <%= select_tag 'member[role_ids][]', options_for_select(options),
-                       multiple: false,
-                       no_label: true,
-                       title:    l(:label_role_search),
-                       tabIndex: 0,
-                       class:    'form--select',
-                       id:       'member_role_ids' %>
-      <input type="radio">No, import as <i>anonymous</i> user (not recommended)
-    <% else %>
-      <p>
-        <%= I18n.t('text_no_roles_defined') %>
-      </p>
-    <% end %>
-  <% end %>
-
 
   <%= submit_tag t('bcf.bcf_xml.import.button_proceed'), class: 'button -highlight' %>
   <%= link_to t(:button_back_to_list),

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -33,11 +34,12 @@ module ::Bcf
 
     before_action :find_project_by_project_id
     before_action :authorize
+    before_action :import_canceled?
 
     before_action :check_file_param, only: %i[prepare_import]
     before_action :get_persisted_file, only: %i[perform_import configure_import]
     before_action :persist_file, only: %i[prepare_import]
-    before_action :set_import_options, only: %i[prepare_import configure_import perform_import]
+    before_action :set_import_options, only: %i[perform_import]
 
     before_action :build_importer, only: %i[prepare_import configure_import perform_import]
 
@@ -56,27 +58,23 @@ module ::Bcf
     def upload; end
 
     def prepare_import
-      begin
-        render_next
-      rescue StandardError => e
-        flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
-        redirect_to action: :index
-      end
+      render_next
+    rescue StandardError => e
+      flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
+      redirect_to action: :index
     end
 
     def configure_import
-      begin
-        render_next
-      rescue StandardError => e
-        flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
-        redirect_to action: :index
-      end
+      render_next
+    rescue StandardError => e
+      flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
+      redirect_to action: :index
     end
 
     def perform_import
       begin
         results = @importer.import!(@import_options).flatten
-        @issues = {successful: [], failed: []}
+        @issues = { successful: [], failed: [] }
         results.each do |issue|
           if issue.errors.present?
             @issues[:failed] << issue
@@ -93,28 +91,57 @@ module ::Bcf
 
     private
 
+    def import_canceled?
+      if params.dig(:import_options, :invalid_people_action) == 'cancel'
+        redirect_to action: :index
+      end
+    end
+
     def set_import_options
       @import_options = {
-        unknown_mails_action: params.dig(:import_options, :unknown_mails_action),
-        unknown_mails_invite_role_ids: params.dig(:import_options, :unknown_mails_invite_role_ids) || [],
+        invalid_people_action: params.dig(:import_options, :invalid_people_action).presence || "anonymize",
+        unknown_mails_action: params.dig(:import_options, :unknown_mails_action).presence || 'invite',
+        unknown_mails_invite_role_ids: params.dig(:import_options, :unknown_mails_invite_role_ids) || []
       }
     end
 
     def render_next
-      if @importer.unknown_mails.any? && !params.dig(:import_options, :unknown_mails_action)
-        @roles = Role.find_all_givable
-        render 'bcf/issues/configure_unknown_mails'
+      if render_config_invalid_people?
+        render_config_invalid_people
+      elsif render_config_unknown_mails?
+        render_config_unknown_mails
       else
-        @listing = @importer.get_extractor_list
-        if @listing.blank?
-          raise(StandardError.new(I18n.t('bcf.exceptions.file_invalid')))
-        end
-
-        @issues = ::Bcf::Issue.with_markup
-                    .includes(work_package: %i[status priority assigned_to])
-                    .where(uuid: @listing.map { |e| e[:uuid] })
-        render 'bcf/issues/diff_on_work_packages'
+        render_diff_on_work_packages
       end
+    end
+
+    def render_diff_on_work_packages
+      @listing = @importer.extractor_list
+      if @listing.blank?
+        raise(StandardError.new(I18n.t('bcf.exceptions.file_invalid')))
+      end
+
+      @issues = ::Bcf::Issue.with_markup
+                  .includes(work_package: %i[status priority assigned_to])
+                  .where(uuid: @listing.map { |e| e[:uuid] })
+      render 'bcf/issues/diff_on_work_packages'
+    end
+
+    def render_config_invalid_people
+      render 'bcf/issues/configure_invalid_people'
+    end
+
+    def render_config_invalid_people?
+      @importer.invalid_people.any? && !params.dig(:import_options, :invalid_people_action)
+    end
+
+    def render_config_unknown_mails
+      @roles = Role.find_all_givable
+      render 'bcf/issues/configure_unknown_mails'
+    end
+
+    def render_config_unknown_mails?
+      @importer.unknown_mails.any? && !params.dig(:import_options, :unknown_mails_action)
     end
 
     def build_importer
@@ -133,9 +160,10 @@ module ::Bcf
     end
 
     def persist_file
-      file = params[:bcf_file]
-      @bcf_attachment = Attachment.create! file: file, description: params[:bcf_file].original_filename, author: current_user
-      @bcf_xml_file = File.new @bcf_attachment.local_path
+      @bcf_attachment = Attachment.create!(file: params[:bcf_file],
+                                           description: params[:bcf_file].original_filename,
+                                           author: current_user)
+      @bcf_xml_file = File.new(@bcf_attachment.local_path)
       session[:bcf_file_id] = @bcf_attachment.id
     rescue StandardError => e
       flash[:error] = "Failed to persist BCF file: #{e.message}"
@@ -151,25 +179,3 @@ module ::Bcf
     end
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

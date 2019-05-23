@@ -174,7 +174,7 @@ describe ::Bcf::IssuesController, type: :controller do
 
       it 'should be successful' do
         expect { action }.to change { Attachment.count }.by(0)
-        expect(response).to redirect_to '/projects/bim_project/issues'
+        expect(response).to be_successful
       end
 
       it_behaves_like "check permissions"
