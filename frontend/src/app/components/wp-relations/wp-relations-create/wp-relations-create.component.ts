@@ -49,8 +49,10 @@ export class WorkPackageRelationsCreateComponent {
       .then(() => this.isDisabled = false);
   }
 
-  public updateSelectedId(workPackageId:string) {
-    this.selectedWpId = workPackageId;
+  public onReferenced(workPackage?:WorkPackageResource) {
+    if (workPackage) {
+      this.selectedWpId = workPackage.id!;
+    }
   }
 
   protected createCommonRelation() {

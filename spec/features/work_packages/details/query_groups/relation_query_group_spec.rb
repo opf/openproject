@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Work package with relation query group', js: true, selenium: true do
-  include_context 'ui-autocomplete helpers'
+  include_context 'ng-select-autocomplete helpers'
 
   let(:user) { FactoryBot.create :admin }
   let(:project) { FactoryBot.create :project }
@@ -135,7 +135,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
       container = embedded_table.table_container.find('.wp-relations-create--form', wait: 10)
       autocomplete = page.find(".wp-relations--autocomplete")
       select_autocomplete autocomplete,
-                          results_selector: '.wp-relations-autocomplete--results',
+                          results_selector: '.ng-dropdown-panel-items',
                           query: independent_work_package.subject,
                           select_text: independent_work_package.subject
 
