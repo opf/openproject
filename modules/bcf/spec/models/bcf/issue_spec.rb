@@ -112,9 +112,7 @@ describe ::Bcf::Issue, type: :model do
 
   let(:issue) { FactoryBot.create :bcf_issue, work_package: work_package, markup: markup }
 
-  context '#self.with_markup' do
-    subject { ::Bcf::Issue.with_markup.find_by id: issue.id }
-
+  shared_examples_for 'provides attributes' do
     it "provides attributes" do
       expect(subject.title).to be_eql 'Maximum Content'
       expect(subject.description).to be_eql 'This is a topic with all informations present.'
@@ -125,6 +123,12 @@ describe ::Bcf::Issue, type: :model do
       expect(subject.labels).to contain_exactly 'Structural', 'IT Development'
       expect(subject.due_date_text).to be_nil
     end
+  end
+
+  context '#self.with_markup' do
+    subject { ::Bcf::Issue.with_markup.find_by id: issue.id }
+
+    it_behaves_like 'provides attributes'
   end
 
   context '#markup_doc' do
@@ -146,15 +150,6 @@ describe ::Bcf::Issue, type: :model do
       expect(subject.markup_doc).to_not be_eql(first_fetched_doc)
     end
 
-    it "provides attributes" do
-      expect(subject.title).to be_eql 'Maximum Content'
-      expect(subject.description).to be_eql 'This is a topic with all informations present.'
-      expect(subject.priority_text).to be_eql 'High'
-      expect(subject.status_text).to be_eql 'Open'
-      expect(subject.assignee_text).to be_eql 'andy@example.com'
-      expect(subject.index_text).to be_eql '0'
-      expect(subject.labels).to contain_exactly 'Structural', 'IT Development'
-      expect(subject.due_date_text).to be_nil
-    end
+    it_behaves_like 'provides attributes'
   end
 end

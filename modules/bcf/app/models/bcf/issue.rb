@@ -99,14 +99,6 @@ module Bcf
       end
     end
 
-    def status_text
-      if attributes.keys.include? 'status_text'
-        self[:status_text]
-      else
-        markup_doc.xpath(self.class.status_path).first.to_s.presence
-      end
-    end
-
     def assignee_text
       if attributes.keys.include? 'assignee_text'
         self[:assignee_text]
