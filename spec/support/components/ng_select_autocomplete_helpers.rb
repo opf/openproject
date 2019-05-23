@@ -24,6 +24,12 @@ module Components
       list
     end
 
+    ##
+    # Get the ng_select input element
+    def ng_select_input(from_element)
+      from_element.find('.ng-input input')
+    end
+
     def select_autocomplete(element, query:, results_selector: nil, select_text: nil, option_selector: nil)
       target_dropdown = search_autocomplete(element, results_selector: results_selector, query: query)
 

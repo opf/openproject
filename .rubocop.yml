@@ -271,3 +271,7 @@ UnderscorePrefixedVariableName:
 
 Void:
   Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+

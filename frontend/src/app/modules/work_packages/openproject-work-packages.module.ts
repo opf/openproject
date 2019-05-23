@@ -44,7 +44,6 @@ import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/tabl
 import {WpResizerDirective} from 'core-components/resizer/wp-resizer.component';
 import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
 import {WorkPackageInlineCreateComponent} from 'core-components/wp-inline-create/wp-inline-create.component';
-import {WpRelationsAutocompleteComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.upgraded.component';
 import {OpTypesContextMenuDirective} from 'core-components/op-context-menu/handlers/op-types-context-menu.directive';
 import {OpColumnsContextMenu} from 'core-components/op-context-menu/handlers/op-columns-context-menu.directive';
 import {OpSettingsMenuDirective} from 'core-components/op-context-menu/handlers/op-settings-dropdown-menu.directive';
@@ -156,8 +155,8 @@ import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card
 import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
-import {BcfWpSingleViewComponent} from "core-app/modules/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
 import {OpenprojectBcfModule} from "core-app/modules/bcf/openproject-bcf.module";
+import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.component";
 
 @NgModule({
   imports: [
@@ -316,7 +315,7 @@ import {OpenprojectBcfModule} from "core-app/modules/bcf/openproject-bcf.module"
     WorkPackageRelationRowComponent,
     WorkPackageRelationsCreateComponent,
     WorkPackageRelationsHierarchyComponent,
-    WpRelationsAutocompleteComponent,
+    WorkPackageRelationsAutocomplete,
     WorkPackageBreadcrumbParentComponent,
 
     // Split view
