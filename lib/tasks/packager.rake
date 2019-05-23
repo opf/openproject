@@ -50,11 +50,14 @@ namespace :packager do
 
     # We need to precompile assets when either
     # 1. packager requested it
-    # 2. When a custom Gemfile is added
-    if ENV['MUST_REBUILD_ASSETS'] == 'true'
+    # 2. user requested frontend compilation with RECOMPILE_ANGULAR_ASSETS
+    if ENV['RECOMPILE_RAILS_ASSETS'] == 'true' || ENV['RECOMPILE_ANGULAR_ASSETS'] == 'true'
       Rake::Task['assets:precompile'].invoke
       FileUtils.chmod_R 'a+rx', "#{ENV['APP_HOME']}/public/assets/"
-      shell_setup(['config:set', 'MUST_REBUILD_ASSETS=""'])
+
+      # Unset rails request to recompile
+      # but keep RECOMPILE_ANGULAR_ASSETS as it's user defined
+      shell_setup(['config:set', 'RECOMPILE_RAILS_ASSETS=""'])
     end
 
     # Clear any caches
