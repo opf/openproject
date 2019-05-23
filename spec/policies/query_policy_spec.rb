@@ -309,6 +309,75 @@ describe QueryPolicy, type: :controller do
       end
     end
 
+    shared_examples 'update ordered_work_packages' do |global|
+      context "#{ global ? 'in global context' : 'in project context' }" do
+        if global
+          let(:project) { nil }
+        end
+
+        it 'is false if the user has no permission in the project' do
+          allow(user).to receive(:allowed_to?).and_return false
+
+          expect(subject.allowed?(query, :reorder_work_packages)).to be_falsy
+        end
+
+        it 'is true if the user has the edit_work_packages permission in the project AND it public' do
+          allow(user).to receive(:allowed_to?).with(:edit_work_packages,
+                                                    project,
+                                                    global: project.nil?)
+                           .and_return true
+
+          query.is_public = true
+          expect(subject.allowed?(query, :reorder_work_packages)).to be_truthy
+        end
+
+        it 'is false if the user has the edit_work_packages permission in the project AND it is not his' do
+          allow(user).to receive(:allowed_to?).with(:edit_work_packages,
+                                                    project,
+                                                    global: project.nil?)
+                           .and_return true
+
+          query.user = FactoryBot.build_stubbed(:user)
+          query.is_public = false
+          expect(subject.allowed?(query, :reorder_work_packages)).to be_falsey
+        end
+
+        it 'is true if the user has the save_queries permission in the project AND it is his query' do
+          allow(user).to receive(:allowed_to?).with(:save_queries,
+                                                    project,
+                                                    global: project.nil?)
+                           .and_return true
+
+          expect(subject.allowed?(query, :reorder_work_packages)).to be_truthy
+        end
+
+
+        it 'is true if the user has the manage_public_query permission in the project ' +
+             'AND it is a public query' do
+          allow(user).to receive(:allowed_to?).with(:manage_public_queries,
+                                                    project,
+                                                    global: project.nil?)
+                           .and_return true
+
+          query.is_public = true
+          expect(subject.allowed?(query, :reorder_work_packages)).to be_truthy
+        end
+
+        it 'is false if the user has the manage_public_query permission in the project ' +
+             'AND the query is not public ' +
+             'AND it is not his query' do
+          allow(user).to receive(:allowed_to?).with(:manage_public_queries,
+                                                    project,
+                                                    global: project.nil?)
+                           .and_return true
+          query.user = FactoryBot.build_stubbed(:user)
+          query.is_public = false
+
+          expect(subject.allowed?(query, :reorder_work_packages)).to be_falsey
+        end
+      end
+    end
+
     it_should_behave_like 'action on persisted', :update, global: true
     it_should_behave_like 'action on persisted', :update, global: false
     it_should_behave_like 'action on persisted', :destroy, global: true

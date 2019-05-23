@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,29 +27,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/queries/query_representer'
-require 'queries/create_query_service'
+require 'queries/base_contract'
 
-module API
-  module V3
-    module Queries
-      class UpdateFormAPI < ::API::OpenProjectAPI
-        resource :form do
-          helpers ::API::V3::Queries::QueryHelper
-
-          post do
-            # We try to ignore invalid aspects of the query as the user
-            # might not even be able to fix them (public  query)
-            # and because they might only be invalid in his context
-            # but not for somebody having more permissions, e.g. subproject
-            # filter for admin vs for anonymous.
-            # Permissions are enforced nevertheless.
-            @query.valid_subset!
-
-            create_or_update_query_form @query, ::Queries::UpdateFormContract, UpdateFormRepresenter
-          end
-        end
-      end
-    end
+module Queries
+  class UpdateFormContract < BaseContract
+    # Maintains validations from the base contract
+    # to ensure users without saving permissions can still
+    # alter existing queries through the form
   end
 end

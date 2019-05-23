@@ -40,7 +40,8 @@ class QueryPolicy < BasePolicy
         publicize: publicize_allowed?(cached_query),
         depublicize: depublicize_allowed?(cached_query),
         star: persisted_and_own_or_public?(cached_query),
-        unstar: persisted_and_own_or_public?(cached_query)
+        unstar: persisted_and_own_or_public?(cached_query),
+        reorder_work_packages: reorder_work_packages?(cached_query)
       }
     end
 
@@ -49,8 +50,10 @@ class QueryPolicy < BasePolicy
 
   def persisted_and_own_or_public?(query)
     query.persisted? &&
-      (save_queries_allowed?(query) && query.user == user ||
-       manage_public_queries_allowed?(query) && query.is_public)
+      (
+        (save_queries_allowed?(query) && query.user == user) ||
+        public_manageable_query?(query)
+      )
   end
 
   def viewable?(query)
@@ -73,8 +76,16 @@ class QueryPolicy < BasePolicy
   end
 
   def depublicize_allowed?(query)
+    public_manageable_query?(query)
+  end
+
+  def public_manageable_query?(query)
     query.is_public &&
       manage_public_queries_allowed?(query)
+  end
+
+  def reorder_work_packages?(query)
+    persisted_and_own_or_public?(query) || edit_work_packages_allowed?(query)
   end
 
   def view_work_packages_allowed?(query)
@@ -83,6 +94,14 @@ class QueryPolicy < BasePolicy
     end
 
     @view_work_packages_cache[query.project]
+  end
+
+  def edit_work_packages_allowed?(query)
+    @edit_work_packages_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_to?(:edit_work_packages, project, global: project.nil?)
+    end
+
+    @edit_work_packages_cache[query.project]
   end
 
   def save_queries_allowed?(query)
