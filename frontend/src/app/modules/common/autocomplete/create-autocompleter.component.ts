@@ -38,11 +38,20 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
   template: `
     <ng-select *ngIf="createAllowed"
                #addActionAttributeSelect
+               [(ngModel)]="model"
                [items]="availableValues"
                [addTag]="createNewElement.bind(this)"
+               [virtualScroll]="true"
+               [required]="required"
+               [clearable]="!required"
+               [disabled]="disabled"
+               [appendTo]="appendTo"
+               [id]="id"
                (change)="changeModel($event)"
-               bindLabel="name"
-               appendTo="body">
+               (open)="opened()"
+               (close)="closed()"
+               (keydown)="keyPressed($event)"
+               bindLabel="name">
       <ng-template ng-tag-tmp let-search="searchTerm">
         <b [textContent]="text.add_new_action"></b>: {{search}}
       </ng-template>
@@ -50,10 +59,19 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
     <ng-select *ngIf="!createAllowed"
                #actionAttributeSelect
+               [(ngModel)]="model"
                [items]="availableValues"
+               [virtualScroll]="true"
+               [required]="required"
+               [clearable]="!required"
+               [disabled]="disabled"
+               [appendTo]="appendTo"
+               [id]="id"
                (change)="changeModel($event)"
-               bindLabel="name"
-               appendTo="body">
+               (open)="opened()"
+               (close)="closed()"
+               (keydown)="keyPressed($event)"
+               bindLabel="name">
     </ng-select>
   `,
   selector: 'create-autocompleter'
@@ -63,15 +81,24 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   @ViewChild('actionAttributeSelect') public autoCompleter:NgSelectComponent;
 
   @Input() public availableValues:any[];
+  @Input() public appendTo:string;
+  @Input() public model:any;
+  @Input() public required:boolean = false;
+  @Input() public disabled:boolean = false;
+  @Input() public id:string = '';
   @Input() public set createAllowed(val:boolean) {
     this._createAllowed = val;
     setTimeout(() => {
       this.focusInputField();
     });
-  };
+  }
 
   @Output() public onCreate = new EventEmitter<string>();
   @Output() public onChange = new EventEmitter<HalResource>();
+  @Output() public onKeydown = new EventEmitter<JQueryEventObject>();
+  @Output() public onOpen = new EventEmitter<void>();
+  @Output() public onClose = new EventEmitter<void>();
+  @Output() public onAfterViewInit = new EventEmitter<CreateAutocompleterComponent>();
 
   private _createAllowed:boolean = false;
 
@@ -86,6 +113,11 @@ export class CreateAutocompleterComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.focusInputField();
+    this.onAfterViewInit.emit(this);
+  }
+
+  public openSelect() {
+    this.createAllowed ? this.addAutoCompleter.open() : this.autoCompleter.open();
   }
 
   public createNewElement(name:string) {
@@ -94,6 +126,18 @@ export class CreateAutocompleterComponent implements AfterViewInit {
 
   public changeModel(element:HalResource) {
     this.onChange.emit(element);
+  }
+
+  public opened() {
+    this.onOpen.emit();
+  }
+
+  public closed() {
+    this.onClose.emit();
+  }
+
+  public keyPressed(event:JQueryEventObject) {
+    this.onKeydown.emit(event);
   }
 
   public get createAllowed() {

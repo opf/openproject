@@ -37,9 +37,11 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 @Component({
   template: `
     <create-autocompleter [availableValues]="availableValues"
-                                   [createAllowed]="createAllowed"
-                                   (onCreate)="createNewVersion($event)"
-                                   (onChange)="onModelChanged($event)">
+                          [createAllowed]="createAllowed"
+                          [appendTo]="'body'"
+                          [model]=""
+                          (onCreate)="createNewVersion($event)"
+                          (onChange)="onModelChanged($event)">
     </create-autocompleter>
   `,
   selector: 'version-autocompleter'
@@ -77,7 +79,7 @@ export class VersionAutocompleterComponent implements OnInit {
 
   public createNewVersion(name:string) {
     this.versionDm.createVersion(this.getVersionPayload(name)).then((version) => {
-      this.onCreate.emit(version)
+      this.onCreate.emit(version);
     });
   }
 

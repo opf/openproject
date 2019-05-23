@@ -30,7 +30,6 @@ import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-commo
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
 import {OpenprojectFieldsModule} from 'core-app/modules/fields/openproject-fields.module';
 import {ChartsModule} from 'ng2-charts';
-import {DynamicModule} from 'ng-dynamic-component';
 import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
 import {
   GroupDescriptor,
@@ -157,8 +156,6 @@ import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-packag
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {OpenprojectBcfModule} from "core-app/modules/bcf/openproject-bcf.module";
 import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.component";
-import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
-import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplete/version-autocompleter.component";
 
 @NgModule({
   imports: [
@@ -177,10 +174,6 @@ import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplet
 
     // Work package custom actions
     //WpCustomActionsModule,
-    DynamicModule.withComponents([WorkPackageFormAttributeGroupComponent,
-                                             WorkPackageChildrenQueryComponent,
-                                             VersionAutocompleterComponent,
-                                             CreateAutocompleterComponent])
   ],
   providers: [
     {
@@ -368,10 +361,6 @@ import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplet
 
     // Card view
     WorkPackageCardViewComponent,
-
-    // Autocompleter
-    CreateAutocompleterComponent,
-    VersionAutocompleterComponent,
   ],
   entryComponents: [
     // Split view
@@ -446,10 +435,6 @@ import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplet
 
     // Card view
     WorkPackageCardViewComponent,
-
-    // Autocompleter
-    CreateAutocompleterComponent,
-    VersionAutocompleterComponent,
   ],
   exports: [
     WorkPackagesTableController,
@@ -460,10 +445,6 @@ import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplet
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
     WorkPackageIsolatedQuerySpaceDirective,
-
-    CreateAutocompleterComponent,
-    VersionAutocompleterComponent,
-    DynamicModule,
   ]
 })
 export class OpenprojectWorkPackagesModule {
