@@ -127,10 +127,10 @@ class Member < ActiveRecord::Base
   end
 
   def include?(principal)
-    if principal.is_a?(Group)
-      !principal.nil? && principal.groups.include?(principal)
-    else
+    if user?
       self.principal == principal
+    else
+      !principal.nil? && principal.groups.include?(principal)
     end
   end
 
@@ -149,7 +149,7 @@ class Member < ActiveRecord::Base
   # and haven't been activated yet. Only applies if the member is actually a user
   # as opposed to a group.
   def disposable?
-    principal&.invited? && principal.memberships.none? { |m| m.project_id != project_id }
+    user? && principal&.invited? && principal.memberships.none? { |m| m.project_id != project_id }
   end
 
   protected
@@ -251,5 +251,9 @@ class Member < ActiveRecord::Base
 
   def destroy_notification
     ::OpenProject::Notifications.send(:member_removed, member: self)
+  end
+
+  def user?
+    principal.is_a?(User)
   end
 end

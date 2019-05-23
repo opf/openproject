@@ -1,6 +1,6 @@
 module Members
   class RowCell < ::RowCell
-    property :user
+    property :principal
 
     def member
       model
@@ -11,36 +11,36 @@ module Members
     end
 
     def row_css_class
-      group = user ? "" : "group"
+      group = user? ? "" : "group"
 
       "member #{group}".strip
     end
 
     def lastname
-      link_to user.lastname, user_path(user) if user
+      link_to principal.lastname, user_path(principal) if user?
     end
 
     def firstname
-      link_to user.firstname, user_path(user) if user
+      link_to principal.firstname, user_path(principal) if user?
     end
 
     def mail
-      if user
-        link = mail_to(user.mail)
+      return unless user?
 
-        if member.principal&.respond_to?(:invited?) && member.principal&.respond_to?(:invited?)
-          i = content_tag "i", "", title: t("text_user_invited"), class: "icon icon-mail1"
+      link = mail_to(principal.mail)
 
-          link + i
-        else
-          link
-        end
+      if member.principal.invited?
+        i = content_tag "i", "", title: t("text_user_invited"), class: "icon icon-mail1"
+
+        link + i
+      else
+        link
       end
     end
 
     def roles
       label =
-        if user&.admin?
+        if principal&.admin?
           I18n.t(:label_member_all_admin)
         else
           h member.roles.sort.collect(&:name).join(', ')
@@ -65,8 +65,8 @@ module Members
     end
 
     def groups
-      if user
-        user.groups.map(&:name).join(", ")
+      if user?
+        principal.groups.map(&:name).join(", ")
       else
         model.principal.name
       end
@@ -77,7 +77,7 @@ module Members
     end
 
     def may_update?
-      !user&.admin && table.authorize_update
+      !principal&.admin && table.authorize_update
     end
 
     def may_delete?
@@ -144,6 +144,10 @@ module Members
       else
         super
       end
+    end
+
+    def user?
+      principal.is_a?(User)
     end
   end
 end

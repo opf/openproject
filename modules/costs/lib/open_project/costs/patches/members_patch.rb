@@ -174,11 +174,7 @@ module OpenProject::Costs
       end
 
       def show_rate?
-        costs_enabled? && showing_user? && allow_view?
-      end
-
-      def showing_user?
-        member.principal.present?
+        costs_enabled? && user? && allow_view?
       end
 
       def costs_enabled?
