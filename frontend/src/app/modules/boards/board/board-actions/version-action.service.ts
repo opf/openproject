@@ -94,9 +94,11 @@ export class BoardVersionActionService implements BoardActionService {
    * @returns {Promise<boolean>}
    */
   public canCreateNewActionElements():Promise<boolean> {
-    var that = this;
-    return this.versionDm.emptyCreateForm(this.getVersionPayload('')).then((form) => {
-       return form.schema.definingProject.allowedValues.some((e:HalResource) => e.id === that.currentProject.id!);
+    let that = this;
+    return this.versionDm.listProjectsAvailableForVersions().then((collection) => {
+      return collection.elements.some((e:HalResource) => e.id === that.currentProject.id!);
+    }).catch(() => {
+      return false;
     });
   }
 
@@ -115,7 +117,7 @@ export class BoardVersionActionService implements BoardActionService {
    * @returns {Promise<any>}
    */
   public getAdditionalListMenuItems(actionAttributeValue:HalResource):Promise<any> {
-    var items: any = [];
+    let items:any = [];
     const actionID = actionAttributeValue.id;
 
     if (actionID) {

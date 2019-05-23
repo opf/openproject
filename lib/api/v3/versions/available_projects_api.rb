@@ -30,7 +30,7 @@ module API
   module V3
     module Versions
       class AvailableProjectsAPI < ::API::OpenProjectAPI
-        before do
+        after_validation do
           authorize :manage_versions, global: true
         end
 

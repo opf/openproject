@@ -44,7 +44,9 @@ describe 'hourly rates on a member', type: :feature, js: true do
 
   def add_rate(date: nil, rate:)
     expect(page).to have_selector(".add-row-button")
+    sleep(0.1)
     all("tr[id^='user_new_rate_attributes_'] .delete-row-button").each(&:click)
+    sleep(0.1)
     click_link_or_button 'Add rate'
 
     within "tr[id^='user_new_rate_attributes_']" do
