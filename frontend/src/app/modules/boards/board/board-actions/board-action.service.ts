@@ -1,6 +1,8 @@
 import {Board} from "core-app/modules/boards/board/board";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {Component} from "@angular/compiler/src/core";
+import {ComponentType} from "@angular/cdk/portal";
 
 export interface BoardActionService {
 
@@ -39,15 +41,9 @@ export interface BoardActionService {
    */
   getAdditionalListMenuItems(actionAttributeValue:HalResource):Promise<any>;
 
-  /*
-   * Whether it is allowed to add new action entries (e.g. a new version)
-   * @returns {boolean}
-   */
-  canCreateNewActionElements():Promise<boolean>;
-
   /**
-   * Creates a new action entry (e.g. a new version) to be selectable as a list
-   * @returns {any}
+   * Get the specific component for the autocompleter (e.g versionAutocompleter)
+   * @returns {Component}
    */
-  createNewActionElement(name:string):Promise<HalResource|void>;
+  autocompleterComponent():ComponentType<any>;
 }

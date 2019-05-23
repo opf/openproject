@@ -157,6 +157,8 @@ import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-packag
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {OpenprojectBcfModule} from "core-app/modules/bcf/openproject-bcf.module";
 import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.component";
+import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
+import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplete/version-autocompleter.component";
 
 @NgModule({
   imports: [
@@ -175,7 +177,10 @@ import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-
 
     // Work package custom actions
     //WpCustomActionsModule,
-    DynamicModule.withComponents([WorkPackageFormAttributeGroupComponent, WorkPackageChildrenQueryComponent])
+    DynamicModule.withComponents([WorkPackageFormAttributeGroupComponent,
+                                             WorkPackageChildrenQueryComponent,
+                                             VersionAutocompleterComponent,
+                                             CreateAutocompleterComponent])
   ],
   providers: [
     {
@@ -363,6 +368,10 @@ import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-
 
     // Card view
     WorkPackageCardViewComponent,
+
+    // Autocompleter
+    CreateAutocompleterComponent,
+    VersionAutocompleterComponent,
   ],
   entryComponents: [
     // Split view
@@ -437,6 +446,10 @@ import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-
 
     // Card view
     WorkPackageCardViewComponent,
+
+    // Autocompleter
+    CreateAutocompleterComponent,
+    VersionAutocompleterComponent,
   ],
   exports: [
     WorkPackagesTableController,
@@ -447,6 +460,10 @@ import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
     WorkPackageIsolatedQuerySpaceDirective,
+
+    CreateAutocompleterComponent,
+    VersionAutocompleterComponent,
+    DynamicModule,
   ]
 })
 export class OpenprojectWorkPackagesModule {

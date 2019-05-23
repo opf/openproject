@@ -28,10 +28,10 @@
 
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
-import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild} from "@angular/core";
+import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from "@angular/core";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {Board, BoardType} from "core-app/modules/boards/board/board";
+import {Board} from "core-app/modules/boards/board/board";
 import {StateService} from "@uirouter/core";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
@@ -39,17 +39,12 @@ import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
-import {NgSelectComponent} from "@ng-select/ng-select/dist";
 
 @Component({
   templateUrl: './add-list-modal.html'
 })
 export class AddListModalComponent extends OpModalComponent implements OnInit {
-  @ViewChild('addActionAttributeSelect') addAutoCompleter:NgSelectComponent;
-  @ViewChild('actionAttributeSelect') autoCompleter:NgSelectComponent;
-
   public showClose:boolean;
 
   public confirmed = false;
@@ -71,9 +66,6 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   public trackByHref = AngularTrackingHelpers.trackByHref;
 
-  /* Is it allowed to add new action attributes from within the modal */
-  public createAllowed:boolean;
-
   /* Do not close on outside click (because the select option are appended to the body */
   public closeOnOutsideClick = false;
 
@@ -90,8 +82,11 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     action_board_text: this.I18n.t('js.boards.board_type.action_text'),
     select_attribute: this.I18n.t('js.boards.board_type.select_attribute'),
     placeholder: this.I18n.t('js.placeholders.selection'),
+  };
 
-    add_new_action: this.I18n.t('js.boards.add.create_new'),
+  public referenceOutputs = {
+    onCreate: (value:HalResource) => this.onNewActionCreated(value),
+    onChange: (value:HalResource) => this.onModelChange(value)
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -118,15 +113,6 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       .then(available => {
         this.availableValues = available;
       });
-
-    this.actionService.canCreateNewActionElements().then((val) => {
-      this.createAllowed = val;
-
-      setTimeout(() => {
-        this.createAllowed ? this.addAutoCompleter.focus() : this.autoCompleter.focus();
-      });
-    });
-
   }
 
   onModelChange(element:HalResource) {
@@ -144,13 +130,13 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       });
   }
 
-  createNewElement(name:string) {
-    this.actionService.createNewActionElement(name).then((newElement) => {
-      if (newElement) {
-        this.selectedAttribute = newElement;
-        this.create();
-      }
-    });
+  onNewActionCreated(newValue:HalResource) {
+    this.selectedAttribute = newValue;
+    this.create();
+  }
+
+  autocompleterComponent() {
+    return this.actionService.autocompleterComponent();
   }
 }
 
