@@ -28,8 +28,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# TODO add eager loading
-
 module API
   module V3
     module Memberships
@@ -58,6 +56,10 @@ module API
 
         date_time_property :created_on,
                            as: 'createdAt'
+
+        self.to_eager_load = %i[principal
+                                project
+                                roles]
 
         def _type
           'Membership'

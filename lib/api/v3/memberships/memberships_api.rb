@@ -34,6 +34,7 @@ module API
 
         resources :memberships do
           get &::API::V3::Utilities::Endpoints::Index.new(model: Member,
+                                                          scope: -> { Member.includes(MembershipRepresenter.to_eager_load) },
                                                           api_name: 'Membership')
                                                      .mount
 
