@@ -1184,7 +1184,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
                 "message": "The specified project does not exist."
             }
 
-## Available Projects [/api/v3/versions/available_projects]
+## Available projects for versions [/api/v3/versions/available_projects]
 
 + Model
     + Body
@@ -1269,13 +1269,13 @@ Note that due to sharing this might be more than the versions *defined* by that 
               }
             }
 
-## Available projects [GET]
+## Available projects for versions [GET]
 
 Gets a list of projects in which a version can be created in. The list contains all projects in which the user issuing the request has the manage versions permissions.
 
 + Response 200 (application/hal+json)
 
-    [Available Projects][]
+    [Available projects for versions][]
 
 + Response 403 (application/hal+json)
 

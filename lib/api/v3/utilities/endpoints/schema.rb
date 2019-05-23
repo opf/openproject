@@ -38,11 +38,15 @@ module API
           end
 
           def initialize(model:,
+                         api_name: model.name.demodulize,
+                         render_representer: nil,
+                         contract: nil,
                          instance_generator: default_instance_generator(model))
             self.model = model
+            self.api_name = api_name
             self.instance_generator = instance_generator
-            self.representer = deduce_representer
-            self.contract = deduce_contract
+            self.representer = render_representer || deduce_representer
+            self.contract = contract || deduce_contract
           end
 
           def mount
@@ -67,10 +71,11 @@ module API
           end
 
           def self_path
-            "#{demodulized_name.underscore}_schema"
+            "#{api_name.underscore}_schema"
           end
 
           attr_accessor :model,
+                        :api_name,
                         :representer,
                         :contract,
                         :instance_generator
@@ -78,7 +83,7 @@ module API
           private
 
           def deduce_representer
-            "::API::V3::#{deduce_namespace}::Schemas::#{demodulized_name}SchemaRepresenter".constantize
+            "::API::V3::#{deduce_namespace}::Schemas::#{api_name}SchemaRepresenter".constantize
           end
 
           def deduce_contract
@@ -86,11 +91,7 @@ module API
           end
 
           def deduce_namespace
-            demodulized_name.pluralize
-          end
-
-          def demodulized_name
-            model.name.demodulize
+            api_name.pluralize
           end
         end
       end

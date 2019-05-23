@@ -28,14 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+# TODO add eager loading
+
 module API
   module V3
-    module Members
-      class MemberRepresenter < ::API::Decorators::Single
+    module Memberships
+      class MembershipRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
         include API::Decorators::DateProperty
 
         self_link title_getter: ->(*) { represented.principal.name }
+
+        link :schema do
+          {
+            href: api_v3_paths.membership_schema
+          }
+        end
 
         property :id
 
@@ -52,7 +60,7 @@ module API
                            as: 'createdAt'
 
         def _type
-          'Member'
+          'Membership'
         end
       end
     end

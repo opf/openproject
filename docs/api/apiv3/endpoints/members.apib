@@ -1,11 +1,11 @@
-# Group Members
+# Group Memberships
 
-Users and groups can become members of a project. Such a membership will also have one or more roles assigned to it. By that, members control the permissions a user has within a project.
+Users and groups can become members of a project. Such a membership will also have one or more roles assigned to it. By that, memberships control the permissions a user has within a project.
 
 ## Linked Properties
 |  Link               | Description                                                   | Type             | Constraints                                                    | Supported operations |
 |:-------------------:|-----------------------------------------                      | -------------    | -------------------------------------------------------------- | -------------------- |
-| self                | This member                                                   | Member           | not null                                                       | READ                 |
+| self                | This membership                                               | Membership       | not null                                                       | READ                 |
 | project             | The project for which the membership is granted               | Project          | not null                                                       | READ                 |
 | roles               | The list of roles the user or group is granted in the project | RoleCollection   | not null                                                       | READ                 |
 | principal           | The user or group that was granted membership                 | User or Group    | not null                                                       | READ                 |
@@ -13,10 +13,10 @@ Users and groups can become members of a project. Such a membership will also ha
 ## Local Properties
 | Property    | Description                                   | Type        | Constraints                                        | Supported operations |
 | :---------: | --------------------------------------------- | ----------- | -----------                                        | -------------------- |
-| id          | Member id                                     | Integer     | x > 0                                              | READ                 |
+| id          | Membership id                                 | Integer     | x > 0                                              | READ                 |
 | createdAt   | Time of creation                              | DateTime    | not null                                           | READ                 |
 
-## Member [/api/v3/members/{id}]
+## Membership [/api/v3/memberships/{id}]
 
 + Model
     + Body
@@ -24,8 +24,11 @@ Users and groups can become members of a project. Such a membership will also ha
             {
                 "_links":
                     "self": {
-                        "href": "/api/v3/members/11",
+                        "href": "/api/v3/memberships/11",
                         "title": "Some user"
+                    },
+                    "schema": {
+                        "href": "/api/v3/memberships/schema"
                     },
                     "project": {
                         "href": "/api/v3/projects/3",
@@ -46,7 +49,7 @@ Users and groups can become members of a project. Such a membership will also ha
                         }
                     ]
                 },
-                "_type": "Member",
+                "_type": "Membership",
                 "id": 11,
                 "createdAt": "2015-03-20T12:56:56Z",
                 "_embedded": {
@@ -58,24 +61,24 @@ Users and groups can become members of a project. Such a membership will also ha
                 }
             }
 
-## View member [GET]
+## View membership [GET]
 
 + Parameters
-    + id (required, integer, `1`) ... member id
+    + id (required, integer, `1`) ... membership id
 
 + Response 200 (application/hal+json)
 
-    [Member][]
+    [Membership][]
 
 + Response 404 (application/hal+json)
 
-    Returned if the member does not exist or the client does not have sufficient permissions
+    Returned if the membership does not exist or the client does not have sufficient permissions
     to see it.
 
     **Required permission:** view members **or** manage members
 
     *Note: A client without sufficient permissions shall not be able to test for the existence of
-    a member. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+    a membership. That's why a 404 is returned here, even if a 403 might be more appropriate.*
 
     + Body
 
@@ -85,14 +88,14 @@ Users and groups can become members of a project. Such a membership will also ha
                 "message": "The requested resource could not be found."
             }
 
-## Members [/api/v3/members{?filters}]
+## Memberships [/api/v3/memberships{?filters}]
 
 + Model
     + Body
 
             {
                 "_links": {
-                    "self": { "href": "/api/v3/members" }
+                    "self": { "href": "/api/v3/memberships" }
                 },
                 "total": 2,
                 "count": 2,
@@ -102,17 +105,55 @@ Users and groups can become members of a project. Such a membership will also ha
                     "elements": [
                         {
                             "_links": {
-                                "self": { "href": "/api/v3/members/11" }
+                                "self": {
+                                      "href": "/api/v3/memberships/11"
+                                 },
+                                 "schema": {
+                                     "href": "/api/v3/memberships/schema"
+                                 },
+                                 "project": {
+                                     "href": "/api/v3/projects/3",
+                                     "title": "A Project"
+                                 },
+                                 "principal": {
+                                     "href": "/api/v3/users/5",
+                                     "title": "A user"
+                                 },
+                                 "roles": [
+                                     {
+                                         "href": "/api/v3/roles/4",
+                                         "title": "Reader"
+                                     }
+                                 ]
                             },
-                            "_type": "Member",
+                            "_type": "Membership",
                             "id": 11,
                             "createdAt": "2015-03-20T12:56:56Z"
                         },
                         {
                             "_links": {
-                                "self": { "href": "/api/v3/members/41" }
+                                "self": {
+                                      "href": "/api/v3/memberships/41"
+                                 },
+                                 "schema": {
+                                     "href": "/api/v3/memberships/schema"
+                                 },
+                                 "project": {
+                                     "href": "/api/v3/projects/6",
+                                     "title": "Another Project"
+                                 },
+                                 "principal": {
+                                     "href": "/api/v3/groups/5",
+                                     "title": "A group"
+                                 },
+                                 "roles": [
+                                     {
+                                         "href": "/api/v3/roles/8",
+                                         "title": "Project admin"
+                                     }
+                                 ]
                             },
-                            "_type": "Member",
+                            "_type": "Membership",
                             "id": 41,
                             "createdAt": "2019-12-22T12:56:06Z"
                         }
@@ -120,45 +161,90 @@ Users and groups can become members of a project. Such a membership will also ha
                 }
             }
 
-## List members [GET]
+## List memberships [GET]
 
-Returns a collection of members. The client can choose to filter the members similar to how work packages are filtered. In addition to the provided filters, the server will reduce the result set to only contain members, for which the requesting client has sufficient permissions (*view_members*, *manage_members*).
+Returns a collection of memberships. The client can choose to filter the memberships similar to how work packages are filtered. In addition to the provided filters, the server will reduce the result set to only contain memberships, for which the requesting client has sufficient permissions (*view_members*, *manage_members*).
 
 + Parameters
     + filters (optional, string, `[{ "name": { "operator": "=", "values": ["A User"] }" }]`) ... JSON specifying filter conditions.
     Accepts the same format as returned by the [queries](#queries) endpoint.
     Currently supported filters are:
-      + any_name_attribute: filters members based on the name of the principal. All possible name variants (and also email and login) are searched.
-      + blocked: reduces the result set to all members that are temporarily blocked or that are not blocked temporarily.
-      + group: filters members based on the name of a group. The group however is not the principal used for filtering. Rather, the members of the group are used as the filter values.
-      + name: filters members based on the name of the principal. Note that only the name is used which depends on a setting in the OpenProject instance.
-      + principal: filters members based on the id of the principal.
-      + role: filters members based on the id of any role assigned to the member.
-      + status: filters members based on the status of the principal.
+      + any_name_attribute: filters memberships based on the name of the principal. All possible name variants (and also email and login) are searched.
+      + blocked: reduces the result set to all memberships that are temporarily blocked or that are not blocked temporarily.
+      + group: filters memberships based on the name of a group. The group however is not the principal used for filtering. Rather, the memberships of the group are used as the filter values.
+      + name: filters memberships based on the name of the principal. Note that only the name is used which depends on a setting in the OpenProject instance.
+      + principal: filters memberships based on the id of the principal.
+      + role: filters memberships based on the id of any role assigned to the membership.
+      + status: filters memberships based on the status of the principal.
 
 + Response 200 (application/hal+json)
 
-    [Members][]
+    [Memberships][]
 
-## Member schema [/api/v3/members/schemas]
+## Membership schema [/api/v3/memberships/schemas]
 
 + Model
     + Body
 
             {
+                "_type": "Schema",
+                "_dependencies": [],
+                "id": {
+                    "type": "Integer",
+                    "name": "ID",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": false
+                },
+                "createdAt": {
+                    "type": "DateTime",
+                    "name": "Created on",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": false
+                },
+                "project": {
+                    "type": "Project",
+                    "name": "Project",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": true,
+                    "_links": {}
+                },
+                "principal": {
+                    "type": "Principal",
+                    "name": "Principal",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": true,
+                    "_links": {}
+                },
+                "roles": {
+                    "type": "[]Role",
+                    "name": "Role",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": true,
+                    "_links": {}
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/memberships/schema"
+                    }
+                }
             }
 
-## View member schema [GET]
+## View membership schema [GET]
 
 + Response 200 (application/hal+json)
 
-    [Member schema][]
+    [Membership schema][]
 
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions to see the schema.
 
-    **Required permission:** manage members or view members on any project
+    **Required permission:** manage members or view memberships on any project
 
     + Body
 
@@ -168,15 +254,15 @@ Returns a collection of members. The client can choose to filter the members sim
                 "message": "You are not authorized to access this resource."
             }
 
-## Member create form [/api/v3/members/form]
+## Membership create form [/api/v3/memberships/form]
 
-This endpoint returns a form allowing a guided creation of new members.
+This endpoint returns a form allowing a guided creation of new memberships.
 
 For more details and all possible responses see the general specification of [Forms](#forms).
 
-## Member create form [POST]
+## Membership create form [POST]
 
-+ Request Create member form
++ Request Create membership form
 
     + Body
 
@@ -206,7 +292,7 @@ For more details and all possible responses see the general specification of [Fo
 
     Returned if the client does not have sufficient permissions.
 
-    **Required permission:** manage members in any project
+    **Required permission:** manage memberships in any project
 
     + Body
 
@@ -216,7 +302,7 @@ For more details and all possible responses see the general specification of [Fo
                 "message": "You are not authorized to access this resource."
             }
 
-## Available Projects [/api/v3/members/available_projects]
+## Available projects for memberships [/api/v3/memberships/available_projects]
 
 + Model
     + Body
@@ -224,7 +310,7 @@ For more details and all possible responses see the general specification of [Fo
             {
               "_links": {
                 "self": {
-                  "href": "/api/v3/members/available_projects"
+                  "href": "/api/v3/memberships/available_projects"
                 }
               },
               "_type": "Collection",
@@ -255,8 +341,8 @@ For more details and all possible responses see the general specification of [Fo
                       "categories": {
                         "href": "/api/v3/projects/6/categories"
                       },
-                      "members": {
-                        "href": "/api/v3/projects/6/members"
+                      "memberships": {
+                        "href": "/api/v3/projects/6/memberships"
                       }
                     },
                     "id": 6,
@@ -285,8 +371,8 @@ For more details and all possible responses see the general specification of [Fo
                       "categories": {
                         "href": "/api/v3/projects/14/categories"
                       },
-                      "members": {
-                        "href": "/api/v3/projects/14/members"
+                      "memberships": {
+                        "href": "/api/v3/projects/14/memberships"
                       }
                     },
                     "id": 14,
@@ -301,13 +387,13 @@ For more details and all possible responses see the general specification of [Fo
               }
             }
 
-## Available projects [GET]
+## Available projects for memberships [GET]
 
-Gets a list of projects in which a member can be created in. The list contains all projects in which the user issuing the request has the manage versions permissions.
+Gets a list of projects in which a membership can be created in. The list contains all projects in which the user issuing the request has the manage versions permissions.
 
 + Response 200 (application/hal+json)
 
-    [Available Projects][]
+    [Available projects for memberships][]
 
 + Response 403 (application/hal+json)
 

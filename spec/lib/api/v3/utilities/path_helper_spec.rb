@@ -214,28 +214,28 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/grids/42/form'
   end
 
-  describe '#members' do
-    subject { helper.members }
+  describe '#memberships' do
+    subject { helper.memberships }
 
-    it_behaves_like 'api v3 path', '/members'
+    it_behaves_like 'api v3 path', '/memberships'
   end
 
-  describe '#members_available_projects' do
+  describe '#memberships_available_projects' do
     subject { helper.members_available_projects }
 
-    it_behaves_like 'api v3 path', '/members/available_projects'
+    it_behaves_like 'api v3 path', '/memberships/available_projects'
   end
 
-  describe '#member' do
-    subject { helper.member(42) }
+  describe '#membership' do
+    subject { helper.membership(42) }
 
-    it_behaves_like 'api v3 path', '/members/42'
+    it_behaves_like 'api v3 path', '/memberships/42'
   end
 
-  describe '#member_schema' do
-    subject { helper.member_schema }
+  describe '#membership_schema' do
+    subject { helper.membership_schema }
 
-    it_behaves_like 'api v3 path', '/members/schema'
+    it_behaves_like 'api v3 path', '/memberships/schema'
   end
 
   describe '#message' do

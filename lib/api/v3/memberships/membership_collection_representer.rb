@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,17 +30,9 @@
 
 module API
   module V3
-    module Members
-      class AvailableProjectsAPI < ::API::OpenProjectAPI
-        before do
-          authorize :manage_members, global: true
-        end
-
-        resources :available_projects do
-          get &::API::V3::Utilities::Endpoints::Index.new(model: Project,
-                                                          scope: -> { Project.allowed_to(User.current, :manage_members) })
-                                                     .mount
-        end
+    module Memberships
+      class MembershipCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
+        element_decorator ::API::V3::Memberships::MembershipRepresenter
       end
     end
   end

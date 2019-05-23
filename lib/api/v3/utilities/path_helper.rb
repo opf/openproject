@@ -159,20 +159,20 @@ module API
             "#{root}/help_texts/#{id}"
           end
 
-          def self.members
-            "#{root}/members"
+          def self.memberships
+            "#{root}/memberships"
           end
 
-          def self.members_available_projects
-            "#{members}/available_projects"
+          def self.memberships_available_projects
+            "#{memberships}/available_projects"
           end
 
-          def self.member(id)
-            "#{members}/#{id}"
+          def self.membership(id)
+            "#{memberships}/#{id}"
           end
 
-          def self.member_schema
-            "#{members}/schema"
+          def self.membership_schema
+            "#{memberships}/schema"
           end
 
           def self.message(id)

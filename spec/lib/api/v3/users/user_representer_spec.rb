@@ -176,7 +176,7 @@ describe ::API::V3::Users::UserRepresenter do
         end
       end
 
-      describe 'members' do
+      describe 'memberships' do
         before do
           allow(current_user)
             .to receive(:allowed_to?) do |action, _project, options|
@@ -190,14 +190,14 @@ describe ::API::V3::Users::UserRepresenter do
             'values' => [user.id.to_s]
           } }]
 
-          "#{api_v3_paths.members}?#{{ filters: filters.to_json }.to_query}"
+          api_v3_paths.path_for(:members, filters: filters)
         end
 
         context 'if the user has the :view_members permissions' do
           let(:permissions) { [:view_members] }
 
           it_behaves_like 'has a titled link' do
-            let(:link) { 'members' }
+            let(:link) { 'memberships' }
             let(:title) { I18n.t(:label_member_plural) }
           end
         end
@@ -206,7 +206,7 @@ describe ::API::V3::Users::UserRepresenter do
           let(:permissions) { [:manage_members] }
 
           it_behaves_like 'has a titled link' do
-            let(:link) { 'members' }
+            let(:link) { 'memberships' }
             let(:title) { I18n.t(:label_member_plural) }
           end
         end
@@ -215,7 +215,7 @@ describe ::API::V3::Users::UserRepresenter do
           let(:permissions) { [] }
 
           it_behaves_like 'has no link' do
-            let(:link) { 'members' }
+            let(:link) { 'memberships' }
           end
         end
       end

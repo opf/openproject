@@ -70,7 +70,7 @@ Fetch an individual role.
                 "message": "The requested resource could not be found."
             }
 
-## Roles [/api/v3/roles]
+## Roles [/api/v3/roles{?filters}]
 
 + Model
     + Body
@@ -148,6 +148,13 @@ Fetch an individual role.
 ## List roles [GET]
 
 List all defined roles. This includes built in roles like 'Anonymous' and 'Non member'.
+
++ Parameters
+    + filters (optional, string, `[{ "unit": { "operator": "=", "values": ["system"] }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+    Currently supported filters are:
+      + assignable: filters roles based on whether they are selectable for a membership
+      + unit: filters roles based on the unit ('project' or 'system') for which they are selectable for a membership
 
 + Response 200 (application/hal+json)
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Members::MemberRepresenter, 'rendering' do
+describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
 
   let(:member) do
@@ -66,8 +66,15 @@ describe ::API::V3::Members::MemberRepresenter, 'rendering' do
     describe 'self' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'self' }
-        let(:href) { api_v3_paths.member member.id }
+        let(:href) { api_v3_paths.membership member.id }
         let(:title) { user.name }
+      end
+    end
+
+    describe 'schema' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'schema' }
+        let(:href) { api_v3_paths.membership_schema }
       end
     end
 
@@ -120,7 +127,7 @@ describe ::API::V3::Members::MemberRepresenter, 'rendering' do
 
   describe 'properties' do
     it_behaves_like 'property', :_type do
-      let(:value) { 'Member' }
+      let(:value) { 'Membership' }
     end
 
     it_behaves_like 'property', :id do

@@ -27,9 +27,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/roles/role_collection_representer'
-require 'api/v3/roles/role_representer'
-
 module API
   module V3
     module Roles

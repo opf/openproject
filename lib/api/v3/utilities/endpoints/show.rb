@@ -38,11 +38,14 @@ module API
           end
 
           def initialize(model:,
+                         api_name: model.name.demodulize,
+                         render_representer: nil,
                          instance_generator: default_instance_generator(model))
 
             self.model = model
+            self.api_name = api_name
             self.instance_generator = instance_generator
-            self.render_representer = deduce_render_representer
+            self.render_representer = render_representer || deduce_render_representer
           end
 
           def mount
@@ -61,25 +64,22 @@ module API
           end
 
           def self_path
-            demodulized_name.underscore.pluralize
+            api_name.underscore.pluralize
           end
 
           attr_accessor :model,
+                        :api_name,
                         :instance_generator,
                         :render_representer
 
           private
 
           def deduce_render_representer
-            "::API::V3::#{deduce_namespace}::#{demodulized_name}Representer".constantize
+            "::API::V3::#{deduce_namespace}::#{api_name}Representer".constantize
           end
 
           def deduce_namespace
-            demodulized_name.pluralize
-          end
-
-          def demodulized_name
-            model.name.demodulize
+            api_name.pluralize
           end
         end
       end

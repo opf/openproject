@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 members resource', type: :request do
+describe 'API v3 memberhips resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -56,7 +56,7 @@ describe 'API v3 members resource', type: :request do
 
   subject(:response) { last_response }
 
-  describe 'GET api/v3/members' do
+  describe 'GET api/v3/memberships' do
     let(:members) { [own_member, other_member, invisible_member] }
 
     before do
@@ -67,20 +67,20 @@ describe 'API v3 members resource', type: :request do
       get path
     end
 
-    let(:path) { "#{api_v3_paths.members}?sortBy=#{[%i(id asc)].to_json}" }
-    let(:filter_path) { "#{api_v3_paths.members}?#{{ filters: filters.to_json }.to_query}&sortBy=#{[%i(id asc)].to_json}" }
+    let(:path) { "#{api_v3_paths.memberships}?sortBy=#{[%i(id asc)].to_json}" }
+    let(:filter_path) { "#{api_v3_paths.memberships}?#{{ filters: filters.to_json }.to_query}&sortBy=#{[%i(id asc)].to_json}" }
 
     context 'without params' do
       it 'responds 200 OK' do
         expect(subject.status).to eq(200)
       end
 
-      it 'returns a collection of members containing only the visible ones' do
+      it 'returns a collection of memberships containing only the visible ones' do
         expect(subject.body)
           .to be_json_eql('Collection'.to_json)
           .at_path('_type')
 
-        # the one member stems from the membership the user has himself
+        # the one membership stems from the membership the user has himself
         expect(subject.body)
           .to be_json_eql('2')
           .at_path('total')
@@ -96,9 +96,9 @@ describe 'API v3 members resource', type: :request do
     end
 
     context 'with pageSize, offset and sortBy' do
-      let(:path) { "#{api_v3_paths.members}?pageSize=1&offset=2&sortBy=#{[%i(id asc)].to_json}" }
+      let(:path) { "#{api_v3_paths.memberships}?pageSize=1&offset=2&sortBy=#{[%i(id asc)].to_json}" }
 
-      it 'returns a slice of the visible members' do
+      it 'returns a slice of the visible memberships' do
         expect(subject.body)
           .to be_json_eql('Collection'.to_json)
           .at_path('_type')
@@ -188,7 +188,7 @@ describe 'API v3 members resource', type: :request do
 
       let(:path) { filter_path }
 
-      it 'contains only the filtered members in the response' do
+      it 'contains only the filtered memberships in the response' do
         expect(subject.body)
           .to be_json_eql('1')
           .at_path('total')
@@ -264,8 +264,8 @@ describe 'API v3 members resource', type: :request do
     end
   end
 
-  describe 'GET /api/v3/members/:id' do
-    let(:path) { api_v3_paths.member(other_member.id) }
+  describe 'GET /api/v3/memberships/:id' do
+    let(:path) { api_v3_paths.membership(other_member.id) }
 
     let(:members) { [own_member, other_member] }
 
@@ -284,7 +284,7 @@ describe 'API v3 members resource', type: :request do
 
     it 'returns the member' do
       expect(subject.body)
-        .to be_json_eql('Member'.to_json)
+        .to be_json_eql('Membership'.to_json)
         .at_path('_type')
 
       expect(subject.body)
@@ -293,7 +293,7 @@ describe 'API v3 members resource', type: :request do
     end
 
     context 'if querying an invisible member' do
-      let(:path) { api_v3_paths.member(invisible_member.id) }
+      let(:path) { api_v3_paths.membership(invisible_member.id) }
 
       let(:members) { [own_member, invisible_member] }
 

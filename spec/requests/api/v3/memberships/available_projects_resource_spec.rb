@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 members available projects resource', type: :request do
+describe 'API v3 memberships available projects resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -73,7 +73,7 @@ describe 'API v3 members available projects resource', type: :request do
 
   subject(:response) { last_response }
 
-  describe 'GET api/v3/members/available_projects' do
+  describe 'GET api/v3/memberships/available_projects' do
     let(:projects) { [manage_project, unauthorized_project] }
 
     before do
@@ -83,8 +83,8 @@ describe 'API v3 members available projects resource', type: :request do
       get path
     end
 
-    let(:path) { api_v3_paths.members_available_projects }
-    let(:filter_path) { "#{api_v3_paths.members_available_projects}?#{{ filters: filters.to_json }.to_query}" }
+    let(:path) { api_v3_paths.memberships_available_projects }
+    let(:filter_path) { "#{api_v3_paths.memberships_available_projects}?#{{ filters: filters.to_json }.to_query}" }
 
     context 'without params' do
       it 'responds 200 OK' do

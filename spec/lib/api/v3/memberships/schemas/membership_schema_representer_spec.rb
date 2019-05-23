@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Members::Schemas::MemberSchemaRepresenter do
+describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) { FactoryBot.build_stubbed(:user) }
@@ -130,7 +130,7 @@ describe ::API::V3::Members::Schemas::MemberSchemaRepresenter do
           context 'if having no principal' do
             it_behaves_like 'links to allowed values via collection link' do
               let(:href) do
-                api_v3_paths.members_available_projects
+                api_v3_paths.memberships_available_projects
               end
             end
           end
@@ -142,7 +142,7 @@ describe ::API::V3::Members::Schemas::MemberSchemaRepresenter do
               let(:href) do
                 filters = [{ 'principal' => { 'operator' => '!', 'values' => [principal.id.to_s] } }]
 
-                api_v3_paths.path_for(:members_available_projects, filters: filters)
+                api_v3_paths.path_for(:memberships_available_projects, filters: filters)
               end
             end
           end

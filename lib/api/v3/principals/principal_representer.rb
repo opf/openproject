@@ -49,20 +49,20 @@ module API
 
         self_link
 
-        link :members,
+        link :memberships,
              cache_if: -> { current_user_allowed_to_see_members? } do
 
           filters = [
             {
-              'principal' => {
-                'operator' => '=',
-                'values' => [represented.id.to_s]
+              principal: {
+                operator: '=',
+                values: [represented.id.to_s]
               }
             }
           ]
 
           {
-            href: "#{api_v3_paths.members}?#{{ filters: filters.to_json }.to_query}",
+            href: api_v3_paths.path_for(:memberships, filters: filters),
             title: I18n.t(:label_member_plural)
           }
         end

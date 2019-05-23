@@ -28,9 +28,9 @@
 
 module API
   module V3
-    module Members
+    module Memberships
       module Schemas
-        class MemberSchemaRepresenter < ::API::Decorators::SchemaRepresenter
+        class MembershipSchemaRepresenter < ::API::Decorators::SchemaRepresenter
           def initialize(represented, self_link = nil, current_user: nil, form_embedded: false)
             super(represented,
                   self_link,
@@ -79,7 +79,7 @@ module API
           def allowed_projects_href
             return unless represented.new_record?
 
-            api_v3_paths.path_for(:members_available_projects, filters: allowed_projects_filters)
+            api_v3_paths.path_for(:memberships_available_projects, filters: allowed_projects_filters)
           end
 
           def allowed_projects_filters

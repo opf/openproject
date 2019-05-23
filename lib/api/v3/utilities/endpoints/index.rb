@@ -33,10 +33,14 @@ module API
         class Index
           include ::API::Utilities::PageSizeHelper
 
-          def initialize(model:, scope: nil)
+          def initialize(model:,
+                         api_name: model.name.demodulize,
+                         scope: nil,
+                         render_representer: nil)
             self.model = model_class(model)
             self.scope = scope
-            self.render_representer = deduce_render_representer
+            self.api_name = api_name
+            self.render_representer = render_representer || deduce_render_representer
           end
 
           def mount
@@ -67,10 +71,11 @@ module API
           end
 
           def self_path
-            demodulized_name.underscore.pluralize
+            api_name.underscore.pluralize
           end
 
           attr_accessor :model,
+                        :api_name,
                         :scope,
                         :render_representer
 
@@ -111,15 +116,11 @@ module API
           end
 
           def deduce_render_representer
-            "::API::V3::#{deduce_namespace}::#{demodulized_name}CollectionRepresenter".constantize
+            "::API::V3::#{deduce_namespace}::#{api_name}CollectionRepresenter".constantize
           end
 
           def deduce_namespace
-            demodulized_name.pluralize
-          end
-
-          def demodulized_name
-            model.name.demodulize
+            api_name.pluralize
           end
 
           def model_class(scope)
