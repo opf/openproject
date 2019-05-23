@@ -49,9 +49,10 @@ describe 'API v3 roles resource', type: :request do
   describe 'GET api/v3/roles' do
     let(:get_path) { api_v3_paths.roles }
     let(:response) { last_response }
+    let(:roles) { [role] }
 
     before do
-      role
+      roles
 
       get get_path
     end
@@ -62,6 +63,55 @@ describe 'API v3 roles resource', type: :request do
     end
 
     it_behaves_like 'API V3 collection response', 1, 1, 'Role'
+
+    context 'filtering by assignable' do
+      let(:filters) do
+        [{ 'assignable' => {
+            'operator' => '=',
+            'values' => ['t']
+        } }]
+      end
+
+      let(:non_member_role) { Role.non_member }
+      let(:roles) { [role, non_member_role] }
+
+      let(:get_path) { api_v3_paths.path_for(:roles, filters: filters) }
+
+      it 'contains only the filtered member in the response' do
+        expect(subject.body)
+          .to be_json_eql('1')
+          .at_path('total')
+
+        expect(subject.body)
+          .to be_json_eql(role.id.to_json)
+          .at_path('_embedded/elements/0/id')
+      end
+    end
+
+    context 'filtering by unit' do
+      let(:filters) do
+        [{ 'unit' => {
+          'operator' => '=',
+          'values' => ['project']
+        } }]
+      end
+
+      let(:non_member_role) { Role.non_member }
+      let(:global_role) { FactoryBot.create(:global_role) }
+      let(:roles) { [role, non_member_role, global_role] }
+
+      let(:get_path) { api_v3_paths.path_for(:roles, filters: filters) }
+
+      it 'contains only the filtered member in the response' do
+        expect(subject.body)
+          .to be_json_eql('1')
+          .at_path('total')
+
+        expect(subject.body)
+          .to be_json_eql(role.id.to_json)
+          .at_path('_embedded/elements/0/id')
+      end
+    end
   end
 
   describe 'GET /api/v3/roles/:id' do

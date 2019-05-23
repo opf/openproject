@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,8 +26,4 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::SubjectFilter < Queries::WorkPackages::Filter::WorkPackageFilter
-  def type
-    :text
-  end
-end
+class Queries::Roles::RoleQuery < Queries::BaseQuery; end

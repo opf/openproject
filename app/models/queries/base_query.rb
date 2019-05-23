@@ -28,7 +28,9 @@
 
 class Queries::BaseQuery
   class << self
-    attr_accessor :model
+    def model
+      @model ||= name.demodulize.gsub('Query', '').constantize
+    end
 
     def i18n_scope
       :activerecord

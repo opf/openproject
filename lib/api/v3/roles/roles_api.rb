@@ -35,11 +35,7 @@ module API
     module Roles
       class RolesAPI < ::API::OpenProjectAPI
         resources :roles do
-          get do
-            RoleCollectionRepresenter.new(Role.all,
-                                          api_v3_paths.roles,
-                                          current_user: current_user)
-          end
+          get &::API::V3::Utilities::Endpoints::Index.new(model: Role).mount
 
           route_param :id, type: Integer, desc: 'Role ID' do
             before do

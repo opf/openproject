@@ -142,7 +142,7 @@ describe ::API::V3::Members::Schemas::MemberSchemaRepresenter do
               let(:href) do
                 filters = [{ 'principal' => { 'operator' => '!', 'values' => [principal.id.to_s] } }]
 
-                "#{api_v3_paths.members_available_projects}?#{{ filters: filters.to_json }.to_query}"
+                api_v3_paths.path_for(:members_available_projects, filters: filters)
               end
             end
           end
@@ -193,7 +193,7 @@ describe ::API::V3::Members::Schemas::MemberSchemaRepresenter do
                 statuses = [Principal::STATUSES[:builtin].to_s, Principal::STATUSES[:locked].to_s]
                 filters = [{ 'status' => { 'operator' => '!', 'values' => statuses } }]
 
-                "#{api_v3_paths.principals}?#{{ filters: filters.to_json }.to_query}"
+                api_v3_paths.path_for(:principals, filters: filters)
               end
             end
           end
@@ -209,7 +209,7 @@ describe ::API::V3::Members::Schemas::MemberSchemaRepresenter do
 
                 filters = [status_filter, member_filter]
 
-                "#{api_v3_paths.principals}?#{{ filters: filters.to_json }.to_query}"
+                api_v3_paths.path_for(:principals, filters: filters)
               end
             end
           end
@@ -255,7 +255,7 @@ describe ::API::V3::Members::Schemas::MemberSchemaRepresenter do
 
         it_behaves_like 'links to allowed values via collection link' do
           let(:href) do
-            api_v3_paths.roles
+            api_v3_paths.path_for(:roles, filters: [{ unit: { operator: '=', values: ['project'] } }])
           end
         end
       end

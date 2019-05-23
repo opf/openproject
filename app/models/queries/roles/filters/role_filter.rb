@@ -28,8 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::SubjectFilter < Queries::WorkPackages::Filter::WorkPackageFilter
-  def type
-    :text
+class Queries::Roles::Filters::RoleFilter < Queries::Filters::Base
+  self.model = Role
+
+  def human_name
+    Role.human_attribute_name(name)
   end
 end

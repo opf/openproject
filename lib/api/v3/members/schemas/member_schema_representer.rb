@@ -69,8 +69,7 @@ module API
                                    required: true,
                                    visibility: false,
                                    href_callback: ->(*) {
-                                     # TODO: scope to only include assignable roles
-                                     api_v3_paths.roles
+                                     api_v3_paths.path_for(:roles, filters: [{ unit: { operator: '=', values: ['project'] } }])
                                    }
 
           def self.represented_class
@@ -85,7 +84,7 @@ module API
 
           def allowed_projects_filters
             if represented.principal
-              [{ 'principal' => { 'operator' => '!', 'values' => [represented.principal.id.to_s] } }]
+              [{ principal: { operator: '!', values: [represented.principal.id.to_s] } }]
             end
           end
 
@@ -98,12 +97,12 @@ module API
           def allowed_principals_filters
             statuses = [Principal::STATUSES[:builtin].to_s,
                         Principal::STATUSES[:locked].to_s]
-            status_filter = { 'status' => { 'operator' => '!', 'values' => statuses } }
+            status_filter = { status: { operator: '!', values: statuses } }
 
             filters = [status_filter]
 
             if represented.project
-              member_filter = { 'member' => { 'operator' => '!', 'values' => [represented.project.id.to_s] } }
+              member_filter = { member: { operator: '!', values: [represented.project.id.to_s] } }
 
               filters << member_filter
             end
