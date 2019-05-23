@@ -16,21 +16,49 @@ If your organization currently has an Azure Active Directory to manage users, an
 
 The steps are as follows:
 
-* Log into your Microsoft account, and go to the Azure Active Directory administration page.
-* In the sidebar, click on "All services".
-* Click on the link named "App registrations".
-* Click on "New registration".
-* You are now asked for a few settings:
+Log into your Microsoft account, and go to the Azure Active Directory administration page.
 
-  * For "Name", enter "OpenProject".
-  * For "Supported account types", select "Accounts in this organization directory only".
-  * For "Redirect URI", select the "Web" type, and enter the URL to your OpenProject installation, followed by "/auth/azure/callback". For instance: "https://myserver.com/auth/azure/callback".
+![](<https://raw.githubusercontent.com/opf/openproject/c56f830d19ad886cbbb735c1826b50b66731c18b/docs/images/openid/01-menu.png>)
 
-* When you are done, click on the "Register" button at the end of the page.
-* Once you are redirected to your new App registration, be sure to save the "Application (client) ID" that is now displayed. You will need it later.
-* You can now click on "Certificates & secret".
-* Then click on "New client secret", set the description to "client_secret", and the expiration to "never". Then click on "Add".
-* A secret should have been generated and is now displayed on the page. Be sure to save it somewhere because it will only be displayed once.
+
+
+In the sidebar, click on "All services".
+
+![](<https://raw.githubusercontent.com/opf/openproject/c56f830d19ad886cbbb735c1826b50b66731c18b/docs/images/openid/02-admin-dashboard.png>)
+
+Click on the link named "App registrations".
+
+![](<https://raw.githubusercontent.com/opf/openproject/c56f830d19ad886cbbb735c1826b50b66731c18b/docs/images/openid/03-app-registrations.png>)
+
+
+
+Click on "New registration".
+
+![](<https://raw.githubusercontent.com/opf/openproject/c56f830d19ad886cbbb735c1826b50b66731c18b/docs/images/openid/04-register-app.png>)
+
+You are now asked for a few settings:
+
+* For "Name", enter "OpenProject".
+* For "Supported account types", select "Accounts in this organization directory only".
+* For "Redirect URI", select the "Web" type, and enter the URL to your OpenProject installation, followed by "/auth/azure/callback". For instance: "https://myserver.com/auth/azure/callback".
+
+When you are done, click on the "Register" button at the end of the page. You are redirected to your new App registration, be sure to save the "Application (client) ID" that is now displayed. You will need it later.
+
+![](<https://raw.githubusercontent.com/opf/openproject/c56f830d19ad886cbbb735c1826b50b66731c18b/docs/images/openid/02-admin-dashboard.png>)
+
+
+
+You can now click on "Certificates & secret".
+
+![](<https://raw.githubusercontent.com/opf/openproject/c56f830d19ad886cbbb735c1826b50b66731c18b/docs/images/openid/06-certificates.png>)
+
+Then click on "New client secret", set the description to "client_secret", and the expiration to "never". Then click on "Add".
+
+![](<https://raw.githubusercontent.com/opf/openproject/c56f830d19ad886cbbb735c1826b50b66731c18b/docs/images/openid/07-client-secret.png>)
+
+A secret should have been generated and is now displayed on the page. Be sure to save it somewhere because it will only be displayed once.
+
+![](<https://raw.githubusercontent.com/opf/openproject/c56f830d19ad886cbbb735c1826b50b66731c18b/docs/images/openid/08-add-secret.png>)
 
 At the end of this step, you should have a copy of the Application client ID as well as the client Secret you just generated.
 
