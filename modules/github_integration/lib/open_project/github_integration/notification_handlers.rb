@@ -86,7 +86,7 @@ module OpenProject::GithubIntegration
       attributes = { journal_notes: notes }
       wps.each do |wp|
         ::WorkPackages::UpdateService
-          .new(user: user, work_package: wp)
+          .new(user: user, model: wp)
           .call(attributes.merge(send_notifications: false).symbolize_keys)
       end
     end

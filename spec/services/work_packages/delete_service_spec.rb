@@ -30,17 +30,17 @@
 
 require 'spec_helper'
 
-describe WorkPackages::DestroyService do
+describe WorkPackages::DeleteService do
   let(:user) do
     FactoryBot.build_stubbed(:user)
   end
   let(:work_package) do
-    FactoryBot.build_stubbed(:work_package)
+    FactoryBot.build_stubbed(:work_package, type: FactoryBot.build_stubbed(:type))
   end
   let(:instance) do
     described_class
       .new(user: user,
-           work_package: work_package)
+           model: work_package)
   end
   let(:destroyed_result) { true }
   let(:destroy_allowed) { true }

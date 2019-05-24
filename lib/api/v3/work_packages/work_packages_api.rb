@@ -93,8 +93,7 @@ module API
                                                                })
                                                           .mount
 
-            delete &::API::V3::Utilities::Endpoints::Delete.new(model: WorkPackage,
-                                                                process_service: ::WorkPackages::DestroyService)
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: WorkPackage)
                                                            .mount
 
             mount ::API::V3::WorkPackages::WatchersAPI

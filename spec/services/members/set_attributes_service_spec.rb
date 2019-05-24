@@ -103,18 +103,30 @@ describe Members::SetAttributesService, type: :model do
       let(:second_role) { FactoryBot.build_stubbed(:role) }
       let(:third_role) { FactoryBot.build_stubbed(:role) }
 
-      let(:member) do
-        FactoryBot.build_stubbed(:member, roles: [first_role, second_role])
-      end
-
       let(:call_attributes) do
         {
           role_ids: [second_role.id, third_role.id]
         }
       end
 
-      it 'adds the new role' do
-        expect(subject.result.roles = [second_role, third_role])
+      context 'with a persisted record' do
+        let(:member) do
+          FactoryBot.build_stubbed(:member, roles: [first_role, second_role])
+        end
+
+        it 'adds the new role' do
+          expect(subject.result.roles = [second_role, third_role])
+        end
+      end
+
+      context 'with a new record' do
+        let(:member) do
+          Member.new
+        end
+
+        it 'adds the new role' do
+          expect(subject.result.roles = [second_role, third_role])
+        end
       end
     end
   end

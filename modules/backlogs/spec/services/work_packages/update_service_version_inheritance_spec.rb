@@ -233,7 +233,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   end
 
   describe 'WHEN changing fixed_version' do
-    let(:instance) { described_class.new(user: user, work_package: parent) }
+    let(:instance) { described_class.new(user: user, model: parent) }
 
     shared_examples_for "changing parent's fixed_version changes child's fixed version" do
       it "SHOULD change the child's fixed version to the parent's fixed version" do
@@ -437,7 +437,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   end
 
   describe 'WHEN changing the parent_id' do
-    let(:instance) { described_class.new(user: user, work_package: child) }
+    let(:instance) { described_class.new(user: user, model: child) }
 
     shared_examples_for "changing the child's parent_issue to the parent changes child's fixed version" do
       it "SHOULD change the child's fixed version to the parent's fixed version" do

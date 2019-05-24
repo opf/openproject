@@ -28,21 +28,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Grids::UpdateService < ::BaseServices::Update
-  protected
+module WorkPackages
+  class DeleteContract < ::ModelContract
+    def self.model
+      WorkPackage
+    end
 
-  def update(attributes)
-    set_type_for_error_message(attributes.delete(:scope))
+    def validate
+      user_allowed_to_delete
 
-    super
-  end
+      super
+    end
 
-  # Changing the scope/type after the grid has been created is prohibited.
-  # But we set the value so that an error message can be displayed
-  def set_type_for_error_message(scope)
-    if scope
-      grid_class = ::Grids::Configuration.class_from_scope(scope)
-      model.type = grid_class.name
+    private
+
+    def user_allowed_to_delete
+      unless user.allowed_to?(:delete_work_packages, model.project)
+        errors.add(:base, :error_unauthorized)
+      end
     end
   end
 end

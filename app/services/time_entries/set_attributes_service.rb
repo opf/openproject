@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,24 +25,32 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Grids::UpdateService < ::BaseServices::Update
-  protected
+module TimeEntries
+  class SetAttributesService < ::BaseServices::SetAttributes
+    include SharedMixin
 
-  def update(attributes)
-    set_type_for_error_message(attributes.delete(:scope))
+    private
 
-    super
-  end
+    def set_attributes(attributes)
+      super
 
-  # Changing the scope/type after the grid has been created is prohibited.
-  # But we set the value so that an error message can be displayed
-  def set_type_for_error_message(scope)
-    if scope
-      grid_class = ::Grids::Configuration.class_from_scope(scope)
-      model.type = grid_class.name
+      ##
+      # Update project context if moving time entry
+      if model.work_package && model.work_package_id_changed?
+        model.project_id = model.work_package.project_id
+      end
+
+      use_project_activity(model)
+    end
+
+    def set_default_attributes
+      model.user ||= user
+      model.activity ||= TimeEntryActivity.default
+      model.hours = nil if model.hours&.zero?
+      model.project ||= model.work_package.project if model.work_package
     end
   end
 end

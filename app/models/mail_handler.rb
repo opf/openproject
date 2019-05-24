@@ -511,7 +511,7 @@ class MailHandler < ActionMailer::Base
 
     service_call = WorkPackages::UpdateService
                    .new(user: user,
-                        work_package: work_package,
+                        model: work_package,
                         contract_class: work_package_update_contract_class)
                    .call(attributes.symbolize_keys)
 

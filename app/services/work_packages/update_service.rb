@@ -33,12 +33,12 @@ class WorkPackages::UpdateService
   include ::Shared::ServiceContext
 
   attr_accessor :user,
-                :work_package,
+                :model,
                 :contract_class
 
-  def initialize(user:, work_package:, contract_class: WorkPackages::UpdateContract)
+  def initialize(user:, model:, contract_class: WorkPackages::UpdateContract)
     self.user = user
-    self.work_package = work_package
+    self.model = model
     self.contract_class = contract_class
   end
 
@@ -189,5 +189,9 @@ class WorkPackages::UpdateService
 
       a + [master]
     end
+  end
+
+  def work_package
+    model
   end
 end

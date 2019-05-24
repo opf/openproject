@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,24 +25,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Grids::UpdateService < ::BaseServices::Update
-  protected
+class Members::CreateService < ::BaseServices::Create
+  private
 
-  def update(attributes)
-    set_type_for_error_message(attributes.delete(:scope))
-
+  def after_save(attributes_call)
     super
-  end
 
-  # Changing the scope/type after the grid has been created is prohibited.
-  # But we set the value so that an error message can be displayed
-  def set_type_for_error_message(scope)
-    if scope
-      grid_class = ::Grids::Configuration.class_from_scope(scope)
-      model.type = grid_class.name
-    end
+    # Because of the way roles are assigned further down the stack,
+    # the roles association is empty after assign_roles has been called.
+    attributes_call.result.roles.reload
   end
 end

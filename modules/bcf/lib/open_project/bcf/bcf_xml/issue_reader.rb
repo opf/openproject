@@ -64,8 +64,8 @@ module OpenProject::Bcf::BcfXml
 
     def update_work_package
       WorkPackages::UpdateService
-        .new(user: user, work_package: issue.work_package)
-        .call(work_package_attributes, send_notifications: false)
+        .new(user: user, model: issue.work_package)
+        .call(work_package_attributes.merge(send_notifications: false).symbolize_keys)
     end
 
     ##

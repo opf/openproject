@@ -44,7 +44,7 @@ class Stories::UpdateService
   def call(attributes: {}, prev: nil)
     create_call = WorkPackages::UpdateService
                   .new(user: user,
-                       work_package: story)
+                       model: story)
                   .call(attributes.symbolize_keys)
 
     if create_call.success? && prev

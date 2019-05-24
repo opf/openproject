@@ -58,7 +58,7 @@ module BaseServices
         model.destroy
       end
 
-      ServiceResult.new(success: result, errors: errors)
+      ServiceResult.new(success: result, result: model, errors: errors)
     end
   end
 end

@@ -39,9 +39,9 @@ describe 'API v3 Work package resource',
   let(:closed_status) { FactoryBot.create(:closed_status) }
 
   let(:work_package) do
-    FactoryBot.create(:work_package, project_id: project.id,
-                                     description: 'lorem ipsum'
-                      )
+    FactoryBot.create(:work_package,
+                      project_id: project.id,
+                      description: 'lorem ipsum')
   end
   let(:project) do
     FactoryBot.create(:project, identifier: 'test_project', is_public: false)

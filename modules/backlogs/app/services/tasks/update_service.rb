@@ -44,7 +44,7 @@ class Tasks::UpdateService
   def call(attributes: {}, prev: '')
     create_call = WorkPackages::UpdateService
                   .new(user: user,
-                       work_package: task)
+                       model: task)
                   .call(attributes)
 
     if create_call.success?

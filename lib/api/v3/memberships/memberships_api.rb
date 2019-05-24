@@ -38,6 +38,10 @@ module API
                                                           api_name: 'Membership')
                                                      .mount
 
+          post &::API::V3::Utilities::Endpoints::Create.new(model: Member,
+                                                            api_name: 'Membership')
+                                                       .mount
+
           mount ::API::V3::Memberships::AvailableProjectsAPI
           mount ::API::V3::Memberships::Schemas::MembershipSchemaAPI
           mount ::API::V3::Memberships::CreateFormAPI

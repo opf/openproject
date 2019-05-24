@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 memberhips resource', type: :request do
+describe 'API v3 memberhips resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -44,9 +44,12 @@ describe 'API v3 memberhips resource', type: :request do
   end
   let(:permissions) { %i[view_members manage_members] }
   let(:project) { FactoryBot.create(:project) }
+  let(:other_role) { FactoryBot.create(:role) }
+  let(:other_user) { FactoryBot.create(:user) }
   let(:other_member) do
     FactoryBot.create(:member,
-                      roles: [FactoryBot.create(:role)],
+                      roles: [other_role],
+                      principal: other_user,
                       project: project)
   end
   let(:invisible_member) do
@@ -253,6 +256,157 @@ describe 'API v3 memberhips resource', type: :request do
           .to be_json_eql('0')
           .at_path('total')
       end
+    end
+  end
+
+  describe 'POST api/v3/memberships' do
+    let(:path) { api_v3_paths.memberships }
+    let(:principal) { other_user }
+    let(:principal_path) { api_v3_paths.user(principal.id) }
+    let(:body) do
+      {
+        project: {
+          href: api_v3_paths.project(project.id)
+        },
+        principal: {
+          href: principal_path
+        },
+        roles: [
+          {
+            href: api_v3_paths.role(other_role.id)
+          }
+        ]
+      }.to_json
+    end
+
+    before do
+      own_member
+      login_as current_user
+
+      post path, body
+    end
+
+    shared_examples_for 'successful member creation' do
+      it 'responds with 201' do
+        expect(last_response.status).to eq(201)
+      end
+
+      it 'creates the member' do
+        expect(Member.find_by(user_id: principal.id, project: project))
+          .to be_present
+      end
+
+      it 'returns the newly created member' do
+        expect(last_response.body)
+          .to be_json_eql('Membership'.to_json)
+          .at_path('_type')
+
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.project(project.id).to_json)
+          .at_path('_links/project/href')
+
+        expect(last_response.body)
+          .to be_json_eql(principal_path.to_json)
+          .at_path('_links/principal/href')
+
+        expect(last_response.body)
+          .to have_json_size(1)
+          .at_path('_links/roles')
+
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.role(other_role.id).to_json)
+          .at_path('_links/roles/0/href')
+      end
+    end
+
+    context 'for a user' do
+      it_behaves_like 'successful member creation'
+    end
+
+    context 'for a group' do
+      it_behaves_like 'successful member creation' do
+        let(:group) { FactoryBot.create(:group) }
+        let(:principal) { group }
+        let(:principal_path) { api_v3_paths.group(group.id) }
+        let(:body) do
+          {
+            project: {
+              href: api_v3_paths.project(project.id)
+            },
+            principal: {
+              href: principal_path
+            },
+            roles: [
+              {
+                href: api_v3_paths.role(other_role.id)
+              }
+            ]
+          }.to_json
+        end
+      end
+    end
+
+    context 'if providing an already taken user' do
+      let(:body) do
+        {
+          project: {
+            href: api_v3_paths.project(project.id)
+          },
+          principal: {
+            # invalid as the current_user is already member
+            href: api_v3_paths.user(current_user.id)
+          },
+          roles: [
+            {
+              href: api_v3_paths.role(other_role.id)
+            }
+          ]
+        }.to_json
+      end
+
+      it 'responds with 422 and explains the error' do
+        expect(last_response.status).to eq(422)
+
+        expect(last_response.body)
+          .to be_json_eql("User has already been taken.".to_json)
+          .at_path('message')
+      end
+    end
+
+    context 'if providing erroneous hrefs' do
+      let(:body) do
+        {
+          project: {
+            href: api_v3_paths.project(project.id)
+          },
+          principal: {
+            # role path instead of user
+            href: api_v3_paths.role(other_user.id)
+          },
+          roles: [
+            {
+              href: api_v3_paths.role(other_role.id)
+            }
+          ]
+        }.to_json
+      end
+
+      it 'responds with 422 and explains the error' do
+        expect(last_response.status).to eq(422)
+
+        error_message = "For property 'user' a link like '/api/v3/groups/:id' or " +
+                        "'/api/v3/users/:id' is expected, but got '#{api_v3_paths.role(other_user.id)}'."
+
+        expect(last_response.body)
+          .to be_json_eql(error_message.to_json)
+          .at_path('message')
+      end
+    end
+
+    context 'if lacking the manage permissions' do
+      let(:permissions) { [:view_members] }
+
+      it_behaves_like 'unauthorized access'
     end
   end
 

@@ -137,7 +137,7 @@ describe WorkPackages::MoveService, type: :model do
       expect(WorkPackages::UpdateService)
         .to receive(:new)
         .with(user: user,
-              work_package: work_package)
+              model: work_package)
         .and_return(update_double)
 
       expect(update_double)

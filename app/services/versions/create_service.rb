@@ -28,37 +28,4 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Versions
-  class CreateService
-    include Concerns::Contracted
-
-    attr_reader :user
-
-    def initialize(user:)
-      @user = user
-      self.contract_class = Versions::CreateContract
-    end
-
-    def call(params)
-      attributes_call = set_attributes(params)
-
-      if attributes_call.success? &&
-         !attributes_call.result.save
-        attributes_call.errors = attributes_call.result.errors
-        attributes_call.success = false
-      end
-
-      attributes_call
-    end
-
-    private
-
-    def set_attributes(params)
-      SetAttributesService
-        .new(user: user,
-             model: Version.new,
-             contract_class: contract_class)
-        .call(params)
-    end
-  end
-end
+class Versions::CreateService < ::BaseServices::Create; end

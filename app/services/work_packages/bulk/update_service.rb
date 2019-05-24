@@ -63,7 +63,7 @@ module WorkPackages
           call_hook(:controller_work_packages_bulk_edit_before_save, params: params, work_package: work_package)
 
           service_call = WorkPackages::UpdateService
-                         .new(user: user, work_package: work_package)
+                         .new(user: user, model: work_package)
                          .call(attributes.merge(send_notifications: params[:send_notification] == '1').symbolize_keys)
 
           if service_call.success?

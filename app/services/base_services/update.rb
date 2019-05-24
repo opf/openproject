@@ -28,14 +28,69 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Members
-  class SetAttributesService < ::BaseServices::SetAttributes
+module BaseServices
+  class Update
+    include Concerns::Contracted
+    include Shared::ServiceContext
+
+    attr_reader :user,
+                :model
+
+    def initialize(user:, model:, contract_class: nil)
+      @user = user
+      @model = model
+      self.contract_class = contract_class || default_contract_class
+    end
+
+    def call(params)
+      in_context(false) do
+        update(params)
+      end
+    end
+
     private
 
-    def set_attributes(params)
-      model.assign_roles(params.delete(:role_ids)) if params[:role_ids]
+    def update(params)
+      attributes_call = set_attributes(params)
 
-      super
+      if attributes_call.failure?
+        # nothing to do
+      elsif !attributes_call.result.save
+        attributes_call.errors = attributes_call.result.errors
+        attributes_call.success = false
+      else
+        after_save
+      end
+
+      attributes_call
+    end
+
+    def set_attributes(params)
+      attributes_service_class
+        .new(user: user,
+             model: model,
+             contract_class: contract_class)
+        .call(params)
+    end
+
+    def after_save
+      # nothing for now
+    end
+
+    def default_contract_class
+      "#{namespace}::UpdateContract".constantize
+    end
+
+    def attributes_service_class
+      "#{namespace}::SetAttributesService".constantize
+    end
+
+    def instance_class
+      namespace.singularize.constantize
+    end
+
+    def namespace
+      self.class.name.deconstantize
     end
   end
 end
