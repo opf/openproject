@@ -59,7 +59,7 @@ module Pages
     def custom_edit_field(custom_field)
       edit_field("customField#{custom_field.id}").tap do |field|
         if custom_field.list?
-          field.field_type = :select
+          field.field_type = 'create-autocompleter'
         end
       end
     end

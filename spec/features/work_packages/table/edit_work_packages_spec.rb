@@ -181,7 +181,7 @@ describe 'Inline editing work packages', js: true do
       cf_text.update('my custom text', expect_failure: true)
 
       cf_list = wp_table.edit_field(work_package, "customField#{custom_fields.first.id}")
-      cf_list.field_type = 'ng-select'
+      cf_list.field_type = 'create-autocompleter'
       cf_list.openSelectField
       cf_list.set_value('bar')
 

@@ -40,6 +40,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
                #addActionAttributeSelect
                [(ngModel)]="model"
                [items]="availableValues"
+               [ngClass]="classes"
                [addTag]="createNewElement.bind(this)"
                [virtualScroll]="true"
                [required]="required"
@@ -61,6 +62,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
                #actionAttributeSelect
                [(ngModel)]="model"
                [items]="availableValues"
+               [ngClass]="classes"
                [virtualScroll]="true"
                [required]="required"
                [clearable]="!required"
@@ -86,6 +88,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   @Input() public required:boolean = false;
   @Input() public disabled:boolean = false;
   @Input() public id:string = '';
+  @Input() public classes:string = '';
   @Input() public set createAllowed(val:boolean) {
     this._createAllowed = val;
     setTimeout(() => {

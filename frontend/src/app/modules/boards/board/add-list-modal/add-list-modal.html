@@ -19,9 +19,11 @@
             <div class="form--select-container">
               <label class="form--label" [textContent]="actionService.localizedName"></label>
               <ndc-dynamic [ndcDynamicComponent]="autocompleterComponent()"
-                           [ndcDynamicInputs]="{ availableValues: availableValues, appendTo: 'body', model: '' }"
-                           [ndcDynamicOutputs]="referenceOutputs"
-                           [ndcDynamicAttributes]="{ class: 'new-list--action-select' }">
+                           [ndcDynamicInputs]="{ availableValues: availableValues,
+                                                 appendTo: 'body',
+                                                 model: '',
+                                                 classes: 'new-list--action-select' }"
+                           [ndcDynamicOutputs]="referenceOutputs">
               </ndc-dynamic>
             </div>
           </div>
