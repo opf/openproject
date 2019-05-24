@@ -92,7 +92,8 @@ module ::Bcf
     private
 
     def import_canceled?
-      if params.dig(:import_options, :invalid_people_action) == 'cancel'
+      if %i[invalid_people_action unknown_mails_action non_members_action].include? 'cancel'
+        flash[:notice] = I18n.t('bcf.bcf_xml.import_canceled')
         redirect_to action: :index
       end
     end
@@ -101,7 +102,9 @@ module ::Bcf
       @import_options = {
         invalid_people_action: params.dig(:import_options, :invalid_people_action).presence || "anonymize",
         unknown_mails_action: params.dig(:import_options, :unknown_mails_action).presence || 'invite',
-        unknown_mails_invite_role_ids: params.dig(:import_options, :unknown_mails_invite_role_ids) || []
+        non_members_action: params.dig(:import_options, :non_members_action).presence || 'add',
+        unknown_mails_invite_role_ids: params.dig(:import_options, :unknown_mails_invite_role_ids) || [],
+        non_members_add_role_ids: params.dig(:import_options, :non_members_add_role_ids) || []
       }
     end
 
@@ -110,6 +113,8 @@ module ::Bcf
         render_config_invalid_people
       elsif render_config_unknown_mails?
         render_config_unknown_mails
+      elsif render_config_non_members?
+        render_config_non_members
       else
         render_diff_on_work_packages
       end
@@ -142,6 +147,15 @@ module ::Bcf
 
     def render_config_unknown_mails?
       @importer.unknown_mails.any? && !params.dig(:import_options, :unknown_mails_action)
+    end
+
+    def render_config_non_members
+      @roles = Role.find_all_givable
+      render 'bcf/issues/configure_non_members'
+    end
+
+    def render_config_non_members?
+      @importer.non_members.any? && !params.dig(:import_options, :non_members_action)
     end
 
     def build_importer

@@ -3,28 +3,29 @@
 
 <%= form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
   <%= render 'import_options_hidden_fields' %>
-  <h3>Unknown e-mail addresses found</h3>
+
+  <h3>Non project members found</h3>
   <ul>
-    <% @importer.unknown_mails.each do |mail| %>
-      <li> <%= mail %></li>
+    <% @importer.non_members.each do |user| %>
+      <li><%= user.mail %> (<%= user.name %>)</li>
     <% end %>
   </ul>
   <% if @roles.any? %>
     <p>What do you want to do?</p>
-    <% if User.current.admin? %>
+    <% if User.current.allowed_to?(:manage_members, @project) %>
       <div class="form--field -full-width">
         <div class="form--field-container">
           <label class="option-label">
-            <input type="radio" name="import_options[unknown_mails_action]" value="invite" checked>
-            Invite them as members to the project "<%= @project.name %>" with role
+            <input type="radio" name="import_options[non_members_action]" value="add" checked>
+            Add them as members to the project "<%= @project.name %>" with role
             <% options = @roles.collect { |obj| [obj.name, obj.id] } %>
-            <%= select_tag 'import_options[unknown_mails_invite_role_ids][]', options_for_select(options),
+            <%= select_tag 'import_options[non_members_add_role_ids][]', options_for_select(options),
                            multiple: false,
                            no_label: true,
                            title:    l(:label_role_search),
                            tabIndex: 0,
                            class:    'form--select form--inline-select',
-                           id:       'unknown_mails_invite_role_ids' %>
+                           id:       'non_members_add_role_ids' %>
             (recommended)
           </label>
         </div>
@@ -33,16 +34,8 @@
     <div class="form--field -full-width">
       <div class="form--field-container">
         <label class="option-label">
-          <input type="radio" name="import_options[unknown_mails_action]" value="cancel" <%= User.current.admin? ? '' : 'checked' %>>
+          <input type="radio" name="import_options[non_members_action]" value="cancel" <%= User.current.allowed_to?(:manage_members, @project) ? '' : 'checked' %>>
           I will correct the data first and try another import.
-        </label>
-      </div>
-    </div>
-    <div class="form--field -full-width">
-      <div class="form--field-container">
-        <label class="option-label">
-          <input type="radio" name="import_options[unknown_mails_action]" value="anonymize">
-          Replace them with <i>System</i> user (not recommended)
         </label>
       </div>
     </div>
