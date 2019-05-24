@@ -201,5 +201,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     end
   end
 
-  alias_method :model, :work_package
+  def work_package
+    model
+  end
 end
