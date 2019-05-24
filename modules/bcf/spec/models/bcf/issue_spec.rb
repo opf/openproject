@@ -1,11 +1,18 @@
 #-- copyright
-# OpenProject Costs Plugin
+# OpenProject is a project management system.
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# version 3.
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,22 +22,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::WorkPackageRepresenter do
-  include API::V3::Utilities::PathHelper
-
-  let(:project) { FactoryBot.create(:project) }
-  let(:role) do
-    FactoryBot.create(:role, permissions: %i[view_linked_issues view_work_packages])
-  end
-  let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
-  end
+describe ::Bcf::Issue, type: :model do
+  let(:type) { FactoryBot.create :type, name: "Issue [BCF]" }
+  let(:work_package) { FactoryBot.create :work_package, type: type }
   let(:markup) do
     <<-MARKUP
     <Markup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -109,36 +109,47 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     </Markup>
     MARKUP
   end
-  let(:bcf_issue) do
-    FactoryBot.create(:bcf_issue, markup: markup)
-  end
-  let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project_id: project.id,
-                      bcf_issue: bcf_issue)
-  end
-  let(:representer) do
-    described_class.new(work_package,
-                        current_user: user,
-                        embed_links: true)
-  end
 
-  before(:each) do
-    allow(User).to receive(:current).and_return user
-  end
+  let(:issue) { FactoryBot.create :bcf_issue, work_package: work_package, markup: markup }
 
-  subject(:generated) { representer.to_json }
-
-  describe 'with BCF issues' do
-    it "contains viewpoints" do
-      is_expected.to be_json_eql([
-        {
-          file_name: bcf_issue.viewpoints.first.attachments.first.filename,
-          id: bcf_issue.viewpoints.first.attachments.first.id
-        }
-      ].to_json)
-        .including('id')
-        .at_path('bcf/viewpoints/')
+  shared_examples_for 'provides attributes' do
+    it "provides attributes" do
+      expect(subject.title).to be_eql 'Maximum Content'
+      expect(subject.description).to be_eql 'This is a topic with all informations present.'
+      expect(subject.priority_text).to be_eql 'High'
+      expect(subject.status_text).to be_eql 'Open'
+      expect(subject.assignee_text).to be_eql 'andy@example.com'
+      expect(subject.index_text).to be_eql '0'
+      expect(subject.labels).to contain_exactly 'Structural', 'IT Development'
+      expect(subject.due_date_text).to be_nil
     end
+  end
+
+  context '#self.with_markup' do
+    subject { ::Bcf::Issue.with_markup.find_by id: issue.id }
+
+    it_behaves_like 'provides attributes'
+  end
+
+  context '#markup_doc' do
+    subject { issue }
+
+    it "returns a Nokogiri::XML::Document" do
+      expect(subject.markup_doc).to be_a Nokogiri::XML::Document
+    end
+
+    it "caches the document" do
+      first_fetched_doc = subject.markup_doc
+      expect(subject.markup_doc).to be_eql(first_fetched_doc)
+    end
+
+    it "invalidates the cache after an update of the issue" do
+      first_fetched_doc = subject.markup_doc
+      subject.markup = subject.markup + ' '
+      subject.save
+      expect(subject.markup_doc).to_not be_eql(first_fetched_doc)
+    end
+
+    it_behaves_like 'provides attributes'
   end
 end
