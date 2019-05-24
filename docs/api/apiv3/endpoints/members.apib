@@ -234,6 +234,82 @@ Returns a collection of memberships. The client can choose to filter the members
                 }
             }
 
+## Create membership [POST]
+
+Creates a new membership applying the attributes provided in the body.
+
+You can use the form and schema to be retrieve the valid attribute values and by that be guided towards successful creation.
+
++ Request Create memberships
+
+    + Body
+
+            {
+              project: {
+                href: "/api/v3/projects/1"
+              },
+              principal: {
+                href: "/api/v3/users/5"
+              },
+              roles: [
+                {
+                  href: "/api/v3/roles/5"
+                },
+                {
+                  href: "/api/v3/roles/8"
+                }
+              ]
+            }
+
++ Response 201
+
+    [Membership][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Manage members
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Project can't be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "project"
+                    }
+                }
+            }
+
 ## View membership schema [GET]
 
 + Response 200 (application/hal+json)
@@ -498,7 +574,7 @@ For more details and all possible responses see the general specification of [Fo
 
 ## Available projects for memberships [GET]
 
-Gets a list of projects in which a membership can be created in. The list contains all projects in which the user issuing the request has the manage versions permissions.
+Gets a list of projects in which a membership can be created in. The list contains all projects in which the user issuing the request has the manage members permissions.
 
 + Response 200 (application/hal+json)
 
