@@ -1215,7 +1215,7 @@ de:
           OpenProject bei.
     links:
       upgrade_enterprise_edition: Auf Enterprise-Edition upgraden
-      postgres_migration: Migrating your installation to PostgreSQL
+      postgres_migration: Migration Ihrer Installation zu PostgreSQL
       user_guides: Benutzerhandbuch
       faq: Häufig gestellte Fragen
       glossary: Glossar
@@ -3047,6 +3047,3 @@ de:
     revoke_my_application_confirmation: Möchten Sie diese Anwendung wirklich entfernen?
       Dies wird %{token_count} aktive Token widerrufen.
     my_registered_applications: Registrierte OAuth-Anwendungen
-  error_dependent_work_package: 'Fehler in abhängigem Arbeitspaket #%{related_id}
-    %{related_subject}: %{error}'
-  notice_unable_delete_version: Die Version konnte nicht gelöscht werden.

@@ -27,13 +27,11 @@ ko:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Need to freely structure your work in a board view?
-        check_out_link: Enterprise Edition을 체크아웃하세요.
       lists:
         delete: 목록 삭제
         edit_version: Edit version
       add:
-        create_new: Create new
+        create_new: 새로 만들기
     card:
       add_new: 새로운 카드를 추가하다
       highlighting:

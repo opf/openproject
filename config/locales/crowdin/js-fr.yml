@@ -28,13 +28,11 @@ fr:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Need to freely structure your work in a board view?
-        check_out_link: Découvrez l’édition entreprise.
       lists:
         delete: Supprimer la liste
         edit_version: Edit version
       add:
-        create_new: Create new
+        create_new: Créer nouveau
     card:
       add_new: Ajouter une nouvelle carte
       highlighting:

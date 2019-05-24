@@ -26,13 +26,11 @@ ja:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Need to freely structure your work in a board view?
-        check_out_link: エンタープライズ版をチェックしてください。
       lists:
         delete: リストを削除
         edit_version: Edit version
       add:
-        create_new: Create new
+        create_new: 新規作成
     card:
       add_new: 新規カード追加
       highlighting:

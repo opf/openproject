@@ -28,13 +28,11 @@ uk:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Need to freely structure your work in a board view?
-        check_out_link: Check out the Enterprise Edition.
       lists:
         delete: Вилучити список
         edit_version: Edit version
       add:
-        create_new: Create new
+        create_new: Створити новий
     card:
       add_new: Додати нову картку
       highlighting:

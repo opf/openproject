@@ -2993,6 +2993,3 @@ pt-BR:
     revoke_my_application_confirmation: Você quer realmente remover esta aplicação?
       Isso irá revogar %{token_count} ativo(s) para ele.
     my_registered_applications: Aplicações OAuth registradas
-  error_dependent_work_package: 'Erro no pacote de trabalho dependente #%{related_id}
-    %{related_subject}: %{error}'
-  notice_unable_delete_version: Não é possível excluir a versão.

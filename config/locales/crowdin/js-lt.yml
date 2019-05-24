@@ -27,13 +27,11 @@ lt:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Need to freely structure your work in a board view?
-        check_out_link: Patikrinkite Enterprise Edition.
       lists:
         delete: Delete list
         edit_version: Edit version
       add:
-        create_new: Create new
+        create_new: Sukurti naują
     card:
       add_new: Add new card
       highlighting:

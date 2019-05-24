@@ -27,8 +27,6 @@ fil:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Need to freely structure your work in a board view?
-        check_out_link: Suriin ang Enterprise Edition.
       lists:
         delete: Delete list
         edit_version: Edit version

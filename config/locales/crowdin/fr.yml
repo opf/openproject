@@ -3059,6 +3059,3 @@ fr:
     revoke_my_application_confirmation: Voulez-vous vraiment supprimer cette application
       ? Ceci va révoquer %{token_count} actif pour elle.
     my_registered_applications: Applications OAuth enregistrées
-  error_dependent_work_package: 'Erreur dans le lot de travaux dépendants #%{related_id}
-    %{related_subject}: %{error}'
-  notice_unable_delete_version: Impossible de supprimer la version.

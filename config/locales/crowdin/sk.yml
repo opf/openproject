@@ -3034,6 +3034,3 @@ sk:
     revoke_my_application_confirmation: Naozaj chcete odstrániť túto aplikáciu? Týmto
       sa zrušia aktívne tokeny %{token_count}.
     my_registered_applications: Registrované aplikácie OAuth
-  error_dependent_work_package: 'Chyba v závislosti pracovného balíčka #%{related_id}
-    %{related_subject}: %{error}'
-  notice_unable_delete_version: Verzia nemôže byť zmazaná.

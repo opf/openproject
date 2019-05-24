@@ -2661,6 +2661,3 @@ ja:
     revoke_my_application_confirmation: 本当にこのアプリケーションを削除しますか？ これにより %{token_count}
       が無効になります。
     my_registered_applications: 登録済みのOAuthアプリケーション
-  error_dependent_work_package: '依存するワークパッケージのエラー#%{related_id} %{related_subject}:
-    %{error}'
-  notice_unable_delete_version: バージョンを削除できません。
