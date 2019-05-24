@@ -386,7 +386,7 @@ export class WorkPackageChangeset {
       return;
     }
 
-    let payload:any = this.workPackage.$plain();
+    let payload:any = { ... this.workPackage.$source };
 
     const resource = this.halResourceService.createHalResourceOfType('WorkPackage', this.mergeWithPayload(payload));
 
