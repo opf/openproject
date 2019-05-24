@@ -11,21 +11,21 @@ describe 'subject inplace editor', js: true, selenium: true do
 
   let!(:version) {
     FactoryBot.create(:version,
-                       status: 'open',
-                       sharing: 'tree',
-                       project: project)
+                      status: 'open',
+                      sharing: 'tree',
+                      project: project)
   }
   let!(:version2) {
     FactoryBot.create(:version,
-                       status: 'open',
-                       sharing: 'tree',
-                       project: subproject1)
+                      status: 'open',
+                      sharing: 'tree',
+                      project: subproject1)
   }
   let!(:version3) {
     FactoryBot.create(:version,
-                       status: 'open',
-                       sharing: 'tree',
-                       project: subproject2)
+                      status: 'open',
+                      sharing: 'tree',
+                      project: subproject2)
   }
 
   let(:property_name) { :version }
@@ -47,11 +47,12 @@ describe 'subject inplace editor', js: true, selenium: true do
       field = work_package_page.work_package_field(:version)
       field.activate!
 
-      options = field.all(".ng-option-label")
+      expect(page).to have_selector('.ng-option-label', text: '-')
+      expect(page).to have_selector('.ng-option-label', text: version3.name)
+      expect(page).to have_selector('.ng-option-label', text: version2.name)
+      expect(page).to have_selector('.ng-option-label', text: version.name)
 
-      expect(options.map(&:text)).to eq(['-', version3.name, version2.name, version.name])
-
-      options[1].select_option
+      page.find('.ng-option-label', text: version3.name).select_option
       field.expect_state_text(version3.name)
     end
 

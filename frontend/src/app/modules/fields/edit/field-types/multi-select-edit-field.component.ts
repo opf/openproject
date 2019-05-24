@@ -58,18 +58,18 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   public currentValueInvalid:boolean = false;
   private nullOption:ValueOption;
   private _selectedOption:ValueOption[];
+  private requestFocus = false;
 
   ngOnInit() {
     this.nullOption = { name: this.text.placeholder, $href: null };
 
-    const loadingPromise = this.loadValues();
     this.handler
       .$onUserActivate
       .pipe(
         untilComponentDestroyed(this),
       )
       .subscribe(() => {
-        loadingPromise.then(() => this.openAutocompleteSelectField())
+        this.requestFocus = true;
       });
 
     super.ngOnInit();
@@ -159,6 +159,16 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     });
     this._selectedOption = this.buildSelectedOption();
     this.checkCurrentValueValidity();
+
+    if (this.options.length > 0 && this.requestFocus) {
+      this.openAutocompleteSelectField();
+      this.requestFocus = false;
+    }
+  }
+
+  protected initialize() {
+    super.initialize();
+    this.loadValues();
   }
 
   private loadValues() {
