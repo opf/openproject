@@ -140,22 +140,27 @@ export function initializeUiRouterListeners(injector:Injector) {
       const profiler:any = (window as any).MiniProfiler;
       profiler && profiler.pageTransition();
 
-      // Remove and add any body class definitions for entering
-      // and exiting states.
-      bodyClass(_.get(toState, 'data.bodyClasses'), 'add');
-
       // Abort the transition and move to the url instead
       if (wpBase === null) {
 
         // Only move to the URL if we're not coming from an initial URL load
         // (cases like /work_packages/invalid/activity which render a 403 without frontend,
         // but trigger the ui-router state)
-        if (transition.options().source !== 'url' && transition.options().source !== 'redirect') {
-          const target = stateService.href(toState, toParams);
+        const source = transition.options().source;
+
+        // Get the current path and compare
+        const path = window.location.pathname;
+        const target = stateService.href(toState, toParams);
+
+        if (path !== target) {
           window.location.href = target;
           return false;
         }
       }
+
+      // Remove and add any body class definitions for entering
+      // and exiting states.
+      bodyClass(_.get(toState, 'data.bodyClasses'), 'add');
 
       // We need to distinguish between actions that should run on the initial page load
       // (ie. openining a new tab in the details view should focus on the element in the table)
