@@ -26,17 +26,4 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Versions::DeleteService < BaseDeleteService
-  attr_accessor :version
-
-  def initialize(user:, version:, contract_class: default_contract)
-    super(user: user, contract_class: contract_class)
-    self.version = version
-  end
-
-  private
-
-  def model_klass
-    ::Version
-  end
-end
+class Versions::DeleteService < ::BaseServices::Delete; end

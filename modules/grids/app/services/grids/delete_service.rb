@@ -28,17 +28,4 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Grids::DeleteService < BaseDeleteService
-  attr_accessor :grid
-
-  def initialize(user:, grid:, contract_class: default_contract)
-    super(user: user, contract_class: contract_class)
-    self.grid = grid
-  end
-
-  private
-
-  def model_klass
-    ::Grids::Grid
-  end
-end
+class Grids::DeleteService < ::BaseServices::Delete; end

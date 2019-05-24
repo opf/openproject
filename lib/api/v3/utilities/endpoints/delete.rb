@@ -59,12 +59,9 @@ module API
           end
 
           def process(current_user, instance)
-            args = { user: current_user }
-
-            args[demodulized_name.underscore.to_sym] = instance
-
             process_service
-              .new(args)
+              .new(user: current_user,
+                   model: instance)
               .call
           end
 

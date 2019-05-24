@@ -26,43 +26,39 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class BaseDeleteService
-  include ::Shared::ServiceContext
-  include ::Concerns::Contracted
+module BaseServices
+  class Delete
+    include ::Shared::ServiceContext
+    include ::Concerns::Contracted
 
-  attr_accessor :user,
-                :contract_class
+    attr_accessor :user,
+                  :model,
+                  :contract_class
 
-  def initialize(user:, contract_class: default_contract)
-    self.user = user
-    self.contract_class = contract_class
-  end
-
-  def call
-    in_context(false) do
-      delete
-    end
-  end
-
-  def default_contract
-    "#{model_klass.name.demodulize.pluralize}::DeleteContract".constantize
-  end
-
-  protected
-
-  def delete
-    result, errors = validate_and_yield(model, user) do
-      model.destroy
+    def initialize(user:, model:, contract_class: nil)
+      self.user = user
+      self.model = model
+      self.contract_class = contract_class || default_contract
     end
 
-    ServiceResult.new(success: result, errors: errors)
-  end
+    def call
+      in_context(false) do
+        delete
+      end
+    end
 
-  def model_klass
-    raise NotImplementedError
-  end
+    def default_contract
+      "#{model.class.name.demodulize.pluralize}::DeleteContract".constantize
+    end
 
-  def model
-    send(model_klass.name.demodulize.underscore)
+    protected
+
+    def delete
+      result, errors = validate_and_yield(model, user) do
+        model.destroy
+      end
+
+      ServiceResult.new(success: result, errors: errors)
+    end
   end
 end

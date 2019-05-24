@@ -32,7 +32,7 @@ require 'uri'
 module OpenProject
   module Scm
     module Adapters
-      class Subversion < Base
+      class Subversion < ::OpenProject::Scm::Adapters::Base
         include LocalClient
 
         def client_command
