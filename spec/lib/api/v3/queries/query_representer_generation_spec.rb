@@ -256,6 +256,51 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
       end
 
+      describe 'updateOrderedWorkPackages action link' do
+        let(:permissions) { %i[update reorder_work_packages] }
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'updateOrderedWorkPackages' }
+          let(:href) { api_v3_paths.query query.id }
+        end
+
+        context 'when not persisted and lacking permission' do
+          let(:query) { FactoryBot.build(:query, project: project) }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'updateOrderedWorkPackages' }
+          end
+        end
+
+        context 'when not persisted and having permission' do
+          let(:permissions) { [:create] }
+
+          let(:query) { FactoryBot.build(:query, project: project) }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'updateOrderedWorkPackages' }
+            let(:href) { api_v3_paths.query query.id }
+          end
+        end
+
+        context 'when not allowed to update' do
+          let(:permissions) { [] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'updateOrderedWorkPackages' }
+          end
+        end
+
+        context 'when no user is provided' do
+          let(:user) { nil }
+          let(:embed_links) { false }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'updateOrderedWorkPackages' }
+          end
+        end
+      end
+
       context 'with filter, sort, group by and pageSize' do
         let(:representer) do
           described_class.new(query,

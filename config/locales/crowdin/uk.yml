@@ -671,6 +671,9 @@ uk:
         member:
           principal_blank: Виберіть принаймні одного користувача або групу.
           role_blank: Виберіть принаймні одну роль.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Перевірте наступні поля:'
         header:
@@ -1100,11 +1103,11 @@ uk:
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Недійсне вибране значення.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1488,6 +1491,7 @@ uk:
   label_max_size: Максимальний розмір
   label_me: мені
   label_member_new: Новий учасник
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Учасники
   label_view_all_members: View all members
   label_menu_item_name: Назва пункту меню
@@ -1963,7 +1967,6 @@ uk:
     Є занадто багато результатів.
     Звузити пошук ввівши назву нового елемента (або групи).
   notice_unable_delete_time_entry: Неможливо видалити запис журналу.
-  notice_unable_delete_version: Неможливо видалити версію.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2851,6 +2854,7 @@ uk:
     attributes:
       lock_version: Версія замку
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: You need to be authenticated to access this resource.
       code_401_wrong_credentials: Ви не надати правильні облікові дані.
       code_403: You are not authorized to access this resource.
@@ -3006,3 +3010,6 @@ uk:
     revoke_my_application_confirmation: Ви дійсно бажаєте видалити цю програму? Це
       скасує %{token_count} активація для цього.
     my_registered_applications: Зареєстровані програми OAuth
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  notice_unable_delete_version: Неможливо видалити версію.

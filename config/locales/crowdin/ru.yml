@@ -673,6 +673,9 @@ ru:
           principal_blank: Пожалуйста, выберите по крайней мере одного пользователя
             или группу.
           role_blank: Пожалуйста, выберите по крайней мере одну роль.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Пожалуйста, проверьте следующие поля:'
         header:
@@ -1102,11 +1105,11 @@ ru:
   error_cookie_missing: Отсутствуют cookie OpenProject. Пожалуйста, убедитесь, что
     Cookie разрешены. Без них приложение не будет функционировать должным образом.
   error_custom_option_not_found: Параметр не существует.
-  error_dependent_work_package: 'Ошибка в зависимостях пакетов работ #%{related_id}
-    %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: Ваша учетная запись не может быть активирована
     (достигнут предел пользователя). Обратитесь к администратору для получения доступа.
   error_failed_to_delete_entry: Не удалось удалить эту запись.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Выбранное значение недопустимо.
   error_invalid_group_by: 'Невозможно группировать по: %{value}'
   error_invalid_query_column: 'Недопустимый столбец в запросе: %{value}'
@@ -1491,6 +1494,7 @@ ru:
   label_max_size: Максимальный размер
   label_me: мне
   label_member_new: Новый участник
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Участники
   label_view_all_members: Просмотреть всех участников
   label_menu_item_name: Название пункта меню
@@ -1967,7 +1971,6 @@ ru:
   notice_to_many_principals_to_display: Слишком много результатов. Сузьте поиск, введя
     имя нового участника (или группы).
   notice_unable_delete_time_entry: Не удается удалить учетную запись о времени.
-  notice_unable_delete_version: Не удается удалить этап.
   notice_user_missing_authentication_method: Пользователь еще не выбрал пароль или
     другой способ авторизации.
   notice_user_invitation_resent: Приглашение было отправлено на %{email}.
@@ -2876,6 +2879,7 @@ ru:
     attributes:
       lock_version: Блокировать этап
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Вам нужно пройти проверку подлинности для доступа к этому ресурсу.
       code_401_wrong_credentials: Вы не ввели правильные учетные данные.
       code_403: Вы не авторизованы для доступа к этому ресурсу.
@@ -3035,3 +3039,6 @@ ru:
     revoke_my_application_confirmation: Вы действительно хотите удалить это приложение?
       Это действие будет отменено %{token_count}.
     my_registered_applications: Зарегистрированные OAuth приложения
+  error_dependent_work_package: 'Ошибка в зависимостях пакетов работ #%{related_id}
+    %{related_subject}: %{error}'
+  notice_unable_delete_version: Не удается удалить этап.

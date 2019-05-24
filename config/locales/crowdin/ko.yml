@@ -613,6 +613,9 @@ ko:
         member:
           principal_blank: 하나 이상의 사용자 또는 그룹을 선택 하십시오.
           role_blank: 하나 이상의 역할을 선택 하십시오.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 다음 필드를 확인 하십시오.
         header:
@@ -1026,11 +1029,11 @@ ko:
   error_cookie_missing: OpenProject 쿠키가 없습니다. 이 응용 프로그램은 쿠키 없이 제대로 작동하지 않으므로, 쿠키를
     활성화해야 합니다.
   error_custom_option_not_found: 존재하지 않는 옵션입니다.
-  error_dependent_work_package: '종속 작업 패키지 #%{related_id} %{related_subject}의 오류:
-    %{error}'
   error_enterprise_activation_user_limit: 사용자 계정을 활성화할 수 없습니다(사용자 제한에 도달함). 액세스하려면
     관리자에게 문의하세요.
   error_failed_to_delete_entry: 항목 삭제에 실패하였습니다.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: 선택된 값이 유효하지 않습니다.
   error_invalid_group_by: '그룹화할 수 없습니다: %{value}'
   error_invalid_query_column: '잘못 된 쿼리 열: %{value}'
@@ -1396,6 +1399,7 @@ ko:
   label_max_size: 최대 크기
   label_me: 나
   label_member_new: 새 멤버
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: 멤버
   label_view_all_members: 모든 회원 보기
   label_menu_item_name: 메뉴 항목의 이름
@@ -1838,7 +1842,6 @@ ko:
     너무 많은 결과가 있습니다.
     새 멤버(또는 그룹)의 이름을 입력하여 검색 범위를 좁히세요.
   notice_unable_delete_time_entry: 시간 로그 항목을 삭제할 수 없습니다.
-  notice_unable_delete_version: 버전을 삭제할 수 없습니다.
   notice_user_missing_authentication_method: 사용자가 암호나 로그인할 수 있는 다른 방법을 선택해야 합니다.
   notice_user_invitation_resent: 초대장이 %{email}(으)로 전송되었습니다.
   present_access_key_value: '당신의 %{key_name} : %{value}'
@@ -2637,6 +2640,7 @@ ko:
     attributes:
       lock_version: 잠금 버전
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: 접근하기 위해서 인증해야 합니다.
       code_401_wrong_credentials: 올바른 자격 증명을 제공하지 않았습니다.
       code_403: 접근 권한이 없습니다.
@@ -2773,3 +2777,6 @@ ko:
     revoke_my_application_confirmation: 이 애플리케이션을 제거하시겠습니까? 그러면 이 애플리케이션에 대해 활성화된
       %{token_count}개가 취소됩니다.
     my_registered_applications: 등록된 OAuth 애플리케이션
+  error_dependent_work_package: '종속 작업 패키지 #%{related_id} %{related_subject}의 오류:
+    %{error}'
+  notice_unable_delete_version: 버전을 삭제할 수 없습니다.

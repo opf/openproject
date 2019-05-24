@@ -655,6 +655,9 @@ th:
         member:
           principal_blank: โปรดเลือกอย่างน้อยหนึ่งผู้ใช้หรือหนึ่งกลุ่ม
           role_blank: โปรดเลือกอย่างน้อยหนึ่งบทบาท
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'กรุณาตรวจสอบฟิลด์ต่อไปนี้:'
         header:
@@ -1054,11 +1057,11 @@ th:
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1432,6 +1435,7 @@ th:
   label_max_size: ความยาวสูงสุด
   label_me: ฉัน
   label_member_new: สมาชิกใหม่
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: สมาชิก
   label_view_all_members: View all members
   label_menu_item_name: ชื่อของรายการเมนู
@@ -1875,7 +1879,6 @@ th:
   notice_to_many_principals_to_display: เจอผลลัพธ์มากเกินไป \n โปรดทำให้ขอบเขตการค้นหาแคบลงโดยพิมพ์ชื่อของสมาชิกใหม่
     (หรือกลุ่มใหม่) ลงไป
   notice_unable_delete_time_entry: ไม่สามารถลบรายการบันทึกเวลา
-  notice_unable_delete_version: ไม่สามารถลบเวอร์ชั่น
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2730,6 +2733,7 @@ th:
     attributes:
       lock_version: Lock Version
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: You need to be authenticated to access this resource.
       code_401_wrong_credentials: You did not provide the correct credentials.
       code_403: You are not authorized to access this resource.
@@ -2884,3 +2888,6 @@ th:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  notice_unable_delete_version: ไม่สามารถลบเวอร์ชั่น

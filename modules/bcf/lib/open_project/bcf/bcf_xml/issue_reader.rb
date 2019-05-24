@@ -38,34 +38,56 @@ module OpenProject::Bcf::BcfXml
     private
 
     def synchronize_with_work_package
+      is_update = issue.work_package.present?
       call =
-        if issue.work_package
+        if is_update
           update_work_package
         else
           create_work_package
         end
 
       if call.success?
-        wp = call.result
-        issue.work_package = wp
-        create_comment(user, I18n.t('bcf.bcf_xml.import_update_comment')) unless wp.previous_changes.empty?
+        issue.work_package = call.result
+        create_comment(user, I18n.t('bcf.bcf_xml.import_update_comment')) if is_update
       else
         Rails.logger.error "Failed to synchronize BCF #{issue.uuid} with work package: #{call.errors.full_messages.join('; ')}"
       end
     end
 
+    def import_is_newer?
+      extractor.modified_date && extractor.modified_date > issue.work_package.updated_at
+    end
+
     def create_work_package
       wp = WorkPackage.new work_package_attributes
 
-      CreateWorkPackageService
+      call = CreateWorkPackageService
         .new(user: user)
         .call(wp, send_notifications: false)
+
+      if call.success?
+        force_overwrite(wp)
+      end
+
+      call
+    end
+
+    def author
+      find_user_in_project(extractor.author) || User.system
+    end
+
+    def assignee
+      find_user_in_project(extractor.assignee)
     end
 
     def update_work_package
-      WorkPackages::UpdateService
-        .new(user: user, model: issue.work_package)
-        .call(work_package_attributes.merge(send_notifications: false).symbolize_keys)
+      if import_is_newer?
+        WorkPackages::UpdateService
+          .new(user: user, model: issue.work_package)
+          .call(work_package_attributes.merge(send_notifications: false).symbolize_keys)
+      else
+        import_is_outdated(issue)
+      end
     end
 
     ##
@@ -83,8 +105,7 @@ module OpenProject::Bcf::BcfXml
         due_date: extractor.due_date,
 
         # Mapped attributes
-        author: find_user_in_project(extractor.author),
-        assigned_to: find_user_in_project(extractor.assignee),
+        assigned_to: assignee,
         status_id: statuses.fetch(extractor.status, statuses[:default]),
         priority_id: priorities.fetch(extractor.priority, priorities[:default])
       }.compact
@@ -94,12 +115,15 @@ module OpenProject::Bcf::BcfXml
     # Extend comments with new or updated values from XML
     def build_comments
       extractor.comments.each do |data|
-        next if issue.comments.has_uuid?(data[:uuid])
+        next if issue.comments.has_uuid?(data[:uuid]) # Comment has already been imported once.
+
         comment = issue.comments.build data.slice(:uuid)
 
         # Cannot link to a journal when no work package
         next if issue.work_package.nil?
+
         author = get_comment_author(data)
+
         call = create_comment(author, data[:comment])
 
         if call.success?
@@ -122,6 +146,31 @@ module OpenProject::Bcf::BcfXml
       return user unless author.allowed_to?(:add_work_package_notes, project)
 
       author
+    end
+
+    ##
+    # The uploading user might not be the author of the topic/work package. Further, we need to correct the
+    # automatically set craetion timestamps.
+    def force_overwrite(work_package)
+      created_at = extractor.creation_date
+      if created_at || user != author
+        force_overwrite_work_package(created_at, work_package)
+        force_overwrite_first_journal(created_at, work_package)
+      end
+    end
+
+    def force_overwrite_first_journal(created_at, work_package)
+      journal = work_package.journals.first
+      journal.update_columns(created_at: created_at,
+                             user_id: author.id)
+
+      wp_journal = ::WorkPackageJournal.find_by(journal_id: journal.id)
+      wp_journal.update_columns author_id: author.id
+    end
+
+    def force_overwrite_work_package(created_at, work_package)
+      work_package.update_columns(created_at: created_at,
+                                  author_id: author.id)
     end
 
     ##
@@ -195,6 +244,16 @@ module OpenProject::Bcf::BcfXml
     # Keep a hash map of current status ids for faster lookup
     def priorities
       @priorities ||= Hash[IssuePriority.pluck(:name, :id)].merge(default: IssuePriority.default.try(:id))
+    end
+
+    def import_is_outdated(issue)
+      issue.errors.add :base,
+                       :conflict,
+                       message: I18n.t('bcf.bcf_xml.import.work_package_has_newer_changes',
+                                       bcf_uuid: issue.uuid)
+      ServiceResult.new success: false,
+                        errors: issue.errors,
+                        result: issue
     end
   end
 end

@@ -1,0 +1,68 @@
+<%= stylesheet_link_tag 'bcf/bcf.css' %>
+<%= toolbar title: t('bcf.bcf_xml.import_title') %>
+
+<%= form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
+  <%= render 'import_options_hidden_fields' %>
+  <% if @importer.unknown_mails.any? %>
+    <% if @roles.any? %>
+      <% if User.current.admin? %>
+        <h3>Unknown e-mail addresses found</h3>
+        <ul>
+          <% @importer.unknown_mails.each do |mail| %>
+            <li> <%= mail %></li>
+          <% end %>
+        </ul>
+        <p>Do you want to invite them as members to the project "<%= @project.name %>"?</p>
+        <div class="form--field -full-width">
+          <div class="form--field-container">
+            <label class="option-label">
+              <input type="radio" name="import_options[unknown_mails_action]" value="invite" checked>
+              Yes, make them members with role
+              <% options = @roles.collect { |obj| [obj.name, obj.id] } %>
+              <%= select_tag 'import_options[unknown_mails_invite_role_ids][]', options_for_select(options),
+                             multiple: false,
+                             no_label: true,
+                             title:    l(:label_role_search),
+                             tabIndex: 0,
+                             class:    'form--select form--inline-select',
+                             id:       'unknown_mails_invite_role_ids' %>
+              (recommended)
+            </label>
+          </div>
+        </div>
+        <div class="form--field -full-width">
+          <div class="form--field-container">
+            <label class="option-label">
+              <input type="radio" name="import_options[unknown_mails_action]" value="anonymize">No, import them as <i>System</i> user (not recommended)
+            </label>
+          </div>
+        </div>
+      <% else %>
+        <div class="notification-box -warning">
+          <a href="#" title="close" class="notification-box--close icon-context icon-close"></a>
+          <div class="notification-box--content">
+            <p><b>Unknown e-mail addresses</b></p>
+            <p>In your imported file the following unknown e-mail addresses were found.</p>
+            <p><b>We recommend that you first ask any of your OpenProject admins to first invite those people before proceeding with the import.</b></p>
+            <p>If you proceed with the import, information such as "assigned to" or "author" will be lost for those people.</p>
+          </div>
+        </div>
+      <% end %>
+      <ul>
+        <% @importer.unknown_mails.each do |mail| %>
+          <li><%= mail %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>
+        <%= I18n.t('text_no_roles_defined') %>
+      </p>
+    <% end %>
+  <% end %>
+
+  <%= submit_tag t('bcf.bcf_xml.import.button_proceed'), class: 'button -highlight' %>
+  <%= link_to t(:button_back_to_list),
+              { action: :index },
+              class: 'button' %>
+<% end %>
+

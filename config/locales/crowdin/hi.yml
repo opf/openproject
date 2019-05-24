@@ -668,6 +668,9 @@ hi:
         member:
           principal_blank: कृपया कम से कम एक समूह या उपयोगकर्ता चुनें।
           role_blank: कृपया कम से कम एक भूमिका टेबल चुनें
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'कृपया निंनलिखित क्षेत्रों की जांच करें:'
         header:
@@ -1068,11 +1071,11 @@ hi:
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: अमांय चयनित मान ।
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1454,6 +1457,7 @@ hi:
   label_max_size: Maximum size
   label_me: me
   label_member_new: New member
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: सदस्य
   label_view_all_members: सभी सदस्य देखें
   label_menu_item_name: Name of menu item
@@ -1912,7 +1916,6 @@ hi:
     There are too many results.
     Narrow down the search by typing in the name of the new member (or group).
   notice_unable_delete_time_entry: Unable to delete time log entry.
-  notice_unable_delete_version: Unable to delete version.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2796,6 +2799,7 @@ hi:
     attributes:
       lock_version: Lock Version
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: You need to be authenticated to access this resource.
       code_401_wrong_credentials: You did not provide the correct credentials.
       code_403: You are not authorized to access this resource.
@@ -2950,3 +2954,6 @@ hi:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  notice_unable_delete_version: Unable to delete version.

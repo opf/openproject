@@ -663,6 +663,9 @@ sv-SE:
         member:
           principal_blank: Välj minst en användare eller grupp.
           role_blank: Välj minst en roll.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Kontrollera följande fält:'
         header:
@@ -1061,11 +1064,11 @@ sv-SE:
   error_cookie_missing: OpenProject cookie saknas. Vänligen kontrollera att cookies
     är aktiverade, eftersom detta program inte fungerar korrekt annars.
   error_custom_option_not_found: Alternativet finns inte.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
   error_enterprise_activation_user_limit: Your account could not be activated (user
     limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Det gick inte ta bort denna post.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Kan inte gruppera efter: %{value}'
   error_invalid_query_column: 'Ogiltig frågekolumn: %{value}'
@@ -1447,6 +1450,7 @@ sv-SE:
   label_max_size: Maximal storlek
   label_me: mig
   label_member_new: Ny medlem
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Medlemmar
   label_view_all_members: Visa alla medlemmar
   label_menu_item_name: Namn på menyalternativ
@@ -1903,7 +1907,6 @@ sv-SE:
   notice_to_many_principals_to_display: "Det finns för många resultat. \nBegränsa
     sökningen genom att skriva namnet på den nya medlemmen (eller gruppen)."
   notice_unable_delete_time_entry: Det gick inte att ta bort tidrapport.
-  notice_unable_delete_version: Det gick inte att ta bort version.
   notice_user_missing_authentication_method: Användaren har ännu inte valt ett lösenord
     eller annat sätt logga in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2785,6 +2788,7 @@ sv-SE:
     attributes:
       lock_version: Lås version
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Du måste autentiseras för att få tillgång till denna resurs.
       code_401_wrong_credentials: Du har inte lämnat korrekta autentiseringsuppgifter.
       code_403: Du har inte behörighet att få tillgång till denna resurs.
@@ -2938,3 +2942,6 @@ sv-SE:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
+  notice_unable_delete_version: Det gick inte att ta bort version.

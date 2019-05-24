@@ -672,6 +672,9 @@ ro:
         member:
           principal_blank: Trebuie să alegeţi cel puţin un utilizator sau grup.
           role_blank: Trebuie să alegeţi cel puţin un rol.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Verificaţi următoarele câmpuri:'
         header:
@@ -1090,11 +1093,11 @@ ro:
   error_cookie_missing: Cookie-ul OpenProject lipseşte. Vă rugăm să verificați setările
     referitoare la cookies, această aplicație nu va funcţiona corespunzător fără acestea.
   error_custom_option_not_found: Option does not exist.
-  error_dependent_work_package: 'Eroare în pachetele de lucru dependente #%{related_id}
-    %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: Contul dvs. nu a putut fi activat (limita
     utilizatorilor a fost atinsă). Contactați administratorul dvs. pentru a avea acces.
   error_failed_to_delete_entry: Failed to delete this entry.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Invalid selected value.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1477,6 +1480,7 @@ ro:
   label_max_size: Dimensiunea maximă
   label_me: eu
   label_member_new: Membru nou
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Membri
   label_view_all_members: Vizualizare toți participanții
   label_menu_item_name: Numele meniului
@@ -1946,7 +1950,6 @@ ro:
   notice_to_many_principals_to_display: Există prea multe rezultate. Restrângeți căutarea
     prin tastarea numelui noului membru (sau grup).
   notice_unable_delete_time_entry: Nu se poate șterge intrarea de jurnal.
-  notice_unable_delete_version: Nu se poate șterge versiunea.
   notice_user_missing_authentication_method: Utilizatorul nu a ales încă o parolă
     sau un alt mod de autentificare.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2860,6 +2863,7 @@ ro:
     attributes:
       lock_version: Blocare versiune
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Trebuie să fiți autentificat pentru a accesa această resursă.
       code_401_wrong_credentials: Nu ați furnizat credențialele corecte.
       code_403: Nu sunteți autorizat să accesați această resursă.
@@ -3014,3 +3018,6 @@ ro:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
+  error_dependent_work_package: 'Eroare în pachetele de lucru dependente #%{related_id}
+    %{related_subject}: %{error}'
+  notice_unable_delete_version: Nu se poate șterge versiunea.

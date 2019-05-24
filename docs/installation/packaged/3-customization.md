@@ -40,6 +40,14 @@ You have to tell your installation to use the custom gemfile via a config settin
 openproject config:set CUSTOM_PLUGIN_GEMFILE=/etc/openproject/Gemfile.custom
 ```
 
+If your plugin links into the Angular frontend, you will need to set the following environment variable
+to ensure it gets recompiled. Please note that NPM dependencies will be installed during the installation,
+and the angular CLI compilation will take place which will delay the configuration process by a few minutes.
+
+```
+openproject config:set RECOMPILE_ANGULAR_ASSETS="true"
+```
+
 #### 3. Re-run the installer
 
 To re-bundle the application including the new plugins, as well as running

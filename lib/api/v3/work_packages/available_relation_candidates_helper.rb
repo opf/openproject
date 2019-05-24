@@ -42,17 +42,22 @@ module API
         def work_package_queried(query, from, type, limit)
           canonical_type = Relation.canonical_type(type)
 
-          scope = if type != 'parent' && canonical_type == type
-                    WorkPackage
-                      .relateable_to(from)
-                  else
-                    WorkPackage
-                      .relateable_from(from)
-                  end
+          scope =
+            if type != 'parent' && canonical_type == type
+              WorkPackage.relateable_to(from)
+            else
+              WorkPackage.relateable_from(from)
+            end
+
+          like_query = query
+            .downcase
+            .split(/\s+/)
+            .map { |substr| WorkPackage.connection.quote_string(substr) }
+            .join("%")
 
           scope
             .where("work_packages.id = ? OR LOWER(work_packages.subject) LIKE ?",
-                   query.to_i, "%#{query.downcase}%")
+                   query.to_i, "%#{like_query}%")
             .limit(limit)
         end
       end

@@ -89,8 +89,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     click_to_remove: this.I18n.t('js.boards.click_to_remove_list')
   };
 
-  /** Are we allowed to drag & drop elements ? */
-  public dragAndDropEnabled:boolean = false;
+  /** Are we allowed to remove and drag & drop elements ? */
+  public canEdit:boolean = false;
 
   /** Initially focus the list */
   public initiallyFocused:boolean = false;
@@ -128,7 +128,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     this.authorisationService
       .observeUntil(componentDestroyed(this))
       .subscribe(() => {
-        this.showAddButton = this.canManage && (this.wpInlineCreate.canAdd || this.canReference);
+        this.showAddButton = this.canEdit && (this.wpInlineCreate.canAdd || this.canReference);
       });
 
     this.querySpace.query
@@ -136,18 +136,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .pipe(
         untilComponentDestroyed(this)
       )
-      .subscribe((query) => this.query = query);
-
-    this.boardCache
-      .state(boardId.toString())
-      .values$()
-      .pipe(
-        untilComponentDestroyed(this)
-      )
-      .subscribe((board) => {
-        this.dragAndDropEnabled = board.editable;
+      .subscribe((query) => {
+        this.query = query;
+        this.canEdit = !!this.query.updateOrderedWorkPackages;
       });
-
 
     this.updateQuery();
   }

@@ -37,8 +37,9 @@ OpenProject::Application.routes.draw do
   scope '', as: 'bcf' do
     scope 'projects/:project_id', as: 'project' do
       resources :issues, controller: 'bcf/issues' do
-        get :import, action: :import, on: :collection
+        get :upload, action: :upload, on: :collection
         post :prepare_import, action: :prepare_import, on: :collection
+        post :configure_import, action: :configure_import, on: :collection
         post :import, action: :perform_import, on: :collection
       end
     end

@@ -32,14 +32,23 @@
   height: $user-avatar-height
 
 .avatar-mini
-  border-radius: $user-avatar-mini-border-radius
+  border-radius: $user-avatar-medium-border-radius
   width: $user-avatar-mini-width
   height: $user-avatar-mini-height
-  margin-right: 10px
-  vertical-align: -5px
+  vertical-align:
+  margin-right: 10px -5px
 
   &.avatar-default
-    line-height: 20px
+    line-height: $user-avatar-mini-height
+    font-size: 13px
+
+.avatar-medium
+  border-radius: $user-avatar-mini-border-radius
+  width: $user-avatar-medium-width
+  height: $user-avatar-medium-height
+
+  &.avatar-default
+    line-height: $user-avatar-medium-height
     font-size: 10px
 
 .avatar-default
@@ -54,7 +63,7 @@
   user-select: none
 
 h1, h2, h3, h4, tr
-  .avatar, .avatar-mini
+  .avatar, .avatar-mini, .avatar-medium
     vertical-align: middle
     margin-right: 7px
 

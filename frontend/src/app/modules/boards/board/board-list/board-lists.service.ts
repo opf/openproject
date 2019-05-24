@@ -31,7 +31,7 @@ export class BoardListsService {
                 filters: filterJson},
         undefined,
         this.CurrentProject.identifier,
-        this.buildQueryRequest(params)
+        this.buildQueryRequest(params),
       )
       .then(form => {
         const query = this.QueryFormDm.buildQueryResource(form);

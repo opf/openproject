@@ -220,7 +220,7 @@ module OpenProject::Bcf::BcfXml
     end
 
     ##
-    # Create a single topic node
+    # Create a single comment node
     def comment_node(xml, uuid, journal)
       xml.Comment "Guid" => uuid do
         xml.Date to_bcf_datetime(journal.created_at)

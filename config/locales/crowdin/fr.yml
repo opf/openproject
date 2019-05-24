@@ -682,6 +682,9 @@ fr:
         member:
           principal_blank: Veuillez choisir au moins un utilisateur ou un groupe.
           role_blank: Veuillez choisir au moins un rôle.
+        version:
+          undeletable_work_packages_attached: The version cannot be deleted as it
+            has work packages attached to it.
       template:
         body: 'Veuillez vérifier les champs suivants :'
         header:
@@ -1091,12 +1094,12 @@ fr:
   error_cookie_missing: Le cookie OpenProject est manquant. Assurez-vous que les cookies
     sont activés, sans quoi cette application ne fonctionnera pas correctement.
   error_custom_option_not_found: L'option n'existe pas.
-  error_dependent_work_package: 'Erreur dans le lot de travaux dépendants #%{related_id}
-    %{related_subject}: %{error}'
   error_enterprise_activation_user_limit: Votre compte n'a pas pu être activé (limite
     d'utilisateurs atteinte). Veuillez contacter votre administrateur pour obtenir
     l'accès.
   error_failed_to_delete_entry: Échec lors de la suppression de cette entrée.
+  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+    #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Valeur sélectionnée invalide.
   error_invalid_group_by: 'Impossible de grouper par : %{value}'
   error_invalid_query_column: 'Colonne de requête invalide : %{value}'
@@ -1485,6 +1488,7 @@ fr:
   label_max_size: Taille maximale
   label_me: moi
   label_member_new: Nouveau membre
+  label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: Membres
   label_view_all_members: Afficher tous les membres
   label_menu_item_name: Nom de l'élément du menu
@@ -1957,7 +1961,6 @@ fr:
   notice_to_many_principals_to_display: Il y a trop des résultats.\nReduisez la recherche
     en écrivant le nom du noveau membre (ou groupe).
   notice_unable_delete_time_entry: Impossible de supprimer « Time Log Entry »
-  notice_unable_delete_version: Impossible de supprimer la version.
   notice_user_missing_authentication_method: L'utilisateur n'a pas encore choisi de
     mot de passe ou un autre moyen de s'authentifier.
   notice_user_invitation_resent: Une invitation a été envoyée à %{email}.
@@ -2879,6 +2882,7 @@ fr:
     attributes:
       lock_version: Version Lock
     errors:
+      code_400: 'Bad request: %{message}'
       code_401: Vous devez être authentifié pour accéder à cette ressource.
       code_401_wrong_credentials: Vous n'avez pas fourni les informations d'identification
         correctes.
@@ -3055,3 +3059,6 @@ fr:
     revoke_my_application_confirmation: Voulez-vous vraiment supprimer cette application
       ? Ceci va révoquer %{token_count} actif pour elle.
     my_registered_applications: Applications OAuth enregistrées
+  error_dependent_work_package: 'Erreur dans le lot de travaux dépendants #%{related_id}
+    %{related_subject}: %{error}'
+  notice_unable_delete_version: Impossible de supprimer la version.

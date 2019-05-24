@@ -178,7 +178,7 @@ describe 'Work Package table hierarchy', js: true do
                          member_in_project: project,
                          member_through_role: role
     end
-    let(:permissions) { %i(view_work_packages add_work_packages) }
+    let(:permissions) { %i(view_work_packages add_work_packages save_queries) }
     let(:role) { FactoryBot.create :role, permissions: permissions }
     let(:sort_by) { ::Components::WorkPackages::SortBy.new }
 
