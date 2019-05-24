@@ -47,10 +47,26 @@ module TimeEntries
     end
 
     def set_default_attributes
+      set_default_user
+      set_default_activity
+      set_default_hours
+      set_default_project
+    end
+
+    def set_default_user
       model.user ||= user
+    end
+
+    def set_default_activity
       model.activity ||= TimeEntryActivity.default
+    end
+
+    def set_default_hours
       model.hours = nil if model.hours&.zero?
-      model.project ||= model.work_package.project if model.work_package
+    end
+
+    def set_default_project
+      model.project ||= model.work_package&.project
     end
   end
 end

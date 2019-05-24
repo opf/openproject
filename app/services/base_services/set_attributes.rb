@@ -53,7 +53,7 @@ module BaseServices
     def set_attributes(params)
       model.attributes = params
 
-      set_default_attributes
+      set_default_attributes if model.new_record?
     end
 
     def set_default_attributes

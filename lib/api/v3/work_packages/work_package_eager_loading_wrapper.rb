@@ -102,11 +102,6 @@ module API
           end
         end
 
-        # avoid warning: delegator does not forward private method #to_ary
-        def to_ary
-          __getobj__.send(:to_ary)
-        end
-
         eager_loader_classes_all.each do |klass|
           include(klass.module)
         end
