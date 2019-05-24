@@ -78,13 +78,11 @@ module API
           }
         end
 
-        def self.setter(name, property_name = name)
+        def self.setter(name, property_name: name, namespaces: %i(groups users))
           ->(fragment:, **) {
-            expected_namespaces = Setting.work_package_group_assignment? ? %i(groups users) : %i(users)
-
             link = ::API::Decorators::LinkObject.new(represented,
                                                      property_name: property_name,
-                                                     namespace: expected_namespaces,
+                                                     namespace: namespaces,
                                                      getter: :"#{name}_id",
                                                      setter: :"#{name}_id=")
 

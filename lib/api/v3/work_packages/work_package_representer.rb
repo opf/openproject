@@ -147,6 +147,7 @@ module API
         link :customFields,
              cache_if: -> { current_user_allowed_to(:edit_project, context: represented.project) } do
           next if represented.project.nil?
+
           {
             href: settings_project_path(represented.project.identifier, tab: 'custom_fields'),
             type: 'text/html',
@@ -157,6 +158,7 @@ module API
         link :configureForm,
              cache_if: -> { current_user.admin? } do
           next unless represented.type_id
+
           {
             href: edit_type_path(represented.type_id, tab: 'form_configuration'),
             type: 'text/html',
@@ -203,6 +205,7 @@ module API
         link :unwatch,
              uncacheable: true do
           next unless current_user_watcher?
+
           {
             href: api_v3_paths.watcher(current_user.id, represented.id),
             method: :delete
@@ -247,6 +250,7 @@ module API
         link :addChild,
              cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented.project) } do
           next if represented.milestone? || represented.new_record?
+
           {
             href: api_v3_paths.work_packages_by_project(represented.project.identifier),
             method: :post,
@@ -282,6 +286,7 @@ module API
         link :timeEntries,
              cache_if: -> { view_time_entries_allowed? } do
           next if represented.new_record?
+
           {
             href: work_package_time_entries_path(represented.id),
             type: 'text/html',
@@ -410,12 +415,12 @@ module API
 
         associated_resource :responsible,
                             getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:responsible),
-                            setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:responsible),
+                            setter: PrincipalSetter.lambda(:responsible),
                             link: ::API::V3::Principals::AssociatedSubclassLambda.link(:responsible)
 
         associated_resource :assignee,
                             getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:assigned_to),
-                            setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:assigned_to, :assignee),
+                            setter: PrincipalSetter.lambda(:assigned_to, :assignee),
                             link: ::API::V3::Principals::AssociatedSubclassLambda.link(:assigned_to)
 
         associated_resource :fixed_version,
@@ -430,7 +435,7 @@ module API
                             link_title_attribute: :subject,
                             uncacheable_link: true,
                             link: ->(*) {
-                              if represented.parent && represented.parent.visible?
+                              if represented.parent&.visible?
                                 {
                                   href: api_v3_paths.work_package(represented.parent.id),
                                   title: represented.parent.subject
