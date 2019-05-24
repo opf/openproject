@@ -26,23 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  SimpleResourceCollection
-} from 'core-app/modules/common/path-helper/apiv3/path-resources';
-import {ApiV3UserPaths} from "core-app/modules/common/path-helper/apiv3/users/apiv3-user-paths";
+import {SimpleResource} from 'core-app/modules/common/path-helper/apiv3/path-resources';
 
-export class Apiv3UsersPaths extends SimpleResourceCollection {
-  constructor(basePath:string) {
-    super(basePath, 'users');
+export class ApiV3UserPaths extends SimpleResource {
+  constructor(basePath:string, readonly userId:string|number) {
+    super(basePath, userId);
   }
 
-  // Static paths
+  // /api/v3/users/(:userId)/avatar
+  public readonly avatar = this.path + '/avatar';
 
-  // /api/v3/users/me
-  public readonly me = this.path + '/me';
-
-  // /api/v3/users/:userId
-  public id(userId:string|number) {
-    return new ApiV3UserPaths(this.path, userId);
-  }
 }

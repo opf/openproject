@@ -80,7 +80,7 @@ AvatarHelper.class_eval do
       content_tag 'user-avatar',
                   '',
                   'data-class-list': tag_options[:class],
-                  'data-user-avatar-src': build_gravatar_image_url(user),
+                  'data-user-id': user.id,
                   'data-user-name': user.name
     end
 
@@ -106,7 +106,7 @@ AvatarHelper.class_eval do
       content_tag 'user-avatar',
                   '',
                   'data-class-list': tag_options[:class],
-                  'data-user-avatar-src': local_avatar_image_url(user),
+                  'data-user-id': user.id,
                   'data-user-name': user.name
     end
 
