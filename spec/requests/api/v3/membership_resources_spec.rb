@@ -67,8 +67,8 @@ describe 'API v3 memberhips resource', type: :request do
       get path
     end
 
-    let(:path) { "#{api_v3_paths.memberships}?sortBy=#{[%i(id asc)].to_json}" }
-    let(:filter_path) { "#{api_v3_paths.memberships}?#{{ filters: filters.to_json }.to_query}&sortBy=#{[%i(id asc)].to_json}" }
+    let(:filters) { nil }
+    let(:path) { api_v3_paths.path_for(:memberships, filters: filters, sort_by: [%i(id asc)]) }
 
     context 'without params' do
       it 'responds 200 OK' do
@@ -96,7 +96,7 @@ describe 'API v3 memberhips resource', type: :request do
     end
 
     context 'with pageSize, offset and sortBy' do
-      let(:path) { "#{api_v3_paths.memberships}?pageSize=1&offset=2&sortBy=#{[%i(id asc)].to_json}" }
+      let(:path) { "#{api_v3_paths.path_for(:memberships, sort_by: [%i(id asc)])}&pageSize=1&offset=2" }
 
       it 'returns a slice of the visible memberships' do
         expect(subject.body)
@@ -154,8 +154,6 @@ describe 'API v3 memberhips resource', type: :request do
         } }]
       end
 
-      let(:path) { filter_path }
-
       it 'contains only the filtered member in the response' do
         expect(subject.body)
           .to be_json_eql('1')
@@ -186,8 +184,6 @@ describe 'API v3 memberhips resource', type: :request do
         } }]
       end
 
-      let(:path) { filter_path }
-
       it 'contains only the filtered memberships in the response' do
         expect(subject.body)
           .to be_json_eql('1')
@@ -216,8 +212,6 @@ describe 'API v3 memberhips resource', type: :request do
         } }]
       end
 
-      let(:path) { filter_path }
-
       it 'contains only the filtered members in the response' do
         expect(subject.body)
           .to be_json_eql('2')
@@ -242,8 +236,6 @@ describe 'API v3 memberhips resource', type: :request do
           'values' => ['1']
         } }]
       end
-
-      let(:path) { filter_path }
 
       it 'returns an error' do
         expect(subject.status).to eq(400)

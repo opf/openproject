@@ -655,7 +655,12 @@ en:
               error_not_found: "not found"
         member:
           principal_blank: "Please choose at least one user or group."
-          role_blank: "Please choose at least one role."
+          role_blank: "need to be assigned."
+          attributes:
+            roles:
+              ungrantable: "has an unassignable role."
+            principal:
+              unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
       template:

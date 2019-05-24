@@ -28,29 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# This does not filter for whether a work package can be assigned to users having the role but rather
-# on whether the role can be chosen as one of the roles in a membership.
-class Queries::Roles::Filters::AssignableFilter < Queries::Roles::Filters::RoleFilter
-  def type
-    :list
-  end
-
-  def where
-    db_values = if values.first == OpenProject::Database::DB_VALUE_TRUE
-                  [Role::NON_BUILTIN]
-                else
-                  [Role::BUILTIN_ANONYMOUS, Role::BUILTIN_NON_MEMBER]
-                end
-
-    if operator == '='
-      ["roles.builtin IN (?)", db_values]
-    else
-      ["roles.builtin NOT IN (?)", db_values]
+module API
+  module V3
+    module Memberships
+      class MembershipPayloadRepresenter < MembershipRepresenter
+        include ::API::Utilities::PayloadRepresenter
+      end
     end
-  end
-
-  def allowed_values
-    [[I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
-     [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]]
   end
 end

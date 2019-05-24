@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,47 +25,31 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Members
-  class BaseContract < ::ModelContract
-    def self.model
-      Member
+# This does filter for whether a role can be assigned to a member.
+class Queries::Roles::Filters::GrantableFilter < Queries::Roles::Filters::RoleFilter
+  def type
+    :list
+  end
+
+  def where
+    db_values = if values.first == OpenProject::Database::DB_VALUE_TRUE
+                  [Role::NON_BUILTIN]
+                else
+                  [Role::BUILTIN_ANONYMOUS, Role::BUILTIN_NON_MEMBER]
+                end
+
+    if operator == '='
+      ["roles.builtin IN (?)", db_values]
+    else
+      ["roles.builtin NOT IN (?)", db_values]
     end
+  end
 
-    delegate :principal,
-             :project,
-             :new_record?,
-             to: :model
-
-    attribute :roles
-
-    def validate
-      user_allowed_to_manage
-      roles_grantable
-      principal_assignable
-
-      super
-    end
-
-    def user_allowed_to_manage
-      if model.project && !user.allowed_to?(:manage_members, model.project)
-        errors.add :base, :error_unauthorized
-      end
-    end
-
-    def roles_grantable
-      unless roles.all? { |r| r.builtin == Role::NON_BUILTIN && r.class == Role }
-        errors.add(:roles, :ungrantable)
-      end
-    end
-
-    def principal_assignable
-      if principal &&
-         [Principal::STATUSES[:builtin], Principal::STATUSES[:locked]].include?(principal.status)
-        errors.add(:principal, :unassignable)
-      end
-    end
+  def allowed_values
+    [[I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
+     [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]]
   end
 end

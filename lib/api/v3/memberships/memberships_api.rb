@@ -40,6 +40,7 @@ module API
 
           mount ::API::V3::Memberships::AvailableProjectsAPI
           mount ::API::V3::Memberships::Schemas::MembershipSchemaAPI
+          mount ::API::V3::Memberships::CreateFormAPI
 
           route_param :id, type: Integer, desc: 'Member ID' do
             after_validation do

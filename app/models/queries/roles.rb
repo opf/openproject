@@ -33,6 +33,6 @@ module Queries::Roles
   filters = ::Queries::Roles::Filters
   query = ::Queries::Roles::RoleQuery
 
-  register.filter query, filters::AssignableFilter
+  register.filter query, filters::GrantableFilter
   register.filter query, filters::UnitFilter
 end

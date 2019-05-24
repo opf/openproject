@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe Queries::Roles::Filters::AssignableFilter, type: :model do
+describe Queries::Roles::Filters::GrantableFilter, type: :model do
   it_behaves_like 'basic query filter' do
     let(:class_key) { :assignable }
     let(:type) { :list }

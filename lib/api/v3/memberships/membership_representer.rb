@@ -35,7 +35,7 @@ module API
         include API::Decorators::LinkedResource
         include API::Decorators::DateProperty
 
-        self_link title_getter: ->(*) { represented.principal.name }
+        self_link title_getter: ->(*) { represented.principal&.name }
 
         link :schema do
           {
@@ -49,7 +49,7 @@ module API
 
         associated_resource :principal,
                             getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:principal),
-                            setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:principal),
+                            setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:user),
                             link: ::API::V3::Principals::AssociatedSubclassLambda.link(:principal, getter: 'user_id')
 
         associated_resources :roles

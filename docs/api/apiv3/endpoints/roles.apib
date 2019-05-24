@@ -153,7 +153,7 @@ List all defined roles. This includes built in roles like 'Anonymous' and 'Non m
     + filters (optional, string, `[{ "unit": { "operator": "=", "values": ["system"] }" }]`) ... JSON specifying filter conditions.
     Accepts the same format as returned by the [queries](#queries) endpoint.
     Currently supported filters are:
-      + assignable: filters roles based on whether they are selectable for a membership
+      + grantable: filters roles based on whether they are selectable for a membership
       + unit: filters roles based on the unit ('project' or 'system') for which they are selectable for a membership
 
 + Response 200 (application/hal+json)

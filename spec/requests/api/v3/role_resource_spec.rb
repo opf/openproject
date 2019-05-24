@@ -66,10 +66,7 @@ describe 'API v3 roles resource', type: :request do
 
     context 'filtering by assignable' do
       let(:filters) do
-        [{ 'assignable' => {
-            'operator' => '=',
-            'values' => ['t']
-        } }]
+        [{ grantable: { operator: '=', values: ['t'] } }]
       end
 
       let(:non_member_role) { Role.non_member }

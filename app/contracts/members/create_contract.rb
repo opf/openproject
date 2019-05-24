@@ -31,6 +31,5 @@ module Members
     attribute :project
     attribute :user_id
     attribute :principal
-    attribute :roles
   end
 end

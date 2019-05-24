@@ -220,11 +220,19 @@ module API
 
         def associated_resources_default_setter(name, v3_path)
           ->(fragment:, **) do
-            link = ::API::Decorators::LinkObject.new(represented,
-                                                     path: v3_path,
-                                                     property_name: name)
+            struct = Struct.new(:id).new
 
-            link.from_hash(fragment)
+            link = ::API::Decorators::LinkObject.new(struct,
+                                                     path: v3_path,
+                                                     property_name: :id,
+                                                     setter: 'id=')
+
+            ids = fragment.map do |href|
+              link.from_hash(href)
+              struct.id
+            end
+
+            represented.send(:"#{name.to_s.singularize}_ids=", ids)
           end
         end
 

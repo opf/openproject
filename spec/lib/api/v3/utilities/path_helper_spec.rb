@@ -238,6 +238,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/memberships/schema'
   end
 
+  describe '#version_memberships_form' do
+    subject { helper.create_memberships_form }
+
+    it_behaves_like 'api v3 path', '/memberships/form'
+  end
+
   describe '#message' do
     subject { helper.message(42) }
 

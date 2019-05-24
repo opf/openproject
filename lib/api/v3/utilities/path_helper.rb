@@ -175,6 +175,10 @@ module API
             "#{memberships}/schema"
           end
 
+          def self.create_memberships_form
+            "#{memberships}/form"
+          end
+
           def self.message(id)
             "#{root}/messages/#{id}"
           end
@@ -501,9 +505,14 @@ module API
             "#{project(project_id)}/work_packages"
           end
 
-          def self.path_for(path, filters: nil)
-            if filters&.any?
-              "#{send(path)}?#{{ filters: filters.to_json }.to_query}"
+          def self.path_for(path, filters: nil, sort_by: nil)
+            query_params = {
+              filters: filters&.to_json,
+              sortBy: sort_by&.to_json
+            }.reject { |_, v| v.blank? }
+
+            if query_params.any?
+              "#{send(path)}?#{query_params.to_query}"
             else
               send(path)
             end

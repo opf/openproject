@@ -48,51 +48,79 @@ shared_examples_for 'member contract' do
   end
   let(:permissions) { [:manage_members] }
 
-  def expect_valid(valid, symbols = {})
-    expect(contract.validate).to eq(valid)
+  describe 'validation' do
+    def expect_valid(valid, symbols = {})
+      expect(contract.validate).to eq(valid)
 
-    symbols.each do |key, arr|
-      expect(contract.errors.symbols_for(key)).to match_array arr
+      symbols.each do |key, arr|
+        expect(contract.errors.symbols_for(key)).to match_array arr
+      end
     end
-  end
 
-  shared_examples 'is valid' do
-    it 'is valid' do
-      expect_valid(true)
+    shared_examples 'is valid' do
+      it 'is valid' do
+        expect_valid(true)
+      end
     end
-  end
 
-  it_behaves_like 'is valid'
+    it_behaves_like 'is valid'
 
-  context 'if the project is nil' do
-    let(:member_project) { nil }
+    context 'if the project is nil' do
+      let(:member_project) { nil }
 
-    it 'is invalid' do
-      expect_valid(false, project: %i(blank))
+      it 'is invalid' do
+        expect_valid(false, project: %i(blank))
+      end
     end
-  end
 
-  context 'if the principal is nil' do
-    let(:member_principal) { nil }
+    context 'if the principal is nil' do
+      let(:member_principal) { nil }
 
-    it 'is invalid' do
-      expect_valid(false, principal: %i(blank))
+      it 'is invalid' do
+        expect_valid(false, principal: %i(blank))
+      end
     end
-  end
 
-  context 'if the roles are nil' do
-    let(:member_roles) { [] }
+    context 'if the principal is a builtin user' do
+      let(:member_principal) { FactoryBot.build_stubbed(:anonymous) }
 
-    it 'is invalid' do
-      expect_valid(false, base: %i(role_blank))
+      it 'is invalid' do
+        expect_valid(false, principal: %i(unassignable))
+      end
     end
-  end
 
-  context 'if the user lacks :manage_members permission in the project' do
-    let(:permissions) { [:view_members] }
+    context 'if the principal is a locked user' do
+      let(:member_principal) { FactoryBot.build_stubbed(:locked_user) }
 
-    it 'is invalid' do
-      expect_valid(false, base: %i(error_unauthorized))
+      it 'is invalid' do
+        expect_valid(false, principal: %i(unassignable))
+      end
+    end
+
+    context 'if the roles are nil' do
+      let(:member_roles) { [] }
+
+      it 'is invalid' do
+        expect_valid(false, roles: %i(role_blank))
+      end
+    end
+
+    context 'if any role is not assignable (e.g. builtin)' do
+      let(:member_roles) do
+        [FactoryBot.build_stubbed(:role), FactoryBot.build_stubbed(:anonymous_role)]
+      end
+
+      it 'is invalid' do
+        expect_valid(false, roles: %i(ungrantable))
+      end
+    end
+
+    context 'if the user lacks :manage_members permission in the project' do
+      let(:permissions) { [:view_members] }
+
+      it 'is invalid' do
+        expect_valid(false, base: %i(error_unauthorized))
+      end
     end
   end
 
