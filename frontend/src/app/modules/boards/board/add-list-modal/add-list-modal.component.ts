@@ -40,6 +40,7 @@ import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-a
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
 
 @Component({
   templateUrl: './add-list-modal.html'
@@ -86,7 +87,8 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   public referenceOutputs = {
     onCreate: (value:HalResource) => this.onNewActionCreated(value),
-    onChange: (value:HalResource) => this.onModelChange(value)
+    onChange: (value:HalResource) => this.onModelChange(value),
+    onAfterViewInit: (component:CreateAutocompleterComponent) => component.focusInputField()
   };
 
   constructor(readonly elementRef:ElementRef,

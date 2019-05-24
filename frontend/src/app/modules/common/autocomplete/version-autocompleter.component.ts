@@ -26,51 +26,59 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   template: `
-    <create-autocompleter [availableValues]="availableValues"
+    <create-autocompleter #createAutocompleter
+                          [availableValues]="availableValues"
                           [createAllowed]="createAllowed"
-                          [appendTo]="'body'"
-                          [model]=""
-                          (onCreate)="createNewVersion($event)"
-                          (onChange)="onModelChanged($event)"
+                          [appendTo]="appendTo"
+                          [model]="model"
+                          (create)="createNewVersion($event)"
+                          (onChange)="changeModel($event)"
                           (onOpen)="opened()"
                           (onClose)="closed()"
                           (onKeydown)="keyPressed($event)"
-                          (onAfterViewInit)="afterViewinited($event)">
+                          (onAfterViewInit)="afterViewinited()">
     </create-autocompleter>
   `,
   selector: 'version-autocompleter'
 })
 
-export class VersionAutocompleterComponent implements OnInit {
-  @Input() public availableValues:any[];
-  @Input() public createAllowed:boolean;
-
+export class VersionAutocompleterComponent extends CreateAutocompleterComponent implements OnInit, AfterViewInit {
+  @ViewChild('createAutocompleter') public createAutocompleter:CreateAutocompleterComponent;
   @Output() public onCreate = new EventEmitter<VersionResource>();
-  @Output() public onChange = new EventEmitter<VersionResource>();
-  @Output() public onOpen = new EventEmitter<void>();
-  @Output() public onKeydown = new EventEmitter<JQueryEventObject>();
-  @Output() public onClose = new EventEmitter<void>();
-  @Output() public onAfterViewInit = new EventEmitter<VersionAutocompleterComponent>();
 
-  constructor(readonly currentProject:CurrentProjectService,
+  public createAllowed:boolean = false;
+
+  constructor(readonly I18n:I18nService,
+              readonly currentProject:CurrentProjectService,
               readonly pathHelper:PathHelperService,
               readonly versionDm:VersionDmService) {
+    super(I18n, currentProject, pathHelper);
   }
 
   ngOnInit() {
     this.canCreateNewActionElements().then((val) => {
       this.createAllowed = val;
     });
+  }
+
+  ngAfterViewInit() {
+    // Prevent a second event to bubble
+  }
+
+  public afterViewinited() {
+    this.onAfterViewInit.emit(this.createAutocompleter);
   }
 
   /**
@@ -90,27 +98,6 @@ export class VersionAutocompleterComponent implements OnInit {
       this.onCreate.emit(version);
     });
   }
-
-  public onModelChanged(element:VersionResource) {
-    this.onChange.emit(element);
-  }
-
-  public opened() {
-    this.onOpen.emit();
-  }
-
-  public closed() {
-    this.onClose.emit();
-  }
-
-  public keyPressed(event:JQueryEventObject) {
-    this.onKeydown.emit(event);
-  }
-
-  public afterViewinited() {
-    this.onAfterViewInit.emit(this);
-  }
-
   private getVersionPayload(name:string) {
     let payload:any = {};
     payload['name'] = name;

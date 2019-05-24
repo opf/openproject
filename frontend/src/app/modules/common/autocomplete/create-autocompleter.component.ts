@@ -89,22 +89,23 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   @Input() public set createAllowed(val:boolean) {
     this._createAllowed = val;
     setTimeout(() => {
-      this.focusInputField();
+      if (this.openDirectly) { this.openSelect(); }
     });
   }
 
-  @Output() public onCreate = new EventEmitter<string>();
+  @Output() public create = new EventEmitter<string>();
   @Output() public onChange = new EventEmitter<HalResource>();
   @Output() public onKeydown = new EventEmitter<JQueryEventObject>();
   @Output() public onOpen = new EventEmitter<void>();
   @Output() public onClose = new EventEmitter<void>();
   @Output() public onAfterViewInit = new EventEmitter<CreateAutocompleterComponent>();
 
-  private _createAllowed:boolean = false;
-
   public text:any = {
     add_new_action: this.I18n.t('js.label_create_new'),
   };
+
+  private _createAllowed:boolean = false;
+  private _openDirectly:boolean = false;
 
   constructor(readonly I18n:I18nService,
               readonly currentProject:CurrentProjectService,
@@ -112,7 +113,6 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.focusInputField();
     this.onAfterViewInit.emit(this);
   }
 
@@ -121,7 +121,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   }
 
   public createNewElement(newElement:string) {
-    this.onCreate.emit(newElement);
+    this.create.emit(newElement);
   }
 
   public changeModel(element:HalResource) {
@@ -144,8 +144,21 @@ export class CreateAutocompleterComponent implements AfterViewInit {
     return this._createAllowed;
   }
 
-  private focusInputField() {
-    this.createAllowed ? this.addAutoCompleter.focus() : this.autoCompleter.focus();
+  public get openDirectly() {
+    return this._openDirectly;
+  }
+
+  public set openDirectly(val:boolean) {
+    this._openDirectly = val;
+    this.openSelect();
+  }
+
+  public focusInputField() {
+    if (this.createAllowed) {
+      return this.addAutoCompleter && this.addAutoCompleter.focus();
+    } else {
+      return this.autoCompleter && this.autoCompleter.focus();
+    }
   }
 }
 

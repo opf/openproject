@@ -4,7 +4,8 @@
                                    model: selectedOption ? selectedOption : '',
                                    required: required,
                                    disabled: inFlight,
-                                   id: handler.htmlId }"
+                                   id: handler.htmlId,
+                                   createAllowed: false }"
              [ndcDynamicOutputs]="referenceOutputs"
              [ndcDynamicAttributes]="{ class: 'wp-inline-edit--field' }">
 </ndc-dynamic>
