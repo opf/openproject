@@ -27,13 +27,11 @@ ru:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Need to freely structure your work in a board view?
-        check_out_link: Проверьте корпоративную версию.
       lists:
         delete: Удалить список
         edit_version: Edit version
       add:
-        create_new: Create new
+        create_new: Создать новое
     card:
       add_new: Добавить новую карточку
       highlighting:

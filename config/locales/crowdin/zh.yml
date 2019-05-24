@@ -2634,5 +2634,3 @@ zh:
     authorization_error: 发生了验证错误。
     revoke_my_application_confirmation: 确定想要移除此应用程序吗？这将撤销对其有效的 %{token_count}。
     my_registered_applications: 已注册的 OAuth 应用程序
-  error_dependent_work_package: '相关工作包中的错误%{related_id} %{related_subject}: %{error}'
-  notice_unable_delete_version: 不能删除版本。

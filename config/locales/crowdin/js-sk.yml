@@ -28,13 +28,11 @@ sk:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Need to freely structure your work in a board view?
-        check_out_link: Pozrite si verziu Enterprise.
       lists:
         delete: Vymazať zoznam
         edit_version: Edit version
       add:
-        create_new: Create new
+        create_new: Vytvoriť nový
     card:
       add_new: Pridať novú kartu
       highlighting:

@@ -27,13 +27,11 @@ tr:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Need to freely structure your work in a board view?
-        check_out_link: Enterprise sürüme bakın.
       lists:
         delete: Listeyi silin
         edit_version: Edit version
       add:
-        create_new: Create new
+        create_new: Yeni oluştur
     card:
       add_new: Yeni kart ekleyin
       highlighting:

@@ -2777,6 +2777,3 @@ ko:
     revoke_my_application_confirmation: 이 애플리케이션을 제거하시겠습니까? 그러면 이 애플리케이션에 대해 활성화된
       %{token_count}개가 취소됩니다.
     my_registered_applications: 등록된 OAuth 애플리케이션
-  error_dependent_work_package: '종속 작업 패키지 #%{related_id} %{related_subject}의 오류:
-    %{error}'
-  notice_unable_delete_version: 버전을 삭제할 수 없습니다.

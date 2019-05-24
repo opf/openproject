@@ -3030,6 +3030,3 @@ pl:
     revoke_my_application_confirmation: Czy na pewno chcesz usunąć tę aplikację? Unieważni
       to jej aktywne tokeny (%{token_count}).
     my_registered_applications: Zarejestrowane aplikacje OAuth
-  error_dependent_work_package: 'Błąd w zależnym pakiecie roboczym #%{related_id}
-    %{related_subject}: %{error}'
-  notice_unable_delete_version: Nie można usunąć wersji.

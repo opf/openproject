@@ -28,14 +28,11 @@ pt-BR:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Precisa estruturar livremente seu trabalho em uma visualização de
-          quadro?
-        check_out_link: Confira a versão Enterprise Edition.
       lists:
         delete: Excluir lista
         edit_version: Edit version
       add:
-        create_new: Create new
+        create_new: Criar novo
     card:
       add_new: Adicionar novo cartão
       highlighting:

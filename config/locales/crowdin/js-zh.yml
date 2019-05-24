@@ -26,13 +26,11 @@ zh:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Need to freely structure your work in a board view?
-        check_out_link: 签出企业版。
       lists:
         delete: 删除列表
         edit_version: Edit version
       add:
-        create_new: Create new
+        create_new: 新建
     card:
       add_new: 添加新卡
       highlighting:

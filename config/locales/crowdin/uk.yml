@@ -3010,6 +3010,3 @@ uk:
     revoke_my_application_confirmation: Ви дійсно бажаєте видалити цю програму? Це
       скасує %{token_count} активація для цього.
     my_registered_applications: Зареєстровані програми OAuth
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
-  notice_unable_delete_version: Неможливо видалити версію.

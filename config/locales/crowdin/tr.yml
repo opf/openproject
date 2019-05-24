@@ -2957,6 +2957,3 @@ tr:
     revoke_my_application_confirmation: Bu uygulamayı gerçekten kaldırmak istiyor
       musunuz? Bu, %{token_count} aktif olanını iptal edecektir.
     my_registered_applications: OAuth uygulamalarını kayıtedin
-  error_dependent_work_package: 'Bağımlı #%{related_id} %{related_subject} iş paketinde
-    hata: %{error}'
-  notice_unable_delete_version: Sürüm açılamadı.
