@@ -83,27 +83,27 @@ describe "WorkPackageXlsExport" do
   CHILD_2 = 5
   SINGLE = 8
   FOLLOWED = 9
-  RELATION = 7
-  RELATION_DESCRIPTION = 9
-  RELATED_SUBJECT = 12
+  RELATION = 8
+  RELATION_DESCRIPTION = 10
+  RELATED_SUBJECT = 13
 
   it 'produces the correct result' do
-    expect(query.columns.map(&:name)).to eq [:id, :subject, :type, :status, :assigned_to]
+    expect(query.columns.map(&:name)).to eq [:type, :id, :subject, :status, :assigned_to, :priority]
 
     # the first header row devides the sheet into work packages and relation columns
-    expect(sheet.rows.first.take(7)).to eq ['Work packages', nil, nil, nil, nil, nil, 'Relations']
+    expect(sheet.rows.first.take(8)).to eq ['Work packages', nil, nil, nil, nil, nil, nil, 'Relations']
 
     # the second header row includes the column names for work packages and relations
     expect(sheet.rows[1])
       .to eq [
-        nil, 'ID', 'Subject', 'Type', 'Status', 'Assignee',
+        nil, 'Type', 'ID', 'Subject', 'Status', 'Assignee', 'Priority',
         nil, 'Relation type', 'Delay', 'Description', 'ID', 'Type', 'Subject',
         nil
       ]
 
     # duplicates rows for each relation
     c2id = child_2.id
-    expect(sheet.column(1).drop(2))
+    expect(sheet.column(2).drop(2))
       .to eq [parent.id, parent.id, child_1.id, c2id, c2id, c2id, single.id, followed.id, child_2_child.id]
 
     # marks Parent as parent of Child 1 and 2
@@ -130,7 +130,7 @@ describe "WorkPackageXlsExport" do
     expect(sheet.row(CHILD_2 + 2)[RELATED_SUBJECT]).to eq 'Followed'
 
     # shows no relation information for Single
-    expect(sheet.row(SINGLE).drop(6).compact).to eq []
+    expect(sheet.row(SINGLE).drop(7).compact).to eq []
 
     # shows Followed as preceding Child 2'
     expect(sheet.row(FOLLOWED)[RELATION]).to eq 'precedes'
@@ -140,20 +140,20 @@ describe "WorkPackageXlsExport" do
     # exports the correct data (examples)
     expect(sheet.row(PARENT))
       .to eq [
-        nil, parent.id, parent.subject, parent.type.name, parent.status.name, parent.assigned_to,
+        nil, parent.type.name, parent.id, parent.subject, parent.status.name, parent.assigned_to, parent.priority.name,
         nil, 'parent of', nil, nil, child_1.id, child_1.type.name, child_1.subject
       ] # delay nil as this is a parent-child relation not represented by an actual Relation record
 
     expect(sheet.row(SINGLE))
       .to eq [
-        nil, single.id, single.subject, single.type.name, single.status.name, single.assigned_to
+        nil, single.type.name, single.id, single.subject, single.status.name, single.assigned_to, single.priority.name
       ]
 
     expect(sheet.row(FOLLOWED))
       .to eq [
-        nil, followed.id, followed.subject, followed.type.name, followed.status.name,
-          followed.assigned_to,
-        nil, 'precedes', 0, relation.description, child_2.id, child_2.type.name, child_2.subject
+        nil, followed.type.name, followed.id, followed.subject, followed.status.name,
+          followed.assigned_to, followed.priority.name,
+        nil, 'precedes', 0, relation.description, child_2.id,  child_2.type.name, child_2.subject
       ]
   end
 
