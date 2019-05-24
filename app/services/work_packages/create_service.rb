@@ -77,7 +77,7 @@ class WorkPackages::CreateService
   def set_attributes(attributes, wp)
     WorkPackages::SetAttributesService
       .new(user: user,
-           work_package: wp,
+           model: wp,
            contract_class: contract_class)
       .call(attributes)
   end

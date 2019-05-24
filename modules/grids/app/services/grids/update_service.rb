@@ -66,7 +66,7 @@ class Grids::UpdateService
   def set_attributes(attributes, grid)
     Grids::SetAttributesService
       .new(user: user,
-           grid: grid,
+           model: grid,
            contract_class: contract_class)
       .call(attributes)
   end

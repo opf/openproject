@@ -75,7 +75,7 @@ describe WorkPackages::SetAttributesService, type: :model do
   let(:work_package_valid) { true }
   let(:instance) do
     described_class.new(user: user,
-                        work_package: work_package,
+                        model: work_package,
                         contract_class: mock_contract)
   end
 

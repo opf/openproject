@@ -56,7 +56,7 @@ module Versions
     def set_attributes(params)
       SetAttributesService
         .new(user: user,
-             version: Version.new,
+             model: Version.new,
              contract_class: contract_class)
         .call(params)
     end

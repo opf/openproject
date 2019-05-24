@@ -86,6 +86,3 @@ module OpenProject::Backlogs::Patches::SetAttributesServicePatch
     end
   end
 end
-
-
-

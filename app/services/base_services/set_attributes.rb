@@ -28,13 +28,44 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Members
-  class SetAttributesService < ::BaseServices::SetAttributes
+module BaseServices
+  class SetAttributes
+    include Concerns::Contracted
+
+    def initialize(user:, model:, contract_class:)
+      self.user = user
+      self.model = model
+      self.contract_class = contract_class
+    end
+
+    def call(params)
+      set_attributes(params)
+
+      validate_and_result
+    end
+
     private
 
+    attr_accessor :user,
+                  :model,
+                  :contract_class
+
     def set_attributes(params)
-      member.assign_roles(params.delete(:role_ids)) if params[:role_ids]
-      super
+      model.attributes = params
+
+      set_default_attributes
+    end
+
+    def set_default_attributes
+      # nothing to do for now but a subclass may
+    end
+
+    def validate_and_result
+      success, errors = validate(model, user)
+
+      ServiceResult.new(success: success,
+                        errors: errors,
+                        result: model)
     end
   end
 end

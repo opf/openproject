@@ -52,7 +52,7 @@ describe Members::SetAttributesService, type: :model do
   let(:member_valid) { true }
   let(:instance) do
     described_class.new(user: user,
-                        member: member,
+                        model: member,
                         contract_class: contract_class)
   end
   let(:call_attributes) { {} }

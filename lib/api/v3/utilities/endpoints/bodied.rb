@@ -87,9 +87,8 @@ module API
 
           def process(current_user, instance, params)
             args = { user: current_user,
+                     model: instance,
                      contract_class: process_contract }
-
-            args[backend_name.underscore.to_sym] = instance
 
             process_service
               .new(args.compact)

@@ -91,7 +91,7 @@ class WorkPackages::UpdateService
   def set_attributes(attributes, wp = work_package)
     WorkPackages::SetAttributesService
       .new(user: user,
-           work_package: wp,
+           model: wp,
            contract_class: contract_class)
       .call(attributes)
   end

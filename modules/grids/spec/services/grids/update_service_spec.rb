@@ -69,7 +69,7 @@ describe Grids::UpdateService, type: :model do
     allow(Grids::SetAttributesService)
       .to receive(:new)
       .with(user: user,
-            grid: grid,
+            model: grid,
             contract_class: contract_class)
       .and_return(service)
 
