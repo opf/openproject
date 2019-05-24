@@ -50,6 +50,10 @@ module API
                 def post_request?
                   request.env['REQUEST_METHOD'] == 'POST'
                 end
+
+                def import_options
+                  params[:import_options].presence || {}
+                end
               end
 
               post do
@@ -61,8 +65,10 @@ module API
 
                 begin
                   file = params[:bcf_xml_file][:tempfile]
-                  importer = ::OpenProject::Bcf::BcfXml::Importer.new project, current_user: current_user
-                  importer.import! file
+                  importer = ::OpenProject::Bcf::BcfXml::Importer.new(file,
+                                                                      project,
+                                                                      current_user: User.current)
+                  importer.import! import_options
                 rescue StandardError => e
                   raise API::Errors::InternalError.new e.message
                 ensure
