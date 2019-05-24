@@ -65,11 +65,12 @@ describe 'Global role: Global Create project', type: :feature, js: true do
 
   describe 'Create Project displayed to user' do
     # Given there is a global role "Global"
-    let!(:role) { FactoryBot.create(:global_role, name: 'Global', permissions: %i[add_project]) }
+    let!(:global_role) { FactoryBot.create(:global_role, name: 'Global', permissions: %i[add_project]) }
+    let!(:member_role) { FactoryBot.create(:role, permissions: %i[]) }
     # And the global role "Global" may have the following rights:
     # And the user "bob" has the global role "Global"
     let(:user) { FactoryBot.create :user }
-    let!(:principal_role) { FactoryBot.create(:principal_role, principal: user, role: role) }
+    let!(:principal_role) { FactoryBot.create(:principal_role, principal: user, role: global_role) }
     # When I am already logged in as "bob"
     it 'does show the global permission' do
       # And I go to the overall projects page
