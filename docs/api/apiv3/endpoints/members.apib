@@ -267,6 +267,17 @@ For more details and all possible responses see the general specification of [Fo
     + Body
 
             {
+                "project": {
+                    "href": "/api/v3/projects/1"
+                },
+                "principal": {
+                    "href": "/api/v3/users/5"
+                },
+                "roles": [
+                    {
+                        "href": "/api/v3/roles/2"
+                    }
+                ]
             }
 
 + Response 200 (application/hal+json)
@@ -274,6 +285,104 @@ For more details and all possible responses see the general specification of [Fo
     + Body
 
             {
+                "_type": "Form",
+                "_embedded": {
+                    "payload": {
+                        "_links": {
+                            "project": {
+                                "href": "/api/v3/projects/1",
+                                "title": "A project"
+                            },
+                            "principal": {
+                                "href": "/api/v3/users/5",
+                                "title": "A User"
+                            },
+                            "roles": [
+                                {
+                                    "href": "/api/v3/roles/2",
+                                    "title": "Manager"
+                                }
+                            ]
+                        }
+                    },
+                    "schema": {
+                        "_type": "Schema",
+                        "_dependencies": [],
+                        "id": {
+                            "type": "Integer",
+                            "name": "ID",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "createdAt": {
+                            "type": "DateTime",
+                            "name": "Created on",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "project": {
+                            "type": "Project",
+                            "name": "Project",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "_links": {
+                                "allowedValues": {
+                                    "href": "/api/v3/memberships/available_projects?filters=%5B%7B%22principal%22%3A%7B%22operator%22%3A%22%21%22%2C%22values%22%3A%5B%225%22%5D%7D%7D%5D"
+                                }
+                            }
+                        },
+                        "principal": {
+                            "type": "Principal",
+                            "name": "Principal",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "_links": {
+                                "allowedValues": {
+                                    "href": "/api/v3/principals?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22%21%22%2C%22values%22%3A%5B%220%22%2C%223%22%5D%7D%7D%2C%7B%22member%22%3A%7B%22operator%22%3A%22%21%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D"
+                                }
+                            }
+                        },
+                        "roles": {
+                            "type": "[]Role",
+                            "name": "Role",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "_links": {
+                                "allowedValues": {
+                                    "href": "/api/v3/roles?filters=%5B%7B%22unit%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22project%22%5D%7D%7D%5D"
+                                }
+                            }
+                        },
+                        "_links": {}
+                    },
+                    "validationErrors": {
+                        "user": {
+                            "_type": "Error",
+                            "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                            "message": "User has already been taken.",
+                            "_embedded": {
+                                "details": {
+                                    "attribute": "user"
+                                }
+                            }
+                        }
+                    }
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/memberships/form",
+                        "method": "post"
+                    },
+                    "validate": {
+                        "href": "/api/v3/memberships/form",
+                        "method": "post"
+                    }
+                }
             }
 
 + Response 400 (application/hal+json)

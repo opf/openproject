@@ -44,7 +44,7 @@ module API
                                                                   # Doing this leads to the roles being displayed
                                                                   # in the payload.
                                                                   roles = if params[:role_ids]
-                                                                            Role.find_by(id: params.delete(:role_ids))
+                                                                            Array(Role.find_by(id: params.delete(:role_ids)))
                                                                           end || []
 
                                                                   Member.new(roles: roles)
