@@ -192,7 +192,7 @@ describe MembersController, type: :controller do
       end
 
       it 'should show an error message' do
-        expect(response.body).to include 'choose at least one role'
+        expect(response.body).to include 'Roles need to be assigned.'
       end
     end
   end
