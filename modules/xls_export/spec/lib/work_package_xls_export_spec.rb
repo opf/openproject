@@ -88,7 +88,7 @@ describe "WorkPackageXlsExport" do
   RELATED_SUBJECT = 12
 
   it 'produces the correct result' do
-    expect(query.columns.map(&:name)).to eq [:id, :subject, :type, :status, :assigned_to]
+    expect(query.columns.map(&:name)).to eq [:type, :id, :subject, :status, :assigned_to]
 
     # the first header row devides the sheet into work packages and relation columns
     expect(sheet.rows.first.take(7)).to eq ['Work packages', nil, nil, nil, nil, nil, 'Relations']
@@ -96,14 +96,14 @@ describe "WorkPackageXlsExport" do
     # the second header row includes the column names for work packages and relations
     expect(sheet.rows[1])
       .to eq [
-        nil, 'ID', 'Subject', 'Type', 'Status', 'Assignee',
+        nil, 'Type', 'ID', 'Subject', 'Status', 'Assignee',
         nil, 'Relation type', 'Delay', 'Description', 'ID', 'Type', 'Subject',
         nil
       ]
 
     # duplicates rows for each relation
     c2id = child_2.id
-    expect(sheet.column(1).drop(2))
+    expect(sheet.column(2).drop(2))
       .to eq [parent.id, parent.id, child_1.id, c2id, c2id, c2id, single.id, followed.id, child_2_child.id]
 
     # marks Parent as parent of Child 1 and 2
@@ -140,20 +140,20 @@ describe "WorkPackageXlsExport" do
     # exports the correct data (examples)
     expect(sheet.row(PARENT))
       .to eq [
-        nil, parent.id, parent.subject, parent.type.name, parent.status.name, parent.assigned_to,
+        nil, parent.type.name, parent.id, parent.subject, parent.status.name, parent.assigned_to,
         nil, 'parent of', nil, nil, child_1.id, child_1.type.name, child_1.subject
       ] # delay nil as this is a parent-child relation not represented by an actual Relation record
 
     expect(sheet.row(SINGLE))
       .to eq [
-        nil, single.id, single.subject, single.type.name, single.status.name, single.assigned_to
+        nil, single.type.name, single.id, single.subject, single.status.name, single.assigned_to
       ]
 
     expect(sheet.row(FOLLOWED))
       .to eq [
-        nil, followed.id, followed.subject, followed.type.name, followed.status.name,
+        nil, followed.type.name, followed.id, followed.subject, followed.status.name,
           followed.assigned_to,
-        nil, 'precedes', 0, relation.description, child_2.id, child_2.type.name, child_2.subject
+        nil, 'precedes', 0, relation.description, child_2.id,  child_2.type.name, child_2.subject
       ]
   end
 

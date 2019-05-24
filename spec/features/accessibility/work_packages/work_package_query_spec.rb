@@ -115,7 +115,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     describe 'id column' do
       let(:link_caption) { 'ID' }
-      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(1)' }
+      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(2)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -123,7 +123,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     describe 'subject column' do
       let(:link_caption) { 'Subject' }
-      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(2)' }
+      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(3)' }
       let(:column_header_link_selector) { column_header_selector + ' #subject' }
 
       it_behaves_like 'sortable column'
@@ -131,7 +131,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     describe 'type column' do
       let(:link_caption) { 'Type' }
-      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(3)' }
+      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(1)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -165,10 +165,10 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     context 'focus' do
       let(:first_link_selector) do
-        ".wp-row-#{work_package.id} td.id a"
+        ".wp-row-#{work_package.id} .wp-table--cell-span.type"
       end
       let(:second_link_selector) do
-        ".wp-row-#{another_work_package.id} td.id a"
+        ".wp-row-#{another_work_package.id} .wp-table--cell-span.type"
       end
 
       it 'navigates with J and K' do
