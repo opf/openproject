@@ -482,7 +482,7 @@ hu:
         redirect_uri: Redirect URI
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
-        confidential: Confidential
+        confidential: Bizalmas
     errors:
       messages:
         accepted: el kell fogadni.
