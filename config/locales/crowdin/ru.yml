@@ -425,7 +425,7 @@ ru:
         spent_on: Дата
         type: Тип
       type:
-        description: Default text for description
+        description: Текст для описания по умолчанию
         attribute_groups: ''
         is_in_roadmap: По умолчанию отображается в дорожной карте
         is_default: В новых проектах активируется по умолчанию
@@ -519,7 +519,7 @@ ru:
         not_a_date: не является допустимой датой.
         not_a_datetime: дата и время не являются допустимыми.
         not_a_number: не является числом.
-        not_allowed: неверно ввиду отсутствия прав.
+        not_allowed: неверно, ввиду отсутствия прав.
         not_an_integer: не является целым числом.
         not_an_iso_date: 'недопустимая дата. Требуемый формат: гггг-мм-дд.'
         not_same_project: не принадлежит тому же проекту.
@@ -674,8 +674,8 @@ ru:
             или группу.
           role_blank: Пожалуйста, выберите по крайней мере одну роль.
         version:
-          undeletable_work_packages_attached: The version cannot be deleted as it
-            has work packages attached to it.
+          undeletable_work_packages_attached: Версия не может быть удалена, так как
+            имеет пакеты работ, прикрепленные к ней.
       template:
         body: 'Пожалуйста, проверьте следующие поля:'
         header:
@@ -1108,7 +1108,7 @@ ru:
   error_enterprise_activation_user_limit: Ваша учетная запись не может быть активирована
     (достигнут предел пользователя). Обратитесь к администратору для получения доступа.
   error_failed_to_delete_entry: Не удалось удалить эту запись.
-  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+  error_in_dependent: 'Ошибка при попытке изменить зависимый объект: %{dependent_class}
     #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Выбранное значение недопустимо.
   error_invalid_group_by: 'Невозможно группировать по: %{value}'
@@ -1494,7 +1494,7 @@ ru:
   label_max_size: Максимальный размер
   label_me: мне
   label_member_new: Новый участник
-  label_member_all_admin: "(All roles due to admin status)"
+  label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_plural: Участники
   label_view_all_members: Просмотреть всех участников
   label_menu_item_name: Название пункта меню
@@ -2879,7 +2879,7 @@ ru:
     attributes:
       lock_version: Блокировать этап
     errors:
-      code_400: 'Bad request: %{message}'
+      code_400: 'Неверный запрос: %{message}'
       code_401: Вам нужно пройти проверку подлинности для доступа к этому ресурсу.
       code_401_wrong_credentials: Вы не ввели правильные учетные данные.
       code_403: Вы не авторизованы для доступа к этому ресурсу.
