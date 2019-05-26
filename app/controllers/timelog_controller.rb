@@ -173,7 +173,9 @@ class TimelogController < ApplicationController
   end
 
   def update
-    service = TimeEntries::UpdateService.new user: current_user, time_entry: @time_entry
+    service = TimeEntries::UpdateService
+              .new(user: current_user,
+                   model: @time_entry)
     call = service.call(attributes: permitted_params.time_entry)
     respond_for_saving call
   end
