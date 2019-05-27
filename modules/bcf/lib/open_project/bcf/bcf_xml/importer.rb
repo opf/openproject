@@ -58,7 +58,6 @@ module OpenProject::Bcf::BcfXml
         treat_invalid_people(options)
         treat_unknown_mails(options)
         treat_non_members(options)
-        clear_instance_cache
 
         # Extract all topics of the zip and save them
         synchronize_topics(zip)
@@ -78,8 +77,10 @@ module OpenProject::Bcf::BcfXml
     ##
     # Invite all unknown email addresses and add them
     def treat_invalid_people(options)
-      unless options[:invalid_people_action] == 'anonymize'
-        raise StandardError.new 'Invalid people found in import. Use valid e-mail addresses.'
+      if invalid_people.any?
+        unless options[:invalid_people_action] == 'anonymize'
+          raise StandardError.new 'Invalid people found in import. Use valid e-mail addresses.'
+        end
       end
     end
 
@@ -99,6 +100,8 @@ module OpenProject::Bcf::BcfXml
     ##
     # Add all non members to project
     def treat_non_members(options)
+      clear_instance_cache
+
       if treat_non_members?(options)
         unless User.current.allowed_to?(:manage_members, project)
           raise StandardError.new 'For adding members to the project you need admin privileges.'
@@ -130,11 +133,15 @@ module OpenProject::Bcf::BcfXml
     end
 
     def treat_unknown_mails?(options)
-      options[:unknown_mails_action] == 'invite' && options[:unknown_mails_invite_role_ids].any?
+      unknown_mails.any? &&
+        options[:unknown_mails_action] == 'invite' &&
+        options[:unknown_mails_invite_role_ids].any?
     end
 
     def treat_non_members?(options)
-      options[:non_members_action] == 'add' && options[:non_members_add_role_ids].any?
+      non_members.any? &&
+        options[:non_members_action] == 'add' &&
+        options[:non_members_add_role_ids].any?
     end
 
     def to_listing(extractor)
