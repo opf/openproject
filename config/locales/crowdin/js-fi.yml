@@ -219,6 +219,7 @@ fi:
     label_board_locked: Lukittu
     label_board_plural: Boards
     label_board_sticky: Pysyvä
+    label_create_new: Create new
     label_create_work_package: Luo uusi toimia paketti
     label_created_by: Luonut
     label_date: Päivä

@@ -219,6 +219,7 @@ tr:
     label_board_locked: Kilitlendi
     label_board_plural: Panolar
     label_board_sticky: Sabit
+    label_create_new: Create new
     label_create_work_package: Yeni iş paketi oluştur
     label_created_by: Oluşturan
     label_date: Tarih

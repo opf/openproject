@@ -222,6 +222,7 @@ vi:
     label_board_locked: Đã khóa
     label_board_plural: Boards
     label_board_sticky: Chú ý
+    label_create_new: Create new
     label_create_work_package: Create new work package
     label_created_by: Created by
     label_date: Ngày

@@ -224,6 +224,7 @@ es:
     label_board_locked: Bloqueado
     label_board_plural: Tableros
     label_board_sticky: Adhesivo
+    label_create_new: Create new
     label_create_work_package: Crear un nuevo paquete de trabajo
     label_created_by: Creado por
     label_date: Fecha

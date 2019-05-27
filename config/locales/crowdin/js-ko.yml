@@ -213,6 +213,7 @@ ko:
     label_board_locked: 잠김
     label_board_plural: 보드
     label_board_sticky: 스티커형
+    label_create_new: Create new
     label_create_work_package: 새 작업 패키지 만들기
     label_created_by: 작성자
     label_date: 날짜

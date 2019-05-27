@@ -209,6 +209,7 @@ zh:
     label_board_locked: 锁定
     label_board_plural: 面板
     label_board_sticky: 置顶
+    label_create_new: Create new
     label_create_work_package: 创建新的工作包
     label_created_by: 创建者
     label_date: 日期

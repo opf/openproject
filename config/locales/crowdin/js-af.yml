@@ -219,6 +219,7 @@ af:
     label_board_locked: Gesluit
     label_board_plural: Boards
     label_board_sticky: Klewerig
+    label_create_new: Create new
     label_create_work_package: Create new work package
     label_created_by: Created by
     label_date: Datum

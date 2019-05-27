@@ -221,6 +221,7 @@ id:
     label_board_locked: Locked
     label_board_plural: Boards
     label_board_sticky: Sticky
+    label_create_new: Create new
     label_create_work_package: Buat Paket-Penugasan baru
     label_created_by: Created by
     label_date: Tanggal
