@@ -58,9 +58,9 @@ module API
 
           def render(instance)
             render_representer
-              .new(instance,
-                   current_user: User.current,
-                   embed_links: true)
+              .create(instance,
+                      current_user: User.current,
+                      embed_links: true)
           end
 
           def self_path
