@@ -17,30 +17,14 @@
         <div class="form--field">
           <div class="form--field-container">
             <div class="form--select-container">
-              <label class="form--label" for="new_list_action_select" [textContent]="actionService.localizedName"></label>
-              <ng-select *ngIf="createAllowed"
-                         #addActionAttributeSelect
-                         name="new_list_action_select"
-                         class="new-list--action-select"
-                         [items]="availableValues"
-                         [addTag]="createNewElement.bind(this)"
-                         (change)="onModelChange($event)"
-                         bindLabel="name"
-                         appendTo="body">
-                <ng-template ng-tag-tmp let-search="searchTerm">
-                  <b [textContent]="text.add_new_action"></b>: {{search}}
-                </ng-template>
-              </ng-select>
-
-              <ng-select *ngIf="!createAllowed"
-                         #actionAttributeSelect
-                         name="new_list_action_select"
-                         class="new-list--action-select"
-                         [items]="availableValues"
-                         (change)="onModelChange($event)"
-                         bindLabel="name"
-                         appendTo="body">
-              </ng-select>
+              <label class="form--label" [textContent]="actionService.localizedName"></label>
+              <ndc-dynamic [ndcDynamicComponent]="autocompleterComponent()"
+                           [ndcDynamicInputs]="{ availableValues: availableValues,
+                                                 appendTo: 'body',
+                                                 model: '',
+                                                 classes: 'new-list--action-select' }"
+                           [ndcDynamicOutputs]="referenceOutputs">
+              </ndc-dynamic>
             </div>
           </div>
         </div>

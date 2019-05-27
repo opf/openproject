@@ -34,6 +34,8 @@ import {EditFieldComponent} from "../edit-field.component";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {NgSelectComponent} from "@ng-select/ng-select";
+import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
+import {SelectAutocompleterRegisterService} from "app/modules/fields/edit/field-types/select-autocompleter-register.service";
 
 export interface ValueOption {
   name:string;
@@ -44,7 +46,7 @@ export interface ValueOption {
   templateUrl: './select-edit-field.component.html'
 })
 export class SelectEditFieldComponent extends EditFieldComponent implements OnInit {
-  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+  public selectAutocompleterRegister = this.injector.get(SelectAutocompleterRegisterService);
 
   public options:any[];
   public valueOptions:ValueOption[];
@@ -55,6 +57,17 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   private hiddenOverflowContainer = '.__hidden_overflow_container';
 
   public halSorting:HalResourceSortingService;
+
+  private _autocompleterComponent:CreateAutocompleterComponent;
+
+  public referenceOutputs = {
+    onCreate: (newElement:HalResource) => this.onCreate(newElement),
+    onChange: (value:HalResource) => this.onChange(value),
+    onKeydown: (event:JQueryEventObject) => this.handler.handleUserKeydown(event, true),
+    onOpen: () => this.onOpen(),
+    onClose: () => this.onClose(),
+    onAfterViewInit: (component:CreateAutocompleterComponent) => this._autocompleterComponent = component
+  };
 
   protected initialize() {
     this.halSorting = this.injector.get(HalResourceSortingService);
@@ -70,9 +83,15 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
         untilComponentDestroyed(this)
       )
       .subscribe(() => {
-       loadingPromise.then(() => this.openAutocompleteSelectField())
+        loadingPromise.then(() => {
+          this._autocompleterComponent.openDirectly = true;
+        })
       });
+  }
 
+  public autocompleterComponent() {
+    let type = this.schema.type;
+    return this.selectAutocompleterRegister.getAutocompleterOfAttribute(type) || CreateAutocompleterComponent;
   }
 
   public ngOnInit() {
@@ -127,6 +146,12 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     );
   }
 
+  public onCreate(newElement:HalResource) {
+    this.options.push(newElement);
+    this.selectedOption = { name: newElement.name, $href: newElement.$href };
+    this.handler.handleUserSubmit();
+  }
+
   public onOpen() {
     jQuery(this.hiddenOverflowContainer).addClass('-hidden-overflow');
   }
@@ -135,13 +160,9 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     jQuery(this.hiddenOverflowContainer).removeClass('-hidden-overflow');
   }
 
-  private openAutocompleteSelectField() {
-    // The timeout takes care that the opening is added to the end of the current call stack.
-    // Thus we can be sure that the autocompleter is rendered and ready to be opened.
-    let that = this;
-    window.setTimeout(function () {
-      that.ngSelectComponent.open();
-    }, 0);
+  public onChange(value:HalResource) {
+    this.selectedOption = { name: value.name, $href: value.$href };
+    this.handler.handleUserSubmit();
   }
 
   private addEmptyOption() {

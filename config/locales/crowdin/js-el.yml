@@ -27,8 +27,6 @@ el:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Need to freely structure your work in a board view?
-        check_out_link: Check out the Enterprise Edition.
       lists:
         delete: Διαγραφή λίστας
         edit_version: Edit version

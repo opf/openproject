@@ -19,7 +19,7 @@ class WorkPackageMultiSelectField < WorkPackageField
   end
 
   def field_type
-    'ng-select'
+    'create-autocompleter'
   end
 
   def control_link(action = :save)

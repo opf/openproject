@@ -19,20 +19,15 @@ lol:
     close_form_title: crwdns127046:0crwdne127046:0
     boards:
       upsale:
-        teaser_text: Improve your agile project management with this flexible Boards
-          view. Create as many boards as you like for anything you would like to keep
-          track of.
-        upgrade_to_ee_text: Boards is an Enterprise feature. Please upgrade to a paid
-          plan.
-        upgrade: Upgrade now
-        personal_demo: Get a personal demo
-        boards: crwdns129784:0crwdne129784:0
-        check_out_link: crwdns129786:0crwdne129786:0
+        teaser_text: crwdns129800:0crwdne129800:0
+        upgrade_to_ee_text: crwdns129802:0crwdne129802:0
+        upgrade: crwdns129804:0crwdne129804:0
+        personal_demo: crwdns129806:0crwdne129806:0
       lists:
         delete: crwdns129686:0crwdne129686:0
-        edit_version: Edit version
+        edit_version: crwdns129808:0crwdne129808:0
       add:
-        create_new: Create new
+        create_new: crwdns129810:0crwdne129810:0
     card:
       add_new: crwdns127052:0crwdne127052:0
       highlighting:
@@ -468,7 +463,7 @@ lol:
       abort: crwdns127782:0crwdne127782:0
     relations_autocomplete:
       placeholder: crwdns127784:0crwdne127784:0
-      parent_placeholder: crwdns127786:0crwdne127786:0
+      parent_placeholder: crwdns129822:0crwdne129822:0
     repositories:
       select_tag: crwdns127788:0crwdne127788:0
       select_branch: crwdns127790:0crwdne127790:0

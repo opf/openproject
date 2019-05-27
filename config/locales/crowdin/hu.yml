@@ -482,7 +482,7 @@ hu:
         redirect_uri: Redirect URI
         client_credentials_user_id: Client Credentials User ID
         scopes: Scopes
-        confidential: Confidential
+        confidential: Bizalmas
     errors:
       messages:
         accepted: el kell fogadni.
@@ -2969,6 +2969,3 @@ hu:
     revoke_my_application_confirmation: Do you really want to remove this application?
       This will revoke %{token_count} active for it.
     my_registered_applications: Regisztrált OAuth alkalmazások
-  error_dependent_work_package: 'Hiba a függő feladatcsoportban #%{related_id} %{related_subject}:
-    %{error}'
-  notice_unable_delete_version: Nem lehet törölni a verziót.

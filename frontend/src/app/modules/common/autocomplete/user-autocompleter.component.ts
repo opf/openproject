@@ -47,7 +47,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
       <ng-template ng-option-tmp let-item="item" let-index="index">
         <user-avatar *ngIf="item.href"
                      [attr.data-user-name]="item.name"
-                     [attr.data-user-avatar-src]="item.avatar"
+                     [attr.data-user-id]="item.id"
                      data-class-list="avatar-mini">
         </user-avatar>
         {{ item.name }}

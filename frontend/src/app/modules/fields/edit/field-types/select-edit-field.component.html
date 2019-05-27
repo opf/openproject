@@ -1,15 +1,11 @@
-<ng-select [(ngModel)]="selectedOption"
-           [ngClass]="'wp-inline-edit--field'"
-           [required]="required"
-           [clearable]="!required"
-           [disabled]="inFlight"
-           [id]="handler.htmlId"
-           [items]="valueOptions"
-           bindLabel="name"
-           [virtualScroll]="true"
-           (keydown)="handler.handleUserKeydown($event, true)"
-           (change)="handler.handleUserSubmit()"
-           (open)="onOpen()"
-           (close)="onClose()"
-           [appendTo]="appendTo">
-</ng-select>
+<ndc-dynamic [ndcDynamicComponent]="autocompleterComponent()"
+             [ndcDynamicInputs]="{ availableValues: valueOptions,
+                                   appendTo: appendTo,
+                                   model: selectedOption ? selectedOption : '',
+                                   required: required,
+                                   disabled: inFlight,
+                                   id: handler.htmlId,
+                                   createAllowed: false,
+                                   classes: 'wp-inline-edit--field' }"
+             [ndcDynamicOutputs]="referenceOutputs">
+</ndc-dynamic>

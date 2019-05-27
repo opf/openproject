@@ -299,7 +299,7 @@ describe 'Switching types in work package table', js: true do
 
     let(:cf_edit_field) do
       field = wp_page.edit_field "customField#{custom_field.id}"
-      field.field_type = 'select'
+      field.field_type = 'create-autocompleter'
       field
     end
 

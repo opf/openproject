@@ -51,6 +51,7 @@ import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-edito
 import {UserFieldPortalComponent} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal.component";
 import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
+import {SelectAutocompleterRegisterService} from "core-app/modules/fields/edit/field-types/select-autocompleter-register.service";
 
 @NgModule({
   imports: [
@@ -68,7 +69,8 @@ import {PortalCleanupService} from "core-app/modules/fields/display/display-port
     UserFieldPortalService,
     DisplayFieldService,
     EditFieldService,
-    { provide: APP_INITIALIZER, useFactory: initializeCoreEditFields, deps: [EditFieldService], multi: true },
+    SelectAutocompleterRegisterService,
+    { provide: APP_INITIALIZER, useFactory: initializeCoreEditFields, deps: [EditFieldService, SelectAutocompleterRegisterService], multi: true },
     { provide: APP_INITIALIZER, useFactory: initializeCoreDisplayFields, deps: [DisplayFieldService], multi: true },
   ],
   declarations: [

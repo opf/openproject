@@ -3049,6 +3049,3 @@ es:
     revoke_my_application_confirmation: "¿Seguro que quieres eliminar esta aplicación?
       Eso suspenderá %{token_count} activos para realizarse."
     my_registered_applications: Aplicaciones OAuth Registradas
-  error_dependent_work_package: 'Error en el paquete de trabajo dependiente #%{related_id}
-    %{related_subject}: %{error}'
-  notice_unable_delete_version: No se puede eliminar la versión.

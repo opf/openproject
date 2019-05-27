@@ -27,83 +27,52 @@
 //++
 
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef} from "@angular/core";
-import {UserCacheService} from "core-components/user/user-cache.service";
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input} from "@angular/core";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'user-avatar',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './user-avatar.component.html'
 })
 export class UserAvatarComponent implements AfterViewInit {
-  public $element:JQuery;
+  /** If coming from angular, pass a user resource if availabe */
+  @Input() public user?:UserResource;
 
-  public user:string;
   public userInitials:string;
-  public userAvatar:string;
   public userName:string;
   public colorCode:string;
-  public userID:string;
+  public userId:string;
   public classes:string;
+  public userAvatarUrl:string;
 
   public useFallback:boolean;
-  public isGroup:boolean = false;
 
-  constructor(readonly userCacheService:UserCacheService,
-              protected elementRef:ElementRef,
+  constructor(protected elementRef:ElementRef,
               protected ref:ChangeDetectorRef,
-              readonly halResourceService:HalResourceService) {
+              protected domSanitizer:DomSanitizer,
+              protected pathHelper:PathHelperService) {
   }
 
   public ngAfterViewInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
+    const element = this.elementRef.nativeElement;
 
-    this.user = this.$element.data('user')!;
-    this.classes = this.$element.data('class-list')!;
-    this.useFallback = this.$element.data('use-fallback')!;
-    this.userAvatar = this.$element.data('user-avatar-src')!;
-    this.userName = this.$element.data('user-name')!;
-
-    this.isGroup = this.isUserAGroup();
-    if (this.isGroup) {
-      this.showGroupAvatar();
-    } else {
-      this.showUserAvatar();
-    }
-  }
-
-  public showUserAvatar() {
-    // When a user url is given,
-    // we have to get the information from the database.
     if (this.user) {
-      this.userID = WorkPackageResource.idFromLink(this.user);
-      this.userCacheService
-        .require(this.userID)
-        .then((user:UserResource) => {
-          this.userInitials = this.getInitials(user.name);
-          this.userAvatar = user.avatar;
-          this.userName = user.name;
-          this.colorCode = this.computeColor(user.name);
-          this.ref.detectChanges();
-        });
+      this.userId = this.user.id!;
+      this.userName = this.user.name;
     } else {
-      this.userInitials = this.getInitials(this.userName);
-      this.colorCode = this.computeColor(this.userName);
-      this.ref.detectChanges();
+      this.userId = element.dataset.userId!;
+      this.userName = element.dataset.userName!;
     }
-  }
 
-  public showGroupAvatar() {
-    this.halResourceService.get(this.user, {})
-      .subscribe(res => {
-        this.useFallback = true;
-        this.userName = res.name;
-        this.userInitials = this.getInitials(this.userName);
-        this.colorCode = this.computeColor(this.userName);
-        this.ref.detectChanges();
-      });
+    this.classes = element.dataset.classList!;
+    this.useFallback = element.dataset.useFallback!;
+    this.userAvatarUrl = this.pathHelper.api.v3.users.id(this.userId).avatar.toString();
+    this.userInitials = this.getInitials(this.userName);
+    this.colorCode = this.computeColor(this.userName);
+    this.ref.detectChanges();
   }
 
   public replaceWithDefault() {
@@ -130,16 +99,7 @@ export class UserAvatarComponent implements AfterViewInit {
 
     let h = hash % 360;
 
-    return 'hsl('+ h +', 50%, 50%)';
-  }
-
-  private isUserAGroup() {
-    // When an ID or an avatar is given, it must be a user.
-    // Otherwise we have to check the url.
-    return !this.userID &&
-           !this.userAvatar &&
-           !!this.user &&
-           this.user.includes('group');
+    return 'hsl(' + h + ', 50%, 50%)';
   }
 }
 

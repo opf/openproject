@@ -45,6 +45,10 @@ module OpenProject::Avatars
       require_dependency 'project'
     end
 
+    add_api_endpoint 'API::V3::Users::UsersAPI', :id do
+      mount ::API::V3::Users::UserAvatarAPI
+    end
+
     add_tab_entry :user,
                   name: 'avatar',
                   partial: 'avatars/users/avatar_tab',

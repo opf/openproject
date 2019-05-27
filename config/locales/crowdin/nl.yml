@@ -3011,6 +3011,3 @@ nl:
     revoke_my_application_confirmation: Weet u zeker dat u deze applicatie wilt verwijderen?
       Dit zal %{token_count} actief voor deze verwijderen.
     my_registered_applications: Geregistreerde OAuth toepassingen
-  error_dependent_work_package: 'Fout in afhankelijke werkpakket #%{related_id} %{related_subject}:
-    %{error}'
-  notice_unable_delete_version: Niet in staat om versie te verwijderen.

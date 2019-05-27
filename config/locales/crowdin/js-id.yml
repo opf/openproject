@@ -27,8 +27,6 @@ id:
           plan.
         upgrade: Upgrade now
         personal_demo: Get a personal demo
-        boards: Need to freely structure your work in a board view?
-        check_out_link: Periksa edisi Perusahaan.
       lists:
         delete: Delete list
         edit_version: Edit version

@@ -10,6 +10,7 @@ import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplete/version-autocompleter.component";
 
 @Injectable()
 export class BoardVersionActionService implements BoardActionService {
@@ -89,29 +90,6 @@ export class BoardVersionActionService implements BoardActionService {
   }
 
   /**
-   * Checks for correct permissions
-   * (whether the current project is in the list of allowed values in the version create form)
-   * @returns {Promise<boolean>}
-   */
-  public canCreateNewActionElements():Promise<boolean> {
-    let that = this;
-    return this.versionDm.listProjectsAvailableForVersions().then((collection) => {
-      return collection.elements.some((e:HalResource) => e.id === that.currentProject.id!);
-    }).catch(() => {
-      return false;
-    });
-  }
-
-  /**
-   * Creates a new version with the given name
-   * @param {string} the name of the new version
-   * @returns {Promise<HalResource | void>}
-   */
-  public createNewActionElement(name:string):Promise<HalResource|void> {
-    return this.versionDm.createVersion(this.getVersionPayload(name));
-  }
-
-  /**
    * Adds an entry to the list menu to edit the version if allowed
    * @param {HalResource} actionAttributeValue
    * @returns {Promise<any>}
@@ -139,6 +117,10 @@ export class BoardVersionActionService implements BoardActionService {
     }
   }
 
+  public autocompleterComponent() {
+    return VersionAutocompleterComponent;
+  }
+
   private getVersions():Promise<VersionResource[]> {
     if (this.currentProject.id === null) {
       return Promise.resolve([]);
@@ -147,17 +129,5 @@ export class BoardVersionActionService implements BoardActionService {
     return this.versionDm
       .listForProject(this.currentProject.id)
       .then(collection => collection.elements.filter(version => version.status === 'open'));
-  }
-
-  private getVersionPayload(name:string) {
-    let payload:any = {};
-    payload['name'] = name;
-    payload['_links'] = {
-      definingProject: {
-        href: this.pathHelper.api.v3.projects.id(this.currentProject.id!).path
-      }
-    };
-
-    return payload;
   }
 }
