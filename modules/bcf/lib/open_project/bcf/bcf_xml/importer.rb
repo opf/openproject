@@ -57,6 +57,7 @@ module OpenProject::Bcf::BcfXml
       Zip::File.open(@file) do |zip|
         treat_invalid_people(options)
         treat_unknown_mails(options)
+        treat_non_members(options)
         clear_instance_cache
 
         # Extract all topics of the zip and save them
@@ -95,6 +96,20 @@ module OpenProject::Bcf::BcfXml
       end
     end
 
+    ##
+    # Add all non members to project
+    def treat_non_members(options)
+      if treat_non_members?(options)
+        unless User.current.allowed_to?(:manage_members, project)
+          raise StandardError.new 'For adding members to the project you need admin privileges.'
+        end
+
+        non_members.each do |user|
+          add_non_member(user, options)
+        end
+      end
+    end
+
     def add_unknown_mail(mail, options)
       user = UserInvitation.invite_new_user(email: mail)
       member = Member.create(user: user,
@@ -105,8 +120,21 @@ module OpenProject::Bcf::BcfXml
       membership_service.call(attributes: { role_ids: options[:unknown_mails_invite_role_ids] })
     end
 
+    def add_non_member(user, options)
+      member = Member.create(user: user,
+                             project: project)
+      membership_service = ::Members::EditMembershipService.new(member,
+                                                                save: true,
+                                                                current_user: User.current)
+      membership_service.call(attributes: { role_ids: options[:non_members_add_role_ids] })
+    end
+
     def treat_unknown_mails?(options)
       options[:unknown_mails_action] == 'invite' && options[:unknown_mails_invite_role_ids].any?
+    end
+
+    def treat_non_members?(options)
+      options[:non_members_action] == 'add' && options[:non_members_add_role_ids].any?
     end
 
     def to_listing(extractor)
