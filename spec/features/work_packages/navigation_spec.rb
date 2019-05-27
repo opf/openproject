@@ -161,4 +161,16 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     expect(page).not_to have_selector('.title-container', text: 'Overview')
     page.should have_field('editable-toolbar-title', with: query.name)
   end
+
+  scenario 'double clicking search result row (Regression #30247)' do
+    work_package.subject = 'Foobar'
+    work_package.save!
+    visit search_path(q: 'Foo', work_packages: 1, scope: :all)
+
+    table = ::Pages::EmbeddedWorkPackagesTable.new page.find('#content')
+    table.expect_work_package_listed work_package
+    full_page = table.open_full_screen_by_doubleclick work_package
+
+    full_page.ensure_page_loaded
+  end
 end
