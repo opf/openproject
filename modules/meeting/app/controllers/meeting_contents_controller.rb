@@ -51,6 +51,7 @@ class MeetingContentsController < ApplicationController
     (render_403; return) unless @content.editable? # TODO: not tested!
     @content.attributes = content_params
     @content.author = User.current
+    @content.attach_files(permitted_params.attachments.to_h)
     if @content.save
       flash[:notice] = l(:notice_successful_update)
       redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting

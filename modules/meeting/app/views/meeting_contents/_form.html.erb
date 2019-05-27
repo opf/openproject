@@ -19,20 +19,28 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<%= form_for content, :url => {:controller => '/' + content_type.pluralize, :action => 'update', :meeting_id => content.meeting}, :html => {:id => "#{content_type}_form", :method => :put} do |f| %>
+<%= labelled_tabular_form_for content, :url => {:controller => '/' + content_type.pluralize, :action => 'update', :meeting_id => content.meeting}, :html => {:id => "#{content_type}_form", :method => :put} do |f| %>
   <%= error_messages_for content_type %>
 
+  <% resource = ::API::V3::MeetingContents::MeetingContentRepresenter.new(content, current_user: current_user, embed_links: true) %>
+
   <p>
-    <%= f.text_area :text,
-                     class: 'wiki-edit' %>
+    <%=
+      f.text_area(
+        :text,
+        class: 'wiki-edit wiki-toolbar',
+        resource: resource,
+        label_options: { class: 'hidden-for-sighted' },
+        with_text_formatting: true
+      )
+    %>
   </p>
   <%= f.hidden_field :lock_version %>
   <% path = send("preview_#{content_type}_path", content.meeting) %>
-  <%= wikitoolbar_for "#{content_type}_text", preview_context: preview_context(content.meeting, @project) %>
 
-  <p><label for="<%= content_type %>_comment"><%= Meeting.human_attribute_name(:comments) %></label><%= f.text_field :comment, :size => 120 %></p>
+  <p><%= f.text_field :comment, :size => 120 %></p>
   <p><%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark button--save-agenda' %>
-  <%= link_to l(:button_cancel), "#", data: { 'content-type': content_type }, class: 'button button--cancel-agenda' %>
+  <%= link_to t(:button_cancel), "#", data: { 'content-type': content_type }, class: 'button button--cancel-agenda' %>
 <% end %>
 
 <%= render :partial => 'shared/meeting_header' %>
