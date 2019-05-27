@@ -56,8 +56,6 @@ en:
       lists:
         delete: 'Delete list'
         edit_version: 'Edit version'
-      add:
-        create_new: 'Create new'
 
     card:
       add_new: 'Add new card'
@@ -244,6 +242,7 @@ en:
     label_board_locked: "Locked"
     label_board_plural: "Boards"
     label_board_sticky: "Sticky"
+    label_create_new: "Create new"
     label_create_work_package: "Create new work package"
     label_created_by: "Created by"
     label_date: "Date"

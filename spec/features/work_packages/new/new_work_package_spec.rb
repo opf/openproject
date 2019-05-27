@@ -186,6 +186,7 @@ describe 'new work package', js: true do
           expect(page).to have_selector(".customField#{ids.last} ng-select")
 
           cf = wp_page.edit_field "customField#{ids.last}"
+          cf.field_type = 'create-autocompleter'
           cf.openSelectField
           cf.set_value 'foo'
           save_work_package!(false)

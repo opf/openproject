@@ -81,6 +81,9 @@ import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
 import {EnterpriseBannerComponent} from "core-components/enterprise-banner/enterprise-banner.component";
+import {DynamicModule} from "ng-dynamic-component";
+import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplete/version-autocompleter.component";
+import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -107,6 +110,9 @@ export function bootstrapModule(injector:Injector) {
     // Our own A11y module
     OpenprojectAccessibilityModule,
     NgSelectModule,
+
+    DynamicModule.withComponents([VersionAutocompleterComponent,
+                                  CreateAutocompleterComponent])
   ],
   exports: [
     // Re-export all commonly used
@@ -167,6 +173,8 @@ export function bootstrapModule(injector:Injector) {
 
     // Enterprise Edition
     EnterpriseBannerComponent,
+
+    DynamicModule,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -223,6 +231,10 @@ export function bootstrapModule(injector:Injector) {
 
     // Enterprise Edition
     EnterpriseBannerComponent,
+
+    // Autocompleter
+    CreateAutocompleterComponent,
+    VersionAutocompleterComponent,
   ],
   entryComponents: [
     OpDateTimeComponent,

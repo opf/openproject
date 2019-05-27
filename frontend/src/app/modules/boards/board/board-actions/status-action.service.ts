@@ -8,6 +8,7 @@ import {BoardActionService} from "core-app/modules/boards/board/board-actions/bo
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
+import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
 
 @Injectable()
 export class BoardStatusActionService implements BoardActionService {
@@ -85,12 +86,12 @@ export class BoardStatusActionService implements BoardActionService {
       );
   }
 
-  public canCreateNewActionElements():Promise<boolean> {
-    return Promise.resolve(false);
+  public getAdditionalListMenuItems(actionAttributeValue:HalResource):Promise<any> {
+    return Promise.resolve([]);
   }
 
-  public createNewActionElement(name:string):Promise<HalResource|void> {
-    return Promise.reject('Endpoint to create status does not exist.');
+  public autocompleterComponent() {
+    return CreateAutocompleterComponent;
   }
 
   private getStatuses():Promise<StatusResource[]> {
@@ -99,7 +100,4 @@ export class BoardStatusActionService implements BoardActionService {
       .then(collection => collection.elements);
   }
 
-  public getAdditionalListMenuItems(actionAttributeValue:HalResource):Promise<any> {
-    return Promise.resolve([]);
-  }
 }

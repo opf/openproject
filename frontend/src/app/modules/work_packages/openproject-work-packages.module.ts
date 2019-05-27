@@ -30,7 +30,6 @@ import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-commo
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
 import {OpenprojectFieldsModule} from 'core-app/modules/fields/openproject-fields.module';
 import {ChartsModule} from 'ng2-charts';
-import {DynamicModule} from 'ng-dynamic-component';
 import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
 import {
   GroupDescriptor,
@@ -175,7 +174,6 @@ import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-
 
     // Work package custom actions
     //WpCustomActionsModule,
-    DynamicModule.withComponents([WorkPackageFormAttributeGroupComponent, WorkPackageChildrenQueryComponent])
   ],
   providers: [
     {
