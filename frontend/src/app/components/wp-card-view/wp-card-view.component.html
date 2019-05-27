@@ -61,7 +61,7 @@
                         class="wp-card--status">
       </wp-status-button>
       <user-avatar *ngIf="hasAssignee(wp)"
-                   [attr.data-user]="wp.assignee.$href"
+                   [attr.data-user]="wp.assignee"
                    data-class-list="avatar-mini"
                    class="wp-card--assignee">
       </user-avatar>
