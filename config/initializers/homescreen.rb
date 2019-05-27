@@ -40,6 +40,9 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
       partial: 'projects'
     },
     {
+      partial: 'new_features'
+    },
+    {
       partial: 'users',
       if: Proc.new { User.current.admin? }
     },
