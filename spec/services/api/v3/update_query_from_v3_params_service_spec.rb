@@ -63,7 +63,7 @@ describe ::API::V3::UpdateQueryFromV3ParamsService,
 
     allow(mock)
       .to receive(:call)
-      .with(parsed_params)
+      .with(parsed_params, valid_subset: false)
       .and_return(mock_update_query_service_response)
 
     mock

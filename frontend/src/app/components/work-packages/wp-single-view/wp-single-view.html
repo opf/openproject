@@ -102,13 +102,6 @@
        [attr.data-overflowing-identifier]="'.__overflowing_' + group.id"
        class="attributes-group __overflowing_element_container">
 
-    <div class="attributes-group--header">
-      <div class="attributes-group--header-container">
-        <h3 class="attributes-group--header-text"
-            [textContent]="group.name"></h3>
-      </div>
-    </div>
-
     <ng-container wp-isolated-query-space *ngIf="group.isolated">
       <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
                    [ndcDynamicInputs]="{ workPackage: workPackage,
@@ -118,6 +111,13 @@
     </ng-container>
 
     <ng-container *ngIf="!group.isolated">
+      <div class="attributes-group--header">
+        <div class="attributes-group--header-container">
+          <h3 class="attributes-group--header-text"
+              [textContent]="group.name"></h3>
+        </div>
+      </div>
+
       <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
                    [ndcDynamicInjector]="injector"
                    [ndcDynamicInputs]="{ workPackage: workPackage, group: group }">
