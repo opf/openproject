@@ -81,9 +81,7 @@ module API
               end
             end
 
-            get do
-              work_package_representer
-            end
+            get &::API::V3::Utilities::Endpoints::Show.new(model: WorkPackage).mount
 
             patch &::API::V3::WorkPackages::UpdateEndPoint.new(model: WorkPackage,
                                                                parse_service: ::API::V3::WorkPackages::ParseParamsService,
