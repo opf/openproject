@@ -44,6 +44,7 @@ class Relations::BaseService
     relation.attributes = relation.attributes.merge attributes
 
     success, errors = validate_and_save(relation, user)
+    success, errors = retry_with_inverse_for_relates(relation, errors) unless success
 
     result = ServiceResult.new success: success, errors: errors, result: relation
 
@@ -77,5 +78,16 @@ class Relations::BaseService
     schedule_result.success = save_result
 
     schedule_result
+  end
+
+  def retry_with_inverse_for_relates(relation, errors)
+    if errors.symbols_for(:base).include?(:"typed_dag.circular_dependency") &&
+       relation.canonical_type == Relation::TYPE_RELATES
+      relation.from, relation.to = relation.to, relation.from
+
+      validate_and_save(relation, user)
+    else
+      [false, errors]
+    end
   end
 end
