@@ -139,6 +139,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   }
 
   public closed() {
+    this.openDirectly = false;
     this.onClose.emit();
   }
 
