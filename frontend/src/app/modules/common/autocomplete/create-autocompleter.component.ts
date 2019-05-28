@@ -92,7 +92,10 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   @Input() public set createAllowed(val:boolean) {
     this._createAllowed = val;
     setTimeout(() => {
-      if (this.openDirectly) { this.openSelect(); }
+      if (this.openDirectly) {
+        this.openSelect();
+        this.openDirectly = false;
+      }
     });
   }
 
@@ -136,6 +139,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   }
 
   public closed() {
+    this.openDirectly = false;
     this.onClose.emit();
   }
 
@@ -153,7 +157,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
 
   public set openDirectly(val:boolean) {
     this._openDirectly = val;
-    this.openSelect();
+    if (val) { this.openSelect(); }
   }
 
   public focusInputField() {

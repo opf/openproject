@@ -85,7 +85,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       .subscribe(() => {
         loadingPromise.then(() => {
           this._autocompleterComponent.openDirectly = true;
-        })
+        });
       });
   }
 

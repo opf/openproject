@@ -22,10 +22,21 @@ export namespace ClickPositionMapper {
    * @param evt
    * @return {number}
    */
-  export function getPosition(evt:JQueryEventObject):number {
+  export function getPosition(evt:any):number {
+    const originalEvt = evt.originalEvent;
+
     try {
-      const range = document.caretRangeFromPoint(evt.clientX, evt.clientY);
-      return range.startOffset;
+      if (document.caretRangeFromPoint) {
+        return document
+          .caretRangeFromPoint(evt.clientX!, evt.clientY!)
+          .startOffset;
+      } else if (originalEvt.rangeParent) {
+        let range = document.createRange();
+        range.setStart(originalEvt.rangeParent, originalEvt.rangeOffset);
+        return range.startOffset;
+      }
+
+      return 0;
     } catch (e) {
       debugLog('Failed to get click position for edit field.', e);
       return 0;

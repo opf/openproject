@@ -111,7 +111,7 @@ export class WorkPackageEditForm {
    * @param noWarnings Ignore warnings if the field cannot be opened
    */
   public activate(fieldName:string, noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
-    return this.loadFieldSchema(fieldName)
+    return this.loadFieldSchema(fieldName, noWarnings)
       .then((schema:IFieldSchema) => {
         if (!schema.writable && !noWarnings) {
           this.wpNotificationsService.showEditingBlockedError(schema.name || fieldName);
@@ -278,22 +278,44 @@ export class WorkPackageEditForm {
    * values loaded.
    * @param fieldName
    */
-  private loadFieldSchema(fieldName:string):Promise<IFieldSchema> {
-    return this.changeset.getForm()
-      .then((form:FormResource) => {
-        const schemaName = this.changeset.getSchemaName(fieldName);
-        const fieldSchema:IFieldSchema = form.schema[schemaName];
+  private loadFieldSchema(fieldName:string, noWarnings:boolean = false):Promise<IFieldSchema> {
+    const schemaName = this.changeset.getSchemaName(fieldName);
 
-        if (!fieldSchema) {
-          throw new Error();
+    return new Promise((resolve, reject) => {
+      this.loadFormAndCheck(schemaName, noWarnings);
+      const fieldSchema:IFieldSchema = this.changeset.schema[schemaName];
+
+      if (!fieldSchema) {
+        throw new Error();
+      }
+
+      resolve(fieldSchema);
+    });
+  }
+
+  /**
+   * Ensure the form gets loaded and we show an error when the field cannot be opened
+   * @param schemaName
+   * @param noWarnings
+   */
+  private loadFormAndCheck(fieldName:string, noWarnings:boolean = false) {
+    const schemaName = this.changeset.getSchemaName(fieldName);
+
+    // Ensure the form is being loaded if necessary
+    this.changeset
+      .getForm()
+      .then((form) => {
+        // Look up whether we're actually editable
+        const fieldSchema = form.schema[schemaName];
+        if (!fieldSchema.writable && !noWarnings) {
+          this.wpNotificationsService.showEditingBlockedError(fieldSchema.name || fieldName);
+          this.closeEditFields([fieldName]);
         }
-
-        return fieldSchema;
       })
-      .catch((error) => {
+      .catch((error:any) => {
         console.error('Failed to build edit field: %o', error);
         this.wpNotificationsService.handleRawError(error, this.workPackage);
-        throw new Error();
+        this.closeEditFields([fieldName]);
       });
   }
 

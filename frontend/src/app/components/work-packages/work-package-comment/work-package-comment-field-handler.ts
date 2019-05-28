@@ -58,7 +58,7 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
       required: false,
       type: '_comment',
       hasDefault: false
-    }
+    };
   }
 
   public get rawComment() {

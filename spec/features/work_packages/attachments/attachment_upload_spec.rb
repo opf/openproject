@@ -112,6 +112,8 @@ describe 'Upload attachment to work package', js: true do
         caption.click
         caption.base.send_keys('Some image caption')
 
+        sleep 2
+
         click_on 'Save'
 
         wp_page.expect_notification(
