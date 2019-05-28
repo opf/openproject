@@ -92,7 +92,10 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   @Input() public set createAllowed(val:boolean) {
     this._createAllowed = val;
     setTimeout(() => {
-      if (this.openDirectly) { this.openSelect(); }
+      if (this.openDirectly) {
+        this.openSelect();
+        this.openDirectly = false;
+      }
     });
   }
 
