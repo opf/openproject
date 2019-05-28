@@ -160,7 +160,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
       });
     }
 
-    this.options = availableValues;
+    this.options = availableValues || [];
     this.valueOptions = this.options.map(el => {
       return { name: el.name, $href: el.$href };
     });
