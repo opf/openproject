@@ -427,7 +427,7 @@ pt-BR:
         spent_on: Data
         type: Tipo
       type:
-        description: Default text for description
+        description: Texto padrão para descrição
         attribute_groups: ''
         is_in_roadmap: Exibido no planejamento como padrão
         is_default: Ativado para novos projetos por padrão
@@ -667,8 +667,8 @@ pt-BR:
           principal_blank: Por favor, escolha ao menos um usuário ou grupo.
           role_blank: Por favor, escolha ao menos um papel.
         version:
-          undeletable_work_packages_attached: The version cannot be deleted as it
-            has work packages attached to it.
+          undeletable_work_packages_attached: A versão não pode ser excluída pois
+            tem pacotes de trabalho anexados a ela.
       template:
         body: 'Por favor, verifique os seguintes campos:'
         header:
@@ -1076,7 +1076,7 @@ pt-BR:
   error_enterprise_activation_user_limit: Sua conta não pôde ser ativada (limite de
     usuários atingido). Por favor, contate o administrador para obter acesso.
   error_failed_to_delete_entry: Falha ao excluir esta entrada.
-  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+  error_in_dependent: 'Erro ao tentar alterar o objeto dependente: %{dependent_class}
     #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Valor selecionado inválido.
   error_invalid_group_by: 'Não é possível agrupar por: %{value}'
@@ -1463,7 +1463,7 @@ pt-BR:
   label_max_size: Tamanho máximo
   label_me: eu
   label_member_new: Novo membro
-  label_member_all_admin: "(All roles due to admin status)"
+  label_member_all_admin: "(Todos os papéis devidos ao status de administrador)"
   label_member_plural: Membros
   label_view_all_members: Visualizar todos os membros
   label_menu_item_name: Nome do item de menu
@@ -2832,7 +2832,7 @@ pt-BR:
     attributes:
       lock_version: Bloquear versão
     errors:
-      code_400: 'Bad request: %{message}'
+      code_400: 'Requisição inválida: %{message}'
       code_401: Você precisa estar autenticado para acessar este recurso.
       code_401_wrong_credentials: Você não forneceu as credenciais corretas.
       code_403: Você não está autorizado a acessar este recurso.
