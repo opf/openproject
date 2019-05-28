@@ -46,7 +46,8 @@ OpenProject::AccessControl.map do |map|
                    require: :loggedin
 
     map.permission :edit_project,
-                   { projects: %i[edit update custom_fields],
+                   {
+                     projects: %i[edit update custom_fields],
                      project_settings: [:show],
                      members: [:paginate_users] },
                    require: :member
@@ -64,9 +65,10 @@ OpenProject::AccessControl.map do |map|
                    { members: [:index] }
 
     map.permission :manage_versions,
-                   { project_settings: [:show],
-                     versions: %i[new create edit update
-                                close_completed destroy] },
+                   {
+                     project_settings: [:show],
+                     versions: %i[new create edit update close_completed destroy]
+                   },
                    require: :member
 
     map.permission :manage_types,
@@ -78,8 +80,10 @@ OpenProject::AccessControl.map do |map|
                    require: :member
 
     map.permission :copy_projects,
-                   { copy_projects: %i[copy copy_project],
-                     members: [:paginate_users] },
+                   {
+                     copy_projects: %i[copy copy_project],
+                     members: [:paginate_users]
+                   },
                    require: :member
   end
 
@@ -93,16 +97,15 @@ OpenProject::AccessControl.map do |map|
                    :'work_packages/reports' => %i[report report_details]
 
     wpt.permission :add_work_packages,
-                   issues: %i[new create],
                    work_packages: %i[new new_type preview create],
                    planning_elements: [:create]
 
     wpt.permission :edit_work_packages,
-                   { issues: %i[edit update],
-                   :'work_packages/bulk' => %i[edit update],
-                     work_packages: %i[edit update new_type
-                                     preview quoted],
-                     journals: :preview },
+                   {
+                     :'work_packages/bulk' => %i[edit update],
+                     work_packages: %i[edit update new_type preview quoted],
+                     journals: :preview
+                   },
                    require: :member,
                    dependencies: :view_work_packages
 
@@ -132,9 +135,10 @@ OpenProject::AccessControl.map do |map|
                    work_packages: %i[index all]
 
     wpt.permission :delete_work_packages,
-                   { issues: :destroy,
+                   {
                      work_packages: :destroy,
-                     :'work_packages/bulk' => :destroy },
+                     :'work_packages/bulk' => :destroy
+                   },
                    require: :member,
                    dependencies: :view_work_packages
 
@@ -196,8 +200,10 @@ OpenProject::AccessControl.map do |map|
                     public: true
 
     news.permission :manage_news,
-                    { news: %i[new create edit update destroy preview],
-                    :'news/comments' => [:destroy] },
+                    {
+                      news: %i[new create edit update destroy preview],
+                      :'news/comments' => [:destroy]
+                    },
                     require: :member
 
     news.permission :comment_news,
@@ -217,8 +223,7 @@ OpenProject::AccessControl.map do |map|
                     require: :member
 
     wiki.permission :manage_wiki_menu,
-                    { wiki_menu_items: %i[edit update select_main_menu_item
-                                        replace_main_menu_item] },
+                    { wiki_menu_items: %i[edit update select_main_menu_item replace_main_menu_item] },
                     require: :member
 
     wiki.permission :rename_wiki_pages,
@@ -240,8 +245,7 @@ OpenProject::AccessControl.map do |map|
                     wiki: %i[history diff annotate]
 
     wiki.permission :edit_wiki_pages,
-                    wiki: %i[edit update preview add_attachment
-                           new new_child create]
+                    wiki: %i[edit update preview add_attachment new new_child create]
 
     wiki.permission :delete_wiki_pages_attachments,
                     {}
@@ -253,15 +257,13 @@ OpenProject::AccessControl.map do |map|
 
   map.project_module :repository do |repo|
     repo.permission :browse_repository,
-                    repositories: %i[show browse entry annotate
-                                   changes diff stats graph]
+                    repositories: %i[show browse entry annotate changes diff stats graph]
 
     repo.permission :commit_access,
                     {}
 
     repo.permission :manage_repository,
-                    { repositories: %i[edit create update committers
-                                     destroy_info destroy] },
+                    { repositories: %i[edit create update committers destroy_info destroy] },
                     require: :member
 
     repo.permission :view_changesets,

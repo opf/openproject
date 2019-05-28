@@ -34,10 +34,11 @@ module OpenProject::GlobalRoles::Patches
 
     module ClassMethods
       def available_project_modules_with_no_global
-        @available_project_modules = (
-            @permissions.reject(&:global?).collect(&:project_module) +
-            @project_modules_without_permissions
-          ).uniq.compact
+        project_modules_with_permissions = @permissions.reject(&:global?).collect(&:project_module)
+
+        @available_project_modules = (project_modules_with_permissions + @project_modules_without_permissions)
+                                     .uniq
+                                     .compact
 
         available_project_modules_without_no_global
       end
