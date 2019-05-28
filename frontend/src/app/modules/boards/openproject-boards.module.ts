@@ -55,6 +55,8 @@ import {DragScrollModule} from "cdk-drag-scroll";
 import {BoardListDropdownMenuDirective} from "core-app/modules/boards/board/board-list/board-list-dropdown.directive";
 import {BoardListService} from "core-app/modules/boards/board/board-list/board-list.service";
 
+const menuItemClass = 'board-view-menu-item';
+
 export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'boards',
@@ -62,6 +64,10 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     // The trailing slash is important
     // cf., https://community.openproject.com/wp/29754
     url: '/boards/?query_props',
+    data: {
+      bodyClasses: 'router--boards-view-base',
+      menuItem: menuItemClass
+    },
     params: {
       // Use custom encoder/decoder that ensures validity of URL string
       query_props: { type: 'opQueryString', dynamic: true }
@@ -74,7 +80,8 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     component: BoardsIndexPageComponent,
     data: {
       parent: 'boards',
-      bodyClasses: 'router--boards-list-view'
+      bodyClasses: 'router--boards-list-view',
+      menuItem: menuItemClass
     }
   },
   {
@@ -88,7 +95,8 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     component: BoardComponent,
     data: {
       parent: 'boards',
-      bodyClasses: 'router--boards-full-view'
+      bodyClasses: 'router--boards-full-view',
+      menuItem: menuItemClass
     }
   }
 ];

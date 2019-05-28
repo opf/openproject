@@ -72,6 +72,22 @@ export function bodyClass(className:string|null|undefined, action:'add'|'remove'
     document.body.classList[action](className);
   }
 }
+export function updateMenuItem(menuItemClass:string|undefined, action:'add'|'remove' = 'add') {
+  if (menuItemClass) {
+    let menuItem = jQuery('#main-menu .' +  menuItemClass)[0];
+
+    // Update Class
+    menuItem.classList[action]('selected');
+
+    // Update accessibility label
+    let menuItemTitle = (menuItem.getAttribute('title') || '').split(':').slice(-1)[0];
+    if (action === 'add') {
+      menuItemTitle = I18n.t('js.description_current_position') + menuItemTitle;
+    }
+
+    menuItem.setAttribute('title', menuItemTitle);
+  }
+}
 
 export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, module:StatesModule) {
   // Allow optional trailing slashes
@@ -113,11 +129,17 @@ export function initializeUiRouterListeners(injector:Injector) {
     $transitions.onEnter({}, function(transition:Transition, state:StateDeclaration) {
       // Add body class when entering this state
       bodyClass(_.get(state, 'data.bodyClasses'), 'add');
+      if (transition.from().data && _.get(state, 'data.menuItem') !== transition.from().data.menuItem) {
+        updateMenuItem(_.get(state, 'data.menuItem'), 'add');
+      }
     });
 
     $transitions.onExit({}, function(transition:Transition, state:StateDeclaration) {
       // Remove body class when leaving this state
       bodyClass(_.get(state, 'data.bodyClasses'), 'remove');
+      if (transition.to().data && _.get(state, 'data.menuItem') !== transition.to().data.menuItem) {
+        updateMenuItem(_.get(state, 'data.menuItem'), 'remove');
+      }
     });
 
     $transitions.onStart({}, function(transition:Transition) {

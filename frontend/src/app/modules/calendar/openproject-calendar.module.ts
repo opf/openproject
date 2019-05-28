@@ -37,6 +37,8 @@ import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
 
 require("fullcalendar/dist/locale-all.js");
 
+const menuItemClass = 'calendar-menu-item';
+
 export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'work-packages.calendar',
@@ -45,6 +47,7 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     data: {
       bodyClasses: 'router--work-packages-calendar',
+      menuItem: menuItemClass,
       parent: 'work-packages'
     }
   }

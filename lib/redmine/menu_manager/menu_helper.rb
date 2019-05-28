@@ -186,7 +186,6 @@ module Redmine::MenuManager::MenuHelper
   def render_single_menu_node(item, caption, url, selected)
     link_text = ''.html_safe
     link_text << op_icon(item.icon) if item.icon.present?
-    link_text << you_are_here_info(selected)
     link_text << content_tag(:span,
                              class: "menu-item--title ellipsis #{item.badge.present? ? '-has-badge' : ''}",
                              lang: menu_item_locale(item)) do
