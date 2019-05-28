@@ -58,6 +58,8 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   public currentValueInvalid:boolean = false;
   private nullOption:ValueOption;
   private _selectedOption:ValueOption[];
+
+  /** Since we need to wait for values to be loaded, remember if the user activated this field*/
   private requestFocus = false;
 
   ngOnInit() {
@@ -69,7 +71,12 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
         untilComponentDestroyed(this),
       )
       .subscribe(() => {
-        this.requestFocus = true;
+        this.requestFocus = this.options.length === 0;
+
+        // If we already have all values loaded, open now.
+        if (!this.requestFocus) {
+          this.openAutocompleteSelectField();
+        }
       });
 
     super.ngOnInit();

@@ -22,8 +22,8 @@ export namespace ClickPositionMapper {
    * @param evt
    * @return {number}
    */
-  export function getPosition(evt:JQuery.Event):number {
-    const originalEvt = evt.originalEvent as any;
+  export function getPosition(evt:any):number {
+    const originalEvt = evt.originalEvent;
 
     try {
       if (document.caretRangeFromPoint) {
