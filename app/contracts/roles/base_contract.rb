@@ -44,21 +44,21 @@ module Roles
     def assignable_member_permissions
       permissions_to_remove = case model.builtin
                               when Role::BUILTIN_NON_MEMBER
-                                [Redmine::AccessControl.members_only_permissions]
+                                OpenProject::AccessControl.members_only_permissions
                               when Role::BUILTIN_ANONYMOUS
-                                [Redmine::AccessControl.loggedin_only_permissions]
+                                OpenProject::AccessControl.loggedin_only_permissions
                               else
                                 []
                               end
 
-      Redmine::AccessControl.permissions -
-        Redmine::AccessControl.public_permissions -
-        Redmine::AccessControl.global_permissions -
+      OpenProject::AccessControl.permissions -
+        OpenProject::AccessControl.public_permissions -
+        OpenProject::AccessControl.global_permissions -
         permissions_to_remove
     end
 
     def assignable_global_permissions
-      Redmine::AccessControl.global_permissions
+      OpenProject::AccessControl.global_permissions
     end
   end
 end

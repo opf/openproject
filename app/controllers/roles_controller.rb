@@ -93,7 +93,7 @@ class RolesController < ApplicationController
 
   def report
     @roles = Role.order(Arel.sql('builtin, position'))
-    @permissions = Redmine::AccessControl.permissions.reject(&:public?)
+    @permissions = OpenProject::AccessControl.permissions.reject(&:public?)
   end
 
   def bulk_update

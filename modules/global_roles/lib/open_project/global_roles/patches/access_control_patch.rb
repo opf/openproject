@@ -37,7 +37,8 @@ module OpenProject::GlobalRoles::Patches
         @available_project_modules = (
             @permissions.reject(&:global?).collect(&:project_module) +
             @project_modules_without_permissions
-        ).uniq.compact
+          ).uniq.compact
+
         available_project_modules_without_no_global
       end
 
@@ -48,4 +49,4 @@ module OpenProject::GlobalRoles::Patches
   end
 end
 
-Redmine::AccessControl.send(:include, OpenProject::GlobalRoles::Patches::AccessControlPatch)
+OpenProject::AccessControl.send(:include, OpenProject::GlobalRoles::Patches::AccessControlPatch)

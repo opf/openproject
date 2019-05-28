@@ -40,6 +40,14 @@ describe Roles::UpdateContract do
       end
     end
 
+    let(:global_role) do
+      FactoryBot.build_stubbed(:global_role,
+                               name: 'Some name').tap do |r|
+        r.name = role_name
+        r.permissions = role_permissions
+      end
+    end
+
     subject(:contract) { described_class.new(role, current_user) }
 
     describe 'validation' do

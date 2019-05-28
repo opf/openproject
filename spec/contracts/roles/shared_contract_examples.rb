@@ -32,6 +32,7 @@ shared_examples_for 'roles contract' do
   let(:current_user) do
     FactoryBot.build_stubbed(:admin)
   end
+  let(:role_instance) { Role.new }
   let(:role_name) { 'A role name' }
   let(:role_assignable) { true }
 
@@ -57,6 +58,47 @@ shared_examples_for 'roles contract' do
 
       it 'is invalid' do
         expect_valid(false, name: %i(blank))
+      end
+    end
+  end
+
+  describe '#assignable_permissions' do
+    let(:all_permissions) { %i[perm1 perm2 perm3] }
+
+    context 'for a standard role' do
+      let(:public_permissions) { [:perm1] }
+      let(:global_permissions) { [:perm3] }
+
+      before do
+        allow(OpenProject::AccessControl)
+          .to receive(:permissions)
+          .and_return(all_permissions)
+        allow(OpenProject::AccessControl)
+          .to receive(:global_permissions)
+          .and_return(global_permissions)
+        allow(OpenProject::AccessControl)
+          .to receive(:public_permissions)
+          .and_return(public_permissions)
+      end
+
+      it 'is all non public, non global permissions' do
+        expect(contract.assignable_permissions)
+          .to eql [:perm2]
+      end
+    end
+
+    context 'for a global role' do
+      let(:role) { global_role }
+
+      before do
+        allow(OpenProject::AccessControl)
+          .to receive(:global_permissions)
+          .and_return(all_permissions)
+      end
+
+      it 'is all the global permissions' do
+        expect(contract.assignable_permissions)
+          .to eql all_permissions
       end
     end
   end

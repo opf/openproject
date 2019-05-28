@@ -44,7 +44,7 @@ module RolesHelper
 
   def group_permissions_by_module(perms)
     perms_by_module = perms.group_by { |p| p.project_module.to_s }
-    ::Redmine::AccessControl
+    ::OpenProject::AccessControl
       .sorted_modules
       .select { |module_name| perms_by_module[module_name].present? }
       .map do |module_name|

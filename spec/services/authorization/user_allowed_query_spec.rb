@@ -271,7 +271,7 @@ describe Authorization::UserAllowedQuery do
              w/ the permission belonging to a module
              w/o the module being active' do
       let(:permission) do
-        Redmine::AccessControl.permissions.find { |p| p.project_module.present? }
+        OpenProject::AccessControl.permissions.find { |p| p.project_module.present? }
       end
 
       before do
@@ -291,7 +291,7 @@ describe Authorization::UserAllowedQuery do
              w/ the permission belonging to a module
              w/ the module being active' do
       let(:permission) do
-        Redmine::AccessControl.permissions.find { |p| p.project_module.present? }
+        OpenProject::AccessControl.permissions.find { |p| p.project_module.present? }
       end
 
       before do

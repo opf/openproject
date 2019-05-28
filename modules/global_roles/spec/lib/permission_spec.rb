@@ -19,10 +19,10 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Redmine::AccessControl::Permission do
+describe OpenProject::AccessControl::Permission do
   describe 'WHEN setting global permission' do
     describe 'creating with', :new do
-      before { @permission = Redmine::AccessControl::Permission.new(:perm, { cont: [:action] }, { global: true }) }
+      before { @permission = OpenProject::AccessControl::Permission.new(:perm, { cont: [:action] }, { global: true }) }
       describe '#global?' do
         it { expect(@permission.global?).to be_truthy }
       end
@@ -31,7 +31,7 @@ describe Redmine::AccessControl::Permission do
 
   describe 'setting non_global' do
     describe 'creating with', :new do
-      before { @permission = Redmine::AccessControl::Permission.new :perm, { cont: [:action] }, { global: false } }
+      before { @permission = OpenProject::AccessControl::Permission.new :perm, { cont: [:action] }, { global: false } }
 
       describe '#global?' do
         it { expect(@permission.global?).to be_falsey }
@@ -39,7 +39,7 @@ describe Redmine::AccessControl::Permission do
     end
 
     describe 'creating with', :new do
-      before { @permission = Redmine::AccessControl::Permission.new :perm, { cont: [:action] }, {} }
+      before { @permission = OpenProject::AccessControl::Permission.new :perm, { cont: [:action] }, {} }
 
       describe '#global?' do
         it { expect(@permission.global?).to be_falsey }

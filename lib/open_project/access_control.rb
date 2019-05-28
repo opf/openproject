@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Redmine
+module OpenProject
   module AccessControl
     class << self
       include ::Redmine::I18n
@@ -90,7 +90,7 @@ module Redmine
 
       def available_project_modules
         @available_project_modules ||= (
-            @permissions.map(&:project_module) + @project_modules_without_permissions
+        @permissions.map(&:project_module) + @project_modules_without_permissions
         ).uniq.compact
       end
 
@@ -118,12 +118,12 @@ module Redmine
 
     class Mapper
       def permission(name, hash, options = {})
-        options.merge!(project_module: @project_module)
+        options[:project_module] = @project_module
         mapped_permissions << Permission.new(name, hash, options)
       end
 
       def project_module(name, options = {})
-        mapped_modules << { name: name, order: 0 }.merge(options)
+        mapped_modules << {name: name, order: 0}.merge(options)
 
         if block_given?
           @project_module = name
@@ -157,11 +157,11 @@ module Redmine
         @require = options[:require]
         @project_module = options[:project_module]
         hash.each do |controller, actions|
-          if actions.is_a? Array
-            @actions << actions.map { |action| "#{controller}/#{action}" }
-          else
-            @actions << "#{controller}/#{actions}"
-          end
+          @actions << if actions.is_a? Array
+                        actions.map { |action| "#{controller}/#{action}" }
+                      else
+                        "#{controller}/#{actions}"
+                      end
         end
         @actions.flatten!
       end

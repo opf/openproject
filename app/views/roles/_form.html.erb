@@ -60,7 +60,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <% end %>
 <% if role.new_record? || !role.is_a?(GlobalRole) %>
   <div id="member_permissions" style=<%= role.new_record? && role.is_a?(GlobalRole) ? "display:none" : ""%>>
-    <%= render partial: "permissions", locals: {permissions: grouped_setable_permissions(Role.new), role: role, showGlobalRole: false }%>
+    <%= render partial: "permissions", locals: {permissions: grouped_setable_permissions(role), role: role, showGlobalRole: false }%>
   </div>
 <% end %>
 

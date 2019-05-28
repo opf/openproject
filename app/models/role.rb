@@ -173,12 +173,12 @@ class Role < ActiveRecord::Base
   private
 
   def allowed_permissions
-    @allowed_permissions ||= permissions + Redmine::AccessControl.public_permissions.map(&:name)
+    @allowed_permissions ||= permissions + OpenProject::AccessControl.public_permissions.map(&:name)
   end
 
   def allowed_actions
     @actions_allowed ||= allowed_permissions.map do |permission|
-      Redmine::AccessControl.allowed_actions(permission)
+      OpenProject::AccessControl.allowed_actions(permission)
     end.flatten
   end
 

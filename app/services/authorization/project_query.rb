@@ -132,9 +132,9 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
 
   def self.permissions(action)
     if action.is_a?(Hash)
-      Redmine::AccessControl.allow_actions(action)
+      OpenProject::AccessControl.allow_actions(action)
     else
-      [Redmine::AccessControl.permission(action)].compact
+      [OpenProject::AccessControl.permission(action)].compact
     end
   end
 

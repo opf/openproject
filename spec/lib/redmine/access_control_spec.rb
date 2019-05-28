@@ -27,27 +27,27 @@
 #++
 
 require 'spec_helper'
-describe Redmine::AccessControl do
+describe OpenProject::AccessControl do
   describe '.remove_modules_permissions' do
-    let!(:all_former_permissions) { Redmine::AccessControl.permissions }
+    let!(:all_former_permissions) { OpenProject::AccessControl.permissions }
     let!(:former_repository_permissions) do
-      module_permissions = Redmine::AccessControl.modules_permissions(['repository'])
+      module_permissions = OpenProject::AccessControl.modules_permissions(['repository'])
 
       module_permissions.select do |permission|
         permission.project_module == :repository
       end
     end
 
-    subject { Redmine::AccessControl }
+    subject { OpenProject::AccessControl }
 
     before do
-      Redmine::AccessControl.remove_modules_permissions(:repository)
+      OpenProject::AccessControl.remove_modules_permissions(:repository)
     end
 
     after do
-      raise 'Test outdated' unless Redmine::AccessControl.instance_variable_defined?(:@permissions)
-      Redmine::AccessControl.instance_variable_set(:@permissions, all_former_permissions)
-      Redmine::AccessControl.clear_caches
+      raise 'Test outdated' unless OpenProject::AccessControl.instance_variable_defined?(:@permissions)
+      OpenProject::AccessControl.instance_variable_set(:@permissions, all_former_permissions)
+      OpenProject::AccessControl.clear_caches
     end
 
     it 'removes from global permissions' do

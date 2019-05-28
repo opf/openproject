@@ -55,7 +55,7 @@ module OpenProject::GlobalRoles
     end
 
     initializer 'global_roles.register_global_permission' do
-      Redmine::AccessControl.permission(:add_project).global = true
+      OpenProject::AccessControl.permission(:add_project).global = true
     end
 
     config.to_prepare do
