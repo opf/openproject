@@ -13,7 +13,7 @@
        [attr.data-is-new]="wp.isNew || undefined"
        [attr.data-work-package-id]="wp.id"
        (doubleClickOrTap)="handleDblClick(wp)"
-       [ngClass]="{'-draggable': dragAndDropEnabled, '-new' : wp.isNew }">
+       [ngClass]="{'-draggable': dragOutOf, '-new' : wp.isNew }">
 
     <div class="wp-card--highlighting"
         [ngClass]="cardHighlightingClass(wp)">
@@ -60,8 +60,8 @@
                         [workPackage]="wp"
                         class="wp-card--status">
       </wp-status-button>
-      <user-avatar *ngIf="hasAssignee(wp)"
-                   [attr.data-user]="wp.assignee"
+      <user-avatar *ngIf="wp.assignee"
+                   [user]="wp.assignee"
                    data-class-list="avatar-mini"
                    class="wp-card--assignee">
       </user-avatar>

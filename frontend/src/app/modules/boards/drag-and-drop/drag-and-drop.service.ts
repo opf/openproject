@@ -3,7 +3,6 @@ import {DOCUMENT} from "@angular/common";
 import {DragAndDropHelpers} from "core-app/modules/boards/drag-and-drop/drag-and-drop.helpers";
 import {DomAutoscrollService} from "core-app/modules/common/drag-and-drop/dom-autoscroll.service";
 
-
 export interface DragMember {
   dragContainer:HTMLElement;
   scrollContainers:HTMLElement[];
@@ -15,6 +14,9 @@ export interface DragMember {
   onAdded:(row:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => Promise<boolean>;
   /** Remove element from this container */
   onRemoved:(row:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => void;
+
+  /** Move this container accepts elements */
+  accepts?:(row:HTMLElement, container:any) => boolean;
 }
 
 @Injectable()
@@ -96,21 +98,24 @@ export class DragAndDropService implements OnDestroy {
       });
   }
 
+  /**
+   * Retrieve a member from the container, if one exists.
+   * @param container
+   */
+  protected getMember(container:Element):DragMember|undefined {
+    return this.members.find(member => member.dragContainer === container);
+  }
+
   protected initializeDrake(containers:Element[]) {
     this.drake = dragula(containers, {
       moves: (el:any, container:any, handle:any, sibling:any) => {
-
-        let result = false;
-        this.members.forEach(member => {
-          if (member.dragContainer === container) {
-            result = member.moves(el, container, handle, sibling);
-            return;
-          }
-        });
-
-        return result;
+        const member = this.getMember(container);
+        return member ? member.moves(el, container, handle, sibling) : false;
       },
-      accepts: () => true,
+      accepts:(el:any, container:any) => {
+        const member = this.getMember(container);
+        return (member && member.accepts) ? member.accepts(el, container) : true;
+      },
       invalid: () => false,
       direction: 'vertical',             // Y axis is considered when determining where an element would be dropped
       copy: false,                       // elements are moved by default, not copied

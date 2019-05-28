@@ -25,24 +25,24 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
+import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
+import {VersionResource} from "core-app/modules/hal/resources/version-resource";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
-export class VersionResource extends HalResource {
-  status:string;
+@Component({
+  templateUrl: './version-board-header.html',
+  styleUrls: ['./version-board-header.sass'],
+  host: { 'class': 'title-container -small' }
+})
+export class VersionBoardHeaderComponent {
+  @Input('resource') public version:VersionResource;
 
-  public definingProject:HalResource;
-
-  public isLocked() {
-    return this.status === 'locked';
+  constructor(private I18n:I18nService) {
   }
 
-  public isOpen() {
-    return this.status === 'open';
-  }
-
-  public isClosed() {
-    return this.status === 'closed';
-  }
+  public text = {
+    isLocked: this.I18n.t('js.boards.version.is_locked'),
+    isClosed: this.I18n.t('js.boards.version.is_closed')
+  };
 }
-

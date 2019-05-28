@@ -41,7 +41,9 @@ import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
-import {BoardListService} from "core-app/modules/boards/board/board-list/board-list.service";
+import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
+import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
+import {ComponentType} from "@angular/cdk/portal";
 
 @Component({
   selector: 'board-list',
@@ -73,6 +75,11 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   /** Query loading error, if present */
   public loadingError:string|undefined;
 
+  /** The action attribute resource if any */
+  public actionResource:HalResource|undefined;
+  public actionResourceClass:string = '';
+  public headerComponent:ComponentType<unknown>|undefined;
+
   /** Rename inFlight */
   public inFlight:boolean;
 
@@ -90,7 +97,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   };
 
   /** Are we allowed to remove and drag & drop elements ? */
-  public canEdit:boolean = false;
+  public canDragInto:boolean = false;
+  public canDragOutOf:boolean = false;
 
   /** Initially focus the list */
   public initiallyFocused:boolean = false;
@@ -113,7 +121,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               private readonly loadingIndicator:LoadingIndicatorService,
               private readonly wpCacheService:WorkPackageCacheService,
               private readonly boardService:BoardService,
-              private readonly boardListService:BoardListService) {
+              private readonly boardActionRegistry:BoardActionsRegistryService) {
     super(I18n);
   }
 
@@ -128,7 +136,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     this.authorisationService
       .observeUntil(componentDestroyed(this))
       .subscribe(() => {
-        this.showAddButton = this.canEdit && (this.wpInlineCreate.canAdd || this.canReference);
+        this.showAddButton = this.canDragInto && (this.wpInlineCreate.canAdd || this.canReference);
       });
 
     this.querySpace.query
@@ -138,7 +146,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       )
       .subscribe((query) => {
         this.query = query;
-        this.canEdit = !!this.query.updateOrderedWorkPackages;
+        this.canDragOutOf = !!this.query.updateOrderedWorkPackages;
+        this.loadActionAttribute(query);
       });
 
     this.updateQuery();
@@ -211,10 +220,13 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .catch(() => this.inFlight = false);
   }
 
-  public boardListActionColorClass(query:QueryResource):string {
+  private boardListActionColorClass(value?:HalResource):string {
     const attribute = this.board.actionAttribute!;
-    const value = this.boardListService.getActionAttributeValue(this.board, query) as HalResource;
-    return Highlighting.backgroundClass(attribute, value.id!);
+    if (value && value.id) {
+      return Highlighting.backgroundClass(attribute, value.id!);
+    } else {
+      return '';
+    }
   }
 
   public get listName() {
@@ -228,6 +240,38 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   private updateQuery() {
     this.setQueryProps(this.filters);
     this.loadQuery();
+  }
+
+  private loadActionAttribute(query:QueryResource) {
+    if (!this.board.isAction) {
+      this.actionResource = undefined;
+      this.headerComponent = undefined;
+      this.canDragInto = !!query.updateOrderedWorkPackages;
+      return;
+    }
+
+    const id = this.actionService.getFilterHref(query);
+
+    // Test if we loaded the resource already
+    if (this.actionResource && id === this.actionResource.href) {
+      return;
+    }
+
+    // Load the resource
+    this.actionService.getLoadedFilterValue(query).then(resource => {
+      this.actionResource = resource;
+      this.headerComponent = this.actionService.headerComponent();
+      this.actionResourceClass = this.boardListActionColorClass(resource);
+      this.canDragInto = this.actionService.dragIntoAllowed(query, resource);
+      this.showAddButton = this.canDragInto && (this.wpInlineCreate.canAdd || this.canReference);
+    });
+  }
+
+  /**
+   * Return the linked action service
+   */
+  private get actionService():BoardActionService {
+    return this.boardActionRegistry.get(this.board.actionAttribute!);
   }
 
   /**

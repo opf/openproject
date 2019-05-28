@@ -30,8 +30,6 @@ import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highl
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 import {StateService} from "@uirouter/core";
 import {States} from "core-components/states.service";
-import {input} from "reactivestates";
-import {switchMap, tap} from "rxjs/operators";
 import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
 
 
@@ -42,7 +40,8 @@ import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkPackageCardViewComponent  implements OnInit {
-  @Input() public dragAndDropEnabled:boolean;
+  @Input() public dragInto:boolean;
+  @Input() public dragOutOf:boolean;
   @Input() public highlightingMode:CardHighlightingMode;
   @Input() public workPackageAddedHandler:(wp:WorkPackageResource) => Promise<unknown>;
   @Input() public showStatusButton:boolean = true;
@@ -133,10 +132,6 @@ export class WorkPackageCardViewComponent  implements OnInit {
     this.dragService.remove(this.container.nativeElement);
   }
 
-  public hasAssignee(wp:WorkPackageResource) {
-    return !!wp.assignee;
-  }
-
   public handleDblClick(wp:WorkPackageResource) {
     this.goToWpFullView(wp.id!);
   }
@@ -179,7 +174,8 @@ export class WorkPackageCardViewComponent  implements OnInit {
     this.dragService.register({
       dragContainer: this.container.nativeElement,
       scrollContainers: [this.container.nativeElement],
-      moves: (card:HTMLElement) => this.dragAndDropEnabled && !card.dataset.isNew,
+      moves: (card:HTMLElement) => this.dragOutOf && !card.dataset.isNew,
+      accepts: () => this.dragInto,
       onMoved: (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;
         const toIndex = DragAndDropHelpers.findIndex(card);

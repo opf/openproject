@@ -83,6 +83,8 @@ import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
 import {MainMenuToggleComponent} from "core-components/main-menu/main-menu-toggle.component";
 import {MainMenuNavigationService} from "core-components/main-menu/main-menu-navigation.service";
+import {StatusCacheService} from "core-components/statuses/status-cache.service";
+import {VersionCacheService} from "core-components/versions/version-cache.service";
 
 @NgModule({
   imports: [
@@ -134,6 +136,8 @@ import {MainMenuNavigationService} from "core-components/main-menu/main-menu-nav
     UrlParamsHelperService,
     ProjectCacheService,
     UserCacheService,
+    StatusCacheService,
+    VersionCacheService,
     CurrentUserService,
     {provide: States, useValue: new States()},
     PaginationService,

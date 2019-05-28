@@ -181,11 +181,11 @@ module Pages
     end
 
     def expect_list(name)
-      expect(page).to have_selector('editable-toolbar-title', text: name)
+      expect(page).to have_selector('.board-list--header', text: name)
     end
 
     def expect_no_list(name)
-      expect(page).not_to have_selector('editable-toolbar-title', text: name)
+      expect(page).not_to have_selector('.board-list--header', text: name)
     end
 
     def expect_empty
@@ -193,17 +193,21 @@ module Pages
     end
 
     def remove_list(name)
-      within_list(name) do
-        page.find('.board-list--header').hover
-        page.find('.board-list--menu a').click
-      end
-
-      page.find('.dropdown-menu a', text: 'Delete list').click
+      click_list_dropdown name, 'Delete list'
 
       accept_alert_dialog!
       expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
 
       expect(page).to have_no_selector list_selector(name)
+    end
+
+    def click_list_dropdown(list_name, action)
+      within_list(list_name) do
+        page.find('.board-list--header').hover
+        page.find('.board-list--menu a').click
+      end
+
+      page.find('.dropdown-menu a', text: action).click
     end
 
     def expect_list_option(name, present: true)

@@ -67,6 +67,7 @@ describe 'Version action board', type: :feature, js: true do
   let!(:closed_version) { FactoryBot.create :version, project: project, status: 'closed', name: 'Closed version' }
 
   let!(:work_package) { FactoryBot.create :work_package, project: project, subject: 'Foo', fixed_version: open_version }
+  let!(:closed_version_wp) { FactoryBot.create :work_package, project: project, subject: 'Closed', fixed_version: closed_version }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   def create_new_version_board
@@ -101,7 +102,7 @@ describe 'Version action board', type: :feature, js: true do
       board_page.expect_card 'Open version', work_package.subject, present: true
 
       board_page.expect_list_option 'Shared version'
-      board_page.expect_list_option 'Closed version', present: false
+      board_page.expect_list_option 'Closed version'
 
       board_page.board(reload: true) do |board|
         expect(board.name).to eq 'Action board (version)'
@@ -204,7 +205,7 @@ describe 'Version action board', type: :feature, js: true do
       expect(subjects).to match_array [['Task 1', other_version.id]]
     end
 
-    it 'allows adding new versions from within the board' do
+    it 'allows adding new and closed versions from within the board' do
       board_page = create_new_version_board
 
       # Add new version (and list)
@@ -213,6 +214,55 @@ describe 'Version action board', type: :feature, js: true do
 
       visit settings_project_path(project, tab: 'versions')
       expect(page).to have_content 'Completely new version'
+
+      board_page.visit!
+      board_page.add_list nil, value: closed_version.name
+      board_page.expect_list 'Closed version'
+      expect(page).to have_selector('.version-board-header.-closed')
+
+      # Can open that version
+      board_page.click_list_dropdown 'Closed version', 'Open version'
+      expect(page).to have_no_selector('.version-board-header.-closed')
+
+      closed_version.reload
+      expect(closed_version.status).to eq 'open'
+
+      # Can lock that version
+      board_page.click_list_dropdown 'Closed version', 'Lock version'
+      expect(page).to have_selector('.version-board-header.-locked')
+
+      closed_version.reload
+      expect(closed_version.status).to eq 'locked'
+
+      # We can move out of the locked version
+      board_page.move_card(0, from: 'Closed version', to: 'Open version')
+
+      board_page.expect_card('Open version', 'Closed', present: true)
+      board_page.expect_card('Closed version', 'Closed', present: false)
+
+      # Expect work package to be saved in query second
+      sleep 2
+
+      queries = board_page.board(reload: true).contained_queries
+      open = queries.find_by(name: 'Open version')
+      closed = queries.find_by(name: 'Closed version')
+
+      retry_block do
+        expect(open.reload.ordered_work_packages.count).to eq(2)
+        expect(closed.reload.ordered_work_packages.count).to eq(0)
+      end
+
+      subjects = WorkPackage.where(id: open.ordered_work_packages).pluck(:id)
+      expect(subjects).to match_array [work_package.id, closed_version_wp.id]
+
+      closed_version_wp.reload
+      expect(closed_version_wp.fixed_version_id).to eq(open_version.id)
+
+      # But we can not move back to closed
+      board_page.move_card(0, from: 'Open version', to: 'Closed version')
+      board_page.expect_card('Open version', 'Closed', present: true)
+      board_page.expect_card('Closed version', 'Closed', present: false)
+      board_page.expect_card('Closed version', 'Foo', present: false)
     end
   end
 

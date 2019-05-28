@@ -6,11 +6,16 @@
 
     <div *ngIf="board.isAction"
          class="board-list--action-bar"
-         [ngClass]="boardListActionColorClass(query)">
+         [ngClass]="actionResourceClass">
     </div>
 
     <div class="board-list--header">
-      <editable-toolbar-title [title]="query.name"
+      <ndc-dynamic *ngIf="headerComponent"
+                   [ndcDynamicComponent]="headerComponent"
+                   [ndcDynamicInputs]="{ resource: actionResource }">
+      </ndc-dynamic>
+      <editable-toolbar-title *ngIf="!headerComponent"
+                              [title]="query.name"
                               [smallHeader]="true"
                               [inFlight]="inFlight"
                               (onSave)="renameQuery(query, $event)"
@@ -41,9 +46,10 @@
         <op-icon icon-classes="icon-small icon-add"></op-icon>
       </button>
 
-      <wp-card-view [dragAndDropEnabled]="canEdit"
+      <wp-card-view [dragOutOf]="canDragOutOf"
+                    [dragInto]="canDragInto"
                     [workPackageAddedHandler]="workPackageAddedHandler"
-                    [cardsRemovable]="board.isFree && canEdit"
+                    [cardsRemovable]="board.isFree && canDragOutOf"
                     [highlightingMode]="board.highlightingMode"
                     [showStatusButton]="showCardStatusButton()">
       </wp-card-view>

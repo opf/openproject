@@ -9,12 +9,15 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
+import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
+import {StatusCacheService} from "core-components/statuses/status-cache.service";
 
 @Injectable()
 export class BoardStatusActionService implements BoardActionService {
 
   constructor(protected boardListsService:BoardListsService,
               protected I18n:I18nService,
+              protected statusCache:StatusCacheService,
               protected statusDm:StatusDmService) {
   }
 
@@ -27,7 +30,7 @@ export class BoardStatusActionService implements BoardActionService {
    * @param query
    * @returns /api/v3/status/:id if a status filter exists
    */
-  public getFilterValue(query:QueryResource):string|undefined {
+  public getFilterHref(query:QueryResource):string|undefined {
     const filter = _.find(query.filters, filter => filter.id === 'status');
 
     if (filter) {
@@ -36,6 +39,21 @@ export class BoardStatusActionService implements BoardActionService {
     }
 
     return;
+  }
+
+  /**
+   * Returns the loaded status
+   * @param query
+   */
+  public getLoadedFilterValue(query:QueryResource):Promise<undefined|StatusResource> {
+    const href = this.getFilterHref(query);
+
+    if (href) {
+      const id = HalResource.idFromLink(href);
+      return this.statusCache.require(id);
+    } else {
+      return Promise.resolve(undefined);
+    }
   }
 
   public addActionQueries(board:Board):Promise<Board> {
@@ -77,7 +95,7 @@ export class BoardStatusActionService implements BoardActionService {
    */
   public getAvailableValues(board:Board, queries:QueryResource[]):Promise<HalResource[]> {
     const active = new Set(
-      queries.map(query => this.getFilterValue(query))
+      queries.map(query => this.getFilterHref(query))
     );
 
     return this.getStatuses()
@@ -86,12 +104,20 @@ export class BoardStatusActionService implements BoardActionService {
       );
   }
 
-  public getAdditionalListMenuItems(actionAttributeValue:HalResource):Promise<any> {
+  public getAdditionalListMenuItems(query:QueryResource):Promise<OpContextMenuItem[]> {
     return Promise.resolve([]);
+  }
+
+  dragIntoAllowed(query:QueryResource, value:HalResource|undefined) {
+    return true;
   }
 
   public autocompleterComponent() {
     return CreateAutocompleterComponent;
+  }
+
+  public headerComponent() {
+    return undefined;
   }
 
   private getStatuses():Promise<StatusResource[]> {
