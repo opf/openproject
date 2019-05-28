@@ -35,6 +35,7 @@ shared_examples_for 'roles contract' do
   let(:role_instance) { Role.new }
   let(:role_name) { 'A role name' }
   let(:role_assignable) { true }
+  let(:role_permissions) { [:view_work_packages] }
 
   def expect_valid(valid, symbols = {})
     expect(contract.validate).to eq(valid)
@@ -58,6 +59,14 @@ shared_examples_for 'roles contract' do
 
       it 'is invalid' do
         expect_valid(false, name: %i(blank))
+      end
+    end
+
+    context 'if the permissions do not include their dependency' do
+      let(:role_permissions) { [:manage_members] }
+
+      it 'is invalid' do
+        expect_valid(false, permissions: %i(dependency_missing))
       end
     end
   end

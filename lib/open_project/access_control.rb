@@ -33,7 +33,7 @@ module OpenProject
       include ::Redmine::I18n
 
       def map
-        mapper = Mapper.new
+        mapper = OpenProject::AccessControl::Mapper.new
         yield mapper
         @permissions ||= []
         @permissions += mapper.mapped_permissions
@@ -90,7 +90,7 @@ module OpenProject
 
       def available_project_modules
         @available_project_modules ||= (
-        @permissions.map(&:project_module) + @project_modules_without_permissions
+          @permissions.map(&:project_module) + @project_modules_without_permissions
         ).uniq.compact
       end
 
@@ -113,69 +113,6 @@ module OpenProject
         @public_permissions = nil
         @members_only_permissions = nil
         @loggedin_only_permissions = nil
-      end
-    end
-
-    class Mapper
-      def permission(name, hash, options = {})
-        options[:project_module] = @project_module
-        mapped_permissions << Permission.new(name, hash, options)
-      end
-
-      def project_module(name, options = {})
-        mapped_modules << {name: name, order: 0}.merge(options)
-
-        if block_given?
-          @project_module = name
-          yield self
-          @project_module = nil
-        else
-          project_modules_without_permissions << name
-        end
-      end
-
-      def mapped_modules
-        @mapped_modules ||= []
-      end
-
-      def mapped_permissions
-        @permissions ||= []
-      end
-
-      def project_modules_without_permissions
-        @project_modules_without_permissions ||= []
-      end
-    end
-
-    class Permission
-      attr_reader :name, :actions, :project_module
-
-      def initialize(name, hash, options)
-        @name = name
-        @actions = []
-        @public = options[:public] || false
-        @require = options[:require]
-        @project_module = options[:project_module]
-        hash.each do |controller, actions|
-          @actions << if actions.is_a? Array
-                        actions.map { |action| "#{controller}/#{action}" }
-                      else
-                        "#{controller}/#{actions}"
-                      end
-        end
-        @actions.flatten!
-      end
-
-      def public?
-        @public
-      end
-
-      def require_member?
-        @require && @require == :member
-      end
-
-      def require_loggedin?
-        @require && (@require == :member || @require == :loggedin)
       end
     end
   end

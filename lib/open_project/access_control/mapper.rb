@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,45 +28,36 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_contract_examples'
-
-describe Roles::CreateContract do
-  it_behaves_like 'roles contract' do
-    let(:role) do
-      Role.new.tap do |r|
-        r.name = role_name
-        r.assignable = role_assignable
-        r.permissions = role_permissions
-      end
-    end
-
-    let(:global_role) do
-      GlobalRole.new.tap do |r|
-        r.name = role_name
-        r.permissions = role_permissions
-      end
-    end
-
-    subject(:contract) { described_class.new(role, current_user) }
-
-    describe 'validation' do
-      context 'with the type set manually' do
-        before do
-          role.type = 'GlobalRole'
-        end
-
-        it_behaves_like 'is valid'
+module OpenProject
+  module AccessControl
+    class Mapper
+      def permission(name, hash, options = {})
+        options[:project_module] = @project_module
+        mapped_permissions << Permission.new(name, hash, options)
       end
 
-      context 'with the type set manually to something other than Role or GlobalRole' do
-        before do
-          role.type = 'MyRole'
-        end
+      def project_module(name, options = {})
+        mapped_modules << { name: name, order: 0 }.merge(options)
 
-        it 'is invalid' do
-          expect_valid(false, type: %i(inclusion))
+        if block_given?
+          @project_module = name
+          yield self
+          @project_module = nil
+        else
+          project_modules_without_permissions << name
         end
+      end
+
+      def mapped_modules
+        @mapped_modules ||= []
+      end
+
+      def mapped_permissions
+        @permissions ||= []
+      end
+
+      def project_modules_without_permissions
+        @project_modules_without_permissions ||= []
       end
     end
   end

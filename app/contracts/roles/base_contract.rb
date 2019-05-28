@@ -31,6 +31,12 @@ module Roles
     attribute :name
     attribute :assignable
 
+    def validate
+      check_permission_prerequisites
+
+      super
+    end
+
     def assignable_permissions
       if model.is_a?(GlobalRole)
         assignable_global_permissions
@@ -59,6 +65,26 @@ module Roles
 
     def assignable_global_permissions
       OpenProject::AccessControl.global_permissions
+    end
+
+    def check_permission_prerequisites
+      model.permissions.each do |name|
+        permission = OpenProject::AccessControl.permission(name)
+
+        unmet_dependencies = permission.dependencies - model.permissions
+
+        unmet_dependencies.each do |unmet_depenency|
+          add_unmet_dependency_error(name, unmet_depenency)
+        end
+      end
+    end
+
+    def add_unmet_dependency_error(selected, unmet)
+      errors.add(:permissions,
+                 I18n.t(:'activerecord.errors.models.role.permissions.dependency_missing',
+                        permission: I18n.t("permission_#{selected}"),
+                        dependency: I18n.t("permission_#{unmet}")),
+                 error_symbol: :dependency_missing)
     end
   end
 end

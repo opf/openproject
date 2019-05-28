@@ -57,7 +57,8 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :manage_members,
                    { members: %i[index new create update destroy autocomplete_for_member] },
-                   require: :member
+                   require: :member,
+                   dependencies: :view_members
 
     map.permission :view_members,
                    { members: [:index] }
@@ -85,8 +86,6 @@ OpenProject::AccessControl.map do |map|
   map.project_module :work_package_tracking, order: 90 do |wpt|
     # Issues
     wpt.permission :view_work_packages,
-                   issues: %i[index all show],
-                   auto_complete: [:issues],
                    versions: %i[index show status_by],
                    journals: %i[index diff],
                    work_packages: %i[show index],
@@ -95,17 +94,17 @@ OpenProject::AccessControl.map do |map|
 
     wpt.permission :add_work_packages,
                    issues: %i[new create],
-                   :'issues/previews' => :create,
                    work_packages: %i[new new_type preview create],
                    planning_elements: [:create]
 
     wpt.permission :edit_work_packages,
                    { issues: %i[edit update],
-                     :'work_packages/bulk' => %i[edit update],
+                   :'work_packages/bulk' => %i[edit update],
                      work_packages: %i[edit update new_type
                                      preview quoted],
                      journals: :preview },
-                   require: :member
+                   require: :member,
+                   dependencies: :view_work_packages
 
     wpt.permission :move_work_packages,
                    { :'work_packages/moves' => %i[new create] },
@@ -123,7 +122,6 @@ OpenProject::AccessControl.map do |map|
                    { journals: %i[edit update] },
                    require: :loggedin
 
-
     # WorkPackage categories
     wpt.permission :manage_categories,
                    { project_settings: [:show],
@@ -137,7 +135,8 @@ OpenProject::AccessControl.map do |map|
                    { issues: :destroy,
                      work_packages: :destroy,
                      :'work_packages/bulk' => :destroy },
-                   require: :member
+                   require: :member,
+                   dependencies: :view_work_packages
 
     wpt.permission :manage_work_package_relations,
                    work_package_relations: %i[create destroy]
@@ -154,13 +153,16 @@ OpenProject::AccessControl.map do |map|
                    require: :loggedin
     # Watchers
     wpt.permission :view_work_package_watchers,
-                   {}
+                   {},
+                   dependencies: :view_work_packages
 
     wpt.permission :add_work_package_watchers,
-                   {}
+                   {},
+                   dependencies: :view_work_packages
 
     wpt.permission :delete_work_package_watchers,
-                   {}
+                   {},
+                   dependencies: :view_work_packages
   end
 
   map.project_module :time_tracking do |time|
@@ -264,7 +266,6 @@ OpenProject::AccessControl.map do |map|
 
     repo.permission :view_changesets,
                     repositories: %i[show revisions revision]
-
 
     repo.permission :view_commit_author_statistics,
                     {}

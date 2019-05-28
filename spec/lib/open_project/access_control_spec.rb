@@ -70,4 +70,24 @@ describe OpenProject::AccessControl do
       expect(subject.available_project_modules).not_to include(:repository)
     end
   end
+
+  describe '#prerequisites' do
+    context 'for a permission with a prerequisite' do
+      subject { described_class.permission(:edit_work_packages) }
+
+      it 'denotes the prerequiresites' do
+        expect(subject.prerequisites)
+          .to match_array([:view_work_packages])
+      end
+    end
+
+    context 'for a permission without a prerequisite' do
+      subject { described_class.permission(:view_work_packages) }
+
+      it 'denotes the prerequiresites' do
+        expect(subject.prerequisites)
+          .to be_empty
+      end
+    end
+  end
 end

@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,45 +28,41 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_contract_examples'
+module OpenProject
+  module AccessControl
+    class Permission
+      attr_reader :name,
+                  :actions,
+                  :project_module,
+                  :dependencies
 
-describe Roles::CreateContract do
-  it_behaves_like 'roles contract' do
-    let(:role) do
-      Role.new.tap do |r|
-        r.name = role_name
-        r.assignable = role_assignable
-        r.permissions = role_permissions
-      end
-    end
-
-    let(:global_role) do
-      GlobalRole.new.tap do |r|
-        r.name = role_name
-        r.permissions = role_permissions
-      end
-    end
-
-    subject(:contract) { described_class.new(role, current_user) }
-
-    describe 'validation' do
-      context 'with the type set manually' do
-        before do
-          role.type = 'GlobalRole'
+      def initialize(name, hash, options)
+        @name = name
+        @actions = []
+        @public = options[:public] || false
+        @require = options[:require]
+        @dependencies = Array(options[:dependencies]) || []
+        @project_module = options[:project_module]
+        hash.each do |controller, actions|
+          @actions << if actions.is_a? Array
+                        actions.map { |action| "#{controller}/#{action}" }
+                      else
+                        "#{controller}/#{actions}"
+                      end
         end
-
-        it_behaves_like 'is valid'
+        @actions.flatten!
       end
 
-      context 'with the type set manually to something other than Role or GlobalRole' do
-        before do
-          role.type = 'MyRole'
-        end
+      def public?
+        @public
+      end
 
-        it 'is invalid' do
-          expect_valid(false, type: %i(inclusion))
-        end
+      def require_member?
+        @require && @require == :member
+      end
+
+      def require_loggedin?
+        @require && (@require == :member || @require == :loggedin)
       end
     end
   end
