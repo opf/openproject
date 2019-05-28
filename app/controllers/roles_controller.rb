@@ -29,42 +29,35 @@
 
 class RolesController < ApplicationController
   include PaginationHelper
+  include Roles::NotifyMixin
 
   layout 'admin'
 
   before_action :require_admin, except: [:autocomplete_for_role]
 
   def index
-    @roles = Role
-               .order(Arel.sql('builtin, position'))
-               .page(page_param)
-               .per_page(per_page_param)
+    @roles = roles_scope
+             .page(page_param)
+             .per_page(per_page_param)
 
     render action: 'index', layout: false if request.xhr?
   end
 
   def new
-    # Prefills the form with 'Non member' role permissions
-    @role = Role.new(permitted_params.role? || {permissions: Role.non_member.permissions})
+    @role = Role.new(permitted_params.role? || { permissions: Role.non_member.permissions })
 
-    define_setable_permissions
-
-    @roles = Role.order(Arel.sql('builtin, position'))
+    @roles = roles_scope
   end
 
   def create
-    @role = Role.new(permitted_params.role? || {permissions: Role.non_member.permissions})
-    if @role.save
-      # workflow copy
-      if !params[:copy_workflow_from].blank? && (copy_from = Role.find_by(id: params[:copy_workflow_from]))
-        @role.workflows.copy_from_role(copy_from)
-      end
-      flash[:notice] = l(:notice_successful_create)
+    @call = create_role
+    @role = @call.result
+
+    if @call.success?
+      flash[:notice] = t(:notice_successful_create)
       redirect_to action: 'index'
-      notify_changed_roles(:added, @role)
     else
-      define_setable_permissions
-      @roles = Role.order(Arel.sql('builtin, position'))
+      @roles = roles_scope
 
       render action: 'new'
     end
@@ -72,18 +65,17 @@ class RolesController < ApplicationController
 
   def edit
     @role = Role.find(params[:id])
-    define_setable_permissions
+    @call = set_role_attributes(@role, 'update')
   end
 
   def update
     @role = Role.find(params[:id])
+    @call = update_role(@role, permitted_params.role)
 
-    if @role.update_attributes(permitted_params.role)
+    if @call.success?
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: 'index'
-      notify_changed_roles(:updated, @role)
     else
-      @permissions = @role.setable_permissions
       render action: 'edit'
     end
   end
@@ -101,21 +93,20 @@ class RolesController < ApplicationController
 
   def report
     @roles = Role.order(Arel.sql('builtin, position'))
-    @permissions = Redmine::AccessControl.permissions.select {|p| !p.public?}
+    @permissions = Redmine::AccessControl.permissions.reject(&:public?)
   end
 
   def bulk_update
-    @roles = Role.order(Arel.sql('builtin, position'))
+    @roles = roles_scope
 
     @roles.each do |role|
-      new_permissions = params[:permissions][role.id.to_s].presence || []
-      role.permissions = new_permissions
-      role.save
+      new_permissions = { permissions: params[:permissions][role.id.to_s].presence || [] }
+
+      update_role(role, new_permissions)
     end
 
     flash[:notice] = l(:notice_successful_update)
     redirect_to action: 'index'
-    notify_changed_roles(:bulk_update, @roles)
   end
 
   def autocomplete_for_role
@@ -134,11 +125,29 @@ class RolesController < ApplicationController
 
   private
 
-  def notify_changed_roles(action, changed_role)
-    OpenProject::Notifications.send(:roles_changed, action: action, role: changed_role)
+  def set_role_attributes(role, create_or_update)
+    contract = "Roles::#{create_or_update.camelize}Contract".constantize
+
+    Roles::SetAttributesService
+      .new(user: current_user, model: role, contract_class: contract)
+      .call(new_params)
   end
 
-  protected
+  def update_role(role, params)
+    Roles::UpdateService
+      .new(user: current_user, model: role)
+      .call(params)
+  end
+
+  def create_role
+    Roles::CreateService
+      .new(user: current_user)
+      .call(create_params)
+  end
+
+  def roles_scope
+    Role.order(Arel.sql('builtin, position'))
+  end
 
   def default_breadcrumb
     if action_name == 'index'
@@ -152,17 +161,13 @@ class RolesController < ApplicationController
     true
   end
 
-  def define_setable_permissions
-    @permissions = group_permissions_by_module(@role.setable_permissions)
+  def new_params
+    permitted_params.role? || {}
   end
 
-  def group_permissions_by_module(perms)
-    perms_by_module = perms.group_by {|p| p.project_module.to_s}
-    ::Redmine::AccessControl
-      .sorted_modules
-      .select {|module_name| perms_by_module[module_name].present?}
-      .map do |module_name|
-      [module_name, perms_by_module[module_name]]
-    end
+  def create_params
+    new_params
+      .merge(copy_workflow_from: params[:copy_workflow_from],
+             global_role: params[:global_role])
   end
 end

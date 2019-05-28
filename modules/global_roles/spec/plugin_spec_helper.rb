@@ -92,6 +92,8 @@ module OpenProject
       def mocks_for_creating(role_class)
         role = mock_model role_class
         allow(role_class).to receive(:new).and_return role
+        allow(role).to receive(:attributes=)
+        allow(role).to receive(:changed).and_return([])
         mock_permissions_on role
         role
       end

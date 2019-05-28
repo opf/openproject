@@ -141,7 +141,11 @@ module BasicData
     end
 
     def project_admin
-      { name: I18n.t(:default_role_project_admin), position: 5, permissions: Role.new.setable_permissions.map(&:name) }
+      {
+        name: I18n.t(:default_role_project_admin),
+        position: 5,
+        permissions: Roles::CreateContract.new(Role.new, nil).assignable_permissions.map(&:name)
+      }
     end
 
     def non_member

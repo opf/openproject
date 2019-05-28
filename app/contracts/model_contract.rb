@@ -141,7 +141,7 @@ class ModelContract < Reform::Contract
   end
 
   def self.model
-    raise NotImplementedError
+    @model ||= name.deconstantize.singularize.constantize
   end
 
   # use activerecord as the base scope instead of 'activemodel' to be compatible

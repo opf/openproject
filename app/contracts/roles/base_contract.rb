@@ -26,40 +26,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Members
+module Roles
   class BaseContract < ::ModelContract
-    delegate :principal,
-             :project,
-             :new_record?,
-             to: :model
+    attribute :name
+    attribute :assignable
 
-    attribute :roles
-
-    def validate
-      user_allowed_to_manage
-      roles_grantable
-      principal_assignable
-
-      super
-    end
-
-    def user_allowed_to_manage
-      if model.project && !user.allowed_to?(:manage_members, model.project)
-        errors.add :base, :error_unauthorized
+    def assignable_permissions
+      if model.is_a?(GlobalRole)
+        assignable_global_permissions
+      else
+        assignable_member_permissions
       end
     end
 
-    def roles_grantable
-      unless roles.all? { |r| r.builtin == Role::NON_BUILTIN && r.class == Role }
-        errors.add(:roles, :ungrantable)
-      end
+    private
+
+    def assignable_member_permissions
+      permissions_to_remove = case model.builtin
+                              when Role::BUILTIN_NON_MEMBER
+                                [Redmine::AccessControl.members_only_permissions]
+                              when Role::BUILTIN_ANONYMOUS
+                                [Redmine::AccessControl.loggedin_only_permissions]
+                              else
+                                []
+                              end
+
+      Redmine::AccessControl.permissions -
+        Redmine::AccessControl.public_permissions -
+        Redmine::AccessControl.global_permissions -
+        permissions_to_remove
     end
 
-    def principal_assignable
-      if principal &&
-         [Principal::STATUSES[:builtin], Principal::STATUSES[:locked]].include?(principal.status)
-        errors.add(:principal, :unassignable)
-      end
+    def assignable_global_permissions
+      Redmine::AccessControl.global_permissions
     end
   end
 end

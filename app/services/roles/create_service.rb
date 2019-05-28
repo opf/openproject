@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,40 +28,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Members
-  class BaseContract < ::ModelContract
-    delegate :principal,
-             :project,
-             :new_record?,
-             to: :model
+class Roles::CreateService < ::BaseServices::Create
+  include Roles::NotifyMixin
 
-    attribute :roles
+  private
 
-    def validate
-      user_allowed_to_manage
-      roles_grantable
-      principal_assignable
+  def create(params)
+    copy_workflow_id = params.delete(:copy_workflow_from)
 
+    super_call = super
+
+    if super_call.success?
+      copy_workflows(copy_workflow_id, super_call.result)
+
+      notify_changed_roles(:added, super_call.result)
+    end
+
+    super_call
+  end
+
+  def new_instance(params)
+    if params.delete(:global_role)
+      GlobalRole.new
+    else
       super
     end
+  end
 
-    def user_allowed_to_manage
-      if model.project && !user.allowed_to?(:manage_members, model.project)
-        errors.add :base, :error_unauthorized
-      end
-    end
-
-    def roles_grantable
-      unless roles.all? { |r| r.builtin == Role::NON_BUILTIN && r.class == Role }
-        errors.add(:roles, :ungrantable)
-      end
-    end
-
-    def principal_assignable
-      if principal &&
-         [Principal::STATUSES[:builtin], Principal::STATUSES[:locked]].include?(principal.status)
-        errors.add(:principal, :unassignable)
-      end
+  def copy_workflows(copy_workflow_id, role)
+    if copy_workflow_id.present? && (copy_from = Role.find_by(id: copy_workflow_id))
+      role.workflows.copy_from_role(copy_from)
     end
   end
 end

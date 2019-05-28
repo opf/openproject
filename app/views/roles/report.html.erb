@@ -94,7 +94,7 @@ See docs/COPYRIGHT.rdoc for more details.
                   </td>
                   <% @roles.each do |role| %>
                     <td>
-                      <% if role.setable_permissions.include? permission %>
+                      <% if setable_permissions(role).include? permission %>
                         <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name), id: nil, class: "role-#{role.id}" %>
                       <% end %>
                     </td>
