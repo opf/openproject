@@ -43,7 +43,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
   readonly I18n:I18nService = this.injector.get(I18nService);
-  public options:any[];
+  public options:any[] = [];
   public valueOptions:ValueOption[];
   public text = {
     requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
