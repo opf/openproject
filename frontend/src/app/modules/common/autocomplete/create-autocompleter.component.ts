@@ -156,7 +156,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
 
   public set openDirectly(val:boolean) {
     this._openDirectly = val;
-    this.openSelect();
+    if (val) { this.openSelect(); }
   }
 
   public focusInputField() {
