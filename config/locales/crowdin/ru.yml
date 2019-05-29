@@ -673,6 +673,11 @@ ru:
           principal_blank: Пожалуйста, выберите по крайней мере одного пользователя
             или группу.
           role_blank: Пожалуйста, выберите по крайней мере одну роль.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: Версия не может быть удалена, так как
             имеет пакеты работ, прикрепленные к ней.

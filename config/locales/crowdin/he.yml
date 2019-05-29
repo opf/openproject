@@ -660,6 +660,11 @@ he:
         member:
           principal_blank: נא לבחור לפחות משתמש אחד או קבוצה.
           role_blank: נא לבחור תפקיד אחד לפחות.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.

@@ -660,6 +660,11 @@ fa:
         member:
           principal_blank: لطفا حداقل یک کاربر یا گروه را انتخاب کنید.
           role_blank: Please choose at least one role.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.

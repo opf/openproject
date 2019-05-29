@@ -660,6 +660,11 @@ da:
         member:
           principal_blank: Vælg venligst mindst én bruger eller gruppe.
           role_blank: Vælg venligst mindst én rolle.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.

@@ -670,6 +670,11 @@ ca:
         member:
           principal_blank: Trieu com a mínim un usuari o grup.
           role_blank: Seleccioneu almenys un rol.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.

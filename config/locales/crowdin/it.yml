@@ -679,6 +679,11 @@ it:
         member:
           principal_blank: Si prega di scegliere almeno un utente o un gruppo.
           role_blank: Si prega di scegliere almeno un ruolo.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.

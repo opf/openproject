@@ -17,17 +17,6 @@ lol:
     close_popup_title: crwdns127042:0crwdne127042:0
     close_filter_title: crwdns127044:0crwdne127044:0
     close_form_title: crwdns127046:0crwdne127046:0
-    boards:
-      upsale:
-        teaser_text: crwdns129800:0crwdne129800:0
-        upgrade_to_ee_text: crwdns129802:0crwdne129802:0
-        upgrade: crwdns129804:0crwdne129804:0
-        personal_demo: crwdns129806:0crwdne129806:0
-      lists:
-        delete: crwdns129686:0crwdne129686:0
-        edit_version: crwdns129808:0crwdne129808:0
-      add:
-        create_new: crwdns129832:0crwdne129832:0
     card:
       add_new: crwdns127052:0crwdne127052:0
       highlighting:
@@ -464,7 +453,7 @@ lol:
       abort: crwdns127782:0crwdne127782:0
     relations_autocomplete:
       placeholder: crwdns127784:0crwdne127784:0
-      parent_placeholder: crwdns129834:0crwdne129834:0
+      parent_placeholder: crwdns129842:0crwdne129842:0
     repositories:
       select_tag: crwdns127788:0crwdne127788:0
       select_branch: crwdns127790:0crwdne127790:0
@@ -833,3 +822,14 @@ lol:
         all_projects: crwdns128386:0crwdne128386:0
         project_and_subprojects: crwdns128388:0crwdne128388:0
         search_for: crwdns128390:0crwdne128390:0
+    boards:
+      upsale:
+        teaser_text: crwdns129800:0crwdne129800:0
+        upgrade_to_ee_text: crwdns129802:0crwdne129802:0
+        upgrade: crwdns129804:0crwdne129804:0
+        personal_demo: crwdns129806:0crwdne129806:0
+      lists:
+        delete: crwdns129686:0crwdne129686:0
+        edit_version: crwdns129808:0crwdne129808:0
+      add:
+        create_new: crwdns129840:0crwdne129840:0

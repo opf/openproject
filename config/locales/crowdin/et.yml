@@ -659,6 +659,11 @@ et:
         member:
           principal_blank: Vali vähemalt üks kasutaja või grupp.
           role_blank: Vali vähemalt üks roll.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.

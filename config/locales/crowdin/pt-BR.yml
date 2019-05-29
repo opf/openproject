@@ -666,6 +666,11 @@ pt-BR:
         member:
           principal_blank: Por favor, escolha ao menos um usuário ou grupo.
           role_blank: Por favor, escolha ao menos um papel.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: A versão não pode ser excluída pois
             tem pacotes de trabalho anexados a ela.

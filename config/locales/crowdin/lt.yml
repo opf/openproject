@@ -665,6 +665,11 @@ lt:
         member:
           principal_blank: Prašome pasirinkti bent vieną vartotoją ar grupę.
           role_blank: Prašome pasirinkti bent vieną rolę.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.

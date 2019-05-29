@@ -659,6 +659,11 @@ tr:
         member:
           principal_blank: Lütfen en az bir kullanıcı veya grup seçin.
           role_blank: Lütfen en az bir rol seçin.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: Eklenmiş iş paketleri olduğu için sürüm
             silinemez.

@@ -613,6 +613,11 @@ ko:
         member:
           principal_blank: 하나 이상의 사용자 또는 그룹을 선택 하십시오.
           role_blank: 하나 이상의 역할을 선택 하십시오.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.

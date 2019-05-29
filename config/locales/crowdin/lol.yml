@@ -588,6 +588,11 @@ lol:
         member:
           principal_blank: crwdns123480:0crwdne123480:0
           role_blank: crwdns123482:0crwdne123482:0
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: crwdns129792:0crwdne129792:0
       template:

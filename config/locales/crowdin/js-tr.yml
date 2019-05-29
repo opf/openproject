@@ -18,19 +18,6 @@ tr:
     close_popup_title: Pencereyi kapat
     close_filter_title: Filtreyi kapat
     close_form_title: Formu kapat
-    boards:
-      upsale:
-        teaser_text: Çevik proje yönetiminizi bu esnek Panolar görünümü ile geliştirin.
-          İzlemek istediğiniz herhangi bir şey için istediğiniz kadar pano oluşturun.
-        upgrade_to_ee_text: Kurulları bir Enterprise özelliğidir. Lütfen ücretli bir
-          plana geçin.
-        upgrade: Şimdi Yükselt
-        personal_demo: Kişisel bir demo al
-      lists:
-        delete: Listeyi silin
-        edit_version: Sürümü düzenle
-      add:
-        create_new: Yeni oluştur
     card:
       add_new: Yeni kart ekleyin
       highlighting:
@@ -915,3 +902,16 @@ tr:
         all_projects: tüm projeler
         project_and_subprojects: ve tüm alt projeler
         search_for: Aramak
+    boards:
+      upsale:
+        teaser_text: Çevik proje yönetiminizi bu esnek Panolar görünümü ile geliştirin.
+          İzlemek istediğiniz herhangi bir şey için istediğiniz kadar pano oluşturun.
+        upgrade_to_ee_text: Kurulları bir Enterprise özelliğidir. Lütfen ücretli bir
+          plana geçin.
+        upgrade: Şimdi Yükselt
+        personal_demo: Kişisel bir demo al
+      lists:
+        delete: Listeyi silin
+        edit_version: Sürümü düzenle
+      add:
+        create_new: Yeni oluştur

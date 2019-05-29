@@ -667,6 +667,11 @@ hr:
         member:
           principal_blank: Molim vas odaberite najamnje jednog korisnika ili grupu.
           role_blank: Molim vas odaberite najmanje jednu rolu.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.

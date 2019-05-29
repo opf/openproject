@@ -671,6 +671,11 @@ uk:
         member:
           principal_blank: Виберіть принаймні одного користувача або групу.
           role_blank: Виберіть принаймні одну роль.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.

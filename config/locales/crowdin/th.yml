@@ -655,6 +655,11 @@ th:
         member:
           principal_blank: โปรดเลือกอย่างน้อยหนึ่งผู้ใช้หรือหนึ่งกลุ่ม
           role_blank: โปรดเลือกอย่างน้อยหนึ่งบทบาท
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.

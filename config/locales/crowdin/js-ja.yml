@@ -17,17 +17,6 @@ ja:
     close_popup_title: ポップアップを閉じる
     close_filter_title: フィルタを閉じる
     close_form_title: フォームを閉じる
-    boards:
-      upsale:
-        teaser_text: この柔軟なボードビューでアジャイルプロジェクトの管理を向上させましょう。 あなたが追跡したいものを、好きなだけボードを作成してください。
-        upgrade_to_ee_text: ボードはエンタープライズ機能です。 有料プランにアップグレードしてください。
-        upgrade: 今すぐアップグレード
-        personal_demo: パーソナルデモを入手する
-      lists:
-        delete: リストを削除
-        edit_version: バージョンを編集
-      add:
-        create_new: 新規作成
     card:
       add_new: 新規カード追加
       highlighting:
@@ -839,3 +828,14 @@ ja:
         all_projects: すべてのプロジェクト
         project_and_subprojects: すべてのプロジェクトで
         search_for: 検索対象
+    boards:
+      upsale:
+        teaser_text: この柔軟なボードビューでアジャイルプロジェクトの管理を向上させましょう。 あなたが追跡したいものを、好きなだけボードを作成してください。
+        upgrade_to_ee_text: ボードはエンタープライズ機能です。 有料プランにアップグレードしてください。
+        upgrade: 今すぐアップグレード
+        personal_demo: パーソナルデモを入手する
+      lists:
+        delete: リストを削除
+        edit_version: バージョンを編集
+      add:
+        create_new: 新規作成
