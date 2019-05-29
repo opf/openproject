@@ -31,7 +31,6 @@
 module API
   module Utilities
     module PageSizeHelper
-
       # Set a default max size to ensure backwards compatibility
       # with the previous private setting `maximum_page_size`.
       # The actual value is taken from

@@ -219,6 +219,7 @@ el:
     label_board_locked: Locked
     label_board_plural: Πινακες
     label_board_sticky: Sticky
+    label_create_new: Create new
     label_create_work_package: Create new work package
     label_created_by: Created by
     label_date: Date

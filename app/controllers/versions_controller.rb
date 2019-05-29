@@ -100,7 +100,7 @@ class VersionsController < ApplicationController
 
     call = Versions::UpdateService
            .new(user: current_user,
-                version: @version)
+                model: @version)
            .call(attributes)
 
     if call.success?
@@ -121,7 +121,7 @@ class VersionsController < ApplicationController
   def destroy
     call = Versions::DeleteService
            .new(user: current_user,
-                version: @version)
+                model: @version)
            .call
 
     unless call.success?

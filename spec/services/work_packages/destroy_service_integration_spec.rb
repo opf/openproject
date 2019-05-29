@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::DestroyService, 'integration', type: :model do
+describe WorkPackages::DeleteService, 'integration', type: :model do
   let(:user) do
     FactoryBot.create(:user,
                       member_in_project: project,
@@ -55,7 +55,8 @@ describe WorkPackages::DestroyService, 'integration', type: :model do
     end
 
     let(:instance) do
-      described_class.new(user: user, work_package: child)
+      described_class.new(user: user,
+                          model: child)
     end
     subject { instance.call }
 

@@ -225,7 +225,7 @@ describe WorkPackage, type: :model do
       describe 'adding journal with a missing journal and an existing journal' do
         before do
           allow(WorkPackages::UpdateContract).to receive(:new).and_return(NoopContract.new)
-          service = WorkPackages::UpdateService.new(user: current_user, work_package: work_package)
+          service = WorkPackages::UpdateService.new(user: current_user, model: work_package)
           service.call(journal_notes: 'note to be deleted', send_notifications: false)
           work_package.reload
           service.call(description: 'description v2', send_notifications: false)

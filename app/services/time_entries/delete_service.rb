@@ -28,19 +28,4 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-##
-# Implements the deletion of a time entry.
-class TimeEntries::DeleteService < BaseDeleteService
-  attr_accessor :time_entry
-
-  def initialize(user:, time_entry:, contract_class: default_contract)
-    super(user: user, contract_class: contract_class)
-    self.time_entry = time_entry
-  end
-
-  private
-
-  def model_klass
-    ::TimeEntry
-  end
-end
+class TimeEntries::DeleteService < ::BaseServices::Delete; end

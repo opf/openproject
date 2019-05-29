@@ -223,6 +223,7 @@ nl:
     label_board_locked: Vergrendeld
     label_board_plural: Borden
     label_board_sticky: Sticky
+    label_create_new: Create new
     label_create_work_package: Nieuw werkpakket maken
     label_created_by: Gemaakt door
     label_date: Datum

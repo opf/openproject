@@ -32,13 +32,7 @@ module API
       module Schemas
         class GridSchemaAPI < ::API::OpenProjectAPI
           resources :schema do
-            get do
-              contract = ::Grids::CreateContract.new(::Grids::Grid.new, current_user)
-
-              ::API::V3::Grids::Schemas::GridSchemaRepresenter.new(contract,
-                                                                   api_v3_paths.grid_schema,
-                                                                   current_user: current_user)
-            end
+            get &::API::V3::Utilities::Endpoints::Schema.new(model: ::Grids::Grid).mount
           end
         end
       end

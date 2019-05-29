@@ -43,19 +43,19 @@ class Project < ActiveRecord::Base
   IDENTIFIER_MAX_LENGTH = 100
 
   # reserved identifiers
-  RESERVED_IDENTIFIERS = %w( new )
+  RESERVED_IDENTIFIERS = %w(new)
 
   # Specific overridden Activities
   has_many :time_entry_activities
   has_many :members, -> {
-    includes(:user, :roles)
+    includes(:principal, :roles)
       .where(
         "#{Principal.table_name}.type='User' AND (
           #{User.table_name}.status=#{Principal::STATUSES[:active]} OR
           #{User.table_name}.status=#{Principal::STATUSES[:invited]}
         )"
       )
-      .references(:users, :roles)
+      .references(:principal, :roles)
   }
 
   has_many :possible_assignee_members, -> {
@@ -64,20 +64,21 @@ class Project < ActiveRecord::Base
       .references(:principals, :roles)
   }, class_name: 'Member'
   # Read only
-  has_many :possible_assignees, -> (object){
-    # Have to reference members and roles again although
-    # possible_assignee_members does already specify it to be able to use the
-    # Project.possible_principles_condition there
-    #
-    # The .where(members_users: { project_id: object.id })
-    # part is an optimization preventing to have all the members joined
-    includes(members: :roles)
-      .where(members_users: { project_id: object.id })
-      .references(:roles)
-      .merge(Principal.order_by_name)
-  },
-  through: :possible_assignee_members,
-  source: :principal
+  has_many :possible_assignees,
+           ->(object) {
+             # Have to reference members and roles again although
+             # possible_assignee_members does already specify it to be able to use the
+             # Project.possible_principles_condition there
+             #
+             # The .where(members_users: { project_id: object.id })
+             # part is an optimization preventing to have all the members joined
+             includes(members: :roles)
+               .where(members_users: { project_id: object.id })
+               .references(:roles)
+               .merge(Principal.order_by_name)
+           },
+           through: :possible_assignee_members,
+           source: :principal
   has_many :possible_responsible_members, -> {
     includes(:principal, :roles)
       .where(Project.possible_principles_condition)
@@ -111,7 +112,7 @@ class Project < ActiveRecord::Base
                "#{Principal.table_name}.status=#{Principal::STATUSES[:invited]}))")
            },
            class_name: 'Member'
-  has_many :users, through: :members
+  has_many :users, through: :members, source: :principal
   has_many :principals, through: :member_principals, source: :principal
 
   has_many :enabled_modules, dependent: :delete_all
@@ -471,10 +472,10 @@ class Project < ActiveRecord::Base
 
   # Returns a hash of project users grouped by role
   def users_by_role
-    members.includes(:user, :roles).inject({}) do |h, m|
+    members.includes(:principal, :roles).inject({}) do |h, m|
       m.roles.each do |r|
         h[r] ||= []
-        h[r] << m.user
+        h[r] << m.principal
       end
       h
     end
@@ -507,12 +508,12 @@ class Project < ActiveRecord::Base
   def notified_users
     # TODO: User part should be extracted to User#notify_about?
     notified_members = members.select do |member|
-      setting = member.user.mail_notification
+      setting = member.principal.mail_notification
 
       (setting == 'selected' && member.mail_notification?) || setting == 'all'
     end
 
-    notified_members.map(&:user)
+    notified_members.map(&:principal)
   end
 
   # Returns an array of all custom fields enabled for project issues
@@ -719,7 +720,9 @@ class Project < ActiveRecord::Base
   end
 
   def allowed_actions
-    @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
+    @actions_allowed ||= allowed_permissions
+                         .map { |permission| Redmine::AccessControl.allowed_actions(permission) }
+                         .flatten
   end
 
   # Returns all the active Systemwide and project specific activities
@@ -727,9 +730,9 @@ class Project < ActiveRecord::Base
     overridden_activity_ids = time_entry_activities.map(&:parent_id)
 
     if overridden_activity_ids.empty?
-      return TimeEntryActivity.shared.active
+      TimeEntryActivity.shared.active
     else
-      return system_activities_and_project_overrides
+      system_activities_and_project_overrides
     end
   end
 
@@ -739,20 +742,23 @@ class Project < ActiveRecord::Base
     overridden_activity_ids = time_entry_activities.map(&:parent_id)
 
     if overridden_activity_ids.empty?
-      return TimeEntryActivity.shared
+      TimeEntryActivity.shared
     else
-      return system_activities_and_project_overrides(true)
+      system_activities_and_project_overrides(true)
     end
   end
 
   # Returns the systemwide active activities merged with the project specific overrides
   def system_activities_and_project_overrides(include_inactive = false)
     if include_inactive
-      TimeEntryActivity.shared
+      TimeEntryActivity
+        .shared
         .where(['id NOT IN (?)', time_entry_activities.map(&:parent_id)]) +
         time_entry_activities
     else
-      TimeEntryActivity.shared.active
+      TimeEntryActivity
+        .shared
+        .active
         .where(['id NOT IN (?)', time_entry_activities.map(&:parent_id)]) +
         time_entry_activities.active
     end
@@ -769,9 +775,11 @@ class Project < ActiveRecord::Base
   protected
 
   def self.possible_principles_condition
-    condition = Setting.work_package_group_assignment? ?
-                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group'] :
+    condition = if Setting.work_package_group_assignment?
+                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group']
+                else
                   ["(#{Principal.table_name}.type=?)", 'User']
+                end
 
     condition[0] += " AND (#{User.table_name}.status=? OR #{User.table_name}.status=?) AND roles.assignable = ?"
     condition << Principal::STATUSES[:active]
@@ -789,6 +797,7 @@ class Project < ActiveRecord::Base
     else
       p = Project.find_by(id: p)
       return false unless p
+
       p
     end
   end

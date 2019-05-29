@@ -75,7 +75,7 @@ describe WorkPackages::SetAttributesService, type: :model do
   let(:work_package_valid) { true }
   let(:instance) do
     described_class.new(user: user,
-                        work_package: work_package,
+                        model: work_package,
                         contract_class: mock_contract)
   end
 
@@ -307,7 +307,7 @@ describe WorkPackages::SetAttributesService, type: :model do
       let(:user) { FactoryBot.build_stubbed(:admin) }
       let(:instance) do
         described_class.new(user: user,
-                            work_package: invalid_wp,
+                            model: invalid_wp,
                             contract_class: contract_class)
       end
 

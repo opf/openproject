@@ -45,18 +45,12 @@ module API
         }
       end
 
-      link :user do
-        next unless current_user.logged?
-        {
-          href: api_v3_paths.user(current_user.id),
-          title: current_user.name
-        }
-      end
+      link :memberships do
+        next unless current_user.allowed_to?(:view_members, nil, global: true) ||
+                    current_user.allowed_to?(:manage_members, nil, global: true)
 
-      link :userPreferences do
-        next unless current_user.logged?
         {
-          href: api_v3_paths.my_preferences
+          href: api_v3_paths.memberships
         }
       end
 
@@ -87,6 +81,21 @@ module API
       link :types do
         {
           href: api_v3_paths.types
+        }
+      end
+
+      link :user do
+        next unless current_user.logged?
+        {
+          href: api_v3_paths.user(current_user.id),
+          title: current_user.name
+        }
+      end
+
+      link :userPreferences do
+        next unless current_user.logged?
+        {
+          href: api_v3_paths.my_preferences
         }
       end
 

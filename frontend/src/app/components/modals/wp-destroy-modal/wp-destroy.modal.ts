@@ -137,7 +137,15 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
         this.busy = false;
         this.closeMe($event);
         this.wpTableFocus.clear();
-        this.backRoutingService.goBack(true);
+
+        /**
+         * When we are in the list, we expect a refreshed list view.
+         * Otherwise we expect a redirect to where we came from,
+         * since the WP in view (split/full) does not exist any more.
+         */
+        if (this.$state.current.name !== 'work-packages.list') {
+          this.backRoutingService.goBack(true);
+        }
       })
       .catch(() => {
         this.busy = false;

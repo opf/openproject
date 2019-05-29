@@ -23,7 +23,7 @@ describe "multi select custom values", clear_cache: true, js: true do
 
   def table_edit_field(work_package)
     field = wp_table.edit_field work_package, "customField#{custom_field.id}"
-    field.field_type = 'ng-select'
+    field.field_type = 'create-autocompleter'
     field
   end
 
@@ -65,7 +65,7 @@ describe "multi select custom values", clear_cache: true, js: true do
     describe 'in single view' do
       let(:edit_field) do
         field = wp_page.edit_field "customField#{custom_field.id}"
-        field.field_type = 'ng-select'
+        field.field_type = 'create-autocompleter'
         field
       end
 

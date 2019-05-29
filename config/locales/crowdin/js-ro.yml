@@ -221,6 +221,7 @@ ro:
     label_board_locked: Închis
     label_board_plural: Boards
     label_board_sticky: Lipicios
+    label_create_new: Create new
     label_create_work_package: Creare pachet de lucru nou
     label_created_by: Creat de
     label_date: Dată

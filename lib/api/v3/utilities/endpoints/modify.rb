@@ -80,11 +80,11 @@ module API
           end
 
           def deduce_process_service
-            "::#{deduce_namespace}::#{update_or_create}Service".constantize
+            "::#{decude_backend_namespace}::#{update_or_create}Service".constantize
           end
 
           def deduce_render_representer
-            "::API::V3::#{deduce_namespace}::#{model.name.demodulize}Representer".constantize
+            "::API::V3::#{deduce_api_namespace}::#{api_name}Representer".constantize
           end
 
           def deduce_process_contract

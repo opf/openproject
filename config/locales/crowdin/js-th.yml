@@ -218,6 +218,7 @@ th:
     label_board_locked: ล็อค
     label_board_plural: Boards
     label_board_sticky: ปักหมุด
+    label_create_new: Create new
     label_create_work_package: สร้างชุดภารกิจใหม่
     label_created_by: Created by
     label_date: วันที่

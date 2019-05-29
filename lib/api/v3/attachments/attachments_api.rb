@@ -72,15 +72,10 @@ module API
             end
 
             namespace :content do
+              helpers ::API::Helpers::AttachmentRenderer
+
               get do
-                if @attachment.external_storage?
-                  redirect @attachment.external_url.to_s
-                else
-                  content_type @attachment.content_type
-                  header['Content-Disposition'] = "attachment; filename=#{@attachment.filename}"
-                  env['api.format'] = :binary
-                  @attachment.diskfile.read
-                end
+                respond_with_attachment @attachment
               end
             end
           end

@@ -32,12 +32,13 @@ class Role < ActiveRecord::Base
   extend Pagination::Model
 
   # Built-in roles
+  NON_BUILTIN = 0
   BUILTIN_NON_MEMBER = 1
   BUILTIN_ANONYMOUS  = 2
 
   scope :builtin, ->(*args) {
     compare = 'not' if args.first == true
-    where("#{compare} builtin = 0")
+    where("#{compare} builtin = #{NON_BUILTIN}")
   }
 
   before_destroy :check_deletable
@@ -62,7 +63,7 @@ class Role < ActiveRecord::Base
   validates_length_of :name, maximum: 30
 
   def self.givable
-    where('builtin = 0').order(Arel.sql('position'))
+    where(builtin: NON_BUILTIN).order(Arel.sql('position'))
   end
 
   def permissions
@@ -111,7 +112,7 @@ class Role < ActiveRecord::Base
 
   # Return true if the role is a builtin role
   def builtin?
-    builtin != 0
+    builtin != NON_BUILTIN
   end
 
   # Return true if the role is a project member role
@@ -137,11 +138,6 @@ class Role < ActiveRecord::Base
     setable_permissions -= Redmine::AccessControl.members_only_permissions if builtin == BUILTIN_NON_MEMBER
     setable_permissions -= Redmine::AccessControl.loggedin_only_permissions if builtin == BUILTIN_ANONYMOUS
     setable_permissions
-  end
-
-  # Find all the roles that can be given to a project member
-  def self.find_all_givable
-    where(builtin: 0).order(Arel.sql('position'))
   end
 
   # Return the builtin 'non member' role.  If the role doesn't exist,

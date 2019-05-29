@@ -45,9 +45,8 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
                (change)="onModelChange($event)"
                (focus)="onFocus()">
       <ng-template ng-option-tmp let-item="item" let-index="index">
-        <user-avatar *ngIf="item.href"
-                     [attr.data-user-name]="item.name"
-                     [attr.data-user-avatar-src]="item.avatar"
+        <user-avatar *ngIf="item"
+                     [user]="item"
                      data-class-list="avatar-mini">
         </user-avatar>
         {{ item.name }}

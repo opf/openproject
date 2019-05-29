@@ -47,7 +47,7 @@ describe WorkPackages::UpdateService, type: :model do
   end
   let(:instance) do
     described_class.new(user: user,
-                        work_package: work_package)
+                        model: work_package)
   end
 
   describe 'call' do

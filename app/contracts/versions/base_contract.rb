@@ -35,6 +35,7 @@ module Versions
     end
 
     delegate :available_custom_fields,
+             :new_record?,
              to: :model
 
     def validate

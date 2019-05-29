@@ -34,19 +34,14 @@ import {OPContextMenuService} from 'core-components/op-context-menu/op-context-m
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
-import {BoardListService} from "core-app/modules/boards/board/board-list/board-list.service";
-import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {Board} from "core-app/modules/boards/board/board";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
 
 @Directive({
   selector: '[boardListDropdown]'
 })
 export class BoardListDropdownMenuDirective extends OpContextMenuTrigger {
-  /** Action service used by the board */
-  public actionService:BoardActionService;
-
   private board:Board;
 
   constructor(readonly elementRef:ElementRef,
@@ -58,15 +53,14 @@ export class BoardListDropdownMenuDirective extends OpContextMenuTrigger {
               readonly querySpace:IsolatedQuerySpace,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService,
-              readonly BoardListService:BoardListService,
               readonly boardActions:BoardActionsRegistryService) {
 
     super(elementRef, opContextMenu);
     this.board = this.boardList.board;
   }
 
-  protected open(evt:JQueryEventObject) {
-    this.items = this.buildItems();
+  protected async open(evt:JQueryEventObject) {
+    this.items = await this.buildItems();
     this.opContextMenu.show(this, evt);
   }
 
@@ -87,8 +81,8 @@ export class BoardListDropdownMenuDirective extends OpContextMenuTrigger {
     return position;
   }
 
-  private buildItems() {
-    this.items = [
+  private async buildItems() {
+    let items:OpContextMenuItem[] = [
       {
         disabled: !this.boardList.canDelete,
         linkText: this.I18n.t('js.boards.lists.delete'),
@@ -101,26 +95,13 @@ export class BoardListDropdownMenuDirective extends OpContextMenuTrigger {
 
     // Add action specific menu entries
     if (this.board.isAction) {
-      this.actionService = this.boardActions.get(this.board.actionAttribute!);
-      this.querySpace.query.values$().subscribe((query) => {
-        const actionAttributeValue = this.BoardListService.getActionAttributeValue(this.board, query);
+      const actionService = this.boardActions.get(this.board.actionAttribute!);
+      const query = this.querySpace.query.value!;
 
-        if (actionAttributeValue !== '') {
-          this.actionService.getAdditionalListMenuItems(actionAttributeValue).then((items) => {
-            items.forEach((item:any) => {
-              this.items.push({
-                linkText: item.linkText,
-                onClick: () => {
-                  item.externalAction();
-                  return true;
-                }
-              });
-            });
-          });
-        }
-      });
+      const additional = await actionService.getAdditionalListMenuItems(query);
+      return items.concat(additional);
     }
 
-    return this.items;
+    return items;
   }
 }

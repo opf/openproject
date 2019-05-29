@@ -41,7 +41,6 @@ describe 'Global role: Unchanged Member Roles', type: :feature, js: true do
   end
 
   scenario 'Global Rights Modules do not exist as Project -> Settings -> Modules' do
-
     # Scenario: Global Roles should not be displayed as assignable project roles
     # Given there is 1 project with the following:
     # | Name       | projectname |

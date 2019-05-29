@@ -67,6 +67,14 @@ module API
           }
         end
 
+        link :delete,
+             cache_if: -> { current_user_allowed_to(:manage_versions, context: represented.project) } do
+          {
+            href: api_v3_paths.version(represented.id),
+            method: :delete
+          }
+        end
+
         associated_resource :project,
                             as: :definingProject,
                             skip_render: ->(*) { !represented.project || !represented.project.visible?(current_user) }

@@ -6,9 +6,7 @@ FactoryBot.define do
     filename     { "avatar.jpg" }
     content_type { "image/jpeg" }
     file do
-      OpenProject::Files.create_uploaded_file name: filename,
-                                              content_type: content_type,
-                                              binary: true
+      File.open(File.expand_path('../../fixtures/valid.jpg', __FILE__))
     end
   end
 end

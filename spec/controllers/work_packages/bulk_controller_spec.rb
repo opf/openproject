@@ -648,9 +648,9 @@ describe WorkPackages::BulkController, type: :controller do
       before do
         expect(stub_work_package).to receive(:reload).and_return(stub_work_package)
 
-        allow(WorkPackages::DestroyService)
+        allow(WorkPackages::DeleteService)
           .to receive(:new)
-          .with(user: user, work_package: stub_work_package)
+          .with(user: user, model: stub_work_package)
           .and_return(service)
 
         expect(service)

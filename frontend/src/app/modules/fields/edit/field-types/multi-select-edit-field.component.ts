@@ -43,7 +43,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
   readonly I18n:I18nService = this.injector.get(I18nService);
-  public options:any[];
+  public options:any[] = [];
   public valueOptions:ValueOption[];
   public text = {
     requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
@@ -59,17 +59,24 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   private nullOption:ValueOption;
   private _selectedOption:ValueOption[];
 
+  /** Since we need to wait for values to be loaded, remember if the user activated this field*/
+  private requestFocus = false;
+
   ngOnInit() {
     this.nullOption = { name: this.text.placeholder, $href: null };
 
-    const loadingPromise = this.loadValues();
     this.handler
       .$onUserActivate
       .pipe(
         untilComponentDestroyed(this),
       )
       .subscribe(() => {
-        loadingPromise.then(() => this.openAutocompleteSelectField())
+        this.requestFocus = this.options.length === 0;
+
+        // If we already have all values loaded, open now.
+        if (!this.requestFocus) {
+          this.openAutocompleteSelectField();
+        }
       });
 
     super.ngOnInit();
@@ -153,12 +160,22 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
       });
     }
 
-    this.options = availableValues;
+    this.options = availableValues || [];
     this.valueOptions = this.options.map(el => {
       return { name: el.name, $href: el.$href };
     });
     this._selectedOption = this.buildSelectedOption();
     this.checkCurrentValueValidity();
+
+    if (this.options.length > 0 && this.requestFocus) {
+      this.openAutocompleteSelectField();
+      this.requestFocus = false;
+    }
+  }
+
+  protected initialize() {
+    super.initialize();
+    this.loadValues();
   }
 
   private loadValues() {

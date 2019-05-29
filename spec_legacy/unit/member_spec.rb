@@ -55,7 +55,7 @@ describe Member, type: :model do
   it 'should update' do
     assert_equal @project.name, @member.project.name
     assert_equal @role.name, @member.roles.first.name
-    assert_equal @user.login, @member.user.login
+    assert_equal @user.login, @member.principal.login
 
     @member.mail_notification = !@member.mail_notification
     assert @member.save

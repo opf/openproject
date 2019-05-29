@@ -21,6 +21,7 @@ import {OpTitleService} from "core-components/html/op-title.service";
 
 @Component({
   templateUrl: './wp-calendar.template.html',
+  styleUrls: ['./wp-calendar.sass'],
   selector: 'wp-calendar',
 })
 export class WorkPackagesCalendarController implements OnInit, OnDestroy {

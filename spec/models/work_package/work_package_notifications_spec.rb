@@ -98,7 +98,7 @@ describe WorkPackage, type: :model do
       before do
         WorkPackages::UpdateService
           .new(user: current_user,
-               work_package: child)
+               model: child)
           .call(done_ratio: 99)
       end
 

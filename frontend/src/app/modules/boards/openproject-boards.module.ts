@@ -44,8 +44,6 @@ import {BoardsIndexPageComponent} from "core-app/modules/boards/index-page/board
 import {BoardsMenuComponent} from "core-app/modules/boards/boards-sidebar/boards-menu.component";
 import {BoardDmService} from "core-app/modules/boards/board/board-dm.service";
 import {NewBoardModalComponent} from "core-app/modules/boards/new-board-modal/new-board-modal.component";
-import {BoardStatusActionService} from "core-app/modules/boards/board/board-actions/status-action.service";
-import {BoardVersionActionService} from "core-app/modules/boards/board/board-actions/version-action.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
 import {BoardHighlightingTabComponent} from "core-app/modules/boards/board/configuration-modal/tabs/highlighting-tab.component";
@@ -53,7 +51,12 @@ import {AddCardDropdownMenuDirective} from "core-app/modules/boards/board/add-ca
 import {BoardFilterComponent} from "core-app/modules/boards/board/board-filter/board-filter.component";
 import {DragScrollModule} from "cdk-drag-scroll";
 import {BoardListDropdownMenuDirective} from "core-app/modules/boards/board/board-list/board-list-dropdown.directive";
-import {BoardListService} from "core-app/modules/boards/board/board-list/board-list.service";
+import {VersionBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/version/version-board-header.component";
+import {DynamicModule} from "ng-dynamic-component";
+import {BoardStatusActionService} from "core-app/modules/boards/board/board-actions/status/status-action.service";
+import {BoardVersionActionService} from "core-app/modules/boards/board/board-actions/version/version-action.service";
+
+const menuItemClass = 'board-view-menu-item';
 
 export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -62,6 +65,10 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     // The trailing slash is important
     // cf., https://community.openproject.com/wp/29754
     url: '/boards/?query_props',
+    data: {
+      bodyClasses: 'router--boards-view-base',
+      menuItem: menuItemClass
+    },
     params: {
       // Use custom encoder/decoder that ensures validity of URL string
       query_props: { type: 'opQueryString', dynamic: true }
@@ -74,7 +81,8 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     component: BoardsIndexPageComponent,
     data: {
       parent: 'boards',
-      bodyClasses: 'router--boards-list-view'
+      bodyClasses: 'router--boards-list-view',
+      menuItem: menuItemClass
     }
   },
   {
@@ -88,7 +96,8 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     component: BoardComponent,
     data: {
       parent: 'boards',
-      bodyClasses: 'router--boards-full-view'
+      bodyClasses: 'router--boards-full-view',
+      menuItem: menuItemClass
     }
   }
 ];
@@ -121,6 +130,9 @@ export function registerBoardsModule(injector:Injector) {
     OpenprojectWorkPackagesModule,
     DragScrollModule,
 
+    // Dynamic Module for actions
+    DynamicModule.withComponents([VersionBoardHeaderComponent]),
+
     // Routes for /boards
     UIRouterModule.forChild({
       states: BOARDS_ROUTES,
@@ -130,7 +142,6 @@ export function registerBoardsModule(injector:Injector) {
   providers: [
     BoardService,
     BoardDmService,
-    BoardListService,
     BoardListsService,
     BoardCacheService,
     BoardConfigurationService,
@@ -159,6 +170,7 @@ export function registerBoardsModule(injector:Injector) {
     AddCardDropdownMenuDirective,
     BoardListDropdownMenuDirective,
     BoardFilterComponent,
+    VersionBoardHeaderComponent,
   ],
   entryComponents: [
     BoardInlineAddAutocompleterComponent,
@@ -167,6 +179,7 @@ export function registerBoardsModule(injector:Injector) {
     BoardHighlightingTabComponent,
     NewBoardModalComponent,
     AddListModalComponent,
+    VersionBoardHeaderComponent,
   ]
 })
 export class OpenprojectBoardsModule {

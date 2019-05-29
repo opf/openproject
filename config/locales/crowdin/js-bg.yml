@@ -219,6 +219,7 @@ bg:
     label_board_locked: Заключен
     label_board_plural: Boards
     label_board_sticky: Лепкава
+    label_create_new: Create new
     label_create_work_package: Създаване на нов работен пакет
     label_created_by: Created by
     label_date: Дата

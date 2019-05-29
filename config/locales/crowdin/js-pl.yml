@@ -219,6 +219,7 @@ pl:
     label_board_locked: Zablokowany
     label_board_plural: Tablice
     label_board_sticky: Przyklejony
+    label_create_new: Create new
     label_create_work_package: Utwórz nowy pakiet roboczy
     label_created_by: Utworzony przez
     label_date: Data

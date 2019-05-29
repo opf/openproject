@@ -41,13 +41,13 @@ describe Relations::CreateService do
 
   let(:work_package1) do
     FactoryBot.build_stubbed(:work_package,
-                              due_date: work_package1_due_date,
-                              start_date: work_package1_start_date)
+                             due_date: work_package1_due_date,
+                             start_date: work_package1_start_date)
   end
   let(:work_package2) do
     FactoryBot.build_stubbed(:work_package,
-                              due_date: work_package2_due_date,
-                              start_date: work_package2_start_date)
+                             due_date: work_package2_due_date,
+                             start_date: work_package2_start_date)
   end
   let(:instance) do
     described_class.new(user: user)
@@ -73,6 +73,7 @@ describe Relations::CreateService do
   let(:model_valid) { true }
   let(:contract_valid) { true }
   let(:contract) { double('contract') }
+  let(:symbols_for_base) { [] }
 
   subject do
     instance.call(relation)
@@ -92,7 +93,7 @@ describe Relations::CreateService do
       .and_return(contract_valid)
   end
 
-  context 'when all valid and it is a follows relation' do
+  context 'if all valid and it is a follows relation' do
     let(:set_schedule_service) { double('set schedule service') }
     let(:set_schedule_work_package2_result) do
       ServiceResult.new success: true, result: work_package2, errors: work_package2.errors
@@ -143,7 +144,7 @@ describe Relations::CreateService do
     end
   end
 
-  context 'when all is valid and it is not a follows relation' do
+  context 'if all is valid and it is not a follows relation' do
     it 'is successful' do
       expect(subject)
         .to be_success
@@ -155,7 +156,7 @@ describe Relations::CreateService do
     end
   end
 
-  context 'when the contract is invalid' do
+  context 'if the contract is invalid' do
     let(:contract_valid) { false }
     let(:contract_errors) { double('contract_errors') }
 
@@ -163,6 +164,10 @@ describe Relations::CreateService do
       allow(contract)
         .to receive(:errors)
         .and_return(contract_errors)
+      allow(contract_errors)
+        .to receive(:symbols_for)
+        .with(:base)
+        .and_return(symbols_for_base)
     end
 
     it 'is unsuccessful' do
@@ -176,7 +181,7 @@ describe Relations::CreateService do
     end
   end
 
-  context 'when the model is invalid' do
+  context 'if the model is invalid' do
     let(:model_valid) { false }
     let(:model_errors) { double('model_errors') }
 
@@ -184,6 +189,10 @@ describe Relations::CreateService do
       allow(relation)
         .to receive(:errors)
         .and_return(model_errors)
+      allow(model_errors)
+        .to receive(:symbols_for)
+        .with(:base)
+        .and_return(symbols_for_base)
     end
 
     it 'is unsuccessful' do
@@ -194,6 +203,64 @@ describe Relations::CreateService do
     it "returns the model's errors" do
       expect(subject.errors)
         .to eql model_errors
+    end
+
+    context 'on a circular_dependency error' do
+      let(:symbols_for_base) { [:"typed_dag.circular_dependency"] }
+      before do
+        allow(relation)
+          .to receive(:save) do
+          relation.from == work_package1 && relation.to == work_package2
+        end
+      end
+
+      context 'for a relates relationships' do
+        let(:attributes) do
+          {
+            to: work_package1,
+            from: work_package2,
+            delay: delay,
+            relation_type: Relation::TYPE_RELATES
+          }
+        end
+
+        it 'is successful' do
+          expect(subject)
+            .to be_success
+        end
+
+        it 'switches from and to' do
+          expect(subject.result.to)
+            .to eql work_package2
+
+          expect(subject.result.from)
+            .to eql work_package1
+        end
+      end
+
+      context 'fro a different relationship' do
+        let(:attributes) do
+          {
+            to: work_package1,
+            from: work_package2,
+            delay: delay,
+            relation_type: Relation::TYPE_BLOCKED
+          }
+        end
+
+        it 'is failure' do
+          expect(subject)
+            .to be_failure
+        end
+
+        it 'leaves from and to unchanged' do
+          expect(subject.result.from)
+            .to eql work_package2
+
+          expect(subject.result.to)
+            .to eql work_package1
+        end
+      end
     end
   end
 end

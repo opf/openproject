@@ -32,6 +32,10 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {GridResource} from "core-app/modules/hal/resources/grid-resource";
+import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class VersionDmService {
@@ -52,7 +56,7 @@ export class VersionDmService {
   }
 
 
-  public one(id:number):Promise<VersionResource> {
+  public one(id:string|number):Promise<VersionResource> {
     return this.halResourceService
       .get<VersionResource>(this.pathHelper.api.v3.versions.id(id).toString())
       .toPromise();
@@ -67,6 +71,20 @@ export class VersionDmService {
   public listForProject(projectId:string):Promise<CollectionResource<VersionResource>> {
     return this.halResourceService
       .get<CollectionResource<VersionResource>>(this.pathHelper.api.v3.projects.id(projectId).versions.toString())
+      .toPromise();
+  }
+
+  public listProjectsAvailableForVersions():Promise<CollectionResource<ProjectResource>> {
+    return this.halResourceService
+      .get<CollectionResource<ProjectResource>>(this.pathHelper.api.v3.versions.availableProjects.toString())
+      .toPromise();
+  }
+
+  public patch(resource:VersionResource, payload:Object):Promise<VersionResource> {
+    return this.halResourceService
+      .patch<VersionResource>(
+        this.pathHelper.api.v3.versions.id(resource.id!).toString(),
+        payload)
       .toPromise();
   }
 }

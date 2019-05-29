@@ -72,6 +72,22 @@ export function bodyClass(className:string|null|undefined, action:'add'|'remove'
     document.body.classList[action](className);
   }
 }
+export function updateMenuItem(menuItemClass:string|undefined, action:'add'|'remove' = 'add') {
+  if (menuItemClass) {
+    let menuItem = jQuery('#main-menu .' +  menuItemClass)[0];
+
+    // Update Class
+    menuItem.classList[action]('selected');
+
+    // Update accessibility label
+    let menuItemTitle = (menuItem.getAttribute('title') || '').split(':').slice(-1)[0];
+    if (action === 'add') {
+      menuItemTitle = I18n.t('js.description_current_position') + menuItemTitle;
+    }
+
+    menuItem.setAttribute('title', menuItemTitle);
+  }
+}
 
 export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, module:StatesModule) {
   // Allow optional trailing slashes
@@ -113,11 +129,17 @@ export function initializeUiRouterListeners(injector:Injector) {
     $transitions.onEnter({}, function(transition:Transition, state:StateDeclaration) {
       // Add body class when entering this state
       bodyClass(_.get(state, 'data.bodyClasses'), 'add');
+      if (transition.from().data && _.get(state, 'data.menuItem') !== transition.from().data.menuItem) {
+        updateMenuItem(_.get(state, 'data.menuItem'), 'add');
+      }
     });
 
     $transitions.onExit({}, function(transition:Transition, state:StateDeclaration) {
       // Remove body class when leaving this state
       bodyClass(_.get(state, 'data.bodyClasses'), 'remove');
+      if (transition.to().data && _.get(state, 'data.menuItem') !== transition.to().data.menuItem) {
+        updateMenuItem(_.get(state, 'data.menuItem'), 'remove');
+      }
     });
 
     $transitions.onStart({}, function(transition:Transition) {
@@ -140,22 +162,27 @@ export function initializeUiRouterListeners(injector:Injector) {
       const profiler:any = (window as any).MiniProfiler;
       profiler && profiler.pageTransition();
 
-      // Remove and add any body class definitions for entering
-      // and exiting states.
-      bodyClass(_.get(toState, 'data.bodyClasses'), 'add');
-
       // Abort the transition and move to the url instead
       if (wpBase === null) {
 
         // Only move to the URL if we're not coming from an initial URL load
         // (cases like /work_packages/invalid/activity which render a 403 without frontend,
         // but trigger the ui-router state)
-        if (transition.options().source !== 'url' && transition.options().source !== 'redirect') {
-          const target = stateService.href(toState, toParams);
+        const source = transition.options().source;
+
+        // Get the current path and compare
+        const path = window.location.pathname;
+        const target = stateService.href(toState, toParams);
+
+        if (path !== target) {
           window.location.href = target;
           return false;
         }
       }
+
+      // Remove and add any body class definitions for entering
+      // and exiting states.
+      bodyClass(_.get(toState, 'data.bodyClasses'), 'add');
 
       // We need to distinguish between actions that should run on the initial page load
       // (ie. openining a new tab in the details view should focus on the element in the table)

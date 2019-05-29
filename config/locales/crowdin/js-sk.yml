@@ -221,6 +221,7 @@ sk:
     label_board_locked: Uzamknuté
     label_board_plural: Nástenky
     label_board_sticky: Dôležité (vždy vyššie)
+    label_create_new: Create new
     label_create_work_package: Vytvoriť nový pracovný balíček
     label_created_by: Vytvoril(a)
     label_date: Dátum

@@ -71,6 +71,7 @@ module API
         link :lock,
              cache_if: -> { current_user_is_admin } do
           next unless represented.lockable?
+
           {
             href: api_v3_paths.user_lock(represented.id),
             title: "Set lock on #{represented.login}",
@@ -81,6 +82,7 @@ module API
         link :unlock,
              cache_if: -> { current_user_is_admin } do
           next unless represented.activatable?
+
           {
             href: api_v3_paths.user_lock(represented.id),
             title: "Remove lock on #{represented.login}",

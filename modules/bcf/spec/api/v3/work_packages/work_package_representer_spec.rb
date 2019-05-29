@@ -49,10 +49,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         <Labels>Structural</Labels>
         <Labels>IT Development</Labels>
         <CreationDate>2015-06-21T12:00:00Z</CreationDate>
-        <CreationAuthor>dangl@iabi.eu</CreationAuthor>
+        <CreationAuthor>mike@example.com</CreationAuthor>
         <ModifiedDate>2015-06-21T14:22:47Z</ModifiedDate>
-        <ModifiedAuthor>dangl@iabi.eu</ModifiedAuthor>
-        <AssignedTo>linhard@iabi.eu</AssignedTo>
+        <ModifiedAuthor>mike@example.com</ModifiedAuthor>
+        <AssignedTo>andy@example.com</AssignedTo>
         <Description>This is a topic with all informations present.</Description>
         <BimSnippet SnippetType="JSON">
           <Reference>JsonElement.json</Reference>
@@ -70,29 +70,29 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       </Topic>
       <Comment Guid="780FAE52-C432-42BE-ADEA-FF3E7A8CD8E1">
         <Date>2015-08-31T12:40:17Z</Date>
-        <Author>dangl@iabi.eu</Author>
+        <Author>mike@example.com</Author>
         <Comment>This is an unmodified topic at the uppermost hierarchical level.
     All times in the XML are marked as UTC times.</Comment>
       </Comment>
       <Comment Guid="897E4909-BDF3-4CC7-A283-6506CAFF93DD">
         <Date>2015-08-31T14:00:01Z</Date>
-        <Author>dangl@iabi.eu</Author>
+        <Author>mike@example.com</Author>
         <Comment>This comment was a reply to the first comment in BCF v2.0. This is a no longer supported functionality and therefore is to be treated as a regular comment in v2.1.</Comment>
       </Comment>
       <Comment Guid="39C4B780-1B48-44E5-9802-D359007AA44E">
         <Date>2015-08-31T13:07:11Z</Date>
-        <Author>dangl@iabi.eu</Author>
+        <Author>mike@example.com</Author>
         <Comment>This comment again is in the highest hierarchy level.
     It references a viewpoint.</Comment>
         <Viewpoint Guid="8dc86298-9737-40b4-a448-98a9e953293a" />
       </Comment>
       <Comment Guid="BD17158C-4267-4433-98C1-904F9B41CA50">
         <Date>2015-08-31T15:42:58Z</Date>
-        <Author>dangl@iabi.eu</Author>
+        <Author>mike@example.com</Author>
         <Comment>This comment contained some spllng errs.
     Hopefully, the modifier did catch them all.</Comment>
         <ModifiedDate>2015-08-31T16:07:11Z</ModifiedDate>
-        <ModifiedAuthor>dangl@iabi.eu</ModifiedAuthor>
+        <ModifiedAuthor>mike@example.com</ModifiedAuthor>
       </Comment>
       <Viewpoints Guid="8dc86298-9737-40b4-a448-98a9e953293a">
         <Viewpoint>Viewpoint_8dc86298-9737-40b4-a448-98a9e953293a.bcfv</Viewpoint>

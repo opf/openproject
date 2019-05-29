@@ -28,33 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackages::SetAttributesService
-  include Concerns::Contracted
-
-  attr_accessor :user,
-                :work_package,
-                :contract_class
-
-  def initialize(user:, work_package:, contract_class:)
-    self.user = user
-    self.work_package = work_package
-    self.contract_class = contract_class
-  end
-
-  def call(attributes)
-    set_attributes(attributes)
-    validate_and_result
-  end
-
+class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   private
-
-  def validate_and_result
-    success, errors = validate(work_package, user)
-
-    ServiceResult.new(success: success,
-                      errors: errors,
-                      result: work_package)
-  end
 
   def set_attributes(attributes)
     if attributes.key?(:attachment_ids)
@@ -224,5 +199,9 @@ class WorkPackages::SetAttributesService
     if min_start && (min_start > current_start_date)
       min_start
     end
+  end
+
+  def work_package
+    model
   end
 end

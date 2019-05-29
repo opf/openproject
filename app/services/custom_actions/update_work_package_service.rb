@@ -46,7 +46,7 @@ class CustomActions::UpdateWorkPackageService
 
     result = ::WorkPackages::UpdateService
              .new(user: user,
-                  work_package: work_package)
+                  model: work_package)
              .call({})
 
     block_with_result(result, &block)
