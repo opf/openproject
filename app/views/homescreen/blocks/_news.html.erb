@@ -12,7 +12,7 @@
         <%= link_to_project(news.project) + ': ' %>
         <%= link_to h(news.title), news_path(news) %>
         <br/>
-        <p class="widget-box--additional-info"><%= authoring news.created_on, news.author %></p>
+        <span class="additional-information"><%= authoring news.created_on, news.author %></span>
       </div>
     </li>
   <% end %>

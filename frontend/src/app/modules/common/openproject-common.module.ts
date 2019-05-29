@@ -84,6 +84,8 @@ import {EnterpriseBannerComponent} from "core-components/enterprise-banner/enter
 import {DynamicModule} from "ng-dynamic-component";
 import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplete/version-autocompleter.component";
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
+import {HomescreenNewFeaturesBlockComponent} from "core-components/homescreen/blocks/new-features.component";
+import {BoardVideoTeaserModalComponent} from "core-app/modules/boards/board/board-video-teaser-modal/board-video-teaser-modal.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -235,6 +237,9 @@ export function bootstrapModule(injector:Injector) {
     // Autocompleter
     CreateAutocompleterComponent,
     VersionAutocompleterComponent,
+
+    HomescreenNewFeaturesBlockComponent,
+    BoardVideoTeaserModalComponent
   ],
   entryComponents: [
     OpDateTimeComponent,
@@ -250,7 +255,10 @@ export function bootstrapModule(injector:Injector) {
     ZenModeButtonComponent,
     CollapsibleSectionComponent,
     UserAutocompleterComponent,
-    UserAvatarComponent
+    UserAvatarComponent,
+
+    HomescreenNewFeaturesBlockComponent,
+    BoardVideoTeaserModalComponent
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
