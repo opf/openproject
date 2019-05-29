@@ -62,6 +62,7 @@ module WorkPackages
 
       model.changed.each do |key|
         next if allowed_changes[key.to_sym]
+
         return errors.add :base, :error_unauthorized
       end
     end
@@ -74,7 +75,7 @@ module WorkPackages
 
     def user_allowed_to_move
       if model.project_id_changed? &&
-        !@can.allowed?(model, :move)
+         !@can.allowed?(model, :move)
 
         errors.add :project, :error_unauthorized
       end

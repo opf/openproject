@@ -71,10 +71,12 @@ module Roles
       model.permissions.each do |name|
         permission = OpenProject::AccessControl.permission(name)
 
+        next unless permission
+
         unmet_dependencies = permission.dependencies - model.permissions
 
-        unmet_dependencies.each do |unmet_depenency|
-          add_unmet_dependency_error(name, unmet_depenency)
+        unmet_dependencies.each do |unmet_dependency|
+          add_unmet_dependency_error(name, unmet_dependency)
         end
       end
     end

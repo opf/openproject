@@ -99,14 +99,16 @@ class RolesController < ApplicationController
   def bulk_update
     @roles = roles_scope
 
-    @roles.each do |role|
-      new_permissions = { permissions: params[:permissions][role.id.to_s].presence || [] }
+    calls = bulk_update_roles(@roles)
 
-      update_role(role, new_permissions)
+    if calls.all?(&:success?)
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to action: 'index'
+    else
+      @calls = calls
+      @permissions = OpenProject::AccessControl.permissions.reject(&:public?)
+      render action: 'report'
     end
-
-    flash[:notice] = l(:notice_successful_update)
-    redirect_to action: 'index'
   end
 
   def autocomplete_for_role
@@ -137,6 +139,14 @@ class RolesController < ApplicationController
     Roles::UpdateService
       .new(user: current_user, model: role)
       .call(params)
+  end
+
+  def bulk_update_roles(roles)
+    roles.map do |role|
+      new_permissions = { permissions: params[:permissions][role.id.to_s].presence || [] }
+
+      update_role(role, new_permissions)
+    end
   end
 
   def create_role

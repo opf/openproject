@@ -71,12 +71,64 @@ describe OpenProject::AccessControl do
     end
   end
 
-  describe '#prerequisites' do
+  describe '#permissions' do
+    it 'is an array of permissions' do
+      expect(described_class.permissions.all? { |p| p.is_a?(OpenProject::AccessControl::Permission) })
+        .to be_truthy
+    end
+  end
+
+  describe '#permission' do
+    context 'for a project module permission' do
+      subject { described_class.permission(:view_work_packages) }
+
+      it 'is a permission' do
+        is_expected
+          .to be_a(OpenProject::AccessControl::Permission)
+      end
+
+      it 'is the permission with the queried for name' do
+        expect(subject.name)
+          .to eql(:view_work_packages)
+      end
+
+      it 'belongs to a project module' do
+        expect(subject.project_module)
+          .to eql(:work_package_tracking)
+      end
+    end
+
+    context 'for a non module permission' do
+      subject { described_class.permission(:edit_project) }
+
+      it 'is a permission' do
+        is_expected
+          .to be_a(OpenProject::AccessControl::Permission)
+      end
+
+      it 'is the permission with the queried for name' do
+        expect(subject.name)
+          .to eql(:edit_project)
+      end
+
+      it 'belongs to a project module' do
+        expect(subject.project_module)
+          .to be_nil
+      end
+
+      it 'includes actions' do
+        expect(subject.actions)
+          .to include('project_settings/show')
+      end
+    end
+  end
+
+  describe '#dependencies' do
     context 'for a permission with a prerequisite' do
       subject { described_class.permission(:edit_work_packages) }
 
       it 'denotes the prerequiresites' do
-        expect(subject.prerequisites)
+        expect(subject.dependencies)
           .to match_array([:view_work_packages])
       end
     end
@@ -85,7 +137,7 @@ describe OpenProject::AccessControl do
       subject { described_class.permission(:view_work_packages) }
 
       it 'denotes the prerequiresites' do
-        expect(subject.prerequisites)
+        expect(subject.dependencies)
           .to be_empty
       end
     end
