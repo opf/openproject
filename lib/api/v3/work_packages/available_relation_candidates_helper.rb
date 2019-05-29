@@ -40,25 +40,30 @@ module API
         # @param from [WorkPackage] The work package in the `from` position of a relation.
         # @param limit [Integer] Maximum number of results to retrieve.
         def work_package_queried(query, from, type, limit)
-          canonical_type = Relation.canonical_type(type)
-
-          scope =
-            if type != 'parent' && canonical_type == type
-              WorkPackage.relateable_to(from)
-            else
-              WorkPackage.relateable_from(from)
-            end
-
           like_query = query
-            .downcase
-            .split(/\s+/)
-            .map { |substr| WorkPackage.connection.quote_string(substr) }
-            .join("%")
+                       .downcase
+                       .split(/\s+/)
+                       .map { |substr| WorkPackage.connection.quote_string(substr) }
+                       .join("%")
 
-          scope
+          work_package_scope(from, type)
             .where("work_packages.id = ? OR LOWER(work_packages.subject) LIKE ?",
                    query.to_i, "%#{like_query}%")
             .limit(limit)
+        end
+
+        private
+
+        def work_package_scope(from, type)
+          canonical_type = Relation.canonical_type(type)
+
+          if type == Relation::TYPE_RELATES
+            WorkPackage.relateable_to(from).or(WorkPackage.relateable_from(from))
+          elsif type != 'parent' && canonical_type == type
+            WorkPackage.relateable_to(from)
+          else
+            WorkPackage.relateable_from(from)
+          end
         end
       end
     end

@@ -36,8 +36,8 @@
         <wp-relations-autocomplete
             [workPackage]="workPackage"
             (onReferenced)="onReferenced($event)"
-            appendToContainer=".work-packages-tab-view--overflow"
-            selectedRelationType="parent">
+            [appendToContainer]="'.work-packages-tab-view--overflow'"
+            [selectedRelationType]="selectedRelationType">
         </wp-relations-autocomplete>
       </div>
       <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
