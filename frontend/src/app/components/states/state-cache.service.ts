@@ -143,7 +143,7 @@ export abstract class StateCacheService<T> {
    * @param force Load the values anyway
    * @return {Promise<undefined>} An empty promise to mark when the set of states is filled.
    */
-  public requireAll(ids:string[], force:boolean = false):Promise<undefined> {
+  public requireAll(ids:string[], force:boolean = false):Promise<unknown> {
     let idsToRequest:string[];
 
     if (force) {
@@ -184,5 +184,5 @@ export abstract class StateCacheService<T> {
    * Load a set of required values, fill the results into the appropriate states
    * and return a promise when all values are inserted.
    */
-  protected abstract loadAll(ids:string[]):Promise<undefined>;
+  protected abstract loadAll(ids:string[]):Promise<undefined|unknown>;
 }

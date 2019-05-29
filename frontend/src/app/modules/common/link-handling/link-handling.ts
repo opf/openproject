@@ -28,7 +28,7 @@
 
 export namespace LinkHandling {
 
-  export function isClickedWithModifier(event:JQueryEventObject) {
+  export function isClickedWithModifier(event:JQueryEventObject|JQuery.Event) {
     const modifier = event.ctrlKey || event.shiftKey || event.metaKey;
     const middleButton = event.button === 1;
 

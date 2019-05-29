@@ -15,6 +15,7 @@ import {QuerySortByResource} from "core-app/modules/hal/resources/query-sort-by-
 import {QueryGroupByResource} from "core-app/modules/hal/resources/query-group-by-resource";
 import {Input} from "@angular/core";
 import {QueryFilterResource} from "core-app/modules/hal/resources/query-filter-resource";
+import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 
 export class States extends StatesGroup {
   name = 'MainStore';
@@ -36,6 +37,9 @@ export class States extends StatesGroup {
 
   /* /api/v3/statuses */
   statuses = multiInput<StatusResource>();
+
+  /* /api/v3/versions */
+  versions = multiInput<VersionResource>();
 
   /* /api/v3/users */
   users = multiInput<UserResource>();

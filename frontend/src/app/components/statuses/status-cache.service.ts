@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,25 +24,33 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
+import {MultiInputState} from "reactivestates";
+import {Injectable} from '@angular/core';
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
+import {StateCacheService} from 'core-components/states/state-cache.service';
+import {UserDmService} from 'core-app/modules/hal/dm-services/user-dm.service';
+import {States} from 'core-components/states.service';
+import {StatusDmService} from "core-app/modules/hal/dm-services/status-dm.service";
+import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+@Injectable()
+export class StatusCacheService extends StateCacheService<StatusResource>  {
 
-export class VersionResource extends HalResource {
-  status:string;
-
-  public definingProject:HalResource;
-
-  public isLocked() {
-    return this.status === 'locked';
+  constructor(readonly states:States,
+              readonly statusDm:StatusDmService) {
+    super();
   }
 
-  public isOpen() {
-    return this.status === 'open';
+  protected load(id:number|string):Promise<StatusResource> {
+    return this.statusDm.one(id);
   }
 
-  public isClosed() {
-    return this.status === 'closed';
+  protected loadAll(ids:string[]):Promise<unknown> {
+    return this.statusDm.list();
+  }
+
+  protected get multiState():MultiInputState<StatusResource> {
+    return this.states.statuses;
   }
 }
-

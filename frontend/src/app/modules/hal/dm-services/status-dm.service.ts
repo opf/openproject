@@ -38,7 +38,7 @@ export class StatusDmService {
               protected pathHelper:PathHelperService) {
   }
 
-  public one(id:number):Promise<StatusResource> {
+  public one(id:string|number):Promise<StatusResource> {
     return this.halResourceService
       .get<StatusResource>(this.pathHelper.api.v3.statuses.id(id).toString())
       .toPromise();
