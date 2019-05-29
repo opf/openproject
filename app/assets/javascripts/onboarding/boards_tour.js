@@ -17,7 +17,7 @@
                 'next .board-list--container': I18n.t('js.onboarding.steps.boards.lists'),
                 'showSkip': false,
                 'nextButton': {text: I18n.t('js.onboarding.buttons.next')},
-                'containerClass': '-dark',
+                'containerClass': '-dark -hidden-arrow',
                 'timeout': function() {
                     return new Promise(function(resolve) {
                         waitForElement('.wp-card', '#content', function() {

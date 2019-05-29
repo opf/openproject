@@ -28,7 +28,7 @@
         var url = new URL(window.location.href);
         var isMobile = document.body.classList.contains('-browser-mobile');
         var demoProjectsAvailable = $('meta[name=demo_projects_available]').attr('content') === "true";
-        var boardsDemoDataAvailable = $('meta[name=boards_demo_data_available]').attr('content') === "true"
+        var boardsDemoDataAvailable = $('meta[name=boards_demo_data_available]').attr('content') === "true";
         var eeTokenAvailable = !$('body').hasClass('ee-banners-visible');
 
         // ------------------------------- Initial start -------------------------------
