@@ -671,6 +671,11 @@ uk:
         member:
           principal_blank: Виберіть принаймні одного користувача або групу.
           role_blank: Виберіть принаймні одну роль.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1520,6 +1525,7 @@ uk:
   label_my_queries: Мої збережені запити
   label_never: Never
   label_new: Новий
+  label_new_features: New features
   label_new_statuses_allowed: Дозволені нові статуси
   label_news_added: Новину додано
   label_news_comment_added: Добавлено новий коментар до новини

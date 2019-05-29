@@ -668,6 +668,11 @@ hi:
         member:
           principal_blank: कृपया कम से कम एक समूह या उपयोगकर्ता चुनें।
           role_blank: कृपया कम से कम एक भूमिका टेबल चुनें
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1486,6 +1491,7 @@ hi:
   label_my_queries: My custom queries
   label_never: Never
   label_new: नया
+  label_new_features: New features
   label_new_statuses_allowed: New statuses allowed
   label_news_added: News added
   label_news_comment_added: Comment added to a news

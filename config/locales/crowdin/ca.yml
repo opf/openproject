@@ -670,6 +670,11 @@ ca:
         member:
           principal_blank: Trieu com a mínim un usuari o grup.
           role_blank: Seleccioneu almenys un rol.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1494,6 +1499,7 @@ ca:
   label_my_queries: Les meves consultes personalitzades
   label_never: Mai
   label_new: Nou
+  label_new_features: New features
   label_new_statuses_allowed: Nous estats permesos
   label_news_added: Notícies afegides
   label_news_comment_added: S'ha afegit un comentari a la notícia

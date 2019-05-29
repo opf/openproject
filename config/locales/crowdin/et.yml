@@ -659,6 +659,11 @@ et:
         member:
           principal_blank: Vali vähemalt üks kasutaja või grupp.
           role_blank: Vali vähemalt üks roll.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1478,6 +1483,7 @@ et:
   label_my_queries: Mu omaloodud päringud
   label_never: Mitte kunagi
   label_new: Uus
+  label_new_features: New features
   label_new_statuses_allowed: Uued olekud lubatud
   label_news_added: Uudis lisatud
   label_news_comment_added: Kommentaar lisatud uudisele

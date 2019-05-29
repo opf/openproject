@@ -659,6 +659,11 @@ id:
         member:
           principal_blank: Silakan pilih setidaknya satu user atau grup.
           role_blank: Silakan pilih setidaknya satu Role.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1478,6 +1483,7 @@ id:
   label_my_queries: Query kustom saya
   label_never: Never
   label_new: Baru
+  label_new_features: New features
   label_new_statuses_allowed: Status baru yang diijinkan
   label_news_added: News ditambahkan
   label_news_comment_added: Komentar ditambahkan ke dalam Berita

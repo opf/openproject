@@ -660,6 +660,11 @@ he:
         member:
           principal_blank: נא לבחור לפחות משתמש אחד או קבוצה.
           role_blank: נא לבחור תפקיד אחד לפחות.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1499,6 +1504,7 @@ he:
   label_my_queries: My custom queries
   label_never: Never
   label_new: חדש
+  label_new_features: New features
   label_new_statuses_allowed: New statuses allowed
   label_news_added: News added
   label_news_comment_added: Comment added to a news

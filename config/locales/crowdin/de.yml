@@ -233,8 +233,8 @@ de:
       query_group_placeholder: Benennen Sie die Tabelle
       reset: Auf Standardwerte zurücksetzen
       type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts. It is therefore recommended to use a strong color.
+        Klicken, um die Farbe dieses Typs zu zuweisen oder zu ändern. Die ausgewählte Farbe unterscheidet Arbeitspakete
+        in Gantt-Diagrammen. Es wird daher empfohlen, eine starke Farbe zu verwenden.
   versions:
     overview:
       no_results_title_text: Derzeit sind keine Arbeitspakete dieser Version zugewiesen.
@@ -437,7 +437,7 @@ de:
         spent_on: Datum
         type: Typ
       type:
-        description: Default text for description
+        description: Standardtext für Beschreibung
         attribute_groups: ''
         is_in_roadmap: In Roadmap standardmäßig angezeigt
         is_default: Typ für neue Projekte standardmäßig aktiviert
@@ -655,7 +655,8 @@ de:
           attributes:
             attribute_groups:
               attribute_unknown: Ungültige Arbeitspaket-Attribute verwendet.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              attribute_unknown_name: 'Ungültige Arbeitspaket-Attribute verwendet:
+                %{attribute}'
               duplicate_group: Der Gruppen-Name %{group} wird mehr als einmal verwendet.
                 Gruppen-Namen müssen eindeutig sein.
               query_invalid: 'Die eingebettete Ansicht ''%{group}'' ist ungültig:
@@ -685,9 +686,14 @@ de:
         member:
           principal_blank: Bitte wählen Sie mindestens einen Benutzer oder eine Gruppe.
           role_blank: Bitte wählen Sie mindestens eine Rolle.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
-          undeletable_work_packages_attached: The version cannot be deleted as it
-            has work packages attached to it.
+          undeletable_work_packages_attached: Die Version kann nicht gelöscht werden,
+            da sie Arbeitspakete enthält, die an sie angeschlossen sind.
       template:
         body: 'Bitte überprüfen Sie die folgenden Felder:'
         header:
@@ -1104,7 +1110,7 @@ de:
     (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff
     zu erhalten.
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
-  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class}
+  error_in_dependent: 'Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class}
     #%{related_id} - %{related_subject}: %{error}'
   error_invalid_selected_value: Ausgewählter Wert ist ungültig.
   error_invalid_group_by: 'Kann nicht gruppieren nach: %{value}'
@@ -1493,7 +1499,7 @@ de:
   label_max_size: Maximale Größe
   label_me: ich
   label_member_new: Neues Mitglied
-  label_member_all_admin: "(All roles due to admin status)"
+  label_member_all_admin: "(Alle Rollen, da Administrator)"
   label_member_plural: Mitglieder
   label_view_all_members: Alle Mitglieder anzeigen
   label_menu_item_name: Name des Menüpunktes
@@ -1522,6 +1528,7 @@ de:
   label_my_queries: Meine Berichte
   label_never: Nie
   label_new: Neu
+  label_new_features: New features
   label_new_statuses_allowed: Neuer Status
   label_news_added: Neuigkeit hinzugefügt
   label_news_comment_added: Kommentar einer Neuigkeit hinzugefügt
@@ -2853,10 +2860,11 @@ de:
   menu_item: Menüpunkt
   menu_item_setting: Sichtbarkeit
   mysql_deprecation:
-    notice: 'Future versions of OpenProject will likely drop or reduce support for
-      MySQL and MariaDB databases. Your installation is still running on MySQL and
-      we suggest you migrate your installation to PostgreSQL. This process is easy
-      when following our migration guides:
+    notice: 'Zukünftige Versionen von OpenProject werden voraussichtlich die Unterstützung
+      für MySQL- und MariaDB-Datenbanken einstellen oder einschränken. Ihre Installation
+      läuft noch auf MySQL und wir empfehlen Ihnen, Ihre Installation auf PostgreSQL
+      zu migrieren. Dieser Prozess ist einfach, wenn wir unseren Migrationsanleitungen
+      folgen:
 
 '
   wiki_menu_item_for: Menüpunkt für die Wikiseite "%{title}"
@@ -2883,7 +2891,7 @@ de:
     attributes:
       lock_version: Version sperren
     errors:
-      code_400: 'Bad request: %{message}'
+      code_400: 'Ungültige Anfrage: %{message}'
       code_401: Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu
         können.
       code_401_wrong_credentials: Die von Ihnen benutzten Zugangsdaten sind nicht

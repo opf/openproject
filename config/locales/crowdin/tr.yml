@@ -659,6 +659,11 @@ tr:
         member:
           principal_blank: Lütfen en az bir kullanıcı veya grup seçin.
           role_blank: Lütfen en az bir rol seçin.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: Eklenmiş iş paketleri olduğu için sürüm
             silinemez.
@@ -1482,6 +1487,7 @@ tr:
   label_my_queries: Özel sorgularım
   label_never: Hiçbir zaman
   label_new: Yeni
+  label_new_features: New features
   label_new_statuses_allowed: İzin verilen yeni durumlar
   label_news_added: Haberler eklendi
   label_news_comment_added: Yorum bir haberlere eklendi

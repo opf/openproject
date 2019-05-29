@@ -596,6 +596,11 @@ zh-TW:
         member:
           principal_blank: 請至少選擇一個使用者或群組。
           role_blank: 請至少選擇一個角色。
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1381,6 +1386,7 @@ zh-TW:
   label_my_queries: 我的自訂查詢
   label_never: 永不
   label_new: 新增
+  label_new_features: New features
   label_new_statuses_allowed: 允許的新狀態
   label_news_added: 消息已新增
   label_news_comment_added: 評論已新增

@@ -662,6 +662,11 @@ af:
         member:
           principal_blank: Kies asseblief ten minste een gebruiker of groep.
           role_blank: Kies asseblief ten minste een rol.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1485,6 +1490,7 @@ af:
   label_my_queries: My pasgemaakte navrae
   label_never: Never
   label_new: Nuut
+  label_new_features: New features
   label_new_statuses_allowed: Nuwe statusse toegelaat
   label_news_added: Nuus bygevoeg
   label_news_comment_added: Kommentaar bygevoeg by nuus

@@ -663,6 +663,11 @@ sv-SE:
         member:
           principal_blank: Välj minst en användare eller grupp.
           role_blank: Välj minst en roll.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1479,6 +1484,7 @@ sv-SE:
   label_my_queries: Min anpassade frågor
   label_never: Aldrig
   label_new: Ny
+  label_new_features: New features
   label_new_statuses_allowed: Nya statusar tillåtna
   label_news_added: Nyheter tillagda
   label_news_comment_added: Kommentar tillagd till en nyhet

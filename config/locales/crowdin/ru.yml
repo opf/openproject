@@ -673,6 +673,11 @@ ru:
           principal_blank: Пожалуйста, выберите по крайней мере одного пользователя
             или группу.
           role_blank: Пожалуйста, выберите по крайней мере одну роль.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: Версия не может быть удалена, так как
             имеет пакеты работ, прикрепленные к ней.
@@ -1523,6 +1528,7 @@ ru:
   label_my_queries: Мои пользовательские запросы
   label_never: Никогда
   label_new: Новое
+  label_new_features: New features
   label_new_statuses_allowed: Новые статусы разрешены
   label_news_added: Новость добавлена
   label_news_comment_added: Комментарий добавлен в Новости

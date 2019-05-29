@@ -689,6 +689,11 @@ fil:
         member:
           principal_blank: Mangayring pumili na kahit isang gumagamit o grupo.
           role_blank: Mangyaring pumili ng kahit isang tungkulin.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1518,6 +1523,7 @@ fil:
   label_my_queries: Ang mga aking custom query
   label_never: Hindi kailanman
   label_new: Bago
+  label_new_features: New features
   label_new_statuses_allowed: Pinayagang bagong estado
   label_news_added: Bagong idinagdag
   label_news_comment_added: Ang komento idinagdag sa mga balita

@@ -660,6 +660,11 @@
         member:
           principal_blank: Velg minst én bruker eller gruppe.
           role_blank: Velg minst én rolle.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1477,6 +1482,7 @@
   label_my_queries: Minne egendefinerte spørringer
   label_never: Aldri
   label_new: Ny
+  label_new_features: New features
   label_new_statuses_allowed: Nye statuser tillatt
   label_news_added: Lagt til nyhet
   label_news_comment_added: Kommentar lagt til en nyhet

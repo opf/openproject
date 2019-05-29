@@ -687,6 +687,11 @@ es:
         member:
           principal_blank: Por favor seleccione al menos un usuario o grupo.
           role_blank: Elija al menos un rol.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1517,6 +1522,7 @@ es:
   label_my_queries: Mis consultas personalizadas
   label_never: Nunca
   label_new: Nuevo
+  label_new_features: New features
   label_new_statuses_allowed: Nuevos estados permitidos
   label_news_added: Noticias añadidas
   label_news_comment_added: Comentario añadido a una noticia
@@ -2504,10 +2510,10 @@ es:
     retrasará las notificaciones por correo la misma cantidad de tiempo.
   text_journal_changed: "%{label} se cambió de %{old} <br/><strong>a</strong> %{new}"
   text_journal_changed_plain: "%{label} se cambió de %{old} \na %{new}"
-  text_journal_changed_no_detail: "% {label} actualizado"
-  text_journal_changed_with_diff: "%{label} modificado (% {link})"
-  text_journal_deleted: "%{label} eliminado (% {old})"
-  text_journal_deleted_with_diff: "%{label} eliminado (% {link})"
+  text_journal_changed_no_detail: "%{label} actualizado"
+  text_journal_changed_with_diff: "%{label} modificado (%{link})"
+  text_journal_deleted: "%{label} eliminado (%{old})"
+  text_journal_deleted_with_diff: "%{label} eliminado (%{link})"
   text_journal_set_to: "%{label} establecido al %{value}"
   text_journal_set_with_diff: "%{label} fijado (%{link})"
   text_latest_note: 'El último comentario es: %{note}'

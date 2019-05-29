@@ -655,6 +655,11 @@ th:
         member:
           principal_blank: โปรดเลือกอย่างน้อยหนึ่งผู้ใช้หรือหนึ่งกลุ่ม
           role_blank: โปรดเลือกอย่างน้อยหนึ่งบทบาท
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1464,6 +1469,7 @@ th:
   label_my_queries: แบบสอบถามแบบกำหนดเองของฉัน
   label_never: Never
   label_new: ใหม่
+  label_new_features: New features
   label_new_statuses_allowed: อนุญาติให้ใช้สถานะใหม่แล้ว
   label_news_added: เพิ่มข่าวแล้ว
   label_news_comment_added: เพิ่มความเห็นไปยังข่าวแล้ว

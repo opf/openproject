@@ -19,20 +19,6 @@ pt-BR:
     close_popup_title: Fechar pop-up
     close_filter_title: Fechar filtro
     close_form_title: Fechar formulário
-    boards:
-      upsale:
-        teaser_text: Melhore seu gerenciamento de projetos ágil com esta visão flexível
-          de quadros. Crie tantos quadros quanto quiser, para qualquer coisa que você
-          gostaria de manter o controle.
-        upgrade_to_ee_text: Quadros são um recurso Enterprise. Por favor, atualize
-          para um plano pago.
-        upgrade: Atualize agora
-        personal_demo: Obter uma demonstração pessoal
-      lists:
-        delete: Excluir lista
-        edit_version: Editar versão
-      add:
-        create_new: Criar novo
     card:
       add_new: Adicionar novo cartão
       highlighting:
@@ -199,6 +185,17 @@ pt-BR:
           title: Pacotes de trabalho
         work_packages_calendar:
           title: Calendário
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: Read about new features and product updates.
+          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
+            for Agile project management. </br> To activate this new feature for your
+            existing projects, please do the following steps: <ul><li>Activate the
+            module Boards within existing projects'' settings.</li> <li>Configure
+            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
+          image_alt_text: Board teaser image
+          learn_about: Learn more about Agile Boards
     label_activate: Ativar
     label_activity_no: Número da atividade %{activityNo}
     label_activity_with_comment_no: Atividade número %{activityNo}. Tem um comentário
@@ -931,3 +928,17 @@ pt-BR:
         all_projects: todos os projetos
         project_and_subprojects: e todos os subprojetos
         search_for: Pesquisar por
+    boards:
+      upsale:
+        teaser_text: Melhore seu gerenciamento de projetos ágil com esta visão flexível
+          de quadros. Crie tantos quadros quanto quiser, para qualquer coisa que você
+          gostaria de manter o controle.
+        upgrade_to_ee_text: Quadros são um recurso Enterprise. Por favor, atualize
+          para um plano pago.
+        upgrade: Atualize agora
+        personal_demo: Obter uma demonstração pessoal
+      lists:
+        delete: Excluir lista
+        edit_version: Editar versão
+      add:
+        create_new: Criar novo

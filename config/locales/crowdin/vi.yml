@@ -662,6 +662,11 @@ vi:
         member:
           principal_blank: Vui lòng chọn ít nhất một người dùng hoặc nhóm.
           role_blank: Vui lòng chọn ít nhất một vai trò.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1480,6 +1485,7 @@ vi:
   label_my_queries: Các truy vấn tùy biến của tôi
   label_never: Never
   label_new: Mới
+  label_new_features: New features
   label_new_statuses_allowed: Trạng thái mới được phép
   label_news_added: Đã thêm tin
   label_news_comment_added: Bình luận được thêm vào một tin tức

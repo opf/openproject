@@ -665,6 +665,11 @@ lt:
         member:
           principal_blank: Prašome pasirinkti bent vieną vartotoją ar grupę.
           role_blank: Prašome pasirinkti bent vieną rolę.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1513,6 +1518,7 @@ lt:
   label_my_queries: Mano sukurtos užklausos
   label_never: Niekada
   label_new: Naujas
+  label_new_features: New features
   label_new_statuses_allowed: Naujos galimos būsenos
   label_news_added: Pridėta naujiena
   label_news_comment_added: Prie naujienos pridėtas komentaras

@@ -662,6 +662,11 @@ ar:
         member:
           principal_blank: يرجى اختيار مستخدم واحد على الأقل أو مجموعة.
           role_blank: من فضلك قم باختيار دور واحد على الأقل.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1541,6 +1546,7 @@ ar:
   label_my_queries: استعلاماتي المخصصة
   label_never: أبداً
   label_new: جديد
+  label_new_features: New features
   label_new_statuses_allowed: الحالات الجديدة المسموح بها
   label_news_added: تم إضافة أحداث
   label_news_comment_added: تم إضافة تعليق إلى أحداث

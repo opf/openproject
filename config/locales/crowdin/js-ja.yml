@@ -17,17 +17,6 @@ ja:
     close_popup_title: ポップアップを閉じる
     close_filter_title: フィルタを閉じる
     close_form_title: フォームを閉じる
-    boards:
-      upsale:
-        teaser_text: この柔軟なボードビューでアジャイルプロジェクトの管理を向上させましょう。 あなたが追跡したいものを、好きなだけボードを作成してください。
-        upgrade_to_ee_text: ボードはエンタープライズ機能です。 有料プランにアップグレードしてください。
-        upgrade: 今すぐアップグレード
-        personal_demo: パーソナルデモを入手する
-      lists:
-        delete: リストを削除
-        edit_version: バージョンを編集
-      add:
-        create_new: 新規作成
     card:
       add_new: 新規カード追加
       highlighting:
@@ -183,6 +172,17 @@ ja:
           title: 作業項目
         work_packages_calendar:
           title: カレンダー
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: Read about new features and product updates.
+          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
+            for Agile project management. </br> To activate this new feature for your
+            existing projects, please do the following steps: <ul><li>Activate the
+            module Boards within existing projects'' settings.</li> <li>Configure
+            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
+          image_alt_text: Board teaser image
+          learn_about: Learn more about Agile Boards
     label_activate: 有効にする
     label_activity_no: アクティビティのエントリ番号 %{activityNo}
     label_activity_with_comment_no: アクティビティのエントリ番号 %{activityNo}。ユーザー コメントがあります。
@@ -839,3 +839,14 @@ ja:
         all_projects: すべてのプロジェクト
         project_and_subprojects: すべてのプロジェクトで
         search_for: 検索対象
+    boards:
+      upsale:
+        teaser_text: この柔軟なボードビューでアジャイルプロジェクトの管理を向上させましょう。 あなたが追跡したいものを、好きなだけボードを作成してください。
+        upgrade_to_ee_text: ボードはエンタープライズ機能です。 有料プランにアップグレードしてください。
+        upgrade: 今すぐアップグレード
+        personal_demo: パーソナルデモを入手する
+      lists:
+        delete: リストを削除
+        edit_version: バージョンを編集
+      add:
+        create_new: 新規作成

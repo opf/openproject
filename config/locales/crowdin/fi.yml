@@ -661,6 +661,11 @@ fi:
         member:
           principal_blank: Valitse vähintään yksi käyttäjä tai ryhmä.
           role_blank: Valitse vähintään yksi rooli.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1476,6 +1481,7 @@ fi:
   label_my_queries: Omat hakuni
   label_never: Never
   label_new: Uusi
+  label_new_features: New features
   label_new_statuses_allowed: Uudet tilat sallittu
   label_news_added: Uutinen lisätty
   label_news_comment_added: Kommentti lisätty uutiseen

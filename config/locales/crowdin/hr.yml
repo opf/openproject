@@ -667,6 +667,11 @@ hr:
         member:
           principal_blank: Molim vas odaberite najamnje jednog korisnika ili grupu.
           role_blank: Molim vas odaberite najmanje jednu rolu.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1499,6 +1504,7 @@ hr:
   label_my_queries: Moji prilagođeni upiti
   label_never: Nikad
   label_new: Novi
+  label_new_features: New features
   label_new_statuses_allowed: Novi statusi dopušteni
   label_news_added: Vijest dodana
   label_news_comment_added: Komentar dodan vijesti

@@ -666,6 +666,11 @@ pt-BR:
         member:
           principal_blank: Por favor, escolha ao menos um usuário ou grupo.
           role_blank: Por favor, escolha ao menos um papel.
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: A versão não pode ser excluída pois
             tem pacotes de trabalho anexados a ela.
@@ -1492,6 +1497,7 @@ pt-BR:
   label_my_queries: Minhas consultas personalizadas
   label_never: Nunca
   label_new: Novo
+  label_new_features: New features
   label_new_statuses_allowed: Novas situações permitidas
   label_news_added: Notícia adicionada
   label_news_comment_added: Comentário adicionado a uma notícia

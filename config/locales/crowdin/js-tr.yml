@@ -18,19 +18,6 @@ tr:
     close_popup_title: Pencereyi kapat
     close_filter_title: Filtreyi kapat
     close_form_title: Formu kapat
-    boards:
-      upsale:
-        teaser_text: Çevik proje yönetiminizi bu esnek Panolar görünümü ile geliştirin.
-          İzlemek istediğiniz herhangi bir şey için istediğiniz kadar pano oluşturun.
-        upgrade_to_ee_text: Kurulları bir Enterprise özelliğidir. Lütfen ücretli bir
-          plana geçin.
-        upgrade: Şimdi Yükselt
-        personal_demo: Kişisel bir demo al
-      lists:
-        delete: Listeyi silin
-        edit_version: Sürümü düzenle
-      add:
-        create_new: Yeni oluştur
     card:
       add_new: Yeni kart ekleyin
       highlighting:
@@ -193,6 +180,17 @@ tr:
           title: İş paketleri
         work_packages_calendar:
           title: Takvim
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: Read about new features and product updates.
+          current_new_feature_html: 'OpenProject contains a new <b>Boards view</b>
+            for Agile project management. </br> To activate this new feature for your
+            existing projects, please do the following steps: <ul><li>Activate the
+            module Boards within existing projects'' settings.</li> <li>Configure
+            your Boards in a project.</li> <li>Verify roles and permissions</li></ul>'
+          image_alt_text: Board teaser image
+          learn_about: Learn more about Agile Boards
     label_activate: Etkinleştir
     label_activity_no: Etkinlik giriş numarası %{activityNo}
     label_activity_with_comment_no: Etkinlik giriş numarası %{activityNo}. Kullanıcı
@@ -915,3 +913,16 @@ tr:
         all_projects: tüm projeler
         project_and_subprojects: ve tüm alt projeler
         search_for: Aramak
+    boards:
+      upsale:
+        teaser_text: Çevik proje yönetiminizi bu esnek Panolar görünümü ile geliştirin.
+          İzlemek istediğiniz herhangi bir şey için istediğiniz kadar pano oluşturun.
+        upgrade_to_ee_text: Kurulları bir Enterprise özelliğidir. Lütfen ücretli bir
+          plana geçin.
+        upgrade: Şimdi Yükselt
+        personal_demo: Kişisel bir demo al
+      lists:
+        delete: Listeyi silin
+        edit_version: Sürümü düzenle
+      add:
+        create_new: Yeni oluştur

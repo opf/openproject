@@ -592,6 +592,11 @@ zh:
         member:
           principal_blank: 请选择至少一个用户或组。
           role_blank: 请选择至少一个角色。
+          attributes:
+            roles:
+              ungrantable: has an unassignable role.
+            principal:
+              unassignable: cannot be assigned to a project.
         version:
           undeletable_work_packages_attached: The version cannot be deleted as it
             has work packages attached to it.
@@ -1373,6 +1378,7 @@ zh:
   label_my_queries: 我的自定义查询
   label_never: 永不
   label_new: 新增
+  label_new_features: New features
   label_new_statuses_allowed: 允许的新状态
   label_news_added: 添加新闻
   label_news_comment_added: 评论添加到新闻
