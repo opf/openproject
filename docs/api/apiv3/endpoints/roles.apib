@@ -44,7 +44,33 @@ Fetch an individual role.
 
     [Role][]
 
-## Roles [/api/v3/roles]
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions to see roles.
+
+    **Required permission:** view members **or** manage members
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to view this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the role does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
+## Roles [/api/v3/roles{?filters}]
 
 + Model
     + Body
@@ -122,6 +148,13 @@ Fetch an individual role.
 ## List roles [GET]
 
 List all defined roles. This includes built in roles like 'Anonymous' and 'Non member'.
+
++ Parameters
+    + filters (optional, string, `[{ "unit": { "operator": "=", "values": ["system"] }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+    Currently supported filters are:
+      + grantable: filters roles based on whether they are selectable for a membership
+      + unit: filters roles based on the unit ('project' or 'system') for which they are selectable for a membership
 
 + Response 200 (application/hal+json)
 

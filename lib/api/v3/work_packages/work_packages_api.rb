@@ -81,9 +81,7 @@ module API
               end
             end
 
-            get do
-              work_package_representer
-            end
+            get &::API::V3::Utilities::Endpoints::Show.new(model: WorkPackage).mount
 
             patch &::API::V3::WorkPackages::UpdateEndPoint.new(model: WorkPackage,
                                                                parse_service: ::API::V3::WorkPackages::ParseParamsService,
@@ -93,8 +91,7 @@ module API
                                                                })
                                                           .mount
 
-            delete &::API::V3::Utilities::Endpoints::Delete.new(model: WorkPackage,
-                                                                process_service: ::WorkPackages::DestroyService)
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: WorkPackage)
                                                            .mount
 
             mount ::API::V3::WorkPackages::WatchersAPI

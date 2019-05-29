@@ -83,7 +83,11 @@ module API
                     work_package.reload
 
                     status 200
-                    body work_package_representer(work_package)
+                    body(::API::V3::WorkPackages::WorkPackageRepresenter.create(
+                           work_package,
+                           current_user: current_user,
+                           embed_links: true
+                         ))
                   end
 
                   call.on_failure do

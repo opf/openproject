@@ -74,7 +74,7 @@ describe CustomActions::UpdateWorkPackageService do
 
     allow(WorkPackages::UpdateService)
       .to receive(:new)
-      .with(user: user, work_package: work_package)
+      .with(user: user, model: work_package)
       .and_return(wp_service_instance)
 
     allow(wp_service_instance)

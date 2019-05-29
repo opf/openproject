@@ -10,10 +10,11 @@
 | delete              | Permanently remove a user from the instance                          | **Permission**: Administrator, self-delete                       |
 
 ## Linked Properties
-|  Link       | Description                                                   | Type          | Constraints           | Supported operations | Condition                                 |
-|:-----------:|-------------------------------------------------------------- | ------------- | --------------------- | -------------------- | ----------------------------------------- |
-| self        | This user                                                     | User          | not null              | READ                 |                                           |
-| auth_source | Link to the user's auth source (endpoint not yet implemented) | AuthSource    |                       | READ / WRITE         | **Permission**: Administrator             |
+|  Link       | Description                                                                                                                                                          | Type              | Constraints           | Supported operations | Condition                                                     |
+|:-----------:|--------------------------------------------------------------                                                                                                        | -------------     | --------------------- | -------------------- | -----------------------------------------                     |
+| self        | This user                                                                                                                                                            | User              | not null              | READ                 |                                                               |
+| auth_source | Link to the user's auth source (endpoint not yet implemented)                                                                                                        | AuthSource        |                       | READ / WRITE         | **Permission**: Administrator                                 |
+| members     | Link ot collection of all the user's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project |
 
 ## Local Properties
 | Property     | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                                           |

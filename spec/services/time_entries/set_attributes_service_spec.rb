@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TimeEntries::CreateService, type: :model do
+describe TimeEntries::SetAttributesService, type: :model do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:activity) { FactoryBot.build_stubbed(:time_entry_activity, project: project) }
   let!(:default_activity) { FactoryBot.build_stubbed(:time_entry_activity, project: project, is_default: true) }
@@ -52,27 +52,27 @@ describe TimeEntries::CreateService, type: :model do
   let(:contract_valid) { true }
   let(:time_entry_valid) { true }
 
-  let(:instance) { described_class.new(user: user) }
-  let(:time_entry_instance) { TimeEntry.new }
-  let(:expect_time_instance_save) do
-    expect(time_entry_instance)
-      .to receive(:save)
-      .and_return(time_entry_valid)
+  let(:instance) do
+    described_class.new(user: user,
+                        model: time_entry_instance,
+                        contract_class: contract_class)
   end
-
-  let(:params) { {} }
-
-  before do
+  let(:time_entry_instance) { TimeEntry.new }
+  let(:contract_class) do
     allow(TimeEntries::CreateContract)
       .to receive(:new)
       .with(anything, user)
       .and_return(contract_instance)
 
-    allow(TimeEntry)
-      .to receive(:new)
-      .and_return(time_entry_instance)
+    TimeEntries::CreateContract
+  end
 
-    expect_time_instance_save
+  let(:params) { {} }
+
+  before do
+    allow(time_entry_instance)
+      .to receive(:valid?)
+      .and_return(time_entry_valid)
   end
 
   subject { instance.call(params) }
@@ -135,8 +135,8 @@ describe TimeEntries::CreateService, type: :model do
       subject
 
       attributes_of_interest = time_entry_instance
-                               .attributes
-                               .slice(*expected.keys)
+                                 .attributes
+                                 .slice(*expected.keys)
 
       expect(attributes_of_interest)
         .to eql(expected)

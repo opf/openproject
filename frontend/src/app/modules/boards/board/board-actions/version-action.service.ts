@@ -95,7 +95,7 @@ export class BoardVersionActionService implements BoardActionService {
    * @returns {Promise<any>}
    */
   public getAdditionalListMenuItems(actionAttributeValue:HalResource):Promise<any> {
-    var items: any = [];
+    let items:any = [];
     const actionID = actionAttributeValue.id;
 
     if (actionID) {

@@ -38,21 +38,13 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
   let(:new_record) { true }
   let(:allowed_sharings) { %w(tree system) }
   let(:allowed_status) { %w(open fixed closed) }
-  let(:allowed_projects) do
-    if new_record
-      [FactoryBot.build_stubbed(:project),
-       FactoryBot.build_stubbed(:project)]
-    else
-      nil
-    end
-  end
-
   let(:custom_field) do
     FactoryBot.build_stubbed(:int_version_custom_field)
   end
 
   let(:contract) do
-    contract = double('contract')
+    contract = double('contract',
+                      new_record?: new_record)
 
     allow(contract)
       .to receive(:writable?) do |attribute|
@@ -64,11 +56,6 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
 
       writable.include?(attribute.to_s)
     end
-
-    allow(contract)
-      .to receive(:assignable_values)
-      .with(:project, current_user)
-      .and_return(allowed_projects)
 
     allow(contract)
       .to receive(:assignable_values)
@@ -223,19 +210,9 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
         context 'if embedding' do
           let(:embedded) { true }
 
-          it_behaves_like 'links to and embeds allowed values directly' do
-            let(:hrefs) do
-              allowed_projects.map do |value|
-                api_v3_paths.project(value.id)
-              end
-            end
-          end
-
-          it 'embeds the allowed values' do
-            allowed_projects.each_with_index do |project, index|
-              href_path = "#{path}/_embedded/allowedValues/#{index}/identifier"
-
-              is_expected.to be_json_eql(project.identifier.to_json).at_path(href_path)
+          it_behaves_like 'links to allowed values via collection link' do
+            let(:href) do
+              api_v3_paths.versions_available_projects
             end
           end
         end
@@ -257,8 +234,8 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
           let(:writable) { false }
         end
 
-        context 'if not embedding' do
-          let(:embedded) { false }
+        context 'if embedding' do
+          let(:embedded) { true }
 
           it_behaves_like 'does not link to allowed values'
         end

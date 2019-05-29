@@ -97,9 +97,10 @@ describe 'API v3 Project resource' do
   describe '#get /projects' do
     let(:get_path) { api_v3_paths.projects }
     let(:response) { last_response }
+    let(:projects) { [project, other_project] }
 
     before do
-      other_project
+      projects
 
       get get_path
     end
@@ -112,6 +113,8 @@ describe 'API v3 Project resource' do
     it_behaves_like 'API V3 collection response', 1, 1, 'Project'
 
     context 'filtering for project by ancestor' do
+      let(:projects) { [project, other_project, parent_project] }
+
       let(:parent_project) do
         parent_project = FactoryBot.create(:project, is_public: false)
 
@@ -136,6 +139,46 @@ describe 'API v3 Project resource' do
         expect(response.body)
           .to be_json_eql(api_v3_paths.project(project.id).to_json)
           .at_path('_embedded/elements/0/_links/self/href')
+      end
+    end
+
+    context 'filtering for principals (members)' do
+      let(:other_project) do
+        Role.non_member
+        FactoryBot.create(:public_project)
+      end
+      let(:projects) { [project, other_project] }
+
+      context 'if filtering for a value' do
+        let(:filter_query) do
+          [{ principal: { operator: '=', values: [current_user.id.to_s] } }]
+        end
+
+        let(:get_path) do
+          "#{api_v3_paths.projects}?filters=#{CGI.escape(JSON.dump(filter_query))}"
+        end
+
+        it 'returns the filtered for value' do
+          expect(response.body)
+            .to be_json_eql(project.id.to_json)
+            .at_path('_embedded/elements/0/id')
+        end
+      end
+
+      context 'if filtering for a negative value' do
+        let(:filter_query) do
+          [{ principal: { operator: '!', values: [current_user.id.to_s] } }]
+        end
+
+        let(:get_path) do
+          "#{api_v3_paths.projects}?filters=#{CGI.escape(JSON.dump(filter_query))}"
+        end
+
+        it 'returns the projects not matching the value' do
+          expect(response.body)
+            .to be_json_eql(other_project.id.to_json)
+            .at_path('_embedded/elements/0/id')
+        end
       end
     end
   end

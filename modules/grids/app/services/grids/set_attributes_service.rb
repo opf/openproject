@@ -28,40 +28,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Grids::SetAttributesService
-  include Concerns::Contracted
-
-  attr_accessor :user,
-                :grid,
-                :contract_class
-
-  def initialize(user:, grid:, contract_class:)
-    self.user = user
-    self.grid = grid
-    self.contract_class = contract_class
-  end
-
-  def call(attributes)
-    widget_attributes = attributes.delete(:widgets)
-
-    set_attributes(attributes)
-    update_widgets(widget_attributes)
-
-    validate_and_result
-  end
-
+class Grids::SetAttributesService < ::BaseServices::SetAttributes
   private
 
-  def validate_and_result
-    success, errors = validate(grid, user)
-
-    ServiceResult.new(success: success,
-                      errors: errors,
-                      result: grid)
-  end
-
   def set_attributes(attributes)
-    grid.attributes = attributes
+    widget_attributes = attributes.delete(:widgets)
+
+    super
+
+    update_widgets(widget_attributes)
   end
 
   # Updates grid's widget but does not persist the changes:
@@ -84,7 +59,7 @@ class Grids::SetAttributesService
     to_destroy.each(&:mark_for_destruction)
 
     to_create.each do |widget|
-      grid.widgets.build widget.attributes.except('id')
+      model.widgets.build widget.attributes.except('id')
     end
 
     update_map.each do |existing, provided|
@@ -93,7 +68,7 @@ class Grids::SetAttributesService
   end
 
   def classify_widgets(widgets)
-    if grid.widgets.empty?
+    if model.widgets.empty?
       classify_create_all(widgets)
     else
       classify_preserve_existing(widgets)
@@ -105,7 +80,7 @@ class Grids::SetAttributesService
   end
 
   def classify_preserve_existing(widgets)
-    widget_map = grid.widgets.map { |w| [w, nil] }.to_h
+    widget_map = model.widgets.map { |w| [w, nil] }.to_h
     to_create = []
 
     widgets.each do |widget|

@@ -29,42 +29,14 @@
 #++
 
 module Versions
-  class SetAttributesService
-    include Concerns::Contracted
-
-    def initialize(user:, version:, contract_class:)
-      self.user = user
-      self.version = version
-      self.contract_class = contract_class
-    end
-
-    def call(params)
-      version.attributes = params
-
-      assign_defaults(version)
-
-      validate_and_result
-    end
-
+  class SetAttributesService < ::BaseServices::SetAttributes
     private
 
-    attr_accessor :user,
-                  :version,
-                  :contract_class
+    def set_default_attributes
+      return unless model.new_record?
 
-    def validate_and_result
-      success, errors = validate(version, user)
-
-      ServiceResult.new(success: success,
-                        errors: errors,
-                        result: version)
-    end
-
-    def assign_defaults(version)
-      return unless version.new_record?
-
-      version.sharing ||= 'none'
-      version.status ||= 'open'
+      model.sharing ||= 'none'
+      model.status ||= 'open'
     end
   end
 end

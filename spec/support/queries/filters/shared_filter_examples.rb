@@ -72,33 +72,35 @@ shared_examples_for 'basic query filter' do
   end
 end
 
-shared_examples_for 'list query filter' do
+shared_examples_for 'list query filter' do |scope: true|
   include_context 'filter tests'
   let(:attribute) { raise "needs to be defined" }
   let(:type) { :list }
 
-  describe '#scope' do
-    context 'for "="' do
-      let(:operator) { '=' }
-      let(:values) { valid_values }
+  if scope
+    describe '#scope' do
+      context 'for "="' do
+        let(:operator) { '=' }
+        let(:values) { valid_values }
 
-      it 'is the same as handwriting the query' do
-        expected = model.where(["#{model.table_name}.#{attribute} IN (?)", values])
+        it 'is the same as handwriting the query' do
+          expected = model.where(["#{model.table_name}.#{attribute} IN (?)", values])
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+          expect(instance.scope.to_sql).to eql expected.to_sql
+        end
       end
-    end
 
-    context 'for "!"' do
-      let(:operator) { '!' }
-      let(:values) { valid_values }
+      context 'for "!"' do
+        let(:operator) { '!' }
+        let(:values) { valid_values }
 
-      it 'is the same as handwriting the query' do
-        sql = "(#{model.table_name}.#{attribute} IS NULL
-               OR #{model.table_name}.#{attribute} NOT IN (?))".squish
-        expected = model.where([sql, values])
+        it 'is the same as handwriting the query' do
+          sql = "(#{model.table_name}.#{attribute} IS NULL
+                 OR #{model.table_name}.#{attribute} NOT IN (?))".squish
+          expected = model.where([sql, values])
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+          expect(instance.scope.to_sql).to eql expected.to_sql
+        end
       end
     end
   end
@@ -142,11 +144,7 @@ shared_examples_for 'list_optional query filter' do
     end
   end
   let(:expected_table_name) do
-    if joins
-      joins
-    else
-      model.table_name
-    end
+    joins || model.table_name
   end
 
   describe '#scope' do
@@ -236,11 +234,7 @@ shared_examples_for 'list_all query filter' do
     end
   end
   let(:expected_table_name) do
-    if joins
-      joins
-    else
-      model.table_name
-    end
+    joins || model.table_name
   end
 
   describe '#scope' do
@@ -277,6 +271,87 @@ shared_examples_for 'list_all query filter' do
         expected = expected_base_scope.where([sql])
 
         expect(instance.scope.to_sql).to eql expected.to_sql
+      end
+    end
+  end
+
+  describe '#valid?' do
+    let(:operator) { '=' }
+    let(:values) { valid_values }
+
+    it 'is valid' do
+      expect(instance).to be_valid
+    end
+
+    context 'for an invalid operator' do
+      let(:operator) { '~' }
+
+      it 'is invalid' do
+        expect(instance).to be_invalid
+      end
+    end
+
+    context 'for an invalid value' do
+      let(:values) { ['inexistent'] }
+
+      it 'is invalid' do
+        expect(instance).to be_invalid
+      end
+    end
+  end
+end
+
+shared_examples_for 'boolean query filter' do |scope: true|
+  include_context 'filter tests'
+  let(:attribute) { raise "needs to be defined" }
+  let(:type) { :list }
+  let(:joins) { nil }
+  let(:expected_base_scope) do
+    if joins
+      model.joins(joins)
+    else
+      model
+    end
+  end
+  let(:expected_table_name) do
+    joins || model.table_name
+  end
+
+  let(:valid_values) { [OpenProject::Database::DB_VALUE_TRUE, OpenProject::Database::DB_VALUE_FALSE] }
+
+  describe '#allowed_values' do
+    it 'is list for a bool' do
+      expect(instance.allowed_values)
+        .to match_array [[I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
+                         [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]]
+    end
+  end
+
+  if scope
+    describe '#scope' do
+      let(:values) { valid_values }
+
+      context 'for "="' do
+        let(:operator) { '=' }
+
+        it 'is the same as handwriting the query' do
+          expected = expected_base_scope
+                     .where(["#{expected_table_name}.#{attribute} IN (?)", values])
+
+          expect(instance.scope.to_sql).to eql expected.to_sql
+        end
+      end
+
+      context 'for "!"' do
+        let(:operator) { '!' }
+
+        it 'is the same as handwriting the query' do
+          sql = "(#{expected_table_name}.#{attribute} IS NULL
+                 OR #{expected_table_name}.#{attribute} NOT IN (?))".squish
+          expected = expected_base_scope.where([sql, values])
+
+          expect(instance.scope.to_sql).to eql expected.to_sql
+        end
       end
     end
   end

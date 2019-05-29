@@ -52,7 +52,7 @@ describe Grids::SetAttributesService, type: :model do
   let(:grid_valid) { true }
   let(:instance) do
     described_class.new(user: user,
-                        grid: grid,
+                        model: grid,
                         contract_class: contract_class)
   end
   let(:call_attributes) { {} }

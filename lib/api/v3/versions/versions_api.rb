@@ -44,6 +44,7 @@ module API
 
           post &::API::V3::Utilities::Endpoints::Create.new(model: Version).mount
 
+          mount ::API::V3::Versions::AvailableProjectsAPI
           mount ::API::V3::Versions::Schemas::VersionSchemaAPI
           mount ::API::V3::Versions::CreateFormAPI
 

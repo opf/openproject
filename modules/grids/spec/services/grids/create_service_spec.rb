@@ -41,7 +41,7 @@ describe Grids::CreateService, type: :model do
     end
   end
   let(:contract_class) do
-    double('contract_class')
+    double('contract_class', '<=': true)
   end
   let(:grid_valid) { true }
   let(:instance) do
@@ -84,7 +84,7 @@ describe Grids::CreateService, type: :model do
     allow(Grids::SetAttributesService)
       .to receive(:new)
       .with(user: user,
-            grid: grid,
+            model: grid,
             contract_class: contract_class)
       .and_return(service)
 

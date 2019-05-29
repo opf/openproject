@@ -88,7 +88,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
   let(:dependent_error_result) do
     proc do |instance, _attributes, work_package|
-      result = ServiceResult.new(success: true, result: instance.work_package || work_package)
+      result = ServiceResult.new(success: true, result: instance.respond_to?(:model) && instance.model || work_package)
       dep = parent
       dep.errors.add :base, "invalid", message: "invalid"
 

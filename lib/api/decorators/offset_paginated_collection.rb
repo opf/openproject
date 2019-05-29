@@ -63,24 +63,28 @@ module API
       end
 
       link :previousByOffset do
+        next unless @page > 1
+
         {
           href: make_page_link(page: @page - 1, page_size: @per_page)
-        } if @page > 1
+        }
       end
 
       link :nextByOffset do
+        next if (@page * @per_page) >= @total
+
         {
           href: make_page_link(page: @page + 1, page_size: @per_page)
-        } if (@page * @per_page) < @total
+        }
       end
 
       property :page_size,
                exec_context: :decorator,
-               getter: -> (*) { @per_page }
+               getter: ->(*) { @per_page }
 
       property :offset,
                exec_context: :decorator,
-               getter: -> (*) { @page }
+               getter: ->(*) { @page }
 
       private
 

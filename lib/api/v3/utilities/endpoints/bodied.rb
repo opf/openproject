@@ -42,11 +42,13 @@ module API
           end
 
           def initialize(model:,
+                         api_name: model.name.demodulize,
                          instance_generator: default_instance_generator(model),
                          params_modifier: default_params_modifier,
                          process_service: nil,
                          parse_service: API::V3::ParseResourceParamsService)
             self.model = model
+            self.api_name = api_name
             self.instance_generator = instance_generator
             self.params_modifier = params_modifier
             self.parse_representer = deduce_parse_representer
@@ -85,9 +87,8 @@ module API
 
           def process(current_user, instance, params)
             args = { user: current_user,
+                     model: instance,
                      contract_class: process_contract }
-
-            args[demodulized_name.underscore.to_sym] = instance
 
             process_service
               .new(args.compact)
@@ -108,6 +109,7 @@ module API
           end
 
           attr_accessor :model,
+                        :api_name,
                         :instance_generator,
                         :parse_representer,
                         :render_representer,
@@ -131,27 +133,31 @@ module API
           end
 
           def deduce_process_service
-            "::#{deduce_namespace}::SetAttributesService".constantize
+            "::#{decude_backend_namespace}::SetAttributesService".constantize
           end
 
           def deduce_process_contract
-            "::#{deduce_namespace}::#{update_or_create}Contract".constantize
+            "::#{decude_backend_namespace}::#{update_or_create}Contract".constantize
           end
 
           def deduce_parse_representer
-            "::API::V3::#{deduce_namespace}::#{demodulized_name}PayloadRepresenter".constantize
+            "::API::V3::#{deduce_api_namespace}::#{api_name}PayloadRepresenter".constantize
           end
 
           def deduce_render_representer
             raise NotImplementedError
           end
 
-          def deduce_namespace
-            demodulized_name.pluralize
+          def deduce_api_namespace
+            api_name.pluralize
           end
 
-          def demodulized_name
+          def backend_name
             model.name.demodulize
+          end
+
+          def decude_backend_namespace
+            backend_name.pluralize
           end
 
           def update_or_create

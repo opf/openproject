@@ -40,7 +40,18 @@
 
 FactoryBot.define do
   factory :member do
-    user
     project
+
+    transient do
+      user { nil }
+    end
+
+    callback(:after_build) do |member, options|
+      member.principal ||= options.user || FactoryBot.build(:user)
+    end
+
+    callback(:after_stub) do |member, options|
+      member.principal ||= options.user || FactoryBot.build_stubbed(:user)
+    end
   end
 end

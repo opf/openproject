@@ -29,69 +29,33 @@
 #++
 
 module Versions
-  class UpdateService
-    include Concerns::Contracted
-
-    attr_reader :user,
-                :version
-
-    def initialize(user:, version:)
-      @user = user
-      @version = version
-      self.contract_class = Versions::UpdateContract
-    end
-
-    def call(params)
-      attributes_call = set_attributes(params)
-
-      Version.transaction do
-        if attributes_call.failure?
-          # nothing to do
-        elsif !attributes_call.result.save
-          attributes_call.errors = attributes_call.result.errors
-          attributes_call.success = false
-        else
-          after_save
-        end
-      end
-
-      attributes_call
-    end
-
+  class UpdateService < ::BaseServices::Update
     private
 
-    def set_attributes(params)
-      SetAttributesService
-        .new(user: user,
-             version: version,
-             contract_class: contract_class)
-        .call(params)
-    end
-
     def after_save
-      version.touch if only_custom_values_updated?
-      update_wps_from_sharing_change if version.saved_change_to_sharing?
+      model.touch if only_custom_values_updated?
+      update_wps_from_sharing_change if model.saved_change_to_sharing?
     end
 
     # Update the issue's fixed versions. Used if a version's sharing changes.
     def update_wps_from_sharing_change
       if no_valid_version_before_or_now? ||
          sharing_now_less_broad?
-        WorkPackage.update_versions_from_sharing_change version
+        WorkPackage.update_versions_from_sharing_change model
       end
     end
 
     def only_custom_values_updated?
-      version.saved_changes.empty? && version.custom_values.map(&:saved_changes).any?(&:present?)
+      model.saved_changes.empty? && model.custom_values.map(&:saved_changes).any?(&:present?)
     end
 
     def no_valid_version_before_or_now?
-      version_sharings.index(version.sharing_before_last_save).nil? ||
-        version_sharings.index(version.sharing).nil?
+      version_sharings.index(model.sharing_before_last_save).nil? ||
+        version_sharings.index(model.sharing).nil?
     end
 
     def sharing_now_less_broad?
-      version_sharings.index(version.sharing_before_last_save) > version_sharings.index(version.sharing)
+      version_sharings.index(model.sharing_before_last_save) > version_sharings.index(model.sharing)
     end
 
     def version_sharings

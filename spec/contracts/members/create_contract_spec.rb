@@ -27,65 +27,16 @@
 #++
 
 require 'spec_helper'
-require 'rack/test'
+require_relative './shared_contract_examples'
 
-describe 'API v3 Role resource' do
-  include Rack::Test::Methods
-  include API::V3::Utilities::PathHelper
-
-  let(:current_user) { FactoryBot.create(:user) }
-  let(:role) { FactoryBot.create(:role) }
-
-  before do
-    # Avoid having a builtin role left over from another spec
-    Role.delete_all
-
-    allow(User).to receive(:current).and_return current_user
-  end
-
-  describe '#get /roles' do
-    let(:get_path) { api_v3_paths.roles }
-    let(:response) { last_response }
-
-    before do
-      role
-
-      get get_path
+describe Members::CreateContract do
+  it_behaves_like 'member contract' do
+    let(:member) do
+      Member.new(project: member_project,
+                 roles: member_roles,
+                 principal: member_principal)
     end
 
-    it 'succeeds' do
-      expect(last_response.status)
-        .to eql(200)
-    end
-
-    it_behaves_like 'API V3 collection response', 1, 1, 'Role'
-  end
-
-  describe '#get /roles/:id' do
-    let(:get_path) { api_v3_paths.role(role.id) }
-    let(:response) { last_response }
-
-    before do
-      role
-
-      get get_path
-    end
-
-    it 'succeeds' do
-      expect(last_response.status)
-        .to eql(200)
-    end
-
-    it 'returns the role' do
-      expect(last_response.body)
-        .to be_json_eql(get_path.to_json)
-        .at_path('_links/self/href')
-    end
-
-    context 'for non existing role id' do
-      let(:get_path) { api_v3_paths.role(0) }
-
-      it_behaves_like 'not found'
-    end
+    subject(:contract) { described_class.new(member, current_user) }
   end
 end

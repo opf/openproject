@@ -32,7 +32,7 @@ require_dependency 'open_project/scm/adapters'
 module OpenProject
   module Scm
     module Adapters
-      class Git < Base
+      class Git < ::OpenProject::Scm::Adapters::Base
         include LocalClient
 
         SCM_GIT_REPORT_LAST_COMMIT = true

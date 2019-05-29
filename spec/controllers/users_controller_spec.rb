@@ -41,9 +41,9 @@ describe UsersController, type: :controller do
   let(:user_password) {'bob!' * 4}
   let(:user) do
     FactoryBot.create(:user,
-                       login: 'bob',
-                       password: user_password,
-                       password_confirmation: user_password,
+                      login: 'bob',
+                      password: user_password,
+                      password_confirmation: user_password,
                        )
   end
   let(:admin) { FactoryBot.create(:admin) }
@@ -232,7 +232,6 @@ describe UsersController, type: :controller do
       it { expect(flash[:error]).to eq(I18n.t(:notice_password_confirmation_failed)) }
     end
 
-
     context 'WHEN password confirmation is present' do
       let(:base_params) do
         { 'id' => user.id.to_s, :'_password_confirmation' => user_password, back_url: my_account_path }
@@ -309,11 +308,11 @@ describe UsersController, type: :controller do
                 WHEN the given password does match
                 WHEN the setting users_deletable_by_admins is set to true" do
 
-        let(:admin_password) {'admin!' * 4}
+        let(:admin_password) { 'admin!' * 4 }
         let(:admin) do
           FactoryBot.create(:admin,
-                             password: admin_password,
-                             password_confirmation: admin_password)
+                            password: admin_password,
+                            password_confirmation: admin_password)
         end
 
         before do
@@ -552,14 +551,14 @@ describe UsersController, type: :controller do
 
   describe 'update' do
     context 'fields' do
-      let(:user) {
+      let(:user) do
         FactoryBot.create(:user, firstname: 'Firstname',
-                                  admin: true,
-                                  login: 'testlogin',
-                                  mail_notification: 'all',
-                                  force_password_change: false)
-      }
-      let(:params) {
+                                 admin: true,
+                                 login: 'testlogin',
+                                 mail_notification: 'all',
+                                 force_password_change: false)
+      end
+      let(:params) do
         {
           id: user.id,
           user: {
@@ -574,7 +573,7 @@ describe UsersController, type: :controller do
             comments_sorting: 'desc'
           }
         }
-      }
+      end
 
       before do
         as_logged_in_user(admin) do
@@ -695,39 +694,39 @@ describe UsersController, type: :controller do
     describe 'for user with Activity' do
       render_views
 
-      let(:work_package) {
+      let(:work_package) do
         FactoryBot.create(:work_package,
-                           author: user)
-      }
-      let!(:member) {
+                          author: user)
+      end
+      let!(:member) do
         FactoryBot.create(:member,
-                           project: work_package.project,
-                           principal: user,
-                           roles: [FactoryBot.create(:role,
-                                                      permissions: [:view_work_packages])])
-      }
-      let!(:journal_1) {
+                          project: work_package.project,
+                          principal: user,
+                          roles: [FactoryBot.create(:role,
+                                                    permissions: [:view_work_packages])])
+      end
+      let!(:journal_1) do
         FactoryBot.create(:work_package_journal,
-                           user: user,
-                           journable_id: work_package.id,
-                           version: Journal.maximum(:version) + 1,
-                           data: FactoryBot.build(:journal_work_package_journal,
-                                                   subject: work_package.subject,
-                                                   status_id: work_package.status_id,
-                                                   type_id: work_package.type_id,
-                                                   project_id: work_package.project_id))
-      }
-      let!(:journal_2) {
+                          user: user,
+                          journable_id: work_package.id,
+                          version: Journal.maximum(:version) + 1,
+                          data: FactoryBot.build(:journal_work_package_journal,
+                                                 subject: work_package.subject,
+                                                 status_id: work_package.status_id,
+                                                 type_id: work_package.type_id,
+                                                 project_id: work_package.project_id))
+      end
+      let!(:journal_2) do
         FactoryBot.create(:work_package_journal,
-                           user: user,
-                           journable_id: work_package.id,
-                           version: Journal.maximum(:version) + 1,
-                           data: FactoryBot.build(:journal_work_package_journal,
-                                                   subject: work_package.subject,
-                                                   status_id: work_package.status_id,
-                                                   type_id: work_package.type_id,
-                                                   project_id: work_package.project_id))
-      }
+                          user: user,
+                          journable_id: work_package.id,
+                          version: Journal.maximum(:version) + 1,
+                          data: FactoryBot.build(:journal_work_package_journal,
+                                                 subject: work_package.subject,
+                                                 status_id: work_package.status_id,
+                                                 type_id: work_package.type_id,
+                                                 project_id: work_package.project_id))
+      end
 
       before do
         allow(User).to receive(:current).and_return(user.reload)

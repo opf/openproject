@@ -33,11 +33,9 @@ module API
     module Projects
       class ProjectsAPI < ::API::OpenProjectAPI
         resources :projects do
-          get do
-            ::API::V3::Utilities::ParamsToQuery.collection_response(Project.visible(current_user).includes(:enabled_modules),
-                                                                    current_user,
-                                                                    params)
-          end
+          get &::API::V3::Utilities::Endpoints::Index.new(model: Project,
+                                                          scope: -> { Project.visible(User.current).includes(:enabled_modules) })
+                                                     .mount
 
           params do
             requires :id, desc: 'Project id'
@@ -52,9 +50,7 @@ module API
               end
             end
 
-            get do
-              ProjectRepresenter.new(@project, current_user: current_user)
-            end
+            get &::API::V3::Utilities::Endpoints::Show.new(model: Project).mount
 
             mount API::V3::Projects::AvailableAssigneesAPI
             mount API::V3::Projects::AvailableResponsiblesAPI

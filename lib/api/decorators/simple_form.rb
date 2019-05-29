@@ -67,16 +67,14 @@ module API
       end
 
       def payload_representer
-        "API::V3::#{model_name.pluralize}::#{model_name}PayloadRepresenter"
-          .constantize
+        payload_representer_class
           .create(represented, current_user: current_user)
       end
 
       def schema_representer
         contract = contract_class.new(represented, current_user)
 
-        "API::V3::#{model_name.pluralize}::Schemas::#{model_name}SchemaRepresenter"
-          .constantize
+        schema_representer_class
           .create(contract,
                   form_embedded: true,
                   current_user: current_user)
@@ -94,6 +92,16 @@ module API
 
       def model_name
         model.name.demodulize
+      end
+
+      def payload_representer_class
+        "API::V3::#{model_name.pluralize}::#{model_name}PayloadRepresenter"
+          .constantize
+      end
+
+      def schema_representer_class
+        "API::V3::#{model_name.pluralize}::Schemas::#{model_name}SchemaRepresenter"
+          .constantize
       end
     end
   end

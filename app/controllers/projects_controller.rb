@@ -269,7 +269,7 @@ class ProjectsController < ApplicationController
     unless User.current.admin?
       r = Role.givable.find_by(id: Setting.new_project_user_role_id.to_i) || Role.givable.first
       m = Member.new do |member|
-        member.user = User.current
+        member.principal = User.current
         member.role_ids = [r].map(&:id) # member.roles = [r] fails, this works
       end
       project.members << m

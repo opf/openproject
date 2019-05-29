@@ -36,6 +36,7 @@ module API
     module Principals
       class PrincipalRepresenter < ::API::Decorators::Single
         include AvatarHelper
+        include API::Decorators::DateProperty
         include ::API::Caching::CachedRepresenter
 
         def self.create(user, current_user:)
@@ -48,25 +49,37 @@ module API
 
         self_link
 
+        link :memberships,
+             cache_if: -> { current_user_allowed_to_see_members? } do
+
+          filters = [
+            {
+              principal: {
+                operator: '=',
+                values: [represented.id.to_s]
+              }
+            }
+          ]
+
+          {
+            href: api_v3_paths.path_for(:memberships, filters: filters),
+            title: I18n.t(:label_member_plural)
+          }
+        end
+
         property :id,
                  render_nil: true
 
         property :name,
                  render_nil: true
 
-        property :created_on,
-                 exec_context: :decorator,
-                 as: 'createdAt',
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on) },
-                 render_nil: false,
-                 cache_if: -> { current_user_is_admin_or_self }
+        date_time_property :created_on,
+                           as: 'createdAt',
+                           cache_if: -> { current_user_is_admin_or_self }
 
-        property :updated_on,
-                 exec_context: :decorator,
-                 as: 'updatedAt',
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_on) },
-                 render_nil: false,
-                 cache_if: -> { current_user_is_admin_or_self }
+        date_time_property :updated_on,
+                           as: 'updatedAt',
+                           cache_if: -> { current_user_is_admin_or_self }
 
         def current_user_is_admin_or_self
           current_user_is_admin || represented.id == current_user.id
@@ -74,6 +87,11 @@ module API
 
         def current_user_is_admin
           current_user.admin?
+        end
+
+        def current_user_allowed_to_see_members?
+          current_user.allowed_to?(:view_members, nil, global: true) ||
+            current_user.allowed_to?(:manage_members, nil, global: true)
         end
       end
     end

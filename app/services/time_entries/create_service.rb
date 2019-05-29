@@ -28,40 +28,4 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module TimeEntries
-  class CreateService
-    include Concerns::Contracted
-    include SharedMixin
-
-    attr_reader :user
-
-    def initialize(user:)
-      @user = user
-      self.contract_class = TimeEntries::CreateContract
-    end
-
-    def call(params)
-      time_entry = TimeEntry.new
-
-      time_entry.attributes = params
-
-      assign_defaults(time_entry)
-      use_project_activity(time_entry)
-
-      success, errors = validate_and_save(time_entry, user)
-
-      ServiceResult.new(success: success,
-                        errors: errors,
-                        result: time_entry)
-    end
-
-    private
-
-    def assign_defaults(time_entry)
-      time_entry.user ||= user
-      time_entry.activity ||= TimeEntryActivity.default
-      time_entry.hours = nil if time_entry.hours&.zero?
-      time_entry.project ||= time_entry.work_package.project if time_entry.work_package
-    end
-  end
-end
+class TimeEntries::CreateService < ::BaseServices::Create; end

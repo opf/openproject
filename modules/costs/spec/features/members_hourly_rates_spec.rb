@@ -21,9 +21,12 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe 'hourly rates on a member', type: :feature, js: true do
   let(:project) { FactoryBot.build :project }
-  let(:user) { FactoryBot.create :admin, member_in_project: project,
-                                          member_through_role: [FactoryBot.create(:role)] }
-  let(:member) { Member.find_by(project: project, user: user) }
+  let(:user) do
+    FactoryBot.create :admin,
+                      member_in_project: project,
+                      member_through_role: [FactoryBot.create(:role)]
+  end
+  let(:member) { Member.find_by(project: project, principal: user) }
 
   def view_rates
     visit edit_user_path(user, tab: 'rates')
@@ -41,7 +44,9 @@ describe 'hourly rates on a member', type: :feature, js: true do
 
   def add_rate(date: nil, rate:)
     expect(page).to have_selector(".add-row-button")
+    sleep(0.1)
     all("tr[id^='user_new_rate_attributes_'] .delete-row-button").each(&:click)
+    sleep(0.1)
     click_link_or_button 'Add rate'
 
     within "tr[id^='user_new_rate_attributes_']" do
@@ -64,7 +69,8 @@ describe 'hourly rates on a member', type: :feature, js: true do
 
   before do
     project.save!
-    allow(User).to receive(:current).and_return user
+
+    login_as(user)
   end
 
   it 'displays always the currently active rate' do

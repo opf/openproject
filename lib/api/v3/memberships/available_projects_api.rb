@@ -26,43 +26,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class BaseDeleteService
-  include ::Shared::ServiceContext
-  include ::Concerns::Contracted
+module API
+  module V3
+    module Memberships
+      class AvailableProjectsAPI < ::API::OpenProjectAPI
+        before do
+          authorize :manage_members, global: true
+        end
 
-  attr_accessor :user,
-                :contract_class
-
-  def initialize(user:, contract_class: default_contract)
-    self.user = user
-    self.contract_class = contract_class
-  end
-
-  def call
-    in_context(false) do
-      delete
+        resources :available_projects do
+          get &::API::V3::Utilities::Endpoints::Index.new(model: Project,
+                                                          scope: -> { Project.allowed_to(User.current, :manage_members) })
+                                                     .mount
+        end
+      end
     end
-  end
-
-  def default_contract
-    "#{model_klass.name.demodulize.pluralize}::DeleteContract".constantize
-  end
-
-  protected
-
-  def delete
-    result, errors = validate_and_yield(model, user) do
-      model.destroy
-    end
-
-    ServiceResult.new(success: result, errors: errors)
-  end
-
-  def model_klass
-    raise NotImplementedError
-  end
-
-  def model
-    send(model_klass.name.demodulize.underscore)
   end
 end

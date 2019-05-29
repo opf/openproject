@@ -57,7 +57,7 @@ module API
           end
 
           def deduce_render_representer
-            "::API::V3::#{deduce_namespace}::#{update_or_create}FormRepresenter".constantize
+            "::API::V3::#{deduce_api_namespace}::#{update_or_create}FormRepresenter".constantize
           end
         end
       end

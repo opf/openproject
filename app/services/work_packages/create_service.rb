@@ -33,7 +33,6 @@ class WorkPackages::CreateService
   include ::Shared::ServiceContext
 
   attr_accessor :user,
-                :work_package,
                 :contract_class
 
   def initialize(user:, contract_class: WorkPackages::CreateContract)
@@ -77,7 +76,7 @@ class WorkPackages::CreateService
   def set_attributes(attributes, wp)
     WorkPackages::SetAttributesService
       .new(user: user,
-           work_package: wp,
+           model: wp,
            contract_class: contract_class)
       .call(attributes)
   end
@@ -89,7 +88,7 @@ class WorkPackages::CreateService
              .call
 
     result.self_and_dependent.each do |r|
-      if !r.result.save
+      unless r.result.save
         result.success = false
         r.errors = r.result.errors
       end

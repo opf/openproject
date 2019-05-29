@@ -37,13 +37,7 @@ module API
                             global: true
             end
 
-            get do
-              contract = ::Versions::CreateContract.new(Version.new, current_user)
-
-              ::API::V3::Versions::Schemas::VersionSchemaRepresenter.create(contract,
-                                                                            api_v3_paths.version_schema,
-                                                                            current_user: current_user)
-            end
+            get &::API::V3::Utilities::Endpoints::Schema.new(model: Version).mount
           end
         end
       end

@@ -36,8 +36,4 @@ class Queries::Projects::Filters::CreatedOnFilter < Queries::Projects::Filters::
   def available?
     User.current.admin?
   end
-
-  def order
-    9
-  end
 end

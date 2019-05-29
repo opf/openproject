@@ -76,6 +76,17 @@ module API
           schema_with_allowed_string_collection :sharing,
                                                 type: 'String'
 
+          schema_with_allowed_link :project,
+                                   as: :definingProject,
+                                   has_default: false,
+                                   required: true,
+                                   visibility: false,
+                                   href_callback: ->(*) {
+                                     next unless represented.new_record?
+
+                                     api_v3_paths.versions_available_projects
+                                   }
+
           schema :created_at,
                  type: 'DateTime',
                  visibility: false
@@ -83,21 +94,6 @@ module API
           schema :updated_at,
                  type: 'DateTime',
                  visibility: false
-
-          schema_with_allowed_collection :project,
-                                         name_source: :project,
-                                         as: :definingProject,
-                                         type: 'Project',
-                                         required: true,
-                                         has_default: false,
-                                         visibility: false,
-                                         link_factory: ->(project) {
-                                           {
-                                             href: api_v3_paths.project(project.id),
-                                             title: project.name
-                                           }
-                                         },
-                                         value_representer: ::API::V3::Projects::ProjectRepresenter
 
           def self.represented_class
             Version

@@ -28,58 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackages::DestroyService
-  include ::WorkPackages::Shared::UpdateAncestors
-  include ::Shared::ServiceContext
-
-  attr_accessor :user, :work_package
-
-  def initialize(user:, work_package:)
-    self.user = user
-    self.work_package = work_package
-  end
-
-  def call
-    in_context(true) do
-      destroy
-    end
-  end
-
-  private
-
-  def destroy
-    result = ServiceResult.new success: true,
-                               result: work_package
-
-    WorkPackage.transaction do
-      descendants = work_package.descendants.to_a
-
-      result.success = error_or_destroy
-
-      if result.success?
-        update_ancestors_all_attributes(result.all_results).each do |ancestor_result|
-          result.merge!(ancestor_result)
-        end
-
-        destroy_descendants(descendants, result)
+module API
+  module V3
+    module Memberships
+      class MembershipPayloadRepresenter < MembershipRepresenter
+        include ::API::Utilities::PayloadRepresenter
       end
-    end
-
-    result
-  end
-
-  def error_or_destroy
-    if user.allowed_to?(:delete_work_packages, work_package.project)
-      work_package.destroy
-    else
-      work_package.errors.add(:base, :error_unauthorized)
-      false
-    end
-  end
-
-  def destroy_descendants(descendants, result)
-    descendants.each do |descendant|
-      result.add_dependent!(ServiceResult.new(success: descendant.destroy, result: descendant))
     end
   end
 end
