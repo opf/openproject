@@ -1887,6 +1887,7 @@ en:
   permission_add_project: "Create project"
   permission_add_subprojects: "Create subprojects"
   permission_add_work_package_watchers: "Add watchers"
+  permission_assign_versions: "Assign versions"
   permission_browse_repository: "Read-only access to repository (browse and checkout)"
   permission_change_wiki_parent_page: "Change parent wiki page"
   permission_comment_news: "Comment news"

@@ -51,7 +51,8 @@ class WorkPackagePolicy < BasePolicy
       duplicate: copy_allowed?(work_package), # duplicating is another form of copying
       delete: delete_allowed?(work_package),
       manage_subtasks: manage_subtasks_allowed?(work_package),
-      comment: comment_allowed?(work_package)
+      comment: comment_allowed?(work_package),
+      assign_version: assign_version_allowed?(work_package)
     }
   end
 
@@ -124,5 +125,13 @@ class WorkPackagePolicy < BasePolicy
     end
 
     @comment_cache[work_package.project]
+  end
+
+  def assign_version_allowed?(work_package)
+    @assign_version_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_to?(:assign_versions, work_package.project)
+    end
+
+    @assign_version_cache[work_package.project]
   end
 end

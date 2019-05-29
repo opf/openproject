@@ -49,7 +49,8 @@ OpenProject::AccessControl.map do |map|
                    {
                      projects: %i[edit update custom_fields],
                      project_settings: [:show],
-                     members: [:paginate_users] },
+                     members: [:paginate_users]
+                   },
                    require: :member
 
     map.permission :select_project_modules,
@@ -167,6 +168,9 @@ OpenProject::AccessControl.map do |map|
     wpt.permission :delete_work_package_watchers,
                    {},
                    dependencies: :view_work_packages
+
+    wpt.permission :assign_versions,
+                   {}
   end
 
   map.project_module :time_tracking do |time|

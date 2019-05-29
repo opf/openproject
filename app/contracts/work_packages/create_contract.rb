@@ -36,6 +36,8 @@ module WorkPackages
       errors.add :author_id, :invalid if model.author != user
     end
 
+    default_attribute_permission :add_work_packages
+
     def validate
       user_allowed_to_add
 
