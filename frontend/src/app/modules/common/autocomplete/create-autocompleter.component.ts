@@ -96,9 +96,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
         this.openSelect();
         this.openDirectly = false;
       }
-      if (val) {
-        this.focusInputField();
-      }
+      this.ngAfterViewInit();
     });
   }
 

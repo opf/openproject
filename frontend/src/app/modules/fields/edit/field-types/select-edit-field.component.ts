@@ -138,6 +138,11 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     return Promise.resolve();
   }
 
+  private addValue(val:HalResource) {
+    this.options.push(val);
+    this.valueOptions.push({name: val.name, $href: val.$href});
+  }
+
   public get currentValueInvalid():boolean {
     return !!(
       (this.value && !_.some(this.options, (option:HalResource) => (option.$href === this.value.$href)))
@@ -147,7 +152,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   public onCreate(newElement:HalResource) {
-    this.options.push(newElement);
+    this.addValue(newElement);
     this.selectedOption = { name: newElement.name, $href: newElement.$href };
     this.handler.handleUserSubmit();
   }
