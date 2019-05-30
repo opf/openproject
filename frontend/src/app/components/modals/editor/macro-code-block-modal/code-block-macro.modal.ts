@@ -54,7 +54,7 @@ export class CodeBlockMacroModal extends OpModalComponent implements AfterViewIn
 
   public debouncedLanguageLoader = _.debounce(() => this.loadLanguageAsMode(this.language), 300);
 
-  @ViewChild('codeMirrorPane') codeMirrorPane:ElementRef;
+  @ViewChild('codeMirrorPane', { static: true }) codeMirrorPane:ElementRef;
 
   public text:any = {
     title: this.I18n.t('js.editor.macro.code_block.title'),
@@ -122,7 +122,7 @@ export class CodeBlockMacroModal extends OpModalComponent implements AfterViewIn
       return this.updateCodeMirrorMode('');
     }
 
-    import(`codemirror/mode/${language}/${language}`)
+    import(/* webpackChunkName: "codemirror-mode" */ `codemirror/mode/${language}/${language}.js`)
       .then(() => {
         this.updateCodeMirrorMode(language);
       })

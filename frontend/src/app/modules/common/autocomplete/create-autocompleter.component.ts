@@ -79,8 +79,8 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
   selector: 'create-autocompleter'
 })
 export class CreateAutocompleterComponent implements AfterViewInit {
-  @ViewChild('addActionAttributeSelect') public addAutoCompleter:NgSelectComponent;
-  @ViewChild('actionAttributeSelect') public autoCompleter:NgSelectComponent;
+  @ViewChild('addActionAttributeSelect', { static: false }) public addAutoCompleter:NgSelectComponent;
+  @ViewChild('actionAttributeSelect', { static: false }) public autoCompleter:NgSelectComponent;
 
   @Input() public availableValues:any[];
   @Input() public appendTo:string;

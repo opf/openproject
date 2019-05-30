@@ -28,8 +28,7 @@
 
 import {AccessibleByKeyboardComponent} from "core-app/modules/a11y/accessible-by-keyboard.component";
 
-import {TestBed} from '@angular/core/testing';
-import {ComponentFixture} from '@angular/core/testing/src/component_fixture';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 
 describe('accessibleByKeyboard component', () => {

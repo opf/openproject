@@ -59,8 +59,8 @@ import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work
 export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler implements OnInit, OnDestroy {
   @Input() public workPackage:WorkPackageResource;
 
-  @ContentChild(TemplateRef) template:TemplateRef<any>;
-  @ViewChild('commentContainer') public commentContainer:ElementRef;
+  @ContentChild(TemplateRef, { static: false }) template:TemplateRef<any>;
+  @ViewChild('commentContainer', { static: false }) public commentContainer:ElementRef;
 
   public text = {
     editTitle: this.I18n.t('js.label_add_comment_title'),

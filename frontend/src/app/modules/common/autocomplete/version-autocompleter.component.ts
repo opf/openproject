@@ -60,7 +60,7 @@ import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notific
 })
 
 export class VersionAutocompleterComponent extends CreateAutocompleterComponent implements OnInit, AfterViewInit {
-  @ViewChild('createAutocompleter') public createAutocompleter:CreateAutocompleterComponent;
+  @ViewChild('createAutocompleter', { static: true }) public createAutocompleter:CreateAutocompleterComponent;
   @Output() public onCreate = new EventEmitter<VersionResource>();
 
   public createAllowed:boolean = false;

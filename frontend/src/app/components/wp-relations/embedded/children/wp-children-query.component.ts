@@ -58,7 +58,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
   /** An optional group descriptor if we're rendering on the single view */
   @Input() public group?:GroupDescriptor;
   @Input() public addExistingChildEnabled:boolean = false;
-  @ViewChild('embeddedTable') private childrenEmbeddedTable:WorkPackageEmbeddedTableComponent;
+  @ViewChild('embeddedTable', { static: false }) private childrenEmbeddedTable:WorkPackageEmbeddedTableComponent;
 
   public tableActions:OpTableActionFactory[] = [
     OpUnlinkTableAction.factoryFor(

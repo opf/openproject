@@ -33,7 +33,7 @@ export class WpTableConfigurationColumnsTab implements TabComponent, AfterViewIn
     upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link')
   };
 
-  @ViewChild('select2Columns') select2Columns:ElementRef;
+  @ViewChild('select2Columns', { static: true }) select2Columns:ElementRef;
 
   constructor(readonly injector:Injector,
               readonly I18n:I18nService,

@@ -48,7 +48,7 @@ export class AvatarUploadFormComponent implements OnInit {
   public busy:boolean = false;
   public fileInvalid = false;
 
-  @ViewChild('avatarFilePicker') public avatarFilePicker:ElementRef;
+  @ViewChild('avatarFilePicker', { static: true }) public avatarFilePicker:ElementRef;
 
   // Text
   public text = {

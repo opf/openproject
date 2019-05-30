@@ -28,8 +28,7 @@
 
 import {UserLinkComponent} from './user-link.component';
 
-import {async, TestBed} from '@angular/core/testing';
-import {ComponentFixture} from '@angular/core/testing/src/component_fixture';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {UserResource} from '../../../modules/hal/resources/user-resource';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';

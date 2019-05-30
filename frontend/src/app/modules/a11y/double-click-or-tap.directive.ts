@@ -27,8 +27,6 @@
 //++
 
 import {Directive, EventEmitter, HostListener, Input, Output} from '@angular/core';
-import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
-import {HammerInstance} from "@angular/platform-browser/src/dom/events/hammer_gestures";
 
 @Directive({
   selector: '[doubleClickOrTap]',
