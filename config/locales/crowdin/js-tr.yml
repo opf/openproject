@@ -66,7 +66,7 @@ tr:
       too_many: Takvimde gösterilebilecek iş paketinden(%{max}) daha fazla iş paketi
         mevcuttur(%{count}). İlişkili olanlara odaklanmak için filtreler ekleyin.
     description_available_columns: Kullanılabilir sütunlar
-    description_current_position: 'Buradasınız:'
+    description_current_position: 'You are here: '
     description_select_work_package: "#%{id} nolu iş paketini seçin"
     description_selected_columns: Seçili Sütunlar
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
@@ -206,7 +206,7 @@ tr:
     label_board_locked: Kilitlendi
     label_board_plural: Panolar
     label_board_sticky: Sabit
-    label_create_new: Create new
+    label_create_new: Yeni oluştur
     label_create_work_package: Yeni iş paketi oluştur
     label_created_by: Oluşturan
     label_date: Tarih
@@ -500,8 +500,7 @@ tr:
       abort: İptal
     relations_autocomplete:
       placeholder: İlgili çalışma paket kimliğini girin
-      parent_placeholder: Yeni üst seçin, ayarı kaldırmak için enter'a, iptal etmek
-        için ESC'ye basın.
+      parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Etiket seç
       select_branch: Branş seç
@@ -902,16 +901,3 @@ tr:
         all_projects: tüm projeler
         project_and_subprojects: ve tüm alt projeler
         search_for: Aramak
-    boards:
-      upsale:
-        teaser_text: Çevik proje yönetiminizi bu esnek Panolar görünümü ile geliştirin.
-          İzlemek istediğiniz herhangi bir şey için istediğiniz kadar pano oluşturun.
-        upgrade_to_ee_text: Kurulları bir Enterprise özelliğidir. Lütfen ücretli bir
-          plana geçin.
-        upgrade: Şimdi Yükselt
-        personal_demo: Kişisel bir demo al
-      lists:
-        delete: Listeyi silin
-        edit_version: Sürümü düzenle
-      add:
-        create_new: Yeni oluştur

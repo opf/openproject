@@ -659,7 +659,7 @@ hu:
               error_not_found: nem található
         member:
           principal_blank: Kérem, válasszon legalább egy felhasználót vagy csoportot.
-          role_blank: kérem, válasszon legalább egy szerepkört.
+          role_blank: need to be assigned.
           attributes:
             roles:
               ungrantable: has an unassignable role.
@@ -1017,7 +1017,7 @@ hu:
   description_choose_project: Projektek
   description_compare_from: Összehasonlítás ezzel
   description_compare_to: Összehasonlítás ehhez
-  description_current_position: 'Itt vagy:'
+  description_current_position: 'You are here: '
   description_date_from: Adja meg a kezdő dátumot
   description_date_range_interval: 'Válasszon időszakot a kezdő és befejező időpont
     kiválasztásával '

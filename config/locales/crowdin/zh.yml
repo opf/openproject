@@ -591,7 +591,7 @@ zh:
               error_not_found: 未找到
         member:
           principal_blank: 请选择至少一个用户或组。
-          role_blank: 请选择至少一个角色。
+          role_blank: need to be assigned.
           attributes:
             roles:
               ungrantable: has an unassignable role.
@@ -936,7 +936,7 @@ zh:
   description_choose_project: 项目
   description_compare_from: 比较开始于
   description_compare_to: 比较截止于
-  description_current_position: 你在这里：
+  description_current_position: 'You are here: '
   description_date_from: 输入开始日期
   description_date_range_interval: 通过选择开始日期和结束日期来选择范围
   description_date_range_list: 从列表中选择范围

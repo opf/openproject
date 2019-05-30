@@ -63,7 +63,7 @@ lol:
       title: crwdns127130:0crwdne127130:0
       too_many: crwdns127132:0%{count}crwdnd127132:0%{max}crwdne127132:0
     description_available_columns: crwdns127134:0crwdne127134:0
-    description_current_position: crwdns127136:0crwdne127136:0
+    description_current_position: crwdns129854:0crwdne129854:0
     description_select_work_package: crwdns127138:0%{id}crwdne127138:0
     description_selected_columns: crwdns127140:0crwdne127140:0
     description_subwork_package: crwdns127142:0%{id}crwdne127142:0
@@ -195,7 +195,7 @@ lol:
     label_board_locked: crwdns127324:0crwdne127324:0
     label_board_plural: crwdns127326:0crwdne127326:0
     label_board_sticky: crwdns127328:0crwdne127328:0
-    label_create_new: Create new
+    label_create_new: crwdns129864:0crwdne129864:0
     label_create_work_package: crwdns127330:0crwdne127330:0
     label_created_by: crwdns127332:0crwdne127332:0
     label_date: crwdns127334:0crwdne127334:0
@@ -453,7 +453,7 @@ lol:
       abort: crwdns127782:0crwdne127782:0
     relations_autocomplete:
       placeholder: crwdns127784:0crwdne127784:0
-      parent_placeholder: crwdns129842:0crwdne129842:0
+      parent_placeholder: crwdns129866:0crwdne129866:0
     repositories:
       select_tag: crwdns127788:0crwdne127788:0
       select_branch: crwdns127790:0crwdne127790:0
@@ -822,14 +822,3 @@ lol:
         all_projects: crwdns128386:0crwdne128386:0
         project_and_subprojects: crwdns128388:0crwdne128388:0
         search_for: crwdns128390:0crwdne128390:0
-    boards:
-      upsale:
-        teaser_text: crwdns129800:0crwdne129800:0
-        upgrade_to_ee_text: crwdns129802:0crwdne129802:0
-        upgrade: crwdns129804:0crwdne129804:0
-        personal_demo: crwdns129806:0crwdne129806:0
-      lists:
-        delete: crwdns129686:0crwdne129686:0
-        edit_version: crwdns129808:0crwdne129808:0
-      add:
-        create_new: crwdns129840:0crwdne129840:0

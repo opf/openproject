@@ -674,7 +674,7 @@ nl:
               error_not_found: niet gevonden
         member:
           principal_blank: Kies ten minste één gebruiker of groep.
-          role_blank: Kies ten minste één rol.
+          role_blank: need to be assigned.
           attributes:
             roles:
               ungrantable: has an unassignable role.
@@ -1032,7 +1032,7 @@ nl:
   description_choose_project: Projecten
   description_compare_from: Vergelijk van
   description_compare_to: Vergelijk met
-  description_current_position: 'U bent hier:'
+  description_current_position: 'You are here: '
   description_date_from: Begindatum opgeven
   description_date_range_interval: Kies bereik door begin- en einddatum te selecteren
   description_date_range_list: Bereik kiezen uit lijst

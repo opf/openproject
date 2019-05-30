@@ -670,7 +670,7 @@ uk:
               error_not_found: не знайдено
         member:
           principal_blank: Виберіть принаймні одного користувача або групу.
-          role_blank: Виберіть принаймні одну роль.
+          role_blank: need to be assigned.
           attributes:
             roles:
               ungrantable: has an unassignable role.
@@ -1053,7 +1053,7 @@ uk:
   description_choose_project: Проекти
   description_compare_from: Порівняти від
   description_compare_to: Порівняти до
-  description_current_position: 'Ви знаходитесь тут:'
+  description_current_position: 'You are here: '
   description_date_from: Введіть дату початку
   description_date_range_interval: Вибрати діапазон вибравши початкову та кінцеву
     дату

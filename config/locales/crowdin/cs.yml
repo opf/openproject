@@ -666,7 +666,7 @@ cs:
               error_not_found: nenalezeno
         member:
           principal_blank: Zvolte alespoň jednoho uživatele nebo skupinu.
-          role_blank: Vyberte prosím alespoň jednu roli.
+          role_blank: need to be assigned.
           attributes:
             roles:
               ungrantable: has an unassignable role.
@@ -1047,7 +1047,7 @@ cs:
   description_choose_project: Projekty
   description_compare_from: Porovnání z
   description_compare_to: Porovnat s
-  description_current_position: 'Nacházíte se zde:'
+  description_current_position: 'You are here: '
   description_date_from: Zadejte počáteční datum
   description_date_range_interval: Zvolte rozsah výběrem počátečního a koncového data
   description_date_range_list: Vyberte rozsah ze seznamu

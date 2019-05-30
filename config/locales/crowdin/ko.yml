@@ -612,7 +612,7 @@ ko:
               error_not_found: 찾을 수 없음
         member:
           principal_blank: 하나 이상의 사용자 또는 그룹을 선택 하십시오.
-          role_blank: 하나 이상의 역할을 선택 하십시오.
+          role_blank: need to be assigned.
           attributes:
             roles:
               ungrantable: has an unassignable role.
@@ -982,7 +982,7 @@ ko:
   description_choose_project: 프로젝트
   description_compare_from: '다음과 비교:'
   description_compare_to: '비교:'
-  description_current_position: '사용자의 위치:'
+  description_current_position: 'You are here: '
   description_date_from: 시작 날짜 입력
   description_date_range_interval: 시작과 끝 날짜로 범위를 선택하세요.
   description_date_range_list: 목록에서 범위 선택

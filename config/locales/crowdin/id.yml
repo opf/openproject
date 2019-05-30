@@ -658,7 +658,7 @@ id:
               error_not_found: tidak ditemukan
         member:
           principal_blank: Silakan pilih setidaknya satu user atau grup.
-          role_blank: Silakan pilih setidaknya satu Role.
+          role_blank: need to be assigned.
           attributes:
             roles:
               ungrantable: has an unassignable role.
@@ -1012,7 +1012,7 @@ id:
   description_choose_project: Project
   description_compare_from: Bandingkan dari
   description_compare_to: Bandingkan dengan
-  description_current_position: 'Anda di sini:'
+  description_current_position: 'You are here: '
   description_date_from: Masukkan tanggal start
   description_date_range_interval: Pilih durasi dengan memilih tanggal start dan finish
   description_date_range_list: Pilih durasi dari daftar

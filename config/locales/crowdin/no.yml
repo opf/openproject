@@ -659,7 +659,7 @@
               error_not_found: not found
         member:
           principal_blank: Velg minst én bruker eller gruppe.
-          role_blank: Velg minst én rolle.
+          role_blank: need to be assigned.
           attributes:
             roles:
               ungrantable: has an unassignable role.
@@ -1014,7 +1014,7 @@
   description_choose_project: Prosjekter
   description_compare_from: Compare from
   description_compare_to: Sammenlign med
-  description_current_position: 'Du er her:'
+  description_current_position: 'You are here: '
   description_date_from: Skriv startdato
   description_date_range_interval: Angi intervall ved å velge start- og sluttdato
   description_date_range_list: Velg intervall fra listen

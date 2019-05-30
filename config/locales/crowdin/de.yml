@@ -685,7 +685,7 @@ de:
               error_not_found: nicht gefunden
         member:
           principal_blank: Bitte wählen Sie mindestens einen Benutzer oder eine Gruppe.
-          role_blank: Bitte wählen Sie mindestens eine Rolle.
+          role_blank: need to be assigned.
           attributes:
             roles:
               ungrantable: has an unassignable role.
@@ -1047,7 +1047,7 @@ de:
   description_choose_project: Projekte
   description_compare_from: Vergleiche von
   description_compare_to: Vergleiche mit
-  description_current_position: 'Sie sind hier:'
+  description_current_position: 'You are here: '
   description_date_from: Startdatum eintragen
   description_date_range_interval: Zeitraum durch Start- und Enddatum festlegen
   description_date_range_list: Zeitraum aus einer Liste wählen

@@ -67,7 +67,7 @@ pt-BR:
       too_many: Existem mais pacotes de trabalho (%{count}) do que podem ser exibidos
         pelo calendário (%{max}). Adicione filtros para exibir os relevantes.
     description_available_columns: Colunas disponíveis
-    description_current_position: 'Você está aqui:'
+    description_current_position: 'You are here: '
     description_select_work_package: 'Selecionar o pacote de trabalho #%{id}'
     description_selected_columns: Colunas selecionadas
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
@@ -210,7 +210,7 @@ pt-BR:
     label_board_locked: Bloqueado
     label_board_plural: Quadros
     label_board_sticky: Afixado
-    label_create_new: Create new
+    label_create_new: Criar novo
     label_create_work_package: Criar novo pacote de trabalho
     label_created_by: Criado por
     label_date: Data
@@ -511,8 +511,7 @@ pt-BR:
       abort: Abortar
     relations_autocomplete:
       placeholder: Insira o id do pacote de trabalho relacionado
-      parent_placeholder: Escolher novo pai, pressione enter para desativar, esc para
-        cancelar.
+      parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Selecionar marca
       select_branch: Selecionar o branch
@@ -917,17 +916,3 @@ pt-BR:
         all_projects: todos os projetos
         project_and_subprojects: e todos os subprojetos
         search_for: Pesquisar por
-    boards:
-      upsale:
-        teaser_text: Melhore seu gerenciamento de projetos ágil com esta visão flexível
-          de quadros. Crie tantos quadros quanto quiser, para qualquer coisa que você
-          gostaria de manter o controle.
-        upgrade_to_ee_text: Quadros são um recurso Enterprise. Por favor, atualize
-          para um plano pago.
-        upgrade: Atualize agora
-        personal_demo: Obter uma demonstração pessoal
-      lists:
-        delete: Excluir lista
-        edit_version: Editar versão
-      add:
-        create_new: Criar novo

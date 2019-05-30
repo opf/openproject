@@ -688,7 +688,7 @@ fil:
               error_not_found: hindi nakita
         member:
           principal_blank: Mangayring pumili na kahit isang gumagamit o grupo.
-          role_blank: Mangyaring pumili ng kahit isang tungkulin.
+          role_blank: need to be assigned.
           attributes:
             roles:
               ungrantable: has an unassignable role.
@@ -1043,7 +1043,7 @@ fil:
   description_choose_project: Mga proyekto
   description_compare_from: Ikinumpara mula sa
   description_compare_to: Ikinumpara sa
-  description_current_position: 'Nandito ka na:'
+  description_current_position: 'You are here: '
   description_date_from: Ipasok ang petsa ng pasisimula
   description_date_range_interval: Pumili ng saklaw sa pamamagitan ng simula at katapusang
     petsa
