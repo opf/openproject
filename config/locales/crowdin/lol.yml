@@ -587,12 +587,12 @@ lol:
               error_not_found: crwdns123478:0crwdne123478:0
         member:
           principal_blank: crwdns123480:0crwdne123480:0
-          role_blank: crwdns123482:0crwdne123482:0
+          role_blank: crwdns129844:0crwdne129844:0
           attributes:
             roles:
-              ungrantable: has an unassignable role.
+              ungrantable: crwdns129846:0crwdne129846:0
             principal:
-              unassignable: cannot be assigned to a project.
+              unassignable: crwdns129848:0crwdne129848:0
         version:
           undeletable_work_packages_attached: crwdns129792:0crwdne129792:0
       template:
@@ -929,7 +929,7 @@ lol:
   description_choose_project: crwdns124046:0crwdne124046:0
   description_compare_from: crwdns124048:0crwdne124048:0
   description_compare_to: crwdns124050:0crwdne124050:0
-  description_current_position: crwdns124052:0crwdne124052:0
+  description_current_position: crwdns129850:0crwdne129850:0
   description_date_from: crwdns124054:0crwdne124054:0
   description_date_range_interval: crwdns124056:0crwdne124056:0
   description_date_range_list: crwdns124058:0crwdne124058:0

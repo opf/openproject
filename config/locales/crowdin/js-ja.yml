@@ -63,7 +63,7 @@ ja:
       title: カレンダー
       too_many: カレンダー(%{max}) で表示できるよりも多くの作業項目 (%{count}) があります。 関連するものに焦点を当てるためにフィルタを追加します。
     description_available_columns: 利用できる項目
-    description_current_position: ここにいます：
+    description_current_position: 'You are here: '
     description_select_work_package: '作業項目を選択 #%{id}'
     description_selected_columns: 選択された項目
     description_subwork_package: '作業項目の子 #%{id}'
@@ -207,7 +207,7 @@ ja:
     label_board_locked: ロックされている
     label_board_plural: ボード
     label_board_sticky: 固定する
-    label_create_new: Create new
+    label_create_new: 新規作成
     label_create_work_package: 新しい作業項目を作成
     label_created_by: 作成者：
     label_date: 日付
@@ -469,7 +469,7 @@ ja:
       abort: 中止
     relations_autocomplete:
       placeholder: 関係しているワークパッケージ ID を入力してください
-      parent_placeholder: 新しい親を選択し、Enterキーを押して設定を解除し、エスケープしてキャンセルします。
+      parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: タグを選択する
       select_branch: 分岐を選択する
@@ -839,14 +839,3 @@ ja:
         all_projects: すべてのプロジェクト
         project_and_subprojects: すべてのプロジェクトで
         search_for: 検索対象
-    boards:
-      upsale:
-        teaser_text: この柔軟なボードビューでアジャイルプロジェクトの管理を向上させましょう。 あなたが追跡したいものを、好きなだけボードを作成してください。
-        upgrade_to_ee_text: ボードはエンタープライズ機能です。 有料プランにアップグレードしてください。
-        upgrade: 今すぐアップグレード
-        personal_demo: パーソナルデモを入手する
-      lists:
-        delete: リストを削除
-        edit_version: バージョンを編集
-      add:
-        create_new: 新規作成

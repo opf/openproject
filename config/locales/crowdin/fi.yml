@@ -660,7 +660,7 @@ fi:
               error_not_found: ei löydetty
         member:
           principal_blank: Valitse vähintään yksi käyttäjä tai ryhmä.
-          role_blank: Valitse vähintään yksi rooli.
+          role_blank: need to be assigned.
           attributes:
             roles:
               ungrantable: has an unassignable role.
@@ -1013,7 +1013,7 @@ fi:
   description_choose_project: Projektit
   description_compare_from: Verrattuna
   description_compare_to: Verrattuna
-  description_current_position: 'Olet täällä:'
+  description_current_position: 'You are here: '
   description_date_from: Syötä aloituspäivämäärä
   description_date_range_interval: Valitse alkamis- ja päättymispäivämäärä
   description_date_range_list: Valitse alue luettelosta

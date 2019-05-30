@@ -66,7 +66,7 @@ ru:
       too_many: Пакетов работ больше (%{count}), чем может быть показано в календаре
         (%{max}). Отфильтруйте пакеты, чтобы сфокусироваться на нужных.
     description_available_columns: Доступные столбцы
-    description_current_position: 'Вы находитесь здесь:'
+    description_current_position: 'You are here: '
     description_select_work_package: 'Выберите пакет работ #%{id}'
     description_selected_columns: Выбранные столбцы
     description_subwork_package: 'Потомок пакета работ #%{id}'
@@ -219,7 +219,7 @@ ru:
     label_board_locked: Заперто
     label_board_plural: Доски
     label_board_sticky: Стикер
-    label_create_new: Create new
+    label_create_new: Создать новое
     label_create_work_package: Создать новый пакет работ
     label_created_by: Автор
     label_date: Дата
@@ -511,8 +511,7 @@ ru:
       abort: Прервать
     relations_autocomplete:
       placeholder: Внести Id cвязанного пакета работ
-      parent_placeholder: Выберите нового родителя, нажмите ввод для снятия, escape
-        для отмены
+      parent_placeholder: Choose new parent or press escape to cancel.
     repositories:
       select_tag: Выберите тег
       select_branch: Выберите ветвь
@@ -929,16 +928,3 @@ ru:
         all_projects: все проекты
         project_and_subprojects: и все подпроекты
         search_for: Поиск по
-    boards:
-      upsale:
-        teaser_text: Улучшите управляемость agile-проекта гибким просмотром досок.
-          Создайте сколько захотите досок для отслеживания.
-        upgrade_to_ee_text: Boards это функционал предприятия. Пожалуйста, обновитесь
-          до платного плана.
-        upgrade: Обновить сейчас
-        personal_demo: Получить личное демо
-      lists:
-        delete: Удалить список
-        edit_version: Изменить версию
-      add:
-        create_new: Создать новое

@@ -591,7 +591,7 @@ ja:
               error_not_found: 存在しません
         member:
           principal_blank: 一つ以上のユーザまたはグループを選択してください。
-          role_blank: 1つ以上のロールを選択してください。
+          role_blank: need to be assigned.
           attributes:
             roles:
               ungrantable: has an unassignable role.
@@ -935,7 +935,7 @@ ja:
   description_choose_project: プロジェクト
   description_compare_from: 以下と比較：
   description_compare_to: 比較：
-  description_current_position: ここにいます：
+  description_current_position: 'You are here: '
   description_date_from: 開始日
   description_date_range_interval: 日付で指定
   description_date_range_list: 一覧から選択

@@ -661,7 +661,7 @@ vi:
               error_not_found: not found
         member:
           principal_blank: Vui lòng chọn ít nhất một người dùng hoặc nhóm.
-          role_blank: Vui lòng chọn ít nhất một vai trò.
+          role_blank: need to be assigned.
           attributes:
             roles:
               ungrantable: has an unassignable role.
@@ -1015,7 +1015,7 @@ vi:
   description_choose_project: Các dự án
   description_compare_from: Compare from
   description_compare_to: Compare to
-  description_current_position: 'Bạn đang ở đây:'
+  description_current_position: 'You are here: '
   description_date_from: Nhập ngày bắt đầu
   description_date_range_interval: Chọn khoảng thời gian giữa ngày bắt đầu và kết
     thúc

@@ -667,7 +667,7 @@ hi:
               error_not_found: not found
         member:
           principal_blank: कृपया कम से कम एक समूह या उपयोगकर्ता चुनें।
-          role_blank: कृपया कम से कम एक भूमिका टेबल चुनें
+          role_blank: need to be assigned.
           attributes:
             roles:
               ungrantable: has an unassignable role.
@@ -1023,7 +1023,7 @@ hi:
   description_choose_project: Projects
   description_compare_from: Compare from
   description_compare_to: Compare to
-  description_current_position: 'You are here:'
+  description_current_position: 'You are here: '
   description_date_from: Enter start date
   description_date_range_interval: Choose range by selecting start and end date
   description_date_range_list: Choose range from list
