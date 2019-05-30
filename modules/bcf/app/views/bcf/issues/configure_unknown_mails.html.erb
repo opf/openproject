@@ -5,7 +5,7 @@
   <%= render 'import_options_hidden_fields' %>
   <h3>Unknown e-mail addresses found</h3>
   <ul>
-    <% @importer.unknown_mails.each do |mail| %>
+    <% @importer.aggregations.unknown_mails.each do |mail| %>
       <li> <%= mail %></li>
     <% end %>
   </ul>

@@ -3,10 +3,10 @@
 
 <%= form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
   <%= render 'import_options_hidden_fields' %>
-  <% if @importer.invalid_people.any? %>
+  <% if @importer.aggregations.invalid_people.any? %>
     <h3>Invalid e-mail addresses found</h3>
     <ul>
-      <% @importer.invalid_people.each do |name| %>
+      <% @importer.aggregations.invalid_people.each do |name| %>
         <li> <%= name %></li>
       <% end %>
     </ul>
