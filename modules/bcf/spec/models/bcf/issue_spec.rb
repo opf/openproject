@@ -118,6 +118,7 @@ describe ::Bcf::Issue, type: :model do
       expect(subject.description).to be_eql 'This is a topic with all informations present.'
       expect(subject.priority_text).to be_eql 'High'
       expect(subject.status_text).to be_eql 'Open'
+      expect(subject.type_text).to be_eql 'Structural'
       expect(subject.assignee_text).to be_eql 'andy@example.com'
       expect(subject.index_text).to be_eql '0'
       expect(subject.labels).to contain_exactly 'Structural', 'IT Development'
