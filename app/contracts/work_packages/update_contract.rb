@@ -44,9 +44,8 @@ module WorkPackages
 
     validate :can_move_to_milestone
 
-    attribute_permission :project_id, :move_work_packages
-
     default_attribute_permission :edit_work_packages
+    attribute_permission :project_id, :move_work_packages
 
     private
 

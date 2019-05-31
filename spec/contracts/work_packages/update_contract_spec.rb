@@ -232,7 +232,7 @@ describe WorkPackages::UpdateContract do
 
         it 'adds an error' do
           expect(contract.errors.symbols_for(:fixed_version_id))
-            .to include(:error_unauthorized)
+            .to include(:error_readonly)
         end
       end
     end

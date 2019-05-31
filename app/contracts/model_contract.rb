@@ -177,6 +177,10 @@ class ModelContract < Reform::Contract
   def readonly_attributes_unchanged
     invalid_changes = model.changed - writable_attributes
 
+    if model.respond_to?(:changed_by_system)
+      invalid_changes -= model.changed_by_system
+    end
+
     invalid_changes.each do |attribute|
       outside_attribute = collect_ancestor_attributes(:attribute_aliases)[attribute] || attribute
 

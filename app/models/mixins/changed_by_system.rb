@@ -28,51 +28,38 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module BaseServices
-  class SetAttributes
-    include Concerns::Contracted
+module Mixins
+  module ChangedBySystem
+    extend ActiveSupport::Concern
 
-    def initialize(user:, model:, contract_class:)
-      self.user = user
-      self.model = model
+    def changed_by_system(attributes = nil)
+      @changed_by_system ||= []
 
-      # Allow tracking changes caused by a user but done for him by the system.
-      # E.g. fixed_version of a work package might need to be changed as the user changed the project.
-      # This is currently used for permission checks where the changed project is checked but the fixed_version
-      # is not if it is done by the system.
-      model.extend(Mixins::ChangedBySystem)
+      if attributes
+        @changed_by_system += Array(attributes)
+      end
 
-      self.contract_class = contract_class
+      @changed_by_system
     end
 
-    def call(params)
-      set_attributes(params)
+    def change_by_system
+      prior_changes = non_no_op_changes
 
-      validate_and_result
+      ret = yield
+
+      changed_by_system(changed_compared_to(prior_changes))
+
+      ret
     end
 
     private
 
-    attr_accessor :user,
-                  :model,
-                  :contract_class
-
-    def set_attributes(params)
-      model.attributes = params
-
-      set_default_attributes if model.new_record?
+    def non_no_op_changes
+      changes.reject { |_, (old, new)| old == 0 && new.nil? }
     end
 
-    def set_default_attributes
-      # nothing to do for now but a subclass may
-    end
-
-    def validate_and_result
-      success, errors = validate(model, user)
-
-      ServiceResult.new(success: success,
-                        errors: errors,
-                        result: model)
+    def changed_compared_to(prior_changes)
+      changed.select { |c| !prior_changes[c] || prior_changes[c].last != changes[c].last }
     end
   end
 end
