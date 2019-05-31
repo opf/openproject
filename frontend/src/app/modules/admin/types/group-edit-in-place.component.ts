@@ -27,6 +27,7 @@
 //++
 
 import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
+import {TypeBannerService} from 'core-app/modules/admin/types/type-banner.service';
 
 @Component({
   selector: 'group-edit-in-place',
@@ -43,6 +44,9 @@ export class GroupEditInPlaceComponent implements OnInit {
 
   public name:string;
 
+  constructor(private bannerService:TypeBannerService) {
+  }
+
   ngOnInit():void {
     this.name = this.originalName;
 
@@ -53,7 +57,10 @@ export class GroupEditInPlaceComponent implements OnInit {
   }
 
   startEditing() {
-    this.editing = true;
+    this.bannerService.conditional(
+      () => this.bannerService.showEEOnlyHint(),
+      () => this.editing = true
+    );
   }
 
   saveEdition(event:KeyboardEvent) {

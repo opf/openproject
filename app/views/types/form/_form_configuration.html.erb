@@ -29,11 +29,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% form_attributes = form_configuration_groups(@type) %>
 
-<%= activate_angular_js :section, class: 'form--section' do %>
+<section class="form--section">
   <%= f.hidden_field :attribute_groups, value: attribute_groups_as_json(@type) %>
-  <div id="types-form-configuration"
-       ng-controller="TypesFormConfigurationCtrl"
-       ng-init="upsaleLink = <%= '"' + OpenProject::Static::Links.links[:upsale][:href] +  "/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration" + '"' %>">
+  <div>
     <div class="grid-block -visible-overflow wrap">
       <div class="grid-content -visible-overflow small-12 large-10">
       <div class="notification-box -info">
@@ -75,42 +73,12 @@ See docs/COPYRIGHT.rdoc for more details.
           </div>
         </div>
       <% end %>
-
-      <%= toolbar title: '', html: { class: '-with-dropdown' } do %>
-        <li class="toolbar-item">
-          <button type="button -alt-highlight" class="form-configuration--reset button" ng-click="resetToDefault($event)">
-            <%= op_icon('button--icon icon-undo') %>
-            <span class="button--text"><%= t('types.edit.reset') %></span>
-          </button>
-        </li>
-        <li class="toolbar-item drop-down">
-          <a ng-click="showGroupsContextMenu($event)"
-             class="form-configuration--add-group button -alt-highlight" aria-haspopup="true">
-            <%= op_icon('button--icon icon-add') %>
-            <span class="button--text"><%= t(:label_group) %></span>
-            <%= op_icon('button--dropdown-indicator') %>
-          </a>
-          <ul class="menu-drop-down-container">
-            <% show_hint = !EnterpriseToken.allows_to?(:edit_attribute_groups) %>
-            <li>
-              <a class="form-configuration--add-group" ng-click="<%= show_hint ? 'showEEOnlyHint()' : 'addGroup($event)' %>">
-                <%= t('types.edit.add_group') %>
-              </a>
-            </li>
-            <li>
-              <a class="form-configuration--add-group" ng-click="<%= show_hint ? 'showEEOnlyHint()' : "addGroupAndOpenQuery()" %>">
-                <%= t("types.edit.add_table") %>
-              </a>
-            </li>
-          </ul>
-        </li>
-      <% end %>
+        <% no_filter_query = ::API::V3::Queries::QueryParamsRepresenter.new(Query.new_default.tap { |q| q.filters = []}).to_json %>
+        <openproject-base></openproject-base>
       </div>
     </div>
-    <% no_filter_query = ::API::V3::Queries::QueryParamsRepresenter.new(Query.new_default.tap { |q| q.filters = []}).to_json %>
-    <openproject-base></openproject-base>
   </div>
-<% end %>
+</section>
 
 <div class="grid-block">
   <div class="generic-table--action-buttons">

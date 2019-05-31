@@ -1,0 +1,21 @@
+<div class="type-form-conf-group type-form-query-group"
+     [attr.data-original-key]="group.key"
+     [attr.data-key]="group.key">
+    <div class="group-head">
+        <span class="group-handle icon-toggle"></span>
+        <group-edit-in-place
+                [name]="group.translated_key"
+                [key]="group.key"
+                (onValueChange)="rename($event)"
+                class="group-name">
+        </group-edit-in-place>
+        <span class="delete-group icon-small icon-close" (click)="deleteGroup.emit()"></span>
+    </div>
+    <div class="type-form-query"
+         [attr.data-query]="group.query">
+    <span class="type-form-query-group--edit-button" ng-click="editQuery($event)">
+      <op-icon icon-classes="button--icon icon-edit"></op-icon>
+        {{ text.edit_query }}
+    </span>
+    </div>
+</div> <!-- END query group -->

@@ -31,6 +31,9 @@ import {OpenprojectCommonModule} from "core-app/modules/common/openproject-commo
 import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
 import {TypeFormConfigurationComponent} from 'core-app/modules/admin/types/type-form-configuration.component';
 import {GroupEditInPlaceComponent} from 'core-app/modules/admin/types/group-edit-in-place.component';
+import {TypeFormAttributeGroupComponent} from 'core-app/modules/admin/types/attribute-group.component';
+import {DragulaModule} from 'ng2-dragula';
+import {TypeFormQueryGroupComponent} from "core-app/modules/admin/types/query-group.component";
 
 export const ADMIN_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -47,12 +50,15 @@ export const ADMIN_ROUTES:Ng2StateDeclaration[] = [
 
 @NgModule({
   imports: [
+    DragulaModule,
     OpenprojectCommonModule,
     UIRouterModule.forChild({ states: ADMIN_ROUTES })
   ],
   providers: [
   ],
   declarations: [
+    TypeFormAttributeGroupComponent,
+    TypeFormQueryGroupComponent,
     TypeFormConfigurationComponent,
     GroupEditInPlaceComponent,
   ],
